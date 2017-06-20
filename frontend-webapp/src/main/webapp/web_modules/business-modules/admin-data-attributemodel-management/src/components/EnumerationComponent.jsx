@@ -96,6 +96,7 @@ export class EnumerationComponent extends React.Component {
                   name={`restriction.ENUMERATION.inputs.input${id}`}
                   component={RenderTextField}
                   type="text"
+                  fullWidth
                   label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.ENUMERATION.value' })}
                 />
                 <IconButton onTouchTap={() => this.handleDelete(id)}>
@@ -112,6 +113,7 @@ export class EnumerationComponent extends React.Component {
           <TextField
             name="restriction.ENUMERATION.addinput"
             type="text"
+            fullWidth
             value={newValue}
             onChange={this.onTextFieldChange}
             label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.ENUMERATION.addinput' })}

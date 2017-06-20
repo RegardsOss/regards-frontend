@@ -3,42 +3,60 @@
 ## Description
 This directory contains all lazy loadable modules of the REGARDS application.  
 
-A Lazy loadable module is a plugable module for the "User project" or "Portal" interfaces.  
-This modules are used to add new functionalities to those interfaces.
-By default the here-under modules are available to use and configure :
+A lazy loadable module is a plugable module that you can use where you want on the `User project` and `Portal` interfaces,
+allowing you to customize the style, how the module will be displayed...
 
-  | Module  | Description                       |
+Microservices `rs-access-instance` and `rs-access-project` stores the configuration of each modules
+and send it back to users browsing `User project` and `Portal` interfaces.
+
+## End admin usage
+
+To use REGARDS modules in the HMI, you first need to configure `Application layout` and sections.  
+Then you will be able to load modules inside sections with custom configuration if required.  
+
+## Module list
+
+REGARDS modules have a specific [scoped package name](https://docs.npmjs.com/getting-started/scoped-packages) named `@regardsoss-modules`.  
+Here is the list of available modules :
+
+  | Module         | Description                       |
   |----------------|-----------------------------------|
   | authentication | Add the authentication functionalities |
   | home-page      | Display a configured home-page as dialog |
-  | licenses       | Display the project license into a dialog after user authentication. |
+  | licenses       | Display the project license inside a dialog after user authentication |
   | menu           | Display the main menu of the interface |
   | projects-list  | Display the list of public accessible REGARDS projects and allow to access their "User project interface" |
   | search-form    | Display a search form and allow to consult results |
   | search-results | Display the result of the given REGARDS catalog opensearch request |
   | search-graph   | Allow define a collection tree and allow to navigate into in order to consult datasets contents |
-   
-Each module to be fully plugged in the application have to export in is main javascript file an object containing the informations below :
 
-```json
-{
-  ModuleContainer : "A React.Component rendering the module functioannlities",
-  AdminContainer : "A React.Component renderig the module administration form",
-  styles : "A js object containing needed styles for both ModuleContainer and AdminContainer",
-  reducer : "A js object containing Redux reducers of both ModuleContainer and AdminContainer",
-  messagesDir : "A string containing the i18n directory for labels and message internationalization",
-  dependencies : "A js object containing server side endpoints dependencies to allow module to be displayed"
+## Create a new module
+
+To be plugged with the application, each `@regardsoss-modules` has to export in its `main.js` file an object containing :
+
+```javascript
+export default {
+  // A React.Component rendering the module functionalities
+  ModuleContainer,
+  // A React.Component renderig the module administration form
+  AdminContainer,
+  // A js object containing needed styles for both ModuleContainer and AdminContainer
+  styles,
+  // A js object containing Redux reducers of both ModuleContainer and AdminContainer
+  reducer,
+  // A string containing the path to the i18n directory, used by label and message internationalization
+  messagesDir,
+  // A js object containing server side endpoints dependencies to allow module to be displayed
+  dependencies,
 }
 ```
-## Usage
 
-### The AdminContainer (mandatory)
+### AdminContainer
 
-The AdminContainer is mandatory. A simple module without configuration can only use the ModuleContainer.
+The `AdminContainer` **is facultative**. If you don't require a module configuration
+you do not need to specify the `AdminContainer` in the `main.js` module entrypoint.
 
-The here-under example module show you how to create a form to configure your module.  
-
-!! The only constraint is to prefix all the Field names with "conf" like "conf.myParameter" in the example below.
+The here-under React component example shows you how to create a form to create a configuration of your module.  
 
 ```javascript
 import { FormattedMessage } from 'react-intl'
@@ -46,7 +64,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
 
 class AdminContainer extends React.Component {
-  
+
   static propTypes = {
       // Application name "user" or "portal"
       appName: PropTypes.string,
@@ -59,10 +77,13 @@ class AdminContainer extends React.Component {
         form: PropTypes.shape({
           // Form is activated ?
           active : PropTypes.bool,
-          // Application name "user" or "portal" 
+          // Application name "user" or "portal"
           applicationId: PropTypes.string,
           // Current form values
-          conf: ModuleConfiguration,
+          conf: PropTypes.shape({
+            myParameter: PropTypes.string,
+            myParameter2: PropTypes.bool,
+          }),
           // Layout container where the module is displayed in the application
           container : PropTypes.string,
           // Is the module a dynamic one ?
@@ -105,15 +126,21 @@ export default AdminContainer
 
 ```
 
-To know all available Field renderer available see the @regardsoss/form-utils module.  
-To know more about the labels internationalization see the @regardsoss/i18n module.
+Notes :
+ - you shall prefix all `Field` names with `conf.` to let you receive that attribute value in your `ModuleContainer`.  
+ For example if you define `conf.myParameter` you will receive `myParameter` in the props `moduleConf` of your `ModuleContainer`.  
+ - `@regardsoss/form-utils` module provides ready to use input fields
+ - text internationalization is handled by the `@regardsoss/i18n` module and autowired by `@regardsoss/modules`.
+ - you do not need to import React in `.jsx` files
 
 ### The ModuleContainer
 
-The here-under example module show you the props given to all module by the application when the module is displayed.
-The "moduleConf" prop is provided by the application thanks to the administration configuration og the module.
-  
-In this example we use the "myParameter" config parameter as defined in the previously defined "AdminContainer".
+The `ModuleContainer` **is mandatory**. This is the React component displayed on the 
+`User project` and `Portal` interfaces
+
+
+The following `ModuleContainer` example shows you how to retrieve the prop `moduleConf` which
+contains the configuration created with the `AdminContainer` and injected in your module.
 
 ```javascript
 import { i18nContextType } from '@regardsoss/i18n'
@@ -127,39 +154,40 @@ class ModuleContainer extends React.Component {
       // Current project name
       project: PropTypes.string.isRequired,
       // Module configuration
-      moduleConf: ModuleConfiguration.isRequired,
+      moduleConf: PropTypes.shape({
+        myParameter: PropTypes.string,
+        myParameter2: PropTypes.bool,
+      }).isRequired,
   }
-  
+
    static contextTypes = {
       ...i18nContextType,
       ...themeContextType,
     }
-  
+
   render() {
+    const { moduleTheme } = this.context
+    const { moduleConf: {myParameter} } = this.props
     return (
      <div>
       <FormattedMessage id="example.message" />
-      <div style={this.context.moduleTheme.myParameterStyles}>
-        {this.props.moduleConf.myParameter}
+      <div style={moduleTheme.myParameterStyles}>
+        {myParameter}
        </div>
      </div>
      )
   }
-  
+
 }
 export default ModuleContainer
 
 ```
 
-To know all available Field renderer available see the @regardsoss/form-utils module.  
-To know more about the labels internationalization see the @regardsoss/i18n module.
-
 ### Styles
 
-All the application use the MaterialUI library to style all components.
-In order to create a module compliante to the application theme you can use the "Styles.js" file.
+The `Styles` **is mandatory**. REGARDS uses the [Material-UI](http://www.material-ui.com/#/get-started/usage) library to style all components using CSS inline.
 
-This file can compute your needs with the theme of the application like in the example below.
+In the `Styles.js` file, you can use the current theme to reuse a subpart of the overall theme, like in the example below.
 
 ```javascript
 const formStyles = theme => ({
@@ -173,17 +201,19 @@ const formStyles = theme => ({
 export default formStyles
 ```
 
-The Styles exported are then available in all React.Component in the context as "moduleTheme"
+On your module React component, you can access the Styles using the context `this.context.moduleTheme`,
+but you need to explicit the `contextTypes` with the `...themeContextType` from `@regardsoss/theme`.
 
-!! The only constraint is to define the contextTypes with the "themeContextType" of the @regardsoss/theme. 
 
 ```javascript
-
+/**
+* Basic usage of the theme context
+*/
 class Example extends React.Component {
    static contextTypes = {
      ...themeContextType
    }
-   
+
    render() {
      return (
        <div style={this.context.moduleTheme.myParameterStyles}>
@@ -196,13 +226,13 @@ export default Example
 
 ```
 
-To know more about the theme management see the @regardsoss/theme module
+More information about the theme management on the `@regardsoss/theme` module
 
 ### Reducer
 
-Each module can define is own Redux reducers. To do so, export them us the reducer parameter of the module.
+The Redux `reducer` **is mandatory**. Lazy loadable modules have their own part created in the store.  
 
-The example below show how to export your reducers.  
+The example below shows how to define your Redux tree. Unlike vanilla redux, you don't have to use `combineReducers`   
 ```javascript
 const reducers = {
   todos: MyTodosReducer,
@@ -210,50 +240,51 @@ const reducers = {
 }
 ```
 
-Lazy loadable modules have their own part created in the store if the reducer is exported.  
-With the previous example and for a module named "ExampleModule" the application create the here-under subpart of the global application store :  
+With the previous example and for a module named "ExampleModule", the application will create the here-under subpart in the global application store :  
 
 ```json
 {
-  'modules': {
-    'ExampleModule' : {
-       'todos': {},
-       'foo' : {}
+  "modules": {
+    "ExampleModule" : {
+       "todos": {},
+       "foo" : {}
     }
   }
+  // rest of the redux tree
 }
 ```
 
-The store can then be access by both ModuleContainer and AdminContainer.
+The same store can be accessed by both `ModuleContainer` and `AdminContainer`.
 
 ### MessagesDir
 
-This parameter allow you change the default directory where to find the i18n messages files.  
-By default the directory used is src/i18n.  
-The files name standard to contains internationalized messages is :  
-messages.<language>.i18n.js
+This parameter allows you to change the default directory where `@regardsoss/i18n` search *i18n* messages files.  
+By default the directory used is `src/i18n`.  
+Expected files containing internationalized messages shall be named as:  
+```messages.<language>.i18n.js```
 
-Where language can be [en,fr]
+Supported languages are `en` and `fr`
 
 ### Dependencies
 
-This file define the needed dependency to display each ModuleContainer and AdminContainer.
+This file defines dependencies required to display `ModuleContainer` and `AdminContainer` depending of the current Project User role.
+Each endpoint dependency required is composed in 3 parts, separated by the '@' caracter:  
+`<MICROSERVICE>@<ENDPOINT>@<HTTP_VERB>`
 
+An example:  
 ```javascript
 
 /**
- * Dependencies needed to display user page of the module
- * @author Sébastien binda
+ * Dependencies needed to display ModuleContainer
  */
 const user = [
   'rs-dam@/models/attributes@GET',
 ]
 /**
- * Dependencies needed to display admin page of the module
- * @type {[*]}
+ * Dependencies needed to display AdminContainer
  */
 const admin = [
-  'rs-dam@/modles/attributes@POST',
+  'rs-dam@/models/attributes@POST',
 ]
 
 export default {
@@ -262,8 +293,4 @@ export default {
 }
 
 ```
-
-As in the previous example each endpoint dependency is compose in 3 part separated by the '@' caracter.  
-`<MICROSERVICE>@<ENDPOINT>@<HTTP_VERB>`
-
 

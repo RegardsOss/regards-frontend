@@ -161,21 +161,20 @@ export class UserModuleContainer extends React.Component {
     fetchDatasets, dispatchClearLevelSelection, dispatchLevelDataLoaded }) => {
     // recursive handler builder: it returns a callback for Promise.all like (collections, datasets) => void
     function getRecursiveUpdater(selection, level) {
-      //  B - We need to fetch the levels content and attempt to retrieve the current selection there (then resolve recursively sub elements)
-      // note: this function is the callback for upper Promise.all, it expects the results array of collections and datasets
+      // promise callback, receives parent collections and datasets
       return function onCollectionsFetch([collectionsFetchResult, datasetFetchResults]) {
         // 1 - publish parent partitions results
         dispatchLevelDataLoaded(level - 1, collectionsFetchResult, graphLevelCollectionActions)
         dispatchLevelDataLoaded(level - 1, datasetFetchResults, graphLevelDatasetActions)
 
-        // 2 - Verify if the selection is valid to fetch this level
+        // 2 - Verify if the selection is still valid
         const collections = get(collectionsFetchResult, 'payload.entities.entities', {})
         const datasets = get(datasetFetchResults, 'payload.entities.entities', {})
         if (selection.length) {
           const [{ ipId: selectedParentIpId, type: selectedParentType }, ...nextSelectedElements] = selection
           const retrievedParentSelection = find({ ...collections, ...datasets }, ({ content: { ipId } }) => selectedParentIpId === ipId)
           if (!retrievedParentSelection) {
-            // C (break case) : the parent level selection could not be restored: remove it from selection then stop
+            // (break case) the parent level selection could not be restored: remove it from selection then stop
             dispatchClearLevelSelection(level - 1)
           } else if (selectedParentType !== CatalogEntityTypes.DATASET) {
             // loop case: resolve next
@@ -184,10 +183,11 @@ export class UserModuleContainer extends React.Component {
               fetchDatasets(level, selectedParentIpId)]).then(getRecursiveUpdater(nextSelectedElements, level + 1))
           }
         }
+        // (break case) else, no level selection, done
       }
     }
 
-    // Refetch level 0 collections (fake datasets), then recursively update sublevels
+    // Refetch level 0 collections (fake datasets), then recursively update content and sublevels
     Promise.all([fetchCollections(0, null, graphLevels[0]), Promise.resolve({})])
       .then(getRecursiveUpdater(selectionPath, 1))
   }

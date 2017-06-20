@@ -169,7 +169,7 @@ export class ProjectUserFormComponent extends React.Component {
             size={32}
             icon={<AddSvg />}
           />
-          Add
+          <FormattedMessage id="projectUser.create.action.add" />
         </Chip>
       </ShowableAtRender>
       <Popover

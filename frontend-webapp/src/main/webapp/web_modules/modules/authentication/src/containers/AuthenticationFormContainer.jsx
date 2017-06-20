@@ -43,11 +43,11 @@ export class AuthenticationFormContainer extends React.Component {
 
   componentDidMount = () => {
     if (process.env.NODE_ENV === 'development') {
-      console.log('DEV', 'Auto connection')
-      const that = this
-      setTimeout(() => {
-        that.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
-      }, 150)
+      // console.log('DEV', 'Auto connection')
+      // const that = this
+      // setTimeout(() => {
+      //   that.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
+      // }, 150)
     }
   }
 
