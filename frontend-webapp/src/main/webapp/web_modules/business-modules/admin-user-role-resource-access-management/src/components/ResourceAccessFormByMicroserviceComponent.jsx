@@ -6,13 +6,13 @@ import map from 'lodash/map'
 import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import Chip from 'material-ui/Chip'
-import { List, ListItem } from 'material-ui/List'
+import {List, ListItem} from 'material-ui/List'
 import IconButton from 'material-ui/IconButton'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
-import { Resource } from '@regardsoss/model'
+import {themeContextType} from '@regardsoss/theme'
+import {i18nContextType} from '@regardsoss/i18n'
+import {Resource} from '@regardsoss/model'
 import Toggle from 'material-ui/Toggle'
-import { LoadingComponent, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
+import {LoadingComponent, HateoasToggle, HateoasKeys} from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 
 /**
@@ -64,9 +64,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   getResourceListItems() {
-    const { resourceList } = this.props
+    const {resourceList} = this.props
     const styles = moduleStyles(this.context.muiTheme)
-    const iconStyle = { marginRight: 10 }
     const resourceStyle = {
       display: 'flex',
       justifyContent: 'space-between',
@@ -82,11 +81,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
             this.handleShowDialog(resource)
           }}
           rightIconButton={
-            <IconButton
-              style={iconStyle}
-            >
-              {this.getResourceToggle(resource)}
-            </IconButton>
+              this.getResourceToggle(resource)
           }
           secondaryText={
             <div
@@ -96,7 +91,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
                 {resource.content.description}
               </div>
               <span>
-                {this.context.intl.formatMessage({ id: 'role.form.moreinfo' })}
+                {this.context.intl.formatMessage({id: 'role.form.moreinfo'})}
               </span>
             </div>
           }
@@ -114,27 +109,35 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
 
   getResourceToggle = (resource) => {
     const roleResource = this.getResource(resource)
+    const iconStyle = {marginRight: 10}
+
+    let toggle
     if (roleResource) {
-      return (
+      toggle = (
         <HateoasToggle
           entityLinks={roleResource.links}
           hateoasKey={HateoasKeys.DELETE}
           toggled
-          onToggle={() => {
-            this.props.handleToggleResourceAccess(resource, true)
-            return false
-          }}
+        />
+      )
+    } else {
+      toggle = (
+        <Toggle
+          toggled={false}
         />
       )
     }
+
     return (
-      <Toggle
-        toggled={false}
-        onToggle={() => {
-          this.props.handleToggleResourceAccess(resource, false)
+      <IconButton
+        style={iconStyle}
+        onTouchTap={() => {
+          this.props.handleToggleResourceAccess(resource, !!roleResource)
           return false
         }}
-      />
+      >
+        {toggle}
+      </IconButton>
     )
   }
 
@@ -152,7 +155,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     })
 
   handleToggleController = (controller) => {
-    const { isControllerOpen } = this.state
+    const {isControllerOpen} = this.state
     forEach(isControllerOpen, (isOpen, controllerName) => {
       if (controllerName === controller) {
         isControllerOpen[controllerName] = !isOpen
@@ -173,9 +176,10 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   }
 
   render() {
-    const { controllerList, resourceListFetching } = this.props
-    const { isControllerOpen } = this.state
-    const items = resourceListFetching ? [<ListItem key={1}><LoadingComponent /></ListItem>] : this.getResourceListItems()
+    const {controllerList, resourceListFetching} = this.props
+    const {isControllerOpen} = this.state
+    const items = resourceListFetching ? [<ListItem
+      key={1}><LoadingComponent /></ListItem>] : this.getResourceListItems()
 
     return (
       <List>
