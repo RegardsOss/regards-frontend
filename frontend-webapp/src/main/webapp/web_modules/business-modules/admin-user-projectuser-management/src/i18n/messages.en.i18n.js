@@ -42,6 +42,7 @@ const messages = {
   'projectUser.create.input.password': 'Password',
   'projectUser.create.input.status': 'Status',
   'projectUser.create.input.groups': 'Groups',
+  'projectUser.create.action.add': 'Add',
   'projectUser.create.action.create': 'Create',
   'projectUser.create.action.cancel': 'Cancel',
 
