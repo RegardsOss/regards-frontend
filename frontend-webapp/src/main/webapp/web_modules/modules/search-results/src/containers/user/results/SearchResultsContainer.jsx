@@ -253,7 +253,7 @@ export class SearchResultsContainer extends React.Component {
     const {
       appName, project, enableFacettes, attributesConf,
       attributesRegroupementsConf, attributeModels, viewObjectType,
-      datasetServices, selectedDataobjectsServices, displayDatasets,
+      facettesQuery, datasetServices, selectedDataobjectsServices, displayDatasets,
       dispatchDatasetSelected, dispatchTagSelected, displayMode,
     } = this.props
     const { showingFacettes, filters, searchTag, searchQuery, emptySelection, sortingOn } = this.state
@@ -275,7 +275,7 @@ export class SearchResultsContainer extends React.Component {
       <SearchResultsComponent
         appName={appName}
         project={project}
-        allowingFacettes={enableFacettes}
+        allowingFacettes={enableFacettes && !!facettesQuery}
 
         showingDataobjects={showingDataobjects}
         viewMode={showingDataobjects ? displayMode : DisplayModeEnum.LIST}

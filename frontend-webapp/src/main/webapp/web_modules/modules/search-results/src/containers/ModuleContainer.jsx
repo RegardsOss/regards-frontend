@@ -42,7 +42,6 @@ export class ModuleContainer extends React.Component {
     // Calculate facettes
     const facettes = reduce(attributes, (result, value, key) =>
       value.facetable ? [...result, value.attributeFullQualifiedName] : result, [])
-
     this.state = {
       attributesFetching: true,
       facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,

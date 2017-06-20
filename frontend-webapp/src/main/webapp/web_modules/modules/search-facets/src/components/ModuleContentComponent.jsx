@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import Divider from 'material-ui/Divider'
+import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -45,19 +46,23 @@ class ModuleContentComponent extends React.Component {
       <div>
         <div style={moduleTheme.filterSelectors.styles}>
           {
-            facets.map((facet) => {
-              const selectorProps = { key: facet.attributeName, label: facetLabels[facet.attributeName], facet, applyFilter }
-              switch (facet.type) {
-                case FacetTypes.String:
-                  return (<WordFacetSelectorComponent {...selectorProps} />)
-                case FacetTypes.Number:
-                  return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
-                case FacetTypes.Date:
-                  return (<DateRangeFacetSelectorComponent {...selectorProps} />)
-                default:
-                  throw new Error(`Unknown facet type ${facet.type}`)
-              }
-            })
+            facets.length ?
+              facets.map((facet) => {
+                const selectorProps = { key: facet.attributeName, label: facetLabels[facet.attributeName], facet, applyFilter }
+                switch (facet.type) {
+                  case FacetTypes.String:
+                    return (<WordFacetSelectorComponent {...selectorProps} />)
+                  case FacetTypes.Number:
+                    return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
+                  case FacetTypes.Date:
+                    return (<DateRangeFacetSelectorComponent {...selectorProps} />)
+                  default:
+                    throw new Error(`Unknown facet type ${facet.type}`)
+                }
+              }) :
+              <div style={moduleTheme.noFacetMessage.styles}>
+                <FormattedMessage id="search.facets.no.facet.found" />
+              </div>
           }
         </div>
         <ShowableAtRender show={!!filters.length}>

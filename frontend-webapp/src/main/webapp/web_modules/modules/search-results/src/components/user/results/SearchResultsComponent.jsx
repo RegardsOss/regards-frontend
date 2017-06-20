@@ -177,8 +177,8 @@ class SearchResultsComponent extends React.Component {
       const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
         const attribute = find(attributeModels, att => att.content.id === attributeId)
         return attribute ?
-            [...results, DamDomain.AttributeModelController.getAttributeAccessPath(attribute)] :
-            results
+          [...results, DamDomain.AttributeModelController.getAttributeAccessPath(attribute)] :
+          results
       }, [])
       // 2 - If attributes could be rebuilt, return corresponding columns
       if (attributes && attributes.length) {
@@ -299,8 +299,8 @@ class SearchResultsComponent extends React.Component {
         prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
         noneLabel={formatMessage({ id: 'list.sort.none.label' })}
       /> : null,
-      // separator
-      this.isInListView() && showingDataobjects ? <TableOptionsSeparator key="list.options.separator" /> : null,
+      // separator, if required
+      this.isInListView() && showingDataobjects && allowingFacettes ? <TableOptionsSeparator key="list.options.separator" /> : null,
       // facets option
       <ShowableAtRender
         key="facet.filter.option"
