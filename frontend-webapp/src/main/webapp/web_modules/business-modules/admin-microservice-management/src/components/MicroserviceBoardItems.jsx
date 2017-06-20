@@ -8,6 +8,7 @@ import Cloud from 'material-ui/svg-icons/file/cloud'
 import CloudOff from 'material-ui/svg-icons/file/cloud-off'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import styles from '../styles/styles'
+import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import SetMaintenanceModeActions from '../model/SetMaintenanceModeActions'
 import PluginMetaDataActions from '../model/plugin/PluginMetaDataActions'
 
@@ -27,7 +28,7 @@ const getMaintenanceIcon = (isActive, computedStyles) => (
     style={computedStyles.board.checkbox}
   />
 )
-const items = (project, maintenances, intl, theme) => {
+const items = (project, maintenances, intl, theme, initialize) => {
   const computedStyles = styles(theme)
   return map(maintenances, (maintenance, microservice) => {
     const maintenanceOn = !maintenance.isOn(project)
@@ -47,6 +48,7 @@ const items = (project, maintenances, intl, theme) => {
           PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice),
         ],
       }, {
+        initialize: maintenance.fetch,
         icon: getMaintenanceIcon(maintenance.isOn(project), computedStyles),
         tooltipMsg: intl.formatMessage({
           id: maintenance.isOn(project) ?
@@ -58,6 +60,7 @@ const items = (project, maintenances, intl, theme) => {
           maintenance.set(project, maintenanceOn)
         },
         hateoasDependencies: [
+          MaintenanceModeActions(microservice).getDependency(RequestVerbEnum.GET),
           SetMaintenanceModeActions(microservice).getActivateDependency(),
           SetMaintenanceModeActions(microservice).getDesactivateDependency(),
         ],

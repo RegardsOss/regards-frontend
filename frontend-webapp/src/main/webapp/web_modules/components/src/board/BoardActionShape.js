@@ -7,6 +7,7 @@
  * @author Sébastien Binda
  */
 const BoardActionShape = PropTypes.shape({
+  initialize: PropTypes.func,
   path: PropTypes.string,
   icon: PropTypes.element,
   tooltipMsg: PropTypes.string,

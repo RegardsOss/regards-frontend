@@ -9,7 +9,7 @@ const adminProjectManagementStyles = theme => (
       warning: amber900,
     },
     tableRow: {
-      float: 'none', //fix for bootstrap grid
+      float: 'none', // fix for bootstrap grid
     },
     mediaQuery: {
       display: 'inline',

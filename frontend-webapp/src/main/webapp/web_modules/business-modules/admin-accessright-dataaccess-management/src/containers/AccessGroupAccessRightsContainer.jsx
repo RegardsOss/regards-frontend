@@ -146,7 +146,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-dam',
-  }, /*{
+  }, /* {
    pluginId: 'ICheckDataAccess'
    // TODO fix when backend update to pluginType too
    }*/)),

@@ -20,6 +20,8 @@ describe('[Menu] Testing LoggedUserContainer', () => {
   it('should render properly', () => {
     const props = {
       // from mapStateToProps
+      project: 'test',
+      appName: 'test',
       authenticationName: 'hellooo',
       currentRole: 'Peon',
       borrowableRoles: {},

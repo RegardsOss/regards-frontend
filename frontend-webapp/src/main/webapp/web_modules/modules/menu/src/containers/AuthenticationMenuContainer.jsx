@@ -57,7 +57,7 @@ export class AuthenticationMenuContainer extends React.Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props
+    const { isAuthenticated, project, appName } = this.props
     const { authenticationVisible } = this.state
 
     // Initialise the authentication module configuration
@@ -76,7 +76,10 @@ export class AuthenticationMenuContainer extends React.Component {
 
     // in bar: render user status or connection button
     const buttonComponent = isAuthenticated ?
-      <LoggedUserContainer /> :
+      (<LoggedUserContainer
+        appName={appName}
+        project={project}
+      />) :
       <LoginButton onLoginAction={this.onClickAuthenticationButton} />
 
     return (

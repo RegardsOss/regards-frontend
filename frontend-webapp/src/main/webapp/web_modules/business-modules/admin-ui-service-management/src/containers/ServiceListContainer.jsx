@@ -40,7 +40,7 @@ export class ServiceListContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
     fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {},
-      //{type: 'service'}
+      // {type: 'service'}
     )),
   })
 

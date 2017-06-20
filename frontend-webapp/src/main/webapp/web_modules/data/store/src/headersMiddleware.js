@@ -10,10 +10,9 @@ const { CALL_API } = require('redux-api-middleware')
  * @param state
  * @returns {*}
  */
-const sessionIsLocked = (state) => {
+const sessionIsLocked = state =>
   // If the action is a callAPI and the session of current authenticated user is locked do not send request to server.
-  return get(state,'common.authentication.sessionLocked',false)
-}
+   get(state, 'common.authentication.sessionLocked', false)
 
 /**
  * Returns Authorization header value, or null if no authorization possible

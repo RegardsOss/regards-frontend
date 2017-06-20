@@ -24,7 +24,7 @@ class CardActionsView extends React.Component {
     isMainButtonDisabled: PropTypes.bool,
     mainHateoasDependency: PropTypes.string,
 
-    /*theme: PropTypes.objectOf(PropTypes.string).isRequired,*/
+    /* theme: PropTypes.objectOf(PropTypes.string).isRequired,*/
   }
 
   static defaultProps = {

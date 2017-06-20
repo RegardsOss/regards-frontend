@@ -56,7 +56,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       <AttributeConfigurationComponent {...props} />, options,
     )
 
-    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.content.label })
+    const attributeName = wrapper.find(CardHeader).find({ title: AttributeConfigurationComponent.getTitle(props.attribute) })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
 
     const facetable = wrapper.find(Checkbox).find({ checked: false })
@@ -111,7 +111,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       <AttributeConfigurationComponent {...props} />, options,
     )
 
-    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.content.label })
+    const attributeName = wrapper.find(CardHeader).find({ title: AttributeConfigurationComponent.getTitle(props.attribute) })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
 
     const checked = wrapper.find(Checkbox).find({ checked: true })
@@ -151,7 +151,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       <AttributeConfigurationComponent {...props} />, options,
     )
 
-    const attributeName = wrapper.find(CardHeader).find({ title: attributeProp.content.label })
+    const attributeName = wrapper.find(CardHeader).find({ title: AttributeConfigurationComponent.getTitle(props.attribute) })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
 
     const checked = wrapper.find(Checkbox).find({ checked: true })

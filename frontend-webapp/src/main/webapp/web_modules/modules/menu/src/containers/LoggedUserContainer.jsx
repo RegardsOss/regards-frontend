@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import React from 'react'
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
 import { Role } from '@regardsoss/model'
@@ -18,6 +19,8 @@ import LoggedUserComponent from '../components/LoggedUserComponent'
 export class LoggedUserContainer extends React.Component {
 
   static propTypes = {
+    appName: PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     // from mapStateToProps
     authenticationName: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
@@ -53,8 +56,23 @@ export class LoggedUserContainer extends React.Component {
   onBorrowRole = (roleName) => {
     const { sendBorrowRole, currentRole } = this.props
     if (roleName !== currentRole) {
-      sendBorrowRole(roleName)
+      Promise.resolve(sendBorrowRole(roleName)).then((actionResult) => {
+        if (!actionResult.error) {
+          this.goToHomePage()
+        }
+      })
     }
+  }
+
+  goToHomePage = () => {
+    const { project, appName } = this.props
+    let url
+    if (this.props.project) {
+      url = `/${appName}/${project}`
+    } else {
+      url = `/${appName}`
+    }
+    browserHistory.push(url)
   }
 
 
