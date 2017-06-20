@@ -1,8 +1,19 @@
+import get from 'lodash/get'
 import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import isString from 'lodash/isString'
 // Redux middleware provides a third-party extension point
 // between dispatching an action, and the moment it reaches the reducer
 const { CALL_API } = require('redux-api-middleware')
+
+/**
+ * Check if the session is locked.
+ * @param state
+ * @returns {*}
+ */
+const sessionIsLocked = (state) => {
+  // If the action is a callAPI and the session of current authenticated user is locked do not send request to server.
+  return get(state,'common.authentication.sessionLocked',false)
+}
 
 /**
  * Returns Authorization header value, or null if no authorization possible
@@ -11,10 +22,10 @@ const { CALL_API } = require('redux-api-middleware')
  * @return Authorization header value or null
  */
 const getAuthorization = (state, callAPI) => {
-  if (!AuthenticationClient.authenticationSelectors.isAuthenticated(state) && callAPI.endpoint.includes(AuthenticationClient.SPECIFIC_ENDPOINT_MARKER)) {
+  if ((!AuthenticationClient.authenticationSelectors.isAuthenticated(state) || sessionIsLocked(state)) && callAPI.endpoint.includes(AuthenticationClient.SPECIFIC_ENDPOINT_MARKER)) {
     // for authentication only => provide client secret
     return `Basic ${btoa('client:secret')}`
-  } else if (AuthenticationClient.authenticationSelectors.isAuthenticated(state)) {
+  } else if (AuthenticationClient.authenticationSelectors.isAuthenticated(state) && !sessionIsLocked(state)) {
     // provide known token
     const accessToken = AuthenticationClient.authenticationSelectors.getAccessToken(state)
     return `Bearer ${accessToken}`
