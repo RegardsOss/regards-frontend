@@ -53,25 +53,6 @@ class FormCriterionComponent extends React.Component {
     criteriaViewOpened: false,
   }
 
-  /**
-   * Handle action to open a new criteria edition form
-   */
-  handleNewCriteria = () => {
-    this.setState({
-      criteriaToEdit: null,
-      criteriaViewOpened: true,
-    })
-  }
-
-  /**
-   * Handle action to close the dialog containing the criteria edition form
-   */
-  closeCriteriaView = () => {
-    this.setState({
-      criteriaViewOpened: false,
-    })
-  }
-
   getCriteriaAttributes = (criteria) => {
     const attributes = get(criteria, 'conf.attributes')
     if (!attributes) {
@@ -84,6 +65,25 @@ class FormCriterionComponent extends React.Component {
       }
       return attrLabel
     }, '')
+  }
+
+  /**
+   * Handle action to close the dialog containing the criteria edition form
+   */
+  closeCriteriaView = () => {
+    this.setState({
+      criteriaViewOpened: false,
+    })
+  }
+
+  /**
+   * Handle action to open a new criteria edition form
+   */
+  handleNewCriteria = () => {
+    this.setState({
+      criteriaToEdit: null,
+      criteriaViewOpened: true,
+    })
   }
 
   /**

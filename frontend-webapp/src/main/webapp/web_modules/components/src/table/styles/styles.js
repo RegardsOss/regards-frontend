@@ -116,7 +116,7 @@ export default (theme) => {
     cellHeader: {
       ...commonHeaderStyles,
       alignItems: 'center',
-      //borderRight: cellBorder,
+      // borderRight: cellBorder,
     },
     lastCellHeader: {
       ...commonHeaderStyles,

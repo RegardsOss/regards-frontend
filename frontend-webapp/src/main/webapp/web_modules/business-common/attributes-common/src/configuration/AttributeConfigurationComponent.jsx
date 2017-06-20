@@ -37,6 +37,9 @@ class AttributeConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static getTitle = attribute => attribute.fragment && attribute.fragment.name &&
+  attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${attribute.fragment.name} - ${attribute.label}` : attribute.label
+
   constructor(props) {
     super(props)
     this.state = {
@@ -107,9 +110,6 @@ class AttributeConfigurationComponent extends React.Component {
     const searchOnIcon = <Search />
     const searchOffIcon = <Locked />
 
-    const title = fragment && fragment.name &&
-    fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${fragment.name} - ${label}` : label
-
     return (
       <ShowableAtRender
         show={display}
@@ -118,7 +118,7 @@ class AttributeConfigurationComponent extends React.Component {
           style={cardStyle}
         >
           <CardHeader
-            title={title}
+            title={AttributeConfigurationComponent.getTitle(this.props.attribute)}
             subtitle={description}
             style={cardHeaderStyle}
           />

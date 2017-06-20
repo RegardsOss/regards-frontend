@@ -46,7 +46,7 @@ export class MicroserviceBoardContainer extends React.Component {
         if (!actionResult.error) {
           this.setState({
             microservicesUp: concat([], this.state.microservicesUp, [microservice]),
-          }, () => this.props.fetchMaintenance(microservice))
+          })
         }
         return actionResult
       })
@@ -66,9 +66,11 @@ export class MicroserviceBoardContainer extends React.Component {
         }
         return false
       }
+      microservicesMaintenance[microservice].fetch = () => this.props.fetchMaintenance(microservice)
       microservicesMaintenance[microservice].set = (projectName, value) =>
                 this.handleSetMaintenance(microservice, projectName, value ? MAINTENANCES_ACTIONS.ACTIVATE : MAINTENANCES_ACTIONS.DISABLE)
     })
+
     this.setState({
       microservicesMaintenance,
     })

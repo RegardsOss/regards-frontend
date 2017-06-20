@@ -67,8 +67,8 @@ class ModuleListComponent extends React.Component {
   getSectionLabel = (section) => {
     const id = `section.${section}`
     const label = this.context.intl.formatMessage({ id })
-    return(
-      <div style={{marginRight: 20}}>{label !== id ? label : section}</div>
+    return (
+      <div style={{ marginRight: 20 }}>{label !== id ? label : section}</div>
     )
   }
 
@@ -90,7 +90,7 @@ class ModuleListComponent extends React.Component {
                 key={key}
                 leftIcon={<GoToIcon />}
                 primaryText={
-                  <div style={{marginRight: 20}}>
+                  <div style={{ marginRight: 20 }}>
                     {module.content.description}
                   </div>
                 }

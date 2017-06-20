@@ -214,6 +214,30 @@ class ModuleContainer extends React.Component {
     return criterionWithAttributtes
   }
 
+  getInitialValues = () => {
+    const parameters = this.state.searchQuery.split(/ AND /)
+    const initialValues = {}
+    parameters.forEach((parameter) => {
+      const keys = parameter.match(/([^ :]*):(.*)$/)
+      if (keys && keys.length === 3) {
+        initialValues[keys[1]] = keys[2]
+      }
+    })
+    return initialValues
+  }
+
+  /**
+   * Run form search with the stored criteria values in the state.criterion
+   */
+  handleSearch = () => {
+    const query = this.createSearchQueryFromCriterion()
+    this.setState({
+      searchQuery: query,
+    })
+    this.criterionValues = {}
+    browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
+  }
+
   /**
    * Create query for the search from all the configured criterion
    */
@@ -238,30 +262,6 @@ class ModuleContainer extends React.Component {
     }
 
     return ''
-  }
-
-  /**
-   * Run form search with the stored criteria values in the state.criterion
-   */
-  handleSearch = () => {
-    const query = this.createSearchQueryFromCriterion()
-    this.setState({
-      searchQuery: query,
-    })
-    this.criterionValues = {}
-    browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
-  }
-
-  getInitialValues = () => {
-    const parameters = this.state.searchQuery.split(/ AND /)
-    const initialValues = {}
-    parameters.forEach((parameter) => {
-      const keys = parameter.match(/([^ :]*):(.*)$/)
-      if (keys && keys.length === 3) {
-        initialValues[keys[1]] = keys[2]
-      }
-    })
-    return initialValues
   }
 
   /**

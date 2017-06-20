@@ -33,6 +33,7 @@ describe('[Search Graph] Testing UserModuleContainer', () => {
       fetchCollections: () => { },
       fetchDatasets: () => { },
       dispatchClearLevelSelection: () => { },
+      dispatchLevelDataLoaded: () => { },
     }
     const enzymeWrapper = shallow(<UserModuleContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SearchGraph), 1, 'The corresponding component should be rendered')

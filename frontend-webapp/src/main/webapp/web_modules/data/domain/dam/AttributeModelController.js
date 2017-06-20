@@ -35,8 +35,8 @@ const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, a
   // []
   // content >> fragment >> name ("default" for example)
   // content >> name
-  console.error("FIND",attributeFullyQualifiedName,attributeModels)
-  const foundAttribute = find(attributeModels, ({content : {jsonPath}}) => jsonPath === attributeFullyQualifiedName)
+  console.error('FIND', attributeFullyQualifiedName, attributeModels)
+  const foundAttribute = find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
   return foundAttribute ? foundAttribute.content.label : attributeFullyQualifiedName
 }
 

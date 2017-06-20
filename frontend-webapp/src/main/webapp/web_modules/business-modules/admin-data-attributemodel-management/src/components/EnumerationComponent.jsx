@@ -113,6 +113,7 @@ export class EnumerationComponent extends React.Component {
           <TextField
             name="restriction.ENUMERATION.addinput"
             type="text"
+            fullWidth
             value={newValue}
             onChange={this.onTextFieldChange}
             label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.ENUMERATION.addinput' })}
