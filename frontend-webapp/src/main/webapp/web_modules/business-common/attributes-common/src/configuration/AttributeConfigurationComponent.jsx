@@ -38,7 +38,6 @@ class AttributeConfigurationComponent extends React.Component {
   }
 
   static getTitle = attribute => {
-    console.error("SEB",attribute)
     return attribute.fragment && attribute.fragment.name &&
     attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${attribute.fragment.name} - ${attribute.label}` : attribute.label
   }
