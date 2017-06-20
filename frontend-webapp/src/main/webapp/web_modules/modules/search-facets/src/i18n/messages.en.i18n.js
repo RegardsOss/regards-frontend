@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 const messages = {
+  'search.facets.no.facet.found': 'There is no facet for current result',
   'search.facets.filter.menu.date.before': 'Before {date} ({count})',
   'search.facets.filter.menu.date.after': 'After {date} ({count})',
   'search.facets.filter.menu.date.range': 'From {minDate} to {maxDate} ({count})',

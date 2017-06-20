@@ -11,6 +11,7 @@ import { AttributeModelActions, AttributeModelSelectors } from '../clients/Attri
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
 import DatasetServicesContainer from './user/DatasetServicesContainer'
+import DescriptionContainer from './user/DescriptionContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
 import DisplayModeEnum from '../models/navigation/DisplayModeEnum'
 
@@ -41,7 +42,6 @@ export class ModuleContainer extends React.Component {
     // Calculate facettes
     const facettes = reduce(attributes, (result, value, key) =>
       value.facetable ? [...result, value.attributeFullQualifiedName] : result, [])
-
     this.state = {
       attributesFetching: true,
       facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
@@ -83,8 +83,10 @@ export class ModuleContainer extends React.Component {
             initialDisplayMode={DisplayModeEnum.LIST}
             displayDatasets={!!displayDatasets}
           />
-          { /* Current dataset services management (no view) */}
+          { /* Current dataset services management */}
           <DatasetServicesContainer initialDatasetIpId={singleDatasetIpId} />
+          { /* Description handling */}
+          <DescriptionContainer />
           { /* View : module */}
           <ModuleComponent
             appName={appName}

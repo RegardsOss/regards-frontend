@@ -6,6 +6,7 @@ import { datasetReducer } from './clients/DatasetClient'
 import { modelReducer } from './clients/ModelClient'
 import { modelAttributesReducer } from './clients/ModelAttributesClient'
 import { datasetLinkReducer } from './clients/DatasetLinkClient'
+import { datasetValidSubsettingTestReducer } from './clients/DatasetValidSubsettingTest'
 import { datasourceReducer } from './clients/DatasourceClient'
 import { collectionReducer } from './clients/CollectionClient'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
@@ -14,6 +15,7 @@ import { linkPluginDatasetReducer } from './clients/LinkPluginDatasetClient'
 import { uiPluginConfigurationReducer } from './clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
 import { linkUIPluginDatasetReducer } from './clients/LinkUIPluginDatasetClient'
+
 
 const datasetDataManagementReducer = combineReducers({
   collection: collectionReducer,
@@ -28,6 +30,7 @@ const datasetDataManagementReducer = combineReducers({
   'ui-plugin-configuration': uiPluginConfigurationReducer,
   'ui-plugin-definition': uiPluginDefinitionReducer,
   'link-ui-plugin-definition': linkUIPluginDatasetReducer,
+  'dataset-valid-subsetting-test': datasetValidSubsettingTestReducer,
 })
 
 export default datasetDataManagementReducer

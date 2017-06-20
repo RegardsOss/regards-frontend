@@ -25,7 +25,7 @@ import {
   selectors as searchSelectors,
 } from '../../../clients/SearchEntitiesClient'
 import datasetServicesSelectors from '../../../models/services/DatasetServicesSelectors'
-import QueriesHelper from '../../../definitions/query/QueriesHelper'
+import QueriesHelper from '../../../definitions/QueriesHelper'
 import Service from '../../../definitions/service/Service'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 
@@ -180,7 +180,7 @@ export class SearchResultsContainer extends React.Component {
    * @param state : state to consider when building query
    */
   buildOpenSearchQuery = ({ searchQuery, facettesQuery, levels, viewObjectType },
-                          { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
+    { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
     // check if facettes should be applied
     const facettes = showingFacettes && viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
     const facettesQueryPart = showingFacettes ? facettesQuery : ''
@@ -253,7 +253,7 @@ export class SearchResultsContainer extends React.Component {
     const {
       appName, project, enableFacettes, attributesConf,
       attributesRegroupementsConf, attributeModels, viewObjectType,
-      datasetServices, selectedDataobjectsServices, displayDatasets,
+      facettesQuery, datasetServices, selectedDataobjectsServices, displayDatasets,
       dispatchDatasetSelected, dispatchTagSelected, displayMode,
     } = this.props
     const { showingFacettes, filters, searchTag, searchQuery, emptySelection, sortingOn } = this.state
@@ -275,7 +275,7 @@ export class SearchResultsContainer extends React.Component {
       <SearchResultsComponent
         appName={appName}
         project={project}
-        allowingFacettes={enableFacettes}
+        allowingFacettes={enableFacettes && !!facettesQuery}
 
         showingDataobjects={showingDataobjects}
         viewMode={showingDataobjects ? displayMode : DisplayModeEnum.LIST}

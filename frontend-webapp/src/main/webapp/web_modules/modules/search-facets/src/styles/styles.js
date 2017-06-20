@@ -3,6 +3,11 @@
  */
 const projectsStyles = theme => (
   {
+    noFacetMessage: {
+      styles: {
+        margin: '16px 1em 15px 0',
+      },
+    },
     filterSelectors: {
       styles: {
         display: 'flex',

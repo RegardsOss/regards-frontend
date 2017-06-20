@@ -22,6 +22,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
     const props = {
       displayDatasets: true,
       levels: [NavigationLevel.buildRootLevel(), NavigationLevel.buildSearchTagLevel('xxx')],
+      gotoLevel: () => { },
     }
     const enzymeWrapper = shallow(<NavigationContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(NavigationComponent), 1, 'The corresponding component should be rendered')
@@ -30,6 +31,7 @@ describe('[Search Results] Testing NavigationContainer', () => {
     const props = {
       displayDatasets: false,
       levels: [NavigationLevel.buildRootLevel(), NavigationLevel.buildSearchTagLevel('xxx'), NavigationLevel.buildDatasetLevel('xxx', 'xxx')],
+      gotoLevel: () => { },
     }
     const enzymeWrapper = shallow(<NavigationContainer {...props} />, { context })
     const navCompoWrapper = enzymeWrapper.find(NavigationComponent)

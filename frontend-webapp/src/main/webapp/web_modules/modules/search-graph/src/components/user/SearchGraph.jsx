@@ -10,7 +10,6 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import SearchGraphHeaderContainer from '../../containers/user/SearchGraphHeaderContainer'
 import GraphLevelDisplayerContainer from '../../containers/user/GraphLevelDisplayerContainer'
-import DescriptionContainer from '../../containers/user/DescriptionContainer'
 
 /**
 * Search graph (collections explorer)
@@ -92,8 +91,6 @@ class SearchGraph extends React.Component {
             </div>
           </CardMedia>
         </ShowableAtRender>
-        { /* Items description dialog (one instance for the whole graph) */}
-        <DescriptionContainer />
       </Card >
     )
   }

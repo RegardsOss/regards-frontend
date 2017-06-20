@@ -10,6 +10,7 @@ import FetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActio
 import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import GraphLevelCollectionActions from '../../model/graph/GraphLevelCollectionActions'
 import GraphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions'
+import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
 import GraphLevelCollectionSelectors from '../../model/graph/GraphLevelCollectionSelectors'
 import GraphLevelDatasetSelectors from '../../model/graph/GraphLevelDatasetSelectors'
 
@@ -18,13 +19,11 @@ import GraphLevelDatasetSelectors from '../../model/graph/GraphLevelDatasetSelec
 */
 export class GraphLevelDisplayerContainer extends React.Component {
 
-  static getLevelPartitionKey = levelIndex => `level-${levelIndex}`
-
   static mapStateToProps = (state, { levelIndex, isFirstLevel }) => {
-    const partitionKey = GraphLevelDisplayerContainer.getLevelPartitionKey(levelIndex)
+    const partitionKey = getLevelPartitionKey(levelIndex)
     // has parent selection, and is it a collectionb?
     const parentSelection = GraphContextSelectors.getSelectionForParentLevel(state, levelIndex)
-    const parentIpId = parentSelection && parentSelection.type === CatalogEntityTypes.COLLECTION ? parentSelection.ipId : null
+    const parentIpId = parentSelection && parentSelection.entityType === CatalogEntityTypes.COLLECTION ? parentSelection.ipId : null
     return {
       parentIpId,
       // retrieve level data from partitioned store
@@ -45,7 +44,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
    * @return dispatch fetch level method like (parentIpId:string) => void
    */
   static dispatchFetchLevelData = (levelIndex, dispatch, partitionDataActions, dataFetcher) => (parentIpId) => {
-    const partitionKey = GraphLevelDisplayerContainer.getLevelPartitionKey(levelIndex)
+    const partitionKey = getLevelPartitionKey(levelIndex)
     // 1 - notify level loading data
     dispatch(partitionDataActions.onDataLoadingStart(partitionKey))
     // 2 - dispatch fetch and resolve promise

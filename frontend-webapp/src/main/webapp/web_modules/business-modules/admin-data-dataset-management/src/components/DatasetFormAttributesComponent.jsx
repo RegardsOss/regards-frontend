@@ -2,11 +2,9 @@
  * LICENSE_PLACEHOLDER
  **/
 import map from 'lodash/map'
-import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import has from 'lodash/has'
 import isNil from 'lodash/isNil'
-import isObject from 'lodash/isObject'
 import get from 'lodash/get'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'

@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import { Field } from '@regardsoss/form-utils'
+import TextField from 'material-ui/TextField'
 import { DatasetFormSubsettingComponent } from '../../src/components/DatasetFormSubsettingComponent'
 
 const context = buildTestContext()
@@ -15,7 +15,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetFormSubsettingComponent', ()
 
   it('should exists', () => {
     assert.isDefined(DatasetFormSubsettingComponent)
-    assert.isDefined(Field)
+    assert.isDefined(TextField)
   })
   it('Render properly', () => {
     const props = {
@@ -33,6 +33,6 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetFormSubsettingComponent', ()
       initialize: () => {},
     }
     const enzymeWrapper = shallow(<DatasetFormSubsettingComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Field)).to.have.length(1)
+    expect(enzymeWrapper.find(TextField)).to.have.length(1)
   })
 })

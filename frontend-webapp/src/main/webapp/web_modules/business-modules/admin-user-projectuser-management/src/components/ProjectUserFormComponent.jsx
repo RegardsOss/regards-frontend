@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
+import filter from 'lodash/filter'
 import forEach from 'lodash/forEach'
 import map from 'lodash/map'
 import { formValueSelector } from 'redux-form'
@@ -91,11 +92,7 @@ export class ProjectUserFormComponent extends React.Component {
   getCurrentUserGroups = (user) => {
     if (!this.state.isCreating) {
       forEach(this.props.groupList, (group) => {
-        forEach(group.content.users, (groupUser) => {
-          if (groupUser.email === user.email) {
-            this.handleAddGroup(group)
-          }
-        })
+        forEach(filter(group.content.users, groupUser => groupUser.email === user.email), groupUser => this.handleAddGroup(group))
       })
     }
   }

@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import has from 'lodash/has'
 import { connect } from '@regardsoss/redux'
@@ -14,7 +13,6 @@ import DatasetFormAttributesComponent from '../components/DatasetFormAttributesC
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
-import { fragmentSelectors } from '../clients/FragmentClient'
 
 /**
  * Show the dataset form

@@ -36,6 +36,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
       fetchAccountList: () => { },
       fetchWaitingAccountList: () => { },
       sendAcceptUser: () => { },
+      sendRefuseUser: () => { },
       deleteAccount: () => { },
     }
 

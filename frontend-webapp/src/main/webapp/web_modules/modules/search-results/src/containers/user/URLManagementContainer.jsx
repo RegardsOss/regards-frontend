@@ -8,8 +8,8 @@ import { SearchResultsTargetsEnum } from '@regardsoss/model'
 import NavigationLevel from '../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
+import { actions as searchEntityActions } from '../../clients/SearchEntityClient'
 import DisplayModeEnum from '../../models/navigation/DisplayModeEnum'
-import { actions as findDatasetActions } from '../../clients/FindDatasetClient'
 
 
 /**
@@ -34,7 +34,7 @@ export class URLManagementContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    dispatchFetchDataset: datasetIpId => dispatch(findDatasetActions.findDataset(datasetIpId)),
+    dispatchFetchDataset: datasetIpId => dispatch(searchEntityActions.getEntity(datasetIpId)),
     initialize: ((viewObjectType, displayMode, rootContextLabel, searchTag, dataset) =>
       dispatch(navigationContextActions.initialize(viewObjectType, displayMode, rootContextLabel, searchTag, dataset))),
   })
@@ -56,7 +56,7 @@ export class URLManagementContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
     // Display mode
-    displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired,
+    displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]),
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
     // from mapDispatchToProps
@@ -95,7 +95,7 @@ export class URLManagementContainer extends React.Component {
       this.updateStateFromURL(nextProps)
     } else if (!isEqual(previousProps.levels, nextProps.levels) ||
       !isEqual(previousProps.viewObjectType, nextProps.viewObjectType) ||
-        !isEqual(previousProps.displayMode, nextProps.displayMode)) {
+      !isEqual(previousProps.displayMode, nextProps.displayMode)) {
       this.updateURLFromState(nextProps)
     }
   }

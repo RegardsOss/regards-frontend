@@ -127,7 +127,7 @@ export default class ReduxEntityTester {
     // Since react will console.error propType manual that we use in pure JS to check if normalized
     // entities matches Shapes, we use sinon.js to stub it into throwing only others errors
     this.stubConsole = stub(console, 'error').callsFake((warning) => {
-      if (!warning.includes('Warning: You are manually calling a React.PropTypes validation function for the')) {
+      if (!warning.includes('Warning: You are manually calling a PropTypes validation function for the')) {
         previousConsoleError(warning)
       }
     })

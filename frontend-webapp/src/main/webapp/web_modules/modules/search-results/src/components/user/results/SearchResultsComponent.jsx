@@ -29,7 +29,7 @@ import { getTypeRender } from '@regardsoss/attributes-common'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
 import Service from '../../../definitions/service/Service'
-import ListViewEntityCellComponent from './ListViewEntityCellComponent'
+import ListViewEntityCellContainer from '../../../containers/user/results/ListViewEntityCellContainer'
 import TableSortFilterComponent from './options/TableSortFilterComponent'
 import TableSelectAllContainer from '../../../containers/user/results/options/TableSelectAllContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
@@ -173,14 +173,14 @@ class SearchResultsComponent extends React.Component {
 
   buildAttrRegroupementColumns = (attributesRegroupementsConf, attributeModels) => reduce(attributesRegroupementsConf, (allColumns, attrRegroupementConf) => {
     if (attrRegroupementConf.visibility) {
-        // 1 -rebuild attributes
+      // 1 -rebuild attributes
       const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
         const attribute = find(attributeModels, att => att.content.id === attributeId)
         return attribute ?
-            [...results, DamDomain.AttributeModelController.getAttributeAccessPath(attribute)] :
-            results
+          [...results, DamDomain.AttributeModelController.getAttributeAccessPath(attribute)] :
+          results
       }, [])
-        // 2 - If attributes could be rebuilt, return corresponding columns
+      // 2 - If attributes could be rebuilt, return corresponding columns
       if (attributes && attributes.length) {
         return [...allColumns, {
           label: attrRegroupementConf.label,
@@ -190,7 +190,7 @@ class SearchResultsComponent extends React.Component {
         }]
       }
     }
-      // ignored regroupement
+    // ignored regroupement
     return allColumns
   }, [])
 
@@ -202,7 +202,7 @@ class SearchResultsComponent extends React.Component {
     label: 'ListviewCell',
     attributes: [],
     customCell: {
-      component: ListViewEntityCellComponent,
+      component: ListViewEntityCellContainer,
       props: {
         // click: select a dataset when in dataset mode
         onClick: showingDataobjects ? null : onSelectDataset,
@@ -210,7 +210,7 @@ class SearchResultsComponent extends React.Component {
         styles: this.context.moduleTheme.user.listViewStyles,
         onSearchTag: onSelectSearchTag,
         tableColumns: showingDataobjects ? tableColumns : undefined,
-        displayCheckBox: showingDataobjects && this.props.displaySelectCheckboxes,
+        displayCheckbox: showingDataobjects && this.props.displaySelectCheckboxes,
       },
     },
   }]
@@ -299,8 +299,8 @@ class SearchResultsComponent extends React.Component {
         prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
         noneLabel={formatMessage({ id: 'list.sort.none.label' })}
       /> : null,
-      // separator
-      this.isInListView() && showingDataobjects ? <TableOptionsSeparator key="list.options.separator" /> : null,
+      // separator, if required
+      this.isInListView() && showingDataobjects && allowingFacettes ? <TableOptionsSeparator key="list.options.separator" /> : null,
       // facets option
       <ShowableAtRender
         key="facet.filter.option"

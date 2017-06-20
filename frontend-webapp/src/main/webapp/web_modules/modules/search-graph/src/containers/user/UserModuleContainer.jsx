@@ -5,8 +5,8 @@ import get from 'lodash/get'
 import last from 'lodash/last'
 import isEqual from 'lodash/isEqual'
 import filter from 'lodash/filter'
-import sortBy from 'lodash/sortBy'
 import find from 'lodash/find'
+import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { DamDomain } from '@regardsoss/domain'
@@ -19,8 +19,12 @@ import graphContextActions from '../../model/graph/GraphContextActions'
 import fetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import fetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
+import graphLevelCollectionActions from '../../model/graph/GraphLevelCollectionActions'
+import graphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions'
+import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
 import NavigableSearchResults from '../../components/user/NavigableSearchResults'
 import SearchGraph from '../../components/user/SearchGraph'
+import DescriptionContainer from './DescriptionContainer'
 
 /**
  * Module container for user interface
@@ -48,6 +52,14 @@ export class UserModuleContainer extends React.Component {
       dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
     fetchDatasets: (levelIndex, parentEntityId) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentEntityId)),
     dispatchClearLevelSelection: levelIndex => dispatch(graphContextActions.selectEntity(levelIndex, null)),
+    dispatchLevelDataLoaded: (levelIndex, results, patitionTypeActions) => {
+      if (results.error) {
+        dispatch(patitionTypeActions.onDataLoadingFailed(getLevelPartitionKey(levelIndex), results.payload.message))
+      } else if (results.payload) {
+        dispatch(patitionTypeActions.onDataLoadingDone(getLevelPartitionKey(levelIndex), results))
+      } // ignore empty objects, due to initilization case
+    },
+
   })
 
   static propTypes = {
@@ -69,6 +81,8 @@ export class UserModuleContainer extends React.Component {
     fetchDatasets: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchClearLevelSelection: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatchLevelDataLoaded: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {
@@ -112,7 +126,7 @@ export class UserModuleContainer extends React.Component {
         } else {
           // 3.b - dynamic attribute mapping, resolves if found in fetched models
           const foundModel = find(fetchedAtributesModels, attributeModel =>
-          DamDomain.AttributeModelController.getAttributeAccessPath(attributeModel) === fullQualifiedName)
+            DamDomain.AttributeModelController.getAttributeAccessPath(attributeModel) === fullQualifiedName)
           if (foundModel) {
             resolvedAttribute = {
               label: foundModel.content.label,
@@ -143,40 +157,37 @@ export class UserModuleContainer extends React.Component {
    * selection and content or reset selection at the level where selected element is no longer available
    * @param props component properties, providing data to reset content
    */
-  refreshCompleteGraph = ({ selectionPath, moduleConf: { graphLevels }, fetchCollections, fetchDatasets, dispatchClearLevelSelection }) => {
+  refreshCompleteGraph = ({ selectionPath, moduleConf: { graphLevels }, fetchCollections,
+    fetchDatasets, dispatchClearLevelSelection, dispatchLevelDataLoaded }) => {
     // recursive handler builder: it returns a callback for Promise.all like (collections, datasets) => void
     function getRecursiveUpdater(selection, level) {
-      if (!selection.length) {
-        // A (break case): we resolved all elements
-        return () => { } // done
-      }
-      const [{ ipId: selectedParentIpId, type: selectedParentType }, ...nextSelectedElements] = selection
-
-      //  B - We need to fetch the levels content and attempt to retrieve the current selection there (then resolve recursively sub elements)
-      // note: this function is the callback for upper Promise.all, it expects the results array of collections and datasets
+      // promise callback, receives parent collections and datasets
       return function onCollectionsFetch([collectionsFetchResult, datasetFetchResults]) {
-        // verify if the parent ip id is in result
+        // 1 - publish parent partitions results
+        dispatchLevelDataLoaded(level - 1, collectionsFetchResult, graphLevelCollectionActions)
+        dispatchLevelDataLoaded(level - 1, datasetFetchResults, graphLevelDatasetActions)
+
+        // 2 - Verify if the selection is still valid
         const collections = get(collectionsFetchResult, 'payload.entities.entities', {})
         const datasets = get(datasetFetchResults, 'payload.entities.entities', {})
-        const retrievedParentSelection = find({ ...collections, ...datasets }, ({ content: { ipId } }) => selectedParentIpId === ipId)
-        if (!retrievedParentSelection) {
-          // C (break case) : the parent level selection could not be restored: remove it from selection then stop
-          dispatchClearLevelSelection(level - 1)
+        if (selection.length) {
+          const [{ ipId: selectedParentIpId, type: selectedParentType }, ...nextSelectedElements] = selection
+          const retrievedParentSelection = find({ ...collections, ...datasets }, ({ content: { ipId } }) => selectedParentIpId === ipId)
+          if (!retrievedParentSelection) {
+            // (break case) the parent level selection could not be restored: remove it from selection then stop
+            dispatchClearLevelSelection(level - 1)
+          } else if (selectedParentType !== CatalogEntityTypes.DATASET) {
+            // loop case: resolve next
+            Promise.all([
+              fetchCollections(level, selectedParentIpId, graphLevels[level]),
+              fetchDatasets(level, selectedParentIpId)]).then(getRecursiveUpdater(nextSelectedElements, level + 1))
+          }
         }
-
-        if (selectedParentType === CatalogEntityTypes.DATASET) {
-          // D (break case): The selected parent element cannot have children, this level is then empty
-          return () => { } // done
-        }
-
-        // E - This level can content is restored, let the next delegate restore sub level if required
-        return Promise.all([
-          fetchCollections(level, selectedParentIpId, graphLevels[level]),
-          fetchDatasets(level, selectedParentIpId)]).then(getRecursiveUpdater(nextSelectedElements, level + 1))
+        // (break case) else, no level selection, done
       }
     }
 
-    // Refetch level 0 collections (fake datasets), then recursively update sublevels
+    // Refetch level 0 collections (fake datasets), then recursively update content and sublevels
     Promise.all([fetchCollections(0, null, graphLevels[0]), Promise.resolve({})])
       .then(getRecursiveUpdater(selectionPath, 1))
   }
@@ -189,6 +200,8 @@ export class UserModuleContainer extends React.Component {
 
     return (
       <div>
+        { /* Description handling */}
+        <DescriptionContainer />
         <SearchGraph
           moduleCollapsed={moduleCollapsed}
           graphDatasetAttributes={graphDatasetAttributes}

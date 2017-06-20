@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
+import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -43,6 +44,7 @@ export class AccountListComponent extends React.Component {
     allAccounts: PropTypes.objectOf(AdminShapes.Account),
     waitingAccounts: PropTypes.objectOf(AdminShapes.Account),
     onAccept: PropTypes.func.isRequired,
+    onRefuse: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     initialFecthing: PropTypes.bool.isRequired,
@@ -100,6 +102,8 @@ export class AccountListComponent extends React.Component {
 
   canAcceptAccount = account => [status.pending].includes(account.content.status)
 
+  canRefuseAccount = account => [status.pending].includes(account.content.status)
+
   selectTab = (selectedTab) => {
     this.setState({ selectedTab })
   }
@@ -130,7 +134,7 @@ export class AccountListComponent extends React.Component {
       commonActionHoverColor: this.context.muiTheme.palette.primary1Color,
       deleteActionHoverColor: this.context.muiTheme.palette.accent1Color,
     }
-    const { allAccounts, waitingAccounts, onEdit, onAccept, initialFecthing, isFetchingActions } = this.props
+    const { allAccounts, waitingAccounts, onEdit, onAccept, onRefuse, initialFecthing, isFetchingActions } = this.props
     const { intl } = this.context
 
     return (
@@ -220,6 +224,18 @@ export class AccountListComponent extends React.Component {
                               breakpoint={1040}
                             >
                               <Done hoverColor={style.commonActionHoverColor} />
+                            </HateoasIconAction>
+                            <HateoasIconAction
+                              className="selenium-refuseButton"
+                              title={intl.formatMessage({ id: 'account.list.table.action.refuse.tooltip' })}
+                              onTouchTap={() => onRefuse(account.content.email)}
+                              disabled={isFetchingActions || !this.canRefuseAccount(account)}
+                              entityLinks={account.links}
+                              hateoasKey={HateoasKeys.REFUSE}
+                              alwaysDisplayforInstanceUser={false}
+                              breakpoint={1040}
+                            >
+                              <RemoveCircle hoverColor={style.deleteActionHoverColor} />
                             </HateoasIconAction>
                             <HateoasIconAction
                               className="selenium-deleteButton"

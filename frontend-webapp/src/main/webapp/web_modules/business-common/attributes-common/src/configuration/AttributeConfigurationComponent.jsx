@@ -90,7 +90,10 @@ class AttributeConfigurationComponent extends React.Component {
 
   render() {
     const { allowFacettes, filter = '', attribute: { content: { label, description, fragment } } } = this.props
-    const display = !filter.length || label.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
+    let display = !filter.length || label.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
+    if (!display && fragment && fragment.name) {
+      display = display || fragment.name.match(new RegExp(`^${this.props.filter}.*$`, 'i'))
+    }
 
     const cardStyle = { width: 300, margin: 5 }
     const cardHeaderStyle = {
@@ -104,7 +107,8 @@ class AttributeConfigurationComponent extends React.Component {
     const searchOnIcon = <Search />
     const searchOffIcon = <Locked />
 
-    const title = fragment && fragment.name
+    const title = fragment && fragment.name &&
+    fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${fragment.name} - ${label}` : label
 
     return (
       <ShowableAtRender
@@ -114,7 +118,7 @@ class AttributeConfigurationComponent extends React.Component {
           style={cardStyle}
         >
           <CardHeader
-            title={label}
+            title={title}
             subtitle={description}
             style={cardHeaderStyle}
           />
