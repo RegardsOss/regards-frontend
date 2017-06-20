@@ -37,8 +37,11 @@ class AttributeConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static getTitle = attribute => attribute.fragment && attribute.fragment.name &&
-  attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${attribute.fragment.name} - ${attribute.label}` : attribute.label
+  static getTitle = attribute => {
+    console.error("SEB",attribute)
+    return attribute.fragment && attribute.fragment.name &&
+    attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${attribute.fragment.name} - ${attribute.label}` : attribute.label
+  }
 
   constructor(props) {
     super(props)
@@ -118,7 +121,7 @@ class AttributeConfigurationComponent extends React.Component {
           style={cardStyle}
         >
           <CardHeader
-            title={AttributeConfigurationComponent.getTitle(this.props.attribute)}
+            title={AttributeConfigurationComponent.getTitle(this.props.attribute.content)}
             subtitle={description}
             style={cardHeaderStyle}
           />

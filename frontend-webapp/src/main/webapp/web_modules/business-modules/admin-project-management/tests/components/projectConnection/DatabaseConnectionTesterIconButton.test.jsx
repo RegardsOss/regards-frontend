@@ -2,7 +2,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers,buildTestContext  } from '@regardsoss/tests-helpers'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
 import DatabaseConnectionTesterIconButton from '../../../src/components/projectConnection/DatabaseConnectionTesterIconButton'
 import ConnectionTesterProgress from '../../../src/components/projectConnection/ConnectionTesterProgress'
@@ -15,6 +15,8 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
   it('should exists', () => {
     assert.isDefined(DatabaseConnectionTesterIconButton)
   })
+
+  const context = buildTestContext()
 
   it('should render the test button if connectivity is NOT_TESTED', () => {
     const props = {
@@ -34,15 +36,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
         links: [],
       },
     }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
-      },
-    }
+    const options = { context }
     const enzymeWrapper = shallow(<DatabaseConnectionTesterIconButton {...props} />, options)
     expect(enzymeWrapper.find(IconButton)).to.have.length(1)
     expect(enzymeWrapper.find(PlayArrow)).to.have.length(1)
@@ -66,15 +60,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
         links: [],
       },
     }
-    const options = {
-      context: {
-        muiTheme: {
-          palette: {
-            warningColor: 'orange',
-          },
-        },
-      },
-    }
+    const options = { context }
     const enzymeWrapper = shallow(<DatabaseConnectionTesterIconButton {...props} />, options)
     expect(enzymeWrapper.find(IconButton)).to.have.length(1)
     expect(enzymeWrapper.find(PlayArrow)).to.have.length(1)

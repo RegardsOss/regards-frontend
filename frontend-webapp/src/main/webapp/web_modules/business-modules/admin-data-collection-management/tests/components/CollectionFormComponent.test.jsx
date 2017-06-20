@@ -57,6 +57,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionFormComponent', (
             attribute: {
               id: 0,
               name: 'Attribute_0_0',
+              label: 'Plop',
               description: "Description de l'attribut 0 - 0",
               defaultValue: null,
               type: 'STRING',
