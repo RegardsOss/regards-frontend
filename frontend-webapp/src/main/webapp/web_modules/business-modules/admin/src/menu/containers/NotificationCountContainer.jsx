@@ -22,13 +22,6 @@ class NotificationCountContainer extends React.Component {
     style: PropTypes.object,
   }
 
-  startTimer = () => {
-    // A - refresh list
-    this.refresh()
-    // B - restart timer
-    this.refreshTimer = setTimeout(() => this.startTimer(), refreshTimerMS)
-  }
-
   render() {
     const { notificationsCount, style } = this.props
     /* XXX-workaround material UI MenuItem uses style directly on contained components,
