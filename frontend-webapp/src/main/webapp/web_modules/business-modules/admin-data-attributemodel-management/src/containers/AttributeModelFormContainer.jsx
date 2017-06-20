@@ -223,7 +223,7 @@ const mapStateToProps = (state, ownProps) => ({
   attrModel: ownProps.params.attrModel_id ? attributeModelSelectors.getById(state, ownProps.params.attrModel_id) : null,
   isAttributeModelFetching: attributeModelSelectors.isFetching(state),
 
-  attrModelTypeList: attributeModelTypeSelectors.getArray(state),
+  attrModelTypeList: attributeModelTypeSelectors.getArraySortedByType(state),
   isAttributeModelTypeFetching: attributeModelTypeSelectors.isFetching(state),
 
   attrModelRestrictionList: attributeModelRestrictionSelectors.getArray(state),

@@ -5,7 +5,7 @@ const messages = {
   'data.board.action.list.tooltip': 'List',
   'data.board.action.add.tooltip': 'Add',
 
-  'data.board.model.description': 'Models define the shape of the data',
+  'data.board.model.description': 'Data models(collection, dataset and objects) define the shape of data',
   'data.board.model.title': 'Models',
 
   'data.board.attributemodel.description': 'Manage attributes common to various models',

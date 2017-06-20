@@ -41,7 +41,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
       // { isActive: true, isDefault: false }
     )),
     fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {},
-      // {type: 'service'}
+      { type: 'SERVICE' },
     )),
     fetchLinkUIPluginDataset: id => dispatch(linkUIPluginDatasetActions.fetchEntity(id)),
     updateLinkUIPluginDataset: (id, linkUIPluginDataset) => dispatch(linkUIPluginDatasetActions.updateEntity(id, linkUIPluginDataset)),

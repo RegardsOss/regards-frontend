@@ -85,6 +85,7 @@ export class CollectionFormContainer extends React.Component {
     const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
     const updatedCollection = Object.assign({}, this.props.currentCollection.content, {
       label: values.label,
+      geometry: values.geometry,
       properties,
     })
     // Update the descriptionFile object if the user changed that value
@@ -131,6 +132,7 @@ export class CollectionFormContainer extends React.Component {
     const apiValues = {
       collection: Object.assign({}, defaultValues, {
         label: values.label,
+        geometry: values.geometry,
         descriptionFile,
         model,
         properties,
