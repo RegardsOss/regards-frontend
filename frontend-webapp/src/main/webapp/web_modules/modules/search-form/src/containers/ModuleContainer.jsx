@@ -334,6 +334,7 @@ class ModuleContainer extends React.Component {
           attributesRegroupements: this.props.moduleConf.attributesRegroupements,
           selectableAttributes: this.props.attributeModels,
           enableFacettes: this.props.moduleConf.enableFacettes,
+          displayDatasets: this.props.moduleConf.displayDatasets,
           searchQuery: this.state.searchQuery,
           breadcrumbInitialContextLabel: this.props.description,
           singleDatasetIpId,
