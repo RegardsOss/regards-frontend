@@ -24,7 +24,7 @@ const messages = Object.assign({
   'portal.app.layout.tooltip': 'Configure layout',
   'portal.app.themes.tooltip': 'Manage themes',
   'modules.list.title': 'Configure UI available modules',
-  'modules.list.subtitle': 'Here under are displayed the modules configured for the inter. Once the modules are confiured, you can use them to configure the global layout.',
+  'modules.list.subtitle': 'Here under are displayed the modules configured for the interface. Once the modules are configured, you can use them to configure the global layout.',
   'modules.list.table.name': 'Module type',
   'modules.list.table.description': 'Module name',
   'modules.list.table.action.edit.tooltip': 'Edit',
