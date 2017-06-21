@@ -13,7 +13,7 @@ const messages = Object.assign({
   'accessright.form.meta.accessLevel': 'Niveau d\'accès aux informations',
   'accessright.form.meta.accessLevel.NO_ACCESS': 'Aucun accès',
   'accessright.form.meta.accessLevel.RESTRICTED_ACCESS': 'Accès aux jeux',
-  'accessright.form.meta.accessLevel.FULL_ACCESS': 'Accès aux jeux et objects',
+  'accessright.form.meta.accessLevel.FULL_ACCESS': 'Accès aux jeux et objets',
   'accessright.form.data.accessLevel': 'Niveau d\'accès aux données',
   'accessright.form.data.accessLevel.NO_ACCESS': 'Refusé',
   'accessright.form.data.accessLevel.INHERITED_ACCESS': 'Autorisé',
