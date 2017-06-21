@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { URL, Percent } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import IFrameURLContentDisplayer from '../content/IFrameURLContentDisplayer'
 import LoadableContentDialogContainer from './LoadableContentDialogContainer'
 
@@ -11,10 +11,10 @@ import LoadableContentDialogContainer from './LoadableContentDialogContainer'
 class SingleContentURLDaialogContainer extends React.Component {
 
   static propTypes = {
-    contentURL: URL.isRequired,
+    contentURL: CommonShapes.URL.isRequired,
     open: PropTypes.bool.isRequired,
-    dialogHeightPercent: Percent.isRequired,
-    dialogWidthPercent: Percent.isRequired,
+    dialogHeightPercent: CommonShapes.Percent.isRequired,
+    dialogWidthPercent: CommonShapes.Percent.isRequired,
     loadingMessage: PropTypes.node.isRequired,
   }
 

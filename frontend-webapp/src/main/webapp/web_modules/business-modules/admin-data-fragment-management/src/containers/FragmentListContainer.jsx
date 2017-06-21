@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Fragment } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FragmentListComponent from '../components/FragmentListComponent'
 import { fragmentActions, fragmentSelectors } from '../clients/FragmentClient'
@@ -22,7 +22,7 @@ export class FragmentListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    fragmentList: PropTypes.objectOf(Fragment),
+    fragmentList: DataManagementShapes.FragmentList,
     accessToken: PropTypes.string,
     // from mapDispatchToProps
     fetchFragmentList: PropTypes.func,

@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Model } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { modelActions, modelSelectors } from '../clients/ModelClient'
 import ModelListComponent from '../components/ModelListComponent'
 import { authenticationSelectors } from '../clients/AuthenticationClient'
@@ -17,7 +17,7 @@ export class ModelListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    modelList: PropTypes.objectOf(Model),
+    modelList: DataManagementShapes.ModelList,
     accessToken: PropTypes.string,
     // from mapDispatchToProps
     fetchModelList: PropTypes.func,

@@ -6,7 +6,7 @@ import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
-import { Datasource, ModelAttribute } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { ErrorTypes } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -21,7 +21,7 @@ import states from './FormMappingStates'
 export class DatasourceFormMappingComponent extends React.Component {
 
   static propTypes = {
-    currentDatasource: Datasource,
+    currentDatasource: DataManagementShapes.Datasource,
     isEditing: PropTypes.bool,
     isSingleTable: PropTypes.bool,
     handleBack: PropTypes.func.isRequired,
@@ -37,7 +37,7 @@ export class DatasourceFormMappingComponent extends React.Component {
       javaSqlType: PropTypes.string,
       isPrimaryKey: PropTypes.bool,
     })),
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,

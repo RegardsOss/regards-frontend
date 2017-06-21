@@ -9,7 +9,7 @@ import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Download from 'material-ui/svg-icons/file/file-download'
-import { Fragment } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -25,7 +25,7 @@ import { fragmentActions } from '../clients/FragmentClient'
 export class FragmentListComponent extends React.Component {
 
   static propTypes = {
-    fragmentList: PropTypes.objectOf(Fragment),
+    fragmentList: DataManagementShapes.FragmentList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,

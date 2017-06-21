@@ -67,7 +67,6 @@ class ProjectSidebarComponent extends React.Component {
 
     const projectDependencies = [projectActions.getDependency(RequestVerbEnum.GET)]
 
-    console.error('DEP', microserviceDependencies)
     return (
       <Drawer
         open

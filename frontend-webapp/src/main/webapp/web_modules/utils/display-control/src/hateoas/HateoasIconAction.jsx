@@ -27,7 +27,7 @@ class HateoasIconAction extends React.Component {
   render() {
     // Remove from otherProps all props that doesn't need to be reinjected in children
     // eslint-disable-next-line no-unused-vars, react/prop-types
-    const { entityLinks, hateoasKey, alwaysDisplayforInstanceUser, isInstance, theme, i18n, dispatch, ...otherProps } = this.props
+    const { entityLinks, hateoasKey, alwaysDisplayforInstanceUser, isInstance, theme, i18n, dispatch, disableInsteadOfHide, ...otherProps } = this.props
     if ((isInstance && alwaysDisplayforInstanceUser) || (!entityLinks && !hateoasKey) || find(entityLinks, entity => entity.rel === hateoasKey)) {
       return (
         <IconButton
@@ -35,7 +35,7 @@ class HateoasIconAction extends React.Component {
         />
       )
     }
-    if (this.props.disableInsteadOfHide) {
+    if (disableInsteadOfHide) {
       return (
         <IconButton
           disabled

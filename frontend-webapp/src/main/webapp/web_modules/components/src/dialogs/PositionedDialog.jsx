@@ -4,7 +4,7 @@
 import root from 'window-or-global'
 import get from 'lodash/get'
 import Dialog from 'material-ui/Dialog'
-import { Percent } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 
 
 /**
@@ -17,12 +17,12 @@ class PositionedDialog extends React.Component {
   static DEFAULT_MIN_HEIGHT = 320
 
   static propTypes = {
-    dialogWidthPercent: Percent.isRequired,
+    dialogWidthPercent: CommonShapes.Percent.isRequired,
     minWidth: PropTypes.number,
     maxWidth: PropTypes.number,
     minHeight: PropTypes.number,
     maxHeight: PropTypes.number,
-    dialogHeightPercent: Percent.isRequired,
+    dialogHeightPercent: CommonShapes.Percent.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,

@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import CircularProgress from 'material-ui/CircularProgress'
-import { Percent } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import ShowableAtRender from '../cards/ShowableAtRender'
 import PositionedDialog from './PositionedDialog'
 
@@ -13,8 +13,8 @@ class LoadableContentDialogContainer extends React.Component {
 
   static propTypes = {
     loaded: PropTypes.bool.isRequired,
-    dialogHeightPercent: Percent.isRequired,
-    dialogWidthPercent: Percent.isRequired,
+    dialogHeightPercent: CommonShapes.Percent.isRequired,
+    dialogWidthPercent: CommonShapes.Percent.isRequired,
     loadingMessage: PropTypes.node.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),

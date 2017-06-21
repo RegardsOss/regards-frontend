@@ -7,7 +7,7 @@ import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Datasource, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
 import DatasourceFormAttributesContainer from './DatasourceFormAttributesContainer'
@@ -32,8 +32,8 @@ export class DatasourceFormContainer extends React.Component {
       connectionId: PropTypes.string,
     }),
     // from mapStateToProps
-    currentDatasource: Datasource,
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    currentDatasource: DataManagementShapes.Datasource,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
     createDatasource: PropTypes.func,
     updateDatasource: PropTypes.func,

@@ -8,7 +8,7 @@ import map from 'lodash/map'
 import { CardTitle, CardText } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import { ModelAttribute } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -29,7 +29,7 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
       javaSqlType: PropTypes.string,
       isPrimaryKey: PropTypes.bool,
     })),
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
     change: PropTypes.func,
   }
 

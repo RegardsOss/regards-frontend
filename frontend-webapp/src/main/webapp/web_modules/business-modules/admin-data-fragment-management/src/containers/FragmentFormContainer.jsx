@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Fragment } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FragmentFormComponent from '../components/FragmentFormComponent'
 import { fragmentActions, fragmentSelectors } from '../clients/FragmentClient'
@@ -21,7 +21,7 @@ export class FragmentFormContainer extends React.Component {
       fragment_id: PropTypes.string,
     }),
     // from mapStateToProps
-    fragment: Fragment,
+    fragment: DataManagementShapes.Fragment,
     // from mapDispatchToProps
     createFragment: PropTypes.func,
     createFragmentUsingFile: PropTypes.func,

@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { Datasource, Model, Connection, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormAttributesComponent from '../components/DatasourceFormAttributesComponent'
@@ -15,14 +15,14 @@ import { connectionActions, connectionSelectors } from './../clients/ConnectionC
 export class DatasourceFormAttributesContainer extends React.Component {
 
   static propTypes = {
-    currentDatasource: Datasource,
+    currentDatasource: DataManagementShapes.Datasource,
     handleSave: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     currentConnectionId: PropTypes.number.isRequired,
     // from mapStateToProps
-    modelList: PropTypes.objectOf(Model),
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
-    currentConnection: Connection,
+    modelList: DataManagementShapes.ModelList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    currentConnection: DataManagementShapes.Connection,
     // from mapDispatchToProps
     fetchModelList: PropTypes.func,
     fetchConnection: PropTypes.func,

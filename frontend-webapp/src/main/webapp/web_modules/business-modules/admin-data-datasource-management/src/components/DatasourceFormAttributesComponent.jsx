@@ -6,7 +6,7 @@ import keys from 'lodash/keys'
 import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
-import { Datasource, Model, Connection, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -21,12 +21,12 @@ import DatasourceStepperComponent from './DatasourceStepperComponent'
 export class DatasourceFormAttributesComponent extends React.Component {
 
   static propTypes = {
-    currentDatasource: Datasource,
-    currentConnection: Connection,
+    currentDatasource: DataManagementShapes.Datasource,
+    currentConnection: DataManagementShapes.Connection,
+    modelList: DataManagementShapes.ModelList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
-    modelList: PropTypes.objectOf(Model),
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
