@@ -7,6 +7,12 @@ const messages = {
   'invalid.password': 'Le mot de passe ne correspond pas au format attendu (voir ci-dessus)',
   'different.password': 'Les mots de passe spécifiés diffèrent',
   'type.string': 'Le type devrait être String',
+
+  'form.datetimepicker.ok': 'Ok',
+  'form.datetimepicker.cancel': 'Annuler',
+  'form.datetimepicker.date.label': 'Date',
+  'form.datetimepicker.time.label': 'Heure',
+  'form.datetimepicker.clear': 'Reinitialiser',
 }
 
 export default messages

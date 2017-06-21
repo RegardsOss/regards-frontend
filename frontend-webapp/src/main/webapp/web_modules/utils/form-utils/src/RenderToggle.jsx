@@ -8,6 +8,7 @@ class renderToggle extends React.Component {
     input: PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]),
       name: PropTypes.string,
+      onChange: PropTypes.func,
     }),
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     defaultToggled: PropTypes.bool,
