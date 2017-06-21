@@ -170,18 +170,6 @@ class ModuleContainer extends React.Component {
     return query
   }
 
-  getInitialValues = () => {
-    const parameters = this.state.searchQuery.split(/ AND /)
-    const initialValues = {}
-    parameters.forEach((parameter) => {
-      const keys = parameter.match(/([^ :]*):(.*)$/)
-      if (keys && keys.length === 3) {
-        initialValues[keys[1]] = keys[2]
-      }
-    })
-    return initialValues
-  }
-
   /**
    * Add the attributeModels properties to the criterion conf
    * @returns {*}
@@ -215,14 +203,16 @@ class ModuleContainer extends React.Component {
   }
 
   getInitialValues = () => {
-    const parameters = this.state.searchQuery.split(/ AND /)
+    const parameters = this.state.searchQuery.match(/[^ ]*:["\(\[][^"\)\]]*["\)\]]|[^ ]*/g)
     const initialValues = {}
-    parameters.forEach((parameter) => {
-      const keys = parameter.match(/([^ :]*):(.*)$/)
-      if (keys && keys.length === 3) {
-        initialValues[keys[1]] = keys[2]
-      }
-    })
+    if (parameters && parameters.length > 0) {
+      parameters.forEach((parameter) => {
+        const keys = parameter.match(/([^ :]*):(.*)$/)
+        if (keys && keys.length === 3) {
+          initialValues[keys[1]] = keys[2]
+        }
+      })
+    }
     return initialValues
   }
 

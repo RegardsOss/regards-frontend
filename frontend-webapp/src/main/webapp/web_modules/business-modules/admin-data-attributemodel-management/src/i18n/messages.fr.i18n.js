@@ -41,6 +41,8 @@ const messages = Object.assign({
   'attrmodel.form.restriction.PATTERN.pattern': 'Motif',
   'attrmodel.form.restriction.PATTERN.active': 'Activer une restriction par motif (aka Pattern ou Expression régulières)',
 
+  'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Si vous rajoutez un attribut obligatoire à un fragment déjà utilisé par des modèles, cet ajout peut provoquer des erreurs lors des ingestions et des mises à jour futures',
+
   'invalid.min_3_carac': 'Minimum 3 caractères',
   'invalid.max_32_carac': 'Maximum 32 caractères',
   'invalid.only_1_restriction_on_the_same_time': 'Vous ne pouvez activer qu\'une seule restriction à la fois',

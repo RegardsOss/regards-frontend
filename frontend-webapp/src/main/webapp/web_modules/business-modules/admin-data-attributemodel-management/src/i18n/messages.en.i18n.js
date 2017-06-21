@@ -41,6 +41,8 @@ const messages = Object.assign({
   'attrmodel.form.restriction.PATTERN.pattern': 'Pattern',
   'attrmodel.form.restriction.PATTERN.active': 'Activate the pattern restriction',
 
+  'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'If you add a new mandatory attribute to a fragment already used by models, this addition can cause issues during future ingestions and data updates',
+
   'invalid.min_3_carac': 'At least 3 characters',
   'invalid.max_32_carac': 'Max 32 characters',
   'invalid.only_1_restriction_on_the_same_time': 'You can\'t activate more than one restriction',

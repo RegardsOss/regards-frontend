@@ -8,6 +8,7 @@
  */
 const messages = {
   'criterion.search.field.label': 'Champ de recherche ...',
+  'criterion.search.field.word.checkbox.label' : 'Mot entier',
   'criterion.clear': 'Vider',
 }
 

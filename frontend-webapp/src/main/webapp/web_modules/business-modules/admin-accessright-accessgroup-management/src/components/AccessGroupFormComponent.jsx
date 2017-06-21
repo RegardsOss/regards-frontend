@@ -56,7 +56,7 @@ export class AccessGroupFormComponent extends React.Component {
     if (!this.props.isCreating) {
       const { currentAccessGroup } = this.props
       const initialValues = {
-        isPrivate: currentAccessGroup.content.isPrivate,
+        isPublic: currentAccessGroup.content.isPublic,
         name: currentAccessGroup.content.name,
       }
       this.props.initialize(initialValues)
@@ -89,10 +89,10 @@ export class AccessGroupFormComponent extends React.Component {
             <br />
             <br />
             <Field
-              name="isPrivate"
+              name="isPublic"
               fullWidth
               component={RenderCheckbox}
-              label={this.context.intl.formatMessage({ id: 'group.form.private' })}
+              label={this.context.intl.formatMessage({ id: 'group.form.public' })}
             />
           </CardText>
           <CardActions>

@@ -1,9 +1,24 @@
 import { BasicArrayReducers } from '@regardsoss/store-utils'
 import AttributeModelTypeActions from './AttributeModelTypeActions'
+import sortBy from 'lodash/sortBy'
 
 class AttributeModelTypeReducer extends BasicArrayReducers {
   constructor(namespace) {
     super(new AttributeModelTypeActions(namespace))
+  }
+
+  reduce(state, action) {
+    const newState = super.reduce(state, action)
+    switch (action.type) {
+      case this.basicArrayActionInstance.ENTITY_LIST_SUCCESS:
+        // Save sorted items
+        return {
+          ...newState,
+          items: sortBy(action.payload, type => type),
+        }
+      default:
+        return newState
+    }
   }
 }
 
