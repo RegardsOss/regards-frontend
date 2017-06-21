@@ -83,6 +83,11 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
     const { firstField, secondField } = this.state
     const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
 
+    const labelStyle = {
+      margin: '0px 10px',
+      fontSize: '1.3em',
+    }
+
     return (
       <div style={{ display: 'flex' }}>
         <div
@@ -93,9 +98,9 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-          <span style={{ margin: '0px 10px' }}>{this.getAttributeLabel('firstField')} <FormattedMessage
-            id="criterion.aggregator.between"
-          /></span>
+          <span style={labelStyle}>
+            {this.getAttributeLabel('firstField')} <FormattedMessage id="criterion.aggregator.between"/>
+          </span>
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('firstField')}
             value={firstField}
