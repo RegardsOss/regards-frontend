@@ -12,9 +12,6 @@ export default {
         label: 'sipId',
         type: '',
         optional: false,
-        fragment: {
-          name: '',
-        },
       },
     },
   },
@@ -31,9 +28,6 @@ export default {
         label: 'label',
         type: '',
         optional: false,
-        fragment: {
-          name: '',
-        },
       },
     },
   },
@@ -50,9 +44,6 @@ export default {
         label: 'lastUpdate',
         type: '',
         optional: true,
-        fragment: {
-          name: '',
-        },
       },
     },
   },
@@ -69,9 +60,6 @@ export default {
         label: 'thumbnail',
         type: '',
         optional: true,
-        fragment: {
-          name: '',
-        },
       },
     },
   },
@@ -88,9 +76,6 @@ export default {
         label: 'download',
         type: '',
         optional: true,
-        fragment: {
-          name: '',
-        },
       },
     },
   },
@@ -107,9 +92,6 @@ export default {
         label: 'geometry',
         type: '',
         optional: true,
-        fragment: {
-          name: '',
-        },
       },
     },
   },
