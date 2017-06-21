@@ -2,9 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import has from 'lodash/has'
+import map from 'lodash/map'
+import MenuItem from 'material-ui/MenuItem'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, RenderCheckbox, RenderDateTimeField, RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -25,11 +27,19 @@ export class EntitiesAttributeFormComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static styleTableRow = {
+    height: '95px'
+  }
+
   getField = (modelAttribute) => {
     console.log(modelAttribute.content.attribute.type, MODEL_ATTR_TYPES.STRING)
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
-        return this.getFieldTextField(modelAttribute, 'text')
+        if (this.isRestrictedWithEnum(modelAttribute)) {
+          return this.getFieldSelect(modelAttribute)
+        } else {
+          return this.getFieldTextField(modelAttribute, 'text')
+        }
       case MODEL_ATTR_TYPES.DOUBLE:
       case MODEL_ATTR_TYPES.LONG:
       case MODEL_ATTR_TYPES.INTEGER:
@@ -39,6 +49,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       case MODEL_ATTR_TYPES.BOOLEAN:
         return this.getFieldCheckbox(modelAttribute)
       case MODEL_ATTR_TYPES.DATE:
+        return this.getFieldDateTime(modelAttribute)
       case MODEL_ATTR_TYPES.INTEGER_ARRAY:
       case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
       case MODEL_ATTR_TYPES.DATE_ARRAY:
@@ -71,6 +82,31 @@ export class EntitiesAttributeFormComponent extends React.Component {
     />
   )
 
+  getFieldDateTime = modelAttribute => (
+    <Field
+      name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
+      component={RenderDateTimeField}
+    />
+  )
+  getFieldSelect = modelAttribute => (
+    <Field
+      name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
+      fullWidth
+      component={RenderSelectField}
+      validate={this.getRestriction(modelAttribute)}
+      label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
+    >
+      {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
+        <MenuItem
+          value={acceptableValue}
+          key={acceptableValue}
+          primaryText={acceptableValue}
+        />
+      ))
+      }
+    </Field>
+  )
+
   getRestriction = (modelAttribute) => {
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
@@ -86,6 +122,10 @@ export class EntitiesAttributeFormComponent extends React.Component {
         }
         return []
       case MODEL_ATTR_TYPES.URL:
+        if (!modelAttribute.optional) {
+          return [ValidationHelpers.string, ValidationHelpers.required]
+        }
+        return []
       case MODEL_ATTR_TYPES.BOOLEAN:
       case MODEL_ATTR_TYPES.DATE:
       case MODEL_ATTR_TYPES.INTEGER_ARRAY:
@@ -109,9 +149,16 @@ export class EntitiesAttributeFormComponent extends React.Component {
     return null
   }
 
+  isRestrictedWithEnum = (modelAttribute) => {
+    console.log("Is restriction ?", modelAttribute, has(modelAttribute, 'content.attribute.restriction.type'))
+    if (has(modelAttribute, 'content.attribute.restriction.type')) {
+      return modelAttribute.content.attribute.restriction.type === "ENUMERATION"
+    }
+    return false
+  }
+
   render() {
     const { modelAttribute } = this.props
-    console.log(modelAttribute)
     return (
       <TableRow>
         <TableRowColumn
@@ -122,7 +169,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
         </TableRowColumn>
         <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
-        <TableRowColumn>
+        <TableRowColumn style={EntitiesAttributeFormComponent.styleTableRow}>
           <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>
             {this.getField(modelAttribute)}
           </ShowableAtRender>

@@ -6,7 +6,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = {
   // 1 - admin
   'search.graph.results.tab': 'Results',
-  'search.graph.configuration.tab': 'Search',
+  'search.graph.configuration.tab': 'Graph',
   // 1.a - Graph levels
   'search.graph.configuration.levels.title': 'Browsing levels',
   'search.graph.configuration.levels.subtitle': 'Select below the graph browsing levels',

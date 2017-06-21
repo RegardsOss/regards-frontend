@@ -10,7 +10,7 @@ import {
   ErrorTypes,
   reduxForm,
 } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -203,6 +203,11 @@ export class AttributeModelFormComponent extends React.Component {
             title={title}
           />
           <CardText>
+            <ShowableAtRender show={this.state.isCreating}>
+              <HelpMessageComponent
+                message={this.context.intl.formatMessage({ id: 'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used' })}
+              />
+            </ShowableAtRender>
             <ShowableAtRender show={this.state.isCreating}>
               <Field
                 name="name"

@@ -1,6 +1,7 @@
 import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import has from 'lodash/has'
+import isString from 'lodash/isString'
 
 export default class DatasetActions extends BasicPageableActions {
   constructor(namespace) {
@@ -45,12 +46,14 @@ export default class DatasetActions extends BasicPageableActions {
   }
 
   static transformStringToJSon(valueAsString) {
-    try {
-      // eslint-disable-next-line no-param-reassign
-      return JSON.parse(valueAsString)
-    } catch (e) {
-      console.error('Invalid attribute geometry for dataset', e)
+    if (isString(valueAsString)) {
+      try {
+        // eslint-disable-next-line no-param-reassign
+        return JSON.parse(valueAsString)
+      } catch (e) {
+        console.error('Invalid attribute geometry for dataset', e)
+      }
     }
-    return {}
+    return undefined
   }
 }

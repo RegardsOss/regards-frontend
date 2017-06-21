@@ -2,8 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { ProjectUser } from '@regardsoss/model'
-
+import { AdminShapes } from '@regardsoss/shape'
 import WaitingAccessUsersEntitiesActions from '../../src/rs-admin/user/WaitingAccessUsersEntitiesActions'
 import getWaitingAccessUsersEntitiesReducer from '../../src/rs-admin/user/WaitingAccessUsersEntitiesReducer'
 import getWaitingAccessUsersEntitiesSelectors from '../../src/rs-admin/user/WaitingAccessUsersEntitiesSelectors'
@@ -17,7 +16,7 @@ const waitingAccessUsersEntitiesActions = new WaitingAccessUsersEntitiesActions(
 const waitingAccessUsersEntitiesReducer = getWaitingAccessUsersEntitiesReducer('test/action')
 const waitingAccessUsersEntitiesSelectors = getWaitingAccessUsersEntitiesSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesReducer, waitingAccessUsersEntitiesSelectors, PropTypes.objectOf(ProjectUser).isRequired, WaitingAccessUsersEntitiesDump, options)
+const entityTester = new ReduxEntityTester(waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesReducer, waitingAccessUsersEntitiesSelectors, AdminShapes.ProjectUserList.isRequired, WaitingAccessUsersEntitiesDump, options)
 
 describe('[ADMIN CLIENT] Testing client waitingAccessUsersEntities', () => {
   before(() => {

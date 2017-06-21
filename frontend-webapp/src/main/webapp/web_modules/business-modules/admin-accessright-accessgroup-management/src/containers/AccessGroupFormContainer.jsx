@@ -85,7 +85,7 @@ export class AccessGroupFormContainer extends React.Component {
     }
     const newAccessGroup = Object.assign({}, defaultValues, {
       name: values.name,
-      isPrivate: values.isPrivate,
+      isPublic: values.isPublic,
     })
     Promise.resolve(this.props.createAccessGroup(newAccessGroup))
       .then((actionResult) => {
@@ -103,7 +103,7 @@ export class AccessGroupFormContainer extends React.Component {
    */
   handleUpdate = (values) => {
     const updatedAccessGroup = Object.assign({}, this.props.currentAccessGroup.content, {
-      isPrivate: values.isPrivate,
+      isPublic: values.isPublic,
     })
     Promise.resolve(this.props.updateAccessGroup(this.props.currentAccessGroup.content.name, updatedAccessGroup))
       .then((actionResult) => {

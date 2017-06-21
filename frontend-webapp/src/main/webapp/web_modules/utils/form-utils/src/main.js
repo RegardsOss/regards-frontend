@@ -21,6 +21,7 @@ import EnumInputsComponent from './EnumInputs/EnumInputsComponent'
 import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
 import StringComparison from './StringComparison'
 import reduxForm from './reduxForm'
+import RenderDateTimeField from './RenderDateTimeField'
 
 export default {
   RenderTextField,
@@ -30,6 +31,7 @@ export default {
   RenderCheckbox,
   RenderRadio,
   RenderFileField,
+  RenderDateTimeField,
   TextAreaField,
   FormErrorMessage,
   ErrorTypes,
