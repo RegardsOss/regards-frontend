@@ -5,6 +5,14 @@ import navigationContextReducer from './models/navigation/NavigationContextReduc
 import datasetServicesReducer from './models/services/DatasetServicesReducer'
 import { reducer as SearchCatalogReducer } from './clients/SearchEntitiesClient'
 import { AttributeModelReducer, REDUCER_PATH as ATTRIBUTE_MODEL_REDUCER_PATH } from './clients/AttributeModelClient'
+import {
+  AttributeModelReducer as DatasetAttributeModelReducer,
+  REDUCER_PATH as DATASET_ATTRIBUTE_MODEL_REDUCER_PATH,
+} from './clients/DatasetAttributeModelClient'
+import {
+  AttributeModelReducer as DataobjectAttributeModelReducer,
+  REDUCER_PATH as DATAOBJECT_ATTRIBUTE_MODEL_REDUCER_PATH,
+} from './clients/DataobjectAttributeModelClient'
 import { tableReducer } from './clients/TableClient'
 import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './clients/DownloadDescriptionClient'
 import { descriptionLevelReducer } from './models/description/DescriptionLevelModel'
@@ -21,6 +29,8 @@ import UIServiceClient from './clients/UIServiceClient'
  */
 const searchResultsReducers = {
   [ATTRIBUTE_MODEL_REDUCER_PATH]: AttributeModelReducer,
+  [DATASET_ATTRIBUTE_MODEL_REDUCER_PATH]: DatasetAttributeModelReducer,
+  [DATAOBJECT_ATTRIBUTE_MODEL_REDUCER_PATH]: DataobjectAttributeModelReducer,
   searchCatalog: SearchCatalogReducer,
   resultsTable: tableReducer,
   // context

@@ -274,7 +274,7 @@ class TableContainer extends React.Component {
 
     // compute dynamic columns
     if (entities && entities.length) {
-      const entity = this.state.entities[0]
+      const entity = entities[0]
       return map(entity.content, (attr, key) => ({ attributes: [key], label: key }))
     }
     return []

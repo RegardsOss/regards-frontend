@@ -60,6 +60,7 @@ export class ModuleContainer extends React.Component {
         enableFacettes,
         searchQuery,
         attributes,
+        datasetAttributes,
         attributesRegroupements,
         singleDatasetIpId,
         displayDatasets,
@@ -97,6 +98,7 @@ export class ModuleContainer extends React.Component {
             attributesConf={attributes}
             displayDatasets={!!displayDatasets}
             attributesRegroupementsConf={attributesRegroupements}
+            datasetAttributesConf={datasetAttributes}
             attributeModels={attributeModels}
           />
         </div>

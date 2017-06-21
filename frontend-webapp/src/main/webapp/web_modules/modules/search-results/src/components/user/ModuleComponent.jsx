@@ -29,6 +29,7 @@ class ModuleComponent extends React.Component {
     // Attributes configurations for results columns
     attributesConf: PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    datasetAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
     attributeModels: PropTypes.objectOf(AttributeModel),
 
   }
@@ -38,7 +39,7 @@ class ModuleComponent extends React.Component {
   render() {
     const {
       appName, project, searchQuery, enableFacettes, facettesQuery, displayDatasets,
-      attributesConf, attributesRegroupementsConf, attributeModels } = this.props
+      attributesConf, attributesRegroupementsConf, datasetAttributesConf, attributeModels } = this.props
     return (
       <Card>
         <CardTitle title={<NavigationContainer displayDatasets={displayDatasets} />} />
@@ -52,6 +53,7 @@ class ModuleComponent extends React.Component {
             facettesQuery={facettesQuery}
             attributesConf={attributesConf}
             attributesRegroupementsConf={attributesRegroupementsConf}
+            datasetAttributesConf={datasetAttributesConf}
             attributeModels={attributeModels}
           />
         </CardMedia>

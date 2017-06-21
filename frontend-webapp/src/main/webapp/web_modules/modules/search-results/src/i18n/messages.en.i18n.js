@@ -36,6 +36,8 @@ const messages = Object.assign({
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Confirm deletion of attributs regroupement {name}',
   'form.attributes.regroupement.form.title.update': 'Update regroupement : {name}',
+  'form.attribute.conf.selection.tab.label': 'Data objects attributes configuration',
+  'form.attribute.dataset.conf.selection.tab.label': 'Datasets attributes configuration',
 
   // User messages
   'navigation.home.label': 'Catalog',

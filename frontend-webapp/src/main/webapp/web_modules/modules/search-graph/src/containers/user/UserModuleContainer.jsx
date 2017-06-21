@@ -47,7 +47,7 @@ export class UserModuleContainer extends React.Component {
   }
 
   static mapDispatchToProps = dispatch => ({
-    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({pModelType: 'DATASET'})),
+    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
     fetchCollections: (levelIndex, parentEntityId, levelModelName) =>
       dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
     fetchDatasets: (levelIndex, parentEntityId) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentEntityId)),

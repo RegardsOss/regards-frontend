@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { Card } from 'material-ui/Card'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   AttributeModel,
@@ -19,6 +20,7 @@ import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-com
 class SearchResultsConfigurationComponent extends React.Component {
 
   static MODULE_ATTRIBUTES_CONF = 'conf.attributes'
+  static MODULE_DATASET_ATTRIBUTES_CONF = 'conf.datasetAttributes'
   static MODULE_REGROUPEMENTS_CONF = 'conf.attributesRegroupements'
 
   static propTypes = {
@@ -26,18 +28,38 @@ class SearchResultsConfigurationComponent extends React.Component {
     defaultEnableFacettes: PropTypes.bool,
     defaultAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
     defaultAttributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    defaultDatasetAttributes: PropTypes.arrayOf(AttributesRegroupementConfiguration),
     attributesConf: PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    datasetAttributes: PropTypes.arrayOf(AttributesRegroupementConfiguration),
     selectableAttributes: PropTypes.objectOf(AttributeModel),
+    datasetSelectableAttributes: PropTypes.objectOf(AttributeModel),
     hideDatasetsConfiguration: PropTypes.bool.isRequired,
     changeField: PropTypes.func.isRequired,
+    displayDataset: PropTypes.bool,
   }
   static contextTypes = {
     ...i18nContextType,
   }
 
+  renderAttributesConfiguration = () => {
+    if (!this.props.displayDataset) {
+      return this.renderObjectsAttributesConfiguration()
+    }
 
-  renderAttributesConfiguration = () => (
+    return (
+      <Tabs>
+        <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.conf.selection.tab.label' })}>
+          {this.renderObjectsAttributesConfiguration()}
+        </Tab>
+        <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.dataset.conf.selection.tab.label' })}>
+          {this.renderDatasetsAttributesConfiguration()}
+        </Tab>
+      </Tabs>
+    )
+  }
+
+  renderObjectsAttributesConfiguration = () => (
     <MainAttributesConfigurationComponent
       allowFacettes
       allowAttributesRegroupements
@@ -48,6 +70,18 @@ class SearchResultsConfigurationComponent extends React.Component {
       defaultAttributesConf={this.props.defaultAttributesConf}
       defaultAttributesRegroupementsConf={this.props.defaultAttributesRegroupementsConf}
       selectableAttributes={this.props.selectableAttributes}
+      changeField={this.props.changeField}
+    />
+  )
+
+  renderDatasetsAttributesConfiguration = () => (
+    <MainAttributesConfigurationComponent
+      allowFacettes={false}
+      allowAttributesRegroupements={false}
+      attributesFieldName={SearchResultsConfigurationComponent.MODULE_DATASET_ATTRIBUTES_CONF}
+      attributesConf={this.props.datasetAttributes}
+      defaultAttributesConf={this.props.defaultDatasetAttributes}
+      selectableAttributes={this.props.datasetSelectableAttributes}
       changeField={this.props.changeField}
     />
   )
@@ -75,6 +109,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           checked={this.props.defaultEnableFacettes}
           label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
         />
+
         {this.renderAttributesConfiguration()}
       </Card>
     )

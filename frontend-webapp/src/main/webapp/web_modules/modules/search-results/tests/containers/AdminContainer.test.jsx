@@ -28,10 +28,15 @@ describe('[Search Results] Testing AdminContainer', () => {
       moduleConf: {},
       attributeModels: {},
       fetchAllModelsAttributes: () => { },
+      fetchAllDatasetModelsAttributes: () => { },
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SearchResultsConfigurationComponent), 0, 'While loading the component should not be rendered')
-    enzymeWrapper.instance().setState({ attributesFetching: false })
+    enzymeWrapper.instance().setState(
+      {
+        attributesFetching: false,
+        datasetAttributesFetching: false,
+      })
     assert.lengthOf(enzymeWrapper.find(SearchResultsConfigurationComponent), 1, 'After loading, the corresponding component should be rendered')
   })
 })

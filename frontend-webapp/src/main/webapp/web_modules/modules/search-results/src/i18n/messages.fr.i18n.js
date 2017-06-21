@@ -34,6 +34,8 @@ const messages = Object.assign({
   'form.attributes.regroupement.edit': 'Editer',
   'form.attributes.delete.confirm.title': 'Confirmer la suppression du regroupement {name}',
   'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
+  'form.attribute.conf.selection.tab.label': 'Attributs des objets',
+  'form.attribute.dataset.conf.selection.tab.label': 'Attributs des jeux',
 
   // User messages
   'navigation.home.label': 'Catalogue',

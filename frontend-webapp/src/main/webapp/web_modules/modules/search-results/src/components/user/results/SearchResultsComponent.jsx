@@ -77,6 +77,8 @@ class SearchResultsComponent extends React.Component {
     attributesConf: PropTypes.arrayOf(AttributeConfiguration),
     // eslint-disable-next-line react/no-unused-prop-types
     attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    // eslint-disable-next-line react/no-unused-prop-types
+    datasetAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
     attributeModels: PropTypes.objectOf(AttributeModel),
 
     // control
@@ -122,12 +124,12 @@ class SearchResultsComponent extends React.Component {
    * @param attributesRegroupementsConf: results table attributes regroupement columns configuration
    * @param attributeModels: fetched attribute models (to retrieve attributes)
    */
-  buildTableColumns = (attributesConf, attributeModels, attributesRegroupementsConf, sortingOn) =>
+  buildTableColumns = (attributesConf, attributeModels, attributesRegroupementsConf, sortingOn, enableSorting) =>
     sortBy([
-      ...this.buildAttributesColumns(attributesConf, attributeModels, sortingOn),
+      ...this.buildAttributesColumns(attributesConf, attributeModels, sortingOn, enableSorting),
       ...this.buildAttrRegroupementColumns(attributesRegroupementsConf, attributeModels)], a => a.order ? a.order : 1000)
 
-  buildAttributesColumns = (attributesConf, attributeModels, sortingOn) =>
+  buildAttributesColumns = (attributesConf, attributeModels, sortingOn, enableSorting) =>
     reduce(attributesConf, (allColumns, attributeConf) => {
       // map to attributes models then to column
       if (attributeConf.visibility) {
@@ -153,7 +155,7 @@ class SearchResultsComponent extends React.Component {
           return [...allColumns, {
             label: attribute.content.label,
             attributes: [fullyQualifiedAttributePathInEntity],
-            sortable: !isSpecialAttr,
+            sortable: !isSpecialAttr && enableSorting,
             hideLabel: isSpecialAttr,
             fixed: isSpecialAttr ? 50 : undefined,
             customCell: customCell ? {
@@ -209,7 +211,7 @@ class SearchResultsComponent extends React.Component {
         attributes: attributeModels,
         styles: this.context.moduleTheme.user.listViewStyles,
         onSearchTag: onSelectSearchTag,
-        tableColumns: showingDataobjects ? tableColumns : undefined,
+        tableColumns,
         displayCheckbox: showingDataobjects && this.props.displaySelectCheckboxes,
       },
     },
@@ -225,11 +227,17 @@ class SearchResultsComponent extends React.Component {
     const oldState = this.state
     const newState = oldState || {}
 
-    // table columns
-    newState.tableColumns = this.buildTableColumns(newProperties.attributesConf, newProperties.attributeModels, newProperties.attributesRegroupementsConf, newProperties.sortingOn)
-
-    // list columns
-    newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)
+    if (newProperties.showingDataobjects) {
+      // table columns
+      newState.tableColumns = this.buildTableColumns(newProperties.attributesConf, newProperties.attributeModels, newProperties.attributesRegroupementsConf, newProperties.sortingOn, true)
+      // list columns
+      newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)
+    } else {
+      // table columns
+      newState.tableColumns = this.buildTableColumns(newProperties.datasetAttributesConf, newProperties.attributeModels, [], [], false)
+      // list columns
+      newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)
+    }
 
     // update state when changed
     if (!isEqual(oldState, newState)) {
@@ -321,7 +329,7 @@ class SearchResultsComponent extends React.Component {
    * Returns options for results table
    */
   renderTableRightSideOptions = () => {
-    const { showingDataobjects, onShowTableView, onShowListView } = this.props
+    const { onShowTableView, onShowListView } = this.props
     const { intl: { formatMessage } } = this.context
 
     const iconListStyle = { width: 33, height: 33 }
@@ -349,7 +357,6 @@ class SearchResultsComponent extends React.Component {
         />}
         secondary={this.isInTableView()}
         style={buttonStyle}
-        disabled={!showingDataobjects}
         title={formatMessage({ id: 'view.type.table.button.label' })}
       />,
     ]
@@ -422,13 +429,13 @@ class SearchResultsComponent extends React.Component {
     let displayColumnsHeader
     let displayCheckbox
     let showParameters
-    if (this.isInTableView() && showingDataobjects) {
+    if (this.isInTableView()) {
       columns = tableColumns
       lineHeight = 50
       cellsStyle = null
       displayColumnsHeader = true
       showParameters = true
-      displayCheckbox = displaySelectCheckboxes
+      displayCheckbox = showingDataobjects && displaySelectCheckboxes
     } else {
       columns = listColumns
       lineHeight = 160

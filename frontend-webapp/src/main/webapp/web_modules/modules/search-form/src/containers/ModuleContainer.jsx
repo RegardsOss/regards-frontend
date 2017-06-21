@@ -332,6 +332,7 @@ class ModuleContainer extends React.Component {
           resultType: this.props.moduleConf.resultType,
           attributes: this.props.moduleConf.attributes,
           attributesRegroupements: this.props.moduleConf.attributesRegroupements,
+          datasetAttributes: this.props.moduleConf.datasetAttributes,
           selectableAttributes: this.props.attributeModels,
           enableFacettes: this.props.moduleConf.enableFacettes,
           displayDatasets: this.props.moduleConf.displayDatasets,

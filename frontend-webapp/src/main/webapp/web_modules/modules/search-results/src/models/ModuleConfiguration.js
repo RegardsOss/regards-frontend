@@ -13,6 +13,8 @@ const Form = PropTypes.shape({
   attributes: PropTypes.arrayOf(AttributeConfiguration),
   // Search form attributes regroupements configuration
   attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+  // Search results dataset attributes configuration
+  datasetAttributes: PropTypes.arrayOf(AttributeConfiguration),
   // Special configuration given if the module is not load as a independent module
   selectableAttributes: PropTypes.objectOf(AttributeModel),
   // should enable facettes?

@@ -21,6 +21,8 @@ const ModuleConfiguration = PropTypes.shape({
     attributes: PropTypes.arrayOf(AttributeConfiguration),
     // Search form attributes regroupements configuration
     attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    // Search results dataset attributes configuration
+    datasetAttributes: PropTypes.arrayOf(AttributeConfiguration),
     // Does search form render for preview or for full use
     preview: PropTypes.bool,
     // should enable facettes?

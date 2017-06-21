@@ -72,6 +72,7 @@ export class SearchResultsContainer extends React.Component {
     // Attributes configurations for results columns
     attributesConf: PropTypes.arrayOf(AttributeConfiguration),
     attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    datasetAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
     attributeModels: PropTypes.objectOf(AttributeModel),
 
     // From map state to props
@@ -254,7 +255,7 @@ export class SearchResultsContainer extends React.Component {
       appName, project, enableFacettes, attributesConf,
       attributesRegroupementsConf, attributeModels, viewObjectType,
       facettesQuery, datasetServices, selectedDataobjectsServices, displayDatasets,
-      dispatchDatasetSelected, dispatchTagSelected, displayMode,
+      dispatchDatasetSelected, dispatchTagSelected, displayMode, datasetAttributesConf,
     } = this.props
     const { showingFacettes, filters, searchTag, searchQuery, emptySelection, sortingOn } = this.state
 
@@ -278,7 +279,7 @@ export class SearchResultsContainer extends React.Component {
         allowingFacettes={enableFacettes && !!facettesQuery}
 
         showingDataobjects={showingDataobjects}
-        viewMode={showingDataobjects ? displayMode : DisplayModeEnum.LIST}
+        viewMode={displayMode || DisplayModeEnum.LIST}
         showingFacettes={showingFacettes}
         displayDatasets={displayDatasets}
         sortingOn={sortingOn}
@@ -288,6 +289,7 @@ export class SearchResultsContainer extends React.Component {
 
         attributesConf={attributesConf}
         attributesRegroupementsConf={attributesRegroupementsConf}
+        datasetAttributesConf={datasetAttributesConf}
         attributeModels={attributeModels}
 
         resultPageActions={searchActions}
