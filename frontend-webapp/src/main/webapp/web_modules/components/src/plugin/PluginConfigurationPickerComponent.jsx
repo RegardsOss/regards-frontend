@@ -15,7 +15,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginMetaDataList, PluginConfiguration } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import ShowableAtRender from '../cards/ShowableAtRender'
 
 class PluginConfigurationPickerComponent extends React.Component {
@@ -23,9 +23,9 @@ class PluginConfigurationPickerComponent extends React.Component {
   static propTypes = {
     // Callback provided by redux-form in order to manually change a field value
     onChange: PropTypes.func,
-    currentPluginConfiguration: PluginConfiguration,
-    pluginMetaDataList: PluginMetaDataList,
-    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
+    currentPluginConfiguration: CommonShapes.PluginConfiguration,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    pluginConfigurationList: CommonShapes.PluginConfiguration,
   }
 
   static contextTypes = {

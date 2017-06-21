@@ -2,8 +2,8 @@
 * LICENSE_PLACEHOLDER
 **/
 import { EntityDescriptionContainer } from '@regardsoss/entities-common'
-import downloadDescriptionClient from '../../model/clients/DownloadDescriptionClient'
-import { ModelAttributesActions, ModelAttributesSelectors } from '../../model/clients/ModelAttributeClient'
+import downloadDescriptionClient from '../../clients/DownloadDescriptionClient'
+import { ModelAttributesActions, ModelAttributesSelectors } from '../../clients/ModelAttributeClient'
 import { descriptionLevelActions, descriptionLevelSelectors } from '../../model/description/DescriptionLevelModel'
 
 /**

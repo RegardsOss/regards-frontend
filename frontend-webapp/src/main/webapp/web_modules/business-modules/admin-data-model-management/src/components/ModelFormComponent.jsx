@@ -2,7 +2,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderFileField, Field, RenderSelectField, reduxForm, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
-import { Model } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -13,7 +13,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class ModelFormComponent extends React.Component {
 
   static propTypes = {
-    currentModel: Model,
+    currentModel: DataManagementShapes.Model,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isCreating: PropTypes.bool.isRequired,

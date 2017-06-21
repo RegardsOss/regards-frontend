@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { URL } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 
 /**
  * Shows content of any accepted browser type within an iFrame (required for PDF/ HTML, ...), contained in a dialog
@@ -10,7 +10,7 @@ import { URL } from '@regardsoss/model'
 class IFrameURLContentDisplayer extends React.Component {
 
   static propTypes = {
-    contentURL: URL.isRequired,
+    contentURL: CommonShapes.URL.isRequired,
     onContentLoaded: PropTypes.func, // callback, called when IFrame content was loaded
     // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.object,

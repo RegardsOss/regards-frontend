@@ -11,7 +11,7 @@ import Download from 'material-ui/svg-icons/file/file-download'
 import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Model } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { HateoasIconAction, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { modelActions } from '../clients/ModelClient'
@@ -23,7 +23,7 @@ import { modelAttributesActions } from '../clients/ModelAttributesClient'
 export class ProjectListComponent extends React.Component {
 
   static propTypes = {
-    modelList: PropTypes.objectOf(Model),
+    modelList: DataManagementShapes.ModelList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleBindAttributes: PropTypes.func.isRequired,

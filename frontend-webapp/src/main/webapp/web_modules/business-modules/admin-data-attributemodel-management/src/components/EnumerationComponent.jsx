@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
-import { AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import get from 'lodash/get'
 import forEach from 'lodash/forEach'
@@ -18,7 +18,7 @@ import FlatButton from 'material-ui/FlatButton'
 export class EnumerationComponent extends React.Component {
 
   static propTypes = {
-    currentAttrModel: AttributeModel,
+    currentAttrModel: DataManagementShapes.AttributeModel,
     // redux form
     change: PropTypes.func.isRequired,
   }

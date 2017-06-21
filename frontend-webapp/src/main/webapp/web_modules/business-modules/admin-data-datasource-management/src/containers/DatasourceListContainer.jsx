@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Datasource } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceActions, datasourceSelectors } from '../clients/DatasourceClient'
 import DatasourceListComponent from '../components/DatasourceListComponent'
@@ -20,7 +20,7 @@ export class DatasourceListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    datasourceList: PropTypes.objectOf(Datasource),
+    datasourceList: DataManagementShapes.DatasourceList,
     isFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchDatasourceList: PropTypes.func,

@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import map from 'lodash/map'
-import { Connection } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -20,7 +20,7 @@ import DatasourceStepperComponent from './DatasourceStepperComponent'
 export class DatasourceCreateOrPickConnectionComponent extends React.Component {
 
   static propTypes = {
-    connectionList: PropTypes.objectOf(Connection),
+    connectionList: DataManagementShapes.ConnectionList,
     createConnectionUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
     handleDone: PropTypes.func.isRequired,

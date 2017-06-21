@@ -1,7 +1,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Model } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { modelActions, modelSelectors } from '../clients/ModelClient'
 import ModelFormComponent from '../components/ModelFormComponent'
@@ -15,7 +15,7 @@ export class ProjectFormContainer extends React.Component {
       mode: PropTypes.string,
     }),
     // from mapStateToProps
-    model: Model,
+    model: DataManagementShapes.Model,
     // from mapDispatchToProps
     createModel: PropTypes.func,
     fetchModel: PropTypes.func,

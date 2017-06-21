@@ -3,7 +3,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { Connection } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { connectionSelectors, connectionActions } from './../clients/ConnectionClient'
@@ -21,7 +21,7 @@ export class DatasourceCreateOrPickConnectionContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    connectionList: PropTypes.objectOf(Connection),
+    connectionList: DataManagementShapes.ConnectionList,
     // from mapDispatchToProps
     fetchConnectionList: PropTypes.func,
   }

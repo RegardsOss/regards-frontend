@@ -6,7 +6,7 @@ import fpsortBy from 'lodash/fp/sortBy'
 import fpmap from 'lodash/fp/map'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import { ModelAttribute } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderSelectField, Field } from '@regardsoss/form-utils'
 import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -24,7 +24,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
       javaSqlType: PropTypes.string,
       isPrimaryKey: PropTypes.bool,
     })),
-    modelAttribute: ModelAttribute,
+    modelAttribute: DataManagementShapes.ModelAttribute,
     isStaticAttribute: PropTypes.bool,
     onlyAdvancedConfiguration: PropTypes.bool,
     isEditingSQL: PropTypes.bool,

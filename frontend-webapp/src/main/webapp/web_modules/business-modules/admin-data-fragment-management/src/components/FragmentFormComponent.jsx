@@ -6,7 +6,7 @@ import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, RenderFileField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { Fragment } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 
@@ -18,7 +18,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class FragmentFormComponent extends React.Component {
 
   static propTypes = {
-    currentFragment: Fragment,
+    currentFragment: DataManagementShapes.Fragment,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isCreating: PropTypes.bool.isRequired,

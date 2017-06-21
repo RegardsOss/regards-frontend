@@ -13,6 +13,10 @@ import AttributeModelActions from './attributesModel/AttributeModelActions'
 import AttributeModelReducer from './attributesModel/AttributeModelReducer'
 import AttributeModelSelectors from './attributesModel/AttributeModelSelectors'
 
+import AttributeModelForModelTypeActions from './attributesModel/AttributeModelForModelTypeActions'
+import AttributeModelForModelTypeReducer from './attributesModel/AttributeModelForModelTypeReducer'
+import AttributeModelForModelTypeSelectors from './attributesModel/AttributeModelForModelTypeSelectors'
+
 import DownloadDescriptionDefinitions from './description/DownloadDescriptionDefinitions'
 import DownloadEntityDescriptionActions from './description/DownloadEntityDescriptionActions'
 import DownloadEntityDescriptionReducer from './description/DownloadEntityDescriptionReducer'
@@ -107,6 +111,10 @@ export default {
   AttributeModelActions,
   AttributeModelReducer,
   AttributeModelSelectors,
+
+  AttributeModelForModelTypeActions,
+  AttributeModelForModelTypeReducer,
+  AttributeModelForModelTypeSelectors,
 
   AttributeModelRestrictionSelectors,
   AttributeModelRestrictionActions,

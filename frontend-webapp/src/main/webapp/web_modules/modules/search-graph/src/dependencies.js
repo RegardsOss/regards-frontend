@@ -4,7 +4,7 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { dependencies as resultsDependencies } from '@regardsoss-modules/search-results'
 import CollectionModelActions from './model/CollectionModelActions'
-import { AttributeModelActions } from './model/clients/AttributeModelClient'
+import { AttributeModelActions } from './clients/AttributeModelClient'
 
 /**
  * Module hateoas depencies

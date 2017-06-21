@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { Datasource, ModelAttribute, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
@@ -17,7 +17,7 @@ import { connectionTableAttributesActions, connectionTableAttributesSelectors } 
 export class DatasourceFormMappingContainer extends React.Component {
 
   static propTypes = {
-    currentDatasource: Datasource,
+    currentDatasource: DataManagementShapes.Datasource,
     isEditing: PropTypes.bool,
     isCreating: PropTypes.bool,
     handleSave: PropTypes.func,
@@ -33,8 +33,8 @@ export class DatasourceFormMappingContainer extends React.Component {
       javaSqlType: PropTypes.string,
       isPrimaryKey: PropTypes.bool,
     }),
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
-    currentPluginMetaData: PluginMetaData,
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
+    currentPluginMetaData: CommonShapes.PluginMetaData,
     // from mapDispatchToProps
     fetchTable: PropTypes.func,
     fetchTableAttributes: PropTypes.func,

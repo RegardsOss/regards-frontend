@@ -1,12 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
 
 class AttributeModelComponent extends React.Component {
   static propTypes = {
-    attribute: AttributeModel,
+    attribute: DataManagementShapes.AttributeModel,
   }
 
   render() {
