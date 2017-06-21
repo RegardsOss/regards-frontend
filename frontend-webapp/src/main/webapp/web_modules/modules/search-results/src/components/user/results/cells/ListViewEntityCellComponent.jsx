@@ -43,8 +43,8 @@ class ListViewEntityCellComponent extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     styles: PropTypes.object,
     // Display checbox for entities selection ?
-    // eslint-disable-next-line react/no-unused-prop-types
     displayCheckbox: PropTypes.bool,
+    descriptionTooltip: PropTypes.string.isRequired,
     // callback: on entity selection (or null when not clickable)
     onEntitySelection: PropTypes.func,
     // callback: on show description
@@ -218,10 +218,12 @@ class ListViewEntityCellComponent extends React.Component {
         >{this.props.entity.content.label}</span>
         <div style={downloadStyle}>
           {this.displayDownload()}
-          <InfoIcon
-            onTouchTap={this.props.onShowDescription}
-            style={infoIconStyle}
-          />
+          <div title={this.props.descriptionTooltip}>
+            <InfoIcon
+              onTouchTap={this.props.onShowDescription}
+              style={infoIconStyle}
+            />
+          </div>
         </div>
       </div>
     )

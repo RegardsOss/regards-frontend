@@ -27,7 +27,7 @@ describe('[Search Results] Testing AdminContainer', () => {
       },
       moduleConf: {},
       attributeModels: {},
-      fetchAllModelsAttributes: () => { },
+      fetchAllDataobjectsAttributes: () => { },
       fetchAllDatasetModelsAttributes: () => { },
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })

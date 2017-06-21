@@ -91,10 +91,7 @@ class TablePane extends React.Component {
    * Called when component is resized, to force the inner table implementation at same width
   */
   onComponentResized = ({ width }) => {
-    // avoid handling event if same width...
-    if ((this.state.tableWidth > width + 20) || (this.state.tableWidth < width - 20)) {
-      this.setState({ tableWidth: width })
-    }
+    this.setState({ tableWidth: width })
   }
 
   /**

@@ -48,6 +48,8 @@ const messages = Object.assign({
   'list.sort.none.label': 'None',
   'view.type.table.button.label': 'Display results with table format',
   'view.type.list.button.label': 'Display results with list format',
+  'show.description.tooltip': 'View entity details',
+
 }, Locales.en)
 
 export default messages

@@ -12,6 +12,7 @@ import {
 import { ShowableAtRender, Title } from '@regardsoss/components'
 import { Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Display form to configure main parameters of search form.
@@ -40,6 +41,7 @@ class SearchResultsConfigurationComponent extends React.Component {
   }
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   renderAttributesConfiguration = () => {
@@ -87,29 +89,31 @@ class SearchResultsConfigurationComponent extends React.Component {
   )
 
   render() {
+    const { topOptions } = this.context.moduleTheme.configuration
     return (
       <Card>
         <Title
           level={3}
           label={this.context.intl.formatMessage({ id: 'form.configuration.tab.title' })}
         />
-        { /* Show result type choice only if the datasets results are not hidden */}
-        <ShowableAtRender show={!this.props.hideDatasetsConfiguration}>
+        <div style={topOptions.styles}>
+          { /* Show result type choice only if the datasets results are not hidden */}
+          <ShowableAtRender show={!this.props.hideDatasetsConfiguration}>
+            <Field
+              name="conf.displayDatasets"
+              component={RenderCheckbox}
+              checked={this.props.defaultDisplayDatasets}
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.type.datasets' })}
+            />
+
+          </ShowableAtRender>
           <Field
-            name="conf.displayDatasets"
+            name="conf.enableFacettes"
             component={RenderCheckbox}
-            checked={this.props.defaultDisplayDatasets}
-            label={this.context.intl.formatMessage({ id: 'form.configuration.result.type.datasets' })}
+            checked={this.props.defaultEnableFacettes}
+            label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
           />
-
-        </ShowableAtRender>
-        <Field
-          name="conf.enableFacettes"
-          component={RenderCheckbox}
-          checked={this.props.defaultEnableFacettes}
-          label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
-        />
-
+        </div>
         {this.renderAttributesConfiguration()}
       </Card>
     )

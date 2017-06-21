@@ -7,6 +7,13 @@
  * @author Sébastien binda
  */
 const formStyles = theme => ({
+  configuration: {
+    topOptions: {
+      styles: {
+        padding: '0 0 15px 15px',
+      },
+    },
+  },
   criteria: {
     label: {
       marginRight: 20,
@@ -24,6 +31,17 @@ const formStyles = theme => ({
     },
     formHeader: {
       backgroundColor: theme.palette.primary2Color,
+    },
+    optionsStyles: {
+      buttonStyles: {
+        width: 24,
+        height: 24,
+        padding: 0,
+      },
+      iconStyles: {
+        width: 24,
+        height: 24,
+      },
     },
     listViewStyles: {
       cell: {

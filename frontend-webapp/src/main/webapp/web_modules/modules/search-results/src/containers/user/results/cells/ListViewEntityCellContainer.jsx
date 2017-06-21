@@ -7,13 +7,13 @@ import {
   AttributeModel,
 } from '@regardsoss/model'
 import { TableColumnConfiguration } from '@regardsoss/components'
-import { descriptionLevelActions } from '../../../models/description/DescriptionLevelModel'
-import ListViewEntityCellComponent from '../../../components/user/results/ListViewEntityCellComponent'
+import { descriptionLevelActions } from '../../../../models/description/DescriptionLevelModel'
+import ListViewEntityCellComponent from '../../../../components/user/results/cells/ListViewEntityCellComponent'
 
 /**
 * Container for list view entity cell
 */
-class ListViewEntityCellContainer extends React.Component {
+export class ListViewEntityCellContainer extends React.Component {
 
   static mapDispatchToProps(dispatch) {
     return {
@@ -26,7 +26,6 @@ class ListViewEntityCellContainer extends React.Component {
     // Entity to display
     entity: CatalogEntity.isRequired,
     attributes: PropTypes.objectOf(AttributeModel),
-    // eslint-disable-next-line react/no-unused-prop-types
     lineHeight: PropTypes.number.isRequired,
     // Parameters to handle row selection
     isTableSelected: PropTypes.bool,
@@ -43,6 +42,8 @@ class ListViewEntityCellContainer extends React.Component {
     styles: PropTypes.object,
     // Display checbox for entities selection ?
     displayCheckBoxes: PropTypes.bool,
+    // description tooltip, externally provided as the i18n context changed at render time
+    descriptionTooltip: PropTypes.string.isRequired,
 
     // from map dispatch to props
     dispatchShowDescription: PropTypes.func.isRequired,
@@ -67,7 +68,7 @@ class ListViewEntityCellContainer extends React.Component {
 
   render() {
     const { entity, attributes, lineHeight, isTableSelected, selectTableEntityCallback,
-      tableColumns, onSearchTag, onClick, styles, displayCheckBoxes } = this.props
+      tableColumns, onSearchTag, onClick, styles, displayCheckBoxes, descriptionTooltip } = this.props
     return (
       <ListViewEntityCellComponent
         entity={entity}
@@ -79,6 +80,7 @@ class ListViewEntityCellContainer extends React.Component {
         onSearchTag={onSearchTag}
         styles={styles}
         displayCheckBoxes={displayCheckBoxes}
+        descriptionTooltip={descriptionTooltip}
         onEntitySelection={onClick ? this.onEntitySelection : null}
         onShowDescription={this.onShowDescription}
       />

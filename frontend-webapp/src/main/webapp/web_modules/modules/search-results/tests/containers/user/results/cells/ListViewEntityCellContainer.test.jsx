@@ -5,17 +5,17 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CatalogEntityTypes } from '@regardsoss/model'
-import ListViewEntityCellComponent from '../../../../src/components/user/results/ListViewEntityCellComponent'
-import styles from '../../../../src/styles/styles'
+import { ListViewEntityCellContainer } from '../../../../../src/containers/user/results/cells/ListViewEntityCellContainer'
+import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Results] Testing ListViewEntityCellComponent', () => {
+describe('[Search Results] Testing ListViewEntityCellContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ListViewEntityCellComponent)
+    assert.isDefined(ListViewEntityCellContainer)
   })
   it('should render properly', () => {
     const props = {
@@ -32,6 +32,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           tags: [],
         },
       },
+
       attributes: {},
       lineHeight: 20,
       isTableSelected: false,
@@ -41,8 +42,9 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       onClick: () => { },
       styles: context.moduleTheme.user.listViewStyles,
       displayCheckBoxes: true,
-      onShowDescription: () => { },
+      descriptionTooltip: 'hello',
+      dispatchShowDescription: () => { },
     }
-    shallow(<ListViewEntityCellComponent {...props} />, { context })
+    shallow(<ListViewEntityCellContainer {...props} />, { context })
   })
 })

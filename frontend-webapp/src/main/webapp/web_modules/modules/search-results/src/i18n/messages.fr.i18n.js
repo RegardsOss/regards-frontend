@@ -46,6 +46,8 @@ const messages = Object.assign({
   'list.sort.none.label': 'Aucun',
   'view.type.table.button.label': 'Afficher les résultats dans un tableau',
   'view.type.list.button.label': 'Afficher les résultats en liste',
+  'show.description.tooltip': 'Détail de l\'entité',
+
 }, Locales.fr)
 
 export default messages

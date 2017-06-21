@@ -29,7 +29,8 @@ import { getTypeRender } from '@regardsoss/attributes-common'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
 import Service from '../../../definitions/service/Service'
-import ListViewEntityCellContainer from '../../../containers/user/results/ListViewEntityCellContainer'
+import ListViewEntityCellContainer from '../../../containers/user/results/cells/ListViewEntityCellContainer'
+import TableViewOptionsCellContainer from '../../../containers/user/results/cells/TableViewOptionsCellContainer'
 import TableSortFilterComponent from './options/TableSortFilterComponent'
 import TableSelectAllContainer from '../../../containers/user/results/options/TableSelectAllContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
@@ -106,6 +107,9 @@ class SearchResultsComponent extends React.Component {
     ...themeContextType,
   }
 
+  /** Preferred fixed column width */
+  static PREF_FIXED_COLUMN_WIDTH = 50
+
   componentWillMount = () => this.updateState({}, this.props)
 
   componentWillReceiveProps = nextProps => this.updateState(this.props, nextProps)
@@ -117,7 +121,6 @@ class SearchResultsComponent extends React.Component {
     this.props.onSortChanged(column ? column.attributes[0] : null, type, clear)
   }
 
-
   /**
    * Builds table columns
    * @param attributesConf : results table attributes columns configuration
@@ -127,7 +130,26 @@ class SearchResultsComponent extends React.Component {
   buildTableColumns = (attributesConf, attributeModels, attributesRegroupementsConf, sortingOn, enableSorting) =>
     sortBy([
       ...this.buildAttributesColumns(attributesConf, attributeModels, sortingOn, enableSorting),
-      ...this.buildAttrRegroupementColumns(attributesRegroupementsConf, attributeModels)], a => a.order ? a.order : 1000)
+      ...this.buildAttrRegroupementColumns(attributesRegroupementsConf, attributeModels),
+      this.buildTableOptionsColumn()], a => a.order ? a.order : 1000)
+
+  /** @return table column to show table options (description button) */
+  buildTableOptionsColumn = () => ({
+    label: 'TableViewOptionsCell',
+    attributes: [],
+    order: Number.MAX_VALUE,
+    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH,
+    sortable: false,
+    hideLabel: true,
+    // order: number.
+    customCell: {
+      component: TableViewOptionsCellContainer,
+      props: {
+        tooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
+        styles: this.context.moduleTheme.user.optionsStyles,
+      },
+    },
+  })
 
   buildAttributesColumns = (attributesConf, attributeModels, sortingOn, enableSorting) =>
     reduce(attributesConf, (allColumns, attributeConf) => {
@@ -157,7 +179,7 @@ class SearchResultsComponent extends React.Component {
             attributes: [fullyQualifiedAttributePathInEntity],
             sortable: !isSpecialAttr && enableSorting,
             hideLabel: isSpecialAttr,
-            fixed: isSpecialAttr ? 50 : undefined,
+            fixed: isSpecialAttr ? SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH : undefined,
             customCell: customCell ? {
               component: customCell,
               props: {},
@@ -213,6 +235,7 @@ class SearchResultsComponent extends React.Component {
         onSearchTag: onSelectSearchTag,
         tableColumns,
         displayCheckbox: showingDataobjects && this.props.displaySelectCheckboxes,
+        descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
       },
     },
   }]
