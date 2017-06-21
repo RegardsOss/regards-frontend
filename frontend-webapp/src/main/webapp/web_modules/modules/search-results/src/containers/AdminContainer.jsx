@@ -38,7 +38,7 @@ export class AdminContainer extends React.Component {
     // Set by mapStateToProps and mapDispatchToProps
     attributeModels: PropTypes.objectOf(AttributeModel),
     datasetAttributeModels: PropTypes.objectOf(AttributeModel),
-    fetchAllModelsAttributes: PropTypes.func,
+    fetchAllDataobjectsAttributes: PropTypes.func,
     fetchAllDatasetModelsAttributes: PropTypes.func,
   }
 
@@ -52,7 +52,7 @@ export class AdminContainer extends React.Component {
 
   componentWillMount() {
     if (this.state.attributesFetching) {
-      Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
+      Promise.resolve(this.props.fetchAllDataobjectsAttributes()).then(() => this.setState({ attributesFetching: false }))
     }
     Promise.resolve(this.props.fetchAllDatasetModelsAttributes()).then(() => this.setState({ datasetAttributesFetching: false }))
   }
@@ -61,12 +61,12 @@ export class AdminContainer extends React.Component {
     const {
       moduleConf: {
         displayDatasets,
-        attributes,
-        attributesRegroupements,
-        datasetAttributes,
-        selectableAttributes,
-        hideDatasetsConfiguration = false,
-        enableFacettes,
+      attributes,
+      attributesRegroupements,
+      datasetAttributes,
+      selectableAttributes,
+      hideDatasetsConfiguration = false,
+      enableFacettes,
       },
     } = this.props
 
@@ -105,7 +105,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllModelsAttributes: () => dispatch(DataobjectAttributeModelActions.fetchEntityList({ pModelType: 'DATA' })),
+  fetchAllDataobjectsAttributes: () => dispatch(DataobjectAttributeModelActions.fetchEntityList({ pModelType: 'DATA' })),
   fetchAllDatasetModelsAttributes: () => dispatch(DatasetAttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
 })
 
