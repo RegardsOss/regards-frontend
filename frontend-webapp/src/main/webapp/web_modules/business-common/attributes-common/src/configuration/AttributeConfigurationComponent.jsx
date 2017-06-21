@@ -37,10 +37,8 @@ class AttributeConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static getTitle = attribute => {
-    return attribute.fragment && attribute.fragment.name &&
+  static getTitle = attribute => attribute.fragment && attribute.fragment.name &&
     attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${attribute.fragment.name} - ${attribute.label}` : attribute.label
-  }
 
   constructor(props) {
     super(props)

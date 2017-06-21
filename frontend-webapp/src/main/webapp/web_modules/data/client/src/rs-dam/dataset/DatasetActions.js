@@ -23,7 +23,7 @@ export default class DatasetActions extends BasicPageableActions {
    * @param queryParams
    */
   createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
-    if (has(objectValues, 'dataset.geometry')){
+    if (has(objectValues, 'dataset.geometry')) {
       objectValues.dataset.geometry = DatasetActions.transformStringToJSon(objectValues.dataset.geometry)
     }
     return super.createEntityUsingMultiPart(objectValues, files, pathParams, queryParams)
@@ -38,7 +38,7 @@ export default class DatasetActions extends BasicPageableActions {
    * @param queryParams
    */
   updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
-    if (has(objectValues, 'dataset.geometry')){
+    if (has(objectValues, 'dataset.geometry')) {
       objectValues.dataset.geometry = DatasetActions.transformStringToJSon(objectValues.dataset.geometry)
     }
     return super.updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams)
@@ -49,7 +49,7 @@ export default class DatasetActions extends BasicPageableActions {
       // eslint-disable-next-line no-param-reassign
       return JSON.parse(valueAsString)
     } catch (e) {
-      console.error(`Invalid attribute geometry for dataset`, e)
+      console.error('Invalid attribute geometry for dataset', e)
     }
     return {}
   }

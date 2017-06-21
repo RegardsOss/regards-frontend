@@ -19,7 +19,7 @@ class HateoasIconAction extends React.Component {
     entityLinks: PropTypes.arrayOf(HateoasLinks),
     hateoasKey: PropTypes.string,
     alwaysDisplayforInstanceUser: PropTypes.bool,
-    disableInsteadOfHide : PropTypes.bool,
+    disableInsteadOfHide: PropTypes.bool,
     // Set by mapStateToProps
     isInstance: PropTypes.bool,
   }

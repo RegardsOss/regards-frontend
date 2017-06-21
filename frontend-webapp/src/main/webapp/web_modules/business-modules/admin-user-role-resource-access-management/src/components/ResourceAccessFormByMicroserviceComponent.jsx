@@ -111,7 +111,6 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     const roleResource = this.getResource(resource)
     const iconStyle = { marginRight: 10 }
 
-    let toggle
     if (roleResource) {
       return (
         <HateoasIconAction

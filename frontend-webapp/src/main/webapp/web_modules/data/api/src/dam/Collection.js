@@ -7,8 +7,7 @@ const CollectionConfiguration = {
 
 const collection = new Schema(CollectionConfiguration.normalizrKey, {
   idAttribute: entity =>
-    entity.content[CollectionConfiguration.entityKey]
-  ,
+    entity.content[CollectionConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.geometry) {
       try {

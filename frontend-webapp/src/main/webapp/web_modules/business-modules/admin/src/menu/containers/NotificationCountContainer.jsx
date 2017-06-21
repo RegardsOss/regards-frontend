@@ -5,8 +5,6 @@ import { connect } from '@regardsoss/redux'
 import Badge from 'material-ui/Badge'
 
 
-const refreshTimerMS = 10000
-
 /**
 * Container for observable list counts (fetches the results on timer, to show the notifications count changes)
 */

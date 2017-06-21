@@ -12,9 +12,9 @@ import PluginMetaDataActions from './model/plugin/PluginMetaDataActions'
  */
 
 export default reduce(STATIC_CONF.MSERVICES, (result, microservice) => {
-    result.push(MaintenanceModeActions(microservice).getDependency(RequestVerbEnum.GET))
-    result.push(SetMaintenanceModeActions(microservice).getActivateDependency())
-    result.push(SetMaintenanceModeActions(microservice).getDesactivateDependency())
-    result.push(PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST,microservice))
-    return result
-  }, [])
+  result.push(MaintenanceModeActions(microservice).getDependency(RequestVerbEnum.GET))
+  result.push(SetMaintenanceModeActions(microservice).getActivateDependency())
+  result.push(SetMaintenanceModeActions(microservice).getDesactivateDependency())
+  result.push(PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice))
+  return result
+}, [])

@@ -36,7 +36,7 @@ export default class CollectionActions extends BasicListActions {
    * @param queryParams
    */
   createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
-    if (has(objectValues, 'collection.geometry')){
+    if (has(objectValues, 'collection.geometry')) {
       objectValues.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
     }
     return super.createEntityUsingMultiPart(objectValues, files, pathParams, queryParams)
@@ -51,7 +51,7 @@ export default class CollectionActions extends BasicListActions {
    * @param queryParams
    */
   updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
-    if (has(objectValues, 'collection.geometry')){
+    if (has(objectValues, 'collection.geometry')) {
       objectValues.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
     }
     return super.updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams)
@@ -62,7 +62,7 @@ export default class CollectionActions extends BasicListActions {
       // eslint-disable-next-line no-param-reassign
       return JSON.parse(valueAsString)
     } catch (e) {
-      console.error(`Invalid attribute geometry for dataset`, e)
+      console.error('Invalid attribute geometry for dataset', e)
     }
     return {}
   }
