@@ -14,7 +14,7 @@ import { CatalogEntity, CatalogEntityTypes, AttributeModel, AttributeConfigurati
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
-import { AttributeModelActions, AttributeModelSelectors } from '../../model/clients/AttributeModelClient'
+import { AttributeModelActions, AttributeModelSelectors } from '../../clients/AttributeModelClient'
 import graphContextActions from '../../model/graph/GraphContextActions'
 import fetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import fetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'
@@ -47,7 +47,7 @@ export class UserModuleContainer extends React.Component {
   }
 
   static mapDispatchToProps = dispatch => ({
-    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList()),
+    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({pModelType: 'DATASET'})),
     fetchCollections: (levelIndex, parentEntityId, levelModelName) =>
       dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
     fetchDatasets: (levelIndex, parentEntityId) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentEntityId)),

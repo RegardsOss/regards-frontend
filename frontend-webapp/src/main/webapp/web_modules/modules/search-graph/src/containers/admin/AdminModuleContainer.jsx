@@ -6,7 +6,7 @@ import { Model, AttributeModel } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import CollectionModelSelectors from '../../model/CollectionModelSelectors'
 import CollectionModelActions from '../../model/CollectionModelActions'
-import { AttributeModelActions, AttributeModelSelectors } from '../../model/clients/AttributeModelClient'
+import { AttributeModelActions, AttributeModelSelectors } from '../../clients/AttributeModelClient'
 import ModuleForm from '../../components/admin/ModuleForm'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 
@@ -73,7 +73,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchCollectionModels: () => dispatch(CollectionModelActions.fetchEntityList()),
-  fetchSelectableAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
+  fetchSelectableAttributes: () => dispatch(AttributeModelActions.fetchEntityList({pModelType: 'DATASET'})),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminModuleContainer)

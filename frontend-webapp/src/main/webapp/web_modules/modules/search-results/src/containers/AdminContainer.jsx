@@ -86,7 +86,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList()),
+  fetchAllModelsAttributes: () => dispatch(AttributeModelActions.fetchEntityList({pModelType: 'DATA'})),
 })
 
 const UnconnectedAdminContainer = AdminContainer
