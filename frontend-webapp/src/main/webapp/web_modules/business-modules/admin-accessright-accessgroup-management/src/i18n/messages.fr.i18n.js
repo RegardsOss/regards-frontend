@@ -22,7 +22,7 @@ const messages = Object.assign({
   'group.form.name': 'Nom',
   'group.form.action.cancel': 'Annuler',
   'group.form.action.save': 'Sauvegarder',
-  'group.form.private': 'Accès restreint',
+  'group.form.public': 'Accès public',
   'invalid.max_32_carac': 'Le nom d\'un groupe d\'accès ne peut dépasser 32 caractères',
 }, Locales.fr)
 
