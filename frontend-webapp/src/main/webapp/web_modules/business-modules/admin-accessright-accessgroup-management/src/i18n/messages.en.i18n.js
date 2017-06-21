@@ -22,7 +22,7 @@ const messages = Object.assign({
   'group.form.name': 'Name',
   'group.form.action.cancel': 'Cancel',
   'group.form.action.save': 'Save',
-  'group.form.public': 'Public access',
+  'group.form.public': 'Automaticaly link this group to all users and visitors',
   'invalid.max_32_carac': 'The group access name can\'t exceed 32 characters',
 }, Locales.en)
 
