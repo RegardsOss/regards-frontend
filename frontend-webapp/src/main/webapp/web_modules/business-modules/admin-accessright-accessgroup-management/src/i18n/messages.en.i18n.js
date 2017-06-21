@@ -10,6 +10,11 @@ const messages = Object.assign({
   'group.list.action.add': 'Create',
   'group.list.delete.message': 'Are you sure you want to delete the {name} access group ?',
 
+  'group.list.table.actions.edit': 'Edit',
+  'group.list.table.actions.accessrights': 'Access rights',
+  'group.list.table.actions.duplicate': 'Duplicate',
+  'group.list.table.actions.delete': 'Remove',
+
   'group.create.title': 'Create a new group access',
   'group.edit.title': 'Edit the group access {name}',
   'group.duplicate.title': 'Duplicate the group access {name}',
