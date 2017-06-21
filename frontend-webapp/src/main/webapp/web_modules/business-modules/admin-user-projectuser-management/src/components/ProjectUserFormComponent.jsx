@@ -1,7 +1,9 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
+import some from 'lodash/some'
 import filter from 'lodash/filter'
+import values from 'lodash/values'
 import forEach from 'lodash/forEach'
 import map from 'lodash/map'
 import { formValueSelector } from 'redux-form'
@@ -36,12 +38,12 @@ export class ProjectUserFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     passwordRules: PropTypes.string.isRequired, // fetched password rules description
+    __unregisterField: PropTypes.func, // We need __ otherwise the function is not useable
     // eslint-disable-next-line react/no-unused-prop-types
     fetchPasswordValidity: PropTypes.func.isRequired,
     // from reduxForm
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
-    pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func,
@@ -90,11 +92,13 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   getCurrentUserGroups = (user) => {
-    if (!this.state.isCreating) {
-      forEach(this.props.groupList, (group) => {
-        forEach(filter(group.content.users, groupUser => groupUser.email === user.email), groupUser => this.handleAddGroup(group))
-      })
-    }
+    const currentUserGroups = {}
+    forEach(this.props.groupList, (group) => {
+      if (some(group.content.users, groupUser => groupUser.email === user.email)) {
+        currentUserGroups[group.content.name] = group.content.name
+      }
+    })
+    return currentUserGroups
   }
 
   handleInitialize = () => {
@@ -103,7 +107,11 @@ export class ProjectUserFormComponent extends React.Component {
     if (!this.state.isCreating) {
       // A - only when editing
       // 1 - initialize groups already associated with user
-      this.getCurrentUserGroups(currentUser.content)
+      const currentUserGroups = this.getCurrentUserGroups(currentUser.content)
+      initialFormValues.group = currentUserGroups
+      this.setState({
+        tempGroup: values(currentUserGroups)
+      })
       // 2 - keep current email and role name
       initialFormValues.email = currentUser.content.email
       initialFormValues.roleName = currentUser.content.role.name
@@ -135,32 +143,36 @@ export class ProjectUserFormComponent extends React.Component {
     })
   }
 
-  handleAddGroup = (group) => {
-    if (!this.state.tempGroup.includes(group)) {
-      this.state.tempGroup.push(group)
-    }
-    this.props.change(`group.${group.content.name}`, group.content.name)
+  handleAddGroup = (groupName) => {
+    this.setState({
+      tempGroup: [
+        ...this.state.tempGroup,
+        groupName
+      ]
+    })
+    this.props.change(`group.${groupName}`, groupName)
     this.handlePopoverClose()
   }
 
-  handleRemoveGroup = (group) => {
+  handleRemoveGroup = (groupName) => {
+    const { __unregisterField } = this.props
     this.setState({
-      tempGroup: this.state.tempGroup.filter(val => val.content.name !== group.content.name),
+      tempGroup: this.state.tempGroup.filter(val => val !== groupName),
     })
-    this.props.change(`group.${group.content.name}`, '')
+    __unregisterField('user-form', `group.${groupName}`)
   }
 
   renderChipInput = () => {
     const iconAnchor = { horizontal: 'left', vertical: 'top' }
     return (<div style={this.style.renderChipInput}>
-      {map(this.state.tempGroup, group =>
+      {map(this.state.tempGroup, groupName =>
         (<Chip
-          onRequestDelete={() => this.handleRemoveGroup(group)}
+          onRequestDelete={() => this.handleRemoveGroup(groupName)}
           style={this.style.chip}
-          key={group.content.name}
+          key={groupName}
           className="selenium-chip"
         >
-          {group.content.name}
+          {groupName}
         </Chip>))}
       <ShowableAtRender show={this.state.tempGroup.length !== Object.keys(this.props.groupList).length}>
         <Chip className="selenium-addChip" style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
@@ -181,10 +193,13 @@ export class ProjectUserFormComponent extends React.Component {
       >
         <Menu>
           {map(this.props.groupList, group => (
-            <ShowableAtRender key={group.content.name} show={!find(this.state.tempGroup, o => isEqual(o, group))}>
+            <ShowableAtRender
+              key={group.content.name}
+              show={!find(this.state.tempGroup, o => isEqual(o, group.content.name))}
+            >
               <MenuItem
                 primaryText={group.content.name}
-                onTouchTap={() => this.handleAddGroup(group)}
+                onTouchTap={() => this.handleAddGroup(group.content.name)}
               />
             </ShowableAtRender>
           ))}
@@ -194,7 +209,7 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   render() {
-    const { invalid, pristine, userMetadata, submitting, roleList, passwordRules, useExistingAccount } = this.props
+    const { invalid, userMetadata, submitting, roleList, passwordRules, useExistingAccount } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <form
@@ -232,6 +247,13 @@ export class ProjectUserFormComponent extends React.Component {
             <ShowableAtRender show={!useExistingAccount && this.state.isCreating} >
               <div>
                 <Field
+                  name="password"
+                  fullWidth
+                  component={RenderTextField}
+                  type="password"
+                  label={formatMessage({ id: 'projectUser.create.input.password' })}
+                />
+                <Field
                   name="firstName"
                   fullWidth
                   component={RenderTextField}
@@ -244,13 +266,6 @@ export class ProjectUserFormComponent extends React.Component {
                   component={RenderTextField}
                   type="text"
                   label={formatMessage({ id: 'projectUser.create.input.lastName' })}
-                />
-                <Field
-                  name="password"
-                  fullWidth
-                  component={RenderTextField}
-                  type="password"
-                  label={formatMessage({ id: 'projectUser.create.input.password' })}
                 />
               </div>
             </ShowableAtRender>
@@ -290,7 +305,7 @@ export class ProjectUserFormComponent extends React.Component {
                   formatMessage({ id: 'projectUser.edit.action.save' })
               }
               mainButtonType="submit"
-              isMainButtonDisabled={pristine || submitting || invalid}
+              isMainButtonDisabled={ submitting || invalid}
               secondaryButtonLabel={formatMessage({ id: 'projectUser.create.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />

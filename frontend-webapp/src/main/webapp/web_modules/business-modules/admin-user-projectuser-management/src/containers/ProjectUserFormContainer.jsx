@@ -5,7 +5,6 @@ import omit from 'lodash/omit'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ProjectUser, AccessGroup, Role } from '@regardsoss/model'
 import every from 'lodash/every'
 import some from 'lodash/some'
@@ -13,8 +12,10 @@ import flow from 'lodash/flow'
 import concat from 'lodash/concat'
 import fpfilter from 'lodash/fp/filter'
 import fpmap from 'lodash/fp/map'
+import { unregisterField } from 'redux-form'
 import root from 'window-or-global'
 import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
@@ -29,7 +30,6 @@ export class ProjectUserFormContainer extends React.Component {
     roleList: PropTypes.objectOf(Role),
     groupList: PropTypes.objectOf(AccessGroup),
     user: ProjectUser,
-    isFetching: PropTypes.bool,
     passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // from router
     params: PropTypes.shape({
@@ -46,26 +46,37 @@ export class ProjectUserFormContainer extends React.Component {
     fetchPasswordValidity: PropTypes.func.isRequired,
     assignGroup: PropTypes.func,
     unassignGroup: PropTypes.func,
+    unregisterField: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       isEditing: props.params.user_id !== undefined,
+      isLoading: true,
     }
   }
 
   componentWillMount = () => {
-    this.props.fetchRoleList()
-    this.props.fetchGroupList()
-    this.props.fetchPasswordRules()
+    const tasks = [
+      this.props.fetchRoleList(),
+      this.props.fetchGroupList(),
+      this.props.fetchPasswordRules(),
+    ]
 
     if (this.state.isEditing && !this.props.user) {
-      this.props.fetchUser(this.props.params.user_id)
+      tasks.push(this.props.fetchUser(this.props.params.user_id))
     }
 
     // whatever the case, initialize metadata
     this.updateMetadata(this.props.user)
+
+    Promise.all(tasks)
+      .then(()=> {
+        this.setState({
+          isLoading: false
+        })
+      })
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -84,26 +95,21 @@ export class ProjectUserFormContainer extends React.Component {
   getFormComponent = () => {
     const { userMetadata } = this.state
     if (this.state.isEditing) {
-      const { isFetching } = this.props
-      if (isFetching) {
-        return (<FormLoadingComponent />)
-      }
-      if (this.props.user) {
-        return (
-          <ProjectUserFormComponent
-            passwordRules={this.props.passwordRules}
-            currentUser={this.props.user}
-            userMetadata={userMetadata}
-            fetchPasswordValidity={this.props.fetchPasswordValidity}
-            onSubmit={this.handleUpdate}
-            onAddGroup={this.handleAddGroup}
-            backUrl={this.getBackUrl()}
-            roleList={this.props.roleList}
-            groupList={this.props.groupList}
-          />)
-      }
-      return (<FormEntityNotFoundComponent />)
+      return (
+        <ProjectUserFormComponent
+          passwordRules={this.props.passwordRules}
+          currentUser={this.props.user}
+          userMetadata={userMetadata}
+          fetchPasswordValidity={this.props.fetchPasswordValidity}
+          onSubmit={this.handleUpdate}
+          onAddGroup={this.handleAddGroup}
+          backUrl={this.getBackUrl()}
+          roleList={this.props.roleList}
+          groupList={this.props.groupList}
+          __unregisterField={this.props.unregisterField}
+        />)
     }
+
     return (<ProjectUserFormComponent
       passwordRules={this.props.passwordRules}
       userMetadata={userMetadata}
@@ -113,19 +119,19 @@ export class ProjectUserFormContainer extends React.Component {
       backUrl={this.getBackUrl()}
       roleList={this.props.roleList}
       groupList={this.props.groupList}
+      __unregisterField={this.props.unregisterField}
     />)
   }
 
   handleUpdate = (values) => {
     const { email, roleName, group } = values
-    const { user } = this.props
+    const { user, groupList } = this.props
     const updatedUser = {
       ...user.content,
       email,
       role: { name: roleName },
       metadata: packMetadataField(user, values),
     }
-    const { groupList } = this.props
     Promise.resolve(this.props.updateProjectUser(this.props.params.user_id, updatedUser))
       .then((actionResult) => {
         if (!actionResult.error) {
@@ -137,13 +143,15 @@ export class ProjectUserFormContainer extends React.Component {
             fpmap(currentGroup => this.props.assignGroup(currentGroup, email)),
           )(group)
           const removeUserFromGroupTasks = flow(
-            fpfilter(currentGroup => some(currentGroup.content.users, { email })
-            && every(group, groupName => groupName !== currentGroup.content.name)),
+            fpfilter(currentGroup => {
+              return some(currentGroup.content.users, { email })
+              && every(group, groupName => groupName !== currentGroup.content.name)
+            }),
             fpmap(currentGroup => this.props.unassignGroup(currentGroup.content.name, email)),
           )(groupList)
           const tasks = concat(addUserToGroupTasks, removeUserFromGroupTasks)
           Promise.all(tasks).then((actionResults) => {
-            if (every(actionResults, TeskactionResult => TeskactionResult.error)) {
+            if (tasks.length === 0 || every(actionResults, actionResultUserToGroup => !actionResultUserToGroup.error)) {
               const url = this.getBackUrl()
               browserHistory.push(url)
             }
@@ -153,7 +161,7 @@ export class ProjectUserFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    const { params } = this.props
+    const { params, groupList } = this.props
     const projectName = params.project
     const frontendParameter = `${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail}`
 
@@ -172,8 +180,19 @@ export class ProjectUserFormContainer extends React.Component {
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          const url = this.getBackUrl()
-          browserHistory.push(url)
+          // Retrieve new group
+          const addUserToGroupTasks = flow(
+            fpfilter(currentGroup => every(groupList[currentGroup].content.users, userInfo =>
+              userInfo.email !== email,
+            )),
+            fpmap(currentGroup => this.props.assignGroup(currentGroup, email)),
+          )(values.group)
+          Promise.all(addUserToGroupTasks).then((actionResults) => {
+            if (addUserToGroupTasks.length === 0 || every(actionResults, actionResultUserToGroup => !actionResultUserToGroup.error)) {
+              const url = this.getBackUrl()
+              browserHistory.push(url)
+            }
+          })
         }
       })
   }
@@ -186,9 +205,14 @@ export class ProjectUserFormContainer extends React.Component {
   updateMetadata = user => this.setState({ userMetadata: getMetadataArray(user) })
 
   render() {
+    const { isLoading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-user-projectuser-management/src/i18n">
-        {this.getFormComponent()}
+        <LoadableContentDisplayDecorator
+          isLoading={isLoading}
+        >
+          {this.getFormComponent}
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }
@@ -198,7 +222,6 @@ const mapStateToProps = (state, ownProps) => ({
   roleList: roleSelectors.getList(state),
   groupList: accessGroupSelectors.getList(state),
   user: ownProps.params.user_id ? projectUserSelectors.getById(state, ownProps.params.user_id) : null,
-  isFetching: projectUserSelectors.isFetching(state),
   passwordRules: accountPasswordSelectors.getRules(state),
 })
 const mapDispatchToProps = dispatch => ({
@@ -217,6 +240,7 @@ const mapDispatchToProps = dispatch => ({
   })),
   fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
+  unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectUserFormContainer)
