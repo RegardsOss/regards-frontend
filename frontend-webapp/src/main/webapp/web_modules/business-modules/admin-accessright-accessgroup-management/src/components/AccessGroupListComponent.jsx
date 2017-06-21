@@ -79,6 +79,7 @@ export class AccessGroupListComponent extends React.Component {
 
   render() {
     const { accessGroupList, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl } = this.props
+    const { intl } = this.context
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -88,8 +89,8 @@ export class AccessGroupListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'group.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'group.list.subtitle' })}
+          title={intl.formatMessage({ id: 'group.list.title' })}
+          subtitle={intl.formatMessage({ id: 'group.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -102,9 +103,9 @@ export class AccessGroupListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="group.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="group.list.table.nbUser" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="group.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn>{intl.formatMessage({ id: 'group.list.table.name' })}</TableHeaderColumn>
+                <TableHeaderColumn>{intl.formatMessage({ id: 'group.list.table.nbUser' })}</TableHeaderColumn>
+                <TableHeaderColumn>{intl.formatMessage({ id: 'group.list.table.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -118,6 +119,7 @@ export class AccessGroupListComponent extends React.Component {
                   <TableRowColumn>{accessGroup.content.users.length}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasIconAction
+                      title={intl.formatMessage({ id: 'group.list.table.actions.edit' })}
                       entityLinks={accessGroup.links}
                       hateoasKey={HateoasKeys.UPDATE}
                       onTouchTap={() => handleEdit(accessGroup.content.name)}
@@ -125,12 +127,14 @@ export class AccessGroupListComponent extends React.Component {
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
                     <ResourceIconAction
+                      title={intl.formatMessage({ id: 'group.list.table.actions.accessrights' })}
                       resourceDependencies={accessRightDependencies.listAccessGroupAccessRightsDeps}
                       onTouchTap={() => handleEditAccessRights(accessGroup.content.name)}
                     >
                       <Settings hoverColor={style.hoverButtonEdit} />
                     </ResourceIconAction>
                     <HateoasIconAction
+                      title={intl.formatMessage({ id: 'group.list.table.actions.duplicate' })}
                       entityLinks={accessGroup.links}
                       hateoasKey={HateoasKeys.UPDATE}
                       onTouchTap={() => handleDuplicate(accessGroup.content.name)}
@@ -138,6 +142,7 @@ export class AccessGroupListComponent extends React.Component {
                       <ContentCopy hoverColor={style.hoverButtonDuplicate} />
                     </HateoasIconAction>
                     <HateoasIconAction
+                      title={intl.formatMessage({ id: 'group.list.table.actions.delete' })}
                       entityLinks={accessGroup.links}
                       hateoasKey={HateoasKeys.DELETE}
                       onTouchTap={() => this.openDeleteDialog(accessGroup)}

@@ -35,7 +35,6 @@ const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, a
   // []
   // content >> fragment >> name ("default" for example)
   // content >> name
-  console.error('FIND', attributeFullyQualifiedName, attributeModels)
   const foundAttribute = find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
   return foundAttribute ? foundAttribute.content.label : attributeFullyQualifiedName
 }
@@ -70,9 +69,9 @@ function getStandardAttributeType(standardAttribute) {
     case 'creationDate':
     case 'lastUpdate':
       return ATTRIBUTE_TYPES.DATE_ISO8601
-    case 'thumbnail' :
+    case 'thumbnail':
       return ATTRIBUTE_TYPES.THUMBNAIL
-    case 'download' :
+    case 'download':
       return ATTRIBUTE_TYPES.DOWNLOAD_LINK
     case 'ipId':
     case 'sipId':

@@ -20,7 +20,6 @@ import WordFacetSelectorComponent from './WordFacetSelectorComponent'
 class ModuleContentComponent extends React.Component {
 
   static propTypes = {
-    facetLabels: PropTypes.objectOf(PropTypes.string).isRequired,
     // current filters array
     filters: filterListShape.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
@@ -39,7 +38,7 @@ class ModuleContentComponent extends React.Component {
   }
 
   render() {
-    const { facets, facetLabels, filters, applyFilter, deleteFilter } = this.props
+    const { facets, filters, applyFilter, deleteFilter } = this.props
     const { moduleTheme } = this.context
 
     return (
@@ -48,7 +47,7 @@ class ModuleContentComponent extends React.Component {
           {
             facets.length ?
               facets.map((facet) => {
-                const selectorProps = { key: facet.attributeName, label: facetLabels[facet.attributeName], facet, applyFilter }
+                const selectorProps = { key: facet.attributeName, facet, applyFilter }
                 switch (facet.type) {
                   case FacetTypes.String:
                     return (<WordFacetSelectorComponent {...selectorProps} />)

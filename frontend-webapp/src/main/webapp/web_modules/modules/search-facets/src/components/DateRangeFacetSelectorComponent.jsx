@@ -19,7 +19,6 @@ const DATETIME_OPTIONS = {
 class DateRangeFacetSelectorComponent extends React.Component {
 
   static propTypes = {
-    label: PropTypes.string,
     facet: DateRangeFacet.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
     applyFilter: PropTypes.func.isRequired,
@@ -66,11 +65,10 @@ class DateRangeFacetSelectorComponent extends React.Component {
   }
 
   render() {
-    const { label, facet, applyFilter } = this.props
+    const { facet, applyFilter } = this.props
     return (
       <FacetSelectorComponent
         facet={facet}
-        label={label}
         facetValueFormatterForMenu={this.formatFacetValueForMenu}
         facetValueFormatterForFilter={this.formatFacetValueForFilter}
         applyFilter={applyFilter}

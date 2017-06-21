@@ -11,7 +11,6 @@ import FacetSelectorComponent from './FacetSelectorComponent'
 class WordFacetSelectorComponent extends React.Component {
 
   static propTypes = {
-    label: PropTypes.string,
     facet: StringFacet.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
     applyFilter: PropTypes.func.isRequired,
@@ -35,11 +34,10 @@ class WordFacetSelectorComponent extends React.Component {
   }
 
   render() {
-    const { label, facet, applyFilter } = this.props
+    const { facet, applyFilter } = this.props
     return (
       <FacetSelectorComponent
         facet={facet}
-        label={label}
         facetValueFormatterForMenu={this.formatFacetValueForMenu}
         facetValueFormatterForFilter={this.formatFacetValueForFilter}
         applyFilter={applyFilter}
