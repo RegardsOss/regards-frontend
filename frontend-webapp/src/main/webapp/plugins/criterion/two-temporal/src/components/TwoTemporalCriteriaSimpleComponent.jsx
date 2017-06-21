@@ -100,7 +100,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    if (isNaN(openSearchQuery)) {
+    if (openSearchQuery.includes("[")) {
       const values = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
       if (values.length === 3) {
         const value = values[1] !== '*' ? values[1] : values[2]
@@ -118,7 +118,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
       } else {
         this.setState({ operator2: EnumTemporalComparator.EQ })
       }
-      return openSearchQuery
+      return new Date(openSearchQuery)
     }
 
     return undefined

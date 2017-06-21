@@ -2,8 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import replace from 'lodash/replace'
+import split from 'lodash/split'
+import map from 'lodash/map'
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
+import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import ClearButton from './ClearButton'
 import AttributeModel from '../common/AttributeModel'
@@ -23,6 +26,10 @@ export class StringCriteriaComponent extends PluginComponent {
 
   state = {
     searchField: '',
+    checked: false,
+  }
+  onCheck = () => {
+    this.setState({checked: !this.state.checked})
   }
 
   handleChange = (event, value) => {
@@ -33,13 +40,31 @@ export class StringCriteriaComponent extends PluginComponent {
 
   getPluginSearchQuery = (state) => {
     if (state.searchField && state.searchField != "") {
-      return `${this.getAttributeName('searchField')}:"${state.searchField}"`
+      let openSearchQuery = null
+      if (this.state.checked) {
+        openSearchQuery= `"${state.searchField}"`
+      } else {
+        const values = split(state.searchField, " ")
+        openSearchQuery = map(values, value => `*${value}*`).join(' AND ')
+        openSearchQuery = `(${openSearchQuery})`
+      }
+      return `${this.getAttributeName('searchField')}:${openSearchQuery}`
     }
     return null
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    return replace(openSearchQuery, /"/g, '')
+
+    if (openSearchQuery.includes('"')) {
+      this.setState({ checked: true })
+      return replace(openSearchQuery,/\"/g, '')
+    }
+
+    let value = replace(openSearchQuery,/\(/g, '')
+    value = replace(value,/\)/g, '')
+    value = replace(value,/\*/g, '')
+    value= replace(value, / AND /g, ' ')
+    return value
   }
 
   /**
@@ -78,6 +103,15 @@ export class StringCriteriaComponent extends PluginComponent {
           }}
         />
         <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+        <Checkbox
+          label={<FormattedMessage id="criterion.search.field.word.checkbox.label"/>}
+          labelPosition="right"
+          checked={this.state.checked}
+          onCheck={this.onCheck}
+          style={{
+            width: 150
+          }}
+        />
       </div>
     )
   }
