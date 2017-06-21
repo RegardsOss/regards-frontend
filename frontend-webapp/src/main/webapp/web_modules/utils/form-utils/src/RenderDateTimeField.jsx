@@ -4,9 +4,10 @@
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
 import { dateTimeFormat } from '@regardsoss/i18n'
-import { map, values } from 'lodash'
+import isString from 'lodash/isString'
 import IconButton from 'material-ui/IconButton'
 import Clear from 'material-ui/svg-icons/content/clear'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
@@ -39,12 +40,14 @@ export class RenderDateTimeField extends React.Component {
     }),
     timeFormat: PropTypes.string,
   }
+
   static defaultProps = {
     timeFormat: '24hr',
   }
 
-  state = {
-    searchField: undefined,
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   static style = {
@@ -58,7 +61,7 @@ export class RenderDateTimeField extends React.Component {
       fontSize: '1.1em',
     },
     datePicker: {
-      margin: '0px 10px',
+      margin: '0 10px 0 0',
     },
     datePickerText: {
       maxWidth: 85,
@@ -68,6 +71,18 @@ export class RenderDateTimeField extends React.Component {
       maxWidth: 40,
       top: -13,
     },
+  }
+
+  getLabel = () => {
+    const { label } = this.props
+    if (label) {
+      return (
+        <span style={RenderDateTimeField.style.attributeName}>
+          {label} (UTC)
+        </span>
+      )
+    }
+    return null
   }
 
   /**
@@ -111,19 +126,15 @@ export class RenderDateTimeField extends React.Component {
   render() {
     const { intl, timeFormat, label, input } = this.props
     const clearButtonDisplayed = input.value !== undefined
-
-    console.log(input)
+    // At first the value is an empty string
+    const dateValue = isString(input.value) ? null : input.value
     return (
       <div
         style={RenderDateTimeField.style.rootContainer}
       >
-        <span
-          style={RenderDateTimeField.style.attributeName}
-        >
-          {label}
-        </span>
+        {this.getLabel()}
         <DatePicker
-          value={input.value}
+          value={dateValue}
           onChange={this.handleChangeDate}
           DateTimeFormat={dateTimeFormat}
           locale="fr"
@@ -135,7 +146,7 @@ export class RenderDateTimeField extends React.Component {
           textFieldStyle={RenderDateTimeField.style.datePickerText}
         />
         <TimePicker
-          value={input.value}
+          value={dateValue}
           onChange={this.handleChangeTime}
           format={timeFormat}
           floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.time.label' })}
