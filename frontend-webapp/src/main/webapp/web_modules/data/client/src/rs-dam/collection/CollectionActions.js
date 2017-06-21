@@ -4,6 +4,7 @@
 import Schemas from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 import has from 'lodash/has'
+import isString from 'lodash/isString'
 
 /**
  * Redux actions to handle Collection entities from backend server.
@@ -58,12 +59,14 @@ export default class CollectionActions extends BasicListActions {
   }
 
   static transformStringToJSon(valueAsString) {
-    try {
-      // eslint-disable-next-line no-param-reassign
-      return JSON.parse(valueAsString)
-    } catch (e) {
-      console.error('Invalid attribute geometry for dataset', e)
+    if (isString(valueAsString)) {
+      try {
+        // eslint-disable-next-line no-param-reassign
+        return JSON.parse(valueAsString)
+      } catch (e) {
+        console.error('Invalid attribute geometry for dataset', e)
+      }
     }
-    return {}
+    return undefined
   }
 }
