@@ -15,7 +15,6 @@ import { Facet } from '../model/FacetShape'
 class FacetSelectorComponent extends React.Component {
 
   static propTypes = {
-    label: PropTypes.string,
     facet: Facet.isRequired,
     // formats the facet value for menu
     facetValueFormatterForMenu: PropTypes.func.isRequired,
@@ -32,18 +31,18 @@ class FacetSelectorComponent extends React.Component {
 
   onFacetSelected = (facetValue) => {
     // apply filter (compute the label value for it)
-    const { applyFilter, facetValueFormatterForFilter, facet: { attributeName: filterKey }, label } = this.props
+    const { applyFilter, facetValueFormatterForFilter, facet: { attributeName: filterKey, label } } = this.props
     applyFilter(filterKey, facetValueFormatterForFilter(label || filterKey, facetValue), facetValue.openSearchQuery)
   }
 
   getLabel = () => {
     // label does not change with value
-    const { label, facet: { attributeName } } = this.props
+    const { facet: { label, attributeName } } = this.props
     return label || attributeName
   }
 
   render() {
-    const { label, facet: { values }, facetValueFormatterForMenu } = this.props
+    const { facet: { label, values }, facetValueFormatterForMenu } = this.props
     const { moduleTheme: { filterSelectors: { selector } } } = this.context
 
     return (

@@ -26,7 +26,6 @@ describe('[SEARCH FACETS] Testing ModuleContentComponent', () => {
 
   it('should render properly', () => {
     const props = {
-      facetLabels: {},
       facets: facetsNetworkDump.facets,
       filters: [{ filterKey: 'aFilter', filterLabel: 'aFilter', openSearchQuery: 'query' }],
       resultsSelectors: new BasicFacetsPageableSelectors(),

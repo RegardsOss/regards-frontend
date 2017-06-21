@@ -25,7 +25,6 @@ describe('[ SEARCH FACETS ] Testing ModuleContainer', () => {
       appName: 'any',
       project: 'any',
       facets: facetsNetworkDump.facets,
-      facetLabels: { any: 'any' },
       moduleConf: {
         onFiltersChanged: PropTypes.func.isRequired,
         filters: [],

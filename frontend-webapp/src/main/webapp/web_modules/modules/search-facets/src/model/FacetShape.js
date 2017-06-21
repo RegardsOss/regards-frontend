@@ -40,6 +40,8 @@ export const StringFacetValue = PropTypes.shape({
 const commonFacetAttributesPropTypes = {
   // corresponding model attribute name
   attributeName: PropTypes.string.isRequired,
+  // facet label, added when locally resolved
+  label: PropTypes.string,
 }
 
 /** A date range facet */

@@ -2,9 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import filter from 'lodash/filter'
+import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
+import { StringComparison } from '@regardsoss/form-utils'
 import { DamDomain } from '@regardsoss/domain'
 import { AttributeModel } from '@regardsoss/model'
 import ModuleContentComponent from '../components/ModuleContentComponent'
@@ -30,15 +32,50 @@ export class ModuleContainer extends React.Component {
       attributeModels: PropTypes.objectOf(AttributeModel).isRequired,
     }).isRequired,
     // from map state to props
-    facets: FacetArray.isRequired,
-    facetLabels: PropTypes.objectOf(PropTypes.string).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    facets: FacetArray.isRequired, // facets, used only in onPropertiesChanged
   }
 
-  componentWillMount = () => {
-    // initialize filters
-    this.setState({
-      filters: [],
-    })
+  /** Default component state */
+  static DEFAULT_STATE = {
+    filters: [],
+    facets: [],
+  }
+
+  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+
+  onPropertiesChanged = (oldProps, newProps) => {
+    const oldState = this.state
+    const newState = oldState ? { ...oldState } : ModuleContainer.DEFAULT_STATE
+    if (!isEqual(oldProps.facets, newProps.facets) ||
+      !isEqual(oldProps.moduleConf.attributeModels, newProps.moduleConf.attributeModels)) {
+      // 1 - resolve all facets with their label, removing all empty values and facet without values
+      const attributeModels = newProps.moduleConf.attributeModels
+      const filteredFacets = (newProps.facets || []).reduce((acc, { attributeName, type, values }) => {
+        // 1 - clear empty values, check if the facet should be filtered
+        const filteredValues = values.filter(value => value.count)
+        if (filteredValues.length < 2) {
+          // there is no meaning in a facet with zero or one element (it doesn't facet anything)
+          return acc
+        }
+        // 2 - return resuting facet with label and filtered values
+        return [...acc, {
+          attributeName,
+          label: DamDomain.AttributeModelController.findLabelFromAttributeFullyQualifiedName(attributeName, attributeModels),
+          type,
+          values: filteredValues,
+        }]
+      }, [])
+      // 2 - sort on facet labels
+      filteredFacets.sort((facet1, facet2) => StringComparison.compare(facet1.label, facet2.label))
+      // 3 - push them in state
+      newState.facets = filteredFacets
+    }
+
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
   }
 
   getFiltersWithout = filterKey => filter(this.props.moduleConf.filters, ({ filterKey: currentFilterKey }) => currentFilterKey !== filterKey)
@@ -66,13 +103,14 @@ export class ModuleContainer extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { facets, facetLabels, moduleConf: { show, filters } } = this.props
+    const { moduleConf: { show, filters } } = this.props
+    const { facets } = this.state
+
     return (
       <ShowableAtRender show={show}>
         <ModuleContentComponent
           facets={facets}
           filters={filters}
-          facetLabels={facetLabels}
           applyFilter={this.applyFilter}
           deleteFilter={this.deleteFilter}
         />
@@ -81,21 +119,8 @@ export class ModuleContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, { moduleConf: { resultsSelectors, facets, facetLabels, attributeModels } }) => {
-  const nextFacets = resultsSelectors.getFacets(state) || []
-  if (nextFacets === facets) {
-    // no change store, avoid updating references
-    return { facets, facetLabels }
-  }
-
-  // build facet labels list
-  return {
-    facets: nextFacets,
-    facetLabels: nextFacets.reduce((labelsAcc, { attributeName }) => ({
-      [attributeName]: DamDomain.AttributeModelController.findLabelFromAttributeFullyQualifiedName(attributeName, attributeModels),
-      ...labelsAcc,
-    }), {}),
-  }
-}
+const mapStateToProps = (state, { moduleConf: { resultsSelectors, facets } }) => ({
+  facets: resultsSelectors.getFacets(state) || [],
+})
 
 export default connect(mapStateToProps)(ModuleContainer)
