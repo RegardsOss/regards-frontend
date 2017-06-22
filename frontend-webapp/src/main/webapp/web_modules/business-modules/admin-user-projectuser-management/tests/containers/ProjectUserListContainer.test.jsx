@@ -73,6 +73,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list container', (
       denyProjectUser: () => { },
       validateProjectUser: () => { },
       deleteAccount: () => { },
+      active: () => { },
+      inactive: () => { },
     }
 
     const enzymeWrapper = shallow(<ProjectUserListContainer {...props} />)

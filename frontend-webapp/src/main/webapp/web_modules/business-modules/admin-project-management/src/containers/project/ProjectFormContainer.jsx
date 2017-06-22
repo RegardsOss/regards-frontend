@@ -3,6 +3,7 @@
  */
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import { AdminShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import ProjectFormComponent from '../../components/project/ProjectFormComponent'
@@ -19,16 +20,7 @@ export class ProjectFormContainer extends React.Component {
       project_name: PropTypes.string,
     }),
     // from mapStateToProps
-    project: PropTypes.shape({
-      content: PropTypes.shape({
-        id: PropTypes.number,
-        name: PropTypes.string,
-        description: PropTypes.string,
-        license: PropTypes.string,
-        icon: PropTypes.string,
-        isPublic: PropTypes.bool,
-      }),
-    }),
+    project: AdminShapes.Project,
     isFetching: PropTypes.bool,
     // from mapDispatchToProps
     createProject: PropTypes.func,

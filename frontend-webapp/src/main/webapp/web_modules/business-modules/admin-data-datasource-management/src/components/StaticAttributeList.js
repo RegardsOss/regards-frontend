@@ -13,6 +13,7 @@ export default {
         type: '',
         optional: false,
         fragment: {
+          id: -1,
           name: '',
         },
       },
@@ -32,6 +33,7 @@ export default {
         type: '',
         optional: false,
         fragment: {
+          id: -1,
           name: '',
         },
       },
@@ -51,6 +53,7 @@ export default {
         type: '',
         optional: true,
         fragment: {
+          id: -1,
           name: '',
         },
       },
@@ -70,6 +73,7 @@ export default {
         type: '',
         optional: true,
         fragment: {
+          id: -1,
           name: '',
         },
       },
@@ -89,6 +93,7 @@ export default {
         type: '',
         optional: true,
         fragment: {
+          id: -1,
           name: '',
         },
       },
@@ -108,6 +113,7 @@ export default {
         type: '',
         optional: true,
         fragment: {
+          id: -1,
           name: '',
         },
       },

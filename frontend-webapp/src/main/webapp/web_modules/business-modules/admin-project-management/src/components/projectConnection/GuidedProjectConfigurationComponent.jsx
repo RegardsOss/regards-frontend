@@ -41,6 +41,8 @@ class GuidedProjectConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static MSERVICES_ARRAY = values(STATIC_CONF.MSERVICES)
+
   state = {
     stepIndex: 0,
   }
@@ -76,7 +78,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
 
   getStepButton = (microservice, projectConnection, key) => {
     const stepButtonProps = {
-      onTouchTap: () => this.setState({ stepIndex: parseInt(key, 10) }),
+      onClick: () => this.setState({ stepIndex: parseInt(key, 10) }),
     }
     if (projectConnection && this.getConnectivityIcon(projectConnection.content.connectivity)) {
       stepButtonProps.icon = this.getConnectivityIcon(projectConnection.content.connectivity)
@@ -124,7 +126,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
   isFinished = () => this.state.stepIndex >= keys(STATIC_CONF.MSERVICES).length
 
   renderConfigurationOnForAllConnections = () => {
-    const firstMicroservice = values(STATIC_CONF.MSERVICES)[0]
+    const firstMicroservice = GuidedProjectConfigurationComponent.MSERVICES_ARRAY[0]
     const firstProjectConnection = find(this.props.projectConnections, lProjectConnection => lProjectConnection.content.microservice === firstMicroservice)
     return (
       <ProjectConnectionFormComponent
@@ -152,7 +154,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
         activeStep={stepIndex}
         orientation="vertical"
       >
-        {map(STATIC_CONF.MSERVICES, (microservice, key) => {
+        {map(GuidedProjectConfigurationComponent.MSERVICES_ARRAY, (microservice, key) => {
           // Search if a connection is already defined for the current project
           const projectConnection = find(projectConnections, lProjectConnection => lProjectConnection.content.microservice === microservice)
           return (

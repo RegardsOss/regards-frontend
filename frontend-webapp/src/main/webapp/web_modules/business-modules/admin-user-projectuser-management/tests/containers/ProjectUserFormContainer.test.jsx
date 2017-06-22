@@ -5,6 +5,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { getMetadataArray } from '@regardsoss/user-metadata-common'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ProjectUserFormContainer } from '../../src/containers/ProjectUserFormContainer'
 import ProjectUserFormComponent from '../../src/components/ProjectUserFormComponent'
 
@@ -15,6 +16,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
 
   it('should exists', () => {
     assert.isDefined(ProjectUserFormContainer)
+    assert.isDefined(LoadableContentDisplayDecorator)
     assert.isDefined(ProjectUserFormComponent)
   })
 
@@ -71,7 +73,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
         },
         links: [],
       },
-      isFetching: false,
       // from router
       params: {
         project: 'project-1',
@@ -89,16 +90,18 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
     }
 
     const enzymeWrapper = shallow(<ProjectUserFormContainer {...props} />)
-    const subComponent = enzymeWrapper.find(ProjectUserFormComponent)
+    const subComponent = enzymeWrapper.find(LoadableContentDisplayDecorator)
     expect(subComponent).to.have.length(1)
+    assert.isFunction(subComponent.prop('children'))
+    assert.deepEqual(subComponent.prop('children'), enzymeWrapper.instance().getFormComponent)
+
     // the metadata must be defined for sub component (in V1, metadata lives separately of user as it is defined by front end)
-    const metadata = subComponent.props().userMetadata
+    const metadata = enzymeWrapper.instance().getFormComponent().props.userMetadata
     assert.lengthOf(metadata, getMetadataArray().length, 'Each metadata should be provided')
     // the metadata value for field address should be defined
     const addressMetadata = metadata.find(({ key }) => key === 'address')
     assert.isDefined(addressMetadata, 'Address metadata should exist')
     assert.equal(addressMetadata.currentValue, '9 rue des moumouttes, 65000 Chauveland', 'Address metadata value should be retrieved from known model')
-
     // note : metadata recovering and updates are tests in user-metadata-common package
   })
 })

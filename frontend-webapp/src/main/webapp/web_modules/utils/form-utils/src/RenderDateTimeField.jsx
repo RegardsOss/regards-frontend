@@ -92,7 +92,7 @@ export class RenderDateTimeField extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeDate = (event, newValue) => {
-    const { input: {value, onChange} } = this.props
+    const { input: { value, onChange } } = this.props
     // Pick the time part from the time picker
     if (value) {
       newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds())
@@ -107,7 +107,7 @@ export class RenderDateTimeField extends React.Component {
    * @param {String} newValue The new value of the text field.
    */
   handleChangeTime = (event, newValue) => {
-    const { input: {value, onChange} } = this.props
+    const { input: { value, onChange } } = this.props
     // Pick the date part from the the date picker
     if (value) {
       newValue.setFullYear(value.getFullYear(), value.getMonth(), value.getDate())
@@ -119,7 +119,7 @@ export class RenderDateTimeField extends React.Component {
    * Clear the entered date & time values
    */
   handleClear = () => {
-    const { input: {onChange} } = this.props
+    const { input: { onChange } } = this.props
     onChange(null)
   }
 
@@ -158,7 +158,7 @@ export class RenderDateTimeField extends React.Component {
         <IconButton
           tooltip={intl.formatMessage({ id: 'form.datetimepicker.clear' })}
           style={{
-            transform: `scale(${clearButtonDisplayed ? 1 : 0})`
+            transform: `scale(${clearButtonDisplayed ? 1 : 0})`,
           }}
         >
           <Clear onTouchTap={this.handleClear} />

@@ -67,8 +67,25 @@ export class ProjectConnectionFormComponent extends React.Component {
    */
   handleInitialize = () => {
     const { projectConnection } = this.props
-    if (projectConnection) {
-      this.props.initialize(projectConnection.content)
+    if (projectConnection && projectConnection.content) {
+      if (projectConnection.content.url) {
+        const urlParts = projectConnection.content.url.match(/.*:\/\/(.*):([0-9]*)\/(.*)/)
+        const address = urlParts && urlParts[1] ? urlParts[1] : ''
+        const port = urlParts && urlParts[2] ? urlParts[2] : ''
+        const db_name = urlParts && urlParts[3] ? urlParts[3] : ''
+        const initializationValues = {
+          id: projectConnection.content.id,
+          microservice: projectConnection.content.microservice,
+          project: projectConnection.content.project,
+          driverClassName: projectConnection.content.driverClassName,
+          address,
+          port,
+          db_name,
+          userName: projectConnection.content.userName,
+          password: projectConnection.content.password,
+        }
+        this.props.initialize(initializationValues)
+      }
     } else {
       this.props.initialize({
         microservice: this.props.microservice,
@@ -126,12 +143,25 @@ export class ProjectConnectionFormComponent extends React.Component {
           disabled
         />
         <Field
-          name="url"
+          name="address"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={this.context.intl.formatMessage({ id: 'database.form.input.url' })}
-          hintText={'jdbc:postgresql://serveur:port/databasename'}
+          label={this.context.intl.formatMessage({ id: 'database.form.input.address' })}
+        />
+        <Field
+          name="port"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={this.context.intl.formatMessage({ id: 'database.form.input.port' })}
+        />
+        <Field
+          name="db_name"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={this.context.intl.formatMessage({ id: 'database.form.input.db_name' })}
         />
         <Field
           name="userName"
@@ -169,7 +199,9 @@ export class ProjectConnectionFormComponent extends React.Component {
   }
 }
 
-function validate(values) {
+function
+
+validate(values) {
   const errors = {}
   if (!keys(values).length) {
     // XXX workaround for redux form bug initial validation:
@@ -179,8 +211,17 @@ function validate(values) {
   if (!values.driverClassName) {
     errors.driverClassName = ErrorTypes.REQUIRED
   }
-  if (!values.url) {
-    errors.url = ErrorTypes.REQUIRED
+  if (!values.address) {
+    errors.address = ErrorTypes.REQUIRED
+  }
+  if (!values.port) {
+    errors.port = ErrorTypes.REQUIRED
+  }
+  if (isNaN(values.port)) {
+    errors.port = ErrorTypes.NUMERIC
+  }
+  if (!values.db_name) {
+    errors.address = ErrorTypes.REQUIRED
   }
   if (!values.userName) {
     errors.userName = ErrorTypes.REQUIRED
