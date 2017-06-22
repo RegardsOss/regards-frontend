@@ -28,7 +28,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
   }
 
   static styleTableRow = {
-    height: '95px'
+    height: '95px',
   }
 
   getField = (modelAttribute) => {
@@ -37,9 +37,9 @@ export class EntitiesAttributeFormComponent extends React.Component {
       case MODEL_ATTR_TYPES.STRING:
         if (this.isRestrictedWithEnum(modelAttribute)) {
           return this.getFieldSelect(modelAttribute)
-        } else {
-          return this.getFieldTextField(modelAttribute, 'text')
         }
+        return this.getFieldTextField(modelAttribute, 'text')
+
       case MODEL_ATTR_TYPES.DOUBLE:
       case MODEL_ATTR_TYPES.LONG:
       case MODEL_ATTR_TYPES.INTEGER:
@@ -150,9 +150,9 @@ export class EntitiesAttributeFormComponent extends React.Component {
   }
 
   isRestrictedWithEnum = (modelAttribute) => {
-    console.log("Is restriction ?", modelAttribute, has(modelAttribute, 'content.attribute.restriction.type'))
+    console.log('Is restriction ?', modelAttribute, has(modelAttribute, 'content.attribute.restriction.type'))
     if (has(modelAttribute, 'content.attribute.restriction.type')) {
-      return modelAttribute.content.attribute.restriction.type === "ENUMERATION"
+      return modelAttribute.content.attribute.restriction.type === 'ENUMERATION'
     }
     return false
   }

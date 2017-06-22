@@ -155,7 +155,6 @@ class GuidedProjectConfigurationComponent extends React.Component {
         orientation="vertical"
       >
         {map(GuidedProjectConfigurationComponent.MSERVICES_ARRAY, (microservice, key) => {
-
           // Search if a connection is already defined for the current project
           const projectConnection = find(projectConnections, lProjectConnection => lProjectConnection.content.microservice === microservice)
           return (

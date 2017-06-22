@@ -110,7 +110,7 @@ export class ProjectUserFormComponent extends React.Component {
       const currentUserGroups = this.getCurrentUserGroups(currentUser.content)
       initialFormValues.group = currentUserGroups
       this.setState({
-        tempGroup: values(currentUserGroups)
+        tempGroup: values(currentUserGroups),
       })
       // 2 - keep current email and role name
       initialFormValues.email = currentUser.content.email
@@ -147,8 +147,8 @@ export class ProjectUserFormComponent extends React.Component {
     this.setState({
       tempGroup: [
         ...this.state.tempGroup,
-        groupName
-      ]
+        groupName,
+      ],
     })
     this.props.change(`group.${groupName}`, groupName)
     this.handlePopoverClose()
@@ -305,7 +305,7 @@ export class ProjectUserFormComponent extends React.Component {
                   formatMessage({ id: 'projectUser.edit.action.save' })
               }
               mainButtonType="submit"
-              isMainButtonDisabled={ submitting || invalid}
+              isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={formatMessage({ id: 'projectUser.create.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />

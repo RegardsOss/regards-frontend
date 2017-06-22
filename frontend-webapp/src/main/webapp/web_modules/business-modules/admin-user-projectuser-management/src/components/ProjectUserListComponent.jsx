@@ -14,6 +14,8 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
 import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
+import Loop from 'material-ui/svg-icons/av/loop'
+import Pause from 'material-ui/svg-icons/av/pause'
 import { ProjectUser } from '@regardsoss/model'
 import {
   ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender,
@@ -57,6 +59,8 @@ export class ProjectUserListComponent extends React.Component {
     onDelete: PropTypes.func.isRequired,
     onValidate: PropTypes.func.isRequired,
     onDeny: PropTypes.func.isRequired,
+    onActive: PropTypes.func.isRequired,
+    onInactive: PropTypes.func.isRequired,
     onValidateAll: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
@@ -160,7 +164,7 @@ export class ProjectUserListComponent extends React.Component {
     const tabContent = selectedTab === TABS.waiting ? this.getWaitingUsersTabContent() : this.getAllUsersTabContent()
     const {
       users, waitingAccessUsers, initialFecthing, backUrl,
-      onValidate, onDeny, onEdit, isFetchingActions,
+      onValidate, onDeny, onEdit, onActive, onInactive, isFetchingActions,
     } = this.props
     const { intl } = this.context
 
@@ -263,6 +267,28 @@ export class ProjectUserListComponent extends React.Component {
                               breakpoint={1320}
                             >
                               <RemoveCircle hoverColor={style.deleteActionHoverColor} />
+                            </HateoasIconAction>
+                            <HateoasIconAction
+                              className="selenium-activeButton"
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.active.tooltip' })}
+                              onTouchTap={() => onActive(projectUser.content.id)}
+                              disabled={isFetchingActions}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.ACTIVE}
+                              breakpoint={1320}
+                            >
+                              <Loop hoverColor={style.commonActionHoverColor} />
+                            </HateoasIconAction>
+                            <HateoasIconAction
+                              className="selenium-inactiveButton"
+                              title={intl.formatMessage({ id: 'projectUser.list.table.action.inactive.tooltip' })}
+                              onTouchTap={() => onInactive(projectUser.content.id)}
+                              disabled={isFetchingActions}
+                              entityLinks={projectUser.links}
+                              hateoasKey={HateoasKeys.INACTIVE}
+                              breakpoint={1320}
+                            >
+                              <Pause hoverColor={style.deleteActionHoverColor} />
                             </HateoasIconAction>
                             <HateoasIconAction
                               className="selenium-deleteButton"

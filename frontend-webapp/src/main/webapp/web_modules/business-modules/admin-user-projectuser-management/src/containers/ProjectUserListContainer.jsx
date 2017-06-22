@@ -8,7 +8,7 @@ import { browserHistory } from 'react-router'
 import { ProjectUser } from '@regardsoss/model'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import { waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesSelectors } from '../clients/WaitingAccessUsersEntitiesClient'
-import { waitingAccessUsersSignalActions } from '../clients/WaitingAccessUsersSignalClient'
+import { ProjectUserSignalActions } from '../clients/ProjectUserSignalClient'
 import ProjectUserListComponent from '../components/ProjectUserListComponent'
 /**
  * Show the user list for the current project
@@ -30,6 +30,8 @@ export class ProjectUserListContainer extends React.Component {
     denyProjectUser: PropTypes.func.isRequired,
     validateProjectUser: PropTypes.func.isRequired,
     deleteAccount: PropTypes.func.isRequired,
+    active: PropTypes.func.isRequired,
+    inactive: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {
@@ -67,6 +69,14 @@ export class ProjectUserListContainer extends React.Component {
     // validate all visible requests
     const tasks = keys(this.props.waitingAccessUsers).map(userId => this.props.validateProjectUser(userId))
     this.performAll(tasks)
+  }
+
+  onActive = (userId) => {
+    this.performAll([this.props.active(userId)])
+  }
+
+  onInactive = (userId) => {
+    this.performAll([this.props.inactive(userId)])
   }
 
   getBackUrl = () => {
@@ -113,6 +123,8 @@ export class ProjectUserListContainer extends React.Component {
           onValidate={this.onValidate}
           onValidateAll={this.onValidateAll}
           onDeny={this.onDeny}
+          onActive={this.onActive}
+          onInactive={this.onInactive}
         />
       </I18nProvider>
     )
@@ -128,8 +140,10 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchUsers: () => dispatch(projectUserActions.fetchPagedEntityList()),
   fetchWaitingAccessUsers: () => dispatch(waitingAccessUsersEntitiesActions.fetchWaitingUsersEntityList()),
-  validateProjectUser: userId => dispatch(waitingAccessUsersSignalActions.sendAccept(userId)),
-  denyProjectUser: userId => dispatch(waitingAccessUsersSignalActions.sendDeny(userId)),
+  validateProjectUser: userId => dispatch(ProjectUserSignalActions.sendAccept(userId)),
+  denyProjectUser: userId => dispatch(ProjectUserSignalActions.sendDeny(userId)),
+  active: userId => dispatch(ProjectUserSignalActions.sendActive(userId)),
+  inactive: userId => dispatch(ProjectUserSignalActions.sendInactive(userId)),
   deleteAccount: userId => dispatch(projectUserActions.deleteEntity(userId)),
 })
 

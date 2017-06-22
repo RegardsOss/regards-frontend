@@ -16,4 +16,6 @@ export default {
   DENY: 'deny',
   ACCEPT: 'accept',
   REFUSE: 'refuse',
+  ACTIVE: 'active',
+  INACTIVE: 'inactive',
 }

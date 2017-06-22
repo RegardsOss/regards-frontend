@@ -69,6 +69,8 @@ const initialProps = {
   onValidate: () => { },
   onValidateAll: () => { },
   onDeny: () => { },
+  onActive: () => { },
+  onInactive: () => { },
   createUrl: 'url/create',
   backUrl: 'url/back',
   initialFecthing: true,
@@ -187,8 +189,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     }
     enzymeWrapper.setProps(afterLoadingProps)
 
-    // assertion all row actions (3 for each line) are disabled
-    const actionsByRow = 4
+    // assertion all row actions (6 for each line) are disabled
+    const actionsByRow = 6
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.waiting, 'The component should display waiting users tab, as he was loaded with initial waiting users')
     assert.equal(countDisabled(HateoasIconAction, enzymeWrapper), size(waitingAccessUsers) * actionsByRow, 'The line actions should be disabled')
 

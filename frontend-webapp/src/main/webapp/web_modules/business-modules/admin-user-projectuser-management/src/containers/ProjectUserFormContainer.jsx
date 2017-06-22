@@ -72,9 +72,9 @@ export class ProjectUserFormContainer extends React.Component {
     this.updateMetadata(this.props.user)
 
     Promise.all(tasks)
-      .then(()=> {
+      .then(() => {
         this.setState({
-          isLoading: false
+          isLoading: false,
         })
       })
   }
@@ -143,10 +143,8 @@ export class ProjectUserFormContainer extends React.Component {
             fpmap(currentGroup => this.props.assignGroup(currentGroup, email)),
           )(group)
           const removeUserFromGroupTasks = flow(
-            fpfilter(currentGroup => {
-              return some(currentGroup.content.users, { email })
-              && every(group, groupName => groupName !== currentGroup.content.name)
-            }),
+            fpfilter(currentGroup => some(currentGroup.content.users, { email })
+              && every(group, groupName => groupName !== currentGroup.content.name)),
             fpmap(currentGroup => this.props.unassignGroup(currentGroup.content.name, email)),
           )(groupList)
           const tasks = concat(addUserToGroupTasks, removeUserFromGroupTasks)

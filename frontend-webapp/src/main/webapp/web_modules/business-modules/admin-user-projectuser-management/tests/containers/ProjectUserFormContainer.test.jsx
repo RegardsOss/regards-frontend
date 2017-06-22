@@ -94,7 +94,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
     expect(subComponent).to.have.length(1)
     assert.isFunction(subComponent.prop('children'))
     assert.deepEqual(subComponent.prop('children'), enzymeWrapper.instance().getFormComponent)
-    
+
     // the metadata must be defined for sub component (in V1, metadata lives separately of user as it is defined by front end)
     const metadata = enzymeWrapper.instance().getFormComponent().props.userMetadata
     assert.lengthOf(metadata, getMetadataArray().length, 'Each metadata should be provided')

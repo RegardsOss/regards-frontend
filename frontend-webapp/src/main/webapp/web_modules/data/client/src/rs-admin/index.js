@@ -58,9 +58,9 @@ import WaitingAccessUsersEntitiesActions from './user/WaitingAccessUsersEntities
 import getWaitingAccessUsersEntitiesReducer from './user/WaitingAccessUsersEntitiesReducer'
 import getWaitingAccessUsersEntitiesSelectors from './user/WaitingAccessUsersEntitiesSelectors'
 
-import WaitingAccessUsersSignalActions from './user/WaitingAccessUsersSignalActions'
-import getWaitingAccessUsersSignalReducer from './user/WaitingAccessUsersSignalReducer'
-import getWaitingAccessUsersSignalSelectors from './user/WaitingAccessUsersSignalSelectors'
+import ProjectUserSignalActions from './user/ProjectUserSignalActions'
+import getProjectUserSignalReducer from './user/ProjectUserSignalReducer'
+import getProjectUserSignalSelectors from './user/ProjectUserSignalSelectors'
 
 import EndpointActions from './endpoint/EndpointActions'
 import getEndpointReducers from './endpoint/EndpointReducers'
@@ -116,9 +116,9 @@ export default {
   getWaitingAccessUsersEntitiesReducer,
   getWaitingAccessUsersEntitiesSelectors,
 
-  WaitingAccessUsersSignalActions,
-  getWaitingAccessUsersSignalReducer,
-  getWaitingAccessUsersSignalSelectors,
+  ProjectUserSignalActions,
+  getProjectUserSignalReducer,
+  getProjectUserSignalSelectors,
 
   ResourceAccessActions,
   ResourceAccessReducers,
