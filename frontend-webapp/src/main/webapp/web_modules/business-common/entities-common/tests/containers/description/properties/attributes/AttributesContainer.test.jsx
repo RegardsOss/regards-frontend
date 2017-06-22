@@ -160,6 +160,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
           label: 'thelabel2',
           model: { id: 1 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
+          tags: [],
         },
       },
     }

@@ -11,7 +11,7 @@ import navigationContextActions from '../../models/navigation/NavigationContextA
 /**
 * Description adapter container (provides both styles and actions to common component)
 */
-class DescriptionContainer extends React.Component {
+export class DescriptionContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
     dispatchOnSearchTag: tag => dispatch(navigationContextActions.changeSearchTag(tag)),
