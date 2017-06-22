@@ -23,7 +23,7 @@ export class EntityTagContainer extends React.Component {
 
   static propTypes = {
     entity: CatalogShapes.Entity.isRequired,
-    onSearch: PropTypes.func,
+    onSearchTag: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     levelActions: PropTypes.instanceOf(DescriptionLevelActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -51,12 +51,12 @@ export class EntityTagContainer extends React.Component {
   }
 
   render() {
-    const { entity, dispatchShowDetail, onSearch } = this.props
+    const { entity, dispatchShowDetail, onSearchTag } = this.props
     const { alreadyInPath } = this.state
     return (
       <SimpleTagContainer
         tag={entity.content.label}
-        onSearch={onSearch}
+        onSearchTag={onSearchTag}
         onShowDescription={alreadyInPath ? null : dispatchShowDetail}
         isEntity
       />

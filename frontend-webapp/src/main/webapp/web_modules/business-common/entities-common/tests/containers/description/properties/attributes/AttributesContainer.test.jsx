@@ -77,6 +77,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
           label: 'ça',
           model: { id: 0 },
           descriptionFile: { type: 'text/markdown' },
+          tags: [],
         },
       },
     }
@@ -159,6 +160,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
           label: 'thelabel2',
           model: { id: 1 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
+          tags: [],
         },
       },
     }

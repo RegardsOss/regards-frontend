@@ -21,7 +21,7 @@ describe('[Entities Common] Testing EntityTagContainer', () => {
     assert.isDefined(EntityTagContainer)
   })
   it('should render correctly with data', () => {
-    const onSearch = () => { }
+    const onSearchTag = () => { }
     const dispatchShowDetail = () => { }
     const props = {
       entity: {
@@ -29,9 +29,10 @@ describe('[Entities Common] Testing EntityTagContainer', () => {
           ipId: 'urn:test',
           label: 'test',
           entityType: ENTITY_TYPES_ENUM.DATASET,
+          tags: [],
         },
       },
-      onSearch,
+      onSearchTag,
       levelActions: new DescriptionLevelActions('test'),
       levelSelectors: getDescriptionLevelSelectors(['test']),
       descriptionPath: [],
@@ -43,24 +44,25 @@ describe('[Entities Common] Testing EntityTagContainer', () => {
 
     testSuiteHelpers.assertWrapperProperties(subcontainerWrapper, {
       tag: props.entity.content.label,
-      onSearch,
+      onSearchTag,
       onShowDescription: dispatchShowDetail,
       isEntity: true,
     }, 'It should report required properties for subcontainer to work')
   })
   it('should avoid cyclic path of entities', () => {
-    const onSearch = () => { }
+    const onSearchTag = () => { }
     const dispatchShowDetail = () => { }
     const entity = {
       content: {
         ipId: 'urn:test',
         label: 'test',
         entityType: ENTITY_TYPES_ENUM.DATASET,
+        tags: [],
       },
     }
     const props = {
       entity,
-      onSearch,
+      onSearchTag,
       levelActions: new DescriptionLevelActions('test'),
       levelSelectors: getDescriptionLevelSelectors(['test']),
       descriptionPath: [entity],
@@ -72,7 +74,7 @@ describe('[Entities Common] Testing EntityTagContainer', () => {
     assert.lengthOf(subcontainerWrapper, 1, 'there should be a delegate container')
     testSuiteHelpers.assertWrapperProperties(subcontainerWrapper, {
       tag: props.entity.content.label,
-      onSearch,
+      onSearchTag,
       onShowDescription: null, // the callback should not be provided when already shown in path
       isEntity: true,
     }, 'It should report required properties for subcontainer to work')

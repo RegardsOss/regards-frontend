@@ -40,7 +40,7 @@ class PluginLoader extends React.Component {
     children: PropTypes.element,
     onErrorCallback: PropTypes.func,
     // Set by mapstatetoprops
-    loadedPlugin: AccessShapes.UIPlugin,
+    loadedPlugin: AccessShapes.UIPluginInstanceContent,
     loadPlugin: PropTypes.func,
     locale: PropTypes.string,
   }
