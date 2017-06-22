@@ -10,6 +10,7 @@ export default {
   EMAIL: 'invalid.email',
   INVLID_JSON_FORMAT: 'invalid.json',
   ALPHA_NUMERIC: 'invalid.only_alphanumeric',
+  NUMERIC: 'invalid.only_numeric',
   INVALID_IP: 'invalid.ip',
   DIFFERENT_PASSWORDS: 'different.password',
   INVALID_PASSWORD: 'invalid.password',

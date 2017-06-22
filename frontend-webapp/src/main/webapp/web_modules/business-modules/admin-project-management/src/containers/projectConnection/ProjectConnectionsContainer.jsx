@@ -89,7 +89,17 @@ export class ProjectConnectionsContainer extends React.Component {
    *
    * @param projectConnection
    */
-  onCreate = (projectConnection, successCallBack) => {
+  onCreate = (values, successCallBack) => {
+
+    const projectConnection = {
+      driverClassName: values.driverClassName,
+      url : `jdbc:postgresql://${values.address}:${values.port}/${values.db_name}`,
+      userName: values.userName,
+      password: values.password,
+      microservice: values.microservice,
+      project: values.project
+    }
+
     if (this.state.configureOneForAll) {
       this.onCreateAll(projectConnection)
     } else {
@@ -152,7 +162,17 @@ export class ProjectConnectionsContainer extends React.Component {
    *
    * @param projectConnection
    */
-  onUpdate = (id, projectConnection, successCallBack) => {
+  onUpdate = (id, values, successCallBack) => {
+    const projectConnection = {
+      id : values.id,
+      driverClassName: values.driverClassName,
+      url : `jdbc:postgresql://${values.address}:${values.port}/${values.db_name}`,
+      userName: values.userName,
+      password: values.password,
+      microservice: values.microservice,
+      project: values.project
+    }
+
     if (this.state.configureOneForAll) {
       this.onCreateAll(projectConnection)
     } else {

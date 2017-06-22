@@ -3,12 +3,12 @@
  */
 import keys from 'lodash/keys'
 import Checkbox from 'material-ui/Checkbox'
-import { Project } from '@regardsoss/model'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
+import {Project} from '@regardsoss/model'
+import {themeContextType} from '@regardsoss/theme'
+import {i18nContextType} from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
+import {RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage} from '@regardsoss/form-utils'
 import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 
 /**
@@ -66,9 +66,26 @@ export class ProjectConnectionFormComponent extends React.Component {
    * Or initialize with a new one (creating mode).
    */
   handleInitialize = () => {
-    const { projectConnection } = this.props
-    if (projectConnection) {
-      this.props.initialize(projectConnection.content)
+    const {projectConnection} = this.props
+    if (projectConnection && projectConnection.content) {
+      if (projectConnection.content.url) {
+        const urlParts = projectConnection.content.url.match(/.*:\/\/(.*):([0-9]*)\/(.*)/)
+        const address = urlParts && urlParts[1] ? urlParts[1] : ''
+        const port = urlParts && urlParts[2] ? urlParts[2] : ''
+        const db_name = urlParts && urlParts[3] ? urlParts[3] : ''
+        const initializationValues = {
+          id: projectConnection.content.id,
+          microservice: projectConnection.content.microservice,
+          project: projectConnection.content.project,
+          driverClassName: projectConnection.content.driverClassName,
+          address: address,
+          port: port,
+          db_name: db_name,
+          userName: projectConnection.content.userName,
+          password: projectConnection.content.password
+        }
+        this.props.initialize(initializationValues)
+      }
     } else {
       this.props.initialize({
         microservice: this.props.microservice,
@@ -93,8 +110,8 @@ export class ProjectConnectionFormComponent extends React.Component {
   renderCancelButton = () => {
     if (this.props.onCancel) {
       const cancelLabel = this.props.isStep && !this.props.configureOneForAll ?
-        this.context.intl.formatMessage({ id: 'database.form.action.previous' }) :
-        this.context.intl.formatMessage({ id: 'database.form.action.cancel' })
+        this.context.intl.formatMessage({id: 'database.form.action.previous'}) :
+        this.context.intl.formatMessage({id: 'database.form.action.cancel'})
       return (<SecondaryActionButtonComponent
         label={cancelLabel}
         onTouchTap={this.props.onCancel}
@@ -105,8 +122,8 @@ export class ProjectConnectionFormComponent extends React.Component {
 
   render() {
     const label = this.props.isStep && !this.props.configureOneForAll ?
-      this.context.intl.formatMessage({ id: 'database.form.action.next' }) :
-      this.context.intl.formatMessage({ id: 'database.form.action.save' })
+      this.context.intl.formatMessage({id: 'database.form.action.next'}) :
+      this.context.intl.formatMessage({id: 'database.form.action.save'})
 
     const submitAction = this.props.projectConnection && !this.props.configureOneForAll ? this.updateProjectConnection : this.createProjectConnection
     return (
@@ -115,46 +132,59 @@ export class ProjectConnectionFormComponent extends React.Component {
         onSubmit={this.props.handleSubmit(submitAction)}
       >
         <FormErrorMessage>
-          {this.props.errorMessage ? this.context.intl.formatMessage({ id: this.props.errorMessage }) : null}
+          {this.props.errorMessage ? this.context.intl.formatMessage({id: this.props.errorMessage}) : null}
         </FormErrorMessage>
         <Field
           name="driverClassName"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={this.context.intl.formatMessage({ id: 'database.form.input.driverClassName' })}
+          label={this.context.intl.formatMessage({id: 'database.form.input.driverClassName'})}
           disabled
         />
         <Field
-          name="url"
+          name="address"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={this.context.intl.formatMessage({ id: 'database.form.input.url' })}
-          hintText={'jdbc:postgresql://serveur:port/databasename'}
+          label={this.context.intl.formatMessage({id: 'database.form.input.address'})}
+        />
+        <Field
+          name="port"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={this.context.intl.formatMessage({id: 'database.form.input.port'})}
+        />
+        <Field
+          name="db_name"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={this.context.intl.formatMessage({id: 'database.form.input.db_name'})}
         />
         <Field
           name="userName"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={this.context.intl.formatMessage({ id: 'database.form.input.userName' })}
+          label={this.context.intl.formatMessage({id: 'database.form.input.userName'})}
         />
         <Field
           name="password"
           fullWidth
           component={RenderTextField}
           type="password"
-          label={this.context.intl.formatMessage({ id: 'database.form.input.password' })}
+          label={this.context.intl.formatMessage({id: 'database.form.input.password'})}
         />
         <Checkbox
-          label={this.context.intl.formatMessage({ id: 'database.form.input.cange.configuration.mode' })}
+          label={this.context.intl.formatMessage({id: 'database.form.input.cange.configuration.mode'})}
           checked={this.state.configureOneForAll}
           onCheck={this.onChangeConfigurationMode}
         />
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 20 }}>
+        <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: 20}}>
           <SecondaryActionButtonComponent
-            label={this.context.intl.formatMessage({ id: 'database.form.reset' })}
+            label={this.context.intl.formatMessage({id: 'database.form.reset'})}
             onTouchTap={this.handleInitialize}
           />
           {this.renderCancelButton()}
@@ -169,7 +199,9 @@ export class ProjectConnectionFormComponent extends React.Component {
   }
 }
 
-function validate(values) {
+function
+
+validate(values) {
   const errors = {}
   if (!keys(values).length) {
     // XXX workaround for redux form bug initial validation:
@@ -179,8 +211,17 @@ function validate(values) {
   if (!values.driverClassName) {
     errors.driverClassName = ErrorTypes.REQUIRED
   }
-  if (!values.url) {
-    errors.url = ErrorTypes.REQUIRED
+  if (!values.address) {
+    errors.address = ErrorTypes.REQUIRED
+  }
+  if (!values.port) {
+    errors.port = ErrorTypes.REQUIRED
+  }
+  if (isNaN(values.port)) {
+    errors.port = ErrorTypes.NUMERIC
+  }
+  if (!values.db_name) {
+    errors.address = ErrorTypes.REQUIRED
   }
   if (!values.userName) {
     errors.userName = ErrorTypes.REQUIRED

@@ -20,7 +20,7 @@ const props = {
       userName: 'Alice',
       password: 'password',
       driverClassName: 'PostgreSQL',
-      url: 'http://google.com',
+      url: 'jdbcpostgresql://rs_test:5432/test',
       connectivity: EnumConnectivity.SUCCESS,
     },
     links: [],
@@ -57,6 +57,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionFormComponent', ()
 
   it('should render the subcomponents', () => {
     const enzymeWrapper = shallow(<ProjectConnectionFormComponent {...props} />, options)
-    expect(enzymeWrapper.find(Field)).to.have.length(4)
+    const fields = enzymeWrapper.find(Field)
+    expect(fields).to.have.length(6)
   })
 })
