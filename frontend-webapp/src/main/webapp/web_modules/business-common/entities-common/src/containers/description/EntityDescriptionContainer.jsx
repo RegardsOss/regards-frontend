@@ -49,10 +49,20 @@ export class EntityDescriptionContainer extends React.Component {
     onClose: PropTypes.func.isRequired,
   }
 
+  /**
+   * Local on search tag implementation: closes the description dialog when user searches a tag
+   * @note: this method must be called with onSearchTag method only
+   * @param tag searched tag
+   */
+  onSearchTag = (tag) => {
+    const { onSearchTag, onClose } = this.props
+    onSearchTag(tag)
+    onClose()
+  }
+
   render() {
-    const { shownEntity, onClose,
-      downloadDescriptionClient, fetchModelAttributesActions, fetchModelAttributesSelectors,
-      levelActions, levelSelectors } = this.props
+    const { shownEntity, onClose, downloadDescriptionClient, onSearchTag,
+      fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors } = this.props
     return (
       <I18nProvider messageDir="business-common/entities-common/src/i18n">
         <ModuleThemeProvider module={MODULE_STYLES}>
@@ -66,7 +76,7 @@ export class EntityDescriptionContainer extends React.Component {
             levelActions={levelActions}
             levelSelectors={levelSelectors}
 
-            onSearchTag={this.props.onSearchTag}
+            onSearchTag={onSearchTag ? this.onSearchTag : null}
             onClose={onClose}
           />
         </ModuleThemeProvider>

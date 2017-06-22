@@ -77,6 +77,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
           label: 'ça',
           model: { id: 0 },
           descriptionFile: { type: 'text/markdown' },
+          tags: [],
         },
       },
     }

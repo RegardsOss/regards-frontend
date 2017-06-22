@@ -60,14 +60,14 @@ class TagsComponent extends React.Component {
               return (
                 <div style={tagsContainer.rootStyle}>
                   {
-                    simpleTags.map(tag => <SimpleTagContainer key={tag} tag={tag} onSearch={onSearchTag} />)
+                    simpleTags.map(tag => <SimpleTagContainer key={tag} tag={tag} onSearchTag={onSearchTag} />)
                   }
                   {
                     entityTags.map(entity => (
                       <EntityTagContainer
                         key={entity.content.ipId}
                         entity={entity}
-                        onSearch={onSearchTag}
+                        onSearchTag={onSearchTag}
                         levelActions={levelActions}
                         levelSelectors={levelSelectors}
                       />))
