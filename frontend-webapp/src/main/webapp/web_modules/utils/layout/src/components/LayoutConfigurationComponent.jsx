@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { Layout } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { Card, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import Container from './Container'
@@ -19,7 +19,7 @@ class LayoutConfigurationComponent extends React.Component {
 
 
   static propTypes = {
-    layout: Layout,
+    layout: AccessShapes.Layout,
     hideDynamicContentOption: PropTypes.bool,
     project: PropTypes.string,
     onChange: PropTypes.func,

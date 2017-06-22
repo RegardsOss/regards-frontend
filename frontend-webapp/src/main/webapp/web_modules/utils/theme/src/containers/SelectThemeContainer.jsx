@@ -9,7 +9,7 @@ import MenuItem from 'material-ui/MenuItem'
 // cannot import our connect method here, cyclic dependencies
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Theme, ThemeList } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
 import { themeSelectors } from '../clients/ThemeClient'
@@ -23,8 +23,8 @@ import defaultTheme from '../model/defaultTheme'
 export class SelectThemeContainer extends React.Component {
 
   static propTypes = {
-    currentTheme: Theme,
-    themeList: ThemeList,
+    currentTheme: AccessShapes.Theme,
+    themeList: AccessShapes.ThemeList,
     onChange: PropTypes.func,
   }
 

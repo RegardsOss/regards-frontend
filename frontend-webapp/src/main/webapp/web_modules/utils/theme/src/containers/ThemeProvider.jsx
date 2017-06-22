@@ -8,7 +8,7 @@ import has from 'lodash/has'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { connect } from 'react-redux'
-import { Theme } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { themeActions, themeSelectors } from '../clients/ThemeClient'
 import { themeInstanceActions } from '../clients/ThemeInstanceClient'
@@ -29,7 +29,7 @@ import defaultTheme from '../model/defaultTheme'
 export class ThemeProvider extends React.Component {
 
   static propTypes = {
-    currentTheme: Theme,
+    currentTheme: AccessShapes.Theme,
     isInstance: PropTypes.bool,
     fetchThemeList: PropTypes.func,
     fetchThemeInstanceList: PropTypes.func,

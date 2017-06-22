@@ -3,7 +3,7 @@
  **/
 import { IntlProvider } from 'react-intl'
 import { connect } from '@regardsoss/redux'
-import { Plugin } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { i18nSelectors } from '@regardsoss/i18n'
 import isNil from 'lodash/isNil'
@@ -40,7 +40,7 @@ class PluginLoader extends React.Component {
     children: PropTypes.element,
     onErrorCallback: PropTypes.func,
     // Set by mapstatetoprops
-    loadedPlugin: Plugin,
+    loadedPlugin: AccessShapes.UIPlugin,
     loadPlugin: PropTypes.func,
     locale: PropTypes.string,
   }
