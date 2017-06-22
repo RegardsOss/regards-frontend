@@ -3,7 +3,7 @@
  **/
 import merge from 'lodash/merge'
 import { themeContextType } from '@regardsoss/theme'
-import { AccessShapes  } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import Container from './Container'
 
 /**

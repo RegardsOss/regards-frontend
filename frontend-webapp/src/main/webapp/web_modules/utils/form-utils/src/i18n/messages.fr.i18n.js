@@ -6,8 +6,8 @@ const messages = {
   'invalid.only_numeric': 'Seuls les caractères numériques sont autorisés',
   'invalid.ip': 'IP invalide',
   'invalid.password': 'Le mot de passe ne correspond pas au format attendu (voir ci-dessus)',
-  'invalid.regex.pattern' : 'La valeur ne correspond pas au pattern {regexp} ',
-  'invalid.numeric.range' : 'Votre valeur doit être comprise entre {lowerBound} et {upperBound}',
+  'invalid.regex.pattern': 'La valeur ne correspond pas au pattern {regexp} ',
+  'invalid.numeric.range': 'Votre valeur doit être comprise entre {lowerBound} et {upperBound}',
   'different.password': 'Les mots de passe spécifiés diffèrent',
   'type.string': 'Le type devrait être String',
 

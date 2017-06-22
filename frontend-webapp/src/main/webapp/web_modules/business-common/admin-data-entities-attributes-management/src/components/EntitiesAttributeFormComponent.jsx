@@ -33,7 +33,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
   }
 
   getField = (modelAttribute) => {
-    console.error("SEB",modelAttribute)
+    console.error('SEB', modelAttribute)
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
         if (this.isRestrictedWithEnum(modelAttribute)) {
@@ -126,7 +126,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
   }
 
   getRestrictions = (modelAttribute) => {
-
     const complexRestriction = this.getComplexRestriction(modelAttribute.content.attribute.restriction)
 
     switch (modelAttribute.content.attribute.type) {
@@ -134,7 +133,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
         if (!modelAttribute.optional) {
           return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
         }
-        return [ValidationHelpers.string, ]
+        return [ValidationHelpers.string]
       case MODEL_ATTR_TYPES.DOUBLE:
       case MODEL_ATTR_TYPES.LONG:
       case MODEL_ATTR_TYPES.INTEGER:

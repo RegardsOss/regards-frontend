@@ -30,6 +30,7 @@ class AuthenticationDialog extends React.Component {
         contentStyle={moduleTheme.dialog.content}
         autoDetectWindowHeight
         repositionOnUpdate
+        modal
         {...dialogProperties}
       >
         {children}

@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { BasicArrayActions } from '@regardsoss/store-utils'
 
 /**

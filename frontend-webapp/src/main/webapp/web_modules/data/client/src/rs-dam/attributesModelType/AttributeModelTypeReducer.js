@@ -1,6 +1,9 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
+import sortBy from 'lodash/sortBy'
 import { BasicArrayReducers } from '@regardsoss/store-utils'
 import AttributeModelTypeActions from './AttributeModelTypeActions'
-import sortBy from 'lodash/sortBy'
 
 class AttributeModelTypeReducer extends BasicArrayReducers {
   constructor(namespace) {

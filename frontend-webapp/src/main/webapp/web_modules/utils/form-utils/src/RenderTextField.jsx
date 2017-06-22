@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import isString from 'lodash/isString'
 import TextField from 'material-ui/TextField'
 import RenderHelper from './RenderHelper'
 

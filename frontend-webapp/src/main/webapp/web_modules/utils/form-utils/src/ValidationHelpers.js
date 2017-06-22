@@ -76,9 +76,9 @@ export const string = value => isString(value) ? undefined : ErrorTypes.TYPE_STR
 export const validRequiredNumber = value =>
   !isNil(value) && value !== '' && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
 
-export const matchRegex = regex => (value) => isString(value) && (value.search(regex) != -1) ? undefined : ErrorTypes.invalidRegex(regex)
+export const matchRegex = regex => value => isString(value) && (value.search(regex) !== -1) ? undefined : ErrorTypes.invalidRegex(regex)
 
-export const isInNumericRange = (lowerBound, upperBound,minExcluded,maxExcluded) => (value) =>
+export const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExcluded) => value =>
   !isNaN(lowerBound) && !isNaN(upperBound) && ((maxExcluded && value < upperBound) || (!maxExcluded && value <= upperBound))
   && ((minExcluded && value > lowerBound) || (!minExcluded && value >= lowerBound)) ? undefined : ErrorTypes.invalidNumericRange(lowerBound, upperBound)
 

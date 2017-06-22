@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-
+import isString from 'lodash/isString'
 /**
  * @author Sébastien Binda
  */
@@ -13,18 +13,18 @@
  * @param intl
  * @returns {*}
  */
-export const getErrorMessage = (touched, error,intl) => {
+export const getErrorMessage = (touched, error, intl) => {
   let errorMessage = null
   if (touched && error) {
     if (isString(error)) {
       errorMessage = intl.formatMessage({ id: error })
     } else {
-      errorMessage = intl.formatMessage({ id: error.key },error.props)
+      errorMessage = intl.formatMessage({ id: error.key }, error.props)
     }
   }
   return errorMessage
 }
 
 export default {
-  getErrorMessage
+  getErrorMessage,
 }
