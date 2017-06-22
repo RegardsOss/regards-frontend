@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { PluginDefinition } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
 import PluginLoader from './PluginLoader'
@@ -41,7 +41,7 @@ class PluginProvider extends React.Component {
     onErrorCallback: PropTypes.func,
     children: PropTypes.element,
     // Set by mapstatetoprops
-    pluginToLoad: PluginDefinition,
+    pluginToLoad: AccessShapes.UIPluginDefinition,
     fetchPlugin: PropTypes.func,
   }
 

@@ -1,3 +1,6 @@
+/*
+ * LICENSE_PLACEHOLDER
+ */
 import { BasicArrayReducers } from '@regardsoss/store-utils'
 import AttributeModelRestrictionActions from './AttributeModelRestrictionActions'
 

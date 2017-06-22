@@ -2,7 +2,6 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import some from 'lodash/some'
-import filter from 'lodash/filter'
 import values from 'lodash/values'
 import forEach from 'lodash/forEach'
 import map from 'lodash/map'
@@ -317,22 +316,22 @@ export class ProjectUserFormComponent extends React.Component {
 }
 
 
-function validate(values) {
+function validate(formValues) {
   const errors = {}
-  if (values.email) {
-    if (!ValidationHelpers.isValidEmail(values.email)) {
+  if (formValues.email) {
+    if (!ValidationHelpers.isValidEmail(formValues.email)) {
       errors.email = ErrorTypes.EMAIL
     }
   } else {
     errors.email = ErrorTypes.REQUIRED
   }
-  if (!values.firstName) {
+  if (!formValues.firstName) {
     errors.firstName = ErrorTypes.REQUIRED
   }
-  if (!values.lastName) {
+  if (!formValues.lastName) {
     errors.lastName = ErrorTypes.REQUIRED
   }
-  if (!values.password) {
+  if (!formValues.password) {
     errors.password = ErrorTypes.REQUIRED
   }
   return errors

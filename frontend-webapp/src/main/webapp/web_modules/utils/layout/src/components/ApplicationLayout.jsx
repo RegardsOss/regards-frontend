@@ -3,10 +3,8 @@
  **/
 import merge from 'lodash/merge'
 import { themeContextType } from '@regardsoss/theme'
-import { PluginConf } from '@regardsoss/model'
-import { ModuleShape } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 import Container from './Container'
-import ContainerShape from '../model/ContainerShape'
 
 /**
  * ApplicationLayout
@@ -18,9 +16,9 @@ class ApplicationLayout extends React.Component {
   static propTypes = {
     project: PropTypes.string,
     appName: PropTypes.string.isRequired,
-    layout: ContainerShape,
-    modules: PropTypes.arrayOf(ModuleShape),
-    plugins: PropTypes.arrayOf(PluginConf),
+    layout: AccessShapes.ContainerContent,
+    modules: PropTypes.arrayOf(AccessShapes.Module),
+    plugins: PropTypes.arrayOf(AccessShapes.UIPluginConf),
     // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.object,
     // eslint-disable-next-line react/forbid-prop-types

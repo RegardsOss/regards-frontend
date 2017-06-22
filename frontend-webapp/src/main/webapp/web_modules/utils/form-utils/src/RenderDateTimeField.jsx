@@ -4,7 +4,7 @@
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
 import { dateTimeFormat } from '@regardsoss/i18n'
-import isString from 'lodash/isString'
+import isDate from 'lodash/isDate'
 import IconButton from 'material-ui/IconButton'
 import Clear from 'material-ui/svg-icons/content/clear'
 import { themeContextType } from '@regardsoss/theme'
@@ -34,7 +34,6 @@ export class RenderDateTimeField extends React.Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }),
-    // fullWidth: PropTypes.bool,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),
@@ -86,6 +85,21 @@ export class RenderDateTimeField extends React.Component {
   }
 
   /**
+   * Return a usable date or null (which is correct for the subcomponent DatePicker & TimePicker)
+   * @param value
+   * @returns {*}
+   */
+  getDateForComponent = (value) => {
+    if (isDate(value)) {
+      return value
+    }
+    if (Date.parse(value) > 0) {
+      return new Date(value)
+    }
+    return null
+  }
+
+  /**
    * Callback function that is fired when the date value changes.
    *
    * @param {Object} event Change event targetting the text field.
@@ -93,9 +107,10 @@ export class RenderDateTimeField extends React.Component {
    */
   handleChangeDate = (event, newValue) => {
     const { input: { value, onChange } } = this.props
+    const parsedDate = this.getDateForComponent(value)
     // Pick the time part from the time picker
-    if (value) {
-      newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds())
+    if (isDate(parsedDate)) {
+      newValue.setHours(parsedDate.getHours(), parsedDate.getMinutes(), parsedDate.getSeconds(), parsedDate.getMilliseconds())
     }
     onChange(newValue)
   }
@@ -108,9 +123,10 @@ export class RenderDateTimeField extends React.Component {
    */
   handleChangeTime = (event, newValue) => {
     const { input: { value, onChange } } = this.props
+    const parsedDate = this.getDateForComponent(value)
     // Pick the date part from the the date picker
-    if (value) {
-      newValue.setFullYear(value.getFullYear(), value.getMonth(), value.getDate())
+    if (isDate(parsedDate)) {
+      newValue.setFullYear(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate())
     }
     onChange(newValue)
   }
@@ -124,10 +140,10 @@ export class RenderDateTimeField extends React.Component {
   }
 
   render() {
-    const { intl, timeFormat, label, input } = this.props
+    const { intl, timeFormat, input } = this.props
     const clearButtonDisplayed = input.value !== undefined
     // At first the value is an empty string
-    const dateValue = isString(input.value) ? null : input.value
+    const dateValue = this.getDateForComponent(input.value)
     return (
       <div
         style={RenderDateTimeField.style.rootContainer}

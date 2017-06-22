@@ -5,6 +5,7 @@ import has from 'lodash/has'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
+import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderCheckbox, RenderDateTimeField, RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -32,7 +33,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
   }
 
   getField = (modelAttribute) => {
-    console.log(modelAttribute.content.attribute.type, MODEL_ATTR_TYPES.STRING)
+    console.error('SEB', modelAttribute)
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
         if (this.isRestrictedWithEnum(modelAttribute)) {
@@ -71,7 +72,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       component={RenderTextField}
       type={type}
       label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
-      validate={this.getRestriction(modelAttribute)}
+      validate={this.getRestrictions(modelAttribute)}
     />
   )
 
@@ -93,7 +94,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       fullWidth
       component={RenderSelectField}
-      validate={this.getRestriction(modelAttribute)}
+      validate={this.getRestrictions(modelAttribute)}
       label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
     >
       {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
@@ -107,25 +108,46 @@ export class EntitiesAttributeFormComponent extends React.Component {
     </Field>
   )
 
-  getRestriction = (modelAttribute) => {
+  getComplexRestriction = (restriction) => {
+    const restrictions = []
+    if (restriction) {
+      switch (restriction && restriction.type) {
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.PATTERN :
+          restrictions.push(ValidationHelpers.matchRegex(restriction.pattern))
+          break
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.INTEGER_RANGE :
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.LONG_RANGE :
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.DOUBLE_RANGE :
+          restrictions.push(ValidationHelpers.isInNumericRange(restriction.min, restriction.max, restriction.minExcluded, restriction.maxExcluded))
+          break
+        default:
+        // Nothing to do
+      }
+    }
+    return restrictions
+  }
+
+  getRestrictions = (modelAttribute) => {
+    const complexRestriction = this.getComplexRestriction(modelAttribute.content.attribute.restriction)
+
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
         if (!modelAttribute.optional) {
-          return [ValidationHelpers.string, ValidationHelpers.required]
+          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
         }
         return [ValidationHelpers.string]
       case MODEL_ATTR_TYPES.DOUBLE:
       case MODEL_ATTR_TYPES.LONG:
       case MODEL_ATTR_TYPES.INTEGER:
         if (!modelAttribute.optional) {
-          return [ValidationHelpers.validRequiredNumber]
+          return [ValidationHelpers.validRequiredNumber, ...complexRestriction]
         }
-        return []
+        return complexRestriction
       case MODEL_ATTR_TYPES.URL:
         if (!modelAttribute.optional) {
-          return [ValidationHelpers.string, ValidationHelpers.required]
+          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
         }
-        return []
+        return complexRestriction
       case MODEL_ATTR_TYPES.BOOLEAN:
       case MODEL_ATTR_TYPES.DATE:
       case MODEL_ATTR_TYPES.INTEGER_ARRAY:
@@ -138,7 +160,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       case MODEL_ATTR_TYPES.DATE_INTERVAL:
       case MODEL_ATTR_TYPES.LONG_INTERVAL:
       default:
-        return []
+        return complexRestriction
     }
   }
 

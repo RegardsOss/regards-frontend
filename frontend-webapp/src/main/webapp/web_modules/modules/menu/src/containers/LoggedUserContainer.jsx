@@ -64,6 +64,14 @@ export class LoggedUserContainer extends React.Component {
     }
   }
 
+  onLogout =() => {
+    Promise.resolve(this.props.onLogout()).then((actionResult) => {
+      if (!actionResult.error) {
+        this.goToHomePage()
+      }
+    })
+  }
+
   goToHomePage = () => {
     const { project, appName } = this.props
     let url
@@ -77,14 +85,14 @@ export class LoggedUserContainer extends React.Component {
 
 
   render() {
-    const { authenticationName, currentRole, borrowableRoles, onLogout,
+    const { authenticationName, currentRole, borrowableRoles,
       showProfileEdition, isInstance } = this.props
     return (
       <LoggedUserComponent
         name={authenticationName}
         showProfileEdition={!isInstance}
         onShowProfileEdition={showProfileEdition}
-        onLogout={onLogout}
+        onLogout={this.onLogout}
         currentRole={currentRole}
         borrowableRoles={borrowableRoles}
         onBorrowRole={this.onBorrowRole}

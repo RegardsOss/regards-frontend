@@ -1,0 +1,33 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
+
+
+import values from 'lodash/values'
+
+/**
+ * List of possible types for entities
+ * @type {{COLLECTION: string, DATASET: string, DOCUMENT: string, DATAOBJECT: string}}
+ */
+const ATTRIBUTE_MODEL_RESTRICTIONS_ENUM = {
+  NO_RESTRICTION: 'NO_RESTRICTION',
+  PATTERN: 'PATTERN',
+  ENUMERATION: 'ENUMERATION',
+  DATE_ISO8601: 'DATE_ISO8601',
+  INTEGER_RANGE: 'INTEGER_RANGE',
+  LONG_RANGE: 'LONG_RANGE',
+  DOUBLE_RANGE: 'DOUBLE_RANGE',
+  URL: 'URL',
+  GEOMETRY: 'GEOMETRY',
+}
+
+/**
+ * Return an array of Entity types
+ */
+const ATTRIBUTE_MODEL_RESTRICTIONS_TYPES = values(ATTRIBUTE_MODEL_RESTRICTIONS_ENUM)
+
+
+export default {
+  ATTRIBUTE_MODEL_RESTRICTIONS_TYPES,
+  ATTRIBUTE_MODEL_RESTRICTIONS_ENUM,
+}
