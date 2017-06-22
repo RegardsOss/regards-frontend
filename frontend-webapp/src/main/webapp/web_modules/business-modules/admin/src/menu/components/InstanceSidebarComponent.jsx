@@ -73,12 +73,6 @@ class InstanceSidebarComponent extends React.Component {
           primaryText={this.context.intl.formatMessage({ id: 'menu.instance.ui.configuration' })}
           leftIcon={<Brush />}
         />
-        <Divider />
-        <MenuItem
-          primaryText={this.context.intl.formatMessage({ id: 'menu.logout' })}
-          leftIcon={<PowerSettingsNew />}
-          onTouchTap={onLogout}
-        />
       </Drawer>
     )
   }

@@ -12,8 +12,6 @@ import { layoutActions } from './clients/LayoutClient'
 
 const boardAddRequiredDependencies = [
   moduleActions.getDependency(RequestVerbEnum.POST),
-  moduleActions.getDependency(RequestVerbEnum.GET),
-  layoutActions.getDependency(RequestVerbEnum.GET),
 ]
 
 const boardListRequiredDependencies = [

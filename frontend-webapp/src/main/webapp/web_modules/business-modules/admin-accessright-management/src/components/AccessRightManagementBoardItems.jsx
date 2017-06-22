@@ -3,7 +3,7 @@
  **/
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import { EditDependencies as GroupEditDep, AddDependencies as GroupAddDep } from '@regardsoss/admin-accessright-accessgroup-management/src/dependencies'
+import { listDependencies as GroupEditDep, addDependencies as GroupAddDep } from '@regardsoss/admin-accessright-accessgroup-management/src/dependencies'
 
 /**
  * Configuration file for user management boards items.

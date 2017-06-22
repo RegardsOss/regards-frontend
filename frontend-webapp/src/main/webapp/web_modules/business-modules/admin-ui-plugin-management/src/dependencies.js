@@ -6,7 +6,6 @@ import { uiPluginDefinitionActions } from './clients/UIPluginDefinitionClient'
  * @type {Array}
  */
 const boardAddRequiredDependencies = [
-  uiPluginDefinitionActions.getDependency(RequestVerbEnum.GET),
   uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST),
 ]
 /**

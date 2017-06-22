@@ -10,6 +10,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { PluginDefinition } from '@regardsoss/model'
+import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -104,12 +105,18 @@ class PluginListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{plugin.content.name}</TableRowColumn>
                   <TableRowColumn>
-                    <IconButton onTouchTap={() => this.props.onEdit(plugin.content)}>
+                    <HateoasIconAction
+                      entityLinks={plugin.links}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      onTouchTap={() => this.props.onEdit(plugin.content)}>
                       <Edit hoverColor={style.hoverButtonEdit} />
-                    </IconButton>
-                    <IconButton onTouchTap={() => this.openDeleteDialog(plugin.content)}>
+                    </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={plugin.links}
+                      hateoasKey={HateoasKeys.DELETE}
+                      onTouchTap={() => this.openDeleteDialog(plugin.content)}>
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </IconButton>
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}

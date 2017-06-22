@@ -11,7 +11,6 @@ import { modelActions } from './clients/ModelClient'
  */
 const listDependencies = [
   modelActions.getDependency(RequestVerbEnum.GET_LIST),
-  modelActions.getDependency(RequestVerbEnum.GET),
 ]
 
 /**

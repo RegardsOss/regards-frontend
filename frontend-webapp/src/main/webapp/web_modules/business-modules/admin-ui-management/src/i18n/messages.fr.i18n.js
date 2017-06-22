@@ -24,10 +24,10 @@ const messages = Object.assign({
   'project.plugin.title': 'Plugins',
   'project.plugin.description': 'Référence les plugins utilisés sur l\'interface projet. Il existe deux types de plugin: les plugins critères, qui sont des champs de formulaire, et les plugins services, pour apporter des fonctionnalités supplémentaires sur les données du catalogue',
 
-  'portal.theme.title': 'Theme du portail',
-  'project.theme.title': 'Configuration des themes',
-  'project.theme.description': 'Configuration des themes de l\'interface',
-  'project.theme.tooltip': 'Editer les themes',
+  'portal.theme.title': 'Thèmes du portail',
+  'project.theme.title': 'Configuration des thèmes',
+  'project.theme.description': 'Configuration des thèmes de l\'interface',
+  'project.theme.tooltip': 'Editer les thèmes',
 
   'action.list.tooltip': 'Liste',
   'action.add.tooltip': 'Ajouter',

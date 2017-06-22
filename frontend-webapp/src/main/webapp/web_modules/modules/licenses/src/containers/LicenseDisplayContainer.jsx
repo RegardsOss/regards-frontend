@@ -1,8 +1,10 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { i18nContextType } from '@regardsoss/i18n'
+
+import get from 'lodash/get'
 import FlatButton from 'material-ui/FlatButton'
+import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
@@ -88,9 +90,14 @@ export class LicenseDisplayContainer extends React.Component {
     return null
   }
 }
+
+
+const getLicenseLinkFromState = (state) => get(ProjectLicenseSelectors.getResult(state), 'content.licenseLink')
+const getLicenseAcceptedFromState = (state) => get(ProjectLicenseSelectors.getResult(state), 'content.accepted',false)
+
 const mapStateToProps = state => ({
-  licenseLink: ProjectLicenseSelectors.getResult(state) && ProjectLicenseSelectors.getResult(state).licenseLink,
-  accepted: ProjectLicenseSelectors.getResult(state) ? ProjectLicenseSelectors.getResult(state).accepted : false,
+  licenseLink: getLicenseLinkFromState(state),
+  accepted: getLicenseAcceptedFromState(state),
 })
 
 const mapDispatchToProps = dispatch => ({
