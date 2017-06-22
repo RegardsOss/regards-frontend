@@ -114,10 +114,12 @@ export class EntitiesAttributeFormComponent extends React.Component {
       switch (restriction && restriction.type) {
         case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.PATTERN :
           restrictions.push(ValidationHelpers.matchRegex(restriction.pattern))
+          break
         case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.INTEGER_RANGE :
         case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.LONG_RANGE :
         case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.DOUBLE_RANGE :
           restrictions.push(ValidationHelpers.isInNumericRange(restriction.min, restriction.max, restriction.minExcluded, restriction.maxExcluded))
+          break
         default:
         // Nothing to do
       }

@@ -203,7 +203,7 @@ class ModuleContainer extends React.Component {
   }
 
   getInitialValues = () => {
-    const parameters = this.state.searchQuery.match(/[^ ]*:["(\[][^")\]]*[")\]]|[^ ]*/g)
+    const parameters = this.state.searchQuery.match(/[^ ]*:["([][^")\]]*[")\]]|[^ ]*/g)
     const initialValues = {}
     if (parameters && parameters.length > 0) {
       parameters.forEach((parameter) => {
