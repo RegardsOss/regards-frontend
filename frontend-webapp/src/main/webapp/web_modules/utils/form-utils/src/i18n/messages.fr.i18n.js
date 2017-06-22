@@ -6,6 +6,7 @@ const messages = {
   'invalid.only_numeric': 'Seuls les caractères numériques sont autorisés',
   'invalid.ip': 'IP invalide',
   'invalid.password': 'Le mot de passe ne correspond pas au format attendu (voir ci-dessus)',
+  'invalid.regex.pattern' : 'La valeure ne correspond pas au pattern {regexp} ',
   'different.password': 'Les mots de passe spécifiés diffèrent',
   'type.string': 'Le type devrait être String',
 

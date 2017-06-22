@@ -16,4 +16,15 @@ export default {
   INVALID_PASSWORD: 'invalid.password',
   INVALID_URL: 'invalid.url',
   TYPE_STRING: 'type.string',
+  invalidRegex: (regexp) => ({
+    key: 'invalid.regex.pattern',
+    props: {regexp}
+  }),
+  invalidNumericRange: (lowerBound, upperBound) => ({
+    key: 'invalid.numeric.range',
+    props: {
+      lowerBound,
+      upperBound
+    }
+  })
 }
