@@ -4,7 +4,8 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity, CatalogEntityTypes } from '@regardsoss/model'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { authenticationSelectors } from '../../../clients/AuthenticationClient'
 import DownloadDescriptionClient from '../../../clients/DownloadDescriptionClient'
@@ -33,10 +34,10 @@ export class DescriptionFileContainer extends React.Component {
     dispatchFetchDescription: (entityId, entityType) => {
       // use right fetch actions for entity types
       switch (entityType) {
-        case CatalogEntityTypes.COLLECTION:
+        case ENTITY_TYPES_ENUM.COLLECTION:
           dispatch(downloadDescriptionClient.downloadCollectionDescriptionActions.downloadEntityDescription(entityId))
           break
-        case CatalogEntityTypes.DATASET:
+        case ENTITY_TYPES_ENUM.DATASET:
           dispatch(downloadDescriptionClient.downloadDatasetDescriptionActions.downloadEntityDescription(entityId))
           break
         default:
@@ -47,7 +48,7 @@ export class DescriptionFileContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    entity: CatalogEntity,
+    entity: CatalogShapes.Entity,
     // required client for file description download
     // eslint-disable-next-line react/no-unused-prop-types
     downloadDescriptionClient: PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
@@ -101,7 +102,7 @@ export class DescriptionFileContainer extends React.Component {
       if (newEntity) {
         // Check if entity has description and if it should be downloaded
         const { content: { ipId: entityId, entityType, descriptionFile } } = newEntity
-        if ([CatalogEntityTypes.COLLECTION, CatalogEntityTypes.DATASET].includes(entityType) &&
+        if ([ENTITY_TYPES_ENUM.COLLECTION, ENTITY_TYPES_ENUM.DATASET].includes(entityType) &&
           descriptionFile && DescriptionFileContainer.DOWNLOAD_CONTENT_TYPES.includes(get(descriptionFile, 'type'))) {
           // entity is a collection or dataset and its content should be download
           dispatchFetchDescription(entityId, entityType)
@@ -131,17 +132,17 @@ export class DescriptionFileContainer extends React.Component {
     if (newEntity) {
       const { content: { ipId, entityType, descriptionFile } } = newEntity
       // Only collection and dataset can have description
-      if ([CatalogEntityTypes.COLLECTION, CatalogEntityTypes.DATASET].includes(entityType)) {
+      if ([ENTITY_TYPES_ENUM.COLLECTION, ENTITY_TYPES_ENUM.DATASET].includes(entityType)) {
         const { type: fileType, url } = (descriptionFile || {}) // initialize found file type and URL
         if (url) { // Case 1: description as external URL
           nextDescription.url = url
         } else if (fileType) { // Case 2: locally stored file
           if (DescriptionFileContainer.DOWNLOAD_CONTENT_TYPES.includes(fileType)) {
             // Case 2a: locally downloaded file
-            if (entityType === CatalogEntityTypes.COLLECTION && nextCollectionDesc && nextCollectionDesc.entityId === ipId) {
+            if (entityType === ENTITY_TYPES_ENUM.COLLECTION && nextCollectionDesc && nextCollectionDesc.entityId === ipId) {
               // a collection description
               nextDescription.localContent = nextCollectionDesc
-            } else if (entityType === CatalogEntityTypes.DATASET && nextDatasetDesc && nextDatasetDesc.entityId === ipId) {
+            } else if (entityType === ENTITY_TYPES_ENUM.DATASET && nextDatasetDesc && nextDatasetDesc.entityId === ipId) {
               // a dataset description
               nextDescription.localContent = nextDatasetDesc
             }

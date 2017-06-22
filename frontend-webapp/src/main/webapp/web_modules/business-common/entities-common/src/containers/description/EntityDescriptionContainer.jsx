@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleThemeProvider } from '@regardsoss/modules'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 import DownloadDescriptionClient from '../../clients/DownloadDescriptionClient'
@@ -43,7 +43,7 @@ export class EntityDescriptionContainer extends React.Component {
     downloadDescriptionClient: PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
 
     // from mapStateToProps
-    shownEntity: CatalogEntity, // entity shown or null
+    shownEntity: CatalogShapes.Entity, // entity shown or null
 
     // from mapDispatchToProps
     onClose: PropTypes.func.isRequired,

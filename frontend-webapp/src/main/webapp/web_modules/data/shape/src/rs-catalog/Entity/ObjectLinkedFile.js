@@ -9,8 +9,8 @@ import { OBJECT_LINKED_FILE_TYPES } from '@regardsoss/domain/catalog'
  */
 
 const ObjectLinkedFile = PropTypes.shape({
-  type: PropTypes.oneOf(OBJECT_LINKED_FILE_TYPES).isRequired,
-  uri: PropTypes.string.isRequired,
+  dataType: PropTypes.oneOf(OBJECT_LINKED_FILE_TYPES).isRequired,
+  fileRef: PropTypes.string.isRequired,
 })
 
 export default {

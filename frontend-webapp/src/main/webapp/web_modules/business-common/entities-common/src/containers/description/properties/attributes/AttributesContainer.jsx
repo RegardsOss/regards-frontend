@@ -6,9 +6,11 @@ import isEqual from 'lodash/isEqual'
 import isUndefined from 'lodash/isUndefined'
 import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity, ModelAttribute, AttributeModelController } from '@regardsoss/model'
+import { DamDomain } from '@regardsoss/domain'
+import { CatalogShapes, DataManagementShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
+import { StringComparison } from '@regardsoss/form-utils'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import AttributesComponent from '../../../../components/description/properties/attributes/AttributesComponent'
 
@@ -28,7 +30,7 @@ export class AttributesContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    entity: CatalogEntity,
+    entity: CatalogShapes.Entity,
     // eslint-disable-next-line react/no-unused-prop-types
     fetchModelAttributesActions: PropTypes.instanceOf(DataManagementClient.ModelAttributesActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -36,7 +38,7 @@ export class AttributesContainer extends React.Component {
     // from mapStateToProps
     loading: PropTypes.bool.isRequired, // is currently loading
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchedModelAttributes: PropTypes.objectOf(ModelAttribute),
+    fetchedModelAttributes: PropTypes.objectOf(DataManagementShapes.ModelAttribute),
     // from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchFetchModelAttributes: PropTypes.func.isRequired,
@@ -87,18 +89,33 @@ export class AttributesContainer extends React.Component {
   /**
   * Resolves found model attributes in
   */
-  resolveEntityAttributes = (nextEntity, newModelAttributes) => map(newModelAttributes, ({ content: { attribute: attributeModel } }) => {
-    // resolve attribute value in entity (push attribute in content, as it is not normalized )
-    const accessPath = AttributeModelController.getAttributeAccessPath({ content: attributeModel })
-    const value = AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
-    return {
-      id: attributeModel.id,
-      label: attributeModel.label,
-      renderer: getTypeRender(attributeModel.type),
-      // prepare value for render, as expected by the renderers API
-      renderValue: value ? { main: value } : null,
-    }
-  })
+  resolveEntityAttributes = (nextEntity, newModelAttributes) => {
+    // 1 - resolve standard attributes
+    const standardAttributes = DamDomain.AttributeModelController.descriptionStandardAttributes.map((attrId, index) => {
+      const value = nextEntity.content[attrId]
+      return {
+        id: -(index + 1), // as standard attributes array is static, index is a valid id, as long as it cant conflict with DB ID (negative)
+        label: attrId,
+        renderer: getTypeRender(DamDomain.AttributeModelController.getStandardAttributeType(attrId)),
+        renderValue: value ? { main: value } : null,
+      }
+    })
+    // 2 - resolve dynamic attributes
+    const dynamicAttributes = map(newModelAttributes, ({ content: { attribute: attributeModel } }) => {
+      // resolve attribute value in entity (push attribute in content, as it is not normalized )
+      const accessPath = DamDomain.AttributeModelController.getAttributeAccessPath({ content: attributeModel })
+      const value = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
+      return {
+        id: attributeModel.id,
+        label: attributeModel.label,
+        renderer: getTypeRender(attributeModel.type),
+        // prepare value for render, as expected by the renderers API
+        renderValue: value ? { main: value } : null,
+      }
+    })
+    // 3 - make table and sort
+    return [...standardAttributes, ...dynamicAttributes].sort((attr1, attr2) => StringComparison.compare(attr1.label, attr2.label))
+  }
 
   render() {
     const { loading } = this.props

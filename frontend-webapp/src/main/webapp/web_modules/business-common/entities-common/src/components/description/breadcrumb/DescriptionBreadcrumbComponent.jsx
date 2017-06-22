@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Breadcrumb } from '@regardsoss/components'
 
@@ -12,7 +12,7 @@ class NavigationComponent extends React.Component {
 
   static propTypes = {
     // all entities in current description path
-    descriptionPath: PropTypes.arrayOf(CatalogEntity),
+    descriptionPath: PropTypes.arrayOf(CatalogShapes.Entity),
     onEntitySelected: PropTypes.func.isRequired, // on breadcrumb entity selected (entity, index) => void
   }
 

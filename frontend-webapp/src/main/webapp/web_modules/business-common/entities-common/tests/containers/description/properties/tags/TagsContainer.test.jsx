@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CatalogEntityTypes } from '@regardsoss/model'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import TagsComponent from '../../../../../src/components/description/properties/tags/TagsComponent'
 import { TagsContainer } from '../../../../../src/containers/description/properties/tags/TagsContainer'
 import DescriptionLevelActions from '../../../../../src/model/description/DescriptionLevelActions'
@@ -52,7 +52,7 @@ describe('[ Module name] Testing TagsContainer', () => {
         content: {
           ipId: 'urn:test',
           label: 'kikou',
-          entityType: CatalogEntityTypes.COLLECTION,
+          entityType: ENTITY_TYPES_ENUM.COLLECTION,
           tags: ['simpleTag1', 'simpleTag2', 'URN:entityTag1', 'URN:entityTag2'],
         },
       },

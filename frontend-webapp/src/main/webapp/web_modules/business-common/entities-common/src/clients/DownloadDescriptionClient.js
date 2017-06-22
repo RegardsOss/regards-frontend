@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { CatalogEntityTypes } from '@regardsoss/model'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { DataManagementClient } from '@regardsoss/client'
 
 
@@ -24,12 +24,12 @@ export default class DownloadDescriptionClient {
    * @param {Array[String]} parentStorePathArray path to module store root as array
    */
   constructor(actionsNamespacePrefix = 'common', parentStorePathArray) {
-    this.downloadDatasetDescriptionActions = new DataManagementClient.DownloadEntityDescriptionActions(CatalogEntityTypes.DATASET, actionsNamespacePrefix)
+    this.downloadDatasetDescriptionActions = new DataManagementClient.DownloadEntityDescriptionActions(ENTITY_TYPES_ENUM.DATASET, actionsNamespacePrefix)
     this.reduceDownloadDatasetDescription = DataManagementClient.DownloadEntityDescriptionReducer(this.downloadDatasetDescriptionActions)
     this.downloadDatasetDescriptionSelectors = new DataManagementClient.DownloadEntityDescriptionSelectors(
       [...parentStorePathArray, DownloadDescriptionClient.LAST_DATASET_REDUCER_PATH_ELT])
 
-    this.downloadCollectionDescriptionActions = new DataManagementClient.DownloadEntityDescriptionActions(CatalogEntityTypes.COLLECTION, actionsNamespacePrefix)
+    this.downloadCollectionDescriptionActions = new DataManagementClient.DownloadEntityDescriptionActions(ENTITY_TYPES_ENUM.COLLECTION, actionsNamespacePrefix)
     this.reduceDownloadCollectionDescription = DataManagementClient.DownloadEntityDescriptionReducer(this.downloadCollectionDescriptionActions)
     this.downloadCollectionDescriptionSelectors = new DataManagementClient.DownloadEntityDescriptionSelectors(
       [...parentStorePathArray, DownloadDescriptionClient.LAST_COLLECTION_REDUCER_PATH_ELT])

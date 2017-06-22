@@ -18,6 +18,7 @@ const testEntity = {
     ipId: 'test',
     label: 'test',
     entityType: 'COLLECTION',
+    tags: [],
   },
 }
 

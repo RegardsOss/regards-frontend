@@ -3,7 +3,7 @@
 **/
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import DescriptionLevelActions from '../../../../model/description/DescriptionLevelActions'
 import { DescriptionLevelSelectors } from '../../../../model/description/DescriptionLevelSelectors'
 import SimpleTagContainer from './SimpleTagContainer'
@@ -22,7 +22,7 @@ export class EntityTagContainer extends React.Component {
 
 
   static propTypes = {
-    entity: CatalogEntity.isRequired,
+    entity: CatalogShapes.Entity.isRequired,
     onSearch: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     levelActions: PropTypes.instanceOf(DescriptionLevelActions).isRequired,
@@ -30,7 +30,7 @@ export class EntityTagContainer extends React.Component {
     levelSelectors: PropTypes.instanceOf(DescriptionLevelSelectors).isRequired,
     // from map state to props
     // eslint-disable-next-line react/no-unused-prop-types
-    descriptionPath: PropTypes.arrayOf(CatalogEntity),
+    descriptionPath: PropTypes.arrayOf(CatalogShapes.Entity),
     // from mapDispatchToProps
     dispatchShowDetail: PropTypes.func.isRequired,
   }

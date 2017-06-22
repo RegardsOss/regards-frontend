@@ -7,7 +7,7 @@ import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PositionedDialog } from '@regardsoss/components'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 import DownloadDescriptionClient from '../../clients/DownloadDescriptionClient'
@@ -25,7 +25,7 @@ class EntityDescriptionComponent extends React.Component {
 
   static propTypes = {
     // component API
-    entity: CatalogEntity,
+    entity: CatalogShapes.Entity,
     open: PropTypes.bool.isRequired,
 
     // clients and selectors for sub components

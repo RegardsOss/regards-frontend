@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CatalogEntityTypes } from '@regardsoss/model'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { EntityTagContainer } from '../../../../../src/containers/description/properties/tags/EntityTagContainer'
 import SimpleTagContainer from '../../../../../src/containers/description/properties/tags/SimpleTagContainer'
 import DescriptionLevelActions from '../../../../../src/model/description/DescriptionLevelActions'
@@ -28,7 +28,7 @@ describe('[Entities Common] Testing EntityTagContainer', () => {
         content: {
           ipId: 'urn:test',
           label: 'test',
-          entityType: CatalogEntityTypes.DATASET,
+          entityType: ENTITY_TYPES_ENUM.DATASET,
         },
       },
       onSearch,
@@ -55,7 +55,7 @@ describe('[Entities Common] Testing EntityTagContainer', () => {
       content: {
         ipId: 'urn:test',
         label: 'test',
-        entityType: CatalogEntityTypes.DATASET,
+        entityType: ENTITY_TYPES_ENUM.DATASET,
       },
     }
     const props = {

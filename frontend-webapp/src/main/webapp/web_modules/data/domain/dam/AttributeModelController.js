@@ -19,6 +19,7 @@ const StandardAttributes = [
 ]
 
 const SearchableStandardAttributes = ['label', 'creationDate', 'lastUpdate']
+const descriptionStandardAttributes = ['ipId', 'sipId', 'label', 'creationDate', 'lastUpdate']
 const SPECIAL_FILES_ATTRIBUTE_NAME = 'files'
 const DEFAULT_FRAGMENT = 'default'
 
@@ -159,5 +160,6 @@ export default {
   getAttributeModelFullLabel,
   StandardAttributes,
   SearchableStandardAttributes,
+  descriptionStandardAttributes,
   ATTRIBUTE_TYPES,
 }

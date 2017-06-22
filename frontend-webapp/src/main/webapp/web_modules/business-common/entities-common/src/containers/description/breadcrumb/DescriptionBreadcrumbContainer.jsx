@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import DescriptionLevelActions from '../../../model/description/DescriptionLevelActions'
 import { DescriptionLevelSelectors } from '../../../model/description/DescriptionLevelSelectors'
 import DescriptionBreadcrumbComponent from '../../../components/description/breadcrumb/DescriptionBreadcrumbComponent'
@@ -30,7 +30,7 @@ export class DescriptionBreadcrumbContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     levelSelectors: PropTypes.instanceOf(DescriptionLevelSelectors).isRequired, // used by mapStateToProps
     // from mapStateToProps
-    descriptionPath: PropTypes.arrayOf(CatalogEntity),
+    descriptionPath: PropTypes.arrayOf(CatalogShapes.Entity),
     // from map dispatch to props
     dispatchEntitySelected: PropTypes.func.isRequired,
   }

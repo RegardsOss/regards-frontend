@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { themeContextType } from '@regardsoss/theme'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 import DescriptionLevelActions from '../../../model/description/DescriptionLevelActions'
@@ -16,7 +16,7 @@ import TagsContainer from '../../../containers/description/properties/tags/TagsC
 class PropertiesTabComponent extends React.Component {
 
   static propTypes = {
-    entity: CatalogEntity,
+    entity: CatalogShapes.Entity,
     onSearchTag: PropTypes.func,
     fetchModelAttributesActions: PropTypes.instanceOf(DataManagementClient.ModelAttributesActions).isRequired,
     fetchModelAttributesSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,

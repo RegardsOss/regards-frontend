@@ -5,7 +5,7 @@ import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { ScrollArea } from '@regardsoss/adapters'
 import DescriptionLevelActions from '../../../../model/description/DescriptionLevelActions'
 import { DescriptionLevelSelectors } from '../../../../model/description/DescriptionLevelSelectors'
@@ -22,7 +22,7 @@ class TagsComponent extends React.Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     simpleTags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    entityTags: PropTypes.arrayOf(CatalogEntity).isRequired,
+    entityTags: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
     onSearchTag: PropTypes.func,
     levelActions: PropTypes.instanceOf(DescriptionLevelActions).isRequired,
     levelSelectors: PropTypes.instanceOf(DescriptionLevelSelectors).isRequired,

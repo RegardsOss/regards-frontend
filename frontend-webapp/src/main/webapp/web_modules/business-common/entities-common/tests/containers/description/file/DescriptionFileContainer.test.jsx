@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CatalogEntityTypes } from '@regardsoss/model'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { DataManagementClient } from '@regardsoss/client'
 import DescriptionFileComponent from '../../../../src/components/description/file/DescriptionFileComponent'
 import { DescriptionFileContainer } from '../../../../src/containers/description/file/DescriptionFileContainer'
@@ -72,6 +72,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
           label: 'ça',
           model: { id: 0 },
           descriptionFile: { type: 'text/markdown' },
+          tags: [],
         },
       },
     }
@@ -99,13 +100,14 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
       dispatchFetchDescription: () => { fetchCount.description += 1 },
       entity: {
         content: {
-          entityType: CatalogEntityTypes.COLLECTION,
+          entityType: ENTITY_TYPES_ENUM.COLLECTION,
           ipId: 'URN:AIP:COLLECTION:0',
           label: 'ça',
           model: { id: 0 },
           descriptionFile: {
             url: 'http://www.google.com',
           },
+          tags: [],
         },
       },
     }
@@ -123,13 +125,14 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
       ...props,
       entity: {
         content: {
-          entityType: CatalogEntityTypes.DATASET,
+          entityType: ENTITY_TYPES_ENUM.DATASET,
           ipId: 'URN:AIP:DATASET:0',
           label: 'ça',
           model: { id: 1 },
           descriptionFile: {
             url: 'http://www.macron.c.con',
           },
+          tags: [],
         },
       },
     }
@@ -161,11 +164,12 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
       dispatchFetchDescription: () => { fetchCount.description += 1 },
       entity: {
         content: {
-          entityType: CatalogEntityTypes.COLLECTION,
+          entityType: ENTITY_TYPES_ENUM.COLLECTION,
           ipId,
           label: 'ça',
           model: { id: 0 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
+          tags: [],
         },
       },
     }
@@ -176,7 +180,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
     let componentWrapper = containerWrapper.find(DescriptionFileComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for collection entity')
     assert.equal(componentWrapper.props().descriptionFileURL,
-      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(CatalogEntityTypes.COLLECTION, ipId, accessToken),
+      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.COLLECTION, ipId, accessToken),
       'The file should use the internal description download URL')
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
 
@@ -185,11 +189,12 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
       ...props,
       entity: {
         content: {
-          entityType: CatalogEntityTypes.DATASET,
+          entityType: ENTITY_TYPES_ENUM.DATASET,
           ipId: datasetIpId,
           label: 'ça',
           model: { id: 1 },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
+          tags: [],
         },
       },
     }
@@ -199,7 +204,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
     componentWrapper = containerWrapper.find(DescriptionFileComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for dataset entity')
     assert.equal(componentWrapper.props().descriptionFileURL,
-      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(CatalogEntityTypes.DATASET, datasetIpId, accessToken),
+      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.DATASET, datasetIpId, accessToken),
       'The file should use the internal description download URL')
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
   })
@@ -220,7 +225,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
       dispatchFetchDescription: () => { fetchCount.description += 1 },
       entity: {
         content: {
-          entityType: CatalogEntityTypes.COLLECTION,
+          entityType: ENTITY_TYPES_ENUM.COLLECTION,
           ipId: datasetIpId,
           label: 'ça',
           model: { id: 1 },
@@ -228,6 +233,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
           properties: {
             aproperty: 'entityPropertyValue',
           },
+          tags: [],
         },
       },
       fetchedDatasetDescriptionResult: {
@@ -254,7 +260,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
       ...props,
       entity: {
         content: {
-          entityType: CatalogEntityTypes.DATASET,
+          entityType: ENTITY_TYPES_ENUM.DATASET,
           ipId: datasetIpId,
           label: 'ça',
           model: { id: 1 },
@@ -262,6 +268,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
           properties: {
             aproperty: 'entityPropertyValue',
           },
+          tags: [],
         },
       },
     })
@@ -276,7 +283,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
       ...props,
       entity: {
         content: {
-          entityType: CatalogEntityTypes.COLLECTION,
+          entityType: ENTITY_TYPES_ENUM.COLLECTION,
           ipId: collectionIpId,
           label: 'ça',
           model: { id: 1 },
@@ -284,6 +291,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
           properties: {
             aproperty: 'entityPropertyValue',
           },
+          tags: [],
         },
       },
     })

@@ -3,7 +3,7 @@
 **/
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { StringComparison } from '@regardsoss/form-utils'
 import { actions as searchEntityActions } from '../../../../clients/SearchEntityClient'
 import DescriptionLevelActions from '../../../../model/description/DescriptionLevelActions'
@@ -22,7 +22,7 @@ export class TagsContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    entity: CatalogEntity,
+    entity: CatalogShapes.Entity,
     // eslint-disable-next-line react/no-unused-prop-types
     onSearchTag: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -35,7 +35,7 @@ export class TagsContainer extends React.Component {
   static DEFAULT_STATE = {
     loading: false,
     simpleTags: [], // String array. Simple tags list sorted alphabetically
-    entityTags: [], // CatalogEntity array. Resolved Related entities, sorted alphabetically on their label
+    entityTags: [], // CatalogShapes.Entity array. Resolved Related entities, sorted alphabetically on their label
   }
 
   /** URN tag pattern */
@@ -99,8 +99,8 @@ export class TagsContainer extends React.Component {
         // Compute next operation: next tag or exit main promise with resolved list?
         const afterPromise = remainingTags.length ? () => recursiveResolver(remainingTags) : terminatePromise
         // Fetch server entity
-        dispatchGetEntity(tag).then(({ payload: currentEntity }) => {
-          if (currentEntity) { // note: if fetching failed, payload is empty. We ignore the errors here
+        dispatchGetEntity(tag).then(({ payload: currentEntity, error }) => {
+          if (!error && currentEntity) { // note: if fetching failed, error is true
             resolved.push(currentEntity)
           }
           afterPromise()
