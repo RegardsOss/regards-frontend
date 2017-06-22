@@ -201,14 +201,14 @@ function validate(fieldValues) {
  * @param {*} dispatch  dispatch
  * @param {*} props  properties
  */
-function asyncValidate({ newPassword, useExistingAccount }, dispatch, props) {
+function asyncValidate({ newPassword }, dispatch, props) {
+  const { fetchPasswordValidity, useExistingAccount } = props
   if (useExistingAccount) {
     // no validation required, the user will not enter a password
     return Promise.resolve({})
   }
 
   // ugly async connection should be done by the container bu we can't
-  const { fetchPasswordValidity } = props
   return fetchPasswordValidity(newPassword).then((result) => {
     const validity = get(result, 'payload.content.validity', false)
     const errors = {}
