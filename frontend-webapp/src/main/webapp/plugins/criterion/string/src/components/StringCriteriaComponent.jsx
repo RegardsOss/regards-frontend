@@ -102,10 +102,7 @@ export class StringCriteriaComponent extends PluginComponent {
             margin: '0px 10px',
           }}
         />
-        <ClearButton
-          onClick={this.handleClear}
-          onTouchTap={this.handleClear}
-          displayed={clearButtonDisplayed}/>
+        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
         <Checkbox
           label={<FormattedMessage id="criterion.search.field.word.checkbox.label"/>}
           labelPosition="right"

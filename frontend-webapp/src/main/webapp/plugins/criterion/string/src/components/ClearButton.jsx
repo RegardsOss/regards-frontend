@@ -10,14 +10,12 @@ import { FormattedMessage } from 'react-intl'
  * Button used to clear the input values of a plugin. It scales up from hidden to displayed with a smooth animation
  * @author Xavier-Alexandre Brochard
  */
-const ClearButton = ({ onTouchTap, displayed, onClick }) => (
+const ClearButton = ({ onTouchTap, displayed }) => (
   <IconButton
     tooltip={<FormattedMessage id="criterion.clear"/>}
     style={{ transform: `scale(${displayed ? 1 : 0})` }}
   >
-    <Clear
-      onClick={onClick}
-      onTouchTap={onTouchTap}/>
+    <Clear onTouchTap={onTouchTap}/>
   </IconButton>
 )
 
