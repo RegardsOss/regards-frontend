@@ -47,6 +47,10 @@
 			<artifactId>frontend-webapp</artifactId>
 			<type>war</type>
 		</dependency>
+		<dependency>
+			<groupId>fr.cnes.regards.framework</groupId>
+			<artifactId>cloud-regards-starter</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
