@@ -33,7 +33,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
   }
 
   getField = (modelAttribute) => {
-    console.error('SEB', modelAttribute)
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
         if (this.isRestrictedWithEnum(modelAttribute)) {

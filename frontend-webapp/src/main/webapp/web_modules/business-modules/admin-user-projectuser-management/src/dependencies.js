@@ -20,8 +20,6 @@ const addDependencies = [
   accessGroupActions.getDependency(RequestVerbEnum.GET),
 ]
 
-console.error('SEB', addDependencies)
-
 export default {
   listDependencies,
   addDependencies,
