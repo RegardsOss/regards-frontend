@@ -72,7 +72,7 @@ export class ProjectConnectionFormComponent extends React.Component {
         const urlParts = projectConnection.content.url.match(/.*:\/\/(.*):([0-9]*)\/(.*)/)
         const address = urlParts && urlParts[1] ? urlParts[1] : ''
         const port = urlParts && urlParts[2] ? urlParts[2] : ''
-        const db_name = urlParts && urlParts[3] ? urlParts[3] : ''
+        const dbName = urlParts && urlParts[3] ? urlParts[3] : ''
         const initializationValues = {
           id: projectConnection.content.id,
           microservice: projectConnection.content.microservice,
@@ -80,7 +80,7 @@ export class ProjectConnectionFormComponent extends React.Component {
           driverClassName: projectConnection.content.driverClassName,
           address,
           port,
-          db_name,
+          db_name: dbName,
           userName: projectConnection.content.userName,
           password: projectConnection.content.password,
         }

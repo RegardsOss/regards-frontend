@@ -5,6 +5,7 @@ import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
+import get from 'lodash/get'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
@@ -16,14 +17,17 @@ import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginParameter, PluginMetaDataList, PluginMetaData, PluginConfiguration } from '@regardsoss/model'
+import { PluginParameter, PluginMetaDataList, PluginMetaData, PluginConfiguration, PluginParameterType } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import PluginMetaDataSelectors from '../../../model/plugin/PluginMetaDataSelectors'
-import PluginConfigurationSelectors from '../../../model/plugin/PluginConfigurationSelectors'
 import { buildMenuItemPrimaryText, getFieldName } from './utils'
 import moduleStyles from '../../../styles/styles'
+import {
+  pluginConfigurationActions,
+  pluginConfigurationSelectors,
+} from '../../../clients/PluginConfigurationClient'
 
 const { required, string } = ValidationHelpers
 
@@ -36,6 +40,7 @@ const { required, string } = ValidationHelpers
 export class PluginParameterPlugin extends React.Component {
 
   static propTypes = {
+    microserviceName: PropTypes.string.isRequired,
     pluginParameter: PluginParameter.isRequired,
     pluginMetaData: PluginMetaData,
     change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
@@ -43,6 +48,8 @@ export class PluginParameterPlugin extends React.Component {
     // form mapStateToProps
     pluginMetaDataList: PluginMetaDataList,
     pluginConfigurationList: PropTypes.arrayOf(PluginConfiguration),
+    pluginParameterType: PluginParameterType.isRequired,
+    fetchPluginConfigurationList: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -60,7 +67,23 @@ export class PluginParameterPlugin extends React.Component {
       mode: 'view',
       openMenu: false,
       value: props.pluginParameter && props.pluginParameter.value,
-      selectedPluginConfiguration: find(props.pluginConfigurationList, el => el.content.id === parseInt(props.pluginParameter.value, 10)),
+    }
+  }
+
+  componentDidMount() {
+    const { pluginParameterType, fetchPluginConfigurationList, microserviceName } = this.props
+
+    if (pluginParameterType.type) {
+      Promise.resolve(fetchPluginConfigurationList(pluginParameterType.type, microserviceName)).then(
+        () => {
+          const selectedPluginConfiguration = find(this.props.pluginConfigurationList, el => el.content.id === get(this.props.pluginParameter, 'pluginConfiguration.id'))
+          if (selectedPluginConfiguration) {
+            this.setState({
+              selectedPluginConfiguration,
+            })
+          }
+        },
+      )
     }
   }
 
@@ -163,9 +186,14 @@ export class PluginParameterPlugin extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  pluginMetaDataList: PluginMetaDataSelectors.getList(state),
-  pluginConfigurationList: PluginConfigurationSelectors.getListActiveAndSorted(state),
+const mapDispatchToProps = dispatch => ({
+  fetchPluginConfigurationList: (pluginType, microserviceName) =>
+    dispatch(pluginConfigurationActions.fetchEntityList({ microserviceName }, { pluginType })),
 })
 
-export default connect(mapStateToProps)(PluginParameterPlugin)
+const mapStateToProps = (state, ownProps) => ({
+  pluginMetaDataList: PluginMetaDataSelectors.getList(state),
+  pluginConfigurationList: pluginConfigurationSelectors.getListActiveAndSorted(state),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PluginParameterPlugin)

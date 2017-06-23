@@ -26,6 +26,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter dynamic component'
 
   it('should render a Chip', () => {
     const props = {
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginConfiguration: {
         content: {
           id: 2,

@@ -12,11 +12,14 @@ import { layoutActions } from './clients/LayoutClient'
 
 const boardAddRequiredDependencies = [
   moduleActions.getDependency(RequestVerbEnum.POST),
+  layoutActions.getDependency(RequestVerbEnum.GET),
 ]
 
 const boardListRequiredDependencies = [
   moduleActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
+
+console.error("SEB",boardAddRequiredDependencies)
 
 export default {
   boardAddRequiredDependencies,

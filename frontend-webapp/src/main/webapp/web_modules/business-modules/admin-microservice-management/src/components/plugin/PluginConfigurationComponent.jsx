@@ -64,13 +64,14 @@ class PluginConfigurationComponent extends React.Component {
   }
 
   render() {
-    const { pluginConfiguration, pluginMetaData, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick } = this.props
+    const { microserviceName, pluginConfiguration, pluginMetaData, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick } = this.props
 
     const styles = moduleStyles(this.context.muiTheme).pluginConfiguration
 
     const parameters = map(pluginMetaData.content.parameters, (pluginParameterType, index) => (
       <GenericPluginParameter
         key={pluginParameterType.name}
+        microserviceName={microserviceName}
         pluginParameterType={pluginParameterType}
         pluginParameter={mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration)}
         pluginMetaData={pluginMetaData}

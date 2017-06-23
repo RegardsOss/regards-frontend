@@ -39,6 +39,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing generic plugin parameter component'
         type: 'java.lang.String',
         paramType: 'PRIMITIVE',
       },
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       mode: 'edit',
     }
     const enzymeWrapper = shallow(<GenericPluginParameter {...props} />)
@@ -59,6 +60,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing generic plugin parameter component'
         type: 'java.lang.Integer',
         paramType: 'PRIMITIVE',
       },
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       mode: 'edit',
     }
     const enzymeWrapper = shallow(<GenericPluginParameter {...props} />)
@@ -79,6 +81,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing generic plugin parameter component'
         type: 'java.lang.Boolean',
         paramType: 'PRIMITIVE',
       },
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       mode: 'edit',
     }
     const enzymeWrapper = shallow(<GenericPluginParameter {...props} />)
@@ -88,6 +91,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing generic plugin parameter component'
 
   it('should render a PluginParameterPlugin when the parameter type is a Plugin', () => {
     const props = {
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginParameter: {
         id: 0,
         name: 'plgInterface',

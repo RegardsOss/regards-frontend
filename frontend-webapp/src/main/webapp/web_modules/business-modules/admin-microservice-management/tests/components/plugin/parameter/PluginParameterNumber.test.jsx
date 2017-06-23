@@ -26,6 +26,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter number component',
 
   it('should render a Field ', () => {
     const props = {
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,

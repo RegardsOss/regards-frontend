@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import get from 'lodash/get'
 import Subheader from 'material-ui/Subheader'
 import { ShowableAtRender } from '@regardsoss/components'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
@@ -29,17 +30,19 @@ export class PluginParameterString extends React.Component {
   }
 
   render() {
-    const { pluginParameter: { name, value }, pluginParameterType, mode, pluginMetaData } = this.props
+    const { pluginParameter, pluginParameterType, mode, pluginMetaData } = this.props
     const { muiTheme } = this.context
     const isView = mode === 'view'
     const validators = [string]
     const styles = moduleStyles(muiTheme)
 
-    let label = name
+    let label = pluginParameterType.name
     if (pluginParameterType && !pluginParameterType.optional) {
       validators.push(required)
       label += '*'
     }
+
+    const value = pluginParameter ? pluginParameter.value : get(pluginParameterType, 'defaultValue')
 
     return (
       <div>
@@ -51,7 +54,7 @@ export class PluginParameterString extends React.Component {
         </ShowableAtRender>
         <ShowableAtRender show={!isView}>
           <Field
-            name={getFieldName(name, pluginMetaData, '.value')}
+            name={getFieldName(pluginParameterType.name, pluginMetaData, '.value')}
             fullWidth
             component={RenderTextField}
             type={'text'}

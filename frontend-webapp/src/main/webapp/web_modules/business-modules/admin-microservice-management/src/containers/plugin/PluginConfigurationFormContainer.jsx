@@ -75,7 +75,7 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @returns {XML}
    */
   getFormComponent = () => {
-    const { params: { formMode }, currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching } = this.props
+    const { params: { formMode, microserviceName }, currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching } = this.props
     const isEmpty = this.state.isEditing && isUndefined(currentPluginConfiguration)
     return (
       <LoadableContentDisplayDecorator
@@ -88,6 +88,7 @@ export class PluginConfigurationFormContainer extends React.Component {
           currentPluginMetaData={currentPluginMetaData}
           currentPluginConfiguration={currentPluginConfiguration}
           formMode={formMode}
+          microserviceName={microserviceName}
         />
       </LoadableContentDisplayDecorator>
     )

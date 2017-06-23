@@ -24,6 +24,7 @@ const getFieldName = (name, pluginMetaData, suffix) => {
  * Shared prop
  */
 const pluginParameterComponentPropTypes = {
+  microserviceName: PropTypes.string.isRequired,
   pluginMetaData: PluginMetaData,
   // eslint-disable-next-line react/no-unused-prop-types
   pluginParameter: PluginParameter,

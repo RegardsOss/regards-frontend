@@ -9,7 +9,7 @@ import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers, red
 import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { buildDefaultParameterList, mapPluginParameterTypeToPluginParameter } from '../../model/plugin/utils'
+import { buildParameterList, buildDefaultParameterList, mapPluginParameterTypeToPluginParameter } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 import GenericPluginParameter from './parameter/GenericPluginParameter'
 
@@ -28,6 +28,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
+    microserviceName: PropTypes.string.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -89,6 +90,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     switch (formMode) {
       case 'edit':
         initialValues = Object.assign({}, currentPluginConfiguration && currentPluginConfiguration.content)
+        initialValues.parameters = buildParameterList(initialValues.parameters, currentPluginMetaData.content.parameters)
         break
       case 'create':
         initialValues = {
@@ -191,6 +193,7 @@ export class PluginConfigurationFormComponent extends React.Component {
               {currentPluginMetaData ? currentPluginMetaData.content.parameters.map((pluginParameterType, index) => (
                 <GenericPluginParameter
                   key={pluginParameterType.name}
+                  microserviceName={this.props.microserviceName}
                   fieldKey={`parameters.${index}`}
                   pluginParameterType={pluginParameterType}
                   pluginParameter={mapPluginParameterTypeToPluginParameter(pluginParameterType, currentPluginConfiguration)}

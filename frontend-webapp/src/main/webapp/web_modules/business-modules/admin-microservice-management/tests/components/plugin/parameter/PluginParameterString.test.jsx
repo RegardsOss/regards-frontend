@@ -26,6 +26,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
 
   it('should render a Field', () => {
     const props = {
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
@@ -48,6 +49,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
 
   it('should handle required/not required fields', () => {
     const props0 = {
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
@@ -68,6 +70,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter string component',
     expect(subComponent0.prop('validate')).to.have.length(2)
 
     const props1 = {
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
