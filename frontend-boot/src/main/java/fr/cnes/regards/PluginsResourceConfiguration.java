@@ -15,9 +15,9 @@ public class PluginsResourceConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         if ((staticExternalPath != null) && !staticExternalPath.isEmpty()) {
-            final String staticPath = staticExternalPath;
-            if (!staticExternalPath.endsWith("/")) {
-                staticExternalPath = staticExternalPath + "/";
+            String staticPath = staticExternalPath;
+            if (!staticPath.endsWith("/")) {
+                staticPath = staticPath + "/";
             }
             registry.addResourceHandler("/**").addResourceLocations("file:" + staticPath, "classpath:/static/");
         }
