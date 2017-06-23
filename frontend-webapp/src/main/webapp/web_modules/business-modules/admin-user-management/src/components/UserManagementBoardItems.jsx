@@ -3,9 +3,10 @@
  **/
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import { EditDependencies as UserEditDep, AddDependencies as UserAddDep } from '@regardsoss/admin-user-projectuser-management/src/dependencies'
-import { EditDependencies as RoleEditDep, AddDependencies as RoleAddDep } from '@regardsoss/admin-user-role-management/src/dependencies'
+import { listDependencies as UserEditDep, addDependencies as UserAddDep } from '@regardsoss/admin-user-projectuser-management/src/dependencies'
+import { listDependencies as RoleEditDep, addDependencies as RoleAddDep } from '@regardsoss/admin-user-role-management/src/dependencies'
 import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
+
 
 /**
  * Configuration file for user management boards items.

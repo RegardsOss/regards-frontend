@@ -155,7 +155,7 @@ export class ConnectionListComponent extends React.Component {
                 id="connection.list.action.add"
               />
             }
-            mainHateoasDependency={connectionActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[connectionActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'connection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

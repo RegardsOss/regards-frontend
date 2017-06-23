@@ -82,7 +82,6 @@ class BoardItemComponent extends React.Component {
     const actions = map(item.actions, (action, index) => (
       <HateoasDisplayDecorator
         requiredEndpoints={action.hateoasDependencies}
-        hateoasDisplayLogic={someMatchHateoasDisplayLogic}
         key={index}
       >
         <Link

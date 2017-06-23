@@ -23,6 +23,7 @@ import {
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { projectUserActions } from '../clients/ProjectUserClient'
+import { addDependencies } from '../dependencies'
 
 /**
  * User statuses constants, as returned by the server
@@ -316,7 +317,7 @@ export class ProjectUserListComponent extends React.Component {
             mainButtonUrl={tabContent.mainButtonUrl}
             mainButtonTouchTap={tabContent.mainButtonAction}
             mainButtonClassName={tabContent.mainButtonClassName}
-            mainHateoasDependency={projectUserActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={addDependencies}
             isMainButtonDisabled={tabContent.mainButtonDisabled}
             mainButtonLabel={this.context.intl.formatMessage({ id: tabContent.mainButtonKey })}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'projectUser.list.action.cancel' })}

@@ -164,7 +164,7 @@ export class AccessGroupListComponent extends React.Component {
               />
             }
             mainButtonClassName="selenium-createButton"
-            mainHateoasDependency={accessGroupActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[accessGroupActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'group.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

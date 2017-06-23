@@ -217,7 +217,7 @@ export class ProjectListComponent extends React.Component {
                 id="model.list.action.add"
               />
             }
-            mainHateoasDependency={modelActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[modelActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'model.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

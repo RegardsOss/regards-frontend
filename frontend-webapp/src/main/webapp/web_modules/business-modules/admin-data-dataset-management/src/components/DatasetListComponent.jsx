@@ -143,7 +143,7 @@ export class DatasetListComponent extends React.Component {
                 id="dataset.list.action.add"
               />
             }
-            mainHateoasDependency={datasetActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[datasetActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

@@ -168,7 +168,7 @@ export class FragmentListComponent extends React.Component {
                 id="fragment.list.action.add"
               />
             }
-            mainHateoasDependency={fragmentActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[fragmentActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'fragment.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

@@ -164,7 +164,7 @@ class ModuleListComponent extends React.Component {
                 id="modules.list.action.add"
               />
             }
-            mainHateoasDependency={moduleActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[moduleActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />

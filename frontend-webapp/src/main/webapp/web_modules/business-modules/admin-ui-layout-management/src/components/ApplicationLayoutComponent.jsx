@@ -83,7 +83,7 @@ class ApplicationLayoutComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'layout.submit' })}
               mainButtonType="submit"
-              mainHateoasDependency={LayoutActions.getDependency(RequestVerbEnum.PUT)}
+              mainHateoasDependencies={[LayoutActions.getDependency(RequestVerbEnum.PUT)]}
               isMainButtonDisabled={pristine || submitting}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
               secondaryButtonTouchTap={this.props.onCancel}

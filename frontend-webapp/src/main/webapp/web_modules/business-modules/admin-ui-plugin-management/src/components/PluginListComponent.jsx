@@ -108,13 +108,15 @@ class PluginListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => this.props.onEdit(plugin.content)}>
+                      onTouchTap={() => this.props.onEdit(plugin.content)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
                     <HateoasIconAction
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => this.openDeleteDialog(plugin.content)}>
+                      onTouchTap={() => this.openDeleteDialog(plugin.content)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>
                   </TableRowColumn>
@@ -131,7 +133,7 @@ class PluginListComponent extends React.Component {
                 id="plugins.list.action.add"
               />
             }
-            mainHateoasDependency={uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugins.list.action.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />

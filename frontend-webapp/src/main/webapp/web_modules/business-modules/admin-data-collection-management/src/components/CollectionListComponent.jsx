@@ -159,7 +159,7 @@ export class CollectionListComponent extends React.Component {
                 id="collection.list.action.add"
               />
             }
-            mainHateoasDependency={collectionActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[collectionActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

@@ -185,7 +185,7 @@ export class RoleListComponent extends React.Component {
                 id="role.list.action.add"
               />
             }
-            mainHateoasDependency={roleActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[roleActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={
               <FormattedMessage
                 id="role.list.action.cancel"
