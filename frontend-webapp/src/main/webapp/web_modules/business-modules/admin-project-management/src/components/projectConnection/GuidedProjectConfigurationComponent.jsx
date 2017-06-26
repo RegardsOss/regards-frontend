@@ -15,7 +15,7 @@ import Warning from 'material-ui/svg-icons/alert/warning'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
-import { ProjectConnection, Project } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
 
 /**
@@ -27,8 +27,8 @@ import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
 class GuidedProjectConfigurationComponent extends React.Component {
 
   static propTypes = {
-    project: Project.isRequired,
-    projectConnections: PropTypes.objectOf(ProjectConnection).isRequired,
+    project: AdminShapes.Project.isRequired,
+    projectConnections: AdminShapes.ProjectConnectionList.isRequired,
     configureOneForAll: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string,
     onUpdate: PropTypes.func,

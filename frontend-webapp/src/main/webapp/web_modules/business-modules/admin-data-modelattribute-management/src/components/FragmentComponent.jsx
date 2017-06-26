@@ -3,16 +3,16 @@
  **/
 import map from 'lodash/map'
 import keys from 'lodash/keys'
-import { AttributeModel, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import AttributeModelComponent from './AttributeModelComponent'
 import ModelAttributeContainer from '../containers/ModelAttributeContainer'
 import ItemTypes from './ItemTypes'
 
 class FragmentComponent extends React.Component {
   static propTypes = {
-    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
-    attributes: PropTypes.arrayOf(AttributeModel).isRequired,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    attributes: DataManagementShapes.AttributeModelArray.isRequired,
     type: PropTypes.string.isRequired,
   }
 

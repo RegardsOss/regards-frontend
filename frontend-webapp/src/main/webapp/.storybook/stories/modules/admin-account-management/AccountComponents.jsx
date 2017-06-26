@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object, boolean } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object, boolean } from '@storybook/addon-knobs'
 import AccountListComponent from '@regardsoss/admin-account-management/src/components/AccountListComponent'
 import AccountFormComponent from '@regardsoss/admin-account-management/src/components/AccountFormComponent'
 import { muiTheme } from 'storybook-addon-material-ui'

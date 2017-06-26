@@ -15,9 +15,9 @@ import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { AccessShapes } from '@regardsoss/shape'
 import { HateoasDisplayDecorator } from '@regardsoss/display-control'
 import Styles from '../styles/styles'
-import ModuleShape from '../model/ModuleShape'
 
 /**
  * Component to display all available modules for a given container
@@ -29,7 +29,7 @@ class ModuleListComponent extends React.Component {
     project: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     container: PropTypes.string,
-    modules: PropTypes.arrayOf(ModuleShape),
+    modules: AccessShapes.ModuleArray,
     onCloseMenu: PropTypes.func,
   }
 

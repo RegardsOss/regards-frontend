@@ -11,8 +11,8 @@ import MenuItem from 'material-ui/MenuItem'
 import Paper from 'material-ui/Paper'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
-import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
-import { PluginConf } from '@regardsoss/model'
+import { LazyModuleComponent } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 import { PluginProvider } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
@@ -34,8 +34,8 @@ class Container extends React.Component {
     project: PropTypes.string,
     appName: PropTypes.string.isRequired,
     container: ContainerShape,
-    modules: PropTypes.arrayOf(ModuleShape),
-    plugins: PropTypes.arrayOf(PluginConf),
+    modules: AccessShapes.ModuleArray,
+    plugins: AccessShapes.UIPluginConfArray,
     // eslint-disable-next-line react/forbid-prop-types
     pluginProps: PropTypes.object,
     dynamicContent: PropTypes.element,

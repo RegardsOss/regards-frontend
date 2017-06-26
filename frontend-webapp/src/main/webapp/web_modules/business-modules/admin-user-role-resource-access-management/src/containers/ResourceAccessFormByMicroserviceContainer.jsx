@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { Role, Resource } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { controllerActions, controllerSelectors } from '../clients/ResourceControllerClient'
@@ -20,13 +20,13 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
 
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
-    currentRole: Role,
-    resourceRoles: PropTypes.objectOf(Role),
-    roleResources: PropTypes.arrayOf(Resource),
+    currentRole: AdminShapes.Role,
+    resourceRoles: AdminShapes.RoleList,
+    roleResources: AdminShapes.ResourceArray,
     editRoleResources: PropTypes.func.isRequired,
     // from mapStateToProps
     controllerList: PropTypes.arrayOf(PropTypes.string),
-    resourceList: PropTypes.arrayOf(Resource),
+    resourceList: PropTypes.arrayOf(AdminShapes.Resource),
     resourceListFetching: PropTypes.bool,
     getResource: PropTypes.func,
     // from mapDispatchToProps

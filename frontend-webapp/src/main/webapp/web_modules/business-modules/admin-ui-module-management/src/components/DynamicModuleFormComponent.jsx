@@ -3,7 +3,8 @@
  **/
 import isEqual from 'lodash/isEqual'
 import { Card, CardText } from 'material-ui/Card'
-import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
+import { LazyModuleComponent } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 
 /**
  * React component to display and configure dynamic module configuration
@@ -15,7 +16,7 @@ class DynamicModuleFormComponent extends React.Component {
     project: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     appName: PropTypes.string.isRequired,
-    module: ModuleShape,
+    module: AccessShapes.Module,
     adminForm: PropTypes.shape({
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form

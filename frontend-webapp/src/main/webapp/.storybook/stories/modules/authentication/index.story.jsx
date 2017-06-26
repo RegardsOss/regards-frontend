@@ -8,7 +8,7 @@ import AuthenticationFormComponent from '@regardsoss-modules/authentication/src/
 import AskProjectAccessFormComponent from '@regardsoss-modules/authentication/src/components/AskProjectAccessFormComponent'
 import SessionLockedFormComponent from '@regardsoss-modules/authentication/src/components/SessionLockedFormComponent'
 import styles from '@regardsoss-modules/authentication/src/styles/styles'
-import { withKnobs, text, boolean, select } from '@kadira/storybook-addon-knobs'
+import { withKnobs, text, boolean, select } from '@storybook/addon-knobs'
 import { withStore, withLocale, withModuleTheme } from '../../decorators/index'
 
 storiesOf('Authentication', module)

@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import AccessGroupFormComponent from '@regardsoss/admin-accessright-accessgroup-management/src/components/AccessGroupFormComponent'
 import AccessGroupListComponent from '@regardsoss/admin-accessright-accessgroup-management/src/components/AccessGroupListComponent'
 import { muiTheme } from 'storybook-addon-material-ui'

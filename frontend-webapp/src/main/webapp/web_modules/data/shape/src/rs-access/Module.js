@@ -20,6 +20,7 @@ const Module = PropTypes.shape({
 })
 
 const ModuleList = PropTypes.objectOf(Module)
+const ModuleArray = PropTypes.arrayOf(Module)
 
 
-export default { ModuleList, Module }
+export default { ModuleList, Module, ModuleArray }

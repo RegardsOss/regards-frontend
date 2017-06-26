@@ -5,7 +5,7 @@ import omit from 'lodash/omit'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { ProjectUser, AccessGroup, Role } from '@regardsoss/model'
+import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
 import every from 'lodash/every'
 import some from 'lodash/some'
 import flow from 'lodash/flow'
@@ -27,9 +27,9 @@ import ProjectUserFormComponent from '../components/ProjectUserFormComponent'
 export class ProjectUserFormContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
-    roleList: PropTypes.objectOf(Role),
-    groupList: PropTypes.objectOf(AccessGroup),
-    user: ProjectUser,
+    roleList: AdminShapes.RoleList,
+    groupList: DataManagementShapes.AccessGroupList,
+    user: AdminShapes.ProjectUser,
     passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // from router
     params: PropTypes.shape({

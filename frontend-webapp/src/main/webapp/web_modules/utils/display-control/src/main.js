@@ -13,6 +13,7 @@ import HateoasLinks from './model/HateoasLinks'
 import applyHateoasDisplayLogic from './hateoas/applyHateoasDisplayLogic'
 import allMatchHateoasDisplayLogic from './logics/allMatchHateoasDisplayLogic'
 import someMatchHateoasDisplayLogic from './logics/someMatchHateoasDisplayLogic'
+import someListMatchHateoasDisplayLogic from './logics/someListMatchHateoasDisplayLogic'
 import LoadableContentDisplayDecorator from './async/LoadableContentDisplayDecorator'
 import LoadingComponent from './async/LoadingComponent'
 
@@ -29,6 +30,7 @@ export {
   applyHateoasDisplayLogic,
   allMatchHateoasDisplayLogic,
   someMatchHateoasDisplayLogic,
+  someListMatchHateoasDisplayLogic,
   LoadableContentDisplayDecorator,
   LoadingComponent,
 }

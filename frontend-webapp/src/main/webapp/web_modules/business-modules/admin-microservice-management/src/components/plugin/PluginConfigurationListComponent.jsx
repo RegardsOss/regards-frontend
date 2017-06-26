@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { PluginMetaData, PluginConfigurationList } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { ResourceIconAction } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
@@ -34,8 +34,8 @@ export default class PluginConfigurationListComponent extends React.Component {
       pluginId: PropTypes.string,
       pluginConfigurationId: PropTypes.string,
     }),
-    pluginMetaData: PluginMetaData,
-    pluginConfigurationList: PluginConfigurationList,
+    pluginMetaData: CommonShapes.PluginMetaData,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
     handleBackClick: PropTypes.func,
     handleAddClick: PropTypes.func,
   }

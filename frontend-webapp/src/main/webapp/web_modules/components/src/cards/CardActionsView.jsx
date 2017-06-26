@@ -22,7 +22,7 @@ class CardActionsView extends React.Component {
     mainButtonType: PropTypes.string,
     isMainButtonVisible: PropTypes.bool,
     isMainButtonDisabled: PropTypes.bool,
-    mainHateoasDependency: PropTypes.string,
+    mainHateoasDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
 
     /* theme: PropTypes.objectOf(PropTypes.string).isRequired,*/
   }
@@ -31,6 +31,7 @@ class CardActionsView extends React.Component {
     isSecondaryButtonVisible: true,
     isMainButtonVisible: true,
     isMainButtonDisabled: false,
+    mainHateoasDependencies: [],
   }
 
   render() {
@@ -58,13 +59,11 @@ class CardActionsView extends React.Component {
       </HateoasDisplayDecorator>
     ) : null
 
-    const mainRequiredEndpoints = this.props.mainHateoasDependency ? [this.props.mainHateoasDependency] : []
-
     return (
       <div style={styleCardActions}>
         {secondaryActionButtonComponent}
         <HateoasDisplayDecorator
-          requiredEndpoints={mainRequiredEndpoints}
+          requiredEndpoints={this.props.mainHateoasDependencies}
         >
           <MainActionButtonComponent
             className={this.props.mainButtonClassName}

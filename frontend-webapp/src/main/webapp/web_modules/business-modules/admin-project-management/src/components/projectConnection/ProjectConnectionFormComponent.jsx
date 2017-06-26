@@ -3,13 +3,12 @@
  */
 import keys from 'lodash/keys'
 import Checkbox from 'material-ui/Checkbox'
-import { Project } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
 import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
-import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 
 /**
  * Reusable {@link ProjectConnection} form for reading, editing, creating.
@@ -20,9 +19,9 @@ import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 export class ProjectConnectionFormComponent extends React.Component {
 
   static propTypes = {
-    project: Project,
+    project: AdminShapes.Project,
     microservice: PropTypes.string.isRequired,
-    projectConnection: ProjectConnection,
+    projectConnection: AdminShapes.ProjectConnection,
     configureOneForAll: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string,
     onUpdate: PropTypes.func,
@@ -72,7 +71,7 @@ export class ProjectConnectionFormComponent extends React.Component {
         const urlParts = projectConnection.content.url.match(/.*:\/\/(.*):([0-9]*)\/(.*)/)
         const address = urlParts && urlParts[1] ? urlParts[1] : ''
         const port = urlParts && urlParts[2] ? urlParts[2] : ''
-        const db_name = urlParts && urlParts[3] ? urlParts[3] : ''
+        const dbName = urlParts && urlParts[3] ? urlParts[3] : ''
         const initializationValues = {
           id: projectConnection.content.id,
           microservice: projectConnection.content.microservice,
@@ -80,7 +79,7 @@ export class ProjectConnectionFormComponent extends React.Component {
           driverClassName: projectConnection.content.driverClassName,
           address,
           port,
-          db_name,
+          db_name: dbName,
           userName: projectConnection.content.userName,
           password: projectConnection.content.password,
         }

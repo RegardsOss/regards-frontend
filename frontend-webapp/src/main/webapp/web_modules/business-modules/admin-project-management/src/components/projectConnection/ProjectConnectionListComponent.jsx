@@ -11,10 +11,9 @@ import CheckedIcon from 'material-ui/svg-icons/action/check-circle'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { FormattedMessage } from 'react-intl'
-import { Project } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import ProjectConnectionList from '@regardsoss/model/src/admin/ProjectConnection'
 import DatabaseConnectionTesterIconButton from './DatabaseConnectionTesterIconButton'
 
 /**
@@ -26,8 +25,8 @@ import DatabaseConnectionTesterIconButton from './DatabaseConnectionTesterIconBu
 export class ProjectConnectionListComponent extends React.Component {
 
   static propTypes = {
-    project: Project.isRequired,
-    projectConnections: ProjectConnectionList.isRequired,
+    project: AdminShapes.Project.isRequired,
+    projectConnections: AdminShapes.ProjectConnectionList.isRequired,
     onEdit: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     onTestConnection: PropTypes.func.isRequired,

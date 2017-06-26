@@ -33,6 +33,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter plugin component',
 
   it('should render a Raised Button and an IconMenu and Field', () => {
     const props = {
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginConfigurationList: values(DumpProvider.get('CommonClient', 'PluginConfiguration')),
       pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
@@ -47,6 +48,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter plugin component',
         type: 'IPluginInterfacer',
         paramType: 'PLUGIN',
       },
+      fetchPluginConfigurationList: () => { },
     }
     const enzymeWrapper = shallow(<PluginParameterPlugin {...props} />, options)
     expect(enzymeWrapper.find(Field)).to.have.length(1)

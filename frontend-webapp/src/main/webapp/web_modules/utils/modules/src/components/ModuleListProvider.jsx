@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  */
 import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
+import { AccessShapes } from '@regardsoss/shape'
 import ModuleListButtonComponent from './ModuleListButtonComponent'
-import ModuleShape from '../model/ModuleShape'
 
 /**
  * Component to display all available modules for a given container
@@ -14,7 +14,7 @@ class ModuleListProvider extends React.Component {
 
   static propTypes = {
     container: PropTypes.string,
-    modules: PropTypes.arrayOf(ModuleShape),
+    modules: AccessShapes.ModuleArray,
   }
 
   static contextTypes = {

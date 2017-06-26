@@ -4,12 +4,11 @@
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
-import { PluginDefinition } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -23,7 +22,7 @@ import { uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 class PluginListComponent extends React.Component {
 
   static propTypes = {
-    plugins: PropTypes.objectOf(PluginDefinition),
+    plugins: AccessShapes.UIPluginDefinitionList,
     onCreate: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -108,13 +107,15 @@ class PluginListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => this.props.onEdit(plugin.content)}>
+                      onTouchTap={() => this.props.onEdit(plugin.content)}
+                    >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
                     <HateoasIconAction
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => this.openDeleteDialog(plugin.content)}>
+                      onTouchTap={() => this.openDeleteDialog(plugin.content)}
+                    >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>
                   </TableRowColumn>
@@ -131,7 +132,7 @@ class PluginListComponent extends React.Component {
                 id="plugins.list.action.add"
               />
             }
-            mainHateoasDependency={uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugins.list.action.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />

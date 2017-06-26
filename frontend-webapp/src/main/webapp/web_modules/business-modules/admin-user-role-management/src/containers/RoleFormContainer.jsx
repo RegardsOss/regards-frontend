@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent, EnumInputsHelper } from '@regardsoss/form-utils'
-import { Role } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import RoleFormComponent from '../components/RoleFormComponent'
 
@@ -17,7 +17,7 @@ export class RoleFormContainer extends React.Component {
       role_name: PropTypes.string,
     }),
     // from mapStateToProps
-    roleList: PropTypes.objectOf(Role),
+    roleList: AdminShapes.RoleList,
     isFetching: PropTypes.bool,
     // from mapDispatchToProps
     createRole: PropTypes.func,

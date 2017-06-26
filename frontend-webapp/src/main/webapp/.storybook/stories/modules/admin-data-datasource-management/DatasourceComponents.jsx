@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import DatasourceCreateOrPickConnectionComponent from '@regardsoss/admin-data-datasource-management/src/components/DatasourceCreateOrPickConnectionComponent'
 import DatasourceFormAttributesComponent from '@regardsoss/admin-data-datasource-management/src/components/DatasourceFormAttributesComponent'
 import DatasourceFormMappingComponent from '@regardsoss/admin-data-datasource-management/src/components/DatasourceFormMappingComponent'

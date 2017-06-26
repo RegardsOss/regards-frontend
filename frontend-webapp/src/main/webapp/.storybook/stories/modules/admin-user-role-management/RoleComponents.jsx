@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import RoleListComponent from '@regardsoss/admin-user-role-management/src/components/RoleListComponent'
 import RoleFormComponent from '@regardsoss/admin-user-role-management/src/components/RoleFormComponent'
 import { muiTheme } from 'storybook-addon-material-ui'

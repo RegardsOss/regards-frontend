@@ -1,7 +1,7 @@
 import { storiesOf, action } from '@kadira/storybook'
 import { AdminLayout } from '@regardsoss/admin/src/containers/AdminLayout'
 import Paper from 'material-ui/Paper'
-import { withKnobs, select } from '@kadira/storybook-addon-knobs'
+import { withKnobs, select } from '@storybook/addon-knobs'
 import { indigo900 } from 'material-ui/styles/colors'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'

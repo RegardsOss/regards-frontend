@@ -3,6 +3,8 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { projectUserActions } from './clients/ProjectUserClient'
+import { roleActions } from './clients/RoleClient'
+import { accessGroupActions } from './clients/AccessGroupClient'
 
 
 /**
@@ -14,6 +16,8 @@ const listDependencies = [
 ]
 const addDependencies = [
   projectUserActions.getDependency(RequestVerbEnum.POST),
+  roleActions.getDependency(RequestVerbEnum.GET),
+  accessGroupActions.getDependency(RequestVerbEnum.GET),
 ]
 
 export default {

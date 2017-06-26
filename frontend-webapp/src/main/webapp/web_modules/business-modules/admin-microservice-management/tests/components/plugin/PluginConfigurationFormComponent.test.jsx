@@ -24,6 +24,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component
 
   it('should render sub-components', () => {
     const props = {
+      microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginConfiguration: {
         content: {
           id: 2,

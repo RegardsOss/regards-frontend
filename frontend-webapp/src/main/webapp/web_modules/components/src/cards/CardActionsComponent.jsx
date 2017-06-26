@@ -21,7 +21,7 @@ class CardActionsComponent extends React.Component {
     mainButtonType: PropTypes.string,
     isMainButtonVisible: PropTypes.bool,
     isMainButtonDisabled: PropTypes.bool,
-    mainHateoasDependency: PropTypes.string,
+    mainHateoasDependencies: PropTypes.arrayOf(PropTypes.string),
   }
   static defaultProps = {
     isMainButtonVisible: true,
@@ -47,7 +47,7 @@ class CardActionsComponent extends React.Component {
           mainButtonType={this.props.mainButtonType}
           isMainButtonVisible={this.props.isMainButtonVisible}
           isMainButtonDisabled={this.props.isMainButtonDisabled}
-          mainHateoasDependency={this.props.mainHateoasDependency}
+          mainHateoasDependencies={this.props.mainHateoasDependencies}
 
           theme={null}
         />

@@ -155,7 +155,7 @@ export class AttributeModelListComponent extends React.Component {
                 id="attrmodel.list.action.add"
               />
             }
-            mainHateoasDependency={attributeModelActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[attributeModelActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'attrmodel.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

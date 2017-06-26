@@ -3,8 +3,8 @@
  **/
 import { AccessGroup, AccessGroupList } from './AccessGroup'
 import { AccessRight, AccessRightContent, AccessRightList } from './AccessRight'
-import { AttributeModel, AttributeModelList } from './AttributeModel'
-import { Collection, CollectionList } from './Collection'
+import { AttributeModelContent, AttributeModel, AttributeModelList, AttributeModelArray } from './AttributeModel'
+import { Collection, CollectionList, CollectionArray } from './Collection'
 import { Connection, ConnectionList } from './Connection'
 import { Dataset, DatasetContent, DatasetList } from './Dataset'
 import { Datasource, DatasourceList } from './Datasource'
@@ -23,10 +23,13 @@ export default {
   AccessRightList,
 
   AttributeModel,
+  AttributeModelContent,
   AttributeModelList,
+  AttributeModelArray,
 
   Collection,
   CollectionList,
+  CollectionArray,
 
   Connection,
   ConnectionList,

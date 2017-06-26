@@ -17,7 +17,7 @@ export class HateoasDisplayDecorator extends React.Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
     hateoasDisplayLogic: PropTypes.func,
-    requiredEndpoints: PropTypes.arrayOf(PropTypes.string),
+    requiredEndpoints: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])),
     // from mapStateToProps
     availableEndpoints: PropTypes.arrayOf(PropTypes.string),
     isInstance: PropTypes.bool,

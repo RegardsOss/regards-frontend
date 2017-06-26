@@ -6,7 +6,7 @@ import get from 'lodash/get'
 import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { HateoasDisplayDecorator } from '@regardsoss/display-control'
-import ModuleShape from '../model/ModuleShape'
+import { AccessShapes } from '@regardsoss/shape'
 import ModuleThemeProvider from './ModuleThemeProvider'
 
 /**
@@ -27,7 +27,7 @@ class LazyModuleComponent extends React.Component {
   static propTypes = {
     appName: PropTypes.string.isRequired,
     project: PropTypes.string.isRequired,
-    module: ModuleShape.isRequired,
+    module: AccessShapes.Module.isRequired,
     admin: PropTypes.bool,
     // Form information for admin container. Admin container is a part of the upper redux-form Form.
     // This parameter contains the redux-form form and the changeField function.

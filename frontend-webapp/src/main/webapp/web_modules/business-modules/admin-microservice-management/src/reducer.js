@@ -6,6 +6,7 @@ import pluginConfiguration from './model/plugin/PluginConfigurationReducers'
 import MaintenanceModeReducers from './model/MaintenanceModeReducers'
 import SetMaintenanceReducers from './model/SetMaintenanceModeReducers'
 import MicroserviceInfoClient from './clients/MicroserviceInfoClient'
+import { REDUCER_PATH, pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 
 const reducers = {}
 forEach(STATIC_CONF.MSERVICES, (microservice) => {
@@ -19,6 +20,7 @@ const microserviceManagementReducer = combineReducers({
   pluginConfiguration,
   ...reducers,
   'microservice-info': MicroserviceInfoClient.microserviceInfoActions,
+  [REDUCER_PATH]: pluginConfigurationReducer,
 })
 
 export default microserviceManagementReducer

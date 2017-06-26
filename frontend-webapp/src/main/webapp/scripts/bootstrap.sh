@@ -11,6 +11,9 @@
 # Lint
 npm link eslint-config-es6-rules
 
+# Webpack REGARDS conf
+npm link webpack-config-front
+
 # Data
 npm link web_modules/data/api
 npm link web_modules/data/store

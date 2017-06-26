@@ -2,9 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { Collection } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
-import isUndefined from 'lodash/isUndefined'
 import partition from 'lodash/partition'
 import some from 'lodash/some'
 import filter from 'lodash/filter'
@@ -25,9 +24,8 @@ export class CollectionEditLinksContainer extends React.Component {
       collectionId: PropTypes.string,
     }),
     // from mapStateToProps
-    currentCollection: Collection,
-    collectionList: PropTypes.objectOf(Collection),
-    isFetching: PropTypes.bool,
+    currentCollection: DataManagementShapes.Collection,
+    collectionList: DataManagementShapes.CollectionList,
     // from mapDispatchToProps
     removeTagFromCollection: PropTypes.func,
     addTagToCollection: PropTypes.func,
@@ -37,16 +35,33 @@ export class CollectionEditLinksContainer extends React.Component {
 
   state = {
     collectionName: '',
+    isLoading: true,
   }
 
   componentDidMount() {
     this.props.fetchCollectionList()
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        })
+      })
   }
 
   getBackUrl = () => {
     const { params: { project, collectionId } } = this.props
     return `/admin/${project}/data/collection/${collectionId}/edit`
   }
+
+  getComponent = collectionLinkedToCurrentCollection => (
+    <CollectionEditLinksComponent
+      linkedCollections={collectionLinkedToCurrentCollection[0]}
+      remainingCollections={collectionLinkedToCurrentCollection[1]}
+      handleAdd={this.handleAdd}
+      handleDelete={this.handleDelete}
+      handleSearch={this.handleSearch}
+      backUrl={this.getBackUrl()}
+      doneUrl={this.getDoneUrl()}
+    />)
 
   getDoneUrl = () => {
     const { params: { project } } = this.props
@@ -93,25 +108,15 @@ export class CollectionEditLinksContainer extends React.Component {
   }
 
   render() {
-    const { isFetching, currentCollection, collectionList } = this.props
+    const { currentCollection, collectionList } = this.props
+    const { isLoading } = this.state
     const collectionLinkedToCurrentCollection = this.getRemainingCollection(currentCollection, collectionList)
-    const isLoading = isFetching && isUndefined(currentCollection)
     return (
       <I18nProvider messageDir="business-modules/admin-data-collection-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {() => (
-            <CollectionEditLinksComponent
-              linkedCollections={collectionLinkedToCurrentCollection[0]}
-              remainingCollections={collectionLinkedToCurrentCollection[1]}
-              handleAdd={this.handleAdd}
-              handleDelete={this.handleDelete}
-              handleSearch={this.handleSearch}
-              backUrl={this.getBackUrl()}
-              doneUrl={this.getDoneUrl()}
-            />)
-          }
+          {this.getComponent(collectionLinkedToCurrentCollection)}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -121,7 +126,6 @@ export class CollectionEditLinksContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   currentCollection: collectionSelectors.getById(state, ownProps.params.collectionId),
   collectionList: collectionSelectors.getList(state),
-  isFetching: collectionSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

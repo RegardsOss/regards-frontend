@@ -8,7 +8,7 @@ import { getFormValues, change } from 'redux-form'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { connect } from '@regardsoss/redux'
-import { Module, Layout } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { ContainerHelper } from '@regardsoss/layout'
 import { modulesManager } from '@regardsoss/modules'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
@@ -42,9 +42,9 @@ class ModuleFormContainer extends React.Component {
     changeField: PropTypes.func,
     // Set by mapStateToProps
     isFetching: PropTypes.bool,
-    module: Module,
-    duplicatedModule: Module,
-    layout: Layout,
+    module: AccessShapes.Module,
+    duplicatedModule: AccessShapes.Module,
+    layout: AccessShapes.Layout,
     // eslint-disable-next-line react/no-unused-prop-types
     availableEndpoints: PropTypes.arrayOf(PropTypes.string),
   }

@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { Collection } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -22,7 +22,7 @@ import { collectionActions } from '../clients/CollectionClient'
 export class CollectionListComponent extends React.Component {
 
   static propTypes = {
-    collectionList: PropTypes.objectOf(Collection),
+    collectionList: DataManagementShapes.CollectionList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleDuplicate: PropTypes.func.isRequired,
@@ -159,7 +159,7 @@ export class CollectionListComponent extends React.Component {
                 id="collection.list.action.add"
               />
             }
-            mainHateoasDependency={collectionActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[collectionActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

@@ -7,7 +7,7 @@ import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { Connection } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -22,7 +22,7 @@ import ConnectionTesterIconButton from './ConnectionTesterIconButton'
 export class ConnectionListComponent extends React.Component {
 
   static propTypes = {
-    connectionList: PropTypes.objectOf(Connection),
+    connectionList: DataManagementShapes.ConnectionList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleTestConnection: PropTypes.func.isRequired,
@@ -155,7 +155,7 @@ export class ConnectionListComponent extends React.Component {
                 id="connection.list.action.add"
               />
             }
-            mainHateoasDependency={connectionActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[connectionActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'connection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

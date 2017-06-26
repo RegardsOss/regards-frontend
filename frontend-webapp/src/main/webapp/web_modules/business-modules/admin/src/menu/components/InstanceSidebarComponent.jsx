@@ -2,9 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import Drawer from 'material-ui/Drawer'
-import MenuItem from 'material-ui/MenuItem'
-import PowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new'
-import Divider from 'material-ui/Divider'
 import Settings from 'material-ui/svg-icons/action/settings'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -33,13 +30,11 @@ class InstanceSidebarComponent extends React.Component {
    * @type {{onLogout: function}}
    */
   static propTypes = {
-    onLogout: PropTypes.func.isRequired,
     currentPath: PropTypes.string,
   }
 
   render() {
     const { muiTheme } = this.context
-    const { onLogout } = this.props
     const moduleStyles = getModuleStyles(muiTheme)
 
     return (

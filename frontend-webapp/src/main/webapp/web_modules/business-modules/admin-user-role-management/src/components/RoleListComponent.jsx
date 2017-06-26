@@ -10,7 +10,7 @@ import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Role } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { roleActions } from '../clients/RoleClient'
 
 /**
@@ -19,7 +19,7 @@ import { roleActions } from '../clients/RoleClient'
 export class RoleListComponent extends React.Component {
 
   static propTypes = {
-    roleList: PropTypes.objectOf(Role),
+    roleList: AdminShapes.RoleList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleEditResourceAccess: PropTypes.func.isRequired,
@@ -185,7 +185,7 @@ export class RoleListComponent extends React.Component {
                 id="role.list.action.add"
               />
             }
-            mainHateoasDependency={roleActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[roleActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={
               <FormattedMessage
                 id="role.list.action.cancel"

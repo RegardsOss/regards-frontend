@@ -7,7 +7,7 @@ import { CardActions, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent, PluginConfigurationPickerComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, Field, RenderSelectField, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
-import { AccessRightContent, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
@@ -32,9 +32,9 @@ export class AccessRightFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     errorMessage: PropTypes.string,
-    currentAccessRight: AccessRightContent,
-    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    currentAccessRight: DataManagementShapes.AccessRightContent,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,

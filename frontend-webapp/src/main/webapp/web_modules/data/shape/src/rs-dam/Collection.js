@@ -7,5 +7,6 @@ const Collection = PropTypes.shape({
 // TODO : too light
 
 const CollectionList = PropTypes.objectOf(Collection)
+const CollectionArray = PropTypes.arrayOf(Collection)
 
-export default { Collection, CollectionList }
+export default { Collection, CollectionList, CollectionArray }

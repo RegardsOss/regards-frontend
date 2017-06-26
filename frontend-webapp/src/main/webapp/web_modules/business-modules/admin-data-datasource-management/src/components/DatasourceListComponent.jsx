@@ -143,7 +143,7 @@ export class DatasourceListComponent extends React.Component {
                 id="datasource.list.action.add"
               />
             }
-            mainHateoasDependency={datasourceActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={[datasourceActions.getDependency(RequestVerbEnum.POST)]}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

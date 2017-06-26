@@ -7,7 +7,7 @@ import map from 'lodash/map'
 import keys from 'lodash/keys'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AttributeModel, Model, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { CommonShapes, DataManagementShapes } from '@regardsoss/shape'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import ContainerCard from './ContainerCard'
@@ -17,6 +17,11 @@ import AttributeModelComponent from './AttributeModelComponent'
 import FragmentComponent from './FragmentComponent'
 import ModelAttributeContainer from '../containers/ModelAttributeContainer'
 import moduleStyles from '../styles/styles'
+
+const AttributeAndFragmentPartition = PropTypes.shape({
+  fragments: PropTypes.objectOf(DataManagementShapes.AttributeModelArray),
+  attrs: DataManagementShapes.AttributeModelArray,
+})
 
 /**
  * Display edit and create attribute model form
@@ -29,19 +34,13 @@ export class ModelAttributeFormComponent extends React.Component {
     onCreateAttributeModel: PropTypes.func.isRequired,
     onDeleteAttributeModel: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
-    currentModel: Model.isRequired,
+    currentModel: DataManagementShapes.Model.isRequired,
     distributedAttrModels: PropTypes.shape({
-      ATTR_REMAINING: PropTypes.shape({
-        fragments: PropTypes.objectOf(PropTypes.arrayOf(AttributeModel)),
-        attrs: PropTypes.arrayOf(AttributeModel),
-      }),
-      ATTR_ASSOCIATED: PropTypes.shape({
-        fragments: PropTypes.objectOf(PropTypes.arrayOf(AttributeModel)),
-        attrs: PropTypes.arrayOf(AttributeModel),
-      }),
+      ATTR_REMAINING: AttributeAndFragmentPartition,
+      ATTR_ASSOCIATED: AttributeAndFragmentPartition,
     }).isRequired,
-    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
   }
 
   static contextTypes = {

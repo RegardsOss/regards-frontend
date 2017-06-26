@@ -5,12 +5,12 @@ import { browserHistory } from 'react-router'
 import forEach from 'lodash//forEach'
 import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
-import { Collection, Model, ModelAttribute, EntityController } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
 import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities-attributes-management'
-import { getAbstractEntityDescription } from '@regardsoss/domain/dam'
+import { getAbstractEntityDescription, ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionFormComponent from '../components/CollectionFormComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
@@ -31,10 +31,10 @@ export class CollectionFormContainer extends React.Component {
     // from redux-form
     unregisterField: PropTypes.func,
     // from mapStateToProps
-    currentCollection: Collection,
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    currentCollection: DataManagementShapes.Collection,
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
     isFetchingCollection: PropTypes.bool,
-    modelList: PropTypes.objectOf(Model),
+    modelList: DataManagementShapes.ModelList,
     isFetchingModelAttribute: PropTypes.bool,
     isFetchingModel: PropTypes.bool,
     // from mapDispatchToProps
@@ -136,7 +136,7 @@ export class CollectionFormContainer extends React.Component {
         descriptionFile,
         model,
         properties,
-        entityType: EntityController.ENTITY_TYPES.COLLECTION,
+        entityType: ENTITY_TYPES_ENUM.COLLECTION,
       }),
     }
     Promise.resolve(this.props.createCollection(apiValues, files))
@@ -201,7 +201,7 @@ const mapDispatchToProps = dispatch => ({
   fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
   createCollection: (values, files) => dispatch(collectionActions.createEntityUsingMultiPart(values, files)),
   updateCollection: (id, values, files) => dispatch(collectionActions.updateEntityUsingMultiPart(id, values, files)),
-  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: EntityController.ENTITY_TYPES.COLLECTION })),
+  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.COLLECTION })),
   fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })

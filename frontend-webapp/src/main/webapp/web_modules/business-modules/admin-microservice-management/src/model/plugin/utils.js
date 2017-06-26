@@ -3,6 +3,7 @@
  **/
 import find from 'lodash/find'
 import map from 'lodash/map'
+import merge from 'lodash/merge'
 import isUndefined from 'lodash/isUndefined'
 
 /**
@@ -24,6 +25,11 @@ const parameterTypeToDefaultParameter = parameterType => ({
  */
 const buildDefaultParameterList = pluginParameterTypeList => map(pluginParameterTypeList, parameterTypeToDefaultParameter)
 
+const buildParameterList = (pluginParameterList, pluginParameterTypeList) => {
+  const defaults = buildDefaultParameterList(pluginParameterTypeList)
+  return merge({}, defaults, pluginParameterList)
+}
+
 /**
  * Find the pluginParameterType of the {@code pluginParameter}
  *
@@ -35,8 +41,10 @@ const mapPluginParameterTypeToPluginParameter = (pluginParameterType, pluginConf
   let pluginParameter
   if (pluginConfiguration) {
     pluginParameter = find(pluginConfiguration.content.parameters, el => el.name === pluginParameterType.name)
-    if (isUndefined(pluginParameter)) {
+    if (isUndefined(pluginParameter) && !pluginParameterType.optional) {
       throw new Error("The plugin configuration the server returned is in an invalid state: the plugin conf doesn't contain the parameter expected")
+    } else if (isUndefined(pluginParameter)) {
+      pluginParameter = parameterTypeToDefaultParameter(pluginParameterType)
     }
   } else {
     pluginParameter = parameterTypeToDefaultParameter(pluginParameterType)
@@ -47,5 +55,6 @@ const mapPluginParameterTypeToPluginParameter = (pluginParameterType, pluginConf
 export {
   parameterTypeToDefaultParameter,
   buildDefaultParameterList,
+  buildParameterList,
   mapPluginParameterTypeToPluginParameter,
 }

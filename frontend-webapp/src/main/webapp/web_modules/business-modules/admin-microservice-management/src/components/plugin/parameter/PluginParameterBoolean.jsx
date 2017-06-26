@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import get from 'lodash/get'
 import Subheader from 'material-ui/Subheader'
 import Checkbox from 'material-ui/Checkbox'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -32,13 +33,15 @@ export class PluginParameterBoolean extends React.Component {
   parse = val => val.toString()
 
   render() {
-    const { pluginParameter: { name, value }, pluginParameterType, pluginMetaData, mode } = this.props
+    const { pluginParameter, pluginParameterType, pluginMetaData, mode } = this.props
     const isView = mode === 'view'
     const styles = moduleStyles(this.context.muiTheme)
-    let label = name
+    let label = pluginParameterType.name
     if (pluginParameterType && !pluginParameterType.optional) {
       label += '*'
     }
+
+    const value = pluginParameter ? pluginParameter.value : get(pluginParameterType, 'defaultValue')
 
     return (
       <div style={styles.pluginParameter.wrapper}>
@@ -51,7 +54,7 @@ export class PluginParameterBoolean extends React.Component {
         </ShowableAtRender>
         <ShowableAtRender show={!isView} >
           <Field
-            name={getFieldName(name, pluginMetaData, '.value')}
+            name={getFieldName(pluginParameterType.name, pluginMetaData, '.value')}
             format={this.format}
             parse={this.parse}
             component={RenderCheckbox}

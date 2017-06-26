@@ -5,7 +5,7 @@ import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { HateoasDisplayDecorator, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { HateoasDisplayDecorator, someListMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import {
   ConfirmDialogComponent,
   ShowableAtRender,
@@ -82,7 +82,6 @@ class BoardItemComponent extends React.Component {
     const actions = map(item.actions, (action, index) => (
       <HateoasDisplayDecorator
         requiredEndpoints={action.hateoasDependencies}
-        hateoasDisplayLogic={someMatchHateoasDisplayLogic}
         key={index}
       >
         <Link
@@ -99,23 +98,18 @@ class BoardItemComponent extends React.Component {
 
     // Create list of all need endpoints for all board actions
     const actionsHateoasRequiredEnpoints = []
-    let actionWhitoutDependencies = false
-    forEach(item.actions, (action, index) => {
+    forEach(item.actions, (action) => {
       if (action.hateoasDependencies) {
-        if (action.hateoasDependencies.length === 0) {
-          actionWhitoutDependencies = true
-        } else {
-          actionsHateoasRequiredEnpoints.push(...action.hateoasDependencies)
+        if (action.hateoasDependencies.length > 0) {
+          actionsHateoasRequiredEnpoints.push(action.hateoasDependencies)
         }
       }
     })
 
-    const requiredEndpoints = actionWhitoutDependencies ? [] : actionsHateoasRequiredEnpoints
-
     return (
       <HateoasDisplayDecorator
-        requiredEndpoints={requiredEndpoints}
-        hateoasDisplayLogic={someMatchHateoasDisplayLogic}
+        requiredEndpoints={actionsHateoasRequiredEnpoints}
+        hateoasDisplayLogic={someListMatchHateoasDisplayLogic}
       >
         <BaseBoardItemComponent
           title={item.title}

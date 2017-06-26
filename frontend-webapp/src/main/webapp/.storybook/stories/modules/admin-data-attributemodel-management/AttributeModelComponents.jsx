@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import AttributeModelFormComponent from '@regardsoss/admin-data-attributemodel-management/src/components/AttributeModelFormComponent'
 import AttributeModelListComponent from '@regardsoss/admin-data-attributemodel-management/src/components/AttributeModelListComponent'
 import { muiTheme } from 'storybook-addon-material-ui'

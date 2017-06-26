@@ -2,13 +2,13 @@
 * LICENSE_PLACEHOLDER
 **/
 
-import { CatalogEntityTypes } from '@regardsoss/model'
+import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 
 const DATASET_TYPE_URL = 'dataset'
 const COLLECTION_TYPE_URL = 'collection'
 const typeToURL = {
-  [CatalogEntityTypes.COLLECTION]: COLLECTION_TYPE_URL,
-  [CatalogEntityTypes.DATASET]: DATASET_TYPE_URL,
+  [ENTITY_TYPES.COLLECTION]: COLLECTION_TYPE_URL,
+  [ENTITY_TYPES.DATASET]: DATASET_TYPE_URL,
 }
 
 

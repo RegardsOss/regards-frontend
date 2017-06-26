@@ -10,10 +10,9 @@ import MenuItem from 'material-ui/MenuItem'
 import { reduxForm } from 'redux-form'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { Container } from '@regardsoss/model'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
-import { ModuleShape } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 import DynamicModuleFormComponent from './DynamicModuleFormComponent'
 import Styles from '../styles/styles'
 
@@ -25,9 +24,9 @@ class ModuleFormComponent extends React.Component {
 
   static propTypes = {
     project: PropTypes.string.isRequired,
-    module: ModuleShape,
+    module: AccessShapes.Module,
     availableModuleTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    containers: PropTypes.arrayOf(Container),
+    containers: PropTypes.arrayOf(AccessShapes.ContainerContent),
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     applicationId: PropTypes.string.isRequired,

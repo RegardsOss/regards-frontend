@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import AccessRightListComponent from '@regardsoss/admin-accessright-dataaccess-management/src/components/AccessRightListComponent'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'

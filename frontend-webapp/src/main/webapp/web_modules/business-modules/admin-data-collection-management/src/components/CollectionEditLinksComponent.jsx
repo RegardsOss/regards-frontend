@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import map from 'lodash/map'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Clear from 'material-ui/svg-icons/content/clear'
-import { Collection } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import TextField from 'material-ui/TextField'
 import Search from 'material-ui/svg-icons/action/search'
 import Subheader from 'material-ui/Subheader'
@@ -23,8 +23,8 @@ import CollectionStepperComponent from './CollectionStepperComponent'
 export class CollectionEditLinksComponent extends React.Component {
 
   static propTypes = {
-    linkedCollections: PropTypes.arrayOf(Collection),
-    remainingCollections: PropTypes.arrayOf(Collection),
+    linkedCollections: DataManagementShapes.CollectionArray,
+    remainingCollections: DataManagementShapes.CollectionArray,
     handleAdd: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired,
     handleSearch: PropTypes.func.isRequired,

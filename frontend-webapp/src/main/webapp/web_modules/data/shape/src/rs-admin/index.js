@@ -8,8 +8,8 @@ import { MetadataContent, MetadataContentArray } from './Metadata'
 import { ProjectContent, Project, ProjectList } from './Project'
 import { ProjectConnection, ProjectConnectionList } from './ProjectConnection'
 import { ProjectUser, ProjectUserList } from './ProjectUser'
-import { Resource, ResourceList } from './Resource'
-import { Role, RoleList } from './Role'
+import { Resource, ResourceList, ResourceArray } from './Resource'
+import { Role, RoleList, RoleArray } from './Role'
 
 
 export default {
@@ -34,7 +34,9 @@ export default {
 
   Resource,
   ResourceList,
+  ResourceArray,
 
   Role,
   RoleList,
+  RoleArray,
 }

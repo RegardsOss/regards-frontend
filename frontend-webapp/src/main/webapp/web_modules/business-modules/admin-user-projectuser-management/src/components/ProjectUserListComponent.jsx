@@ -9,20 +9,19 @@ import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
 import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import Loop from 'material-ui/svg-icons/av/loop'
 import Pause from 'material-ui/svg-icons/av/pause'
-import { ProjectUser } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import {
   ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { projectUserActions } from '../clients/ProjectUserClient'
+import { addDependencies } from '../dependencies'
 
 /**
  * User statuses constants, as returned by the server
@@ -53,8 +52,8 @@ export const canDenyUser = user => [status.accessGranted, status.waitingAccess, 
 export class ProjectUserListComponent extends React.Component {
 
   static propTypes = {
-    users: PropTypes.objectOf(ProjectUser),
-    waitingAccessUsers: PropTypes.objectOf(ProjectUser),
+    users: AdminShapes.ProjectUserList,
+    waitingAccessUsers: AdminShapes.ProjectUserList,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onValidate: PropTypes.func.isRequired,
@@ -316,7 +315,7 @@ export class ProjectUserListComponent extends React.Component {
             mainButtonUrl={tabContent.mainButtonUrl}
             mainButtonTouchTap={tabContent.mainButtonAction}
             mainButtonClassName={tabContent.mainButtonClassName}
-            mainHateoasDependency={projectUserActions.getDependency(RequestVerbEnum.POST)}
+            mainHateoasDependencies={addDependencies}
             isMainButtonDisabled={tabContent.mainButtonDisabled}
             mainButtonLabel={this.context.intl.formatMessage({ id: tabContent.mainButtonKey })}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'projectUser.list.action.cancel' })}

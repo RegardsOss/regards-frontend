@@ -6,7 +6,7 @@ import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
-import { Connection, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderSelectField, Field, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -19,8 +19,8 @@ import MenuItem from 'material-ui/MenuItem'
 export class ConnectionFormComponent extends React.Component {
 
   static propTypes = {
-    currentConnection: Connection,
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    currentConnection: DataManagementShapes.Connection,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isCreating: PropTypes.bool.isRequired,

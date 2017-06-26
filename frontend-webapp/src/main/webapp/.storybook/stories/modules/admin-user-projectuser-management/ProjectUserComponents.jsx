@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, boolean, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, boolean, object } from '@storybook/addon-knobs'
 import ProjectUserListComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserListComponent'
 import ProjectUserFormComponent from '@regardsoss/admin-user-projectuser-management/src/components/ProjectUserFormComponent'
 import { muiTheme } from 'storybook-addon-material-ui'

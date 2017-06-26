@@ -22,12 +22,6 @@ class BaseBoardItemComponent extends React.Component {
     description: PropTypes.string.isRequired,
     actions: PropTypes.arrayOf(PropTypes.element),
     renderConfirmDialog: PropTypes.func,
-    // TODO use or delete
-    // advanced: PropTypes.bool,
-  }
-
-  static defaultProp = {
-    advanced: false,
   }
 
   static contextTypes = {

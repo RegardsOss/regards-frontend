@@ -92,8 +92,8 @@ export class LicenseDisplayContainer extends React.Component {
 }
 
 
-const getLicenseLinkFromState = (state) => get(ProjectLicenseSelectors.getResult(state), 'content.licenseLink')
-const getLicenseAcceptedFromState = (state) => get(ProjectLicenseSelectors.getResult(state), 'content.accepted',false)
+const getLicenseLinkFromState = state => get(ProjectLicenseSelectors.getResult(state), 'content.licenseLink')
+const getLicenseAcceptedFromState = state => get(ProjectLicenseSelectors.getResult(state), 'content.accepted', false)
 
 const mapStateToProps = state => ({
   licenseLink: getLicenseLinkFromState(state),

@@ -5,7 +5,7 @@ import React from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
-import { Role } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { borrowableRolesActions, borrowableRolesSelectors } from '../clients/BorrowableRolesClient'
 import { borrowRoleActions, borrowRoleSelectors } from '../clients/BorrowRoleClient'
 import profileDialogActions from '../model/ProfileDialogActions'
@@ -24,7 +24,7 @@ export class LoggedUserContainer extends React.Component {
     // from mapStateToProps
     authenticationName: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
-    borrowableRoles: PropTypes.objectOf(Role).isRequired,
+    borrowableRoles: AdminShapes.RoleList.isRequired,
     isSendingBorrowRole: PropTypes.bool.isRequired,
     isInstance: PropTypes.bool.isRequired,
     // also borrowRoleResult, but only used in next props

@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import ConnectionFormComponent from '@regardsoss/admin-data-connection-management/src/components/ConnectionFormComponent'
 import ConnectionListComponent from '@regardsoss/admin-data-connection-management/src/components/ConnectionListComponent'
 import ConnectionDump from '@regardsoss/client/tests/rs-dam/Connection.dump'

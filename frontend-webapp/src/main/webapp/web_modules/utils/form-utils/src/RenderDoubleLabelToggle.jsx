@@ -34,6 +34,7 @@ export default createComponent(DoubleLabelToggle, ({
   input: { onChange, value, ...inputProps },
   defaultToggled,
   meta,
+  intl,
   ...props
 }) => ({
   ...inputProps,

@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import { ResourceAccessFormByMicroserviceContainer } from '@regardsoss/admin-user-role-resource-access-management/src/containers/ResourceAccessFormByMicroserviceContainer'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale } from '../../decorators/index'

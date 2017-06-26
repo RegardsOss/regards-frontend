@@ -8,7 +8,6 @@ import { AccessShapes } from '@regardsoss/shape'
 import ModulesSelector from '../model/ModulesSelector'
 import LayoutSelector from '../model/LayoutSelector'
 import ModuleListComponent from '../components/ModuleListComponent'
-import ModuleShape from '../model/ModuleShape'
 
 /**
  * Display the menu with all modules of the dynamic container.
@@ -20,7 +19,7 @@ class ModuleListContainer extends React.Component {
     project: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     onCloseMenu: PropTypes.func,
-    modules: PropTypes.objectOf(ModuleShape),
+    modules: AccessShapes.ModuleList,
     container: AccessShapes.ContainerContent,
   }
 

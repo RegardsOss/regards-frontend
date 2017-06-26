@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Collection } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionListComponent from '../components/CollectionListComponent'
@@ -20,7 +20,7 @@ export class CollectionListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    collectionList: PropTypes.objectOf(Collection),
+    collectionList: DataManagementShapes.CollectionList,
     isFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchCollectionList: PropTypes.func,

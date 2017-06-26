@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { connect } from '@regardsoss/redux'
-import { PluginDefinition } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
 import PluginFormComponent from '../components/PluginFormComponent'
 
@@ -27,9 +27,7 @@ export class PluginFormContainer extends React.Component {
     fetchPlugin: PropTypes.func,
     // Set by mapStateToProps
     isFetching: PropTypes.bool,
-    plugin: PropTypes.shape({
-      content: PluginDefinition,
-    }),
+    plugin: AccessShapes.UIPluginDefinition,
   }
 
   state = {

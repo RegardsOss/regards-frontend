@@ -1,5 +1,5 @@
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import CollectionEditLinksComponent from '@regardsoss/admin-data-collection-management/src/components/CollectionEditLinksComponent'
 import CollectionFormComponent from '@regardsoss/admin-data-collection-management/src/components/CollectionFormComponent'
 import CollectionListComponent from '@regardsoss/admin-data-collection-management/src/components/CollectionListComponent'

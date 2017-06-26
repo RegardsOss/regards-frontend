@@ -236,7 +236,7 @@ class BasicListActions extends BasicActions {
   createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = this.useZuulSlugForMultiPartRoutes(endpoint)
+    endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
     const formData = BasicListActions.createFormData(objectValues, files)
     return {
       [CALL_API]: {
@@ -269,7 +269,7 @@ class BasicListActions extends BasicActions {
     let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
     endpoint = `${endpoint}/${keyValue}`
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
-    endpoint = this.useZuulSlugForMultiPartRoutes(endpoint)
+    endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
     const formData = BasicListActions.createFormData(objectValues, files)
     return {
       [CALL_API]: {
@@ -316,7 +316,7 @@ class BasicListActions extends BasicActions {
     return normalize(json, this.schemaTypes.ENTITY)
   }
 
-  useZuulSlugForMultiPartRoutes(endpoint) {
+  static useZuulSlugForMultiPartRoutes(endpoint) {
     return endpoint.replace(`/${API_URL}/`, `/zuul/${API_URL}/`)
   }
 
