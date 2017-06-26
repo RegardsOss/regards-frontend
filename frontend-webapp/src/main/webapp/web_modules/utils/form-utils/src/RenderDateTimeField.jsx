@@ -30,10 +30,6 @@ export class RenderDateTimeField extends React.Component {
       onChange: PropTypes.func,
     }),
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    meta: PropTypes.shape({
-      touched: PropTypes.bool,
-      error: PropTypes.string,
-    }),
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),
