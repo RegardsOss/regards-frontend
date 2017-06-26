@@ -2,7 +2,8 @@
 * LICENSE_PLACEHOLDER
 **/
 import isEqual from 'lodash/isEqual'
-import { DamDomain } from '@regardsoss/domain'
+import { AttributeModelController } from '@regardsoss/domain/dam'
+import { TagTypes } from '@regardsoss/domain/catalog'
 import { CatalogEntity } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
@@ -31,6 +32,7 @@ export class DatasetItemContainer extends React.Component {
 
   static mapDispatchToProps = (dispatch, { levelIndex, dataset }) => ({
     dispatchSelected: () => dispatch(GraphContextActions.selectEntity(levelIndex, dataset)),
+    dispatchSetSearchTag: () => dispatch(GraphContextActions.setSearchTag({ type: TagTypes.DATASET, data: dataset })),
   })
 
   static propTypes = {
@@ -42,6 +44,7 @@ export class DatasetItemContainer extends React.Component {
     selected: PropTypes.bool.isRequired,
     // from map dispatch to props
     dispatchSelected: PropTypes.func.isRequired,
+    dispatchSetSearchTag: PropTypes.func.isRequired,
   }
 
 
@@ -60,9 +63,10 @@ export class DatasetItemContainer extends React.Component {
   }
 
   onSelected = () => {
-    const { dispatchSelected, locked } = this.props
+    const { dispatchSelected, dispatchSetSearchTag, locked, dataset } = this.props
     if (!locked) {
       dispatchSelected()
+      dispatchSetSearchTag({ type: TagTypes.DATASET, data: dataset })
     }
   }
 
@@ -74,7 +78,7 @@ export class DatasetItemContainer extends React.Component {
   storeDatasetAttributes = ({ dataset, graphDatasetAttributes = [] }) => this.setState({
     // build dataset attributes with only useful data for component: label, render, value or null / undefined
     datasetAttributes: graphDatasetAttributes.map(({ label, render, attributePath }) => {
-      const attributeValue = DamDomain.AttributeModelController.getEntityAttributeValue(dataset, attributePath)
+      const attributeValue = AttributeModelController.getEntityAttributeValue(dataset, attributePath)
       return {
         label,
         render,

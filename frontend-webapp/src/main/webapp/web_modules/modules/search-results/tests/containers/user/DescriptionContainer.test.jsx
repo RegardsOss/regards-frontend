@@ -20,6 +20,7 @@ describe('[Search Results] Testing DescriptionContainer', () => {
   it('should render properly', () => {
     const props = {
       dispatchOnSearchTag: () => { },
+      dispatchOnSearchDataset: () => { },
     }
     const enzymeWrapper = shallow(<DescriptionContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(EntityDescriptionContainer), 1, 'It should render a description display container')

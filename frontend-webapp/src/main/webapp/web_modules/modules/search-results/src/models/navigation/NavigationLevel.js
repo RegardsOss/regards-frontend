@@ -48,6 +48,12 @@ export default class NavigationLevel {
   }
 
   /**
+   * Returns root level
+   * @param {*} levels levels array
+   * @return found level (should never be undefined)
+   */
+  static getRootLevel = levels => NavigationLevel.getLevel(levels, NavigationLevel.LevelTypes.ROOT)
+  /**
    * Returns dataset level
    * @param {*} levels levels array
    * @return found level or undefined

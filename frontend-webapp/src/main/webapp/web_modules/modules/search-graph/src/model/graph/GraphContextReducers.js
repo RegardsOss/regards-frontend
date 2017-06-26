@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import GraphContextActions from './GraphContextActions'
+import graphContextActions from './GraphContextActions'
 
 /**
  * Builds the new selection path, from current state and action data.
@@ -29,20 +29,20 @@ export const DEFAULT_STATE = {
   selectionPath: [],
   datasetsAttributesVisible: false,
   moduleCollapsed: false,
-  description: {
-    visible: false,
-    entity: null,
-  },
+  searchTag: null,
 }
 
 const reduce = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-    case GraphContextActions.ENTITY_SELECTED:
+    case graphContextActions.ENTITY_SELECTED:
       return { ...state, selectionPath: getNewSelectionPath(state.selectionPath, action) }
-    case GraphContextActions.SET_DATASET_ATTRIBUTES_VISIBLE:
+    case graphContextActions.SET_DATASET_ATTRIBUTES_VISIBLE:
       return { ...state, datasetsAttributesVisible: action.visible }
-    case GraphContextActions.SET_MODULE_COLLAPSED:
+    case graphContextActions.SET_MODULE_COLLAPSED:
       return { ...state, moduleCollapsed: action.collapsed }
+    case graphContextActions.SET_SEARCH_TAG:
+      // set the search tag and collapse the module
+      return { ...state, moduleCollapsed: true, searchTag: action.searchTag }
     default:
       return state
   }
