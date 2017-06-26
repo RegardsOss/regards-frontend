@@ -44,6 +44,7 @@ export class EnumerationComponent extends React.Component {
   }
 
   onTextFieldChange = (event) => {
+    this.props.change('restriction.ENUMERATION.active', true)
     this.setState({
       newValue: event.target.value,
     })
@@ -83,6 +84,7 @@ export class EnumerationComponent extends React.Component {
           name="restriction.ENUMERATION.active"
           component={RenderCheckbox}
           label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.ENUMERATION.active' })}
+          alwaysShowError
         />
         {map(acceptableValues, (restriction, id) => {
           if (!restriction.deleted) {
