@@ -44,18 +44,17 @@ class NumberRangeFacetSelectorComponent extends React.Component {
 
 
   formatFacetValue = ({ lowerBound, upperBound, count }, lowerBoundFormatter, upperBoundFormatter, rangeFormatter) => {
-    const { intl: { formatNumber } } = this.context
     if (!upperBound) {
       if (lowerBound) {
-        return lowerBoundFormatter(formatNumber(lowerBound), formatNumber(count))
+        return lowerBoundFormatter(lowerBound, count)
       }
       // infinite range...
       return ''
     }
     if (!lowerBound) {
-      return upperBoundFormatter(formatNumber(upperBound), formatNumber(count))
+      return upperBoundFormatter(upperBound, count)
     }
-    return rangeFormatter(formatNumber(lowerBound), formatNumber(upperBound), count)
+    return rangeFormatter(lowerBound, upperBound, count)
   }
 
   render() {

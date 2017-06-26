@@ -3,7 +3,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
-import { ModuleShape } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ModuleListComponent from '../components/ModuleListComponent'
@@ -26,7 +26,7 @@ class ModulesListContainer extends React.Component {
     updateModule: PropTypes.func,
     deleteModule: PropTypes.func,
     // Set by mapStateToProps
-    modules: PropTypes.objectOf(ModuleShape),
+    modules: AccessShapes.ModuleList,
   }
 
   state = {

@@ -12,8 +12,7 @@ const messages = Object.assign({
   'component.plugin-parameter.action.reset': 'Do not use a plugin',
   'modelattr.edit.computation.label': 'Computation',
   'modelattr.edit.table.computationMethod': 'Computation method',
-  'modelattr.edit.table.type': 'Type',
-  'modelattr.edit.table.name': 'Name',
+  'modelattr.edit.table.name': 'Name (type)',
 }, Locales.en)
 
 export default messages

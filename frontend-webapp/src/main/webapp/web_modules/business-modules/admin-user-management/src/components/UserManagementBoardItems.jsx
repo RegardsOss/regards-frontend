@@ -3,8 +3,8 @@
  **/
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import { listDependencies as UserEditDep, addDependencies as UserAddDep } from '@regardsoss/admin-user-projectuser-management/src/dependencies'
-import { listDependencies as RoleEditDep, addDependencies as RoleAddDep } from '@regardsoss/admin-user-role-management/src/dependencies'
+import { projectUserDependencies } from '@regardsoss/admin-user-projectuser-management'
+import { roleDependencies } from '@regardsoss/admin-user-role-management'
 import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
 
 
@@ -23,13 +23,13 @@ export default (project, intl) => [
       icon: <UsersListWithCountIconContainer />,
       className: 'selenium-userList',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
-      hateoasDependencies: UserEditDep,
+      hateoasDependencies: projectUserDependencies.listDependencies,
     }, {
       path: `/admin/${project}/user/project-user/create`,
       icon: <AddIcon />,
       className: 'selenium-userCreate',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
-      hateoasDependencies: UserAddDep,
+      hateoasDependencies: projectUserDependencies.addDependencies,
     }],
   },
   {
@@ -41,13 +41,13 @@ export default (project, intl) => [
       icon: <ViewLinesIcon />,
       className: 'selenium-roleList',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
-      hateoasDependencies: RoleEditDep,
+      hateoasDependencies: roleDependencies.listDependencies,
     }, {
       path: `/admin/${project}/user/role/create`,
       icon: <AddIcon />,
       className: 'selenium-roleCreate',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
-      hateoasDependencies: RoleAddDep,
+      hateoasDependencies: roleDependencies.addDependencies,
     }],
   },
 ]

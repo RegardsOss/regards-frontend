@@ -8,10 +8,16 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class NumberRangeComponent extends React.Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
+    change: PropTypes.func.isRequired,
   }
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  onTextFieldChange = (event) => {
+    this.props.change(`restriction.${this.props.type}.active`, true)
   }
 
   render() {
@@ -22,9 +28,11 @@ export class NumberRangeComponent extends React.Component {
           name={`restriction.${type}.active`}
           component={RenderCheckbox}
           label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.NUMBER_RANGE.active' })}
+          alwaysShowError
         />
         <Field
           name={`restriction.${type}.min`}
+          onChange={this.onTextFieldChange}
           fullWidth
           component={RenderTextField}
           type="number"
@@ -32,11 +40,13 @@ export class NumberRangeComponent extends React.Component {
         />
         <Field
           name={`restriction.${type}.isMinInclusive`}
+          onChange={this.onTextFieldChange}
           component={RenderCheckbox}
           label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.NUMBER_RANGE.isMinInclusive' })}
         />
         <Field
           name={`restriction.${type}.max`}
+          onChange={this.onTextFieldChange}
           fullWidth
           component={RenderTextField}
           type="number"
@@ -44,6 +54,7 @@ export class NumberRangeComponent extends React.Component {
         />
         <Field
           name={`restriction.${type}.isMaxInclusive`}
+          onChange={this.onTextFieldChange}
           component={RenderCheckbox}
           label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.NUMBER_RANGE.isMaxInclusive' })}
         />

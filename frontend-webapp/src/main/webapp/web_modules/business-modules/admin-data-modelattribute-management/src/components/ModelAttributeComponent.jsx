@@ -46,7 +46,6 @@ class ModelAttributeComponent extends React.Component {
         >
           <TableRow>
             <TableHeaderColumn><FormattedMessage id="modelattr.edit.table.name" /></TableHeaderColumn>
-            <TableHeaderColumn><FormattedMessage id="modelattr.edit.table.type" /></TableHeaderColumn>
             <TableHeaderColumn><FormattedMessage id="modelattr.edit.table.computationMethod" /></TableHeaderColumn>
           </TableRow>
         </TableHeader>)
@@ -64,8 +63,7 @@ class ModelAttributeComponent extends React.Component {
           preScanRows={false}
         >
           <TableRow>
-            <TableRowColumn>{modelAttribute.content.attribute.name}</TableRowColumn>
-            <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
+            <TableRowColumn>{modelAttribute.content.attribute.name} ({modelAttribute.content.attribute.type})</TableRowColumn>
             <TableRowColumn>
               <PluginConfigurationPickerComponent
                 onChange={this.onPluginConfigurationChange}
