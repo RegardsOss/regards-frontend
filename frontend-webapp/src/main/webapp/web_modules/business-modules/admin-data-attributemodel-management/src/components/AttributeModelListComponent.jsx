@@ -19,7 +19,7 @@ import { attributeModelActions } from '../clients/AttributeModelClient'
 export class AttributeModelListComponent extends React.Component {
 
   static propTypes = {
-    attrModelList: DataManagementShapes.AttributeModelList,
+    attrModelArray: DataManagementShapes.AttributeModelArray,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
@@ -77,7 +77,7 @@ export class AttributeModelListComponent extends React.Component {
   }
 
   render() {
-    const { attrModelList, handleEdit, createUrl, backUrl } = this.props
+    const { attrModelArray, handleEdit, createUrl, backUrl } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -113,7 +113,7 @@ export class AttributeModelListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(attrModelList, attrmodel => (
+              {map(attrModelArray, attrmodel => (
                 <TableRow key={attrmodel.content.id}>
                   <TableRowColumn>{this.getFragmentName(attrmodel)}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.name}</TableRowColumn>

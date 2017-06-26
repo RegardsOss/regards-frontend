@@ -21,7 +21,7 @@ export class AttributeModelListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    attrModelList: DataManagementShapes.AttributeModelList,
+    attrModelArray: DataManagementShapes.AttributeModelArray,
     // from mapDispatchToProps
     fetchAttrModelList: PropTypes.func,
     deleteAttrModel: PropTypes.func,
@@ -62,12 +62,12 @@ export class AttributeModelListContainer extends React.Component {
 
 
   render() {
-    const { attrModelList } = this.props
+    const { attrModelArray } = this.props
     return (
       <I18nProvider messageDir="business-modules/admin-data-attributemodel-management/src/i18n">
         <LoadableContentDisplayDecorator isLoading={this.state.isLoading}>
           <AttributeModelListComponent
-            attrModelList={attrModelList}
+            attrModelArray={attrModelArray}
             createUrl={this.getCreateUrl()}
             backUrl={this.getBackUrl()}
             handleDelete={this.handleDelete}
@@ -79,7 +79,7 @@ export class AttributeModelListContainer extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  attrModelList: attributeModelSelectors.getList(state),
+  attrModelArray: attributeModelSelectors.getArrayOrderedUsingFragmentAndAttributeName(state),
 })
 const mapDispatchToProps = dispatch => ({
   fetchAttrModelList: () => dispatch(attributeModelActions.fetchEntityList()),
