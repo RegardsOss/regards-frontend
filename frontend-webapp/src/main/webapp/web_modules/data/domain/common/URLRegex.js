@@ -1,17 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-const relativeURLRegexp = new RegExp('^((\\.\\.?\\/)*)([-a-z\\d%_\\.~+]+)' +    // . / .. / and first word
-  '(\\/[-a-z\\d%_\\.~+]*)*$', 'i') // next words
+const relativeURLRegexp =
+  /^(\.\.?\/)*([-a-z\d%_.~+]+)(\/[-a-z\d%_:.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i
 
 
-const validURLRegexp = new RegExp('^(https?:\\/\\/)?' + // protocol
-  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_\\.~+]*)*' + // port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-  '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
-
+const validURLRegexp =
+  /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.?)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.:~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i
 
 export default {
   relativeURLRegexp,
