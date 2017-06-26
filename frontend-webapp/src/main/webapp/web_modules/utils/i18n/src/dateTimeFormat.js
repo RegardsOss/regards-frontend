@@ -1,6 +1,7 @@
 
 import areIntlLocalesSupported from 'intl-locales-supported'
 
+// eslint-disable-next-line import/no-mutable-exports
 let dateTimeFormat
 
 const localesAppSupports = [

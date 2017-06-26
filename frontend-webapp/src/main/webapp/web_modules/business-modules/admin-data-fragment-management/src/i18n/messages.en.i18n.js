@@ -12,6 +12,7 @@ const messages = Object.assign({
   'fragment.list.action.delete': 'Delete',
   'fragment.list.action.export': 'Export',
   'fragment.list.delete.title': 'Delete fragment {name} ?',
+  'fragment.list.delete.conditions' : 'You can delete any fragment which is not linked to any attributes',
 
   'fragment.edit.title': 'Edit fragment {name}',
   'fragment.create.title': 'Create a new fragment',

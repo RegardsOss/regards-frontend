@@ -12,6 +12,7 @@ const messages = Object.assign({
   'fragment.list.action.delete': 'Supprimer',
   'fragment.list.action.export': 'Exporter',
   'fragment.list.delete.title': 'Supprimer le regroupement d\'attribut {name} ?',
+  'fragment.list.delete.conditions' : 'Pour supprimer un fragment, il ne doit être associé à aucun attribut. Pour ce faire, vous pouvez les supprimer depuis l\'écran de configuration des attributs',
 
   'fragment.edit.title': 'Editer le fragment {name}',
   'fragment.create.title': 'Créer un fragment',
