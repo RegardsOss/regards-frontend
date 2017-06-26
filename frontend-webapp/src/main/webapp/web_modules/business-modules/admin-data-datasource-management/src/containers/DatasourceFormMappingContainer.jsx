@@ -9,7 +9,7 @@ import DatasourceFormMappingComponent from '../components/DatasourceFormMappingC
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import { connectionTableActions, connectionTableSelectors } from '../clients/ConnectionTableClient'
 import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../clients/ConnectionTableAttributesClient'
-
+import DatasourceFormMappingEmptyDatabaseComponent from '../components/DatasourceFormMappingEmptyDatabaseComponent'
 
 /**
  * Show the datasource form
@@ -66,6 +66,21 @@ export class DatasourceFormMappingContainer extends React.Component {
       })
   }
 
+  getForm = () => {
+    const { currentDatasource, tableList, tableAttributeList, modelAttributeList, handleBack, handleSave, isEditing, isCreating } = this.props
+    return (<DatasourceFormMappingComponent
+      currentDatasource={currentDatasource}
+      tableList={tableList}
+      tableAttributeList={tableAttributeList}
+      modelAttributeList={modelAttributeList}
+      onTableSelected={this.handleTableSelected}
+      onSubmit={handleSave}
+      handleBack={handleBack}
+      isSingleTable={this.isSingleTable()}
+      isEditing={isEditing}
+      isCreating={isCreating}
+    />)
+  }
 
   handleTableSelected = (tableName) => {
     const { currentDatasource } = this.props
@@ -82,26 +97,19 @@ export class DatasourceFormMappingContainer extends React.Component {
   }
 
   render() {
-    const { currentDatasource, tableList, tableAttributeList, modelAttributeList, handleBack, handleSave, isEditing, isCreating } = this.props
+    const { tableList, handleBack } = this.props
     const { isLoading } = this.state
+    const emptyComponent = (<DatasourceFormMappingEmptyDatabaseComponent
+      handleBack={handleBack}
+    />)
     return (
       <I18nProvider messageDir="business-modules/admin-data-datasource-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
+          isEmpty={tableList.length === 0}
+          emptyComponent={emptyComponent}
         >
-          {() => (<DatasourceFormMappingComponent
-            currentDatasource={currentDatasource}
-            tableList={tableList}
-            tableAttributeList={tableAttributeList}
-            modelAttributeList={modelAttributeList}
-            onTableSelected={this.handleTableSelected}
-            onSubmit={handleSave}
-            handleBack={handleBack}
-            isSingleTable={this.isSingleTable()}
-            isEditing={isEditing}
-            isCreating={isCreating}
-          />)
-          }
+          {this.getForm}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )

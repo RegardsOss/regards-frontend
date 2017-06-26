@@ -34,7 +34,7 @@ export class ModelAttributeContainer extends React.Component {
         computationConf: null,
       })
     }
-    this.props.updateModelAttribute(this.props.modelAttribute.content.id, updatedModelAttribute, updatedModelAttribute.model.id)
+    return this.props.updateModelAttribute(this.props.modelAttribute.content.id, updatedModelAttribute, updatedModelAttribute.model.id)
   }
 
   render() {

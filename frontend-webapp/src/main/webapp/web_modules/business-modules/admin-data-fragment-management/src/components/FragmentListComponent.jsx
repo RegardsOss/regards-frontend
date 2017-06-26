@@ -103,7 +103,7 @@ export class FragmentListComponent extends React.Component {
           {this.renderDeleteConfirmDialog()}
           <HelpMessageComponent
             message={this.context.intl.formatMessage({ id: 'fragment.list.delete.conditions' })}
-            />
+          />
           <Table
             selectable={false}
           >

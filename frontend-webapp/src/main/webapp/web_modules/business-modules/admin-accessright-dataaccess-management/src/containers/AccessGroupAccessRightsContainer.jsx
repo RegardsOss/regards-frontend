@@ -146,16 +146,15 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-dam',
-  }, /* {
-   pluginId: 'ICheckDataAccess'
-   // TODO fix when backend update to pluginType too
-   }*/)),
+  }, {
+    pluginId: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
+  })),
   fetchAccessGroup: accessGroupName => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
   fetchPluginMetaDataList: microserviceName => dispatch(pluginMetadataActions.fetchEntityList({
     microserviceName: 'rs-dam',
-  }, /* {
-   pluginType: 'ICheckDataAccess'
-   }*/)),
+  }, {
+    pluginType: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
+  })),
   fetchAccessRights: accessgroupName => dispatch(accessRightActions.fetchPagedEntityList(0, 10000, {}, { accessgroup: accessgroupName })),
   updateAccessRight: (id, entity) => dispatch(accessRightActions.updateEntity(id, entity)),
   createAccessRight: entity => dispatch(accessRightActions.createEntity(entity)),

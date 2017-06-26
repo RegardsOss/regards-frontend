@@ -41,6 +41,8 @@ const messages = Object.assign({
 
   'datasource.form.mapping.title': 'Mise en place de la liaison entre la connexion et le modèle d\'object',
   'datasource.form.mapping.subtitle': 'Cette étape vise à lier pour chaque attribut de votre modèle un attribut provenant de la connexion. Si vos données sont issues d\'une seule table, choisissez l\'onglet "Liaison avec une seule table", sinon vous pouvez choisir l\'option "Liaison avancée" afin d\'écrire votre requête SQL. L\'attribut sipId doit être lié à une- clé primaire de votre base de données',
+  'datasource.form.mapping.emptyDatabase.title': 'Votre base de données est vide',
+  'datasource.form.mapping.emptyDatabase.message': 'Vous ne pouvez pas associer les attributs du modèle à une datasource qui n\'a pas de table',
 
   'datasource.form.mapping.table.fragment': 'Fragment',
   'datasource.form.mapping.table.attrName': 'Nom de l\'attribut',

@@ -61,9 +61,7 @@ export class AccessRightFormComponent extends React.Component {
    * When the user select a plugin configuration, save that value into the form
    * @param value the pluginConfiguration id
    */
-  onPluginConfigurationChange = (value) => {
-    this.props.change('pluginConfiguration', value)
-  }
+  onPluginConfigurationChange = value => this.props.change('pluginConfiguration', value)
 
   handleInitialize = () => {
     const { currentAccessRight } = this.props

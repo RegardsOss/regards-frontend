@@ -41,6 +41,8 @@ const messages = Object.assign({
 
   'datasource.form.mapping.title': 'Set up the link between connection and object model',
   'datasource.form.mapping.subtitle': 'This step aims to link for each model attribute from your model an attribute comming from the connection. If your data comes from one table, select the tab "Link with one table", otherwise you can select the option "Advanced link" to let you write your own SQL query. The attribute sipId must be linked to the primary key of your database',
+  'datasource.form.mapping.emptyDatabase.title': 'Your database is empty',
+  'datasource.form.mapping.emptyDatabase.message': 'You can\'t associate model attributes with an empty table list',
 
   'datasource.form.mapping.table.fragment': 'Fragment',
   'datasource.form.mapping.table.attrName': 'Attribute name',

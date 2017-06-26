@@ -13,7 +13,8 @@ class NoContentComponent extends React.Component {
   static propTypes = {
     title: PropTypes.node.isRequired,
     message: PropTypes.node,
-    Icon: PropTypes.func.isRequired,
+    // pointer of the constructor of the icon
+    Icon: PropTypes.func,
   }
 
   static defaultProps = {
@@ -24,17 +25,45 @@ class NoContentComponent extends React.Component {
     ...themeContextType,
   }
 
+  getStyle = theme => ({
+    wrapper: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      minHeight: '30vh',
+    },
+    iconStyle: {
+      width: '128px',
+      height: '128px',
+      opacity: '0.2',
+    },
+    titleWrapper: {
+      maxWidth: '40%',
+      marginTop: '0.2em',
+      color: theme.palette.textColor,
+      fontSize: '1.5em',
+    },
+    messageWrapper: {
+      maxWidth: '40%',
+      marginTop: '0.6em',
+      color: theme.palette.secondaryTextColor,
+      textAlign: 'center',
+      fontSize: '1em',
+    },
+  })
+
   render() {
     const { title, message, Icon } = this.props
     const theme = this.context.muiTheme
-    const iconStyle = { width: '128px', height: '128px', opacity: '0.2' }
+    const style = this.getStyle(theme)
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', minHeight: '30vh' }}>
-        <Icon color={theme.palette.primary1Color} style={iconStyle} />
-        <div style={{ maxWidth: '40%', marginTop: '0.2em', color: theme.palette.textColor, fontSize: '1.5em' }}>
+      <div style={style.wrapper}>
+        <Icon color={theme.palette.primary1Color} style={style.iconStyle} />
+        <div style={style.titleWrapper}>
           {title || <FormattedMessage id="no.content.information.title" />}
         </div>
-        <div style={{ maxWidth: '40%', marginTop: '0.6em', color: theme.palette.secondaryTextColor, textAlign: 'center', fontSize: '1em' }}>
+        <div style={style.messageWrapper}>
           {message}
         </div>
       </div>
