@@ -10,7 +10,7 @@ const Entity = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['DATASET', 'COLLECTION', 'DATAOBJECT', 'DOCUMENT']).isRequired,
+    entityType: PropTypes.oneOf(['DATASET', 'COLLECTION', 'DATAOBJECT', 'DOCUMENT']).isRequired,
     model: Model.isRequired,
   }).isRequired,
 })

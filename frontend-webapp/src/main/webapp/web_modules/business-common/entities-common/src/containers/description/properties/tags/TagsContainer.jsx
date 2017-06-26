@@ -3,6 +3,7 @@
 **/
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
+import { isURNTag } from '@regardsoss/domain/catalog'
 import { CatalogShapes } from '@regardsoss/shape'
 import { StringComparison } from '@regardsoss/form-utils'
 import { actions as searchEntityActions } from '../../../../clients/SearchEntityClient'
@@ -38,14 +39,6 @@ export class TagsContainer extends React.Component {
     entityTags: [], // CatalogShapes.Entity array. Resolved Related entities, sorted alphabetically on their label
   }
 
-  /** URN tag pattern */
-  static URN_PATTERN = /^URN:/
-  /** Is an URN tag?
-   * @param tag tag
-   * @return true if tag is an URN, false otherwise
-   */
-  static isURNTag = tag => TagsContainer.URN_PATTERN.test(tag)
-
   componentWillMount = () => this.onPropertiesChanges({}, this.props)
 
   componentWillReceiveProps = nextProps => this.onPropertiesChanges(this.props, nextProps)
@@ -57,7 +50,7 @@ export class TagsContainer extends React.Component {
       // update tags list
       if (newProps.entity) {
         // 1 - make tags partition
-        const tagPartitions = newProps.entity.content.tags.reduce(({ simpleTags, urnTags }, tag) => TagsContainer.isURNTag(tag) ?
+        const tagPartitions = newProps.entity.content.tags.reduce(({ simpleTags, urnTags }, tag) => isURNTag(tag) ?
           { simpleTags, urnTags: [...urnTags, tag] } :
           { simpleTags: [...simpleTags, tag], urnTags }, { simpleTags: [], urnTags: [] })
         // 2 - sort and store simple tags

@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
+import { TagTypes } from '@regardsoss/domain/catalog'
 import graphContextActions from '../../src/model/graph/GraphContextActions'
 import reduce, { REDUCER_PATH } from '../../src/model/graph/GraphContextReducers'
 import graphContextSelectors from '../../src/model/graph/GraphContextSelectors'
@@ -36,5 +37,11 @@ describe('[Search Graph] Test graph context selectors', () => {
     assert.isFalse(graphContextSelectors.areDatasetAttributesVisible(fakeStore), [], 'Should select false for module collapsed')
     fakeStore = mockReduce(fakeStore, graphContextActions.setDatasetAttributesVisible(true))
     assert.isTrue(graphContextSelectors.areDatasetAttributesVisible(fakeStore), [], 'Should select true for module collapsed')
+  })
+  it('Should select searchTag state', () => {
+    let fakeStore = buildMockStore()
+    assert.isNull(graphContextSelectors.getSearchTag(fakeStore), 'Should select null for initial search label')
+    fakeStore = mockReduce(fakeStore, graphContextActions.setSearchTag({ type: TagTypes.WORD, label: 'xxx' }))
+    assert.deepEqual(graphContextSelectors.getSearchTag(fakeStore), { type: TagTypes.WORD, label: 'xxx' }, 'Should select new value for search tag')
   })
 })

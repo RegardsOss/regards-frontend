@@ -6,7 +6,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { EntityTagContainer } from '../../../../../src/containers/description/properties/tags/EntityTagContainer'
-import SimpleTagContainer from '../../../../../src/containers/description/properties/tags/SimpleTagContainer'
+import TagComponent from '../../../../../src/components/description/properties/tags/TagComponent'
 import DescriptionLevelActions from '../../../../../src/model/description/DescriptionLevelActions'
 import getDescriptionLevelSelectors from '../../../../../src/model/description/DescriptionLevelSelectors'
 import styles from '../../../../../src/styles/styles'
@@ -39,12 +39,12 @@ describe('[Entities Common] Testing EntityTagContainer', () => {
       dispatchShowDetail,
     }
     const enzymeWrapper = shallow(<EntityTagContainer {...props} />, { context })
-    const subcontainerWrapper = enzymeWrapper.find(SimpleTagContainer)
-    assert.lengthOf(subcontainerWrapper, 1, 'there should be a delegate container')
+    const compWrapper = enzymeWrapper.find(TagComponent)
+    assert.lengthOf(compWrapper, 1, 'there should a tag component')
 
-    testSuiteHelpers.assertWrapperProperties(subcontainerWrapper, {
-      tag: props.entity.content.label,
-      onSearchTag,
+    testSuiteHelpers.assertWrapperProperties(compWrapper, {
+      tagLabel: props.entity.content.label,
+      onSearchTag: enzymeWrapper.instance().onSearchTag,
       onShowDescription: dispatchShowDetail,
       isEntity: true,
     }, 'It should report required properties for subcontainer to work')
@@ -70,11 +70,11 @@ describe('[Entities Common] Testing EntityTagContainer', () => {
     }
     const enzymeWrapper = shallow(<EntityTagContainer {...props} />, { context })
     assert.isTrue(enzymeWrapper.instance().state.alreadyInPath, 'The "alreadyInPath" state should be true')
-    const subcontainerWrapper = enzymeWrapper.find(SimpleTagContainer)
-    assert.lengthOf(subcontainerWrapper, 1, 'there should be a delegate container')
-    testSuiteHelpers.assertWrapperProperties(subcontainerWrapper, {
-      tag: props.entity.content.label,
-      onSearchTag,
+    const compWrapper = enzymeWrapper.find(TagComponent)
+    assert.lengthOf(compWrapper, 1, 'there should be tag compoent')
+    testSuiteHelpers.assertWrapperProperties(compWrapper, {
+      tagLabel: props.entity.content.label,
+      onSearchTag: enzymeWrapper.instance().onSearchTag,
       onShowDescription: null, // the callback should not be provided when already shown in path
       isEntity: true,
     }, 'It should report required properties for subcontainer to work')

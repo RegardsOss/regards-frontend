@@ -20,11 +20,18 @@ describe('[Entities Common] Testing SimpleTagContainer', () => {
   it('should render correctly', () => {
     const props = {
       tag: 'test',
-      onSearchTag: null,
+      onSearchTag: () => { },
       onShowDescription: null,
       isEntity: false,
     }
     const enzymeWrapper = shallow(<SimpleTagContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(TagComponent), 1, 'The corresponding component should be rendered')
+    const compWrapper = enzymeWrapper.find(TagComponent)
+    assert.lengthOf(compWrapper, 1, 'The corresponding component should be rendered')
+    testSuiteHelpers.assertWrapperProperties(compWrapper, {
+      tagLabel: props.tag,
+      onSearchTag: enzymeWrapper.instance().onSearchTag,
+      onShowDescription: null, // unused by the simple tags
+      isEntity: false,
+    }, 'It should report required properties for subcontainer to work')
   })
 })

@@ -33,6 +33,7 @@ describe('[Search Graph] Testing DatasetItemContainer', () => {
       graphDatasetAttributes: [],
       // from map dispatch to props
       dispatchSelected: () => { },
+      dispatchSetSearchTag: () => { },
     }
     const enzymeWrapper = shallow(<DatasetItemContainer {...props} />, { context })
     const datasetItems = enzymeWrapper.find(DatasetItem)
