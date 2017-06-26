@@ -82,9 +82,18 @@ class SearchGraph extends React.Component {
                         levelModelName={levelModelName}
                         levelIndex={index}
                         isFirstLevel={index === 0}
-                        isLastLevel={index === (graphLevels.length - 1)}
+                        isLastLevel={false}
                       />
                     ))}
+                    {/* Last level to show datasets */}
+                    <GraphLevelDisplayerContainer
+                      graphDatasetAttributes={graphDatasetAttributes}
+                      key="last.level.datasets.only"
+                      levelModelName={null}
+                      levelIndex={graphLevels.length}
+                      isFirstLevel={graphLevels.length === 0}
+                      isLastLevel
+                    />
                   </div>
                 </Measure>
               </ScrollArea>

@@ -3,6 +3,7 @@
 **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { WaitingAccountEntitiesActions } from '@regardsoss/admin-account-management'
+import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { connect } from '@regardsoss/redux'
@@ -10,7 +11,6 @@ import { waitingAccessUsersEntitiesActions } from '../clients/WaitingAccessUsers
 
 /** Refresh time in milliseconds */
 const refreshTimerMS = 10000
-
 
 /** Notifications fetchers for project admin interface */
 const projectNotificationsFetchers = [
@@ -43,6 +43,7 @@ class NotificationsManager extends React.Component {
     isOnInstanceDashboard: PropTypes.bool.isRequired,
     children: PropTypes.arrayOf(PropTypes.node),
     // from mapStateTopProps
+    authentication: AuthenticateShape,
     availableEndpoints: PropTypes.arrayOf(PropTypes.string),
     // from map mapDispatchToProps
     dependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -58,9 +59,9 @@ class NotificationsManager extends React.Component {
   }
 
   refresh = () => {
-    const { dependencies, availableEndpoints } = this.props
+    const { dependencies, availableEndpoints, authentication } = this.props
     // check required dependencies are met
-    if (allMatchHateoasDisplayLogic(dependencies, availableEndpoints)) {
+    if (authentication.result && !authentication.sessionLocked && allMatchHateoasDisplayLogic(dependencies, availableEndpoints)) {
       this.props.fetchMethods.forEach(method => method())
     }
   }
@@ -84,6 +85,7 @@ class NotificationsManager extends React.Component {
 
 const mapStateTopProps = (state, { isOnInstanceDashboard }) => ({
   availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+  authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
 })
 
 const mapDispatchToProps = (dispatch, { isOnInstanceDashboard }) => {

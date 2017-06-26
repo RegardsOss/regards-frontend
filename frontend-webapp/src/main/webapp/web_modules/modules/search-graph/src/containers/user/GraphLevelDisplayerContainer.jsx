@@ -75,7 +75,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
     isFirstLevel: PropTypes.bool.isRequired,
     isLastLevel: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    levelModelName: PropTypes.string.isRequired, // model name for this level, used only for dispatch
+    levelModelName: PropTypes.string, // model name for this level, used only for dispatch, null allowed for last level
     // from map state to props
     isShowable: PropTypes.bool.isRequired, // is showable in current selection state
     isLoading: PropTypes.bool.isRequired, // is loading
@@ -117,10 +117,13 @@ export class GraphLevelDisplayerContainer extends React.Component {
   updateLevelElements = (isShowable, parentIpId) => {
     // update only when in a showable state
     if (isShowable) {
-      const { isFirstLevel, dispatchFetchLevelCollections, dispatchFetchLevelDatasets } = this.props
+      const { isFirstLevel, isLastLevel, dispatchFetchLevelCollections, dispatchFetchLevelDatasets } = this.props
       const showDatasets = !isFirstLevel // no dataset on root level
+      const showCollections = !isLastLevel // no collection on last level (used only to show parent collection's datasets)
       // 1 - Fetch collections
-      dispatchFetchLevelCollections(parentIpId)
+      if (showCollections) {
+        dispatchFetchLevelCollections(parentIpId)
+      }
       // 2 - Fetch datasets
       if (showDatasets) {
         dispatchFetchLevelDatasets(parentIpId)
