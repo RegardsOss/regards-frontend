@@ -87,7 +87,6 @@
     "@regardsoss/domain": "0.0.1",
     "@regardsoss/endpoints-common": "0.0.1",
     "@regardsoss/entities-common": "0.0.1",
-    "@regardsoss/eslint-config-es6-rules": "0.0.1",
     "@regardsoss/form-utils": "0.0.1",
     "@regardsoss/global-system-error": "0.0.1",
     "@regardsoss/i18n": "0.0.1",
@@ -146,6 +145,8 @@
   },
   "devDependencies": {
     "@regardsoss/tests-helpers": "0.0.1",
+    "@regardsoss/eslint-config-es6-rules": "0.0.1",
+    "@regardsoss/webpack-config-front": "0.0.1",
     "@storybook/addon-actions": "^3.1.5",
     "@storybook/addon-knobs": "^3.2.0-alpha.0",
     "@storybook/react": "^3.1.3",
