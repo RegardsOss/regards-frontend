@@ -10,7 +10,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Download from 'material-ui/svg-icons/file/file-download'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
@@ -101,6 +101,9 @@ export class FragmentListComponent extends React.Component {
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
+          <HelpMessageComponent
+            message={this.context.intl.formatMessage({ id: 'fragment.list.delete.conditions' })}
+            />
           <Table
             selectable={false}
           >
