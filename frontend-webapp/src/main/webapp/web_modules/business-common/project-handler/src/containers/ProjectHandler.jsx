@@ -4,7 +4,7 @@
 import has from 'lodash/has'
 import root from 'window-or-global'
 import { connect } from '@regardsoss/redux'
-import { Project } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import ProjectClient from '../clients/ProjectClient'
 
 /**
@@ -16,7 +16,7 @@ class ProjectHandler extends React.Component {
     projectName: PropTypes.string,
     title: PropTypes.string,
     // From mapStateToProps
-    project: Project,
+    project: AdminShapes.Project,
     fetchProject: PropTypes.func,
   }
 

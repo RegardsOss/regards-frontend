@@ -4,9 +4,9 @@
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FilterList from 'material-ui/svg-icons/action/list'
 import { themeContextType } from '@regardsoss/theme'
+import { AccessShapes } from '@regardsoss/shape'
 import Styles from '../styles/styles'
 import ModuleListComponent from './ModuleListComponent'
-import ModuleShape from '../model/ModuleShape'
 
 /**
  * Component to display all available modules for a given container
@@ -16,7 +16,7 @@ class ModuleListButtonComponent extends React.Component {
 
   static propTypes = {
     container: PropTypes.string,
-    modules: PropTypes.arrayOf(ModuleShape),
+    modules: AccessShapes.ModuleArray,
   }
 
   static contextTypes = {

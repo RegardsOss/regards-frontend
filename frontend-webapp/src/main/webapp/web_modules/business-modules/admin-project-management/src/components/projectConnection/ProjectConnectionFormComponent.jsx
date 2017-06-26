@@ -3,13 +3,12 @@
  */
 import keys from 'lodash/keys'
 import Checkbox from 'material-ui/Checkbox'
-import { Project } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
 import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
-import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 
 /**
  * Reusable {@link ProjectConnection} form for reading, editing, creating.
@@ -20,9 +19,9 @@ import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
 export class ProjectConnectionFormComponent extends React.Component {
 
   static propTypes = {
-    project: Project,
+    project: AdminShapes.Project,
     microservice: PropTypes.string.isRequired,
-    projectConnection: ProjectConnection,
+    projectConnection: AdminShapes.ProjectConnection,
     configureOneForAll: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string,
     onUpdate: PropTypes.func,

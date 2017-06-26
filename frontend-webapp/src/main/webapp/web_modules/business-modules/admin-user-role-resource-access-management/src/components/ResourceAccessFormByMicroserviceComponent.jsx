@@ -10,7 +10,7 @@ import { List, ListItem } from 'material-ui/List'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Resource } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import Toggle from 'material-ui/Toggle'
 import { LoadingComponent, HateoasToggle, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
@@ -22,9 +22,9 @@ import moduleStyles from '../styles/styles'
 export class ResourceAccessFormByMicroserviceComponent extends React.Component {
 
   static propTypes = {
-    roleResources: PropTypes.arrayOf(Resource),
+    roleResources: AdminShapes.ResourceArray,
     controllerList: PropTypes.arrayOf(PropTypes.string),
-    resourceList: PropTypes.arrayOf(Resource).isRequired,
+    resourceList: AdminShapes.ResourceArray.isRequired,
     resourceListFetching: PropTypes.bool,
     handleOpenController: PropTypes.func.isRequired,
     handleToggleResourceAccess: PropTypes.func.isRequired,

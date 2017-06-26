@@ -3,7 +3,8 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { Title } from '@regardsoss/components'
-import { LazyModuleComponent, ModuleShape } from '@regardsoss/modules'
+import { LazyModuleComponent } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 
 /**
  * Component to display a preview of the current search form module
@@ -13,7 +14,7 @@ class FormPreviewComponent extends React.Component {
 
   static propTypes = {
     project: PropTypes.string.isRequired,
-    module: ModuleShape,
+    module: AccessShapes.Module,
   }
 
   static contextTypes = {

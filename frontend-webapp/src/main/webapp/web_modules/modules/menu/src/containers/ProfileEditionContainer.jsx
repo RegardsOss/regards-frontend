@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { ProjectUser } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
 import profileDialogActions from '../model/ProfileDialogActions'
 import profileDialogSelectors from '../model/ProfileDialogSelectors'
@@ -29,7 +29,7 @@ export class ProfileEditionContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
     visible: PropTypes.bool.isRequired,
-    myUser: ProjectUser,
+    myUser: AdminShapes.ProjectUser,
     // from mapDispatchToProps
     hideDialog: PropTypes.func.isRequired, // hide edition dialog (cancel)
     fetchMyUser: PropTypes.func.isRequired, // fetch user data

@@ -24,4 +24,11 @@ const AttributeModel = PropTypes.shape({
 })
 const AttributeModelList = PropTypes.objectOf(AttributeModel)
 
-export default { AttributeModelContent, AttributeModel, AttributeModelList }
+const AttributeModelArray = PropTypes.arrayOf(AttributeModel)
+
+export default {
+  AttributeModelContent,
+  AttributeModel,
+  AttributeModelList,
+  AttributeModelArray,
+}

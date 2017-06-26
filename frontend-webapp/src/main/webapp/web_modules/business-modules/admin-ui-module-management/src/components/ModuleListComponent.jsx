@@ -10,7 +10,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import Copy from 'material-ui/svg-icons/content/content-copy'
 import { FormattedMessage } from 'react-intl'
 import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
-import { ModuleShape } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { HateoasIconAction, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
@@ -24,7 +24,7 @@ import { moduleActions } from '../clients/ModuleClient'
 class ModuleListComponent extends React.Component {
 
   static propTypes = {
-    modules: PropTypes.objectOf(ModuleShape).isRequired,
+    modules: AccessShapes.ModuleList.isRequired,
     backUrl: PropTypes.string.isRequired,
     onCreate: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,

@@ -5,7 +5,7 @@ import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Role, Resource } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import { roleResourceActions, roleResourceSelectors } from '../clients/RoleResourceClient'
@@ -24,9 +24,9 @@ export class ResourceAccessFormContainer extends React.Component {
       role_name: PropTypes.string.isRequired,
     }).isRequired,
     // from mapStateToProps
-    role: Role,
+    role: AdminShapes.Role,
     isRoleFetching: PropTypes.bool,
-    roleResources: PropTypes.arrayOf(Resource),
+    roleResources: AdminShapes.ResourceArray,
     isResourcesFetching: PropTypes.bool,
     // from fetchRole
     fetchRole: PropTypes.func,

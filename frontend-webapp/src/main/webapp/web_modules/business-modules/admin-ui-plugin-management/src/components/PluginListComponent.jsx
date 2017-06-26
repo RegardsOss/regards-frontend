@@ -8,7 +8,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
-import { PluginDefinition } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -22,7 +22,7 @@ import { uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 class PluginListComponent extends React.Component {
 
   static propTypes = {
-    plugins: PropTypes.objectOf(PluginDefinition),
+    plugins: AccessShapes.UIPluginDefinitionList,
     onCreate: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,

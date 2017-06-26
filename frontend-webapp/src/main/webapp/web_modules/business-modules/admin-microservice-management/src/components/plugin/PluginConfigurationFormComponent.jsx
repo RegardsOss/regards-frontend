@@ -6,7 +6,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
-import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { buildParameterList, buildDefaultParameterList, mapPluginParameterTypeToPluginParameter } from '../../model/plugin/utils'
@@ -23,8 +23,8 @@ const { validRequiredString, validRequiredNumber } = ValidationHelpers
 export class PluginConfigurationFormComponent extends React.Component {
 
   static propTypes = {
-    currentPluginConfiguration: PluginConfiguration,
-    currentPluginMetaData: PluginMetaData,
+    currentPluginConfiguration: CommonShapes.PluginConfiguration,
+    currentPluginMetaData: CommonShapes.PluginMetaData,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     formMode: PropTypes.oneOf(['create', 'edit', 'copy']),

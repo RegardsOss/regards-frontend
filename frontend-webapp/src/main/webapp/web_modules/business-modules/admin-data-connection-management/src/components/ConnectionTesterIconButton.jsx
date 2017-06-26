@@ -10,7 +10,7 @@ import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { OnHoverSwitchIconButton } from '@regardsoss/components'
-import { Connection } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
 
 const states = {
@@ -29,7 +29,7 @@ const states = {
 class ConnectionTesterIconButton extends React.Component {
 
   static propTypes = {
-    connection: Connection.isRequired,
+    connection: DataManagementShapes.Connection.isRequired,
     handleTestConnection: PropTypes.func.isRequired,
   }
 

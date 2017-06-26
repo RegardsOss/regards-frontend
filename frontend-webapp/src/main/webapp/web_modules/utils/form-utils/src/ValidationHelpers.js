@@ -5,7 +5,7 @@ import find from 'lodash/find'
 import isUndefined from 'lodash/isUndefined'
 import isNil from 'lodash/isNil'
 import isString from 'lodash/isString'
-import { validURLRegexp, relativeURLRegexp } from '@regardsoss/model'
+import { validURLRegexp, relativeURLRegexp } from '@regardsoss/domain/common'
 import ErrorTypes from './ErrorTypes'
 
 /**

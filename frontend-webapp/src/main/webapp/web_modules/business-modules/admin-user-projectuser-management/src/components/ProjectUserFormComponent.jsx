@@ -10,7 +10,7 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm } from '@regardsoss/form-utils'
-import { Role, ProjectUser, AccessGroup } from '@regardsoss/model'
+import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -30,10 +30,10 @@ export class ProjectUserFormComponent extends React.Component {
   static POPOVER_ANCHOR_ORIGIN = { horizontal: 'left', vertical: 'top' }
 
   static propTypes = {
-    currentUser: ProjectUser,
+    currentUser: AdminShapes.ProjectUser,
     userMetadata: MetadataList.isRequired,
-    roleList: PropTypes.objectOf(Role),
-    groupList: PropTypes.objectOf(AccessGroup),
+    roleList: AdminShapes.RoleList,
+    groupList: DataManagementShapes.AccessGroupList,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     passwordRules: PropTypes.string.isRequired, // fetched password rules description

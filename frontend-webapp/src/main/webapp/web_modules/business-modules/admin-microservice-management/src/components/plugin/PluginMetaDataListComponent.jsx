@@ -23,7 +23,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { ResourceIconAction } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { PluginMetaDataList } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import moduleStyles from '../../styles/styles'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 
@@ -41,7 +41,7 @@ export default class PluginMetaDataListComponent extends React.Component {
     pluginTypes: PropTypes.arrayOf(PropTypes.shape({
       content: PropTypes.string,
     })),
-    pluginMetaDataList: PluginMetaDataList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     handleClose: PropTypes.func,
     handleProjectConfigurationListClick: PropTypes.func,
   }

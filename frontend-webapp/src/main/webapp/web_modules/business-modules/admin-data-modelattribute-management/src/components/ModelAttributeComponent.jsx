@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { ModelAttribute, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import { PluginConfigurationPickerComponent } from '@regardsoss/components'
@@ -17,9 +17,9 @@ class ModelAttributeComponent extends React.Component {
   }
 
   static propTypes = {
-    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
-    modelAttribute: ModelAttribute,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    modelAttribute: DataManagementShapes.ModelAttribute,
     handleComputationUpdate: PropTypes.func,
     shouldDisplayHeader: PropTypes.bool,
   }

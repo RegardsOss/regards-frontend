@@ -8,7 +8,7 @@ import { List, ListItem } from 'material-ui/List'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Resource, Role } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import Dialog from 'material-ui/Dialog'
 import moduleStyles from '../styles/styles'
 
@@ -19,8 +19,8 @@ import moduleStyles from '../styles/styles'
 class ResourceAccessModalOverviewComponent extends React.Component {
 
   static propTypes = {
-    currentResource: Resource.isRequired,
-    roles: PropTypes.objectOf(Role).isRequired,
+    currentResource: AdminShapes.Resource.isRequired,
+    roles: AdminShapes.RoleList.isRequired,
     onClose: PropTypes.func.isRequired,
     editRoleResources: PropTypes.func.isRequired,
   }

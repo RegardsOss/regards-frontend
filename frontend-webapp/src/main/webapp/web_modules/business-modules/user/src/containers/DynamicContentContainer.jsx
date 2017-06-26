@@ -2,7 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { connect } from '@regardsoss/redux'
-import { ModuleShape, LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import ModulesSelector from '../model/modules/ModulesSelector'
 
@@ -23,7 +24,7 @@ class DynamicContentContainer extends React.Component {
       moduleId: PropTypes.string,
     }),
     // Module to display
-    module: ModuleShape,
+    module: AccessShapes.Module,
     // Function to throw an error
     throwError: PropTypes.func,
   }

@@ -3,7 +3,8 @@
  **/
 import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Theme, defaultTheme } from '@regardsoss/model'
+import { defaultTheme } from '@regardsoss/domain/access'
+import { AccessShapes } from '@regardsoss/shape'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { connect } from '@regardsoss/redux'
 import { ThemeActions, ThemeInstanceActions, ThemeSelectors, getCurrentTheme } from '@regardsoss/theme'
@@ -22,8 +23,8 @@ export class ApplicationThemeContainer extends React.Component {
       project: PropTypes.string,
     }),
     // Set by mapStateToProps
-    themeList: PropTypes.objectOf(Theme),
-    currentTheme: Theme,
+    themeList: AccessShapes.ThemeList,
+    currentTheme: AccessShapes.Theme,
     isFetching: PropTypes.bool,
     isInstance: PropTypes.bool,
     // Set by mapDispatchToProps

@@ -7,8 +7,10 @@ const Resource = PropTypes.shape({
   }),
 })
 const ResourceList = PropTypes.objectOf(Resource)
+const ResourceArray = PropTypes.arrayOf(Resource)
 
 export default {
   Resource,
   ResourceList,
+  ResourceArray,
 }

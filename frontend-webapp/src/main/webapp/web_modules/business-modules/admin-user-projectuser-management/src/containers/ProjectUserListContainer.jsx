@@ -5,7 +5,7 @@ import { connect } from '@regardsoss/redux'
 import keys from 'lodash/keys'
 import { I18nProvider } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
-import { ProjectUser } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import { waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesSelectors } from '../clients/WaitingAccessUsersEntitiesClient'
 import { ProjectUserSignalActions } from '../clients/ProjectUserSignalClient'
@@ -21,8 +21,8 @@ export class ProjectUserListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    users: PropTypes.objectOf(ProjectUser),
-    waitingAccessUsers: PropTypes.objectOf(ProjectUser),
+    users: AdminShapes.ProjectUserList,
+    waitingAccessUsers: AdminShapes.ProjectUserList,
     isFetchingContent: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchUsers: PropTypes.func.isRequired,

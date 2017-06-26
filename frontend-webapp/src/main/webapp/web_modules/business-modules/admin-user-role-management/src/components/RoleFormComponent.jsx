@@ -5,7 +5,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, Field, RenderSelectField, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
-import { Role } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 
 /**
  * Display edit and create project form
@@ -13,8 +13,8 @@ import { Role } from '@regardsoss/model'
 export class RoleFormComponent extends React.Component {
 
   static propTypes = {
-    currentRole: Role,
-    roleList: PropTypes.objectOf(Role),
+    currentRole: AdminShapes.Role,
+    roleList: AdminShapes.RoleList,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     // from reduxForm

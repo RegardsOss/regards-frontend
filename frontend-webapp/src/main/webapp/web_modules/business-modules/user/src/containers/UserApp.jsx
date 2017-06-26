@@ -5,11 +5,10 @@ import forEach from 'lodash/forEach'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { Layout } from '@regardsoss/model'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ThemeProvider } from '@regardsoss/theme'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
-import { ModuleShape } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { ProjectHandler } from '@regardsoss/project-handler'
@@ -35,8 +34,8 @@ export class UserApp extends React.Component {
     // Set by mapStateToProps
     layoutIsFetching: PropTypes.bool,
     modulesIsFetching: PropTypes.bool,
-    layout: Layout,
-    modules: PropTypes.objectOf(ModuleShape),
+    layout: AccessShapes.Layout,
+    modules: AccessShapes.ModuleList,
     currentRole: PropTypes.string.isRequired,
     // eslint-disable-next-line
     isAuthenticated: PropTypes.bool,

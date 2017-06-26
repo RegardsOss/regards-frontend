@@ -8,7 +8,7 @@ import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
-import { Collection, Model, ModelAttribute } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderSelectField, Field, RenderFileField, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -31,11 +31,11 @@ const DESCRIPTION_MODE = {
 export class CollectionFormComponent extends React.Component {
 
   static propTypes = {
-    currentCollection: Collection,
+    currentCollection: DataManagementShapes.Collection,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
-    modelList: PropTypes.objectOf(Model),
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    modelList: DataManagementShapes.ModelList,
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
     isDuplicating: PropTypes.bool,
     handleUpdateModel: PropTypes.func.isRequired,
     // from reduxForm

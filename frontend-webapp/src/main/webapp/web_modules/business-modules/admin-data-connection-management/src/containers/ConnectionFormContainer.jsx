@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Connection, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { connectionActions, connectionSelectors } from '../clients/ConnectionClient'
 import ConnectionFormComponent from '../components/ConnectionFormComponent'
@@ -22,8 +22,8 @@ export class ConnectionFormContainer extends React.Component {
       connectionId: PropTypes.string,
     }),
     // from mapStateToProps
-    currentConnection: Connection,
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    currentConnection: DataManagementShapes.Connection,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
     fetchConnection: PropTypes.func,
     createConnection: PropTypes.func,

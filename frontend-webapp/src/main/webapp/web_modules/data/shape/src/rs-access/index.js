@@ -5,13 +5,13 @@ import { LinkUIPluginDataset, LinkUIPluginDatasetList } from './UIPlugin/LinkUIP
 import { UIPluginInstanceContent } from './UIPlugin/UIPluginInstanceContent'
 import { UIPluginDefinition, UIPluginDefinitionList } from './UIPlugin/UIPluginDefinition'
 import { UIPluginInfoContent } from './UIPlugin/UIPluginInfoContent'
-import { UIPluginConfContent, UIPluginConf, UIPluginConfList } from './UIPlugin/UIPluginConf'
+import { UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray } from './UIPlugin/UIPluginConf'
 
 import AttributeConfigurationContent from './AttributeConfigurationContent'
 import AttributesGroupConfigurationContent from './AttributesGroupConfigurationContent'
 import ContainerContent from './ContainerContent'
 import { Layout, LayoutContent, LayoutList } from './Layout'
-import { Module, ModuleList } from './Module'
+import { Module, ModuleList, ModuleArray } from './Module'
 import { Project, ProjectList } from './Project'
 import { ThemeContent, Theme, ThemeList } from './Theme'
 
@@ -25,6 +25,7 @@ export default {
   UIPluginConfContent,
   UIPluginConf,
   UIPluginConfList,
+  UIPluginConfArray,
 
   AttributeConfigurationContent,
   AttributesGroupConfigurationContent,
@@ -37,6 +38,7 @@ export default {
 
   Module,
   ModuleList,
+  ModuleArray,
 
   Project,
   ProjectList,

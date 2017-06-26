@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import { PluginDefinition } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import PluginListComponent from '../components/PluginListComponent'
 import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
@@ -21,13 +21,13 @@ class PluginListContainer extends React.Component {
       project: PropTypes.string,
       applicationId: PropTypes.string,
     }),
+    // Set by mapStateToProps
+    isFetching: PropTypes.bool,
+    plugins: AccessShapes.PluginDefinitionList,
     // Set by mapDispatchToProps
     fetchPlugins: PropTypes.func,
     updatePlugin: PropTypes.func,
     deletePlugin: PropTypes.func,
-    // Set by mapStateToProps
-    isFetching: PropTypes.bool,
-    plugins: PropTypes.objectOf(PluginDefinition),
   }
 
   static contextTypes = {

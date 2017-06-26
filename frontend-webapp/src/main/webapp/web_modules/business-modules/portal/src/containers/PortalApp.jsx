@@ -3,11 +3,10 @@
  **/
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { Layout } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { AuthenticationParametersActions, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ApplicationLayout } from '@regardsoss/layout'
-import { ModuleShape } from '@regardsoss/modules'
 import { ThemeProvider } from '@regardsoss/theme'
 import LayoutSelector from '../model/layout/LayoutSelector'
 import LayoutActions from '../model/layout/LayoutActions'
@@ -31,8 +30,8 @@ export class PortalApp extends React.Component {
     // Set by mapStateToProps
     layoutIsFetching: PropTypes.bool,
     modulesIsFetching: PropTypes.bool,
-    layout: Layout,
-    modules: PropTypes.objectOf(ModuleShape),
+    layout: AccessShapes.Layout,
+    modules: AccessShapes.ModuleList,
     // Project from the store
     project: PropTypes.string,
     // Set by mapDispatchToProps

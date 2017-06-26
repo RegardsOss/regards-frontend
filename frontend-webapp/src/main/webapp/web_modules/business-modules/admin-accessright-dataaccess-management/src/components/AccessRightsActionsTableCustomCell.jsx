@@ -1,7 +1,7 @@
 import find from 'lodash/find'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import { Dataset, AccessRight } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import IconButton from 'material-ui/IconButton'
 
 class AccessRightsActionsTableCustomCell extends React.Component {
@@ -13,11 +13,11 @@ class AccessRightsActionsTableCustomCell extends React.Component {
     }),
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
-    accessRights: PropTypes.objectOf(AccessRight),
+    accessRights: DataManagementShapes.AccessRightList,
     // eslint-disable-next-line react/forbid-prop-types
     intl: PropTypes.object,
     // eslint-disable-next-line react/no-unused-prop-types
-    entity: Dataset,
+    entity: DataManagementShapes.Dataset,
     // eslint-disable-next-line react/no-unused-prop-types
     lineHeight: PropTypes.number.isRequired,
   }

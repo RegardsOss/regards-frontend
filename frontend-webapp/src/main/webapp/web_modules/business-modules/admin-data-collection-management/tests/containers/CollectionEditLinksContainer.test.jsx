@@ -27,7 +27,6 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksContaine
       // from mapStateToProps
       currentCollection: DumpProvider.getFirstEntity('DataManagementClient', 'Collection'),
       collectionList: DumpProvider.get('DataManagementClient', 'Collection'),
-      isFetching: false,
       // from mapDispatchToProps
       removeTagFromCollection: () => {},
       addTagToCollection: () => {},
@@ -36,6 +35,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksContaine
     }
     const enzymeWrapper = shallow(<CollectionEditLinksContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
+    enzymeWrapper.instance().setState({ isLoading: false })
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
   })
 })

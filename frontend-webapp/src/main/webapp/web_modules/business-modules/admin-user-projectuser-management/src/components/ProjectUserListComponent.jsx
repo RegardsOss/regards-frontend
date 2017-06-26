@@ -15,7 +15,7 @@ import Done from 'material-ui/svg-icons/action/done'
 import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import Loop from 'material-ui/svg-icons/av/loop'
 import Pause from 'material-ui/svg-icons/av/pause'
-import { ProjectUser } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import {
   ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender,
 } from '@regardsoss/components'
@@ -52,8 +52,8 @@ export const canDenyUser = user => [status.accessGranted, status.waitingAccess, 
 export class ProjectUserListComponent extends React.Component {
 
   static propTypes = {
-    users: PropTypes.objectOf(ProjectUser),
-    waitingAccessUsers: PropTypes.objectOf(ProjectUser),
+    users: AdminShapes.ProjectUserList,
+    waitingAccessUsers: AdminShapes.ProjectUserList,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onValidate: PropTypes.func.isRequired,

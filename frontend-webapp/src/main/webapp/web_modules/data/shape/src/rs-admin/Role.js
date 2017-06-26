@@ -13,5 +13,6 @@ const Role = PropTypes.shape({
 })
 
 const RoleList = PropTypes.objectOf(Role)
+const RoleArray = PropTypes.arrayOf(Role)
 
-export default { Role, RoleList }
+export default { Role, RoleList, RoleArray }

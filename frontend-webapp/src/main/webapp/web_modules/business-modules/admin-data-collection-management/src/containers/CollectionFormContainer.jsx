@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import forEach from 'lodash//forEach'
 import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
-import { Collection, Model, ModelAttribute, EntityController } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
@@ -31,10 +31,10 @@ export class CollectionFormContainer extends React.Component {
     // from redux-form
     unregisterField: PropTypes.func,
     // from mapStateToProps
-    currentCollection: Collection,
-    modelAttributeList: PropTypes.objectOf(ModelAttribute),
+    currentCollection: DataManagementShapes.Collection,
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
     isFetchingCollection: PropTypes.bool,
-    modelList: PropTypes.objectOf(Model),
+    modelList: DataManagementShapes.ModelList,
     isFetchingModelAttribute: PropTypes.bool,
     isFetchingModel: PropTypes.bool,
     // from mapDispatchToProps

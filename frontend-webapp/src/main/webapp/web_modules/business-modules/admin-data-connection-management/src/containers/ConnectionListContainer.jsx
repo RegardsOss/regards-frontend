@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Connection } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { connectionActions, connectionSelectors } from '../clients/ConnectionClient'
 import ConnectionListComponent from '../components/ConnectionListComponent'
@@ -20,7 +20,7 @@ export class ConnectionListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    connectionList: PropTypes.objectOf(Connection),
+    connectionList: DataManagementShapes.ConnectionList,
     // from mapDispatchToProps
     fetchConnectionList: PropTypes.func,
     testConnection: PropTypes.func,

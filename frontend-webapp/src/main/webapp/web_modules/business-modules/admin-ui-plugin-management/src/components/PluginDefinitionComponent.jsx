@@ -4,7 +4,7 @@
 
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import { Plugin } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -16,7 +16,7 @@ class PluginDefinitionComponent extends React.Component {
 
   static propTypes = {
     handlePluginValid: PropTypes.func.isRequired,
-    plugin: Plugin,
+    plugin: AccessShapes.UIPluginInstanceContent,
   }
 
   static contextTypes = {

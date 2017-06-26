@@ -4,7 +4,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { Role } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import RoleListComponent from '../components/RoleListComponent'
 
@@ -15,7 +15,7 @@ import RoleListComponent from '../components/RoleListComponent'
 export class RoleListContainer extends React.Component {
 
   static propTypes = {
-    roleList: PropTypes.objectOf(Role),
+    roleList: AdminShapes.RoleList,
     fetchRoleList: PropTypes.func,
     deleteRole: PropTypes.func,
     // from router

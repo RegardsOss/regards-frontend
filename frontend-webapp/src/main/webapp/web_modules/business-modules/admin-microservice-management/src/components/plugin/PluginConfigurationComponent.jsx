@@ -4,7 +4,7 @@
 import map from 'lodash/map'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import Delete from 'material-ui/svg-icons/action/delete'
@@ -33,8 +33,8 @@ class PluginConfigurationComponent extends React.Component {
 
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
-    pluginConfiguration: PluginConfiguration,
-    pluginMetaData: PluginMetaData,
+    pluginConfiguration: CommonShapes.PluginConfiguration,
+    pluginMetaData: CommonShapes.PluginMetaData,
     onActiveToggle: PropTypes.func.isRequired,
     onCopyClick: PropTypes.func.isRequired,
     onDeleteClick: PropTypes.func.isRequired,

@@ -10,7 +10,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginDefinition } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
 import { formValueSelector } from 'redux-form'
 import { PluginLoader } from '@regardsoss/plugins'
@@ -23,9 +23,7 @@ import PluginDefinitionComponent from './PluginDefinitionComponent'
 class pluginFormComponent extends React.Component {
 
   static propTypes = {
-    plugin: PropTypes.shape({
-      content: PluginDefinition,
-    }),
+    plugin: AccessShapes.UIPluginDefinition,
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     submitError: PropTypes.string,

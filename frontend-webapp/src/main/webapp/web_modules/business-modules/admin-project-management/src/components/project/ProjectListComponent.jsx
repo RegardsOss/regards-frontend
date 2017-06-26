@@ -15,7 +15,7 @@ import ResetLicences from 'material-ui/svg-icons/action/assignment-late'
 import { ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Project } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import moduleStyle from '../../styles/styles'
 
 const styles = moduleStyle()
@@ -28,7 +28,7 @@ const styles = moduleStyle()
 export class ProjectListComponent extends React.Component {
 
   static propTypes = {
-    projectList: PropTypes.objectOf(Project),
+    projectList: AdminShapes.ProjectList,
     handleDelete: PropTypes.func.isRequired,
     handleOpen: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
