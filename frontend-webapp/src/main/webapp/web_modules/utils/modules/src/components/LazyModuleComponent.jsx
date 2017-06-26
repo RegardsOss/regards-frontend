@@ -98,7 +98,7 @@ class LazyModuleComponent extends React.Component {
           })
         }
       } catch (e) {
-        console.error('Module', this.props.module.id, e, e.stack)
+        console.error('Module', this.props.module.type, e, e.stack)
       }
     })
   }
