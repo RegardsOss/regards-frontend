@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  */
 import React from 'react'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
-import { storiesOf } from '@kadira/storybook'
+import { withKnobs, object } from '@storybook/addon-knobs'
+import { storiesOf } from '@storybook/react'
 import StorageMonitoringComponent from '@regardsoss-modules/archival-storage-plugins-monitoring/src/components/StorageMonitoringComponent'
 import styles from '@regardsoss-modules/archival-storage-plugins-monitoring/src/styles/styles'
 import { muiTheme } from 'storybook-addon-material-ui'

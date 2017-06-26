@@ -2,8 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { storiesOf } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { storiesOf } from '@storybook/react'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import styles from '@regardsoss-modules/menu/src/styles/styles'
 import { muiTheme } from 'storybook-addon-material-ui'
 import { withStore, withLocale, withModuleTheme } from '../../decorators/index'

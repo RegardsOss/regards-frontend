@@ -1,6 +1,6 @@
 import { I18nProvider } from '@regardsoss/i18n'
 import * as I18nActions from '@regardsoss/i18n/src/model/I18nActions'
-import { select } from '@kadira/storybook-addon-knobs'
+import { select } from '@storybook/addon-knobs'
 import store from '../store'
 
 const localeList = ['', 'Français', 'English']

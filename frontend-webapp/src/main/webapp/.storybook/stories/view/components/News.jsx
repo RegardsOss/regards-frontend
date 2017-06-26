@@ -1,6 +1,6 @@
-import { storiesOf } from '@kadira/storybook'
+import { storiesOf } from '@storybook/react'
 import { NewsItemComponent } from '@regardsoss/components'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import { muiTheme } from 'storybook-addon-material-ui'
 import withStore from '../../decorators/withStore'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import PluginConfigurationComponent from '@regardsoss/admin-microservice-management/src/components/plugin/PluginConfigurationComponent'
 import PluginConfigurationFormComponent from '@regardsoss/admin-microservice-management/src/components/plugin/PluginConfigurationFormComponent'
 import { PluginParameterPlugin } from '@regardsoss/admin-microservice-management/src/components/plugin/parameter/PluginParameterPlugin'

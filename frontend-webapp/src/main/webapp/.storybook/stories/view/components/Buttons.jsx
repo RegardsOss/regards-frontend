@@ -1,5 +1,5 @@
-import { storiesOf } from '@kadira/storybook'
-import { withKnobs } from '@kadira/storybook-addon-knobs'
+import { storiesOf } from '@storybook/react'
+import { withKnobs } from '@storybook/addon-knobs'
 import { OnHoverSwitchFlatButton, OnHoverSwitchRaisedButton, OnHoverSwitchIconButton } from '@regardsoss/components'
 import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
 import Check from 'material-ui/svg-icons/navigation/check'

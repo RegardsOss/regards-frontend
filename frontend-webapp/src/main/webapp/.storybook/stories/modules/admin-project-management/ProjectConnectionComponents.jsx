@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import { storiesOf, action } from '@kadira/storybook'
-import { withKnobs, object } from '@kadira/storybook-addon-knobs'
+import { withKnobs, object } from '@storybook/addon-knobs'
 import DatabaseConnectionTester from '@regardsoss/admin-project-management/src/components/projectConnection/DatabaseConnectionTester'
 import DatabaseConnectionTesterIconButton from '@regardsoss/admin-project-management/src/components/projectConnection/DatabaseConnectionTesterIconButton'
 import ProjectConnectionListComponent from '@regardsoss/admin-project-management/src/components/projectConnection/ProjectConnectionListComponent'
