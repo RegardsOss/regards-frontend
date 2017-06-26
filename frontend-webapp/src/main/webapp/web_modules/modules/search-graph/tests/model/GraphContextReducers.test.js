@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
+import { TagTypes } from '@regardsoss/domain/catalog'
 import graphContextActions from '../../src/model/graph/GraphContextActions'
 import reduce, { DEFAULT_STATE } from '../../src/model/graph/GraphContextReducers'
 
@@ -115,5 +116,18 @@ describe('[Search Graph] Test graph context reducer', () => {
       ...currentState,
       datasetsAttributesVisible: false,
     }, 'Set dataset attributes hidden should be correctly reduced')
+  })
+
+  it('Should reduce search tag', () => {
+    const currentState = DEFAULT_STATE
+    const reduced = reduce(currentState, graphContextActions.setSearchTag({ type: TagTypes.WORD, data: 'xxx' }))
+    assert.deepEqual(reduced, {
+      ...currentState,
+      searchTag: {
+        type: TagTypes.WORD,
+        data: 'xxx',
+      },
+      moduleCollapsed: true,
+    }, 'Set search tag should be correctly reduced and module should be collapsed')
   })
 })

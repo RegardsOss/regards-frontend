@@ -181,7 +181,7 @@ module.exports = {
     },
     // used for URL tests in frontent (result module, ds=KIKO)
     getDatasetTemp: {
-      url: 'rs-catalog/search/entities/{urn}',
+      url: 'rs-catalog/entities/{urn}',
       handler: retrieveEntityHandler,
     },
   },

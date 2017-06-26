@@ -6,7 +6,7 @@ import { connect } from '@regardsoss/redux'
 import { CatalogShapes } from '@regardsoss/shape'
 import DescriptionLevelActions from '../../../../model/description/DescriptionLevelActions'
 import { DescriptionLevelSelectors } from '../../../../model/description/DescriptionLevelSelectors'
-import SimpleTagContainer from './SimpleTagContainer'
+import TagComponent from '../../../../components/description/properties/tags/TagComponent'
 /**
 * Entity tag container
 */
@@ -50,13 +50,23 @@ export class EntityTagContainer extends React.Component {
     }
   }
 
+  onSearchTag = () => {
+    const { entity, onSearchTag } = this.props
+    if (onSearchTag) {
+      onSearchTag({
+        type: entity.content.entityType,
+        data: entity,
+      })
+    }
+  }
+
   render() {
     const { entity, dispatchShowDetail, onSearchTag } = this.props
     const { alreadyInPath } = this.state
     return (
-      <SimpleTagContainer
-        tag={entity.content.label}
-        onSearchTag={onSearchTag}
+      <TagComponent
+        tagLabel={entity.content.label}
+        onSearchTag={onSearchTag ? this.onSearchTag : null}
         onShowDescription={alreadyInPath ? null : dispatchShowDetail}
         isEntity
       />

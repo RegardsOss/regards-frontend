@@ -97,6 +97,9 @@ export class URLManagementContainer extends React.Component {
       !isEqual(previousProps.viewObjectType, nextProps.viewObjectType) ||
       !isEqual(previousProps.displayMode, nextProps.displayMode)) {
       this.updateURLFromState(nextProps)
+    } else if (!isEqual(previousProps.initialContextLabel, nextProps.initialContextLabel)) {
+      // the context has been re initialized
+      this.reinitilizeState(nextProps)
     }
   }
 
@@ -173,6 +176,12 @@ export class URLManagementContainer extends React.Component {
       browserHistory.push({ pathname: currentPath, query: nextBrowserQuery })
     }
   }
+
+  /**
+   * Reinitializes the navigation state as initial context changed
+   * @param newProps new props
+   */
+  reinitilizeState = ({ viewObjectType, displayMode, initialContextLabel, searchTag, initialize }) => initialize(viewObjectType, displayMode, initialContextLabel, null)
 
   render() {
     return null

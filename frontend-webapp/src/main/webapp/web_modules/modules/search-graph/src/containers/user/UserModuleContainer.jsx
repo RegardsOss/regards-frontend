@@ -2,7 +2,6 @@
  * LICENSE_PLACEHOLDER
  **/
 import get from 'lodash/get'
-import last from 'lodash/last'
 import isEqual from 'lodash/isEqual'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
@@ -12,7 +11,6 @@ import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authenticat
 import { DamDomain } from '@regardsoss/domain'
 import { CatalogEntity, CatalogEntityTypes, AttributeModel, AttributeConfigurationController } from '@regardsoss/model'
 import { getTypeRender } from '@regardsoss/attributes-common'
-import { ShowableAtRender } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { AttributeModelActions, AttributeModelSelectors } from '../../clients/AttributeModelClient'
 import graphContextActions from '../../model/graph/GraphContextActions'
@@ -22,7 +20,7 @@ import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import graphLevelCollectionActions from '../../model/graph/GraphLevelCollectionActions'
 import graphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions'
 import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
-import NavigableSearchResults from '../../components/user/NavigableSearchResults'
+import NavigableSearchResultsContainer from './NavigableSearchResultsContainer'
 import SearchGraph from '../../components/user/SearchGraph'
 import DescriptionContainer from './DescriptionContainer'
 
@@ -31,20 +29,13 @@ import DescriptionContainer from './DescriptionContainer'
  **/
 export class UserModuleContainer extends React.Component {
 
-  static mapStateToProps = (state, { moduleConf }) => {
-    // retrieve last selected dataset (ignore collections)
-    const selectionPath = graphContextSelectors.getSelectionPath(state)
-    const selection = selectionPath.length ? last(selectionPath) : null
-    const selectedDataset = selection && selection.type === CatalogEntityTypes.DATASET ? selection : null
-    return {
-      selectionPath,
-      selectedDataset,
-      attributeModels: AttributeModelSelectors.getList(state),
-      moduleCollapsed: graphContextSelectors.isModuleCollapsed(state),
-      // authentication, to refresh content on login / logout
-      authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
-    }
-  }
+  static mapStateToProps = (state, { moduleConf }) => ({
+    selectionPath: graphContextSelectors.getSelectionPath(state),
+    attributeModels: AttributeModelSelectors.getList(state),
+    moduleCollapsed: graphContextSelectors.isModuleCollapsed(state),
+    // authentication, to refresh content on login / logout
+    authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
+  })
 
   static mapDispatchToProps = dispatch => ({
     fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
@@ -68,8 +59,8 @@ export class UserModuleContainer extends React.Component {
     project: PropTypes.string,
     moduleConf: ModuleConfiguration.isRequired, // Module configuration
     // from map state to props
+    // eslint-disable-next-line react/no-unused-prop-types
     selectionPath: PropTypes.arrayOf(CatalogEntity),
-    selectedDataset: CatalogEntity,
     attributeModels: PropTypes.objectOf(AttributeModel),
     moduleCollapsed: PropTypes.bool.isRequired,
     authentication: AuthenticateShape,
@@ -98,12 +89,9 @@ export class UserModuleContainer extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { moduleConf: { graphDatasetAttributes }, attributeModels, selectedDataset, authentication } = this.props
-    const {
-    moduleConf: { graphDatasetAttributes: nextGraphDatasetAttributes },
-      attributeModels: nextAttributesModels,
-      selectedDataset: nextSelectedDataset,
-      authentication: nextAuthentication } = nextProps
+    const { moduleConf: { graphDatasetAttributes }, attributeModels, authentication } = this.props
+    const { moduleConf: { graphDatasetAttributes: nextGraphDatasetAttributes },
+      attributeModels: nextAttributesModels, authentication: nextAuthentication } = nextProps
     // update graph attributes if required (store it in state)
     if (!isEqual(graphDatasetAttributes, nextGraphDatasetAttributes) || !isEqual(attributeModels, nextAttributesModels)) {
       const attributesConfiguration = nextGraphDatasetAttributes || []
@@ -141,12 +129,7 @@ export class UserModuleContainer extends React.Component {
       }, [])
       this.setState({ graphDatasetAttributes: resolvedGraphDatasetAttributes })
     }
-    // update search query
-    if (!isEqual(selectedDataset, nextSelectedDataset)) {
-      const singleDatasetIpId = nextSelectedDataset ? nextSelectedDataset.ipId : null
-      const openSearchQuery = this.buildOpenSearchQuery(nextSelectedDataset)
-      this.setState({ singleDatasetIpId, openSearchQuery })
-    }
+
     // login state changed: we need to refresh every level while selection is still valid and delete the selected elements where it isn't
     if (authentication !== nextAuthentication) {
       this.refreshCompleteGraph(nextProps)
@@ -192,11 +175,9 @@ export class UserModuleContainer extends React.Component {
       .then(getRecursiveUpdater(selectionPath, 1))
   }
 
-  buildOpenSearchQuery = nextSelectedDataset => nextSelectedDataset ? `tags:${nextSelectedDataset.ipId}` : null
-
   render() {
-    const { appName, project, moduleCollapsed, moduleConf, selectionPath } = this.props
-    const { graphDatasetAttributes, openSearchQuery } = this.state
+    const { appName, project, moduleCollapsed, moduleConf } = this.props
+    const { graphDatasetAttributes } = this.state
 
     return (
       <div>
@@ -207,15 +188,11 @@ export class UserModuleContainer extends React.Component {
           graphDatasetAttributes={graphDatasetAttributes}
           moduleConf={moduleConf}
         />
-        <ShowableAtRender show={!!openSearchQuery}>
-          <NavigableSearchResults
-            appName={appName}
-            project={project}
-            moduleConf={moduleConf}
-            searchQuery={openSearchQuery}
-            selectionPath={selectionPath}
-          />
-        </ShowableAtRender>
+        <NavigableSearchResultsContainer
+          appName={appName}
+          project={project}
+          moduleConf={moduleConf}
+        />
       </div>)
   }
 }

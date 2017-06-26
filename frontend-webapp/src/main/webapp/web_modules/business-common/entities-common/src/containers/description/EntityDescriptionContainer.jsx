@@ -31,7 +31,7 @@ export class EntityDescriptionContainer extends React.Component {
   })
 
   static propTypes = {
-    // Callback to run a new search with given tag
+    // Callback to run a new search with given tag like ({@regardoss/shape/catalog/Tag} tag) => void
     onSearchTag: PropTypes.func,
     // required clients to fetch entity data and description
     fetchModelAttributesActions: PropTypes.instanceOf(DataManagementClient.ModelAttributesActions).isRequired,
