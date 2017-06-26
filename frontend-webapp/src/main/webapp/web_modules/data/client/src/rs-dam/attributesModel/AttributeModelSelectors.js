@@ -17,14 +17,14 @@ class AttributeModelSelectors extends BasicListSelectors {
    * @param state
    * @returns {[*,*]}
    */
-  getArrayOrderedUsingFragmentAndAttributeName (state) {
+  getArrayOrderedUsingFragmentAndAttributeName(state) {
     const modelAttributeList = this.getList(state)
     const modelAttributeListPartition = partition(modelAttributeList, ['content.fragment.name', DEFAULT_FRAGMENT])
     return [
       // add first attributes that are not in the DEFAULT_FRAGMENT
-      ...orderBy(modelAttributeListPartition[1],  ['content.fragment.name', 'content.name'],  ['asc', 'asc']),
+      ...orderBy(modelAttributeListPartition[1], ['content.fragment.name', 'content.name'], ['asc', 'asc']),
       // then display attributes from the DEFAULT_FRAGMENT
-      ...orderBy(modelAttributeListPartition[0], ['content.name'],  ['asc'])
+      ...orderBy(modelAttributeListPartition[0], ['content.name'], ['asc']),
     ]
   }
 }

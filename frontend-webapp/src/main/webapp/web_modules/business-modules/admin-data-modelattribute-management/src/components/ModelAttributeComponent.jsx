@@ -31,9 +31,7 @@ class ModelAttributeComponent extends React.Component {
    * When the user select a plugin configuration, send the updated value to the server
    * @param value the pluginConfiguration id
    */
-  onPluginConfigurationChange= (value) => {
-    return this.props.handleComputationUpdate(value)
-  }
+  onPluginConfigurationChange= value => this.props.handleComputationUpdate(value)
 
 
   displayTableHeader = () => {
