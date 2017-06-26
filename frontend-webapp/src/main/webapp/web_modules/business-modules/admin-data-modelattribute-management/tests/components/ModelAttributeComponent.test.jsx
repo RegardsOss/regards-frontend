@@ -6,7 +6,7 @@ import { expect, assert } from 'chai'
 import { TableRowColumn } from 'material-ui/Table'
 import { spy } from 'sinon'
 import { PluginConfigurationPickerComponent } from '@regardsoss/components'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import ModelAttributeComponent from '../../src/components/ModelAttributeComponent'
 
 const context = buildTestContext()
@@ -26,39 +26,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
     const onSelectFieldChange = spy()
 
     const props = {
-      modelAttribute: {
-        content: {
-          id: 1,
-          pos: 0,
-          mode: 'FROM_DESCENDANTS',
-          model: {
-            id: 1,
-            name: 'Deuxieme Modele',
-            description: 'Description du deuxieme modele de jeux de données',
-            type: 'DATASET',
-          },
-          attribute: {
-            id: 4,
-            name: 'Attribute_4',
-            description: "Description de l'attribut 0 - 0",
-            defaultValue: null,
-            type: 'STRING',
-            unit: null,
-            precision: null,
-            arraysize: 0,
-            queryable: true,
-            facetable: true,
-            alterable: true,
-            optional: true,
-            group: 'leGroup',
-            fragment: {
-              id: 2,
-              name: 'Fragment 2',
-            },
-          },
-        },
-        links: [],
-      },
+      modelAttribute: DumpProvider.getFirstEntity('DataManagementClient', 'ModelAttribute'),
       handleComputationUpdate: onSelectFieldChange,
     }
     const enzymeWrapper = shallow(<ModelAttributeComponent {...props} />, { context })

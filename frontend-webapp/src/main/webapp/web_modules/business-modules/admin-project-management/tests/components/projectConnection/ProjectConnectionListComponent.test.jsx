@@ -26,7 +26,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
         0: {
           content: {
             id: 0,
-            project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+            project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
             microservice: 'ms-1',
             userName: 'Alice',
             password: 'password',
@@ -39,7 +39,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
         1: {
           content: {
             id: 1,
-            project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+            project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
             microservice: 'ms-2',
             userName: 'Bob',
             password: 'azerty',
@@ -52,7 +52,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
         2: {
           content: {
             id: 2,
-            project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+            project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
             microservice: 'ms-3',
             userName: 'Charlie',
             password: 'qsdfgh',
