@@ -37,10 +37,13 @@ export default class CollectionActions extends BasicListActions {
    * @param queryParams
    */
   createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
-    if (has(objectValues, 'collection.geometry')) {
-      objectValues.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
+    const objectValuesWithGeometryAsJson = {
+      ...objectValues,
     }
-    return super.createEntityUsingMultiPart(objectValues, files, pathParams, queryParams)
+    if (has(objectValues, 'collection.geometry')) {
+      objectValuesWithGeometryAsJson.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
+    }
+    return super.createEntityUsingMultiPart(objectValuesWithGeometryAsJson, files, pathParams, queryParams)
   }
 
   /**
@@ -52,10 +55,13 @@ export default class CollectionActions extends BasicListActions {
    * @param queryParams
    */
   updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
-    if (has(objectValues, 'collection.geometry')) {
-      objectValues.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
+    const objectValuesWithGeometryAsJson = {
+      ...objectValues,
     }
-    return super.updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams)
+    if (has(objectValuesWithGeometryAsJson, 'collection.geometry')) {
+      objectValuesWithGeometryAsJson.collection.geometry = CollectionActions.transformStringToJSon(objectValues.collection.geometry)
+    }
+    return super.updateEntityUsingMultiPart(keyValue, objectValuesWithGeometryAsJson, files, pathParams, queryParams)
   }
 
   static transformStringToJSon(valueAsString) {
