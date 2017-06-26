@@ -108,7 +108,7 @@ export class UserModuleContainer extends React.Component {
           // 3.a - standard attribute mapping, always resolves
           resolvedAttribute = {
             label: fullQualifiedName, // TODO use a constant for standard attributes labels
-            attributePath: [fullQualifiedName], // root attribute
+            attributePath: fullQualifiedName, // root attribute
             render: getTypeRender(), // default render
           }
         } else {

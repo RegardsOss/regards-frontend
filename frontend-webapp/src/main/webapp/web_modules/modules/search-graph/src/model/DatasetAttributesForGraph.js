@@ -9,7 +9,7 @@ const commonAttributeForGraph = {
 export const DatasetAttributeForGraph = PropTypes.shape({
   ...commonAttributeForGraph,
   // access path to attribute value in entity
-  attributePath: PropTypes.arrayOf(PropTypes.string).isRequired,
+  attributePath: PropTypes.string.isRequired,
 })
 
 // array of dataset attributes definitions for graph
