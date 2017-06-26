@@ -3,7 +3,7 @@
 **/
 
 const fixedFlexElement = { flexShrink: '0', flexGrow: '0' }
-const growingFlexElement = { flexShrink: '1', flexGrow: '1' }
+const growingFlexElement = { flexShrink: '1', flexGrow: '1', minHeight: '0' }
 const verticalLayout = { display: 'flex', flexDirection: 'column', alignItems: 'stretch' }
 const growingVerticalLayout = { ...growingFlexElement, ...verticalLayout }
 
@@ -55,7 +55,7 @@ export default theme => ({
                 scrollArea: { ...growingFlexElement },
                 rootStyle: { ...growingFlexElement, ...verticalLayout },
                 attributesContainer: {
-                  rootStyle: { display: 'table', paddingLeft: '20px' },
+                  rootStyle: { display: 'table', padding: '0 15px 0 20px' },
                   rowStyle: { display: 'table-row' },
                   labelStyle: { display: 'table-cell', padding: '0 20px 0.4em 0', textDecoration: 'underline' },
                   valueStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
