@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
-import { AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
+import { AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
 
 /**
  * Specific actions for create account operation (create account / create user)
@@ -30,6 +30,7 @@ export default class CreateAccountActions extends BasicSignalActions {
     return this.sendSignal('POST', {
       email,
       originUrl: AuthenticationRouteHelper.getOriginURL(),
+      requestLink: AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail),
       ...otherParameters,
     })
   }

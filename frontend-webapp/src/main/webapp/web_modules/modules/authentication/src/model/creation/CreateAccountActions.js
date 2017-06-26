@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
 import AccountCreationActions from './AccountCreationActions'
 
 /**
@@ -25,6 +24,5 @@ export default {
       lastName,
       password,
       metadata,
-      requestLink: AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail),
     }),
 }
