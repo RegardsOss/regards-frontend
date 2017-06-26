@@ -31,7 +31,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
     }
     const enzymeWrapper = shallow(<ModelAttributeComponent {...props} />, { context })
     const subComponent = enzymeWrapper.find(TableRowColumn)
-    expect(subComponent).to.have.length(3)
+    expect(subComponent).to.have.length(2)
     const subComponentSelectField = enzymeWrapper.find(PluginConfigurationPickerComponent)
     expect(subComponentSelectField).to.have.length(1)
     subComponentSelectField.simulate('change', 'FROM_DESCENDANTS')
