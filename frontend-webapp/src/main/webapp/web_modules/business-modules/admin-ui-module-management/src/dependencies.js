@@ -19,8 +19,6 @@ const boardListRequiredDependencies = [
   moduleActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
-console.error('SEB', boardAddRequiredDependencies)
-
 export default {
   boardAddRequiredDependencies,
   boardListRequiredDependencies,
