@@ -79,15 +79,24 @@ export class AttributeModelFormComponent extends React.Component {
     switch (restrictionName) {
       case 'INTEGER_RANGE':
         return (
-          <NumberRangeComponent type="INTEGER_RANGE" />
+          <NumberRangeComponent
+            type="INTEGER_RANGE"
+            change={this.props.change}
+          />
         )
       case 'DOUBLE_RANGE':
         return (
-          <NumberRangeComponent type="DOUBLE_RANGE" />
+          <NumberRangeComponent
+            type="DOUBLE_RANGE"
+            change={this.props.change}
+          />
         )
       case 'LONG_RANGE':
         return (
-          <NumberRangeComponent type="LONG_RANGE" />
+          <NumberRangeComponent
+            type="LONG_RANGE"
+            change={this.props.change}
+          />
         )
       case 'ENUMERATION':
         return (
@@ -98,11 +107,12 @@ export class AttributeModelFormComponent extends React.Component {
         )
       case 'PATTERN':
         return (
-          <PatternComponent />
+          <PatternComponent
+            change={this.props.change}
+          />
         )
       default:
         throw new Error(`The API sent a restriction name ${restrictionName} that is not supported on the frontend`)
-
     }
   }
 
