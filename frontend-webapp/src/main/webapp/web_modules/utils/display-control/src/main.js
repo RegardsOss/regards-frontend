@@ -15,7 +15,7 @@ import allMatchHateoasDisplayLogic from './logics/allMatchHateoasDisplayLogic'
 import someMatchHateoasDisplayLogic from './logics/someMatchHateoasDisplayLogic'
 import someListMatchHateoasDisplayLogic from './logics/someListMatchHateoasDisplayLogic'
 import LoadableContentDisplayDecorator from './async/LoadableContentDisplayDecorator'
-import LoadingComponent from './async/LoadingComponent'
+import LoadingComponent from './async/loading/LoadingComponent'
 
 export {
   DisplayDecorator,

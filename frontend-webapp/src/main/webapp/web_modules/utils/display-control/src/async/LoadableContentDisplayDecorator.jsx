@@ -2,9 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import isFunction from 'lodash/isFunction'
-import { ShowableAtRender, ErrorCardComponent } from '@regardsoss/components'
-import LoadingComponent from './LoadingComponent'
-import ContentErrorComponent from './ContentErrorComponent'
+import { ShowableAtRender } from '@regardsoss/components'
+import LoadingComponent from './loading/LoadingComponent'
+import DefaultErrorComponent from './error/DefaultErrorComponent'
+import DefaultEmptyComponent from './empty/DefaultEmptyComponent'
+import DefaultRequestEntityTooLargeComponent from './error/DefaultRequestEntityTooLargeComponent'
 
 /**
  * Component handling the proper display of a subcomponent with async loading content.
@@ -19,19 +21,25 @@ class LoadableContentDisplayDecorator extends React.Component {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     isLoading: PropTypes.bool,
+    loadingComponent: PropTypes.element,
     isContentError: PropTypes.bool,
+    contentErrorComponent: PropTypes.element,
     isEmpty: PropTypes.bool,
-    emptyMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    emptyComponent: PropTypes.element,
+    isRequestEntityTooLarge: PropTypes.bool,
+    requestEntityTooLargeComponent: PropTypes.element,
   }
 
   static defaultProps = {
     isLoading: false,
+    loadingComponent: <LoadingComponent />,
     isContentError: false,
+    contentErrorComponent: <DefaultErrorComponent />,
     isEmpty: false,
-    emptyMessage: 'No content!',
+    emptyComponent: <DefaultEmptyComponent />,
+    isRequestEntityTooLarge: false,
+    requestEntityTooLargeComponent: <DefaultRequestEntityTooLargeComponent />,
   }
-
-  static contentErrorComponent = (<ContentErrorComponent />)
 
   /**
    * Don't try to render the child if it's loading
@@ -49,31 +57,20 @@ class LoadableContentDisplayDecorator extends React.Component {
   }
 
   render() {
-    const { isLoading, isContentError, isEmpty } = this.props
+    const { isLoading, loadingComponent, isContentError, contentErrorComponent, isEmpty, emptyComponent, isRequestEntityTooLarge, requestEntityTooLargeComponent } = this.props
     return (
       <div>
-        <ShowableAtRender
-          show={isLoading}
-        >
-          <div
-            style={{
-              height: '100%',
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <LoadingComponent />
-          </div>
+        <ShowableAtRender show={isLoading}>
+          {loadingComponent}
         </ShowableAtRender>
         <ShowableAtRender show={isContentError && !isLoading}>
-          <ErrorCardComponent
-            message={LoadableContentDisplayDecorator.contentErrorComponent}
-          />
+          {contentErrorComponent}
         </ShowableAtRender>
         <ShowableAtRender show={isEmpty && !isContentError && !isLoading}>
-          <div>{this.props.emptyMessage}</div>
+          {emptyComponent}
+        </ShowableAtRender>
+        <ShowableAtRender show={isRequestEntityTooLarge}>
+          {requestEntityTooLargeComponent}
         </ShowableAtRender>
         <ShowableAtRender show={!isEmpty && !isContentError && !isLoading}>
           {this.renderChild()}

@@ -91,6 +91,7 @@ class TableContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    error: PropTypes.object,
     // authentication data
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape,
@@ -297,7 +298,7 @@ class TableContainer extends React.Component {
 
   render() {
     const {
-      entitiesFetching, pageSize, pageMetadata, tablePaneConfiguration,
+      entitiesFetching, error, pageSize, pageMetadata, tablePaneConfiguration,
       toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
@@ -318,14 +319,13 @@ class TableContainer extends React.Component {
             tableData={tableData}
             columns={allColumns}
             entitiesFetching={entitiesFetching}
+            error={error}
             resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
-
             allSelected={allSelected}
             toggledElements={toggledElements}
             selectionMode={selectionMode}
             onToggleRowSelection={this.onToggleRowSelection}
             onToggleSelectAll={this.onToggleSelectAll}
-
             {...tablePaneConfiguration}
           />
         </ModuleThemeProvider>
@@ -339,6 +339,7 @@ const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
   entities: pageSelectors.getOrderedList(state),
   pageMetadata: pageSelectors.getMetaData(state),
   entitiesFetching: pageSelectors.isFetching(state),
+  error: pageSelectors.getError(state),
   // authentication
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
   // selection

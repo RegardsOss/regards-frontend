@@ -228,7 +228,11 @@ class ApplicationThemeComponent extends React.Component {
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
           isEmpty={isThemeListEmpty}
-          emptyMessage={this.context.intl.formatMessage({ id: 'application.theme.default.create.message' })}
+          emptyComponent={
+            <span>
+              {this.context.intl.formatMessage({ id: 'application.theme.default.create.message' })}
+            </span>
+          }
         >
           <div style={style.contentWrapper}>
             {themeActivationToggle}

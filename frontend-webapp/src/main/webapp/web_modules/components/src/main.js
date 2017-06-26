@@ -67,6 +67,7 @@ import TableColumnConfigurationController from './table/content/columns/model/Co
 import HelpMessageComponent from './help/HelpMessageComponent'
 
 import Title from './titles/Title'
+import NoContentComponent from './content/NoContentComponent'
 
 export {
   ActionButtonComponent,
@@ -119,4 +120,5 @@ export {
   SVGIconFromString,
   LinkComponent,
   HelpMessageComponent,
+  NoContentComponent,
 }
