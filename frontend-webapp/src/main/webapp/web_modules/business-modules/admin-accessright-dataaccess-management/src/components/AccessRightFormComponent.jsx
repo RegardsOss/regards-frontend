@@ -62,7 +62,7 @@ export class AccessRightFormComponent extends React.Component {
    * @param value the pluginConfiguration id
    */
   onPluginConfigurationChange = (value) => {
-    this.props.change('pluginConfiguration', value)
+    return this.props.change('pluginConfiguration', value)
   }
 
   handleInitialize = () => {

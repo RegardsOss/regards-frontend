@@ -5,6 +5,7 @@ import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
+import get from 'lodash/get'
 import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconMenu from 'material-ui/IconMenu'
@@ -22,6 +23,7 @@ class PluginConfigurationPickerComponent extends React.Component {
 
   static propTypes = {
     // Callback provided by redux-form in order to manually change a field value
+    // must return a promise
     onChange: PropTypes.func,
     currentPluginConfiguration: CommonShapes.PluginConfiguration,
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
@@ -53,12 +55,18 @@ class PluginConfigurationPickerComponent extends React.Component {
 
   handleChange = (value) => {
     this.setState({
-      currentPluginConfiguration: find(this.props.pluginConfigurationList, el => el.content.id === value),
-    })
-    this.setState({
       openMenu: false,
     })
     this.props.onChange(value)
+      .then((actionResults) => {
+        if (!actionResults.error) {
+          const currentPluginConfiguration = find(this.props.pluginConfigurationList, el => el.content.id === value)
+          this.setState({
+            currentPluginConfiguration: get(currentPluginConfiguration, 'content', undefined),
+          })
+        }
+        return actionResults
+      })
   }
 
   handleOnRequestChange = (value) => {

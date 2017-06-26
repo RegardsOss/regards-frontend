@@ -32,7 +32,7 @@ class ModelAttributeComponent extends React.Component {
    * @param value the pluginConfiguration id
    */
   onPluginConfigurationChange= (value) => {
-    this.props.handleComputationUpdate(value)
+    return this.props.handleComputationUpdate(value)
   }
 
 
