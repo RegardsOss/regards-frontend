@@ -56,14 +56,14 @@ export class ThemeCreateComponent extends React.Component {
     const actions = (
       <div style={styles.form.actionsWrapper}>
         <FlatButton
-          label={this.context.intl.formatMessage({ id: 'application.theme.create.form.cancel' })}
+          label={intl.formatMessage({ id: 'application.theme.create.form.cancel' })}
           primary
           onTouchTap={onRequestClose}
         />
         <FlatButton
           type="submit"
           disabled={submitting || invalid}
-          label={this.context.intl.formatMessage({ id: 'application.theme.create.form.submit' })}
+          label={intl.formatMessage({ id: 'application.theme.create.form.submit' })}
           primary
           keyboardFocused
         />
@@ -83,7 +83,7 @@ export class ThemeCreateComponent extends React.Component {
             component={RenderTextField}
             type="text"
             validate={validRequiredString}
-            label={this.context.intl.formatMessage({ id: 'application.theme.create.form.name' })}
+            label={intl.formatMessage({ id: 'application.theme.create.form.name' })}
           />
           {actions}
         </form>

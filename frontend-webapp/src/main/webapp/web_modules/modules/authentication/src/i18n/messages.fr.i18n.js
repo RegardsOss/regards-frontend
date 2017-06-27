@@ -115,7 +115,7 @@ const messages = {
   'finish.unlock.account.title': 'Déverrouillage du compte',
   'finish.unlock.account.message': 'Nous débloquons votre compte, veuillez patienter...',
 
-  'session.locked.title': 'Session vérouillée',
+  'session.locked.title': 'Session verrouillée',
   'session.locked.subtitle': 'Entrez votre mot de passe pour la déverrouiller',
   'session.locked.password': 'Mot de passe',
   'session.locked.button': 'Déverrouiller',
