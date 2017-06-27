@@ -10,10 +10,9 @@ const messages = Object.assign({
   'table.select.all.tooltip': 'Tout sélectionner',
   'table.deselect.all.label': 'Aucun',
   'table.deselect.all.tooltip': 'Tout dé-sélectionner',
-
   'table.advanced.options.label': 'Plus...',
-
   'table.actions.more': 'Plus d\'actions',
+  'table.column.visibility.filter': 'Colonnes visibles',
 }, Locales.en)
 
 export default messages

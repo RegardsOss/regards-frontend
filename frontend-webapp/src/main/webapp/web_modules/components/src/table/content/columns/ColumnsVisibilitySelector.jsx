@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import Checkbox from 'material-ui/Checkbox'
 import ColumnConfiguration from './model/ColumnConfiguration'
+import { withI18n, i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Render a react component to display a panel to change visibility of table columns.
@@ -21,7 +22,12 @@ class ColumnsVisibilitySelector extends React.Component {
     closePanel: PropTypes.func,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   render() {
+    const { intl } = this.context
     const actions = [
       <FlatButton
         key="OK"
@@ -34,7 +40,7 @@ class ColumnsVisibilitySelector extends React.Component {
 
     return (
       <Dialog
-        title="Filter columns visibility"
+        title={intl.formatMessage({ id: 'table.column.visibility.filter' })}
         modal={false}
         open
         onRequestClose={this.props.closePanel}

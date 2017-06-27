@@ -12,6 +12,7 @@ const messages = Object.assign({
   'table.deselect.all.tooltip': 'Deselect all',
   'table.advanced.options.label': 'More...',
   'table.actions.more': 'More actions',
+  'table.column.visibility.filter': 'Visible columns',
 }, Locales.en)
 
 export default messages

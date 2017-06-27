@@ -8,7 +8,7 @@ import ThemeInjector from './I18nInjector'
 import i18nContextType from './contextType'
 import i18nSelectors from './model/I18nSelectors'
 import dateTimeFormat from './dateTimeFormat'
-
+import withI18n from './withI18n'
 /**
  * Main interface for i18n utils
  * @author Sébastien Binda
@@ -21,4 +21,5 @@ export {
   i18nContextType,
   i18nSelectors,
   dateTimeFormat,
+  withI18n,
 }
