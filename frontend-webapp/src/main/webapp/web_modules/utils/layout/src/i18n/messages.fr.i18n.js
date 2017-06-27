@@ -17,6 +17,10 @@ const messages = Object.assign({
   'container.form.submit.button': 'Créer',
   'container.form.cancel.button': 'Annuler',
   'container.form.advanced.mode': 'Afficher/Cacher les options avancées',
+  'container.configuration.delete.section': 'Supprimer',
+  'container.configuration.add.subsection': 'Ajouter une sous-section',
+  'container.configuration.edit.section': 'Editer',
+  'container.configuration.edit.dialog.title': 'Editer le conteneur',
 }, Locales.fr)
 
 export default messages

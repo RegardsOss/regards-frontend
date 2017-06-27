@@ -11,7 +11,9 @@ import MenuItem from 'material-ui/MenuItem'
 import Paper from 'material-ui/Paper'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
+import { FormattedMessage } from 'react-intl'
 import { LazyModuleComponent } from '@regardsoss/modules'
+import { I18nProvider } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
 import { PluginProvider } from '@regardsoss/plugins'
 import ContainerShape from '../model/ContainerShape'
@@ -24,6 +26,7 @@ import { DELETE_ACTION, ADD_ACTION, EDIT_ACTION } from './LayoutConfigurationCom
  * @author Sébastien Binda
  */
 class Container extends React.Component {
+
   static defaultProps = {
     configurationMode: false,
     mainContainer: false,
@@ -152,41 +155,43 @@ class Container extends React.Component {
           onTouchTap={() => {
             this.props.onContainerClick(DELETE_ACTION, this.props.container)
           }}
-          primaryText="Delete section"
+          primaryText={<FormattedMessage id="container.configuration.delete.section" />}
         />
         )
       }
       return (
-        <div className="row">
-          <Toolbar style={toolbarStyle}>
-            <ToolbarGroup key="name">
-              <ToolbarTitle text={this.props.container.id} />
-            </ToolbarGroup>
-            <ToolbarGroup key="actions">
-              <IconMenu
-                iconButtonElement={Container.iconMenu}
-                anchorOrigin={anchorOrigin}
-                targetOrigin={targetOrigin}
-              >
-                <MenuItem
-                  key="add"
-                  onTouchTap={() => {
-                    this.props.onContainerClick(ADD_ACTION, this.props.container)
-                  }}
-                  primaryText="Add sub-section"
-                />
-                <MenuItem
-                  key="edit"
-                  onTouchTap={() => {
-                    this.props.onContainerClick(EDIT_ACTION, this.props.container)
-                  }}
-                  primaryText="Edit section"
-                />
-                {deleteAction}
-              </IconMenu>
-            </ToolbarGroup>
-          </Toolbar>
-        </div>
+        <I18nProvider messageDir="utils/layout/src/i18n">
+          <div className="row">
+            <Toolbar style={toolbarStyle}>
+              <ToolbarGroup key="name">
+                <ToolbarTitle text={this.props.container.id} />
+              </ToolbarGroup>
+              <ToolbarGroup key="actions">
+                <IconMenu
+                  iconButtonElement={Container.iconMenu}
+                  anchorOrigin={anchorOrigin}
+                  targetOrigin={targetOrigin}
+                >
+                  <MenuItem
+                    key="add"
+                    onTouchTap={() => {
+                      this.props.onContainerClick(ADD_ACTION, this.props.container)
+                    }}
+                    primaryText={<FormattedMessage id="container.configuration.add.subsection" />}
+                  />
+                  <MenuItem
+                    key="edit"
+                    onTouchTap={() => {
+                      this.props.onContainerClick(EDIT_ACTION, this.props.container)
+                    }}
+                    primaryText={<FormattedMessage id="container.configuration.edit.section" />}
+                  />
+                  {deleteAction}
+                </IconMenu>
+              </ToolbarGroup>
+            </Toolbar>
+          </div>
+        </I18nProvider>
       )
     }
     return null
