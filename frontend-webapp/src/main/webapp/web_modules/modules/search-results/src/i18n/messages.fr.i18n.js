@@ -10,7 +10,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
 
   // Administration messages
-  'form.configuration.tab.title': 'Cet écran vous permet de configurer les options d\'affichage des résultats de recherche. ',
+  'form.configuration.tab.title': 'Configurez les options d\'affichage des résultats de recherche. ',
   'form.configuration.result.type.datasets': 'Afficher la vue "jeux de données" dans les résultats',
   'form.configuration.result.enable.facettes.label': 'Activer les facettes : Critères de filtrage dépendant des résultats de la recherche initiale',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',
@@ -20,7 +20,7 @@ const messages = Object.assign({
   'form.attributes.regroupement.form.save': 'Ajouter',
   'form.attributes.regroupement.form.update': 'Mise à jour',
   'form.attributes.regroupement.form.cancel': 'Annuler',
-  'form.attributes.regroupement.form.error.label.already.exists': 'Ce nom de regroupement est déjà utilisé',
+  'form.attributes.regroupement.form.error.label.already.exists': 'Ce nom est déjà utilisé',
   'form.attributes.regroupement.form.add.regroupement.button': 'Ajouter un regroupement',
   'form.attributes.visibility.label': 'Visibilité de l\'attribut',
   'form.attributes.facetable.label': 'Activer le filtrage sur cet attribut',
@@ -32,7 +32,7 @@ const messages = Object.assign({
   'form.attributes.filter.label': 'Filtrer les attributs ...',
   'form.attributes.regroupement.remove': 'Supprimer',
   'form.attributes.regroupement.edit': 'Editer',
-  'form.attributes.delete.confirm.title': 'Confirmer la suppression du regroupement {name}',
+  'form.attributes.delete.confirm.title': 'Supprimer le regroupement {name} ?',
   'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
   'form.attribute.conf.selection.tab.label': 'Attributs des objets',
   'form.attribute.dataset.conf.selection.tab.label': 'Attributs des jeux',

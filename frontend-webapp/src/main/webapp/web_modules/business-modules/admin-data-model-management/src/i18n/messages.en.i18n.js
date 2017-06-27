@@ -9,8 +9,8 @@ const messages = Object.assign({
   'model.list.table.actions': 'Actions',
   'model.list.action.add': 'Add',
   'model.list.action.cancel': 'Annuler',
-  'model.list.action.export': 'Export',
-  'model.list.action.bind': 'Link this model with its attributes',
+  'model.list.action.export': 'Dowload',
+  'model.list.action.bind': 'Link attributes',
   'model.list.action.edit': 'Edit',
   'model.list.action.duplicate': 'Duplicate',
   'model.list.action.delete': 'Delete',
@@ -27,10 +27,10 @@ const messages = Object.assign({
   'model.form.name': 'Project name',
   'model.form.description': 'Description',
   'model.form.type': 'Type',
-  'model.form.file': 'Or send an XML file containing the model, fragments and its attributes:',
+  'model.form.file': 'Or send an XML file containing the model, fragments and its attributes',
   'model.form.action.cancel': 'Cancel',
   'model.form.action.submit': 'Save',
-  'invalid.too_short': 'Must be at least 3 caractères',
+  'invalid.too_short': 'At least 3 caracters',
 
 }, Locales.en)
 

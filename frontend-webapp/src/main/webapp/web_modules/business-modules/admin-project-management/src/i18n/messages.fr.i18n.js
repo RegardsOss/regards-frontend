@@ -40,11 +40,11 @@ const messages = Object.assign({
   'project.form.action.cancel': 'Annuler',
   'project.form.action.submit': 'Sauvegarder',
 
-  'invalid.only_alphanumeric': 'Seuls les caractères alphanumériques sont autorisés',
+  'invalid.only_alphanumeric': 'Utilisez des caractères alphanumériques',
 
   // Database connections
   'project.connection.list.title': 'Configuration des bases de données des microservices du projet {project}',
-  'project.connection.list.subtitle': 'Vous pouvez ici modifier les paramètres d\'accès aux bases de données pour chaque microservice du système',
+  'project.connection.list.subtitle': 'Modifiez les paramètres d\'accès aux bases de données pour chaque microservice du système',
   'project.connection.list.microservice': 'Nom du microservice',
   'project.connection.list.status': 'Etat de la configuration',
   'project.connection.list.actions': 'Actions',
@@ -53,17 +53,17 @@ const messages = Object.assign({
   'project.connection.is.not.configured': 'Non configurée',
   'project.connection.form.error.server': 'Erreur de création de la connexion.',
 
-  'database.connectionTester.default.tooltip': 'Tester la connection',
-  'database.connectionTester.success.tooltip': 'Retester la connection - le test précédent s\'est terminé sans erreur',
-  'database.connectionTester.warn.tooltip': 'Retester la connection - avertissements lors du test précédent',
-  'database.connectionTester.error.tooltip': 'Retester la connection - erreurs lors du test précédent',
+  'database.connectionTester.default.tooltip': 'Tester la connexion',
+  'database.connectionTester.success.tooltip': 'Retester la connexion - le test précédent s\'est terminé avec succès',
+  'database.connectionTester.warn.tooltip': 'Retester la connexion - avertissements lors du test précédent',
+  'database.connectionTester.error.tooltip': 'Retester la connexion - erreurs lors du test précédent',
   'database.connectionTester.start': 'Tester',
   'database.connectionTester.restart': 'Réessayer',
   'database.connectionTester.connected': 'Connecté',
   'database.connectionTester.warning': 'Connecté',
   'database.connectionTester.notConnected': 'Non connecté',
   'database.connectionTester.pending': 'Test de la connexion...',
-  'database.connection.edit.tooltip': 'Editer la connection',
+  'database.connection.edit.tooltip': 'Editer la connexion',
 
   'database.list.test': 'Tester la connexion',
   'database.list.access.guided.configuration': 'Configuration guidée',

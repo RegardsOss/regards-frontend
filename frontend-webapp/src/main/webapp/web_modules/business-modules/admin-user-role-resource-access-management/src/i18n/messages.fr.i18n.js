@@ -1,13 +1,13 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'role.list.title': 'Liste des ressources autorisées pour {role} : ',
-  'role.list.subtitle': 'Ci-dessous vous pouvez consulter la liste des fonctionnalités du système. Pour chaqu\'une d\'elle, vous pouvez définir si le rôle courant est authorisé à l\'utiliser',
+  'role.list.title': 'Ressources autorisées pour {role}',
+  'role.list.subtitle': 'Toutes les fonctionnalités du système. Pour chacune d\'elles, vous pouvez définir si le rôle courant est autorisé à l\'utiliser',
   'role.list.action.back': 'Retour',
-  'role.form.info': 'Plus d\'informations sur la ressource',
+  'role.form.info': 'Plus d\'informations',
   'role.form.autorizedBy': 'Est également accessible par',
-  'role.form.moreinfo': 'Plus d\'informations sur la ressource',
-  'role.modal.title': 'Informations sur la ressource {name}',
+  'role.form.moreinfo': 'Plus d\'informations',
+  'role.modal.title': 'Ressource {name}',
   'role.modal.action.back': 'Retour',
 }, Locales.fr)
 

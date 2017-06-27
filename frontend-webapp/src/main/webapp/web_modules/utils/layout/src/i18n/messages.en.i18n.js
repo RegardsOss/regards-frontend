@@ -7,7 +7,6 @@ import { Locales } from '@regardsoss/form-utils'
  * @type {{[modules.list.menu.label]: string, [section.search-form]: string}}
  * @author Sébastien Binda
  */
-
 const messages = Object.assign({
   'container.form.id': 'Name',
   'container.form.type': 'Type',

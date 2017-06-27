@@ -9,8 +9,8 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = Object.assign({
   'layout.title': 'Application layout configuration',
-  'layout.subtitle': 'This section allow you to manage your interface layout. Each declared container can be use to locate your interface modules.',
-  'layout.submit': 'Update layout',
+  'layout.subtitle': 'You can manage your interface layout by declaring containers. Then you can use those containers to position your modules',
+  'layout.submit': 'Save',
   'layout.cancel': 'Cancel',
 }, Locales.en)
 

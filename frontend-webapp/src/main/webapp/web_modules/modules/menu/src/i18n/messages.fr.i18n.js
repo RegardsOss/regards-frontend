@@ -11,15 +11,15 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 const messages = {
   loginFormTitle: 'Connexion à l\'interface projet',
   loginButtonLabel: 'Connexion',
-  logoutLabel: 'Deconnexion',
+  logoutLabel: 'Déconnexion',
   accountLabel: 'Mon compte',
   changeRole: 'Changer de rôle',
   resetRole: 'Rôle par défaut',
   'menu.modules.list.button': 'Menu',
   'menu.form.title': 'Titre du menu',
   'menu.form.displayauthentication': 'Afficher l\'option d\'authentification',
-  'menu.form.displaylocale': 'Afficher le selecteur de langues',
-  'menu.form.displaytheme': 'Afficher le selecteur de themes',
+  'menu.form.displaylocale': 'Afficher le sélecteur de langues',
+  'menu.form.displaytheme': 'Afficher le sélecteur de thèmes',
   // profile form
   'edit.profile.form.title': 'Edition du profil',
   'edit.profile.form.message': 'Vous pouvez mettre à jour ci-dessous les données de votre compte utilisateur',

@@ -9,36 +9,36 @@ const messages = {
   'authentication.password': 'Password',
   'authentication.button': 'Log in',
   'authentication.cancel': 'Cancel',
-  'authentication.message': 'Please enter your username and password to log in',
+  'authentication.message': 'Enter your username and password to log in',
   'authentication.error.ACCOUNT_UNKNOWN': 'Unknown user login and / or password',
   'authentication.error.ACCOUNT_PENDING': 'Your REGARDS account is not ready yet. You will receive a notification by email when it changes',
-  'authentication.error.ACCOUNT_INACTIVE': 'Your account is inactive. Please contact system administrator',
-  'authentication.error.ACCOUNT_LOCKED': 'Your account is locked. You can unlock it using "Account locked?" link below the window',
-  'authentication.error.USER_UNKNOWN': 'You do not have project access rights. You can ask them using "New user?" link, with option "I already have a REGARDS user account"',
+  'authentication.error.ACCOUNT_INACTIVE': 'Your account is inactive. Contact system administrator',
+  'authentication.error.ACCOUNT_LOCKED': 'Your account is locked. To unlock it, click "Account locked?"',
+  'authentication.error.USER_UNKNOWN': 'You do not have access to the project. To ask access, click "New user?", with option "I already have a REGARDS user account"',
   'authentication.error.USER_WAITING_ACCESS': 'Your project access has not yet been validated. You will receive a notification by email when it changes',
   'authentication.error.USER_WAITING_EMAIL_VERIFICATION': 'You have not yet validated your account. Please click on the validation link in the email you have received',
   'authentication.error.USER_ACCESS_DENIED': 'Your project access  has been denied',
   'authentication.error.USER_ACCESS_INACTIVE': 'Your project access is inactive. Please contact project administrator',
   'authentication.error.INSTANCE_ACCESS_DENIED': 'Your access to the instance administration panel has been refused',
-  'authentication.error.UNKNOWN_ERROR': 'Server is currently unavailable. Please retry later.',
+  'authentication.error.UNKNOWN_ERROR': 'Server is currently unavailable. Please retry later',
   'authentication.goto.reset.password': 'Lost password?',
   'authentication.goto.ask.access': 'New user?',
   'authentication.goto.unlock.account': 'Account locked?',
 
   // common to account requests forms (reset password and unlock account
   'account.request.form.mail': 'E-mail address',
-  'account.request.form.back': 'BACK',
-  'account.request.form.send': 'SEND',
+  'account.request.form.back': 'Back',
+  'account.request.form.send': 'Send',
 
   // reset account password request form
-  'ask.reset.password.form.message': 'Please enter your mail address to receive a reset password link',
+  'ask.reset.password.form.message': 'Enter your mail address to receive a reset password link',
   'ask.reset.password.form.title': 'Reset password',
   'ask.reset.password.form.send.failed': '{status, plural, ' +
   '=404 { Entered e-mail address is unknown. } ' +
   'other: {An unknown error occurred (#)}}',
 
   // unlock account request form
-  'ask.unlock.account.form.message': 'Please enter your mail address to request account unlocking',
+  'ask.unlock.account.form.message': 'Enter your mail address to request account unlocking',
   'ask.unlock.account.form.title': 'Unlock user account',
   'ask.unlock.account.form.send.failed': '{status, plural, ' +
   '=403 {That related account is not locked}' +
@@ -47,19 +47,19 @@ const messages = {
 
   // ask project access form
   'ask.project.access.request.title': 'Request project access',
-  'ask.project.access.request.message': 'Please enter below your personal data to request access, or provide your REGARDS account email address if you own already one. {passwordRules}',
+  'ask.project.access.request.message': 'Enter below your personal data to request access, or provide your REGARDS account email address if you own already one. {passwordRules}',
   'ask.project.access.using.existing.account': 'I already have a REGARDS access to an other project',
   'ask.project.access.mail': 'E-mail address',
-  'ask.project.access.first.name': 'First name',
-  'ask.project.access.last.name': 'Last name',
+  'ask.project.access.first.name': 'Firstname',
+  'ask.project.access.last.name': 'Lastname',
   'ask.project.access.new.password': 'Password',
   'ask.project.access.confirm.password': 'Confirm password',
   'ask.project.access.send': 'Send',
   'ask.project.access.form.back': 'Cancel',
-  'ask.create.account.error.409': 'That email address is already used by an existing REGARDS account',
+  'ask.create.account.error.409': 'That email address is already in use',
   'ask.create.account.error.unknown': 'An unknown error occurred ({status})',
-  'ask.create.user.error.404': 'There is no REGARDS user for entered email address',
-  'ask.create.user.error.409': 'You have already asked access to that project',
+  'ask.create.user.error.404': 'There is no REGARDS user for this email address',
+  'ask.create.user.error.409': 'You have already asked access to this project',
   'ask.create.user.error.unknown': 'An unknown error occurred ({status})',
 
   // reset password operation
@@ -80,7 +80,7 @@ const messages = {
 
   // New account operation
   'create.account.sent.title': 'Create account sent',
-  'create.account.sent.message': 'Your request has been sent, you will receive a mail to activate your user account',
+  'create.account.sent.message': 'Your request has been sent, you will receive an email to activate your account',
   'create.account.sent.option': 'Back',
   'new.account.validated.title': 'User account validated',
   'new.account.validated.message': 'Your user account has been validated',
@@ -109,7 +109,7 @@ const messages = {
   'reset.password.update.request.message': 'Please provide the new password to complete operation. {passwordRules}',
   'reset.password.update.new.password': 'New password',
   'reset.password.update.confirm.password': 'Confirm password',
-  'reset.password.update.send': 'SEND',
+  'reset.password.update.send': 'Send',
 
   // finish unlock account loading pane
   'finish.unlock.account.title': 'Unlocking account',

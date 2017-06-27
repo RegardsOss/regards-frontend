@@ -2,9 +2,9 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'group.list.title': 'Gestion des groupes d\'accès',
-  'group.list.subtitle': 'Un groupe d\'accès permet d\'autoriser un groupe d\'utilisateur à accéder à des jeux de données, partiellement ou dans leur totalité',
+  'group.list.subtitle': 'Un groupe d\'accès permet d\'autoriser un groupe d\'utilisateurs à accéder à des jeux de données, partiellement ou dans leur totalité',
   'group.list.table.name': 'Nom',
-  'group.list.table.nbUser': 'Nombre d\'utilisateur(s)',
+  'group.list.table.nbUser': 'Nombre d\'utilisateurs',
   'group.list.table.actions': 'Actions',
   'group.list.action.cancel': 'Annuler',
   'group.list.action.add': 'Créer',

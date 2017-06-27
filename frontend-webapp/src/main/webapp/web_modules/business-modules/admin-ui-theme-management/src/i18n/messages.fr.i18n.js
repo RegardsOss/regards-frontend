@@ -5,7 +5,9 @@ import { Locales } from '@regardsoss/form-utils'
 
 /**
  * i18n messages French language
- * @author Sébastien binda
+ *
+ * @author Xavier-Alexandre Brochard
+ * @author Sébastien Binda
  */
 const messages = Object.assign({
   'application.theme.title': 'Configuration du thème',
@@ -19,16 +21,16 @@ const messages = Object.assign({
   'application.theme.create.success': 'Le thème a été ajouté',
   'application.theme.create.error': 'Le thème n\'a pas pu être ajouté',
 
-  'application.theme.default.active': 'Activer le thème par défaut',
+  'application.theme.default.active': 'Thème par défaut',
 
   'application.theme.save': 'Sauvegarder',
   'application.theme.save.success': 'Le thème a été mis à jour',
   'application.theme.save.error': 'Le thème n\'a pas pu être mis à jour',
 
-  'application.theme.default.create.message': 'Aucun theme existant. Veuillez utiliser le boutton du dessus pour ajouter un nouveau theme et commencer sa configuration.',
+  'application.theme.default.create.message': 'Aucun thème. Cliquez sur "Nouveau" pour ajouter un thème et commencer sa configuration.',
 
   'application.theme.remove.tooltip': 'Supprimer',
-  'application.theme.remove.confirm': 'Supprimer le thème?',
+  'application.theme.remove.confirm': 'Supprimer le thème ?',
   'application.theme.remove.confirm.cancel': 'Annuler',
   'application.theme.remove.confirm.remove': 'Supprimer',
   'application.theme.remove.success': 'Le thème a été supprimé',

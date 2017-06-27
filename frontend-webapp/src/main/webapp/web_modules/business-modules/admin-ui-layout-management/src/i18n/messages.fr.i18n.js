@@ -9,8 +9,8 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = Object.assign({
   'layout.title': 'Configuration de l\'agencement de l\'interface',
-  'layout.subtitle': 'Cette page vous permet de configurer l\'agencement des conteneurs de modules de votre interface. Chaque conteneur déclaré ici peut ensuite être utilisé pour positionner les modules',
-  'layout.submit': 'Mettre à jour',
+  'layout.subtitle': 'Vous pouvez configurer l\'agencement de votre interface en créant des conteneurs. Ensuite, utilisez ces conteneurs pour positionner vos modules',
+  'layout.submit': 'Sauvegarder',
   'layout.cancel': 'Annuler',
 }, Locales.fr)
 

@@ -23,7 +23,7 @@ const messages = Object.assign({
   'project.list.dialog.title.update.license': 'License changed?',
   'project.list.dialog.message.update.license': 'When you notify a license change, every project user will be prompted to accept the new licenses',
   'project.list.action.deletebutton': 'Remove',
-  'project.list.dialog.title.delete': 'Remove that project?',
+  'project.list.dialog.title.delete': 'Remove this project?',
 
   'project.list.action.open': 'Login on that project admin dashboard',
   'project.edit.title': 'Edit the project {name}',
@@ -40,11 +40,11 @@ const messages = Object.assign({
   'project.form.action.cancel': 'Cancel',
   'project.form.action.submit': 'Save',
 
-  'invalid.only_alphanumeric': 'Only alphanumeric caracters are allowed',
+  'invalid.only_alphanumeric': 'User alphanumeric caracters',
 
   // Database connections
   'project.connection.list.title': 'Configure databases accesses for project {project}',
-  'project.connection.list.subtitle': 'Here under you can define the databases configurations for each microservice',
+  'project.connection.list.subtitle': 'Define the databases configurations for each microservice',
   'project.connection.list.microservice': 'Microservice name',
   'project.connection.list.status': 'Configuration status',
   'project.connection.list.actions': 'Actions',

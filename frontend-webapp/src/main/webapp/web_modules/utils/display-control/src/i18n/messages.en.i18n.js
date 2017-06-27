@@ -8,7 +8,7 @@
  * @author Xavier-Alexandre Brochard
  */
 const messages = {
-  'request.entity.too.large': 'We could not handle your request because the result is too large.',
+  'request.entity.too.large': 'We could not handle your request because the result is too large',
 }
 
 export default messages

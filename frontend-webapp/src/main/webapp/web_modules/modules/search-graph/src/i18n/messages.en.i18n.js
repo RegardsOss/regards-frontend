@@ -10,7 +10,7 @@ const messages = {
   // 1.a - Graph levels
   'search.graph.configuration.levels.title': 'Browsing levels',
   'search.graph.configuration.levels.subtitle': 'Select below the graph browsing levels',
-  'search.graph.levels.selection.none.selected.error': 'At least one element must be selected for the graph search',
+  'search.graph.levels.selection.none.selected.error': 'Select at least 1 element for the graph search',
   'search.graph.levels.selection.no.selection.hint': 'No selection. You can select levels by clicking on "Add level button"',
   'search.graph.add.level': 'Add level',
   'search.graph.collection.model.label': '{name} - {description}',

@@ -5,7 +5,9 @@ import { Locales } from '@regardsoss/form-utils'
 
 /**
  * i18n messages English language
- * @author Sébastien binda
+ *
+ * @author Xavier-Alexandre Brochard
+ * @author Sébastien Binda
  */
 const messages = Object.assign({
   'application.theme.title': 'Configure the theme',
@@ -19,13 +21,13 @@ const messages = Object.assign({
   'application.theme.create.success': 'The theme was added',
   'application.theme.create.error': 'The theme could not be added',
 
-  'application.theme.default.active': 'Default active theme',
+  'application.theme.default.active': 'Default theme',
 
   'application.theme.save': 'Save',
   'application.theme.save.success': 'The theme was updated',
   'application.theme.save.error': 'The theme could not be updated',
 
-  'application.theme.default.create.message': 'No theme are defined yet. Please use the upper button to add a new theme and start configuration',
+  'application.theme.default.create.message': 'No theme. CLick "New" to add a theme and start configuration',
 
   'application.theme.remove.tooltip': 'Remove',
   'application.theme.remove.confirm': 'Remove theme?',

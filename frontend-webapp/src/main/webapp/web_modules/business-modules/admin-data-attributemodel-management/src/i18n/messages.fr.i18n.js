@@ -33,15 +33,15 @@ const messages = Object.assign({
   'attrmodel.form.restriction.NUMBER_RANGE.max': 'Valeur maximale autorisée',
   'attrmodel.form.restriction.NUMBER_RANGE.isMaxInclusive': 'Borne maximale incluse dans l\'ensemble',
 
-  'attrmodel.form.restriction.ENUMERATION.add': 'Ajouter une nouvelle valeur:',
+  'attrmodel.form.restriction.ENUMERATION.add': 'Ajouter une valeur:',
   'attrmodel.form.restriction.ENUMERATION.value': 'Valeur',
   'attrmodel.form.restriction.ENUMERATION.active': 'Définir l\'ensemble des valeurs autorisées à l\'aide d\'une énumération',
   'attrmodel.form.restriction.ENUMERATION.addinput': 'Nouvelle valeur de l\'ensemble',
 
   'attrmodel.form.restriction.PATTERN.pattern': 'Motif',
-  'attrmodel.form.restriction.PATTERN.active': 'Activer une restriction par motif (aka Pattern ou Expression régulières)',
+  'attrmodel.form.restriction.PATTERN.active': 'Activer une restriction par motif (Pattern ou Expression régulière)',
 
-  'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Si vous rajoutez un attribut obligatoire à un fragment déjà utilisé par des modèles, cet ajout peut provoquer des erreurs lors des ingestions et des mises à jour futures',
+  'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Ajouter un attribut obligatoire à un fragment déjà utilisé par des modèles peut provoquer des erreurs lors des ingestions et des mises à jour futures',
 
   'invalid.min_3_carac': 'Minimum 3 caractères',
   'invalid.max_32_carac': 'Maximum 32 caractères',

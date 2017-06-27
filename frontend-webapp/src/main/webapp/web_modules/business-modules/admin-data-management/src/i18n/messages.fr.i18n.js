@@ -8,10 +8,10 @@ const messages = {
   'data.board.model.description': 'Les modèles de données (collection, jeu et objet) définissent la structure des données',
   'data.board.model.title': 'Modèles',
 
-  'data.board.attributemodel.description': 'Gestion des attributs communs aux divers modèles',
+  'data.board.attributemodel.description': 'Les attributs communs aux divers modèles',
   'data.board.attributemodel.title': 'Attributs de modèles',
 
-  'data.board.fragment.description': 'Gestion des fragments d\'attributs',
+  'data.board.fragment.description': 'Les fragments sont des ensembles cohérents d\'attributs',
   'data.board.fragment.title': 'Fragments',
 
   'data.board.collection.title': 'Collections',
@@ -24,7 +24,7 @@ const messages = {
   'data.board.dataset.description': 'Les jeux de données contiennent les données',
 
   'data.board.connection.title': 'Connexions externes',
-  'data.board.connection.description': 'Gestion des connexions aux bases de données externes à REGARDS',
+  'data.board.connection.description': 'Les connexions aux bases de données externes à REGARDS',
 
 }
 

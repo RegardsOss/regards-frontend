@@ -3,7 +3,7 @@ import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
 const messages = Object.assign({
   'attrmodel.list.title': 'Attribute models',
-  'attrmodel.list.subtitle': 'Manage project Attribute models',
+  'attrmodel.list.subtitle': 'Manage project attribute models',
   'attrmodel.list.table.fragment': 'Fragment',
   'attrmodel.list.table.name': 'Name',
   'attrmodel.list.table.description': 'Description',
@@ -16,7 +16,7 @@ const messages = Object.assign({
   'attrmodel.list.delete.title': 'Delete the attribute {name} ?',
 
   'attrmodel.edit.title': 'Edit the attribute model {name}',
-  'attrmodel.create.title': 'Create a new model',
+  'attrmodel.create.title': 'Create a model',
   'attrmodel.form.name': 'Attribute name',
   'attrmodel.form.label': 'Attribute label',
   'attrmodel.form.fragment': 'Fragment',
@@ -33,7 +33,7 @@ const messages = Object.assign({
   'attrmodel.form.restriction.NUMBER_RANGE.max': 'Maximal value autorized',
   'attrmodel.form.restriction.NUMBER_RANGE.isMaxInclusive': 'Maximal limit included in the set',
 
-  'attrmodel.form.restriction.ENUMERATION.add': 'Add a new value:',
+  'attrmodel.form.restriction.ENUMERATION.add': 'Add a value:',
   'attrmodel.form.restriction.ENUMERATION.value': 'Value',
   'attrmodel.form.restriction.ENUMERATION.active': 'Define the autorized value set',
   'attrmodel.form.restriction.ENUMERATION.addinput': 'New value',
@@ -41,7 +41,7 @@ const messages = Object.assign({
   'attrmodel.form.restriction.PATTERN.pattern': 'Pattern',
   'attrmodel.form.restriction.PATTERN.active': 'Activate the pattern restriction',
 
-  'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'If you add a new mandatory attribute to a fragment already used by models, this addition can cause issues during future ingestions and data updates',
+  'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Adding a new mandatory attribute to a fragment already used by models can cause issues during future ingestions and data updates',
 
   'invalid.min_3_carac': 'At least 3 characters',
   'invalid.max_32_carac': 'Max 32 characters',

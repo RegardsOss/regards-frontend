@@ -25,7 +25,7 @@ const messages = Object.assign({
 
   'portal.theme.title': 'Themes configuration',
   'project.theme.title': 'Themes configuration',
-  'project.theme.description': 'Configuration des themes de l\'interface',
+  'project.theme.description': 'Customize the look of REGARDS',
   'project.theme.tooltip': 'Edit themes',
 
   'action.list.tooltip': 'List',

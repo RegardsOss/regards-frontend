@@ -24,7 +24,7 @@ const messages = Object.assign({
   'portal.app.layout.tooltip': 'Configure layout',
   'portal.app.themes.tooltip': 'Manage themes',
   'modules.list.title': 'Configure UI available modules',
-  'modules.list.subtitle': 'Here under are displayed the modules configured for the interface. Once the modules are configured, you can use them to configure the global layout.',
+  'modules.list.subtitle': 'To define the global layout, you can configure the interface modules',
   'modules.list.table.name': 'Module type',
   'modules.list.table.description': 'Module name',
   'modules.list.table.action.edit.tooltip': 'Edit',
@@ -65,14 +65,14 @@ const messages = Object.assign({
   'application.theme.create.error': 'The theme could not be added',
 
   'application.theme.default.active': 'Default active theme',
-  'application.theme.default.create.message': 'No theme available. Create a new one using the button on the top bar',
+  'application.theme.default.create.message': 'No theme available. Create a new one by clicking "New"',
 
   'application.theme.save': 'Save',
   'application.theme.save.success': 'The theme was updated',
   'application.theme.save.error': 'The theme could not be updated',
 
   'application.theme.remove.tooltip': 'Remove',
-  'application.theme.remove.confirm': 'Remove theme?',
+  'application.theme.remove.confirm': 'Remove the theme?',
   'application.theme.remove.confirm.cancel': 'Cancel',
   'application.theme.remove.confirm.remove': 'Remove',
   'application.theme.remove.success': 'The theme was removed',

@@ -75,6 +75,47 @@ export class DatasetEditLinksComponent extends React.Component {
           <div className="row">
             <div className="col-sm-48">
               <List>
+                <div><FormattedMessage id="dataset.form.links.remainingcollection.subtitle" /></div>
+                <br />
+                <Divider />
+                <ListItem
+                  primaryText={
+                    <TextField
+                      hintText={this.context.intl.formatMessage({ id: 'dataset.form.links.remainingcollection.search' })}
+                      onChange={handleSearch}
+                      fullWidth
+                    />
+                  }
+                  rightIconButton={
+                    <div>
+                      <br />
+                      <IconButton>
+                        <Search />
+                      </IconButton>
+                    </div>
+                  }
+                  disabled
+                />
+                {map(remainingCollections, (collection, id) => (
+                  <ListItem
+                    key={id}
+                    primaryText={collection.content.label}
+                    rightIconButton={
+                      <IconButton
+                        onTouchTap={() => handleAdd(collection.content.ipId, false)}
+                        tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.remainingcollection.add.button' })}
+                      >
+                        <Add />
+                      </IconButton>
+                    }
+                    disabled
+                  />
+                ))}
+              </List>
+            </div>
+            <div className="col-sm-48 col-sm-offset-4 ">
+
+              <List>
                 <div><FormattedMessage id="dataset.form.links.collection.title" /></div>
                 <br />
                 <Divider />
@@ -83,7 +124,10 @@ export class DatasetEditLinksComponent extends React.Component {
                     key={`collection-${id}`}
                     primaryText={collection.content.label}
                     rightIconButton={
-                      <IconButton onTouchTap={() => handleDelete(collection.content.ipId, false)}>
+                      <IconButton
+                        onTouchTap={() => handleDelete(collection.content.ipId, false)}
+                        tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.collection.remove.button' })}
+                      >
                         <Clear />
                       </IconButton>
                     }
@@ -111,7 +155,10 @@ export class DatasetEditLinksComponent extends React.Component {
                   rightIconButton={
                     <div>
                       <br />
-                      <IconButton onTouchTap={this.handleCreateTag}>
+                      <IconButton
+                        onTouchTap={this.handleCreateTag}
+                        tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.tag.add.button' })}
+                      >
                         <Add />
                       </IconButton>
                     </div>
@@ -123,45 +170,11 @@ export class DatasetEditLinksComponent extends React.Component {
                     key={`tag-${id}`}
                     primaryText={tag}
                     rightIconButton={
-                      <IconButton onTouchTap={() => handleDelete(tag, true)}>
+                      <IconButton
+                        onTouchTap={() => handleDelete(tag, true)}
+                        tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.tag.remove.button' })}
+                      >
                         <Clear />
-                      </IconButton>
-                    }
-                    disabled
-                  />
-                ))}
-              </List>
-            </div>
-            <div className="col-sm-48 col-sm-offset-4 ">
-              <List>
-                <div><FormattedMessage id="dataset.form.links.remainingcollection.subtitle" /></div>
-                <br />
-                <Divider />
-                <ListItem
-                  primaryText={
-                    <TextField
-                      hintText={this.context.intl.formatMessage({ id: 'dataset.form.links.remainingcollection.search' })}
-                      onChange={handleSearch}
-                      fullWidth
-                    />
-                  }
-                  rightIconButton={
-                    <div>
-                      <br />
-                      <IconButton>
-                        <Search />
-                      </IconButton>
-                    </div>
-                  }
-                  disabled
-                />
-                {map(remainingCollections, (collection, id) => (
-                  <ListItem
-                    key={id}
-                    primaryText={collection.content.label}
-                    rightIconButton={
-                      <IconButton onTouchTap={() => handleAdd(collection.content.ipId, false)}>
-                        <Add />
                       </IconButton>
                     }
                     disabled
