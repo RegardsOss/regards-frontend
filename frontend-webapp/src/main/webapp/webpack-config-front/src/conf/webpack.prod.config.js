@@ -31,7 +31,7 @@ module.exports = function (projectContextPath) {
         // modules included in a bundle and the internal IDs
         // within that bundle
         manifest: require(`${projectContextPath}/dist/prod/core-manifest.json`),
-        context: __dirname,
+        context: projectContextPath,
       }),
       // A plugin for a more aggressive chunk merging strategy. Even similar chunks are merged if the total size is reduced enough.
       new webpack.optimize.AggressiveMergingPlugin(),
