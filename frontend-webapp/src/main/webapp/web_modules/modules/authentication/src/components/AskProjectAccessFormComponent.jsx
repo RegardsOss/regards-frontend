@@ -98,22 +98,6 @@ export class AskProjectAccessFormComponent extends React.Component {
                 {useExistingAccount ? null : (
                   <div>
                     <Field
-                      key="firstName"
-                      name="firstName"
-                      fullWidth
-                      component={RenderTextField}
-                      type="text"
-                      floatingLabelText={formatMessage({ id: 'ask.project.access.first.name' })}
-                    />
-                    <Field
-                      key="lastName"
-                      name="lastName"
-                      fullWidth
-                      component={RenderTextField}
-                      type="text"
-                      floatingLabelText={formatMessage({ id: 'ask.project.access.last.name' })}
-                    />
-                    <Field
                       key="newPassword"
                       name="newPassword"
                       fullWidth
@@ -128,6 +112,22 @@ export class AskProjectAccessFormComponent extends React.Component {
                       component={RenderTextField}
                       type="password"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.confirm.password' })}
+                    />
+                    <Field
+                      key="firstName"
+                      name="firstName"
+                      fullWidth
+                      component={RenderTextField}
+                      type="text"
+                      floatingLabelText={formatMessage({ id: 'ask.project.access.first.name' })}
+                    />
+                    <Field
+                      key="lastName"
+                      name="lastName"
+                      fullWidth
+                      component={RenderTextField}
+                      type="text"
+                      floatingLabelText={formatMessage({ id: 'ask.project.access.last.name' })}
                     />
                   </div>
                 )}
