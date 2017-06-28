@@ -136,24 +136,6 @@ class TablePane extends React.Component {
   }
 
   /**
-   * Render the loading to inform user thaht entities are fetching
-   * @param height
-   * @returns {*}
-   */
-  renderLoadingFilter = () => {
-    if (this.props.entitiesFetching) {
-      const styles = this.context.moduleTheme
-      return (
-
-        <div style={styles}>
-          <LoadingComponent />
-        </div>
-      )
-    }
-    return null
-  }
-
-  /**
    * Render the toolbar over the table
    */
   renderHeaderBar = () => {
