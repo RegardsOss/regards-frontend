@@ -13,8 +13,8 @@ const messages = Object.assign({
   'project.layout.description': 'Layout configuration',
   'project.layout.tooltip': 'Layout',
 
-  'portal.module.title': 'Modules configuration',
-  'project.module.title': 'Modules configuration',
+  'portal.module.title': 'UI modules',
+  'project.module.title': 'UI modules',
   'project.module.description': 'Modules configuration',
 
   'project.service.title': 'Services configuration',

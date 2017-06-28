@@ -23,7 +23,7 @@ const messages = Object.assign({
   'portal.app.modules.tooltip': 'Configuration des modules',
   'portal.app.layout.tooltip': 'Configuration de l\'agencement',
   'portal.app.themes.tooltip': 'Gestion des thèmes',
-  'modules.list.title': 'Configuration des modules de l\'interface',
+  'modules.list.title': 'Modules d\'interface',
   'modules.list.subtitle': 'Pour définir l\'agencement global de l\'interface, configurez les modules de l\'interface',
   'modules.list.table.name': 'Type de module',
   'modules.list.table.description': 'Nom du module',
