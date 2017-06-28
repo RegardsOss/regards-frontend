@@ -6,7 +6,7 @@ import includes from 'lodash/includes'
 import isEmpty from 'lodash/isEmpty'
 
 /**
- * A Display Controller is a pure function which implements the logic for
+ * A display logic is a pure function which implements the logic for
  * displaying or not the passed React component.
  *
  * With this HATEOAS "some match" strategy, at least one required endpoint must be found in the available endpoints in

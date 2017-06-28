@@ -7,7 +7,7 @@ import includes from 'lodash/includes'
 import isEmpty from 'lodash/isEmpty'
 
 /**
- * A Display Controller is a pure function which implements the logic for
+ * A display logic is a pure function which implements the logic for
  * displaying or not the passed React component.
  *
  * With this HATEOAS "some list match" strategy, at least one list of required endpoints must match all required endpoints from the available endpoints in
@@ -19,7 +19,7 @@ import isEmpty from 'lodash/isEmpty'
  * @param {String[]} requiredEndpoints The array of endpoints we require in order the component to display
  * @param {String[]} availableEndpoints The array of all available endpoints
  * @return {boolean}
- * @author Xavier-Alexandre Brochard
+ * @author Sébastien Binda
  */
 const someListMatchHateoasDisplayLogic = (arrayOfrequiredEndpoints, availableEndpoints) =>
   reduce(arrayOfrequiredEndpoints, (result, requiredEndpoints) => result || every(requiredEndpoints, item => (includes(availableEndpoints, item))) || isEmpty(requiredEndpoints), false)
