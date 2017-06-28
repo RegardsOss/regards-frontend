@@ -6,6 +6,8 @@ const getWebpackTestConf = require('./conf/webpack.test.config')
 const webpackDllConf =require('./conf/webpack.dll.config')
 
 const merge = require('./utils/merge')
+const cleanFolder = require ('./utils/cleanFolder')
+const addProdPlugins = require ('./utils/addProdPlugins')
 
 const MODE = {
   COMMON: 'common',
@@ -17,6 +19,7 @@ const MODE = {
 }
 
 const DEFAULT_UNKNOW_DIR = '/specify/your/working/directory/path'
+const DEFAULT_UNKNOW_PATH_TO_DELETE = '/specify/the/directory/to/delete'
 
 const slugMessage = "@regardsoss/webpack-config-front | "
 
@@ -54,6 +57,14 @@ class WebpackConfig {
   }
   merge(newConf) {
     this.conf = merge(this.conf, newConf)
+    return this
+  }
+  cleanFolder({projectContextPath = DEFAULT_UNKNOW_DIR, pathToDelete = DEFAULT_UNKNOW_PATH_TO_DELETE}) {
+    this.conf = cleanFolder(this.conf, projectContextPath, pathToDelete)
+    return this
+  }
+  addProductionPlugins() {
+    this.conf = addProdPlugins(this.conf)
     return this
   }
   get () {

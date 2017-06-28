@@ -6,6 +6,7 @@ const conf = webpackConfigurator
     mode: 'prod',
     projectContextPath: __dirname
   })
+  .addProductionPlugins()
   .get()
 
 module.exports = conf

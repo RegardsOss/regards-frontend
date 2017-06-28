@@ -32,6 +32,7 @@ module.exports = {
       'node_modules',
     ],
   },
+  devtool: 'source-map',
   output: {
     filename: '[name].bundle.js',
     // The name of the global variable which the library's
