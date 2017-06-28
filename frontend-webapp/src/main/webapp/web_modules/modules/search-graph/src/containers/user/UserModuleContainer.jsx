@@ -9,9 +9,10 @@ import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { DamDomain } from '@regardsoss/domain'
-import { CatalogEntity, CatalogEntityTypes, AttributeModel, AttributeConfigurationController } from '@regardsoss/model'
+import { CatalogEntityTypes, AttributeModel, AttributeConfigurationController } from '@regardsoss/model'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
+import { SelectionPath } from '../../model/graph/SelectionShape'
 import { AttributeModelActions, AttributeModelSelectors } from '../../clients/AttributeModelClient'
 import graphContextActions from '../../model/graph/GraphContextActions'
 import fetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
@@ -60,7 +61,7 @@ export class UserModuleContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired, // Module configuration
     // from map state to props
     // eslint-disable-next-line react/no-unused-prop-types
-    selectionPath: PropTypes.arrayOf(CatalogEntity),
+    selectionPath: SelectionPath.isRequired,
     attributeModels: PropTypes.objectOf(AttributeModel),
     moduleCollapsed: PropTypes.bool.isRequired,
     authentication: AuthenticateShape,

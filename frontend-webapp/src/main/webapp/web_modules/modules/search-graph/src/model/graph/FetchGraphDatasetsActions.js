@@ -15,13 +15,13 @@ class FetchGraphDatasetsActions extends FetchGraphEntitiesActions {
   /**
    * Fetches all datasest for parent entity ID as parameter
    * @param {*} levelIndex level index
-   * @param {*} parentEntityId parent entity ID
+   * @param {*} parentPath parent entities path (IP IDs)
    */
-  fetchAllDatasets(levelIndex, parentEntityId) {
-    if (levelIndex === 0 || parentEntityId === null) {
+  fetchAllDatasets(levelIndex, parentPath = []) {
+    if (levelIndex === 0 || !parentPath.length) {
       throw new Error('Datasets cannot be retrieved at root level (it would result in whole catalog datasets)')
     }
-    return super.fetchAll(levelIndex, parentEntityId)
+    return super.fetchAll(levelIndex, parentPath)
   }
 
 }
