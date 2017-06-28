@@ -2,11 +2,13 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
-const path = require('path')
 
 module.exports = function (projectContextPath) {
 
-  let config = getCommonConfig(projectContextPath)
+  // Ensure babel environment variable is correctly setup to coverage
+  process.env.NODE_ENV = 'coverage'
+
+  let config = getCommonConfig(projectContextPath, 'test')
 
   config = merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
@@ -15,9 +17,8 @@ module.exports = function (projectContextPath) {
       whitelist: [/regardsoss/, /react-material-color-picker/],
     })], // in order to ignore all modules in node_modules folder
     // Enable sourcemaps for debugging webpack's output.
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     stats: {
-      chunks: false,
       colors: true,
       reasons: true,
     },
@@ -37,9 +38,6 @@ module.exports = function (projectContextPath) {
         context: projectContextPath,
       }),
       new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('test'),
-        },
         GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
         API_URL: JSON.stringify('/api/v1/'),
         STATIC_CONF: JSON.stringify({
@@ -53,8 +51,7 @@ module.exports = function (projectContextPath) {
           },
           IMSERVICES: {
             ACCESS_INSTANCE: 'rs-access-instance',
-          },
-          // Default driver used to create a project connection (see module admin-database-management)
+          }, // Default driver used to create a project connection (see module admin-database-management)
           projectConnectionDriver: 'org.postgresql.Driver',
         }),
       }),
@@ -64,7 +61,5 @@ module.exports = function (projectContextPath) {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
       devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
     },
-
   })
-  return config
 }

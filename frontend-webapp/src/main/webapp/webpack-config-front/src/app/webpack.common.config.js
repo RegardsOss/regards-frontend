@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = function (projectContextPath) {
+module.exports = function (projectContextPath, mode = 'dev') {
   return {
     // Hide stats information from children during webpack compilation
     stats: { children: false },
@@ -70,7 +70,8 @@ module.exports = function (projectContextPath) {
       // Generate the index.html automatically
       new HtmlWebpackPlugin({
         template: 'index.ejs',
-        hash: true
+        hash: true,
+        isProduction: mode === 'prod'
       }),
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({

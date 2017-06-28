@@ -6,7 +6,7 @@ const path = require('path')
 
 module.exports = function (projectContextPath) {
 
-  let config = getCommonConfig(projectContextPath)
+  let config = getCommonConfig(projectContextPath, 'test')
 
   config = merge(config, {
     // Enable sourcemaps for debugging webpack's output.
@@ -30,7 +30,8 @@ module.exports = function (projectContextPath) {
         hash: false,
         modules: false,
         source: false,
-      }, // Web directory serve by the webpack dev server
+      },
+      // Web directory serve by the webpack dev server
       contentBase: path.resolve(projectContextPath, 'dist', 'dev'), // ??? Without this there is no hot replacement during developpment
       inline: true, // Shows a full-screen overlay in the browser when there are compiler errors or warning
       overlay: {
@@ -52,17 +53,20 @@ module.exports = function (projectContextPath) {
       }, // Allow to expose plugins
       //publicPath: "/plugins/",
     },
-    plugins: [new webpack.DllReferencePlugin({
-      // The path to the manifest file which maps between
-      // modules included in a bundle and the internal IDs
-      // within that bundle
-      manifest: require(`${projectContextPath}/dist/dev/core-manifest.json`),
-      context: projectContextPath,
-    }), new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development'),
-      },
-    }),],
+    plugins: [
+      new webpack.DllReferencePlugin({
+        // The path to the manifest file which maps between
+        // modules included in a bundle and the internal IDs
+        // within that bundle
+        manifest: require(`${projectContextPath}/dist/dev/core-manifest.json`),
+        context: projectContextPath,
+      }),
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify('development'),
+        },
+      }),
+    ],
   })
   return config
 }

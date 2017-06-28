@@ -144,8 +144,8 @@
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {
-    "@regardsoss/tests-helpers": "0.0.1",
     "@regardsoss/eslint-config-es6-rules": "0.0.1",
+    "@regardsoss/tests-helpers": "0.0.1",
     "@regardsoss/webpack-config-front": "0.0.1",
     "@storybook/addon-actions": "^3.1.5",
     "@storybook/addon-knobs": "^3.2.0-alpha.0",

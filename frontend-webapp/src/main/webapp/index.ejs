@@ -118,7 +118,12 @@
     </div>
 </div>
 <script src="/conf/staticConfiguration.js?<%= webpack.hash %>"></script>
-<!-- core.bundle.js is our webpack DLL -->
+<!-- core.bundle.js is a webpack DLL containing dependencies -->
 <script src="/core.bundle.js?<%= webpack.hash %>"></script>
+<% if (htmlWebpackPlugin.options.isProduction) { %>
+<!-- coreoss.bundle.js is a webpack DLL containing regardsoss module -->
+<script src="/coreoss.bundle.js?<%= webpack.hash %>"></script>
+<% } %>
+
 <!-- bundle.js is the webpack compiled javascript file, append automatically by HtmlWebpackPlugin -->
 </body>
