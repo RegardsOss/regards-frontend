@@ -3,6 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { spy } from 'sinon'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { ConfirmDialogComponent, TableContainer } from '@regardsoss/components'
 import AccessRightListComponent from '../../src/components/AccessRightListComponent'
@@ -30,8 +31,9 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       selectedDatasets: {},
       pluginConfigurationList: {},
       pluginMetaDataList: {},
-      deleteAccessRight: () => {},
-      submitAccessRights: () => {},
+      deleteAccessRight: () => { },
+      submitAccessRights: () => { },
+      navigateToCreateDataset: spy(),
     }
 
     const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context, lifecycleExperimental: true })
