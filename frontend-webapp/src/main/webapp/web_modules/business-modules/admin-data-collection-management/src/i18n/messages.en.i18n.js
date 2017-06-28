@@ -3,7 +3,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'collection.list.action.add': 'Add',
   'collection.list.action.cancel': 'Cancel',
-  'collection.list.title': 'Collection list',
+  'collection.list.title': 'Collections',
   'collection.list.subtitle': 'Collections are clustering of data by topic',
   'collection.list.delete.message': 'Delete the collection {name} ?',
   'collection.form.links.component.subtitle': 'Current collection links',

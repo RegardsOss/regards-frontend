@@ -29,7 +29,7 @@ const messages = {
   'projectUser.list.waiting.tab': 'New users ({count})',
   'projectUser.list.waiting.subtitle': 'New users waiting for access validation',
   'projectUser.list.waiting.accept.all': 'Accept all',
-  'projectUser.list.waiting.no.content.message': 'No user waiting for project access. You can view and modify users list in "All users" tab',
+  'projectUser.list.waiting.no.content.message': 'No user waiting for an access. You can view and modify users list in "All users" tab',
   'projectUser.list.delete.message': 'Remove user {name}?',
 
   'projectUser.edit.title': 'Edit the user {email}',

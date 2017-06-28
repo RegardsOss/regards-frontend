@@ -2,7 +2,7 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'fragment.list.title': 'Fragments',
-  'fragment.list.subtitle': 'A fragment is a consistent set of attributes',
+  'fragment.list.subtitle': 'A fragment is a cluster of various attributes in a consistent set',
   'fragment.list.table.name': 'Name',
   'fragment.list.table.description': 'Description',
   'fragment.list.table.actions': 'Actions',
@@ -12,7 +12,7 @@ const messages = Object.assign({
   'fragment.list.action.delete': 'Delete',
   'fragment.list.action.export': 'Download',
   'fragment.list.delete.title': 'Delete fragment {name} ?',
-  'fragment.list.delete.conditions': 'To delete a fragment, make sure it is\'t linked to any attribute by removing them in the attributes configuration UI',
+  'fragment.list.delete.conditions': 'To delete a fragment, make sure it is\'t linked to any attribute by removing them in their configuration UI',
 
   'fragment.edit.title': 'Edit fragment {name}',
   'fragment.create.title': 'Create a fragment',

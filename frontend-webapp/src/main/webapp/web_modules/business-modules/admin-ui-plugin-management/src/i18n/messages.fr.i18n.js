@@ -20,7 +20,7 @@ const messages = Object.assign({
   'plugin.form.submit.error.invalid.plugin': ' Le plugin ne correspond pas à un plugin valide',
   'plugin.form.submit.error': 'Erreur durant la sauvegarde du plugin',
   'plugins.list.delete.message': 'Suppression du plugin {name}',
-  'plugins.list.title': 'Liste des plugins disponibles',
+  'plugins.list.title': 'Plugins',
   'plugins.list.subtitle': 'Définissez des critères de recherche ou des services avec ces plugins',
   'plugins.list.table.name': 'Nom',
   'plugins.list.table.actions': 'Actions',

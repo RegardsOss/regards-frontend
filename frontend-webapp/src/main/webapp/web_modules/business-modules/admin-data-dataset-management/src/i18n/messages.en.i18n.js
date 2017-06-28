@@ -3,7 +3,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'dataset.list.action.add': 'Add',
   'dataset.list.action.cancel': 'Cancel',
-  'dataset.list.title': 'Dataset list',
+  'dataset.list.title': 'Datasets',
   'dataset.list.subtitle': 'Datasets are groupings of data sharing a common topic',
   'dataset.list.table.label': 'Label',
   'dataset.list.table.actions': 'Actions',

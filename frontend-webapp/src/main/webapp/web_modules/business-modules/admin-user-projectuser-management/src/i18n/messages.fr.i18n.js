@@ -29,7 +29,7 @@ const messages = {
   'projectUser.list.waiting.tab': 'Nouveaux utilisateurs ({count})',
   'projectUser.list.waiting.subtitle': 'Nouveaux utilisateurs du projet en attente de validation',
   'projectUser.list.waiting.accept.all': 'Tout accepter',
-  'projectUser.list.waiting.no.content.message': 'Pas d\'utilisateur en attente d\'un accès au projet. Vous pouvez consulter et éditer la liste des utilisateurs dans l\'onglet "Tous les utilisateurs"',
+  'projectUser.list.waiting.no.content.message': 'Pas d\'utilisateur en attente d\' accès au projet. Vous pouvez consulter et éditer la liste des utilisateurs dans l\'onglet "Tous les utilisateurs"',
   'projectUser.list.delete.message': 'Supprimer l\'utilisateur {name} ?',
 
   'projectUser.edit.title': 'Éditer l\'utilisateur {email}',

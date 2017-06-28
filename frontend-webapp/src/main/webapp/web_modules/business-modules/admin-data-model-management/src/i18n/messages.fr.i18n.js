@@ -1,8 +1,8 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'model.list.title': 'Liste des modèles de données',
-  'model.list.subtitle': 'Gestion des modèles de donnée de REGARDS',
+  'model.list.title': 'Modèles',
+  'model.list.subtitle': 'Tous les modèles de données du projet',
   'model.list.table.name': 'Nom',
   'model.list.table.description': 'Description',
   'model.list.table.type': 'Type',

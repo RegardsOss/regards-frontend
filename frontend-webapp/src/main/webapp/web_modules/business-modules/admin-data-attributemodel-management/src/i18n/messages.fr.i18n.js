@@ -2,8 +2,8 @@ import { Locales } from '@regardsoss/form-utils'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
 const messages = Object.assign({
-  'attrmodel.list.title': 'Liste des attributs de modèles de données',
-  'attrmodel.list.subtitle': 'Gestion des attributs de modèle de données de REGARDS',
+  'attrmodel.list.title': 'Attributs de modèles',
+  'attrmodel.list.subtitle': 'Tous les attributs de modèles de données du projet',
   'attrmodel.list.table.fragment': 'Fragment',
   'attrmodel.list.table.name': 'Nom',
   'attrmodel.list.table.description': 'Description',

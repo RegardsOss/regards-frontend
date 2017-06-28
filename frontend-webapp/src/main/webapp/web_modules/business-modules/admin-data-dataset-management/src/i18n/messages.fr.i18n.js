@@ -3,7 +3,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'dataset.list.action.add': 'Ajouter',
   'dataset.list.action.cancel': 'Annuler',
-  'dataset.list.title': 'Liste des jeux de données',
+  'dataset.list.title': 'Jeux de données',
   'dataset.list.subtitle': 'Les jeux de données sont des regroupements de données qui partagent une même thématique',
   'dataset.list.table.label': 'Label',
   'dataset.list.table.actions': 'Actions',

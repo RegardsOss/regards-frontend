@@ -3,7 +3,7 @@ import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
 const messages = Object.assign({
   'attrmodel.list.title': 'Attribute models',
-  'attrmodel.list.subtitle': 'Manage project attribute models',
+  'attrmodel.list.subtitle': 'All atttribute models for the project',
   'attrmodel.list.table.fragment': 'Fragment',
   'attrmodel.list.table.name': 'Name',
   'attrmodel.list.table.description': 'Description',

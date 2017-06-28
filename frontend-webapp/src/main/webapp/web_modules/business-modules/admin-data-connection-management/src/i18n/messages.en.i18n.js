@@ -1,7 +1,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'connection.create.title': 'Create a connection',
+  'connection.create.title': 'Create an external connection',
   'connection.edit.title': 'Edit connection {name}',
   'connection.form.subtitle': 'Connections allow the REGARDS server to connect to the datasource you wish to share',
   'connection.form.label': 'Connection name',
@@ -20,7 +20,7 @@ const messages = Object.assign({
   'connection.form.isActive': 'Connection is active',
   'connection.form.action.save': 'Save',
   'connection.form.action.cancel': 'Cancel',
-  'connection.list.title': 'Connections list',
+  'connection.list.title': 'External connections',
   'connection.list.subtitle': 'Connections allow the REGARDS server to connect to the datasource you wish to share',
   'connection.list.table.label': 'Connection name',
   'connection.list.table.isActive': 'Connection status',
@@ -28,7 +28,7 @@ const messages = Object.assign({
   'connection.list.isActive.true': 'Activated',
   'connection.list.table.test': 'Test connection',
   'connection.list.table.actions': 'Actions',
-  'connection.list.action.add': 'Create a new connection',
+  'connection.list.action.add': 'Add',
   'connection.list.action.cancel': 'Previous',
   'connection.list.action.edit': 'Edit',
   'connection.list.action.delete': 'Delete',

@@ -6,7 +6,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'datasource.list.action.add': 'Add',
   'datasource.list.action.cancel': 'Cancel',
-  'datasource.list.title': 'Datasource list',
+  'datasource.list.title': 'Datasources',
   'datasource.list.subtitle': 'Datasources provides data for dataset',
   'datasource.list.table.label': 'Name',
   'datasource.list.table.actions': 'Actions',
