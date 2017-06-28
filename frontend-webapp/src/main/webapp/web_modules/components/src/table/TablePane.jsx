@@ -8,8 +8,7 @@ import Measure from 'react-measure'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
 import ColumnsAction from 'material-ui/svg-icons/action/settings'
-import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
-import { LoadableContentDisplayDecorator, LoadingComponent } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import ShowableAtRender from '../cards/ShowableAtRender'
@@ -20,7 +19,6 @@ import ColumnsVisibilitySelector from './content/columns/ColumnsVisibilitySelect
 import ColumnConfiguration from './content/columns/model/ColumnConfiguration'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableSelectionModes from './model/TableSelectionModes'
-import NoContentComponent from '../content/NoContentComponent'
 
 const allWidthStyles = { width: '100%' }
 
@@ -48,7 +46,8 @@ class TablePane extends React.Component {
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     onToggleRowSelection: PropTypes.func.isRequired,
     onToggleSelectAll: PropTypes.func.isRequired,
-
+    // Customize
+    emptyComponent: PropTypes.element,
     // this configuration properties (see above)
     ...TablePaneConfigurationModel,
   }
@@ -204,9 +203,8 @@ class TablePane extends React.Component {
 
   render() {
     const { entitiesFetching, error, resultsCount, tableData, toggledElements, selectionMode,
-      allSelected, onToggleRowSelection, onToggleSelectAll } = this.props
+      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent } = this.props
     const { visibleColumns, tableWidth } = this.state
-    const emptyComponent = <NoContentComponent title={'No results found'} message={'Your research returned no results. Please change your search criterion'} Icon={Disatisfied} />
     const isRequestEntityTooLarge = error.status === 413
 
     return (

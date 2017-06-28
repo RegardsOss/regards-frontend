@@ -48,7 +48,7 @@ class ResourceIconAction extends React.Component {
       <HateoasDisplayDecorator
         requiredEndpoints={dependencies}
       >
-        <IconButton {...others} />
+        {<IconButton {...others} />}
       </HateoasDisplayDecorator>
     )
   }

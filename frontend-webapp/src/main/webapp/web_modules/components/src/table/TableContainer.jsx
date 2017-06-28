@@ -109,6 +109,8 @@ class TableContainer extends React.Component {
     toggleRowSelection: PropTypes.func.isRequired,
     dispatchSelectAll: PropTypes.func.isRequired,
     dispatchUnselectAll: PropTypes.func.isRequired,
+    // Customize
+    emptyComponent: PropTypes.element,
   }
 
   static defaultProps = {
@@ -299,7 +301,7 @@ class TableContainer extends React.Component {
   render() {
     const {
       entitiesFetching, error, pageSize, pageMetadata, tablePaneConfiguration,
-      toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
+      toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration }, emptyComponent,
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
     const moduleStyles = { styles }
@@ -326,6 +328,7 @@ class TableContainer extends React.Component {
             selectionMode={selectionMode}
             onToggleRowSelection={this.onToggleRowSelection}
             onToggleSelectAll={this.onToggleSelectAll}
+            emptyComponent={emptyComponent}
             {...tablePaneConfiguration}
           />
         </ModuleThemeProvider>

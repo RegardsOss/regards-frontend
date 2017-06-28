@@ -112,7 +112,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
   }
 
   render() {
-    const { accessGroup, accessRights, pluginConfigurationList, pluginMetaDataList } = this.props
+    const { params, accessGroup, accessRights, pluginConfigurationList, pluginMetaDataList } = this.props
     const { loading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-accessright-dataaccess-management/src/i18n">
@@ -122,6 +122,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
         >
           {() => (
             <AccessRightListContainer
+              params={params}
               accessGroup={accessGroup}
               accessRights={accessRights}
               pluginConfigurationList={pluginConfigurationList}
@@ -147,14 +148,14 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, {
-    pluginId: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
-  })),
+      pluginId: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
+    })),
   fetchAccessGroup: accessGroupName => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
   fetchPluginMetaDataList: microserviceName => dispatch(pluginMetadataActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, {
-    pluginType: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
-  })),
+      pluginType: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
+    })),
   fetchAccessRights: accessgroupName => dispatch(accessRightActions.fetchPagedEntityList(0, 10000, {}, { accessgroup: accessgroupName })),
   updateAccessRight: (id, entity) => dispatch(accessRightActions.updateEntity(id, entity)),
   createAccessRight: entity => dispatch(accessRightActions.createEntity(entity)),

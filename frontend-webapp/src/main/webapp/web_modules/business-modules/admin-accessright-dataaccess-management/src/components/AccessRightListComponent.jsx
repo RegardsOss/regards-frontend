@@ -3,6 +3,9 @@
  **/
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import FlatButton from 'material-ui/FlatButton'
 import values from 'lodash/values'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import {
@@ -10,6 +13,7 @@ import {
   MainActionButtonComponent,
   ConfirmDialogComponent,
   ShowableAtRender,
+  NoContentComponent,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -42,6 +46,8 @@ class AccessRightListComponent extends React.Component {
     submitAccessRights: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     selectedDatasets: PropTypes.objectOf(PropTypes.object).isRequired,
+    // Callback to navigate to dataset creation
+    navigateToCreateDataset: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -195,6 +201,8 @@ class AccessRightListComponent extends React.Component {
   }
 
   render() {
+    const { intl } = this.context
+    const { accessRights, accessGroup, navigateToCreateDataset, selectedDatasets } = this.props
     const tableConfiguration = {
       displayColumnsHeader: true,
       lineHeight: 47,
@@ -225,7 +233,7 @@ class AccessRightListComponent extends React.Component {
     const columns = [
       {
         // Label of the column
-        label: this.context.intl.formatMessage({ id: 'accessright.table.dataset.label' }),
+        label: intl.formatMessage({ id: 'accessright.table.dataset.label' }),
         // Entity attributes to display as cell in the column
         attributes: ['label'],
         // True to hide the column label in the header line of the table
@@ -234,54 +242,69 @@ class AccessRightListComponent extends React.Component {
         sortable: false,
       },
       {
-        label: this.context.intl.formatMessage({ id: 'accessright.form.meta.accessLevel' }),
+        label: intl.formatMessage({ id: 'accessright.form.meta.accessLevel' }),
         attributes: ['label', 'id'],
         customCell: {
           component: AccessRightsMetadataAccessTableCustomCell,
           props: {
-            intl: this.context.intl,
-            accessRights: this.props.accessRights,
+            intl,
+            accessRights,
           },
         },
       },
       {
-        label: this.context.intl.formatMessage({ id: 'accessright.form.data.accessLevel' }),
+        label: intl.formatMessage({ id: 'accessright.form.data.accessLevel' }),
         attributes: ['label', 'id'],
         customCell: {
           component: AccessRightsDataAccessTableCustomCell,
           props: {
-            intl: this.context.intl,
-            accessRights: this.props.accessRights,
+            intl,
+            accessRights,
           },
         },
       },
       {
-        label: this.context.intl.formatMessage({ id: 'accessright.table.actions' }),
+        label: intl.formatMessage({ id: 'accessright.table.actions' }),
         attributes: ['label', 'id'],
         customCell: {
           component: AccessRightsActionsTableCustomCell,
           props: {
-            accessRights: this.props.accessRights,
+            accessRights,
             onDelete: this.openDeleteDialog,
             onEdit: this.openEditDialog,
-            intl: this.context.intl,
+            intl,
           },
         },
       },
     ]
 
+    const emptyContentAction = (
+      <FlatButton
+        label={intl.formatMessage({ id: 'accessright.no.dataset.subtitle' })}
+        onTouchTap={navigateToCreateDataset}
+        primary
+      />
+    )
+    const emptyComponent = (
+      <NoContentComponent
+        title={intl.formatMessage({ id: 'accessright.no.dataset.title' })}
+        Icon={AddToPhotos}
+        action={emptyContentAction}
+      />
+    )
+
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'accessright.title' }, { name: this.props.accessGroup.content.name })}
-          subtitle={this.context.intl.formatMessage({ id: 'accessright.subtitle' }, { name: this.props.accessGroup.content.name })}
+          title={intl.formatMessage({ id: 'accessright.title' }, { name: accessGroup.content.name })}
+          subtitle={intl.formatMessage({ id: 'accessright.subtitle' }, { name: accessGroup.content.name })}
         />
         <CardText>
           {this.renderAccessRightFormDialog()}
           {this.renderDeleteConfirmDialog()}
           <MainActionButtonComponent
-            disabled={values(this.props.selectedDatasets).length === 0}
-            label={this.context.intl.formatMessage({ id: 'accessright.edit.multiples.button.label' })}
+            disabled={values(selectedDatasets).length === 0}
+            label={intl.formatMessage({ id: 'accessright.edit.multiples.button.label' })}
             onTouchTap={() => this.openEditDialog()}
           />
           <TableContainer
@@ -294,6 +317,7 @@ class AccessRightListComponent extends React.Component {
             tablePaneConfiguration={tablePaneConfiguration}
             pageSize={10}
             columns={columns}
+            emptyComponent={emptyComponent}
           />
         </CardText>
       </Card>

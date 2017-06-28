@@ -41,6 +41,8 @@ const messages = Object.assign({
   'component.plugin-parameter.action.choose-plugin': 'Select a plugin',
   'component.plugin-parameter.action.reset': 'Deselect a plugin',
   'accessright.edit.multiples.button.label': 'Configure access rights for selected datasets',
+  'accessright.no.dataset.title': 'No datasets',
+  'accessright.no.dataset.subtitle': 'Create your first dataset',
 }, Locales.en)
 
 export default messages
