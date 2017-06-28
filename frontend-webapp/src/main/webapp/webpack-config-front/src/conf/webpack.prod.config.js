@@ -26,6 +26,7 @@ module.exports = function (projectContextPath) {
     },
     devtool: 'cheap-module-source-map',
     plugins: [
+      // Add a DLL for npm dependencies
       new webpack.DllReferencePlugin({
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
@@ -33,32 +34,13 @@ module.exports = function (projectContextPath) {
         manifest: require(`${projectContextPath}/dist/prod/core-manifest.json`),
         context: projectContextPath,
       }),
-      // A plugin for a more aggressive chunk merging strategy. Even similar chunks are merged if the total size is reduced enough.
-      new webpack.optimize.AggressiveMergingPlugin(),
-      new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 10000 }),
-      // Minimize all JavaScript output of chunks
-      /*
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          screw_ie8: true, // React doesn't support IE8
-          warnings: false,
-        },
-        mangle: {
-          screw_ie8: true,
-        },
-        output: {
-          comments: false,
-          screw_ie8: true,
-        },
-        // Do not generate source map files (this is usefull during developpment)
-        sourceMap: false,
-      }),*/
-      new webpack.BannerPlugin('Copyright CNES'),
-      // Define environment variables
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('production'),
-        },
+      // Use our DLL (containing all our cross-usable modules)
+      new webpack.DllReferencePlugin({
+        // The path to the manifest file which maps between
+        // modules included in a bundle and the internal IDs
+        // within that bundle
+        manifest: require(`${projectContextPath}/dist/prod/coreoss-manifest.json`),
+        context: projectContextPath,
       }),
     ],
   })

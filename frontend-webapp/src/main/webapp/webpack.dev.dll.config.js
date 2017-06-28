@@ -1,6 +1,5 @@
 
 const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
 
@@ -9,11 +8,14 @@ const conf = webpackConfigurator
     mode: 'dll',
     projectContextPath: __dirname
   })
+  .cleanFolder({
+    projectContextPath: __dirname,
+    pathToDelete: 'dist/dev'
+  })
   .merge({
     output: {
       path: `${__dirname}/dist/dev/`
     },
-    devtool: 'source-map',
     entry: {
       core: [
         'chart.js',
@@ -64,13 +66,6 @@ const conf = webpackConfigurator
         // output.library option above
         name: '[name]',
       }),
-
-      // Remove the build folder before building
-      new CleanWebpackPlugin(['dist/dev'], {
-        root: __dirname,
-        verbose: false,
-        dry: false,
-      })
     ],
   })
   .get()

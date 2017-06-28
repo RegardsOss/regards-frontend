@@ -1,5 +1,4 @@
 const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
 
@@ -8,11 +7,15 @@ const conf = webpackConfigurator
     mode: 'dll',
     projectContextPath: __dirname
   })
+  .cleanFolder({
+    projectContextPath: __dirname,
+    pathToDelete: 'dist/prod'
+  })
+  .addProductionPlugins()
   .merge({
     output: {
       path:  `${__dirname}/dist/prod/`
     },
-    devtool: 'source-map',
     entry: {
       core: [
         'flux-standard-action',
@@ -48,40 +51,6 @@ const conf = webpackConfigurator
         // output.library option above
         name: '[name]',
       }),
-
-      // Remove the build folder before building
-      new CleanWebpackPlugin(['dist/prod'], {
-        root: __dirname,
-        verbose: false,
-        dry: false,
-      }),
-
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('production')
-        }
-      }),
-
-      // A plugin for a more aggressive chunk merging strategy. Even similar chunks are merged if the total size is reduced enough.
-      new webpack.optimize.AggressiveMergingPlugin(),
-      new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 10000 }),
-      // Minimize all JavaScript output of chunks
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          screw_ie8: true, // React doesn't support IE8
-          warnings: false,
-        },
-        mangle: {
-          screw_ie8: true,
-        },
-        output: {
-          comments: false,
-          screw_ie8: true,
-        },
-        // Do not generate source map files (this is usefull during developpment)
-        sourceMap: false,
-      }),
-      new webpack.BannerPlugin('Copyright CNES')
     ],
   })
   .get()
