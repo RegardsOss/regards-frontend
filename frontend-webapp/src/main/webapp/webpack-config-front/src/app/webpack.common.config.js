@@ -24,6 +24,8 @@ module.exports = function (projectContextPath, mode = 'dev') {
       modules: [
         // Root directories from which requires are made
         path.join(projectContextPath),
+        // Add the current folder (for webpack loaders)
+        __dirname,
         'web_modules',
         'node_modules'
       ],
