@@ -18,6 +18,7 @@ const conf = webpackConfigurator
         'flux-standard-action',
         'immutable',
         'isomorphic-fetch',
+        'material-ui',
         'normalizr',
         'react',
         'react-dnd',
