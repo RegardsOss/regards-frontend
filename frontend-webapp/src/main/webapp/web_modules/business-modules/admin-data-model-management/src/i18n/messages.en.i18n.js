@@ -24,7 +24,7 @@ const messages = Object.assign({
   'model.edit.title': 'Edit the model {name}',
   'model.create.title': 'Create a new model',
   'model.duplicate.title': 'Duplicate the model {name}',
-  'model.form.name': 'Project name',
+  'model.form.name': 'Name',
   'model.form.description': 'Description',
   'model.form.type': 'Type',
   'model.form.file': 'Or send an XML file containing the model, fragments and its attributes',
