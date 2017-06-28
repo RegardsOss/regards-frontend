@@ -491,7 +491,7 @@ class SearchResultsComponent extends React.Component {
       showParameters,
     }
 
-    const emptyComponent = <NoContentComponent title={'No resultaaas found'} message={'Your research returned no results. Please change your search criterion'} Icon={Disatisfied} />
+    const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
 
     return (
       <TableContainer
