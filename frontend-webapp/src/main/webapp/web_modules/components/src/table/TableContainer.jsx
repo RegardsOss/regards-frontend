@@ -18,10 +18,8 @@ import TableSelectionModes from './model/TableSelectionModes'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableConfigurationModel from './content/model/TableConfigurationModel'
 import ColumnConfigurationModel from './content/columns/model/ColumnConfiguration'
-
 import TableActions from './model/TableActions' // class for prop type
 import { TableSelectors } from './model/TableSelectors' // class for prop type
-
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
 
