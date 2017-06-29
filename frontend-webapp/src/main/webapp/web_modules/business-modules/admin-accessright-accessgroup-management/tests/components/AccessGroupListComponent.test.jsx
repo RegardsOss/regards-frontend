@@ -6,7 +6,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import { ResourceIconAction } from '@regardsoss/display-control'
 import AccessGroupListComponent from '../../src/components/AccessGroupListComponent'
 
 const context = buildTestContext()
@@ -30,7 +29,6 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
       handleDuplicate: () => { },
       createUrl: '#',
       backUrl: '#',
-
     }
 
     // Check number of elements rendered in the list
@@ -40,7 +38,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
 
     // Check number of actions available
     const tableBodyRowsHateoasIcons = tableBodyRows.find('Connect(WithHateoasDisplayControl(IconButton))')
-    const tableBodyRowsResourceIcons = tableBodyRows.find(ResourceIconAction)
+    const tableBodyRowsResourceIcons = tableBodyRows.find('Connect(WithResourceDisplayControl(IconButton))')
     const nbHateoasIcons = 3
     const nbResourceIcons = 1
     assert.equal(tableBodyRowsHateoasIcons.length, nbHateoasIcons * keys(accessGroupList).length, `There should be ${nbHateoasIcons} hateoas icons for each tableRow.`)
