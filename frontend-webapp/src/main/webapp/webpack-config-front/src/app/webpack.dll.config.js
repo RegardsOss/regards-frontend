@@ -16,6 +16,8 @@ module.exports = {
     // The name of the global variable which the library's
     // require() function will be assigned to
     library: '[name]',
+    // Webpack main bundle file name
+    publicPath: '/',
   },
   module: {
     rules: [
