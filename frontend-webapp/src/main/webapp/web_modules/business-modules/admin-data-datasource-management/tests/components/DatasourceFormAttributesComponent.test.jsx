@@ -21,17 +21,17 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormAttributesCom
     const props = {
       currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
       currentConnection: DumpProvider.getFirstEntity('DataManagementClient', 'Connection'),
-      onSubmit: () => {},
+      onSubmit: () => { },
       backUrl: '#',
       modelList: DumpProvider.get('DataManagementClient', 'Model'),
       // from reduxForm
       submitting: false,
       invalid: false,
-      handleSubmit: () => {},
-      initialize: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
     }
 
     const enzymeWrapper = shallow(<DatasourceFormAttributesComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Field)).to.have.length(3)
+    expect(enzymeWrapper.find(Field)).to.have.length(4)
   })
 })
