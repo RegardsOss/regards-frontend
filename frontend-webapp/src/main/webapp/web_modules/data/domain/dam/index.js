@@ -14,6 +14,8 @@ import {
   ATTRIBUTE_MODEL_RESTRICTIONS_ENUM,
 } from './AttributeModelResctrictionEnum'
 
+import DATASOURCE_REFRESH_RATE from './DatasourceRefreshRate'
+
 export default {
   getAbstractEntityDescription,
   getFullQualifiedAttributeName,
@@ -30,4 +32,6 @@ export default {
   DEFAULT_FRAGMENT: FRAGMENT_NONE,
 
   AttributeModelController,
+
+  DATASOURCE_REFRESH_RATE,
 }
