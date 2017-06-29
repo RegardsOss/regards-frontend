@@ -22,7 +22,7 @@ class FetchGraphCollectionsActions extends FetchGraphEntitiesActions {
     if (!levelModelName) {
       throw new Error('Level model name must be provided for collections fetching!')
     }
-    return super.fetchAll(levelIndex, parentEntityId, levelModelName)
+    return super.fetchAll(levelIndex, parentEntityId ? [parentEntityId] : [], levelModelName)
   }
 
 }
