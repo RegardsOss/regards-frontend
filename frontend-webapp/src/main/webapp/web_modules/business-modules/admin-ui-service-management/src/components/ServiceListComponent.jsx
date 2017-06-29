@@ -7,7 +7,7 @@ import IconList from 'material-ui/svg-icons/action/list'
 import Back from 'material-ui/svg-icons/navigation/arrow-back'
 import map from 'lodash/map'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ResourceIconAction } from '@regardsoss/display-control'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
@@ -16,6 +16,7 @@ import moduleStyles from '../styles/styles'
 import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 
 const styles = moduleStyles().plugins
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Displays the list of PluginDefinition having the type service
@@ -50,7 +51,7 @@ class ServiceListComponent extends React.Component {
           />
           <CardActions>
             <ResourceIconAction
-              resourceDependency={uiPluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST)}
+              resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST)}
               tooltip={this.context.intl.formatMessage({ id: 'service.list.open.tooltip' })}
               onTouchTap={() => handleOpen(uiPluginDefinition.content.id)}
             >

@@ -14,13 +14,14 @@ import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, HateoasKeys, HateoasToggle, ResourceIconAction } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasKeys, HateoasToggle, withResourceDisplayControl } from '@regardsoss/display-control'
 import GenericPluginParameter from './parameter/GenericPluginParameter'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 import { mapPluginParameterTypeToPluginParameter } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * React component displaying a configurable microservice.
@@ -121,7 +122,7 @@ class PluginConfigurationComponent extends React.Component {
                 <ModeEdit />
               </HateoasIconAction>
               <ResourceIconAction
-                resourceDependency={PluginConfigurationActions.getMsDependency('POST', this.props.microserviceName)}
+                resourceDependencies={PluginConfigurationActions.getMsDependency('POST', this.props.microserviceName)}
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.copy' })}
                 onTouchTap={onCopyClick}
               >

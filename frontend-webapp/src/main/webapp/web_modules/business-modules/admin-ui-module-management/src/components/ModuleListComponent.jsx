@@ -14,11 +14,12 @@ import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, Showable
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withHateoasDisplayControl, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasToggle, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { moduleActions } from '../clients/ModuleClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * React component to display a given list of modules
@@ -137,7 +138,7 @@ class ModuleListComponent extends React.Component {
                       </HateoasIconAction>
                       <ResourceIconAction
                         title={intl.formatMessage({ id: 'modules.list.table.action.duplicate.tooltip' })}
-                        resourceDependency={moduleActions.getDependency(RequestVerbEnum.POST)}
+                        resourceDependencies={moduleActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => this.props.onDuplicate(module.content)}
                         breakpoint={945}
                       >

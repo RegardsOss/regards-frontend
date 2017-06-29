@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import isString from 'lodash/isString'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { ShowableAtRender } from '@regardsoss/components'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
@@ -12,8 +13,7 @@ import getDisplayName from '../getDisplayName'
  * Decorates a React component with Hateoas display logic.
  *
  * @type {function}
- * @param {ResourceList} resourceDependencies The array of depencies we require in order the component to display
- * @param {function} displayLogic Function taking two arrays of strings as parameters and returning True or False
+ * @param {React.Component} DecoratedComponent The component to enhance
  * @return {React.Component}
  * @author Xavier-Alexandre Brochard
  */
@@ -21,16 +21,23 @@ const withResourceDisplayControl = (DecoratedComponent) => {
   class WithResourceDisplayControl extends React.Component {
 
     static propTypes = {
+      // Function taking two arrays of strings as parameters and returning True or False
       displayLogic: PropTypes.func.isRequired,
-      resourceDependencies: PropTypes.arrayOf(PropTypes.string.isRequired),
+      // Either the dependency or the array of dependencies we require in order to display the decorated component
+      resourceDependencies: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string.isRequired),
+      ]),
       // From mapStateToProps
+      // The full list of dependencies
       availableDependencies: PropTypes.arrayOf(PropTypes.string.isRequired),
+      // Bypass the display logic if user is instance admin
       isInstance: PropTypes.bool,
     }
 
     static defaultProps = {
-      resourceDependencies: [],
       displayLogic: allMatchHateoasDisplayLogic,
+      resourceDependencies: [],
     }
 
     render() {
@@ -38,7 +45,8 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       // eslint-disable-next-line no-unused-vars, react/prop-types
       const { displayLogic, resourceDependencies, availableDependencies, isInstance, theme, i18n, dispatch, ...otherProps } = this.props
       const decoratedComponentElement = React.createElement(DecoratedComponent, otherProps)
-      const isDisplayed = displayLogic(resourceDependencies, availableDependencies)
+      const requiredDependencies = isString(resourceDependencies) ? [resourceDependencies] : resourceDependencies
+      const isDisplayed = displayLogic(requiredDependencies, availableDependencies)
 
       return (
         <ShowableAtRender show={isDisplayed || isInstance}>
