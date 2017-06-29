@@ -45,7 +45,7 @@ export class TagsContainer extends React.Component {
 
   onPropertiesChanges = (oldProps, newProps) => {
     const oldState = this.state
-    const newState = oldState || TagsContainer.DEFAULT_STATE
+    const newState = { ...TagsContainer.DEFAULT_STATE }
     if (!isEqual(oldProps.entity, newProps.entity)) {
       // update tags list
       if (newProps.entity) {

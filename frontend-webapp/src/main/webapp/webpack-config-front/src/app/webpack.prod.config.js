@@ -6,7 +6,7 @@ const path = require('path')
 
 module.exports = function (projectContextPath) {
 
-  let config = getCommonConfig(projectContextPath)
+  let config = getCommonConfig(projectContextPath, 'prod')
 
   config = merge(config, {
     output: {

@@ -6,7 +6,7 @@ const path = require('path')
 
 module.exports = function (projectContextPath) {
 
-  let config = getCommonConfig(projectContextPath)
+  let config = getCommonConfig(projectContextPath, 'test')
 
   config = merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.

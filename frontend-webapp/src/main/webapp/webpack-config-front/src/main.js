@@ -1,21 +1,30 @@
-const getWebpackCommonConf =require('./conf/webpack.common.config')
-const getWebpackCoverageConf =require('./conf/webpack.coverage.config')
-const getWebpackDevConf =require('./conf/webpack.dev.config')
-const getWebpackProdConf =require('./conf/webpack.prod.config')
-const getWebpackTestConf = require('./conf/webpack.test.config')
-const webpackDllConf =require('./conf/webpack.dll.config')
+const getWebpackCommonConf =require('./app/webpack.common.config')
+const getWebpackCoverageConf =require('./app/webpack.coverage.config')
+const getWebpackDevConf =require('./app/webpack.dev.config')
+const getWebpackProdConf =require('./app/webpack.prod.config')
+const getWebpackTestConf = require('./app/webpack.test.config')
+const webpackDllConf =require('./app/webpack.dll.config')
+
+
+const getWebpackTestPackageConf = require('./plugin/webpack.test.config')
+const getWebpackCommonPackageConf =require('./plugin/webpack.common.config')
+const getWebpackProdPackageConf = require('./plugin/webpack.prod.config')
+
 
 const merge = require('./utils/merge')
 const cleanFolder = require ('./utils/cleanFolder')
 const addProdPlugins = require ('./utils/addProdPlugins')
 
 const MODE = {
-  COMMON: 'common',
   COVERAGE: 'coverage',
   DEV: 'dev',
   DLL: 'dll',
   PROD: 'prod',
   TEST: 'test',
+  PKG_DEV: 'pkg_dev',
+  PKG_PROD: 'pkg_prod',
+  PKG_TEST: 'pkg_test',
+
 }
 
 const DEFAULT_UNKNOW_DIR = '/specify/your/working/directory/path'
@@ -28,13 +37,10 @@ class WebpackConfig {
     this.conf = {}
   }
 
-  generateConfig({mode = MODE.COMMON, projectContextPath = DEFAULT_UNKNOW_DIR}) {
+  generateConfig({mode = MODE.DEV, projectContextPath = DEFAULT_UNKNOW_DIR}) {
     console.info(slugMessage, "Generate config with mode=", mode)
     console.info(slugMessage, "Working directory=", projectContextPath)
     switch (mode) {
-      case MODE.COMMON:
-        this.conf =getWebpackCommonConf(projectContextPath)
-        break
       case MODE.COVERAGE:
         this.conf = getWebpackCoverageConf(projectContextPath)
         break
@@ -50,8 +56,17 @@ class WebpackConfig {
       case MODE.DLL:
         this.conf = webpackDllConf
         break
+      case MODE.PKG_TEST:
+        this.conf = getWebpackTestPackageConf(projectContextPath)
+        break
+      case MODE.PKG_DEV:
+        this.conf = getWebpackCommonPackageConf(projectContextPath, 'dev')
+        break
+      case MODE.PKG_PROD:
+        this.conf = getWebpackProdPackageConf(projectContextPath)
+        break
       default:
-        throw new Error("Unknown mode, allowed values are ${MODE}")
+        throw new Error(`Unknown mode, allowed values are ${JSON.stringify(MODE)}`)
     }
     return this
   }

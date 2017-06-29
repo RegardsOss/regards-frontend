@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = function (projectContextPath) {
+module.exports = function (projectContextPath, mode = 'dev') {
   return {
     // Hide stats information from children during webpack compilation
     stats: { children: false },
@@ -24,6 +24,8 @@ module.exports = function (projectContextPath) {
       modules: [
         // Root directories from which requires are made
         path.join(projectContextPath),
+        // Add the current folder (for webpack loaders)
+        __dirname,
         'web_modules',
         'node_modules'
       ],
@@ -70,7 +72,8 @@ module.exports = function (projectContextPath) {
       // Generate the index.html automatically
       new HtmlWebpackPlugin({
         template: 'index.ejs',
-        hash: true
+        hash: true,
+        isProduction: mode === 'prod'
       }),
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({
@@ -79,9 +82,6 @@ module.exports = function (projectContextPath) {
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
       new ExtractTextPlugin({ filename: 'css/styles.css', disable: false, allChunks: true }),
-      new webpack.DefinePlugin({
-        API_URL: JSON.stringify('api/v1'),
-      }),
       // Using http://webpack.github.io/analyse/#hints
       // And npm run build:stats
       // We can start to prefetch these files before they are imported

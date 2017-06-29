@@ -7,6 +7,7 @@ module.exports = function (oldConf) {
   return merge(oldConf, {
     plugins: [
       new webpack.DefinePlugin({
+        API_URL: JSON.stringify('api/v1'),
         'process.env': {
           NODE_ENV: JSON.stringify('production')
         }

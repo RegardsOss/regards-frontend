@@ -6,7 +6,9 @@
   "scripts": {
     "bootstrap": "./scripts/bootstrap.sh && npm prune",
     "build:dll": "webpack --progress --config webpack.dev.dll.config.js --display-error-details",
-    "build:production-dll": "webpack --progress --config webpack.prod.dll.config.js --display-error-details --optimize-minimize",
+    "build:production-dll": "npm run build:production-core-dll && npm run build:production-coreoss-dll",
+    "build:production-core-dll": "webpack --progress --config webpack.prod.core.dll.config.js --display-error-details",
+    "build:production-coreoss-dll": "webpack --progress --config webpack.prod.coreoss.dll.config.js --display-error-details",
     "build:production": "webpack --progress --config webpack.prod.config.js --display-error-details",
     "build:dev": "webpack --progress --config webpack.dev.config.js --display-error-details",
     "build:plugins": "./scripts/buildPlugins.sh",
@@ -144,8 +146,8 @@
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {
-    "@regardsoss/tests-helpers": "0.0.1",
     "@regardsoss/eslint-config-es6-rules": "0.0.1",
+    "@regardsoss/tests-helpers": "0.0.1",
     "@regardsoss/webpack-config-front": "0.0.1",
     "@storybook/addon-actions": "^3.1.5",
     "@storybook/addon-knobs": "^3.2.0-alpha.0",

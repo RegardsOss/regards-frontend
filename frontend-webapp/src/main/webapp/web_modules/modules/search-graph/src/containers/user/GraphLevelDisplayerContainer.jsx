@@ -4,6 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { CatalogEntity, CatalogEntityTypes } from '@regardsoss/model'
 import GraphLevelDisplayer from '../../components/user/GraphLevelDisplayer'
+import { SelectionPath } from '../../model/graph/SelectionShape'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import FetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import FetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'
@@ -32,23 +33,24 @@ export class GraphLevelDisplayerContainer extends React.Component {
       hasError: GraphLevelCollectionSelectors.hasError(state, partitionKey) || GraphLevelDatasetSelectors.hasError(state, partitionKey),
       collections: GraphLevelCollectionSelectors.getCollections(state, partitionKey),
       datasets: GraphLevelDatasetSelectors.getDatasets(state, partitionKey),
+      selectionPath: GraphContextSelectors.getSelectionPath(state),
     }
   }
 
   /**
-   * Returns a closure to dispatch fetch level data, dispatch actions while resolving the promise to follow partition data state
+   * Dispatch fetch level data (follows promise advancement)
    * @param levelIndex level index
    * @param dispatch dispatch method
-   * @param dataFetcher function like parentIpId => re
+   * @param fetchActionBuilder fetcj action builder like () => ()
    * @param partitionStorageActions BasicPartitionActions instance for current data type
-   * @return dispatch fetch level method like (parentIpId:string) => void
+   * @return the loading promise
    */
-  static dispatchFetchLevelData = (levelIndex, dispatch, partitionDataActions, dataFetcher) => (parentIpId) => {
+  static dispatchFetchLevelData = (levelIndex, dispatch, partitionDataActions, fetchActionBuilder) => {
     const partitionKey = getLevelPartitionKey(levelIndex)
     // 1 - notify level loading data
     dispatch(partitionDataActions.onDataLoadingStart(partitionKey))
     // 2 - dispatch fetch and resolve promise
-    return dispatch(dataFetcher(parentIpId))
+    return dispatch(fetchActionBuilder())
       .then((result) => {
         if (result.error) {
           // 3a - Notify error
@@ -62,11 +64,13 @@ export class GraphLevelDisplayerContainer extends React.Component {
 
   static mapDispatchToProps = (dispatch, { levelIndex, levelModelName }) => ({
     // fetch collections and dispatch level partitions update state
-    dispatchFetchLevelCollections: GraphLevelDisplayerContainer.dispatchFetchLevelData(levelIndex, dispatch, GraphLevelCollectionActions,
-      parentIpId => FetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentIpId, levelModelName)),
+    dispatchFetchLevelCollections: parentIpId =>
+      GraphLevelDisplayerContainer.dispatchFetchLevelData(levelIndex, dispatch, GraphLevelCollectionActions,
+        () => FetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentIpId, levelModelName)),
     // fetch datasets and dispatch level partitions update state
-    dispatchFetchLevelDatasets: GraphLevelDisplayerContainer.dispatchFetchLevelData(levelIndex, dispatch, GraphLevelDatasetActions,
-      parentIpId => FetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentIpId)),
+    dispatchFetchLevelDatasets: parentPath =>
+      GraphLevelDisplayerContainer.dispatchFetchLevelData(levelIndex, dispatch, GraphLevelDatasetActions,
+        () => FetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath)),
   })
 
   static propTypes = {
@@ -77,6 +81,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     levelModelName: PropTypes.string, // model name for this level, used only for dispatch, null allowed for last level
     // from map state to props
+    selectionPath: SelectionPath.isRequired,
     isShowable: PropTypes.bool.isRequired, // is showable in current selection state
     isLoading: PropTypes.bool.isRequired, // is loading
     hasError: PropTypes.bool.isRequired, // has fetch error
@@ -93,8 +98,8 @@ export class GraphLevelDisplayerContainer extends React.Component {
    * Lifecycle hook: fetch initial content data (at least for root level, as it has no parent collection)
    */
   componentDidMount = () => {
-    const { isShowable, parentIpId } = this.props
-    this.updateLevelElements(isShowable, parentIpId)
+    const { isShowable, parentIpId, selectionPath } = this.props
+    this.updateLevelElements(isShowable, parentIpId, selectionPath)
   }
 
 
@@ -102,10 +107,10 @@ export class GraphLevelDisplayerContainer extends React.Component {
    * Lifecycle hook: fetch when parent collection changes (if parent collection is defined)
    * @param {*} nextProps
    */
-  componentWillReceiveProps = ({ parentIpId: nextParentIpId, isShowable: nextIsShowable }) => {
+  componentWillReceiveProps = ({ parentIpId: nextParentIpId, isShowable, selectionPath }) => {
     const { parentIpId } = this.props
     if (parentIpId !== nextParentIpId) { // refetch on parent change, if showable
-      this.updateLevelElements(nextIsShowable, nextParentIpId)
+      this.updateLevelElements(isShowable, nextParentIpId, selectionPath)
     }
   }
 
@@ -114,7 +119,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
    * @param isShowable is level showable in current state
    * @param parentCollectionIpId: contextual parent collection ip id (null for root)
    */
-  updateLevelElements = (isShowable, parentIpId) => {
+  updateLevelElements = (isShowable, parentIpId, selectionPath) => {
     // update only when in a showable state
     if (isShowable) {
       const { isFirstLevel, isLastLevel, dispatchFetchLevelCollections, dispatchFetchLevelDatasets } = this.props
@@ -126,7 +131,14 @@ export class GraphLevelDisplayerContainer extends React.Component {
       }
       // 2 - Fetch datasets
       if (showDatasets) {
-        dispatchFetchLevelDatasets(parentIpId)
+        // rebuild parent path (level != 0, there is necessary a selection)
+        const parentIndex = selectionPath.findIndex(selectionElement => selectionElement.ipId === parentIpId)
+        console.error('---> I DO SUCK ', parentIndex, selectionPath)
+        if (parentIndex !== -1) {
+          const parentPath = selectionPath.slice(0, parentIndex + 1)
+          console.error('--> Ill be requiring the damned ', parentPath)
+          dispatchFetchLevelDatasets([parentIpId])
+        }
       }
     }
   }

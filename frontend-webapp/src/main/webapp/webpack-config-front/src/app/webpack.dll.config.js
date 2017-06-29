@@ -2,28 +2,6 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-  entry: {
-    coreoss: [
-      '@regardsoss/adapters',
-      '@regardsoss/api',
-      '@regardsoss/authentication-manager',
-      '@regardsoss/client',
-      '@regardsoss/components',
-      '@regardsoss/display-control',
-      '@regardsoss/endpoints-common',
-      '@regardsoss/form-utils',
-      '@regardsoss/global-system-error',
-      '@regardsoss/i18n',
-      '@regardsoss/model',
-      '@regardsoss/plugins',
-      '@regardsoss/redux',
-      '@regardsoss/store',
-      '@regardsoss/store-utils',
-      '@regardsoss/theme',
-      '@regardsoss/user',
-      '@regardsoss/vendors',
-    ],
-  },
   resolve: {
     // Automaticaly get extensions files from javascript code with import or require.
     // exemple require('main') look for main, main.js or main.jsx with our configuration
@@ -38,6 +16,8 @@ module.exports = {
     // The name of the global variable which the library's
     // require() function will be assigned to
     library: '[name]',
+    // Webpack main bundle file name
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -67,7 +47,10 @@ module.exports = {
   },
   plugins: [
     // Allow to define React as a global variable for JSX.
-    new webpack.ProvidePlugin({ React: 'react' }),
+    new webpack.ProvidePlugin({
+      React: 'react',
+      PropTypes: 'prop-types',
+    }),
     // Create a single css file for the whole application instead of setting css inline in the javascript
     new ExtractTextPlugin({ filename: 'css/styles.css', disable: false, allChunks: true }),
   ],

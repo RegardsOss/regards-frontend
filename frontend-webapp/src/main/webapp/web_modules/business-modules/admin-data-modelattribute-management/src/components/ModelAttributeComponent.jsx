@@ -33,6 +33,12 @@ class ModelAttributeComponent extends React.Component {
    */
   onPluginConfigurationChange= value => this.props.handleComputationUpdate(value)
 
+  showIfAttributeIsNotOptional = modelAttribute => {
+    if (!modelAttribute.content.attribute.optional) {
+      return " (*)"
+    }
+    return null
+  }
 
   displayTableHeader = () => {
     if (this.props.shouldDisplayHeader) {
@@ -61,7 +67,7 @@ class ModelAttributeComponent extends React.Component {
           preScanRows={false}
         >
           <TableRow>
-            <TableRowColumn>{modelAttribute.content.attribute.name} ({modelAttribute.content.attribute.type})</TableRowColumn>
+            <TableRowColumn>{modelAttribute.content.attribute.name}{this.showIfAttributeIsNotOptional(modelAttribute)} ({modelAttribute.content.attribute.type})</TableRowColumn>
             <TableRowColumn>
               <PluginConfigurationPickerComponent
                 onChange={this.onPluginConfigurationChange}
