@@ -9,10 +9,11 @@ import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
 import ColumnsAction from 'material-ui/svg-icons/action/settings'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
-import { LoadableContentDisplayDecorator, LoadingComponent } from '@regardsoss/display-control'
+import { LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import ShowableAtRender from '../cards/ShowableAtRender'
+import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import Table from './content/Table'
 import TablePaneHeader from './header/TablePaneHeader'
 import HeaderAdvancedOption from './header/HeaderAdvancedOption'
@@ -20,7 +21,6 @@ import ColumnsVisibilitySelector from './content/columns/ColumnsVisibilitySelect
 import ColumnConfiguration from './content/columns/model/ColumnConfiguration'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableSelectionModes from './model/TableSelectionModes'
-import NoContentComponent from '../content/NoContentComponent'
 
 const allWidthStyles = { width: '100%' }
 
@@ -34,14 +34,14 @@ class TablePane extends React.Component {
     // dynamic properis
     // is fetching entities?
     entitiesFetching: PropTypes.bool.isRequired,
-    error: PropTypes.object,
     // results count
     resultsCount: PropTypes.number.isRequired,
     // provided table data and configuration
     tableData: PropTypes.shape(Table.PropTypes).isRequired,
     // columns
     columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
-
+    // eslint-disable-next-line react/forbid-prop-types
+    error: PropTypes.object,
     // selection related
     allSelected: PropTypes.bool.isRequired,
     toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
@@ -144,7 +144,6 @@ class TablePane extends React.Component {
     if (this.props.entitiesFetching) {
       const styles = this.context.moduleTheme
       return (
-
         <div style={styles}>
           <LoadingComponent />
         </div>
@@ -223,8 +222,8 @@ class TablePane extends React.Component {
   render() {
     const { entitiesFetching, error, resultsCount, tableData, toggledElements, selectionMode,
       allSelected, onToggleRowSelection, onToggleSelectAll } = this.props
+    const { intl: { formatMessage } } = this.context
     const { visibleColumns, tableWidth } = this.state
-    const emptyComponent = <NoContentComponent title={'No results found'} message={'Your research returned no results. Please change your search criterion'} Icon={Disatisfied} />
     const isRequestEntityTooLarge = error.status === 413
 
     return (
@@ -232,11 +231,12 @@ class TablePane extends React.Component {
         <div style={allWidthStyles}>
           {this.renderHeaderBar()}
           {this.renderColumnsFilterPanel()}
-          <LoadableContentDisplayDecorator
-            isLoading={entitiesFetching}
-            isEmpty={!resultsCount}
-            emptyComponent={emptyComponent}
-            isRequestEntityTooLarge={isRequestEntityTooLarge}
+          {this.renderLoadingFilter()}
+          <NoContentMessageInfo
+            noContent={(!resultsCount || isRequestEntityTooLarge) && !entitiesFetching}
+            title={formatMessage({ id: isRequestEntityTooLarge ? 'table.message.request.too.large.title' : 'table.message.no.data.title' })}
+            message={formatMessage({ id: isRequestEntityTooLarge ? 'table.message.request.too.large.message' : 'table.message.no.data.message' })}
+            Icon={Disatisfied}
           >
             <Table
               columns={visibleColumns}
@@ -248,7 +248,7 @@ class TablePane extends React.Component {
               onToggleSelectAll={onToggleSelectAll}
               {...tableData}
             />
-          </LoadableContentDisplayDecorator>
+          </NoContentMessageInfo>
         </div >
       </Measure >
     )
