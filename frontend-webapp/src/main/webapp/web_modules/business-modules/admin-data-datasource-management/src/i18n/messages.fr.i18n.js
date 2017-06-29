@@ -24,7 +24,8 @@ const messages = Object.assign({
 
   'datasource.form.action.next': 'Suivant',
   'datasource.form.action.cancel': 'Annuler',
-  'datasource.form.model': 'Modèles de source de données',
+  'datasource.form.model': 'Modèle de données',
+  'datasource.form.refreshRate': 'Durée entre deux rafraîchissement (en seconde)',
   'datasource.form.connection': 'Connexion choisie',
   'datasource.form.label': 'Libellé',
   'datasource.form.pluginConfiguration': 'Type de plugin',

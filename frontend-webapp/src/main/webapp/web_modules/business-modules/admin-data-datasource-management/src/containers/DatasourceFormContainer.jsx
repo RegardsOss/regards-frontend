@@ -150,6 +150,7 @@ export class DatasourceFormContainer extends React.Component {
           label: values.label,
           pluginConfigurationConnectionId: this.props.params.connectionId,
           pluginClassName: values.pluginClassName,
+          refreshRate: values.refreshRate,
           mapping: {
             model: values.model,
           },
@@ -161,6 +162,7 @@ export class DatasourceFormContainer extends React.Component {
       })
     } else {
       currentDatasource.content.label = values.label
+      currentDatasource.content.refreshRate = values.refreshRate
       this.setState({
         currentDatasource,
         state: states.FORM_MAPPING_CONNECTION,
