@@ -220,7 +220,7 @@ export class SearchResultsContainer extends React.Component {
 
     //  initial sort attributes (used while the user hasn't set any sortedColumns)
     if (oldProperties.attributesConf !== newProperties.attributesConf) {
-      newState.intialSortAttributesPath =
+      newState.initialSortAttributesPath =
         (AttributeConfigurationController.getInitialSortAttributes(newProperties.attributesConf) || []).map(
           attribute => ({
             attributePath: attribute,
