@@ -5,9 +5,13 @@ import merge from 'lodash/merge'
 import get from 'lodash/get'
 import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
-import { HateoasDisplayDecorator } from '@regardsoss/display-control'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
 import ModuleThemeProvider from './ModuleThemeProvider'
+
+// Cheat, you should not do this but decorate components
+const Div = ({ children }) => <div>{children}</div>
+const WithResourceDisplayControl = withResourceDisplayControl(Div)
 
 /**
  * React Component to display a module.
@@ -121,38 +125,43 @@ class LazyModuleComponent extends React.Component {
       // Nevertheless, it possible for a module to override this property by setting messagesDir in his main.js exported props
       const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.type}/src/i18n`
 
-      let moduleElt = null
       const defaultModuleProps = {
         appName: this.props.appName,
         project: this.props.project,
       }
 
       // Display module with admin or normal container ?
+      let moduleElt = null
+      let moduleContainer = null
       let moduleDependencies = []
+      let moduleProps = {}
+
       if (this.props.admin && module.adminContainer) {
-        moduleElt = React.createElement(module.adminContainer, merge({}, defaultModuleProps,
-          {
-            moduleConf: this.props.module.conf,
-            description: this.props.module.description,
-          }, { adminForm: this.props.adminForm }))
+        moduleContainer = module.adminContainer
         moduleDependencies = get(module, 'dependencies.admin', [])
+        moduleProps = merge({}, defaultModuleProps, {
+          moduleConf: this.props.module.conf,
+          description: this.props.module.description,
+        }, { adminForm: this.props.adminForm })
       } else if (!this.props.admin && module.moduleContainer) {
+        moduleContainer = module.moduleContainer
         moduleDependencies = get(module, 'dependencies.user', [])
-        const moduleProps = merge({}, defaultModuleProps, {
+        moduleProps = merge({}, defaultModuleProps, {
           moduleConf: this.props.module.conf,
           description: this.props.module.description,
         })
-        moduleElt = React.createElement(module.moduleContainer, moduleProps)
       }
+
+      moduleElt = React.createElement(moduleContainer, moduleProps)
 
       return (
         <I18nProvider messageDir={moduleMessageDir}>
           <ModuleThemeProvider module={module}>
-            <HateoasDisplayDecorator
-              requiredEndpoints={moduleDependencies}
+            <WithResourceDisplayControl
+              resourceDependencies={moduleDependencies}
             >
               {moduleElt}
-            </HateoasDisplayDecorator>
+            </WithResourceDisplayControl>
           </ModuleThemeProvider>
         </I18nProvider>
       )

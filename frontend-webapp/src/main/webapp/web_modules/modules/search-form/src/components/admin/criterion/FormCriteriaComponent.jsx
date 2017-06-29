@@ -10,7 +10,6 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { PluginDefinition, PluginConf, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
-
 import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
 
 /**
