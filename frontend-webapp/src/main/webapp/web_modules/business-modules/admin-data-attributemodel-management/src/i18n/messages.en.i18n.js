@@ -45,6 +45,7 @@ const messages = Object.assign({
 
   'invalid.min_3_carac': 'At least 3 characters',
   'invalid.max_32_carac': 'Max 32 characters',
+  'invalid.max_20_carac': 'Max 20 characters',
   'invalid.only_1_restriction_on_the_same_time': 'You can\'t activate more than one restriction',
 }, Locales.en)
 messages[`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`] = 'No fragment'
