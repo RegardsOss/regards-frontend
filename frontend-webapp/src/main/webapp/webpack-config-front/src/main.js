@@ -37,7 +37,7 @@ class WebpackConfig {
     this.conf = {}
   }
 
-  generateConfig({mode = MODE.COMMON, projectContextPath = DEFAULT_UNKNOW_DIR}) {
+  generateConfig({mode = MODE.DEV, projectContextPath = DEFAULT_UNKNOW_DIR}) {
     console.info(slugMessage, "Generate config with mode=", mode)
     console.info(slugMessage, "Working directory=", projectContextPath)
     switch (mode) {
