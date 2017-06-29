@@ -62,6 +62,7 @@ module.exports = function (projectContextPath) {
         context: projectContextPath,
       }),
       new webpack.DefinePlugin({
+        API_URL: JSON.stringify('api/v1'),
         'process.env': {
           NODE_ENV: JSON.stringify('development'),
         },

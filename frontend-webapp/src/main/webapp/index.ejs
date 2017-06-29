@@ -100,6 +100,10 @@
             }
         }
     </style>
+<% if (htmlWebpackPlugin.options.isProduction) { %>
+<!-- TODO THIS IS A QUICKFIX, IT SHALL BE ADDED AUTOMATICALLY -->
+<link href="/css/styles.css?<%= webpack.hash %>" rel="stylesheet"></head>
+<% } %>
 </head>
 <body>
 <div id="app" class="mainapp">

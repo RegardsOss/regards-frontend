@@ -3,7 +3,7 @@ const webpack = require('webpack')
 
 const conf = webpackConfigurator
   .generateConfig({
-    mode: 'pkg_test',
+    mode: 'pkg_dev',
     projectContextPath: __dirname
   })
   .get()

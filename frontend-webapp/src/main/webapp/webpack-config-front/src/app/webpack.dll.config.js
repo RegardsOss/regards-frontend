@@ -2,28 +2,6 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-  entry: {
-    coreoss: [
-      '@regardsoss/adapters',
-      '@regardsoss/api',
-      '@regardsoss/authentication-manager',
-      '@regardsoss/client',
-      '@regardsoss/components',
-      '@regardsoss/display-control',
-      '@regardsoss/endpoints-common',
-      '@regardsoss/form-utils',
-      '@regardsoss/global-system-error',
-      '@regardsoss/i18n',
-      '@regardsoss/model',
-      '@regardsoss/plugins',
-      '@regardsoss/redux',
-      '@regardsoss/store',
-      '@regardsoss/store-utils',
-      '@regardsoss/theme',
-      '@regardsoss/user',
-      '@regardsoss/vendors',
-    ],
-  },
   resolve: {
     // Automaticaly get extensions files from javascript code with import or require.
     // exemple require('main') look for main, main.js or main.jsx with our configuration

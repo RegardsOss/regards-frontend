@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import isUndefined from 'lodash/isUndefined'
 import { I18nProvider } from '@regardsoss/i18n'
-import { PluginMetaData, PluginConfiguration } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginConfigurationFormComponent from '../../components/plugin/PluginConfigurationFormComponent'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
@@ -30,9 +30,9 @@ export class PluginConfigurationFormContainer extends React.Component {
       formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
     }),
     // from mapStateToProps
-    currentPluginMetaData: PluginMetaData,
+    currentPluginMetaData: CommonShapes.PluginMetaData,
     isPluginMetaDataFetching: PropTypes.bool,
-    currentPluginConfiguration: PluginConfiguration,
+    currentPluginConfiguration: CommonShapes.PluginConfiguration,
     isPluginConfigurationFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func,

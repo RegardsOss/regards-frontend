@@ -82,9 +82,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
       new ExtractTextPlugin({ filename: 'css/styles.css', disable: false, allChunks: true }),
-      new webpack.DefinePlugin({
-        API_URL: JSON.stringify('api/v1'),
-      }),
       // Using http://webpack.github.io/analyse/#hints
       // And npm run build:stats
       // We can start to prefetch these files before they are imported
