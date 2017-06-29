@@ -4,6 +4,7 @@
 import map from 'lodash/map'
 import sortBy from 'lodash/sortBy'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
@@ -13,9 +14,11 @@ import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, Showable
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { HateoasIconAction, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { moduleActions } from '../clients/ModuleClient'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React component to display a given list of modules

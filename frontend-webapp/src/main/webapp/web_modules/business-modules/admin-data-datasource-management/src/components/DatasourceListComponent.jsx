@@ -3,6 +3,7 @@
  **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -11,9 +12,11 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasourceActions } from '../clients/DatasourceClient'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React component to list datasources.

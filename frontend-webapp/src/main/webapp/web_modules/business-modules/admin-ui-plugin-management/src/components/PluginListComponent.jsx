@@ -3,17 +3,20 @@
  **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
-import { HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React component to display a given list of plugins

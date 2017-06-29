@@ -4,11 +4,12 @@
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import size from 'lodash/size'
-import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage, FormattedDate } from 'react-intl'
-import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Done from 'material-ui/svg-icons/action/done'
@@ -22,6 +23,8 @@ import {
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { addDependencies } from '../dependencies'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * User statuses constants, as returned by the server

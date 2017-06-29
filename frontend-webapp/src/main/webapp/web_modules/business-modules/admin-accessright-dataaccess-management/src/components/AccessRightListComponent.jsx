@@ -4,7 +4,6 @@
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
-import ContentAdd from 'material-ui/svg-icons/content/add'
 import FlatButton from 'material-ui/FlatButton'
 import values from 'lodash/values'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
@@ -15,6 +14,7 @@ import {
   ShowableAtRender,
   NoContentComponent,
 } from '@regardsoss/components'
+import { withHateoasDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { tableActions, tableSelectors } from '../clients/TableClient'
@@ -23,6 +23,8 @@ import AccessRightsMetadataAccessTableCustomCell from './AccessRightsMetadataAcc
 import AccessRightsDataAccessTableCustomCell from './AccessRightsDataAccessTableCustomCell'
 import AccessRightsActionsTableCustomCell from './AccessRightsActionsTableCustomCell'
 import AccessRightFormComponent from './AccessRightFormComponent'
+
+const HateoasFlatButton = withHateoasDisplayControl(FlatButton)
 
 /**
  * Component to configure AccessRights for each dataset for a given AccessGroup.
@@ -279,7 +281,9 @@ class AccessRightListComponent extends React.Component {
     ]
 
     const emptyContentAction = (
-      <FlatButton
+      <HateoasFlatButton
+        entityLinks={[{ rel: 'UPDATE' }, { rel: 'DELETE' }]}
+        hateoasKey={'UPDATE'}
         label={intl.formatMessage({ id: 'accessright.no.dataset.subtitle' })}
         onTouchTap={navigateToCreateDataset}
         primary

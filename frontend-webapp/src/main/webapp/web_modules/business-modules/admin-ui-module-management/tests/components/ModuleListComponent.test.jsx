@@ -4,10 +4,10 @@
 import { shallow } from 'enzyme'
 import { assert, expect } from 'chai'
 import keys from 'lodash/keys'
-import { TableBody, TableRow } from 'material-ui/Table'
 import { spy } from 'sinon'
+import { TableBody, TableRow } from 'material-ui/Table'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { HateoasIconAction, ResourceIconAction, HateoasToggle } from '@regardsoss/display-control'
+import { ResourceIconAction, HateoasToggle } from '@regardsoss/display-control'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
 
@@ -65,17 +65,17 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
   it('Should render correctly a list of availables modules', () => {
     const props = {
       modules: testModules,
-      onActivation: () => {},
-      onCreate: () => {},
-      onEdit: () => {},
-      onDelete: () => {},
-      onDuplicate: () => {},
+      onActivation: () => { },
+      onCreate: () => { },
+      onEdit: () => { },
+      onDelete: () => { },
+      onDuplicate: () => { },
       backUrl: '#',
     }
 
     const wrapper = shallow(
       <ModuleListComponent {...props} />
-    , options)
+      , options)
 
     expect(wrapper.find(TableBody).find(TableRow)).to.have.length(3)
   })
@@ -87,8 +87,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
 
     const props = {
       modules: testModules,
-      onActivation: () => {},
-      onCreate: () => {},
+      onActivation: () => { },
+      onCreate: () => { },
       onDuplicate: onDuplicateCallBack,
       onEdit: onEditCallback,
       onDelete: onDeleteCallback,
@@ -102,7 +102,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
 
     const numberOfHateoasIconByModule = 2
     const numberOfResourceIconByModule = 1
-    const buttons = wrapper.find(TableBody).find(TableRow).find(HateoasIconAction)
+    const buttons = wrapper.find(TableBody).find(TableRow).find('Connect(WithHateoasDisplayControl(IconButton))')
     assert.lengthOf(buttons, keys(testModules).length * numberOfHateoasIconByModule, `There should be ${keys(testModules).length * numberOfHateoasIconByModule} HateoasIconAction buttons available in the module form page`)
     const rbuttons = wrapper.find(TableBody).find(TableRow).find(ResourceIconAction)
     assert.lengthOf(rbuttons, keys(testModules).length * numberOfResourceIconByModule, `There should be ${keys(testModules).length * numberOfResourceIconByModule} ResourceIconAction buttons available in the module form page`)
