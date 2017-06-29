@@ -25,6 +25,7 @@ describe('[Search Graph] Testing UserModuleContainer', () => {
       project: 'any',
       moduleConf: {}, // Module configuration
       // from map state to props
+      selectionPath: [],
       selectedDataset: null,
       attributeModels: {},
       moduleCollapsed: false,

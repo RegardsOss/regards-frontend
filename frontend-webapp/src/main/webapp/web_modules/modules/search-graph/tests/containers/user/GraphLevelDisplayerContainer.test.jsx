@@ -24,6 +24,7 @@ describe('[Search Graph] Testing GraphLevelDisplayerContainer', () => {
       isFirstLevel: true,
       isLastLevel: false,
       levelModelName: 'any',
+      selectionPath: [],
       isShowable: true,
       isLoading: false,
       hasError: false,
