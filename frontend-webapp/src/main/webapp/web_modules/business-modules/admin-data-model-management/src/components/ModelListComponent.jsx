@@ -187,7 +187,7 @@ export class ProjectListComponent extends React.Component {
                       <ResourceIconAction
                         resourceDependency={modelActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => handleDuplicate(model.content.id)}
-                        breakpoint={1270}
+                        breakpoint={1320}
                         title={intl.formatMessage({ id: 'model.list.action.duplicate' })}
                       >
                         <ContentCopy hoverColor={style.hoverButtonDuplicate} />
@@ -197,7 +197,7 @@ export class ProjectListComponent extends React.Component {
                         entityLinks={model.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(model)}
-                        breakpoint={1270}
+                        breakpoint={1380}
                         title={intl.formatMessage({ id: 'model.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
