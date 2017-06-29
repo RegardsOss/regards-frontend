@@ -3,7 +3,6 @@
  **/
 import DisplayDecorator from './DisplayDecorator'
 import applyDisplayLogic from './applyDisplayLogic'
-import HateoasDisplayDecorator from './resources/HateoasDisplayDecorator'
 import withResourceDisplayControl from './resources/withResourceDisplayControl'
 import HateoasMenuAction from './hateoas/HateoasMenuAction'
 import HateoasToggle from './hateoas/HateoasToggle'
@@ -19,7 +18,6 @@ import LoadingComponent from './async/loading/LoadingComponent'
 export {
   DisplayDecorator,
   applyDisplayLogic,
-  HateoasDisplayDecorator,
   HateoasMenuAction,
   HateoasToggle,
   HateoasKeys,

@@ -16,8 +16,10 @@ import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
-import { HateoasDisplayDecorator } from '@regardsoss/display-control'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import Styles from '../styles/styles'
+
+const ListItemWithResourceDisplayControl = withResourceDisplayControl(ListItem)
 
 /**
  * Component to display all available modules for a given container
@@ -82,21 +84,17 @@ class ModuleListComponent extends React.Component {
         const that = this
         if (loadedModule.moduleContainer) {
           const element = (
-            <HateoasDisplayDecorator
+            <ListItemWithResourceDisplayControl
               key={key}
-              requiredEndpoints={moduleDependencies}
-            >
-              <ListItem
-                key={key}
-                leftIcon={<GoToIcon />}
-                primaryText={
-                  <div style={{ marginRight: 20 }}>
-                    {module.content.description}
-                  </div>
-                }
-                onTouchTap={() => that.onModuleSelection(module)}
-              />
-            </HateoasDisplayDecorator>
+              resourceDependencies={moduleDependencies}
+              leftIcon={<GoToIcon />}
+              primaryText={
+                <div style={{ marginRight: 20 }}>
+                  {module.content.description}
+                </div>
+              }
+              onTouchTap={() => that.onModuleSelection(module)}
+            />
           )
 
           const sections = Object.assign({}, that.state.sections)

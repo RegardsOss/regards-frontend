@@ -5,7 +5,7 @@ import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { HateoasDisplayDecorator, someListMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { withResourceDisplayControl, someListMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import {
   ConfirmDialogComponent,
   ShowableAtRender,
@@ -16,6 +16,8 @@ import styles from './styles/styles'
 import BaseBoardItemComponent from './BaseBoardItemComponent'
 import BoardItemAction from './BoardItemAction'
 
+const ListWithResourceDisplayControl = withResourceDisplayControl(Link)
+const BaseBoardItemComponentWithResourceDisplayControl = withResourceDisplayControl(BaseBoardItemComponent)
 
 /**
  * Adapter to facilitate the use of the {@link BaseBoardItemComponent} by passing an parameter object.
@@ -69,32 +71,29 @@ class BoardItemComponent extends React.Component {
     >
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponent.dialogTypes.CONFIRM}
-        onConfirm={this.state.actionToConfirm ? this.state.actionToConfirm.touchTapAction : () => {}}
+        onConfirm={this.state.actionToConfirm ? this.state.actionToConfirm.touchTapAction : () => { }}
         onClose={this.closeConfirmDialog}
         title={this.state.actionToConfirm ? this.state.actionToConfirm.confirmMessage : ''}
       />
     </ShowableAtRender>
-    )
+  )
 
   render() {
     const { item } = this.props
     const computedStyles = styles(this.context.muiTheme)
     const actions = map(item.actions, (action, index) => (
-      <HateoasDisplayDecorator
-        requiredEndpoints={action.hateoasDependencies}
+      <ListWithResourceDisplayControl
         key={index}
+        resourceDependencies={action.hateoasDependencies}
+        to={action.path}
+        style={computedStyles.links}
       >
-        <Link
-          to={action.path}
-          style={computedStyles.links}
-        >
-          <BoardItemAction
-            openConfirmDialog={this.openConfirmDialog}
-            action={action}
-          />
-        </Link>
-      </HateoasDisplayDecorator>
-      ))
+        <BoardItemAction
+          openConfirmDialog={this.openConfirmDialog}
+          action={action}
+        />
+      </ListWithResourceDisplayControl>
+    ))
 
     // Create list of all need endpoints for all board actions
     const actionsHateoasRequiredEnpoints = []
@@ -107,19 +106,16 @@ class BoardItemComponent extends React.Component {
     })
 
     return (
-      <HateoasDisplayDecorator
-        requiredEndpoints={actionsHateoasRequiredEnpoints}
-        hateoasDisplayLogic={someListMatchHateoasDisplayLogic}
-      >
-        <BaseBoardItemComponent
-          title={item.title}
-          subtitle={item.subtitle}
-          description={item.description}
-          actions={actions}
-          advanced={item.advanced}
-          renderConfirmDialog={this.renderConfirmDialog}
-        />
-      </HateoasDisplayDecorator>
+      <BaseBoardItemComponentWithResourceDisplayControl
+        displayLogic={someListMatchHateoasDisplayLogic}
+        resourceDependencies={actionsHateoasRequiredEnpoints}
+        title={item.title}
+        subtitle={item.subtitle}
+        description={item.description}
+        actions={actions}
+        advanced={item.advanced}
+        renderConfirmDialog={this.renderConfirmDialog}
+      />
     )
   }
 }

@@ -2,10 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
-import { themeContextType, ThemeActions } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { HateoasDisplayDecorator } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import IconButton from 'material-ui/IconButton'
 import ThemeCreateComponent from './ThemeCreateComponent'
 import moduleStyles from '../styles/styles'
@@ -41,20 +39,15 @@ class CreateButton extends React.Component {
     const { onCreate } = this.props
     const { open } = this.state
     const style = moduleStyles(this.context.muiTheme).theme
-    const requiredEndpoints = [ThemeActions.getDependency(RequestVerbEnum.POST)]
 
     return (
       <div>
-        <HateoasDisplayDecorator
-          requiredEndpoints={requiredEndpoints}
+        <IconButton
+          onTouchTap={this.onOpen}
+          tooltip={this.context.intl.formatMessage({ id: 'application.theme.create.tooltip' })}
         >
-          <IconButton
-            onTouchTap={this.onOpen}
-            tooltip={this.context.intl.formatMessage({ id: 'application.theme.create.tooltip' })}
-          >
-            <AddCircle color={style.toolbar.icon.color} />
-          </IconButton>
-        </HateoasDisplayDecorator>
+          <AddCircle color={style.toolbar.icon.color} />
+        </IconButton>
         <ThemeCreateComponent
           open={open}
           onRequestClose={this.onClose}

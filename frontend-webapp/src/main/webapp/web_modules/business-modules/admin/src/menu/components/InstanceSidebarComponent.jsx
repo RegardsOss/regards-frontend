@@ -3,12 +3,13 @@
  **/
 import Drawer from 'material-ui/Drawer'
 import Settings from 'material-ui/svg-icons/action/settings'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
 import Brush from 'material-ui/svg-icons/image/brush'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
+import { } from '@regardsoss/admin-user-management'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import getModuleStyles from '../../styles/styles'
-import HateoasSidebarElement from './HateoasSidebarElement'
+import SidebarElement from './SidebarElement'
 import WaitingAccountsNotificationContainer from '../containers/WaitingAccountsNotificationContainer'
 
 /**
@@ -43,16 +44,14 @@ class InstanceSidebarComponent extends React.Component {
         containerStyle={moduleStyles.adminApp.layout.sidebarContainer.styles}
         className={moduleStyles.adminApp.layout.sidebarContainer.classes.join(' ')}
       >
-        <HateoasSidebarElement
-          endpointKey="projects_url"
+        <SidebarElement
           key="0"
           to={'/admin/projects/list'}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.projects' })}
           leftIcon={<Settings />}
         />
-        <HateoasSidebarElement
-          endpointKey="projects_users_url"
+        <SidebarElement
           key="1"
           to={'/admin/account/list'}
           currentPath={this.props.currentPath}
@@ -60,8 +59,7 @@ class InstanceSidebarComponent extends React.Component {
           leftIcon={<SupervisorAccount />}
           rightIcon={<WaitingAccountsNotificationContainer />}
         />
-        <HateoasSidebarElement
-          endpointKey="projects_users_url"
+        <SidebarElement
           key="3"
           to={'/admin/ui/board'}
           currentPath={this.props.currentPath}
