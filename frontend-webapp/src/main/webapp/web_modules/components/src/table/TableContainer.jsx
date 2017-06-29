@@ -91,6 +91,7 @@ class TableContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    // eslint-disable-next-line react/forbid-prop-types
     error: PropTypes.object,
     // authentication data
     // eslint-disable-next-line react/no-unused-prop-types

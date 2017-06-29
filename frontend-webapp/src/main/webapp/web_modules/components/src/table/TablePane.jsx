@@ -34,6 +34,7 @@ class TablePane extends React.Component {
     // dynamic properis
     // is fetching entities?
     entitiesFetching: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     error: PropTypes.object,
     // results count
     resultsCount: PropTypes.number.isRequired,
@@ -222,10 +223,9 @@ class TablePane extends React.Component {
   }
 
   render() {
-    const { entitiesFetching, error, resultsCount, tableData, toggledElements, selectionMode,
-      allSelected, onToggleRowSelection, onToggleSelectAll } = this.props
+    const { error, resultsCount, tableData, toggledElements, selectionMode,
+      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent } = this.props
     const { visibleColumns, tableWidth } = this.state
-    const emptyComponent = <NoContentComponent title={'No results found'} message={'Your research returned no results. Please change your search criterion'} Icon={Disatisfied} />
     const isRequestEntityTooLarge = error.status === 413
 
     return (
@@ -233,8 +233,9 @@ class TablePane extends React.Component {
         <div style={allWidthStyles}>
           {this.renderHeaderBar()}
           {this.renderColumnsFilterPanel()}
+          {this.renderLoadingFilter()}
           <LoadableContentDisplayDecorator
-            isLoading={entitiesFetching}
+            isLoading={false} // Do not use loading feature of the decorator
             isEmpty={!resultsCount}
             emptyComponent={emptyComponent}
             isRequestEntityTooLarge={isRequestEntityTooLarge}
