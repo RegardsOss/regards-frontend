@@ -6,12 +6,14 @@ import filter from 'lodash/filter'
 import pickBy from 'lodash/pickBy'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import IconButton from 'material-ui/IconButton'
 import { Table, TableRow } from 'material-ui/Table'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { NoContentMessageInfo } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, HateoasIconAction } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, withHateoasDisplayControl } from '@regardsoss/display-control'
 import { ProjectUserListComponent, TABS, canAcceptUser, canDenyUser } from '../../src/components/ProjectUserListComponent'
 
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 const users = {
   1: {

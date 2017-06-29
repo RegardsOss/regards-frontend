@@ -18,7 +18,7 @@ import Snackbar from 'material-ui/Snackbar'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, withHateoasDisplayControl, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType, defaultCustomConfiguration, defaultTheme } from '@regardsoss/theme'
 import Back from 'material-ui/svg-icons/navigation/arrow-back'
@@ -27,6 +27,8 @@ import MaterialUiComponentsShowcase from './MaterialUiComponentsShowcase'
 import DeleteButton from './DeleteButton'
 import CreateButton from './CreateButton'
 import moduleStyles from '../styles/styles'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React component defining the user interface for customizing the themes of Regards.

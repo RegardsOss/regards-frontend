@@ -4,12 +4,13 @@
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import Delete from 'material-ui/svg-icons/action/delete'
-import { HateoasIconAction, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
+import { FormattedMessage } from 'react-intl'
+import { HateoasKeys, ResourceIconAction, withHateoasDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AccessGroup } from '@regardsoss/model'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
@@ -17,6 +18,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-dataaccess-management'
 import { accessGroupActions } from '../clients/AccessGroupClient'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React component to list accessgroups.

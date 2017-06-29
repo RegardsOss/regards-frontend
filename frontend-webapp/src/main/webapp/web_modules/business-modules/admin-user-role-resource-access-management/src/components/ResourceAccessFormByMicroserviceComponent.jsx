@@ -12,8 +12,10 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
 import Toggle from 'material-ui/Toggle'
-import { LoadingComponent, HateoasToggle, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { LoadingComponent, HateoasToggle, withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React container to edit resource access allowed for the
@@ -81,7 +83,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
             this.handleShowDialog(resource)
           }}
           rightIconButton={
-              this.getResourceToggle(resource)
+            this.getResourceToggle(resource)
           }
           secondaryText={
             <div

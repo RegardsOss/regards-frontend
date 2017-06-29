@@ -4,11 +4,13 @@
 import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
+import IconButton from 'material-ui/IconButton'
 import { TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
-import { HateoasIconAction, ResourceIconAction } from '@regardsoss/display-control'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
+import { ResourceIconAction, withHateoasDisplayControl } from '@regardsoss/display-control'
 import AccessGroupListComponent from '../../src/components/AccessGroupListComponent'
 
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const context = buildTestContext()
 
 describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent', () => {
@@ -24,10 +26,10 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
     const props = {
 
       accessGroupList,
-      handleEditAccessRights: () => {},
-      handleDelete: () => {},
-      handleEdit: () => {},
-      handleDuplicate: () => {},
+      handleEditAccessRights: () => { },
+      handleDelete: () => { },
+      handleEdit: () => { },
+      handleDuplicate: () => { },
       createUrl: '#',
       backUrl: '#',
 
@@ -39,6 +41,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
     assert.equal(tableBodyRows.length, 2, 'There should be 2 Table rows for AccessGroupListComponent. One row for each AccessGroup.')
 
     // Check number of actions available
+    console.log(tableBodyRows)
     const tableBodyRowsHateoasIcons = tableBodyRows.find(HateoasIconAction)
     const tableBodyRowsResourceIcons = tableBodyRows.find(ResourceIconAction)
     const nbHateoasIcons = 3

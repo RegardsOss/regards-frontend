@@ -1,9 +1,12 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { spy } from 'sinon'
+import IconButton from 'material-ui/IconButton'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { HateoasIconAction } from '@regardsoss/display-control'
+import { withHateoasDisplayControl } from '@regardsoss/display-control'
 import DeleteButton from '../../src/components/DeleteButton'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 const options = {
   context: buildTestContext(),

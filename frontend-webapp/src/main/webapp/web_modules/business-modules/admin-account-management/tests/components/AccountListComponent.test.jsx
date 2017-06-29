@@ -4,10 +4,13 @@ import pickBy from 'lodash/pickBy'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Table, TableRow } from 'material-ui/Table'
+import IconButton from 'material-ui/IconButton'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { NoContentMessageInfo } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, HateoasIconAction } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, withHateoasDisplayControl } from '@regardsoss/display-control'
 import { AccountListComponent, TABS } from '../../src/components/AccountListComponent'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 const allAccounts = {
   1: {

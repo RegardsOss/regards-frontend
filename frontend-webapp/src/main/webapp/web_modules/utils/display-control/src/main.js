@@ -8,6 +8,7 @@ import ResourceIconAction from './resources/ResourceIconAction'
 import HateoasIconAction from './hateoas/HateoasIconAction'
 import HateoasMenuAction from './hateoas/HateoasMenuAction'
 import HateoasToggle from './hateoas/HateoasToggle'
+import withHateoasDisplayControl from './hateoas/withHateoasDisplayControl'
 import HateoasKeys from './model/HateoasKeys'
 import HateoasLinks from './model/HateoasLinks'
 import applyHateoasDisplayLogic from './resources/applyHateoasDisplayLogic'
@@ -33,4 +34,5 @@ export {
   someListMatchHateoasDisplayLogic,
   LoadableContentDisplayDecorator,
   LoadingComponent,
+  withHateoasDisplayControl,
 }
