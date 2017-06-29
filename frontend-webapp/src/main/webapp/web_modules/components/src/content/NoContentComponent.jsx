@@ -15,6 +15,8 @@ class NoContentComponent extends React.Component {
     message: PropTypes.node,
     // pointer of the constructor of the icon
     Icon: PropTypes.func,
+    // Generally a button. Will be displayed under the message
+    action: PropTypes.element,
   }
 
   static defaultProps = {
@@ -51,10 +53,12 @@ class NoContentComponent extends React.Component {
       textAlign: 'center',
       fontSize: '1em',
     },
+    actionWrapper: {
+    },
   })
 
   render() {
-    const { title, message, Icon } = this.props
+    const { title, message, Icon, action } = this.props
     const theme = this.context.muiTheme
     const style = this.getStyle(theme)
     return (
@@ -66,6 +70,11 @@ class NoContentComponent extends React.Component {
         <div style={style.messageWrapper}>
           {message}
         </div>
+        {action ? (
+          <div style={style.actionWrapper}>
+            {action}
+          </div>
+        ) : null}
       </div>
     )
   }

@@ -13,9 +13,10 @@ import TableView from 'material-ui/svg-icons/action/view-module'
 import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibrary from 'material-ui/svg-icons/av/library-books'
 import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
+import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders } from '@regardsoss/components'
+import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders, NoContentComponent } from '@regardsoss/components'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { DamDomain } from '@regardsoss/domain'
 import {
@@ -442,7 +443,7 @@ class SearchResultsComponent extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
+    const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage } } = this.context
     const { showingDataobjects, viewMode, searchQuery, resultPageActions, displaySelectCheckboxes } = this.props
     const { tableColumns, listColumns } = this.state
 
@@ -490,6 +491,8 @@ class SearchResultsComponent extends React.Component {
       showParameters,
     }
 
+    const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
+
     return (
       <TableContainer
         key={`${showingDataobjects ? 'do' : 'ds'}-${viewMode}`}
@@ -502,6 +505,7 @@ class SearchResultsComponent extends React.Component {
         requestParams={requestParams}
         tableConfiguration={tableConfiguration}
         tablePaneConfiguration={tablePaneConfiguration}
+        emptyComponent={emptyComponent}
       />
     )
   }

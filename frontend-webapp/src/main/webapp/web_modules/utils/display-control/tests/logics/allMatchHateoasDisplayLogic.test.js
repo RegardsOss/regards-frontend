@@ -4,7 +4,7 @@
  */
 import { expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import allMatchHateoasDisplayLogic from '../../src/hateoas/allMatchHateoasDisplayLogic'
+import allMatchHateoasDisplayLogic from '../../src/logics/allMatchHateoasDisplayLogic'
 
 describe('[DISPLAY CONTROL UTILS] Testing allMatchHateoasDisplayLogic', () => {
   before(testSuiteHelpers.before)

@@ -9,11 +9,11 @@ import { ShowableAtRender } from '@regardsoss/components'
  * You can also pass mapStateToProps/mapDispatchToProps methods in order to connect the decorated component.
  *
  * @type {function}
- * @param {function} controller The controller in charge of supervising the display
+ * @param {function} displayLogic The function in charge of supervising the display
  * @return {React.Component}
  * @author Xavier-Alexandre Brochard
  */
-export default function applyDisplayLogic(controller) {
+export default function applyDisplayLogic(displayLogic) {
   return function (DecoratedComponent) {
     class DisplayDecorator extends React.Component {
 
@@ -26,7 +26,7 @@ export default function applyDisplayLogic(controller) {
         )
 
         return (
-          <ShowableAtRender show={controller(decoratedComponentElement)}>
+          <ShowableAtRender show={displayLogic(decoratedComponentElement)}>
             {decoratedComponentElement}
           </ShowableAtRender>
         )

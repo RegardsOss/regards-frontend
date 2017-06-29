@@ -4,17 +4,20 @@
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Delete from 'material-ui/svg-icons/action/delete'
+import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { HateoasIconAction, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { collectionActions } from '../clients/CollectionClient'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React component to list collections.
@@ -124,7 +127,7 @@ export class CollectionListComponent extends React.Component {
                       >
                         <Edit
                           hoverColor={style.hoverButtonEdit
-                        }
+                          }
                         />
                       </HateoasIconAction>
                       <ResourceIconAction

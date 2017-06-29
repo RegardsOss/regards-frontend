@@ -1,6 +1,7 @@
 import map from 'lodash/map'
 import find from 'lodash/find'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -12,10 +13,12 @@ import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, Showable
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { HateoasIconAction, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { modelActions } from '../clients/ModelClient'
 import { modelAttributesActions } from '../clients/ModelAttributesClient'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React components to list project.
@@ -187,7 +190,7 @@ export class ProjectListComponent extends React.Component {
                       <ResourceIconAction
                         resourceDependency={modelActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => handleDuplicate(model.content.id)}
-                        breakpoint={1270}
+                        breakpoint={1320}
                         title={intl.formatMessage({ id: 'model.list.action.duplicate' })}
                       >
                         <ContentCopy hoverColor={style.hoverButtonDuplicate} />
@@ -197,7 +200,7 @@ export class ProjectListComponent extends React.Component {
                         entityLinks={model.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(model)}
-                        breakpoint={1270}
+                        breakpoint={1380}
                         title={intl.formatMessage({ id: 'model.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

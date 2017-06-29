@@ -2,7 +2,6 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { spy } from 'sinon'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { HateoasIconAction } from '@regardsoss/display-control'
 import DeleteButton from '../../src/components/DeleteButton'
 
 const options = {
@@ -15,7 +14,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing delete button component', () => {
 
   it('should exists', () => {
     assert.isDefined(DeleteButton)
-    assert.isDefined(HateoasIconAction)
   })
 
   it('should render a ThemeCreateComponent', () => {
@@ -24,7 +22,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing delete button component', () => {
       entityHateoasLinks: [],
     }
     const enzymeWrapper = shallow(<DeleteButton {...props} />, options)
-    const subComponent = enzymeWrapper.find(HateoasIconAction)
+    const subComponent = enzymeWrapper.find('Connect(WithHateoasDisplayControl(IconButton))')
     expect(subComponent).to.have.length(1)
   })
 })

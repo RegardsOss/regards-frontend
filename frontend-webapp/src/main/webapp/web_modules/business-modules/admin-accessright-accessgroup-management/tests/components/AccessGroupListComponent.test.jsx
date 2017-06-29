@@ -4,9 +4,9 @@
 import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
-import { HateoasIconAction, ResourceIconAction } from '@regardsoss/display-control'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
+import { ResourceIconAction } from '@regardsoss/display-control'
 import AccessGroupListComponent from '../../src/components/AccessGroupListComponent'
 
 const context = buildTestContext()
@@ -24,10 +24,10 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
     const props = {
 
       accessGroupList,
-      handleEditAccessRights: () => {},
-      handleDelete: () => {},
-      handleEdit: () => {},
-      handleDuplicate: () => {},
+      handleEditAccessRights: () => { },
+      handleDelete: () => { },
+      handleEdit: () => { },
+      handleDuplicate: () => { },
       createUrl: '#',
       backUrl: '#',
 
@@ -39,12 +39,12 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
     assert.equal(tableBodyRows.length, 2, 'There should be 2 Table rows for AccessGroupListComponent. One row for each AccessGroup.')
 
     // Check number of actions available
-    const tableBodyRowsHateoasIcons = tableBodyRows.find(HateoasIconAction)
+    const tableBodyRowsHateoasIcons = tableBodyRows.find('Connect(WithHateoasDisplayControl(IconButton))')
     const tableBodyRowsResourceIcons = tableBodyRows.find(ResourceIconAction)
     const nbHateoasIcons = 3
     const nbResourceIcons = 1
     assert.equal(tableBodyRowsHateoasIcons.length, nbHateoasIcons * keys(accessGroupList).length, `There should be ${nbHateoasIcons} hateoas icons for each tableRow.`)
-    assert.equal(tableBodyRowsResourceIcons.length, nbResourceIcons * keys(accessGroupList).length, `There should be ${nbResourceIcons} hateoas icons for each tableRow.`)
+    assert.equal(tableBodyRowsResourceIcons.length, nbResourceIcons * keys(accessGroupList).length, `There should be ${nbResourceIcons} resource icons for each tableRow.`)
 
     // Check displayed values
     const firstRow = tableBodyRows.at(0)

@@ -1,3 +1,4 @@
+import { browserHistory } from 'react-router'
 import { AccessGroup, AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
 import { connect } from '@regardsoss/redux'
 import TableClient from '../clients/TableClient'
@@ -6,6 +7,10 @@ import AccessRightListComponent from '../components/AccessRightListComponent'
 class AccessRightListContainer extends React.Component {
 
   static propTypes = {
+    // from router
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
     // Access group to configure.
     accessGroup: AccessGroup.isRequired,
     // Access rights for the given access group
@@ -22,6 +27,12 @@ class AccessRightListContainer extends React.Component {
     selectedDatasets: PropTypes.objectOf(PropTypes.object).isRequired,
   }
 
+  navigateToCreateDataset = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/dataset/create/datasource`
+    browserHistory.push(url)
+  }
+
   render() {
     return (
       <AccessRightListComponent
@@ -32,6 +43,7 @@ class AccessRightListContainer extends React.Component {
         deleteAccessRight={this.props.deleteAccessRight}
         submitAccessRights={this.props.submitAccessRights}
         selectedDatasets={this.props.selectedDatasets}
+        navigateToCreateDataset={this.navigateToCreateDataset}
       />
     )
   }

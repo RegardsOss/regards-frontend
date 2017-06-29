@@ -6,6 +6,7 @@ import map from 'lodash/map'
 import size from 'lodash/size'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -18,7 +19,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   ActionsMenuCell, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender, HelpMessageComponent,
 } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, HateoasIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, HateoasKeys, withHateoasDisplayControl } from '@regardsoss/display-control'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 const status = {
   pending: 'PENDING',

@@ -47,7 +47,8 @@ const messages = Object.assign({
   'view.type.table.button.label': 'Afficher les résultats dans un tableau',
   'view.type.list.button.label': 'Afficher les résultats en liste',
   'show.description.tooltip': 'Détail de l\'entité',
-
+  'results.no.content.title': 'Pas de résultats',
+  'results.no.content.subtitle': 'Votre recherche n\'a donné aucun résultat. Essayez de modifier vos critères',
 }, Locales.fr)
 
 export default messages

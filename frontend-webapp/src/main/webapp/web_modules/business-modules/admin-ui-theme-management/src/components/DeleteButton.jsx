@@ -4,11 +4,14 @@
 import { FormattedMessage } from 'react-intl'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import IconButton from 'material-ui/IconButton'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { HateoasIconAction, HateoasKeys, HateoasLinks } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasKeys, HateoasLinks } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
+
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * Toolbar icon button for deleting  with a confirm dialog.

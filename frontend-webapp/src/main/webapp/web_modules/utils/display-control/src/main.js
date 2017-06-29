@@ -5,12 +5,12 @@ import DisplayDecorator from './DisplayDecorator'
 import applyDisplayLogic from './applyDisplayLogic'
 import HateoasDisplayDecorator from './resources/HateoasDisplayDecorator'
 import ResourceIconAction from './resources/ResourceIconAction'
-import HateoasIconAction from './hateoas/HateoasIconAction'
 import HateoasMenuAction from './hateoas/HateoasMenuAction'
 import HateoasToggle from './hateoas/HateoasToggle'
+import withHateoasDisplayControl from './hateoas/withHateoasDisplayControl'
 import HateoasKeys from './model/HateoasKeys'
 import HateoasLinks from './model/HateoasLinks'
-import applyHateoasDisplayLogic from './hateoas/applyHateoasDisplayLogic'
+import applyHateoasDisplayLogic from './resources/applyHateoasDisplayLogic'
 import allMatchHateoasDisplayLogic from './logics/allMatchHateoasDisplayLogic'
 import someMatchHateoasDisplayLogic from './logics/someMatchHateoasDisplayLogic'
 import someListMatchHateoasDisplayLogic from './logics/someListMatchHateoasDisplayLogic'
@@ -22,7 +22,6 @@ export {
   applyDisplayLogic,
   HateoasDisplayDecorator,
   ResourceIconAction,
-  HateoasIconAction,
   HateoasMenuAction,
   HateoasToggle,
   HateoasKeys,
@@ -33,4 +32,5 @@ export {
   someListMatchHateoasDisplayLogic,
   LoadableContentDisplayDecorator,
   LoadingComponent,
+  withHateoasDisplayControl,
 }

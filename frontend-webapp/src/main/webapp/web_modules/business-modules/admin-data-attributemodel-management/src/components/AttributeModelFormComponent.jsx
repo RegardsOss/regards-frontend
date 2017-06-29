@@ -320,6 +320,11 @@ function validate(values) {
       errors.name = 'invalid.max_32_carac'
     }
   }
+  if (values.label) {
+    if (values.label.length > 20) {
+      errors.label = 'invalid.max_20_carac'
+    }
+  }
   // flag the user if he active two filters on the same time
   if (values.restriction) {
     const restrictions = ['INTEGER_RANGE', 'DOUBLE_RANGE', 'LONG_RANGE', 'ENUMERATION', 'PATTERN']

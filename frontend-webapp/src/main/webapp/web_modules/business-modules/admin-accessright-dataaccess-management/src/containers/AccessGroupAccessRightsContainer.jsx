@@ -112,7 +112,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
   }
 
   render() {
-    const { accessGroup, accessRights, pluginConfigurationList, pluginMetaDataList } = this.props
+    const { params, accessGroup, accessRights, pluginConfigurationList, pluginMetaDataList } = this.props
     const { loading } = this.state
     return (
       <I18nProvider messageDir="business-modules/admin-accessright-dataaccess-management/src/i18n">
@@ -122,6 +122,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
         >
           {() => (
             <AccessRightListContainer
+              params={params}
               accessGroup={accessGroup}
               accessRights={accessRights}
               pluginConfigurationList={pluginConfigurationList}

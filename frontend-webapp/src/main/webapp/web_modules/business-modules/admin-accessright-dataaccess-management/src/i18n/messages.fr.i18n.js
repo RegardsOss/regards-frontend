@@ -41,6 +41,8 @@ const messages = Object.assign({
   'component.plugin-parameter.action.choose-plugin': 'Sélectionner un plugin',
   'component.plugin-parameter.action.reset': 'Désélectionner le plugin',
   'accessright.edit.multiples.button.label': 'Configurer l\'accès pour les jeux sélectionnés',
+  'accessright.no.dataset.title': 'Pas de jeux de données',
+  'accessright.no.dataset.subtitle': 'Créez votre premier jeu de données',
 }, Locales.fr)
 
 export default messages

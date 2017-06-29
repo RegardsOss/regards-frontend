@@ -13,6 +13,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
+import { DATASOURCE_REFRESH_RATE } from '@regardsoss/domain/dam'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
 
 /**
@@ -69,8 +70,13 @@ export class DatasourceFormAttributesComponent extends React.Component {
         label: currentDatasource.content.label,
         model: currentDatasource.content.mapping.model,
         pluginClassName: currentDatasource.content.pluginClassName,
+        refreshRate: currentDatasource.content.refreshRate,
       }
       this.props.initialize(initialValues)
+    } else {
+      this.props.initialize({
+        refreshRate: DATASOURCE_REFRESH_RATE,
+      })
     }
   }
 
@@ -95,6 +101,13 @@ export class DatasourceFormAttributesComponent extends React.Component {
               type="text"
               label={this.context.intl.formatMessage({ id: 'datasource.form.label' })}
             />
+            <Field
+              name="refreshRate"
+              fullWidth
+              component={RenderTextField}
+              type="number"
+              label={this.context.intl.formatMessage({ id: 'datasource.form.refreshRate' })}
+            />
             <SelectField
               floatingLabelText={this.context.intl.formatMessage({ id: 'datasource.form.connection' })}
               fullWidth
@@ -111,6 +124,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
               fullWidth
               component={RenderSelectField}
               label={this.context.intl.formatMessage({ id: 'datasource.form.model' })}
+              disabled={!this.state.isCreating}
             >
               {map(modelList, (model, id) => (
                 <MenuItem
@@ -125,6 +139,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
               fullWidth
               component={RenderSelectField}
               label={this.context.intl.formatMessage({ id: 'datasource.form.pluginConfiguration' })}
+              disabled={!this.state.isCreating}
             >
               {map(pluginMetaDataList, (pluginMetaData, id) => (
                 <MenuItem
