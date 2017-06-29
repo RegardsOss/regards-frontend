@@ -129,6 +129,7 @@ export class ConnectionFormComponent extends React.Component {
               fullWidth
               component={RenderSelectField}
               label={this.context.intl.formatMessage({ id: 'connection.form.pluginClassName' })}
+              disabled={this.props.isEditing}
             >
               {map(pluginMetaDataList, (pluginMetaData, id) => (
                 <MenuItem
