@@ -9,9 +9,9 @@ class AttributeModelComponent extends React.Component {
     attribute: DataManagementShapes.AttributeModel,
   }
 
-  showIfAttributeIsNotOptional = modelAttribute => {
+  showIfAttributeIsNotOptional = (modelAttribute) => {
     if (!modelAttribute.content.optional) {
-      return " (*)"
+      return ' (*)'
     }
     return null
   }

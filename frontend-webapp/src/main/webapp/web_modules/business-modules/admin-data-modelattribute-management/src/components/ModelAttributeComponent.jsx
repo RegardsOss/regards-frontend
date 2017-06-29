@@ -33,9 +33,9 @@ class ModelAttributeComponent extends React.Component {
    */
   onPluginConfigurationChange= value => this.props.handleComputationUpdate(value)
 
-  showIfAttributeIsNotOptional = modelAttribute => {
+  showIfAttributeIsNotOptional = (modelAttribute) => {
     if (!modelAttribute.content.attribute.optional) {
-      return " (*)"
+      return ' (*)'
     }
     return null
   }
