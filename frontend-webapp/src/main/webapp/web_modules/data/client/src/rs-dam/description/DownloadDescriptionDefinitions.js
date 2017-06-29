@@ -2,15 +2,14 @@
 * LICENSE_PLACEHOLDER
 **/
 
-import { ENTITY_TYPES } from '@regardsoss/domain/dam'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 
-const DATASET_TYPE_URL = 'dataset'
-const COLLECTION_TYPE_URL = 'collection'
+const DATASET_TYPE_URL = 'datasets'
+const COLLECTION_TYPE_URL = 'collections'
 const typeToURL = {
-  [ENTITY_TYPES.COLLECTION]: COLLECTION_TYPE_URL,
-  [ENTITY_TYPES.DATASET]: DATASET_TYPE_URL,
+  [ENTITY_TYPES_ENUM.COLLECTION]: COLLECTION_TYPE_URL,
+  [ENTITY_TYPES_ENUM.DATASET]: DATASET_TYPE_URL,
 }
-
 
 /**
    * Returns download URL, for both direct download or partial (ie: with path replacement). Each variable that is not provided is
@@ -19,7 +18,8 @@ const typeToURL = {
    * @param id: entity id (none for path variable)
    * @return download URL
    */
-const getDownloadURL = (entityType, id = '{id}') => `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/${typeToURL[entityType]}/${id}/file`
+const getDownloadURL = (entityType, id = '{id}') =>
+  `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/${typeToURL[entityType]}/${id}/file`
 
 /**
  * This module provides common variables to access file description downloads
