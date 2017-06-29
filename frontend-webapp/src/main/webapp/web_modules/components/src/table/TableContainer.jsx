@@ -91,7 +91,6 @@ class TableContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
-    // eslint-disable-next-line react/forbid-prop-types
     error: PropTypes.object,
     // authentication data
     // eslint-disable-next-line react/no-unused-prop-types
@@ -144,7 +143,7 @@ class TableContainer extends React.Component {
     const nextState = this.state ? { ...this.state } : { ...TableContainer.DEFAULT_STATE } // initialize to previous state or use default one
 
     // initialization or authentication update: fetch the first page
-    if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
+    if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||  // TODO nop! we should let parent handle URL params related
       !isEqual(nextProps.authentication, previousProps.authentication)) {
       // remove any previously fetched data
       nextState.entities = []
