@@ -4,13 +4,10 @@ import pickBy from 'lodash/pickBy'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Table, TableRow } from 'material-ui/Table'
-import IconButton from 'material-ui/IconButton'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { NoContentMessageInfo } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, withHateoasDisplayControl } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccountListComponent, TABS } from '../../src/components/AccountListComponent'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 const allAccounts = {
   1: {
@@ -104,7 +101,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     assert.equal(tables.length, 1, 'There should be the main table displayer, always!')
     tableRows = enzymeWrapper.find(TableRow)
     assert.equal(tableRows.length, 1 + size(waitingAccounts), 'There should be the header row plus one row for each waiting user')
-    assert.equal(countDisabled(HateoasIconAction, enzymeWrapper), 0, 'All line options should be available in waiting users tab while not processing anything')
+    assert.equal(countDisabled('Connect(WithHateoasDisplayControl(IconButton))', enzymeWrapper), 0, 'All line options should be available in waiting users tab while not processing anything')
   })
   it('should render self after loading, opening all users tab there is no waiting user', () => {
     // 1 - loading (render already tested in previous test)
@@ -121,7 +118,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.all, 'The component should display all users tab, as he was loaded without initial waiting users')
     const tableRows = enzymeWrapper.find(TableRow)
     assert.equal(tableRows.length, 1 + size(allAccounts), 'There should be the header row plus one row for each application user')
-    assert.equal(countDisabled(HateoasIconAction, enzymeWrapper), 2 * reject(allAccounts, account => account.content.status === 'PENDING').length, 'Accept and Refuse options should be disabled for accounts not in PENDING state')
+    assert.equal(countDisabled('Connect(WithHateoasDisplayControl(IconButton))', enzymeWrapper), 2 * reject(allAccounts, account => account.content.status === 'PENDING').length, 'Accept and Refuse options should be disabled for accounts not in PENDING state')
     // other elements: tested in previous tests
   })
   it('should show no content for each tab if there is no users for that tab', () => {
@@ -162,11 +159,11 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     // assertion all row actions (4 for each line) are disabled
     const actionsByRow = 4
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.waiting, 'The component should display waiting users tab, as he was loaded with initial waiting users')
-    assert.equal(countDisabled(HateoasIconAction, enzymeWrapper), size(waitingAccounts) * actionsByRow, 'The line actions should be disabled')
+    assert.equal(countDisabled('Connect(WithHateoasDisplayControl(IconButton))', enzymeWrapper), size(waitingAccounts) * actionsByRow, 'The line actions should be disabled')
 
     // 2.2 - change tab to show all users and check the same
     enzymeWrapper.setState({ selectedTab: TABS.all })
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.all, 'The component should display all users tab, as he was loaded without initial waiting users')
-    assert.equal(countDisabled(HateoasIconAction, enzymeWrapper), size(allAccounts) * actionsByRow, 'The line actions should be disabled')
+    assert.equal(countDisabled('Connect(WithHateoasDisplayControl(IconButton))', enzymeWrapper), size(allAccounts) * actionsByRow, 'The line actions should be disabled')
   })
 })

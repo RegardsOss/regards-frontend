@@ -5,14 +5,11 @@ import { shallow } from 'enzyme'
 import { assert, expect } from 'chai'
 import keys from 'lodash/keys'
 import { spy } from 'sinon'
-import IconButton from 'material-ui/IconButton'
 import { TableBody, TableRow } from 'material-ui/Table'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { withHateoasDisplayControl, ResourceIconAction, HateoasToggle } from '@regardsoss/display-control'
+import { ResourceIconAction, HateoasToggle } from '@regardsoss/display-control'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * Tests for ModuleListComponent
@@ -105,7 +102,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
 
     const numberOfHateoasIconByModule = 2
     const numberOfResourceIconByModule = 1
-    const buttons = wrapper.find(TableBody).find(TableRow).find(HateoasIconAction)
+    const buttons = wrapper.find(TableBody).find(TableRow).find('Connect(WithHateoasDisplayControl(IconButton))')
     assert.lengthOf(buttons, keys(testModules).length * numberOfHateoasIconByModule, `There should be ${keys(testModules).length * numberOfHateoasIconByModule} HateoasIconAction buttons available in the module form page`)
     const rbuttons = wrapper.find(TableBody).find(TableRow).find(ResourceIconAction)
     assert.lengthOf(rbuttons, keys(testModules).length * numberOfResourceIconByModule, `There should be ${keys(testModules).length * numberOfResourceIconByModule} ResourceIconAction buttons available in the module form page`)
