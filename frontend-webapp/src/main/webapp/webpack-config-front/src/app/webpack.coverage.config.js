@@ -62,4 +62,5 @@ module.exports = function (projectContextPath) {
       devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
     },
   })
+  return config
 }
