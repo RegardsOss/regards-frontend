@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import concat from 'lodash/concat'
+import isEqual from 'lodash/isEqual'
 import remove from 'lodash/remove'
 import values from 'lodash/values'
 import Measure from 'react-measure'
@@ -78,7 +79,7 @@ class TablePane extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.columns !== this.props.columns) {
+    if (!isEqual(nextProps.columns, this.props.columns)) {
       // re-init columns visibility
       this.setState({
         hiddenColumns: [],
