@@ -157,7 +157,7 @@ class SelectedLevelFormRender extends React.Component {
     // const { fields } = this.props
     const selectedLevels = this.getSelectedLevels()
     return (
-      <div className={graphLevelsRender.selectedLevelsTable.classes} style={graphLevelsRender.selectedLevelsTable.styles}>
+      <div style={graphLevelsRender.selectedLevelsTable.styles}>
         <Table
           fixedHeader={false}
           selectable={false}
@@ -205,7 +205,7 @@ class SelectedLevelFormRender extends React.Component {
     const anchorStyle = { horizontal: 'left', vertical: 'bottom' }
     const targetStyle = { horizontal: 'left', vertical: 'top' }
     return (
-      <div className={graphLevelsRender.addButton.classes} style={graphLevelsRender.addButton.styles} >
+      <div style={graphLevelsRender.addButton.styles} >
         <RaisedButton
           label={this.context.intl.formatMessage({ id: 'search.graph.add.level' })}
           labelPosition={graphLevelsRender.addButton.labelPosition}
@@ -244,7 +244,7 @@ class SelectedLevelFormRender extends React.Component {
     // const errorText = touched && error &&
     return (
       <ShowableAtRender show={!!error}>
-        <div className={graphLevelsRender.errorMessage.classes} style={graphLevelsRender.errorMessage.styles}>
+        <div style={graphLevelsRender.errorMessage.styles}>
           {error ? formatMessage({ id: error }) : null}
         </div>
       </ShowableAtRender>
@@ -255,15 +255,17 @@ class SelectedLevelFormRender extends React.Component {
     const { moduleTheme: { admin: { form: { graphLevelsRender } } } } = this.context
 
     return (
-      <div className={graphLevelsRender.classes} style={graphLevelsRender.styles} >
-        {
-          // render selection table
-          this.renderSelectedLevels()
-        }
-        {
-          // render selection button and menu
-          this.renderLevelSelector()
-        }
+      <div style={graphLevelsRender.styles} >
+        <div style={graphLevelsRender.tableContainer.styles}>
+          {
+            // render selection table
+            this.renderSelectedLevels()
+          }
+          {
+            // render selection button and menu
+            this.renderLevelSelector()
+          }
+        </div>
         {
           // render field error
           this.renderError()
