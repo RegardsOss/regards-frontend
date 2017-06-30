@@ -3,10 +3,9 @@ const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
 
-
 module.exports = function (projectContextPath) {
 
-  let config = getCommonConfig(projectContextPath, 'dev')
+  let config = getCommonConfig(projectContextPath)
 
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
