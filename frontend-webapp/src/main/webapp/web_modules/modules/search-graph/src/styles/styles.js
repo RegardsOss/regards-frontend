@@ -19,14 +19,22 @@ const menuStyles = (theme) => {
     admin: {
       form: {
         graphLevelsRender: {
-          classes: 'row',
           styles: {
             padding: '0 0 0 20px',
+            display: 'flex',
+            flexDirection: 'column',
+          },
+          tableContainer: {
+            styles: {
+              display: 'flex',
+              flexDirection: 'row',
+            },
           },
           selectedLevelsTable: {
-            classes: 'col-xs-65 col-lg-60',
             styles: {
               padding: '0 0 1em 0',
+              flexGrow: 1,
+              flexShrink: 1,
             },
             hintMessage: {
               styles: {
@@ -50,14 +58,12 @@ const menuStyles = (theme) => {
             },
           },
           addButton: {
-            classes: 'col-xs-35 col-lg-40',
             styles: {
               padding: '1em 0 0 1em',
             },
             labelPosition: 'before',
           },
           errorMessage: {
-            classes: 'col-xs-100',
             styles: {
               padding: '1em 0 0 0',
               color: theme.textField.errorColor,

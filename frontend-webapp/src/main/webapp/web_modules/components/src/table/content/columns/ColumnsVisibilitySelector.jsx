@@ -5,8 +5,8 @@ import map from 'lodash/map'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import Checkbox from 'material-ui/Checkbox'
+import { i18nContextType } from '@regardsoss/i18n'
 import ColumnConfiguration from './model/ColumnConfiguration'
-import { withI18n, i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Render a react component to display a panel to change visibility of table columns.
@@ -45,6 +45,7 @@ class ColumnsVisibilitySelector extends React.Component {
         open
         onRequestClose={this.props.closePanel}
         actions={actions}
+        autoScrollBodyContent
       >
         <div className="row">
           {map(this.props.columns, (column, idx) => (

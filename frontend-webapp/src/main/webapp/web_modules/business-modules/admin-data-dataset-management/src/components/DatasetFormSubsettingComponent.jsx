@@ -12,7 +12,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { List, ListItem } from 'material-ui/List'
-import { getFullQualifiedAttributeName } from '@regardsoss/domain/dam'
+import { DEFAULT_FRAGMENT } from '@regardsoss/domain/dam'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 import DatasetSubsettingTesterIconButton from './DatasetSubsettingTesterIconButton'
 
@@ -56,6 +56,13 @@ export class DatasetFormSubsettingComponent extends React.Component {
     return this.context.intl.formatMessage({ id: 'dataset.edit.title' }, { name: this.props.currentDataset.content.label })
   }
 
+  getPropertyAttributeName = (attribute) => {
+    if (attribute.fragment.name === DEFAULT_FRAGMENT) {
+      return `properties.${attribute.name}`
+    }
+    return `properties.${attribute.fragment.name}.${attribute.name}`
+  }
+
 
   render() {
     const styleButton = {
@@ -83,7 +90,7 @@ export class DatasetFormSubsettingComponent extends React.Component {
                 <Subheader><FormattedMessage id="dataset.form.subsetting.attributes" /></Subheader>
                 {map(modelAttributeList, (modelAttribute, id) => (
                   <ListItem
-                    primaryText={`properties.${getFullQualifiedAttributeName(modelAttribute.content.attribute)}`}
+                    primaryText={this.getPropertyAttributeName(modelAttribute.content.attribute)}
                     key={id}
                     disabled
                   />

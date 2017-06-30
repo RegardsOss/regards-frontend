@@ -168,6 +168,7 @@ export class AttributeModelFormContainer extends React.Component {
       type: values.type,
       alterable: values.alterable,
       optional: values.optional,
+      unit: values.unit,
       restriction,
     })
     // Delete the object if it does not exists
@@ -193,6 +194,7 @@ export class AttributeModelFormContainer extends React.Component {
       label: values.label,
       description: values.description,
       type: values.type,
+      unit: values.unit,
       alterable: values.alterable,
       optional: values.optional,
     }

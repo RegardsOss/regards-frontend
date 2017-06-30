@@ -18,6 +18,7 @@ const messages = {
   'search.graph.selected.levels.column.name': 'Name',
   'search.graph.selected.levels.column.description': 'Description',
   'search.graph.selected.levels.column.actions': 'Actions',
+  'search.graph.selected.levels.column.actions.remove.tooltip': 'Remove level',
   // 1.b - Graph dataset attributes
   'search.graph.configuration.attributes.title': 'Visible attributes',
   'search.graph.configuration.attributes.subtitle': 'Select below the attributes that will be displayed on datasets in graph',

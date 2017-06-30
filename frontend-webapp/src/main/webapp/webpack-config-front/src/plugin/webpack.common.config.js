@@ -5,7 +5,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-module.exports = function (projectContextPath, buildContext) {
+module.exports = function (projectContextPath) {
   return {
     // Hide stats information from children during webpack compilation
     stats: { children: false },
@@ -42,7 +42,10 @@ module.exports = function (projectContextPath, buildContext) {
         },
         {
           test: /\.css$/,
-          loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
+          loader: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader'
+          }),
         },
         {
           test: /\.jpg$/,
@@ -72,7 +75,14 @@ module.exports = function (projectContextPath, buildContext) {
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
         // within that bundle
-        manifest: require(`${projectContextPath}/../../../dist/${buildContext}/core-manifest.json`),
+        manifest: require(`${projectContextPath}/../../../dist/prod/core-manifest.json`),
+        context: projectContextPath,
+      }),
+      new webpack.DllReferencePlugin({
+        // The path to the manifest file which maps between
+        // modules included in a bundle and the internal IDs
+        // within that bundle
+        manifest: require(`${projectContextPath}/../../../dist/prod/coreoss-manifest.json`),
         context: projectContextPath,
       }),
       new webpack.DefinePlugin({

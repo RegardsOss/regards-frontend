@@ -129,24 +129,27 @@ class SelectedLevelFormRender extends React.Component {
    * @param level  : collection type for level { content: { name, description}}
    * @return rendered
    */
-  renderSelectedLevelRow = ({ content: { name, description } }, index) => (
-    <TableRow key={name}>
-      <TableRowColumn>
-        {index}
-      </TableRowColumn>
-      <TableRowColumn>
-        {name}
-      </TableRowColumn>
-      <TableRowColumn>
-        {description}
-      </TableRowColumn>
-      <TableRowColumn >
-        <IconButton onTouchTap={() => this.onLevelRemoved(index)}>
-          <RemoveLevel />
-        </IconButton>
-      </TableRowColumn>
-    </TableRow>
-  )
+  renderSelectedLevelRow = ({ content: { name, description } }, index) => {
+    const { intl: { formatMessage } } = this.props
+    return (
+      <TableRow key={name}>
+        <TableRowColumn title={index}>
+          {index}
+        </TableRowColumn>
+        <TableRowColumn title={name}>
+          {name}
+        </TableRowColumn>
+        <TableRowColumn title={description}>
+          {description}
+        </TableRowColumn>
+        <TableRowColumn >
+          <IconButton onTouchTap={() => this.onLevelRemoved(index)} title={formatMessage({ id: 'search.graph.selected.levels.column.actions.remove.tooltip' })}>
+            <RemoveLevel />
+          </IconButton>
+        </TableRowColumn>
+      </TableRow >
+    )
+  }
 
   /**
    * Renders the selected levels table
@@ -157,7 +160,7 @@ class SelectedLevelFormRender extends React.Component {
     // const { fields } = this.props
     const selectedLevels = this.getSelectedLevels()
     return (
-      <div className={graphLevelsRender.selectedLevelsTable.classes} style={graphLevelsRender.selectedLevelsTable.styles}>
+      <div style={graphLevelsRender.selectedLevelsTable.styles}>
         <Table
           fixedHeader={false}
           selectable={false}
@@ -205,7 +208,7 @@ class SelectedLevelFormRender extends React.Component {
     const anchorStyle = { horizontal: 'left', vertical: 'bottom' }
     const targetStyle = { horizontal: 'left', vertical: 'top' }
     return (
-      <div className={graphLevelsRender.addButton.classes} style={graphLevelsRender.addButton.styles} >
+      <div style={graphLevelsRender.addButton.styles} >
         <RaisedButton
           label={this.context.intl.formatMessage({ id: 'search.graph.add.level' })}
           labelPosition={graphLevelsRender.addButton.labelPosition}
@@ -244,7 +247,7 @@ class SelectedLevelFormRender extends React.Component {
     // const errorText = touched && error &&
     return (
       <ShowableAtRender show={!!error}>
-        <div className={graphLevelsRender.errorMessage.classes} style={graphLevelsRender.errorMessage.styles}>
+        <div style={graphLevelsRender.errorMessage.styles}>
           {error ? formatMessage({ id: error }) : null}
         </div>
       </ShowableAtRender>
@@ -255,15 +258,17 @@ class SelectedLevelFormRender extends React.Component {
     const { moduleTheme: { admin: { form: { graphLevelsRender } } } } = this.context
 
     return (
-      <div className={graphLevelsRender.classes} style={graphLevelsRender.styles} >
-        {
-          // render selection table
-          this.renderSelectedLevels()
-        }
-        {
-          // render selection button and menu
-          this.renderLevelSelector()
-        }
+      <div style={graphLevelsRender.styles} >
+        <div style={graphLevelsRender.tableContainer.styles}>
+          {
+            // render selection table
+            this.renderSelectedLevels()
+          }
+          {
+            // render selection button and menu
+            this.renderLevelSelector()
+          }
+        </div>
         {
           // render field error
           this.renderError()

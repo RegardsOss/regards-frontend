@@ -158,6 +158,7 @@ export class AttributeModelFormComponent extends React.Component {
         name: currentAttrModel.content.name,
         label: currentAttrModel.content.label,
         type: currentAttrModel.content.type,
+        unit: currentAttrModel.content.unit,
         fragment: this.getFragmentInitialValue(currentAttrModel),
         description: currentAttrModel.content.description,
         alterable: currentAttrModel.content.alterable,
@@ -193,6 +194,7 @@ export class AttributeModelFormComponent extends React.Component {
         alterable: true,
         optional: false,
         fragment: this.props.defaultFragmentName || DEFAULT_FRAGMENT_NAME,
+        unit: 'unitless',
       })
     }
   }
@@ -240,6 +242,13 @@ export class AttributeModelFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'attrmodel.form.description' })}
+            />
+            <Field
+              name="unit"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.unit' })}
             />
             <Field
               name="type"
