@@ -12,7 +12,7 @@ import CheckBoxCell from './cells/CheckBoxCell'
 import ColumnConfiguration from './columns/model/ColumnConfiguration'
 import TableConfigurationModel from './model/TableConfigurationModel'
 import TableSelectionModes from '../model/TableSelectionModes'
-import {PAGE_SIZE_MULTIPLICATOR} from '../model/TableConstant'
+import { PAGE_SIZE_MULTIPLICATOR } from '../model/TableConstant'
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -110,6 +110,8 @@ class Table extends React.Component {
     return { nbEntitiesByPage, height, width, columnWidths }
   }
 
+  getEntity = rowIndex => this.props.entities[rowIndex]
+
   render() {
     if (!this.props.entities) {
       return null
@@ -175,7 +177,7 @@ class Table extends React.Component {
                   isLastColumn={index === columns.length - 1}
                 />}
               cell={<Cell
-                entities={this.props.entities}
+                getEntity={rowIndex => this.getEntity(rowIndex)}
                 toggledElements={toggledElements}
                 selectionMode={selectionMode}
                 lineHeight={this.props.lineHeight}

@@ -42,7 +42,7 @@ const doesEntityValuesNotEmptyForColumnConfiguration = (column, entity) => {
  * @param selectTableEntityCallback : Callback to add the current entity to the table list of selected entities
  * @returns {*}
  */
-const getConfiguredColumnValueForEntity = (column, entity, lineHeight, isTableSelected, selectTableEntityCallback) => {
+const getConfiguredColumnValueForEntity = (column, entity, lineHeight, isTableSelected, selectTableEntityCallback, rowIndex) => {
   const rendererComponent = column.customCell
   if (entity && entity.content) {
     let i = 0
@@ -61,6 +61,7 @@ const getConfiguredColumnValueForEntity = (column, entity, lineHeight, isTableSe
       }
       return React.createElement(rendererComponent.component, {
         attributes,
+        rowIndex,
         entity,
         lineHeight,
         isTableSelected,

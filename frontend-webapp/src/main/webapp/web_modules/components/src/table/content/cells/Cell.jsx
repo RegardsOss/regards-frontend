@@ -21,7 +21,7 @@ class Cell extends React.PureComponent {
       attributes: PropTypes.arrayOf(PropTypes.string),
       label: PropTypes.string,
     }).isRequired,
-    entities: PropTypes.arrayOf(PropTypes.object),
+    getEntity: PropTypes.func,
     toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     overridenCellsStyle: PropTypes.objectOf(PropTypes.string),
@@ -34,10 +34,10 @@ class Cell extends React.PureComponent {
   }
 
   getCellValue = (rowIndex, column) => {
-    const { entities, lineHeight } = this.props
+    const { lineHeight } = this.props
     const isSelectedRow = this.isSelectedRow(rowIndex)
-    const entity = entities[rowIndex]
-    return ColumnConfigurationController.getConfiguredColumnValueForEntity(column, entity, lineHeight, isSelectedRow, this.handleToggleSelectRow)
+    const entity = this.props.getEntity(rowIndex)
+    return ColumnConfigurationController.getConfiguredColumnValueForEntity(column, entity, lineHeight, isSelectedRow, this.handleToggleSelectRow, rowIndex)
   }
 
   /**
@@ -55,6 +55,7 @@ class Cell extends React.PureComponent {
 
   render() {
     const attribute = this.getCellValue(this.props.rowIndex, this.props.col)
+
     const styles = this.context.moduleTheme
 
     let cellStyle
@@ -71,7 +72,7 @@ class Cell extends React.PureComponent {
       cellStyle = this.props.isLastColumn ? styles.lastCellOdd : styles.cellOdd
       cellContentStyle = styles.cellOddContent
     }
-    const childrenProperies = omit(this.props, 'entities', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn',
+    const childrenProperies = omit(this.props, 'getEntity', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn',
       'toggledElements', 'selectionMode', 'onToggleRowSelection')
     return (
       <FixedDataTableCell style={cellStyle} {...childrenProperies} >

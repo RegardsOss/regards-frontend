@@ -123,12 +123,10 @@ class TableContainer extends React.Component {
     entities: [],
     allColumns: [],
     allSelected: false,
-    fetchedPages: []
+    fetchedPages: [],
   }
 
   static MAX_NB_ENTITIES = STATIC_CONF.CATALOG_MAX_NUMBER_OF_ENTITIES || 10000
-
-  fetchedPages = []
 
   constructor(props) {
     super(props)
@@ -145,7 +143,7 @@ class TableContainer extends React.Component {
    */
   onPropertiesUpdate = (previousProps, nextProps) => {
     const previousState = this.state
-    const nextState = this.state ? {...this.state} : {...TableContainer.DEFAULT_STATE} // initialize to previous state or use default one
+    const nextState = this.state ? { ...this.state } : { ...TableContainer.DEFAULT_STATE } // initialize to previous state or use default one
 
     // initialization or authentication update: fetch the first page
     if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||  // TODO nop! we should let parent handle URL params related
@@ -155,7 +153,7 @@ class TableContainer extends React.Component {
       nextProps.flushEntities()
       nextProps.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
       this.setState({
-        fetchEntities: concat([], this.state.fetchEntities, [0])
+        fetchEntities: concat([], this.state.fetchEntities, [0]),
       })
     }
 
@@ -196,16 +194,16 @@ class TableContainer extends React.Component {
    */
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
     // the scroll offset is the first element to fetch if it is missing
-    const {tableConfiguration: {lineHeight = defaultLineHeight}} = this.props
+    const { tableConfiguration: { lineHeight = defaultLineHeight } } = this.props
     const originalIndex = scrollEndOffset / lineHeight
     const index = Math.floor(originalIndex)
 
     const HALF_FETCHED = (PAGE_SIZE_MULTIPLICATOR - 1) / 2
 
-    let pageNumber = Math.round(index / this.nbEntitiesByPage)
+    const pageNumber = Math.round(index / this.nbEntitiesByPage)
 
-    const firstIndexToRetrieve = index - this.props.pageSize * HALF_FETCHED
-    const lastIndexToRetrieve = index + this.props.pageSize * HALF_FETCHED
+    const firstIndexToRetrieve = index - (this.props.pageSize * HALF_FETCHED)
+    const lastIndexToRetrieve = index + (this.props.pageSize * HALF_FETCHED)
 
     const firstIndexFetched = pageNumber * this.nbEntitiesByPage
     const lastIndexFetched = (pageNumber + 1) * this.nbEntitiesByPage
@@ -213,7 +211,7 @@ class TableContainer extends React.Component {
     this.fetchEntities(pageNumber)
     if (index < firstIndexFetched || firstIndexFetched < firstIndexToRetrieve) {
       this.fetchEntities(pageNumber - 1)
-    } else if (index > lastIndexFetched || lastIndexToRetrieve > lastIndexFetched ) {
+    } else if (index > lastIndexFetched || lastIndexToRetrieve > lastIndexFetched) {
       this.fetchEntities(pageNumber + 1)
     }
   }
@@ -231,8 +229,8 @@ class TableContainer extends React.Component {
    */
   onToggleRowSelection = (rowIndex) => {
     // retrieve entity by its index in state
-    const {entities} = this.state
-    const {toggleRowSelection} = this.props
+    const { entities } = this.state
+    const { toggleRowSelection } = this.props
     if (entities.length > rowIndex) { // silent errors here, as the component can be currently refetching
       toggleRowSelection(rowIndex, entities[rowIndex])
     }
@@ -242,7 +240,7 @@ class TableContainer extends React.Component {
    * On user toggled select all / unselect all
    */
   onToggleSelectAll = () => {
-    const {dispatchSelectAll, dispatchUnselectAll} = this.props
+    const { dispatchSelectAll, dispatchUnselectAll } = this.props
     if (this.state.allSelected) {
       dispatchUnselectAll()
     } else {
@@ -254,6 +252,8 @@ class TableContainer extends React.Component {
     const total = get(props || this.props, 'pageMetadata.totalElements') || 0
     return total > TableContainer.MAX_NB_ENTITIES ? TableContainer.MAX_NB_ENTITIES : total
   }
+
+  fetchedPages = []
 
 
   /**
