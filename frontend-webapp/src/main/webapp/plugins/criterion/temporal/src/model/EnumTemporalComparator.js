@@ -4,6 +4,4 @@
 export default {
   BEFORE: '<=',
   AFTER: '>=',
-  IS: '=',
-  NOT: '!=',
 }

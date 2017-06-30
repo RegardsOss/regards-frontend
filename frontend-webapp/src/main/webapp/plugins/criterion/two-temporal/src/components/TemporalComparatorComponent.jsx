@@ -30,7 +30,7 @@ export class TemporalComparatorComponent extends React.Component {
   }
 
   static defaultProps = {
-    value: EnumTemporalComparator.EQ,
+    value: EnumTemporalComparator.LE,
   }
 
   state = {
