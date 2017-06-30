@@ -5,22 +5,24 @@ import map from 'lodash/map'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import Delete from 'material-ui/svg-icons/action/delete'
+import IconButton from 'material-ui/IconButton'
 import ArrowUpward from 'material-ui/svg-icons/navigation/arrow-upward'
 import ArrowDownward from 'material-ui/svg-icons/navigation/arrow-downward'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 import Subheader from 'material-ui/Subheader'
-import IconButton from 'material-ui/IconButton'
+import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, HateoasKeys, HateoasToggle, withResourceDisplayControl } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import GenericPluginParameter from './parameter/GenericPluginParameter'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 import { mapPluginParameterTypeToPluginParameter } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const HateoasToggle = withHateoasDisplayControl(Toggle)
 const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
