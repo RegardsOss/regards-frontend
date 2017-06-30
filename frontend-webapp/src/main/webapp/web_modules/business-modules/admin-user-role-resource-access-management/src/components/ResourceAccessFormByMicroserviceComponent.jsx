@@ -12,10 +12,11 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
 import Toggle from 'material-ui/Toggle'
-import { LoadingComponent, HateoasToggle, withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { LoadingComponent, withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import moduleStyles from '../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const HateoasToggle = withHateoasDisplayControl(Toggle)
 
 /**
  * React container to edit resource access allowed for the

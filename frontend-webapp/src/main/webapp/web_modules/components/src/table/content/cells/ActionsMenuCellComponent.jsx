@@ -7,11 +7,12 @@ import IconButton from 'material-ui/IconButton'
 import NavigationMoreVert from 'material-ui/svg-icons/navigation/more-vert'
 import MediaQuery from 'react-responsive'
 import omit from 'lodash/omit'
-import { HateoasMenuAction, withHateoasDisplayControl } from '@regardsoss/display-control'
+import { withHateoasDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const HateoasMenuAction = withHateoasDisplayControl(MenuItem)
 
 /**
  * Create a more action button if the screen size do not allow to display all IconButton from this component children.

@@ -11,6 +11,7 @@ import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
 import Save from 'material-ui/svg-icons/content/save'
 import MenuItem from 'material-ui/MenuItem'
+import Toggle from 'material-ui/Toggle'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
@@ -19,7 +20,7 @@ import Back from 'material-ui/svg-icons/navigation/arrow-back'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, withHateoasDisplayControl, HateoasToggle, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType, defaultCustomConfiguration, defaultTheme, ThemeActions } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -30,6 +31,7 @@ import CreateButton from './CreateButton'
 import moduleStyles from '../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const HateoasToggle = withHateoasDisplayControl(Toggle)
 const HateoasCreateButton = withResourceDisplayControl(CreateButton)
 
 /**

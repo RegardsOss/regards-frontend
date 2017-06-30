@@ -7,7 +7,6 @@ import keys from 'lodash/keys'
 import { spy } from 'sinon'
 import { TableBody, TableRow } from 'material-ui/Table'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { HateoasToggle } from '@regardsoss/display-control'
 import { ShowableAtRender } from '@regardsoss/components'
 import ModuleListComponent from '../../src/components/ModuleListComponent'
 
@@ -121,7 +120,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
     deleteButton.simulate('touchTap')
     assert.equal(wrapper.find(ShowableAtRender).prop('show'), true, 'Confirm dialog should be displayed')
 
-    assert.equal(wrapper.find(HateoasToggle).find({ toggled: true }).length, 2, 'There should be two active modules')
-    assert.equal(wrapper.find(HateoasToggle).find({ toggled: false }).length, 1, 'There should be one inactive module')
+    assert.equal(wrapper.find('Connect(WithHateoasDisplayControl(Toggle))').find({ toggled: true }).length, 2, 'There should be two active modules')
+    assert.equal(wrapper.find('Connect(WithHateoasDisplayControl(Toggle))').find({ toggled: false }).length, 1, 'There should be one inactive module')
   })
 })
