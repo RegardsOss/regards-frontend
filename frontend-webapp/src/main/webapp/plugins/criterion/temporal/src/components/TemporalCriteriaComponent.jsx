@@ -224,7 +224,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
           onChange={this.handleChangeSeconds}
           style={{
             top: -13,
-            maxWidth: 71,
+            maxWidth: 45,
             margin: '0px 10px',
           }}
         />
@@ -235,7 +235,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
           onChange={this.handleChangeMilliseconds}
           style={{
             top: -13,
-            maxWidth: 95,
+            maxWidth: 50,
             margin: '0px 10px',
           }}
         />

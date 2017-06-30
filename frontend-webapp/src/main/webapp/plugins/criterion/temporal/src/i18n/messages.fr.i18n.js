@@ -13,8 +13,8 @@ const messages = {
   'criterion.time.field.label': 'Heure',
   'criterion.time.picker.ok': 'Ok',
   'criterion.time.picker.cancel': 'Annuler',
-  'criterion.seconds.field.label': 'Secondes',
-  'criterion.milliseconds.field.label': 'Millisecondes',
+  'criterion.seconds.field.label': 'Sec',
+  'criterion.milliseconds.field.label': 'Ms',
   'criterion.clear': 'Vider',
 }
 
