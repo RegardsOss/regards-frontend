@@ -3,6 +3,7 @@
  **/
 import areIntlLocalesSupported from 'intl-locales-supported'
 import DatePicker from 'material-ui/DatePicker'
+import TextField from 'material-ui/TextField'
 import TimePicker from 'material-ui/TimePicker'
 import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
@@ -29,9 +30,9 @@ if (areIntlLocalesSupported(['fr'])) {
  *
  * The following terminology for dates is used in this file:
  *
- * 2017-02-10   14:28
- * ----------  ------
- *    date      time
+ * 2017-02-10   14:28      59         234
+ * ----------  ------   -------   ------------
+ *    date      time    seconds   milliseconds
  *
  *  @author Xavier-Alexandre Brochard
  */
@@ -43,14 +44,14 @@ export class TemporalCriteriaComponent extends PluginComponent {
 
   state = {
     searchField: undefined,
-    comparator: EnumTemporalComparator.IS,
+    comparator: EnumTemporalComparator.BEFORE,
   }
 
   /**
    * Callback function that is fired when the date value changes.
    *
    * @param {Object} event Change event targetting the text field.
-   * @param {String} newValue The new value of the text field.
+   * @param {Date} newValue The new value of the date field.
    */
   handleChangeDate = (event, newValue) => {
     const { searchField } = this.state
@@ -65,7 +66,7 @@ export class TemporalCriteriaComponent extends PluginComponent {
    * Callback function that is fired when the time value changes.
    *
    * @param {Object} event Change event targetting the text field.
-   * @param {String} newValue The new value of the text field.
+   * @param {Date} newValue The new value of the time field.
    */
   handleChangeTime = (event, newValue) => {
     const { searchField } = this.state
@@ -73,6 +74,34 @@ export class TemporalCriteriaComponent extends PluginComponent {
     if (searchField) {
       newValue.setFullYear(searchField.getFullYear(), searchField.getMonth(), searchField.getDate())
     }
+    this.setState({ searchField: newValue })
+  }
+
+  /**
+   * Callback function that is fired when the seconds value changes.
+   *
+   * @param {Object} event Change event targetting the text field.
+   * @param {Integer} seconds The new value of the seconds field.
+   */
+  handleChangeSeconds = (event, seconds) => {
+    const { searchField } = this.state
+    const newValue = searchField || new Date()
+
+    newValue.setSeconds(seconds)
+    this.setState({ searchField: newValue })
+  }
+
+  /**
+   * Callback function that is fired when the milliseconds value changes.
+   *
+   * @param {Object} event Change event targetting the text field.
+   * @param {Integer} milliseconds The new value of the milliseconds field.
+   */
+  handleChangeMilliseconds = (event, milliseconds) => {
+    const { searchField } = this.state
+    const newValue = searchField || new Date()
+
+    newValue.setMilliseconds(milliseconds)
     this.setState({ searchField: newValue })
   }
 
@@ -88,6 +117,20 @@ export class TemporalCriteriaComponent extends PluginComponent {
    */
   handleClear = () => this.setState({ searchField: undefined })
 
+  /**
+   * Extract the seconds value to inject in the field input
+   *
+   * @param {Date} date
+   */
+  formatSeconds = date => date ? date.getSeconds() : ''
+
+  /**
+   * Extract the milliseconds value to inject in the field input
+   *
+   * @param {Date} date
+   */
+  formatMilliseconds = date => date ? date.getMilliseconds() : ''
+
   getPluginSearchQuery = (state) => {
     let query = ''
     const attribute = this.getAttributeName('searchField')
@@ -98,12 +141,6 @@ export class TemporalCriteriaComponent extends PluginComponent {
           break
         case EnumTemporalComparator.AFTER :
           query = `${attribute}:[${state.searchField.toISOString()} TO *]`
-          break
-        case EnumTemporalComparator.IS :
-          query = `${attribute}:${state.searchField.toISOString()}`
-          break
-        case EnumTemporalComparator.NOT :
-          query = `${attribute}:!${state.searchField.toISOString()}`
           break
         default :
           console.error('Unavailable comparator')
@@ -178,6 +215,28 @@ export class TemporalCriteriaComponent extends PluginComponent {
           textFieldStyle={{
             maxWidth: 40,
             top: -13,
+          }}
+        />
+        <TextField
+          type="number"
+          floatingLabelText={<FormattedMessage id="criterion.seconds.field.label"/>}
+          value={this.formatSeconds(searchField)}
+          onChange={this.handleChangeSeconds}
+          style={{
+            top: -13,
+            maxWidth: 71,
+            margin: '0px 10px',
+          }}
+        />
+        <TextField
+          type="number"
+          floatingLabelText={<FormattedMessage id="criterion.milliseconds.field.label"/>}
+          value={this.formatMilliseconds(searchField)}
+          onChange={this.handleChangeMilliseconds}
+          style={{
+            top: -13,
+            maxWidth: 95,
+            margin: '0px 10px',
           }}
         />
         <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
