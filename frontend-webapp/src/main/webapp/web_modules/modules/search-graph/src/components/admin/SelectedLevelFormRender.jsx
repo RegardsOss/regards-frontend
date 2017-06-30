@@ -129,24 +129,27 @@ class SelectedLevelFormRender extends React.Component {
    * @param level  : collection type for level { content: { name, description}}
    * @return rendered
    */
-  renderSelectedLevelRow = ({ content: { name, description } }, index) => (
-    <TableRow key={name}>
-      <TableRowColumn>
-        {index}
-      </TableRowColumn>
-      <TableRowColumn>
-        {name}
-      </TableRowColumn>
-      <TableRowColumn>
-        {description}
-      </TableRowColumn>
-      <TableRowColumn >
-        <IconButton onTouchTap={() => this.onLevelRemoved(index)}>
-          <RemoveLevel />
-        </IconButton>
-      </TableRowColumn>
-    </TableRow>
-  )
+  renderSelectedLevelRow = ({ content: { name, description } }, index) => {
+    const { intl: { formatMessage } } = this.props
+    return (
+      <TableRow key={name}>
+        <TableRowColumn title={index}>
+          {index}
+        </TableRowColumn>
+        <TableRowColumn title={name}>
+          {name}
+        </TableRowColumn>
+        <TableRowColumn title={description}>
+          {description}
+        </TableRowColumn>
+        <TableRowColumn >
+          <IconButton onTouchTap={() => this.onLevelRemoved(index)} title={formatMessage({ id: 'search.graph.selected.levels.column.actions.remove.tooltip' })}>
+            <RemoveLevel />
+          </IconButton>
+        </TableRowColumn>
+      </TableRow >
+    )
+  }
 
   /**
    * Renders the selected levels table
