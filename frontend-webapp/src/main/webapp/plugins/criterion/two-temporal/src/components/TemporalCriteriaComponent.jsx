@@ -4,6 +4,7 @@
 import values from 'lodash/values'
 import areIntlLocalesSupported from 'intl-locales-supported'
 import DatePicker from 'material-ui/DatePicker'
+import TextField from 'material-ui/TextField'
 import TimePicker from 'material-ui/TimePicker'
 import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
@@ -27,9 +28,9 @@ if (areIntlLocalesSupported(['fr'])) {
  *
  * The following terminology for dates is used in this file:
  *
- * 2017-02-10   14:28
- * ----------  ------
- *    date      time
+ * 2017-02-10   14:28      59         234
+ * ----------  ------   -------   ------------
+ *    date      time    seconds   milliseconds
  *
  *  @author Xavier-Alexandre Brochard
  */
@@ -77,7 +78,7 @@ export class TemporalCriteriaComponent extends React.Component {
     hideAttributeName: false,
     hideComparator: false,
     value: undefined,
-    comparator: EnumTemporalComparator.EQ,
+    comparator: EnumTemporalComparator.BEFORE,
   }
 
   static textStyle = {
@@ -89,7 +90,7 @@ export class TemporalCriteriaComponent extends React.Component {
    * Callback function that is fired when the date value changes.
    *
    * @param {Object} event Change event targetting the text field.
-   * @param {String} newValue The new value of the text field.
+   * @param {Date} newValue The new value of the date field.
    */
   handleChangeDate = (event, newValue) => {
     const { onChange, value, comparator } = this.props
@@ -104,7 +105,7 @@ export class TemporalCriteriaComponent extends React.Component {
    * Callback function that is fired when the time value changes.
    *
    * @param {Object} event Change event targetting the text field.
-   * @param {String} newValue The new value of the text field.
+   * @param {Date} newValue The new value of the time field.
    */
   handleChangeTime = (event, newValue) => {
     const { onChange, value, comparator } = this.props
@@ -112,6 +113,34 @@ export class TemporalCriteriaComponent extends React.Component {
     if (value) {
       newValue.setFullYear(value.getFullYear(), value.getMonth(), value.getDate())
     }
+    onChange(newValue, comparator)
+  }
+
+  /**
+   * Callback function that is fired when the seconds value changes.
+   *
+   * @param {Object} event Change event targetting the text field.
+   * @param {Integer} seconds The new value of the seconds field.
+   */
+  handleChangeSeconds = (event, seconds) => {
+    const { onChange, value, comparator } = this.props
+    const newValue = value || new Date()
+
+    newValue.setSeconds(seconds)
+    onChange(newValue, comparator)
+  }
+
+  /**
+   * Callback function that is fired when the milliseconds value changes.
+   *
+   * @param {Object} event Change event targetting the text field.
+   * @param {Integer} milliseconds The new value of the milliseconds field.
+   */
+  handleChangeMilliseconds = (event, milliseconds) => {
+    const { onChange, value, comparator } = this.props
+    const newValue = value || new Date()
+
+    newValue.setMilliseconds(milliseconds)
     onChange(newValue, comparator)
   }
 
@@ -124,6 +153,20 @@ export class TemporalCriteriaComponent extends React.Component {
     const { onChange, value } = this.props
     onChange(value, comparator)
   }
+
+  /**
+   * Extract the seconds value to inject in the field input
+   *
+   * @param {Date} date
+   */
+  formatSeconds = date => date ? date.getSeconds() : ''
+
+  /**
+   * Extract the milliseconds value to inject in the field input
+   *
+   * @param {Date} date
+   */
+  formatMilliseconds = date => date ? date.getMilliseconds() : ''
 
   render() {
     const { label, comparator, value, reversed, hideAttributeName, hideComparator } = this.props
@@ -172,6 +215,28 @@ export class TemporalCriteriaComponent extends React.Component {
         textFieldStyle={{
           maxWidth: 40,
           top: -13,
+        }}
+      />,
+      <TextField
+        type="number"
+        floatingLabelText={<FormattedMessage id="criterion.seconds.field.label"/>}
+        value={this.formatSeconds(value)}
+        onChange={this.handleChangeSeconds}
+        style={{
+          top: -13,
+          maxWidth: 45,
+          margin: '0px 10px',
+        }}
+      />,
+      <TextField
+        type="number"
+        floatingLabelText={<FormattedMessage id="criterion.milliseconds.field.label"/>}
+        value={this.formatMilliseconds(value)}
+        onChange={this.handleChangeMilliseconds}
+        style={{
+          top: -13,
+          maxWidth: 50,
+          margin: '0px 10px',
         }}
       />,
     ])

@@ -13,10 +13,10 @@ const messages = {
   'criterion.time.field.label': 'Time',
   'criterion.time.picker.ok': 'Ok',
   'criterion.time.picker.cancel': 'Cancel',
-
+  'criterion.seconds.field.label': 'Sec',
+  'criterion.milliseconds.field.label': 'Ms',
   'criterion.aggregator.between': 'between',
   'criterion.aggregator.and': 'and',
-
   'criterion.clear': 'Clear',
 }
 
