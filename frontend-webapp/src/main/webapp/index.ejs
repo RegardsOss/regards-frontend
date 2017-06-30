@@ -9,6 +9,9 @@
     <meta name="rights" content="GPL-3.0">
     <meta name="keywords" content="CNES, cnes, regards, REGARDS, regardsoss, REGARDSOSS" />
     <title>REGARDS OSS</title>
+    <% if (htmlWebpackPlugin.options.isProduction) { %>
+    <link href="/css/styles.css?<%= webpack.hash %>" rel="stylesheet"></head>
+    <% } %>
     <style>
         #loader {
             width: 100%;
@@ -100,10 +103,6 @@
             }
         }
     </style>
-<% if (htmlWebpackPlugin.options.isProduction) { %>
-<!-- TODO THIS IS A QUICKFIX, IT SHALL BE ADDED AUTOMATICALLY -->
-<link href="/css/styles.css?<%= webpack.hash %>" rel="stylesheet"></head>
-<% } %>
 </head>
 <body>
 <div id="app" class="mainapp">
