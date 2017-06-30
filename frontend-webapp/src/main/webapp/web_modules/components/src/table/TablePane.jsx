@@ -2,13 +2,13 @@
 * LICENSE_PLACEHOLDER
 **/
 import concat from 'lodash/concat'
+import isEqual from 'lodash/isEqual'
 import remove from 'lodash/remove'
 import values from 'lodash/values'
 import Measure from 'react-measure'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
 import ColumnsAction from 'material-ui/svg-icons/action/settings'
-import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { LoadableContentDisplayDecorator, LoadingComponent } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -20,7 +20,6 @@ import ColumnsVisibilitySelector from './content/columns/ColumnsVisibilitySelect
 import ColumnConfiguration from './content/columns/model/ColumnConfiguration'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableSelectionModes from './model/TableSelectionModes'
-import NoContentComponent from '../content/NoContentComponent'
 
 const allWidthStyles = { width: '100%' }
 
@@ -80,7 +79,7 @@ class TablePane extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.columns !== this.props.columns) {
+    if (!isEqual(nextProps.columns, this.props.columns)) {
       // re-init columns visibility
       this.setState({
         hiddenColumns: [],

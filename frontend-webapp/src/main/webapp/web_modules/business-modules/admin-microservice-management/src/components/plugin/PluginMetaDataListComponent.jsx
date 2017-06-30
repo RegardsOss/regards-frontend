@@ -20,12 +20,14 @@ import IconList from 'material-ui/svg-icons/action/list'
 import Filter from 'material-ui/svg-icons/content/filter-list'
 import Close from 'material-ui/svg-icons/navigation/close'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ResourceIconAction } from '@regardsoss/display-control'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import moduleStyles from '../../styles/styles'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
+
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Displays the list of plugins for the current microservice (in route) as a {@link GridList} of {@link Card}s sorted by
@@ -93,9 +95,9 @@ export default class PluginMetaDataListComponent extends React.Component {
             return null
           }),
           fpmap(pluginMetaData => this.getTile(pluginMetaData)),
-          )(this.props.pluginMetaDataList),
+        )(this.props.pluginMetaDataList),
       ]
-   ))
+    ))
   )
 
   /**
@@ -115,7 +117,7 @@ export default class PluginMetaDataListComponent extends React.Component {
         </CardText>
         <CardActions>
           <ResourceIconAction
-            resourceDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.microserviceName)}
+            resourceDependencies={PluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.microserviceName)}
             tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.configurations' })}
             onTouchTap={() => this.props.handleProjectConfigurationListClick(plugin.content.pluginId)}
           >

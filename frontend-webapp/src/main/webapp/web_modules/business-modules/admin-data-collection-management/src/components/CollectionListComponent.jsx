@@ -13,11 +13,12 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, withResourceDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { collectionActions } from '../clients/CollectionClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * React component to list collections.
@@ -131,7 +132,7 @@ export class CollectionListComponent extends React.Component {
                         />
                       </HateoasIconAction>
                       <ResourceIconAction
-                        resourceDependency={collectionActions.getDependency(RequestVerbEnum.POST)}
+                        resourceDependencies={collectionActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => handleDuplicate(collection.content.id)}
                         breakpoint={995}
                         title={intl.formatMessage({ id: 'collection.list.action.duplicate' })}

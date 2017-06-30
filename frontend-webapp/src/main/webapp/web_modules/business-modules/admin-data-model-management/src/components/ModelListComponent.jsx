@@ -13,12 +13,13 @@ import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, Showable
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, ResourceIconAction, HateoasKeys } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, withResourceDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { modelActions } from '../clients/ModelClient'
 import { modelAttributesActions } from '../clients/ModelAttributesClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * React components to list project.
@@ -169,7 +170,7 @@ export class ProjectListComponent extends React.Component {
                       </HateoasIconAction>
 
                       <ResourceIconAction
-                        resourceDependency={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
+                        resourceDependencies={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => handleBindAttributes(model.content.id)}
                         breakpoint={995}
                         title={intl.formatMessage({ id: 'model.list.action.bind' })}
@@ -188,7 +189,7 @@ export class ProjectListComponent extends React.Component {
                       </HateoasIconAction>
 
                       <ResourceIconAction
-                        resourceDependency={modelActions.getDependency(RequestVerbEnum.POST)}
+                        resourceDependencies={modelActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => handleDuplicate(model.content.id)}
                         breakpoint={1320}
                         title={intl.formatMessage({ id: 'model.list.action.duplicate' })}

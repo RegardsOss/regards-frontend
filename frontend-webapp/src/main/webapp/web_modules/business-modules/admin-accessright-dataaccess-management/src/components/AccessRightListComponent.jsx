@@ -6,7 +6,7 @@ import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import FlatButton from 'material-ui/FlatButton'
 import values from 'lodash/values'
-import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
+import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import {
   TableContainer,
   MainActionButtonComponent,
@@ -14,8 +14,9 @@ import {
   ShowableAtRender,
   NoContentComponent,
 } from '@regardsoss/components'
-import { withHateoasDisplayControl } from '@regardsoss/display-control'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { tableActions, tableSelectors } from '../clients/TableClient'
 import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
@@ -24,7 +25,7 @@ import AccessRightsDataAccessTableCustomCell from './AccessRightsDataAccessTable
 import AccessRightsActionsTableCustomCell from './AccessRightsActionsTableCustomCell'
 import AccessRightFormComponent from './AccessRightFormComponent'
 
-const HateoasFlatButton = withHateoasDisplayControl(FlatButton)
+const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
 /**
  * Component to configure AccessRights for each dataset for a given AccessGroup.
@@ -281,9 +282,8 @@ class AccessRightListComponent extends React.Component {
     ]
 
     const emptyContentAction = (
-      <HateoasFlatButton
-        entityLinks={[{ rel: 'UPDATE' }, { rel: 'DELETE' }]}
-        hateoasKey={'UPDATE'}
+      <FlatButtonWithResourceDisplayControl
+        resourceDependencies={datasetDependencies.addDependencies}
         label={intl.formatMessage({ id: 'accessright.no.dataset.subtitle' })}
         onTouchTap={navigateToCreateDataset}
         primary

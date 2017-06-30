@@ -58,7 +58,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     // Simulate add a new criterion
     const buttonsWrapper = buttonsCard.dive()
     const buttons = buttonsWrapper.find(CardActionsView).dive()
-    const addNewButton = buttons.find(MainActionButtonComponent)
+    const addNewButton = buttons.find('Connect(WithResourceDisplayControl(MainActionButtonComponent))')
     assert.equal(addNewButton.length, 1, 'There should be a add new button')
 
     addNewButton.simulate('touchTap')

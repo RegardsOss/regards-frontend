@@ -10,7 +10,7 @@ import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
-import { HateoasKeys, ResourceIconAction, withHateoasDisplayControl } from '@regardsoss/display-control'
+import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AccessGroup } from '@regardsoss/model'
 import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
@@ -20,6 +20,7 @@ import { accessRightDependencies } from '@regardsoss/admin-accessright-dataacces
 import { accessGroupActions } from '../clients/AccessGroupClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * React component to list accessgroups.

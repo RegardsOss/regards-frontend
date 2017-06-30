@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { CommonShapes } from '@regardsoss/shape'
-import { ResourceIconAction } from '@regardsoss/display-control'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
@@ -19,6 +19,8 @@ import fpmap from 'lodash/fp/map'
 import PluginConfigurationContainer from './../../containers/plugin/PluginConfigurationContainer'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 import moduleStyles from '../../styles/styles'
+
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Container connecting the plugin configuration list to the redux store and handling user interface actions.
@@ -85,7 +87,7 @@ export default class PluginConfigurationListComponent extends React.Component {
             iconElementLeft={<IconButton onTouchTap={this.props.handleBackClick}><ArrowBack /></IconButton>}
             iconElementRight={
               <ResourceIconAction
-                resourceDependency={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)}
+                resourceDependencies={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)}
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.list.add' })}
                 onTouchTap={this.props.handleAddClick}
               >

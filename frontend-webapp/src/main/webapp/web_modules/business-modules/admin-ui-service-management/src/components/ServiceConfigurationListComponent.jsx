@@ -5,6 +5,7 @@ import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
+import Toggle from 'material-ui/Toggle'
 import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
@@ -13,14 +14,15 @@ import { CardActionsComponent, SVGIconFromString } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import moduleStyles from '../styles/styles'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-
 const styles = moduleStyles().plugin
+const ResourceIconAction = withResourceDisplayControl(IconButton)
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const HateoasToggle = withHateoasDisplayControl(Toggle)
 
 /**
  * React component to list datasets.
@@ -137,7 +139,7 @@ class ServiceConfigurationListComponent extends React.Component {
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
                     <ResourceIconAction
-                      resourceDependency={uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)}
+                      resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)}
                       onTouchTap={() => handleDuplicate(uiPluginConfiguration.content.id)}
                       title={this.context.intl.formatMessage({ id: 'service.listconf.tooltip.duplicate' })}
                     >

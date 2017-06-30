@@ -9,16 +9,19 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Copy from 'material-ui/svg-icons/content/content-copy'
+import Toggle from 'material-ui/Toggle'
 import { FormattedMessage } from 'react-intl'
 import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withHateoasDisplayControl, HateoasToggle, HateoasKeys, ResourceIconAction } from '@regardsoss/display-control'
+import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { moduleActions } from '../clients/ModuleClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const HateoasToggle = withHateoasDisplayControl(Toggle)
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * React component to display a given list of modules
@@ -137,7 +140,7 @@ class ModuleListComponent extends React.Component {
                       </HateoasIconAction>
                       <ResourceIconAction
                         title={intl.formatMessage({ id: 'modules.list.table.action.duplicate.tooltip' })}
-                        resourceDependency={moduleActions.getDependency(RequestVerbEnum.POST)}
+                        resourceDependencies={moduleActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => this.props.onDuplicate(module.content)}
                         breakpoint={945}
                       >

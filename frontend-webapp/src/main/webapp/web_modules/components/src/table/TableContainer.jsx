@@ -8,11 +8,11 @@ import fill from 'lodash/fill'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import values from 'lodash/values'
-import {connect} from '@regardsoss/redux'
-import {BasicPageableSelectors, BasicPageableActions} from '@regardsoss/store-utils'
-import {ModuleThemeProvider} from '@regardsoss/modules'
-import {AuthenticationClient, AuthenticateShape} from '@regardsoss/authentication-manager'
-import {I18nProvider} from '@regardsoss/i18n'
+import { connect } from '@regardsoss/redux'
+import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
+import { ModuleThemeProvider } from '@regardsoss/modules'
+import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
+import { I18nProvider } from '@regardsoss/i18n'
 import TablePane from './TablePane'
 import TableSelectionModes from './model/TableSelectionModes'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
@@ -20,8 +20,8 @@ import TableConfigurationModel from './content/model/TableConfigurationModel'
 import ColumnConfigurationModel from './content/columns/model/ColumnConfiguration'
 
 import TableActions from './model/TableActions' // class for prop type
-import {TableSelectors} from './model/TableSelectors' // class for prop type
-import {PAGE_SIZE_MULTIPLICATOR} from './model/TableConstant'
+import { TableSelectors } from './model/TableSelectors' // class for prop type
+import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
 
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
@@ -264,7 +264,7 @@ class TableContainer extends React.Component {
    */
   computeAllColumns = (properties, entities) => {
     // predefined columns
-    const {columns} = properties
+    const { columns } = properties
     if (columns && columns.length > 0) {
       return columns
     }
@@ -272,7 +272,7 @@ class TableContainer extends React.Component {
     // compute dynamic columns
     if (entities && entities.length) {
       const entity = entities[0]
-      return map(entity.content, (attr, key) => ({attributes: [key], label: key}))
+      return map(entity.content, (attr, key) => ({ attributes: [key], label: key }))
     }
     return []
   }
@@ -283,7 +283,7 @@ class TableContainer extends React.Component {
    * @return true if all rows are selected
    */
   computeAllSelected = (properties) => {
-    const {selectionMode, toggledElements} = properties
+    const { selectionMode, toggledElements } = properties
     const totalElements = this.getTotalNumberOfResults(properties)
     const selectionSize = keys(toggledElements).length
     // selectionSize > 0 blocks initial fetching case
@@ -295,10 +295,10 @@ class TableContainer extends React.Component {
   render() {
     const {
       entitiesFetching, error, pageSize, pageMetadata, tablePaneConfiguration,
-      toggledElements, selectionMode, tableConfiguration: {lineHeight = defaultLineHeight, ...tableConfiguration}, emptyComponent,
+      toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration }, emptyComponent,
     } = this.props
-    const {entities, allSelected, allColumns} = this.state // cached render data
-    const moduleStyles = {styles}
+    const { entities, allSelected, allColumns } = this.state // cached render data
+    const moduleStyles = { styles }
 
     const tableData = {
       pageSize,
@@ -331,7 +331,7 @@ class TableContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, {pageSelectors, tableSelectors}) => ({
+const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
   // results entities
   entities: pageSelectors.getOrderedList(state),
   pageMetadata: pageSelectors.getMetaData(state),
@@ -344,7 +344,7 @@ const mapStateToProps = (state, {pageSelectors, tableSelectors}) => ({
   selectionMode: tableSelectors.getSelectionMode(state),
 })
 
-const mapDispatchToProps = (dispatch, {pageActions, tableActions}) => ({
+const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({
   flushEntities: () => dispatch(pageActions.flush()),
   fetchEntities: (pageNumber, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, requestParams)),
   toggleRowSelection: (rowIndex, entity) => dispatch(tableActions.toggleElement(rowIndex, entity)),

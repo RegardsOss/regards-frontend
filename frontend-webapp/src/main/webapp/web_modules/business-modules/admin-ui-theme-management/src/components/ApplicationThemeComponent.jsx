@@ -11,17 +11,19 @@ import IconButton from 'material-ui/IconButton'
 import Close from 'material-ui/svg-icons/navigation/close'
 import Save from 'material-ui/svg-icons/content/save'
 import MenuItem from 'material-ui/MenuItem'
+import Toggle from 'material-ui/Toggle'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
+import Back from 'material-ui/svg-icons/navigation/arrow-back'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, withHateoasDisplayControl, HateoasToggle, HateoasKeys } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
-import { themeContextType, defaultCustomConfiguration, defaultTheme } from '@regardsoss/theme'
-import Back from 'material-ui/svg-icons/navigation/arrow-back'
+import { themeContextType, defaultCustomConfiguration, defaultTheme, ThemeActions } from '@regardsoss/theme'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { muiTheme } from '@regardsoss/vendors'
 import MaterialUiComponentsShowcase from './MaterialUiComponentsShowcase'
 import DeleteButton from './DeleteButton'
@@ -29,6 +31,8 @@ import CreateButton from './CreateButton'
 import moduleStyles from '../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const HateoasToggle = withHateoasDisplayControl(Toggle)
+const HateoasCreateButton = withResourceDisplayControl(CreateButton)
 
 /**
  * React component defining the user interface for customizing the themes of Regards.
@@ -172,7 +176,8 @@ class ApplicationThemeComponent extends React.Component {
       onDelete={() => this.onDelete(editingTheme)}
       entityHateoasLinks={editingTheme.links}
     />)
-    const createButton = (<CreateButton
+    const createButton = (<HateoasCreateButton
+      resourceDependencies={ThemeActions.getDependency(RequestVerbEnum.POST)}
       onCreate={this.onCreate}
     />)
     const themeActivationToggle = (<HateoasToggle

@@ -1,9 +1,12 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { HateoasDisplayDecorator } from '@regardsoss/display-control'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import SecondaryActionButtonComponent from './SecondaryActionButtonComponent'
 import MainActionButtonComponent from './MainActionButtonComponent'
+
+const MainActionButtonComponentWithResourceDisplayControl = withResourceDisplayControl(MainActionButtonComponent)
+const SecondaryActionButtonComponentWithResourceDisplayControl = withResourceDisplayControl(SecondaryActionButtonComponent)
 
 class CardActionsView extends React.Component {
   static propTypes = {
@@ -46,40 +49,32 @@ class CardActionsView extends React.Component {
     )
     const secondaryRequiredEndpoints = this.props.secondaryHateoasDependency ? [this.props.secondaryHateoasDependency] : []
     const secondaryActionButtonComponent = isVisible ? (
-      <HateoasDisplayDecorator
-        requiredEndpoints={secondaryRequiredEndpoints}
-      >
-        <SecondaryActionButtonComponent
-          className={this.props.secondaryButtonClassName}
-          label={this.props.secondaryButtonLabel}
-          url={this.props.secondaryButtonUrl}
-          onTouchTap={this.props.secondaryButtonTouchTap}
-          disabled={this.props.isSecondaryButtonDisabled}
-        />
-      </HateoasDisplayDecorator>
+      <SecondaryActionButtonComponentWithResourceDisplayControl
+        resourceDependencies={secondaryRequiredEndpoints}
+        className={this.props.secondaryButtonClassName}
+        label={this.props.secondaryButtonLabel}
+        url={this.props.secondaryButtonUrl}
+        onTouchTap={this.props.secondaryButtonTouchTap}
+        disabled={this.props.isSecondaryButtonDisabled}
+      />
     ) : null
 
     return (
       <div style={styleCardActions}>
         {secondaryActionButtonComponent}
-        <HateoasDisplayDecorator
-          requiredEndpoints={this.props.mainHateoasDependencies}
-        >
-          <MainActionButtonComponent
-            className={this.props.mainButtonClassName}
-            label={this.props.mainButtonLabel}
-            url={this.props.mainButtonUrl}
-            onTouchTap={this.props.mainButtonTouchTap}
-            type={this.props.mainButtonType}
-            isVisible={this.props.isMainButtonVisible}
-            disabled={this.props.isMainButtonDisabled}
-          />
-        </HateoasDisplayDecorator>
+        <MainActionButtonComponentWithResourceDisplayControl
+          resourceDependencies={this.props.mainHateoasDependencies}
+          className={this.props.mainButtonClassName}
+          label={this.props.mainButtonLabel}
+          url={this.props.mainButtonUrl}
+          onTouchTap={this.props.mainButtonTouchTap}
+          type={this.props.mainButtonType}
+          isVisible={this.props.isMainButtonVisible}
+          disabled={this.props.isMainButtonDisabled}
+        />
       </div>
     )
   }
-
-
 }
 
 export default CardActionsView
