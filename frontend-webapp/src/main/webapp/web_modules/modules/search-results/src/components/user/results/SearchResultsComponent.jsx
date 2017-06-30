@@ -500,7 +500,7 @@ class SearchResultsComponent extends React.Component {
         pageSelectors={searchSelectors}
         tableActions={TableClient.tableActions}
         tableSelectors={TableClient.tableSelectors}
-        pageSize={20}
+        pageSize={13}
         columns={columns}
         requestParams={requestParams}
         tableConfiguration={tableConfiguration}

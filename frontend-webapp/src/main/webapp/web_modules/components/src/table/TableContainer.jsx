@@ -209,17 +209,10 @@ class TableContainer extends React.Component {
     const lastIndexFetched = (pageNumber + 1) * this.nbEntitiesByPage
 
     this.fetchEntities(pageNumber)
-    if (index < firstIndexFetched || firstIndexFetched < firstIndexToRetrieve) {
+    if (index < firstIndexFetched || firstIndexFetched < firstIndexToRetrieve && pageNumber > 0) {
       this.fetchEntities(pageNumber - 1)
     } else if (index > lastIndexFetched || lastIndexToRetrieve > lastIndexFetched) {
       this.fetchEntities(pageNumber + 1)
-    }
-  }
-
-  fetchEntities = (pageNumber) => {
-    if (!this.fetchedPages.includes(pageNumber)) {
-      this.props.fetchEntities(pageNumber, this.nbEntitiesByPage, this.props.requestParams)
-      this.fetchedPages.push(pageNumber)
     }
   }
 
@@ -253,8 +246,19 @@ class TableContainer extends React.Component {
     return total > TableContainer.MAX_NB_ENTITIES ? TableContainer.MAX_NB_ENTITIES : total
   }
 
-  fetchedPages = []
+  fetchEntities = (pageNumber) => {
+    if (!this.fetchedPages.includes(pageNumber)) {
+      this.props.fetchEntities(pageNumber, this.nbEntitiesByPage, this.props.requestParams)
+      this.fetchedPages.push(pageNumber)
+    }
+  }
 
+
+  /**
+   * Pages index already fetched
+   * @type {Array}
+   */
+  fetchedPages = []
 
   /**
    * Return columns to use (cached in state)

@@ -14,6 +14,7 @@ import TableConfigurationModel from './model/TableConfigurationModel'
 import TableSelectionModes from '../model/TableSelectionModes'
 import { PAGE_SIZE_MULTIPLICATOR } from '../model/TableConstant'
 
+const MIN_COL_WIDTH = 150
 /**
  * Fixed data table from facebook library integrated with material ui theme
  * and infinite scroll functionality.
@@ -87,6 +88,12 @@ class Table extends React.Component {
   }
 
   /**
+   * Retrieve entity for the given rowIndex from the array containing all entities
+   * @param rowIndex
+   */
+  getEntity = rowIndex => this.props.entities[rowIndex]
+
+  /**
    * Computes graphics measures
    */
   computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight, width, columns = [] }) => {
@@ -98,9 +105,11 @@ class Table extends React.Component {
     // 2 - compute resulting column width
     // constant column width
     const availableWidth = width - (displayCheckbox ? selectionColumn.width : 0)
-    const columnWidth = Math.round(availableWidth / columns.length)
+    let columnWidth = Math.round(availableWidth / columns.length)
+    columnWidth = Math.max(columnWidth, MIN_COL_WIDTH)
     // consume remaining space or delete last pixels
-    const lastColumnWidth = availableWidth - (columnWidth * (columns.length - 1))
+    let lastColumnWidth = availableWidth - (columnWidth * (columns.length - 1))
+    lastColumnWidth = Math.max(lastColumnWidth, MIN_COL_WIDTH)
     // Init labelled columns width
     const columnWidths = columns.reduce((acc, { label }, index) => ({
       [label]: index === columns.length - 1 ? lastColumnWidth : columnWidth,
@@ -109,8 +118,6 @@ class Table extends React.Component {
 
     return { nbEntitiesByPage, height, width, columnWidths }
   }
-
-  getEntity = rowIndex => this.props.entities[rowIndex]
 
   render() {
     if (!this.props.entities) {
