@@ -30,8 +30,8 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
   state = {
     firstField: undefined,
     secondField: undefined,
-    operator1: EnumTemporalComparator.EQ,
-    operator2: EnumTemporalComparator.EQ,
+    operator1: EnumTemporalComparator.LE,
+    operator2: EnumTemporalComparator.LE,
   }
 
   changeValue1 = (value, operator) => {
@@ -74,9 +74,6 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
     let openSearchQuery = ''
     if (operator && value) {
       switch (operator) {
-        case EnumTemporalComparator.EQ :
-          openSearchQuery = `${this.getAttributeName(attribute)}:${value.toISOString()}`
-          break
         case EnumTemporalComparator.LE :
           openSearchQuery = `${this.getAttributeName(attribute)}:[* TO ${value.toISOString()}]`
           break
@@ -100,7 +97,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    if (openSearchQuery.includes("[")) {
+    if (openSearchQuery.includes('[')) {
       const values = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
       if (values.length === 3) {
         const value = values[1] !== '*' ? values[1] : values[2]
@@ -112,15 +109,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
         }
         return new Date(value)
       }
-    } else {
-      if (parameterName === 'firstField') {
-        this.setState({ operator1: EnumTemporalComparator.EQ })
-      } else {
-        this.setState({ operator2: EnumTemporalComparator.EQ })
-      }
-      return new Date(openSearchQuery)
     }
-
     return undefined
   }
 
