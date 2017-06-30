@@ -12,7 +12,7 @@ import CheckBoxCell from './cells/CheckBoxCell'
 import ColumnConfiguration from './columns/model/ColumnConfiguration'
 import TableConfigurationModel from './model/TableConfigurationModel'
 import TableSelectionModes from '../model/TableSelectionModes'
-
+import {PAGE_SIZE_MULTIPLICATOR} from '../model/TableConstant'
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -92,7 +92,7 @@ class Table extends React.Component {
   computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight, width, columns = [] }) => {
     const { selectionColumn } = this.context.moduleTheme
     // 1 - compute height
-    const nbEntitiesByPage = pageSize * 3
+    const nbEntitiesByPage = pageSize * PAGE_SIZE_MULTIPLICATOR
     const height = lineHeight * (pageSize + 1) // +1 for header row
 
     // 2 - compute resulting column width

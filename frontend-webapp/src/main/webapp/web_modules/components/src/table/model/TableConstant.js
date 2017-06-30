@@ -1,0 +1,6 @@
+
+const PAGE_SIZE_MULTIPLICATOR = 3
+
+export {
+  PAGE_SIZE_MULTIPLICATOR
+}
