@@ -4,6 +4,7 @@
 import find from 'lodash/find'
 import Dialog from 'material-ui/Dialog'
 import Avatar from 'material-ui/Avatar'
+import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { ObjectLinkedFile, ObjectLinkedFileTypes, CatalogEntity } from '@regardsoss/model'
 
 /**
@@ -64,8 +65,9 @@ class ThumbnailAttributesRender extends React.Component {
           </div>
         )
       }
+      return <NoDataIcon />
     }
-    return null
+    return <NoDataIcon title="" />
   }
 
 }

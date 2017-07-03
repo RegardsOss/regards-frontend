@@ -122,7 +122,7 @@ class FormCriteriaComponent extends React.Component {
   renderContainersList = () => {
     try {
       if (this.props.layout) {
-        const containers = ContainerHelper.getAvailableContainersInLayout(this.props.layout)
+        const containers = ContainerHelper.getAvailableContainersInLayout(this.props.layout, true)
         if (containers && containers.length > 0) {
           return map(containers, container => (
             <MenuItem key={container.id} value={container.id} primaryText={container.id} />

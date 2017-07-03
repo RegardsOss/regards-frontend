@@ -41,6 +41,8 @@ class Table extends React.Component {
     onScrollEnd: PropTypes.func.isRequired,
     columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
     width: PropTypes.number.isRequired,
+    maxRowCounts: PropTypes.number,
+    minRowCounts: PropTypes.number,
 
     // selection related
     allSelected: PropTypes.bool.isRequired, // are all elements selected?
@@ -123,23 +125,27 @@ class Table extends React.Component {
     if (!this.props.entities) {
       return null
     }
-    const { cellsStyle, columns, width, lineHeight, displayCheckbox, displaySelectAll, displayColumnsHeader,
+    const {
+      cellsStyle, columns, width, lineHeight, displayCheckbox, displaySelectAll, displayColumnsHeader,
       allSelected, onToggleSelectAll, onToggleRowSelection, onScrollEnd, onSortByColumn,
-      toggledElements, selectionMode, pageSize } = this.props
+      toggledElements, selectionMode, pageSize, maxRowCounts,
+    } = this.props
     const { columnWidths, height } = this.state
     const { selectionColumn } = this.context.moduleTheme
-    const totalNumberOfEntities = this.props.entities.length
+    const totalNumberOfEntities = this.props.entities.length > this.props.minRowCounts ? this.props.entities.length : this.props.minRowCounts
 
     // If the total number of results is less than the number of elements by page, adjust height of the table
     // to fit the number of results. Else use the default fixed height.
     const totalHeight = displayColumnsHeader ? (totalNumberOfEntities + 1) * lineHeight : totalNumberOfEntities * lineHeight
     const calculatedHeight = totalNumberOfEntities > pageSize ? height : totalHeight + 5
 
+    const rowsCount = maxRowCounts && totalNumberOfEntities > maxRowCounts ? maxRowCounts : totalNumberOfEntities
+
     return (
       <FixedDataTable
         rowHeight={lineHeight}
         headerHeight={displayColumnsHeader ? lineHeight : 0}
-        rowsCount={totalNumberOfEntities}
+        rowsCount={rowsCount}
         onColumnResizeEndCallback={this.onColumnResizeEndCallback}
         isColumnResizing={false}
         onScrollEnd={onScrollEnd}
@@ -203,6 +209,10 @@ class Table extends React.Component {
       </FixedDataTable>
     )
   }
+}
+
+Table.defaultProps = {
+  minRowCounts: 0,
 }
 
 export default Table

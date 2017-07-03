@@ -3,7 +3,7 @@
  **/
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { moduleContainer } from '@regardsoss-modules/authentication'
 import { I18nProvider } from '@regardsoss/i18n'
 import ModuleThemeProvider from '../../src/components/ModuleThemeProvider'
@@ -17,10 +17,10 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
+  const context = buildTestContext()
+
   // This test can last ~6s so we override the timeout duration
   it('Should render correctly an application layout with ApplicationLayout', (done) => {
-    const context = {
-    }
     const module = {
       type: 'authentication',
       active: true,
@@ -42,13 +42,10 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
         }
       }
     }
-      />, { context })
+      />, { context, lifecycleExperimental: true })
   }).timeout(60000)
 
   it('Should not render a desable module', (done) => {
-    const context = {
-
-    }
     const module = {
       type: 'authentication',
       active: false,
@@ -70,6 +67,6 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
         }
       }
     }
-      />, { context })
+      />, { context, lifecycleExperimental: true })
   }).timeout(60000)
 })

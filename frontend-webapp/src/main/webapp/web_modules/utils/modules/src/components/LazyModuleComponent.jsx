@@ -11,6 +11,9 @@ import ModuleThemeProvider from './ModuleThemeProvider'
 
 // Cheat, you should not do this but decorate components
 const Div = ({ children }) => <div>{children}</div>
+Div.propTypes = {
+  children: PropTypes.element,
+}
 const WithResourceDisplayControl = withResourceDisplayControl(Div)
 
 /**
@@ -53,19 +56,13 @@ class LazyModuleComponent extends React.Component {
   /**
    * Before component is mount, Lazy load the module with require. The module will be displayed once the dependecy is loaded.
    */
-  componentWillMount() {
+  componentDidMount() {
     this.loadModule(this.props.module)
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.module.type !== this.props.module.type) {
       this.loadModule(nextProps.module)
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.props.onLoadAction && this.state.isLoaded) {
-      this.props.onLoadAction()
     }
   }
 
@@ -100,6 +97,9 @@ class LazyModuleComponent extends React.Component {
             isLoaded: true,
             module: loadedModule,
           })
+        }
+        if (this.props.onLoadAction) {
+          this.props.onLoadAction(loadedModule)
         }
       } catch (e) {
         console.error('Module', this.props.module.type, e, e.stack)

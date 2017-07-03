@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import merge from 'lodash/merge'
 import { shallow } from 'enzyme'
 import { spy } from 'sinon'
 import { assert } from 'chai'
@@ -23,6 +24,20 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
 
   const context = buildTestContext(Styles)
 
+  const containerName = 'defaultCriterionLine'
+
+  const testLayout = merge({}, DefaultLayout, {
+    containers: [
+      {
+        id: containerName,
+        type: 'RowContainer',
+        classes: [],
+        styles: {},
+        containers: [],
+      },
+    ],
+  })
+
   it('Should render a new criteria criteria form', () => {
     const saveCriteriaCallback = spy()
     const cancelCallback = spy()
@@ -34,7 +49,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
       criteria: null,
       saveCriteria: saveCriteriaCallback,
       cancel: cancelCallback,
-      layout: DefaultLayout,
+      layout: testLayout,
       selectableAttributes: {},
       availableCriterion: {},
       criterionFetching: false,
@@ -59,7 +74,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     assert(containerField.length === 1, 'The container field should be rendered')
     const containerElements = containerField.find(MenuItem)
     assert.lengthOf(containerElements, 1, 'There should be 1 selectable container')
-    assert.equal(containerElements.first().prop('value'), 'application', 'The selectable container from defaultFormLayout should be application')
+    assert.equal(containerElements.first().prop('value'), containerName, `The selectable container from defaultFormLayout should be ${containerName}`)
 
     // Check for specific criteria configuration
     let criteriaConf = wrapper.find(CriteriaConfigurationComponent)
@@ -95,7 +110,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
         active: true,
         label: 'criteria de test',
         pluginId: 0,
-        container: 'main',
+        container: containerName,
         conf: {
           attributes: {
             searchField: 0,
@@ -104,7 +119,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
       },
       saveCriteria: saveCriteriaCallback,
       cancel: cancelCallback,
-      layout: DefaultLayout,
+      layout: testLayout,
       selectableAttributes: {},
       availableCriterion: {},
       criterionFetching: false,
@@ -129,7 +144,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
     assert(containerField.length === 1, 'The container field should be rendered')
     const containerElements = containerField.find(MenuItem)
     assert.lengthOf(containerElements, 1, 'There should be 1 selectable container')
-    assert.equal(containerElements.first().prop('value'), 'application', 'The selectable container from defaultFormLayout should be application')
+    assert.equal(containerElements.first().prop('value'), containerName, `The selectable container from defaultFormLayout should be ${containerName}`)
 
     // Check for specific criteria configuration
     const criteriaConf = wrapper.find(CriteriaConfigurationComponent)

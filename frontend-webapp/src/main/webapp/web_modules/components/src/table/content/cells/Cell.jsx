@@ -72,10 +72,10 @@ class Cell extends React.PureComponent {
       cellStyle = this.props.isLastColumn ? styles.lastCellOdd : styles.cellOdd
       cellContentStyle = styles.cellOddContent
     }
-    const childrenProperies = omit(this.props, 'getEntity', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn',
+    const childrenProperties = omit(this.props, 'getEntity', 'col', 'lineHeight', 'overridenCellsStyle', 'isLastColumn',
       'toggledElements', 'selectionMode', 'onToggleRowSelection')
     return (
-      <FixedDataTableCell style={cellStyle} {...childrenProperies} >
+      <FixedDataTableCell style={cellStyle} {...childrenProperties} >
         <div style={cellContentStyle}>{attribute}</div>
       </FixedDataTableCell>
     )

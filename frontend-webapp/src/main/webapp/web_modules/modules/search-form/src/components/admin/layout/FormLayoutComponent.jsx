@@ -1,12 +1,25 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import merge from 'lodash/merge'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import { CardActionsComponent, Title } from '@regardsoss/components'
 import { Container as ContainerShape } from '@regardsoss/model'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
+
+const searchFormDefaultLayout = merge({}, DefaultLayout, {
+  containers: [
+    {
+      id: 'defaultCriterionLine',
+      type: 'RowContainer',
+      classes: [],
+      styles: {},
+      containers: [],
+    },
+  ],
+})
 /**
  * Component to display the search form layout configuration panel
  * @author Sébastien binda
@@ -31,8 +44,8 @@ class FormLayoutComponent extends React.Component {
   }
 
   getInitialLayout = (layout) => {
-    const initialLayout = layout || DefaultLayout
-    return initialLayout.id && initialLayout.type ? initialLayout : DefaultLayout
+    const initialLayout = layout || searchFormDefaultLayout
+    return initialLayout.id && initialLayout.type ? initialLayout : searchFormDefaultLayout
   }
 
   changeLayout = (layout) => {

@@ -5,6 +5,7 @@ import areIntlLocalesSupported from 'intl-locales-supported'
 import DatePicker from 'material-ui/DatePicker'
 import TextField from 'material-ui/TextField'
 import TimePicker from 'material-ui/TimePicker'
+import { CardTitle } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import ClearButton from './ClearButton'
@@ -181,7 +182,6 @@ export class TemporalCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
-            fontSize: '1.3em',
           }}
         >
           {attributeLabel}

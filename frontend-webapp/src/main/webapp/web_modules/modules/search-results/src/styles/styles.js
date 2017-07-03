@@ -46,6 +46,7 @@ const formStyles = theme => ({
     listViewStyles: {
       cell: {
         backgroundColor: theme.palette.canvasColor,
+        textAlign: 'left',
       },
       line: {
         marginTop: 10,

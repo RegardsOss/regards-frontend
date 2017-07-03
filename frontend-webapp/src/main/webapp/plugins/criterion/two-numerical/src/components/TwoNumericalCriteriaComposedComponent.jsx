@@ -85,7 +85,6 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
 
     const labelStyle = {
       margin: '0px 10px',
-      fontSize: '1.3em',
     }
 
     return (

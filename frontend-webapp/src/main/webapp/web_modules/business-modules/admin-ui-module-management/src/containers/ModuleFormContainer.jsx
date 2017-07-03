@@ -181,7 +181,7 @@ class ModuleFormContainer extends React.Component {
 
     let availablecontainers = []
     if (this.props.layout) {
-      availablecontainers = ContainerHelper.getAvailableContainersInLayout(this.props.layout.layout)
+      availablecontainers = ContainerHelper.getAvailableContainersInLayout(this.props.layout.layout, true)
     }
 
     if (availablecontainers.length === 0) {
