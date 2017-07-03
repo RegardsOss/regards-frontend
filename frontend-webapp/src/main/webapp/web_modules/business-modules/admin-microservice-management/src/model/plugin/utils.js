@@ -3,7 +3,6 @@
  **/
 import find from 'lodash/find'
 import map from 'lodash/map'
-import merge from 'lodash/merge'
 import isUndefined from 'lodash/isUndefined'
 
 /**
@@ -15,7 +14,7 @@ const parameterTypeToDefaultParameter = parameterType => ({
   name: parameterType.name,
   value: parameterType.defaultValue,
   dynamic: false,
-  dynamicValues: [],
+  dynamicsValues: [],
 })
 
 /**
@@ -25,9 +24,21 @@ const parameterTypeToDefaultParameter = parameterType => ({
  */
 const buildDefaultParameterList = pluginParameterTypeList => map(pluginParameterTypeList, parameterTypeToDefaultParameter)
 
+/**
+ * Merge the passed plugin parameters list with the default values
+ *
+ * @param pluginParameterList The list of effective parameters
+ * @param pluginParameterTypeList From which we extract default values
+ */
 const buildParameterList = (pluginParameterList, pluginParameterTypeList) => {
+  const result = []
   const defaults = buildDefaultParameterList(pluginParameterTypeList)
-  return merge({}, defaults, pluginParameterList)
+  // Merge pluginParameterList into default AND CONSERVE THE ORDER OF DEFAULT (this is why we do not use lodash)
+  defaults.forEach((item) => {
+    const yep = find(pluginParameterList, element => element.name === item.name) || item
+    result.push(yep)
+  })
+  return result
 }
 
 /**
