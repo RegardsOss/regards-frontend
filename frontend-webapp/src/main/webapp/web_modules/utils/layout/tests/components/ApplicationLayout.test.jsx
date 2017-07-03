@@ -3,13 +3,15 @@
  **/
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { ApplicationLayout } from '@regardsoss/layout'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import testLayout from './TestLayout'
 import testModules from './TestModules'
 import Container from '../../src/components/Container'
 
+
+const context = buildTestContext()
 /**
  * Tests for ApplicationLayout
  * @author Sébastien Binda
@@ -19,13 +21,6 @@ describe('[LAYOUT] Testing Application layout ', () => {
   after(testSuiteHelpers.after)
 
   it('Should render correctly an application layout Container with ApplicationLayout', () => {
-    const context = {
-      muiTheme: {
-        palette: {
-          canvasColor: 'white',
-        },
-      },
-    }
     const wrapper = shallow(
       <Container
         appName={'testApp'}
@@ -53,13 +48,6 @@ describe('[LAYOUT] Testing Application layout ', () => {
     expect(wrapper2.find(Container)).to.have.length(2)
   })
   it('Should render correctly an application layout factory with ApplicationLayout', () => {
-    const context = {
-      muiTheme: {
-        palette: {
-          canvasColor: 'white',
-        },
-      },
-    }
     const wrapper = shallow(
       <ApplicationLayout
         appName={'testApp'}
