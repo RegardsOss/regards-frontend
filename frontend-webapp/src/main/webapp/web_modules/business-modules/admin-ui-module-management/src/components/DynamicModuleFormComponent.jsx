@@ -31,7 +31,7 @@ class DynamicModuleFormComponent extends React.Component {
     if (!this.props.adminForm.form || !this.props.adminForm.form.conf) {
       return true
     }
-    return !isEqual(this.props.adminForm.form.conf, nextProps.adminForm.form.conf)
+    return !isEqual(this.props.adminForm.form.type, nextProps.adminForm.form.type)
   }
 
   render() {

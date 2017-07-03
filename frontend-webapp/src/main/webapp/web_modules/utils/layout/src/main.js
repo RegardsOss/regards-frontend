@@ -4,6 +4,7 @@
 import Container from './components/Container'
 import ContainerShape from './model/ContainerShape'
 import ContainerHelper from './ContainerHelper'
+import ContainerTypes from './default/ContainerTypes'
 import DefaultLayout from './default/DefaultLayout'
 import ApplicationLayout from './components/ApplicationLayout'
 import LayoutConfigurationComponent from './components/LayoutConfigurationComponent'
@@ -14,6 +15,7 @@ import LayoutConfigurationComponent from './components/LayoutConfigurationCompon
 export default {
   Container,
   ContainerShape,
+  ContainerTypes,
   ContainerHelper,
   ApplicationLayout,
   LayoutConfigurationComponent,

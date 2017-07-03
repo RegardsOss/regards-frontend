@@ -19,7 +19,7 @@ import {
   ValidationHelpers,
 } from '@regardsoss/form-utils'
 import ContainerShape from '../model/ContainerShape'
-import containerTypes from '../default/containerTypes'
+import ContainerTypes from '../default/ContainerTypes'
 
 /**
  * REact container to edit a container configuration
@@ -113,7 +113,7 @@ class ContainerConfigurationComponent extends React.Component {
             onSelect={this.selectContainerType}
             label={this.context.intl.formatMessage({ id: 'container.form.type' })}
           >
-            {map(containerTypes, (type, typeName) => (
+            {map(ContainerTypes, (type, typeName) => (
               <MenuItem
                 value={typeName}
                 key={typeName}

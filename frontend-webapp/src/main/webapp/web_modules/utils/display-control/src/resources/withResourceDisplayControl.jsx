@@ -27,6 +27,7 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       resourceDependencies: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.string.isRequired),
+        PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string.isRequired)),
       ]),
       // From mapStateToProps
       // The full list of dependencies

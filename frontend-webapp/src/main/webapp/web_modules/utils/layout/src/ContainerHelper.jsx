@@ -8,7 +8,7 @@ import forEach from 'lodash/forEach'
 import find from 'lodash/find'
 import concat from 'lodash/concat'
 import cloneDeep from 'lodash/cloneDeep'
-import containerTypes from './default/containerTypes'
+import ContainerTypes from './default/ContainerTypes'
 
 /**
  * Helper to navigate into applications layouts containers
@@ -21,8 +21,8 @@ class ContainerHelper {
    * @return [*] String with all classes name separated with ' '
    */
   static getContainerClassNames(pContainer) {
-    if (containerTypes[pContainer.type]) {
-      return union([], containerTypes[pContainer.type].classes, pContainer.classes)
+    if (ContainerTypes[pContainer.type]) {
+      return union([], ContainerTypes[pContainer.type].classes, pContainer.classes)
     }
 
     if (pContainer.classes) {
@@ -37,8 +37,8 @@ class ContainerHelper {
    * @return [*] list of styles names
    */
   static getContainerStyles(pContainer) {
-    if (containerTypes[pContainer.type]) {
-      return merge({}, containerTypes[pContainer.type].styles, pContainer.styles)
+    if (ContainerTypes[pContainer.type]) {
+      return merge({}, ContainerTypes[pContainer.type].styles, pContainer.styles)
     }
 
     if (pContainer.styles) {
@@ -52,10 +52,12 @@ class ContainerHelper {
    * @param container
    * @returns {Array}
    */
-  static getAvailableContainersInLayout(container) {
+  static getAvailableContainersInLayout(container, hideMainContainer) {
     let containers = []
     if (container && container) {
-      containers.push(container)
+      if (!hideMainContainer || container.type !== 'MainContainer') {
+        containers.push(container)
+      }
       if (container.containers && container.containers.length > 0) {
         forEach(container.containers, (c) => {
           containers = unionBy(ContainerHelper.getAvailableContainersInLayout(c), containers, 'id')
