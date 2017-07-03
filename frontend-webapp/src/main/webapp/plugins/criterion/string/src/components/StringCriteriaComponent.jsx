@@ -5,7 +5,7 @@ import replace from 'lodash/replace'
 import split from 'lodash/split'
 import map from 'lodash/map'
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import ClearButton from './ClearButton'
@@ -29,7 +29,7 @@ export class StringCriteriaComponent extends PluginComponent {
     checked: false,
   }
   onCheck = () => {
-    this.setState({checked: !this.state.checked})
+    this.setState({ checked: !this.state.checked })
   }
 
   handleChange = (event, value) => {
@@ -42,7 +42,7 @@ export class StringCriteriaComponent extends PluginComponent {
     if (state.searchField && state.searchField != "") {
       let openSearchQuery = null
       if (this.state.checked) {
-        openSearchQuery= `"${state.searchField}"`
+        openSearchQuery = `"${state.searchField}"`
       } else {
         const values = split(state.searchField, " ")
         openSearchQuery = map(values, value => `*${value}*`).join(' AND ')
@@ -57,13 +57,13 @@ export class StringCriteriaComponent extends PluginComponent {
 
     if (openSearchQuery.includes('"')) {
       this.setState({ checked: true })
-      return replace(openSearchQuery,/\"/g, '')
+      return replace(openSearchQuery, /\"/g, '')
     }
 
-    let value = replace(openSearchQuery,/\(/g, '')
-    value = replace(value,/\)/g, '')
-    value = replace(value,/\*/g, '')
-    value= replace(value, / AND /g, ' ')
+    let value = replace(openSearchQuery, /\(/g, '')
+    value = replace(value, /\)/g, '')
+    value = replace(value, /\*/g, '')
+    value = replace(value, / AND /g, ' ')
     return value
   }
 
@@ -87,7 +87,6 @@ export class StringCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
-            fontSize: '1.3em',
           }}
         >
           {attributeLabel}

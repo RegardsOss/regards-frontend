@@ -109,7 +109,6 @@ export class NumericalCriteriaComponent extends React.Component {
       content.push(<span
         key="label" style={{
         margin: '0px 10px',
-        fontSize: '1.3em',
       }}
       >{label}</span>)
     }
