@@ -37,7 +37,6 @@ export class ProjectUserFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     passwordRules: PropTypes.string.isRequired, // fetched password rules description
-    __unregisterField: PropTypes.func, // We need __ otherwise the function is not useable
     // eslint-disable-next-line react/no-unused-prop-types
     fetchPasswordValidity: PropTypes.func.isRequired,
     // from reduxForm
@@ -60,7 +59,7 @@ export class ProjectUserFormComponent extends React.Component {
     this.state = {
       isCreating: props.currentUser === undefined,
       popoverOpen: false,
-      tempGroup: [],
+      tempGroups: [],
     }
   }
 
@@ -91,10 +90,10 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   getCurrentUserGroups = (user) => {
-    const currentUserGroups = {}
+    const currentUserGroups = []
     forEach(this.props.groupList, (group) => {
       if (some(group.content.users, groupUser => groupUser.email === user.email)) {
-        currentUserGroups[group.content.name] = group.content.name
+        currentUserGroups.push(group.content.name)
       }
     })
     return currentUserGroups
@@ -107,9 +106,9 @@ export class ProjectUserFormComponent extends React.Component {
       // A - only when editing
       // 1 - initialize groups already associated with user
       const currentUserGroups = this.getCurrentUserGroups(currentUser.content)
-      initialFormValues.group = currentUserGroups
+      initialFormValues.groups = currentUserGroups
       this.setState({
-        tempGroup: values(currentUserGroups),
+        tempGroups: currentUserGroups,
       })
       // 2 - keep current email and role name
       initialFormValues.email = currentUser.content.email
@@ -144,27 +143,24 @@ export class ProjectUserFormComponent extends React.Component {
 
   handleAddGroup = (groupName) => {
     this.setState({
-      tempGroup: [
-        ...this.state.tempGroup,
+      tempGroups: [
+        ...this.state.tempGroups,
         groupName,
       ],
-    })
-    this.props.change(`group.${groupName}`, groupName)
+    }, () => this.props.change('groups', this.state.tempGroups))
     this.handlePopoverClose()
   }
 
   handleRemoveGroup = (groupName) => {
-    const { __unregisterField } = this.props
     this.setState({
-      tempGroup: this.state.tempGroup.filter(val => val !== groupName),
-    })
-    __unregisterField('user-form', `group.${groupName}`)
+      tempGroups: this.state.tempGroups.filter(val => val !== groupName),
+    }, () => this.props.change('groups', this.state.tempGroups))
   }
 
   renderChipInput = () => {
     const iconAnchor = { horizontal: 'left', vertical: 'top' }
     return (<div style={this.style.renderChipInput}>
-      {map(this.state.tempGroup, groupName =>
+      {map(this.state.tempGroups, groupName =>
         (<Chip
           onRequestDelete={() => this.handleRemoveGroup(groupName)}
           style={this.style.chip}
@@ -173,7 +169,7 @@ export class ProjectUserFormComponent extends React.Component {
         >
           {groupName}
         </Chip>))}
-      <ShowableAtRender show={this.state.tempGroup.length !== Object.keys(this.props.groupList).length}>
+      <ShowableAtRender show={this.state.tempGroups.length !== Object.keys(this.props.groupList).length}>
         <Chip className="selenium-addChip" style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
           <Avatar
             backgroundColor={this.style.avatarBackground}
@@ -194,7 +190,7 @@ export class ProjectUserFormComponent extends React.Component {
           {map(this.props.groupList, group => (
             <ShowableAtRender
               key={group.content.name}
-              show={!find(this.state.tempGroup, o => isEqual(o, group.content.name))}
+              show={!find(this.state.tempGroups, o => isEqual(o, group.content.name))}
             >
               <MenuItem
                 primaryText={group.content.name}

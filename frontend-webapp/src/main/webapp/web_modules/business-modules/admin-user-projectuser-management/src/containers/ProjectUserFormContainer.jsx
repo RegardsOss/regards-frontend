@@ -12,7 +12,6 @@ import flow from 'lodash/flow'
 import concat from 'lodash/concat'
 import fpfilter from 'lodash/fp/filter'
 import fpmap from 'lodash/fp/map'
-import { unregisterField } from 'redux-form'
 import root from 'window-or-global'
 import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -106,7 +105,6 @@ export class ProjectUserFormContainer extends React.Component {
           backUrl={this.getBackUrl()}
           roleList={this.props.roleList}
           groupList={this.props.groupList}
-          __unregisterField={this.props.unregisterField}
         />)
     }
 
@@ -119,12 +117,11 @@ export class ProjectUserFormContainer extends React.Component {
       backUrl={this.getBackUrl()}
       roleList={this.props.roleList}
       groupList={this.props.groupList}
-      __unregisterField={this.props.unregisterField}
     />)
   }
 
   handleUpdate = (values) => {
-    const { email, roleName, group } = values
+    const { email, roleName, groups } = values
     const { user, groupList } = this.props
     const updatedUser = {
       ...user.content,
@@ -132,30 +129,27 @@ export class ProjectUserFormContainer extends React.Component {
       role: { name: roleName },
       metadata: packMetadataField(user, values),
     }
-    Promise.resolve(this.props.updateProjectUser(this.props.params.user_id, updatedUser))
-      .then((actionResult) => {
-        if (!actionResult.error) {
-          // Retrieve new group
-          const addUserToGroupTasks = flow(
-            fpfilter(currentGroup => every(groupList[currentGroup].content.users, userInfo =>
-              userInfo.email !== email,
-            )),
-            fpmap(currentGroup => this.props.assignGroup(currentGroup, email)),
-          )(group)
-          const removeUserFromGroupTasks = flow(
-            fpfilter(currentGroup => some(currentGroup.content.users, { email })
-              && every(group, groupName => groupName !== currentGroup.content.name)),
-            fpmap(currentGroup => this.props.unassignGroup(currentGroup.content.name, email)),
-          )(groupList)
-          const tasks = concat(addUserToGroupTasks, removeUserFromGroupTasks)
-          Promise.all(tasks).then((actionResults) => {
-            if (tasks.length === 0 || every(actionResults, actionResultUserToGroup => !actionResultUserToGroup.error)) {
-              const url = this.getBackUrl()
-              browserHistory.push(url)
-            }
-          })
-        }
-      })
+    const updateUser = this.props.updateProjectUser(this.props.params.user_id, updatedUser)
+    // Retrieve new group
+    const addUserToGroupTasks = flow(
+      fpfilter(currentGroup => every(groupList[currentGroup].content.users, userInfo =>
+        userInfo.email !== email,
+      )),
+      fpmap(currentGroup => this.props.assignGroup(currentGroup, email)),
+    )(groups)
+    const removeUserFromGroupTasks = flow(
+      fpfilter(currentGroup => some(currentGroup.content.users, { email })
+        && every(groups, groupName => groupName !== currentGroup.content.name)),
+      fpmap(currentGroup => this.props.unassignGroup(currentGroup.content.name, email)),
+    )(groupList)
+    const tasks = concat(updateUser, addUserToGroupTasks, removeUserFromGroupTasks)
+
+    Promise.all(tasks).then((actionResults) => {
+      if (tasks.length === 0 || every(actionResults, actionResultUserToGroup => !actionResultUserToGroup.error)) {
+        const url = this.getBackUrl()
+        browserHistory.push(url)
+      }
+    })
   }
 
   handleCreate = (values) => {
@@ -184,7 +178,7 @@ export class ProjectUserFormContainer extends React.Component {
               userInfo.email !== values.email,
             )),
             fpmap(currentGroup => this.props.assignGroup(currentGroup, values.email)),
-          )(values.group)
+          )(values.groups)
           Promise.all(addUserToGroupTasks).then((actionResults) => {
             if (addUserToGroupTasks.length === 0 || every(actionResults, actionResultUserToGroup => !actionResultUserToGroup.error)) {
               const url = this.getBackUrl()
@@ -238,7 +232,6 @@ const mapDispatchToProps = dispatch => ({
   })),
   fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
-  unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectUserFormContainer)
