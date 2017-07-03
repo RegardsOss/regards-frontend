@@ -11,6 +11,9 @@ import ModuleThemeProvider from './ModuleThemeProvider'
 
 // Cheat, you should not do this but decorate components
 const Div = ({ children }) => <div>{children}</div>
+Div.propTypes = {
+  children: PropTypes.element,
+}
 const WithResourceDisplayControl = withResourceDisplayControl(Div)
 
 /**
