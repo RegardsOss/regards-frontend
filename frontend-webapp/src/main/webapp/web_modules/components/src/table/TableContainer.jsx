@@ -220,9 +220,9 @@ class TableContainer extends React.Component {
       this.fetchEntities(this.lastPageAvailable)
     } else {
       this.fetchEntities(pageNumber)
-      if (index < firstIndexFetched || firstIndexFetched < firstIndexToRetrieve && pageNumber > 0) {
+      if ((index < firstIndexFetched) || (firstIndexFetched < firstIndexToRetrieve) && pageNumber > 0) {
         this.fetchEntities(pageNumber - 1)
-      } else if (index > lastIndexFetched || lastIndexToRetrieve > lastIndexFetched) {
+      } else if ((index > lastIndexFetched) || (lastIndexToRetrieve > lastIndexFetched)) {
         if (pageNumber < this.lastPageAvailable) {
           this.fetchEntities(pageNumber + 1)
         }

@@ -3,8 +3,8 @@
  **/
 import map from 'lodash/map'
 import values from 'lodash/values'
-import {Table as FixedDataTable, Column} from 'fixed-data-table-2'
-import {themeContextType} from '@regardsoss/theme'
+import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
+import { themeContextType } from '@regardsoss/theme'
 import FixedTableHeaderCell from './columns/ColumnHeader'
 import CheckboxColumnHeader from './columns/CheckboxColumnHeader'
 import Cell from './cells/Cell'
@@ -12,7 +12,7 @@ import CheckBoxCell from './cells/CheckBoxCell'
 import ColumnConfiguration from './columns/model/ColumnConfiguration'
 import TableConfigurationModel from './model/TableConfigurationModel'
 import TableSelectionModes from '../model/TableSelectionModes'
-import {PAGE_SIZE_MULTIPLICATOR} from '../model/TableConstant'
+import { PAGE_SIZE_MULTIPLICATOR } from '../model/TableConstant'
 
 const MIN_COL_WIDTH = 150
 /**
@@ -130,8 +130,8 @@ class Table extends React.Component {
       allSelected, onToggleSelectAll, onToggleRowSelection, onScrollEnd, onSortByColumn,
       toggledElements, selectionMode, pageSize, maxRowCounts,
     } = this.props
-    const {columnWidths, height} = this.state
-    const {selectionColumn} = this.context.moduleTheme
+    const { columnWidths, height } = this.state
+    const { selectionColumn } = this.context.moduleTheme
     const totalNumberOfEntities = this.props.entities.length > this.props.minRowCounts ? this.props.entities.length : this.props.minRowCounts
 
     // If the total number of results is less than the number of elements by page, adjust height of the table

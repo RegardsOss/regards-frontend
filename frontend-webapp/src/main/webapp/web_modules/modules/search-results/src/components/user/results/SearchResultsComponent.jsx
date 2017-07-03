@@ -456,7 +456,7 @@ class SearchResultsComponent extends React.Component {
     let showParameters
     let minRowCounts = 0
     if (this.isInTableView()) {
-      minRowCounts=pageSize
+      minRowCounts = pageSize
       columns = tableColumns
       lineHeight = 50
       cellsStyle = null

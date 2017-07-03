@@ -22,13 +22,13 @@ export default (theme) => {
   const commonCellEven = {
     backgroundColor: theme.tableRow.stripeColor,
     borderBottom: cellBorder,
-    textAlign: 'center'
+    textAlign: 'center',
   }
 
   const commonCellOdd = {
     backgroundColor: theme.table.backgroundColor,
     borderBottom: cellBorder,
-    textAlign: 'center'
+    textAlign: 'center',
   }
 
   return ({

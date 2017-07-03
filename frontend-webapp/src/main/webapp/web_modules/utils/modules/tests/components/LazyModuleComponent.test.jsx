@@ -21,8 +21,6 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
 
   // This test can last ~6s so we override the timeout duration
   it('Should render correctly an application layout with ApplicationLayout', (done) => {
-
-
     const module = {
       type: 'authentication',
       active: true,
@@ -44,11 +42,10 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
         }
       }
     }
-      />, { context, lifecycleExperimental: true  })
+      />, { context, lifecycleExperimental: true })
   }).timeout(60000)
 
   it('Should not render a desable module', (done) => {
-
     const module = {
       type: 'authentication',
       active: false,

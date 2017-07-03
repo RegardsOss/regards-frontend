@@ -265,7 +265,7 @@ export class SearchResultsContainer extends React.Component {
     const showingDataobjects = viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS
     // compute child results fetch actions
     let searchActions = showingDataobjects ? searchDataobjectsActions : searchDatasetsFromDataObjectsActions
-    let sq = this.state.searchQuery
+    let sq = searchQuery
     // Handle case where a dataset is selected and the display mode is dataset.
     // No specific request to do. Only search for the given dataset
     const datasetLevel = find(this.props.levels, { levelType: NavigationLevel.LevelTypes.DATASET })

@@ -64,11 +64,10 @@ class ThumbnailAttributesRender extends React.Component {
             {this.displayFullSize(thumbnail.fileRef)}
           </div>
         )
-      } else {
-        return <NoDataIcon />
       }
+      return <NoDataIcon />
     }
-    return <NoDataIcon title=""/>
+    return <NoDataIcon title="" />
   }
 
 }

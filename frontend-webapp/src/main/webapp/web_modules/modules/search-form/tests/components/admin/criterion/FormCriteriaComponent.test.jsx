@@ -26,7 +26,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
 
   const containerName = 'defaultCriterionLine'
 
-  const testLayout = merge({},DefaultLayout,{
+  const testLayout = merge({}, DefaultLayout, {
     containers: [
       {
         id: containerName,
@@ -34,8 +34,8 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
         classes: [],
         styles: {},
         containers: [],
-      }
-    ]
+      },
+    ],
   })
 
   it('Should render a new criteria criteria form', () => {

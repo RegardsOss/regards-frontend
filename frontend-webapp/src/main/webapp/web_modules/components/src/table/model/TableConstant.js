@@ -1,6 +1,6 @@
 
 const PAGE_SIZE_MULTIPLICATOR = 11
 
-export {
+export default {
   PAGE_SIZE_MULTIPLICATOR,
 }

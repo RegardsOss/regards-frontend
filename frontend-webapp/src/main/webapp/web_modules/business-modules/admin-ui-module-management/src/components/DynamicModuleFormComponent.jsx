@@ -5,7 +5,6 @@ import merge from 'lodash/merge'
 import isEqual from 'lodash/isEqual'
 import { Card, CardText } from 'material-ui/Card'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import {LoadableContentDisplayDecorator} from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
 
 /**
@@ -34,29 +33,29 @@ class DynamicModuleFormComponent extends React.Component {
     noAdminComp: false,
   }
 
-  shouldComponentUpdate(nextProps,nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (!this.props.adminForm.form || !this.props.adminForm.form.conf) {
       return true
     }
-    return !isEqual(this.state,nextState) ||
+    return !isEqual(this.state, nextState) ||
       !isEqual(this.props.adminForm.form.type, nextProps.adminForm.form.type) ||
       !isEqual(this.props.adminForm.form.conf, nextProps.adminForm.form.conf)
   }
 
   moduleLoaded = (module) => {
     this.setState({
-      module: module
+      module,
     })
   }
 
   render() {
-    if (!this.props.module && !this.props.module.type){
+    if (!this.props.module && !this.props.module.type) {
       return null
     }
     let styles = this.props.styles
-    if (this.state.module && !this.state.module.adminContainer){
+    if (this.state.module && !this.state.module.adminContainer) {
       // Hide Card element if there is no adminContainer to display for the module specific configuration
-      styles = merge({},styles,{display:'none'})
+      styles = merge({}, styles, { display: 'none' })
     }
 
     return (
