@@ -10,8 +10,11 @@ import { ShowableAtRender } from '@regardsoss/components'
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import RaisedButton from 'material-ui/RaisedButton'
+import { withResourceDisplayControl, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import styles from './styles/styles'
 
+
+const RaisedButtonWithResourceDisplayControl = withResourceDisplayControl(RaisedButton)
 /**
  * React component to dislay a full board element.
  * The board items to display are expected to be either {@link BaseBoardItemComponent}s or {@link BoardItemComponent}s.
@@ -22,6 +25,7 @@ import styles from './styles/styles'
 class BaseBoardComponent extends React.Component {
 
   static propTypes = {
+    advancedBoardDependencies: PropTypes.arrayOf(PropTypes.string),
     boardItemComponents: PropTypes.arrayOf(PropTypes.element),
     advancedBoardItemComponents: PropTypes.arrayOf(PropTypes.element),
   }
@@ -84,7 +88,9 @@ class BaseBoardComponent extends React.Component {
         className={computedStyles.action.classes}
         style={computedStyles.action.styles}
       >
-        <RaisedButton
+        <RaisedButtonWithResourceDisplayControl
+          resourceDependencies={this.props.advancedBoardDependencies}
+          displayLogic={someMatchHateoasDisplayLogic}
           label={labelToggleAdvanced}
           primary
           icon={iconToggleAdvanced}
