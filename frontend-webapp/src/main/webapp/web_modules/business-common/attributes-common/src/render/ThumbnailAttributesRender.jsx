@@ -68,7 +68,7 @@ class ThumbnailAttributesRender extends React.Component {
         return <NoDataIcon />
       }
     }
-    return null
+    return <NoDataIcon title=""/>
   }
 
 }
