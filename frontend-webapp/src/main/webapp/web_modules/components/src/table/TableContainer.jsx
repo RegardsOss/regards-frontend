@@ -135,8 +135,8 @@ class TableContainer extends React.Component {
     this.nbEntitiesByPage = this.props.pageSize * PAGE_SIZE_MULTIPLICATOR
     this.state = TableContainer.DEFAULT_STATE
     this.lastPageAvailable = Math.floor(TableContainer.MAX_NB_ENTITIES / this.nbEntitiesByPage)
-    if (((this.lastPageAvailable*this.nbEntitiesByPage)  + this.nbEntitiesByPage) > TableContainer.MAX_NB_ENTITIES) {
-      this.lastPageAvailable = this.lastPageAvailable -1
+    if (((this.lastPageAvailable * this.nbEntitiesByPage) + this.nbEntitiesByPage) > TableContainer.MAX_NB_ENTITIES) {
+      this.lastPageAvailable = this.lastPageAvailable - 1
     }
     this.maxRowCounts = this.lastPageAvailable * this.nbEntitiesByPage
   }

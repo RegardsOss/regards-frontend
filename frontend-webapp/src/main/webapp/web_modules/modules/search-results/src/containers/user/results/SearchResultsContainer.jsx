@@ -268,8 +268,8 @@ export class SearchResultsContainer extends React.Component {
     let sq = this.state.searchQuery
     // Handle case where a dataset is selected and the display mode is dataset.
     // No specific request to do. Only search for the given dataset
-    const datasetLevel = find(this.props.levels, {levelType: NavigationLevel.LevelTypes.DATASET})
-    if (datasetLevel && !showingDataobjects){
+    const datasetLevel = find(this.props.levels, { levelType: NavigationLevel.LevelTypes.DATASET })
+    if (datasetLevel && !showingDataobjects) {
       // Search datasets
       searchActions = searchDatasetsActions
       sq = `ipId:"${datasetLevel.levelValue}"`

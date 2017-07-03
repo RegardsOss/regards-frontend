@@ -152,7 +152,7 @@ export class ProjectConnectionFormComponent extends React.Component {
           name="port"
           fullWidth
           component={RenderTextField}
-          type="text"
+          type="number"
           label={this.context.intl.formatMessage({ id: 'database.form.input.port' })}
         />
         <Field
@@ -215,12 +215,11 @@ validate(values) {
   }
   if (!values.port) {
     errors.port = ErrorTypes.REQUIRED
-  }
-  if (isNaN(values.port)) {
+  } else if (isNaN(values.port)) {
     errors.port = ErrorTypes.NUMERIC
   }
   if (!values.db_name) {
-    errors.address = ErrorTypes.REQUIRED
+    errors.db_name = ErrorTypes.REQUIRED
   }
   if (!values.userName) {
     errors.userName = ErrorTypes.REQUIRED

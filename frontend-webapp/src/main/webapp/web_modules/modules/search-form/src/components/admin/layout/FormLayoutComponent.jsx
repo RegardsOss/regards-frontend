@@ -2,11 +2,11 @@
  * LICENSE_PLACEHOLDER
  **/
 import merge from 'lodash/merge'
-import {i18nContextType} from '@regardsoss/i18n'
-import {Card, CardActions, CardText} from 'material-ui/Card'
-import {CardActionsComponent, Title} from '@regardsoss/components'
-import {Container as ContainerShape} from '@regardsoss/model'
-import {LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
+import { i18nContextType } from '@regardsoss/i18n'
+import { Card, CardActions, CardText } from 'material-ui/Card'
+import { CardActionsComponent, Title } from '@regardsoss/components'
+import { Container as ContainerShape } from '@regardsoss/model'
+import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
 
 const searchFormDefaultLayout = merge({}, DefaultLayout, {
@@ -17,8 +17,8 @@ const searchFormDefaultLayout = merge({}, DefaultLayout, {
       classes: [],
       styles: {},
       containers: [],
-    }
-  ]
+    },
+  ],
 })
 /**
  * Component to display the search form layout configuration panel
@@ -64,12 +64,12 @@ class FormLayoutComponent extends React.Component {
   }
 
   render() {
-    const style = {width: '100%'}
+    const style = { width: '100%' }
     return (
       <Card>
         <Title
           level={3}
-          label={this.context.intl.formatMessage({id: 'form.layout.tab.title'})}
+          label={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
         />
         <CardText style={style}>
           <LayoutConfigurationComponent
@@ -80,7 +80,7 @@ class FormLayoutComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={this.context.intl.formatMessage({id: 'form.layout.tab.reset'})}
+            mainButtonLabel={this.context.intl.formatMessage({ id: 'form.layout.tab.reset' })}
             mainButtonType="reset"
             mainButtonTouchTap={this.resetLayout}
           />
