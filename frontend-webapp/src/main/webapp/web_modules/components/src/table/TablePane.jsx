@@ -37,6 +37,8 @@ class TablePane extends React.Component {
     error: PropTypes.object,
     // results count
     resultsCount: PropTypes.number.isRequired,
+    // Maximum number of results to display
+    maxRowCounts: PropTypes.number.isRequired,
     // provided table data and configuration
     tableData: PropTypes.shape(Table.PropTypes).isRequired,
     // columns
@@ -223,7 +225,7 @@ class TablePane extends React.Component {
 
   render() {
     const { error, resultsCount, tableData, toggledElements, selectionMode,
-      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent } = this.props
+      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent, maxRowCounts } = this.props
     const { visibleColumns, tableWidth } = this.state
     const isRequestEntityTooLarge = error.status === 413
 
@@ -240,6 +242,7 @@ class TablePane extends React.Component {
             isRequestEntityTooLarge={isRequestEntityTooLarge}
           >
             <Table
+              maxRowCounts={maxRowCounts}
               columns={visibleColumns}
               width={tableWidth}
               allSelected={allSelected}
