@@ -3,6 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { StringComparison } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DataManagementClient } from '@regardsoss/client'
 import { AttributeModelController, ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
@@ -12,6 +13,14 @@ import { AttributesContainer } from '../../../../../src/containers/description/p
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
+
+function buildExpectedStandardAttributes(entity) {
+  return AttributeModelController.descriptionStandardAttributes.map((key) => {
+    const { id, label, type, entityPathName } = AttributeModelController.standardAttributes[key]
+    const renderValue = AttributeModelController.getEntityAttributeValue(entity, entityPathName)
+    return { id, label, renderer: getTypeRender(type), renderValue: renderValue ? { main: renderValue } : null }
+  }).sort((attr1, attr2) => StringComparison.compare(attr1.label, attr2.label))
+}
 
 describe('[Entities Common] Testing AttributesContainer', () => {
   before(testSuiteHelpers.before)
@@ -139,13 +148,9 @@ describe('[Entities Common] Testing AttributesContainer', () => {
 
     const containerWrapper = shallow(<AttributesContainer {...props} />, { context, lifecycleExperimental: true })
     let componentWrapper = containerWrapper.find(AttributesComponent)
-    // expected attributes (mixed dynamic and standard, alphabetically sorted)
-    let expectedStandardAttributes = [
-      { id: -4, label: 'creationDate', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('creationDate')), renderValue: null },
-      { id: -1, label: 'ipId', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('ipId')), renderValue: { main: 'urn:child' } },
-      { id: -3, label: 'label', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('label')), renderValue: { main: 'thelabel' } },
-      { id: -5, label: 'lastUpdate', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('lastUpdate')), renderValue: null },
-      { id: -2, label: 'sipId', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('sipId')), renderValue: { main: 'urn:sip-parent' } }]
+
+
+    let expectedStandardAttributes = buildExpectedStandardAttributes(props.entity)
     assert.deepEqual(componentWrapper.props().attributes, [
       { id: 0, label: 'A Property Label', renderer: getTypeRender('string'), renderValue: { main: 'entityPropertyValue' } },
       ...expectedStandardAttributes,
@@ -166,12 +171,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
     }
     containerWrapper.setProps(props2)
     componentWrapper = containerWrapper.find(AttributesComponent)
-    expectedStandardAttributes = [
-      { id: -4, label: 'creationDate', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('creationDate')), renderValue: null },
-      { id: -1, label: 'ipId', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('ipId')), renderValue: { main: 'urn:entity2' } },
-      { id: -3, label: 'label', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('label')), renderValue: { main: 'thelabel2' } },
-      { id: -5, label: 'lastUpdate', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('lastUpdate')), renderValue: null },
-      { id: -2, label: 'sipId', renderer: getTypeRender(AttributeModelController.getStandardAttributeType('sipId')), renderValue: null }]
+    expectedStandardAttributes = buildExpectedStandardAttributes(props2.entity)
     assert.deepEqual(componentWrapper.props().attributes, [{
       id: 0,
       label: 'A Property Label',

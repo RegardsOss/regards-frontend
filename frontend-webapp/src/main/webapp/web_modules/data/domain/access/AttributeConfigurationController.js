@@ -11,7 +11,7 @@ import AttributeModelController from '../dam/AttributeModelController'
  */
 
 /**
- * Does the given AttributeConfiguration entity is a standard attribute configuration ?
+ * Is the given AttributeConfiguration entity a standard attribute configuration ?
  *
  * @param attributeConf
  * @returns {boolean}
@@ -38,16 +38,18 @@ const findAttributeConf = (attributesList, attributeConfigurationToFind) => {
 
 /**
  * Return an AttributeConfiguration for the given standardAttribute. Return null if attribute is not a standard attribute
- * @param standardAttribute
+ * @param standardAttribute standard attribute key
  * @returns {{content: {label: *, name: *, type: *}}}
  */
 const getStandardAttributeConf = (standardAttribute) => {
-  if (AttributeModelController.StandardAttributes.find(attribute => attribute === standardAttribute)) {
+  const attribute = AttributeModelController.standardAttributes[standardAttribute]
+  if (attribute) {
     return {
       content: {
-        label: standardAttribute,
+        label: attribute.label,
         name: standardAttribute,
-        type: AttributeModelController.getStandardAttributeType(standardAttribute),
+        type: attribute.type,
+        jsonPath: attribute.entityPathName,
       },
     }
   }

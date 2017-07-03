@@ -109,7 +109,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
    */
   componentWillReceiveProps = ({ parentIpId: nextParentIpId, isShowable, selectionPath }) => {
     const { parentIpId } = this.props
-    if (parentIpId !== nextParentIpId) { // refetch on parent change, if showable
+    if (parentIpId !== nextParentIpId && nextParentIpId) { // refetch on parent change, if showable
       this.updateLevelElements(isShowable, nextParentIpId, selectionPath)
     }
   }
@@ -133,11 +133,10 @@ export class GraphLevelDisplayerContainer extends React.Component {
       if (showDatasets) {
         // rebuild parent path (level != 0, there is necessary a selection)
         const parentIndex = selectionPath.findIndex(selectionElement => selectionElement.ipId === parentIpId)
-        console.error('---> I DO SUCK ', parentIndex, selectionPath)
         if (parentIndex !== -1) {
-          const parentPath = selectionPath.slice(0, parentIndex + 1)
-          console.error('--> Ill be requiring the damned ', parentPath)
-          dispatchFetchLevelDatasets([parentIpId])
+          // get parent path from selection, map it to IP ID array
+          const parentPath = selectionPath.slice(0, parentIndex + 1).map(({ ipId }) => ipId)
+          dispatchFetchLevelDatasets(parentPath)
         }
       }
     }

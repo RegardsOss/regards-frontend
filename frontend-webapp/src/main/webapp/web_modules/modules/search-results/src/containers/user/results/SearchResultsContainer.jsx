@@ -7,13 +7,8 @@ import values from 'lodash/values'
 import remove from 'lodash/remove'
 import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
-import {
-  AttributeModel,
-  AttributeConfiguration,
-  AttributesRegroupementConfiguration,
-  AttributeConfigurationController,
-  SearchResultsTargetsEnum,
-} from '@regardsoss/model'
+import { AccessDomain, CatalogDomain } from '@regardsoss/domain'
+import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { TableSelectionModes, TableSortOrders } from '@regardsoss/components'
 import TableClient from '../../../clients/TableClient'
 import NavigationLevel from '../../../models/navigation/NavigationLevel'
@@ -57,7 +52,7 @@ export class SearchResultsContainer extends React.Component {
     dispatchTagSelected: searchTag => dispatch(navigationContextActions.changeSearchTag(searchTag)),
     dispatchDatasetSelected: (dataset) => {
       dispatch(navigationContextActions.changeDataset(dataset))
-      dispatch(navigationContextActions.changeViewObjectType(SearchResultsTargetsEnum.DATAOBJECT_RESULTS))
+      dispatch(navigationContextActions.changeViewObjectType(CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS))
     },
   })
 
@@ -72,15 +67,15 @@ export class SearchResultsContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     facettesQuery: PropTypes.string, // facettes query to be added to search query in order to get the facettes
     // Attributes configurations for results columns
-    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    datasetAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    attributeModels: PropTypes.objectOf(AttributeModel),
+    attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    attributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent),
+    datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
 
     // From map state to props
     datasetServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
     selectedDataobjectsServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
-    viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired,
     // Display mode
     displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -124,10 +119,10 @@ export class SearchResultsContainer extends React.Component {
   componentWillReceiveProps = nextProps => this.updateState(this.props, nextProps)
 
   /** On show datasets */
-  onShowDatasets = () => this.props.dispatchChangeViewObjectType(SearchResultsTargetsEnum.DATASET_RESULTS)
+  onShowDatasets = () => this.props.dispatchChangeViewObjectType(CatalogDomain.SearchResultsTargetsEnum.DATASET_RESULTS)
 
   /** On show dataobjects */
-  onShowDataobjects = () => this.props.dispatchChangeViewObjectType(SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
+  onShowDataobjects = () => this.props.dispatchChangeViewObjectType(CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
 
   /** On show results as list view action */
   onShowListView = () => this.props.dispatchChangeDisplayMode(DisplayModeEnum.LIST)
@@ -185,7 +180,7 @@ export class SearchResultsContainer extends React.Component {
   buildOpenSearchQuery = ({ searchQuery, facettesQuery, levels, viewObjectType },
     { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
     // check if facettes should be applied
-    const facettes = showingFacettes && viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
+    const facettes = showingFacettes && viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
     const facettesQueryPart = showingFacettes ? facettesQuery : ''
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(searchQuery, facettes, NavigationLevel.getQueryParameters(levels))
     // check if user specified or sorting or provide one
@@ -223,7 +218,7 @@ export class SearchResultsContainer extends React.Component {
     //  initial sort attributes (used while the user hasn't set any sortedColumns)
     if (oldProperties.attributesConf !== newProperties.attributesConf) {
       newState.initialSortAttributesPath =
-        (AttributeConfigurationController.getInitialSortAttributes(newProperties.attributesConf) || []).map(
+        (AccessDomain.AttributeConfigurationController.getInitialSortAttributes(newProperties.attributesConf) || []).map(
           attribute => ({
             attributePath: attribute,
             type: TableSortOrders.ASCENDING_ORDER, // default is ascending
@@ -259,20 +254,20 @@ export class SearchResultsContainer extends React.Component {
       facettesQuery, datasetServices, selectedDataobjectsServices, displayDatasets,
       dispatchDatasetSelected, dispatchTagSelected, displayMode, datasetAttributesConf,
     } = this.props
-    const { showingFacettes, filters, searchTag, searchQuery, emptySelection, sortingOn } = this.state
+    const { showingFacettes, filters, searchTag, searchQuery: baseSearchQuery, emptySelection, sortingOn } = this.state
 
     // compute view mode
-    const showingDataobjects = viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS
+    const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
     // compute child results fetch actions
     let searchActions = showingDataobjects ? searchDataobjectsActions : searchDatasetsFromDataObjectsActions
-    let sq = this.state.searchQuery
+    let searchQuery = baseSearchQuery
     // Handle case where a dataset is selected and the display mode is dataset.
     // No specific request to do. Only search for the given dataset
-    const datasetLevel = find(this.props.levels, {levelType: NavigationLevel.LevelTypes.DATASET})
-    if (datasetLevel && !showingDataobjects){
+    const datasetLevel = find(this.props.levels, { levelType: NavigationLevel.LevelTypes.DATASET })
+    if (datasetLevel && !showingDataobjects) {
       // Search datasets
       searchActions = searchDatasetsActions
-      sq = `ipId:"${datasetLevel.levelValue}"`
+      searchQuery = `ipId:"${datasetLevel.levelValue}"`
     }
 
     // control the available selection options
@@ -296,7 +291,7 @@ export class SearchResultsContainer extends React.Component {
         sortingOn={sortingOn}
         filters={filters}
         searchTag={searchTag}
-        searchQuery={sq}
+        searchQuery={searchQuery}
 
         attributesConf={attributesConf}
         attributesRegroupementsConf={attributesRegroupementsConf}

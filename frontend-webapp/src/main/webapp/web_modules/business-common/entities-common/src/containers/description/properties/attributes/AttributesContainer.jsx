@@ -91,14 +91,14 @@ export class AttributesContainer extends React.Component {
   */
   resolveEntityAttributes = (nextEntity, newModelAttributes) => {
     // 1 - resolve standard attributes
-    const standardAttributes = DamDomain.AttributeModelController.descriptionStandardAttributes.map((attrId, index) => {
-      const value = nextEntity.content[attrId]
-      return {
-        id: -(index + 1), // as standard attributes array is static, index is a valid id, as long as it cant conflict with DB ID (negative)
-        label: attrId,
-        renderer: getTypeRender(DamDomain.AttributeModelController.getStandardAttributeType(attrId)),
-        renderValue: value ? { main: value } : null,
-      }
+    const standardAttributes = DamDomain.AttributeModelController.standardAttributes
+    const descriptionStandardAttributes = DamDomain.AttributeModelController.descriptionStandardAttributes.map((attrKey, index) => {
+      // retrieve attribute
+      const { id, label, type, entityPathName } = standardAttributes[attrKey]
+      // retrieve value
+      const value = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, entityPathName)
+      // resolve attribute
+      return { id, label, renderer: getTypeRender(type), renderValue: value ? { main: value } : null }
     })
     // 2 - resolve dynamic attributes
     const dynamicAttributes = map(newModelAttributes, ({ content: { attribute: attributeModel } }) => {
@@ -114,7 +114,7 @@ export class AttributesContainer extends React.Component {
       }
     })
     // 3 - make table and sort
-    return [...standardAttributes, ...dynamicAttributes].sort((attr1, attr2) => StringComparison.compare(attr1.label, attr2.label))
+    return [...descriptionStandardAttributes, ...dynamicAttributes].sort((attr1, attr2) => StringComparison.compare(attr1.label, attr2.label))
   }
 
   render() {

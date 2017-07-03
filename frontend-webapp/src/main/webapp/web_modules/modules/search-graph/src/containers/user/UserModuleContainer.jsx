@@ -8,8 +8,8 @@ import find from 'lodash/find'
 import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
-import { DamDomain } from '@regardsoss/domain'
-import { CatalogEntityTypes, AttributeModel, AttributeConfigurationController } from '@regardsoss/model'
+import { DamDomain, AccessDomain } from '@regardsoss/domain'
+import { CatalogEntityTypes, AttributeModel } from '@regardsoss/model'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { SelectionPath } from '../../model/graph/SelectionShape'
@@ -42,7 +42,7 @@ export class UserModuleContainer extends React.Component {
     fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
     fetchCollections: (levelIndex, parentEntityId, levelModelName) =>
       dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
-    fetchDatasets: (levelIndex, parentEntityId) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentEntityId)),
+    fetchDatasets: (levelIndex, parentPath) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath)),
     dispatchClearLevelSelection: levelIndex => dispatch(graphContextActions.selectEntity(levelIndex, null)),
     dispatchLevelDataLoaded: (levelIndex, results, patitionTypeActions) => {
       if (results.error) {
@@ -105,12 +105,13 @@ export class UserModuleContainer extends React.Component {
       const resolvedGraphDatasetAttributes = sorted.reduce((resolvedAcc, attributeConfiguration) => {
         const fullQualifiedName = attributeConfiguration.attributeFullQualifiedName
         let resolvedAttribute = null
-        if (AttributeConfigurationController.isStandardAttribute(attributeConfiguration)) {
+        if (AccessDomain.AttributeConfigurationController.isStandardAttribute(attributeConfiguration)) {
+          const attrModel = DamDomain.AttributeModelController.standardAttributes[fullQualifiedName]
           // 3.a - standard attribute mapping, always resolves
           resolvedAttribute = {
-            label: fullQualifiedName, // TODO use a constant for standard attributes labels
-            attributePath: fullQualifiedName, // root attribute
-            render: getTypeRender(), // default render
+            label: attrModel.label,
+            attributePath: fullQualifiedName,
+            render: getTypeRender(attrModel.type),
           }
         } else {
           // 3.b - dynamic attribute mapping, resolves if found in fetched models
@@ -155,16 +156,17 @@ export class UserModuleContainer extends React.Component {
         const collections = get(collectionsFetchResult, 'payload.entities.entities', {})
         const datasets = get(datasetFetchResults, 'payload.entities.entities', {})
         if (selection.length) {
-          const [{ ipId: selectedParentIpId, type: selectedParentType }, ...nextSelectedElements] = selection
+          const [{ ipId: selectedParentIpId, entityType: selectedParentType }, ...nextSelectedElements] = selection
           const retrievedParentSelection = find({ ...collections, ...datasets }, ({ content: { ipId } }) => selectedParentIpId === ipId)
           if (!retrievedParentSelection) {
             // (break case) the parent level selection could not be restored: remove it from selection then stop
             dispatchClearLevelSelection(level - 1)
           } else if (selectedParentType !== CatalogEntityTypes.DATASET) {
             // loop case: resolve next
+            const parentPath = selectionPath.slice(0, level).map(({ ipId }) => ipId) // prepare parent path for datasets
             Promise.all([
               fetchCollections(level, selectedParentIpId, graphLevels[level]),
-              fetchDatasets(level, selectedParentIpId)]).then(getRecursiveUpdater(nextSelectedElements, level + 1))
+              fetchDatasets(level, parentPath)]).then(getRecursiveUpdater(nextSelectedElements, level + 1))
           }
         }
         // (break case) else, no level selection, done

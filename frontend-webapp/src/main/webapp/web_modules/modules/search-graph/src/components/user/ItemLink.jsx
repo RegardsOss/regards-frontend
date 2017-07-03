@@ -5,6 +5,7 @@ import values from 'lodash/values'
 import LockIcon from 'material-ui/svg-icons/action/lock'
 import InformationIcon from 'material-ui/svg-icons/action/info-outline'
 import IconButton from 'material-ui/IconButton'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
 
@@ -68,6 +69,7 @@ class ItemLink extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   componentWillMount() {
@@ -99,7 +101,11 @@ class ItemLink extends React.Component {
     const { Icon, text, displayState, additiveLineComponent,
       onMouseOver, onMouseOut, onLinkClicked, onDescriptionClicked } = this.props
     const { rootStyles, textStyles, iconStyles } = this.state
-    const { moduleTheme: { user: { itemLink: { iconsOverlay, lockIcon, informationButton } } } } = this.context
+    const {
+      moduleTheme: { user: { itemLink: { iconsOverlay, lockIcon, informationButton } } },
+      intl: { formatMessage },
+  } = this.context
+
     /* eslint-disable jsx-a11y/no-static-element-interactions*/
     return (
       <div
@@ -133,6 +139,7 @@ class ItemLink extends React.Component {
         }
         {/* Show description button */}
         <IconButton
+          title={formatMessage({ id: 'search.graph.entity.detail.tooltip' })}
           iconStyle={informationButton.iconStyles}
           style={informationButton.styles}
           onTouchTap={onDescriptionClicked}

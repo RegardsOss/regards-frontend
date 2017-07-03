@@ -18,13 +18,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders, NoContentComponent } from '@regardsoss/components'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { DamDomain } from '@regardsoss/domain'
-import {
-  AttributeModel,
-  AttributeConfiguration,
-  AttributeConfigurationController,
-  AttributesRegroupementConfiguration,
-} from '@regardsoss/model'
+import { DamDomain, AccessDomain } from '@regardsoss/domain'
+import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
@@ -76,12 +71,12 @@ class SearchResultsComponent extends React.Component {
 
     // Attributes configurations for results columns
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
+    attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    attributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent),
     // eslint-disable-next-line react/no-unused-prop-types
-    datasetAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    attributeModels: PropTypes.objectOf(AttributeModel),
+    datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
 
     // control
     resultPageActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
@@ -158,16 +153,13 @@ class SearchResultsComponent extends React.Component {
       if (attributeConf.visibility) {
         let attribute
         let fullyQualifiedAttributePathInEntity
-        if (AttributeConfigurationController.isStandardAttribute(attributeConf)) {
+        if (AccessDomain.AttributeConfigurationController.isStandardAttribute(attributeConf)) {
           // standard attribute
-          attribute = AttributeConfigurationController.getStandardAttributeConf(attributeConf.attributeFullQualifiedName)
-          fullyQualifiedAttributePathInEntity = DamDomain.AttributeModelController.getStandardAttributeEntityPathName(attributeConf.attributeFullQualifiedName)
+          attribute = AccessDomain.AttributeConfigurationController.getStandardAttributeConf(attributeConf.attributeFullQualifiedName)
         } else {
           // maybe dynamic attribute (if found)
           attribute = find(attributeModels,
             att => DamDomain.AttributeModelController.getAttributeAccessPath(att) === attributeConf.attributeFullQualifiedName)
-          fullyQualifiedAttributePathInEntity = attribute ?
-            DamDomain.AttributeModelController.getAttributeAccessPath(attribute) : null
         }
         // when found, add the corresponding column
         if (attribute) {
@@ -177,7 +169,7 @@ class SearchResultsComponent extends React.Component {
             attribute.content.type === DamDomain.AttributeModelController.ATTRIBUTE_TYPES.DOWNLOAD_LINK
           return [...allColumns, {
             label: attribute.content.label,
-            attributes: [fullyQualifiedAttributePathInEntity],
+            attributes: [attribute.content.jsonPath],
             sortable: !isSpecialAttr && enableSorting,
             hideLabel: isSpecialAttr,
             fixed: isSpecialAttr ? SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH : undefined,

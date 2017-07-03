@@ -70,7 +70,7 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
     assert.equal(attributes.at(0).prop('name'), 'conf.attributes.searchField1', 'The first attribute to configure should be searchField1 as defined in TestPlugin-info.json')
     assert.equal(attributes.at(1).prop('name'), 'conf.attributes.searchField2', 'The second attribute to configure should be searchField2 as defined in TestPlugin-info.json')
 
-    const numberOfSelectableAttributes = keys(props.selectableAttributes).length + DamDomain.AttributeModelController.SearchableStandardAttributes.length
+    const numberOfSelectableAttributes = keys(props.selectableAttributes).length + DamDomain.AttributeModelController.searchableStandardAttributes.length
     assert.lengthOf(attributes.at(0).find(MenuItem), numberOfSelectableAttributes, `There  should be ${numberOfSelectableAttributes} selectable attributes for configuration`)
     assert.lengthOf(attributes.at(1).find(MenuItem), numberOfSelectableAttributes, `There  should be ${numberOfSelectableAttributes} selectable attributes for configuration`)
   })
