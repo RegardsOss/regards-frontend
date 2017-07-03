@@ -4,6 +4,7 @@ import getLinkPluginDatasetReducer from './linkPluginDataset/LinkPluginDatasetRe
 import getLinkPluginDatasetSelectors from './linkPluginDataset/LinkPluginDatasetSelectors'
 
 import SearchDataobjectsActions from './search/SearchDataobjectsActions'
+import SearchDatasetsFromDataObjectsActions from './search/SearchDatasetsFromDataObjectsActions'
 import SearchDatasetsActions from './search/SearchDatasetsActions'
 import SearchEntitiesActions from './search/SearchEntitiesActions'
 import getSearchEntitiesReducer from './search/SearchEntitiesReducer'
@@ -21,6 +22,7 @@ export default {
 
   SearchDataobjectsActions,
   SearchDatasetsActions,
+  SearchDatasetsFromDataObjectsActions,
   SearchEntitiesActions,
   getSearchEntitiesReducer,
   getSearchEntitiesSelectors,
