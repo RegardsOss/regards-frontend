@@ -83,7 +83,6 @@ export class TemporalCriteriaComponent extends React.Component {
 
   static textStyle = {
     margin: '0px 10px',
-    fontSize: '1.3em',
   }
 
   /**

@@ -14,7 +14,6 @@ import ErrorTypes from './ErrorTypes'
  */
 export const isValidEmail = email => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
 
-
 /**
  * Returns {@code true} if the passed String matches an url format.
  * @param {String} url url text
@@ -65,7 +64,7 @@ export const required = value => !isNil(value) && value !== '' ? undefined : Err
  * @param {String} value
  * @returns {String||undefined}
  */
-export const string = value => isString(value) ? undefined : ErrorTypes.TYPE_STRING
+export const string = value => isString(value) || isUndefined(value) ? undefined : ErrorTypes.TYPE_STRING
 
 /**
  * Redux-Form-style validator for Fields which content must not be empty.

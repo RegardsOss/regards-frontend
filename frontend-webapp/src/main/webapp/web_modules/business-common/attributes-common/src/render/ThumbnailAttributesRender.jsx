@@ -4,6 +4,7 @@
 import find from 'lodash/find'
 import Dialog from 'material-ui/Dialog'
 import Avatar from 'material-ui/Avatar'
+import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { ObjectLinkedFile, ObjectLinkedFileTypes, CatalogEntity } from '@regardsoss/model'
 
 /**
@@ -63,9 +64,11 @@ class ThumbnailAttributesRender extends React.Component {
             {this.displayFullSize(thumbnail.fileRef)}
           </div>
         )
+      } else {
+        return <NoDataIcon />
       }
     }
-    return null
+    return <NoDataIcon title=""/>
   }
 
 }

@@ -10,6 +10,7 @@ const REDUX_ACTION_NAMESPACE = 'search-results/search-catalog'
 
 
 export const searchDataobjectsActions = new CatalogClient.SearchDataobjectsActions(REDUX_ACTION_NAMESPACE)
+export const searchDatasetsFromDataObjectsActions = new CatalogClient.SearchDatasetsFromDataObjectsActions(REDUX_ACTION_NAMESPACE)
 export const searchDatasetsActions = new CatalogClient.SearchDatasetsActions(REDUX_ACTION_NAMESPACE)
 export const searchEntitiesActions = new CatalogClient.SearchEntitiesActions(REDUX_ACTION_NAMESPACE)
 export const reducer = CatalogClient.getSearchEntitiesReducer(REDUX_ACTION_NAMESPACE)
@@ -21,6 +22,7 @@ export const selectors = CatalogClient.getSearchEntitiesSelectors(ENTITIES_STORE
  */
 export default {
   searchDataobjectsActions,
+  searchDatasetsFromDataObjectsActions,
   searchDatasetsActions,
   searchEntitiesActions,
   reducer,

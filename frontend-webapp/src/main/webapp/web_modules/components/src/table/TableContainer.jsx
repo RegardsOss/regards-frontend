@@ -132,6 +132,11 @@ class TableContainer extends React.Component {
     super(props)
     this.nbEntitiesByPage = this.props.pageSize * PAGE_SIZE_MULTIPLICATOR
     this.state = TableContainer.DEFAULT_STATE
+    this.lastPageAvailable = Math.floor(TableContainer.MAX_NB_ENTITIES / this.nbEntitiesByPage)
+    if (((this.lastPageAvailable*this.nbEntitiesByPage)  + this.nbEntitiesByPage) > TableContainer.MAX_NB_ENTITIES) {
+      this.lastPageAvailable = this.lastPageAvailable -1
+    }
+    this.maxRowCounts = this.lastPageAvailable * this.nbEntitiesByPage
   }
 
   componentDidMount = () => this.onPropertiesUpdate({}, this.props)
@@ -206,13 +211,20 @@ class TableContainer extends React.Component {
     const lastIndexToRetrieve = index + (this.props.pageSize * HALF_FETCHED)
 
     const firstIndexFetched = pageNumber * this.nbEntitiesByPage
-    const lastIndexFetched = (pageNumber + 1) * this.nbEntitiesByPage
+    const lastIndexFetched = firstIndexFetched + this.nbEntitiesByPage
 
-    this.fetchEntities(pageNumber)
-    if (index < firstIndexFetched || firstIndexFetched < firstIndexToRetrieve && pageNumber > 0) {
-      this.fetchEntities(pageNumber - 1)
-    } else if (index > lastIndexFetched || lastIndexToRetrieve > lastIndexFetched) {
-      this.fetchEntities(pageNumber + 1)
+    // Check if it is the last accessible page
+    if (pageNumber > this.lastPageAvailable) {
+      this.fetchEntities(this.lastPageAvailable)
+    } else {
+      this.fetchEntities(pageNumber)
+      if (index < firstIndexFetched || firstIndexFetched < firstIndexToRetrieve && pageNumber > 0) {
+        this.fetchEntities(pageNumber - 1)
+      } else if (index > lastIndexFetched || lastIndexToRetrieve > lastIndexFetched) {
+        if (pageNumber < this.lastPageAvailable) {
+          this.fetchEntities(pageNumber + 1)
+        }
+      }
     }
   }
 
@@ -320,6 +332,7 @@ class TableContainer extends React.Component {
             columns={allColumns}
             entitiesFetching={entitiesFetching}
             error={error}
+            maxRowCounts={this.maxRowCounts}
             resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
             allSelected={allSelected}
             toggledElements={toggledElements}

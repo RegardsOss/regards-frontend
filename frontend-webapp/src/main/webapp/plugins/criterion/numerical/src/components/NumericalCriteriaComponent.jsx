@@ -95,13 +95,13 @@ export class NumericalCriteriaComponent extends PluginComponent {
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
     if (isNaN(openSearchQuery)) {
       const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
-      if (values.length === 3){
+      if (values.length === 3) {
         if (values[1] === "*") {
-          this.setState({comparator: EnumNumericalComparator.LE})
+          this.setState({ comparator: EnumNumericalComparator.LE })
           return values[2]
         }
         if (values[2] === "*") {
-          this.setState({comparator: EnumNumericalComparator.GE})
+          this.setState({ comparator: EnumNumericalComparator.GE })
           return values[1]
         }
       }
@@ -125,7 +125,6 @@ export class NumericalCriteriaComponent extends PluginComponent {
         <span
           style={{
             margin: '0px 10px',
-            fontSize: '1.3em',
           }}
         >
           {attributeLabel}

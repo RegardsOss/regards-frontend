@@ -3,8 +3,8 @@
  **/
 import map from 'lodash/map'
 import values from 'lodash/values'
-import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
-import { themeContextType } from '@regardsoss/theme'
+import {Table as FixedDataTable, Column} from 'fixed-data-table-2'
+import {themeContextType} from '@regardsoss/theme'
 import FixedTableHeaderCell from './columns/ColumnHeader'
 import CheckboxColumnHeader from './columns/CheckboxColumnHeader'
 import Cell from './cells/Cell'
@@ -12,7 +12,7 @@ import CheckBoxCell from './cells/CheckBoxCell'
 import ColumnConfiguration from './columns/model/ColumnConfiguration'
 import TableConfigurationModel from './model/TableConfigurationModel'
 import TableSelectionModes from '../model/TableSelectionModes'
-import { PAGE_SIZE_MULTIPLICATOR } from '../model/TableConstant'
+import {PAGE_SIZE_MULTIPLICATOR} from '../model/TableConstant'
 
 const MIN_COL_WIDTH = 150
 /**
@@ -41,6 +41,7 @@ class Table extends React.Component {
     onScrollEnd: PropTypes.func.isRequired,
     columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
     width: PropTypes.number.isRequired,
+    maxRowCounts: PropTypes.number,
 
     // selection related
     allSelected: PropTypes.bool.isRequired, // are all elements selected?
@@ -70,7 +71,7 @@ class Table extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ ...this.computeGraphicsMeasures(nextProps) })
+    this.setState({...this.computeGraphicsMeasures(nextProps)})
   }
 
   /**
@@ -79,7 +80,7 @@ class Table extends React.Component {
    * @param columnKey
    */
   onColumnResizeEndCallback = (newColumnWidth, columnKey) => {
-    this.setState(({ columnWidths }) => ({
+    this.setState(({columnWidths}) => ({
       columnWidths: {
         ...columnWidths,
         [columnKey]: newColumnWidth,
@@ -96,8 +97,8 @@ class Table extends React.Component {
   /**
    * Computes graphics measures
    */
-  computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight, width, columns = [] }) => {
-    const { selectionColumn } = this.context.moduleTheme
+  computeGraphicsMeasures = ({displayCheckbox, pageSize, lineHeight, width, columns = []}) => {
+    const {selectionColumn} = this.context.moduleTheme
     // 1 - compute height
     const nbEntitiesByPage = pageSize * PAGE_SIZE_MULTIPLICATOR
     const height = lineHeight * (pageSize + 1) // +1 for header row
@@ -111,35 +112,38 @@ class Table extends React.Component {
     let lastColumnWidth = availableWidth - (columnWidth * (columns.length - 1))
     lastColumnWidth = Math.max(lastColumnWidth, MIN_COL_WIDTH)
     // Init labelled columns width
-    const columnWidths = columns.reduce((acc, { label }, index) => ({
+    const columnWidths = columns.reduce((acc, {label}, index) => ({
       [label]: index === columns.length - 1 ? lastColumnWidth : columnWidth,
       ...acc,
     }), {})
 
-    return { nbEntitiesByPage, height, width, columnWidths }
+    return {nbEntitiesByPage, height, width, columnWidths}
   }
 
   render() {
     if (!this.props.entities) {
       return null
     }
-    const { cellsStyle, columns, width, lineHeight, displayCheckbox, displaySelectAll, displayColumnsHeader,
+    const {
+      cellsStyle, columns, width, lineHeight, displayCheckbox, displaySelectAll, displayColumnsHeader,
       allSelected, onToggleSelectAll, onToggleRowSelection, onScrollEnd, onSortByColumn,
-      toggledElements, selectionMode, pageSize } = this.props
-    const { columnWidths, height } = this.state
-    const { selectionColumn } = this.context.moduleTheme
-    const totalNumberOfEntities = this.props.entities.length
+      toggledElements, selectionMode, pageSize, maxRowCounts
+    } = this.props
+    const {columnWidths, height} = this.state
+    const {selectionColumn} = this.context.moduleTheme
+    const totalNumberOfEntities = this.props.entities.length > pageSize ? this.props.entities.length : pageSize
 
     // If the total number of results is less than the number of elements by page, adjust height of the table
     // to fit the number of results. Else use the default fixed height.
     const totalHeight = displayColumnsHeader ? (totalNumberOfEntities + 1) * lineHeight : totalNumberOfEntities * lineHeight
     const calculatedHeight = totalNumberOfEntities > pageSize ? height : totalHeight + 5
 
+    const rowsCount = maxRowCounts && totalNumberOfEntities > maxRowCounts ? maxRowCounts : totalNumberOfEntities
     return (
       <FixedDataTable
         rowHeight={lineHeight}
         headerHeight={displayColumnsHeader ? lineHeight : 0}
-        rowsCount={totalNumberOfEntities}
+        rowsCount={rowsCount}
         onColumnResizeEndCallback={this.onColumnResizeEndCallback}
         isColumnResizing={false}
         onScrollEnd={onScrollEnd}

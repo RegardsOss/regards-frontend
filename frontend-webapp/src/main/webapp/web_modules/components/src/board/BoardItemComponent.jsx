@@ -96,11 +96,11 @@ class BoardItemComponent extends React.Component {
     ))
 
     // Create list of all need endpoints for all board actions
-    const actionsHateoasRequiredEnpoints = []
+    const actionsHateoasRequiredEndpoints = []
     forEach(item.actions, (action) => {
       if (action.hateoasDependencies) {
         if (action.hateoasDependencies.length > 0) {
-          actionsHateoasRequiredEnpoints.push(action.hateoasDependencies)
+          actionsHateoasRequiredEndpoints.push(action.hateoasDependencies)
         }
       }
     })
@@ -108,7 +108,7 @@ class BoardItemComponent extends React.Component {
     return (
       <BaseBoardItemComponentWithResourceDisplayControl
         displayLogic={someListMatchHateoasDisplayLogic}
-        resourceDependencies={actionsHateoasRequiredEnpoints}
+        resourceDependencies={actionsHateoasRequiredEndpoints}
         title={item.title}
         subtitle={item.subtitle}
         description={item.description}

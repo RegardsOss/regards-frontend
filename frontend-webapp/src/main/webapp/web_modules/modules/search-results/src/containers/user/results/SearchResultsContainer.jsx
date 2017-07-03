@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
 import remove from 'lodash/remove'
@@ -21,6 +22,7 @@ import navigationContextActions from '../../../models/navigation/NavigationConte
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import {
   searchDataobjectsActions,
+  searchDatasetsFromDataObjectsActions,
   searchDatasetsActions,
   selectors as searchSelectors,
 } from '../../../clients/SearchEntitiesClient'
@@ -262,7 +264,16 @@ export class SearchResultsContainer extends React.Component {
     // compute view mode
     const showingDataobjects = viewObjectType === SearchResultsTargetsEnum.DATAOBJECT_RESULTS
     // compute child results fetch actions
-    const searchActions = showingDataobjects ? searchDataobjectsActions : searchDatasetsActions
+    let searchActions = showingDataobjects ? searchDataobjectsActions : searchDatasetsFromDataObjectsActions
+    let sq = this.state.searchQuery
+    // Handle case where a dataset is selected and the display mode is dataset.
+    // No specific request to do. Only search for the given dataset
+    const datasetLevel = find(this.props.levels, {levelType: NavigationLevel.LevelTypes.DATASET})
+    if (datasetLevel && !showingDataobjects){
+      // Search datasets
+      searchActions = searchDatasetsActions
+      sq = `ipId:"${datasetLevel.levelValue}"`
+    }
 
     // control the available selection options
     let usableDatasetServices = []
@@ -285,7 +296,7 @@ export class SearchResultsContainer extends React.Component {
         sortingOn={sortingOn}
         filters={filters}
         searchTag={searchTag}
-        searchQuery={searchQuery}
+        searchQuery={sq}
 
         attributesConf={attributesConf}
         attributesRegroupementsConf={attributesRegroupementsConf}

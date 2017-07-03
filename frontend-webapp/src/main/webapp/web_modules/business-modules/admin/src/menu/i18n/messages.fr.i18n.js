@@ -8,7 +8,7 @@ const messages = {
   'menu.microservices': 'Microservices',
   'menu.plugins': 'Plugins',
   'menu.datamanagement': 'Gestion des données',
-  'menu.dataaccessrights': 'Droits aux données',
+  'menu.dataaccessrights': 'Accès aux données',
   'menu.instance': 'Administration instance',
   'menu.back': 'Retour',
 }
