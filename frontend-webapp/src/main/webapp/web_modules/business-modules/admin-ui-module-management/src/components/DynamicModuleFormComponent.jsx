@@ -38,7 +38,9 @@ class DynamicModuleFormComponent extends React.Component {
     if (!this.props.adminForm.form || !this.props.adminForm.form.conf) {
       return true
     }
-    return !isEqual(this.state,nextState) || !isEqual(this.props.adminForm.form.type, nextProps.adminForm.form.type)
+    return !isEqual(this.state,nextState) ||
+      !isEqual(this.props.adminForm.form.type, nextProps.adminForm.form.type) ||
+      !isEqual(this.props.adminForm.form.conf, nextProps.adminForm.form.conf)
   }
 
   moduleLoaded = (module) => {
