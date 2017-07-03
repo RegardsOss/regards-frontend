@@ -15,6 +15,7 @@ const styles = theme => ({
       border: 'none',
       padding: '0px',
       font: 'inherit',
+      fontSize: '21px',
     },
     pathHover: {
       cursor: 'pointer',
@@ -23,6 +24,7 @@ const styles = theme => ({
       border: 'none',
       padding: '0px',
       font: 'inherit',
+      fontSize: '21px',
     },
     separator: {
       verticalAlign: 'text-bottom',

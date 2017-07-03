@@ -116,7 +116,7 @@ class Table extends React.Component {
       ...acc,
     }), {})
 
-    return { nbEntitiesByPage, height, width, columnWidths }
+    return { nbEntitiesByPage, height, columnWidths }
   }
 
   render() {
