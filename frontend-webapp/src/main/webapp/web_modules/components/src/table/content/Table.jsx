@@ -42,6 +42,7 @@ class Table extends React.Component {
     columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
     width: PropTypes.number.isRequired,
     maxRowCounts: PropTypes.number,
+    minRowCounts: PropTypes.number,
 
     // selection related
     allSelected: PropTypes.bool.isRequired, // are all elements selected?
@@ -131,7 +132,7 @@ class Table extends React.Component {
     } = this.props
     const {columnWidths, height} = this.state
     const {selectionColumn} = this.context.moduleTheme
-    const totalNumberOfEntities = this.props.entities.length > pageSize ? this.props.entities.length : pageSize
+    const totalNumberOfEntities = this.props.entities.length > this.props.minRowCounts ? this.props.entities.length : this.props.minRowCounts
 
     // If the total number of results is less than the number of elements by page, adjust height of the table
     // to fit the number of results. Else use the default fixed height.
@@ -139,6 +140,7 @@ class Table extends React.Component {
     const calculatedHeight = totalNumberOfEntities > pageSize ? height : totalHeight + 5
 
     const rowsCount = maxRowCounts && totalNumberOfEntities > maxRowCounts ? maxRowCounts : totalNumberOfEntities
+
     return (
       <FixedDataTable
         rowHeight={lineHeight}
@@ -207,6 +209,10 @@ class Table extends React.Component {
       </FixedDataTable>
     )
   }
+}
+
+Table.defaultProps = {
+  minRowCounts: 0,
 }
 
 export default Table

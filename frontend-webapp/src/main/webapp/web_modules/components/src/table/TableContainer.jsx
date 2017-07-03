@@ -61,6 +61,8 @@ class TableContainer extends React.Component {
     tablePaneConfiguration: PropTypes.shape(TablePaneConfigurationModel).isRequired,
     // [Optional] Size of a given table page. Default is 20 visible items in the table.
     pageSize: PropTypes.number,
+    // [Optional] Default 0, number of minimum lines to display in the table
+    minRowCounts: PropTypes.number,
     // [Optional] Columns configurations. Default all attributes of entities are displayed as column.
     // An column configuration is an object with
     // - label : Displayed label of the column in the Header line
@@ -333,6 +335,7 @@ class TableContainer extends React.Component {
             entitiesFetching={entitiesFetching}
             error={error}
             maxRowCounts={this.maxRowCounts}
+            minRowCounts={this.props.minRowCounts}
             resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
             allSelected={allSelected}
             toggledElements={toggledElements}

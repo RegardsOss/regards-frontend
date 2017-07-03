@@ -22,11 +22,13 @@ export default (theme) => {
   const commonCellEven = {
     backgroundColor: theme.tableRow.stripeColor,
     borderBottom: cellBorder,
+    textAlign: 'center'
   }
 
   const commonCellOdd = {
     backgroundColor: theme.table.backgroundColor,
     borderBottom: cellBorder,
+    textAlign: 'center'
   }
 
   return ({
@@ -116,6 +118,7 @@ export default (theme) => {
     cellHeader: {
       ...commonHeaderStyles,
       alignItems: 'center',
+      textAlign: 'center',
       // borderRight: cellBorder,
     },
     lastCellHeader: {

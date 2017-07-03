@@ -225,7 +225,7 @@ class TablePane extends React.Component {
 
   render() {
     const { error, resultsCount, tableData, toggledElements, selectionMode,
-      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent, maxRowCounts } = this.props
+      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent, maxRowCounts, minRowCounts } = this.props
     const { visibleColumns, tableWidth } = this.state
     const isRequestEntityTooLarge = error.status === 413
 
@@ -243,6 +243,7 @@ class TablePane extends React.Component {
           >
             <Table
               maxRowCounts={maxRowCounts}
+              minRowCounts={minRowCounts}
               columns={visibleColumns}
               width={tableWidth}
               allSelected={allSelected}

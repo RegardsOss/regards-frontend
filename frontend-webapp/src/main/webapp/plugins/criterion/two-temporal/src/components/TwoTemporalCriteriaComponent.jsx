@@ -3,7 +3,7 @@
  **/
 import flow from 'lodash/flow'
 import fpmap from 'lodash/fp/map'
-import uniq from 'lodash/uniq'
+import fpuniq from 'lodash/fp/uniq'
 import TwoTemporalCriteriaSimpleComponent from './TwoTemporalCriteriaSimpleComponent'
 import TwoTemporalCriteriaComposedComponent from './TwoTemporalCriteriaComposedComponent'
 import AttributeModel from '../common/AttributeModel'
@@ -41,7 +41,10 @@ export class TwoTemporalCriteriaComponent extends React.Component {
     super(props)
     this.state = {
       // Switch to composed mode if only one attribute passed
-      isComposed: flow(fpmap('name'), uniq)(props.attributes).length === 1,
+      isComposed: flow(
+        fpmap('name'),
+        fpuniq
+      )(props.attributes).length === 1,
     }
   }
 

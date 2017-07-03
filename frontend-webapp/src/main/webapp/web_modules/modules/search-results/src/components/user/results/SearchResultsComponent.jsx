@@ -447,13 +447,16 @@ class SearchResultsComponent extends React.Component {
     const { showingDataobjects, viewMode, searchQuery, resultPageActions, displaySelectCheckboxes } = this.props
     const { tableColumns, listColumns } = this.state
 
+    const pageSize = 13
     let columns = []
     let lineHeight
     let cellsStyle
     let displayColumnsHeader
     let displayCheckbox
     let showParameters
+    let minRowCounts = 0
     if (this.isInTableView()) {
+      minRowCounts=pageSize
       columns = tableColumns
       lineHeight = 50
       cellsStyle = null
@@ -500,7 +503,8 @@ class SearchResultsComponent extends React.Component {
         pageSelectors={searchSelectors}
         tableActions={TableClient.tableActions}
         tableSelectors={TableClient.tableSelectors}
-        pageSize={13}
+        pageSize={pageSize}
+        minRowCounts={minRowCounts}
         columns={columns}
         requestParams={requestParams}
         tableConfiguration={tableConfiguration}
