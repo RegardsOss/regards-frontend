@@ -2,8 +2,7 @@
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. 
-This module is used to display a configured license page as an iframe and ask for a license acceptation.
+This module is a dynamic configurable module for the configurable interfaces. This module is used to display a configured license page as an iframe and ask for a license acceptation.
   
 ## Module structure
 

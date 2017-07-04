@@ -14,7 +14,6 @@ This module is used to display the REGARDS projects and allow to access their us
  |   ├── components      : React component to display panels  
  |   ├── containers      : React-Redux logic to handle module functions  
  |   ├── i18n            : Messages and labels internationalization  
- |   ├── i18n            : Messages and labels internationalization  
  |   ├── styles          : Panels styles (inline css objects)  
  |   ├── main.js         : Module exported index  
  |   ├── reducer.js      : Redux reducers  

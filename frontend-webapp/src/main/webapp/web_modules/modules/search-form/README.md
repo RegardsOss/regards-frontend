@@ -3,7 +3,7 @@
 ## Description
 
 This module is a dynamic configurable module for the configurable interfaces. 
-This module is used to display search forms to search datas from the REGARDS catalog.
+This module is used to display search forms to search data from the REGARDS catalog.
 This module uses UIPlugins to define the Criterion to display into the form.
 See TODO to know how to define and use UIPlugins.
   
@@ -15,7 +15,6 @@ See TODO to know how to define and use UIPlugins.
  |   ├── clients         : Define all backend clients needed to request/send information  
  |   ├── components      : React component to display panels  
  |   ├── containers      : React-Redux logic to handle module functions  
- |   ├── i18n            : Messages and labels internationalization  
  |   ├── i18n            : Messages and labels internationalization  
  |   ├── styles          : Panels styles (inline css objects)  
  |   ├── main.js         : Module exported index  

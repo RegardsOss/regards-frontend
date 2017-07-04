@@ -3,7 +3,11 @@
 ## Description
 
 This module is a dynamic configurable module for the configurable interfaces. 
-This module is used to display a navigation tree into the REGARDS collections and datasets.
+This module is used to display a navigation tree into the REGARDS collections and datasets where each level corresponds to a given collection model - except the last one that shows only datasets.
+It offers description functionnality for each entity and shows, using detail toggle, the specified datasets attributes.
+The module also shows and drives a search-results table:
+- When user clicks a dataset, the search-results table displays all dataobjects related to that dataset
+- When user clicks a tag (in description dialog), the search-results table displays all dataobjects related to that tag
   
 ## Module structure
 
@@ -13,7 +17,6 @@ This module is used to display a navigation tree into the REGARDS collections an
  |   ├── clients         : Define all backend clients needed to request/send information  
  |   ├── components      : React component to display panels  
  |   ├── containers      : React-Redux logic to handle module functions  
- |   ├── i18n            : Messages and labels internationalization  
  |   ├── i18n            : Messages and labels internationalization  
  |   ├── styles          : Panels styles (inline css objects)  
  |   ├── main.js         : Module exported index  
