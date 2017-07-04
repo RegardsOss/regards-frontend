@@ -1,5 +1,12 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import Fragment from './Fragment'
 
+/**
+ * Shape of an AttributeModel entity as it is passed to the criterion plugins
+ * @author Sébastien Binda
+ */
 const AttributeModel = React.PropTypes.shape({
   id: React.PropTypes.number,
   name: React.PropTypes.string,
@@ -18,14 +25,4 @@ const AttributeModel = React.PropTypes.shape({
   group: React.PropTypes.string,
 })
 
-const getAttributeName = (attribute) => {
-  if (!attribute.fragment || !attribute.fragment.name){
-    return attribute.name ? attribute.name : attribute.id
-  }
-  return `${attribute.fragment.name}.${attribute.name}`
-}
-
-export {
-  AttributeModel,
-  getAttributeName,
-}
+export default AttributeModel

@@ -5,7 +5,7 @@ import merge from 'lodash/merge'
 import get from 'lodash/get'
 import transform from 'lodash/transform'
 import React from 'react'
-import {AttributeModel, getAttributeName} from './AttributeModel'
+import AttributeModel from './AttributeModel'
 
 /**
  * Abstract class to extend in order to create a criterion plugin.
@@ -53,23 +53,23 @@ class PluginComponent extends React.Component {
       const newState = merge({}, this.state, defaultState)
       this.setState(newState)
     }
+
+    const initValues = transform(this.props.attributes, (result, attribute, key) => {
+      const initValue = this.getAttributeInitValue(key, this.props)
+      if (initValue) {
+        result[key] = this.parseOpenSearchQuery(key, initValue)
+      }
+    }, {})
+
+    this.setState(initValues)
   }
 
   componentDidMount() {
     // If initial state is not the default one, send conf to search form
     const query = this.getPluginSearchQuery(this.state)
-    if (query && query != '') {
+    if (query && query !== '') {
       this.props.onChange(query, this.props.pluginInstanceId)
     }
-
-    const initValues = transform(this.props.attributes, (result, attribute, key) => {
-      const initValue = this.getAttributeInitValue(key, this.props)
-      if (initValue) {
-        result[key] = initValue
-      }
-    }, {})
-
-    this.setState(initValues)
   }
 
   /**
@@ -77,24 +77,22 @@ class PluginComponent extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-
-    // If initial value set value to the state
+    // If initial value change from this props to new ones, update state with the new attribute values
     let toUpdate = false
     const initValues = transform(nextProps.attributes, (result, attribute, key) => {
       const initValue = this.getAttributeInitValue(key, nextProps)
-      if (initValue && initValue !== this.state[key]){
+      if (initValue && initValue !== this.props[this.getAttributeName(key)]) {
         toUpdate = true
-        result[key] = initValue
+        result[key] = this.parseOpenSearchQuery(key, initValue)
       }
     }, {})
 
     if (toUpdate) {
       this.setState(initValues)
     }
-
   }
 
-  _onPluginChangeValue = () => {
+  onPluginChangeValue() {
     // Generate query
     const query = this.getPluginSearchQuery(this.state)
     // Update plugin saved state into search form
@@ -104,8 +102,16 @@ class PluginComponent extends React.Component {
   }
 
   getPluginSearchQuery() {
-    console.error("method getPluginSearchQuery should be overide by plugin !")
+    console.error('method getPluginSearchQuery should be overide by plugin !')
     return null
+  }
+
+  getAttributeName(configuredAttributeName, props) {
+    const attribute = get(props || this.props, `attributes["${configuredAttributeName}"]`)
+    if (!attribute) {
+      return null
+    }
+    return attribute.jsonPath
   }
 
   /**
@@ -114,29 +120,19 @@ class PluginComponent extends React.Component {
    * @returns {*}
    */
   getAttributeInitValue(configuredAttributeName, props) {
-    const attribute = get(props, `attributes[${configuredAttributeName}]`)
-    if (!attribute) {
-      return null
-    }
-    const attributeName = getAttributeName(attribute, props)
-    return get(props, `initialValues[${attributeName}]`)
-  }
-
-  getAttributeName(configuredAttributeName, props){
-    const attribute = get(props || this.props, `attributes[${configuredAttributeName}]`)
-    if (!attribute) {
-      return null
-    }
-    return getAttributeName(attribute)
+    const attributeName = this.getAttributeName(configuredAttributeName, props)
+    return get(props, `initialValues["${attributeName}"]`)
   }
 
   getAttributeLabel(configuredAttributeName) {
-    return get(this.props,`attributes[${configuredAttributeName}].label`,get(this.props,`attributes[${configuredAttributeName}].name`,'Undefined attribute'))
+    return get(this.props, `attributes["${configuredAttributeName}"].label`, get(this.props, `attributes["${configuredAttributeName}"].name`, 'Undefined attribute'))
   }
 
   setState(state) {
-    super.setState(state,this._onPluginChangeValue)
+    super.setState(state, this.onPluginChangeValue)
   }
+
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => openSearchQuery
 }
 
 export default PluginComponent

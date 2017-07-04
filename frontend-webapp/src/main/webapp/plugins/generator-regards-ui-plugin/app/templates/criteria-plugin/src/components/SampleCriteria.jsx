@@ -12,30 +12,11 @@ export class SampleCriteria extends PluginComponent {
 
   static propTypes = {
     /**
-     * Plugin uniq identifier provided by the plugin loader
-     */
-    pluginInstanceId: React.PropTypes.string,
-    /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
-     */
-    onChange: React.PropTypes.func,
-    /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
     attributes: React.PropTypes.objectOf(AttributeModel),
-    /**
-     * Function to get initial plugin state saved by the next props savePluginState
-     */
-    getDefaultState: React.PropTypes.func,
-    /**
-     * Save the current state in order to retrieve it at initialization with getDefaultState
-     */
-    savePluginState: React.PropTypes.func,
   }
 
   /**
@@ -55,9 +36,7 @@ export class SampleCriteria extends PluginComponent {
    * @param value
    */
   changeValue = (value) => {
-    this.setState({
-      value
-    }, this._onPluginChangeValue)
+    this.setState({value})
   }
 
   /**
@@ -67,19 +46,25 @@ export class SampleCriteria extends PluginComponent {
    * @returns {string}
    */
   getPluginSearchQuery = (state) => {
+    const attributeName = this.getAttributeName('searchField')
     let openSearchQuery = ''
     if (state.value && state.value.length > 0) {
-      openSearchQuery = `${getAttributeName(this.props.attributes.searchField)}:"${state.value}*"`
+      // Create openSearch query by adding " characters around the requested value
+      openSearchQuery = `${attributeName}:"${state.value}"`
     }
     return openSearchQuery
   }
 
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    // Return the value without the additional " characters
+    return replace(openSearchQuery,/\"/g)
+  }
+
   /**
    * Method to display search criteria
-   * @returns {XML}
    */
   render() {
-    const attributeLabel = this.props.attributes.searchField.label
+    const attributeLabel = this.getAttributeLabel('searchField')
 
     return (
       <div

@@ -83,13 +83,6 @@ propTypes = {
      */
     pluginInstanceId: React.PropTypes.string,
     /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
-     */
-    onChange: React.PropTypes.func,
-    /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
@@ -97,12 +90,23 @@ propTypes = {
     attributes: React.PropTypes.objectOf(AttributeModel),
     /**
       * Function to get initial plugin state saved by the savePluginState
+      * Parameters :
+      * id: current plugin identifier
       */
     getDefaultState: React.PropTypes.func,
     /**
      * Save the current state in order to retrieve it at initialization with getDefaultState
+     * Parameters :
+     * id: current plugin identifier
      */
     savePluginState: React.PropTypes.func,
+    /**
+     * Callback to change the current criteria values in form
+     * Parameters :
+     * query : The OpenSearch query to add to the global research
+     * id: current plugin identifier
+     */
+     onChange: React.PropTypes.func,
   }
 ```
 
@@ -110,9 +114,14 @@ the attributes property is a collection of AttributeModel (see src/common/Attrib
 
 Attributes names used into the onpenSearchQuery can be retrieved from an attribute object using the `getAttributeName` method
 ```js
-import {getAttributeName} from 'common/AttributeModel'
-// Retrieve the name to use in openSearchQuery for the first attribute
-const name = getAttributeName(this.props.attributes[0])
+this.getAttributeName('searchField')
+
+```
+
+Attributes labels can be simply retrieved by using the getAttributeLabel from the superClass PluginComponent.
+In the example below 'searchField" in the attribute given in the plugin-info.json
+```js
+this.getAttributeLabel('searchField')
 ```
 
 ### State management
@@ -128,7 +137,7 @@ To retrieve your previous saved state you can use the `getDefaultState` method
 this.props.getDefaultState(this.props.pluginInstanceId)
 ```
 
-### Set or update your criteria value
+### Handle search for your criteria plugin
 
 First you need to define a method `getPluginSearchQuery` into your main react component.
 This method have the here under signature :
@@ -139,12 +148,32 @@ getPluginSearchQuery = (state) => {
 }
 ```
 
-This method is used by the plugin manager to retrieve the openSearchQuery of your plugin.  
+This method is used by the plugin manager to retrieve the openSearchQuery of your plugin.
+  
+The second method to define into your main react component is the `parseOpenSearchQuery`.
+This method allow you to retrieve the current attributes values in order to initialize your plugin 
+with the previous values. This method is used to fill your criterion at initialization.
+This method is called many times as you have defined attributes in the plugin-info.json.
 
-To inform manually that your plugin value changed you can use the method `_onPluginChangeValue` from the upper class PluginComponent
+The here under example is used to transform an open-search query on a string attribute
 ```js
-this.onPluginChangeValue
+parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    // A valid open search string query can be '(*test* AND foo AND bar*)
+    if (parameterName === 'searchField') {
+        // Remove '(' caracter if any
+        let value = replace(openSearchQuery, /\(/g, '')
+        // Remove ')' caracter if any
+        value = replace(value, /\)/g, '')
+        // Remove special * caracter if any
+        value = replace(value, /\*/g, '')
+        // Concat all AND values
+        value = replace(value, / AND /g, ' ')
+        return value
+     }
+     return null
+  }
 ```
+
 ## Compile your plugin
 
 To compile your plugin you need the regards core.bundle.js. This bundle is a dependency in the webpack.config.js
@@ -173,7 +202,7 @@ $ npm run lint:fix
 ### Deploy plugin into regards 
 
 After compiling your plugin you have a plugin.js file. Copy this file in the `/plugins` repository of the `rs-frontend microservice`.
-The throught the administrator interface you can add the plugin from the "User interface / Plugins" menu.  
+Trough the administrator interface you can add the plugin from the "User interface / Plugins" menu.  
 Indicate your plugin path like `/plugins/sample/plugin.js` and save plugin.  
 
 At this step, your plugin is ready to be used.
