@@ -13,4 +13,4 @@ const moduleStyles = theme => (
     },
   })
 
-export default menuStyles
+export default moduleStyles
