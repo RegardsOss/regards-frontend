@@ -40,6 +40,7 @@ const messages = Object.assign({
   'accessright.list.delete.message': 'Remove the {name} access rights?',
   'component.plugin-parameter.action.choose-plugin': 'Select a plugin',
   'component.plugin-parameter.action.reset': 'Deselect a plugin',
+  'component.plugin-parameter.no-plugin-available': 'No plugin available',
   'accessright.edit.multiples.button.label': 'Configure access rights for selected datasets',
   'accessright.no.dataset.title': 'No datasets',
   'accessright.no.dataset.subtitle': 'Create your first dataset',

@@ -22,6 +22,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeContaine
       attribute: DumpProvider.getFirstEntity('DataManagementClient', 'AttributeModel'),
       // from mapStateToProps
       modelAttribute: DumpProvider.getFirstEntity('DataManagementClient', 'ModelAttribute'),
+      modelAttributeComputationType: DumpProvider.getFirstEntity('DataManagementClient', 'ModelAttributesComputationTypes'),
       // from mapDispatchToProps
       updateModelAttribute: () => { },
     }
