@@ -45,7 +45,6 @@ export class ProjectUserFormContainer extends React.Component {
     fetchPasswordValidity: PropTypes.func.isRequired,
     assignGroup: PropTypes.func,
     unassignGroup: PropTypes.func,
-    unregisterField: PropTypes.func,
   }
 
   constructor(props) {
