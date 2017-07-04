@@ -328,7 +328,7 @@ class TableContainer extends React.Component {
 
     return (
       <I18nProvider messageDir={'components/src/table/i18n'}>
-        <ComponentThemeProvider module={moduleStyles}>
+        <ModuleThemeProvider module={moduleStyles}>
           <TablePane
             tableData={tableData}
             columns={allColumns}
@@ -345,7 +345,7 @@ class TableContainer extends React.Component {
             emptyComponent={emptyComponent}
             {...tablePaneConfiguration}
           />
-        </ComponentThemeProvider>
+        </ModuleThemeProvider>
       </I18nProvider>
     )
   }
