@@ -5,10 +5,10 @@
 This module is a dynamic configurable module for the configurable interfaces. 
 This module is used to manage :
   - Authentication to the REGARDS services
-  - Unlock accounts management
-  - Token expiration management
-  - Users manage profile management
-  - Users change password
+  - Unlock accounts
+  - Token expiration and session locking
+  - User instansce account and / or project account creation
+  - Users password change
   
 ## Module structure
 
@@ -18,7 +18,6 @@ This module is used to manage :
  |   ├── clients         : Define all backend clients needed to request/send information  
  |   ├── components      : React component to display panels  
  |   ├── containers      : React-Redux logic to handle module functions  
- |   ├── i18n            : Messages and labels internationalization  
  |   ├── i18n            : Messages and labels internationalization  
  |   ├── styles          : Panels styles (inline css objects)  
  |   ├── main.js         : Module exported index  

@@ -8,7 +8,7 @@ This module is used by :
   - @regardsoss/search-form
   - @regardsoss/search-graph
   
-It can be used alone to display the results of search of all datas from the catalog.
+It can be used alone to display the results of search of all data from the catalog.
 
 This module allow to :
   - Display results datas
@@ -26,7 +26,6 @@ This module allow to :
  |   ├── clients         : Define all backend clients needed to request/send information  
  |   ├── components      : React component to display panels  
  |   ├── containers      : React-Redux logic to handle module functions  
- |   ├── i18n            : Messages and labels internationalization  
  |   ├── i18n            : Messages and labels internationalization  
  |   ├── styles          : Panels styles (inline css objects)  
  |   ├── main.js         : Module exported index  

@@ -2,8 +2,7 @@
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. 
-This module is used to TODO.
+This module is a dynamic configurable module for the configurable interfaces. It is used by search-result module to display available facets below the results table header.
   
 ## Module structure
 
@@ -13,7 +12,6 @@ This module is used to TODO.
  |   ├── clients         : Define all backend clients needed to request/send information  
  |   ├── components      : React component to display panels  
  |   ├── containers      : React-Redux logic to handle module functions  
- |   ├── i18n            : Messages and labels internationalization  
  |   ├── i18n            : Messages and labels internationalization  
  |   ├── styles          : Panels styles (inline css objects)  
  |   ├── main.js         : Module exported index  

@@ -2,8 +2,7 @@
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. 
-This module is used to display a configured homePage as an iframe.
+This module is a dynamic configurable module for the configurable interfaces. It displays the configured project homePage in an iframe. It stores the 'do not show again' option in local web browser storage.
   
 ## Module structure
 
@@ -13,7 +12,6 @@ This module is used to display a configured homePage as an iframe.
  |   ├── clients         : Define all backend clients needed to request/send information  
  |   ├── components      : React component to display panels  
  |   ├── containers      : React-Redux logic to handle module functions  
- |   ├── i18n            : Messages and labels internationalization  
  |   ├── i18n            : Messages and labels internationalization  
  |   ├── styles          : Panels styles (inline css objects)  
  |   ├── main.js         : Module exported index  
