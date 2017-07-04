@@ -75,7 +75,10 @@ export class AccessGroupAccessRightsContainer extends React.Component {
       dataAccessRight,
       accessGroup: accessGroup.content,
       accessLevel: formValues.access,
-      dataset: dataset.content,
+      dataset: {
+        id: dataset.content.id,
+        entityType: dataset.content.entityType,
+      },
     }))
     const requests = []
     newAccessRightList.forEach((newAccessRight) => {
