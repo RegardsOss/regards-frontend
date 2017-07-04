@@ -314,10 +314,13 @@ class ModuleContainer extends React.Component {
       const singleDatasetIpId = (type === DatasetSelectionType.DATASET_TYPE && null && selectedDatasets && selectedDatasets.length === 1 &&
         selectedDatasets[0]) || null
 
+
+
       const module = {
         type: 'search-results',
         active: true,
         applicationId: this.props.appName,
+        description: this.props.description,
         conf: {
           resultType: this.props.moduleConf.resultType,
           attributes: this.props.moduleConf.attributes,
