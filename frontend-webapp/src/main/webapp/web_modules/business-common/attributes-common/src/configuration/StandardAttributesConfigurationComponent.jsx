@@ -22,7 +22,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
   }
 
   render = () => {
-    const standardAttributes = DamDomain.AttributeModelController.StandardAttributes
+    const standardAttributes = DamDomain.AttributeModelController.standardAttributes
     const { allowFacettes, attributesConf, onChangeAttributeConfiguration } = this.props
 
     return (
@@ -34,38 +34,39 @@ class StandardAttributesConfigurationComponent extends React.Component {
             flexWrap: 'wrap',
           }}
         >
-          {map(standardAttributes, (standardAttribute) => {
-            // Search existing associated attribute configuration if there is one
-            let conf = find(attributesConf, configuration => configuration.attributeFullQualifiedName === standardAttribute)
-            if (!conf) {
-              conf = {
-                attributeFullQualifiedName: standardAttribute,
-                visibility: false,
-                facetable: false,
-                initialSort: false,
-                order: undefined,
+          {
+            map(standardAttributes, (standardAttribute, attrKey) => {
+              // Search existing associated attribute configuration if there is one
+              let conf = find(attributesConf, configuration => configuration.attributeFullQualifiedName === attrKey)
+              if (!conf) {
+                conf = {
+                  attributeFullQualifiedName: attrKey,
+                  visibility: false,
+                  facetable: false,
+                  initialSort: false,
+                  order: undefined,
+                }
               }
-            }
-            const attributes = {
-              content: {
-                label: standardAttribute,
-                name: standardAttribute,
-                jsonPath: standardAttribute,
-                fragment: {
-                  name: '',
+              const attributes = {
+                content: {
+                  label: standardAttribute.label,
+                  name: standardAttribute.entityPathName,
+                  jsonPath: standardAttribute.entityPathName,
+                  fragment: {
+                    name: '',
+                  },
                 },
-              },
-            }
-            return (
-              <AttributeConfigurationComponent
-                key={standardAttribute}
-                allowFacettes={allowFacettes}
-                attribute={attributes}
-                conf={conf}
-                onChange={onChangeAttributeConfiguration}
-              />
-            )
-          })}
+              }
+              return (
+                <AttributeConfigurationComponent
+                  key={standardAttribute.id}
+                  allowFacettes={allowFacettes}
+                  attribute={attributes}
+                  conf={conf}
+                  onChange={onChangeAttributeConfiguration}
+                />
+              )
+            })}
         </div>
       </div>
     )

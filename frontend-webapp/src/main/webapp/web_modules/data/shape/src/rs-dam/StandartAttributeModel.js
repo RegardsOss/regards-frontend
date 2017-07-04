@@ -3,7 +3,7 @@
  **/
 
 /**
- * These attributes are already lniked o the model without configuration
+ * These attributes are already linked to the model without configuration
  */
 const StandartAttributeModelContent = PropTypes.shape({
   label: PropTypes.string.isRequired,

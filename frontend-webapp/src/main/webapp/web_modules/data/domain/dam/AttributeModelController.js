@@ -11,36 +11,6 @@ import isString from 'lodash/isString'
  */
 
 /**
- * Constant to define where to find dynamic attributes in the data objects returned by the search endpoint
- * @type {string}
- */
-const StandardAttributes = [
-  'ipId', 'sipId', 'label', 'creationDate', 'lastUpdate', 'thumbnail', 'download',
-]
-
-const SearchableStandardAttributes = ['label', 'creationDate', 'lastUpdate']
-const descriptionStandardAttributes = ['ipId', 'sipId', 'label', 'creationDate', 'lastUpdate']
-const SPECIAL_FILES_ATTRIBUTE_NAME = 'files'
-const DEFAULT_FRAGMENT = 'default'
-
-/**
- * Returns path to attribute
- *  @param attribute : attribute model
- * @return [String] attribute access path in an entity
- */
-const getAttributeAccessPath = attributeModel => get(attributeModel, 'content.jsonPath')
-
-const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
-
-const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, attributeModels) => {
-  // []
-  // content >> fragment >> name ("default" for example)
-  // content >> name
-  const foundAttribute = find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
-  return foundAttribute ? foundAttribute.content.label : attributeFullyQualifiedName
-}
-
-/**
  * Enum for all available attribute types.
  * @type {{DEFAULT: string, BOOLEAN: string, DATE_ISO8601: string, DATE_INTERVAL: string, DATE_ARRAY: string, DOUBLE_INTERVAL: string, INTEGER: string, INTEGER_INTERVAL: string, LONG_INTERVAL: string, STRING: string, URL: string, THUMBMAIL: string, DOWNLOAD_LINK: string}}
  */
@@ -60,41 +30,79 @@ const ATTRIBUTE_TYPES = {
   DOWNLOAD_LINK: 'DOWNLOAD_LINK',
 }
 
-/**
- * Return the fixed type of a standard attribute
- * @param standardAttribute
- * @returns {*}
- */
-function getStandardAttributeType(standardAttribute) {
-  switch (standardAttribute) {
-    case 'creationDate':
-    case 'lastUpdate':
-      return ATTRIBUTE_TYPES.DATE_ISO8601
-    case 'thumbnail':
-      return ATTRIBUTE_TYPES.THUMBNAIL
-    case 'download':
-      return ATTRIBUTE_TYPES.DOWNLOAD_LINK
-    case 'ipId':
-    case 'sipId':
-    case 'label':
-    default:
-      return ATTRIBUTE_TYPES.STRING
-
-  }
-}
+const SPECIAL_FILES_ATTRIBUTE_NAME = 'files'
 
 /**
- * Return true if the standardAttribute name given is a standard attribute from files attribute.
- *
- * @param standardAttribute
- * @returns {boolean}
+ * Constant to define where to find dynamic attributes in the data objects returned by the search endpoint
+ * @type {string}
  */
-function getStandardAttributeEntityPathName(standardAttribute) {
-  if (standardAttribute === 'thumbnail' || standardAttribute === 'download') {
-    return SPECIAL_FILES_ATTRIBUTE_NAME
-  }
-  return standardAttribute
+const standardAttributes = {
+  ipId: {
+    id: -1, // use negative index to not conflict with DB attribute models
+    label: 'IP Identifier',
+    type: ATTRIBUTE_TYPES.STRING,
+    entityPathName: 'ipId',
+  },
+  sipId: {
+    id: -2,
+    label: 'SIP identifier',
+    type: ATTRIBUTE_TYPES.STRING,
+    entityPathName: 'sipId',
+  },
+  label: {
+    id: -3,
+    label: 'Label',
+    type: ATTRIBUTE_TYPES.STRING,
+    entityPathName: 'label',
+  },
+  creationDate: {
+    id: -4,
+    label: 'Creation date',
+    type: ATTRIBUTE_TYPES.DATE_ISO8601,
+    entityPathName: 'creationDate',
+  },
+  lastUpdate: {
+    id: -5,
+    label: 'Last update',
+    type: ATTRIBUTE_TYPES.DATE_ISO8601,
+    entityPathName: 'lastUpdate',
+  },
+  thumbnail: {
+    id: -6,
+    label: 'Thumbnail',
+    type: ATTRIBUTE_TYPES.THUMBNAIL,
+    entityPathName: SPECIAL_FILES_ATTRIBUTE_NAME,
+  },
+  download: {
+    id: -7,
+    label: 'Download',
+    type: ATTRIBUTE_TYPES.DOWNLOAD_LINK,
+    entityPathName: SPECIAL_FILES_ATTRIBUTE_NAME,
+  },
 }
+
+const searchableStandardAttributes = ['label', 'creationDate', 'lastUpdate']
+const descriptionStandardAttributes = ['ipId', 'sipId', 'label', 'creationDate', 'lastUpdate']
+
+const DEFAULT_FRAGMENT = 'default'
+
+/**
+ * Returns path to attribute
+ *  @param attribute : attribute model
+ * @return [String] attribute access path in an entity
+ */
+const getAttributeAccessPath = attributeModel => get(attributeModel, 'content.jsonPath')
+
+const findAttribute = (attributeName, attributeFragment, attributeModelsList) => find(attributeModelsList, ({ content: { name, fragment } }) => attributeName === name && attributeFragment === fragment.name)
+
+const findLabelFromAttributeFullyQualifiedName = (attributeFullyQualifiedName, attributeModels) => {
+  // []
+  // content >> fragment >> name ("default" for example)
+  // content >> name
+  const foundAttribute = find(attributeModels, ({ content: { jsonPath } }) => jsonPath === attributeFullyQualifiedName)
+  return foundAttribute ? foundAttribute.content.label : attributeFullyQualifiedName
+}
+
 /**
   * Finds an attribute value from the full qualified path
   * @param entity entity source, structrures {content: ..., links: ... an so on}
@@ -153,13 +161,11 @@ function getAttributeModelFullLabel(attribute) {
 export default {
   getAttributeAccessPath,
   getEntityAttributeValue,
-  getStandardAttributeType,
   findLabelFromAttributeFullyQualifiedName,
   findAttribute,
-  getStandardAttributeEntityPathName,
   getAttributeModelFullLabel,
-  StandardAttributes,
-  SearchableStandardAttributes,
+  standardAttributes,
+  searchableStandardAttributes,
   descriptionStandardAttributes,
   ATTRIBUTE_TYPES,
 }

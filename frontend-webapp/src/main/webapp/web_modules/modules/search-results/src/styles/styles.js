@@ -80,6 +80,7 @@ const formStyles = theme => ({
         overflow: 'hidden',
         whiteSpace: 'nowrap',
         display: 'flex',
+        alignItems: 'flex-end',
       },
       attributeLabel: {
         color: theme.palette.accent1Color,
@@ -87,7 +88,7 @@ const formStyles = theme => ({
         minWidth: 50,
       },
       attributeValue: {
-        maxWidth: 200,
+        maxWidth: 250,
       },
     },
     options: {

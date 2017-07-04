@@ -101,7 +101,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
             attributes: {
               testAttr: 0,
               testAttr2: 1,
-              testAttr3: { jsonPath: 'ipId', name: 'ipId', label: 'ipId', type: 'STRING' },
+              testAttr3: { jsonPath: 'ipId', name: 'ipId', label: 'IP Identifier', type: 'STRING' },
             },
           },
         },

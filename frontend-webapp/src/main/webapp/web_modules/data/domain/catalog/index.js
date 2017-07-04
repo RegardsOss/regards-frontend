@@ -10,6 +10,7 @@ import OpenSearchQuery from './query/opensearch/OpenSearchQuery'
 import OpenSearchQueryParameter from './query/opensearch/OpenSearchQueryParameter'
 import URLSearchQuery from './query/url/URLSearchQuery'
 import URLSearchQueryParameter from './query/url/URLSearchQueryParameter'
+import SearchResultsTargetsEnum from './SearchResultsTargetsEnum'
 
 export default {
   Geometry,
@@ -17,6 +18,7 @@ export default {
   TagTypes,
   OBJECT_LINKED_FILE_ENUM,
   OBJECT_LINKED_FILE_TYPES,
+  SearchResultsTargetsEnum,
   StaticQueryParameter,
   OpenSearchQuery,
   OpenSearchQueryParameter,

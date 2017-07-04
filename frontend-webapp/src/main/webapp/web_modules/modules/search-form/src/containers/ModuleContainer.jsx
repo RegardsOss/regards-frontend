@@ -185,15 +185,15 @@ class ModuleContainer extends React.Component {
           if (this.props.attributeModels[attributeId]) {
             // eslint-disable-next-line no-param-reassign
             criteria.conf.attributes[key] = this.props.attributeModels[attributeId].content
-          } else if (DamDomain.AttributeModelController.StandardAttributes.includes(attributeId)) {
-            // Attribute not retrieved from server
-            // Check if the attribute is a standard attribute
-            // Create standard attribute conf
+          } else if (DamDomain.AttributeModelController.standardAttributes[attributeId]) {
+            const standardAttribute = DamDomain.AttributeModelController.standardAttributes[attributeId]
+            // standard attribute
+            // eslint-disable-next-line no-param-reassign
             criteria.conf.attributes[key] = {
+              label: standardAttribute.label,
               name: attributeId,
-              label: attributeId,
-              jsonPath: attributeId,
-              type: DamDomain.AttributeModelController.getStandardAttributeType(attributeId),
+              jsonPath: standardAttribute.entityPathName,
+              type: standardAttribute.type,
             }
           }
         })

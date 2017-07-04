@@ -34,15 +34,15 @@ class CriteriaConfigurationComponent extends React.Component {
       value={selectableAttribute.content.id}
       primaryText={DamDomain.AttributeModelController.getAttributeModelFullLabel(selectableAttribute)}
     />
-    ))
+  ))
 
-  renderStandardAttributes = () => map(DamDomain.AttributeModelController.SearchableStandardAttributes, standardAttribute => (
+  renderStandardAttributes = () => map(DamDomain.AttributeModelController.searchableStandardAttributes, standardAttribute => (
     <MenuItem
       key={standardAttribute}
       value={standardAttribute}
       primaryText={standardAttribute}
     />),
-    )
+  )
 
   /**
    * Display a configurable attribute
