@@ -139,28 +139,10 @@ class TablePane extends React.Component {
   }
 
   /**
-   * Render the loading to inform user thaht entities are fetching
-   * @param height
-   * @returns {*}
-   */
-  renderLoadingFilter = () => {
-    if (this.props.entitiesFetching) {
-      const styles = this.context.moduleTheme
-      return (
-
-        <div style={styles}>
-          <LoadingComponent />
-        </div>
-      )
-    }
-    return null
-  }
-
-  /**
    * Render the toolbar over the table
    */
   renderHeaderBar = () => {
-    const { showParameters, resultsTabsButtons,
+    const { showParameters, resultsTabsButtons, entitiesFetching,
       customTableOptions, contextOptions, advancedOptions,
       customTableHeaderArea, displayTableHeader, resultsCount } = this.props
 
@@ -200,6 +182,7 @@ class TablePane extends React.Component {
           customTableOptions={customTableOptions}
           customTableHeaderArea={customTableHeaderArea}
           resultsCount={resultsCount}
+          loading={entitiesFetching}
         />
       </ShowableAtRender>
     )
@@ -234,7 +217,6 @@ class TablePane extends React.Component {
         <div style={allWidthStyles}>
           {this.renderHeaderBar()}
           {this.renderColumnsFilterPanel()}
-          {this.renderLoadingFilter()}
           <LoadableContentDisplayDecorator
             isLoading={false} // Do not use loading feature of the decorator
             isEmpty={!resultsCount}

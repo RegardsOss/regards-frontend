@@ -10,7 +10,6 @@ import { LoadingComponent } from '@regardsoss/display-control'
 import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
-import DatasetServicesContainer from './user/DatasetServicesContainer'
 import DescriptionContainer from './user/DescriptionContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
 import DisplayModeEnum from '../models/navigation/DisplayModeEnum'
@@ -62,7 +61,6 @@ export class ModuleContainer extends React.Component {
         attributes,
         datasetAttributes,
         attributesRegroupements,
-        singleDatasetIpId,
         displayDatasets,
         breadcrumbInitialContextLabel,
     } } = this.props
@@ -82,8 +80,6 @@ export class ModuleContainer extends React.Component {
             initialDisplayMode={DisplayModeEnum.LIST}
             displayDatasets={!!displayDatasets}
           />
-          { /* Current dataset services management */}
-          <DatasetServicesContainer initialDatasetIpId={singleDatasetIpId} />
           { /* Description handling */}
           <DescriptionContainer />
           { /* View : module */}

@@ -5,6 +5,7 @@ import Divider from 'material-ui/Divider'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import TableOptionsSeparator from './TableOptionsSeparator'
+import TableLoadingComponent from './TableLoadingComponent'
 
 /**
 * Fixed table header Component
@@ -20,6 +21,7 @@ class TablePaneHeader extends React.Component {
     // shows a custom table header area instand of results count, just above columns
     customTableHeaderArea: PropTypes.node,
     resultsCount: PropTypes.number.isRequired,
+    loading: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -28,10 +30,10 @@ class TablePaneHeader extends React.Component {
   }
 
   render() {
-    const { header } = this.context.moduleTheme
+    const { moduleTheme: { header }, intl: { formatMessage } } = this.context
     const {
       resultsTabsButtons, customTableOptions, contextOptions,
-      customTableHeaderArea, resultsCount } = this.props
+      customTableHeaderArea, resultsCount, loading } = this.props
     return (
       <div>
         <div className={header.line.classNames}>
@@ -64,11 +66,17 @@ class TablePaneHeader extends React.Component {
         </div>
         <div className={header.line.classNames}>
           {
-            customTableHeaderArea ||
-            // default area, shows result count
-            <div style={header.text.styles}>
-              {this.context.intl.formatMessage({ id: 'table.results.count' }, { count: resultsCount || '0' })}
-            </div>
+            (function renderSubHeaderArea() {
+              if (loading) { // loading
+                return <TableLoadingComponent />
+              } else if (customTableHeaderArea) { // custom table header area
+                return customTableHeaderArea
+              }  // default table hedaer area, shows result count
+              return (
+                <div style={header.text.styles}>
+                  {formatMessage({ id: 'table.results.count' }, { count: resultsCount || '0' })}
+                </div>)
+            }())
           }
         </div>
         <div className={header.line.classNames}>

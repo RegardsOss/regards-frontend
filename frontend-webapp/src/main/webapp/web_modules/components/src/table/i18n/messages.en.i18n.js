@@ -13,6 +13,7 @@ const messages = Object.assign({
   'table.advanced.options.label': 'More...',
   'table.actions.more': 'More actions',
   'table.column.visibility.filter': 'Visible columns',
+  'table.loading.message': 'Loading content',
 }, Locales.en)
 
 export default messages
