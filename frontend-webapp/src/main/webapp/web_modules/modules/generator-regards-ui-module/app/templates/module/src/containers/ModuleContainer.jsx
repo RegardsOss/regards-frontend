@@ -17,7 +17,7 @@ class ModuleContainer extends React.Component {
     project: PropTypes.string,
     appName: PropTypes.string.isRequired,
     // Module configuration.
-    moduleConf: ModuleConfigurationShape
+    moduleConf: ModuleConfigurationShape,
   }
 
   static contextTypes = {
@@ -25,11 +25,11 @@ class ModuleContainer extends React.Component {
     ...i18nContextType,
   }
 
-   render() {
-     return (
-       <SampleComponent />
-     )
-   }
+  render() {
+    return (
+      <SampleComponent />
+    )
+  }
 }
 
 export default ModuleContainer

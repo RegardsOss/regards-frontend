@@ -40,8 +40,6 @@ export class URLManagementContainer extends React.Component {
   })
 
   static propTypes = {
-    // initial context label, configures root navigation element
-    initialContextLabel: PropTypes.string,
     // context initial view mode
     initialViewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
     // context initial display mode
@@ -97,9 +95,6 @@ export class URLManagementContainer extends React.Component {
       !isEqual(previousProps.viewObjectType, nextProps.viewObjectType) ||
       !isEqual(previousProps.displayMode, nextProps.displayMode)) {
       this.updateURLFromState(nextProps)
-    } else if (!isEqual(previousProps.initialContextLabel, nextProps.initialContextLabel)) {
-      // the context has been re initialized
-      this.reinitilizeState(nextProps)
     }
   }
 
@@ -109,7 +104,7 @@ export class URLManagementContainer extends React.Component {
    */
   updateStateFromURL = (nextProps) => {
     // first load: parse tag and dataset from URL, then initialize the module store
-    const { initialViewObjectType, initialDisplayMode, initialContextLabel, initialize, currentQuery: query, displayDatasets } = nextProps
+    const { initialViewObjectType, initialDisplayMode, initialize, currentQuery: query, displayDatasets } = nextProps
 
     // collect query parameters from URL
 
@@ -128,8 +123,8 @@ export class URLManagementContainer extends React.Component {
       getLevelValue(NavigationLevel.getSearchTagLevel(nextProps.levels)) !== searchTag) {
       // initialize
       this.getDataset(datasetIpId, nextProps.dispatchFetchDataset)
-        .then(({ payload: dataset }) => initialize(viewObjectType, displayMode, initialContextLabel, searchTag, dataset))
-        .catch(initialize(viewObjectType, displayMode, initialContextLabel, searchTag))
+        .then(({ payload: dataset }) => initialize(viewObjectType, displayMode, searchTag, dataset))
+        .catch(initialize(viewObjectType, displayMode, searchTag))
     }
   }
 
@@ -176,12 +171,6 @@ export class URLManagementContainer extends React.Component {
       browserHistory.push({ pathname: currentPath, query: nextBrowserQuery })
     }
   }
-
-  /**
-   * Reinitializes the navigation state as initial context changed
-   * @param newProps new props
-   */
-  reinitilizeState = ({ viewObjectType, displayMode, initialContextLabel, searchTag, initialize }) => initialize(viewObjectType, displayMode, initialContextLabel, null)
 
   render() {
     return null

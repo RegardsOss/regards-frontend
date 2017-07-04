@@ -20,7 +20,6 @@ describe('[Search Results] Testing NavigationComponent', () => {
   })
   it('should render properly', () => {
     const levels = [
-      NavigationLevel.buildRootLevel('kikou'),
       NavigationLevel.buildDatasetLevel('oki', 'doki'),
       NavigationLevel.buildSearchTagLevel('styles:patatoes'),
     ]

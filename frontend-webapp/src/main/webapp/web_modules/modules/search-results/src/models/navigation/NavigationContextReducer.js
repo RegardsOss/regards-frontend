@@ -17,9 +17,8 @@ export const DEFAULT_STATE = {
  * reduce initialize action
  * @param {*} action initialization action
  */
-const initialize = ({ viewObjectType, displayMode, initialContextLabel, searchTag, dataset }) => {
-  // store root level
-  const levels = [NavigationLevel.buildRootLevel(initialContextLabel)]
+const initialize = ({ viewObjectType, displayMode, searchTag, dataset }) => {
+  const levels = []
   // append search tag if specified
   if (searchTag) {
     levels.push(NavigationLevel.buildSearchTagLevel(searchTag))
@@ -78,8 +77,8 @@ const changeDataset = ({ dataset }, state) => {
  */
 const gotoLevel = ({ levelIndex }, state) => {
   // remove the navigation context elements that are now after the selected context element (ignore last path element to avoid noop)
-  if (levelIndex >= 0 && levelIndex < state.levels.length - 1) {
-    return { ...state, levels: state.levels.slice(0, levelIndex + 1) }
+  if (levelIndex >= 0 && levelIndex < state.levels.length) {
+    return { ...state, levels: state.levels.slice(0, levelIndex) }
   }
   // last level not handled (no need to perform the same request again)
   return state

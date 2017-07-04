@@ -9,7 +9,7 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
  * @author <%= author %>
  */
 const messages = {
-  exampleMessage : 'Message d\'exemple',
+  exampleMessage: 'Message d\'exemple',
 
   ...Locales.fr,
   ...MetadataLocales.fr,

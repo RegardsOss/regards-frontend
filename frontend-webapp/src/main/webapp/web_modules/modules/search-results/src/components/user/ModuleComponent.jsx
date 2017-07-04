@@ -15,6 +15,7 @@ class ModuleComponent extends React.Component {
     // sub modules rendering
     appName: PropTypes.string,
     project: PropTypes.string,
+    resultsTitle: PropTypes.string,
 
     // initial configuration
     // eslint-disable-next-line react/no-unused-prop-types
@@ -38,11 +39,11 @@ class ModuleComponent extends React.Component {
 
   render() {
     const {
-      appName, project, searchQuery, enableFacettes, facettesQuery, displayDatasets,
+      appName, project, searchQuery, enableFacettes, facettesQuery, displayDatasets, resultsTitle,
       attributesConf, attributesRegroupementsConf, datasetAttributesConf, attributeModels } = this.props
     return (
       <Card>
-        <CardTitle title={<NavigationContainer displayDatasets={displayDatasets} />} />
+        <CardTitle title={<NavigationContainer resultsTitle={resultsTitle} displayDatasets={displayDatasets} />} />
         <CardMedia>
           <SearchResultsContainer
             appName={appName}

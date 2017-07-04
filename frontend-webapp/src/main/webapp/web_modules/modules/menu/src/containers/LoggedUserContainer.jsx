@@ -7,7 +7,7 @@ import { connect } from '@regardsoss/redux'
 import {
   AuthenticationParametersSelectors,
   AuthenticationParametersActions,
-  AuthenticationClient
+  AuthenticationClient,
 } from '@regardsoss/authentication-manager'
 import { AdminShapes } from '@regardsoss/shape'
 import { borrowableRolesActions, borrowableRolesSelectors } from '../clients/BorrowableRolesClient'

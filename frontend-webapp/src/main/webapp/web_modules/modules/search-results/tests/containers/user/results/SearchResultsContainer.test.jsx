@@ -6,7 +6,6 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SearchResultsTargetsEnum } from '@regardsoss/model'
 import { TableSelectionModes } from '@regardsoss/components'
-import NavigationLevel from '../../../../src/models/navigation/NavigationLevel'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
 import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
@@ -34,7 +33,7 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       attributesRegroupementsConf: [],
       attributeModels: {},
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
-      levels: [NavigationLevel.buildRootLevel()],
+      levels: [],
       toggledElements: { 1: { coucou: 'loulou' } },
       selectionMode: TableSelectionModes.includeSelected,
       datasetServices: [],

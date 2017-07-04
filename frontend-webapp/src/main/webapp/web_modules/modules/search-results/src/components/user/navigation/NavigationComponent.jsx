@@ -5,6 +5,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { Breadcrumb } from '@regardsoss/components'
 import NavigationLevel from '../../../models/navigation/NavigationLevel'
 
+const ROOT_PLACEHOLDER = {}
+
 /**
  * Component to display navigation bar.
  *
@@ -13,6 +15,7 @@ import NavigationLevel from '../../../models/navigation/NavigationLevel'
 class NavigationComponent extends React.Component {
 
   static propTypes = {
+    resultsTitle: PropTypes.string,
     navigationLevels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
     onLevelSelected: PropTypes.func.isRequired, // on level selected in breadcrumb: (level, index) => void
   }
@@ -22,15 +25,23 @@ class NavigationComponent extends React.Component {
   }
 
   getLevelLabel = (level, index) => {
+    const { resultsTitle } = this.props
     const { intl: { formatMessage } } = this.context
-    // root level may have no label, other levels have one
-    return level.label || formatMessage({ id: 'navigation.home.label' })
+    if (index === 0) {
+      // root level may have no label (use home then)
+      return resultsTitle || formatMessage({ id: 'navigation.home.label' })
+    }
+    return level.label
   }
 
   render() {
     const { navigationLevels, onLevelSelected } = this.props
+    const breadcrumbElements = [
+      ROOT_PLACEHOLDER, // add root (as a placeholder)
+      ...navigationLevels,
+    ]
     return (
-      <Breadcrumb elements={navigationLevels} labelGenerator={this.getLevelLabel} onAction={onLevelSelected} />
+      <Breadcrumb elements={breadcrumbElements} labelGenerator={this.getLevelLabel} onAction={onLevelSelected} />
     )
   }
 
