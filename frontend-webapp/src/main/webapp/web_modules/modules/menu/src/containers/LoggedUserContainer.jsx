@@ -4,7 +4,11 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
+import {
+  AuthenticationParametersSelectors,
+  AuthenticationParametersActions,
+  AuthenticationClient
+} from '@regardsoss/authentication-manager'
 import { AdminShapes } from '@regardsoss/shape'
 import { borrowableRolesActions, borrowableRolesSelectors } from '../clients/BorrowableRolesClient'
 import { borrowRoleActions, borrowRoleSelectors } from '../clients/BorrowRoleClient'
@@ -75,7 +79,7 @@ export class LoggedUserContainer extends React.Component {
   goToHomePage = () => {
     const { project, appName } = this.props
     let url
-    if (this.props.project) {
+    if (this.props.project && this.props.project !== AuthenticationParametersActions.INSTANCE) {
       url = `/${appName}/${project}`
     } else {
       url = `/${appName}`
