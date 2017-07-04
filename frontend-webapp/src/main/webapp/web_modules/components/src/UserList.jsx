@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import map from 'lodash/map'

@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import React from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import mapValues from 'lodash/mapValues'
