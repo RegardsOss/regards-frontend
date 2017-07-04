@@ -1,5 +1,7 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import TextField from 'material-ui/TextField'
-
 
 function UserForm() {
   return (

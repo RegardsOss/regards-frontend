@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { connect } from '@regardsoss/redux'
 
 /**

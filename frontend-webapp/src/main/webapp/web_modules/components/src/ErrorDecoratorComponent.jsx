@@ -1,5 +1,7 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { themeContextType } from '@regardsoss/theme'
-
 
 /**
  * React components to add the color on a text or another components

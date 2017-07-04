@@ -8,6 +8,7 @@ import remove from 'lodash/remove'
 import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
 import { AccessDomain, CatalogDomain } from '@regardsoss/domain'
+import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { TableSelectionModes, TableSortOrders } from '@regardsoss/components'
 import TableClient from '../../../clients/TableClient'
@@ -21,7 +22,6 @@ import {
   searchDatasetsActions,
   selectors as searchSelectors,
 } from '../../../clients/SearchEntitiesClient'
-import {OpenSearchQuery} from '@regardsoss/domain/catalog'
 import datasetServicesSelectors from '../../../models/services/DatasetServicesSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
 import Service from '../../../definitions/service/Service'
@@ -183,7 +183,6 @@ export class SearchResultsContainer extends React.Component {
    */
   buildSearchState = ({ viewObjectType, searchQuery, facettesQuery, levels },
     { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
-
     const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
     // check if facettes should be applied
@@ -198,26 +197,26 @@ export class SearchResultsContainer extends React.Component {
     let initialSearchQuery
     const parameters = [
       // restrict to given tag?
-      OpenSearchQuery.buildTagParameter(tagLevel? tagLevel.levelValue : '') // common tag parameter
+      OpenSearchQuery.buildTagParameter(tagLevel ? tagLevel.levelValue : ''), // common tag parameter
     ]
-      if (showingDataobjects) {
-        initialSearchQuery = searchQuery
+    if (showingDataobjects) {
+      initialSearchQuery = searchQuery
         // using dataobject actions
-        searchActions = searchDataobjectsActions
+      searchActions = searchDataobjectsActions
         // restrict to given dataset tag?
-        parameters.push(OpenSearchQuery.buildTagParameter(datasetLevel? datasetLevel.levelValue : ''))
+      parameters.push(OpenSearchQuery.buildTagParameter(datasetLevel ? datasetLevel.levelValue : ''))
         // check if user specified or sorting or provide one (Only available for dataobjects)
-        sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
-      } else {
-        if (datasetLevel || tagLevel || !searchQuery) {
+      sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
+    } else {
+      if (datasetLevel || tagLevel || !searchQuery) {
           // we bypass the default query
-          searchActions = searchDatasetsActions
-        } else {
-          initialSearchQuery = searchQuery
-          searchActions = searchDatasetsFromDataObjectsActions
-        }
-        parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.levelValue : ''))
+        searchActions = searchDatasetsActions
+      } else {
+        initialSearchQuery = searchQuery
+        searchActions = searchDatasetsFromDataObjectsActions
       }
+      parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.levelValue : ''))
+    }
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters)
 
     return {
@@ -238,7 +237,7 @@ export class SearchResultsContainer extends React.Component {
       // recover current state in case of partial update (to not make equal method wrong)
       ...currentState,
       ...newState,
-      ...this.buildSearchState(properties, {...currentState,...newState}),
+      ...this.buildSearchState(properties, { ...currentState, ...newState }),
     }
 
     // update state if any change is detected

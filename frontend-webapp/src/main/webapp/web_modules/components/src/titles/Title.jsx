@@ -1,5 +1,11 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import { themeContextType } from '@regardsoss/theme'
 
+/**
+ * @auhtor Sébastien Binda
+ */
 class Title extends React.Component {
 
   static propTypes = {

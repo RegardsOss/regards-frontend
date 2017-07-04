@@ -1,3 +1,6 @@
+/**
+ * LICENSE_PLACEHOLDER
+ **/
 import Dialog from 'material-ui/Dialog'
 import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'

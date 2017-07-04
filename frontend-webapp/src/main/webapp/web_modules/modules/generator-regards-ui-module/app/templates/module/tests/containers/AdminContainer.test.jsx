@@ -22,7 +22,15 @@ describe('[Menu] Testing AdminContainer', () => {
     assert.isDefined(AdminContainer)
   })
   it('should render properly', () => {
-    const props = {}
+    const props = {
+      appName: 'test',
+      project: 'test',
+      adminForm: {
+        changeField: () => {},
+        form: {},
+      },
+      moduleConf: {},
+    }
     shallow(<AdminContainer {...props} />, { context })
   })
 })

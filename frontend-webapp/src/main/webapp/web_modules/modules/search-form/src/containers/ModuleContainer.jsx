@@ -315,7 +315,6 @@ class ModuleContainer extends React.Component {
         selectedDatasets[0]) || null
 
 
-
       const module = {
         type: 'search-results',
         active: true,
