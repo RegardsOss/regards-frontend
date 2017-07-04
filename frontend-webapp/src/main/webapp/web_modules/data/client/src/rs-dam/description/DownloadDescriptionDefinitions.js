@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-
+import root from 'window-or-global'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 
 const DATASET_TYPE_URL = 'datasets'
@@ -49,11 +49,10 @@ export default {
    * @return action download URL for description file
    */
   getDirectDownloadURL: (entityType, id, token) => {
-    let downloadURL = getDownloadURL(entityType, id)
-    if (token) {
-      downloadURL = `${downloadURL}?token=${token}`
-    }
-    return encodeURI(downloadURL)
+    const downloadURL = getDownloadURL(entityType, id)
+    // add request origin for X-Frame-Options bypass. WARN: bad security workaround
+    const requestOrigin = `${root.location.protocol}//${root.location.host}`
+    return encodeURI(`${downloadURL}?origin=${requestOrigin}${token ? `&token=${token}` : ''}`)
   },
 
 
