@@ -23,11 +23,10 @@ describe('[Search Results] Test navigation context actions', () => {
       type: navigationContextActions.INITIALIZE,
       viewObjectType: 'any1',
       displayMode: 'any2',
-      initialContextLabel: 'any3',
-      searchTag: 'any4',
-      dataset: 'any5',
+      searchTag: 'any3',
+      dataset: 'any4',
     }
-    dispatchAndCheck(navigationContextActions.initialize('any1', 'any2', 'any3', 'any4', 'any5'), expectedAction, buildMockStore({}))
+    dispatchAndCheck(navigationContextActions.initialize('any1', 'any2', 'any3', 'any4'), expectedAction, buildMockStore({}))
   })
 
   it('It should dispatch dataset changing', () => {

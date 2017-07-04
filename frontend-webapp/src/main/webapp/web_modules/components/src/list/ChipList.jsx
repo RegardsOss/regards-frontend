@@ -13,7 +13,7 @@ import Menu from 'material-ui/Menu'
 import { FormattedMessage } from 'react-intl'
 import { I18nProvider } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ShowableAtRender } from '@regardsoss/components'
+import ShowableAtRender from '../cards/ShowableAtRender'
 
 /**
  * Component to display an entity list as chips.

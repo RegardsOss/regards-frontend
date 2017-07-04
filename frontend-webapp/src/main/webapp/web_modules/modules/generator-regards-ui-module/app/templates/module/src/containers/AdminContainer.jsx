@@ -24,7 +24,7 @@ class AdminContainer extends React.Component {
       form: ModuleConfigurationShape,
     }).isRequired,
     // Default values of the module configuration
-    moduleConf: ModuleConfigurationShape.isRequired
+    moduleConf: ModuleConfigurationShape.isRequired,
   }
 
   static contextTypes = {

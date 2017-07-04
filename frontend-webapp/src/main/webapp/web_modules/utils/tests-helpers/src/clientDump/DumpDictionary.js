@@ -14,6 +14,7 @@ import LinkPluginDatasetDump from '@regardsoss/client/tests/rs-catalog/LinkPlugi
 import DatasetDump from '@regardsoss/client/tests/rs-dam/Dataset.dump'
 import PluginConfigurationDump from '@regardsoss/client/tests/rs-common/PluginConfiguration.dump'
 import CollectionDump from '@regardsoss/client/tests/rs-dam/Collection.dump'
+import ModelAttributesComputationTypesDump from '@regardsoss/client/tests/rs-dam/ModelAttributesComputationTypes.dump'
 
 import ProjectDump from '@regardsoss/client/tests/rs-admin/Project.dump'
 import AccountDump from '@regardsoss/client/tests/rs-admin/Account.dump'
@@ -71,6 +72,9 @@ import {
 
   DATASOURCE_ARRAY,
   DatasourceConfiguration,
+
+  MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY,
+  ModelAttributeComputationTypesConfiguration,
 
   DATASET_ARRAY,
   DatasetConfiguration,
@@ -243,6 +247,12 @@ export default {
       dump: CollectionDump,
       ENTITY_ARRAY: COLLECTION_ARRAY,
       normalizrKey: CollectionConfiguration.normalizrKey,
+    },
+    ModelAttributesComputationTypes: {
+      isPageable: false,
+      dump: ModelAttributesComputationTypesDump,
+      ENTITY_ARRAY: MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY,
+      normalizrKey: ModelAttributeComputationTypesConfiguration.normalizrKey,
     },
   },
   CatalogClient: {

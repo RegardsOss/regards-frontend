@@ -7,7 +7,7 @@ import map from 'lodash/map'
 import keys from 'lodash/keys'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CommonShapes, DataManagementShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 import ContainerCard from './ContainerCard'
@@ -39,8 +39,6 @@ export class ModelAttributeFormComponent extends React.Component {
       ATTR_REMAINING: AttributeAndFragmentPartition,
       ATTR_ASSOCIATED: AttributeAndFragmentPartition,
     }).isRequired,
-    pluginConfigurationList: CommonShapes.PluginConfigurationList,
-    pluginMetaDataList: CommonShapes.PluginMetaDataList,
   }
 
   static contextTypes = {
@@ -72,7 +70,7 @@ export class ModelAttributeFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { backUrl, distributedAttrModels, pluginConfigurationList, pluginMetaDataList } = this.props
+    const { backUrl, distributedAttrModels } = this.props
     const style = moduleStyles(this.context.muiTheme)
 
     return (
@@ -101,8 +99,6 @@ export class ModelAttributeFormComponent extends React.Component {
                   <FragmentComponent
                     attributes={fragment}
                     type={ItemTypes.ATTR_ASSOCIATED}
-                    pluginConfigurationList={pluginConfigurationList}
-                    pluginMetaDataList={pluginMetaDataList}
                   />
                 </DraggableCard>
               ))}
@@ -116,8 +112,6 @@ export class ModelAttributeFormComponent extends React.Component {
                 >
                   <ModelAttributeContainer
                     attribute={attribute}
-                    pluginConfigurationList={pluginConfigurationList}
-                    pluginMetaDataList={pluginMetaDataList}
                   />
                 </DraggableCard>
               ))}

@@ -28,8 +28,6 @@ class BreadcrumbImpl extends React.Component {
     return (
       <div>
         {
-          /* TODO: manage the the styles, that can be used to collapse elements that do not fit the width
-          We may need a sub component to impl it with BREADCRUMB STYLES */
           // for each element, generate array of separator from previous (if not first) and clickable element.
           flatten(elements.map(({ label, onAction }, index) => [
             index ? <LabelIcon key={`separator-${label}`} style={separator} /> : null,

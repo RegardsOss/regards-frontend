@@ -40,6 +40,7 @@ const messages = Object.assign({
   'accessright.list.delete.message': 'Supprimer les droits d\'accès au jeu de données {name}?',
   'component.plugin-parameter.action.choose-plugin': 'Sélectionner un plugin',
   'component.plugin-parameter.action.reset': 'Désélectionner le plugin',
+  'component.plugin-parameter.no-plugin-available': 'Aucun plugin disponible',
   'accessright.edit.multiples.button.label': 'Configurer l\'accès pour les jeux sélectionnés',
   'accessright.no.dataset.title': 'Pas de jeux de données',
   'accessright.no.dataset.subtitle': 'Créez votre premier jeu de données',

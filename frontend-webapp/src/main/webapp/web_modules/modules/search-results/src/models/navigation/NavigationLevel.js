@@ -7,7 +7,6 @@ import { getDatasetIpIdParameter, getSearchTagParameter } from '../../definition
 export default class NavigationLevel {
 
   static LevelTypes = {
-    ROOT: 'root',
     SEARCH_TAG: 'search.tag',
     DATASET: 'dataset',
   }
@@ -30,14 +29,6 @@ export default class NavigationLevel {
   }
 
   /**
-   * Builds root level
-   * @param {*} rootLabel root level label
-   */
-  static buildRootLevel(rootLabel) {
-    return new NavigationLevel(NavigationLevel.LevelTypes.ROOT, rootLabel)
-  }
-
-  /**
    * Returns level by level type
    * @param {*} levels levels array
    * @param {*} levelType  level type
@@ -47,12 +38,6 @@ export default class NavigationLevel {
     return levels.find(({ levelType: currentLevelType }) => currentLevelType === levelType)
   }
 
-  /**
-   * Returns root level
-   * @param {*} levels levels array
-   * @return found level (should never be undefined)
-   */
-  static getRootLevel = levels => NavigationLevel.getLevel(levels, NavigationLevel.LevelTypes.ROOT)
   /**
    * Returns dataset level
    * @param {*} levels levels array

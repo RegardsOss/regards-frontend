@@ -9,5 +9,5 @@ import {
  * @author <%= author %>
  */
 export default {
-  [REDUCER_PATH]: AttributeModelReducer
+  [REDUCER_PATH]: AttributeModelReducer,
 }

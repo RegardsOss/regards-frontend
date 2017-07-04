@@ -210,6 +210,7 @@ class AccessRightListComponent extends React.Component {
       displayColumnsHeader: true,
       lineHeight: 47,
       displayCheckbox: true,
+      displaySelectAll: false,
       onSortByColumn: () => {
       },
     }

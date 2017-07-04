@@ -26,13 +26,13 @@ describe('[Search Graph] Test navigation context reducer', () => {
     let expected = {
       viewObjectType: 'aType',
       displayMode: DisplayModeEnum.LIST,
-      levels: [NavigationLevel.buildRootLevel()],
+      levels: [],
     }
     assert.deepEqual(reduced, expected, 'Initialization should be correctly reduced without optional parameters')
 
     // 2 - with option informations and a previous context (to verify it is context independent)
     currentState = expected
-    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', DisplayModeEnum.LIST, 'homeLabel', 'find:fries', {
+    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', DisplayModeEnum.LIST, 'find:fries', {
       content: {
         label: 'name1',
         ipId: 'IPID1',
@@ -41,8 +41,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
     expected = {
       viewObjectType: 'anotherType',
       displayMode: DisplayModeEnum.LIST,
-      levels: [ // we expect here to retrieve the levels as: ROOT, SEARCH_TAG, DATASET
-        NavigationLevel.buildRootLevel('homeLabel'),
+      levels: [ // we expect here to retrieve the levels as: SEARCH_TAG, DATASET
         NavigationLevel.buildSearchTagLevel('find:fries'),
         NavigationLevel.buildDatasetLevel('IPID1', 'name1'),
       ],
@@ -65,26 +64,26 @@ describe('[Search Graph] Test navigation context reducer', () => {
     // check search tag is append
     let currentState = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildRootLevel()],
+      levels: [],
     }
     let reduced = reduce(currentState, navigationContextActions.changeSearchTag('find:frogs'))
     let expected = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildRootLevel(), NavigationLevel.buildSearchTagLevel('find:frogs')],
+      levels: [NavigationLevel.buildSearchTagLevel('find:frogs')],
     }
     assert.deepEqual(reduced, expected, 'Change search tags should be correctly reduced in default navigation context')
 
     // also verify a search tag replaces the current search tag and following context
     currentState = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildRootLevel(),
+      levels: [
         NavigationLevel.buildSearchTagLevel('find:butterflies'),
         NavigationLevel.buildDatasetLevel('any', 'any')],
     }
     reduced = reduce(currentState, navigationContextActions.changeSearchTag('find:frogs'))
     expected = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildRootLevel(), NavigationLevel.buildSearchTagLevel('find:frogs')],
+      levels: [NavigationLevel.buildSearchTagLevel('find:frogs')],
     }
     assert.deepEqual(reduced, expected, 'Change search tags should be correctly reduced with a navigation context')
   })
@@ -93,7 +92,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
     // check dataset is append
     let currentState = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildRootLevel()],
+      levels: [],
     }
     let reduced = reduce(currentState, navigationContextActions.changeDataset({
       content: {
@@ -103,7 +102,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
     }))
     let expected = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildRootLevel(), NavigationLevel.buildDatasetLevel('ip1', 'name1')],
+      levels: [NavigationLevel.buildDatasetLevel('ip1', 'name1')],
     }
     assert.deepEqual(reduced, expected, 'Change dataset should be correctly reduced in default navigation context')
 
@@ -111,7 +110,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
     currentState = {
       ...DEFAULT_STATE,
       levels: [
-        NavigationLevel.buildRootLevel(),
+
         NavigationLevel.buildSearchTagLevel('find:frogs'),
         NavigationLevel.buildDatasetLevel('any', 'any'),
       ],
@@ -125,7 +124,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
     expected = {
       ...DEFAULT_STATE,
       levels: [
-        NavigationLevel.buildRootLevel(),
+
         NavigationLevel.buildSearchTagLevel('find:frogs'),
         NavigationLevel.buildDatasetLevel('ip2', 'name2'),
       ],
@@ -137,19 +136,18 @@ describe('[Search Graph] Test navigation context reducer', () => {
     // 1 - test noop
     let currentState = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildRootLevel()],
+      levels: [],
     }
     let reduced = reduce(currentState, navigationContextActions.gotoLevel(0))
     let expected = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildRootLevel()],
+      levels: [],
     }
     assert.deepEqual(reduced, expected, 'Goto last index should keep the state unchanged (1)')
 
     currentState = {
       ...DEFAULT_STATE,
       levels: [
-        NavigationLevel.buildRootLevel(),
         NavigationLevel.buildSearchTagLevel('find:coffee'),
         NavigationLevel.buildDatasetLevel('ip', 'name'),
       ],
@@ -158,7 +156,6 @@ describe('[Search Graph] Test navigation context reducer', () => {
     expected = {
       ...DEFAULT_STATE,
       levels: [
-        NavigationLevel.buildRootLevel(),
         NavigationLevel.buildSearchTagLevel('find:coffee'),
         NavigationLevel.buildDatasetLevel('ip', 'name'),
       ],
@@ -170,7 +167,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
     expected = {
       ...DEFAULT_STATE,
       levels: [
-        NavigationLevel.buildRootLevel(),
+
         NavigationLevel.buildSearchTagLevel('find:coffee'),
       ],
     }
@@ -180,7 +177,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
     reduced = reduce(currentState, navigationContextActions.gotoLevel(0))
     expected = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildRootLevel()],
+      levels: [],
     }
     assert.deepEqual(reduced, expected, 'Should reduce correctly a root level browsing')
   })

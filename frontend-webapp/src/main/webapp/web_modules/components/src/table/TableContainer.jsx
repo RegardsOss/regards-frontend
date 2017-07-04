@@ -10,7 +10,7 @@ import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import ComponentThemeProvider from '../theme/ComponentThemeProvider'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { I18nProvider } from '@regardsoss/i18n'
 import TablePane from './TablePane'
@@ -153,7 +153,7 @@ class TableContainer extends React.Component {
     const nextState = this.state ? { ...this.state } : { ...TableContainer.DEFAULT_STATE } // initialize to previous state or use default one
 
     // initialization or authentication update: fetch the first page
-    if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||  // TODO nop! we should let parent handle URL params related
+    if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
       !isEqual(nextProps.authentication, previousProps.authentication)) {
       // remove any previously fetched data
       nextState.entities = []
@@ -220,7 +220,7 @@ class TableContainer extends React.Component {
       this.fetchEntities(this.lastPageAvailable)
     } else {
       this.fetchEntities(pageNumber)
-      if ((index < firstIndexFetched) || (firstIndexFetched < firstIndexToRetrieve) && pageNumber > 0) {
+      if ((index < firstIndexFetched || firstIndexFetched < firstIndexToRetrieve) && pageNumber > 0) {
         this.fetchEntities(pageNumber - 1)
       } else if ((index > lastIndexFetched) || (lastIndexToRetrieve > lastIndexFetched)) {
         if (pageNumber < this.lastPageAvailable) {

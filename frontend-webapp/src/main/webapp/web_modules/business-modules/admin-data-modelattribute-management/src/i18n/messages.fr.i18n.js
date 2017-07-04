@@ -10,6 +10,7 @@ const messages = Object.assign({
   'modelattr.edit.modelname': 'Modèle {name}',
   'component.plugin-parameter.action.choose-plugin': 'Utiliser un plugin',
   'component.plugin-parameter.action.reset': 'Supprimer le plugin',
+  'component.plugin-parameter.no-plugin-available': 'Aucun plugin disponible',
   'modelattr.edit.computation.label': 'Calcul',
   'modelattr.edit.table.computationMethod': 'Méthode de calcul',
   'modelattr.edit.table.name': 'Nom (type)',

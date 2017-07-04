@@ -17,8 +17,8 @@ class ModelAttributeComponent extends React.Component {
   }
 
   static propTypes = {
-    pluginConfigurationList: CommonShapes.PluginConfigurationList,
-    pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    pluginConfigurationList: CommonShapes.PluginConfigurationArray,
+    pluginMetaDataList: CommonShapes.PluginMetaDataArray,
     modelAttribute: DataManagementShapes.ModelAttribute,
     handleComputationUpdate: PropTypes.func,
     shouldDisplayHeader: PropTypes.bool,
@@ -60,11 +60,14 @@ class ModelAttributeComponent extends React.Component {
   render() {
     const { modelAttribute, pluginMetaDataList, pluginConfigurationList } = this.props
     return (
-      <Table>
+      <Table
+        selectable={false}
+      >
         {this.displayTableHeader()}
         <TableBody
           displayRowCheckbox={false}
           preScanRows={false}
+          showRowHover={false}
         >
           <TableRow>
             <TableRowColumn>{modelAttribute.content.attribute.name}{this.showIfAttributeIsNotOptional(modelAttribute)} ({modelAttribute.content.attribute.type})</TableRowColumn>

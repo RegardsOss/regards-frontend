@@ -10,7 +10,7 @@ const moduleStyles = theme => (
   {
     exampleStyle: {
       backgroundColor: theme.palette.primary1Color,
-    }
+    },
   })
 
 export default menuStyles

@@ -18,8 +18,12 @@ const PluginConfiguration = PropTypes.shape({
 })
 const PluginConfigurationList = PropTypes.objectOf(PluginConfiguration)
 
+const PluginConfigurationArray = PropTypes.arrayOf(PluginConfiguration)
+
+
 export default {
   PluginConfigurationContent,
   PluginConfiguration,
   PluginConfigurationList,
+  PluginConfigurationArray,
 }

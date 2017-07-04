@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { I18nProvider } from '@regardsoss/i18n'
+import I18nProvider from './I18nProvider'
 
 /**
  * Decorator adding the I18nProvider around a React Component

@@ -75,7 +75,6 @@ export class ModuleContainer extends React.Component {
           <URLManagementContainer
             currentPath={browserHistory.getCurrentLocation().pathname}
             currentQuery={browserHistory.getCurrentLocation().query}
-            initialContextLabel={breadcrumbInitialContextLabel}
             initialViewObjectType={initialViewObjectType}
             initialDisplayMode={DisplayModeEnum.LIST}
             displayDatasets={!!displayDatasets}
@@ -86,6 +85,7 @@ export class ModuleContainer extends React.Component {
           <ModuleComponent
             appName={appName}
             project={project}
+            resultsTitle={breadcrumbInitialContextLabel}
             enableFacettes={!!enableFacettes}
             searchQuery={searchQuery}
             facettesQuery={facettesQuery}

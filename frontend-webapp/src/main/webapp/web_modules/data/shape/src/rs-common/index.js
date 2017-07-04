@@ -3,8 +3,8 @@
  **/
 
 import PluginParameterContent from './Plugin/PluginParameter'
-import { PluginMetaData, PluginMetaDataList } from './Plugin/PluginMetaData'
-import { PluginConfiguration, PluginConfigurationList } from './Plugin/PluginConfiguration'
+import { PluginMetaDataContent, PluginMetaData, PluginMetaDataList, PluginMetaDataArray } from './Plugin/PluginMetaData'
+import { PluginConfiguration, PluginConfigurationList, PluginConfigurationArray } from './Plugin/PluginConfiguration'
 
 
 import getChainableTypeChecker from './ChainableTypeChecker'
@@ -15,10 +15,13 @@ import LocationShape from './LocationShape'
 
 export default {
   PluginParameterContent,
+  PluginMetaDataContent,
   PluginMetaData,
   PluginMetaDataList,
+  PluginMetaDataArray,
   PluginConfiguration,
   PluginConfigurationList,
+  PluginConfigurationArray,
 
 
   // Common

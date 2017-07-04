@@ -19,18 +19,17 @@ class NavigationContextActions {
   /**
    * Initializes the store for module root navigation context (mapped from URL)
    * @param viewObjectType initial view object type (dataobjects or datasets)
-   * @param rootContextLabel root context label, optional
+   * @param displayMode display mode
    * @param searchTag initial search tag, optional
-   * @param initial dataset, optional
+   * @param dataset dataset, optional
    *
    * @return action to dispatch
    */
-  initialize(viewObjectType, displayMode, initialContextLabel, searchTag, dataset) {
+  initialize(viewObjectType, displayMode, searchTag, dataset) {
     return {
       type: this.INITIALIZE,
       viewObjectType,
       displayMode,
-      initialContextLabel,
       searchTag,
       dataset,
     }
@@ -84,7 +83,8 @@ class NavigationContextActions {
 
 
   /**
-   * Moves navigation context to level index as parameter (and deletes the following navigation elements)
+   * Moves navigation context to level index as parameter (and deletes the following navigation elements). Index ranges from
+   * 0 (delete all elements) to N+1 (=== levels.length, keep all elements)
    * @param levelIndex level index of the new last navigation element, from 0 to size(navigationContextArray -1
    * @return action to dispatch
    */

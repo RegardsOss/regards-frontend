@@ -41,7 +41,6 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     }
 
     const props = {
-      initialContextLabel: 'any',
       initialViewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       initialDisplayMode: DisplayModeEnum.LIST,
       currentPath: 'hello/world',
@@ -50,11 +49,10 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       displayDatasets: true,
       displayMode: DisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
-      initialize: (viewObjectType, displayMode, rootContextLabel, searchTag, dataset) => {
+      initialize: (viewObjectType, displayMode, searchTag, dataset) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
         spiedInit.displayMode = displayMode
-        spiedInit.rootContextLabel = rootContextLabel
         spiedInit.searchTag = searchTag
         spiedInit.dataset = dataset
       },
@@ -67,7 +65,6 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     // state should be initialized from URL parts (and some propeties)
     assert.isTrue(spiedInit.called, 'The module state must be computed from URL at initialization')
     assert.equal(spiedInit.viewObjectType, SearchResultsTargetsEnum.DATASET_RESULTS, 'View object type must be retrieved from URL')
-    assert.equal(spiedInit.rootContextLabel, props.initialContextLabel, 'Context label must be retrieved from properties')
     assert.equal(spiedInit.searchTag, 'find:cookies', 'Search tag must be retrieved from URL')
     // dataset retrieval cannot be tested here (asynchronous promise)
   })
@@ -83,7 +80,6 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     }
 
     const props = {
-      initialContextLabel: 'any',
       initialViewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       initialDisplayMode: DisplayModeEnum.LIST,
       currentPath: 'hello/world',
@@ -92,11 +88,10 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       displayDatasets: false,
       displayMode: DisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
-      initialize: (viewObjectType, displayMode, rootContextLabel, searchTag, dataset) => {
+      initialize: (viewObjectType, displayMode, searchTag, dataset) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
         spiedInit.displayMode = displayMode
-        spiedInit.rootContextLabel = rootContextLabel
         spiedInit.searchTag = searchTag
         spiedInit.dataset = dataset
       },
@@ -133,7 +128,7 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       displayDatasets: true,
       displayMode: DisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
-      initialize: (viewObjectType, displayMode, rootContextLabel, searchTag, dataset) => {
+      initialize: (viewObjectType, displayMode, searchTag, dataset) => {
         spiedInit.called = true
       },
       dispatchFetchDataset,
@@ -148,7 +143,6 @@ describe('[Search Results] Testing URLManagementContainer', () => {
     enzymeWrapper.setProps({
       ...props,
       levels: [
-        NavigationLevel.buildRootLevel('any'),
         NavigationLevel.buildSearchTagLevel('find:chocolate'),
         // remove the dataset level
       ],
@@ -182,11 +176,10 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       displayMode: DisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
       displayDatasets: true,
-      initialize: (viewObjectType, displayMode, rootContextLabel, searchTag, dataset) => {
+      initialize: (viewObjectType, displayMode, searchTag, dataset) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
         spiedInit.displayMode = displayMode
-        spiedInit.rootContextLabel = rootContextLabel
         spiedInit.searchTag = searchTag
         spiedInit.dataset = dataset
       },
