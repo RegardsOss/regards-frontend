@@ -48,8 +48,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('module'),
       this.destinationPath(this.answers.name),
-      this.answers,
-    )
+      this.answers)
   }
 
 }
