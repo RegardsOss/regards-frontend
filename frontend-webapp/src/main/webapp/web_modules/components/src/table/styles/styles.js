@@ -80,6 +80,20 @@ export default (theme) => {
           margin: '1em 1em 1em 1em',
         },
       },
+      loading: {
+        styles: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          margin: '0 0 0 1em',
+        },
+        progress: {
+          thickness: 1.5,
+          size: 22,
+          color: theme.palette.textColor,
+        },
+      },
     },
     table: {
       position: 'relative',

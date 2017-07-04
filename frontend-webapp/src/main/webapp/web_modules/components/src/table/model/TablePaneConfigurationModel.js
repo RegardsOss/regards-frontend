@@ -12,7 +12,7 @@ export default {
   customTableHeaderArea: PropTypes.node,
   // should show parameters button?
   showParameters: PropTypes.bool.isRequired,
-  // Display table header toolbar ?
+  // Display table header toolbar ? (note: loading is only shown here)
   displayTableHeader: PropTypes.bool,
   // adds custom table options on tabs bar right side
   customTableOptions: PropTypes.arrayOf(PropTypes.node),
