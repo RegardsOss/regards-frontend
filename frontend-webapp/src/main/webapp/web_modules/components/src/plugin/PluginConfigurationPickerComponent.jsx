@@ -94,8 +94,7 @@ class PluginConfigurationPickerComponent extends React.Component {
     const { pluginMetaDataList, pluginConfigurationList } = this.props
     const { openMenu, currentPluginConfiguration } = this.state
     const styles = this.getStyle()
-    const hasNoPlugin = pluginMetaDataList.length === 0 || pluginConfigurationList.length === 0
-
+    const hasNoPlugin = isEmpty(pluginMetaDataList) || isEmpty(pluginConfigurationList)
     return (
       <div>
         <RaisedButton
