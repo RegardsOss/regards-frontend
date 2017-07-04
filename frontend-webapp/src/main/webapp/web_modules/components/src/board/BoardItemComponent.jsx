@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import { Link } from 'react-router'
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import { themeContextType } from '@regardsoss/theme'
@@ -8,7 +9,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl, someListMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import ConfirmDialogComponent from '../dialogs/ConfirmDialogComponent'
 import ShowableAtRender from '../cards/ShowableAtRender'
-import { Link } from 'react-router'
 import BoardItemShape from './BoardItemShape'
 import styles from './styles/styles'
 import BaseBoardItemComponent from './BaseBoardItemComponent'
