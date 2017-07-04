@@ -4,7 +4,7 @@
 import {
   AttributeModelReducer,
   REDUCER_PATH
-} from './clients/AttributeModelClient'
+} from './clients/SampleClient'
 /**
  * @author <%= author %>
  */

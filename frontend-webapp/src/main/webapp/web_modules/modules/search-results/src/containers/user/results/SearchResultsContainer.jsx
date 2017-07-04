@@ -21,6 +21,7 @@ import {
   searchDatasetsActions,
   selectors as searchSelectors,
 } from '../../../clients/SearchEntitiesClient'
+import {OpenSearchQuery} from '@regardsoss/domain/catalog'
 import datasetServicesSelectors from '../../../models/services/DatasetServicesSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
 import Service from '../../../definitions/service/Service'
@@ -112,6 +113,8 @@ export class SearchResultsContainer extends React.Component {
     searchTag: null,
     // runtime qearch query, generated from all query elements known
     searchQuery: null,
+    // request actioner depends on entities to search
+    searchActions: null,
   }
 
   componentWillMount = () => this.updateState({}, this.props)
@@ -176,16 +179,50 @@ export class SearchResultsContainer extends React.Component {
    * Builds opensearch query from properties and state as parameter
    * @param properties : properties to consider when building query
    * @param state : state to consider when building query
+   * @return { searchQuery, searchActions }: new searc state
    */
-  buildOpenSearchQuery = ({ searchQuery, facettesQuery, levels, viewObjectType },
+  buildSearchState = ({ viewObjectType, searchQuery, facettesQuery, levels },
     { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
+
+    const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
+
     // check if facettes should be applied
     const facettes = showingFacettes && viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
     const facettesQueryPart = showingFacettes ? facettesQuery : ''
-    const openSearchQuery = QueriesHelper.getOpenSearchQuery(searchQuery, facettes, NavigationLevel.getQueryParameters(levels))
-    // check if user specified or sorting or provide one
-    const sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
-    return QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString()
+
+    const datasetLevel = find(levels, { levelType: NavigationLevel.LevelTypes.DATASET })
+    const tagLevel = find(levels, { levelType: NavigationLevel.LevelTypes.SEARCH_TAG })
+
+    let searchActions
+    let sorting
+    let initialSearchQuery
+    const parameters = [
+      // restrict to given tag?
+      OpenSearchQuery.buildTagParameter(tagLevel? tagLevel.levelValue : '') // common tag parameter
+    ]
+      if (showingDataobjects) {
+        initialSearchQuery = searchQuery
+        // using dataobject actions
+        searchActions = searchDataobjectsActions
+        // restrict to given dataset tag?
+        parameters.push(OpenSearchQuery.buildTagParameter(datasetLevel? datasetLevel.levelValue : ''))
+        // check if user specified or sorting or provide one (Only available for dataobjects)
+        sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
+      } else {
+        if (datasetLevel || tagLevel || !searchQuery) {
+          // we bypass the default query
+          searchActions = searchDatasetsActions
+        } else {
+          initialSearchQuery = searchQuery
+          searchActions = searchDatasetsFromDataObjectsActions
+        }
+        parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.levelValue : ''))
+      }
+    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters)
+
+    return {
+      searchActions,
+      searchQuery: QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString() }
   }
 
   /**
@@ -201,8 +238,9 @@ export class SearchResultsContainer extends React.Component {
       // recover current state in case of partial update (to not make equal method wrong)
       ...currentState,
       ...newState,
+      ...this.buildSearchState(properties, {...currentState,...newState}),
     }
-    completedNewState.searchQuery = this.buildOpenSearchQuery(properties, completedNewState)
+
     // update state if any change is detected
     if (!isEqual(completedNewState, this.state)) {
       this.setState(completedNewState)
@@ -254,21 +292,11 @@ export class SearchResultsContainer extends React.Component {
       facettesQuery, datasetServices, selectedDataobjectsServices, displayDatasets,
       dispatchDatasetSelected, dispatchTagSelected, displayMode, datasetAttributesConf,
     } = this.props
-    const { showingFacettes, filters, searchTag, searchQuery: baseSearchQuery, emptySelection, sortingOn } = this.state
+    const { showingFacettes, filters, searchTag, searchQuery, searchActions, emptySelection, sortingOn } = this.state
 
     // compute view mode
     const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
     // compute child results fetch actions
-    let searchActions = showingDataobjects ? searchDataobjectsActions : searchDatasetsFromDataObjectsActions
-    let searchQuery = baseSearchQuery
-    // Handle case where a dataset is selected and the display mode is dataset.
-    // No specific request to do. Only search for the given dataset
-    const datasetLevel = find(this.props.levels, { levelType: NavigationLevel.LevelTypes.DATASET })
-    if (datasetLevel && !showingDataobjects) {
-      // Search datasets
-      searchActions = searchDatasetsActions
-      searchQuery = `ipId:"${datasetLevel.levelValue}"`
-    }
 
     // control the available selection options
     let usableDatasetServices = []

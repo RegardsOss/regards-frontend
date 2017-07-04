@@ -4,7 +4,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import MenuContainer from '../../src/containers/MenuContainer'
+import ModuleContainer from '../../src/containers/ModuleContainer'
 import styles from '../../src/styles/styles'
 
 /**
@@ -19,7 +19,7 @@ describe('[Menu] Testing MenuContainer', () => {
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(MenuContainer)
+    assert.isDefined(ModuleContainer)
   })
   it('should render properly', () => {
     const props = {
@@ -27,6 +27,6 @@ describe('[Menu] Testing MenuContainer', () => {
       appName: 'any',
       moduleConf: {},
     }
-    shallow(<MenuContainer {...props} />, { context })
+    shallow(<ModuleContainer {...props} />, { context })
   })
 })
