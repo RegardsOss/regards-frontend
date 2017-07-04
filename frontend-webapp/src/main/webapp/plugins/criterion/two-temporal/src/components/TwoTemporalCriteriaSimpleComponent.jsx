@@ -30,7 +30,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
   state = {
     firstField: undefined,
     secondField: undefined,
-    operator1: EnumTemporalComparator.LE,
+    operator1: EnumTemporalComparator.GE,
     operator2: EnumTemporalComparator.LE,
   }
 

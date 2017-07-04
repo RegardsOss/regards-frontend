@@ -30,8 +30,8 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
   state = {
     firstField: undefined,
     secondField: undefined,
-    operator1: EnumNumericalComparator.EQ,
-    operator2: EnumNumericalComparator.EQ,
+    operator1: EnumNumericalComparator.GE,
+    operator2: EnumNumericalComparator.LE,
   }
 
   changeValue1 = (value, operator) => {
