@@ -23,7 +23,7 @@ class PluginListContainer extends React.Component {
     }),
     // Set by mapStateToProps
     isFetching: PropTypes.bool,
-    plugins: AccessShapes.PluginDefinitionList,
+    plugins: AccessShapes.UIPluginDefinitionList,
     // Set by mapDispatchToProps
     fetchPlugins: PropTypes.func,
     updatePlugin: PropTypes.func,
