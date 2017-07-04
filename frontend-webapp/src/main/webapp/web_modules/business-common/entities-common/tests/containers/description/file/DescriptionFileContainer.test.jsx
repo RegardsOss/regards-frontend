@@ -3,6 +3,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import root from 'window-or-global'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { DataManagementClient } from '@regardsoss/client'
@@ -15,8 +16,15 @@ import styles from '../../../../src/styles/styles'
 const context = buildTestContext(styles)
 
 describe('[Entities Common] Testing DescriptionFileContainer', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
+  before(() => {
+    root.location = {} // mock root
+    testSuiteHelpers.before()
+  })
+  after(() => {
+    delete root.location // remove root mock
+    testSuiteHelpers.after()
+  })
+
 
   it('should exists', () => {
     assert.isDefined(DescriptionFileContainer)
