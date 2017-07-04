@@ -7,6 +7,11 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AdminContainer from '../../src/containers/AdminContainer'
 import styles from '../../src/styles/styles'
 
+/**
+ * AdminContainer tests
+ * @author <%= author %>
+ */
+
 const context = buildTestContext(styles)
 
 describe('[Menu] Testing AdminContainer', () => {
