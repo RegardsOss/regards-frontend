@@ -1,5 +1,5 @@
 import ReactTransitionGroup from 'react-transition-group'
-import { MakesFade } from '@regardsoss/components/src/transitions/MaterialDesignMotions'
+import { MakesFade } from './transitions/MaterialDesignMotions'
 import { LoadingComponent } from '@regardsoss/display-control'
 
 class ShowableAtLoad extends React.Component {

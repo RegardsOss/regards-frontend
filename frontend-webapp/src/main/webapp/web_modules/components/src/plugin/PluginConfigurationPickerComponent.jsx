@@ -26,8 +26,8 @@ class PluginConfigurationPickerComponent extends React.Component {
     // must return a promise
     onChange: PropTypes.func,
     currentPluginConfiguration: CommonShapes.PluginConfiguration,
-    pluginMetaDataList: CommonShapes.PluginMetaDataList,
-    pluginConfigurationList: CommonShapes.PluginConfiguration,
+    pluginMetaDataList: PropTypes.oneOfType([CommonShapes.PluginMetaDataList, CommonShapes.PluginMetaDataArray]),
+    pluginConfigurationList: PropTypes.oneOfType([CommonShapes.PluginConfigurationList, CommonShapes.PluginConfigurationArray]),
   }
 
   static contextTypes = {
@@ -94,12 +94,15 @@ class PluginConfigurationPickerComponent extends React.Component {
     const { pluginMetaDataList, pluginConfigurationList } = this.props
     const { openMenu, currentPluginConfiguration } = this.state
     const styles = this.getStyle()
+    const hasNoPlugin = isEmpty(pluginMetaDataList) || isEmpty(pluginConfigurationList)
     return (
       <div>
         <RaisedButton
           label={currentPluginConfiguration ? currentPluginConfiguration.label : <FormattedMessage id="component.plugin-parameter.action.choose-plugin" />}
           onTouchTap={this.handleOpenMenu}
           style={styles.pluginButton}
+          disabled={hasNoPlugin}
+          title={hasNoPlugin ? this.context.intl.formatMessage({ id: 'component.plugin-parameter.no-plugin-available' }) : null}
         />
         <IconMenu
           iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}

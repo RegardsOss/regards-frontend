@@ -20,6 +20,7 @@ for f in ${plugins}; do
         if [ -d "node_modules/@regardsoss" ]; then
           rm -rf "node_modules/@regardsoss"
         fi
+        npm prune
         npm install
         npm run build
         cd ${home}

@@ -26,6 +26,10 @@ import ModelAttributesActions from './modelAttributes/ModelAttributesActions'
 import ModelAttributesReducer from './modelAttributes/ModelAttributesReducer'
 import ModelAttributesSelectors from './modelAttributes/ModelAttributesSelectors'
 
+import ModelAttributeComputationTypesActions from './modelAttributeComputationTypes/ModelAttributeComputationTypesActions'
+import getModelAttributeComputationTypesReducer from './modelAttributeComputationTypes/ModelAttributeComputationTypesReducer'
+import getModelAttributeComputationTypesSelectors from './modelAttributeComputationTypes/ModelAttributeComputationTypesSelectors'
+
 import FragmentActions from './fragment/FragmentActions'
 import FragmentReducer from './fragment/FragmentReducer'
 import FragmentSelectors from './fragment/FragmentSelectors'
@@ -181,6 +185,10 @@ export default {
   ModelAttributesActions,
   ModelAttributesReducer,
   ModelAttributesSelectors,
+
+  ModelAttributeComputationTypesActions,
+  getModelAttributeComputationTypesReducer,
+  getModelAttributeComputationTypesSelectors,
 
   ModelAttributesFragmentActions,
   ModelAttributesFragmentReducer,

@@ -13,6 +13,7 @@ import { FragmentContent, Fragment, FragmentList } from './Fragment'
 import { Model, ModelList } from './Model'
 import { ModelAttribute, ModelAttributeList } from './ModelAttribute'
 import { StandartAttributeModelContent, StandartAttributeModel } from './StandartAttributeModel'
+import { ModelAttributeComputationTypes, ModelAttributeComputationTypesList } from './ModelAttributeComputationTypes'
 
 export default {
   AccessGroup,
@@ -52,6 +53,9 @@ export default {
 
   ModelAttribute,
   ModelAttributeList,
+
+  ModelAttributeComputationTypes,
+  ModelAttributeComputationTypesList,
 
   StandartAttributeModelContent,
   StandartAttributeModel,

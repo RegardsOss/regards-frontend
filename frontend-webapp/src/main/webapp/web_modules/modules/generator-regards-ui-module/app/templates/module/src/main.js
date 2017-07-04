@@ -1,8 +1,8 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import moduleContainer from './containers/MenuContainer'
-import adminContainer from './containers/AdminContainer'
+import ModuleContainer from './containers/ModuleContainer'
+import AdminContainer from './containers/AdminContainer'
 import styles from './styles/styles'
 import reducer from './reducer'
 import dependencies from './dependencies'
@@ -12,8 +12,8 @@ import dependencies from './dependencies'
  * @author <%= author %>
  **/
 export default {
-  adminContainer,
-  moduleContainer,
+  AdminContainer,
+  ModuleContainer,
   reducer,
   styles,
   messagesDir: 'modules/menu/src/i18n',
