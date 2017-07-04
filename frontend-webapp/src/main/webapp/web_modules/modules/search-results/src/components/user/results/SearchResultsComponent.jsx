@@ -152,7 +152,6 @@ class SearchResultsComponent extends React.Component {
       // map to attributes models then to column
       if (attributeConf.visibility) {
         let attribute
-        let fullyQualifiedAttributePathInEntity
         if (AccessDomain.AttributeConfigurationController.isStandardAttribute(attributeConf)) {
           // standard attribute
           attribute = AccessDomain.AttributeConfigurationController.getStandardAttributeConf(attributeConf.attributeFullQualifiedName)
@@ -180,7 +179,7 @@ class SearchResultsComponent extends React.Component {
             order: attributeConf.order,
             // retrieve column sorting in current state
             sortingOrder: sortingOn.reduce((acc, { attributePath, type }) =>
-              attributePath === fullyQualifiedAttributePathInEntity ? type : acc, TableSortOrders.NO_SORT),
+              attributePath === attribute.content.jsonPath ? type : acc, TableSortOrders.NO_SORT),
           }]
         }
       }
