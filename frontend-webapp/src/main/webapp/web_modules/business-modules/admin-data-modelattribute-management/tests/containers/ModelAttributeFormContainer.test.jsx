@@ -36,8 +36,8 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT]Testing form container', () => 
       },
       // from mapStateToProps
       model: DumpProvider.getFirstEntity('DataManagementClient', 'Model'),
-      modelAttributeList: [DumpProvider.getFirstEntity('DataManagementClient', 'ModelAttribute')],
-      attributeModelList: [DumpProvider.getFirstEntity('DataManagementClient', 'AttributeModel')],
+      modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
+      attributeModelList: DumpProvider.get('DataManagementClient', 'AttributeModel'),
       isModelFetching: false,
       isModelAttributeFetching: false,
       isAttributeModelFetching: false,
