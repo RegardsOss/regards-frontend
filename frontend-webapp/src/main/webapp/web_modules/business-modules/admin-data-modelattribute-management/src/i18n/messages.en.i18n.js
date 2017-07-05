@@ -5,6 +5,7 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'modelattr.edit.title': 'Edit model attributes {name}',
+  'modelattr.edit.description' : 'To add an attribute or a fragment to the current mode drag it from the right column to left column. Do the opposite to remove an attribute or fragment.',
   'modelattr.form.action.back': 'Back',
   'modelattr.edit.remainingAttr': 'Available attributes',
   'modelattr.edit.modelname': 'Model {name}',

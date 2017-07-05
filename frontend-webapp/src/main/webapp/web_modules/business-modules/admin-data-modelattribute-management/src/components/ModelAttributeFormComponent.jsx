@@ -2,7 +2,7 @@
  * LICENSE_PLACEHOLDER
  **/
 import { Card, CardActions, CardTitle } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
 import map from 'lodash/map'
 import keys from 'lodash/keys'
 import { themeContextType } from '@regardsoss/theme'
@@ -78,6 +78,9 @@ export class ModelAttributeFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={this.context.intl.formatMessage({ id: 'modelattr.edit.title' }, { name: this.props.currentModel.content.name })}
+          />
+          <HelpMessageComponent
+            message={this.context.intl.formatMessage({ id: 'modelattr.edit.description' })}
           />
         </Card>
 
