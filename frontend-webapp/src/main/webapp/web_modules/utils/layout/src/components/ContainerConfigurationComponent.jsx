@@ -177,9 +177,6 @@ function validate(values) {
   const errors = {}
 
   errors.id = ValidationHelpers.required(values.id)
-  if (!errors.id) {
-    errors.id = ValidationHelpers.validAlphaNumericUnderscore(values.id)
-  }
   errors.type = ValidationHelpers.required(values.type)
 
   return errors
