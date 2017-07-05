@@ -28,6 +28,7 @@ import { projectActions } from '../clients/ProjectClient'
 
 const SidebarElementWithResourceDisplayControl = withResourceDisplayControl(SidebarElement)
 const MenuItemWithHateoasDisplayControl = withResourceDisplayControl(MenuItem)
+const DividerWithHateoasDisplayControl = withResourceDisplayControl(Divider)
 
 /**
  * React sidebar components. Display the admin application menu
@@ -133,7 +134,10 @@ class ProjectSidebarComponent extends React.Component {
             color={this.context.muiTheme.svgIcon.color}
           />}
         />
-        <Divider />
+        <DividerWithHateoasDisplayControl
+          resourceDependencies={projectDependencies}
+          displayLogic={allMatchHateoasDisplayLogic}
+        />
         <MenuItemWithHateoasDisplayControl
           resourceDependencies={projectDependencies}
           displayLogic={allMatchHateoasDisplayLogic}
