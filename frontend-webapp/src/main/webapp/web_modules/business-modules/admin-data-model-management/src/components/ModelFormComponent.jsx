@@ -92,7 +92,6 @@ export class ModelFormComponent extends React.Component {
                   label={this.context.intl.formatMessage({ id: 'model.form.type' })}
                 >
                   <MenuItem value="COLLECTION" primaryText={this.context.intl.formatMessage({ id: 'model.type.collection' })} />
-                  <MenuItem value="DOCUMENT" primaryText={this.context.intl.formatMessage({ id: 'model.type.document' })} />
                   <MenuItem value="DATA" primaryText={this.context.intl.formatMessage({ id: 'model.type.data' })} />
                   <MenuItem value="DATASET" primaryText={this.context.intl.formatMessage({ id: 'model.type.dataset' })} />
                 </Field>
