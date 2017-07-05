@@ -72,7 +72,7 @@ class ProjectComponent extends React.Component {
             </div>
             <div className="col-sm-88" style={moduleTheme.descriptionContent}>
               <CardTitle
-                title={project.content.name}
+                title={project.content.label}
                 titleStyle={moduleTheme.title}
                 style={moduleTheme.rootTitle}
               />
