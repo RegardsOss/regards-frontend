@@ -2,6 +2,7 @@ import { Locales } from '@regardsoss/form-utils'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
 const messages = Object.assign({
+  'attrmodel.list.delete.conditions' : 'Seuls les attributs n\'appartenant à aucun modèle sont supprimables',
   'attrmodel.list.title': 'Attributs de modèles',
   'attrmodel.list.subtitle': 'Tous les attributs de modèles de données du projet',
   'attrmodel.list.table.fragment': 'Fragment',
