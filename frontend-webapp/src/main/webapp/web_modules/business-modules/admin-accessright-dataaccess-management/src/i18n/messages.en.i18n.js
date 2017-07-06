@@ -25,7 +25,7 @@ const messages = Object.assign({
   'accessright.form.action.save': 'Save',
   'accessright.form.action.advanced.hide': 'Hide',
   'accessright.form.action.advanced.show': 'Display advanced configuration',
-  'accessright.form.title': 'Input form of one or many access right creation',
+  'accessright.form.title': 'Access rights',
   'accessright.form.subtitle': 'Setting up access rights for {nbSelectedDataset} datasets',
   'accessright.form.quality': 'Data quality retrieved',
   'accessright.form.quality.min': 'Minimal quality required',
