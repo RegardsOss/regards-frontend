@@ -2,6 +2,7 @@
  * LICENSE_PLACEHOLDER
  */
 import isEmpty from 'lodash/isEmpty'
+import root from 'window-or-global'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
@@ -57,8 +58,10 @@ export class ProjectFormComponent extends React.Component {
         name: currentProject.content.name,
       })
     } else {
+      const currentURL = `${root.location.protocol}//${root.location.host}`
       this.props.initialize({
         isPublic: false,
+        host: currentURL,
       })
     }
   }
