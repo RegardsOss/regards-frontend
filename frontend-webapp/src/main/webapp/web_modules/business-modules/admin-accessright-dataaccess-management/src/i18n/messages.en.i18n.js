@@ -36,7 +36,7 @@ const messages = Object.assign({
   'accessright.form.quality.level.REJECTED': 'Refused',
   'accessright.form.error.message': 'Could not save your configuration.',
   'accessright.edit.tooltip': 'Edit access rights',
-  'accessright.delete.tooltip': 'Remove access rights for this dataset',
+  'accessright.delete.tooltip': 'Take off access rights for this dataset',
   'accessright.list.delete.message': 'Remove the {name} access rights?',
   'component.plugin-parameter.action.choose-plugin': 'Select a plugin',
   'component.plugin-parameter.action.reset': 'Deselect a plugin',

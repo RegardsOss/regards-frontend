@@ -1,5 +1,5 @@
 import find from 'lodash/find'
-import Delete from 'material-ui/svg-icons/action/delete'
+import Reset from 'material-ui/svg-icons/action/highlight-off'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { DataManagementShapes } from '@regardsoss/shape'
 import IconButton from 'material-ui/IconButton'
@@ -38,7 +38,7 @@ class AccessRightsActionsTableCustomCell extends React.Component {
         style={AccessRightsActionsTableCustomCell.buttonStyle}
         onTouchTap={() => this.props.onDelete(accessRight)}
       >
-        <Delete />
+        <Reset />
       </IconButton>
     )
   }

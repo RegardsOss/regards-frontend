@@ -36,7 +36,7 @@ const messages = Object.assign({
   'accessright.form.quality.level.REJECTED': 'Jeux refusés',
   'accessright.form.error.message': 'Une erreur s\'est produite pendant la sauvegarde des droits d\'accès',
   'accessright.edit.tooltip': 'Configurer les droits d\'accès',
-  'accessright.delete.tooltip': 'Supprimer les droits d\'accès',
+  'accessright.delete.tooltip': 'Retirer les droits d\'accès',
   'accessright.list.delete.message': 'Supprimer les droits d\'accès au jeu de données {name}?',
   'component.plugin-parameter.action.choose-plugin': 'Sélectionner un plugin',
   'component.plugin-parameter.action.reset': 'Désélectionner le plugin',
