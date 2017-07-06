@@ -50,7 +50,7 @@ export class ConnectionListContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board`
+    return `/admin/${project}/data/board?advanced=true`
   }
 
   handleEdit = (connectionId) => {
