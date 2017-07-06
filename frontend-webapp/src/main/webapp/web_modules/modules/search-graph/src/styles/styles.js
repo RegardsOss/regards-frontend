@@ -60,6 +60,8 @@ const menuStyles = (theme) => {
           addButton: {
             styles: {
               padding: '1em 0 0 1em',
+              flexGrow: '0',
+              flexShrink: '0',
             },
             labelPosition: 'before',
           },
