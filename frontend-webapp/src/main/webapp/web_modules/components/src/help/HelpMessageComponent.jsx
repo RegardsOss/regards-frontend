@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import Stars from 'material-ui/svg-icons/action/stars'
+import Info from 'material-ui/svg-icons/action/lightbulb-outline'
 
 
 export default class HelpMessageComponent extends React.Component {
@@ -13,7 +13,7 @@ export default class HelpMessageComponent extends React.Component {
 
   render() {
     return (<span style={HelpMessageComponent.styleContainer}>
-      <Stars style={HelpMessageComponent.styleIcon} />
+      <Info style={HelpMessageComponent.styleIcon} />
       {this.props.message}
     </span>)
   }
