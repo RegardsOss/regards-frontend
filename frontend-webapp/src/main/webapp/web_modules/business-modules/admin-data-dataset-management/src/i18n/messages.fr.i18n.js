@@ -28,7 +28,7 @@ const messages = Object.assign({
   'dataset.form.links.action.cancel': 'Retour',
 
   'dataset.form.plugin.title': 'Gestion des plugins appliqués au jeu de données',
-  'dataset.form.plugin.subtitle': 'Realisez des traitement sur le jeu de données en activant ces plugins.',
+  'dataset.form.plugin.subtitle': 'Réalisez des traitements sur le jeu de données en activant ces plugins',
   'dataset.form.plugin.services': 'Activation de services',
   'dataset.form.plugin.action.next': 'Suite',
   'dataset.form.plugin.action.cancel': 'Retour',
