@@ -8,7 +8,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { CardActionsComponent, ActionsMenuCell, ConfirmDialogComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
+import { CardActionsComponent, ActionsMenuCell, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { fragmentSelectors } from '../clients/FragmentClient'
@@ -95,9 +95,6 @@ export class AttributeModelListComponent extends React.Component {
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
-          <HelpMessageComponent
-            message={this.context.intl.formatMessage({ id: 'attrmodel.list.delete.conditions' })}
-          />
           <Table
             selectable={false}
           >
