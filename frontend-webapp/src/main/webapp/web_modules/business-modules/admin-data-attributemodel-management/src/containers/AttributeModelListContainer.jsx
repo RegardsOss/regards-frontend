@@ -2,6 +2,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import AttributeModelListComponent from '../components/AttributeModelListComponent'
@@ -24,7 +25,9 @@ export class AttributeModelListContainer extends React.Component {
     attrModelArray: DataManagementShapes.AttributeModelArray,
     // from mapDispatchToProps
     fetchAttrModelList: PropTypes.func,
+    // eslint-disable-next-line react/no-unused-prop-types
     deleteAttrModel: PropTypes.func,
+    throwError: PropTypes.func,
   }
 
   state = {
@@ -57,7 +60,9 @@ export class AttributeModelListContainer extends React.Component {
   }
 
   handleDelete =(attrModelId) => {
-    this.props.deleteAttrModel(attrModelId)
+    this.props.throwError('Delete is not applicable on attributes yet.')
+    // FIXME : Handle delete attribute into backend with new indexation of elasticsearch
+    // this.props.deleteAttrModel(attrModelId)
   }
 
 
@@ -84,6 +89,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchAttrModelList: () => dispatch(attributeModelActions.fetchEntityList()),
   deleteAttrModel: id => dispatch(attributeModelActions.deleteEntity(id)),
+  throwError: message => dispatch(ApplicationErrorAction.throwError(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelListContainer)
