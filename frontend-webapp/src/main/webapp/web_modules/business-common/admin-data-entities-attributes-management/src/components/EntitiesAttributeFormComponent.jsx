@@ -111,12 +111,12 @@ export class EntitiesAttributeFormComponent extends React.Component {
     const restrictions = []
     if (restriction) {
       switch (restriction && restriction.type) {
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.PATTERN :
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.PATTERN:
           restrictions.push(ValidationHelpers.matchRegex(restriction.pattern))
           break
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.INTEGER_RANGE :
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.LONG_RANGE :
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.DOUBLE_RANGE :
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.INTEGER_RANGE:
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.LONG_RANGE:
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.DOUBLE_RANGE:
           restrictions.push(ValidationHelpers.isInNumericRange(restriction.min, restriction.max, restriction.minExcluded, restriction.maxExcluded))
           break
         default:
@@ -131,19 +131,19 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
-        if (!modelAttribute.optional) {
+        if (!modelAttribute.content.attribute.optional) {
           return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
         }
         return [ValidationHelpers.string]
       case MODEL_ATTR_TYPES.DOUBLE:
       case MODEL_ATTR_TYPES.LONG:
       case MODEL_ATTR_TYPES.INTEGER:
-        if (!modelAttribute.optional) {
+        if (!modelAttribute.content.attribute.optional) {
           return [ValidationHelpers.validRequiredNumber, ...complexRestriction]
         }
         return complexRestriction
       case MODEL_ATTR_TYPES.URL:
-        if (!modelAttribute.optional) {
+        if (!modelAttribute.content.attribute.optional) {
           return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
         }
         return complexRestriction
