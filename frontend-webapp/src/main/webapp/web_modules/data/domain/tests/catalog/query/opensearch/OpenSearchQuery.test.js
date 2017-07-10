@@ -7,7 +7,7 @@ import OpenSearchQuery from '../../../../catalog/query/opensearch/OpenSearchQuer
 import StaticQueryParameter from '../../../../catalog/query/common/StaticQueryParameter'
 import OpenSearchQueryParameter from '../../../../catalog/query/opensearch/OpenSearchQueryParameter'
 
-describe('[Search Results] Testing OpenSearchQuery', () => {
+describe('[Domain] Testing OpenSearchQuery', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

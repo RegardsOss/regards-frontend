@@ -11,7 +11,6 @@ const SessionLockedMiddleware = store => next => (action) => {
   // If the action is a callAPI and the session of current authenticated user is locked do not send request to server.
   if (callAPI && currentState && currentState.common && currentState.common.authentication && currentState.common.authentication.sessionLocked) {
     if (callAPI.types && !callAPI.types.includes('common/authentication-manager/REQUEST')) {
-      console.error('Session is locked action is not sent', callAPI.endpoint)
       return new Promise((resolve, reject) => resolve({}))
     }
   }

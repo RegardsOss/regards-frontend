@@ -5,7 +5,6 @@ const merge = require('webpack-merge')
 const path = require('path')
 
 module.exports = function (projectContextPath) {
-
   let config = getCommonConfig(projectContextPath, 'test')
 
   config = merge(config, {
@@ -19,7 +18,7 @@ module.exports = function (projectContextPath) {
       publicPath: '/',
     },
     module: {
-      noParse: [/node_modules\/sinon/, /node_modules\/nock/,],
+      noParse: [/node_modules\/sinon/, /node_modules\/nock/],
     },
     devServer: {
       stats: {
@@ -49,9 +48,9 @@ module.exports = function (projectContextPath) {
           to(context) {
             return context.match[0]
           },
-        },],
+        }],
       }, // Allow to expose plugins
-      //publicPath: "/plugins/",
+      // publicPath: "/plugins/",
     },
     plugins: [
       new webpack.DllReferencePlugin({

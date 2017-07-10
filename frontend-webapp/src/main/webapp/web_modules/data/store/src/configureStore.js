@@ -33,7 +33,6 @@ function configureStore(rootReducer) {
   ]
 
   if (process.env.NODE_ENV === 'development') {
-    console.log('DEV', 'Using Redux logger middleware')
     // Logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions]
     middlewares = concat([], middlewares, [logger])
   }

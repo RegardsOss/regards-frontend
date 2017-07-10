@@ -161,7 +161,6 @@ class PageableListContainer extends React.Component {
    */
   handleFetch = (index, searchValue) => {
     const idQueryParam = this.props.searchIdentifier && searchValue.length > 0 ? { [this.props.searchIdentifier]: searchValue } : {}
-    console.log('Query params', { ...idQueryParam, ...this.props.queryParams })
     const pageNumber = index ? index / this.props.nbEntityByPage : 0
     this.props.fetchEntities(pageNumber, this.props.nbEntityByPage, {}, { ...idQueryParam, ...this.props.queryParams })
   }

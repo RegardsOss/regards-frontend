@@ -171,7 +171,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
   }
 
   isRestrictedWithEnum = (modelAttribute) => {
-    console.log('Is restriction ?', modelAttribute, has(modelAttribute, 'content.attribute.restriction.type'))
     if (has(modelAttribute, 'content.attribute.restriction.type')) {
       return modelAttribute.content.attribute.restriction.type === 'ENUMERATION'
     }
