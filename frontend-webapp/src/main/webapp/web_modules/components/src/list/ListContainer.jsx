@@ -92,7 +92,6 @@ class ListContainer extends React.Component {
    */
   handleFetch = (searchValue) => {
     const idQueryParam = this.props.searchIdentifier && searchValue.length > 0 ? { [this.props.searchIdentifier]: searchValue } : {}
-    console.log('Query params', { ...idQueryParam, ...this.props.queryParams })
     this.props.fetchEntities({}, { ...idQueryParam, ...this.props.queryParams })
   }
 

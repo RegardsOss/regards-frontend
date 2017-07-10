@@ -6,7 +6,7 @@ import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import URLSearchQuery from '../../../../catalog/query/url/URLSearchQuery'
 import URLSearchQueryParameter from '../../../../catalog/query/url/URLSearchQueryParameter'
 
-describe('[Search Results] Testing URLSearchQuery', () => {
+describe('[Domain] Testing URLSearchQuery', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
