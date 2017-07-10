@@ -41,10 +41,10 @@ class BasicPageableActions extends BasicListActions {
         page: pageNumber || 0,
         size: size || 1000,
       })
-    } else if (isInteger(pageNumber) && isInteger(size)) {
+    } else {
       endpoint = this.handleRequestQueryParams(endpoint, {
         page: pageNumber || 0,
-        size: size || 1000,
+        size: size || 0,
       })
     }
 
