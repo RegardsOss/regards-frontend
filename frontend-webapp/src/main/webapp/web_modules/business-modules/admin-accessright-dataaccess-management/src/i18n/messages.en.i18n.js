@@ -23,6 +23,7 @@ const messages = Object.assign({
   'accessright.form.dataset.title': 'Datasets list',
   'accessright.form.dataset.input': 'Search by collection name',
   'accessright.form.action.save': 'Save',
+  'accessright.form.action.cancel': 'Cancel',
   'accessright.form.action.advanced.hide': 'Hide',
   'accessright.form.action.advanced.show': 'Display advanced configuration',
   'accessright.form.title': 'Access rights',
