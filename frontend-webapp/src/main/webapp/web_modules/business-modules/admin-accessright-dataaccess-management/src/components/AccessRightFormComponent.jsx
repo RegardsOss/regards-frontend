@@ -286,7 +286,7 @@ export class AccessRightFormComponent extends React.Component {
               mainButtonLabel={this.context.intl.formatMessage({ id: 'accessright.form.action.save' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel="Cancel"
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'accessright.form.action.cancel' })}
               secondaryButtonTouchTap={this.props.onCancel}
             />
           </CardActions>
