@@ -38,7 +38,7 @@ class AttributeConfigurationComponent extends React.Component {
   }
 
   static getTitle = attribute => attribute.fragment && attribute.fragment.name &&
-  attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${attribute.fragment.name} - ${attribute.label}` : attribute.label
+    attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${attribute.fragment.name} - ${attribute.label}` : attribute.label
 
   constructor(props) {
     super(props)
@@ -71,29 +71,22 @@ class AttributeConfigurationComponent extends React.Component {
     return false
   }
 
-  changeVisibility = () => {
-    const newConf = merge({}, this.state.conf, { visibility: !this.state.conf.visibility })
+  updateAttributeConfiguration = (newFieldValues) => {
+    const previousConf = this.state.conf
+    const newConf = { ...previousConf, ...newFieldValues }
+    // update this state locally
     this.setState({ conf: newConf })
-    this.props.onChange(DamDomain.AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
+    // fire updated event
+    this.props.onChange(previousConf.attributeFullQualifiedName, newConf)
   }
 
-  changeFacetable = () => {
-    const newConf = merge({}, this.state.conf, { facetable: !this.state.conf.facetable })
-    this.setState({ conf: newConf })
-    this.props.onChange(DamDomain.AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
-  }
+  changeVisibility = () => this.updateAttributeConfiguration({ visibility: !this.state.conf.visibility })
 
-  changeInitialSort = () => {
-    const newConf = merge({}, this.state.conf, { initialSort: !this.state.conf.initialSort })
-    this.setState({ conf: newConf })
-    this.props.onChange(DamDomain.AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
-  }
+  changeFacetable = () => this.updateAttributeConfiguration({ facetable: !this.state.conf.facetable })
 
-  changeAttributeOrder = (event, value) => {
-    const newConf = merge({}, this.state.conf, { order: parseInt(value, this) })
-    this.setState({ conf: newConf })
-    this.props.onChange(DamDomain.AttributeModelController.getAttributeAccessPath(this.props.attribute), newConf)
-  }
+  changeInitialSort = () => this.updateAttributeConfiguration({ initialSort: !this.state.conf.initialSort })
+
+  changeAttributeOrder = (event, value) => this.updateAttributeConfiguration({ order: parseInt(value, this) })
 
   formatOrder = value => value ? parseInt(value, this) : undefined
 

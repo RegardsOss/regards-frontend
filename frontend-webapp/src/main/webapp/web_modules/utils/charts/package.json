@@ -1,9 +1,0 @@
-{
-  "name": "@regardsoss/charts",
-  "version": "0.0.1",
-  "private": true,
-  "description": "Adapts chart JS library for headless test environement",
-  "main": "src/main.js",
-  "author": "CS-SI",
-  "license": "GPL-3.0"
-}
