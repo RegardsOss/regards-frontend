@@ -131,7 +131,7 @@ class SearchResultsComponent extends React.Component {
 
   /** @return table column to show table options (description button) */
   buildTableOptionsColumn = () => ({
-    label: 'TableViewOptionsCell',
+    label: this.context.intl.formatMessage({ id: 'results.options.column.label' }),
     attributes: [],
     order: Number.MAX_VALUE,
     fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH,

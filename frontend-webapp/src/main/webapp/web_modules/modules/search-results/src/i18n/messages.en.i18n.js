@@ -51,6 +51,7 @@ const messages = Object.assign({
   'show.description.tooltip': 'View entity details',
   'results.no.content.title': 'No results',
   'results.no.content.subtitle': 'Your search returned no results. Try to change your criteria',
+  'results.options.column.label': 'Options and services',
 }, Locales.en)
 
 export default messages
