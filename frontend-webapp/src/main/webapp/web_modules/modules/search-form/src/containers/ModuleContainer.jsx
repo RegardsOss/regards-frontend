@@ -1,6 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
+import merge from 'lodash/merge'
 import flow from 'lodash/flow'
 import fpmap from 'lodash/fp/map'
 import fpfilter from 'lodash/fp/filter'
@@ -225,7 +226,9 @@ class ModuleContainer extends React.Component {
       searchQuery: query,
     })
     this.criterionValues = {}
-    browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?q=${query}`)
+    const browserPath = browserHistory.getCurrentLocation().pathname
+    const browserQuery = merge({}, browserHistory.getCurrentLocation().query || {}, {q: query})
+    browserHistory.push({ pathname: browserPath, query: browserQuery })
   }
 
   /**
