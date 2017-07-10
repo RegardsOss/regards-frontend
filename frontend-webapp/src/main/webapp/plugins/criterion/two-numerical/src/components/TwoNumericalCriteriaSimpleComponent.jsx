@@ -67,7 +67,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
     if (isNaN(openSearchQuery)) {
       const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
-      if (values.length === 3) {
+      if (values && values.length === 3) {
         const value = values[1] !== '*' ? values[1] : values[2]
         const operator = values[1] === '*' ? EnumNumericalComparator.LE : EnumNumericalComparator.GE
         if (parameterName === 'firstField') {

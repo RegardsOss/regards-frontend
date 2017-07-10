@@ -107,7 +107,11 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
         } else {
           this.setState({ operator2: operator })
         }
-        return new Date(value)
+        const date = new Date(value)
+        if (isNaN(date.getTime())){
+          return null
+        }
+        return date
       }
     }
     return undefined
