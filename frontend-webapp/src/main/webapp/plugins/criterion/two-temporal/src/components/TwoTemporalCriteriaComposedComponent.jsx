@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import values from 'lodash/values'
 import isNil from 'lodash/isNil'
 import { FormattedMessage } from 'react-intl'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
@@ -59,14 +58,19 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+    let date = null
     const groups = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
     if (groups.length === 3) {
       if (parameterName === 'firstField') {
-        return new Date(groups[1])
+        date= new Date(groups[1])
+      } else {
+        date = new Date(groups[2])
       }
-      return new Date(groups[2])
+      if (isNaN(date.getTime())){
+        date = null
+      }
     }
-    return openSearchQuery
+    return date
   }
 
   /**
@@ -78,9 +82,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
   }
 
   render() {
-    const { attributes } = this.props
     const { firstField, secondField } = this.state
-    const attribute = values(attributes)[0]
     const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
 
     return (
@@ -92,8 +94,10 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
             flexWrap: 'wrap',
           }}
         >
-          <span style={{ margin: '0px 10px' }}>{attribute.name}
-            <FormattedMessage id="criterion.aggregator.between"/>
+          <span style={{ margin: '0px 10px' }}>
+            <FormattedMessage id="criterion.aggregator.between"
+                              values={{label: this.getAttributeLabel('firstField')}}
+            />
           </span>
           <TemporalCriteriaComponent
             label={this.getAttributeLabel('firstField')}

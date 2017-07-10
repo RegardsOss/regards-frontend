@@ -105,6 +105,7 @@ export class NumericalCriteriaComponent extends PluginComponent {
           return values[1]
         }
       }
+      return null
     }
     return openSearchQuery
   }
