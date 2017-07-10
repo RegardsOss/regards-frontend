@@ -65,7 +65,7 @@ class AttributeConfigurationComponent extends React.Component {
       this.state.conf.visibility !== nextState.conf.visibility ||
       this.state.conf.facetable !== nextState.conf.facetable ||
       this.state.conf.initialSort !== nextState.conf.initialSort ||
-      this.state.conf.filter !== nextState.conf.filter) {
+      this.props.filter !== nextProps.filter) {
       return true
     }
     return false
