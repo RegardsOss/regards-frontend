@@ -43,9 +43,10 @@ const messages = Object.assign({
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Remove attributes clustering {name}?',
   'form.attributes.regroupement.form.title.update': 'Update clustering : {name}',
-  // Datasets ta
+  // Datasets tab
   'form.datasets.tab.title': 'Link this search form to one or many datasets, or to one or many models of dataset',
   'form.datasets.all.label': 'Link with all datasets',
+  'form.datasets.reset.all' : 'Reset all association to this search form',
   'form.datasets.selected.label': 'Link with one or many datasets',
   'form.datasets.model.selected.label': 'Link with one or many models of dataset',
   'form.datasets.select.dataset.list.title': 'Select datasets to link with search form',

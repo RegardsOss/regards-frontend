@@ -4,6 +4,7 @@
 import xor from 'lodash/xor'
 import map from 'lodash/map'
 import { Card } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
 import { PageableListContainer, ListContainer, Title } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -11,7 +12,7 @@ import DatasetLineComponent from './DatasetLineComponent'
 import DatasetModelLineComponent from './DatasetModelLineComponent'
 import { datasetActions, datasetSelectors } from '../../../clients/DatasetClient'
 import { modelActions, modelSelectors } from '../../../clients/ModelClient'
-import { DATASET_MODEL_TYPE, DATASET_TYPE } from '../../../models/datasets/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../../../models/datasets/DatasetSelectionTypes'
 import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
 
 /**
@@ -39,7 +40,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   state = {
-    type: this.props.defaultType ? this.props.defaultType : 'all',
+    type: this.props.defaultType ? this.props.defaultType : DatasetSelectionTypes.ALL_CATALOG_TYPE,
     selectedDataset: this.props.defaultSelectedDatasets,
     selectedDatasetModels: this.props.defaultSelectedDatasetModels,
   }
@@ -78,24 +79,35 @@ class FormDatasetsConfigurationComponent extends React.Component {
     this.setState({
       selectedDataset: [],
     })
+    this.props.changeField('conf.datasets.selectedDatasets', [])
   }
 
   unselectAllModels = () => {
     this.setState({
       selectedDatasetModels: [],
     })
+    this.props.changeField('conf.datasets.selectedModels', [])
   }
 
   resetSelection = () => {
     this.setState({
       selectedDataset: this.props.defaultSelectedDatasets,
     })
+    this.props.changeField('conf.datasets.selectedDatasets', this.props.defaultSelectedDatasets)
   }
 
   resetModelsSelection = () => {
     this.setState({
       selectedDatasetModels: this.props.defaultSelectedDatasetModels,
     })
+    this.props.changeField('conf.datasets.selectedModels', this.props.defaultSelectedDatasetModels)
+  }
+
+  resetAll = () => {
+    this.resetSelection()
+    this.resetModelsSelection()
+    this.selectType(null,DatasetSelectionTypes.ALL_CATALOG_TYPE)
+    this.props.changeField('conf.datasets.type',DatasetSelectionTypes.ALL_CATALOG_TYPE)
   }
 
   renderType() {
@@ -104,7 +116,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
     }
     const style = { width: '90%', margin: '20px auto' }
     switch (this.state.type) {
-      case DATASET_TYPE :
+      case DatasetSelectionTypes.DATASET_TYPE :
         return (
           <PageableListContainer
             key={this.state.type}
@@ -123,7 +135,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
             style={style}
           />
         )
-      case DATASET_MODEL_TYPE :
+      case DatasetSelectionTypes.DATASET_MODEL_TYPE :
         return (
           <ListContainer
             key={this.state.type}
@@ -148,6 +160,16 @@ class FormDatasetsConfigurationComponent extends React.Component {
     }
   }
 
+  renderResetAllSelection = () => {
+    return (
+      <RaisedButton
+        label={this.context.intl.formatMessage({ id: 'form.datasets.reset.all' })}
+        onTouchTap={this.resetAll}
+        secondary
+        />
+    )
+  }
+
   render() {
     return (
       <Card>
@@ -155,8 +177,9 @@ class FormDatasetsConfigurationComponent extends React.Component {
           level={3}
           label={this.context.intl.formatMessage({ id: 'form.datasets.tab.title' })}
         />
+        {this.renderResetAllSelection()}
         <FormDatasetsTypeSelection
-          defaultSelected={this.props.defaultType}
+          defaultSelected={this.state.type}
           onSelectType={this.selectType}
           disabled={this.props.disableChangeDatasets}
         />
