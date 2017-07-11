@@ -18,14 +18,17 @@ function extractParametersFromFormValues(values, modelAttributeList) {
       const modelAttr = find(modelAttributeList, modelAttribute =>
         modelAttribute.content.attribute.name === attrName && modelAttribute.content.attribute.fragment.name === fragmentName,
       )
-      const fragment = modelAttr.content.attribute.fragment
-      if (fragment.name !== DEFAULT_FRAGMENT) {
-        if (!result[fragment.name]) {
-          result[fragment.name] = {}
+      // Do not send the value if it's not defined
+      if (attrValue) {
+        const fragment = modelAttr.content.attribute.fragment
+        if (fragment.name !== DEFAULT_FRAGMENT) {
+          if (!result[fragment.name]) {
+            result[fragment.name] = {}
+          }
+          result[fragment.name][attrName] = attrValue
+        } else {
+          result[attrName] = attrValue
         }
-        result[fragment.name][attrName] = attrValue
-      } else {
-        result[attrName] = attrValue
       }
     })
   })
