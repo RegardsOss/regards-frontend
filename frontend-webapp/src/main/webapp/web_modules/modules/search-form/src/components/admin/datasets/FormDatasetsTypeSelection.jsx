@@ -26,6 +26,7 @@ class FormDatasetsTypeSelection extends React.Component {
   render() {
     return (
       <Field
+        key={this.props.defaultSelected}
         name="conf.datasets.type"
         onSelect={this.props.onSelectType}
         component={RenderRadio}
