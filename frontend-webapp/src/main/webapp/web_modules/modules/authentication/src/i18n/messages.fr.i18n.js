@@ -5,12 +5,12 @@ import { Locales } from '@regardsoss/form-utils'
 import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
 const messages = {
-  'authentication.username': 'Utilisateur ou addresse e-mail',
+  'authentication.username': 'Utilisateur ou adresse e-mail',
   'authentication.password': 'Mot de passe',
   'authentication.button': 'Connexion',
   'authentication.cancel': 'Annuler',
   'authentication.message': 'Veuillez saisir vos identifiants pour vous connecter',
-  'authentication.error.ACCOUNT_UNKNOWN': 'L\'addresse e-mail et / ou le mot de passe sont inconnus',
+  'authentication.error.ACCOUNT_UNKNOWN': 'L\'adresse e-mail et / ou le mot de passe sont inconnus',
   'authentication.error.ACCOUNT_PENDING': 'Votre compte utilisateur REGARDS n\'a pas encore été validé. Vous recevrez un e-mail en cas de changement',
   'authentication.error.ACCOUNT_INACTIVE': 'Votre compte utilisateur est désactivé, veuillez contacter l\'administrateur du sytème',
   'authentication.error.ACCOUNT_LOCKED': 'Votre compte est bloqué. Pour le débloquer, cliquez sur "Compte bloqué ?"',
