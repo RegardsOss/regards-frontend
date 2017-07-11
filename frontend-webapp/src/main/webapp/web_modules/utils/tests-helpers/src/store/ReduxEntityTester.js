@@ -119,6 +119,9 @@ export default class ReduxEntityTester {
     if (this.options.urlParams) {
       entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.urlParams)
     }
+    if (this.entityActions.fetchPagedEntityList) {
+      entityEndpoint = `${entityEndpoint}?page=0&size=0`
+    }
     nock(GATEWAY_HOSTNAME)
       .get(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))
       .reply(200, this.backendServerResultList)
