@@ -227,7 +227,7 @@ class ModuleContainer extends React.Component {
     })
     this.criterionValues = {}
     const browserPath = browserHistory.getCurrentLocation().pathname
-    const browserQuery = merge({}, browserHistory.getCurrentLocation().query || {}, {q: query})
+    const browserQuery = merge({}, browserHistory.getCurrentLocation().query || {}, { q: query })
     browserHistory.push({ pathname: browserPath, query: browserQuery })
   }
 
