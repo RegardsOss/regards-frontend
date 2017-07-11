@@ -18,7 +18,7 @@ import Loop from 'material-ui/svg-icons/av/loop'
 import Pause from 'material-ui/svg-icons/av/pause'
 import { AdminShapes } from '@regardsoss/shape'
 import {
-  ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender,
+  ActionsMenuCell, CardActionsComponent, NoContentMessageInfo, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -146,7 +146,7 @@ export class ProjectUserListComponent extends React.Component {
         show={this.state.deleteDialogOpened}
       >
         <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
             this.props.onDelete(this.state.entityToDelete.content.id)
           }}

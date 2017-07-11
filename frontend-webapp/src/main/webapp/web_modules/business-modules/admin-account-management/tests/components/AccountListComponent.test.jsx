@@ -5,7 +5,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Table, TableRow } from 'material-ui/Table'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccountListComponent, TABS } from '../../src/components/AccountListComponent'
 
@@ -71,9 +70,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
   it('should render self after loading, opening the waitin tab if there is any waiting request', () => {
     // 1 - loading
     const enzymeWrapper = shallow(<AccountListComponent {...initialProps} />, options)
-    let noContentDisplayers = enzymeWrapper.find(NoContentMessageInfo)
-    assert.equal(noContentDisplayers.length, 1, 'There should be a no content displayer')
-    assert.isFalse(noContentDisplayers.at(0).props().noContent, 'The no content displayer should not be visible at initial loading')
     let loadingDisplayers = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.equal(loadingDisplayers.length, 1, 'There should be a loading displayer')
     assert.isTrue(loadingDisplayers.at(0).props().isLoading, 'The loading displayer should be visible at initial loading')
@@ -91,9 +87,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     }
     enzymeWrapper.setProps(afterLoadingProps)
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.waiting, 'The component should display waiting tab, as he was loaded with initial waiting users')
-    noContentDisplayers = enzymeWrapper.find(NoContentMessageInfo)
-    assert.equal(noContentDisplayers.length, 1, 'There should be a no content displayer')
-    assert.isFalse(noContentDisplayers.at(0).props().noContent, 'The no content displayer should not be visible when there is content')
     loadingDisplayers = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.equal(loadingDisplayers.length, 1, 'There should be a loading displayer')
     assert.isFalse(loadingDisplayers.at(0).props().isLoading, 'The loading displayer should not be visible after initial loading')
@@ -135,13 +128,11 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     enzymeWrapper.setProps(afterLoadingProps)
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.all, 'The component should display all users tab, as he was loaded without initial waiting users')
     assert.equal(enzymeWrapper.find(TableRow).length, 1, 'There should be only the header row (no user)')
-    assert.isTrue(enzymeWrapper.find(NoContentMessageInfo).at(0).props().noContent, 'The no content displayer should be visible as there is no user')
 
     // 2.2 - change tab to show the waiting users
     enzymeWrapper.setState({ selectedTab: TABS.waiting })
     assert.equal(enzymeWrapper.find(TableRow).length, 1, 'There should be only the header row (no user)')
     assert.equal(enzymeWrapper.state('selectedTab'), TABS.waiting, 'The component should display waiting users tab after state change')
-    assert.isTrue(enzymeWrapper.find(NoContentMessageInfo).at(0).props().noContent, 'The no content displayer should be visible as there is no waiting user')
   })
   it('should disable signal actions when already processing', () => {
     // 1 - loading, already tests in previous test
