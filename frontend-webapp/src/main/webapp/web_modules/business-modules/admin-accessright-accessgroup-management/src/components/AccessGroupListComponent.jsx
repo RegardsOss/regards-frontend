@@ -13,7 +13,7 @@ import { FormattedMessage } from 'react-intl'
 import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AccessGroup } from '@regardsoss/model'
-import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-dataaccess-management'
@@ -69,7 +69,7 @@ export class AccessGroupListComponent extends React.Component {
         show={this.state.deleteDialogOpened}
       >
         <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
             this.props.handleDelete(this.state.entityToDelete.content.name)
           }}

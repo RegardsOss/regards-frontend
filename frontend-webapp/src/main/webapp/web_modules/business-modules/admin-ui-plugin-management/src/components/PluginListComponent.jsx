@@ -8,7 +8,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
-import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -74,7 +74,7 @@ class PluginListComponent extends React.Component {
           show={this.state.deleteDialogOpened}
         >
           <ConfirmDialogComponent
-            dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+            dialogType={ConfirmDialogComponentTypes.DELETE}
             onConfirm={() => { this.props.onDelete(this.state.pluginToDelete) }}
             onClose={this.closeDeleteDialog}
             title={title}

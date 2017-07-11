@@ -17,7 +17,7 @@ import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  ActionsMenuCell, NoContentMessageInfo, ConfirmDialogComponent, ShowableAtRender, HelpMessageComponent,
+  ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, HelpMessageComponent,
 } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasKeys, withHateoasDisplayControl } from '@regardsoss/display-control'
 
@@ -59,11 +59,10 @@ export class AccountListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      deleteDialogOpened: false,
-    }
+  state = {
+    deleteDialogOpened: false,
+    refuseDialogOpened: false,
+    entityToDeleteOrRefuse: null,
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -92,14 +91,28 @@ export class AccountListComponent extends React.Component {
   closeDeleteDialog = () => {
     this.setState({
       deleteDialogOpened: false,
-      entityToDelete: null,
+      entityToDeleteOrRefuse: null,
     })
   }
 
   openDeleteDialog = (entity) => {
     this.setState({
       deleteDialogOpened: true,
-      entityToDelete: entity,
+      entityToDeleteOrRefuse: entity,
+    })
+  }
+
+  closeRefuseDialog = () => {
+    this.setState({
+      refuseDialogOpened: false,
+      entityToDeleteOrRefuse: null,
+    })
+  }
+
+  openRefuseDialog = (entity) => {
+    this.setState({
+      refuseDialogOpened: true,
+      entityToDeleteOrRefuse: entity,
     })
   }
 
@@ -112,22 +125,34 @@ export class AccountListComponent extends React.Component {
   }
 
   renderDeleteConfirmDialog = () => {
-    const name = this.state.entityToDelete ? this.state.entityToDelete.content.email : ' '
+    const name = this.state.entityToDeleteOrRefuse ? this.state.entityToDeleteOrRefuse.content.email : ' '
     const title = this.context.intl.formatMessage({ id: 'account.list.delete.message' }, { name })
     return (
       <ShowableAtRender
         show={this.state.deleteDialogOpened}
       >
         <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
-          onConfirm={() => {
-            this.props.onDelete(this.state.entityToDelete.content.id)
-          }}
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          onConfirm={() => this.props.onDelete(this.state.entityToDeleteOrRefuse.content.id)}
           onClose={this.closeDeleteDialog}
           title={title}
         />
       </ShowableAtRender>
     )
+  }
+
+  renderRefuseConfirmDialog = () => {
+    const name = this.state.entityToDeleteOrRefuse ? this.state.entityToDeleteOrRefuse.content.email : ' '
+    const title = this.context.intl.formatMessage({ id: 'account.list.refuse.message' })
+    const message = this.context.intl.formatMessage({ id: 'account.list.refuse.message.detail' }, { name })
+    return (<ConfirmDialogComponent
+      open={this.state.refuseDialogOpened}
+      dialogType={ConfirmDialogComponentTypes.REFUSE}
+      onConfirm={() => this.props.onRefuse(this.state.entityToDeleteOrRefuse.content.email)}
+      onClose={this.closeRefuseDialog}
+      title={title}
+      message={message}
+    />)
   }
 
   render() {
@@ -137,8 +162,12 @@ export class AccountListComponent extends React.Component {
       commonActionHoverColor: this.context.muiTheme.palette.primary1Color,
       deleteActionHoverColor: this.context.muiTheme.palette.accent1Color,
     }
-    const { allAccounts, waitingAccounts, onEdit, onAccept, onRefuse, initialFecthing, isFetchingActions } = this.props
+    const { allAccounts, waitingAccounts, onEdit, onAccept, initialFecthing, isFetchingActions } = this.props
     const { intl } = this.context
+    const emptyComponent = (<NoContentComponent
+      title={this.context.intl.formatMessage({ id: 'account.list.table.no.content.title' })}
+      message={this.context.intl.formatMessage({ id: tabContent.noDataMessageKey })}
+    />)
 
     return (
       <Card>
@@ -154,114 +183,113 @@ export class AccountListComponent extends React.Component {
             value={TABS.all}
           />
         </Tabs>
-        <NoContentMessageInfo
-          noContent={isEmpty(tabContent.accounts) && !initialFecthing}
-          title={this.context.intl.formatMessage({ id: 'account.list.table.no.content.title' })}
-          message={this.context.intl.formatMessage({ id: tabContent.noDataMessageKey })}
-        >
-          <div>
-            {this.renderDeleteConfirmDialog()}
-            <CardTitle subtitle={this.context.intl.formatMessage({ id: tabContent.tabSubtitleKey })} />
-            <CardText>
+        <CardTitle subtitle={this.context.intl.formatMessage({ id: tabContent.tabSubtitleKey })} />
+        <CardText>
+          <LoadableContentDisplayDecorator
+            isLoading={initialFecthing}
+            isEmpty={isEmpty(tabContent.accounts)}
+            emptyComponent={emptyComponent}
+          >
+            <div>
+              {this.renderDeleteConfirmDialog()}
+              {this.renderRefuseConfirmDialog()}
               <HelpMessageComponent
                 message={this.context.intl.formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })}
               />
-              <LoadableContentDisplayDecorator isLoading={initialFecthing}>
-                <Table
-                  selectable={false}
+              <Table
+                selectable={false}
+              >
+                <TableHeader
+                  enableSelectAll={false}
+                  adjustForCheckbox={false}
+                  displaySelectAll={false}
                 >
-                  <TableHeader
-                    enableSelectAll={false}
-                    adjustForCheckbox={false}
-                    displaySelectAll={false}
-                  >
-                    <TableRow>
-                      <TableHeaderColumn><FormattedMessage id="account.list.table.email" /></TableHeaderColumn>
-                      <TableHeaderColumn><FormattedMessage id="account.list.table.firstName" /></TableHeaderColumn>
-                      <TableHeaderColumn><FormattedMessage id="account.list.table.lastName" /></TableHeaderColumn>
-                      <TableHeaderColumn><FormattedMessage id="account.list.table.status" /></TableHeaderColumn>
-                      <TableHeaderColumn><FormattedMessage id="account.list.table.action" /></TableHeaderColumn>
+                  <TableRow>
+                    <TableHeaderColumn><FormattedMessage id="account.list.table.email" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="account.list.table.firstName" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="account.list.table.lastName" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="account.list.table.status" /></TableHeaderColumn>
+                    <TableHeaderColumn><FormattedMessage id="account.list.table.action" /></TableHeaderColumn>
+                  </TableRow>
+                </TableHeader>
+                <TableBody
+                  displayRowCheckbox={false}
+                  preScanRows={false}
+                  showRowHover
+                >
+                  {map(tabContent.accounts, (account, id) => (
+                    <TableRow className={`selenium-${account.content.email}`} key={id}>
+                      <TableRowColumn>
+                        {account.content.email}
+                      </TableRowColumn>
+                      <TableRowColumn>
+                        {account.content.firstName || '-'}
+                      </TableRowColumn>
+                      <TableRowColumn>
+                        {account.content.lastName || '-'}
+                      </TableRowColumn>
+                      <TableRowColumn>
+                        <FormattedMessage id={`account.list.table.status.label.${account.content.status}`} />
+                      </TableRowColumn>
+                      <TableRowColumn>
+                        <ActionsMenuCell>
+                          <HateoasIconAction
+                            className="selenium-editButton"
+                            title={intl.formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
+                            onTouchTap={() => onEdit(account.content.id)}
+                            disabled={isFetchingActions}
+                            entityLinks={account.links}
+                            hateoasKey={HateoasKeys.UPDATE}
+                            alwaysDisplayforInstanceUser={false}
+                            breakpoint={550}
+                          >
+                            <Edit hoverColor={style.commonActionHoverColor} />
+                          </HateoasIconAction>
+                          <HateoasIconAction
+                            className="selenium-acceptButton"
+                            title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
+                            onTouchTap={() => onAccept(account.content.email)}
+                            disabled={isFetchingActions || !this.canAcceptAccount(account)}
+                            entityLinks={account.links}
+                            hateoasKey={HateoasKeys.ACCEPT}
+                            alwaysDisplayforInstanceUser={false}
+                            breakpoint={1040}
+                          >
+                            <Done hoverColor={style.commonActionHoverColor} />
+                          </HateoasIconAction>
+                          <HateoasIconAction
+                            className="selenium-refuseButton"
+                            title={intl.formatMessage({ id: 'account.list.table.action.refuse.tooltip' })}
+                            onTouchTap={() => this.openRefuseDialog(account)}
+                            disabled={isFetchingActions || !this.canRefuseAccount(account)}
+                            entityLinks={account.links}
+                            hateoasKey={HateoasKeys.REFUSE}
+                            alwaysDisplayforInstanceUser={false}
+                            breakpoint={1040}
+                          >
+                            <RemoveCircle hoverColor={style.deleteActionHoverColor} />
+                          </HateoasIconAction>
+                          <HateoasIconAction
+                            className="selenium-deleteButton"
+                            title={intl.formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
+                            onTouchTap={() => this.openDeleteDialog(account)}
+                            disabled={isFetchingActions}
+                            entityLinks={account.links}
+                            hateoasKey={HateoasKeys.DELETE}
+                            alwaysDisplayforInstanceUser={false}
+                            breakpoint={1040}
+                          >
+                            <Delete hoverColor={style.deleteActionHoverColor} />
+                          </HateoasIconAction>
+                        </ActionsMenuCell>
+                      </TableRowColumn>
                     </TableRow>
-                  </TableHeader>
-                  <TableBody
-                    displayRowCheckbox={false}
-                    preScanRows={false}
-                    showRowHover
-                  >
-                    {map(tabContent.accounts, (account, id) => (
-                      <TableRow className={`selenium-${account.content.email}`} key={id}>
-                        <TableRowColumn>
-                          {account.content.email}
-                        </TableRowColumn>
-                        <TableRowColumn>
-                          {account.content.firstName || '-'}
-                        </TableRowColumn>
-                        <TableRowColumn>
-                          {account.content.lastName || '-'}
-                        </TableRowColumn>
-                        <TableRowColumn>
-                          <FormattedMessage id={`account.list.table.status.label.${account.content.status}`} />
-                        </TableRowColumn>
-                        <TableRowColumn>
-                          <ActionsMenuCell>
-                            <HateoasIconAction
-                              className="selenium-editButton"
-                              title={intl.formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
-                              onTouchTap={() => onEdit(account.content.id)}
-                              disabled={isFetchingActions}
-                              entityLinks={account.links}
-                              hateoasKey={HateoasKeys.UPDATE}
-                              alwaysDisplayforInstanceUser={false}
-                              breakpoint={550}
-                            >
-                              <Edit hoverColor={style.commonActionHoverColor} />
-                            </HateoasIconAction>
-                            <HateoasIconAction
-                              className="selenium-acceptButton"
-                              title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
-                              onTouchTap={() => onAccept(account.content.email)}
-                              disabled={isFetchingActions || !this.canAcceptAccount(account)}
-                              entityLinks={account.links}
-                              hateoasKey={HateoasKeys.ACCEPT}
-                              alwaysDisplayforInstanceUser={false}
-                              breakpoint={1040}
-                            >
-                              <Done hoverColor={style.commonActionHoverColor} />
-                            </HateoasIconAction>
-                            <HateoasIconAction
-                              className="selenium-refuseButton"
-                              title={intl.formatMessage({ id: 'account.list.table.action.refuse.tooltip' })}
-                              onTouchTap={() => onRefuse(account.content.email)}
-                              disabled={isFetchingActions || !this.canRefuseAccount(account)}
-                              entityLinks={account.links}
-                              hateoasKey={HateoasKeys.REFUSE}
-                              alwaysDisplayforInstanceUser={false}
-                              breakpoint={1040}
-                            >
-                              <RemoveCircle hoverColor={style.deleteActionHoverColor} />
-                            </HateoasIconAction>
-                            <HateoasIconAction
-                              className="selenium-deleteButton"
-                              title={intl.formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
-                              onTouchTap={() => this.openDeleteDialog(account)}
-                              disabled={isFetchingActions}
-                              entityLinks={account.links}
-                              hateoasKey={HateoasKeys.DELETE}
-                              alwaysDisplayforInstanceUser={false}
-                              breakpoint={1040}
-                            >
-                              <Delete hoverColor={style.deleteActionHoverColor} />
-                            </HateoasIconAction>
-                          </ActionsMenuCell>
-                        </TableRowColumn>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </LoadableContentDisplayDecorator>
-            </CardText>
-          </div>
-        </NoContentMessageInfo>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </LoadableContentDisplayDecorator>
+        </CardText>
       </Card>
     )
   }

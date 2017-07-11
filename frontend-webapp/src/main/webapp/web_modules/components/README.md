@@ -19,7 +19,7 @@ This module provides a set of React Component to display widgets as :
 ## Usage
 
 ```js
-import { ConfirmDialogComponent } from '@regardsoss/components'
+import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 
 class SampleComponent extends React.Component {
    
@@ -27,7 +27,7 @@ class SampleComponent extends React.Component {
       return (
         <ConfirmDialogComponent
          title="Confirmation dialog"
-         dialogType={ConfirmDialogComponent.dialogTypes.CONFIRM}
+         dialogType={ConfirmDialogComponentTypes.CONFIRM}
          message="Are you sure ?"
          // Callback when confirm is selected
          onConfirm={ () => {}}

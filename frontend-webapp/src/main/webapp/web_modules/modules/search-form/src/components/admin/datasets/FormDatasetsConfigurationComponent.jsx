@@ -106,8 +106,8 @@ class FormDatasetsConfigurationComponent extends React.Component {
   resetAll = () => {
     this.resetSelection()
     this.resetModelsSelection()
-    this.selectType(null,DatasetSelectionTypes.ALL_CATALOG_TYPE)
-    this.props.changeField('conf.datasets.type',DatasetSelectionTypes.ALL_CATALOG_TYPE)
+    this.selectType(null, DatasetSelectionTypes.ALL_CATALOG_TYPE)
+    this.props.changeField('conf.datasets.type', DatasetSelectionTypes.ALL_CATALOG_TYPE)
   }
 
   renderType() {
@@ -160,15 +160,13 @@ class FormDatasetsConfigurationComponent extends React.Component {
     }
   }
 
-  renderResetAllSelection = () => {
-    return (
-      <RaisedButton
-        label={this.context.intl.formatMessage({ id: 'form.datasets.reset.all' })}
-        onTouchTap={this.resetAll}
-        secondary
-        />
+  renderResetAllSelection = () => (
+    <RaisedButton
+      label={this.context.intl.formatMessage({ id: 'form.datasets.reset.all' })}
+      onTouchTap={this.resetAll}
+      secondary
+    />
     )
-  }
 
   render() {
     return (

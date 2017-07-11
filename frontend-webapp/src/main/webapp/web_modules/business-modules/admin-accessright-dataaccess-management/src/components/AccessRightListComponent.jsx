@@ -12,6 +12,7 @@ import {
   TableContainer,
   MainActionButtonComponent,
   ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
   ShowableAtRender,
   NoContentComponent,
 } from '@regardsoss/components'
@@ -193,7 +194,7 @@ class AccessRightListComponent extends React.Component {
         show={this.state.deleteDialogOpened}
       >
         <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
             this.props.deleteAccessRight(this.state.entityToDelete)
           }}
