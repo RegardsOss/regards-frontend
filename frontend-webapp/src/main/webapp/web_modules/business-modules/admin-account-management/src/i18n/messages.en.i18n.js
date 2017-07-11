@@ -21,6 +21,8 @@ const messages = {
   'account.list.waiting.subtitle': 'List of accounts waiting for validation',
   'account.list.waiting.no.content.message': 'No account waiting for validation. You can view and edit accounts "All accounts" tab',
   'account.list.delete.message': 'Remove the account {name}?',
+  'account.list.refuse.message': 'Refuse the request?',
+  'account.list.refuse.message.detail': 'This will remove the account {name}',
   'account.list.info.why-cant-remove-account-having-project-user': 'You can\'t delete an account if it has a project user',
 
   'account.form.input.firstName': 'Firstname',

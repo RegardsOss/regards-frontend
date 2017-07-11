@@ -17,6 +17,9 @@ class ConfirmDialogComponent extends React.Component {
     DELETE: {
       messageId: 'confirm.dialog.delete',
     },
+    REFUSE: {
+      messageId: 'confirm.dialog.refuse',
+    },
     CONFIRM: {
       messageId: 'confirm.dialog.confirm',
     },
@@ -28,10 +31,12 @@ class ConfirmDialogComponent extends React.Component {
     message: PropTypes.string, // optional
     onConfirm: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool,
   }
 
   static defaultProps = {
     dialogType: ConfirmDialogComponent.dialogTypes.CONFIRM,
+    open: true,
   }
 
   handleDelete = () => {
@@ -43,7 +48,7 @@ class ConfirmDialogComponent extends React.Component {
    * @returns {any}
    */
   render() {
-    const { title, message, onClose, dialogType } = this.props
+    const { title, message, onClose, dialogType, open } = this.props
     return (
       <I18nProvider messageDir={'components/src/i18n'}>
         <ConfirmDialogImpl
@@ -52,6 +57,7 @@ class ConfirmDialogComponent extends React.Component {
           confirmMessageKey={dialogType.messageId}
           onDelete={this.handleDelete}
           onCancel={onClose}
+          open={open}
         />
       </I18nProvider>
     )

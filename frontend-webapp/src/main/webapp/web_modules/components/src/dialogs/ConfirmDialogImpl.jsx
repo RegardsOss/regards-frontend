@@ -16,6 +16,11 @@ class ConfirmDialogImpl extends React.Component {
     confirmMessageKey: PropTypes.string.isRequired,
     onCancel: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    open: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    open: true,
   }
 
   static contextTypes = {
@@ -44,13 +49,13 @@ class ConfirmDialogImpl extends React.Component {
   }
 
   render() {
-    const { title, message, onCancel } = this.props
+    const { title, message, onCancel, open } = this.props
     return (
       <Dialog
         title={title}
         actions={this.renderActions()}
         modal={false}
-        open
+        open={open}
         onRequestClose={onCancel}
       >
         {message}

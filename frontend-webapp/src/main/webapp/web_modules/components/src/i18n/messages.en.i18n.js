@@ -5,6 +5,7 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'confirm.dialog.delete': 'Remove',
+  'confirm.dialog.refuse': 'Refuse',
   'confirm.dialog.confirm': 'Confirm',
   'confirm.dialog.cancel': 'Cancel',
 }, Locales.en)
