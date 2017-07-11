@@ -154,9 +154,9 @@ class ModuleContainer extends React.Component {
 
     if (tags.length > 0) {
       if (query && query.length > 0) {
-        query = `${query} AND ${ModuleContainer.TAGS_PARAM}:${tags}`
+        query = `${query} AND (${ModuleContainer.TAGS_PARAM}:(${tags}))`
       } else {
-        query = `${ModuleContainer.TAGS_PARAM}:${tags}`
+        query = `${ModuleContainer.TAGS_PARAM}:(${tags})`
       }
     }
 
@@ -164,7 +164,7 @@ class ModuleContainer extends React.Component {
       if (query && query.length > 0) {
         query = `${query} AND ${ModuleContainer.DATASET_MODEL_IDS_PARAM}:(${modelIds})`
       } else {
-        query = `${ModuleContainer.DATASET_MODEL_IDS_PARAM}:${modelIds}`
+        query = `${ModuleContainer.DATASET_MODEL_IDS_PARAM}:(${modelIds})`
       }
     }
 
