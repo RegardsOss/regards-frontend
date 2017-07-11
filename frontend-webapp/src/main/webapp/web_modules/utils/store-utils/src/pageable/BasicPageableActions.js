@@ -44,7 +44,7 @@ class BasicPageableActions extends BasicListActions {
     } else {
       endpoint = this.handleRequestQueryParams(endpoint, {
         page: pageNumber || 0,
-        size: size || 0,
+        size: size || 100000,
       })
     }
 

@@ -120,7 +120,7 @@ export default class ReduxEntityTester {
       entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.urlParams)
     }
     if (this.entityActions.fetchPagedEntityList) {
-      entityEndpoint = `${entityEndpoint}?page=0&size=0`
+      entityEndpoint = `${entityEndpoint}?page=0&size=100000`
     }
     nock(GATEWAY_HOSTNAME)
       .get(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))
