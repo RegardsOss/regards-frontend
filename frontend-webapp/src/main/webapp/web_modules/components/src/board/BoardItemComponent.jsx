@@ -7,7 +7,7 @@ import forEach from 'lodash/forEach'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl, someListMatchHateoasDisplayLogic } from '@regardsoss/display-control'
-import ConfirmDialogComponent from '../dialogs/ConfirmDialogComponent'
+import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from '../dialogs/ConfirmDialogComponent'
 import ShowableAtRender from '../cards/ShowableAtRender'
 import BoardItemShape from './BoardItemShape'
 import styles from './styles/styles'
@@ -68,7 +68,7 @@ class BoardItemComponent extends React.Component {
       show={this.state.confirmDialogOpened}
     >
       <ConfirmDialogComponent
-        dialogType={ConfirmDialogComponent.dialogTypes.CONFIRM}
+        dialogType={ConfirmDialogComponentTypes.CONFIRM}
         onConfirm={this.state.actionToConfirm ? this.state.actionToConfirm.touchTapAction : () => { }}
         onClose={this.closeConfirmDialog}
         title={this.state.actionToConfirm ? this.state.actionToConfirm.confirmMessage : ''}

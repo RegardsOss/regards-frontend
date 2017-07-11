@@ -11,7 +11,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import Copy from 'material-ui/svg-icons/content/content-copy'
 import Toggle from 'material-ui/Toggle'
 import { FormattedMessage } from 'react-intl'
-import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -84,7 +84,7 @@ class ModuleListComponent extends React.Component {
           show={this.state.deleteDialogOpened}
         >
           <ConfirmDialogComponent
-            dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+            dialogType={ConfirmDialogComponentTypes.DELETE}
             onConfirm={() => { this.props.onDelete(this.state.moduleToDelete) }}
             onClose={this.closeDeleteDialog}
             title={title}

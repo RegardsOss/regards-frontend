@@ -8,7 +8,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Settings from 'material-ui/svg-icons/action/settings-input-component'
-import { CardActionsComponent, ConfirmDialogComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -95,7 +95,7 @@ export class RoleListComponent extends React.Component {
         show={this.state.deleteDialogOpened}
       >
         <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
             this.props.handleDelete(this.state.entityToDelete.content.name)
           }}

@@ -8,7 +8,7 @@ import Dialog from 'material-ui/Dialog'
 import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
 import { SubmissionError } from 'redux-form'
-import { ConfirmDialogComponent } from '@regardsoss/components'
+import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import AttributeRegroupementFormComponent from './AttributeRegroupementFormComponent'
@@ -137,7 +137,7 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
       const title = this.context.intl.formatMessage({ id: 'form.attributes.delete.confirm.title' }, { name: this.state.regroupementToDelete.label })
       return (
         <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
             this.props.onDeleteRegroupement(this.state.regroupementToDelete)
           }}

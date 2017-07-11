@@ -17,7 +17,7 @@ import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ShowableAtRender, HelpMessageComponent,
+  ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, HelpMessageComponent,
 } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasKeys, withHateoasDisplayControl } from '@regardsoss/display-control'
 
@@ -132,7 +132,7 @@ export class AccountListComponent extends React.Component {
         show={this.state.deleteDialogOpened}
       >
         <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponent.dialogTypes.DELETE}
+          dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => this.props.onDelete(this.state.entityToDeleteOrRefuse.content.id)}
           onClose={this.closeDeleteDialog}
           title={title}
@@ -147,7 +147,7 @@ export class AccountListComponent extends React.Component {
     const message = this.context.intl.formatMessage({ id: 'account.list.refuse.message.detail' }, { name })
     return (<ConfirmDialogComponent
       open={this.state.refuseDialogOpened}
-      dialogType={ConfirmDialogComponent.dialogTypes.REFUSE}
+      dialogType={ConfirmDialogComponentTypes.REFUSE}
       onConfirm={() => this.props.onRefuse(this.state.entityToDeleteOrRefuse.content.email)}
       onClose={this.closeRefuseDialog}
       title={title}
@@ -184,15 +184,15 @@ export class AccountListComponent extends React.Component {
           />
         </Tabs>
         <CardTitle subtitle={this.context.intl.formatMessage({ id: tabContent.tabSubtitleKey })} />
-        <LoadableContentDisplayDecorator
-          isLoading={initialFecthing}
-          isEmpty={isEmpty(tabContent.accounts)}
-          emptyComponent={emptyComponent}
-        >
-          <div>
-            {this.renderDeleteConfirmDialog()}
-            {this.renderRefuseConfirmDialog()}
-            <CardText>
+        <CardText>
+          <LoadableContentDisplayDecorator
+            isLoading={initialFecthing}
+            isEmpty={isEmpty(tabContent.accounts)}
+            emptyComponent={emptyComponent}
+          >
+            <div>
+              {this.renderDeleteConfirmDialog()}
+              {this.renderRefuseConfirmDialog()}
               <HelpMessageComponent
                 message={this.context.intl.formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })}
               />
@@ -287,9 +287,9 @@ export class AccountListComponent extends React.Component {
                   ))}
                 </TableBody>
               </Table>
-            </CardText>
-          </div>
-        </LoadableContentDisplayDecorator>
+            </div>
+          </LoadableContentDisplayDecorator>
+        </CardText>
       </Card>
     )
   }
