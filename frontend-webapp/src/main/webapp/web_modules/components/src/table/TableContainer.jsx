@@ -157,11 +157,12 @@ class TableContainer extends React.Component {
       !isEqual(nextProps.authentication, previousProps.authentication)) {
       // remove any previously fetched data
       nextState.entities = []
+      // Remove index of fectced pages
+      this.fetchedPages = []
+      // Remove entities in store
       nextProps.flushEntities()
+      // Fetch the first page results
       nextProps.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
-      this.setState({
-        fetchEntities: concat([], this.state.fetchEntities, [0]),
-      })
     }
 
 

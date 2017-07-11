@@ -59,7 +59,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
               }
               return (
                 <AttributeConfigurationComponent
-                  key={standardAttribute.id}
+                  key={attrKey}
                   allowFacettes={allowFacettes}
                   attribute={attributes}
                   conf={conf}

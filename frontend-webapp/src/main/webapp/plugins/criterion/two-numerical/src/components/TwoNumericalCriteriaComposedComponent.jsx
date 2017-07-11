@@ -51,13 +51,15 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
     const groups = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
-    if (groups.length === 3) {
-      if (parameterName === 'firstField') {
-        return groups[1]
+    if (groups) {
+      if (groups.length === 3) {
+        if (parameterName === 'firstField') {
+          return groups[1]
+        }
+        return groups[2]
       }
-      return groups[2]
     }
-    return openSearchQuery
+    return null
   }
 
   getPluginSearchQuery = (state) => {
@@ -98,7 +100,10 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
           }}
         >
           <span style={labelStyle}>
-            {this.getAttributeLabel('firstField')} <FormattedMessage id="criterion.aggregator.between"/>
+            <FormattedMessage
+              id="criterion.aggregator.between"
+              values={{label : this.getAttributeLabel('firstField')}}
+            />
           </span>
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('firstField')}

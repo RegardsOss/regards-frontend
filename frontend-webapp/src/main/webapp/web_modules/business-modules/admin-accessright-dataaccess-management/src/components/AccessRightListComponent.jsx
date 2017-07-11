@@ -6,6 +6,7 @@ import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import FlatButton from 'material-ui/FlatButton'
 import values from 'lodash/values'
+import get from 'lodash/get'
 import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import {
   TableContainer,
@@ -104,7 +105,7 @@ class AccessRightListComponent extends React.Component {
   openDeleteDialog = (entity) => {
     this.setState({
       deleteDialogOpened: true,
-      entityToDelete: entity,
+      entityToDelete: entity.content,
     })
   }
 
@@ -185,7 +186,7 @@ class AccessRightListComponent extends React.Component {
    * @returns {XML}
    */
   renderDeleteConfirmDialog = () => {
-    const name = this.state.entityToDelete ? this.state.entityToDelete.dataset.label : ' '
+    const name = get(this.state.entityToDelete, 'dataset.label', ' ')
     const title = this.context.intl.formatMessage({ id: 'accessright.list.delete.message' }, { name })
     return (
       <ShowableAtRender

@@ -13,25 +13,18 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   static VALUE_SEPARATOR = ':'
 
   /** Strings to escape. Please note that '\' is escaped first, to not break the algorithm  */
-  static ESCAPED_VALUES = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/']
-
-  /** Escaped string symbol */
-  static ESCAPE_SYMBOL = '\\'
+  static ESCAPED_CHARS = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/', ' ']
 
   /**
-   * Escape string in parameter value that could conflict with open search query parsing
+   * Escape string when its value cannot be parsed
    * @see {documentation server}/microservice-catalog/search/
    * @param value parameter value string
-   * @return escaped string (null undefined if the parameter is)
+   * @return escaped string or initial value if it should not be escaped
    */
-  static escape = value => value && OpenSearchQueryParameter.ESCAPED_VALUES.reduce(
-    // for each string to escape ...
-    (previouslyEscaped, toEscape) =>
-      // if it found...
-      previouslyEscaped.includes(toEscape) ?
-        // split the string and join it back on the escaped string symbol
-        previouslyEscaped.split(toEscape).join(`${OpenSearchQueryParameter.ESCAPE_SYMBOL}${toEscape}`) :
-        previouslyEscaped, value)
+  static escape = value =>
+    value && OpenSearchQueryParameter.ESCAPED_CHARS.some(char => value.includes(char)) ?
+      `"${value}"` : // there are special charactars
+      value // no value or no special char
 
 
   constructor(name, value) {

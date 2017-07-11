@@ -10,7 +10,7 @@ const messages = {
   'criterion.search.field.label': 'Number ...',
   'criterion.aggregator.text': 'and',
 
-  'criterion.aggregator.between': 'between',
+  'criterion.aggregator.between': '{label} between',
   'criterion.aggregator.and': 'and',
 
   'criterion.clear': 'Clear',
