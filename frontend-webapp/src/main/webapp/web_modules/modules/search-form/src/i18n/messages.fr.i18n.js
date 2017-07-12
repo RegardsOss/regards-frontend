@@ -39,6 +39,7 @@ const messages = Object.assign({
   'form.attributes.initialSort.label': 'Trier les résultats sur cet attribut',
   'form.attributes.regroupement.section.title': 'Configurer les regroupements d\'attributs',
   'form.attributes.section.title': 'Configurer les attributs',
+  'form.attributes.section.clear.filters.tooltip': 'Effacer le filtre courant',
   'form.attributes.regroupement.remove': 'Supprimer',
   'form.attributes.regroupement.edit': 'Editer',
   'form.attributes.delete.confirm.title': 'Supprimer le regroupement {name} ?',

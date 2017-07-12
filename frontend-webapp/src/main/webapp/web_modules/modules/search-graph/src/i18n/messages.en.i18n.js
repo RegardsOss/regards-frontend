@@ -24,6 +24,7 @@ const messages = {
   'search.graph.configuration.attributes.subtitle': 'Select below the attributes that will be displayed on datasets in graph',
   'form.attributes.standard.section.title': 'Common attributes',
   'form.attributes.section.title': 'Dynamic attributes',
+  'form.attributes.section.clear.filters.tooltip': 'Clear current filter',
   'form.attributes.order': 'display order',
   'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.visibility.label': 'Display',

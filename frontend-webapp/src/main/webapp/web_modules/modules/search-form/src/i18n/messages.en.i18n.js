@@ -39,6 +39,7 @@ const messages = Object.assign({
   'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.regroupement.section.title': 'Configure attributes clustering to display after every search result',
   'form.attributes.section.title': 'Configure attributes retrieved from each search result',
+  'form.attributes.section.clear.filters.tooltip': 'Clear current filter',
   'form.attributes.regroupement.remove': 'Remove',
   'form.attributes.regroupement.edit': 'Edit',
   'form.attributes.delete.confirm.title': 'Remove attributes clustering {name}?',

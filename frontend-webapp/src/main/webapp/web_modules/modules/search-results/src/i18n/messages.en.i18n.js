@@ -30,6 +30,7 @@ const messages = Object.assign({
   'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.regroupement.section.title': 'Configure attributes clustering to display after every search result',
   'form.attributes.section.title': 'Configure attributes from dynamic models retrieved from each search result',
+  'form.attributes.section.clear.filters.tooltip': 'Clear current filter',
   'form.attributes.standard.section.title': 'Configure default models attributes. Default models attributes are attributes that are associated to each model without configuration',
   'form.attributes.filter.label': 'Search for attribute label ... ',
   'form.attributes.regroupement.remove': 'Remove',
