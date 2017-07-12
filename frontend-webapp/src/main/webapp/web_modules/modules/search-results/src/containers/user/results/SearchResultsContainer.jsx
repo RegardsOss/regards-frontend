@@ -219,9 +219,15 @@ export class SearchResultsContainer extends React.Component {
     }
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters)
 
+    let urlQuery = QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString()
+    // Add threshold if request is datasets from dataobjects
+    if (searchActions === searchDatasetsFromDataObjectsActions) {
+      urlQuery = `${urlQuery}&threshold=${STATIC_CONF.CATALOG_SEARCH_THRESHOLD}`
+    }
+
     return {
       searchActions,
-      searchQuery: QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString() }
+      searchQuery: urlQuery }
   }
 
   /**
