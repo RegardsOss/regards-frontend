@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
+import { ShowableAtRender } from '@regardsoss/display-control'
+
 import ApplicationErrorComponent from './ApplicationErrorComponent'
 import CenteredDiv from './CenteredDiv'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
@@ -38,7 +41,6 @@ import CardActionsView from './cards/CardActionsView'
 import MainActionButtonComponent from './cards/MainActionButtonComponent'
 import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
-import ShowableAtRender from './cards/ShowableAtRender'
 
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 
