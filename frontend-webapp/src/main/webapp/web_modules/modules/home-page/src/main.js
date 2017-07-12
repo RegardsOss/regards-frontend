@@ -20,6 +20,7 @@ import HomePageContainer from './containers/HomePageContainer'
 import adminContainer from './containers/AdminContainer'
 import styles from './styles/styles'
 import dependencies from './dependencies'
+import messages from './i18n'
 
 /**
  * Module main file to expose public interface
@@ -28,6 +29,6 @@ export default {
   moduleContainer: HomePageContainer,
   adminContainer,
   styles,
-  messagesDir: 'modules/home-page/src/i18n',
+  messages,
   dependencies,
 }

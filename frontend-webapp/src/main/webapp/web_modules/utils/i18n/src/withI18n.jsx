@@ -23,10 +23,10 @@ import I18nProvider from './I18nProvider'
  *
  * @author Xavier-Alexandre Brochard
  */
-const withI18n = path => Component => class WithI18n extends React.Component {
+const withI18n = messages => Component => class WithI18n extends React.Component {
   render() {
     return (
-      <I18nProvider messageDir={path}>
+      <I18nProvider messages={messages}>
         <Component {...this.props} />
       </I18nProvider>
     )

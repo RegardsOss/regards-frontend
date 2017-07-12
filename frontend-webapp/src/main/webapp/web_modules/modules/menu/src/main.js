@@ -21,6 +21,7 @@ import adminContainer from './containers/AdminContainer'
 import styles from './styles/styles'
 import reducer from './reducer'
 import dependencies from './dependencies'
+import messages from './i18n'
 
 /**
  * Main file of module to expose public interface
@@ -31,6 +32,6 @@ export default {
   moduleContainer,
   reducer,
   styles,
-  messagesDir: 'modules/menu/src/i18n',
+  messages,
   dependencies,
 }

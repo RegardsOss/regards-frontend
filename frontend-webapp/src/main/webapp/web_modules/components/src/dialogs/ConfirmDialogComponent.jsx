@@ -20,6 +20,7 @@ import values from 'lodash/values'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import messages from '../i18n'
 
 /**
  * possible dialog types
@@ -103,4 +104,4 @@ class ConfirmDialogComponent extends React.Component {
 
 }
 
-export default withI18n('components/src/i18n')(ConfirmDialogComponent)
+export default withI18n(messages)(ConfirmDialogComponent)

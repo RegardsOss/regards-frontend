@@ -23,6 +23,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import ModulesSelector from '../model/ModulesSelector'
 import LayoutSelector from '../model/LayoutSelector'
 import ModuleListComponent from '../components/ModuleListComponent'
+import messages from '../i18n'
 
 /**
  * Display the menu with all modules of the dynamic container.
@@ -43,7 +44,7 @@ class ModuleListContainer extends React.Component {
       return null
     }
     return (
-      <I18nProvider messageDir="utils/modules/src/i18n">
+      <I18nProvider messages={messages}>
         <ModuleListComponent
           project={this.props.project}
           open={this.props.open}

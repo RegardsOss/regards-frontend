@@ -20,11 +20,12 @@ import reducer from './reducer'
 import moduleContainer from './containers/ModuleContainer'
 import styles from './styles/styles'
 import dependencies from './dependencies'
+import messages from './i18n'
 
 export default {
   reducer,
   moduleContainer,
   styles,
-  messagesDir: 'modules/projects-list/src/i18n',
+  messages,
   dependencies,
 }

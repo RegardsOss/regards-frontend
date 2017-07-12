@@ -20,6 +20,7 @@ import { connect } from 'react-redux'
 import { updateLocale } from '../model/I18nActions'
 import SelectLocaleComponent from '../components/SelectLocaleComponent'
 import I18nProvider from '../I18nProvider'
+import messages from '../i18n'
 
 /**
  * React component to display the language selector widget
@@ -41,7 +42,7 @@ export class SelectLocaleContainer extends React.Component {
   render() {
     const locales = ['en', 'fr']
     return (
-      <I18nProvider messageDir="utils/i18n/src/i18n">
+      <I18nProvider messages={messages}>
         <SelectLocaleComponent
           locales={locales}
           currentLocale={this.props.currentLocale}

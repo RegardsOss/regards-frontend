@@ -136,9 +136,8 @@ class LazyModuleComponent extends React.Component {
         return null
       }
 
-      // By default the i18n directory for a module is fixed to : src/i18n.
-      // Nevertheless, it possible for a module to override this property by setting messagesDir in his main.js exported props
-      const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.type}/src/i18n`
+      // The module exposes its messages
+      const moduleMessages = get(module, 'messages', {})
 
       const defaultModuleProps = {
         appName: this.props.appName,
@@ -170,7 +169,7 @@ class LazyModuleComponent extends React.Component {
       moduleElt = React.createElement(moduleContainer, moduleProps)
 
       return (
-        <I18nProvider messageDir={moduleMessageDir}>
+        <I18nProvider messages={moduleMessages}>
           <ModuleThemeProvider module={module}>
             <WithResourceDisplayControl
               resourceDependencies={moduleDependencies}
