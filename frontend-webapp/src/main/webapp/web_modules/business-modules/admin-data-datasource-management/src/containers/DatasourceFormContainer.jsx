@@ -186,10 +186,11 @@ export class DatasourceFormContainer extends React.Component {
       }
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql
+        attributesMapping.push(newAttributeMapping)
       } else if (attribute.tableAttribute && attribute.tableAttribute.length > 0) {
         newAttributeMapping.nameDS = attribute.tableAttribute
+        attributesMapping.push(newAttributeMapping)
       }
-      attributesMapping.push(newAttributeMapping)
     })
     const { currentDatasource } = this.state
     if (formValuesSubset.table) {

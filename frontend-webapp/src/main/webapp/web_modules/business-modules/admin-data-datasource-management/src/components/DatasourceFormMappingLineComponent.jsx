@@ -78,16 +78,23 @@ export class DatasourceFormMappingLineComponent extends React.Component {
       </div>)
     }
 
-    const items = flow(
-      fpsortBy(['name']),
-      fpmap(tableAttribute => (
-        <MenuItem
-          value={tableAttribute.name}
-          key={tableAttribute.name}
-          primaryText={`${tableAttribute.name}: ${tableAttribute.javaSqlType}`}
-        />
-      )))(tableAttributeList)
-
+    const items = [
+      // Add a no value item
+      (<MenuItem
+        value=""
+        key="no_value"
+        primaryText=""
+      />),
+      ...flow(
+        fpsortBy(['name']),
+        fpmap(tableAttribute => (
+          <MenuItem
+            value={tableAttribute.name}
+            key={tableAttribute.name}
+            primaryText={`${tableAttribute.name}: ${tableAttribute.javaSqlType}`}
+          />
+      )))(tableAttributeList),
+    ]
     return (<div>
       <Checkbox
         label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
