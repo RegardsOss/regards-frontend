@@ -1,47 +1,29 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
-const merge = require('webpack-merge')
-const nodeExternals = require('webpack-node-externals')
-const CommonConfig = require('./webpack.config')
 
-let config = CommonConfig
+const conf = webpackConfigurator
+  .generateConfig({
+    mode: 'pkg_test',
+    projectContextPath: __dirname
+  })
+  .get()
 
-config = merge(config, {
-  target: 'node', // in order to ignore built-in modules like path, fs, etc.
-  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
-  // Enable sourcemaps for debugging webpack's output.
-  devtool: 'inline-source-map',
-  stats: {
-    chunks: false,
-    colors: true,
-    reasons: true,
-  },
-  module: {
-    noParse: [
-      /sinon/,
-      /iconv-loader/,
-      /enzyme/,
-    ],
-  },
-  plugins: [
-    new webpack.DllReferencePlugin({
-      // The path to the manifest file which maps between
-      // modules included in a bundle and the internal IDs
-      // within that bundle
-      manifest: require(`${__dirname}/../../../dist/dev/core-manifest.json`),
-      context: __dirname,
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('test'),
-      },
-      GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
-    }),
-  ],
-  // enable sourcemaps support
-  output: {
-    devtoolModuleFilenameTemplate: '[absolute-resource-path]',
-    devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
-  },
-})
-
-module.exports = config
+module.exports = conf
