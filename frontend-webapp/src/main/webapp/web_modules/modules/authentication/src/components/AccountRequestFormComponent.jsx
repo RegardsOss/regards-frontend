@@ -25,7 +25,8 @@ import { connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Field, RenderTextField, FormErrorMessage, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { FormErrorMessage } from '@regardsoss/components'
+import { Field, RenderTextField, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 
 /** Possible form Ids, matching with corresponding request */
 export const requestFormIds = {

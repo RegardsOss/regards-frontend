@@ -49,6 +49,7 @@ import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogCon
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 import PageNotFoundComponent from './error/PageNotFoundProvider'
+import FormErrorMessage from './error/FormErrorMessage'
 
 import Breadcrumb from './links/Breadcrumb'
 import PictureLinkComponent from './links/PictureLinkComponent'
@@ -102,6 +103,7 @@ export {
   DropDownButton,
   ErrorCardComponent,
   ErrorDecoratorComponent,
+  FormErrorMessage,
   PageNotFoundComponent,
   IFrameURLContentDisplayer,
   TableContainer,

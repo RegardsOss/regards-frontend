@@ -24,7 +24,6 @@ import RenderFileField from './RenderFileField'
 import RenderToggle from './RenderToggle'
 import RenderDoubleLabelToggle from './RenderDoubleLabelToggle'
 import TextAreaField from './TextAreaField'
-import FormErrorMessage from './FormErrorMessage'
 import ErrorTypes from './ErrorTypes'
 import Locales from './i18n/Locales'
 import Field from './Field'
@@ -48,7 +47,6 @@ export default {
   RenderFileField,
   RenderDateTimeField,
   TextAreaField,
-  FormErrorMessage,
   ErrorTypes,
   Locales,
   Field,

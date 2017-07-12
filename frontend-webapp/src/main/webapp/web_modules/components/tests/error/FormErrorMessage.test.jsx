@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ErrorDecoratorComponent } from '@regardsoss/components'
-import FormErrorMessage from '../src/FormErrorMessage'
+import ErrorDecoratorComponent from '../../src/ErrorDecoratorComponent'
+import FormErrorMessage from '../../src/error/FormErrorMessage'
 
 // Test a components rendering
 describe('[FORM UTILS] Testing FormErrorMessage', () => {
