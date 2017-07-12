@@ -32,6 +32,7 @@ STATIC_CONF = {
   // Default driver used to create a project connection (see module admin-database-management)
   projectConnectionDriver: 'org.postgresql.Driver',
   // Maximum number of entities retrieved by catalog service
-  CATALOG_MAX_NUMBER_OF_ENTITIES: 10000
+  CATALOG_MAX_NUMBER_OF_ENTITIES: 10000,
+  CATALOG_SEARCH_THRESHOLD: 10000,
 }
 
