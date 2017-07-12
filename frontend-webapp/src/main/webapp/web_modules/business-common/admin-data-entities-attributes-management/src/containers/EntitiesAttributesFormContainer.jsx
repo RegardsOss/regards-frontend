@@ -15,6 +15,7 @@ export class EntitiesAttributesFormContainer extends React.Component {
   static propTypes = {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     isDisplayAttributeValue: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -23,12 +24,13 @@ export class EntitiesAttributesFormContainer extends React.Component {
   }
 
   render() {
-    const { modelAttributeList, isDisplayAttributeValue } = this.props
+    const { modelAttributeList, isDisplayAttributeValue, isEditing } = this.props
     return (
       <ShowableAtRender show={isDisplayAttributeValue}>
         <I18nProvider messageDir="business-common/admin-data-entities-attributes-management/src/i18n">
           <EntitiesAttributesFormComponent
             modelAttributeList={modelAttributeList}
+            isEditing={isEditing}
           />
         </I18nProvider>
       </ShowableAtRender>

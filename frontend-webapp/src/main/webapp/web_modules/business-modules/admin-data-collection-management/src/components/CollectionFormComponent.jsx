@@ -247,6 +247,7 @@ export class CollectionFormComponent extends React.Component {
             <EntitiesAttributesFormContainer
               isDisplayAttributeValue={this.state.isDisplayAttributeValue}
               modelAttributeList={modelAttributeList}
+              isEditing={!this.state.isCreating && !this.state.isDuplicating}
             />
           </CardText>
           <CardActions>

@@ -16,6 +16,7 @@ export class EntitiesAttributesFormComponent extends React.Component {
 
   static propTypes = {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
+    isEditing: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -24,7 +25,7 @@ export class EntitiesAttributesFormComponent extends React.Component {
   }
 
   render() {
-    const { modelAttributeList } = this.props
+    const { modelAttributeList, isEditing } = this.props
     return (
       <Table
         selectable={false}
@@ -49,6 +50,7 @@ export class EntitiesAttributesFormComponent extends React.Component {
             <EntitiesAttributeFormComponent
               key={id}
               modelAttribute={modelAttribute}
+              isEditing={isEditing}
             />
           ))}
         </TableBody>

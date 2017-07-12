@@ -21,6 +21,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   static propTypes = {
     modelAttribute: DataManagementShapes.ModelAttribute,
+    isEditing: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -72,6 +73,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       type={type}
       label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
       validate={this.getRestrictions(modelAttribute)}
+      disabled={this.isDisabled()}
     />
   )
 
@@ -79,6 +81,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     <Field
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderCheckbox}
+      disabled={this.isDisabled()}
     />
   )
 
@@ -87,6 +90,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderDateTimeField}
       validate={this.getRestrictions(modelAttribute)}
+      disabled={this.isDisabled()}
     />
   )
   getFieldSelect = modelAttribute => (
@@ -95,6 +99,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       fullWidth
       component={RenderSelectField}
       validate={this.getRestrictions(modelAttribute)}
+      disabled={this.isDisabled()}
       label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
     >
       {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
@@ -173,6 +178,11 @@ export class EntitiesAttributeFormComponent extends React.Component {
       return ' (*)'
     }
     return null
+  }
+
+  isDisabled = () => {
+    const { modelAttribute, isEditing } = this.props
+    return !modelAttribute.content.attribute.alterable && isEditing
   }
 
   isRestrictedWithEnum = (modelAttribute) => {
