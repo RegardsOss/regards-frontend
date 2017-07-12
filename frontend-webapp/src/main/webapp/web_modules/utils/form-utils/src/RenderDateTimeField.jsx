@@ -36,7 +36,6 @@ export class RenderDateTimeField extends React.Component {
     timeFormat: PropTypes.string,
     meta: PropTypes.shape({
       error: PropTypes.string,
-      touched: PropTypes.bool,
     }),
   }
 

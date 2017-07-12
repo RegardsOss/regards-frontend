@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import isInteger from 'lodash/isInteger'
 import BasicListActions from '../list/BasicListActions'
 
 const { CALL_API } = require('redux-api-middleware')
