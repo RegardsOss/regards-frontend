@@ -34,6 +34,10 @@ export class RenderDateTimeField extends React.Component {
       formatMessage: PropTypes.func,
     }),
     timeFormat: PropTypes.string,
+    meta: PropTypes.shape({
+      error: PropTypes.string,
+      touched: PropTypes.bool,
+    }),
   }
 
   static defaultProps = {
@@ -136,45 +140,51 @@ export class RenderDateTimeField extends React.Component {
   }
 
   render() {
-    const { intl, timeFormat, input } = this.props
+    const { intl, timeFormat, input, meta: { touched, error } } = this.props
     const clearButtonDisplayed = input.value !== undefined
     // At first the value is an empty string
     const dateValue = this.getDateForComponent(input.value)
     return (
-      <div
-        style={RenderDateTimeField.style.rootContainer}
-      >
-        {this.getLabel()}
-        <DatePicker
-          value={dateValue}
-          onChange={this.handleChangeDate}
-          DateTimeFormat={dateTimeFormat}
-          locale="fr"
-          hintText={intl.formatMessage({ id: 'form.datetimepicker.date.label' })}
-          floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.date.label' })}
-          okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
-          cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
-          style={RenderDateTimeField.style.datePicker}
-          textFieldStyle={RenderDateTimeField.style.datePickerText}
-        />
-        <TimePicker
-          value={dateValue}
-          onChange={this.handleChangeTime}
-          format={timeFormat}
-          floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.time.label' })}
-          hintText={intl.formatMessage({ id: 'form.datetimepicker.time.label' })}
-          okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
-          cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
-          textFieldStyle={RenderDateTimeField.style.timePickerText}
-        />
-        <IconButton
-          tooltip={intl.formatMessage({ id: 'form.datetimepicker.clear' })}
-          style={{
-            transform: `scale(${clearButtonDisplayed ? 1 : 0})`,
-          }}
+      <div>
+        <div
+          style={RenderDateTimeField.style.rootContainer}
         >
-          <Clear onTouchTap={this.handleClear} />
-        </IconButton>
+          {this.getLabel()}
+          <DatePicker
+            value={dateValue}
+            onChange={this.handleChangeDate}
+            DateTimeFormat={dateTimeFormat}
+            locale="fr"
+            hintText={intl.formatMessage({ id: 'form.datetimepicker.date.label' })}
+            floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.date.label' })}
+            okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
+            cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
+            style={RenderDateTimeField.style.datePicker}
+            textFieldStyle={RenderDateTimeField.style.datePickerText}
+          />
+          <TimePicker
+            value={dateValue}
+            onChange={this.handleChangeTime}
+            format={timeFormat}
+            floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.time.label' })}
+            hintText={intl.formatMessage({ id: 'form.datetimepicker.time.label' })}
+            okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
+            cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
+            textFieldStyle={RenderDateTimeField.style.timePickerText}
+          />
+          <IconButton
+            tooltip={intl.formatMessage({ id: 'form.datetimepicker.clear' })}
+            style={{
+              transform: `scale(${clearButtonDisplayed ? 1 : 0})`,
+            }}
+          >
+            <Clear onTouchTap={this.handleClear} />
+          </IconButton>
+        </div>
+        {error && (<div>
+          <span style={{ color: this.context.muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>
+          <br />
+        </div>)}
       </div>
     )
   }

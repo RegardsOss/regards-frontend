@@ -86,6 +86,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     <Field
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderDateTimeField}
+      validate={this.getRestrictions(modelAttribute)}
     />
   )
   getFieldSelect = modelAttribute => (
@@ -146,9 +147,13 @@ export class EntitiesAttributeFormComponent extends React.Component {
         if (!modelAttribute.content.attribute.optional) {
           return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
         }
-        return complexRestriction
-      case MODEL_ATTR_TYPES.BOOLEAN:
+        return []
       case MODEL_ATTR_TYPES.DATE:
+        if (!modelAttribute.content.attribute.optional) {
+          return [ValidationHelpers.required]
+        }
+        return []
+      case MODEL_ATTR_TYPES.BOOLEAN:
       case MODEL_ATTR_TYPES.INTEGER_ARRAY:
       case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
       case MODEL_ATTR_TYPES.DATE_ARRAY:

@@ -18,7 +18,7 @@ const RenderRadio = ({ input, onSelect, defaultSelected, children, meta: { touch
     >
       {children}
     </RadioButtonGroup>
-    {touched && error && (<span style={{ color: muiTheme.palette.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
+    {touched && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
   </div>
   )
 RenderRadio.contextTypes = {
@@ -32,6 +32,7 @@ RenderRadio.propTypes = {
   }),
   meta: PropTypes.shape({
     error: PropTypes.string,
+    touched: PropTypes.bool,
   }),
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,
