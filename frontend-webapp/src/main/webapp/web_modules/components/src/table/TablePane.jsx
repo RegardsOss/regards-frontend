@@ -33,8 +33,6 @@ class TablePane extends React.Component {
     // dynamic properis
     // is fetching entities?
     entitiesFetching: PropTypes.bool.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    error: PropTypes.object,
     // results count
     resultsCount: PropTypes.number.isRequired,
     // Maximum number of results to display
@@ -52,7 +50,6 @@ class TablePane extends React.Component {
     onToggleSelectAll: PropTypes.func.isRequired,
     // Customize
     emptyComponent: PropTypes.element,
-    tooManyResultsComponent: PropTypes.element,
     // this configuration properties (see above)
     ...TablePaneConfigurationModel,
   }
@@ -208,12 +205,10 @@ class TablePane extends React.Component {
   }
 
   render() {
-    const { error, resultsCount, tableData, toggledElements, selectionMode,
-      allSelected, onToggleRowSelection, onToggleSelectAll, maxRowCounts, minRowCounts,
-      emptyComponent, tooManyResultsComponent,
-    } = this.props
+    const { resultsCount, tableData, toggledElements, selectionMode,
+      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent, maxRowCounts, minRowCounts } = this.props
     const { visibleColumns, tableWidth } = this.state
-    const isRequestEntityTooLarge = error.status === 413
+
     return (
       <Measure onMeasure={this.onComponentResized}>
         <div style={allWidthStyles}>
@@ -223,8 +218,6 @@ class TablePane extends React.Component {
             isLoading={false} // Do not use loading feature of the decorator
             isEmpty={!resultsCount}
             emptyComponent={emptyComponent}
-            isRequestEntityTooLarge={isRequestEntityTooLarge}
-            requestEntityTooLargeComponent={tooManyResultsComponent}
           >
             <Table
               maxRowCounts={maxRowCounts}

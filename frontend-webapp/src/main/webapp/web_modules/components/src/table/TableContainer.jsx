@@ -93,8 +93,6 @@ class TableContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
-    // eslint-disable-next-line react/forbid-prop-types
-    error: PropTypes.object,
     // authentication data
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape,
@@ -114,7 +112,6 @@ class TableContainer extends React.Component {
     dispatchUnselectAll: PropTypes.func.isRequired,
     // Customize
     emptyComponent: PropTypes.element,
-    tooManyResultsComponent: PropTypes.element,
   }
 
   static defaultProps = {
@@ -313,9 +310,9 @@ class TableContainer extends React.Component {
 
   render() {
     const {
-      entitiesFetching, error, pageSize, pageMetadata, tablePaneConfiguration,
+      entitiesFetching, pageSize, pageMetadata, tablePaneConfiguration,
       toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
-      emptyComponent, tooManyResultsComponent,
+      emptyComponent,
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
     const moduleStyles = { styles }
@@ -335,7 +332,6 @@ class TableContainer extends React.Component {
             tableData={tableData}
             columns={allColumns}
             entitiesFetching={entitiesFetching}
-            error={error}
             maxRowCounts={this.maxRowCounts}
             minRowCounts={this.props.minRowCounts}
             resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
@@ -345,7 +341,6 @@ class TableContainer extends React.Component {
             onToggleRowSelection={this.onToggleRowSelection}
             onToggleSelectAll={this.onToggleSelectAll}
             emptyComponent={emptyComponent}
-            tooManyResultsComponent={tooManyResultsComponent}
             {...tablePaneConfiguration}
           />
         </ModuleThemeProvider>
@@ -359,7 +354,6 @@ const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
   entities: pageSelectors.getOrderedList(state),
   pageMetadata: pageSelectors.getMetaData(state),
   entitiesFetching: pageSelectors.isFetching(state),
-  error: pageSelectors.getError(state),
   // authentication
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
   // selection
