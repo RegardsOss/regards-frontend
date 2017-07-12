@@ -24,6 +24,8 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { connectionActions, connectionSelectors } from '../clients/ConnectionClient'
 import ConnectionListComponent from '../components/ConnectionListComponent'
 import { connectionTestActions } from '../clients/ConnectionTestClient'
+import messages from '../i18n'
+
 /**
  * List connection
  */
@@ -74,7 +76,7 @@ export class ConnectionListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(connectionId) => {
+  handleDelete = (connectionId) => {
     this.props.deleteConnection(connectionId)
   }
 
@@ -84,7 +86,7 @@ export class ConnectionListContainer extends React.Component {
     const { isLoading } = this.state
     const { connectionList } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-data-connection-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

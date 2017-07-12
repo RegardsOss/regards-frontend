@@ -28,6 +28,7 @@ import { accessRightActions, accessRightSelectors } from '../clients/AccessRight
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
 import { pluginMetadataActions, pluginMetadataSelectors } from '../clients/PluginMetadataClient'
+import messages from '../i18n'
 
 export class AccessGroupAccessRightsContainer extends React.Component {
   static propTypes = {
@@ -133,7 +134,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
     const { params, accessGroup, accessRights, pluginConfigurationList, pluginMetaDataList } = this.props
     const { loading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-accessright-dataaccess-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={loading}
           isContentError={!loading && !accessGroup}
@@ -166,14 +167,14 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, {
-    pluginId: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
-  })),
+      pluginId: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
+    })),
   fetchAccessGroup: accessGroupName => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
   fetchPluginMetaDataList: microserviceName => dispatch(pluginMetadataActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, {
-    pluginType: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
-  })),
+      pluginType: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
+    })),
   fetchAccessRights: accessgroupName => dispatch(accessRightActions.fetchPagedEntityList(0, 10000, {}, { accessgroup: accessgroupName })),
   updateAccessRight: (id, entity) => dispatch(accessRightActions.updateEntity(id, entity)),
   createAccessRight: entity => dispatch(accessRightActions.createEntity(entity)),

@@ -27,6 +27,7 @@ import WaitingAccountEntitiesActions from '../model/WaitingAccountEntitiesAction
 import WaitingAccountSignalActions from '../model/WaitingAccountSignalActions'
 import RefuseAccountSignalActions from '../model/RefuseAccountSignalActions'
 import AccountListComponent from '../components/AccountListComponent'
+import messages from '../i18n'
 
 /**
  * Show the list of REGARDS account
@@ -105,7 +106,7 @@ export class AccountListContainer extends React.Component {
     const { allAccounts, waitingAccounts } = this.props
     const { isFetchingActions, initialFecthing } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-account-management/src/i18n">
+      <I18nProvider messages={messages}>
         <AccountListComponent
           allAccounts={allAccounts}
           waitingAccounts={waitingAccounts}

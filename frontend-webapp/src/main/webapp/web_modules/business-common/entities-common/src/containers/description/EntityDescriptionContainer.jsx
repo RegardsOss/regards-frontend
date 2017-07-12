@@ -12,6 +12,7 @@ import DescriptionLevelActions from '../../model/description/DescriptionLevelAct
 import { DescriptionLevelSelectors } from '../../model/description/DescriptionLevelSelectors'
 import EntityDescriptionComponent from '../../components/description/EntityDescriptionComponent'
 import styles from '../../styles/styles'
+import messages from '../../i18n'
 
 /** Render constant: module syles  */
 const MODULE_STYLES = { styles }
@@ -64,7 +65,7 @@ export class EntityDescriptionContainer extends React.Component {
     const { shownEntity, onClose, downloadDescriptionClient, onSearchTag,
       fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors } = this.props
     return (
-      <I18nProvider messageDir="business-common/entities-common/src/i18n">
+      <I18nProvider messages={messages}>
         <ModuleThemeProvider module={MODULE_STYLES}>
           <EntityDescriptionComponent
             entity={shownEntity}
