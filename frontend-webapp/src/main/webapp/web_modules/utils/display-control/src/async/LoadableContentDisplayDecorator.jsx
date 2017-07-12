@@ -66,11 +66,11 @@ class LoadableContentDisplayDecorator extends React.Component {
         <ShowableAtRender show={isContentError && !isLoading}>
           {contentErrorComponent}
         </ShowableAtRender>
-        <ShowableAtRender show={isEmpty && !isContentError && !isLoading}>
-          {emptyComponent}
-        </ShowableAtRender>
-        <ShowableAtRender show={isRequestEntityTooLarge && !isEmpty && !isContentError && !isLoading}>
+        <ShowableAtRender show={isRequestEntityTooLarge && !isContentError && !isLoading}>
           {requestEntityTooLargeComponent}
+        </ShowableAtRender>
+        <ShowableAtRender show={!isRequestEntityTooLarge && isEmpty && !isContentError && !isLoading}>
+          {emptyComponent}
         </ShowableAtRender>
         <ShowableAtRender show={!isRequestEntityTooLarge && !isEmpty && !isContentError && !isLoading}>
           {this.renderChild()}

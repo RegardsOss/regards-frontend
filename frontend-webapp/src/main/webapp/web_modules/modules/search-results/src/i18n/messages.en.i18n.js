@@ -51,6 +51,8 @@ const messages = Object.assign({
   'show.description.tooltip': 'View entity details',
   'results.no.content.title': 'No results',
   'results.no.content.subtitle': 'Your search returned no results. Try to change your criteria',
+  'results.too.many.results.title': 'Too many results',
+  'results.too.many.results.subtitle': 'Too many dataobjects were found. The corresponding datasets cannot be computed',
   'results.options.column.label': 'Options and services',
 }, Locales.en)
 

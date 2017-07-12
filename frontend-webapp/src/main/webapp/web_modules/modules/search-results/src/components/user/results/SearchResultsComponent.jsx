@@ -14,6 +14,7 @@ import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibrary from 'material-ui/svg-icons/av/library-books'
 import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import TooManyResultsIcon from 'material-ui/svg-icons/image/healing'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders, NoContentComponent } from '@regardsoss/components'
@@ -486,6 +487,7 @@ class SearchResultsComponent extends React.Component {
     }
 
     const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
+    const tooManyResultsComponent = <NoContentComponent title={formatMessage({ id: 'results.too.many.results.title' })} message={formatMessage({ id: 'results.too.many.results.subtitle' })} Icon={TooManyResultsIcon} />
 
     return (
       <TableContainer
@@ -501,6 +503,7 @@ class SearchResultsComponent extends React.Component {
         tableConfiguration={tableConfiguration}
         tablePaneConfiguration={tablePaneConfiguration}
         emptyComponent={emptyComponent}
+        tooManyResultsComponent={tooManyResultsComponent}
       />
     )
   }

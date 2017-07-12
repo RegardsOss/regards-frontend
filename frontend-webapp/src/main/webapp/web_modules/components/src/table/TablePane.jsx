@@ -52,6 +52,7 @@ class TablePane extends React.Component {
     onToggleSelectAll: PropTypes.func.isRequired,
     // Customize
     emptyComponent: PropTypes.element,
+    tooManyResultsComponent: PropTypes.element,
     // this configuration properties (see above)
     ...TablePaneConfigurationModel,
   }
@@ -208,10 +209,11 @@ class TablePane extends React.Component {
 
   render() {
     const { error, resultsCount, tableData, toggledElements, selectionMode,
-      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent, maxRowCounts, minRowCounts } = this.props
+      allSelected, onToggleRowSelection, onToggleSelectAll, maxRowCounts, minRowCounts,
+      emptyComponent, tooManyResultsComponent,
+    } = this.props
     const { visibleColumns, tableWidth } = this.state
     const isRequestEntityTooLarge = error.status === 413
-
     return (
       <Measure onMeasure={this.onComponentResized}>
         <div style={allWidthStyles}>
@@ -222,6 +224,7 @@ class TablePane extends React.Component {
             isEmpty={!resultsCount}
             emptyComponent={emptyComponent}
             isRequestEntityTooLarge={isRequestEntityTooLarge}
+            requestEntityTooLargeComponent={tooManyResultsComponent}
           >
             <Table
               maxRowCounts={maxRowCounts}

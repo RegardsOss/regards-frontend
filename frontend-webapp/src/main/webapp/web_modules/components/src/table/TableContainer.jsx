@@ -1,7 +1,6 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import concat from 'lodash/concat'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -115,6 +114,7 @@ class TableContainer extends React.Component {
     dispatchUnselectAll: PropTypes.func.isRequired,
     // Customize
     emptyComponent: PropTypes.element,
+    tooManyResultsComponent: PropTypes.element,
   }
 
   static defaultProps = {
@@ -314,7 +314,8 @@ class TableContainer extends React.Component {
   render() {
     const {
       entitiesFetching, error, pageSize, pageMetadata, tablePaneConfiguration,
-      toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration }, emptyComponent,
+      toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
+      emptyComponent, tooManyResultsComponent,
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
     const moduleStyles = { styles }
@@ -344,6 +345,7 @@ class TableContainer extends React.Component {
             onToggleRowSelection={this.onToggleRowSelection}
             onToggleSelectAll={this.onToggleSelectAll}
             emptyComponent={emptyComponent}
+            tooManyResultsComponent={tooManyResultsComponent}
             {...tablePaneConfiguration}
           />
         </ModuleThemeProvider>

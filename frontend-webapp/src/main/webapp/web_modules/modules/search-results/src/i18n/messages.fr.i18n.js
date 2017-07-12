@@ -49,6 +49,8 @@ const messages = Object.assign({
   'show.description.tooltip': 'Détail de l\'entité',
   'results.no.content.title': 'Pas de résultats',
   'results.no.content.subtitle': 'Votre recherche n\'a donné aucun résultat. Essayez de modifier vos critères',
+  'results.too.many.results.title': 'Trop de résultats',
+  'results.too.many.results.subtitle': 'Trop d\'objets de données ont été trouvés.Les jeux de données correspondant ne peuvent pas être calculés',
   'results.options.column.label': 'Options et services',
 }, Locales.fr)
 
