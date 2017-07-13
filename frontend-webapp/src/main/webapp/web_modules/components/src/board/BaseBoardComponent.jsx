@@ -27,9 +27,10 @@ import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-dow
 import RaisedButton from 'material-ui/RaisedButton'
 import ShowableAtRender from '../cards/ShowableAtRender'
 import styles from './styles/styles'
-import messages from '../i18n'
+import messages from './i18n'
 
 const RaisedButtonWithResourceDisplayControl = withResourceDisplayControl(RaisedButton)
+
 /**
  * React component to dislay a full board element.
  * The board items to display are expected to be either {@link BaseBoardItemComponent}s or {@link BoardItemComponent}s.
