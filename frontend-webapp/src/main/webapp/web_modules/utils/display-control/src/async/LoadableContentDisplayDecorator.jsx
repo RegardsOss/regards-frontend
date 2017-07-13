@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isFunction from 'lodash/isFunction'
-import { ShowableAtRender } from '@regardsoss/components'
+import ShowableAtRender from '../ShowableAtRender'
 import LoadingComponent from './loading/LoadingComponent'
 import DefaultErrorComponent from './error/DefaultErrorComponent'
 import DefaultEmptyComponent from './empty/DefaultEmptyComponent'

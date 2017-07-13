@@ -26,8 +26,8 @@ import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PictureLinkComponent } from '@regardsoss/components'
-import { RenderTextField, Field, FormErrorMessage, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { PictureLinkComponent, FormErrorMessage } from '@regardsoss/components'
+import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 
 const mailFieldId = 'username'
 

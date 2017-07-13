@@ -21,7 +21,7 @@ import { expect } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { moduleContainer } from '@regardsoss-modules/authentication'
 import { I18nProvider } from '@regardsoss/i18n'
-import ModuleThemeProvider from '../../src/components/ModuleThemeProvider'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import LazyModuleComponent from '../../src/components/LazyModuleComponent'
 
 /**
@@ -49,7 +49,7 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
       () => {
         try {
           expect(wrapper.find(moduleContainer)).to.have.length(1)
-          expect(wrapper.find(ModuleThemeProvider)).to.have.length(1)
+          expect(wrapper.find(ModuleStyleProvider)).to.have.length(1)
           expect(wrapper.find(I18nProvider)).to.have.length(1)
           done()
         } catch (e) {
@@ -74,7 +74,7 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
       () => {
         try {
           expect(wrapper.find(moduleContainer)).to.have.length(0)
-          expect(wrapper.find(ModuleThemeProvider)).to.have.length(0)
+          expect(wrapper.find(ModuleStyleProvider)).to.have.length(0)
           expect(wrapper.find(I18nProvider)).to.have.length(0)
           done()
         } catch (e) {

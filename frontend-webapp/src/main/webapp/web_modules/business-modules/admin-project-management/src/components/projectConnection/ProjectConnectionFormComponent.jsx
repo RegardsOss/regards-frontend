@@ -23,7 +23,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
+import { FormErrorMessage } from '@regardsoss/components'
+import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 
 /**
  * Reusable {@link ProjectConnection} form for reading, editing, creating.

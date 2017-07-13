@@ -16,22 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isString from 'lodash/isString'
-import { ErrorDecoratorComponent, ShowableAtRender } from '@regardsoss/components'
 
-const FormErrorMessage = ({ children }) => {
-  const active = isString(children) && children.length !== 0
-  return (
-    <ShowableAtRender show={active}>
-      <ErrorDecoratorComponent>
-        { active ? children : ''}
-      </ErrorDecoratorComponent>
-    </ShowableAtRender>
-  )
+class ShowableAtRender extends React.Component {
+
+  static propTypes = {
+    show: PropTypes.bool,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+  }
+
+  render() {
+    const { show, children } = this.props
+    if (show) {
+      if (React.Children.count(children) === 1) {
+        return React.Children.only(children)
+      }
+      return (<div>{children}</div>)
+    }
+    return null
+  }
 }
-FormErrorMessage.propTypes = {
-  // only string expected here, but resolves false values too
-  // eslint-disable-next-line
-  children: PropTypes.any,
-}
-export default FormErrorMessage
+
+export default ShowableAtRender

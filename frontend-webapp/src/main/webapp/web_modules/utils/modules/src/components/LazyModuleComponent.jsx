@@ -22,7 +22,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
-import ModuleThemeProvider from './ModuleThemeProvider'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 
 // Cheat, you should not do this but decorate components
 const Div = ({ children }) => <div>{children}</div>
@@ -170,13 +170,13 @@ class LazyModuleComponent extends React.Component {
 
       return (
         <I18nProvider messages={moduleMessages}>
-          <ModuleThemeProvider module={module}>
+          <ModuleStyleProvider module={module}>
             <WithResourceDisplayControl
               resourceDependencies={moduleDependencies}
             >
               {moduleElt}
             </WithResourceDisplayControl>
-          </ModuleThemeProvider>
+          </ModuleStyleProvider>
         </I18nProvider>
       )
     }

@@ -15,21 +15,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import LazyModuleComponent from './components/LazyModuleComponent'
-import ModuleListProvider from './components/ModuleListProvider'
-import ModuleListContainer from './containers/ModuleListContainer'
-import ModuleShape from './model/ModuleShape'
-import modulesManager from './ModulesManager'
+**/
+import { shallow } from 'enzyme'
+import { expect, assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import ErrorDecoratorComponent from '../../src/ErrorDecoratorComponent'
+import FormErrorMessage from '../../src/error/FormErrorMessage'
 
-/**
- * Main module file to expose public interface
- * @author Sébastien Binda
- */
-export {
-  LazyModuleComponent,
-  ModuleListProvider,
-  ModuleShape,
-  ModuleListContainer,
-  modulesManager,
-}
+// Test a components rendering
+describe('[FORM UTILS] Testing FormErrorMessage', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exists', () => {
+    assert.isDefined(FormErrorMessage)
+  })
+  it('should retrive the right child', () => {
+    const enzymeWrapper = shallow(<FormErrorMessage />)
+    const subComponent = enzymeWrapper.find(ErrorDecoratorComponent)
+    expect(subComponent).to.have.length(1)
+  })
+})

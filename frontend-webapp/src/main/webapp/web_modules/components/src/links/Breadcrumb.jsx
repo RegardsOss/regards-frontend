@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import BreadcrumbImpl from './BreadcrumbImpl'
 import styles from './styles/styles'
 
@@ -49,9 +49,9 @@ export default class Breadcrumb extends React.Component {
   render() {
     const { elements } = this.state
     return (
-      <ModuleThemeProvider module={BREADCRUMB_STYLES}>
+      <ModuleStyleProvider module={BREADCRUMB_STYLES}>
         <BreadcrumbImpl elements={elements} />
-      </ModuleThemeProvider >
+      </ModuleStyleProvider >
     )
   }
 }
