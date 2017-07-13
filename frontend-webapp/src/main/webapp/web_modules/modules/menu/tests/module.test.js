@@ -33,6 +33,5 @@ describe('[Menu] Testing module interface', () => {
     assert.isDefined(Module.moduleContainer, 'Menu module should define a main container')
     assert.isDefined(Module.styles, 'Menu module should define a styles file')
     assert.isDefined(Module.messages, 'Form module should define his internationalization messages dictionnary')
-
   })
 })
