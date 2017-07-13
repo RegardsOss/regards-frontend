@@ -20,10 +20,10 @@ import nock from 'nock'
 import { assert } from 'chai'
 import thunk from 'redux-thunk'
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
-import { stub } from 'sinon'
 
 const { apiMiddleware } = require('redux-api-middleware')
 
+const originalConsoleError = console.error
 
 export default class ReduxEntityTester {
 
@@ -144,22 +144,24 @@ export default class ReduxEntityTester {
       .get(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))
       .reply(200, this.backendServerResultList)
 
-    const previousConsoleError = console.error
+
     // Since react will console.error propType manual that we use in pure JS to check if normalized
     // entities matches Shapes, we use sinon.js to stub it into throwing only others errors
-    this.stubConsole = stub(console, 'error').callsFake((warning) => {
+    console.error = (warning, ...args) => {
       if (!warning.includes('Warning: You are manually calling a PropTypes validation function for the')) {
-        previousConsoleError(warning)
+        originalConsoleError(warning)
+      } else {
+        throw new Error([warning, ...args].join(' '))
       }
-    })
+    }
   }
 
 
   /**
    * Remove any HTTP mock created
    */
-  afterAll() {
+  afterAll = () => {
     nock.cleanAll()
-    this.stubConsole.restore()
+    console.error = originalConsoleError
   }
 }
