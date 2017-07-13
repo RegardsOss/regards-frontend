@@ -27,23 +27,16 @@ describe('[COMMON] Testing i18n reducer', () => {
       messages: {},
     })
   })
-
   it('should handle locale update', () => {
     const action = {
       type: SET_LOCALE,
       locale: 'fr',
     }
-    const someMessages = {
-      'common/i18n/tests/messages/test1': { message1: 'premier message' },
-      'common/i18n/tests/messages/test2': { message2: 'deuxieme message' },
-    }
     const initState = {
       locale: 'en',
-      messages: someMessages,
     }
     const expectedState = {
       locale: 'fr',
-      messages: someMessages,
     }
     expect(reducer(initState, action)).to.eql(expectedState)
   })

@@ -27,7 +27,6 @@ if (isUndefined(navigator)) {
 
 export default (state = {
   locale: navigator.language,
-  messages: {},
 }, action) => {
   switch (action.type) {
     // Running fetch plugins from server
