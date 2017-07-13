@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { ApplicationLayout } from '@regardsoss/layout'
+import ApplicationLayout from '../../src/components/ApplicationLayout'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import testLayout from './TestLayout'
 import testModules from './TestModules'

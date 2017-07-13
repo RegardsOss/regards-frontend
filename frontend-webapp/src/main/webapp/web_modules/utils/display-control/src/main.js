@@ -37,4 +37,5 @@ export {
   LoadingComponent,
   withHateoasDisplayControl,
   withResourceDisplayControl,
+  ShowableAtRender,
 }
