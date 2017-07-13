@@ -3,7 +3,9 @@
 **/
 import forEach from 'lodash/forEach'
 import { assert } from 'chai'
-import { stub } from 'sinon'
+
+// Store real console.error method in order to reuse it later
+const originalConsoleError = console.error
 
 /**
  * Test suite helpers : initialize test suite and clears after run. Provides tools for tests
@@ -16,15 +18,15 @@ export default {
     // Since react will console.error propType warnings, that which we'd rather have
     // as errors, we use sinon.js to stub it into throwing these warning as errors
     // instead.
-    stub(console, 'error').callsFake((warning) => {
-      throw new Error(warning)
-    })
+    console.error = (...args) => {
+      throw new Error(args.join(' '))
+    }
   },
   /**
    * Clears after tests
    */
   after() {
-    console.error.restore()
+    console.error = originalConsoleError
   },
 
   /**
