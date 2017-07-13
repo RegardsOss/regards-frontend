@@ -23,6 +23,8 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import DatasetFormSubsettingComponent from '../components/DatasetFormSubsettingComponent'
 import { datasetValidSubsettingTestActions } from '../clients/DatasetValidSubsettingTest'
+import messages from '../i18n'
+
 /**
  * Show the dataset form
  */
@@ -75,7 +77,7 @@ export class DatasetFormSubsettingContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

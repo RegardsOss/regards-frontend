@@ -24,6 +24,7 @@ import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import NotifyLicenseUpdatedActions from '../../model/NotifyLicenseUpdatedActions'
 import { projectActions, projectSelectors } from '../../clients/ProjectClient'
 import ProjectListComponent from '../../components/project/ProjectListComponent'
+import messages from '../../i18n'
 
 /**
  * React container to manage ManageProjectsComponent.
@@ -83,7 +84,7 @@ export class ProjectListContainer extends React.Component {
   render() {
     const { projectList } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
+      <I18nProvider messages={messages}>
         <ProjectListComponent
           projectList={projectList}
           createUrl={this.getCreateUrl()}

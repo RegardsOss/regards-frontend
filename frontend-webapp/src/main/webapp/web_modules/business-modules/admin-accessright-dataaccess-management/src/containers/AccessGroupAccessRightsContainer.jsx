@@ -28,6 +28,7 @@ import { accessRightActions, accessRightSelectors } from '../clients/AccessRight
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
 import { pluginMetadataActions, pluginMetadataSelectors } from '../clients/PluginMetadataClient'
+import messages from '../i18n'
 
 export class AccessGroupAccessRightsContainer extends React.Component {
   static propTypes = {
@@ -133,7 +134,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
     const { params, accessGroup, accessRights, pluginConfigurationList, pluginMetaDataList } = this.props
     const { loading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-accessright-dataaccess-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={loading}
           isContentError={!loading && !accessGroup}

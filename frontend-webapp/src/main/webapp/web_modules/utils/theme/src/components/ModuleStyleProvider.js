@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
+import themeContextType from '../contextType'
 
 /**
  * Provide specific module theme styles into the context of children component.
@@ -24,7 +24,7 @@ import { themeContextType } from '@regardsoss/theme'
  * function as : export Styles = (theme) => {}
  * @author Sébastien Binda
  */
-class ModuleThemeProvider extends React.Component {
+class ModuleStyleProvider extends React.Component {
 
   /**
    * Retrieve mui theme from context provide by upper MuiThemeProvider
@@ -70,4 +70,4 @@ class ModuleThemeProvider extends React.Component {
   }
 }
 
-export default ModuleThemeProvider
+export default ModuleStyleProvider

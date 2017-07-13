@@ -21,6 +21,7 @@ import adminContainer from './containers/admin/AdminModuleContainer'
 import styles from './styles/styles'
 import reducer from './reducer'
 import dependencies from './dependencies'
+import messages from './i18n'
 
 /**
  * Expose module
@@ -30,5 +31,6 @@ export default {
   moduleContainer,
   reducer,
   styles,
+  messages,
   dependencies,
 }

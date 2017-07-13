@@ -3,7 +3,8 @@
 **/
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import { RenderTextField, Field, FormErrorMessage, reduxForm } from '@regardsoss/form-utils'
+import { FormErrorMessage } from '@regardsoss/components'
+import { RenderTextField, Field, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 

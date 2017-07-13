@@ -22,7 +22,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
-import ModuleThemeProvider from './ModuleThemeProvider'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 
 // Cheat, you should not do this but decorate components
 const Div = ({ children }) => <div>{children}</div>
@@ -136,9 +136,8 @@ class LazyModuleComponent extends React.Component {
         return null
       }
 
-      // By default the i18n directory for a module is fixed to : src/i18n.
-      // Nevertheless, it possible for a module to override this property by setting messagesDir in his main.js exported props
-      const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.type}/src/i18n`
+      // The module exposes its messages
+      const moduleMessages = get(module, 'messages', {})
 
       const defaultModuleProps = {
         appName: this.props.appName,
@@ -170,14 +169,14 @@ class LazyModuleComponent extends React.Component {
       moduleElt = React.createElement(moduleContainer, moduleProps)
 
       return (
-        <I18nProvider messageDir={moduleMessageDir}>
-          <ModuleThemeProvider module={module}>
+        <I18nProvider messages={moduleMessages}>
+          <ModuleStyleProvider module={module}>
             <WithResourceDisplayControl
               resourceDependencies={moduleDependencies}
             >
               {moduleElt}
             </WithResourceDisplayControl>
-          </ModuleThemeProvider>
+          </ModuleStyleProvider>
         </I18nProvider>
       )
     }

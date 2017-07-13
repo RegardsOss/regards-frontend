@@ -15,24 +15,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
-import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ErrorDecoratorComponent } from '@regardsoss/components'
-import FormErrorMessage from '../src/FormErrorMessage'
+ **/
+import isString from 'lodash/isString'
+import { ShowableAtRender } from '@regardsoss/display-control'
+import ErrorDecoratorComponent from '../ErrorDecoratorComponent'
 
-// Test a components rendering
-describe('[FORM UTILS] Testing FormErrorMessage', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
-
-  it('should exists', () => {
-    assert.isDefined(FormErrorMessage)
-  })
-  it('should retrive the right child', () => {
-    const enzymeWrapper = shallow(<FormErrorMessage />)
-    const subComponent = enzymeWrapper.find(ErrorDecoratorComponent)
-    expect(subComponent).to.have.length(1)
-  })
-})
+const FormErrorMessage = ({ children }) => {
+  const active = isString(children) && children.length !== 0
+  return (
+    <ShowableAtRender show={active}>
+      <ErrorDecoratorComponent>
+        { active ? children : ''}
+      </ErrorDecoratorComponent>
+    </ShowableAtRender>
+  )
+}
+FormErrorMessage.propTypes = {
+  // only string expected here, but resolves false values too
+  // eslint-disable-next-line
+  children: PropTypes.any,
+}
+export default FormErrorMessage

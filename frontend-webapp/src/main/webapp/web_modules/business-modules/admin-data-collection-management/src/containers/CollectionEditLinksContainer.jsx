@@ -27,6 +27,8 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionEditLinksComponent from '../components/CollectionEditLinksComponent'
 import { collectionLinkActions } from '../clients/CollectionLinkClient'
+import messages from '../i18n'
+
 /**
  * Show the collection form
  */
@@ -93,7 +95,7 @@ export class CollectionEditLinksContainer extends React.Component {
   getRemainingCollection = (currentCollection, collectionList) => {
     const { collectionName } = this.state
     const collectionLinkedToCurrentCollection = partition(collectionList, collection => some(currentCollection.content.tags, tag => tag === collection.content.ipId,
-      ))
+    ))
     return [
       collectionLinkedToCurrentCollection[0],
       // Remove the currentCollection from collectionList
@@ -108,13 +110,13 @@ export class CollectionEditLinksContainer extends React.Component {
    * @param tag
    */
   handleAdd = tag => Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
-      .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+    .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
   /**
    * When the user remove a tag
    * @param tag
    */
   handleDelete = tag => Promise.resolve(this.props.removeTagFromCollection(this.props.currentCollection.content.id, [tag]))
-      .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+    .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
 
   handleSearch = (event, collectionName) => {
     this.setState({
@@ -127,7 +129,7 @@ export class CollectionEditLinksContainer extends React.Component {
     const { isLoading } = this.state
     const collectionLinkedToCurrentCollection = this.getRemainingCollection(currentCollection, collectionList)
     return (
-      <I18nProvider messageDir="business-modules/admin-data-collection-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

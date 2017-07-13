@@ -24,7 +24,7 @@ import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { I18nProvider } from '@regardsoss/i18n'
 import TablePane from './TablePane'
@@ -32,13 +32,12 @@ import TableSelectionModes from './model/TableSelectionModes'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableConfigurationModel from './content/model/TableConfigurationModel'
 import ColumnConfigurationModel from './content/columns/model/ColumnConfiguration'
-
 import TableActions from './model/TableActions' // class for prop type
 import { TableSelectors } from './model/TableSelectors' // class for prop type
 import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
-
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
+import messages from './i18n'
 
 const defaultLineHeight = 42
 
@@ -341,8 +340,8 @@ class TableContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir={'components/src/table/i18n'}>
-        <ModuleThemeProvider module={moduleStyles}>
+      <I18nProvider messages={messages}>
+        <ModuleStyleProvider module={moduleStyles}>
           <TablePane
             tableData={tableData}
             columns={allColumns}
@@ -358,7 +357,7 @@ class TableContainer extends React.Component {
             emptyComponent={emptyComponent}
             {...tablePaneConfiguration}
           />
-        </ModuleThemeProvider>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

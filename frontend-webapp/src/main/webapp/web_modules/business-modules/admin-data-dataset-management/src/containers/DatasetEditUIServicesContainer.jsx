@@ -25,6 +25,7 @@ import DatasetEditUIServicesComponent from '../components/DatasetEditUIServicesC
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import { linkUIPluginDatasetActions, linkUIPluginDatasetSelectors } from './../clients/LinkUIPluginDatasetClient'
+import messages from '../i18n'
 
 export class DatasetEditUIServicesContainer extends React.Component {
 
@@ -80,7 +81,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
         this.setState({
           isLoading: false,
         }),
-      )
+    )
   }
 
   getBackUrl = () => {
@@ -119,7 +120,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

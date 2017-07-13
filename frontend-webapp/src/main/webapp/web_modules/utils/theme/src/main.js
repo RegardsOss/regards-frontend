@@ -32,6 +32,8 @@ import {
   themeInstanceActions as ThemeInstanceActions,
 } from './clients/ThemeInstanceClient'
 import defaultTheme from './model/defaultTheme'
+import ModuleStyleProvider from './components/ModuleStyleProvider'
+
 
 export {
   themeContextType,
@@ -41,9 +43,11 @@ export {
   reducers,
   ThemeSelectors,
   getCurrentTheme,
-  ThemeProvider,
   ThemeActions,
   ThemeInstanceActions,
   defaultCustomConfiguration,
   defaultTheme,
+
+  ThemeProvider,
+  ModuleStyleProvider,
 }

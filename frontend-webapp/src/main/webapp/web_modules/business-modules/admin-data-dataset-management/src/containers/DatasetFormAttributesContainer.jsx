@@ -28,6 +28,7 @@ import DatasetFormAttributesComponent from '../components/DatasetFormAttributesC
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
+import messages from '../i18n'
 
 /**
  * Show the dataset form
@@ -100,7 +101,7 @@ export class DatasetFormAttributesContainer extends React.Component {
     const { backUrl, currentDataset, modelList, modelAttributeList, currentDatasource, isEditing } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

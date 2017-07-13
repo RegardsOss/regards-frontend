@@ -24,6 +24,7 @@ import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import AttributeModelListComponent from '../components/AttributeModelListComponent'
+import messages from '../i18n'
 
 /**
  * React container to manage ManageProjectsComponent.
@@ -77,7 +78,7 @@ export class AttributeModelListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(attrModelId) => {
+  handleDelete = (attrModelId) => {
     this.props.throwError('Delete is not applicable on attributes yet.')
     // FIXME : Handle delete attribute into backend with new indexation of elasticsearch
     // this.props.deleteAttrModel(attrModelId)
@@ -87,7 +88,7 @@ export class AttributeModelListContainer extends React.Component {
   render() {
     const { attrModelArray } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-data-attributemodel-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator isLoading={this.state.isLoading}>
           <AttributeModelListComponent
             attrModelArray={attrModelArray}

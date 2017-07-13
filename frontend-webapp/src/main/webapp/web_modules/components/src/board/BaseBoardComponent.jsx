@@ -27,9 +27,10 @@ import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-dow
 import RaisedButton from 'material-ui/RaisedButton'
 import ShowableAtRender from '../cards/ShowableAtRender'
 import styles from './styles/styles'
-
+import messages from './i18n'
 
 const RaisedButtonWithResourceDisplayControl = withResourceDisplayControl(RaisedButton)
+
 /**
  * React component to dislay a full board element.
  * The board items to display are expected to be either {@link BaseBoardItemComponent}s or {@link BoardItemComponent}s.
@@ -119,7 +120,7 @@ class BaseBoardComponent extends React.Component {
     const computedStyles = styles(this.context.muiTheme)
 
     return (
-      <I18nProvider messageDir={'components/src/board/i18n'}>
+      <I18nProvider messages={messages}>
         <div>
           <div
             className={computedStyles.section.classes}

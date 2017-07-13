@@ -25,6 +25,7 @@ import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/f
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import { roleResourceActions, roleResourceSelectors } from '../clients/RoleResourceClient'
 import ResourceAccessFormComponent from '../components/ResourceAccessFormComponent'
+import messages from '../i18n'
 
 /**
  * React container to edit resource access allowed for the
@@ -91,7 +92,7 @@ export class ResourceAccessFormContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-user-role-resource-access-management/src/i18n">
+      <I18nProvider messages={messages}>
         {this.getForm()}
       </I18nProvider>
     )

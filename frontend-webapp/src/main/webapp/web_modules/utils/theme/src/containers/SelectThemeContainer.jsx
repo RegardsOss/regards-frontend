@@ -29,6 +29,7 @@ import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
 import { themeSelectors } from '../clients/ThemeClient'
 import defaultTheme from '../model/defaultTheme'
+import messages from '../i18n'
 
 /**
  * Selector allowing the user to change the app's theme.
@@ -60,7 +61,7 @@ export class SelectThemeContainer extends React.Component {
     ))
 
     return (
-      <I18nProvider messageDir="utils/theme/src/i18n">
+      <I18nProvider messages={messages}>
         <IconMenu
           iconButtonElement={SelectThemeContainer.iconButtonElement}
           anchorOrigin={SelectThemeContainer.anchorOriginStyle}

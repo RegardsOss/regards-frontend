@@ -23,6 +23,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionListComponent from '../components/CollectionListComponent'
+import messages from '../i18n'
 
 /**
  * Show the collection list
@@ -68,14 +69,14 @@ export class CollectionListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(collectionId) => {
+  handleDelete = (collectionId) => {
     this.props.deleteCollection(collectionId)
   }
 
   render() {
     const { collectionList, isFetching } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-data-collection-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
         >

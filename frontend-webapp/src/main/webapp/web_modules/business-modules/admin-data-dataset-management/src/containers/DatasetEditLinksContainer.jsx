@@ -31,6 +31,7 @@ import { datasetSelectors, datasetActions } from './../clients/DatasetClient'
 import DatasetEditLinksComponent from '../components/DatasetEditLinksComponent'
 import { datasetLinkActions } from '../clients/DatasetLinkClient'
 import { collectionSelectors, collectionActions } from '../clients/CollectionClient'
+import messages from '../i18n'
 
 /**
  * Show the dataset form
@@ -181,7 +182,7 @@ export class DatasetEditLinksContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

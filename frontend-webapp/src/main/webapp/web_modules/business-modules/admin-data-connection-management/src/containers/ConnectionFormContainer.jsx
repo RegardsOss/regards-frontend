@@ -24,6 +24,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { connectionActions, connectionSelectors } from '../clients/ConnectionClient'
 import ConnectionFormComponent from '../components/ConnectionFormComponent'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetaDataClient'
+import messages from '../i18n'
 
 /**
  * List connection
@@ -131,7 +132,7 @@ export class ConnectionFormContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-connection-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

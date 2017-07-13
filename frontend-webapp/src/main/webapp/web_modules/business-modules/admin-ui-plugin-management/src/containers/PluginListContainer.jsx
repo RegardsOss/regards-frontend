@@ -23,6 +23,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import PluginListComponent from '../components/PluginListComponent'
 import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
+import messages from '../i18n'
 
 /**
  * Module container to display list of configured modules for a given application id.
@@ -81,7 +82,7 @@ class PluginListContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-plugin-management/src/i18n">
+      <I18nProvider messages={messages}>
         <PluginListComponent
           plugins={this.props.plugins}
           onCreate={this.handleCreatePlugin}

@@ -24,6 +24,7 @@ import { AdminShapes } from '@regardsoss/shape'
 import AccountActions from '../model/AccountActions'
 import AccountFormComponent from '../components/AccountFormComponent'
 import AccountSelectors from '../model/AccountSelectors'
+import messages from '../i18n'
 
 export class AccountFormContainer extends React.Component {
   static propTypes = {
@@ -65,7 +66,7 @@ export class AccountFormContainer extends React.Component {
     const { account, isFetching } = this.props
 
     return (
-      <I18nProvider messageDir="business-modules/admin-account-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
           isEmpty={!account}

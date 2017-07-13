@@ -162,7 +162,7 @@ class AttributeRegroupementFormComponent extends React.Component {
 function validate(formValues) {
   const errors = {}
   if (!formValues || !formValues.label || formValues.label.length === 0) {
-    errors.label = 'Label is required'
+    errors.label = 'invalid.required'
   }
   return errors
 }

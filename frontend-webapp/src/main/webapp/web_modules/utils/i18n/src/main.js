@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import I18nProvider from './I18nProvider'
+import I18nProvider from './containers/I18nProvider'
 import SelectLocaleContainer from './containers/SelectLocaleContainer'
 import i18nReducers from './model/I18nReducers'
-import ThemeInjector from './I18nInjector'
+import ThemeInjector from './components/I18nInjector'
 import i18nContextType from './contextType'
 import i18nSelectors from './model/I18nSelectors'
 import dateTimeFormat from './dateTimeFormat'
@@ -32,6 +32,7 @@ export {
   I18nProvider,
   SelectLocaleContainer,
   i18nReducers,
+  // LEGACY
   ThemeInjector,
   i18nContextType,
   i18nSelectors,

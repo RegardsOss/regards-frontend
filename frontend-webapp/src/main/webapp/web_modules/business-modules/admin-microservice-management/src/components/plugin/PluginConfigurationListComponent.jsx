@@ -34,6 +34,7 @@ import fpmap from 'lodash/fp/map'
 import PluginConfigurationContainer from './../../containers/plugin/PluginConfigurationContainer'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 import moduleStyles from '../../styles/styles'
+import messages from '../../i18n'
 
 const ResourceIconAction = withResourceDisplayControl(IconButton)
 
@@ -95,7 +96,7 @@ export default class PluginConfigurationListComponent extends React.Component {
       />)))(pluginConfigurationList)
 
     return (
-      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
+      <I18nProvider messages={messages}>
         <Paper>
           <AppBar
             title={`${microserviceName} > Plugins > ${pluginMetaData && pluginMetaData.content.pluginId}`}

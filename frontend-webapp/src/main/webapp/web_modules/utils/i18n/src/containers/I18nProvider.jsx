@@ -17,14 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
 import { connect } from 'react-redux'
 import { addLocaleData, IntlProvider } from 'react-intl'
 import frLocaleData from 'react-intl/locale-data/fr'
-import * as I18nActions from './model/I18nActions'
-import I18nSelectors from './model/I18nSelectors'
+import I18nSelectors from '../model/I18nSelectors'
 
 addLocaleData(frLocaleData)
-
 
 /**
  * React provider to enable messages internationalisation.
@@ -38,36 +37,29 @@ addLocaleData(frLocaleData)
  * static contextTypes = {
  *     intl: intlShape
  * }
+ *
  */
 export class I18nProvider extends React.Component {
 
   static propTypes = {
     children: PropTypes.element,
-    messageDir: PropTypes.string.isRequired,
+    messages: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     // from mapStateToProps
-    messages: PropTypes.objectOf(PropTypes.string),
     locale: PropTypes.string,
-    // from mapDispatchToProps
-    updateMessages: PropTypes.func,
   }
 
-  componentWillMount() {
-    const { updateMessages, messages, locale, messageDir } = this.props
-
-    // init messages if not set
-    if (!messages) {
-      updateMessages(messageDir, locale)
-    }
+  static defaultProps = {
+    locale: 'en',
   }
 
   render() {
     const { messages, locale } = this.props
-    // Get messages associated to this Prodiver via the messageDir
+
     if (messages) {
       return (
         <IntlProvider
           locale={locale}
-          messages={messages}
+          messages={messages[locale] || messages[keys(messages)[0]]}
         >
           {this.props.children}
         </IntlProvider>
@@ -80,11 +72,6 @@ export class I18nProvider extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   locale: I18nSelectors.getLocale(state),
-  messages: I18nSelectors.getMessagesByMessageDir(state, ownProps.messageDir),
 })
 
-const mapDispatchToProps = dispatch => ({
-  updateMessages: (messageDir, locale) => dispatch(I18nActions.updateMessages(messageDir, locale)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(I18nProvider)
+export default connect(mapStateToProps)(I18nProvider)

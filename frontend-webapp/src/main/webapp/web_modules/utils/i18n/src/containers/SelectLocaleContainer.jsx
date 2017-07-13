@@ -17,9 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from 'react-redux'
-import { updateLocale } from '../model/I18nActions'
+import { setLocale } from '../model/I18nActions'
 import SelectLocaleComponent from '../components/SelectLocaleComponent'
-import I18nProvider from '../I18nProvider'
+import I18nProvider from './I18nProvider'
+import messages from '../i18n'
 
 /**
  * React component to display the language selector widget
@@ -41,7 +42,7 @@ export class SelectLocaleContainer extends React.Component {
   render() {
     const locales = ['en', 'fr']
     return (
-      <I18nProvider messageDir="utils/i18n/src/i18n">
+      <I18nProvider messages={messages}>
         <SelectLocaleComponent
           locales={locales}
           currentLocale={this.props.currentLocale}
@@ -64,7 +65,7 @@ const mapStateToProps = state => ({
 
 // Add functions dependending on store dispatch to containers props.
 const mapDispatchToProps = dispatch => ({
-  setLocale: locale => dispatch(updateLocale(locale)),
+  setLocale: locale => dispatch(setLocale(locale)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectLocaleContainer)

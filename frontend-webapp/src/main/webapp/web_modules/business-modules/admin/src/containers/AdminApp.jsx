@@ -25,6 +25,7 @@ import { connect } from '@regardsoss/redux'
 import { ThemeProvider } from '@regardsoss/theme'
 import AdminLayout from './AdminLayout'
 import AuthenticationContainer from './AuthenticationContainer'
+import messages from '../i18n'
 
 /**
  * React components to manage the instance application.
@@ -101,16 +102,16 @@ class AdminApp extends React.Component {
     const { isLoadingEndpoints } = this.state
 
     const projectHandlerComp = isInstance || !this.props.params.project ? null :
-    (<ProjectHandler
-      projectName={this.props.params.project}
-      title="Administration"
-    />)
+      (<ProjectHandler
+        projectName={this.props.params.project}
+        title="Administration"
+      />)
 
     return (
       <div>
         {projectHandlerComp}
         <ThemeProvider>
-          <I18nProvider messageDir={'business-modules/admin/src/i18n'}>
+          <I18nProvider messages={messages}>
             <AuthenticationContainer project={project} isAuthenticated={isAuthenticated}>
               <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
                 <AdminLayout {...this.props}>

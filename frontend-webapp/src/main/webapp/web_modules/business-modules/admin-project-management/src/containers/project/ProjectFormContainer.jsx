@@ -23,6 +23,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import ProjectFormComponent from '../../components/project/ProjectFormComponent'
 import { projectActions, projectSelectors } from '../../clients/ProjectClient'
+import messages from '../../i18n'
 
 /**
  * React container to display an editing/creating Project form component
@@ -108,7 +109,7 @@ export class ProjectFormContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
+      <I18nProvider messages={messages}>
         {this.getFormComponent()}
       </I18nProvider>
     )

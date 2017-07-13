@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import ShowableAtRender from './ShowableAtRender'
 import withResourceDisplayControl from './resources/withResourceDisplayControl'
 import withHateoasDisplayControl from './hateoas/withHateoasDisplayControl'
 import HateoasKeys from './model/HateoasKeys'
@@ -36,4 +37,5 @@ export {
   LoadingComponent,
   withHateoasDisplayControl,
   withResourceDisplayControl,
+  ShowableAtRender,
 }

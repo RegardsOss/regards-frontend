@@ -29,6 +29,7 @@ import { attributeModelRestrictionActions, attributeModelRestrictionSelectors } 
 import { fragmentActions, fragmentSelectors } from '../clients/FragmentClient'
 import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
+import messages from '../i18n'
 
 export class AttributeModelFormContainer extends React.Component {
   static propTypes = {
@@ -218,18 +219,18 @@ export class AttributeModelFormContainer extends React.Component {
       newAttrModel.restriction = restriction
     }
     Promise.resolve(this.props.createAttrModel(newAttrModel))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-data-attributemodel-management/src/i18n">
+      <I18nProvider messages={messages}>
         {this.getFormComponent()}
       </I18nProvider>
     )

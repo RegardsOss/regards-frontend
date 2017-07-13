@@ -27,6 +27,7 @@ import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponen
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
 import NotificationsManagerContainer from './NotificationsManagerContainer'
 import getModuleStyles from '../styles/styles'
+import messages from '../i18n'
 
 /**
  * React components to manage Administration application.
@@ -112,7 +113,7 @@ export class AdminLayout extends React.Component {
             />
           </div>
           <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
-            <I18nProvider messageDir="business-modules/admin/src/menu/i18n">
+            <I18nProvider messages={messages}>
               {this.getSidebar(isOnInstanceDashboard)}
             </I18nProvider>
             <div className={style.contentContainer.classes} style={style.contentContainer.styles}>

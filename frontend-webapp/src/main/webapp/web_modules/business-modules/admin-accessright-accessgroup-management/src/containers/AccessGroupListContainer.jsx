@@ -23,6 +23,7 @@ import { AccessGroup } from '@regardsoss/model'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import AccessGroupListComponent from '../components/AccessGroupListComponent'
+import messages from '../i18n'
 
 /**
  * Show the group list
@@ -74,14 +75,14 @@ export class AccessGroupListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(accessgroupName) => {
+  handleDelete = (accessgroupName) => {
     this.props.deleteAccessGroup(accessgroupName)
   }
 
   render() {
     const { accessGroupList, isFetching } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-accessright-accessgroup-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
         >

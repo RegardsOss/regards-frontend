@@ -18,7 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
-import { ShowableAtRender } from '@regardsoss/components'
+import ShowableAtRender from '../ShowableAtRender'
 import hateoasDisplayLogic from './hateoasDisplayLogic'
 import HateoasLinks from '../model/HateoasLinks'
 import getDisplayName from '../getDisplayName'

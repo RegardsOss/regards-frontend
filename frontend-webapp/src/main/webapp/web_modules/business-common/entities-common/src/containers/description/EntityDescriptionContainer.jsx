@@ -3,7 +3,7 @@
 **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
@@ -12,6 +12,7 @@ import DescriptionLevelActions from '../../model/description/DescriptionLevelAct
 import { DescriptionLevelSelectors } from '../../model/description/DescriptionLevelSelectors'
 import EntityDescriptionComponent from '../../components/description/EntityDescriptionComponent'
 import styles from '../../styles/styles'
+import messages from '../../i18n'
 
 /** Render constant: module syles  */
 const MODULE_STYLES = { styles }
@@ -64,8 +65,8 @@ export class EntityDescriptionContainer extends React.Component {
     const { shownEntity, onClose, downloadDescriptionClient, onSearchTag,
       fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors } = this.props
     return (
-      <I18nProvider messageDir="business-common/entities-common/src/i18n">
-        <ModuleThemeProvider module={MODULE_STYLES}>
+      <I18nProvider messages={messages}>
+        <ModuleStyleProvider module={MODULE_STYLES}>
           <EntityDescriptionComponent
             entity={shownEntity}
             open={!!shownEntity}
@@ -79,7 +80,7 @@ export class EntityDescriptionContainer extends React.Component {
             onSearchTag={onSearchTag ? this.onSearchTag : null}
             onClose={onClose}
           />
-        </ModuleThemeProvider>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

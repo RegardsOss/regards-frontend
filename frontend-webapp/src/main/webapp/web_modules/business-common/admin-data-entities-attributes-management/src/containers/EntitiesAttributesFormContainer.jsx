@@ -21,6 +21,7 @@ import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
 import EntitiesAttributesFormComponent from '../components/EntitiesAttributesFormComponent'
+import messages from '../i18n'
 
 /**
  * Form component to edit datasets/collection attributes that the admin has to define.
@@ -42,7 +43,7 @@ export class EntitiesAttributesFormContainer extends React.Component {
     const { modelAttributeList, isDisplayAttributeValue, isEditing } = this.props
     return (
       <ShowableAtRender show={isDisplayAttributeValue}>
-        <I18nProvider messageDir="business-common/admin-data-entities-attributes-management/src/i18n">
+        <I18nProvider messages={messages}>
           <EntitiesAttributesFormComponent
             modelAttributeList={modelAttributeList}
             isEditing={isEditing}

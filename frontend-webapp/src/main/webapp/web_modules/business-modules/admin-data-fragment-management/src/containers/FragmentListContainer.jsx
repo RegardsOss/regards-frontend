@@ -24,6 +24,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FragmentListComponent from '../components/FragmentListComponent'
 import { fragmentActions, fragmentSelectors } from '../clients/FragmentClient'
 import { authenticationSelectors } from '../clients/AuthenticationClient'
+import messages from '../i18n'
 
 /**
  * React container to manage the fragment list.
@@ -73,11 +74,11 @@ export class FragmentListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(fragmentId) => {
+  handleDelete = (fragmentId) => {
     this.props.deleteFragment(fragmentId)
   }
 
-  handleOpen =(projectName) => {
+  handleOpen = (projectName) => {
     const url = `/admin/${projectName}`
     browserHistory.push(url)
   }
@@ -85,7 +86,7 @@ export class FragmentListContainer extends React.Component {
   render() {
     const { fragmentList, accessToken } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-data-fragment-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator isLoading={this.state.isLoading}>
           <FragmentListComponent
             fragmentList={fragmentList}

@@ -27,6 +27,7 @@ import PluginTypeSelectors from '../../model/plugin/PluginTypeSelectors'
 import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
 import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
 import PluginMetaDataListComponent from '../../components/plugin/PluginMetaDataListComponent'
+import messages from '../../i18n'
 
 /**
  * Displays the list of plugins for the current microservice (in route) as a {@link GridList} of {@link Card}s sorted by
@@ -109,7 +110,7 @@ export class PluginMetaDataListContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

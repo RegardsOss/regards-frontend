@@ -23,6 +23,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { modelActions, modelSelectors } from '../clients/ModelClient'
 import ModelListComponent from '../components/ModelListComponent'
 import { authenticationSelectors } from '../clients/AuthenticationClient'
+import messages from '../i18n'
 
 /**
  * React container to list all model entities
@@ -74,14 +75,14 @@ export class ModelListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(projectName) => {
+  handleDelete = (projectName) => {
     this.props.deleteModel(projectName)
   }
 
   render() {
     const { modelList, accessToken } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-data-model-management/src/i18n">
+      <I18nProvider messages={messages}>
         <ModelListComponent
           modelList={modelList}
           accessToken={accessToken}
