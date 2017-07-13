@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isUndefined from 'lodash/isUndefined'
-import { SET_LOCALE, SET_LOCALE_MSG } from './I18nActions'
+import { SET_LOCALE } from './I18nActions'
 
 // If navigator is not defined, set the locale to english
 let navigator
@@ -25,10 +25,6 @@ if (isUndefined(navigator)) {
   navigator = { language: 'en' }
 }
 
-function mergeCurrentLocaleMessagesWithNewOnes(state, action) {
-  const newMessages = Object.assign({}, state.messages, { [action.messagesDir]: action.messages })
-  return Object.assign({}, state, { messages: newMessages })
-}
 export default (state = {
   locale: navigator.language,
   messages: {},
@@ -37,8 +33,6 @@ export default (state = {
     // Running fetch plugins from server
     case SET_LOCALE:
       return Object.assign({}, state, { locale: action.locale })
-    case SET_LOCALE_MSG:
-      return mergeCurrentLocaleMessagesWithNewOnes(state, action)
     default:
       return state
   }

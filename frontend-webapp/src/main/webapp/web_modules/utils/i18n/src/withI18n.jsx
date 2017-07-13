@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import I18nProvider from './I18nProvider'
+import I18nProvider from './containers/I18nProvider'
 
 /**
  * Decorator adding the I18nProvider around a React Component

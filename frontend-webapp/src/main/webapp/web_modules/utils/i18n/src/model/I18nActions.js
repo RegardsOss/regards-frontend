@@ -28,6 +28,7 @@ export function setLocale(locale) {
   }
 }
 
+/*
 export const SET_LOCALE_MSG = 'SET_LOCALE_MSG'
 export function setLocaleMessages(messagesDir, messages) {
   return {
@@ -41,7 +42,6 @@ function manageException(messagesDir, locale, e) {
   console.error('messagesDir', messagesDir, 'locale', locale, e, e.stack)
   throw new Error('Failed to access to i18n file. Are you sure the path is correct ?')
 }
-
 export function updateMessages(messagesDir, locale) {
   return (dispatch, getState) => {
     require.ensure([], (require) => {
@@ -78,3 +78,4 @@ export function updateLocale(locale) {
     })
   )
 }
+*/

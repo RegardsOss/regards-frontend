@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from 'react-redux'
-import { updateLocale } from '../model/I18nActions'
+import { setLocale } from '../model/I18nActions'
 import SelectLocaleComponent from '../components/SelectLocaleComponent'
-import I18nProvider from '../I18nProvider'
+import I18nProvider from './I18nProvider'
 import messages from '../i18n'
 
 /**
@@ -65,7 +65,7 @@ const mapStateToProps = state => ({
 
 // Add functions dependending on store dispatch to containers props.
 const mapDispatchToProps = dispatch => ({
-  setLocale: locale => dispatch(updateLocale(locale)),
+  setLocale: locale => dispatch(setLocale(locale)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectLocaleContainer)

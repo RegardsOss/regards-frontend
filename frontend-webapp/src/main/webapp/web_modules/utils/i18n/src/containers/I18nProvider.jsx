@@ -21,8 +21,7 @@ import keys from 'lodash/keys'
 import { connect } from 'react-redux'
 import { addLocaleData, IntlProvider } from 'react-intl'
 import frLocaleData from 'react-intl/locale-data/fr'
-// import * as I18nActions from './model/I18nActions'
-import I18nSelectors from './model/I18nSelectors'
+import I18nSelectors from '../model/I18nSelectors'
 
 addLocaleData(frLocaleData)
 
@@ -44,26 +43,14 @@ export class I18nProvider extends React.Component {
 
   static propTypes = {
     children: PropTypes.element,
-    // messageDir: PropTypes.string.isRequired,
-    // from mapStateToProps
     messages: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+    // from mapStateToProps
     locale: PropTypes.string,
-    // from mapDispatchToProps
-    // updateMessages: PropTypes.func,
   }
 
-  static defaultProp = {
+  static defaultProps = {
     locale: 'en',
   }
-
-  // componentWillMount() {
-  //   const { updateMessages, messages, locale, messageDir } = this.props
-
-  //   // init messages if not set
-  //   if (!messages) {
-  //     updateMessages(messageDir, locale)
-  //   }
-  // }
 
   render() {
     const { messages, locale } = this.props
@@ -85,11 +72,6 @@ export class I18nProvider extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   locale: I18nSelectors.getLocale(state),
-  // messages: I18nSelectors.getMessagesByMessageDir(state, ownProps.messageDir),
 })
-
-// const mapDispatchToProps = dispatch => ({
-//   updateMessages: (messageDir, locale) => dispatch(I18nActions.updateMessages(messageDir, locale)),
-// })
 
 export default connect(mapStateToProps)(I18nProvider)
