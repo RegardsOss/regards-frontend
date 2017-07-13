@@ -3,7 +3,7 @@
 **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
@@ -66,7 +66,7 @@ export class EntityDescriptionContainer extends React.Component {
       fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors } = this.props
     return (
       <I18nProvider messages={messages}>
-        <ModuleThemeProvider module={MODULE_STYLES}>
+        <ModuleStyleProvider module={MODULE_STYLES}>
           <EntityDescriptionComponent
             entity={shownEntity}
             open={!!shownEntity}
@@ -80,7 +80,7 @@ export class EntityDescriptionContainer extends React.Component {
             onSearchTag={onSearchTag ? this.onSearchTag : null}
             onClose={onClose}
           />
-        </ModuleThemeProvider>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

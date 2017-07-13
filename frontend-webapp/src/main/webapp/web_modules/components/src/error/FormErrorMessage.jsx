@@ -17,7 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isString from 'lodash/isString'
-import { ErrorDecoratorComponent, ShowableAtRender } from '@regardsoss/components'
+import { ShowableAtRender } from '@regardsoss/display-control'
+import ErrorDecoratorComponent from '../ErrorDecoratorComponent'
 
 const FormErrorMessage = ({ children }) => {
   const active = isString(children) && children.length !== 0

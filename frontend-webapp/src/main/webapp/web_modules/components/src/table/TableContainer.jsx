@@ -25,7 +25,7 @@ import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { I18nProvider } from '@regardsoss/i18n'
 import TablePane from './TablePane'
@@ -344,7 +344,7 @@ class TableContainer extends React.Component {
 
     return (
       <I18nProvider messageDir={'components/src/table/i18n'}>
-        <ModuleThemeProvider module={moduleStyles}>
+        <ModuleStyleProvider module={moduleStyles}>
           <TablePane
             tableData={tableData}
             columns={allColumns}
@@ -361,7 +361,7 @@ class TableContainer extends React.Component {
             emptyComponent={emptyComponent}
             {...tablePaneConfiguration}
           />
-        </ModuleThemeProvider>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }
