@@ -23,6 +23,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
 import DatasetListComponent from '../components/DatasetListComponent'
+import messages from '../i18n'
 
 /**
  * Show the dataset list
@@ -78,8 +79,8 @@ export class DatasetListContainer extends React.Component {
     const { datasetList } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
-        <LoadableContentDisplayDecorator
+      <I18nProvider messages={messages}>
+              <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
           <DatasetListComponent
@@ -90,7 +91,7 @@ export class DatasetListContainer extends React.Component {
             createUrl={this.getCreateUrl()}
           />
         </LoadableContentDisplayDecorator>
-      </I18nProvider>
+            </I18nProvider>
     )
   }
 }

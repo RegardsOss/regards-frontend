@@ -27,6 +27,7 @@ import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
 import PluginConfigurationListComponent from '../../components/plugin/PluginConfigurationListComponent'
+import messages from '../../i18n'
 
 /**
  * Container connecting the plugin configuration list to the redux store and handling user interface actions.
@@ -101,7 +102,7 @@ export class PluginConfigurationListContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

@@ -25,6 +25,7 @@ import { modelAttributesActions, modelAttributesSelectors } from '../clients/Mod
 import { connectionTableActions, connectionTableSelectors } from '../clients/ConnectionTableClient'
 import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../clients/ConnectionTableAttributesClient'
 import DatasourceFormMappingEmptyDatabaseComponent from '../components/DatasourceFormMappingEmptyDatabaseComponent'
+import messages from '../i18n'
 
 /**
  * Show the datasource form
@@ -118,15 +119,15 @@ export class DatasourceFormMappingContainer extends React.Component {
       handleBack={handleBack}
     />)
     return (
-      <I18nProvider messageDir="business-modules/admin-data-datasource-management/src/i18n">
-        <LoadableContentDisplayDecorator
+      <I18nProvider messages={messages}>
+              <LoadableContentDisplayDecorator
           isLoading={isLoading}
           isEmpty={tableList.length === 0}
           emptyComponent={emptyComponent}
         >
           {this.getForm}
         </LoadableContentDisplayDecorator>
-      </I18nProvider>
+            </I18nProvider>
     )
   }
 }

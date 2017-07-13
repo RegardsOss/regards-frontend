@@ -23,6 +23,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceActions, datasourceSelectors } from '../clients/DatasourceClient'
 import DatasourceListComponent from '../components/DatasourceListComponent'
+import messages from '../i18n'
 
 /**
  * Show the datasource list
@@ -62,14 +63,14 @@ export class DatasourceListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(datasourceId) => {
+  handleDelete = (datasourceId) => {
     this.props.deleteDatasource(datasourceId)
   }
 
   render() {
     const { datasourceList, isFetching } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-data-datasource-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
         >

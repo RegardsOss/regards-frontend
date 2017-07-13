@@ -23,6 +23,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { modelActions, modelSelectors } from '../clients/ModelClient'
 import ModelFormComponent from '../components/ModelFormComponent'
+import messages from '../i18n'
 
 export class ProjectFormContainer extends React.Component {
   static propTypes = {
@@ -74,13 +75,13 @@ export class ProjectFormContainer extends React.Component {
       description: values.description,
     })
     Promise.resolve(this.props.updateModel(this.props.model.content.id, updatedProject))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   handleCreate = (values) => {
@@ -97,13 +98,13 @@ export class ProjectFormContainer extends React.Component {
       })
     }
     Promise.resolve(task)
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   handleDuplicate = (values) => {
@@ -113,13 +114,13 @@ export class ProjectFormContainer extends React.Component {
       name: values.name,
       description: values.description,
     }))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   handleSubmit = (values) => {
@@ -136,7 +137,7 @@ export class ProjectFormContainer extends React.Component {
   render() {
     const { isCreating, isEditing, isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-model-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator isLoading={isLoading}>
           <ModelFormComponent
             onSubmit={this.handleSubmit}

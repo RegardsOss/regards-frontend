@@ -26,6 +26,7 @@ import { projectActions, projectSelectors } from '../../clients/ProjectClient'
 import { projectConnectionActions, projectConnectionSelectors } from '../../clients/ProjectConnectionClient'
 import { projectConnectionTestActions } from '../../clients/ProjectConnectionTestClient'
 import ProjectConnectionListComponent from '../../components/projectConnection/ProjectConnectionListComponent'
+import messages from '../../i18n'
 
 /**
  * Connects a {@link ProjectConnectionListComponent} to the redux store.
@@ -92,7 +93,7 @@ export class ProjectConnectionListContainer extends React.Component {
     const { projectConnections } = this.props
 
     return (
-      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={this.props.projectIsFetching || this.props.projectConnectionsIsFetching}
           isContentError={!this.props.project}
