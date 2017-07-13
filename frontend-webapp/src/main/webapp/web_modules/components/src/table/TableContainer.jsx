@@ -37,7 +37,7 @@ import { TableSelectors } from './model/TableSelectors' // class for prop type
 import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
-import messages from '../i18n'
+import messages from './i18n'
 
 const defaultLineHeight = 42
 

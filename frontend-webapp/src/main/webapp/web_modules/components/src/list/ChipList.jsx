@@ -29,7 +29,7 @@ import { FormattedMessage } from 'react-intl'
 import { I18nProvider } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import ShowableAtRender from '../cards/ShowableAtRender'
-import messages from '../i18n'
+import messages from './i18n'
 
 /**
  * Component to display an entity list as chips.
