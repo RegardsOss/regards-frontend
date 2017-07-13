@@ -18,6 +18,7 @@
  **/
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import BoardUIComponent from '../components/BoardUIComponent'
+import messages from '../i18n'
 
 /**
  * Module container to display the list of applications.
@@ -37,7 +38,7 @@ export class BoardUIContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-management/src/i18n">
+      <I18nProvider messages={messages}>
         <BoardUIComponent project={this.props.params.project} />
       </I18nProvider>
     )

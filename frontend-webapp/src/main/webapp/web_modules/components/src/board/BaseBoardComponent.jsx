@@ -27,7 +27,7 @@ import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-dow
 import RaisedButton from 'material-ui/RaisedButton'
 import ShowableAtRender from '../cards/ShowableAtRender'
 import styles from './styles/styles'
-
+import messages from '../i18n'
 
 const RaisedButtonWithResourceDisplayControl = withResourceDisplayControl(RaisedButton)
 /**
@@ -119,7 +119,7 @@ class BaseBoardComponent extends React.Component {
     const computedStyles = styles(this.context.muiTheme)
 
     return (
-      <I18nProvider messageDir={'components/src/board/i18n'}>
+      <I18nProvider messages={messages}>
         <div>
           <div
             className={computedStyles.section.classes}

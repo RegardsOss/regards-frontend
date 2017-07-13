@@ -26,6 +26,7 @@ import LayoutSelector from '../model/LayoutSelector'
 import LayoutActions from '../model/LayoutActions'
 import LayoutInstanceActions from '../model/LayoutInstanceActions'
 import ApplicationLayoutComponent from '../components/ApplicationLayoutComponent'
+import messages from '../i18n'
 
 /**
  * Module container to retrieve and display a layout entity associated to an application id.
@@ -116,7 +117,7 @@ export class ApplicationLayoutContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-layout-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={this.props.isFetching}
           isContentError={!this.props.isFetching && !this.props.layout}

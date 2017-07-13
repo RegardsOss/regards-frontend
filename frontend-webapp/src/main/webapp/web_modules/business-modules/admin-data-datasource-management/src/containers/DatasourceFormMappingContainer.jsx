@@ -120,14 +120,14 @@ export class DatasourceFormMappingContainer extends React.Component {
     />)
     return (
       <I18nProvider messages={messages}>
-              <LoadableContentDisplayDecorator
+        <LoadableContentDisplayDecorator
           isLoading={isLoading}
           isEmpty={tableList.length === 0}
           emptyComponent={emptyComponent}
         >
           {this.getForm}
         </LoadableContentDisplayDecorator>
-            </I18nProvider>
+      </I18nProvider>
     )
   }
 }

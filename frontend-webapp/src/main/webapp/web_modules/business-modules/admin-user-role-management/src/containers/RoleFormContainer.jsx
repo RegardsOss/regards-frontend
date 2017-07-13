@@ -23,6 +23,7 @@ import { FormLoadingComponent, FormEntityNotFoundComponent, EnumInputsHelper } f
 import { AdminShapes } from '@regardsoss/shape'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import RoleFormComponent from '../components/RoleFormComponent'
+import messages from '../i18n'
 
 export class RoleFormContainer extends React.Component {
   static propTypes = {
@@ -93,13 +94,13 @@ export class RoleFormContainer extends React.Component {
       updatedRole.parentRole = this.props.roleList[values.parentRole].content
     }
     Promise.resolve(this.props.updateRole(role.content.name, updatedRole))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   handleCreate = (values) => {
@@ -111,18 +112,18 @@ export class RoleFormContainer extends React.Component {
       authorizedAddresses,
       parentRole,
     }))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-user-role-management/src/i18n">
+      <I18nProvider messages={messages}>
         {this.getFormComponent()}
       </I18nProvider>
     )

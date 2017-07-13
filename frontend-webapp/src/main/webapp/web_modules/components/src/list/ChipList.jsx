@@ -29,6 +29,7 @@ import { FormattedMessage } from 'react-intl'
 import { I18nProvider } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import ShowableAtRender from '../cards/ShowableAtRender'
+import messages from '../i18n'
 
 /**
  * Component to display an entity list as chips.
@@ -98,7 +99,7 @@ class ChipList extends React.Component {
   renderNewChipButton = () => {
     const iconAnchor = { horizontal: 'left', vertical: 'top' }
     return (
-      <I18nProvider messageDir={'components/src/list/i18n'}>
+      <I18nProvider messages={messages}>
         <div>
           <Chip style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
             <Avatar
@@ -151,7 +152,7 @@ class ChipList extends React.Component {
         )
       })}
     </div>
-    )
+  )
 
   render() {
     return (

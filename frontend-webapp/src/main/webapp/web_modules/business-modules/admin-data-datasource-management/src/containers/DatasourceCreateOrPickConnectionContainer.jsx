@@ -78,7 +78,7 @@ export class DatasourceCreateOrPickConnectionContainer extends React.Component {
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
-              <LoadableContentDisplayDecorator
+        <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
           <DatasourceCreateOrPickConnectionComponent
@@ -88,7 +88,7 @@ export class DatasourceCreateOrPickConnectionContainer extends React.Component {
             handleDone={this.redirectToForm}
           />
         </LoadableContentDisplayDecorator>
-            </I18nProvider>
+      </I18nProvider>
     )
   }
 }

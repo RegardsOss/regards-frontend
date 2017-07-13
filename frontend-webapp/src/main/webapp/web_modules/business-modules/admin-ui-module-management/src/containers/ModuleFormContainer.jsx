@@ -31,6 +31,7 @@ import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import FormShape from '../model/FormShape'
 import ModuleFormComponent from '../components/ModuleFormComponent'
 import NoContainerAvailables from '../components/NoContainerAvailables'
+import messages from '../i18n'
 
 /**
  * React component to display a edition form for Module entity
@@ -227,7 +228,7 @@ class ModuleFormContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-module-management/src/i18n">
+      <I18nProvider messages={messages}>
         {this.renderComponent()}
       </I18nProvider>
     )

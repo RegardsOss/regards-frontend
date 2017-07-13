@@ -264,12 +264,12 @@ export class DatasourceFormContainer extends React.Component {
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
-              <LoadableContentDisplayDecorator
+        <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
           {this.renderSubContainer}
         </LoadableContentDisplayDecorator>
-            </I18nProvider>
+      </I18nProvider>
     )
   }
 }

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import concat from 'lodash/concat'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -33,13 +32,12 @@ import TableSelectionModes from './model/TableSelectionModes'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableConfigurationModel from './content/model/TableConfigurationModel'
 import ColumnConfigurationModel from './content/columns/model/ColumnConfiguration'
-
 import TableActions from './model/TableActions' // class for prop type
 import { TableSelectors } from './model/TableSelectors' // class for prop type
 import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
-
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
+import messages from '../i18n'
 
 const defaultLineHeight = 42
 
@@ -343,7 +341,7 @@ class TableContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir={'components/src/table/i18n'}>
+      <I18nProvider messages={messages}>
         <ModuleStyleProvider module={moduleStyles}>
           <TablePane
             tableData={tableData}
