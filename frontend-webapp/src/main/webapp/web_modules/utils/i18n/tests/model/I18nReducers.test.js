@@ -24,7 +24,6 @@ describe('[COMMON] Testing i18n reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).to.eql({
       locale: 'en',
-      messages: {},
     })
   })
   it('should handle locale update', () => {
