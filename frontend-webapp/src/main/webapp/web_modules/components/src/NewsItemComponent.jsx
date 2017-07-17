@@ -17,8 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import moment from 'moment'
 import CardActionsComponent from './cards/CardActionsComponent'
+
+const DATETIME_OPTIONS = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+}
 
 /**
  * Show the list of users for the current project
@@ -38,7 +45,8 @@ function NewsItemComponent(props) {
 
   }
   const { news } = props
-  const pubDate = moment(news.pubDate).fromNow()
+  const { intl: { formatDate } } = this.context
+  const pubDate = formatDate(news.pubDate, DATETIME_OPTIONS)
   return (
     <Card>
       <CardTitle
