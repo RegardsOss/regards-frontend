@@ -18,6 +18,7 @@
  **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import Chip from 'material-ui/Chip'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -33,6 +34,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-dataaccess-management'
 import { accessGroupActions } from '../clients/AccessGroupClient'
+import moduleStyles from '../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const ResourceIconAction = withResourceDisplayControl(IconButton)
@@ -99,6 +101,7 @@ export class AccessGroupListComponent extends React.Component {
   render() {
     const { accessGroupList, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl } = this.props
     const { intl } = this.context
+    const styles = moduleStyles(this.context.muiTheme)
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -134,7 +137,10 @@ export class AccessGroupListComponent extends React.Component {
             >
               {map(accessGroupList, (accessGroup, i) => (
                 <TableRow className={`selenium-group-${accessGroup.content.name}`} key={i}>
-                  <TableRowColumn>{accessGroup.content.name}</TableRowColumn>
+                  <TableRowColumn style={styles.nameCell}>
+                    {accessGroup.content.name}
+                    {accessGroup.content.isPublic ? <Chip>Public</Chip> : null}
+                  </TableRowColumn>
                   <TableRowColumn>{accessGroup.content.users.length}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasIconAction

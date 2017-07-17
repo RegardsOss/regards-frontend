@@ -17,12 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import keys from 'lodash/keys'
+import Badge from 'material-ui/Badge'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import IconButton from 'material-ui/IconButton'
+import InfoOutline from 'material-ui/svg-icons/action/info-outline'
 import { AccessGroup } from '@regardsoss/model'
 import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import moduleStyles from '../styles/styles'
 
 /**
  * React component to edit/create/duplicate an accessgroup.
@@ -83,6 +87,9 @@ export class AccessGroupFormComponent extends React.Component {
     const { submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
     const nameFieldValidations = [ValidationHelpers.required, ValidationHelpers.string, ValidationHelpers.validAlphaNumericUnderscore]
+    const styles = moduleStyles(this.context.muiTheme)
+    const { formatMessage } = this.context.intl
+
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -103,12 +110,16 @@ export class AccessGroupFormComponent extends React.Component {
             />
             <br />
             <br />
-            <Field
-              name="isPublic"
-              fullWidth
-              component={RenderCheckbox}
-              label={this.context.intl.formatMessage({ id: 'group.form.public' })}
-            />
+            <Badge
+              badgeContent={<IconButton tooltip={formatMessage({ id: 'group.form.public.info' })} tooltipPosition="bottom-right" iconStyle={styles.info}><InfoOutline /></IconButton>}
+            >
+              <Field
+                name="isPublic"
+                fullWidth
+                component={RenderCheckbox}
+                label={this.context.intl.formatMessage({ id: 'group.form.public' })}
+              />
+            </Badge>
           </CardText>
           <CardActions>
             <CardActionsComponent
