@@ -16,23 +16,100 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { I18nProvider } from '@regardsoss/i18n'
-import ActionsMenuCellComponent from './ActionsMenuCellComponent'
+import max from 'lodash/max'
+import map from 'lodash/map'
+import IconMenu from 'material-ui/IconMenu'
+import IconButton from 'material-ui/IconButton'
+import ClickAwayListener from 'material-ui/internal/ClickAwayListener'
+import NavigationMoreVert from 'material-ui/svg-icons/navigation/more-vert'
+import MediaQuery from 'react-responsive'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import moduleStyles from '../../styles/styles'
 import messages from '../../i18n'
 
+const iconAnchor = { horizontal: 'right', vertical: 'top' }
+
 /**
- * Only add i18nProvider for message internationalization around ActionsMenuCellComponent
+ * Create a more action button if the screen size does not allow to display all children.
  *
  * @param props
  * @param context
  * @returns {XML}
  * @constructor
- * @author Sébastien Binda
+ * @author Maxime Bouveron
+ * @author Xavier-Alexandre Brochard
  */
-const ActionsMenuCell = props => (
-  <I18nProvider messages={messages}>
-    <ActionsMenuCellComponent {...props} />
-  </I18nProvider>
-)
+class ActionsMenuCell extends React.Component {
 
-export default ActionsMenuCell
+  state = {
+    open: false,
+  }
+
+  handleClickAway = () => this.setState({ open: false })
+
+  handleOpen = () => this.setState({ open: true })
+
+  render() {
+    const { intl, muiTheme } = this.context
+    const { breakpoints, children } = this.props
+    const { open } = this.state
+    const maxBreakpoint = max(breakpoints)
+    const styles = moduleStyles(muiTheme)
+
+    return (
+      <div style={styles.spaceAround}>
+        {map(children, (child, index) => (
+          <MediaQuery key={index} query={`(min-width: ${breakpoints[index]}px)`}>
+            {child}
+          </MediaQuery>
+        ))}
+        <MediaQuery query={`(max-width: ${maxBreakpoint}px)`}>
+          <IconMenu
+            open={open}
+            iconButtonElement={
+              <IconButton
+                onTouchTap={this.handleOpen}
+                className="selenium-moreButton"
+                title={intl.formatMessage({ id: 'table.actions.more' })}
+              >
+                <ClickAwayListener onClickAway={this.handleClickAway}>
+                  <NavigationMoreVert
+                    hoverColor={muiTheme.palette.accent1Color}
+                  />
+                </ClickAwayListener>
+              </IconButton>
+            }
+            anchorOrigin={iconAnchor}
+            targetOrigin={iconAnchor}
+          >
+            <div style={styles.spaceAround}>
+              {map(children, (child, index) => (
+                <MediaQuery key={index} query={`(max-width: ${breakpoints[index] - 1}px)`}>
+                  {child}
+                </MediaQuery>
+              ))}
+            </div>
+          </IconMenu>
+        </MediaQuery>
+      </div>
+    )
+  }
+}
+
+ActionsMenuCell.propTypes = {
+  breakpoints: PropTypes.arrayOf(PropTypes.number).isRequired,
+  children: PropTypes.node,
+}
+
+ActionsMenuCell.defaultProps = {
+  breakpoints: [],
+  children: [],
+}
+
+ActionsMenuCell.contextTypes = {
+  ...i18nContextType,
+  ...themeContextType,
+}
+
+export default withI18n(messages)(ActionsMenuCell)
