@@ -16,86 +16,95 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import max from 'lodash/max'
+import map from 'lodash/map'
 import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
+import ClickAwayListener from 'material-ui/internal/ClickAwayListener'
 import NavigationMoreVert from 'material-ui/svg-icons/navigation/more-vert'
 import MediaQuery from 'react-responsive'
-import omit from 'lodash/omit'
-import { withHateoasDisplayControl } from '@regardsoss/display-control'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import moduleStyles from '../../styles/styles'
+import messages from '../../i18n'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const HateoasMenuAction = withHateoasDisplayControl(MenuItem)
+const iconAnchor = { horizontal: 'right', vertical: 'top' }
 
 /**
- * Create a more action button if the screen size do not allow to display all IconButton from this component children.
+ * Create a more action button if the screen size does not allow to display all children.
  *
  * @param props
  * @param context
  * @returns {XML}
  * @constructor
+ * @author Maxime Bouveron
+ * @author Xavier-Alexandre Brochard
  */
-const ActionsMenuCellComponent = (props, context) => {
-  const { intl } = context
-  const maxBreakpoint = props.children.reduce((biggest, action) => Math.max(action.props.breakpoint, biggest), 0)
-  const iconAnchor = { horizontal: 'right', vertical: 'top' }
-  return (
-    <div style={{ display: 'flex' }}>
-      {React.Children.map(props.children, ((action) => {
-        const { breakpoint, ...rest } = action.props
-        return (
-          <MediaQuery key={action.props.title} query={`(min-width: ${breakpoint}px)`}>
-            {React.createElement(
-              action.type,
-              action.type === HateoasIconAction ? rest : { ...omit(rest, ['isInstance', 'theme', 'i18n', 'dispatch']) },
-            )}
+class ActionsMenuCellComponent extends React.Component {
+
+  state = {
+    open: false,
+  }
+
+  handleClickAway = () => this.setState({ open: false })
+
+  handleOpen = () => this.setState({ open: true })
+
+  render() {
+    const { intl, muiTheme } = this.context
+    const { breakpoints, children } = this.props
+    const { open } = this.state
+    const maxBreakpoint = max(breakpoints)
+    const styles = moduleStyles(muiTheme)
+
+    return (
+      <div style={styles.spaceAround}>
+        {map(children, (child, index) => (
+          <MediaQuery key={index} query={`(min-width: ${breakpoints[index]}px)`}>
+            {child}
           </MediaQuery>
-        )
-      }))}
-      <MediaQuery query={`(max-width: ${maxBreakpoint}px)`}>
-        <IconMenu
-          iconButtonElement={
-            <IconButton
-              className="selenium-moreButton"
-              title={intl.formatMessage({ id: 'table.actions.more' })}
-            >
-              <NavigationMoreVert
-                hoverColor={context.muiTheme.palette.accent1Color}
-              />
-            </IconButton>
-          }
-          anchorOrigin={iconAnchor}
-          targetOrigin={iconAnchor}
-        >
-          {React.Children.map(props.children, ((action) => {
-            const { children, breakpoint, ...rest } = action.props
-            return (
-              <MediaQuery key={rest.title} query={`(max-width: ${breakpoint - 1}px)`}>
-                {React.createElement(
-                  action.type === HateoasIconAction ? HateoasMenuAction : MenuItem,
-                  {
-                    primaryText: rest.title,
-                    leftIcon: children,
-                    ...omit(rest, ['iconStyle', 'tooltipPosition', 'touch']),
-                  },
-                )}
-              </MediaQuery>
-            )
-          }))}
-        </IconMenu>
-      </MediaQuery>
-    </div>
-  )
+        ))}
+        <MediaQuery query={`(max-width: ${maxBreakpoint}px)`}>
+          <IconMenu
+            open={open}
+            iconButtonElement={
+              <IconButton
+                onTouchTap={this.handleOpen}
+                className="selenium-moreButton"
+                title={intl.formatMessage({ id: 'table.actions.more' })}
+              >
+                <ClickAwayListener onClickAway={this.handleClickAway}>
+                  <NavigationMoreVert
+                    hoverColor={muiTheme.palette.accent1Color}
+                  />
+                </ClickAwayListener>
+              </IconButton>
+            }
+            anchorOrigin={iconAnchor}
+            targetOrigin={iconAnchor}
+          >
+            <div style={styles.spaceAround}>
+              {map(children, (child, index) => (
+                <MediaQuery key={index} query={`(max-width: ${breakpoints[index] - 1}px)`}>
+                  {child}
+                </MediaQuery>
+              ))}
+            </div>
+          </IconMenu>
+        </MediaQuery>
+      </div>
+    )
+  }
 }
 
 ActionsMenuCellComponent.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.required,
-    breakpoint: PropTypes.number.required,
-    children: PropTypes.element.required,
-  })),
+  breakpoints: PropTypes.arrayOf(PropTypes.number).isRequired,
+  children: PropTypes.node,
+}
+
+ActionsMenuCellComponent.defaultProps = {
+  breakpoints: [],
+  children: [],
 }
 
 ActionsMenuCellComponent.contextTypes = {
@@ -103,4 +112,4 @@ ActionsMenuCellComponent.contextTypes = {
   ...themeContextType,
 }
 
-export default ActionsMenuCellComponent
+export default withI18n(messages)(ActionsMenuCellComponent)

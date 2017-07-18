@@ -190,5 +190,9 @@ export default (theme) => {
       opacity: '0.5',
       zIndex: '1000',
     },
+    spaceAround: {
+      display: 'flex',
+      justifyContent: 'space-around',
+    },
   })
 }
