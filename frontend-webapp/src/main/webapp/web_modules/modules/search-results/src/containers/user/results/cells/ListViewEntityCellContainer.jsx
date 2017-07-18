@@ -1,14 +1,17 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { connect } from '@regardsoss/redux'
+import compose from 'lodash/fp/compose'
+import { TableColumnConfiguration } from '@regardsoss/components'
+import { withI18n } from '@regardsoss/i18n'
 import {
   CatalogEntity,
   AttributeModel,
 } from '@regardsoss/model'
-import { TableColumnConfiguration } from '@regardsoss/components'
+import { connect } from '@regardsoss/redux'
 import { descriptionLevelActions } from '../../../../models/description/DescriptionLevelModel'
 import ListViewEntityCellComponent from '../../../../components/user/results/cells/ListViewEntityCellComponent'
+import messages from '../../../../i18n'
 
 /**
 * Container for list view entity cell
@@ -42,9 +45,6 @@ export class ListViewEntityCellContainer extends React.Component {
     styles: PropTypes.object,
     // Display checbox for entities selection ?
     displayCheckBoxes: PropTypes.bool,
-    // description tooltip, externally provided as the i18n context changed at render time
-    descriptionTooltip: PropTypes.string.isRequired,
-
     // from map dispatch to props
     dispatchShowDescription: PropTypes.func.isRequired,
   }
@@ -68,7 +68,7 @@ export class ListViewEntityCellContainer extends React.Component {
 
   render() {
     const { entity, attributes, lineHeight, isTableSelected, selectTableEntityCallback,
-      tableColumns, onSearchTag, onClick, styles, displayCheckBoxes, descriptionTooltip } = this.props
+      tableColumns, onSearchTag, onClick, styles, displayCheckBoxes } = this.props
     return (
       <ListViewEntityCellComponent
         entity={entity}
@@ -80,11 +80,14 @@ export class ListViewEntityCellContainer extends React.Component {
         onSearchTag={onSearchTag}
         styles={styles}
         displayCheckBoxes={displayCheckBoxes}
-        descriptionTooltip={descriptionTooltip}
         onEntitySelection={onClick ? this.onEntitySelection : null}
         onShowDescription={this.onShowDescription}
       />
     )
   }
 }
-export default connect(null, ListViewEntityCellContainer.mapDispatchToProps)(ListViewEntityCellContainer)
+
+export default compose(
+  connect(null, ListViewEntityCellContainer.mapDispatchToProps),
+  withI18n(messages),
+)(ListViewEntityCellContainer)

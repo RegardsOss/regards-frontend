@@ -57,7 +57,6 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       onClick: () => { },
       styles: context.moduleTheme.user.listViewStyles,
       displayCheckBoxes: true,
-      descriptionTooltip: 'hello',
       dispatchShowDescription: () => { },
     }
     shallow(<ListViewEntityCellContainer {...props} />, { context })

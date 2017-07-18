@@ -242,7 +242,6 @@ class SearchResultsComponent extends React.Component {
         onSearchTag: onSelectSearchTag,
         tableColumns,
         displayCheckbox: showingDataobjects && this.props.displaySelectCheckboxes,
-        descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
       },
     },
   }]

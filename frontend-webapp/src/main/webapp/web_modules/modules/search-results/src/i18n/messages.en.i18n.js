@@ -68,6 +68,7 @@ const messages = Object.assign({
   'results.no.content.title': 'No results',
   'results.no.content.subtitle': 'Your search returned no results. Try to change your criteria',
   'results.options.column.label': 'Options and services',
+  'results.download': 'Download',
 }, Locales.en)
 
 export default messages

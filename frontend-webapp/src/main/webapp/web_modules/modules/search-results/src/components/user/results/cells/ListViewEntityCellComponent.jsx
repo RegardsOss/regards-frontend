@@ -34,6 +34,7 @@ import {
 import { themeContextType } from '@regardsoss/theme'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { TableColumnConfiguration, TableColumnConfigurationController } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Component to display datasets in search results.
@@ -59,7 +60,6 @@ class ListViewEntityCellComponent extends React.Component {
     styles: PropTypes.object,
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
-    descriptionTooltip: PropTypes.string.isRequired,
     // callback: on entity selection (or null when not clickable)
     onEntitySelection: PropTypes.func,
     // callback: on show description
@@ -68,6 +68,7 @@ class ListViewEntityCellComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -213,6 +214,7 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayTitle = () => {
+    const { intl: { formatMessage } } = this.context
     const mainStyle = { display: 'flex', alignItems: 'center' }
     const checkboxStyle = { width: 'auto' }
     const titleStyle = { marginRight: 10 }
@@ -233,7 +235,7 @@ class ListViewEntityCellComponent extends React.Component {
         >{this.props.entity.content.label}</span>
         <div style={downloadStyle}>
           {this.displayDownload()}
-          <div title={this.props.descriptionTooltip}>
+          <div title={formatMessage({ id: 'show.description.tooltip' })}>
             <InfoIcon
               onTouchTap={this.props.onShowDescription}
               style={infoIconStyle}
@@ -245,12 +247,13 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayDownload = () => {
+    const { intl: { formatMessage } } = this.context
     const rawdata = find(this.props.entity.content.files, file => file.dataType === ObjectLinkedFileTypes.RAWDATA)
     if (rawdata) {
       const iconStyle = { cursor: 'pointer' }
       return (
         <div>
-          <a href={rawdata.fileRef} download title="download">
+          <a href={rawdata.fileRef} download title={formatMessage({ id: 'results.download' })}>
             <GetApp
               style={iconStyle}
               hoverColor={this.context.muiTheme.palette.accent1Color}

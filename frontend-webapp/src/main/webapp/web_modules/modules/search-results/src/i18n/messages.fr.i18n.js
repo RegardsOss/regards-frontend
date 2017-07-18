@@ -66,6 +66,7 @@ const messages = Object.assign({
   'results.no.content.title': 'Pas de résultats',
   'results.no.content.subtitle': 'Votre recherche n\'a donné aucun résultat. Essayez de modifier vos critères',
   'results.options.column.label': 'Options et services',
+  'results.download': 'Télécharger',
 }, Locales.fr)
 
 export default messages
