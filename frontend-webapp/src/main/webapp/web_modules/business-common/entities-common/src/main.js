@@ -22,6 +22,7 @@ import getDescriptionLevelReducer from './model/description/DescriptionLevelRedu
 import getDescriptionLevelSelectors from './model/description/DescriptionLevelSelectors'
 import EntityDescriptionContainer from './containers/description/EntityDescriptionContainer'
 
+import ServiceContainer from './containers/services/ServiceContainer'
 import PluginServiceRunModel from './definitions/PluginServiceRunModel'
 import OneElementTarget from './definitions/targets/OneElementTarget'
 import ManyElementsTarget from './definitions/targets/ManyElementsTarget'

@@ -7,7 +7,6 @@ import { PluginServiceRunModel } from '../../definitions/PluginServiceRunModel'
 import RunCatalogPluginServiceContainer from './catalog/RunCatalogPluginServiceContainer'
 import RunUIPluginServiceContainer from './ui/RunUIPluginServiceContainer'
 import styles from '../../styles/styles'
-import messages from '../../i18n'
 
 /** Render constant: module syles  */
 const MODULE_STYLES = { styles }
