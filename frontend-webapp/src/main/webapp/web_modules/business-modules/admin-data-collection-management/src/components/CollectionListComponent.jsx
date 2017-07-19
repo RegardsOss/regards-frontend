@@ -34,6 +34,7 @@ import { collectionActions } from '../clients/CollectionClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const ResourceIconAction = withResourceDisplayControl(IconButton)
+const actionsBreakpoints = [940, 995, 1065]
 
 /**
  * React component to list collections.
@@ -133,23 +134,20 @@ export class CollectionListComponent extends React.Component {
                   <TableRowColumn>{collection.content.label}</TableRowColumn>
                   <TableRowColumn>{collection.content.model.name}</TableRowColumn>
                   <TableRowColumn>
-                    <ActionsMenuCell>
+                    <ActionsMenuCell
+                      breakpoints={actionsBreakpoints}
+                    >
                       <HateoasIconAction
                         entityLinks={collection.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onTouchTap={() => handleEdit(collection.content.id)}
-                        breakpoint={940}
                         title={intl.formatMessage({ id: 'collection.list.action.edit' })}
                       >
-                        <Edit
-                          hoverColor={style.hoverButtonEdit
-                          }
-                        />
+                        <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
                       <ResourceIconAction
                         resourceDependencies={collectionActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => handleDuplicate(collection.content.id)}
-                        breakpoint={995}
                         title={intl.formatMessage({ id: 'collection.list.action.duplicate' })}
                       >
                         <ContentCopy hoverColor={style.hoverButtonDuplicate} />
@@ -158,7 +156,6 @@ export class CollectionListComponent extends React.Component {
                         entityLinks={collection.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(collection)}
-                        breakpoint={1065}
                         title={intl.formatMessage({ id: 'collection.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

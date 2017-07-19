@@ -32,6 +32,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasourceActions } from '../clients/DatasourceClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const actionsBreakpoints = [940, 995]
 
 /**
  * React component to list datasources.
@@ -127,12 +128,13 @@ export class DatasourceListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{datasource.content.label}</TableRowColumn>
                   <TableRowColumn>
-                    <ActionsMenuCell>
+                    <ActionsMenuCell
+                      breakpoints={actionsBreakpoints}
+                    >
                       <HateoasIconAction
                         entityLinks={datasource.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onTouchTap={() => handleEdit(datasource.content.pluginConfigurationId)}
-                        breakpoint={940}
                         title={intl.formatMessage({ id: 'datasource.list.action.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
@@ -141,7 +143,6 @@ export class DatasourceListComponent extends React.Component {
                         entityLinks={datasource.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(datasource)}
-                        breakpoint={995}
                         title={intl.formatMessage({ id: 'datasource.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

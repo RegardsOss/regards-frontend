@@ -34,6 +34,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { fragmentActions } from '../clients/FragmentClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const actionsBreakpoints = [940, 995, 1065]
 
 /**
  * Component to list fragment.
@@ -146,12 +147,13 @@ export class FragmentListComponent extends React.Component {
                   <TableRowColumn>{fragment.content.name}</TableRowColumn>
                   <TableRowColumn>{fragment.content.description}</TableRowColumn>
                   <TableRowColumn>
-                    <ActionsMenuCell>
+                    <ActionsMenuCell
+                      breakpoints={actionsBreakpoints}
+                    >
                       <HateoasIconAction
                         entityLinks={fragment.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onTouchTap={() => handleEdit(fragment.content.id)}
-                        breakpoint={940}
                         title={intl.formatMessage({ id: 'fragment.list.action.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
@@ -160,7 +162,6 @@ export class FragmentListComponent extends React.Component {
                         entityLinks={fragment.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(fragment)}
-                        breakpoint={995}
                         title={intl.formatMessage({ id: 'fragment.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
@@ -169,7 +170,6 @@ export class FragmentListComponent extends React.Component {
                         entityLinks={fragment.links}
                         hateoasKey="export"
                         href={this.getExportUrlFromHateoas(fragment.links)}
-                        breakpoint={1065}
                         title={intl.formatMessage({ id: 'fragment.list.action.export' })}
                       >
                         <Download hoverColor={style.hoverButtonEdit} />

@@ -38,6 +38,7 @@ import { modelAttributesActions } from '../clients/ModelAttributesClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const ResourceIconAction = withResourceDisplayControl(IconButton)
+const actionsBreakpoints = [940, 995, 1065, 1320, 1380]
 
 /**
  * React components to list project.
@@ -176,12 +177,13 @@ export class ProjectListComponent extends React.Component {
                     {this.getType(model.content.type)}
                   </TableRowColumn>
                   <TableRowColumn>
-                    <ActionsMenuCell>
+                    <ActionsMenuCell
+                      breakpoints={actionsBreakpoints}
+                    >
                       <HateoasIconAction
                         entityLinks={model.links}
                         hateoasKey="export"
                         href={this.getExportUrlFromHateoas(model.links)}
-                        breakpoint={940}
                         title={intl.formatMessage({ id: 'model.list.action.export' })}
                       >
                         <Download hoverColor={style.hoverButtonEdit} />
@@ -190,7 +192,6 @@ export class ProjectListComponent extends React.Component {
                       <ResourceIconAction
                         resourceDependencies={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => handleBindAttributes(model.content.id)}
-                        breakpoint={995}
                         title={intl.formatMessage({ id: 'model.list.action.bind' })}
                       >
                         <Settings hoverColor={style.hoverButtonBindAttribute} />
@@ -200,7 +201,6 @@ export class ProjectListComponent extends React.Component {
                         entityLinks={model.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onTouchTap={() => handleEdit(model.content.id)}
-                        breakpoint={1065}
                         title={intl.formatMessage({ id: 'model.list.action.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
@@ -209,7 +209,6 @@ export class ProjectListComponent extends React.Component {
                       <ResourceIconAction
                         resourceDependencies={modelActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => handleDuplicate(model.content.id)}
-                        breakpoint={1320}
                         title={intl.formatMessage({ id: 'model.list.action.duplicate' })}
                       >
                         <ContentCopy hoverColor={style.hoverButtonDuplicate} />
@@ -219,7 +218,6 @@ export class ProjectListComponent extends React.Component {
                         entityLinks={model.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(model)}
-                        breakpoint={1380}
                         title={intl.formatMessage({ id: 'model.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

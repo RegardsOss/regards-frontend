@@ -33,6 +33,7 @@ import { fragmentSelectors } from '../clients/FragmentClient'
 import { attributeModelActions } from '../clients/AttributeModelClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const actionsBreakpoints = [995, 995]
 
 /**
  * React components to list project.
@@ -141,27 +142,23 @@ export class AttributeModelListComponent extends React.Component {
                   <TableRowColumn>{attrmodel.content.description}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.type}</TableRowColumn>
                   <TableRowColumn>
-                    <ActionsMenuCell>
-                      <HateoasIconAction
-                        entityLinks={attrmodel.links}
-                        onTouchTap={() => handleEdit(attrmodel.content.id)}
-                        hateoasKey={HateoasKeys.UPDATE}
-                        breakpoint={940}
-                        title={intl.formatMessage({ id: 'attrmodel.list.action.edit' })}
-                      >
-                        <Edit hoverColor={style.hoverButtonEdit} />
-                      </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={attrmodel.links}
+                      onTouchTap={() => handleEdit(attrmodel.content.id)}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      title={intl.formatMessage({ id: 'attrmodel.list.action.edit' })}
+                    >
+                      <Edit hoverColor={style.hoverButtonEdit} />
+                    </HateoasIconAction>
 
-                      <HateoasIconAction
-                        entityLinks={attrmodel.links}
-                        onTouchTap={() => this.openDeleteDialog(attrmodel)}
-                        hateoasKey={HateoasKeys.DELETE}
-                        breakpoint={995}
-                        title={intl.formatMessage({ id: 'attrmodel.list.action.delete' })}
-                      >
-                        <Delete hoverColor={style.hoverButtonDelete} />
-                      </HateoasIconAction>
-                    </ActionsMenuCell>
+                    <HateoasIconAction
+                      entityLinks={attrmodel.links}
+                      onTouchTap={() => this.openDeleteDialog(attrmodel)}
+                      hateoasKey={HateoasKeys.DELETE}
+                      title={intl.formatMessage({ id: 'attrmodel.list.action.delete' })}
+                    >
+                      <Delete hoverColor={style.hoverButtonDelete} />
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}

@@ -37,6 +37,7 @@ import { moduleActions } from '../clients/ModuleClient'
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const HateoasToggle = withHateoasDisplayControl(Toggle)
 const ResourceIconAction = withResourceDisplayControl(IconButton)
+const actionsBreakpoints = [460, 945, 945]
 
 /**
  * React component to display a given list of modules
@@ -143,13 +144,14 @@ class ModuleListComponent extends React.Component {
                     />
                   </TableRowColumn>
                   <TableRowColumn>
-                    <ActionsMenuCell>
+                    <ActionsMenuCell
+                      breakpoints={actionsBreakpoints}
+                    >
                       <HateoasIconAction
                         title={intl.formatMessage({ id: 'modules.list.table.action.edit.tooltip' })}
                         entityLinks={module.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onTouchTap={() => this.props.onEdit(module.content)}
-                        breakpoint={460}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
@@ -157,7 +159,6 @@ class ModuleListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'modules.list.table.action.duplicate.tooltip' })}
                         resourceDependencies={moduleActions.getDependency(RequestVerbEnum.POST)}
                         onTouchTap={() => this.props.onDuplicate(module.content)}
-                        breakpoint={945}
                       >
                         <Copy hoverColor={style.hoverButtonEdit} />
                       </ResourceIconAction>
@@ -166,7 +167,6 @@ class ModuleListComponent extends React.Component {
                         entityLinks={module.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(module.content)}
-                        breakpoint={945}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
                       </HateoasIconAction>
