@@ -15,31 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+ **/
+
+import { entityFields } from '../rs-catalog/Entity/Entity'
+import { ContextPluginServices } from './PluginService'
 
 /**
- * Fetches UI services (ie: UI plugin configurations that have been indicated as results services)
+ * Defines entity shape, as enriched by the access microservice (front-end proxy)
+ * @author Raphaël Mechali
  */
-export default class UIServiceActions extends BasicListActions {
+const EntityWithServices = PropTypes.shape({
+  content: PropTypes.shape({
+    ...entityFields,
+    //  ui and catalog plugin services for entity
+    services: ContextPluginServices,
+  }).isRequired,
+})
 
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/services/{dataset_id}`,
-      schemaTypes: {
-        ENTITY: Schemas.UI_PLUGIN_CONFIGURATION,
-        ENTITY_ARRAY: Schemas.UI_PLUGIN_CONFIGURATION_ARRAY,
-      },
-    })
-  }
-
-  fetchServices(datasetId) {
-    if (datasetId) {
-      return this.fetchEntityList({ dataset_id: datasetId })
-    }
-    return null
-  }
-
+export default {
+  EntityWithServices,
 }

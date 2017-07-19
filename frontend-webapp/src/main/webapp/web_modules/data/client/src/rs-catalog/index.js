@@ -29,10 +29,6 @@ import getSearchEntitiesReducer from './search/SearchEntitiesReducer'
 import getSearchEntitiesSelectors from './search/SearchEntitiesSelectors'
 import SearchEntityActions from './search/SearchEntityActions'
 
-import BusinessServiceActions from './services/BusinessServiceActions'
-import getBusinessServiceReducer from './services/BusinessServiceReducer'
-import getBusinessServiceSelectors from './services/BusinessServiceSelectors'
-
 export default {
   LinkPluginDatasetActions,
   getLinkPluginDatasetReducer,
@@ -47,7 +43,4 @@ export default {
 
   SearchEntityActions,
 
-  BusinessServiceActions,
-  getBusinessServiceReducer,
-  getBusinessServiceSelectors,
 }

@@ -22,6 +22,11 @@ import getDescriptionLevelReducer from './model/description/DescriptionLevelRedu
 import getDescriptionLevelSelectors from './model/description/DescriptionLevelSelectors'
 import EntityDescriptionContainer from './containers/description/EntityDescriptionContainer'
 
+import PluginServiceConfigurationWrapper from './definitions/PluginServiceConfigurationWrapper'
+import OneElementTarget from './definitions/targets/OneElementTarget'
+import ManyElementsTarget from './definitions/targets/ManyElementsTarget'
+
+
 export default {
   DownloadDescriptionClient,
   EntityDescriptionContainer,
@@ -29,5 +34,12 @@ export default {
     DescriptionLevelActions,
     getDescriptionLevelReducer,
     getDescriptionLevelSelectors,
+  },
+  // Services
+  ServiceContainer,
+  PluginServiceConfigurationWrapper,
+  targets: {
+    OneElementTarget,
+    ManyElementsTarget,
   },
 }

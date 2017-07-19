@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,6 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-export default storePath => new BasicListSelectors(storePath)
+/**
+ * Store selector to access fetched plugin services
+ * To use this selector, you need to pass a parameter : <storePath>.
+ * @author Raphaël Mechali
+ */
+export default storePath => new BasicSignalSelectors(storePath)

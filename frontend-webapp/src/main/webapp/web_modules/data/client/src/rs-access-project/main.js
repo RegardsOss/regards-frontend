@@ -24,9 +24,9 @@ import LayoutActions from './layout/LayoutActions'
 import LayoutReducers from './layout/LayoutReducers'
 import LayoutSelectors from './layout/LayoutSelectors'
 
-import UIServiceActions from './services/UIServiceActions'
-import getUIServiceReducer from './services/UIServiceReducer'
-import getUIServiceSelectors from './services/UIServiceSelectors'
+import PluginServiceActions from './pluginServices/PluginServiceActions'
+import getPluginServiceReducer from './pluginServices/PluginServiceReducer'
+import getPluginServiceSelectors from './pluginServices/PluginServiceSelectors'
 
 import ThemeActions from './theme/ThemeActions'
 import ThemeReducers from './theme/ThemeReducers'
@@ -55,18 +55,17 @@ export default {
   LayoutReducers,
   LayoutSelectors,
 
-  UIServiceActions,
-  getUIServiceReducer,
-  getUIServiceSelectors,
-
   ThemeActions,
   ThemeReducers,
   ThemeSelectors,
 
+  PluginServiceActions,
+  getPluginServiceReducer,
+  getPluginServiceSelectors,
+
   UIPluginDefinitionActions,
   UIPluginDefinitionReducers,
   UIPluginDefinitionSelectors,
-
 
   UIPluginConfigurationActions,
   UIPluginConfigurationReducers,

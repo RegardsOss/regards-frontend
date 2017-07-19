@@ -15,7 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { BasicListSelectors } from '@regardsoss/store-utils'
+ **/
 
-export default storePath => new BasicListSelectors(storePath)
+/**
+ * Plugin service application modes
+ * @author Raphaël Mechali
+ */
+const applicationModes = {
+  ONE: 'ONE',
+  MANY: 'MANY',
+}
+
+export default {
+  applicationModes,
+}

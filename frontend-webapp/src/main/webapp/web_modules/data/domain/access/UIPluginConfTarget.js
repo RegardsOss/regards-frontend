@@ -17,4 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export default ['DATAOBJECT', 'DATASET', 'DATAOBJECTS_QUERY']
+export const UI_PLUGIN_CONF_TARGET_ENUM = {
+  ONE: 'ONE',
+  MANY: 'MANY',
+}

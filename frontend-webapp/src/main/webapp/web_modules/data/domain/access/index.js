@@ -22,6 +22,8 @@ import UI_PLUGIN_CONF_TARGET from './UIPluginConfTarget'
 import UI_PLUGIN_INFO_TYPES from './UIPluginInfoTypes'
 
 import AttributeConfigurationController from './AttributeConfigurationController'
+import ServicePluginSource from './ServicePluginSource'
+import { applicationModes } from './ApplicationModes'
 
 import defaultTheme from './defaultTheme'
 
@@ -31,6 +33,10 @@ export default {
   UI_PLUGIN_INFO_TYPES,
 
   AttributeConfigurationController,
+
+  ServicePluginSource,
+
+  applicationModes,
 
   defaultTheme,
 }

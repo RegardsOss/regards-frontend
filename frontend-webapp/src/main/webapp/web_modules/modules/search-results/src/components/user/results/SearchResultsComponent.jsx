@@ -78,12 +78,8 @@ class SearchResultsComponent extends React.Component {
       openSearchQuery: PropTypes.string.isRequired,
     })),
     searchQuery: PropTypes.string.isRequired,
-
     // services
-    datasetServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
-    selectedDataobjectsServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
-
-
+    selectionServices: PropTypes.arrayOf(PropTypes.instanceOf(PluginServiceConfigurationWrapper)).isRequired,
     // Attributes configurations for results columns
     // eslint-disable-next-line react/no-unused-prop-types
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
@@ -106,11 +102,8 @@ class SearchResultsComponent extends React.Component {
     onShowTableView: PropTypes.func.isRequired,
     onSortChanged: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
-
-    onDatasetServiceSelected: PropTypes.func.isRequired, // (service) => void
-    onSelectionServiceSelected: PropTypes.func.isRequired, // (service) => void
-    // eslint-disable-next-line react/no-unused-prop-types
-    onDataobjectServiceSelected: PropTypes.func.isRequired, // (service, dataobject) => void
+    onStartOneElementService: PropTypes.func.isRequired,
+    onStartSelectionService: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

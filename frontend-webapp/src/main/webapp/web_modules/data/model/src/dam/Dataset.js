@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import BusinessPluginConfiguration from '../microservice-common/BusinessPluginConfiguration'
+import CatalogPluginConfiguration from '../admin/plugin/PluginConfiguration'
 
 const DatasetContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -27,7 +27,7 @@ const DatasetContent = PropTypes.shape({
     id: PropTypes.number,
   }).isRequired,
   dataModel: PropTypes.number.isRequired,
-  plgConfDataSource: BusinessPluginConfiguration,
+  plgConfDataSource: CatalogPluginConfiguration,
 })
 
 const Dataset = PropTypes.shape({

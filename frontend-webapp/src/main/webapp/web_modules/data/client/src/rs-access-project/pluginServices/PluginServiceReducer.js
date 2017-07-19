@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,18 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicListReducers } from '@regardsoss/store-utils'
-import { UIPluginConfConfiguration } from '@regardsoss/api'
-import UIServiceActions from './UIServiceActions'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import PluginServiceActions from './PluginServiceActions'
 
-export class UIServiceReducer extends BasicListReducers {
+/**
+ * Redux Reducer for plugin services actions.
+ * @author Raphaël Mechali
+ */
+class PluginServiceReducer extends BasicSignalReducers {
   constructor(namespace) {
-    super(UIPluginConfConfiguration, new UIServiceActions(namespace))
+    super(new PluginServiceActions(namespace))
   }
 }
 
-/** Closure builder for reducer function */
 export default (namespace) => {
-  const reducerInstance = new UIServiceReducer(namespace)
-  return (state, action) => reducerInstance.reduce(state, action)
+  const instance = new PluginServiceReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

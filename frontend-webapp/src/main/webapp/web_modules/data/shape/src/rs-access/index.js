@@ -30,6 +30,9 @@ import { Module, ModuleList, ModuleArray } from './Module'
 import { Project, ProjectList } from './Project'
 import { ThemeContent, Theme, ThemeList } from './Theme'
 
+import { PluginService, ContextPluginServices } from './PluginService'
+import { EntityWithServices } from './EntityWithServices'
+
 export default {
   LinkUIPluginDataset,
   LinkUIPluginDatasetList,
@@ -61,4 +64,9 @@ export default {
   ThemeContent,
   Theme,
   ThemeList,
+
+  PluginService,
+  ContextPluginServices,
+
+  EntityWithServices,
 }
