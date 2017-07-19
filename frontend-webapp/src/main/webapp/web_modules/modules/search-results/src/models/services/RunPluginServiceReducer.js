@@ -1,14 +1,28 @@
 /**
-* LICENSE_PLACEHOLDER
-**/
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import runPluginServiceActions from './RunPluginServiceActions'
 
 /**
  * Default state
  */
 export const DEFAULT_STATE = {
-  runningService: null, // currently running service
-  target: null, // currently running service target
+  serviceRunModel: null, // currently running service model
 }
 
 const reduce = (state = DEFAULT_STATE, action) => {
@@ -16,14 +30,12 @@ const reduce = (state = DEFAULT_STATE, action) => {
     case runPluginServiceActions.RUN_SERVICE:
       return {
         ...state,
-        runningService: action.service,
-        target: action.target,
+        serviceRunModel: action.serviceRunModel,
       }
     case runPluginServiceActions.CLOSE_SERVICE:
       return {
         ...state,
-        runningService: null,
-        target: null,
+        serviceRunModel: null,
       }
     default:
       return state

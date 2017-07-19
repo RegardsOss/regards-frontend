@@ -79,7 +79,8 @@ class SearchResultsComponent extends React.Component {
     })),
     searchQuery: PropTypes.string.isRequired,
     // services
-    selectionServices: PropTypes.arrayOf(PropTypes.instanceOf(PluginServiceConfigurationWrapper)).isRequired,
+    selectionUIServices: PropTypes.arrayOf(AccessShapes.PluginService).isRequired,
+    selectionCatalogServices: PropTypes.arrayOf(AccessShapes.PluginService).isRequired,
     // Attributes configurations for results columns
     // eslint-disable-next-line react/no-unused-prop-types
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
@@ -102,8 +103,8 @@ class SearchResultsComponent extends React.Component {
     onShowTableView: PropTypes.func.isRequired,
     onSortChanged: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
-    onStartOneElementService: PropTypes.func.isRequired,
-    onStartSelectionService: PropTypes.func.isRequired,
+    onStartSelectionCatalogService: PropTypes.func.isRequired,
+    onStartSelectionUIService: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -298,26 +299,37 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
+   * Renders a service group options (or none if no service)
+   * @param {*} services selection services
+   * @param {*} onStart on start callback
+   * @return {[Element]} react elements for options (maybe empty)
+   */
+  renderSelectionServiceGroupOptions = (services, onStart) =>
+    !services.length ? [] : [
+      ...services.map((service, index) => (
+        <SelectionServiceComponent
+          key={service.key}
+          service={service}
+          onRunService={onStart}
+        />)),
+      <TableOptionsSeparator key="catalog.services.options.separator" />,
+    ]
+
+  /**
    * Renders table context options (middle area of the header)
    * @return rendered options list
    */
   renderTableContextOptions = () => {
-    const { allowingFacettes, showingFacettes, onToggleShowFacettes, displaySelectCheckboxes,
-      showingDataobjects, selectedDataobjectsServices, onSelectionServiceSelected } = this.props
+    const { allowingFacettes, showingFacettes, onToggleShowFacettes, displaySelectCheckboxes, showingDataobjects,
+      selectionCatalogServices, selectionUIServices, onStartSelectionCatalogService, onStartSelectionUIService } = this.props
     const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
 
     return [
-      //  Selection services
-      ...selectedDataobjectsServices.map((service, index) => (
-        <SelectionServiceComponent
-          key={service.serviceKey}
-          service={service}
-          iconSize={this.context.moduleTheme.user.options.selection.service.iconSize}
-          onRunService={onSelectionServiceSelected}
-        />)),
-      // separator
-      selectedDataobjectsServices.length ? <TableOptionsSeparator key="services.options.separator" /> : null,
+      //  Selection catalog services
+      ...this.renderSelectionServiceGroupOptions(selectionCatalogServices, onStartSelectionCatalogService),
+      // Selection UI services
+      ...this.renderSelectionServiceGroupOptions(selectionUIServices, onStartSelectionUIService),
       // List view optionsselect all and sort options
       this.isInListView() && showingDataobjects && displaySelectCheckboxes ? <TableSelectAllContainer
         key="select.filter.option"
@@ -383,29 +395,6 @@ class SearchResultsComponent extends React.Component {
         title={formatMessage({ id: 'view.type.table.button.label' })}
       />,
     ]
-  }
-
-  /**
-   * Renders advanced options (to be shown in 'more' menu)
-   */
-  renderAdvancedOptions = () => {
-    const { datasetServices, onDatasetServiceSelected } = this.props
-    // note: it is not possible here to create sub components, as material UI menu will not close anymore...
-    // therefore we are obliged here to use lambdas...
-    return datasetServices.map(service =>
-      (<MenuItem
-        key={service.serviceKey}
-        value={// Workaround: makes the menu close on item clicked, useless otherwise (crappy material UI)
-          'more.option'}
-        onTouchTap={() => onDatasetServiceSelected(service)}
-        primaryText={service.label}
-        icon={
-          <ServiceIconComponent
-            size={this.context.moduleTheme.user.options.more.service.iconSize}
-            iconDescription={service.icon}
-          />}
-      />),
-    )
   }
 
   /**
@@ -487,7 +476,6 @@ class SearchResultsComponent extends React.Component {
       customTableOptions: this.renderTableRightSideOptions(),
       contextOptions: this.renderTableContextOptions(),
       customTableHeaderArea: this.renderTableHeaderArea(),
-      advancedOptions: this.renderAdvancedOptions(),
       displayTableHeader: true,
       displaySortFilter: true,
       showParameters,

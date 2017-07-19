@@ -21,10 +21,9 @@ describe('[Search Results] Test RunPluginServiceActions', () => {
   it('It should dispatch run service action', () => {
     const expectedAction = {
       type: datasetServicesActions.RUN_SERVICE,
-      service: { id: 'I am a service' },
-      target: { id2: 'I am a target' },
+      serviceRunModel: { id: 'I am a service' },
     }
-    dispatchAndCheck(datasetServicesActions.runService({ id: 'I am a service' }, { id2: 'I am a target' }), expectedAction, buildMockStore({}))
+    dispatchAndCheck(datasetServicesActions.runService({ id: 'I am a service' }), expectedAction, buildMockStore({}))
   })
 
   it('It should dispatch close service action', () => {

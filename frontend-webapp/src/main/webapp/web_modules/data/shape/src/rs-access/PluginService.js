@@ -45,8 +45,8 @@ const PluginService = PropTypes.shape({
  * Plugin services as returned by corresponding access endpoint
  */
 const ContextPluginServices = PropTypes.shape({
-  'ui-services': PropTypes.arrayOf(PluginService).isRequired,
-  'catalog-services': PropTypes.arrayOf(PluginService).isRequired,
+  'ui-services': PropTypes.arrayOf(PluginService),
+  'catalog-services': PropTypes.arrayOf(PluginService),
 })
 
 export default {

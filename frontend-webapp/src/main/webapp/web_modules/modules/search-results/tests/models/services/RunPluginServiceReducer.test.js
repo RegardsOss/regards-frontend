@@ -20,11 +20,10 @@ describe('[Search Results] Test RunPluginServiceReducer', () => {
   it('should reduce run service action', () => {
     // 1 - without any optional information
     const currentState = DEFAULT_STATE
-    const reduced = reduce(currentState, datasetServicesActions.runService({ id: 'service1' }, { id: 'fakeTarget' }))
+    const reduced = reduce(currentState, datasetServicesActions.runService({ id: 'service1' }))
     const expected = {
       ...DEFAULT_STATE,
-      runningService: { id: 'service1' },
-      target: { id: 'fakeTarget' },
+      serviceRunModel: { id: 'service1' },
     }
     assert.deepEqual(reduced, expected, 'Run service action should be correctly reduced')
   })
@@ -33,14 +32,12 @@ describe('[Search Results] Test RunPluginServiceReducer', () => {
     // 1 - without any optional information
     const currentState = {
       ...DEFAULT_STATE,
-      runningService: { id: 'service1' },
-      target: { id: 'fakeTarget' },
+      serviceRunModel: { id: 'service1' },
     }
     const reduced = reduce(currentState, datasetServicesActions.closeService())
     const expected = {
       ...DEFAULT_STATE,
-      runningService: null,
-      target: null,
+      serviceRunModel: null,
     }
     assert.deepEqual(reduced, expected, 'Close service action should be correctly reduced')
   })

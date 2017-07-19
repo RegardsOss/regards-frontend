@@ -9,24 +9,21 @@ import datasetServicesSelectors from '../../../src/models/services/RunPluginServ
 
 const buildMockStore = (initState = DEFAULT_STATE) => ({
   'modules.search-results': {
-    datasetServices: initState,
+    runPluginService: initState,
   },
 })
 
-const mockReduce = (store, action) => buildMockStore(reduce(store['modules.search-results'].datasetServices, action))
+const mockReduce = (store, action) => buildMockStore(reduce(store['modules.search-results'].runPluginService, action))
 
 describe('[Search Results] Test RunPluginServiceSelectors', () => {
   it('Should select the running service and its target', () => {
     let fakeStore = buildMockStore()
-    assert.deepEqual(datasetServicesSelectors.getRunningService(fakeStore), DEFAULT_STATE.runningService, 'Should return default service')
-    assert.deepEqual(datasetServicesSelectors.getTarget(fakeStore), DEFAULT_STATE.target, 'Should return default target')
+    assert.deepEqual(datasetServicesSelectors.getServiceRunModel(fakeStore), DEFAULT_STATE.serviceRunModel, 'Should return default service')
 
-    fakeStore = mockReduce(fakeStore, datasetServicesActions.runService({ id: 'fakeService' }, { id: 'fakeTarget' }))
-    assert.deepEqual(datasetServicesSelectors.getRunningService(fakeStore), { id: 'fakeService' }, DEFAULT_STATE.levels, 'Should return running service')
-    assert.deepEqual(datasetServicesSelectors.getTarget(fakeStore), { id: 'fakeTarget' }, 'Should return service target')
+    fakeStore = mockReduce(fakeStore, datasetServicesActions.runService({ id: 'fakeService' }))
+    assert.deepEqual(datasetServicesSelectors.getServiceRunModel(fakeStore), { id: 'fakeService' }, DEFAULT_STATE.serviceRunModel, 'Should return running service')
 
     fakeStore = mockReduce(fakeStore, datasetServicesActions.closeService())
-    assert.isTrue(isNull(datasetServicesSelectors.getRunningService(fakeStore)), 'Should not return running service after closing service')
-    assert.isTrue(isNull(datasetServicesSelectors.getTarget(fakeStore)), 'Should not return target after closing service')
+    assert.isTrue(isNull(datasetServicesSelectors.getServiceRunModel(fakeStore)), 'Should not return running service after closing service')
   })
 })
