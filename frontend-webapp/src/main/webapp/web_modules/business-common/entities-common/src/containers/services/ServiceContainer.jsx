@@ -1,8 +1,8 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { withI18n } from '@regardsoss/i18n'
-import { ModuleStyleProvider } from '@regardsoss/theme'
+import { I18nProvider } from '@regardsoss/i18n'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import { PluginServiceRunModel } from '../../definitions/PluginServiceRunModel'
 import RunCatalogPluginServiceContainer from './catalog/RunCatalogPluginServiceContainer'
 import RunUIPluginServiceContainer from './ui/RunUIPluginServiceContainer'
@@ -26,35 +26,37 @@ class ServiceContainer extends React.Component {
 
   render() {
     return (
-      <ModuleStyleProvider module={MODULE_STYLES}>
-        { // render running service according with wrapper content
-          (() => {
-            const { serviceRunModel, onQuit } = this.props
-            if (!serviceRunModel) {
-              return null
-            }
-            switch (serviceRunModel.type) {
-              case PluginServiceRunModel.ServiceTypes.CATALOG_PLUGIN_SERVICE:
-                return (
-                  <RunCatalogPluginServiceContainer
-                    serviceConf={serviceRunModel.serviceConfiguration}
-                    target={serviceRunModel.target}
-                    onQuit={onQuit}
-                  />)
-              case PluginServiceRunModel.ServiceTypes.UI_PLUGIN_SERVICE:
-                return (
-                  <RunUIPluginServiceContainer
-                    service={serviceRunModel.serviceConfiguration}
-                    target={serviceRunModel.target}
-                    onQuit={onQuit}
-                  />)
-              default:
-                throw new Error(`Unkown running service type "${serviceRunModel.type}"`)
-            }
-          })()
-        }
-      </ModuleStyleProvider>)
+      <I18nProvider messageDir="business-common/entities-common/src/i18n">
+        <ModuleThemeProvider module={MODULE_STYLES}>
+          { // render running service according with wrapper content
+            (() => {
+              const { serviceRunModel, onQuit } = this.props
+              if (!serviceRunModel) {
+                return null
+              }
+              switch (serviceRunModel.type) {
+                case PluginServiceRunModel.ServiceTypes.CATALOG_PLUGIN_SERVICE:
+                  return (
+                    <RunCatalogPluginServiceContainer
+                      serviceConf={serviceRunModel.serviceConfiguration}
+                      target={serviceRunModel.target}
+                      onQuit={onQuit}
+                    />)
+                case PluginServiceRunModel.ServiceTypes.UI_PLUGIN_SERVICE:
+                  return (
+                    <RunUIPluginServiceContainer
+                      service={serviceRunModel.serviceConfiguration}
+                      target={serviceRunModel.target}
+                      onQuit={onQuit}
+                    />)
+                default:
+                  throw new Error(`Unkown running service type "${serviceRunModel.type}"`)
+              }
+            })()
+          }
+        </ModuleThemeProvider>
+      </I18nProvider>)
   }
 
 }
-export default withI18n(messages)(ServiceContainer)
+export default ServiceContainer

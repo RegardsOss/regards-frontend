@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export const UI_PLUGIN_CONF_TARGET_ENUM = {
+export default {
   ONE: 'ONE',
   MANY: 'MANY',
 }

@@ -3,7 +3,7 @@
 **/
 import FlatButton from 'material-ui/FlatButton'
 import { themeContextType } from '@regardsoss/theme'
-import Service from '../../../../definitions/service/Service'
+import { AccessShapes } from '@regardsoss/shape'
 import ServiceIconComponent from './ServiceIconComponent'
 
 /**
@@ -14,7 +14,7 @@ class SelectionServiceComponent extends React.Component {
   static propTypes = {
     onRunService: PropTypes.func.isRequired,
     iconSize: PropTypes.number.isRequired, // icon size style is injected, as this component is rendered in table context
-    service: PropTypes.instanceOf(Service).isRequired,
+    service: AccessShapes.PluginService,
   }
 
   static contextTypes = {
@@ -32,11 +32,6 @@ class SelectionServiceComponent extends React.Component {
       <FlatButton
         label={service.label}
         onTouchTap={this.onClick}
-        icon={
-          <ServiceIconComponent
-            size={iconSize}
-            iconDescription={service.icon}
-          />}
       />
     )
   }
