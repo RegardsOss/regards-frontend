@@ -190,7 +190,11 @@ export default (theme) => {
       opacity: '0.5',
       zIndex: '1000',
     },
-    spaceAround: {
+    actionsMenuCellWrapper: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+    },
+    actionsMenuCellPopupWrapper: {
       display: 'flex',
       justifyContent: 'space-around',
     },

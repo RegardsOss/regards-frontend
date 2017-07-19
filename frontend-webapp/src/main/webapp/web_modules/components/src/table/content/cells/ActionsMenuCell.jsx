@@ -58,7 +58,7 @@ class ActionsMenuCell extends React.Component {
     const styles = moduleStyles(muiTheme)
 
     return (
-      <div style={styles.spaceAround}>
+      <div style={styles.actionsMenuCellWrapper}>
         {map(children, (child, index) => (
           <MediaQuery key={index} query={`(min-width: ${breakpoints[index]}px)`}>
             {child}
@@ -83,7 +83,7 @@ class ActionsMenuCell extends React.Component {
             anchorOrigin={iconAnchor}
             targetOrigin={iconAnchor}
           >
-            <div style={styles.spaceAround}>
+            <div style={styles.actionsMenuCellPopupWrapper}>
               {map(children, (child, index) => (
                 <MediaQuery key={index} query={`(max-width: ${breakpoints[index] - 1}px)`}>
                   {child}
