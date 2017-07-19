@@ -37,7 +37,7 @@ import {
 import { LoadableContentDisplayDecorator, HateoasKeys, withHateoasDisplayControl } from '@regardsoss/display-control'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
-
+const actionsBreakpoints = [550, 1040, 1040, 1040]
 const status = {
   pending: 'PENDING',
   active: 'ACTIVE',
@@ -247,7 +247,9 @@ export class AccountListComponent extends React.Component {
                         <FormattedMessage id={`account.list.table.status.label.${account.content.status}`} />
                       </TableRowColumn>
                       <TableRowColumn>
-                        <ActionsMenuCell>
+                        <ActionsMenuCell
+                          breakpoints={actionsBreakpoints}
+                        >
                           <HateoasIconAction
                             className="selenium-editButton"
                             title={intl.formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
@@ -256,7 +258,6 @@ export class AccountListComponent extends React.Component {
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.UPDATE}
                             alwaysDisplayforInstanceUser={false}
-                            breakpoint={550}
                           >
                             <Edit hoverColor={style.commonActionHoverColor} />
                           </HateoasIconAction>
@@ -268,7 +269,6 @@ export class AccountListComponent extends React.Component {
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.ACCEPT}
                             alwaysDisplayforInstanceUser={false}
-                            breakpoint={1040}
                           >
                             <Done hoverColor={style.commonActionHoverColor} />
                           </HateoasIconAction>
@@ -280,7 +280,6 @@ export class AccountListComponent extends React.Component {
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.REFUSE}
                             alwaysDisplayforInstanceUser={false}
-                            breakpoint={1040}
                           >
                             <RemoveCircle hoverColor={style.deleteActionHoverColor} />
                           </HateoasIconAction>
@@ -292,7 +291,6 @@ export class AccountListComponent extends React.Component {
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.DELETE}
                             alwaysDisplayforInstanceUser={false}
-                            breakpoint={1040}
                           >
                             <Delete hoverColor={style.deleteActionHoverColor} />
                           </HateoasIconAction>
