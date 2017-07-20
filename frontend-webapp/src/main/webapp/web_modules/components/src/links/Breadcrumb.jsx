@@ -1,18 +1,21 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { ModuleStyleProvider } from '@regardsoss/theme'
-import BreadcrumbImpl from './BreadcrumbImpl'
+import flatten from 'lodash/flatten'
+import LabelIcon from 'material-ui/svg-icons/action/label'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import BreadcrumbElement from './BreadcrumbElement'
 import styles from './styles/styles'
 
 /** Render constant: module syles  */
 const BREADCRUMB_STYLES = { styles }
 
 /**
-* Breadcrumb displayer (with element types). Note that it must be called like BreadcrumbComponent(Type).
-* It packs elements model then delegates to BreadcrumbImpl (that can use styles)
-*/
-export default class Breadcrumb extends React.Component {
+ * Breadcrumb displayer (with element types). Note that it must be called like BreadcrumbComponent(Type).
+ *
+ * @author Raphaël Mechali
+ */
+class Breadcrumb extends React.Component {
 
   static propTypes = {
     /** list of breadcrumb elements */
@@ -24,6 +27,10 @@ export default class Breadcrumb extends React.Component {
     /** On breadcrumb element action callback: (element, index) => void */
     // eslint-disable-next-line react/no-unused-prop-types
     onAction: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   componentWillMount = () => this.onPropertiesChanged(this.props)
@@ -48,11 +55,19 @@ export default class Breadcrumb extends React.Component {
 
   render() {
     const { elements } = this.state
+    const { separator } = this.context.moduleTheme.breadcrumb
     return (
-      <ModuleStyleProvider module={BREADCRUMB_STYLES}>
-        <BreadcrumbImpl elements={elements} />
-      </ModuleStyleProvider >
+      <div>
+        {
+          // for each element, generate array of separator from previous (if not first) and clickable element.
+          flatten(elements.map(({ label, onAction }, index) => [
+            index ? <LabelIcon key={`separator-${label}`} style={separator} /> : null,
+            <BreadcrumbElement key={label} label={label} onAction={onAction} />,
+          ]))
+        }
+      </div>
     )
   }
 }
 
+export default withModuleStyle(BREADCRUMB_STYLES)(Breadcrumb)
