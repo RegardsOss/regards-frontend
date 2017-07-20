@@ -33,7 +33,7 @@ import {
 } from './clients/ThemeInstanceClient'
 import defaultTheme from './model/defaultTheme'
 import ModuleStyleProvider from './components/ModuleStyleProvider'
-
+import withModuleStyle from './decorators/withModuleStyle'
 
 export {
   themeContextType,
@@ -47,7 +47,7 @@ export {
   ThemeInstanceActions,
   defaultCustomConfiguration,
   defaultTheme,
-
   ThemeProvider,
   ModuleStyleProvider,
+  withModuleStyle,
 }
