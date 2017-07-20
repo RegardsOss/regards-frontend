@@ -30,7 +30,7 @@ import { Module, ModuleList, ModuleArray } from './Module'
 import { Project, ProjectList } from './Project'
 import { ThemeContent, Theme, ThemeList } from './Theme'
 
-import { PluginService, ContextPluginServices } from './PluginService'
+import PluginServiceDefinitions from './PluginService'
 import { EntityWithServices } from './EntityWithServices'
 
 export default {
@@ -65,8 +65,7 @@ export default {
   Theme,
   ThemeList,
 
-  PluginService,
-  ContextPluginServices,
+  ...PluginServiceDefinitions,
 
   EntityWithServices,
 }

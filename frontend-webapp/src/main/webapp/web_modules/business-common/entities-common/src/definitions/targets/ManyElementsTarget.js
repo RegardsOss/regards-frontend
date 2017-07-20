@@ -5,7 +5,7 @@
 /**
  * Runtime target for many elements service
  */
-export default class ManyElementsTarget {
+class ManyElementsTarget {
 
   /**
    * Constructor
@@ -19,4 +19,8 @@ export default class ManyElementsTarget {
     this.initialRequest = initialRequest
   }
 
+}
+
+export default {
+  ManyElementsTarget,
 }

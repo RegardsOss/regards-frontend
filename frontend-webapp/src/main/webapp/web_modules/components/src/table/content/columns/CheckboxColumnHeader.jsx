@@ -28,7 +28,7 @@ class CheckboxColumnHeader extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, moduleTheme: { fixedCellHeader, checkButton: { checkedIcon, uncheckedIcon } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { fixedCellHeader, checkButton: { styles, checkedIcon, uncheckedIcon } } } = this.context
     const { displaySelectAll, areAllSelected, onToggleSelectAll } = this.props
 
     const cellStyle = fixedCellHeader
@@ -44,12 +44,13 @@ class CheckboxColumnHeader extends React.Component {
       <div style={{ ...cellStyle, height, minHeight }} >
         {displaySelectAll ?
           <IconButton
+            style={styles}
             title={formatMessage({ id: tooltipKey })}
             iconStyle={iconStyle}
             onTouchTap={onToggleSelectAll}
           >
             <Icon />
-          </IconButton> : null }
+          </IconButton> : null}
       </div >
     )
   }

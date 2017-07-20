@@ -23,9 +23,9 @@ import getDescriptionLevelSelectors from './model/description/DescriptionLevelSe
 import EntityDescriptionContainer from './containers/description/EntityDescriptionContainer'
 
 import ServiceContainer from './containers/services/ServiceContainer'
-import PluginServiceRunModel from './definitions/PluginServiceRunModel'
-import OneElementTarget from './definitions/targets/OneElementTarget'
-import ManyElementsTarget from './definitions/targets/ManyElementsTarget'
+import { PluginServiceRunModel } from './definitions/PluginServiceRunModel'
+import { OneElementTarget } from './definitions/targets/OneElementTarget'
+import { ManyElementsTarget } from './definitions/targets/ManyElementsTarget'
 
 
 export default {

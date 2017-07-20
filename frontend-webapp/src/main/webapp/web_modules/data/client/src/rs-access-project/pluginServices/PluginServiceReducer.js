@@ -25,7 +25,7 @@ import PluginServiceActions from './PluginServiceActions'
  */
 class PluginServiceReducer extends BasicSignalReducers {
   constructor(namespace) {
-    super(new PluginServiceActions(namespace))
+    super(new PluginServiceActions(namespace), [])
   }
 }
 

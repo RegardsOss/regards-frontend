@@ -8,24 +8,13 @@
 class PluginServiceRunModel {
 
   /**
-   * Plugin service types
-   */
-  static ServiceTypes = {
-    /** UI plugin service (A JS runnable package) */
-    UI_PLUGIN_SERVICE: 'ui.plugin.service',
-    /** Catalog plugin service (A callable backend endpoint) */
-    CATALOG_PLUGIN_SERVICE: 'catalog.plugin.service',
-  }
-
-  /**
    * Constructor
-   * @param {PluginService} serviceConfiguration fetched plguin service configuration
-   * @param {PluginServiceRunModel.ServiceTypes} type corresponding service type (ore of serviceTypes)
+   * @param {PluginService} serviceConfiguration fetched plguin service configuration, WITHOUT CONTENT ROOT
+   * @param {AccessDomain.pluginTypes} type corresponding service type
    * @param {OneElementTarget|ManyElementsTarget} target execution target
    */
   constructor(serviceConfiguration, type, target) {
     this.serviceConfiguration = serviceConfiguration
-    this.type = type
     this.target = target
   }
 

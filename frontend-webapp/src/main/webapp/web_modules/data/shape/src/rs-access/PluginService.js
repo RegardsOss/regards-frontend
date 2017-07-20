@@ -39,17 +39,25 @@ const PluginService = PropTypes.shape({
   applicationModes: PropTypes.arrayOf(PropTypes.oneOf(values(AccessDomain.applicationModes))).isRequired,
   // possible application entity types
   entityTypes: PropTypes.arrayOf(PropTypes.oneOf(DamDomain.ENTITY_TYPES)).isRequired,
+  // plugin service type
+  type: PropTypes.oneOf(values(AccessDomain.pluginTypes)).isRequired,
 })
 
-/**
- * Plugin services as returned by corresponding access endpoint
- */
-const ContextPluginServices = PropTypes.shape({
-  'ui-services': PropTypes.arrayOf(PluginService),
-  'catalog-services': PropTypes.arrayOf(PluginService),
+
+/** Plugin services as array (no content) */
+const PluginServiceArray = PropTypes.arrayOf(PluginService)
+
+/** Plugin service with content */
+const PluginServiceWithContent = PropTypes.shape({
+  content: PluginService,
 })
+
+/** Plugin services as array */
+const PluginServiceWithContentArray = PropTypes.arrayOf(PluginServiceWithContent)
 
 export default {
   PluginService,
-  ContextPluginServices,
+  PluginServiceArray,
+  PluginServiceWithContent,
+  PluginServiceWithContentArray,
 }
