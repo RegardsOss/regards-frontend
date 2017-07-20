@@ -36,8 +36,6 @@ class SelectionServiceComponent extends React.Component {
     const newState = oldState ? { ...oldState } : SelectionServiceComponent.DEFAULT_STATE
     if (oldService !== newService) {
       const { muiTheme } = this.context
-      // spacing.iconSize
-      console.error()
       // prepare service icon to avoid building new instances at runtime
       newState.serviceIconComponent = newService.icon ?
         <img src={newService.icon} alt="" width={muiTheme.spacing.iconSize} height={muiTheme.spacing.iconSize} />
