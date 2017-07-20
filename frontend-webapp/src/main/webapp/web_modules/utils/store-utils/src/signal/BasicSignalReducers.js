@@ -34,14 +34,23 @@ class BasicSignalReducers {
       message: '',
       status: 200,
     },
-    result: {},
   }
 
-  constructor(basicSignalActionInstance) {
+  /**
+   * Constructor
+   * @param {*} basicSignalActionInstance actions instance
+   * @param {*} defaultResultValue default results value (as signal is not typed, value may be an array, an object...)
+   */
+  constructor(basicSignalActionInstance, defaultResultValue = {}) {
     this.basicSignalActionInstance = basicSignalActionInstance
+    this.defaultState = {
+      ...BasicSignalReducers.DEFAULT_STATE,
+      result: defaultResultValue,
+    }
   }
 
-  reduce(state = BasicSignalReducers.DEFAULT_STATE, action) {
+
+  reduce(state = this.defaultState, action) {
     switch (action.type) {
       case this.basicSignalActionInstance.SIGNAL_REQUEST:
         return {

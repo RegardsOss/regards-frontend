@@ -35,8 +35,7 @@ import pluginServiceClient from './clients/PluginServiceClient'
 import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
 
 /**
- * Reducers for searc-form module
- * @type {{attributes: ((p1?:*, p2?:*)), datasets: ((p1?:*, p2?:*)), models: ((p1?:*, p2?:*)), criterion: ((p1?:*, p2?:*)), results: ((p1?:*, p2?:*))}}
+ * Reducers for search-results module
  * @author Sébastien binda
  */
 const searchResultsReducers = {

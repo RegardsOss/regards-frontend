@@ -17,7 +17,23 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export default {
+
+/**
+ * Plugin services related constants. Applies to both UI plugin services and catalog plugin services
+ * @author Raphaël Mechali
+ */
+
+const applicationModes = {
   ONE: 'ONE',
   MANY: 'MANY',
+}
+
+const pluginTypes = {
+  UI: 'UI',
+  CATALOG: 'CATALOG',
+}
+
+export default {
+  applicationModes,
+  pluginTypes,
 }

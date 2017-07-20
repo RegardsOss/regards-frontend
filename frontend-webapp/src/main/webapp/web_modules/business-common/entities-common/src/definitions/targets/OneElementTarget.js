@@ -5,10 +5,14 @@
 /**
  * Runtime target for one element service
  */
-export default class OneElementTarget {
+class OneElementTarget {
 
   constructor(ipId) {
     this.ipId = ipId
   }
 
+}
+
+export default {
+  OneElementTarget,
 }

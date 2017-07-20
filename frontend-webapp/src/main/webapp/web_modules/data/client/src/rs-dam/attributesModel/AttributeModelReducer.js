@@ -19,9 +19,7 @@
 import { BasicListReducers } from '@regardsoss/store-utils'
 import { AttributeModelConfiguration } from '@regardsoss/api'
 import AttributeModelActions from './AttributeModelActions'
-/**
- * Redux store reducer for
- */
+
 /**
  * Redux Reducer for  Attribute Model entities
  * @author Léo Mieulet

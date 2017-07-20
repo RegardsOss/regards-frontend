@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import UIPluginConfTarget from './UIPluginConfTarget'
+import values from 'lodash/values'
+import { applicationModes } from '@regardsoss/domain/access'
 import UIPluginConfParameter from './UIPluginConfParameter'
 
 /**
  * Specific configuration for a UI service plugin instance, as the plugin administrator should provide it
  */
 const UIServiceInstanceConfContent = PropTypes.shape({
-  // this constant is essential to know what type of object the service will consume (without it the service will remain unused)
-  target: UIPluginConfTarget,
+  // this constant is essential to know the plugin working mode (works with ONE and / or many objects)
+  target: PropTypes.arrayOf(PropTypes.oneOf(values(applicationModes))).isRequired,
   // static plugin parameters (ie configuration at administrion level)
   static: PropTypes.arrayOf(
     PropTypes.shape({

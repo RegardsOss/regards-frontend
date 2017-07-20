@@ -58,7 +58,6 @@ class SearchResultsComponent extends React.Component {
     project: PropTypes.string,
     allowingFacettes: PropTypes.bool.isRequired,
     displayDatasets: PropTypes.bool.isRequired,
-    displaySelectCheckboxes: PropTypes.bool.isRequired,
 
     // dynamic display control
     showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
@@ -76,8 +75,7 @@ class SearchResultsComponent extends React.Component {
     })),
     searchQuery: PropTypes.string.isRequired,
     // services
-    selectionUIServices: PropTypes.arrayOf(AccessShapes.PluginService).isRequired,
-    selectionCatalogServices: PropTypes.arrayOf(AccessShapes.PluginService).isRequired,
+    selectionServices: AccessShapes.PluginServiceArray,
     // Attributes configurations for results columns
     // eslint-disable-next-line react/no-unused-prop-types
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
@@ -100,8 +98,7 @@ class SearchResultsComponent extends React.Component {
     onShowTableView: PropTypes.func.isRequired,
     onSortChanged: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
-    onStartSelectionCatalogService: PropTypes.func.isRequired,
-    onStartSelectionUIService: PropTypes.func.isRequired,
+    onStartSelectionService: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -232,12 +229,11 @@ class SearchResultsComponent extends React.Component {
         styles: this.context.moduleTheme.user.listViewStyles,
         onSearchTag: onSelectSearchTag,
         tableColumns,
-        displayCheckbox: showingDataobjects && this.props.displaySelectCheckboxes,
+        displayCheckbox: showingDataobjects,
         descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
       },
     },
   }]
-
 
   /**
   * Updates component state: stores in state the graphics variable computed from new properties, to avoid render time computing
@@ -296,39 +292,26 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
-   * Renders a service group options (or none if no service)
-   * @param {*} services selection services
-   * @param {*} onStart on start callback
-   * @return {[Element]} react elements for options (maybe empty)
-   */
-  renderSelectionServiceGroupOptions = (services, onStart) =>
-    !services.length ? [] : [
-      ...services.map((service, index) => (
-        <SelectionServiceComponent
-          key={service.key}
-          service={service}
-          onRunService={onStart}
-        />)),
-      <TableOptionsSeparator key="catalog.services.options.separator" />,
-    ]
-
-  /**
-   * Renders table context options (middle area of the header)
+   * Renders table context options
    * @return rendered options list
    */
   renderTableContextOptions = () => {
-    const { allowingFacettes, showingFacettes, onToggleShowFacettes, displaySelectCheckboxes, showingDataobjects,
-      selectionCatalogServices, selectionUIServices, onStartSelectionCatalogService, onStartSelectionUIService } = this.props
+    const { allowingFacettes, showingFacettes, onToggleShowFacettes, showingDataobjects,
+      selectionServices, onStartSelectionService } = this.props
     const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
 
     return [
-      //  Selection catalog services
-      ...this.renderSelectionServiceGroupOptions(selectionCatalogServices, onStartSelectionCatalogService),
-      // Selection UI services
-      ...this.renderSelectionServiceGroupOptions(selectionUIServices, onStartSelectionUIService),
+      //  Selection services
+      ...selectionServices.map(service => (
+        <SelectionServiceComponent
+          key={`${service.type}.service.${service.configId}`}
+          service={service}
+          onRunService={onStartSelectionService}
+        />)),
+      selectionServices.length ? <TableOptionsSeparator key="services.separator" /> : null,
       // List view optionsselect all and sort options
-      this.isInListView() && showingDataobjects && displaySelectCheckboxes ? <TableSelectAllContainer
+      this.isInListView() && showingDataobjects ? <TableSelectAllContainer
         key="select.filter.option"
         pageSelectors={searchSelectors}
       /> : null,
@@ -429,7 +412,7 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage } } = this.context
-    const { showingDataobjects, viewMode, searchQuery, resultPageActions, displaySelectCheckboxes } = this.props
+    const { showingDataobjects, viewMode, searchQuery, resultPageActions } = this.props
     const { tableColumns, listColumns } = this.state
 
     const pageSize = 13
@@ -447,7 +430,7 @@ class SearchResultsComponent extends React.Component {
       cellsStyle = null
       displayColumnsHeader = true
       showParameters = true
-      displayCheckbox = showingDataobjects && displaySelectCheckboxes
+      displayCheckbox = showingDataobjects
     } else {
       columns = listColumns
       lineHeight = 160
@@ -464,7 +447,7 @@ class SearchResultsComponent extends React.Component {
       cellsStyle,
       lineHeight,
       displayCheckbox,
-      displaySelectAll: displaySelectCheckboxes,
+      displaySelectAll: true,
       onSortByColumn: this.onSortByColumn,
     }
 
@@ -497,10 +480,6 @@ class SearchResultsComponent extends React.Component {
       />
     )
   }
-}
-
-SearchResultsComponent.defaultProps = {
-  displaySelectCheckboxes: false,
 }
 
 export default SearchResultsComponent

@@ -1,10 +1,10 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import isEqual from 'lodash/isEqual'
 import FlatButton from 'material-ui/FlatButton'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
-import ServiceIconComponent from './ServiceIconComponent'
 
 /**
 * Selection service button
@@ -13,12 +13,39 @@ class SelectionServiceComponent extends React.Component {
 
   static propTypes = {
     onRunService: PropTypes.func.isRequired,
-    iconSize: PropTypes.number.isRequired, // icon size style is injected, as this component is rendered in table context
     service: AccessShapes.PluginService,
   }
 
   static contextTypes = {
     ...themeContextType,
+  }
+
+  static DEFAULT_STATE = {
+    serviceIconComponent: null,
+  }
+
+  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+
+  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+
+  /**
+   * Handles properties update
+   */
+  onPropertiesChanged = ({ service: oldService }, { service: newService }) => {
+    const oldState = this.state
+    const newState = oldState ? { ...oldState } : SelectionServiceComponent.DEFAULT_STATE
+    if (oldService !== newService) {
+      const { muiTheme } = this.context
+      // spacing.iconSize
+      console.error()
+      // prepare service icon to avoid building new instances at runtime
+      newState.serviceIconComponent = newService.icon ?
+        <img src={newService.icon} alt="" with={muiTheme.spacing.iconSize} height={muiTheme.spacing.iconSize} />
+        : null
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
   }
 
   onClick = () => {
@@ -27,11 +54,13 @@ class SelectionServiceComponent extends React.Component {
   }
 
   render() {
-    const { service, iconSize } = this.props
+    const { service } = this.props
+    const { serviceIconComponent } = this.state
     return (
       <FlatButton
         label={service.label}
         onTouchTap={this.onClick}
+        icon={serviceIconComponent}
       />
     )
   }

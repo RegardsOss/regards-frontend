@@ -1,9 +1,10 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import filter from 'lodash/filter'
+import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import values from 'lodash/values'
-import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AccessDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
@@ -23,8 +24,7 @@ import SearchResultsComponent from '../../../components/user/results/SearchResul
  * 1. resolves the 'global' services, using the current dataset context
  * 2. provides to component below the service related properties
  *   * selectionServices: list of services available for the current selection
- *   * onStartOneElementService: Handler to run when user started a service with current selection  (serviceWrapper) => ()
- *   * onStartSelectionService: Handler to run when user started a service for one element
+ *   * onStartSelectionService: Handler to run when user started a service with current selection  (serviceWrapper) => ()
  * @author Raphaël Mechali
  */
 export class PluginServicesContainer extends React.Component {
@@ -63,66 +63,64 @@ export class PluginServicesContainer extends React.Component {
   }
 
   /**
-   * Filters services that are valid in context
-   * @param services services
-   * @param currentViewType current results view type
-   * @return [{PluginService}] filtered array services working with MANY elements and the current entity type
-   */
-  static filterServices = (services = [], currentViewType) => services.filter(({ applicationModes, entityTypes }) =>
-    applicationModes.includes(AccessDomain.applicationModes.MANY) &&
-    entityTypes.includes(PluginServicesContainer.getEntityTypeForViewType(currentViewType)))
-
-  /**
    * Retains plugin services that are present in both services list, by there configId
    * @param services1
    * @param services2
    * @return common plugin services to both lists (services list intersection)
    */
-  static retainCommon = (services1 = [], services2 = []) =>
+  static retainCommon(services1 = [], services2 = []) {
     services1.filter(({ configId: originId }) =>
       services2.some(({ configId: targetId }) => originId === targetId))
+  }
 
   /**
-   * Computes the selection services available and returns services partitions
-   * @param properties properties describing current selection state and global services
-   * @return services available for current selection in an object like {
-   *  uiServices: [{PluginService}]
-   *  catalogServices: [{PluginService}]
-   * }
+   * Is usable selection service in context?
+   * @param service service as PluginService (not wrapped in 'content:')
+   * @param viewObjectType current view object type
    */
-  static getSelectionServices = ({ selectionMode, toggledElements, pageMetadata, globalServices, viewObjectType, selectedDatasetIpId }) => {
-    let uiServices = []
-    let catalogServices = []
+  static isUsableSelectionService({ applicationModes, entityTypes }, viewObjectType) {
+    return applicationModes.includes(AccessDomain.applicationModes.MANY) &&
+      entityTypes.includes(PluginServicesContainer.getEntityTypeForViewType(viewObjectType))
+  }
+
+  /**
+   * Computes the selection services available
+   * @param properties properties describing current selection state and global services
+   * @return [{PluginService}] services available for current selection
+   */
+  static getSelectionServices = ({ selectionMode, toggledElements, pageMetadata, contextSelectionServices, viewObjectType, selectedDatasetIpId }) => {
+    let selectionServices = []
     if (!PluginServicesContainer.isEmptySelection(selectionMode, toggledElements, pageMetadata)) {
-      // 1 - recover global services
-      if (globalServices) {
-        uiServices = PluginServicesContainer.filterServices(globalServices['ui-services'])
-        catalogServices = PluginServicesContainer.filterServices(globalServices['catalog-services'])
+      // 1 - recover context services
+      if (contextSelectionServices) {
+        // filter service for current context (only selection services, working with current objects type),
+        // then remove 'content' wrapper to have basic services shapes
+        selectionServices = filter(contextSelectionServices, ({ content }) => PluginServicesContainer.isUsableSelectionService(content, viewObjectType))
+          .map(({ content }) => content)
       }
       // 2 - Find every service that match all objects in selection
-      // Note A - that cannot be performed with exclusive selection)
-      // Note B - that is useless when there is a current dataset IP ID (since all entities have the very same
-      //          selection services, that were provided through globalServices)
+      // Notes: That operation cannot be performed when selection is exclusive. It is useless when
+      // there is a dataset IP ID set ('MANY' services would then be in "contextSelectionServices")
       if (!selectedDatasetIpId && selectionMode === TableSelectionModes.includeSelected) {
-        // retrieve first element services (toggled elements cannot be empty here, as selection is not)
-        const [{ content: { services: initialServices } }, ...otherSelectedElements] = toggledElements
-        // retain only common ones
-        const retainedInSelection = otherSelectedElements.reduce(
-          ({ selectionUIServices, selectionCatalogServices }, { content: { services = [] } }) => ({
-            // retain only plugin services that are present in both (note: it is not required to filter entity services
-            // as initial services were filtered and we are computing the intersection set here)
-            selectionUIServices: PluginServicesContainer.retainCommon(selectionUIServices, services['ui-services']),
-            selectionCatalogServices: PluginServicesContainer.retainCommon(selectionCatalogServices, services['catalog-services']),
-          }), {
-            // initial reduce value: first item
-            selectionUIServices: PluginServicesContainer.filterServices(initialServices['ui-services']),
-            selectionCatalogServices: PluginServicesContainer.filterServices(initialServices['catalog-services']),
-          })
-        uiServices = uiServices.concat(retainedInSelection.uiServices)
-        catalogServices = catalogServices.concat(retainedInSelection.catalogServices)
+        // compute first element services (toggled elements cannot be empty here since we are in 'includeSelected' mode)
+        const [{ content: { services: allFirstEntityServices = [] } }, ...otherSelectedElements] = values(toggledElements)
+        const filteredFirstEntityServices = allFirstEntityServices.filter(service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType))
+
+        // compute next selected entities valid services intersection (contains only usable services in context since first element services have been filtered)
+        const commonEntitiesSelectionServices = otherSelectedElements.reduce(
+          (commonServices, { content: { services: entityServices } }) =>
+            // retain only intersection with previous list
+            commonServices.filter(collectedService =>
+              // intersection is valid if a service with same config Id and type can be retrieved in next entity services
+              entityServices && entityServices.some(entityService =>
+                entityService.configId === collectedService.configId && entityService.type === collectedService.type))
+          , filteredFirstEntityServices)
+
+        // store in resulting list
+        selectionServices = selectionServices.concat(commonEntitiesSelectionServices)
       }
     }
-    return { uiServices, catalogServices }
+    return selectionServices
   }
 
   static getSelectedDatasetIpId = (state, { initialDatasetIpId }) => {
@@ -138,13 +136,13 @@ export class PluginServicesContainer extends React.Component {
     toggledElements: TableClient.tableSelectors.getToggledElements(state),
     pageMetadata: searchSelectors.getMetaData(state),
     // fetched service related
-    globalServices: pluginServiceSelectors.getResult(state),
+    contextSelectionServices: pluginServiceSelectors.getResult(state),
     // running service related
     serviceRunModel: runPluginServiceSelectors.getServiceRunModel(state),
   })
 
   static mapDispatchToProps = dispatch => ({
-    dispatchFetchGlobalPluginServices: datasetIpId => dispatch(pluginServiceActions.fetchPluginServices(datasetIpId)),
+    dispatchFetchPluginServices: datasetIpId => dispatch(pluginServiceActions.fetchPluginServices(datasetIpId)),
     dispatchRunService: (service, target) => dispatch(runPluginServiceActions.runService(service, target)),
     dispatchCloseService: () => dispatch(runPluginServiceActions.closeService()),
   })
@@ -168,18 +166,17 @@ export class PluginServicesContainer extends React.Component {
     }),
     // service related
     serviceRunModel: PropTypes.instanceOf(PluginServiceRunModel),
-    globalServices: AccessShapes.ContextPluginServices,
+    contextSelectionServices: AccessShapes.PluginServiceWithContentArray,
 
     // from mapDispatchToProps
-    dispatchFetchGlobalPluginServices: PropTypes.func.isRequired,
+    dispatchFetchPluginServices: PropTypes.func.isRequired,
     dispatchRunService: PropTypes.func.isRequired,
     dispatchCloseService: PropTypes.func.isRequired,
   }
 
   static DEFAULT_STATE = {
     // lists of gathered selection services
-    uiServices: [],
-    catalogServices: [],
+    selectionServices: [],
   }
 
   componentWillMount = () => this.onPropertiesChanged(this.props)
@@ -195,16 +192,18 @@ export class PluginServicesContainer extends React.Component {
     const oldState = this.state
     let newState = oldState ? { ...oldState } : PluginServicesContainer.DEFAULT_STATE
 
-    // A - dataset changed, update global services
-    if (oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId) {
-      newProps.dispatchFetchGlobalPluginServices(newProps.selectedDatasetIpId)
+    // A - dataset changed or component was mounted, update global services
+    if (!oldState || oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId) {
+      newProps.dispatchFetchPluginServices(newProps.selectedDatasetIpId)
     }
 
     // B - global services, view object type or selection changed : update available selection services
-    if (newProps.globalServices !== oldProps.globalServices || oldProps.selectionMode !== newProps.selectionMode ||
+    if (newProps.contextSelectionServices !== oldProps.contextSelectionServices || oldProps.selectionMode !== newProps.selectionMode ||
       oldProps.toggledElements !== newProps.toggledElements || oldProps.pageMetadata !== newProps.pageMetadata ||
       oldProps.viewObjectType !== newProps.viewObjectType) {
-      newState = PluginServicesContainer.getSelectionServices(newProps)
+      newState = {
+        selectionServices: PluginServicesContainer.getSelectionServices(newProps),
+      }
     }
 
     if (!isEqual(oldState, newState)) {
@@ -212,30 +211,20 @@ export class PluginServicesContainer extends React.Component {
     }
   }
 
-  onStartService = (type, service) => {
+  /**
+   * Handler: user started a selection service
+   * @param service started service
+   */
+  onStartSelectionService = (service) => {
     const { dispatchRunService, selectionMode, toggledElements } = this.props
+    // note : only service content is dipatched (see top methods conversion)
     dispatchRunService(
-      new PluginServiceRunModel(service, type, new targets.ManyElementsTarget(toggledElements, selectionMode)))
+      new PluginServiceRunModel(service, new targets.ManyElementsTarget(toggledElements, selectionMode)))
   }
-
-  /**
-   * Handler: user started a catalog selection service
-   * @param service service to run
-   * @return handler, as partially applied onStartService method
-   */
-  onStartSelectionCatalogService = service => this.onStartService(this, PluginServiceRunModel.ServiceTypes.CATALOG_PLUGIN_SERVICE)
-
-  /**
-   * Handler: user started a catalog selection service
-   * @param service service to run
-   * @return handler, as partially applied onStartService method
-   */
-  onStartSelectionUIService = service => this.onStartService(this, PluginServiceRunModel.ServiceTypes.UI_PLUGIN_SERVICE)
-
 
   render() {
     const { dispatchCloseService, serviceRunModel, ...otherProperties } = this.props
-    const { uiServices, catalogServices } = this.state
+    const { selectionServices } = this.state
     return (
       <div >
         <ServiceContainer // running service display
@@ -243,10 +232,8 @@ export class PluginServicesContainer extends React.Component {
           onQuit={dispatchCloseService}
         />
         <SearchResultsComponent // inject all services in search results component, and provide parent display properties
-          selectionUIServices={uiServices}
-          selectionCatalogServices={catalogServices}
-          onStartSelectionCatalogService={this.onStartSelectionCatalogService}
-          onStartSelectionUIService={this.onStartSelectionUIService}
+          selectionServices={selectionServices}
+          onStartSelectionService={this.onStartSelectionService}
           {...otherProperties} // add properties from parent resluts container
         />
       </div >

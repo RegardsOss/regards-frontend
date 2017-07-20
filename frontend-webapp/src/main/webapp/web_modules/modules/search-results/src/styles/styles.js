@@ -44,6 +44,12 @@ const formStyles = theme => ({
       marginTop: 10,
       width: 200,
     },
+    selectionService: {
+      iconStyles: {
+        height: '24px',
+        width: '24px',
+      },
+    },
     formHeader: {
       backgroundColor: theme.palette.primary2Color,
     },

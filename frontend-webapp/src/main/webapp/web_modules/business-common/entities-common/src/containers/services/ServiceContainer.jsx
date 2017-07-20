@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import { pluginTypes } from '@regardsoss/domain/access'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleThemeProvider } from '@regardsoss/modules'
 import { PluginServiceRunModel } from '../../definitions/PluginServiceRunModel'
@@ -34,15 +35,15 @@ class ServiceContainer extends React.Component {
               if (!serviceRunModel) {
                 return null
               }
-              switch (serviceRunModel.type) {
-                case PluginServiceRunModel.ServiceTypes.CATALOG_PLUGIN_SERVICE:
+              switch (serviceRunModel.serviceConfiguration.type) {
+                case pluginTypes.CATALOG:
                   return (
                     <RunCatalogPluginServiceContainer
                       serviceConf={serviceRunModel.serviceConfiguration}
                       target={serviceRunModel.target}
                       onQuit={onQuit}
                     />)
-                case PluginServiceRunModel.ServiceTypes.UI_PLUGIN_SERVICE:
+                case pluginTypes.UI:
                   return (
                     <RunUIPluginServiceContainer
                       service={serviceRunModel.serviceConfiguration}
