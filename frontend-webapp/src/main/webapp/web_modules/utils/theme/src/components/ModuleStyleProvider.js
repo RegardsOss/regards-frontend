@@ -50,7 +50,7 @@ class ModuleStyleProvider extends React.Component {
    */
   static childContextTypes = {
     moduleTheme: PropTypes.object.isRequired,
-  };
+  }
 
   /**
    * Return child context override with computed moduleTheme

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import flow from 'lodash/flow'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -24,9 +25,9 @@ import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { ModuleStyleProvider } from '@regardsoss/theme'
+import { withModuleStyle } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
-import { I18nProvider } from '@regardsoss/i18n'
+import { withI18n } from '@regardsoss/i18n'
 import TablePane from './TablePane'
 import TableSelectionModes from './model/TableSelectionModes'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
@@ -340,25 +341,21 @@ class TableContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messages={messages}>
-        <ModuleStyleProvider module={moduleStyles}>
-          <TablePane
-            tableData={tableData}
-            columns={allColumns}
-            entitiesFetching={entitiesFetching}
-            maxRowCounts={this.maxRowCounts}
-            minRowCounts={this.props.minRowCounts}
-            resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
-            allSelected={allSelected}
-            toggledElements={toggledElements}
-            selectionMode={selectionMode}
-            onToggleRowSelection={this.onToggleRowSelection}
-            onToggleSelectAll={this.onToggleSelectAll}
-            emptyComponent={emptyComponent}
-            {...tablePaneConfiguration}
-          />
-        </ModuleStyleProvider>
-      </I18nProvider>
+      <TablePane
+        tableData={tableData}
+        columns={allColumns}
+        entitiesFetching={entitiesFetching}
+        maxRowCounts={this.maxRowCounts}
+        minRowCounts={this.props.minRowCounts}
+        resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
+        allSelected={allSelected}
+        toggledElements={toggledElements}
+        selectionMode={selectionMode}
+        onToggleRowSelection={this.onToggleRowSelection}
+        onToggleSelectAll={this.onToggleSelectAll}
+        emptyComponent={emptyComponent}
+        {...tablePaneConfiguration}
+      />
     )
   }
 }
@@ -383,4 +380,10 @@ const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({
   dispatchUnselectAll: () => dispatch(tableActions.unselectAll()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableContainer)
+export default flow(
+  withModuleStyle({ styles }),
+  withI18n(messages),
+  connect(mapStateToProps, mapDispatchToProps),
+)(TableContainer)
+
+// export default connect(mapStateToProps, mapDispatchToProps)(TableContainer)
