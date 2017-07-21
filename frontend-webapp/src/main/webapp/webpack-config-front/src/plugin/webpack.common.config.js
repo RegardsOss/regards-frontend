@@ -20,7 +20,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-module.exports = function (projectContextPath) {
+module.exports = function (projectContextPath, mode) {
   return {
     // Hide stats information from children during webpack compilation
     stats: { children: false },
@@ -34,7 +34,7 @@ module.exports = function (projectContextPath) {
       dns: 'empty',
     },
     output: {
-      path: projectContextPath + '/target/build',
+      path: projectContextPath + '/target/' + mode,
       filename: 'plugin.js',
     },
     resolve: {
@@ -86,30 +86,19 @@ module.exports = function (projectContextPath) {
       ],
     },
     plugins: [
-      new webpack.DllReferencePlugin({
-        // The path to the manifest file which maps between
-        // modules included in a bundle and the internal IDs
-        // within that bundle
-        manifest: require(`${projectContextPath}/../../../dist/prod/core-manifest.json`),
-        context: projectContextPath,
-      }),
-      new webpack.DllReferencePlugin({
-        // The path to the manifest file which maps between
-        // modules included in a bundle and the internal IDs
-        // within that bundle
-        manifest: require(`${projectContextPath}/../../../dist/prod/coreoss-manifest.json`),
-        context: projectContextPath,
-      }),
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('development')
-        }
-      }),
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({
         React: 'react',
         PropTypes: 'prop-types',
       }),
+      new ExtractTextPlugin({
+        filename: 'css/styles.css',
+        disable: false,
+        allChunks: true
+      }),
+      new webpack.optimize.LimitChunkCountPlugin({
+        maxChunks: 1
+      })
     ],
   }
 }
