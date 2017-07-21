@@ -12,3 +12,4 @@ test:
    - npm install
    - npm run build:dll
    - npm test
+   - npm run build:plugins
