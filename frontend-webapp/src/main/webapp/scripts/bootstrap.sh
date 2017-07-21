@@ -21,11 +21,13 @@
 ## Webpack compiles all these packages without that package depend on another package
 # and uses the main webapp/node_modules to provides dependencies to these modules (fallback of webpack)
 
+set -e
+
 # Lint
 npm link eslint-config-es6-rules
 
 # Webpack REGARDS conf
-npm link webpack-config-front
+npm install webpack-config-front
 
 # Data
 npm link web_modules/data/api

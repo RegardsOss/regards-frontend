@@ -72,6 +72,14 @@ const conf = webpackConfigurator
       }),
     ],
   })
+  // Save production DLLs in the @regardsoss/webpack-config-front plugin
+  .runShell({
+    onBuildEnd: [
+      'echo "Updating webpack-config-front dist folder for plugins production build"',
+      'rm -rf ./webpack-config-front/dist || true',
+      'cp -Rp ./dist/prod ./webpack-config-front/dist'
+    ]
+  })
   .get()
 
 module.exports = conf
