@@ -104,7 +104,6 @@ npm link web_modules/modules/search-graph
 npm link web_modules/modules/search-results
 npm link web_modules/modules/archival-storage-aip-status
 npm link web_modules/modules/archival-storage-plugins-monitoring
-npm link web_modules/modules/generator-regards-ui-module
 
 # Applications
 npm link web_modules/business-modules/admin

@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 
+set -e
+
 home=`pwd`
 cd plugins/criterion
 plugins=`find . -maxdepth 1 -type d `

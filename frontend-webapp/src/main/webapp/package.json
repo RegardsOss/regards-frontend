@@ -145,9 +145,8 @@
   },
   "devDependencies": {
     "@regardsoss/eslint-config-es6-rules": "0.0.1",
-    "@regardsoss/generator-regards-ui-module": "0.0.1",
     "@regardsoss/tests-helpers": "0.0.1",
-    "@regardsoss/webpack-config-front": "0.0.1",
+    "@regardsoss/webpack-config-front": "file:webpack-config-front",
     "@storybook/addon-actions": "^3.1.5",
     "@storybook/addon-knobs": "^3.2.0-alpha.0",
     "@storybook/react": "^3.1.3",
