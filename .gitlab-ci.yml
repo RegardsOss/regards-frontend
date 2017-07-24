@@ -11,5 +11,5 @@ test:
    - npm run bootstrap
    - npm install
    - npm run build:dll
-   - npm test
+   - ls -al webpack-config-front
    - npm run build:plugins
