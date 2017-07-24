@@ -7,6 +7,7 @@ test:
   stage: test
   script:
    - echo $0
+   - echo $? && echo "This is a second command"
    - cd frontend-webapp/src/main/webapp/
    - npm config set proxy "http://proxy2.si.c-s.fr:3128/"
    - npm run bootstrap
