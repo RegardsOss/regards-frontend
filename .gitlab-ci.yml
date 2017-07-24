@@ -9,8 +9,8 @@ test:
    - cd frontend-webapp/src/main/webapp/
    - npm config set proxy "http://proxy2.si.c-s.fr:3128/"
    - npm run sampletest
-   - npm run bootstrap
-   - npm install
+   - npm run bootstrap --unsafe-perm
+   - npm install --unsafe-perm
    - echo $?
    - ls -al webpack-config-front
    - npm run build:plugins
