@@ -6,6 +6,7 @@ stages:
 test:
   stage: test
   script:
+   - echo "unsafe-perm=true" > ~/.npmrc
    - cd frontend-webapp/src/main/webapp/
    - npm config set proxy "http://proxy2.si.c-s.fr:3128/"
    - npm run sampletest
