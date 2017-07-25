@@ -5,7 +5,6 @@
   "private": true,
   "scripts": {
     "bootstrap": "./scripts/bootstrap.sh && npm prune",
-    "sampletest": "echo \"A\" && echo \"B\"",
     "build:dll": "webpack --progress --config webpack.dev.dll.config.js --display-error-details",
     "build:production-dll": "npm run build:production-core-dll && npm run build:production-coreoss-dll",
     "build:production-core-dll": "webpack --progress --config webpack.prod.core.dll.config.js --display-error-details",
