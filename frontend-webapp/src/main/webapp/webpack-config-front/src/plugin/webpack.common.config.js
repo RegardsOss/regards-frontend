@@ -42,7 +42,7 @@ module.exports = function (projectContextPath, mode) {
       // exemple require('main') look for main, main.js or main.jsx with our configuration
       extensions: ['.js', '.jsx'],
       modules: [
-        // Root directories from wich requires are made
+        // Root directories from which requires are made
         path.join(projectContextPath),
         'node_modules'
       ],
