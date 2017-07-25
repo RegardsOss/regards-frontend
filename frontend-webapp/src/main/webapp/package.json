@@ -25,7 +25,7 @@
     "start:copy-plugins": "./scripts/copyPlugins.sh",
     "poststart": "npm run start:copy-plugins",
     "pretest": "npm run lint:fix || true",
-    "postinstall": "npm run build:dll && echo \"Running second command\" && npm run build:production-dll",
+    "postinstall": "npm run build:dll && npm run build:production-dll",
     "test": "npm run test:mocha --silent",
     "test:coverage": "node --max_old_space_size=8192 ./node_modules/.bin/nyc node --max_old_space_size=8192 ./node_modules/.bin/mocha-webpack --timeout 30000 --webpack-config webpack.coverage.config.js \"@(tests|web_modules)/**/*.test.js{,x}\"",
     "test:mocha": "mocha-webpack --timeout 20000 --webpack-config webpack.test.config.js \"@(tests|web_modules)/**/*.test.js{,x}\" --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
