@@ -10,7 +10,7 @@ test:
    - cd frontend-webapp/src/main/webapp/
    - npm config set strict-ssl false
    - npm config set ca=null
-   - npm config set proxy "https://172.26.46.158:8443/repository/NPM-proxy/"
+   - npm config set registry "https://172.26.46.158:8443/repository/NPM-proxy/"
    - npm run bootstrap
    - npm install
    - npm run build:plugins
