@@ -39,7 +39,7 @@ class ServiceContainer extends React.Component {
                 case pluginTypes.CATALOG:
                   return (
                     <RunCatalogPluginServiceContainer
-                      serviceConf={serviceRunModel.serviceConfiguration}
+                      service={serviceRunModel.serviceConfiguration}
                       target={serviceRunModel.target}
                       onQuit={onQuit}
                     />)

@@ -1,10 +1,16 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import CircularProgress from 'material-ui/CircularProgress'
+
 import { CommonShapes } from '@regardsoss/shape'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import ShowableAtRender from '../cards/ShowableAtRender'
 import PositionedDialog from './PositionedDialog'
+import DialogLoadingComponent from './DialogLoadingComponent'
+
+import styles from './styles/styles'
+
+const MODULE_STYLES = { styles }
 
 /**
 * Shows loadable children in a dialog. Must be driven using loaded true / false
@@ -25,21 +31,20 @@ class LoadableContentDialogContainer extends React.Component {
   render() {
     const { loaded, loadingMessage, dialogHeightPercent, dialogWidthPercent, children, ...dialogProperties } = this.props
     return (
-      <PositionedDialog
-        dialogHeightPercent={dialogHeightPercent}
-        dialogWidthPercent={dialogWidthPercent}
-        {...dialogProperties}
-      >
-        <ShowableAtRender show={!loaded}>
-          <div style={{ position: 'absolute', width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }} >
-            <CircularProgress size={256} />
-            <p style={{ marginTop: '2em' }}>{loadingMessage}</p>
+      <ModuleThemeProvider module={MODULE_STYLES}>
+        <PositionedDialog
+          dialogHeightPercent={dialogHeightPercent}
+          dialogWidthPercent={dialogWidthPercent}
+          {...dialogProperties}
+        >
+          <ShowableAtRender show={!loaded}>
+            <DialogLoadingComponent loadingMessage={loadingMessage} />
+          </ShowableAtRender>
+          <div style={loaded ? { height: '100%', maxHeight: '100%' } : { display: 'none' }}>
+            {children}
           </div>
-        </ShowableAtRender>
-        <div style={loaded ? { height: '100%', maxHeight: '100%' } : { display: 'none' }}>
-          {children}
-        </div>
-      </PositionedDialog >
+        </PositionedDialog >
+      </ModuleThemeProvider>
     )
   }
 }

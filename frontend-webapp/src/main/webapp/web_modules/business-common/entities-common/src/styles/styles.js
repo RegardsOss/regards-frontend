@@ -92,4 +92,12 @@ export default theme => ({
       },
     },
   },
+  pluginServiceDialog: {
+    widthPercent: 70,
+    heightPercent: 68,
+    contentStyles: {
+      width: '100%',
+      height: '100%',
+    },
+  },
 })

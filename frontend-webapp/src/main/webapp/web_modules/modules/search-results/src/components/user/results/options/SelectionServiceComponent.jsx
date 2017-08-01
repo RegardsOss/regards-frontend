@@ -7,8 +7,9 @@ import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 
 /**
-* Selection service button
-*/
+ * Selection service button
+ * @author Raphaël Mechali
+ */
 class SelectionServiceComponent extends React.Component {
 
   static propTypes = {

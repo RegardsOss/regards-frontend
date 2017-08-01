@@ -12,19 +12,23 @@ class IFrameURLContentDisplayer extends React.Component {
   static propTypes = {
     contentURL: CommonShapes.URL.isRequired,
     onContentLoaded: PropTypes.func, // callback, called when IFrame content was loaded
+    onContentError: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.object,
   }
 
+  static DEFAULT_STYLES = { height: '100%', width: '100%', position: 'absolute' }
+
   render() {
-    const { contentURL, onContentLoaded } = this.props
-    const styles = this.props.style ? this.props.style : { height: '100%', width: '100%', position: 'absolute' }
+    const { contentURL, onContentLoaded, onContentError } = this.props
+    const styles = this.props.style ? this.props.style : IFrameURLContentDisplayer.DEFAULT_STYLES
     return (
       <iframe
         title="content-displayer"
         style={styles}
         src={contentURL}
         onLoad={onContentLoaded}
+        onError={onContentError}
       />
     )
   }

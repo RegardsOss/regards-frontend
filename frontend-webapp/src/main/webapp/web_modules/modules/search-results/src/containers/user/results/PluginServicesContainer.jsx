@@ -4,11 +4,13 @@
 import filter from 'lodash/filter'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
+import map from 'lodash/map'
+import omit from 'lodash/omit'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { AccessDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
-import { ServiceContainer, PluginServiceRunModel, targets } from '@regardsoss/entities-common'
+import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { TableSelectionModes } from '@regardsoss/components'
 import { pluginServiceActions, pluginServiceSelectors } from '../../../clients/PluginServiceClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
@@ -54,7 +56,6 @@ export class PluginServicesContainer extends React.Component {
         return DamDomain.ENTITY_TYPES_ENUM.DATASET
       case CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS:
         return DamDomain.ENTITY_TYPES_ENUM.DATA
-      // TODO uncomment when available
       // case CatalogDomain.SearchResultsTargetsEnum.DOCUMENT_RESULTS:
       //   return DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
       default:
@@ -143,7 +144,7 @@ export class PluginServicesContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
     dispatchFetchPluginServices: datasetIpId => dispatch(pluginServiceActions.fetchPluginServices(datasetIpId)),
-    dispatchRunService: (service, target) => dispatch(runPluginServiceActions.runService(service, target)),
+    dispatchRunService: (service, serviceTarget) => dispatch(runPluginServiceActions.runService(service, serviceTarget)),
     dispatchCloseService: () => dispatch(runPluginServiceActions.closeService()),
   })
 
@@ -152,6 +153,7 @@ export class PluginServicesContainer extends React.Component {
     viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired, // currently displayed entities type
     initialDatasetIpId: PropTypes.string, // initial dataset ip id or none
     levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
+    openSearchQuery: PropTypes.string.isRequired,
 
     // from mapStateToProps
     // context related
@@ -172,6 +174,8 @@ export class PluginServicesContainer extends React.Component {
     dispatchFetchPluginServices: PropTypes.func.isRequired,
     dispatchRunService: PropTypes.func.isRequired,
     dispatchCloseService: PropTypes.func.isRequired,
+
+    // sub component properties
   }
 
   static DEFAULT_STATE = {
@@ -216,25 +220,29 @@ export class PluginServicesContainer extends React.Component {
    * @param service started service
    */
   onStartSelectionService = (service) => {
-    const { dispatchRunService, selectionMode, toggledElements } = this.props
+    const { dispatchRunService, selectionMode, toggledElements, openSearchQuery, viewObjectType } = this.props
+    const serviceTarget = selectionMode === TableSelectionModes.includeSelected ?
+      target.buildManyElementsTarget(map(toggledElements, elt => elt.content.ipId)) : // pack ip ID array
+      target.buildQueryTarget(openSearchQuery, PluginServicesContainer.getEntityTypeForViewType(viewObjectType))// pack query
     // note : only service content is dipatched (see top methods conversion)
-    dispatchRunService(
-      new PluginServiceRunModel(service, new targets.ManyElementsTarget(toggledElements, selectionMode)))
+    dispatchRunService(new PluginServiceRunModel(service, service.type, serviceTarget))
   }
 
   render() {
     const { dispatchCloseService, serviceRunModel, ...otherProperties } = this.props
     const { selectionServices } = this.state
+    // remove from sub component any property related to this container (only pass specific prop types through)
+    const subComponentProps = omit(otherProperties, keys(PluginServicesContainer.PropTypes))
     return (
       <div >
-        <ServiceContainer // running service display
-          serviceRunModel={serviceRunModel}
+        <ServiceContainer
+          serviceRunModel={serviceRunModel} // running service display
           onQuit={dispatchCloseService}
         />
         <SearchResultsComponent // inject all services in search results component, and provide parent display properties
           selectionServices={selectionServices}
           onStartSelectionService={this.onStartSelectionService}
-          {...otherProperties} // add properties from parent resluts container
+          {...subComponentProps} // add properties from parent results container
         />
       </div >
     )

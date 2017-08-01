@@ -85,12 +85,21 @@ function start(gatewayURL) {
   const localServiceHandlerClosure = (timeBefore, serviceHandler, pathParameters = {}, queryParameters = {}, bodyParameters = {}) =>
     function localServiceHandler(request, response) {
       // run service handler to get code and text
-      const { content = '', code = 200, contentType = JSON_CONTENT_TYPE, binary = false } = serviceHandler(request, response, pathParameters, queryParameters, bodyParameters)
+      const { content = '', code = 200, contentType = JSON_CONTENT_TYPE, binary = false, headers: responseHeaders } =
+        serviceHandler(request, response, pathParameters, queryParameters, bodyParameters)
       // publish code and headers
-      const headers = Object.assign({}, buildBasicHeaders(request.headers.origin || request.headers.Origin), { 'Content-Type': contentType })
+      const headers = Object.assign({},
+        buildBasicHeaders(request.headers.origin || request.headers.Origin),
+        { 'Content-Type': contentType }, responseHeaders)
       response.writeHead(code, headers)
       // send content with encoding
-      response.end(typeof content === 'object' ? JSON.stringify(content) : content, binary ? 'binary' : 'utf8')
+      if (!binary) {
+        // end answer with text (or stringified object)
+        response.end(typeof content === 'object' ? JSON.stringify(content) : content)
+      } else {
+        // send content as binary
+        response.end(content, 'binary')
+      }
       // log access info
       logMessage(`Served ${request.method} ${request.url} ${code} in ${new Date().getTime() - timeBefore}ms`, false, 'Proxy server')
     }

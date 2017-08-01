@@ -26,6 +26,11 @@ const messages = {
   'invalid.password': 'Le mot de passe doit correspondre au format attendu (voir ci-dessus)',
   'invalid.regex.pattern': 'La valeur doit correspondre au pattern {regexp} ',
   'invalid.numeric.range': 'Votre valeur doit être comprise entre {lowerBound} et {upperBound}',
+  'invalid.number.lower.than.min': 'La valeur est trop petite',
+  'invalid.number.greater.than.max': 'La valeur est trop grande',
+  'invalid.integer.number': 'La valeur doit être un nombre entier',
+  'invalid.floating.number': 'La valeur doit être un nombre flottant',
+  'invalid.character': 'La valeur doit être un unique caractère',
   'different.password': 'Les mots de passe doivent être identiques',
   'type.string': 'Le type devrait être String',
 

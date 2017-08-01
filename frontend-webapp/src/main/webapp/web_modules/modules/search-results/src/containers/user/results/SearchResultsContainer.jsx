@@ -99,7 +99,7 @@ export class SearchResultsContainer extends React.Component {
     filters: [],
     searchTag: null,
     // runtime qearch query, generated from all query elements known
-    searchQuery: null,
+    fullSearchQuery: null,
     // request actioner depends on entities to search
     searchActions: null,
   }
@@ -160,7 +160,7 @@ export class SearchResultsContainer extends React.Component {
    * Builds opensearch query from properties and state as parameter
    * @param properties : properties to consider when building query
    * @param state : state to consider when building query
-   * @return { searchQuery, searchActions }: new searc state
+   * @return { openSearchQuery, fullSearchQuery, searchActions }: new search state
    */
   buildSearchState = ({ viewObjectType, searchQuery, facettesQuery, levels },
     { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
@@ -198,17 +198,18 @@ export class SearchResultsContainer extends React.Component {
       }
       parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.levelValue : ''))
     }
-    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters)
+    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters).toQueryString()
 
-    let urlQuery = QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString()
+    let fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString()
     // Add threshold if request is datasets from dataobjects
     if (searchActions === searchDatasetsFromDataObjectsActions) {
-      urlQuery = `${urlQuery}&threshold=${STATIC_CONF.CATALOG_SEARCH_THRESHOLD}`
+      fullSearchQuery = `${fullSearchQuery}&threshold=${STATIC_CONF.CATALOG_SEARCH_THRESHOLD}`
     }
 
     return {
       searchActions,
-      searchQuery: urlQuery,
+      openSearchQuery,
+      fullSearchQuery,
     }
   }
 
@@ -259,7 +260,7 @@ export class SearchResultsContainer extends React.Component {
       appName, project, enableFacettes, attributesConf, viewObjectType, facettesQuery, attributesRegroupementsConf, levels,
       attributeModels, displayDatasets, dispatchDatasetSelected, dispatchTagSelected, displayMode, datasetAttributesConf,
     } = this.props
-    const { showingFacettes, filters, searchTag, searchQuery, searchActions, sortingOn } = this.state
+    const { showingFacettes, filters, searchTag, openSearchQuery, fullSearchQuery, searchActions, sortingOn } = this.state
 
     // compute view mode
     const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
@@ -269,14 +270,13 @@ export class SearchResultsContainer extends React.Component {
         // plugin service exlusive properties
         viewObjectType={viewObjectType}
         levels={levels}
-
-        // common properties
-        searchQuery={searchQuery}
+        openSearchQuery={openSearchQuery}
 
         // search results display properties
         appName={appName}
         project={project}
         allowingFacettes={enableFacettes && !!facettesQuery}
+        searchQuery={fullSearchQuery}
         viewMode={displayMode || DisplayModeEnum.LIST}
         showingFacettes={showingFacettes}
         displayDatasets={displayDatasets}

@@ -1,10 +1,8 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-
 import { AccessShapes } from '@regardsoss/shape'
-import OneElementTarget from '../../../definitions/targets/OneElementTarget'
-import ManyElementsTarget from '../../../definitions/targets/ManyElementsTarget'
+import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
 import RunServiceDialogComponent from '../../../components/services/RunServiceDialogComponent'
 
 /**
@@ -20,9 +18,9 @@ class RunUIPluginServiceContainer extends React.Component {
 
   static propTypes = {
     // service to run
-    serviceConf: AccessShapes.UIPluginConf.isRequired,
+    service: AccessShapes.PluginService.isRequired,
     // service target (dataobject / dataset / selection) or null
-    target: PropTypes.oneOfType([PropTypes.instanceOf(OneElementTarget), PropTypes.instanceOf(ManyElementsTarget)]),
+    target: ServiceTargetShape.isRequired,
     // on done / on quit service
     onQuit: PropTypes.func.isRequired,
   }
@@ -49,11 +47,11 @@ class RunUIPluginServiceContainer extends React.Component {
   }
 
   render() {
-    const { serviceConf, onQuit } = this.props
+    const { service, onQuit } = this.props
     // TODO
     // const { step, dynamicConfiguration } = this.state
     return (
-      <RunServiceDialogComponent serviceName={serviceConf.label} onClose={onQuit}>
+      <RunServiceDialogComponent serviceName={service.label} onClose={onQuit}>
         <div>UI aint business</div>
       </RunServiceDialogComponent>
     )

@@ -47,7 +47,7 @@ const messages = {
   'search.graph.title': 'Graph browsing',
   'search.graph.subtitle': 'Data browsing by collections and datasets objects display',
   'search.graph.show.details': 'Details',
-  'search.graph.entity.detail.tooltip': 'Entity details',
+  'search.graph.entity.detail.tooltip': 'Details',
   'search.graph.level.fetch.model.failed': 'Failed retrieving collections and datasets',
   'search.graph.level.no.model': 'Empty collection',
   'search.graph.dataset.attribute.no.value': '-',

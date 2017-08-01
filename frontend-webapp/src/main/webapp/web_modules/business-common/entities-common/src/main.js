@@ -24,9 +24,7 @@ import EntityDescriptionContainer from './containers/description/EntityDescripti
 
 import ServiceContainer from './containers/services/ServiceContainer'
 import { PluginServiceRunModel } from './definitions/PluginServiceRunModel'
-import { OneElementTarget } from './definitions/targets/OneElementTarget'
-import { ManyElementsTarget } from './definitions/targets/ManyElementsTarget'
-
+import ServiceTargetDefinitions from './definitions/ServiceTarget'
 
 export default {
   DownloadDescriptionClient,
@@ -39,8 +37,5 @@ export default {
   // Services
   ServiceContainer,
   PluginServiceRunModel,
-  targets: {
-    OneElementTarget,
-    ManyElementsTarget,
-  },
+  target: ServiceTargetDefinitions,
 }

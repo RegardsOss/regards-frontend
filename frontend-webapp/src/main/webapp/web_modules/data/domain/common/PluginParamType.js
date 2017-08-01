@@ -16,7 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export default [
-  'PRIMITIVE',
-  'PLUGIN',
-]
+import values from 'lodash/values'
+
+/**
+ * Possible parameter types
+ */
+const PluginParameterTypes = {
+  PRIMITIVE: 'PRIMITIVE',
+  PLUGIN: 'PLUGIN',
+}
+
+/**
+ * Possible primitive types
+ */
+const JavaPrimitiveTypes = {
+  BOOLEAN: 'java.lang.Boolean',
+  BYTE: 'java.lang.Byte',
+  CHARACTER: 'java.lang.Character',
+  DOUBLE: 'java.lang.Double',
+  FLOAT: 'java.lang.Float',
+  INTEGER: 'java.lang.Integer',
+  LONG: 'java.lang.Long',
+  SHORT: 'java.lang.Short',
+  STRING: 'java.lang.String',
+}
+
+export default {
+  PluginParameterTypes,
+  JavaPrimitiveTypes,
+  PluginParamType: values(PluginParameterTypes),
+}

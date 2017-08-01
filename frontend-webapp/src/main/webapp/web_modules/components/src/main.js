@@ -40,6 +40,7 @@ import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
 
+import FileContentDisplayer from './content/FileContentDisplayer'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
@@ -104,6 +105,7 @@ export {
   ErrorDecoratorComponent,
   PageNotFoundComponent,
   IFrameURLContentDisplayer,
+  FileContentDisplayer,
   TableContainer,
   TablePaneHeader,
   TableSelectionModes,

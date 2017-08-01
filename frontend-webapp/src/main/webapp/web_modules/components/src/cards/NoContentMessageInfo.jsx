@@ -17,6 +17,8 @@ class NoContentMessageInfo extends React.Component {
     message: PropTypes.node,
     Icon: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    rootStyles: PropTypes.object,
   }
 
   static defaultProps = {
@@ -28,9 +30,9 @@ class NoContentMessageInfo extends React.Component {
   }
 
   render() {
-    const { title, message, noContent, Icon, children } = this.props
+    const { title, message, noContent, Icon, children, rootStyles } = this.props
     return (
-      <div>
+      <div style={rootStyles}>
         <ShowableAtRender show={noContent}>
           <NoContentComponent title={title} message={message} Icon={Icon} />
         </ShowableAtRender>

@@ -16,7 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Locales } from '@regardsoss/form-utils'
+
+/**
+ * Module message for EN local
+ * @author Raphaël Mechali
+ */
 const messages = {
+  // description
   'description.breadcrumb.root': 'Description: {entityLabel}',
   'entities.common.properties.tabs': 'Properties',
   'entities.common.description.tabs': 'Description',
@@ -35,6 +42,19 @@ const messages = {
   'entities.common.description.no.value.title': 'No description',
   'entities.common.description.no.value.message': 'This entity has no description',
 
+  // services
+  'entities.common.services.error.title': 'Service error',
+  'entities.common.services.close.service': 'Close',
+  'entities.common.services.loading.plugin.information': 'Loading service',
+  'entities.common.services.loading.plugin.failed': 'Failed loading service',
+  'entities.common.services.plugin.parameters.error': 'Service configuration contains errors',
+  'entities.common.services.loading.results': 'Service processing',
+  'entities.common.services.submit.parameters': 'Next',
+  'entities.common.services.change.parameters': 'Previous',
+  'entities.common.services.parameter.required': '{parameterName} (*)',
+  'entities.common.services.plugin.run.failed': 'Service processing failed',
+
+  ...Locales.en,
 }
 
 export default messages

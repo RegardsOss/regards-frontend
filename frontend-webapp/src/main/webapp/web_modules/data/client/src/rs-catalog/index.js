@@ -29,6 +29,8 @@ import getSearchEntitiesReducer from './search/SearchEntitiesReducer'
 import getSearchEntitiesSelectors from './search/SearchEntitiesSelectors'
 import SearchEntityActions from './search/SearchEntityActions'
 
+import CatalogPluginServiceResultActions from './services/CatalogPluginServiceResultActions'
+
 export default {
   LinkPluginDatasetActions,
   getLinkPluginDatasetReducer,
@@ -42,5 +44,5 @@ export default {
   getSearchEntitiesSelectors,
 
   SearchEntityActions,
-
+  CatalogPluginServiceResultActions,
 }
