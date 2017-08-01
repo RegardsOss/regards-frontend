@@ -12,4 +12,5 @@ test:
    - npm config set registry "https://172.26.46.158:8443/repository/NPM-proxy/"
    - npm run bootstrap
    - npm install
+   - npm test
    - npm run build:plugins
