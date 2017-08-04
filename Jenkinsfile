@@ -26,7 +26,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd test && docker-compose -p ${OLDPWD##*/} up rs_build_verify'
+                sh 'cd test && docker-compose -p ${OLDPWD##*/} up --exit-code-from rs_build_verify rs_build_verify'
             }
         }
         stage('Clean') {
