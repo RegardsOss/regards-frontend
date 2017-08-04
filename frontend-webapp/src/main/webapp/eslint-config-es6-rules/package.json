@@ -8,8 +8,9 @@
   "peerdependencies": {
     "eslint": "~3.19.0",
     "eslint-loader": "~1.9.0",
+    "eslint-config-airbnb": "~15.1.0",
     "eslint-plugin-import": "~2.7.0",
-    "eslint-plugin-jsx-a11y": "~5.0.3",
+    "eslint-plugin-jsx-a11y": "~5.1.1",
     "eslint-plugin-lodash": "^2.4.4",
     "eslint-plugin-mocha": "^4.8.0",
     "eslint-plugin-promise": "^3.5.0",

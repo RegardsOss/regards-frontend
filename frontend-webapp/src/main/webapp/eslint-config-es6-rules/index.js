@@ -26,6 +26,8 @@ var allRules = {
   "global-require": 0,
   "max-len": 0,
   "no-console": 0,
+  // Do not check comments otherwise every files needs (License more exactly) would be linted
+  "spaced-comment": 0,
   // ignore unused variable on functions arguments
   "no-unused-vars": [ 2, { "args": "none" } ],
   "no-confusing-arrow": 0,
