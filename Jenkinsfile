@@ -17,16 +17,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Deploy & Analyze') {
-            when {
-                anyOf {
-                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'
-                }
-            }
-            steps {
-                sh 'cd test && docker-compose -p ${OLDPWD##*/} up rs_build_deploy'
-            }
-        }
         stage('Verify') {
             when {
                 not {
