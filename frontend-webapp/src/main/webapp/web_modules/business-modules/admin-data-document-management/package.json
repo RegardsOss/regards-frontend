@@ -1,8 +1,8 @@
 {
-  "name": "@regardsoss/adapters",
+  "name": "@regardsoss/admin-data-document-management",
   "version": "0.0.1",
   "private": true,
-  "description": "Provides components adapters from library to regards",
+  "description": "",
   "main": "src/main.js",
   "author": "CS-SI",
   "license": "GPL-3.0"

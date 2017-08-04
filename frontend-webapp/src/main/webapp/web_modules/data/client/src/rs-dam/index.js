@@ -82,6 +82,13 @@ import DatasetActions from './dataset/DatasetActions'
 import DatasetReducer from './dataset/DatasetReducer'
 import DatasetSelectors from './dataset/DatasetSelectors'
 
+import DocumentActions from './document/DocumentActions'
+import getDocumentReducer from './document/DocumentReducer'
+import getDocumentSelectors from './document/DocumentSelectors'
+
+import DocumentLinkActions from './documentLink/DocumentLinkActions'
+import getDocumentLinkReducer from './documentLink/DocumentLinkReducer'
+
 import DatasetDataAttributesActions from './dataset/DatasetDataAttributesActions'
 import DatasetDataAttributesReducer from './dataset/DatasetDataAttributesReducer'
 import DatasetDataAttributesSelectors from './dataset/DatasetDataAttributesSelectors'
@@ -158,6 +165,13 @@ export default {
   DatasetActions,
   DatasetReducer,
   DatasetSelectors,
+
+  DocumentActions,
+  getDocumentReducer,
+  getDocumentSelectors,
+
+  DocumentLinkActions,
+  getDocumentLinkReducer,
 
 
   DatasetValidSubsettingTestActions,

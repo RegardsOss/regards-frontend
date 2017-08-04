@@ -38,6 +38,9 @@ const messages = {
   'data.board.dataset.title': 'Jeux de données',
   'data.board.dataset.description': 'Les jeux de données contiennent les données',
 
+  'data.board.document.title': 'Documents',
+  'data.board.document.description': 'Les documents contiennent des fichiers',
+
   'data.board.connection.title': 'Connexions externes',
   'data.board.connection.description': 'Les connexions aux bases de données externes à REGARDS',
 

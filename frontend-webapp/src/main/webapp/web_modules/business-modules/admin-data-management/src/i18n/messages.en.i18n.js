@@ -38,6 +38,9 @@ const messages = {
   'data.board.dataset.title': 'Datasets',
   'data.board.dataset.description': 'Datasets contain data',
 
+  'data.board.document.title': 'Documents',
+  'data.board.document.description': 'Documents contain files',
+
   'data.board.connection.title': 'External connections',
   'data.board.connection.description': 'The connections to external databases',
 
