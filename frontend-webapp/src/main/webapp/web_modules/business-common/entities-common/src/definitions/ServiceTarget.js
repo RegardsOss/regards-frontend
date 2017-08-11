@@ -17,20 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { RuntimeTargetTypes } from '@regardsoss/domain/access'
+
 /**
- * Service target definitions for using modules
+ * Service target definitions for using modules. Note: that definition matches the RuntimeTarget shape for UI plugin services
+ * (less conversion efforts later on ;-) but isn't exactly the same
  * @author Raphaël Mechali
  */
-
-/** Target types */
-const TargetTypes = {
-  /** One single target element type */
-  ONE: 'ONE',
-  /** Many target elements type (for MANY application mode) */
-  MANY: 'MANY',
-  /** Query target type (for MANY application mode) */
-  QUERY: 'QUERY',
-}
 
 /**
  * Builds a "one element" target
@@ -39,8 +32,9 @@ const TargetTypes = {
  */
 function buildOneElementTarget(ipId) {
   return {
-    type: TargetTypes.ONE,
+    type: RuntimeTargetTypes.ONE,
     entity: ipId,
+    entitiesCount: 1,
   }
 }
 
@@ -51,8 +45,9 @@ function buildOneElementTarget(ipId) {
  */
 function buildManyElementsTarget(ipIdArray) {
   return {
-    type: TargetTypes.MANY,
+    type: RuntimeTargetTypes.MANY,
     entities: ipIdArray,
+    entitiesCount: ipIdArray.length,
   }
 }
 
@@ -60,18 +55,19 @@ function buildManyElementsTarget(ipIdArray) {
  * Builds "query" target
  * @param {*} q open search query
  * @param entityType type of entities to retrieve with query
+ * @param entitiesCount entities count
  * @return query target
  */
-function buildQueryTarget(q, entityType) {
+function buildQueryTarget(q, entityType, entitiesCount) {
   return {
-    type: TargetTypes.QUERY,
+    type: RuntimeTargetTypes.QUERY,
     q,
     entityType,
+    entitiesCount,
   }
 }
 
 export default {
-  TargetTypes,
   buildOneElementTarget,
   buildManyElementsTarget,
   buildQueryTarget,

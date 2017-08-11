@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ENTITY_TYPES } from '@regardsoss/domain/dam'
-import { TargetTypes } from '../definitions/ServiceTarget'
+import { RuntimeTargetTypes } from '@regardsoss/domain/access'
 
 /**
  * Service target shape definition
@@ -25,19 +25,22 @@ import { TargetTypes } from '../definitions/ServiceTarget'
  */
 
 const ONE_ELEMENT_TARGET = PropTypes.shape({
-  type: PropTypes.oneOf([TargetTypes.ONE]).isRequired, // enumerated type
+  type: PropTypes.oneOf([RuntimeTargetTypes.ONE]).isRequired, // enumerated type
   entity: PropTypes.string.isRequired, // entity IP ID
+  entitiesCount: PropTypes.number.isRequired,
 })
 
 const MANY_ELEMENTS_TARGET = PropTypes.shape({
-  type: PropTypes.oneOf([TargetTypes.MANY]), // enumerated type
+  type: PropTypes.oneOf([RuntimeTargetTypes.MANY]), // enumerated type
   entities: PropTypes.arrayOf(PropTypes.string).isRequired, // entities list
+  entitiesCount: PropTypes.number.isRequired,
 })
 
 const QUERY_ELEMENTS_TARGET = PropTypes.shape({
-  type: PropTypes.oneOf([TargetTypes.QUERY]), // enumerated type
+  type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]), // enumerated type
   q: PropTypes.string.isRequired, // entities list
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
+  entitiesCount: PropTypes.number.isRequired,
 })
 
 const ServiceTargetShape = PropTypes.oneOfType([

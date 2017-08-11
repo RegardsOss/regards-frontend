@@ -3,6 +3,8 @@
 **/
 import FlatButton from 'material-ui/FlatButton'
 import ErrorIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import MessageIcon from 'material-ui/svg-icons/social/sentiment-satisfied'
+import CloseIcon from 'material-ui/svg-icons/navigation/close'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDialogContainer, NoContentMessageInfo } from '@regardsoss/components'
@@ -19,7 +21,7 @@ export class RunServiceDialogComponent extends React.Component {
 
   static Steps = {
     LOADING: 'LOADING',
-    ERROR: 'ERROR',
+    MESSAGE: 'MESSAGE',
     PARAMETERS_CONFIGURATION: 'PARAMETERS_CONFIGURATION',
     RESULTS: 'RESULTS',
   }
@@ -31,26 +33,42 @@ export class RunServiceDialogComponent extends React.Component {
    */
   static buildLoadingStep = message => ({ step: RunServiceDialogComponent.Steps.LOADING, message })
   /**
-   * Builds error step
-   * @param message error message
-   * @param onPrevious optional callback, user clicked on previous option (option is hidden when undefined/null)
+   * Builds a message step, that can be used for both error and no data messages
+   * @param message message
+   * @param error is in error?
+   * @param customOptions options for that step
    * @return usable step for this component
    */
-  static buildErrorStep = (message, onPrevious) => ({ step: RunServiceDialogComponent.Steps.ERROR, message, onPrevious })
+  static buildMessageStep = (message, error, customOptions = []) => ({
+    step: RunServiceDialogComponent.Steps.MESSAGE,
+    message,
+    error,
+    customOptions,
+  })
   /**
    * Builds parameter configuration step
    * @param parameters parameters list
+   * @param parametersValues map <string, *> of user entered values (used to keep entered values on previous step request)
    * @param onSubmit callback, user submitted parameters values
    * @return usable step for this component
    */
-  static buildParametesConfigurationStep = (parameters, onSubmit) => ({ step: RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION, parameters, onSubmit })
+  static buildParametersConfigurationStep = (parameters, parametersValues = {}, onSubmit) => ({
+    step: RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION,
+    parameters,
+    parametersValues,
+    onSubmit,
+  })
   /**
    * Builds results step
    * @param resultsComponent results component to show
-   * @param onPrevious optional callback, user clicked on previous option (option is hidden when undefined/null)
+   * @param customOptions options for that step
    * @return usable step for this component
    */
-  static buildResultsStep = (resultsComponent, onPrevious) => ({ step: RunServiceDialogComponent.Steps.RESULTS, resultsComponent })
+  static buildResultsStep = (resultsComponent, customOptions = []) => ({
+    step: RunServiceDialogComponent.Steps.RESULTS,
+    resultsComponent,
+    customOptions,
+  })
 
   static propTypes = {
     serviceName: PropTypes.string.isRequired,
@@ -60,16 +78,19 @@ export class RunServiceDialogComponent extends React.Component {
         step: PropTypes.oneOf([RunServiceDialogComponent.Steps.LOADING]),
         message: PropTypes.string.isRequired,
       }),
-      // error step
+      // a message step
       PropTypes.shape({
-        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.ERROR]),
+        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.MESSAGE]),
         message: PropTypes.string.isRequired,
-        onPrevious: PropTypes.func,
+        error: PropTypes.bool.isRequired,
+        // custom step dialog options as react components
+        customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
       }),
       // parameters configuration step
       PropTypes.shape({
         step: PropTypes.oneOf([RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION]),
         parameters: PropTypes.arrayOf(PropTypes.instanceOf(Parameter)).isRequired,
+        parametersValues: PropTypes.objectOf(PropTypes.any).isRequired, // previously entered values if any (used for 'previous step')
         onSubmit: PropTypes.func.isRequired,
       }),
       // results step
@@ -77,6 +98,8 @@ export class RunServiceDialogComponent extends React.Component {
         step: PropTypes.oneOf([RunServiceDialogComponent.Steps.RESULTS]),
         resultsComponent: PropTypes.node.isRequired,
         onPrevious: PropTypes.func,
+        // custom step dialog options as react components
+        customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
       }),
     ]).isRequired,
     onClose: PropTypes.func.isRequired,
@@ -104,41 +127,36 @@ export class RunServiceDialogComponent extends React.Component {
     const { onClose, currentStep, invalid, handleSubmit } = this.props
     const { intl: { formatMessage } } = this.context
     // 1 - determinate if there is a second action in current state
-    let otherAction
+    let otherActions
     switch (currentStep.step) {
       // submit option when configuring parameters
       case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
-        otherAction = (
+        otherActions = [
           <FlatButton
-            primary
+            key="submit.button"
             disabled={invalid}
             label={formatMessage({ id: 'entities.common.services.submit.parameters' })}
             type="submit"
             onTouchTap={handleSubmit(this.onSubmit)} // it is required here to handle manually the submit button (tested)
-            key="submit.button"
-          />)
+          />]
         break
       // previous options (should be used after parameters configuration)
-      case RunServiceDialogComponent.Steps.ERROR:
+      case RunServiceDialogComponent.Steps.MESSAGE:
       case RunServiceDialogComponent.Steps.RESULTS:
-        otherAction = (
-          <FlatButton
-            secondary
-            label={formatMessage({ id: 'entities.common.services.change.parameters' })}
-            key="back.button"
-            onTouchTap={currentStep.onPrevious}
-          />)
+        otherActions = currentStep.customOptions
         break
       default:
-        otherAction = null
+        otherActions = []
     }
     // 2 - render actions list
     return [
-      otherAction,
+      ...otherActions,
       <FlatButton
-        secondary
         key="close.button"
+        primary
+        icon={<CloseIcon />}
         label={formatMessage({ id: 'entities.common.services.close.service' })}
+        title={formatMessage({ id: 'entities.common.services.close.service' })}
         onTouchTap={onClose}
       />,
     ]
@@ -157,25 +175,28 @@ export class RunServiceDialogComponent extends React.Component {
           actions={this.renderActions()}
           loaded={stepType !== RunServiceDialogComponent.Steps.LOADING}
           loadingMessage={stepType === RunServiceDialogComponent.Steps.LOADING ? currentStep.message : ''}
+          bodyStyle={stepType === RunServiceDialogComponent.Steps.RESULTS ?
+            pluginServiceDialog.resultsBodyStyle :
+            pluginServiceDialog.commonBodyStyles}
           modal
           open
           {...otherDialogProps}
         >
-          <NoContentMessageInfo // content: error or current component
-            noContent={stepType === RunServiceDialogComponent.Steps.ERROR} // TODO handle NO FILE
-            title={formatMessage({ id: 'entities.common.services.error.title' })}
-            message={stepType === RunServiceDialogComponent.Steps.ERROR ? currentStep.message : ''}
-            Icon={ErrorIcon}
+          <NoContentMessageInfo // content: message or provided component (messages are used to show error / no result)
+            noContent={stepType === RunServiceDialogComponent.Steps.MESSAGE}
+            title={formatMessage({ id: currentStep.error ? 'entities.common.services.error.title' : 'entities.common.services.notice.title' })}
+            message={stepType === RunServiceDialogComponent.Steps.MESSAGE ? currentStep.message : ''}
+            Icon={currentStep.error ? ErrorIcon : MessageIcon}
             rootStyles={pluginServiceDialog.contentStyles}
           >
             { // render interactive steps: configuration or results
               stepType === RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION ?
-                <ParametersConfigurationComponent parameters={currentStep.parameters} initialize={initialize} /> : // configuration step
+                <ParametersConfigurationComponent parameters={currentStep.parameters} parametersValues={currentStep.parametersValues} initialize={initialize} /> : // configuration step
                 currentStep.resultsComponent || RunServiceDialogComponent.EMPTY_COMPONENT // results step or none
             }
           </NoContentMessageInfo>
         </LoadableContentDialogContainer>
-      </form>
+      </form >
     )
   }
 }

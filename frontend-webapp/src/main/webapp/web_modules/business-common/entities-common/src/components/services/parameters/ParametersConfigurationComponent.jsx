@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isUndefined from 'lodash/isUndefined'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Parameter } from '../../../definitions/parameters/Parameter'
 import BooleanParameterField from './BooleanParameterField'
 import ChoiceParameterField from './ChoiceParameterField'
+import DateParameterField from './DateParameterField'
 import TextParameterField from './TextParameterField'
 
 
@@ -31,6 +33,8 @@ class ParametersConfigurationComponent extends React.Component {
 
   static propTypes = {
     parameters: PropTypes.arrayOf(PropTypes.instanceOf(Parameter)).isRequired,
+    // previously entered values if any (used for 'previous step')
+    parametersValues: PropTypes.objectOf(PropTypes.any).isRequired,
     initialize: PropTypes.func.isRequired,
   }
 
@@ -39,10 +43,12 @@ class ParametersConfigurationComponent extends React.Component {
   }
 
   componentWillMount() {
+    const { parameters, parametersValues } = this.props
     // initialize parameters default values
-    const values = this.props.parameters.reduce((acc, parameter) => ({
+    const values = parameters.reduce((acc, parameter) => ({
       ...acc,
-      [parameter.name]: parameter.defaultValue,
+      // get parameter value: first consider the previous entered value if any, otherwise consider using default parameter value
+      [parameter.name]: isUndefined(parametersValues[parameter.name]) ? parameter.defaultValue : parametersValues[parameter.name],
     }), {})
     this.props.initialize(values)
   }
@@ -53,20 +59,22 @@ class ParametersConfigurationComponent extends React.Component {
     return (
       <div>
         {
-          parameters.map(({ editorType, name: parameterName, required, choices, valueValidator }) => {
+          parameters.map(({ editorType, name, required, choices, valueValidator, label }) => {
             // prepare field label
             const fieldLabel = required ?
-              formatMessage({ id: 'entities.common.services.parameter.required' }, { parameterName }) : parameterName
+              formatMessage({ id: 'entities.common.services.parameter.required' }, { label }) : label
             switch (editorType) {
               case Parameter.EditorTypes.CHECKBOX:
-                return <BooleanParameterField key={parameterName} name={parameterName} label={fieldLabel} />
+                return <BooleanParameterField key={name} name={name} label={fieldLabel} />
               case Parameter.EditorTypes.CHOICE:
-                return <ChoiceParameterField key={parameterName} name={parameterName} label={fieldLabel} choices={choices} />
+                return <ChoiceParameterField key={name} name={name} label={fieldLabel} choices={choices} />
+              case Parameter.EditorTypes.DATE_SELECTOR:
+                return <DateParameterField key={name} name={name} label={fieldLabel} required={required} />
               case Parameter.EditorTypes.TEXTFIELD:
                 return (
                   <TextParameterField
-                    key={parameterName}
-                    name={parameterName}
+                    key={name}
+                    name={name}
                     label={fieldLabel}
                     validator={valueValidator}
                     required={required}

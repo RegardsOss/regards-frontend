@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
 import root from 'window-or-global'
 import { AceEditorAdapter } from '@regardsoss/adapters'
 import { themeContextType } from '@regardsoss/theme'
@@ -37,6 +38,10 @@ class CodeFileDisplayer extends React.Component {
     'application/xml': 'xml',
   }
 
+  static getSupportedMIMETypes() {
+    return keys(CodeFileDisplayer.MIMETypeToMode)
+  }
+
   static isSupportedType(mimeType) {
     return !!CodeFileDisplayer.MIMETypeToMode[mimeType]
   }
@@ -48,7 +53,8 @@ class CodeFileDisplayer extends React.Component {
 
   static propTypes = {
     file: PropTypes.shape({
-      content: PropTypes.instanceOf(root.Blob).isRequired,
+      // XXX : Blob is not necessary present when loading the class (test issue)
+      content: PropTypes.instanceOf(root.Blob || Object).isRequired,
       contentType: PropTypes.string.isRequired,
     }).isRequired,
   }

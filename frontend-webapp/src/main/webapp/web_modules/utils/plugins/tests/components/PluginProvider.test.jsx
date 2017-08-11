@@ -70,7 +70,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
           content: {
             id: pluginDefinitionId,
             name: 'plugin-test',
-            type: 'test',
+            type: 'CRITERIA',
             sourcePath: '/test/plugin.js',
           },
         }}

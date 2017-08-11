@@ -54,8 +54,16 @@ const formStyles = theme => ({
       backgroundColor: theme.palette.primary2Color,
     },
     optionsStyles: {
+      rootStyles: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+      },
       buttonStyles: {
-        width: 24,
+        width: 34,
         height: 24,
         padding: 0,
       },
@@ -90,6 +98,24 @@ const formStyles = theme => ({
         margin: 'auto',
         cursor: 'auto',
         backgroundColor: theme.tableRow.stripeColor,
+      },
+      title: {
+        rootStyles: { display: 'flex', alignItems: 'center' },
+        checkboxStyles: { margin: '0 0 0 6px', width: 'auto' },
+        labelStyles: { margin: '0 10px 0 6px' },
+        optionsBarStyles: { display: 'flex', right: 16, position: 'absolute' },
+        option: {
+          buttonStyles: {
+            width: 24,
+            height: 24,
+            padding: 0,
+            marginLeft: 12,
+          },
+          iconStyles: {
+            width: 24,
+            height: 24,
+          },
+        },
       },
       thumbnail: {
         display: 'inline-block',

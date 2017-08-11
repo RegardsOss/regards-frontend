@@ -17,7 +17,8 @@ class IFrameURLContentDisplayer extends React.Component {
     style: PropTypes.object,
   }
 
-  static DEFAULT_STYLES = { height: '100%', width: '100%', position: 'absolute' }
+  /** Default IFrame styles: grab all space available and re-initialize background to white */
+  static DEFAULT_STYLES = { height: '100%', width: '100%', position: 'absolute', background: 'white' }
 
   render() {
     const { contentURL, onContentLoaded, onContentError } = this.props

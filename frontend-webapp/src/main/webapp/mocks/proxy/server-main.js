@@ -4,7 +4,6 @@ const parseBody = require('parse-body')
 const httpProxy = require('http-proxy')
 const _ = require('lodash')
 const { logMessage, JSON_CONTENT_TYPE } = require('./utils')
-const { localServices } = require('./local-services')
 
 // Definitions
 const serverPort = 3000
@@ -60,7 +59,7 @@ function findMatchingLocalServices(methodServices, relativePath) {
 /** Provides basic headers for local services */
 function buildBasicHeaders(origin = 'local') {
   return {
-    'Access-Control-Allow-Origin': origin,
+    'access-control-allow-origin': origin,
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
     'Access-Control-Allow-Credentials': true,
@@ -72,6 +71,8 @@ function buildBasicHeaders(origin = 'local') {
  * @param {*} gatewayURL real backend gateway URL
  */
 function start(gatewayURL) {
+  const { buildLocalServices } = require('./local-services')
+  const localServices = buildLocalServices(gatewayURL)
   logMessage(`Stating proxy server on proxy gateway URL ${gatewayURL}`, false, 'Proxy server')
 
   //  A - Create proxy request handler
@@ -84,24 +85,34 @@ function start(gatewayURL) {
   // B - Create local services handler
   const localServiceHandlerClosure = (timeBefore, serviceHandler, pathParameters = {}, queryParameters = {}, bodyParameters = {}) =>
     function localServiceHandler(request, response) {
-      // run service handler to get code and text
-      const { content = '', code = 200, contentType = JSON_CONTENT_TYPE, binary = false, headers: responseHeaders } =
-        serviceHandler(request, response, pathParameters, queryParameters, bodyParameters)
-      // publish code and headers
-      const headers = Object.assign({},
-        buildBasicHeaders(request.headers.origin || request.headers.Origin),
-        { 'Content-Type': contentType }, responseHeaders)
-      response.writeHead(code, headers)
-      // send content with encoding
-      if (!binary) {
-        // end answer with text (or stringified object)
-        response.end(typeof content === 'object' ? JSON.stringify(content) : content)
-      } else {
-        // send content as binary
-        response.end(content, 'binary')
+      // A - ON DONE callback
+      function onResult({ content = '', code = 200, contentType = JSON_CONTENT_TYPE, binary = false, headers: responseHeaders }) {
+        // 1 - publish code and headers
+        const headers = Object.assign({},
+          buildBasicHeaders(request.headers.origin || request.headers.Origin),
+          { 'Content-Type': contentType }, responseHeaders)
+        response.writeHead(code, headers)
+        // 2 - send content with encoding (when not binayr)
+        if (!binary) {
+          // end answer with text (or stringified object)
+          response.end(typeof content === 'object' ? JSON.stringify(content) : content)
+        } else {
+          // send content as binary
+          response.end(content, 'binary')
+        }
+        logMessage(`Served ${request.method} ${request.url} ${code} in ${new Date().getTime() - timeBefore}ms`, false, 'Proxy server')
       }
-      // log access info
-      logMessage(`Served ${request.method} ${request.url} ${code} in ${new Date().getTime() - timeBefore}ms`, false, 'Proxy server')
+
+      // B - handler product treament
+      const handlerProduct = serviceHandler(request, response, pathParameters, queryParameters, bodyParameters)
+      if (handlerProduct instanceof Promise) {
+        logMessage(`Serving ${request.method} ${request.url} through delayed promise`)
+        handlerProduct.then((result) => onResult(result)).catch(() => onResult({ code: 500 })) // resolve then return, handle error
+      } else {
+        logMessage(`Serving ${request.method} ${request.url} through immediate results`)
+        onResult(handlerProduct) // immediately resoved
+      }
+
     }
 
 

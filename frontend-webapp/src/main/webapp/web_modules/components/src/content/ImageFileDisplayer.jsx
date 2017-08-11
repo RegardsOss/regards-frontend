@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
 import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -35,12 +36,16 @@ class ImageFileDisplayer extends React.Component {
     'image/jpeg': 'image/jpeg',
   }
 
+  static getSupportedMIMETypes() {
+    return keys(ImageFileDisplayer.MIMETypes)
+  }
+
   static isSupportedType(mimeType) {
     return !!ImageFileDisplayer.MIMETypes[mimeType]
   }
 
   static propTypes = {
-    imageURL: CommonShapes.URL,
+    imageURL: CommonShapes.URL.isRequired,
   }
 
   static contextTypes = {

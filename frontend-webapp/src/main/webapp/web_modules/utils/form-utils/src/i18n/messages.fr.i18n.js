@@ -36,8 +36,8 @@ const messages = {
 
   'form.datetimepicker.ok': 'Ok',
   'form.datetimepicker.cancel': 'Annuler',
-  'form.datetimepicker.date.label': 'Date',
-  'form.datetimepicker.time.label': 'Heure',
+  'form.datetimepicker.date.label': '{label} / date',
+  'form.datetimepicker.time.label': '{label} / heure',
   'form.datetimepicker.clear': 'Reinitialiser',
 }
 

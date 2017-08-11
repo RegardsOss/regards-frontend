@@ -10,10 +10,9 @@ class PluginServiceRunModel {
   /**
    * Constructor
    * @param {PluginService} serviceConfiguration fetched plguin service configuration, WITHOUT CONTENT ROOT
-   * @param {AccessDomain.pluginTypes} type corresponding service type
    * @param {OneElementTarget|ManyElementsTarget} target execution target
    */
-  constructor(serviceConfiguration, type, target) {
+  constructor(serviceConfiguration, target) {
     this.serviceConfiguration = serviceConfiguration
     this.target = target
   }

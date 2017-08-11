@@ -167,7 +167,6 @@ class TableContainer extends React.Component {
   onPropertiesUpdate = (previousProps, nextProps) => {
     const previousState = this.state
     const nextState = this.state ? { ...this.state } : { ...TableContainer.DEFAULT_STATE } // initialize to previous state or use default one
-
     // initialization or authentication update: fetch the first page
     if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
       !isEqual(nextProps.authentication, previousProps.authentication)) {

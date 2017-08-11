@@ -40,11 +40,13 @@ class FileContentDisplayer extends React.Component {
 
   static propTypes = {
     file: PropTypes.shape({
-      content: PropTypes.instanceOf(root.Blob).isRequired,
+      // XXX : Blob is not necessary present when loading the class (test issue)
+      content: PropTypes.instanceOf(root.Blob || Object).isRequired,
       contentType: PropTypes.string.isRequired,
     }).isRequired,
     /** file access URL, allows access to the file as URL. Provide only when externally driven, use
      * FileContentDisplayer.buildLocalAccessURL to generate it in that case. It will free local URLs automatically */
+    // eslint-disable-next-line react/no-unused-prop-types
     fileAccessURL: CommonShapes.URL,
     // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.object,
@@ -53,7 +55,7 @@ class FileContentDisplayer extends React.Component {
 
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
-  componentWillUnmount = () => console.error('-----------> NEVER THERE???') || this.onPropertiesChanged(this.props, {})
+  componentWillUnmount = () => this.onPropertiesChanged(this.props, {})
 
   /**
    * Handles properties changed: frees the object URL if required, build the new URL if required and stores the URL to use in state

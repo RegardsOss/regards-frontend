@@ -8,7 +8,7 @@ import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 
 /**
 * Drop down button (used where drop down menu is not adequate). You can add some other properties to this component,
-* it will ass them through to the button instance
+* it will pass them through to the button instance
 */
 class DropDownButton extends React.Component {
 

@@ -76,10 +76,10 @@ export class PluginServicesContainer extends React.Component {
 
   /**
    * Is usable selection service in context?
-   * @param service service as PluginService (not wrapped in 'content:')
+   * @param service service as PluginService (wrapped in 'content:')
    * @param viewObjectType current view object type
    */
-  static isUsableSelectionService({ applicationModes, entityTypes }, viewObjectType) {
+  static isUsableSelectionService({ content: { applicationModes, entityTypes } }, viewObjectType) {
     return applicationModes.includes(AccessDomain.applicationModes.MANY) &&
       entityTypes.includes(PluginServicesContainer.getEntityTypeForViewType(viewObjectType))
   }
@@ -96,26 +96,31 @@ export class PluginServicesContainer extends React.Component {
       if (contextSelectionServices) {
         // filter service for current context (only selection services, working with current objects type),
         // then remove 'content' wrapper to have basic services shapes
-        selectionServices = filter(contextSelectionServices, ({ content }) => PluginServicesContainer.isUsableSelectionService(content, viewObjectType))
-          .map(({ content }) => content)
+        selectionServices = filter(contextSelectionServices, service =>
+          PluginServicesContainer.isUsableSelectionService(service, viewObjectType))
       }
       // 2 - Find every service that match all objects in selection
       // Notes: That operation cannot be performed when selection is exclusive. It is useless when
       // there is a dataset IP ID set ('MANY' services would then be in "contextSelectionServices")
       if (!selectedDatasetIpId && selectionMode === TableSelectionModes.includeSelected) {
-        // compute first element services (toggled elements cannot be empty here since we are in 'includeSelected' mode)
+        // compute first element services (pre: toggled elements cannot be empty here since we are in 'includeSelected' mode)
+        // note: we remove doubles here to lower later complexity
         const [{ content: { services: allFirstEntityServices = [] } }, ...otherSelectedElements] = values(toggledElements)
-        const filteredFirstEntityServices = allFirstEntityServices.filter(service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType))
+        const filteredFirstEntityServices = allFirstEntityServices.filter(
+          service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType) &&
+            !selectionServices.some(({ content: { configId, type } }) =>
+              configId === service.content.configId && type === service.content.type))
 
         // compute next selected entities valid services intersection (contains only usable services in context since first element services have been filtered)
         const commonEntitiesSelectionServices = otherSelectedElements.reduce(
           (commonServices, { content: { services: entityServices } }) =>
             // retain only intersection with previous list
-            commonServices.filter(collectedService =>
+            commonServices.filter(({ content: collectedService }) =>
               // intersection is valid if a service with same config Id and type can be retrieved in next entity services
-              entityServices && entityServices.some(entityService =>
+              entityServices && entityServices.some(({ content: entityService }) =>
                 entityService.configId === collectedService.configId && entityService.type === collectedService.type))
           , filteredFirstEntityServices)
+
 
         // store in resulting list
         selectionServices = selectionServices.concat(commonEntitiesSelectionServices)
@@ -175,7 +180,7 @@ export class PluginServicesContainer extends React.Component {
     dispatchRunService: PropTypes.func.isRequired,
     dispatchCloseService: PropTypes.func.isRequired,
 
-    // sub component properties
+    // ...sub component properties
   }
 
   static DEFAULT_STATE = {
@@ -217,15 +222,16 @@ export class PluginServicesContainer extends React.Component {
 
   /**
    * Handler: user started a selection service
-   * @param service started service
+   * @param service started service (as returned by served, wrapped in content)
    */
-  onStartSelectionService = (service) => {
-    const { dispatchRunService, selectionMode, toggledElements, openSearchQuery, viewObjectType } = this.props
+  onStartSelectionService = ({ content: service }) => {
+    const { dispatchRunService, selectionMode, toggledElements, openSearchQuery, viewObjectType, pageMetadata } = this.props
+    // pack query
     const serviceTarget = selectionMode === TableSelectionModes.includeSelected ?
       target.buildManyElementsTarget(map(toggledElements, elt => elt.content.ipId)) : // pack ip ID array
-      target.buildQueryTarget(openSearchQuery, PluginServicesContainer.getEntityTypeForViewType(viewObjectType))// pack query
+      target.buildQueryTarget(openSearchQuery, PluginServicesContainer.getEntityTypeForViewType(viewObjectType), pageMetadata.totalElements)
     // note : only service content is dipatched (see top methods conversion)
-    dispatchRunService(new PluginServiceRunModel(service, service.type, serviceTarget))
+    dispatchRunService(new PluginServiceRunModel(service, serviceTarget))
   }
 
   render() {

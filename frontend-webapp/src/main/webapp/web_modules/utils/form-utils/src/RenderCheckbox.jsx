@@ -42,6 +42,12 @@ export default class RenderCheckbox extends React.Component {
     alwaysShowError: PropTypes.bool, // bypass touched to show some automatic errors
   }
 
+  static STYLES = {
+    rootStyles: {
+      marginTop: 24,
+    },
+  }
+
   onChange = () => {
     const { input } = this.props
     // switch the value
@@ -55,6 +61,7 @@ export default class RenderCheckbox extends React.Component {
     return (
       <div>
         <Checkbox
+          style={RenderCheckbox.STYLES.rootStyles}
           className={className}
           label={label}
           checked={checked}

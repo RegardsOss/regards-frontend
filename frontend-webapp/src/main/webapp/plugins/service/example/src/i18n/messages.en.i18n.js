@@ -15,14 +15,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 
 /**
  * i18n messages english language
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.label': 'Search field ...',
+  'title.plugin.top.message': 'Information',
+  'title.static.configuration': 'Paramètres administrateurs',
+  'title.dynamic.configuration': 'Parramètres utilisateurs',
+  'title.plugin.content': 'Entities  distribution on date parameter',
+  'plugin.content.loading': 'Currently loading {currentIndex} / {totalElements} ({lastLoadedEntity}) ...',
+  'plugin.content.error': 'An error occurred: "{errorMessage}"',
 }
 
 export default messages

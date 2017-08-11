@@ -75,7 +75,7 @@ class SearchResultsComponent extends React.Component {
     })),
     searchQuery: PropTypes.string.isRequired,
     // services
-    selectionServices: AccessShapes.PluginServiceArray,
+    selectionServices: AccessShapes.PluginServiceWithContentArray,
     // Attributes configurations for results columns
     // eslint-disable-next-line react/no-unused-prop-types
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
@@ -137,14 +137,15 @@ class SearchResultsComponent extends React.Component {
     label: this.context.intl.formatMessage({ id: 'results.options.column.label' }),
     attributes: [],
     order: Number.MAX_VALUE,
-    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH,
+    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * 2,
     sortable: false,
     hideLabel: true,
     // order: number.
     customCell: {
       component: TableViewOptionsCellContainer,
       props: {
-        tooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
+        servicesTooltip: this.context.intl.formatMessage({ id: 'show.entity.services.tooltip' }),
+        descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
         styles: this.context.moduleTheme.user.optionsStyles,
       },
     },
@@ -226,11 +227,13 @@ class SearchResultsComponent extends React.Component {
         // click: select a dataset when in dataset mode
         onClick: showingDataobjects ? null : onSelectDataset,
         attributes: attributeModels,
-        styles: this.context.moduleTheme.user.listViewStyles,
         onSearchTag: onSelectSearchTag,
         tableColumns,
         displayCheckbox: showingDataobjects,
+        downloadTooltip: this.context.intl.formatMessage({ id: 'download.tooltip' }),
+        servicesTooltip: this.context.intl.formatMessage({ id: 'show.entity.services.tooltip' }),
         descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
+        styles: this.context.moduleTheme.user.listViewStyles,
       },
     },
   }]
@@ -305,7 +308,7 @@ class SearchResultsComponent extends React.Component {
       //  Selection services
       ...selectionServices.map(service => (
         <SelectionServiceComponent
-          key={`${service.type}.service.${service.configId}`}
+          key={`${service.content.type}.service.${service.content.configId}`}
           service={service}
           onRunService={onStartSelectionService}
         />)),

@@ -27,10 +27,11 @@ import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
 import BaseBoardItemComponent from './board/BaseBoardItemComponent'
 
+import DownloadButton from './buttons/DownloadButton'
+import DropDownButton from './buttons/DropDownButton'
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
 import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
-import DropDownButton from './buttons/DropDownButton'
 
 import ActionButtonComponent from './cards/ActionButtonComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
@@ -100,6 +101,7 @@ export {
   ChipList,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
+  DownloadButton,
   DropDownButton,
   ErrorCardComponent,
   ErrorDecoratorComponent,

@@ -17,16 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import UI_PLUGIN_CONF_PARAMETER_TYPES from './UIPluginConfParameterTypes'
-import UI_PLUGIN_INFO_TYPES from './UIPluginInfoTypes'
-
+import UIPluginInfoTypes from './UIPluginInfoTypes'
+import UIPluginConfParameterTypes from './UIPluginConfParameterTypes'
 import AttributeConfigurationController from './AttributeConfigurationController'
 import PluginServiceConstants from './PluginServiceConstants'
+import RuntimeTargetTypes from './RuntimeTargetTypes'
 import defaultTheme from './defaultTheme'
 
 export default {
-  UI_PLUGIN_CONF_PARAMETER_TYPES,
-  UI_PLUGIN_INFO_TYPES,
+  ...UIPluginInfoTypes,
+  ...UIPluginConfParameterTypes,
+  ...RuntimeTargetTypes,
 
   AttributeConfigurationController,
 

@@ -32,7 +32,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
   it('should exists', () => {
     assert.isDefined(ListViewEntityCellComponent)
   })
-  it('should render properly', () => {
+  it('should render correctly', () => {
     const props = {
       entity: {
         content: {
@@ -45,6 +45,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           geometry: null,
           properties: {},
           tags: [],
+          services: [],
         },
       },
       attributes: {},
@@ -54,11 +55,14 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       tableColumns: [],
       onSearchTag: () => { },
       onClick: () => { },
+      downloadTooltip: 'download.tooltip',
+      servicesTooltip: 'services.tooltip',
+      descriptionTooltip: 'description.tooltip',
       styles: context.moduleTheme.user.listViewStyles,
-      displayCheckBoxes: true,
-      descriptionTooltip: 'hello',
       onShowDescription: () => { },
+      onServiceStarted: () => { },
     }
+    // note: it is hard here to test any further, because there is easy no way to search wrappers attributs sub elements
     shallow(<ListViewEntityCellComponent {...props} />, { context })
   })
 })

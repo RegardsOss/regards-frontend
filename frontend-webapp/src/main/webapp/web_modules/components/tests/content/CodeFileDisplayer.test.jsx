@@ -20,15 +20,16 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import root from 'window-or-global'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { AceEditorAdapter } from '@regardsoss/adapters'
 import CodeFileDisplayer from '../../src/content/CodeFileDisplayer'
 import styles from '../../src/content/styles/styles'
-import TestBlob from './TestBlob'
-import TestFileReader from './TestFileReader'
+import { TestBlob } from './TestBlob'
+import { TestFileReader } from './TestFileReader'
 
 const context = buildTestContext(styles)
 
 /**
-* Component test. Comment Here
+* Tests CodeFileDisplayer
 * @author Raphaël Mechali
 */
 describe('[Components] Testing CodeFileDisplayer', () => {
@@ -37,14 +38,58 @@ describe('[Components] Testing CodeFileDisplayer', () => {
     root.Blob = TestBlob
     root.FileReader = TestFileReader
   })
-  after(testSuiteHelpers.after)
+  after(() => {
+    testSuiteHelpers.after()
+    delete root.Blob
+    delete root.FileReader
+  })
+
+  const testCases = [{
+    file: {
+      content: new TestBlob(`
+        a {
+          color: red;
+        }`),
+      contentType: 'text/css',
+    },
+  }, {
+    file: {
+      content: new TestBlob(`
+        function a(){
+          return { color: red, sizes: [] }
+        }`),
+      contentType: 'application/js',
+    },
+  }, {
+    file: {
+      content: new TestBlob(`
+        {
+          "color": "red",
+          "sizes": []
+        }`),
+      contentType: 'application/json',
+    },
+  }, {
+    file: {
+      content: new TestBlob(`
+      <root>
+        <color>red</color>
+        <sizes/>
+      </root>`),
+      contentType: 'application/xml',
+    },
+  },
+  ]
 
   it('should exists', () => {
     assert.isDefined(CodeFileDisplayer)
   })
-  it('should render properly', () => {
-    const props = {
-    }
-    shallow(<CodeFileDisplayer {...props} />, { context })
-  })
+
+  testCases.forEach(({ file }) => it(`Should render correctly for file type ${file.contentType}`, () => {
+    const render = shallow(<CodeFileDisplayer file={file} />, { context })
+    const editor = render.find(AceEditorAdapter)
+    assert.lengthOf(editor, 1, `There should be exactly one editor to show content (${file.contentType})`)
+    const blobText = file.content.text
+    assert.equal(editor.props().value, blobText, `The editor value should be extracted from blob (${file.contentType})`)
+  }))
 })

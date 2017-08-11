@@ -28,40 +28,76 @@ class Parameter {
     CHECKBOX: 'CHECKBOX',
     // Editor for bounded inputs (admin set up the choices, input is constrained)
     CHOICE: 'CHOICE',
+    // Editor for date inputs
+    DATE_SELECTOR: 'DATE_SELECTOR',
     // Editor for parsed or free inputs
     TEXTFIELD: 'TEXTFIELD',
   }
 
-  static buildBooleanEditor(name, defaultValue, required) {
-    return new Parameter(Parameter.EditorTypes.CHECKBOX, name, defaultValue, null, null, required) // always provided due to edition system
+  /**
+   * Builds a boolean editor
+   * @param {string} name field name
+   * @param {string|boolean} defaultValue default value (optional)
+   * @param {boolean} required is field required
+   * @param {string} label optional label (defaults to name when not specified)
+   */
+  static buildBooleanEditor(name, defaultValue, required, label) {
+    return new Parameter(Parameter.EditorTypes.CHECKBOX, name, defaultValue, null, null, required, label) // always provided due to edition system
   }
 
-  static buildChoiceEditor(name, defaultValue, choices, required) {
-    return new Parameter(Parameter.EditorTypes.CHOICE, name, defaultValue, choices, null, required) // always provided due to edition system
+  /**
+   * Builds a choice editor
+   * @param {string} name field name
+   * @param {string} defaultValue default value (optional)
+   * @param {Array<string>} choices available choices
+   * @param {boolean} required is field required
+   * @param {string} label optional label (defaults to name when not specified)
+   */
+  static buildChoiceEditor(name, defaultValue, choices, required, label) {
+    return new Parameter(Parameter.EditorTypes.CHOICE, name, defaultValue, choices, null, required, label) // always provided due to edition system
   }
 
-  static buildTextEditor(name, defaultValue, valueValidator, required) {
-    return new Parameter(Parameter.EditorTypes.TEXTFIELD, name, defaultValue, null, valueValidator, required)
+  /**
+   * Builds a date editor
+   * @param {string} name field name
+   * @param {string} defaultValue default value (optional)
+   * @param {boolean} required is field required
+   * @param {string} label optional label (defaults to name when not specified)
+   */
+  static buildDateEditor(name, defaultValue, required, label) {
+    return new Parameter(Parameter.EditorTypes.DATE_SELECTOR, name, defaultValue, null, null, required, label)
   }
 
+  /**
+   * Builds a text editor, validating input
+   * @param {string} name field name
+   * @param {string|boolean} defaultValue default value (optional)
+   * @param {function} valueValidator value validator
+   * @param {boolean} required is field required
+   * @param {string} label optional label (defaults to name when not specified)
+   */
+  static buildTextEditor(name, defaultValue, valueValidator, required, label) {
+    return new Parameter(Parameter.EditorTypes.TEXTFIELD, name, defaultValue, null, valueValidator, required, label)
+  }
 
   /**
    * constructor
-   * @param editorType editor type, conditions other parameters
-   * @param name field name, required
-   * @param defaultValue default value, when it can be computed
-   * @param choices value choices when in choice type
-   * @param valueValidator value validator for the form (used only by text fields). Note: missing values, when required,
-   * are automatically validated
-   * @param required is the parameter required? (automatically prevents the user from applying with empty values)
+   * @param {string} editorType editor type, conditions other parameters
+   * @param {string} name field name, required
+   * @param {string|boolean} defaultValue default value, when it can be computed
+   * @param {Array<string>} choices value choices when in choice type
+   * @param {function} valueValidator value validator for the form (used only by text fields)
+   * @param {boolean} required is the parameter required? (automatically prevents the user from applying with empty values)
+   * @param {string}label field label, optional (if not specified, defaults to name)
    */
-  constructor(editorType, name, defaultValue, choices, valueValidator, required) {
+  constructor(editorType, name, defaultValue, choices, valueValidator, required, label) {
     this.editorType = editorType
     this.name = name
     this.defaultValue = defaultValue
     this.choices = choices
     this.valueValidator = valueValidator
     this.required = required
+    this.label = label || name
   }
 
 }

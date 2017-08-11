@@ -18,7 +18,7 @@
  **/
 
 import { entityFields } from '../rs-catalog/Entity/Entity'
-import { PluginServiceArray } from './PluginService'
+import { PluginServiceWithContentArray } from './PluginService'
 
 /**
  * Defines entity shape, as enriched by the access microservice (front-end proxy)
@@ -27,7 +27,7 @@ import { PluginServiceArray } from './PluginService'
 const EntityWithServices = PropTypes.shape({
   content: PropTypes.shape({
     ...entityFields,
-    services: PluginServiceArray,
+    services: PluginServiceWithContentArray,
   }).isRequired,
 })
 

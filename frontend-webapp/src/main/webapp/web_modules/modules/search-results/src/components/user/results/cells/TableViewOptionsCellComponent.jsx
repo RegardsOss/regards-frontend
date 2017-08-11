@@ -1,35 +1,51 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import IconButton from 'material-ui/IconButton'
-import InfoIcon from 'material-ui/svg-icons/action/info-outline'
+import { AccessShapes } from '@regardsoss/shape'
+import EntityDescriptionButton from '../options/EntityDescriptionButton'
+import OneElementServicesButton from '../options/OneElementServicesButton'
+
 
 /**
-* Options display cell for table view
-*/
+ * Options display cell for table view
+ * @author Raphaël Mechali
+ */
 class TableViewOptionsCellComponent extends React.Component {
 
   static propTypes = {
-    onShowDescription: PropTypes.func.isRequired,
-    tooltip: PropTypes.string.isRequired,
-    styles: PropTypes.shape({
+    services: AccessShapes.PluginServiceWithContentArray,
+    // tooltips, as i18n context isn't available in the table context
+    servicesTooltip: PropTypes.string.isRequired,
+    descriptionTooltip: PropTypes.string.isRequired,
+    styles: PropTypes.shape({ // styles as style context isn't available in the table context
+      rootStyles: PropTypes.object.isRequired,
       buttonStyles: PropTypes.object.isRequired,
       iconStyles: PropTypes.object.isRequired,
     }).isRequired,
+    // parent handlers
+    onShowDescription: PropTypes.func.isRequired,
+    onServiceStarted: PropTypes.func.isRequired,
   }
 
   render() {
-    const { onShowDescription, styles: { buttonStyles, iconStyles }, tooltip } = this.props
-
+    const { onShowDescription, styles: { rootStyles, buttonStyles, iconStyles },
+      services, onServiceStarted, servicesTooltip, descriptionTooltip } = this.props
     return (
-      <IconButton
-        title={tooltip}
-        style={buttonStyles}
-        iconStyle={iconStyles}
-        onTouchTap={onShowDescription}
-      >
-        <InfoIcon />
-      </IconButton>
+      <div style={rootStyles}>
+        <OneElementServicesButton
+          style={buttonStyles}
+          iconStyle={iconStyles}
+          tooltip={servicesTooltip}
+          services={services}
+          onServiceStarted={onServiceStarted}
+        />
+        <EntityDescriptionButton
+          style={buttonStyles}
+          iconStyle={iconStyles}
+          tooltip={descriptionTooltip}
+          onShowDescription={onShowDescription}
+        />
+      </div>
     )
   }
 }

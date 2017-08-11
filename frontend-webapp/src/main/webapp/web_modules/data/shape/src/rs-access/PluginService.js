@@ -44,9 +44,6 @@ const PluginService = PropTypes.shape({
 })
 
 
-/** Plugin services as array (no content) */
-const PluginServiceArray = PropTypes.arrayOf(PluginService)
-
 /** Plugin service with content */
 const PluginServiceWithContent = PropTypes.shape({
   content: PluginService,
@@ -57,7 +54,6 @@ const PluginServiceWithContentArray = PropTypes.arrayOf(PluginServiceWithContent
 
 export default {
   PluginService,
-  PluginServiceArray,
   PluginServiceWithContent,
   PluginServiceWithContentArray,
 }

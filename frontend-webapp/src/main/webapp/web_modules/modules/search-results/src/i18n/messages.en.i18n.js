@@ -63,6 +63,8 @@ const messages = Object.assign({
   'list.sort.none.label': 'None',
   'view.type.table.button.label': 'Display results with table format',
   'view.type.list.button.label': 'Display results with list format',
+  'download.tooltip': 'Download',
+  'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
   'results.no.content.title': 'No results',
   'results.no.content.subtitle': 'Your search returned no results. Try to change your criteria',

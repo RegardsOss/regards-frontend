@@ -13,8 +13,10 @@ import { AccessShapes } from '@regardsoss/shape'
 class SelectionServiceComponent extends React.Component {
 
   static propTypes = {
+    // displayed service
+    service: AccessShapes.PluginServiceWithContent,
+    // on run service callback
     onRunService: PropTypes.func.isRequired,
-    service: AccessShapes.PluginService,
   }
 
   static contextTypes = {
@@ -38,8 +40,8 @@ class SelectionServiceComponent extends React.Component {
     if (oldService !== newService) {
       const { muiTheme } = this.context
       // prepare service icon to avoid building new instances at runtime
-      newState.serviceIconComponent = newService.icon ?
-        <img src={newService.icon} alt="" width={muiTheme.spacing.iconSize} height={muiTheme.spacing.iconSize} />
+      newState.serviceIconComponent = newService.content.icon ?
+        <img src={newService.content.icon} alt="" width={muiTheme.spacing.iconSize} height={muiTheme.spacing.iconSize} />
         : null
     }
     if (!isEqual(oldState, newState)) {
@@ -57,7 +59,7 @@ class SelectionServiceComponent extends React.Component {
     const { serviceIconComponent } = this.state
     return (
       <FlatButton
-        label={service.label}
+        label={service.content.label}
         onTouchTap={this.onClick}
         icon={serviceIconComponent}
       />
