@@ -22,6 +22,7 @@ import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
+import { AccessDomain } from '@regardsoss/domain'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceListComponent from '../components/ServiceListComponent'
 
@@ -54,8 +55,8 @@ export class ServiceListContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {},
-      // {type: 'service'}
+    fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100,
+      {type: AccessDomain.UI_PLUGIN_INFO_TYPES_ENUM.SERVICE}
     )),
   })
 

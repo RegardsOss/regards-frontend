@@ -88,8 +88,6 @@ export default (project, intl) => [
       hateoasDependencies: pluginUIDependencies.boardAddRequiredDependencies,
     }],
   },
-  /**
-   * TODO Add services management
   {
     title: intl.formatMessage({ id: 'project.service.title' }),
     description: intl.formatMessage({ id: 'project.service.description' }),
@@ -100,5 +98,5 @@ export default (project, intl) => [
       tooltipMsg: intl.formatMessage({ id: 'action.list.tooltip' }),
       hateoasDependencies: serviceUIDependencies.boardListRequiredDependencies,
     }],
-  },*/
+  }
 ]
