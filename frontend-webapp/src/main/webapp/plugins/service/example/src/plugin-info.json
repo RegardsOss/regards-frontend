@@ -9,9 +9,12 @@
   "license": "GPL-3.0",
   "type": "SERVICE",
   "conf": {
-    "applicationMode": [
+    "applicationModes": [
       "ONE",
       "MANY"
+    ],
+    "entityTypes" : [
+      "DATA"
     ],
     "static": {
       "static1": {

@@ -57,9 +57,9 @@ export class ServiceConfigurationFormComponent extends React.Component {
 
   getStaticFieldValidation = (input) => {
     if (input.required) {
-      return [ValidationHelpers.validRequiredString]
+      return ValidationHelpers.validRequiredString
     }
-    return []
+    return null
   }
 
   getTitle = () => {

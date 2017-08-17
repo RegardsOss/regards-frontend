@@ -29,7 +29,7 @@ const catalogServices = {
     { // first catalog service (common to all): defines config unlike others
       configId: 0,
       label: 'Do progress! (Cat.)',
-      icon: 'https://d30y9cdsu7xlg0.cloudfront.net/png/593651-200.png',
+      iconUrl: 'https://d30y9cdsu7xlg0.cloudfront.net/png/593651-200.png',
       applicationModes: ['ONE', 'MANY'],
       entityTypes: ['COLLECTION', 'DATASET', 'DOCUMENT', 'DATA'],
       type: 'CATALOG',
@@ -75,7 +75,7 @@ const catalogServices = {
     {
       configId: 0,
       label: 'Selfish! (UI)',
-      icon: 'https://image.flaticon.com/teams/slug/freepik.jpg',
+      iconUrl: 'https://image.flaticon.com/teams/slug/freepik.jpg',
       applicationModes: ['MANY'],
       entityTypes: ['COLLECTION', 'DATASET', 'DOCUMENT', 'DATA'],
       type: 'UI',
@@ -86,7 +86,7 @@ const catalogServices = {
     {
       configId: 1,
       label: 'Self destruct (Cat.)',
-      icon: 'https://vignette3.wikia.nocookie.net/dirtybomb/images/f/f7/Dirty_Bomb_Icon.svg/revision/latest?cb=20151221234323',
+      iconUrl: 'https://vignette3.wikia.nocookie.net/dirtybomb/images/f/f7/Dirty_Bomb_Icon.svg/revision/latest?cb=20151221234323',
       applicationModes: ['ONE'],
       entityTypes: ['COLLECTION', 'DATASET', 'DOCUMENT', 'DATA'],
       type: 'CATALOG',
@@ -98,7 +98,7 @@ const catalogServices = {
   'URN:AIP:DATASET:test_raph:f8e8c56d-1d3e-45e1-b322-d20f135ef21b:V1': [{
     configId: 1,
     label: 'One sheep (UI/RPWS)',
-    icon: 'https://wpclipart.com/animals/S/sheep/sheep_2/sheep_surprised_happy.png',
+    iconUrl: 'https://wpclipart.com/animals/S/sheep/sheep_2/sheep_surprised_happy.png',
     applicationModes: ['ONE'],
     entityTypes: ['DATA', 'DATASET'],
     type: 'UI',
@@ -108,7 +108,7 @@ const catalogServices = {
   }, {
     configId: 2,
     label: 'Mix it (Cat./RPWS)',
-    icon: 'https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_accessibility_white_24px.svg',
+    iconUrl: 'https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_accessibility_white_24px.svg',
     applicationModes: ['MANY'],
     entityTypes: ['DATA'],
     type: 'CATALOG',

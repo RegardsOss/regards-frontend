@@ -80,16 +80,16 @@ export class PluginFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const submitModel = Object.assign({}, this.props.plugin, values)
+    const submitModel = Object.assign({}, this.props.plugin.content, values)
     Promise.resolve(this.props.updatePlugin(submitModel))
       .then((actionResult) => {
         if (actionResult.error) {
           this.setState({
-            submitError: true,
+            submitError: actionResult.meta && actionResult.meta.status === 422 ? 'plugin.form.submit.error.invalid.plugin' : 'plugin.form.submit.error',
           })
         } else {
           this.setState({
-            submitError: false,
+            submitError: null,
           })
           this.handleBack()
         }

@@ -27,6 +27,9 @@ const UIPluginDefinitionContent = PropTypes.shape({
   name: PropTypes.string,
   type: PropTypes.oneOf(UI_PLUGIN_INFO_TYPES),
   sourcePath: PropTypes.string,
+  iconUrl: PropTypes.string,
+  applicationModes: PropTypes.arrayOf(PropTypes.string),
+  entityTypes: PropTypes.arrayOf(PropTypes.string),
 })
 
 const UIPluginDefinition = PropTypes.shape({

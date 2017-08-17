@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import has from 'lodash/has'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { themeContextType } from '@regardsoss/theme'
@@ -49,6 +50,7 @@ class pluginFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     pathField: PropTypes.string,
+    iconField: PropTypes.string,
   }
 
   static contextTypes = {
@@ -71,6 +73,7 @@ class pluginFormComponent extends React.Component {
     if (has(this.props.plugin, 'content.sourcePath')) {
       this.searchPlugin(this.props.plugin.content.sourcePath)
     }
+    this.loadIcon(get(this.props.plugin, 'content.iconUrl', null))
   }
 
   handleInitialize = () => {
@@ -93,14 +96,35 @@ class pluginFormComponent extends React.Component {
 
   handlePluginValid = (plugin) => {
     if (plugin) {
+      // Fix static plugin definition values from the plugin info
       this.props.change('name', plugin.info.name)
       this.props.change('type', plugin.info.type)
+
+      if (plugin.info.conf && plugin.info.conf.applicationModes) {
+        this.props.change('applicationModes', plugin.info.conf.applicationModes)
+      }
+      if (plugin.info.conf && plugin.info.conf.entityTypes) {
+        this.props.change('entityTypes', plugin.info.conf.entityTypes)
+      }
       this.setState({
         pluginIsValid: true,
       })
     } else {
       this.setState({
         pluginIsValid: false,
+      })
+    }
+  }
+
+  loadIcon = (path) => {
+    const { iconField } = this.props
+    if (iconField) {
+      this.setState({
+        loadedIcon: iconField,
+      })
+    } else if (path) {
+      this.setState({
+        loadedIcon: path,
       })
     }
   }
@@ -139,6 +163,17 @@ class pluginFormComponent extends React.Component {
     return null
   }
 
+  renderIcon = () => {
+    const { plugin } = this.props
+    const { loadedIcon } = this.state
+    if (loadedIcon) {
+      return <img src={loadedIcon} alt="" width="75" height="75" />
+    } else if (get(plugin, 'content.iconUrl', null)) {
+      return <img src={plugin.content.iconUrl} alt="" width="75" height="75" />
+    }
+    return null
+  }
+
   render() {
     const { pristine, submitting } = this.props
     let title
@@ -162,6 +197,9 @@ class pluginFormComponent extends React.Component {
               {this.renderErrorMessage()}
             </CardText>
             <CardText id="staticFields">
+              <div>
+                {this.renderIcon()}
+              </div>
               <div
                 style={{
                   display: 'flex',
@@ -179,6 +217,26 @@ class pluginFormComponent extends React.Component {
                   tooltip="Search plugin"
                   onTouchTap={this.searchPlugin}
                   disabled={!this.props.pathField || this.props.pathField === ''}
+                >
+                  <SearchIcon />
+                </IconButton>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                }}
+              >
+                <Field
+                  name="iconUrl"
+                  component={RenderTextField}
+                  fullWidth
+                  type="text"
+                  label={this.context.intl.formatMessage({ id: 'plugin.form.icon' })}
+                />
+                <IconButton
+                  tooltip="Display icon"
+                  onTouchTap={this.loadIcon}
                 >
                   <SearchIcon />
                 </IconButton>
@@ -228,6 +286,7 @@ export {
 const selector = formValueSelector('edit-plugin-form')
 const mapStateToProps = state => ({
   pathField: selector(state, 'sourcePath'),
+  iconField: selector(state, 'iconUrl'),
 })
 const ConnectedComponent = connect(mapStateToProps)(pluginFormComponent)
 

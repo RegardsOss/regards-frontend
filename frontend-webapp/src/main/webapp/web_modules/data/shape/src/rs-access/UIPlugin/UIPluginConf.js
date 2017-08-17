@@ -26,11 +26,9 @@ import { UIPluginDefinitionContent } from './UIPluginDefinition'
 const UIPluginConfContent = PropTypes.shape({
   id: PropTypes.number,
   active: PropTypes.bool,
-  pluginId: PropTypes.number.isRequired, // plugin definition ID
   label: PropTypes.string,
   // conf as saved by the corresponding administration form: see admin-ui-service-management/src/containers/ServiceConfigurationFormContainer
   conf: PropTypes.shape({
-    label: PropTypes.string.isRequired,
     // must be filled by the admin (empty if no parameter)
     static: PropTypes.object.isRequired,
     // can be, optionally, filled by the admin (empty if no parameter)

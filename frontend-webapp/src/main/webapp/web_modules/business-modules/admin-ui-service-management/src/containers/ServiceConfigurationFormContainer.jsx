@@ -93,12 +93,14 @@ export class ServiceConfigurationFormContainer extends React.Component {
   handleUpdate = (values) => {
     const updatedPluginConfiguration = Object.assign({}, {
       id: this.props.uiPluginConfiguration.content.id,
-      pluginId: this.props.uiPluginConfiguration.content.uiPluginId,
+      pluginDefinition: {
+        id: this.props.uiPluginConfiguration.content.uiPluginId,
+      },
     }, {
+      label: values.label,
       active: values.isActive,
-      default: values.isDefault,
+      linkedToAllEntities: values.isDefault,
       conf: {
-        label: values.label,
         static: values.static || {},
         dynamic: values.dynamic || {},
       },
@@ -119,11 +121,13 @@ export class ServiceConfigurationFormContainer extends React.Component {
    */
   handleCreate = (values) => {
     const newPluginConfiguration = {
-      pluginId: this.props.params.uiPluginId,
+      label: values.label,
+      pluginDefinition: {
+        id: this.props.params.uiPluginId,
+      },
       active: values.isActive,
-      default: values.isDefault,
+      linkedToAllEntities: values.isDefault,
       conf: {
-        label: values.label,
         static: values.static || {},
         dynamic: values.dynamic || {},
       },
@@ -147,7 +151,7 @@ export class ServiceConfigurationFormContainer extends React.Component {
         >
           {() => (
             <PluginProvider
-              pluginId={uiPluginId}
+              pluginId={Number(uiPluginId)}
               pluginInstanceId="something"
               displayPlugin={false}
             >

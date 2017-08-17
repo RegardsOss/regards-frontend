@@ -44,6 +44,7 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceConfigurationListComponen
     const handleToggleDefaultSpy = spy()
     const props = {
       uiPluginConfigurationList: DumpProvider.get('AccessProjectClient', 'UIPluginConfiguration'),
+      uiPluginDefinition: DumpProvider.getNthEntity('AccessProjectClient','UIPluginDefinition',2),
       plugin: PluginServiceDump,
       handleDelete: handleDeleteSpy,
       handleDuplicate: handleDuplicateSpy,
