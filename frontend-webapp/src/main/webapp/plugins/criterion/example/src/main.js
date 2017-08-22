@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ExmapleCriteria from './components/ExampleCriteria'
+import ExampleCriteria from './components/ExampleCriteria'
 import { initPlugin } from './common/RegardsPlugin'
 import messagesEn from './i18n/messages.en.i18n'
 import messagesFr from './i18n/messages.fr.i18n'
@@ -28,4 +28,4 @@ const messages = {
   fr: messagesFr,
 }
 
-initPlugin(ExmapleComponent, reducer, messages, pluginInfo)
+initPlugin(ExampleCriteria, reducer, messages, pluginInfo)
