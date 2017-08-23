@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -48,7 +48,6 @@ const messages = Object.assign({
   'collection.edit.title': 'Edit the collection {name}',
   'collection.create.title': 'Create a collection',
   'collection.duplicate.title': 'Duplicate the collection {name}',
-  'invalid.max_128_carac': 'Collection label can\'t exceed 128 characters',
   'collection.stepper.links': 'Edit links with others collections',
   'collection.stepper.attributes': 'Setup collection attributes',
 

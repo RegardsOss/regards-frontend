@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -83,7 +83,6 @@ const messages = Object.assign({
 
   'dataset.edit.title': 'Édition du jeu de données {name}',
   'dataset.create.title': 'Création d\'un nouveau jeu de données',
-  'invalid.max_128_carac': 'Le label d\'un dataset ne peut dépasser 128 caractères',
 
   'dataset.form.create.action.datasource': 'Créer une source de données',
   'dataset.form.create.action.cancel': 'Retour',

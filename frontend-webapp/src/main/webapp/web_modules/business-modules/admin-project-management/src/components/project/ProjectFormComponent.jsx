@@ -16,14 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import isEmpty from 'lodash/isEmpty'
+import trim from 'lodash/trim'
 import root from 'window-or-global'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, RenderCheckbox, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+
+const { string, url, required, validAlphaNumericUnderscore } = ValidationHelpers
+const requiredStringValidator = [required, string]
+const requiredUrlValidator = [required, url]
+const nameValidator = [validAlphaNumericUnderscore, ...requiredStringValidator]
 
 /**
  * Display edit and create project form
@@ -87,7 +92,7 @@ export class ProjectFormComponent extends React.Component {
       this.context.intl.formatMessage({ id: 'project.create.title' }) :
       this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })
     const hostFieldStyle = { marginBottom: 15 }
-    const validRequiredValidators = [ValidationHelpers.string, ValidationHelpers.required]
+
     return (
       <form
         className="selenium-projectForm"
@@ -101,16 +106,17 @@ export class ProjectFormComponent extends React.Component {
             <ShowableAtRender show={this.state.isCreating}>
               <Field
                 name="name"
-                validate={validRequiredValidators}
+                validate={nameValidator}
                 fullWidth
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'project.form.name' })}
+                normalize={trim}
               />
             </ShowableAtRender>
             <Field
               name="label"
-              validate={validRequiredValidators}
+              validate={requiredStringValidator}
               fullWidth
               component={RenderTextField}
               type="text"
@@ -131,6 +137,8 @@ export class ProjectFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'project.form.icon' })}
+              validate={url}
+              normalize={trim}
             />
             <Field
               name="licenceLink"
@@ -138,15 +146,18 @@ export class ProjectFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'project.form.license' })}
+              validate={url}
+              normalize={trim}
             />
             <Field
               name="host"
-              validate={validRequiredValidators}
+              validate={requiredUrlValidator}
               fullWidth
               className="selenium-host"
               component={RenderTextField}
               label={this.context.intl.formatMessage({ id: 'project.form.host' })}
               style={hostFieldStyle}
+              normalize={trim}
             />
             <Field
               name="isPublic"
@@ -176,32 +187,7 @@ export class ProjectFormComponent extends React.Component {
   }
 }
 
-function validate(values) {
-  const errors = {}
-  if (isEmpty(values)) {
-    // XXX workaround for redux form bug initial validation:
-    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
-    return errors
-  }
-  if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
-    errors.name = ErrorTypes.ALPHA_NUMERIC
-  }
-
-  if (!ValidationHelpers.isValidUrl(values.host)) {
-    errors.host = ErrorTypes.INVALID_URL
-  }
-  const urlToValidate = ['icon', 'licenceLink']
-  urlToValidate.forEach((field) => {
-    // validate only when specified, those fields are optional
-    if (values[field] && !ValidationHelpers.isValidUrl(values[field])) {
-      errors[field] = ErrorTypes.INVALID_URL
-    }
-  })
-  return errors
-}
-
 export default reduxForm({
   form: 'project-form',
-  validate,
 })(ProjectFormComponent)
 

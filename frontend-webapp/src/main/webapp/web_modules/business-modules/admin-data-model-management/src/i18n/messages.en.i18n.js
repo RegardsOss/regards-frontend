@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -48,7 +48,6 @@ const messages = Object.assign({
   'model.form.file': 'Or send an XML file containing the model, fragments and its attributes',
   'model.form.action.cancel': 'Cancel',
   'model.form.action.submit': 'Save',
-  'invalid.too_short': 'At least 3 caracters',
 
 }, Locales.en)
 

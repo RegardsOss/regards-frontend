@@ -15,8 +15,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import keys from 'lodash/keys'
+import trim from 'lodash/trim'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { AccessGroup } from '@regardsoss/model'
 import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
@@ -100,6 +101,7 @@ export class AccessGroupFormComponent extends React.Component {
               disabled={this.props.isEditing}
               validate={nameFieldValidations}
               label={this.context.intl.formatMessage({ id: 'group.form.name' })}
+              normalize={trim}
             />
             <br />
             <br />

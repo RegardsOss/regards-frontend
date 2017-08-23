@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 
 /**
  * Redux form common error types
@@ -41,5 +41,21 @@ export default {
       lowerBound,
       upperBound,
     },
+  }),
+  lengthLessThan: number => ({
+    key: 'invalid.length.less.than',
+    props: { number },
+  }),
+  lengthMoreThan: number => ({
+    key: 'invalid.length.more.than',
+    props: { number },
+  }),
+  lessThan: number => ({
+    key: 'invalid.less.than',
+    props: { number },
+  }),
+  moreThan: number => ({
+    key: 'invalid.more.than',
+    props: { number },
   }),
 }
