@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -85,7 +85,6 @@ const messages = Object.assign({
   'datasource.form.mapping.custom.subtitle': 'Dans un premier temps, écrivez une clause FROM, WHERE pour récupérer les données en fonction des tables disponibles dans la connexion. Ensuite, présicez la clause SELECT en SQL pour récupérer la valeur de l\'attribut du modèle',
   'datasource.form.mapping.custom.fromClause': 'Clause FROM, WHERE, [GROUP BY et HAVING]',
 
-  'invalid.max_128_carac': 'Utilisez 128 caractères ou moins pour le nom d\'une datasource',
   'invalid.one_pk_required': 'Choisissez un champ comme clé primaire',
   'invalid.only_one_pk_allowed': 'Utilisez une seule clé primaire',
 }, Locales.fr)

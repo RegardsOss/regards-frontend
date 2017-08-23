@@ -15,13 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import some from 'lodash/some'
 import forEach from 'lodash/forEach'
 import map from 'lodash/map'
+import trim from 'lodash/trim'
 import { formValueSelector } from 'redux-form'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
@@ -38,6 +39,9 @@ import AddSvg from 'material-ui/svg-icons/content/add'
 import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
+
+const { required, email } = ValidationHelpers
+const requiredEmailValidator = [required, email]
 
 /**
  * Display edit and create project form
@@ -254,6 +258,8 @@ export class ProjectUserFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={formatMessage({ id: 'projectUser.create.input.email' })}
+              validate={requiredEmailValidator}
+              normalize={trim}
             />
             { /* Show account creation options when creating an account */}
             <ShowableAtRender show={!useExistingAccount && this.state.isCreating} >
@@ -264,6 +270,8 @@ export class ProjectUserFormComponent extends React.Component {
                   component={RenderTextField}
                   type="password"
                   label={formatMessage({ id: 'projectUser.create.input.password' })}
+                  validate={required}
+                  normalize={trim}
                 />
                 <Field
                   name="firstName"
@@ -271,6 +279,7 @@ export class ProjectUserFormComponent extends React.Component {
                   component={RenderTextField}
                   type="text"
                   label={formatMessage({ id: 'projectUser.create.input.firstName' })}
+                  validate={required}
                 />
                 <Field
                   name="lastName"
@@ -278,6 +287,7 @@ export class ProjectUserFormComponent extends React.Component {
                   component={RenderTextField}
                   type="text"
                   label={formatMessage({ id: 'projectUser.create.input.lastName' })}
+                  validate={required}
                 />
               </div>
             </ShowableAtRender>
@@ -328,25 +338,8 @@ export class ProjectUserFormComponent extends React.Component {
   }
 }
 
-
 function validate(formValues) {
   const errors = {}
-  if (formValues.email) {
-    if (!ValidationHelpers.isValidEmail(formValues.email)) {
-      errors.email = ErrorTypes.EMAIL
-    }
-  } else {
-    errors.email = ErrorTypes.REQUIRED
-  }
-  if (!formValues.firstName) {
-    errors.firstName = ErrorTypes.REQUIRED
-  }
-  if (!formValues.lastName) {
-    errors.lastName = ErrorTypes.REQUIRED
-  }
-  if (!formValues.password) {
-    errors.password = ErrorTypes.REQUIRED
-  }
   return errors
 }
 

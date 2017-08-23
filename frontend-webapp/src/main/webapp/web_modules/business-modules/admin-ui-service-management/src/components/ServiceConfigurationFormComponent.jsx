@@ -15,8 +15,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import map from 'lodash/map'
+import trim from 'lodash/trim'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
 import { AccessShapes } from '@regardsoss/shape'
@@ -118,6 +119,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
               type="text"
               label={this.context.intl.formatMessage({ id: 'service.form.label' })}
               validate={ValidationHelpers.validRequiredString}
+              normalize={trim}
             />
             {map(plugin.info.conf.static, (input, id) => (
               <Field

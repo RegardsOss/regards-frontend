@@ -15,8 +15,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import get from 'lodash/get'
+import trim from 'lodash/trim'
 import Subheader from 'material-ui/Subheader'
 import { ShowableAtRender } from '@regardsoss/components'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
@@ -75,6 +76,7 @@ export class PluginParameterString extends React.Component {
             type={'text'}
             label={label}
             validate={validators}
+            normalize={trim}
           />
         </ShowableAtRender>
       </div>
