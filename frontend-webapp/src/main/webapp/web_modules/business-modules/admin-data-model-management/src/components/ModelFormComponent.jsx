@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  * */
+import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
@@ -95,6 +96,7 @@ export class ModelFormComponent extends React.Component {
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'model.form.name' })}
                 validate={nameValidators}
+                normalize={trim}
               />
             </ShowableAtRender>
             <Field
