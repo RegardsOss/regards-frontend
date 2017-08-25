@@ -22,8 +22,19 @@ const messages = Object.assign({
   'document.list.action.add': 'Add',
   'document.list.action.cancel': 'Cancel',
   'document.list.title': 'Documents',
-  'document.list.subtitle': 'Documents are clustering of data by topic',
+  'document.list.subtitle': 'Documents are entities carrying files',
   'document.list.delete.message': 'Delete the document {name} ?',
+
+  'document.list.action.edit': 'Edit',
+  'document.list.action.duplicate': 'Duplicate',
+  'document.list.action.delete': 'Delete',
+
+  'document.list.table.label': 'Label',
+  'document.list.table.actions': 'Actions',
+  'document.list.table.model': 'Model',
+
+  'document.no.dataset.title': 'No document',
+
   'document.form.links.component.subtitle': 'Current document links',
   'document.form.links.remainingdocument.subtitle': 'Available documents',
   'document.form.links.document.subtitle': 'Document links',
@@ -32,9 +43,7 @@ const messages = Object.assign({
   'document.form.links.action.done': 'Save',
   'document.form.links.action.cancel': 'Back',
   'document.form.links.remainingdocument.search': 'Filter documents with their names',
-  'document.list.table.label': 'Label',
-  'document.list.table.actions': 'Actions',
-  'document.list.table.model': 'Model',
+
   'document.form.action.next': 'Next',
   'document.form.action.cancel': 'Cancel',
   'document.form.model': 'Document models',
@@ -49,20 +58,9 @@ const messages = Object.assign({
   'document.create.title': 'Create a document',
   'document.duplicate.title': 'Duplicate the document {name}',
   'invalid.max_128_carac': 'Document label can\'t exceed 128 characters',
+
   'document.stepper.links': 'Edit links with others documents',
   'document.stepper.attributes': 'Setup document attributes',
-
-  'document.form.descriptionUrl': 'Page URL describing the dataset',
-  'document.form.descriptionFileContent': 'Upload a Markdown or PDF file',
-  'document.form.descriptionFileContentReuploadToOverride': 'Upload a file containing the description if you want to overwrite the existing one',
-  'document.form.datasource': 'Data source',
-  'document.form.radio.descriptionUrl': 'Provide the URL containing the description',
-  'document.form.radio.descriptionFileContent': 'Upload a file containing the description',
-  'document.form.radio.none': 'No description',
-
-  'document.list.action.edit': 'Edit',
-  'document.list.action.duplicate': 'Duplicate',
-  'document.list.action.delete': 'Delete',
 }, Locales.en)
 
 export default messages

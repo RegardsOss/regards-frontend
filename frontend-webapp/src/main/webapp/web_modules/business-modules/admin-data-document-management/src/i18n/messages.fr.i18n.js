@@ -22,8 +22,17 @@ const messages = Object.assign({
   'document.list.action.add': 'Ajouter',
   'document.list.action.cancel': 'Annuler',
   'document.list.title': 'Documents',
-  'document.list.subtitle': 'Les documents sont des regroupements de données par thématique',
-  'document.list.delete.message': 'Supprimer la document {name} ?',
+  'document.list.subtitle': 'Les documents sont des entités portant des fichiers',
+  'document.list.delete.message': 'Supprimer le document {name} ?',
+
+  'document.list.action.edit': 'Editer',
+  'document.list.action.duplicate': 'Dupliquer',
+  'document.list.action.delete': 'Supprimer',
+
+  'document.list.table.label': 'Label',
+  'document.list.table.actions': 'Actions',
+  'document.list.table.model': 'Modèle',
+
   'document.no.dataset.title': 'Aucun document',
 
   'document.form.links.component.subtitle': 'Lien de la document courante',
@@ -34,9 +43,7 @@ const messages = Object.assign({
   'document.form.links.action.done': 'Terminer',
   'document.form.links.action.cancel': 'Retour',
   'document.form.links.remainingdocument.search': 'Filtrer les documents sur leur nom',
-  'document.list.table.label': 'Label',
-  'document.list.table.actions': 'Actions',
-  'document.list.table.model': 'Modèle',
+
   'document.form.action.next': 'Suivant',
   'document.form.action.cancel': 'Annuler',
   'document.form.model': 'Modèles de document',
@@ -51,20 +58,9 @@ const messages = Object.assign({
   'document.create.title': 'Création d\'une document',
   'document.duplicate.title': 'Dupliquer la document {name}',
   'invalid.max_128_carac': 'Le label d\'une document ne peut dépasser 128 caractères',
+
   'document.stepper.links': 'Edition des liens avec les autres documents',
   'document.stepper.attributes': 'Saisie des attributs d\'une document',
-
-  'document.form.descriptionUrl': 'URL de la page décrivant le jeu de données',
-  'document.form.descriptionFileContent': 'Envoyer un fichier Markdown ou PDF',
-  'document.form.descriptionFileContentReuploadToOverride': 'Envoyer un fichier Markdown ou PDF contenant la description si vous voulez écraser celle déjà présente',
-  'document.form.datasource': 'Source de données',
-  'document.form.radio.descriptionUrl': 'Fournir l\'URL contenant la description',
-  'document.form.radio.descriptionFileContent': 'Envoyer un fichier contenant la description',
-  'document.form.radio.none': 'Pas de description',
-
-  'document.list.action.edit': 'Editer',
-  'document.list.action.duplicate': 'Dupliquer',
-  'document.list.action.delete': 'Supprimer',
 }, Locales.fr)
 
 export default messages

@@ -27,11 +27,10 @@ const DocumentContent = PropTypes.shape({
   label: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   model: ModelContent.isRequired,
-  dataModel: PropTypes.number.isRequired,
+  files: PropTypes.any,
   properties: PropTypes.any,
   quotations: PropTypes.any,
   groups: PropTypes.any,
-  score: PropTypes.number,
   entityType: PropTypes.string,
 })
 

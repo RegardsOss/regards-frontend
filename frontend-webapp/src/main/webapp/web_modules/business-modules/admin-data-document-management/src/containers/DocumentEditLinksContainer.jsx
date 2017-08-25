@@ -25,6 +25,7 @@ import filter from 'lodash/filter'
 import startsWith from 'lodash/startsWith'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { documentActions, documentSelectors } from '../clients/DocumentClient'
+import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import DocumentEditLinksComponent from '../components/DocumentEditLinksComponent'
 import { documentLinkActions } from '../clients/DocumentLinkClient'
 import messages from '../i18n'
@@ -42,21 +43,24 @@ export class DocumentEditLinksContainer extends React.Component {
     }),
     // from mapStateToProps
     currentDocument: DataManagementShapes.Document,
-    documentList: DataManagementShapes.DocumentList,
+    collectionList: DataManagementShapes.CollectionList,
     // from mapDispatchToProps
     removeTagFromDocument: PropTypes.func,
     addTagToDocument: PropTypes.func,
     fetchDocument: PropTypes.func,
-    fetchDocumentList: PropTypes.func,
+    fetchCollectionList: PropTypes.func,
   }
 
   state = {
-    documentName: '',
+    collectionName: '',
     isLoading: true,
   }
 
   componentDidMount() {
-    this.props.fetchDocumentList()
+    Promise.all([
+        this.props.fetchCollectionList(),
+        this.props.fetchDocument(this.props.params.documentId)
+      ])
       .then(() => {
         this.setState({
           isLoading: false,
@@ -69,16 +73,20 @@ export class DocumentEditLinksContainer extends React.Component {
     return `/admin/${project}/data/document/${documentId}/edit`
   }
 
-  getComponent = documentLinkedToCurrentDocument => (
-    <DocumentEditLinksComponent
-      linkedDocuments={documentLinkedToCurrentDocument[0]}
-      remainingDocuments={documentLinkedToCurrentDocument[1]}
-      handleAdd={this.handleAdd}
-      handleDelete={this.handleDelete}
-      handleSearch={this.handleSearch}
-      backUrl={this.getBackUrl()}
-      doneUrl={this.getDoneUrl()}
-    />)
+  getComponent = () => {
+    const { currentDocument, collectionList } = this.props
+    const collectionLinkedToCurrentDocument = this.getRemainingCollections(currentDocument, collectionList)
+    return (
+      <DocumentEditLinksComponent
+        linkedCollections={collectionLinkedToCurrentDocument[0]}
+        remainingCollections={collectionLinkedToCurrentDocument[1]}
+        handleAdd={this.handleAdd}
+        handleDelete={this.handleDelete}
+        handleSearch={this.handleSearch}
+        backUrl={this.getBackUrl()}
+        doneUrl={this.getDoneUrl()}
+      />)
+  }
 
   getDoneUrl = () => {
     const { params: { project } } = this.props
@@ -86,21 +94,23 @@ export class DocumentEditLinksContainer extends React.Component {
   }
 
   /**
-   * Devide the documentList into 2 sets, one linked to the current document
-   * and remaining document can be associated with current document
+   * Divide the collectionList into 2 sets, one linked to the current document
+   * and remaining collections that can be associated with current document
    * @param currentDocument
-   * @param documentList
+   * @param collectionList
    * @returns {[*,*]}
    */
-  getRemainingDocument = (currentDocument, documentList) => {
-    const { documentName } = this.state
-    const documentLinkedToCurrentDocument = partition(documentList, document => some(currentDocument.content.tags, tag => tag === document.content.ipId,
+  getRemainingCollections = (currentDocument, collectionList) => {
+    const { collectionName } = this.state
+
+    const collectionLinkedToCurrentDocument = partition(collectionList, collection =>
+      some(currentDocument.content.tags, tag => tag === collection.content.ipId,
     ))
     return [
-      documentLinkedToCurrentDocument[0],
-      // Remove the currentDocument from documentList
-      filter(documentLinkedToCurrentDocument[1], document =>
-        document.content.id !== currentDocument.content.id && startsWith(document.content.label.toLowerCase(), documentName),
+      collectionLinkedToCurrentDocument[0],
+      // Remove the currentCollection from collectionList and use, if setup, the search input value
+      filter(collectionLinkedToCurrentDocument[1], collection =>
+        startsWith(collection.content.label.toLowerCase(), collectionName),
       ),
     ]
   }
@@ -118,22 +128,20 @@ export class DocumentEditLinksContainer extends React.Component {
   handleDelete = tag => Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, [tag]))
     .then(actionResult => this.props.fetchDocument(this.props.params.documentId))
 
-  handleSearch = (event, documentName) => {
+  handleSearch = (event, collectionName) => {
     this.setState({
-      documentName: documentName.toLowerCase(),
+      collectionName: collectionName.toLowerCase(),
     })
   }
 
   render() {
-    const { currentDocument, documentList } = this.props
     const { isLoading } = this.state
-    const documentLinkedToCurrentDocument = this.getRemainingDocument(currentDocument, documentList)
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {this.getComponent(documentLinkedToCurrentDocument)}
+          {this.getComponent}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -142,11 +150,11 @@ export class DocumentEditLinksContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   currentDocument: documentSelectors.getById(state, ownProps.params.documentId),
-  documentList: documentSelectors.getList(state),
+  collectionList: collectionSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchDocumentList: () => dispatch(documentActions.fetchEntityList()),
+  fetchCollectionList: () => dispatch(collectionActions.fetchEntityList()),
   fetchDocument: id => dispatch(documentActions.fetchEntity(id)),
   addTagToDocument: (documentId, tags) => dispatch(documentLinkActions.sendSignal('PUT', tags, { document_id: documentId, operation: 'associate' })),
   removeTagFromDocument: (documentId, tags) => dispatch(documentLinkActions.sendSignal('PUT', tags, { document_id: documentId, operation: 'dissociate' })),

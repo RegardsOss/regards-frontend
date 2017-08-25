@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
+import { collectionReducer } from './clients/CollectionClient'
 import { documentReducer } from './clients/DocumentClient'
 import { modelReducer } from './clients/ModelClient'
 import { modelAttributesReducer } from './clients/ModelAttributesClient'
@@ -24,6 +25,7 @@ import { documentLinkReducer } from './clients/DocumentLinkClient'
 import { tableReducer } from './clients/TableClient'
 
 const documentDataManagementReducer = combineReducers({
+  collection: collectionReducer,
   document: documentReducer,
   model: modelReducer,
   'document-table': tableReducer,

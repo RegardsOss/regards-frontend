@@ -39,19 +39,15 @@ import { themeContextType } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { tableActions, tableSelectors } from '../clients/TableClient'
 import { documentActions, documentSelectors } from '../clients/DocumentClient'
-import AccessRightsMetadataAccessTableCustomCell from './AccessRightsMetadataAccessTableCustomCell'
-import AccessRightsDataAccessTableCustomCell from './AccessRightsDataAccessTableCustomCell'
-import AccessRightsActionsTableCustomCell from './AccessRightsActionsTableCustomCell'
-import documentDependencies from '../dependencies'
+import DocumentTableCustomCellActions from './DocumentTableCustomCellActions'
 
-const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
 /**
- * Component to configure Document
+ * Component to list Document
  *
  * @author Léo Mieulet
  */
-class AccessRightListComponent extends React.Component {
+class DocumentListComponent extends React.Component {
 
   static propTypes = {
     handleDelete: PropTypes.func.isRequired,
@@ -100,7 +96,7 @@ class AccessRightListComponent extends React.Component {
    * @returns {XML}
    */
   renderDeleteConfirmDialog = () => {
-    const name = get(this.state.entityToDelete, 'dataset.label', ' ')
+    const name = get(this.state.entityToDelete, 'label', ' ')
     const title = this.context.intl.formatMessage({ id: 'document.list.delete.message' }, { name })
     return (
       <ShowableAtRender
@@ -109,7 +105,7 @@ class AccessRightListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete)
+            this.props.handleDelete(this.state.entityToDelete.id)
           }}
           onClose={this.closeDeleteDialog}
           title={title}
@@ -124,7 +120,7 @@ class AccessRightListComponent extends React.Component {
     const tableConfiguration = {
       displayColumnsHeader: true,
       lineHeight: 47,
-      displayCheckbox: true,
+      displayCheckbox: false,
       displaySelectAll: false,
       onSortByColumn: () => {
       },
@@ -152,7 +148,7 @@ class AccessRightListComponent extends React.Component {
     const columns = [
       {
         // Label of the column
-        label: intl.formatMessage({ id: 'document.table.dataset.label' }),
+        label: intl.formatMessage({ id: 'document.list.table.label' }),
         // Entity attributes to display as cell in the column
         attributes: ['label'],
         // True to hide the column label in the header line of the table
@@ -161,30 +157,14 @@ class AccessRightListComponent extends React.Component {
         sortable: false,
       },
       {
-        label: intl.formatMessage({ id: 'document.form.meta.accessLevel' }),
-        attributes: ['label', 'id'],
-        customCell: {
-          component: AccessRightsMetadataAccessTableCustomCell,
-          props: {
-            intl,
-          },
-        },
+        label: intl.formatMessage({ id: 'document.list.table.model' }),
+        attributes: ['model.name'],
       },
       {
-        label: intl.formatMessage({ id: 'document.form.data.accessLevel' }),
-        attributes: ['label', 'id'],
+        label: intl.formatMessage({ id: 'document.list.table.actions' }),
+        attributes: [],
         customCell: {
-          component: AccessRightsDataAccessTableCustomCell,
-          props: {
-            intl,
-          },
-        },
-      },
-      {
-        label: intl.formatMessage({ id: 'document.table.actions' }),
-        attributes: ['label', 'id'],
-        customCell: {
-          component: AccessRightsActionsTableCustomCell,
+          component: DocumentTableCustomCellActions,
           props: {
             onDelete: this.openDeleteDialog,
             onEdit: handleEdit,
@@ -193,6 +173,7 @@ class AccessRightListComponent extends React.Component {
         },
       },
     ]
+
     const emptyComponent = (
       <NoContentComponent
         title={intl.formatMessage({ id: 'document.no.dataset.title' })}
@@ -208,7 +189,7 @@ class AccessRightListComponent extends React.Component {
         <CardText>
           {this.renderDeleteConfirmDialog()}
           <TableContainer
-            name="access-rights-datasets-table"
+            name="documents-table"
             pageActions={documentActions}
             pageSelectors={documentSelectors}
             tableActions={tableActions}
@@ -240,4 +221,4 @@ class AccessRightListComponent extends React.Component {
 
 }
 
-export default AccessRightListComponent
+export default DocumentListComponent

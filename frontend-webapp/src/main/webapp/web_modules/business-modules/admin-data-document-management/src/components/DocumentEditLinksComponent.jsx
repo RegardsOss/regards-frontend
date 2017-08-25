@@ -38,8 +38,8 @@ import DocumentStepperComponent from './DocumentStepperComponent'
 export class DocumentEditLinksComponent extends React.Component {
 
   static propTypes = {
-    linkedDocuments: DataManagementShapes.DocumentArray,
-    remainingDocuments: DataManagementShapes.DocumentArray,
+    linkedCollections: DataManagementShapes.CollectionArray,
+    remainingCollections: DataManagementShapes.CollectionArray,
     handleAdd: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired,
     handleSearch: PropTypes.func.isRequired,
@@ -54,7 +54,7 @@ export class DocumentEditLinksComponent extends React.Component {
 
 
   render() {
-    const { linkedDocuments, remainingDocuments, handleAdd, handleDelete, handleSearch, doneUrl, backUrl } = this.props
+    const { remainingCollections, linkedCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl } = this.props
     return (
       <Card>
         <CardTitle
@@ -67,12 +67,12 @@ export class DocumentEditLinksComponent extends React.Component {
             <div className="col-sm-50">
               <List>
                 <Subheader><FormattedMessage id="document.form.links.document.subtitle" /></Subheader>
-                {map(linkedDocuments, (document, id) => (
+                {map(linkedCollections, (collection) => (
                   <ListItem
-                    key={id}
-                    primaryText={document.content.label}
+                    key={collection.content.ipId}
+                    primaryText={collection.content.label}
                     rightIconButton={
-                      <IconButton onTouchTap={() => handleDelete(document.content.ipId)}>
+                      <IconButton onTouchTap={() => handleDelete(collection.content.ipId)}>
                         <Clear />
                       </IconButton>
                     }
@@ -102,12 +102,12 @@ export class DocumentEditLinksComponent extends React.Component {
                   }
                   disabled
                 />
-                {map(remainingDocuments, (document, id) => (
+                {map(remainingCollections, (collection, id) => (
                   <ListItem
-                    key={id}
-                    primaryText={document.content.label}
+                    key={collection.content.ipId}
+                    primaryText={collection.content.label}
                     rightIconButton={
-                      <IconButton onTouchTap={() => handleAdd(document.content.ipId)}>
+                      <IconButton onTouchTap={() => handleAdd(collection.content.ipId)}>
                         <Add />
                       </IconButton>
                     }

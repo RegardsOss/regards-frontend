@@ -90,6 +90,20 @@ export class DocumentFormContainer extends React.Component {
     return `/admin/${project}/data/document/list`
   }
 
+  getComponent = () => {
+    const { currentDocument, modelList, modelAttributeList } = this.props
+    const { isEditing, isDuplicating } = this.state
+    return (<DocumentFormComponent
+      modelList={modelList}
+      modelAttributeList={modelAttributeList}
+      currentDocument={currentDocument}
+      isDuplicating={isDuplicating}
+      onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
+      handleUpdateModel={this.handleUpdateModel}
+      backUrl={this.getBackUrl()}
+    />)
+  }
+
   redirectToLinksPage = (documentId) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/document/${documentId}/links`
@@ -98,24 +112,12 @@ export class DocumentFormContainer extends React.Component {
 
   handleUpdate = (values) => {
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
-    const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
     const updatedDocument = Object.assign({}, this.props.currentDocument.content, {
       label: values.label,
       geometry: values.geometry,
       properties,
     })
-    // Update the descriptionFile object if the user changed that value
-    if (descriptionFile) {
-      updatedDocument.descriptionFile = descriptionFile
-    }
-    const files = {}
-    if (values.descriptionFileContent) {
-      files.file = values.descriptionFileContent
-    }
-    const apiValues = {
-      document: updatedDocument,
-    }
-    Promise.resolve(this.props.updateDocument(this.props.currentDocument.content.id, apiValues, files))
+    Promise.resolve(this.props.updateDocument(this.props.currentDocument.content.id, updatedDocument))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -139,23 +141,14 @@ export class DocumentFormContainer extends React.Component {
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentDocument.content.tags
     }
-    const descriptionFile = getAbstractEntityDescription(values.descriptionFileContent, values.descriptionUrl)
-    const files = {}
-    // Send the file if there is
-    if (values.descriptionFileContent) {
-      files.file = values.descriptionFileContent
-    }
-    const apiValues = {
-      document: Object.assign({}, defaultValues, {
-        label: values.label,
-        geometry: values.geometry,
-        descriptionFile,
-        model,
-        properties,
-        entityType: ENTITY_TYPES_ENUM.COLLECTION,
-      }),
-    }
-    Promise.resolve(this.props.createDocument(apiValues, files))
+    const newDocument = Object.assign({}, defaultValues, {
+      label: values.label,
+      geometry: values.geometry,
+      model,
+      properties,
+      entityType: ENTITY_TYPES_ENUM.DOCUMENT,
+    })
+    Promise.resolve(this.props.createDocument(newDocument))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -180,7 +173,7 @@ export class DocumentFormContainer extends React.Component {
   }
 
   render() {
-    const { isFetchingDocument, currentDocument, modelList, modelAttributeList, isFetchingModel, isFetchingModelAttribute } = this.props
+    const { isFetchingDocument, modelAttributeList, isFetchingModel, isFetchingModelAttribute } = this.props
     const { isEditing, isDuplicating } = this.state
     const isLoading = ((isEditing || isDuplicating) && (isFetchingDocument || (isFetchingModelAttribute && Object.keys(modelAttributeList).length === 0) || isFetchingModel)) || isFetchingModel
     return (
@@ -188,16 +181,7 @@ export class DocumentFormContainer extends React.Component {
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {() => (<DocumentFormComponent
-            modelList={modelList}
-            modelAttributeList={modelAttributeList}
-            currentDocument={currentDocument}
-            isDuplicating={isDuplicating}
-            onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
-            handleUpdateModel={this.handleUpdateModel}
-            backUrl={this.getBackUrl()}
-          />)
-          }
+          {this.getComponent}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -215,9 +199,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchDocument: id => dispatch(documentActions.fetchEntity(id)),
-  createDocument: (values, files) => dispatch(documentActions.createEntityUsingMultiPart(values, files)),
-  updateDocument: (id, values, files) => dispatch(documentActions.updateEntityUsingMultiPart(id, values, files)),
-  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.COLLECTION })),
+  createDocument: (values) => dispatch(documentActions.createEntity(values)),
+  updateDocument: (id, values) => dispatch(documentActions.updateEntity(id, values)),
+  fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.DOCUMENT })),
   fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })

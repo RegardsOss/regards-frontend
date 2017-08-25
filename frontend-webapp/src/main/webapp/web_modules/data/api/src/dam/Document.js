@@ -16,25 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
-import get from 'lodash/get'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { Schema, arrayOf } from 'normalizr'
 
-class AccessRightsTableCustomCell extends React.Component {
-  static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    intl: PropTypes.object,
-    // eslint-disable-next-line react/no-unused-prop-types
-    entity: DataManagementShapes.Document,
-    // eslint-disable-next-line react/no-unused-prop-types
-    lineHeight: PropTypes.number.isRequired,
-  }
-
-  render() {
-    return (
-      <span>Hello world :)))</span>
-    )
-  }
+const DocumentConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'document',
 }
 
-export default AccessRightsTableCustomCell
+const document = new Schema(DocumentConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[DocumentConfiguration.entityKey],
+  assignEntity(output, key, value, input) {
+    if (value && value.geometry) {
+      try {
+        // eslint-disable-next-line no-param-reassign
+        output.content.geometry = JSON.stringify(value.geometry)
+      } catch (e) {
+        console.error(`Invalid attribute geometry for document ${value.id}`, e)
+      }
+    }
+  },
+})
+
+// Schemas for API responses.
+export default {
+  DOCUMENT: document,
+  DOCUMENT_ARRAY: arrayOf(document),
+  DocumentConfiguration,
+}

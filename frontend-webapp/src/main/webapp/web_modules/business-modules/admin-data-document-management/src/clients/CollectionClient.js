@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,14 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+ */
+import { DataManagementClient } from '@regardsoss/client'
 
-export default class DocumentLinkActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/documents/{document_id}/{operation}`,
-    })
-  }
+/**
+ * Datasource entities client.
+ *
+ * @author Léo Mieulet
+ */
+const ENTITIES_STORE_PATH = ['admin', 'data-management', 'document', 'collection']
+const REDUX_ACTION_NAMESPACE = 'admin-data-document-management/collection'
+
+const collectionReducer = DataManagementClient.CollectionReducer(REDUX_ACTION_NAMESPACE)
+const collectionActions = new DataManagementClient.CollectionActions(REDUX_ACTION_NAMESPACE)
+const collectionSelectors = DataManagementClient.CollectionSelectors(ENTITIES_STORE_PATH)
+
+export default {
+  collectionReducer,
+  collectionActions,
+  collectionSelectors,
 }

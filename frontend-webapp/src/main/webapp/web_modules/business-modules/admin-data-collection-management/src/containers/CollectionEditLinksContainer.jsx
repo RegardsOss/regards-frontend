@@ -98,7 +98,7 @@ export class CollectionEditLinksContainer extends React.Component {
     ))
     return [
       collectionLinkedToCurrentCollection[0],
-      // Remove the currentCollection from collectionList
+      // Remove the currentCollection from collectionList and use, if setup, the search input value
       filter(collectionLinkedToCurrentCollection[1], collection =>
         collection.content.id !== currentCollection.content.id && startsWith(collection.content.label.toLowerCase(), collectionName),
       ),

@@ -33,7 +33,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import CollectionStepperComponent from './CollectionStepperComponent'
 
 /**
- * React component to list collections.
+ * React component to list collections that can be linked them to the current document.
  */
 export class CollectionEditLinksComponent extends React.Component {
 
