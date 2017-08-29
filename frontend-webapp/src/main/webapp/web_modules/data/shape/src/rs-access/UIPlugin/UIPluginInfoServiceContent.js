@@ -30,14 +30,14 @@ const UIServiceInstanceConfContent = PropTypes.shape({
   // this constant is essential to know the plugin working mode (works with ONE and / or many objects)
   target: PropTypes.arrayOf(PropTypes.oneOf(values(applicationModes))).isRequired,
   // static plugin parameters (ie configuration at administrion level)
-  static: PropTypes.arrayOf(
+  static: PropTypes.objectOf(
     PropTypes.shape({
       type: ParameterType.isRequired,
       required: PropTypes.bool,
     }),
   ),
   // dynamic plugin parameters (ie configuration when using, at runtime)
-  dynamic: PropTypes.arrayOf(
+  dynamic: PropTypes.objectOf(
     PropTypes.shape({
       type: ParameterType.isRequired,
       label: PropTypes.string.isRequired,

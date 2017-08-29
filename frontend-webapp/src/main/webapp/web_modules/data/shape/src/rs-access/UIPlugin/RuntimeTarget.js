@@ -35,7 +35,7 @@ const oneEntityTarget = PropTypes.shape({
   getReducePromise: PropTypes.func.isRequired,
 })
 const manyEntitiesTarget = PropTypes.shape({
-  type: PropTypes.oneOf([RuntimeTargetTypes.ONE]).isRequired,
+  type: PropTypes.oneOf([RuntimeTargetTypes.MANY]).isRequired,
   entities: PropTypes.arrayOf(PropTypes.string).isRequired, // entities list
   entitiesCount: PropTypes.number.isRequired, // total count of entities
   // method to build fetch action: (entityIpId) => [dispatchable action object]

@@ -192,7 +192,7 @@ export class RunUIPluginServiceContainer extends React.Component {
       case RunUIPluginServiceContainer.Steps.PLUGIN_INSTANCE_ERROR:
         return RunServiceDialogComponent.buildMessageStep(
           formatMessage({ id: 'entities.common.services.loading.plugin.failed' }), true)
-      case RunUIPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR: // TODO remove if useless
+      case RunUIPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR:
         return RunServiceDialogComponent.buildMessageStep(
           formatMessage({ id: 'entities.common.services.plugin.parameters.error' }), true)
       case RunUIPluginServiceContainer.Steps.RUNNING_SERVICE_FAILED:

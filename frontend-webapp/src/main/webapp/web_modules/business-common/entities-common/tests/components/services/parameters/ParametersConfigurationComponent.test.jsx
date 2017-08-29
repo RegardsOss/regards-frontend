@@ -23,6 +23,7 @@ import { Parameter } from '../../../../src/definitions/parameters/Parameter'
 import ParametersConfigurationComponent from '../../../../src/components/services/parameters/ParametersConfigurationComponent'
 import BooleanParameterField from '../../../../src/components/services/parameters/BooleanParameterField'
 import ChoiceParameterField from '../../../../src/components/services/parameters/ChoiceParameterField'
+import DateParameterField from '../../../../src/components/services/parameters/DateParameterField'
 import TextParameterField from '../../../../src/components/services/parameters/TextParameterField'
 import styles from '../../../../src/styles/styles'
 
@@ -44,9 +45,10 @@ describe('[Entities Common] Testing ParametersConfigurationComponent', () => {
     const validator = () => { }
     const props = {
       parameters: [
-        Parameter.buildBooleanEditor('bool', null, true),
-        Parameter.buildChoiceEditor('choice', null, choices, false),
-        Parameter.buildTextEditor('text', null, validator, false),
+        Parameter.buildBooleanEditor('bool', null, true, 'Bool'),
+        Parameter.buildChoiceEditor('choice', null, choices, false, 'Choice'),
+        Parameter.buildTextEditor('text', null, validator, false, 'Text'),
+        Parameter.buildDateEditor('date', null, false, 'Date'),
       ],
       parametersValues: {},
       initialize: () => { },
@@ -61,22 +63,30 @@ describe('[Entities Common] Testing ParametersConfigurationComponent', () => {
     const choiceField = enzymeWrapper.find(ChoiceParameterField)
     assert.lengthOf(choiceField, 1, 'The choice parameter field should be displayed')
     assert.equal(choiceField.props().name, 'choice', 'Name should be reported from parameter name')
-    assert.equal(choiceField.props().label, 'choice', 'The field isn\'t mandatory, label should be its name')
+    assert.equal(choiceField.props().label, 'Choice', 'Label should be reported from parameter label')
     assert.equal(choiceField.props().choices, choices, 'Choices should be reported to the field')
 
     const textField = enzymeWrapper.find(TextParameterField)
     assert.lengthOf(textField, 1, 'The text parameter field should be displayed')
     assert.equal(textField.props().name, 'text', 'Name should be reported from parameter name')
-    assert.equal(textField.props().label, 'text', 'The field isn\'t mandatory, label should be its name')
+    assert.equal(textField.props().label, 'Text', 'Label should be reported from parameter label')
     assert.equal(textField.props().validator, validator, 'Validator should be reported to the field')
     assert.equal(textField.props().required, false, 'Required value should be reported to text field')
+
+    const dateField = enzymeWrapper.find(DateParameterField)
+    assert.lengthOf(dateField, 1, 'The date parameter field should be displayed')
+    assert.equal(dateField.props().name, 'date', 'Name should be reported from parameter name')
+    assert.equal(dateField.props().label, 'Date', 'Label should be reported from parameter label')
+    assert.equal(dateField.props().required, false, 'Required value should be reported to date field')
   })
 
   it('should initialize parameter values correctly', () => {
+
     const props = {
       parameters: [
         Parameter.buildBooleanEditor('bool', true, true),
         Parameter.buildChoiceEditor('choice', 'c1', ['c1', 'c2'], false),
+        Parameter.buildDateEditor('date', '1994-11-05T08:15:30-05:00', false),
         Parameter.buildTextEditor('text', 'x', () => { }, false),
       ],
       parametersValues: {
@@ -84,16 +94,13 @@ describe('[Entities Common] Testing ParametersConfigurationComponent', () => {
         choice: 'c2', // choice should use c2 value
         // text field should initialize to default parameter value 'x'
       },
-      initialize: ({ bool, choice, text }) => {
-        assert.equal(bool, false, 'The boolean field should be initialized using parameters values (since it is specified)')
-        assert.equal(choice, 'c2', 'The choice field should be initialized using parameters values (since it is specified)')
-        assert.equal(text, 'x', 'The text field should be initialized using default parameter value (since it isn\'t specified)')
+      initialize: ({ bool, choice, date, text }) => {
+        assert.equal(bool, false, 'The boolean field should be initialized using parameters values')
+        assert.equal(choice, 'c2', 'The choice field should be initialized using parameters values')
+        assert.equal(text, 'x', 'The text field should be initialized using default parameter value')
+        assert.equal(date, '1994-11-05T08:15:30-05:00', 'The date field should be initialized using default parameter value')
       },
     }
     shallow(<ParametersConfigurationComponent {...props} />, { context })
-  })
-
-  it('should use parameter label within label and parameter name within key ', () => {
-    assert.fail('TODO Implement ME')
   })
 })

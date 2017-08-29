@@ -35,53 +35,8 @@ import ExampleChartDisplayer from '../components/ExampleChartDisplayer'
 /**
  * An example service plugin container
  *
- * # About plugin service properties:
- * * test is provided by mapStateToProps, see redux connector at end of the file
- * * testDispatch is provided by mapDispatch to props, see redux connector at end of the file
- * * runtimeTarget has three objects types possibles described below
- * * configuration is the service plugin configuration. It contains two maps, 'static' and 'dynamic'
- * where static and dynamic containing parameters like key:value. The key is the one specified in plugin-info.json.
- * Note: only the parameters marked as required will always be present (the user decides if he fills others or not).
- *
- * # Runtime targets details:
- *
- * ## Common attributes:
- *
- * Every runtime target type (RuntimeTargetTypes.ONE,, RuntimeTargetTypes.MANY, RuntimeTargetTypes.QUERY, from AccessDomain)
- * define the following attributes:
- * * entitiesCount: A number, the count of selected entities for current target
- * * getFetchAction: A method to build a redux fetch action. Such action can be used with Redux
- * method dispatch(getFetchAction(...args)). Please note that function has different parameters, depending on query type
- * * getReducePromise: A function to apply a treatment on each entity . The promise will resolve with the applier result
- * the applier function must be like : (accumulator, entity: <entity unwrapped> ). The getReducePromise signature is
- * (reducer: func, initValue: *, pageSize: number) => Promise.
- * Please note that pageSize optional and is only defined for QUERY type
- *
- * ## By target type attributes:
- *
- * ### Type "ONE"
- *
- * * entity: that field contains entity IP ID, as a string
- * * getFetchAction: that method has signature () => (dipatchableAction:object)
- *
- * ### Type "MANY"
- *
- * * entities: that field contains entities IP ID, as an array of string
- * * getFetchAction: that method has signature (ipID:string) => (dipatchableAction:object). Note that in the specific case of MANY,
- * it should call for each entities
- *
- * ### Type "QUERY"
- *
- * * q: that field contains the open search query to retrieve elements
- * * entityType: that field contains the current entity type, as one of the enumation values ENTITY_TYPES_ENUM,
- * * getFetchAction: that method has signature (pageIndex: (optional) number, (optional) pageSize:number) => (dipatchableAction:object).
- * Note that in the specific case of QUERY, each page should be fetched
- *
- * # Wrting service plugin
- *
- * As it maybe painful to always switch between the target types, we propose the getReducePromise, that works exactly the same than a
- * standard reducer, except it needs the dispatch method from redux and result is available through then() (errors through catch()).
- * Please see the example below.
+ * About plugin service properties and mechanism, see [documentation server]/frontend/plugin-services/ page
+ * Writing service plugin
  *
  * @author Raphaël Mechali
  * @author Leo Mieulet
@@ -89,10 +44,10 @@ import ExampleChartDisplayer from '../components/ExampleChartDisplayer'
 export class ExampleContainer extends React.Component {
 
   /**
- * Redux connector to state: allows retrieving store elements. Used here to demo how to some fetched data from central store
- * @param {*} state redux dispatch function
- * note: non redux properties are also availble as second parameter
- */
+   * Redux connector to state: allows retrieving store elements. Used here to demo how to some fetched data from central store
+   * @param {*} state redux dispatch function
+   * note: non redux properties are also availble as second parameter
+   */
   static mapStateToProps = (state) => {
     // select the stuff we want in central redux store
     const authenticationInfo = AuthenticationClient.authenticationSelectors.getAuthenticationResult(state)
@@ -110,12 +65,15 @@ export class ExampleContainer extends React.Component {
   static mapDispatchToProps = (dispatch, { runtimeTarget }) => ({
     // we apply partially the method getReducePromise to ignore dispatch reference at runtime
     getReducePromise: (reducer, initialValue) => runtimeTarget.getReducePromise(dispatch, reducer, initialValue),
+    // We also demonstrate here how to use the fetch action direction. However, that method should not be priviledged
+    // as being more verbose
+    fetchSelectionThroughAction: (...args) => dispatch(runtimeTarget.getFetchAction(...args)),
   })
 
   static propTypes = {
     /** Plugin identifier (Note: wee keep that property only for demo purposes, as it is standard property
      * for plugin services, but we do not use it. see below how we disable the eslint warning one one line only
-     * for a specific warning type (VS Code or IntelliJ normally shows the corresponding rule as tooltip) */
+     * for a specific warning type (VS Code or IntelliJfetchSelectionThroughAction normally shows the corresponding rule as tooltip) */
     // eslint-disable-next-line react/no-unused-prop-types
     pluginInstanceId: React.PropTypes.string.isRequired,
     /** Runtime target: see class comment */
@@ -125,6 +83,7 @@ export class ExampleContainer extends React.Component {
     user: PropTypes.string, // user login or null, see mapStateToProps
     // From mapDispatchToProps
     getReducePromise: PropTypes.func.isRequired, // partially applied reduce promise, see mapStateToProps and later code demo
+    fetchSelectionThroughAction: PropTypes.func.isRequired,
   }
 
   // the scroll area styles
@@ -216,8 +175,50 @@ export class ExampleContainer extends React.Component {
         console.error('An error occured: ', e)
         this.setState({ loading: false, errorMessage: e ? e.message : 'unknown error' })
       })
+
+    // For demo purpose, we demonstrate here the manual fetching
+    this.loadThroughActions()
   }
 
+  /**
+   * Demonstrates loading through fetch actions dispatching
+   */
+  loadThroughActions() {
+    // note: it is possible to access and dispatch the fetch actions manually, like demonstrated here.
+    // however, we do prefer most of the time the reduce method, as being less verbose and more functional oriented
+    const { runtimeTarget, fetchSelectionThroughAction } = this.props
+    switch (runtimeTarget.type) {
+      case AccessDomain.RuntimeTargetTypes.ONE:
+        // no parameter, one element
+        fetchSelectionThroughAction()
+          .then(result => console.info('[ONE] I fetched one element', result))
+          .catch(err => console.error('[ONE] I failed fetching, error says', err))
+        break
+      case AccessDomain.RuntimeTargetTypes.MANY:
+        // many elements: fetch all (map to a promise array)
+        Promise.all(runtimeTarget.entities.map(ipId => fetchSelectionThroughAction(ipId)))
+          .then(result => console.info('[MANY] I fetched many elements', result))
+          .catch(err => console.error('[MANY] I failed fetching, error says', err))
+        break
+      case AccessDomain.RuntimeTargetTypes.QUERY:
+        {
+          // query: lets fetch all pages. Note: this is a really wrong practice, as it may overflow the client browser memory
+          const total = Math.min(10000, runtimeTarget.entitiesCount)
+          const pageSize = 4000
+          const pageCount = Math.ceil(total / pageSize)
+          const promises = []
+          for (let i = 0; i < pageCount; i += 1) {
+            promises.push(fetchSelectionThroughAction(i, pageSize))
+          }
+          Promise.all(promises)
+            .then(result => console.info('[QUERY] I fetched query elements', result))
+            .catch(err => console.error('[QUERY] I failed fetching, error says', err))
+        }
+        break
+      default:
+        console.error('Unknown target type ', runtimeTarget.type)
+    }
+  }
 
   /**
    * Renders the configuration value into DOM (knowing only string can be rendered)

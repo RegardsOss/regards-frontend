@@ -61,7 +61,7 @@ function resolveParameter(parameterKey, value, { label, type = UI_PLUGIN_CONF_PA
 }
 
 /**
- * Resolves UI plugin configuration to common parameters model for edition
+ * Resolves UI plugin configuration to common parameters model fconvertParameter(configParam, metaParamor edition
  * @param uiPluginConf UI plugin configuration with shape UIPluginConf
  * @param uiPluginInstance corresponding UI plugin instance with shape UIPluginInstanceContent
  * @return {Array<Parameter>} resolved array or empty array. Note: it removes non dynamic parameters
@@ -163,6 +163,7 @@ function packRuntimeConfiguration(uiPluginConf, pluginInstance, configuredDynami
 }
 
 export default {
+  resolveParameter,
   resolveParameters,
   packRuntimeTarget,
   packRuntimeConfiguration,

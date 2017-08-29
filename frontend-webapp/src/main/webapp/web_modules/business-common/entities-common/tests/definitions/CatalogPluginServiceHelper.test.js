@@ -19,8 +19,8 @@
 import flatMap from 'lodash/flatMap'
 import { assert } from 'chai'
 import { PluginParameterTypes, JavaPrimitiveTypes } from '@regardsoss/domain/common'
-import { convertParameter, resolveParametersWithTypes } from '../../../src/definitions/CatalogPluginServiceHelper'
-import { Parameter } from '../../../src/definitions/parameters/Parameter'
+import { convertParameter, resolveParametersWithTypes } from '../../src/definitions/CatalogPluginServiceHelper'
+import { Parameter } from '../../src/definitions/parameters/Parameter'
 
 const getConfigParameter = (name, dynamicsValues, defaultValue = undefined, dynamic = true) =>
   ({ name, dynamicsValues, value: defaultValue, dynamic })

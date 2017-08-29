@@ -36,6 +36,7 @@ export class PluginDisplayerContainer extends React.Component {
 
   static propTypes = {
     pluginInstance: AccessShapes.UIPluginInstanceContent,
+    // eslint-disable-next-line react/no-unused-prop-types
     pluginConf: PropTypes.shape({
       runtimeTarget: AccessShapes.RuntimeTarget,
       configuration: AccessShapes.RuntimeConfiguration,

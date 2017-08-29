@@ -37,10 +37,10 @@ describe('[Entities Common] Testing DateParameterField', () => {
   })
   it('should render correctly', () => {
     const props = {
-      name: 'aChoice',
-      label: 'AChoice',
+      name: 'aDate',
+      label: 'A date',
+      required: true,
     }
-    const enzymeWrapper = shallow(<DateParameterField {...props} />, { context })
-    assert.fail('TODO Implement ME SPECIFIC')
+    shallow(<DateParameterField {...props} />, { context })
   })
 })
