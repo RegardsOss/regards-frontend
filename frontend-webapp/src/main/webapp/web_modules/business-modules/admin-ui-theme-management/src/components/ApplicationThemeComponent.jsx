@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import map from 'lodash/map'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
@@ -224,7 +224,7 @@ class ApplicationThemeComponent extends React.Component {
           <Toolbar style={style.toolbar.root}>
             <ToolbarGroup firstChild>
               <IconButton onTouchTap={onClose}><Back color={style.toolbar.icon.color} /></IconButton>
-              <ToolbarTitle text={toolbarTitle} />
+              <ToolbarTitle text={toolbarTitle} style={style.toolbar.title} />
               {themeSelect}
             </ToolbarGroup>
             <ToolbarGroup lastChild>

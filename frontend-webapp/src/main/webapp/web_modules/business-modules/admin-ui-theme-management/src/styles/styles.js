@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import typography from 'material-ui/styles/typography'
 
 /**
@@ -50,8 +50,8 @@ const formStyles = (theme) => {
         },
         themeDropDownMenu: {
           style: {
-            top: -2,
-            left: -10,
+            top: -4,
+            left: -6,
           },
           labelStyle: {
             color: theme.palette.alternateTextColor,

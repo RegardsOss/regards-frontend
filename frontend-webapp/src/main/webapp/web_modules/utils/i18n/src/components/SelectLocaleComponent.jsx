@@ -15,7 +15,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
+ *
+ */
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import DropDownMenu from 'material-ui/DropDownMenu'
@@ -53,6 +54,7 @@ class SelectLocaleComponent extends React.Component {
       <DropDownMenu
         value={currentLocale}
         onChange={handleLocaleChange}
+        underlineStyle={{ display: 'none' }}
       >
         {items}
       </DropDownMenu>

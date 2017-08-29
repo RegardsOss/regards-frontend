@@ -30,23 +30,28 @@ const menuStyles = theme => (
       height: 50,
     },
     title: {
-      color: theme.palette.textColor,
+      color: theme.palette.alternateTextColor,
       marginLeft: '40px',
     },
     localeDropdown: {
       color: theme.palette.primary2Color,
     },
     loginButton: {
-      backgroundColor: theme.palette.primary2Color,
-      color: theme.palette.textColor,
+      backgroundColor: theme.palette.accent1Color,
+      color: theme.palette.alternateTextColor,
     },
     loggedUser: {
       text: {
         paddingTop: '5px',
-        color: theme.palette.textColor,
+        color: theme.palette.alternateTextColor,
       },
       icon: {
-        color: theme.palette.textColor,
+        color: theme.palette.alternateTextColor,
+      },
+    },
+    menu: {
+      icon: {
+        color: theme.palette.alternateTextColor,
       },
     },
     profile: {

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { MainActionButtonComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -30,7 +30,7 @@ class LoginButton extends React.Component {
     onLoginAction: PropTypes.func.isRequired,
   }
 
-  static contextTypes= {
+  static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
   }
@@ -40,6 +40,8 @@ class LoginButton extends React.Component {
       <MainActionButtonComponent
         label={this.context.intl.formatMessage({ id: 'loginButtonLabel' })}
         onTouchTap={this.props.onLoginAction}
+        primary={false}
+        secondary
       />
     )
   }
