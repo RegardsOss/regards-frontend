@@ -15,13 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import map from 'lodash/map'
 import without from 'lodash/without'
 import union from 'lodash/union'
 import fpmap from 'lodash/fp/map'
 import flow from 'lodash/flow'
 import fpfilter from 'lodash/fp/filter'
+import last from 'lodash/fp/last'
 import AppBar from 'material-ui/AppBar'
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
@@ -84,7 +85,8 @@ export default class PluginMetaDataListComponent extends React.Component {
     map(this.props.pluginTypes, type => (
       <ListItem
         key={type.content}
-        primaryText={type.content}
+        primaryText={last(type.content.split('.'))}
+        secondaryText={type.content}
         leftCheckbox={
           <Checkbox
             checked={this.state.displayedTypes.includes(type)}
@@ -186,7 +188,11 @@ export default class PluginMetaDataListComponent extends React.Component {
             {this.getGrid()}
           </div>
         </div>
-        <Drawer width={500} openSecondary open={this.state.filterOpen}>
+        <Drawer
+          width={500}
+          openSecondary
+          open={this.state.filterOpen}
+        >
           <AppBar
             iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
             title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.filter.title' })}
