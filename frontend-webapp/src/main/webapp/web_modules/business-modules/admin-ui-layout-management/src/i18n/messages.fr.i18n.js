@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 
 /**
@@ -24,7 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = Object.assign({
   'layout.title': 'Configuration de l\'agencement de l\'interface',
-  'layout.subtitle': 'Vous pouvez configurer l\'agencement de votre interface en créant des conteneurs. Ensuite, utilisez ces conteneurs pour positionner vos modules',
+  'layout.subtitle': 'Vous pouvez configurer l\'agencement de votre interface en créant des conteneurs. Placez ensuite vos modules dans ces conteneurs',
   'layout.submit': 'Sauvegarder',
   'layout.cancel': 'Annuler',
 }, Locales.fr)
