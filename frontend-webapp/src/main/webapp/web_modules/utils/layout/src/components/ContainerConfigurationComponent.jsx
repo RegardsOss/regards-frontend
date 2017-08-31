@@ -15,29 +15,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import map from 'lodash/map'
+ * */
+import flow from 'lodash/flow'
+import keys from 'lodash/keys'
+import fpfilter from 'lodash/fp/filter'
+import fpmap from 'lodash/fp/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
-import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
-import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
-import RaisedButton from 'material-ui/RaisedButton'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import {
   RenderTextField,
   RenderSelectField,
   Field,
-  RenderCheckbox,
   reduxForm,
   ValidationHelpers,
 } from '@regardsoss/form-utils'
+import ShowHideAdvancedOptions from './ShowHideAdvancedOptions'
+import DynamicContentField from './DynamicContentField'
 import ContainerShape from '../model/ContainerShape'
 import ContainerTypes from '../default/ContainerTypes'
 
+const classesFormat = (values, name) => join(values, ',')
+const classesParse = (value, name) => split(value, ',')
+
 /**
- * REact container to edit a container configuration
+ * React container to edit a container configuration
  */
 class ContainerConfigurationComponent extends React.Component {
 
@@ -52,17 +57,16 @@ class ContainerConfigurationComponent extends React.Component {
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    hideDynamicContentOption: false,
   }
 
   static contextTypes = {
     ...i18nContextType,
-  }
-
-  static buttonStyle = {
-    marginTop: 20,
-  }
-  static checkboxStyle = {
-    marginTop: 15,
+    ...themeContextType,
   }
 
   state = {
@@ -87,29 +91,23 @@ class ContainerConfigurationComponent extends React.Component {
     input.onChange(value)
   }
 
-  renderDynamicContent = () => {
-    if (!this.props.hideDynamicContentOption) {
-      return (
-        <Field
-          name="dynamicContent"
-          style={ContainerConfigurationComponent.checkboxStyle}
-          component={RenderCheckbox}
-          label={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}
-        />
-      )
-    }
-    return null
+/**
+ * When the user checks the "Main Container" option, warn him that only one container can be "Main Container" at once
+ */
+  warnOnlyOneMainContainer = (event, newValue, previousValue) => {
+    this.setState({
+      warnDialogOpen: true,
+    })
   }
 
   render() {
-    const { pristine, submitting } = this.props
-    const iconToggleAdvanced = this.state.advanced ?
-      <KeyboardArrowUp /> :
-      <KeyboardArrowDown />
+    const { pristine, submitting, container, handleSubmit, onSubmit, onCancel } = this.props
+    const { intl: { formatMessage } } = this.context
+    const { advanced } = this.state
 
     return (
       <form
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div>
           <Field
@@ -117,84 +115,61 @@ class ContainerConfigurationComponent extends React.Component {
             fullWidth
             component={RenderTextField}
             type="text"
-            disabled={this.props.container !== null}
-            label={this.context.intl.formatMessage({ id: 'container.form.id' })}
+            disabled={container !== null}
+            label={formatMessage({ id: 'container.form.id' })}
+            validate={ValidationHelpers.required}
           />
-          <Field
-            name="type"
-            fullWidth
-            component={RenderSelectField}
-            type="text"
-            onSelect={this.selectContainerType}
-            label={this.context.intl.formatMessage({ id: 'container.form.type' })}
-          >
-            {map(ContainerTypes, (type, typeName) => (
-              <MenuItem
-                value={typeName}
-                key={typeName}
-                primaryText={typeName}
-              />
-            ))}
-          </Field>
-          {this.renderDynamicContent()}
+          {container.type !== 'MainContainer' ?
+            <Field
+              name="type"
+              fullWidth
+              component={RenderSelectField}
+              type="text"
+              onSelect={this.selectContainerType}
+              label={formatMessage({ id: 'container.form.type' })}
+              validate={ValidationHelpers.required}
+            >
+              {flow(
+                fpfilter(typeName => typeName !== 'MainContainer'),
+                fpmap(typeName => (<MenuItem value={typeName} key={typeName} primaryText={typeName} />)),
+               )(keys(ContainerTypes))}
+            </Field> : null}
+          {!this.props.hideDynamicContentOption && container.type !== 'MainContainer' ? <DynamicContentField change={this.props.change} /> : null }
+          <ShowHideAdvancedOptions advanced={advanced} onTouchTap={this.onAdvancedClick} />
           <ShowableAtRender
-            show={this.state.advanced}
+            show={advanced}
           >
             <Field
               name="classes"
-              format={(values, name) => join(values, ',')}
-              parse={(value, name) => split(value, ',')}
+              format={classesFormat}
+              parse={classesParse}
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'container.form.classes' })}
+              label={formatMessage({ id: 'container.form.classes' })}
             />
             <Field
               name="styles"
-              format={(values, name) => JSON.stringify(values)}
-              parse={(values, name) => JSON.parse(values)}
+              format={JSON.stringify}
+              parse={JSON.parse}
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'container.form.styles' })}
+              label={formatMessage({ id: 'container.form.styles' })}
             />
           </ShowableAtRender>
-          <RaisedButton
-            label={this.context.intl.formatMessage({ id: 'container.form.advanced.mode' })}
-            primary
-            icon={iconToggleAdvanced}
-            onTouchTap={this.onAdvancedClick}
-            style={ContainerConfigurationComponent.buttonStyle}
-          />
           <CardActionsComponent
-            mainButtonLabel={
-              this.context.intl.formatMessage({
-                id: this.props.container ? 'container.form.update.button' : 'container.form.submit.button',
-              })
-            }
+            mainButtonLabel={formatMessage({ id: container ? 'container.form.update.button' : 'container.form.submit.button' })}
             mainButtonType="submit"
             isMainButtonDisabled={pristine || submitting}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'container.form.cancel.button' })}
-            secondaryButtonTouchTap={this.props.onCancel}
+            secondaryButtonLabel={formatMessage({ id: 'container.form.cancel.button' })}
+            secondaryButtonTouchTap={onCancel}
           />
         </div>
-      </form>
+      </form >
     )
   }
 
-}
-
-ContainerConfigurationComponent.defaultProps = {
-  hideDynamicContentOption: false,
-}
-
-function validate(values) {
-  const errors = {}
-
-  errors.id = ValidationHelpers.required(values.id)
-  errors.type = ValidationHelpers.required(values.type)
-
-  return errors
 }
 
 const UnconnectedContainerConfigurationComponent = ContainerConfigurationComponent
@@ -202,8 +177,6 @@ export {
   UnconnectedContainerConfigurationComponent,
 }
 
-
 export default reduxForm({
   form: 'edit-layout-container-form',
-  validate,
 })(ContainerConfigurationComponent)

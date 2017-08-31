@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { AccessShapes } from '@regardsoss/shape'
 import { Card, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
@@ -56,6 +56,8 @@ class LayoutConfigurationComponent extends React.Component {
    */
   onUpdate = (container) => {
     const newLayout = ContainerHelper.replaceContainerInLayout(container, this.props.layout)
+    // Deselect the previous dynamic container if the new one is dynamic
+    ContainerHelper.selectDynamicContainerInLayout(container, newLayout)
     this.props.onChange(newLayout)
     this.handleClose()
   }
@@ -66,6 +68,8 @@ class LayoutConfigurationComponent extends React.Component {
    */
   onCreate = (container) => {
     const newLayout = ContainerHelper.addContainerInLayout(this.state.parentContainer, container, this.props.layout)
+    // Deselect the previous dynamic container if the new one is dynamic
+    ContainerHelper.selectDynamicContainerInLayout(container, newLayout)
     this.props.onChange(newLayout)
     this.handleClose()
   }
