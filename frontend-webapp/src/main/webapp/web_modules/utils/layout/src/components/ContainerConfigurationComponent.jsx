@@ -16,7 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  * */
-import map from 'lodash/map'
+import flow from 'lodash/flow'
+import keys from 'lodash/keys'
+import fpfilter from 'lodash/fp/filter'
+import fpmap from 'lodash/fp/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
 import MenuItem from 'material-ui/MenuItem'
@@ -97,13 +100,6 @@ class ContainerConfigurationComponent extends React.Component {
     })
   }
 
-  renderDynamicContent = () => {
-    if (!this.props.hideDynamicContentOption) {
-      return <DynamicContentField change={this.props.change} />
-    }
-    return null
-  }
-
   render() {
     const { pristine, submitting, container, handleSubmit, onSubmit, onCancel } = this.props
     const { intl: { formatMessage } } = this.context
@@ -123,24 +119,22 @@ class ContainerConfigurationComponent extends React.Component {
             label={formatMessage({ id: 'container.form.id' })}
             validate={ValidationHelpers.required}
           />
-          <Field
-            name="type"
-            fullWidth
-            component={RenderSelectField}
-            type="text"
-            onSelect={this.selectContainerType}
-            label={formatMessage({ id: 'container.form.type' })}
-            validate={ValidationHelpers.required}
-          >
-            {map(ContainerTypes, (type, typeName) => (
-              <MenuItem
-                value={typeName}
-                key={typeName}
-                primaryText={typeName}
-              />
-            ))}
-          </Field>
-          {this.renderDynamicContent()}
+          {container.type !== 'MainContainer' ?
+            <Field
+              name="type"
+              fullWidth
+              component={RenderSelectField}
+              type="text"
+              onSelect={this.selectContainerType}
+              label={formatMessage({ id: 'container.form.type' })}
+              validate={ValidationHelpers.required}
+            >
+              {flow(
+                fpfilter(typeName => typeName !== 'MainContainer'),
+                fpmap(typeName => (<MenuItem value={typeName} key={typeName} primaryText={typeName} />)),
+               )(keys(ContainerTypes))}
+            </Field> : null}
+          {!this.props.hideDynamicContentOption && container.type !== 'MainContainer' ? <DynamicContentField change={this.props.change} /> : null }
           <ShowHideAdvancedOptions advanced={advanced} onTouchTap={this.onAdvancedClick} />
           <ShowableAtRender
             show={advanced}
