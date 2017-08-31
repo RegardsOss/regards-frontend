@@ -71,6 +71,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
           <Checkbox
             onCheck={() => { this.handleCheck(uiPluginConfiguration) }}
             checked={this.isPluginConfigurationActivated(uiPluginConfiguration)}
+            disabled={this.isPluginConfigurationActivatedForAllDataset(uiPluginConfiguration)}
           />
         }
       />
@@ -112,7 +113,13 @@ export class DatasetEditUIServicesComponent extends React.Component {
    * @param uiPluginConfiguration
    * @returns {*}
    */
-  isPluginConfigurationActivated = uiPluginConfiguration => some(this.state.linkUIPluginConfigurationActiveList, entity => (entity.id === uiPluginConfiguration.content.id))
+  isPluginConfigurationActivated = uiPluginConfiguration => (
+    this.isPluginConfigurationActivatedForAllDataset(uiPluginConfiguration) ||
+        some(this.state.linkUIPluginConfigurationActiveList, entity =>
+          (entity.id === uiPluginConfiguration.content.id))
+  )
+
+  isPluginConfigurationActivatedForAllDataset = uiPluginConfiguration => uiPluginConfiguration.content.linkedToAllEntities
 
   render() {
     const { backUrl, uiPluginDefinitionList } = this.props
@@ -134,8 +141,10 @@ export class DatasetEditUIServicesComponent extends React.Component {
               <ListItem
                 key={id}
                 primaryText={uiPluginDefinition.content.name}
-                initiallyOpen
                 primaryTogglesNestedList
+                disabled
+                open
+                autoGenerateNestedIndicator={false}
                 nestedItems={
                     this.getConfigurationListItems(uiPluginDefinition)
                   }
