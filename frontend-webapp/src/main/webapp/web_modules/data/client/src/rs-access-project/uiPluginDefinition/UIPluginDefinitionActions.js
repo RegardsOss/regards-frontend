@@ -42,7 +42,7 @@ export default class UIPluginDefinitionActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/plugins/definition`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/uiplugins/definition`,
       entityPathVariable: 'pluginId',
       schemaTypes: {
         ENTITY: Schemas.PLUGIN,
