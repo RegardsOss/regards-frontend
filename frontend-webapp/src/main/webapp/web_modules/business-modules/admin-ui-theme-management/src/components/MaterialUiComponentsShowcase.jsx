@@ -15,12 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import React from 'react'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import withWidth from 'material-ui/utils/withWidth'
 import ClearFix from 'material-ui/internal/ClearFix'
+import AppBar from 'material-ui/AppBar'
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import IconMenu from 'material-ui/IconMenu'
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
+import IconButton from 'material-ui/IconButton'
+import FontIcon from 'material-ui/FontIcon'
 import { themeContextType } from '@regardsoss/theme'
 import {
   Checkbox,
@@ -242,6 +248,39 @@ class ThemesPage extends React.Component {
   getThemeExamples() {
     return (
       <div>
+        <AppBar
+          title="AppBar"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+        <Toolbar>
+          <ToolbarGroup firstChild>
+            <DropDownMenu value={1}>
+              <MenuItem value={1} primaryText="ToolBar" />
+              <MenuItem value={2} primaryText="All Voice" />
+              <MenuItem value={3} primaryText="All Text" />
+              <MenuItem value={4} primaryText="Complete Voice" />
+              <MenuItem value={5} primaryText="Complete Text" />
+              <MenuItem value={6} primaryText="Active Voice" />
+              <MenuItem value={7} primaryText="Active Text" />
+            </DropDownMenu>
+          </ToolbarGroup>
+          <ToolbarGroup>
+            <ToolbarTitle text="Options" />
+            <FontIcon className="muidocs-icon-custom-sort" />
+            <ToolbarSeparator />
+            <RaisedButton label="Create Broadcast" primary />
+            <IconMenu
+              iconButtonElement={
+                <IconButton touch>
+                  <NavigationExpandMoreIcon />
+                </IconButton>
+              }
+            >
+              <MenuItem primaryText="Download" />
+              <MenuItem primaryText="More Info" />
+            </IconMenu>
+          </ToolbarGroup>
+        </Toolbar>
         <Tabs
           value={this.state.valueTabs}
           onChange={() => {

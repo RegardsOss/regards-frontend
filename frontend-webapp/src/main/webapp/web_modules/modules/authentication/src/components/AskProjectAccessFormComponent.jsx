@@ -17,13 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import get from 'lodash/get'
+import trim from 'lodash/trim'
 import { formValueSelector } from 'redux-form'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { reduxForm, RenderTextField, RenderCheckbox, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { reduxForm, RenderTextField, RenderCheckbox, Field, FormErrorMessage, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import { ScrollArea } from '@regardsoss/adapters'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 
@@ -109,6 +110,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                   component={RenderTextField}
                   type="text"
                   floatingLabelText={formatMessage({ id: 'ask.project.access.mail' })}
+                  normalize={trim}
                 />
                 {useExistingAccount ? null : (
                   <div>
@@ -119,6 +121,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       component={RenderTextField}
                       type="password"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.new.password' })}
+                      normalize={trim}
                     />
                     <Field
                       key="confirmPassword"
@@ -127,6 +130,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       component={RenderTextField}
                       type="password"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.confirm.password' })}
+                      normalize={trim}
                     />
                     <Field
                       key="firstName"

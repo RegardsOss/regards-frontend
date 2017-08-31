@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 import map from 'lodash/map'
 import IconButton from 'material-ui/IconButton'
 import Palette from 'material-ui/svg-icons/image/palette'
@@ -29,6 +29,7 @@ import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
 import { themeSelectors } from '../clients/ThemeClient'
 import defaultTheme from '../model/defaultTheme'
+import themeContextType from '../contextType'
 
 /**
  * Selector allowing the user to change the app's theme.
@@ -47,7 +48,9 @@ export class SelectThemeContainer extends React.Component {
     currentTheme: defaultTheme,
   }
 
-  static iconButtonElement = (<IconButton><Palette /></IconButton>)
+  static contextTypes = {
+    ...themeContextType,
+  }
 
   static anchorOriginStyle = { horizontal: 'left', vertical: 'bottom' }
 
@@ -55,14 +58,16 @@ export class SelectThemeContainer extends React.Component {
 
   render() {
     const { currentTheme, themeList, onChange } = this.props
+    const { muiTheme } = this.context
     const items = map(themeList, item => (
       <MenuItem value={item.content.id} key={item.content.id} primaryText={item.content.name} />
     ))
+    const iconButtonElement = (<IconButton iconStyle={{ color: muiTheme.palette.alternateTextColor }}><Palette /></IconButton>)
 
     return (
       <I18nProvider messageDir="utils/theme/src/i18n">
         <IconMenu
-          iconButtonElement={SelectThemeContainer.iconButtonElement}
+          iconButtonElement={iconButtonElement}
           anchorOrigin={SelectThemeContainer.anchorOriginStyle}
           targetOrigin={SelectThemeContainer.targetOriginStyle}
           value={currentTheme.content.id}

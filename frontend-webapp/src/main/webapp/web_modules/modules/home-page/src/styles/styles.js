@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 const homePageStyles = theme => ({
   dialog: {
     heightPercent: 80,
@@ -30,13 +30,16 @@ const homePageStyles = theme => ({
       zIndex: 5000,
     },
   },
-  adminFrame: {
-    display: 'flex',
-    alignItems: 'center',
+  iFrameWrapper: {
     margin: 'auto',
     width: '90%',
     height: 500,
     marginTop: 20,
+  },
+  iFrame: {
+    height: '100%',
+    width: '100%',
+    position: 'relative',
   },
   adminIframeLoading: {
     margin: 'auto',

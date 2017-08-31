@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
@@ -63,9 +63,6 @@ const messages = Object.assign({
 
   'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Adding a new mandatory attribute to a fragment already used by models can cause issues during future ingestions and data updates',
 
-  'invalid.min_3_carac': 'At least 3 characters',
-  'invalid.max_32_carac': 'Max 32 characters',
-  'invalid.max_20_carac': 'Max 20 characters',
   'invalid.only_1_restriction_on_the_same_time': 'You can\'t activate more than one restriction',
 }, Locales.en)
 messages[`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`] = 'No fragment'

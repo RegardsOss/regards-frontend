@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -110,12 +110,6 @@ class ApplicationLayoutComponent extends React.Component {
   }
 }
 
-function validate(values) {
-  const errors = {}
-  return errors
-}
-
 export default reduxForm({
   form: 'app-layout-form',
-  validate,
 })(ApplicationLayoutComponent)

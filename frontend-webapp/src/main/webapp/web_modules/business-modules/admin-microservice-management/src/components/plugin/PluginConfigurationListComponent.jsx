@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { CommonShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -106,7 +106,7 @@ export default class PluginConfigurationListComponent extends React.Component {
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.list.add' })}
                 onTouchTap={this.props.handleAddClick}
               >
-                <AddCircle />
+                <AddCircle color={this.styles.icon.color} />
               </ResourceIconAction>
             }
           />

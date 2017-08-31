@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import TextField from 'material-ui/TextField'
 import RenderHelper from './RenderHelper'
 
@@ -30,7 +30,10 @@ class renderTextField extends React.Component {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     meta: PropTypes.shape({
       touched: PropTypes.bool,
-      error: PropTypes.string,
+      error: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
+        key: PropTypes.string,
+        props: PropTypes.object,
+      })]),
     }),
     // fullWidth: PropTypes.bool,
     type: PropTypes.string,

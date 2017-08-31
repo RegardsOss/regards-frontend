@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import IconButton from 'material-ui/IconButton'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
@@ -27,7 +27,7 @@ import AuthenticationMenuContainer from './AuthenticationMenuContainer'
 /**
  * Main component of module menu
  * @author Sébastien binda
- **/
+ * */
 class MenuContainer extends React.Component {
 
   static propTypes = {
@@ -68,12 +68,13 @@ class MenuContainer extends React.Component {
 
   displayModulesMenu = () => {
     if (this.props.appName === 'user') {
-      const { intl } = this.context
+      const { intl, moduleTheme } = this.context
       return (
         <div>
           <IconButton
             onTouchTap={this.handleToggle}
             tooltip={intl.formatMessage({ id: 'menu.modules.list.button' })}
+            iconStyle={moduleTheme.menu.icon}
           >
             <MenuIcon />
           </IconButton>

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
+* */
 const messages = {
   'invalid.required': 'Champs requis',
   'invalid.email': 'Addresse e-mail invalide',
@@ -33,6 +33,10 @@ const messages = {
   'invalid.character': 'La valeur doit être un unique caractère',
   'different.password': 'Les mots de passe doivent être identiques',
   'type.string': 'Le type devrait être String',
+  'invalid.length.less.than': 'Utilisez {number} caractères ou moins',
+  'invalid.length.more.than': 'Utilisez {number} caractères ou plus',
+  'invalid.less.than': '{number} ou moins',
+  'invalid.more.than': '{number} ou plus',
 
   'form.datetimepicker.ok': 'Ok',
   'form.datetimepicker.cancel': 'Annuler',

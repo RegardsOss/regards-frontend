@@ -17,13 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import keys from 'lodash/keys'
+import trim from 'lodash/trim'
 import Checkbox from 'material-ui/Checkbox'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage, ValidationHelpers } from '@regardsoss/form-utils'
+
+const { required, number } = ValidationHelpers
+const requiredNumber = [required, number]
 
 /**
  * Reusable {@link ProjectConnection} form for reading, editing, creating.
@@ -155,6 +159,7 @@ export class ProjectConnectionFormComponent extends React.Component {
           type="text"
           label={this.context.intl.formatMessage({ id: 'database.form.input.driverClassName' })}
           disabled
+          validate={required}
         />
         <Field
           name="address"
@@ -162,6 +167,8 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="text"
           label={this.context.intl.formatMessage({ id: 'database.form.input.address' })}
+          validate={required}
+          normalize={trim}
         />
         <Field
           name="port"
@@ -169,6 +176,8 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="number"
           label={this.context.intl.formatMessage({ id: 'database.form.input.port' })}
+          validate={requiredNumber}
+          normalize={trim}
         />
         <Field
           name="db_name"
@@ -176,6 +185,8 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="text"
           label={this.context.intl.formatMessage({ id: 'database.form.input.db_name' })}
+          validate={required}
+          normalize={trim}
         />
         <Field
           name="userName"
@@ -183,6 +194,8 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="text"
           label={this.context.intl.formatMessage({ id: 'database.form.input.userName' })}
+          validate={required}
+          normalize={trim}
         />
         <Field
           name="password"
@@ -190,6 +203,8 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="password"
           label={this.context.intl.formatMessage({ id: 'database.form.input.password' })}
+          validate={required}
+          normalize={trim}
         />
         <Checkbox
           label={this.context.intl.formatMessage({ id: 'database.form.input.cange.configuration.mode' })}

@@ -15,11 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import find from 'lodash/find'
 import isUndefined from 'lodash/isUndefined'
 import isNil from 'lodash/isNil'
 import isString from 'lodash/isString'
+import isNumber from 'lodash/isNumber'
+import isFinite from 'lodash/isFinite'
 import partialRight from 'lodash/partialRight'
 import { validURLRegexp, relativeURLRegexp } from '@regardsoss/domain/common'
 import ErrorTypes from './ErrorTypes'
@@ -80,7 +82,15 @@ export const required = value => !isNil(value) && value !== '' ? undefined : Err
  * @param {String} value
  * @returns {String||undefined}
  */
-export const string = value => isString(value) || isUndefined(value) ? undefined : ErrorTypes.TYPE_STRING
+export const string = value => isString(value) || isNil(value) ? undefined : ErrorTypes.TYPE_STRING
+
+/**
+ * Redux-Form-style validator for Fields which content must be a number.
+ *
+ * @param {String} value
+ * @returns {String||undefined}
+ */
+export const number = value => (isNumber(value) && isFinite(value)) || isNil(value) ? undefined : ErrorTypes.NUMERIC
 
 /**
  * Redux-Form-style validator for Fields which content must not be empty.
@@ -105,6 +115,54 @@ export const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExclude
  * @author Xavier-Alexandre Brochard
  */
 export const validAlphaNumericUnderscore = value => isValidAlphaNumericUnderscore(value) ? undefined : ErrorTypes.ALPHA_NUMERIC
+
+/**
+ * Redux-Form-style validator for Fields which content must be an email.
+ *
+ * @param {String} value
+ * @returns {String||undefined}
+ */
+export const email = value => isValidEmail(value) ? undefined : ErrorTypes.EMAIL
+
+/**
+ * Redux-Form-style validator for Fields which content must be an url.
+ *
+ * @param {String} value
+ * @returns {String||undefined}
+ */
+export const url = value => isValidUrl(value) ? undefined : ErrorTypes.INVALID_URL
+
+/**
+ * Construct a Redux-Form-style validator for Fields with length must be less than given value
+ *
+ * @param {Number} pNumber
+ * @returns {String||undefined}
+ */
+export const lengthLessThan = pNumber => value => isNil(value) || value.length <= pNumber ? undefined : ErrorTypes.lengthLessThan(pNumber)
+
+/**
+ * Construct a Redux-Form-style validator for Fields with length must be more than given value
+ *
+ * @param {Number} pNumber
+ * @returns {String||undefined}
+ */
+export const lengthMoreThan = pNumber => value => isNil(value) || value.length >= pNumber ? undefined : ErrorTypes.lengthMoreThan(pNumber)
+
+/**
+ * Construct a Redux-Form-style validator for Numeric Fields with value less than given value
+ *
+ * @param {Number} pNumber
+ * @returns {String||undefined}
+ */
+export const lessThan = pNumber => value => isNil(value) || value <= pNumber ? undefined : ErrorTypes.lessThan(pNumber)
+
+/**
+ * Construct a Redux-Form-style validator for Numeric Fields with value more than given value
+ *
+ * @param {Number} pNumber
+ * @returns {String||undefined}
+ */
+export const moreThan = pNumber => value => isNil(value) || value >= pNumber ? undefined : ErrorTypes.moreThan(pNumber)
 
 /**
  * Validates a parsable number
@@ -163,6 +221,13 @@ export default {
   validAlphaNumericUnderscore,
   matchRegex,
   isInNumericRange,
+  email,
+  lengthLessThan,
+  lengthMoreThan,
+  lessThan,
+  moreThan,
+  number,
+  url,
   characterValidator,
   javaByteValidator,
   javaDoubleValidator,

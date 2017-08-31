@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 
 /**
@@ -27,7 +27,7 @@ const messages = Object.assign({
   'homepage.display': 'Afficher au démarrage',
   'homepage.hide': 'Ne plus afficher',
   'homepage.admin.url': 'URL du fichier HTML',
-  'homepage.admin.test': 'Tester fichier',
+  'homepage.admin.test': 'Tester',
   'homepage.loading.message': 'Page de démarrage du projet en cours de chargement, veuillez patienter...',
 }, Locales.fr)
 

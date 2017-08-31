@@ -19,11 +19,12 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderFileField, Field, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderFileField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
+const nameValidators = [ValidationHelpers.required, ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
 
 /**
  * Form component to edit and create fragment
@@ -92,6 +93,7 @@ export class FragmentFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'fragment.form.name' })}
+                validate={nameValidators}
               />
             </ShowableAtRender>
             <Field
@@ -130,29 +132,7 @@ export class FragmentFormComponent extends React.Component {
   }
 }
 
-/**
- * Form validation
- * @param values
- * @returns {{}} i18n keys
- */
-function validate(values) {
-  const errors = {}
-  if (values.name) {
-    if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
-      errors.name = ErrorTypes.ALPHA_NUMERIC
-    }
-    if (values.name.length < 3) {
-      errors.name = 'invalid.min_3_carac'
-    }
-    if (values.name.length > 32) {
-      errors.name = 'invalid.max_32_carac'
-    }
-  }
-  return errors
-}
-
 export default reduxForm({
   form: 'fragment-form',
-  validate,
 })(FragmentFormComponent)
 

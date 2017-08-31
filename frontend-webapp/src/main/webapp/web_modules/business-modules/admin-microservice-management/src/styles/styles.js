@@ -43,6 +43,9 @@ const microserviceManagementStyles = theme => ({
     gridList: {
       margin: 0,
     },
+    icon: {
+      color: theme.palette.alternateTextColor,
+    },
   },
   pluginConfiguration: {
     root: {

@@ -15,8 +15,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-const messages = {
+ * */
+import { Locales } from '@regardsoss/form-utils'
+
+const messages = Object.assign({
   'account.list.table.firstName': 'Prénom',
   'account.list.table.lastName': 'Nom',
   'account.list.table.email': 'E-mail',
@@ -50,7 +52,6 @@ const messages = {
   'account.form.create.title': 'Créer un compte',
   'account.form.action.save': 'Sauvegarder',
   'account.form.action.cancel': 'Annuler',
-
-}
+}, Locales.fr)
 
 export default messages

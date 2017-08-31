@@ -33,7 +33,9 @@ import { buildParameterList, buildDefaultParameterList, mapPluginParameterTypeTo
 import moduleStyles from '../../styles/styles'
 import GenericPluginParameter from './parameter/GenericPluginParameter'
 
-const { validRequiredString, validRequiredNumber } = ValidationHelpers
+const { string, number, required } = ValidationHelpers
+const requiredStringValidator = [string, required]
+const requiredNumberValidator = [number, required]
 
 /**
  * Display edit and create fragment form
@@ -206,7 +208,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                validate={validRequiredString}
+                validate={requiredStringValidator}
                 label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.pluginClassName' })}
               />
               <Field
@@ -214,7 +216,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                validate={validRequiredString}
+                validate={requiredStringValidator}
                 label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.label' })}
               />
               <Field
@@ -222,7 +224,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                validate={validRequiredString}
+                validate={requiredStringValidator}
                 label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.version' })}
               />
               <Field
@@ -230,8 +232,8 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="number"
-                parse={val => parseFloat(val)}
-                validate={validRequiredNumber}
+                parse={parseFloat}
+                validate={requiredNumberValidator}
                 label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.priorityOrder' })}
               />
               <div

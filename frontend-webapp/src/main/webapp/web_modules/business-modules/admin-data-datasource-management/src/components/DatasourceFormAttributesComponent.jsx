@@ -15,14 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import map from 'lodash/map'
 import keys from 'lodash/keys'
 import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, ErrorTypes } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -30,6 +30,8 @@ import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import { DATASOURCE_REFRESH_RATE } from '@regardsoss/domain/dam'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
+
+const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(128)]
 
 /**
  * React component to edit datasources attributes.
@@ -115,6 +117,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'datasource.form.label' })}
+              validate={labelValidators}
             />
             <Field
               name="refreshRate"
@@ -140,6 +143,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
               component={RenderSelectField}
               label={this.context.intl.formatMessage({ id: 'datasource.form.model' })}
               disabled={!this.state.isCreating}
+              validate={ValidationHelpers.required}
             >
               {map(modelList, (model, id) => (
                 <MenuItem
@@ -155,6 +159,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
               component={RenderSelectField}
               label={this.context.intl.formatMessage({ id: 'datasource.form.pluginConfiguration' })}
               disabled={!this.state.isCreating}
+              validate={ValidationHelpers.required}
             >
               {map(pluginMetaDataList, (pluginMetaData, id) => (
                 <MenuItem
@@ -180,36 +185,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
   }
 }
 
-/**
- * Form validation
- * @param values
- * @returns {{}} i18n keys
- */
-function validate(values) {
-  const errors = {}
-  if (!keys(values).length) {
-    // XXX workaround for redux form bug initial validation:
-    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
-    return errors
-  }
-  if (values.label) {
-    if (values.label.length > 128) {
-      errors.label = 'invalid.max_128_carac'
-    }
-  } else {
-    errors.label = ErrorTypes.REQUIRED
-  }
-  if (!values.model) {
-    errors.model = ErrorTypes.REQUIRED
-  }
-  if (!values.pluginClassName) {
-    errors.pluginClassName = ErrorTypes.REQUIRED
-  }
-  return errors
-}
-
 export default reduxForm({
   form: 'datasource-form',
-  validate,
 })(DatasourceFormAttributesComponent)
 

@@ -15,9 +15,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
+import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import isEmpty from 'lodash/isEmpty'
 import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
@@ -27,9 +27,10 @@ import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { PictureLinkComponent } from '@regardsoss/components'
-import { RenderTextField, Field, FormErrorMessage, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, FormErrorMessage, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 
 const mailFieldId = 'username'
+const requiredEmailValidator = [ValidationHelpers.required, ValidationHelpers.email]
 
 /**
  * React components for login form
@@ -113,6 +114,8 @@ export class AuthenticationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'authentication.username' })}
+                validate={requiredEmailValidator}
+                normalize={trim}
               />
               <Field
                 name="password"
@@ -120,6 +123,8 @@ export class AuthenticationFormComponent extends React.Component {
                 component={RenderTextField}
                 type="password"
                 label={this.context.intl.formatMessage({ id: 'authentication.password' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
@@ -159,29 +164,10 @@ export class AuthenticationFormComponent extends React.Component {
   }
 }
 
-function validate(fieldValues) {
-  const errors = {}
-  if (isEmpty(fieldValues)) {
-    // XXX workaround for redux form bug initial validation:
-    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
-    return errors
-  }
-  const mailValue = fieldValues[mailFieldId]
-  if (!mailValue) {
-    errors[mailFieldId] = ErrorTypes.REQUIRED
-  }
-
-  if (!fieldValues.password) {
-    errors.password = ErrorTypes.REQUIRED
-  }
-  return errors
-}
-
 // prepare redux form
 const formId = 'authentication-form'
 const connectedReduxForm = reduxForm({
   form: formId,
-  validate,
 })(AuthenticationFormComponent)
 
 // connect with selector to select the last mail value
