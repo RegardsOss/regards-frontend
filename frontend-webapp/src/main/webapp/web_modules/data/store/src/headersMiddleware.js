@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import get from 'lodash/get'
 import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import isString from 'lodash/isString'
@@ -30,7 +30,7 @@ const { CALL_API } = require('redux-api-middleware')
  */
 const sessionIsLocked = state =>
   // If the action is a callAPI and the session of current authenticated user is locked do not send request to server.
-   get(state, 'common.authentication.sessionLocked', false)
+  get(state, 'common.authentication.sessionLocked', false)
 
 /**
  * Returns Authorization header value, or null if no authorization possible
@@ -68,7 +68,7 @@ const getAuthorizationHeaders = (callStore, callAPI) => {
  */
 const getDefaultTypesHeaders = (callAPI) => {
   const defaultTypeHeaders = {
-    Accept: 'application/json',
+    Accept: 'application/json, text/plain',
   }
   // String body: json, otherwise: none (multi part form, each part specifies its type)
   if (isString(callAPI.body)) {

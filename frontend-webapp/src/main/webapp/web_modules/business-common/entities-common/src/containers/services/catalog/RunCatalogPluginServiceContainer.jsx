@@ -1,6 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
-**/
+* */
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { CommonClient, CatalogClient } from '@regardsoss/client'
@@ -150,10 +150,10 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     let targetParams = null
     switch (target.type) {
       case RuntimeTargetTypes.ONE:
-        targetParams = { entity: target.entity }
+        targetParams = { entityId: target.entity }
         break
       case RuntimeTargetTypes.MANY:
-        targetParams = { entities: target.entities }
+        targetParams = { entitiesId: target.entities }
         break
       case RuntimeTargetTypes.QUERY:
         targetParams = { q: target.q, entityType: target.entityType }
