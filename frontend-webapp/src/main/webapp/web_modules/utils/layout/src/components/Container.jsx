@@ -25,7 +25,7 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import Paper from 'material-ui/Paper'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import MenuIcon from 'material-ui/svg-icons/navigation/menu'
+import Bookmark from 'material-ui/svg-icons/action/bookmark'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { FormattedMessage } from 'react-intl'
 import { LazyModuleComponent } from '@regardsoss/modules'
@@ -189,8 +189,8 @@ class Container extends React.Component {
                 <ToolbarTitle text={this.props.container.id} />
                 {this.props.container.dynamicContent ?
                   <div title={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}>
-                     <MenuIcon color={this.context.muiTheme.palette.disabledColor} />
-                   </div>
+                    <Bookmark color={this.context.muiTheme.palette.disabledColor} />
+                  </div>
                 : null}
               </ToolbarGroup>
               <ToolbarGroup key="actions" lastChild>
