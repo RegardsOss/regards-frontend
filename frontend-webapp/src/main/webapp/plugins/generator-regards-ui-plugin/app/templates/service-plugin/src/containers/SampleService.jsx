@@ -15,28 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import TextField from 'material-ui/TextField'
-import { connect } from 'react-redux'
-import AttributeModel from '../common/AttributeModel'
+import { AccessShapes } from '@regardsoss/shape'
 
 export class SampleService extends React.Component {
 
   static propTypes = {
-    /**
-     * Plugin identifier
-     */
-    pluginInstanceId: React.PropTypes.string,
-    /**
-     * Service configuration see plugin-info.json to get conf parameters
-     */
-    pluginConf: React.PropTypes.object,
-  }
-
-  constructor(props) {
-    super(props)
+    pluginInstanceId: React.PropTypes.string.isRequired,
+    runtimeTarget: AccessShapes.RuntimeTarget.isRequired,
+    configuration: AccessShapes.RuntimeConfiguration.isRequired,
   }
 
   render() {
@@ -47,5 +35,4 @@ export class SampleService extends React.Component {
 }
 
 export default SampleService
-
 

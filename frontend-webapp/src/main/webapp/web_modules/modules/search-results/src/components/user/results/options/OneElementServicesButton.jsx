@@ -26,7 +26,7 @@ import { DropDownButton } from '@regardsoss/components'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
 const IconButtonConstructorWrapper = props => (
-  <IconButton {...omit(props, ['label', 'labelPosition']) }>
+  <IconButton {...(omit(props, ['label', 'labelPosition'])) }>
     <OptionsIcon />
   </IconButton>)
 
@@ -66,9 +66,9 @@ class OneElementServicesButton extends React.Component {
             <MenuItem
               key={`${service.content.type}-${service.content.configId}`}
               value={service}
-              leftIcon={service.content.icon ?
+              leftIcon={service.content.iconUrl ?
                 // render the icon only when service has one
-                <img src={service.content.icon} alt="" width={muiTheme.spacing.iconSize} height={muiTheme.spacing.iconSize} />
+                <img src={service.content.iconUrl} alt="" width={muiTheme.spacing.iconSize} height={muiTheme.spacing.iconSize} />
                 : null}
               primaryText={service.content.label}
             />))

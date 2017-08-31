@@ -102,7 +102,7 @@ class QueryRuntimeHelpersBuilder {
    * @param {number} pageSize optional page size
    */
   getReducePromise = (actions, queryParams, elementsCount, dispatchMethod, applier, initialValue, pageSize = 1000) => {
-    const actualElementsCount = Math.min(10000, elementsCount) // TODO Remove if/when the limit does no longer apply on catalog
+    const actualElementsCount = Math.min(10000, elementsCount) // XXX Remove if/when the limit does no longer apply on catalog
     const totalPages = Math.floor(actualElementsCount / pageSize)
     // build a promise that will resolve and reduce, page by page, and terminate on last page
     return new Promise((resolve, reject) => {

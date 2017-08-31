@@ -54,12 +54,12 @@ export class StringCriteriaComponent extends PluginComponent {
   }
 
   getPluginSearchQuery = (state) => {
-    if (state.searchField && state.searchField != "") {
+    if (state.searchField && state.searchField != '') {
       let openSearchQuery = null
       if (this.state.checked) {
         openSearchQuery = `"${state.searchField}"`
       } else {
-        const values = split(state.searchField, " ")
+        const values = split(state.searchField, ' ')
         openSearchQuery = map(values, value => `*${value}*`).join(' AND ')
         openSearchQuery = `(${openSearchQuery})`
       }
@@ -69,7 +69,6 @@ export class StringCriteriaComponent extends PluginComponent {
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-
     if (openSearchQuery.includes('"')) {
       this.setState({ checked: true })
       return replace(openSearchQuery, /\"/g, '')
@@ -108,7 +107,7 @@ export class StringCriteriaComponent extends PluginComponent {
         </span>
         <TextField
           id="search"
-          floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
+          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
           value={this.state.searchField}
           onChange={this.handleChange}
           style={{
@@ -116,14 +115,14 @@ export class StringCriteriaComponent extends PluginComponent {
             margin: '0px 10px',
           }}
         />
-        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
         <Checkbox
-          label={<FormattedMessage id="criterion.search.field.word.checkbox.label"/>}
+          label={<FormattedMessage id="criterion.search.field.word.checkbox.label" />}
           labelPosition="right"
           checked={this.state.checked}
           onCheck={this.onCheck}
           style={{
-            width: 150
+            width: 150,
           }}
         />
       </div>

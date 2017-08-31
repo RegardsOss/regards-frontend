@@ -65,6 +65,30 @@ export class RenderDateTimeField extends React.Component {
     ...themeContextType,
   }
 
+  static STYLES = {
+    fieldsLine: {
+      marginTop: '14px',
+      height: '58px',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    datePicker: {
+      margin: '0 10px 0 0',
+      flexGrow: 1,
+    },
+    datePickerText: {
+      width: '100%',
+      top: -13,
+    },
+    timePicker: {
+      flexGrow: 1,
+    },
+    timePickerText: {
+      width: '100%',
+      top: -13,
+    },
+  }
+
 
   /**
    * Callback function that is fired when the date value changes.
@@ -120,30 +144,6 @@ export class RenderDateTimeField extends React.Component {
     if (!touched) {
       onBlur()
     }
-  }
-
-  static STYLES = {
-    fieldsLine: {
-      marginTop: '14px',
-      height: '58px',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    datePicker: {
-      margin: '0 10px 0 0',
-      flexGrow: 1,
-    },
-    datePickerText: {
-      width: '100%',
-      top: -13,
-    },
-    timePicker: {
-      flexGrow: 1,
-    },
-    timePickerText: {
-      width: '100%',
-      top: -13,
-    },
   }
 
   /**

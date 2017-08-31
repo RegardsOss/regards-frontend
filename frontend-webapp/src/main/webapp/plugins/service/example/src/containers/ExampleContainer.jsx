@@ -103,7 +103,6 @@ export class ExampleContainer extends React.Component {
     color: 'rgba(255, 255, 255, 0.85)',
   }
 
-
   /**
    * Standard lyfecycle method of a React component, componentWillMount is called before the the component mounts and renders.
    * It is a good place to initialize component state.
@@ -169,7 +168,7 @@ export class ExampleContainer extends React.Component {
     }, { beforeDateCount: 0, afterDateCount: 0, unknown: 0 }) // initial reduction value
       .then((results) => { // here results is the last reducer returned value
         // the reduction promise finished, update state to store results
-        this.setState({ loading: false, results })
+        this.onResultsCounted(results)
       })
       .catch((e) => {
         console.error('An error occured: ', e)
@@ -178,6 +177,18 @@ export class ExampleContainer extends React.Component {
 
     // For demo purpose, we demonstrate here the manual fetching
     this.loadThroughActions()
+  }
+
+  /**
+   * Results counted through reduction promise
+   * Note 1: Externalizing events callback methods is a good pratice as we
+   * will be able to call it directly in tests
+   * Note 2: The lambda notation is a good practice for onXXX methods, as we do not need to bind lambda functions through react
+   * (we can use them with this in JSX code). Obsviously it is not useful here, it is only a demonstration of such notation
+   * @param results {beforeDateCount: number, afterDateCount: number, unknown: number} reduction results
+   */
+  onResultsCounted = (results) => {
+    this.setState({ loading: false, results })
   }
 
   /**

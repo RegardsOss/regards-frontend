@@ -81,7 +81,6 @@ describe('[Entities Common] Testing ParametersConfigurationComponent', () => {
   })
 
   it('should initialize parameter values correctly', () => {
-
     const props = {
       parameters: [
         Parameter.buildBooleanEditor('bool', true, true),

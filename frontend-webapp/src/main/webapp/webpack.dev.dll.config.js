@@ -23,15 +23,15 @@ const webpack = require('webpack')
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'dll',
-    projectContextPath: __dirname
+    projectContextPath: __dirname,
   })
   .cleanFolder({
     projectContextPath: __dirname,
-    pathToDelete: 'dist/dev'
+    pathToDelete: 'dist/dev',
   })
   .merge({
     output: {
-      path: `${__dirname}/dist/dev/`
+      path: `${__dirname}/dist/dev/`,
     },
     entry: {
       core: [
@@ -64,8 +64,8 @@ const conf = webpackConfigurator
         'redux-thunk',
         'scriptjs',
         'window-or-global',
-        'fixed-data-table-2'
-      ]
+        'fixed-data-table-2',
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({

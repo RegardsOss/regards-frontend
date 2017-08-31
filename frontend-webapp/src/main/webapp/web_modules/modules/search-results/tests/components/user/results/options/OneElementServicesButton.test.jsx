@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -59,7 +59,7 @@ describe('[Search Results] Testing OneElementServicesButton', () => {
         content: {
           configId: 0,
           label: 'ui-service-0',
-          icon: null,
+          iconUrl: null,
           applicationModes: [AccessDomain.applicationModes.ONE],
           entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
           type: AccessDomain.pluginTypes.UI,
@@ -68,7 +68,7 @@ describe('[Search Results] Testing OneElementServicesButton', () => {
         content: {
           configId: 0,
           label: 'catalog-service-0',
-          icon: 'http://my-little-poney/ponatator.gif',
+          iconUrl: 'http://my-little-poney/ponatator.gif',
           applicationModes: [AccessDomain.applicationModes.ONE],
           entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
           type: AccessDomain.pluginTypes.CATALOG,
@@ -89,7 +89,7 @@ describe('[Search Results] Testing OneElementServicesButton', () => {
       const currentMenuItem = menuItems.at(index)
       assert.equal(currentMenuItem.props().primaryText, service.content.label, 'Service label should be menu label')
       assert.equal(currentMenuItem.props().value, service, 'Service should be menu value (for events handling)')
-      if (!service.content.icon) {
+      if (!service.content.iconUrl) {
         // check the menu has no icon
         assert.isNotOk(currentMenuItem.props().leftIcon, `There should be no icon for service ${service.content.label}`)
       } else {

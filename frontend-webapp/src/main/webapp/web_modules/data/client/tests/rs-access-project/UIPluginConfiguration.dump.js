@@ -28,7 +28,7 @@ export default {
         id: 1,
         active: true,
         pluginDefinition: {
-          id: 2
+          id: 2,
         },
         label: 'Some label',
         conf: '{"label":"Configuration de service","static":{"static1":"V1","static2":"CV3"},"dynamic":{"dynamic1":"V2"}}',

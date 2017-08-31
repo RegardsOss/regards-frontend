@@ -32,7 +32,7 @@
     "test": "npm run test:mocha --silent",
     "test:coverage": "node --max_old_space_size=8192 ./node_modules/.bin/nyc node --max_old_space_size=8192 ./node_modules/.bin/mocha-webpack --timeout 30000 --webpack-config webpack.coverage.config.js \"@(tests|web_modules)/**/*.test.js{,x}\"",
     "test:mocha": "mocha-webpack --timeout 20000 --webpack-config webpack.test.config.js \"@(tests|web_modules)/**/*.test.js{,x}\" --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
-    "test:watch": "node --max_old_space_size=8192 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/business-common/entities-common/**/*.test.js{,x}\" --inline-diffs --watch",
+    "test:watch": "node --max_old_space_size=8192 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --inline-diffs --watch",
     "storybook:start": "start-storybook -p 6006 -c .storybook",
     "storybook:build": "build-storybook -o reports/storybook",
     "esdoc": "esdoc -c esdoc.json",

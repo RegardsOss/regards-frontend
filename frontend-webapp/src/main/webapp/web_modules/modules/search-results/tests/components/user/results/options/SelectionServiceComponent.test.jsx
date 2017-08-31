@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -45,7 +45,7 @@ describe('[Search Results] Testing SelectionServiceComponent', () => {
         content: {
           configId: 0,
           label: 'ui-service-0',
-          icon: null,
+          iconUrl: null,
           applicationModes: [AccessDomain.applicationModes.ONE],
           entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
           type: AccessDomain.pluginTypes.UI,
@@ -70,7 +70,7 @@ describe('[Search Results] Testing SelectionServiceComponent', () => {
         content: {
           configId: 0,
           label: 'ui-service-0',
-          icon: 'http://action-man.org/after-work/beer.png',
+          iconUrl: 'http://action-man.org/after-work/beer.png',
           applicationModes: [AccessDomain.applicationModes.ONE],
           entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
           type: AccessDomain.pluginTypes.UI,

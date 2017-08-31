@@ -27,7 +27,7 @@ import UIPluginInfoCriterionContent from './UIPluginInfoCriterionContent'
 const UIPluginInfoContent = PropTypes.shape({
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  version: PropTypes.number.isRequired,
+  version: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   company: PropTypes.string,
   email: PropTypes.string,

@@ -94,7 +94,7 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
             },
           },
         },
-
+        locale: 'en',
       }
       const enzymeWrapper = shallow(<PluginDisplayerContainer {...props} />, { context })
       const renderedComponent = enzymeWrapper.find(FakePluginComponent)

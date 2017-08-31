@@ -54,7 +54,10 @@ This file is used by the plugin loader to define the configuration needed by the
       "viewBox": "0 0 94.5 94.5"
   },
   "conf": {
-      "target": "<%= target %>",
+     "applicationModes": "<%= applicationModes %>",
+     "entityTypes": [
+       "DATA"
+      ],
       "static": {
         "static1": {
           "type": "foo",
