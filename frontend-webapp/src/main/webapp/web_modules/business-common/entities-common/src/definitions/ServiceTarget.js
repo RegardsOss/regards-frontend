@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
 
@@ -55,15 +55,17 @@ function buildManyElementsTarget(ipIdArray) {
  * Builds "query" target
  * @param {*} q open search query
  * @param entityType type of entities to retrieve with query
- * @param entitiesCount entities count
+ * @param entitiesCount query entities count (total, ignore the unselected elements count here)
+ * @param ipIdArray manually unselected elements
  * @return query target
  */
-function buildQueryTarget(q, entityType, entitiesCount) {
+function buildQueryTarget(q, entityType, entitiesCount, ipIdArray) {
   return {
     type: RuntimeTargetTypes.QUERY,
     q,
     entityType,
-    entitiesCount,
+    entitiesCount: entitiesCount - ipIdArray.length,
+    excludedIpIds: ipIdArray,
   }
 }
 

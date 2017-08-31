@@ -76,8 +76,9 @@ export class ExampleContainer extends React.Component {
      * for a specific warning type (VS Code or IntelliJfetchSelectionThroughAction normally shows the corresponding rule as tooltip) */
     // eslint-disable-next-line react/no-unused-prop-types
     pluginInstanceId: React.PropTypes.string.isRequired,
-    /** Runtime target: see class comment */
+    /** Runtime target: see regards documentation for more details */
     runtimeTarget: AccessShapes.RuntimeTarget.isRequired,
+    /** Static and dynamic configurations: see regards documentation for more details */
     configuration: AccessShapes.RuntimeConfiguration.isRequired,
     // From mapStateToProps
     user: PropTypes.string, // user login or null, see mapStateToProps
@@ -137,7 +138,8 @@ export class ExampleContainer extends React.Component {
 
     // 2 - For demo purpose, reduce all entities available and count elements before the date and after the
     // Note: this illustrates the most convenient way to fetch server information without writing specific code by
-    // target type.
+    // target type. When in query mode, excluded elements from selection will be automatically handled (we do not need to
+    // care about it)
     // WARNING: be aware of the following points when fetching on a query target type:
     // - When performing query, a lot of entities can be fetched so, it can be
     // - There is a current limitation to 10 000 entities.
@@ -222,6 +224,7 @@ export class ExampleContainer extends React.Component {
             promises.push(fetchSelectionThroughAction(i, pageSize))
           }
           Promise.all(promises)
+            // Note: here, we should exclude from handled elements the runtimeTarget.excludedIpIds (this is not automatic when using actions)
             .then(result => console.info('[QUERY] I fetched query elements', result))
             .catch(err => console.error('[QUERY] I failed fetching, error says', err))
         }

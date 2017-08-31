@@ -48,6 +48,7 @@ const queryTarget = PropTypes.shape({
   q: PropTypes.string.isRequired, // entities list
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entitiesCount: PropTypes.number.isRequired, // total count of entities
+  excludedIpIds: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded IP IDs from selection
   // method to build fetch action: (pageIndex, pageSize) => [dispatchable action object]
   getFetchAction: PropTypes.func.isRequired,
   // method to apply a treatment on each entity (applier: func, initValue: (optional) *, pageSize: (optional) number) => Promise (see comment above)

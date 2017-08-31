@@ -44,8 +44,8 @@ describe('[Service Example] Testing ExampleContainer', () => {
     it provides the following methods:
     buildConfiguration (staticProps, dynamicProps) ==> create the runtime configuration of the plugin
     buildOneElementTarget: (ipID, elementsType) => create the plugin runtime runtime target for ONE element
-    buildManyElementsTarget: (ipIDs) => create the plugin runtime runtime target for MANY element
-    buildQueryTarget: (query, elementCount) => create the plugin runtime runtime target for ONE element
+    buildManyElementsTarget: (ipIDs, elementsType) => create the plugin runtime runtime target for MANY element
+    buildQueryTarget: (query, elementCount, elementsType, excludedIpIDs) => create the plugin runtime runtime target for QUERY
     notes: all parameters in previous methods are optional. The element type comes from enumeration RuntimeTargetTypes,
     that can be imported like:
     import { RuntimeTargetTypes } from '@regardsoss/domain/access'

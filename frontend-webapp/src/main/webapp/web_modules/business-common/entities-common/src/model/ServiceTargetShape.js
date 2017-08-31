@@ -38,9 +38,10 @@ const MANY_ELEMENTS_TARGET = PropTypes.shape({
 
 const QUERY_ELEMENTS_TARGET = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]), // enumerated type
-  q: PropTypes.string.isRequired, // entities list
+  q: PropTypes.string.isRequired, // query
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entitiesCount: PropTypes.number.isRequired,
+  excludedIpIds: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities list
 })
 
 const ServiceTargetShape = PropTypes.oneOfType([

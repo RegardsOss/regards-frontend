@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import get from 'lodash/get'
 import partial from 'lodash/partial'
 import reduce from 'lodash/reduce'
@@ -88,7 +88,7 @@ class QueryRuntimeHelpersBuilder {
    * @return {function} function like ( {function} applier , {function} dispatchMethod, {*} initialValue ) => Promise
    */
   buildGetReducePromise() {
-    return partial(this.getReducePromise, this.actions, this.queryParams, this.serviceTarget.entitiesCount)
+    return partial(this.getReducePromise, this.actions, this.queryParams, this.serviceTarget.entitiesCount, this.serviceTarget.excludedIpIds)
   }
 
   /**
@@ -96,12 +96,13 @@ class QueryRuntimeHelpersBuilder {
    * @param {BasicFacetsPageableActions} actions actions - partially applied, never seen by user
    * @param {*} queryParams query parameters  - partially applied, never seen by user.
    * @param {number} elementsCount total elements count
+   * @param {Array} excludedIpIds excluded IP IDs from query results
    * @param {function} dispatchMethod redux dispatch method, strictly required to run fetch
    * @param {*} applier treatment to apply, like (accumulator, entity content, index) => *
    * @param {*} initialValue optional initial value (will be provided as first acculmulator in applier)
    * @param {number} pageSize optional page size
    */
-  getReducePromise = (actions, queryParams, elementsCount, dispatchMethod, applier, initialValue, pageSize = 1000) => {
+  getReducePromise = (actions, queryParams, elementsCount, excludedIpIds, dispatchMethod, applier, initialValue, pageSize = 1000) => {
     const actualElementsCount = Math.min(10000, elementsCount) // XXX Remove if/when the limit does no longer apply on catalog
     const totalPages = Math.floor(actualElementsCount / pageSize)
     // build a promise that will resolve and reduce, page by page, and terminate on last page
@@ -122,8 +123,12 @@ class QueryRuntimeHelpersBuilder {
               throw new Error(`Entities page could not be retrieved: ${payload.message || 'unknow error'}`)
             }
             // 2 - reduce those entities then jump to next or terminate
-            let currentIndex = entityIndex - 1 // sadly not provided by lodash.reduce :-(
+            let currentIndex = entityIndex // sadly not provided by lodash.reduce :-(
             const pageResult = reduce(entities, (accumulator, { content: entityContent }, key, index) => {
+              // do not handle the excluded IP IDs
+              if (excludedIpIds.includes(entityContent.ipId)) {
+                return accumulator // do not call reducer nor improve entity index
+              }
               currentIndex += 1
               return applier(accumulator, entityContent, currentIndex)
             }, previousResult)
@@ -131,7 +136,7 @@ class QueryRuntimeHelpersBuilder {
             if (pageIndex === totalPages - 1) { // done
               resolve(pageResult)
             } else { // not done yet, loop
-              handleQueryPage(pageResult, entityIndex + pageSize, pageIndex + 1)
+              handleQueryPage(pageResult, currentIndex + 1, pageIndex + 1)
             }
           }).catch(e => reject(e)) // any page error must terminate the promise
       }

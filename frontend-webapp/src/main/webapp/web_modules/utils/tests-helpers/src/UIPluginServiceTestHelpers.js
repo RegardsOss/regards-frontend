@@ -47,8 +47,8 @@ function buildManyElementsTarget(ipIDs = ['test.IPID.1', 'test.IPID.2'], type = 
   return packRuntimeTarget(ServiceTarget.buildManyElementsTarget(ipIDs, type))
 }
 
-function buildQueryTarget(query = 'test=true', count = 5, type = RuntimeTargetTypes.DATA) {
-  return packRuntimeTarget(ServiceTarget.buildQueryTarget(query, count))
+function buildQueryTarget(query = 'test=true', count = 5, type = RuntimeTargetTypes.DATA, excludedIpIDs = []) {
+  return packRuntimeTarget(ServiceTarget.buildQueryTarget(query, type, count, excludedIpIDs))
 }
 
 export default {

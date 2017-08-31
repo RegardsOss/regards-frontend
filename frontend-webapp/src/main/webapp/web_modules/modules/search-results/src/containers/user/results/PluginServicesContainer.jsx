@@ -226,10 +226,12 @@ export class PluginServicesContainer extends React.Component {
    */
   onStartSelectionService = ({ content: service }) => {
     const { dispatchRunService, selectionMode, toggledElements, openSearchQuery, viewObjectType, pageMetadata } = this.props
+    // pack ip ID array
+    const ipIdArray = map(toggledElements, elt => elt.content.ipId)
     // pack query
     const serviceTarget = selectionMode === TableSelectionModes.includeSelected ?
-      target.buildManyElementsTarget(map(toggledElements, elt => elt.content.ipId)) : // pack ip ID array
-      target.buildQueryTarget(openSearchQuery, PluginServicesContainer.getEntityTypeForViewType(viewObjectType), pageMetadata.totalElements)
+      target.buildManyElementsTarget(ipIdArray) :
+      target.buildQueryTarget(openSearchQuery, PluginServicesContainer.getEntityTypeForViewType(viewObjectType), pageMetadata.totalElements, ipIdArray)
     // note : only service content is dipatched (see top methods conversion)
     dispatchRunService(new PluginServiceRunModel(service, serviceTarget))
   }
