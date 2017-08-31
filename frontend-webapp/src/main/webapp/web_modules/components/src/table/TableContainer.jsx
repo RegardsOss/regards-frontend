@@ -178,6 +178,8 @@ class TableContainer extends React.Component {
       nextProps.flushEntities()
       // Fetch the first page results
       nextProps.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
+      // Finally, we ensure the selection is empty, as the new entities list may not contain previously selected elements
+      nextProps.dispatchUnselectAll()
     }
 
 

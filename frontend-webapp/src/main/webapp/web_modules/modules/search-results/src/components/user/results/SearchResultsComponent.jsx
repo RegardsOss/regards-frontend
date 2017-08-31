@@ -468,7 +468,7 @@ class SearchResultsComponent extends React.Component {
 
     return (
       <TableContainer
-        key={`${showingDataobjects ? 'do' : 'ds'}-${viewMode}`}
+        key={showingDataobjects ? 'do' : 'ds'} // unmount the table when change entity type (using key trick)
         pageActions={resultPageActions}
         pageSelectors={searchSelectors}
         tableActions={TableClient.tableActions}
