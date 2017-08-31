@@ -197,13 +197,23 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     }
     let render = shallow(<PluginServicesContainer {...props} />, { context })
     let selectionServices = render.state('selectionServices')
-    assert.lengthOf(selectionServices, 2, 'There should be two services retained for dataobjects')
-    assert.isOk(selectionServices.find(({ content: { label } }) => label === 'common-service-1', `The context service 1 should be preserved in dataobject selection services ${selectionServices}`))
+    assert.lengthOf(selectionServices, 1, 'There should be one service retained for dataobjects (the user doesn\'t currently have rights for catalog service application)')
     assert.isOk(selectionServices.find(({ content: { label } }) => label === 'entity-service-3', `The entity service 3 should be preserved in dataobject selection services ${selectionServices}`))
+
+    // provide user rights for catalog plugins and check catalog services have been added
+    const propsWithRights = {
+      ...props,
+      availableDependencies: ['rs-catalog@/services/{puginConfigurationId}/apply@POST'], // specific endpoint rights
+    }
+    render = shallow(<PluginServicesContainer {...propsWithRights} />, { context })
+    selectionServices = render.state('selectionServices')
+    assert.lengthOf(selectionServices, 2, 'There should be two services retained for dataobjects (the user has now rights for catalog service application)')
+    assert.isOk(selectionServices.find(({ content: { label } }) => label === 'entity-service-3', `The entity service 3 should be preserved in dataobject selection services ${selectionServices}`))
+    assert.isOk(selectionServices.find(({ content: { label } }) => label === 'common-service-1', `The context service 1 should be preserved in dataobject selection services ${selectionServices}`))
 
     // dynamic test: remove selection => no service should be available
     const props2 = {
-      ...props,
+      ...propsWithRights,
       toggledElements: {},
     }
     render = shallow(<PluginServicesContainer {...props2} />, { context })
@@ -213,7 +223,7 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     // dynamic test: switch to DATASET view mode: only dataset context service and common entities service (valid for DATASET too) should
     // be retained in services (we ignore here the selected elements, as their type doesn't matter in resolution algorithm)
     const props3 = {
-      ...props,
+      ...propsWithRights,
       viewObjectType: CatalogDomain.SearchResultsTargetsEnum.DATASET_RESULTS,
     }
     render = shallow(<PluginServicesContainer {...props3} />, { context })

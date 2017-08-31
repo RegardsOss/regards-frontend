@@ -8,10 +8,14 @@ import map from 'lodash/map'
 import omit from 'lodash/omit'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { AccessDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
-import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/entities-common'
+import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { TableSelectionModes } from '@regardsoss/components'
+import { CatalogClient } from '@regardsoss/client'
+import { AccessDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
+import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/entities-common'
+import { AccessShapes } from '@regardsoss/shape'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { pluginServiceActions, pluginServiceSelectors } from '../../../clients/PluginServiceClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
@@ -20,6 +24,10 @@ import runPluginServiceActions from '../../../models/services/RunPluginServiceAc
 import runPluginServiceSelectors from '../../../models/services/RunPluginServiceSelectors'
 import NavigationLevel from '../../../models/navigation/NavigationLevel'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
+
+// Determinate the required resource name to apply catalog plugins
+const tempActions = new CatalogClient.CatalogPluginServiceResultActions('entities-common/apply-catalog-service')
+const catalogServiceDependency = tempActions.getDependency(RequestVerbEnum.POST)
 
 /**
  * Plugin services container. It :
@@ -78,10 +86,13 @@ export class PluginServicesContainer extends React.Component {
    * Is usable selection service in context?
    * @param service service as PluginService (wrapped in 'content:')
    * @param viewObjectType current view object type
+   * @param availableDependencies available dependencies for current user
    */
-  static isUsableSelectionService({ content: { applicationModes, entityTypes } }, viewObjectType) {
+  static isUsableSelectionService({ content: { applicationModes, entityTypes, type } }, viewObjectType, availableDependencies) {
     return applicationModes.includes(AccessDomain.applicationModes.MANY) &&
-      entityTypes.includes(PluginServicesContainer.getEntityTypeForViewType(viewObjectType))
+      entityTypes.includes(PluginServicesContainer.getEntityTypeForViewType(viewObjectType)) &&
+      // For catalog service only: the user must be allowed to run catalog plugin service
+      (type !== AccessDomain.pluginTypes.CATALOG || availableDependencies.includes(catalogServiceDependency))
   }
 
   /**
@@ -89,7 +100,7 @@ export class PluginServicesContainer extends React.Component {
    * @param properties properties describing current selection state and global services
    * @return [{PluginService}] services available for current selection
    */
-  static getSelectionServices = ({ selectionMode, toggledElements, pageMetadata, contextSelectionServices, viewObjectType, selectedDatasetIpId }) => {
+  static getSelectionServices = ({ selectionMode, toggledElements, pageMetadata, contextSelectionServices, viewObjectType, selectedDatasetIpId, availableDependencies = [] }) => {
     let selectionServices = []
     if (!PluginServicesContainer.isEmptySelection(selectionMode, toggledElements, pageMetadata)) {
       // 1 - recover context services
@@ -97,7 +108,7 @@ export class PluginServicesContainer extends React.Component {
         // filter service for current context (only selection services, working with current objects type),
         // then remove 'content' wrapper to have basic services shapes
         selectionServices = filter(contextSelectionServices, service =>
-          PluginServicesContainer.isUsableSelectionService(service, viewObjectType))
+          PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies))
       }
       // 2 - Find every service that match all objects in selection
       // Notes: That operation cannot be performed when selection is exclusive. It is useless when
@@ -107,7 +118,7 @@ export class PluginServicesContainer extends React.Component {
         // note: we remove doubles here to lower later complexity
         const [{ content: { services: allFirstEntityServices = [] } }, ...otherSelectedElements] = values(toggledElements)
         const filteredFirstEntityServices = allFirstEntityServices.filter(
-          service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType) &&
+          service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies) &&
             !selectionServices.some(({ content: { configId, type } }) =>
               configId === service.content.configId && type === service.content.type))
 
@@ -145,6 +156,9 @@ export class PluginServicesContainer extends React.Component {
     contextSelectionServices: pluginServiceSelectors.getResult(state),
     // running service related
     serviceRunModel: runPluginServiceSelectors.getServiceRunModel(state),
+    // logged user state related
+    authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
+    availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
   })
 
   static mapDispatchToProps = dispatch => ({
@@ -174,6 +188,9 @@ export class PluginServicesContainer extends React.Component {
     // service related
     serviceRunModel: PropTypes.instanceOf(PluginServiceRunModel),
     contextSelectionServices: AccessShapes.PluginServiceWithContentArray,
+    // logged user and rights related
+    authentication: AuthenticateShape,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string), // The full list of dependencies
 
     // from mapDispatchToProps
     dispatchFetchPluginServices: PropTypes.func.isRequired,
@@ -194,22 +211,23 @@ export class PluginServicesContainer extends React.Component {
 
   /**
    * Updates the component on properties changes (starts fetching, converts data, update state...)
-   * @param newProperties new REACT properties
-   * @param oldProperties old REACT properties
+   * @param newProperties new properties
+   * @param oldProperties old properties
    */
   onPropertiesChanged = (newProps, oldProps = {}) => {
     const oldState = this.state
     let newState = oldState ? { ...oldState } : PluginServicesContainer.DEFAULT_STATE
 
-    // A - dataset changed or component was mounted, update global services
-    if (!oldState || oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId) {
+    // A - dataset changed, component was mounted or user rights changed, update global services
+    if (!oldState || oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
+      !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       newProps.dispatchFetchPluginServices(newProps.selectedDatasetIpId)
     }
 
-    // B - global services, view object type or selection changed : update available selection services
+    // B - global services, view object type, selection changed or user rights changed: update available selection services
     if (newProps.contextSelectionServices !== oldProps.contextSelectionServices || oldProps.selectionMode !== newProps.selectionMode ||
       oldProps.toggledElements !== newProps.toggledElements || oldProps.pageMetadata !== newProps.pageMetadata ||
-      oldProps.viewObjectType !== newProps.viewObjectType) {
+      oldProps.viewObjectType !== newProps.viewObjectType || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       newState = {
         selectionServices: PluginServicesContainer.getSelectionServices(newProps),
       }

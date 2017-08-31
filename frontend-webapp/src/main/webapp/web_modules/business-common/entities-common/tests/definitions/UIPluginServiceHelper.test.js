@@ -103,7 +103,7 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
     localTarget: buildManyElementsTarget(['a', 'b', 'd']),
   }, {
     testMessage: 'should build the right target fields for QUERY target',
-    localTarget: buildQueryTarget('a=a&b=b', ENTITY_TYPES_ENUM.DATA, 15),
+    localTarget: buildQueryTarget('a=a&b=b', ENTITY_TYPES_ENUM.DATA, 15, []),
   }]
   testCases.map(({ testMessage, localTarget, count }) =>
     it(testMessage, () => {

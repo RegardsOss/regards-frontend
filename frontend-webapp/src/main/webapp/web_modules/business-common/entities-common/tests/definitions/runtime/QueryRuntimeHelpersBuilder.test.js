@@ -31,7 +31,7 @@ describe('[Entities Common] Testing QueryRuntimeHelpersBuilder', () => {
     assert.isDefined(QueryRuntimeHelpersBuilder)
   })
   it('should provide the main API functions: getFetchAction and getReducePromise', () => {
-    const helperBuilder = new QueryRuntimeHelpersBuilder(buildQueryTarget('a=a&b=b', ENTITY_TYPES_ENUM.DATA, 15))
+    const helperBuilder = new QueryRuntimeHelpersBuilder(buildQueryTarget('a=a&b=b', ENTITY_TYPES_ENUM.DATA, 15, []))
     assert.isFunction(helperBuilder.buildGetFetchAction, 'The buildGetFetchAction method should return getFetchAction function')
     assert.isFunction(helperBuilder.buildGetReducePromise, 'The buildGetReducePromise method should return getReducePromise function')
   })

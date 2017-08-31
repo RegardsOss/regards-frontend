@@ -374,7 +374,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.instance().onConfigurationDone(params1)
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'One element target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params1, 'One element target - parameters should be corretly sent')
-    assert.deepEqual(lastFetchParams.targetParameter, { entity: 'x' }, 'One element target - target should be corretly sent')
+    assert.deepEqual(lastFetchParams.targetParameter, { entityId: 'x' }, 'One element target - target should be corretly sent')
     // 2 - test many elements target
     const props2 = {
       ...commonProps,
@@ -387,12 +387,12 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.instance().onConfigurationDone(params2)
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Many elements target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params2, 'Many elements target - parameters should be corretly sent')
-    assert.deepEqual(lastFetchParams.targetParameter, { entities: ['x', 'y'] }, 'Many elements target - target should be corretly sent')
+    assert.deepEqual(lastFetchParams.targetParameter, { entitiesId: ['x', 'y'] }, 'Many elements target - target should be corretly sent')
     // 3 - test query target
     const props3 = {
       ...commonProps,
       dispatchFetchPluginResult: spyFetch,
-      target: buildQueryTarget('model.age=22', DamDomain.ENTITY_TYPES_ENUM.DATA, 22),
+      target: buildQueryTarget('model.age=22', DamDomain.ENTITY_TYPES_ENUM.DATA, 22, []),
     }
     enzymeWrapper.setProps(props3)
     // simulate the configuration loading done event WITH the configuration

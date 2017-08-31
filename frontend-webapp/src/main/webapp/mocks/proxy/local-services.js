@@ -156,28 +156,56 @@ function withProxyFetcher(proxiedURL, handler) {
   }
 }
 
-const MOCK_RESOURCES_PATHS = ['/datasets/search', '/dataobjects/search']
-const geMockResources = () => MOCK_RESOURCES_PATHS.map((path, index) => ({
-  content: {
-    controllerSimpleName: `ProxySearchController-${index}`,
-    defaultRole: "PUBLIC",
-    description: `Search endpoint ${index}`,
-    id: 100000 + index,
-    microservice: "rs-access-project",
-    resource: path,
-    verb: "GET",
+/**
+ * List of mocked dependencies
+ */
+const MOCK_RESOURCES = [
+  {
+    content: {
+      controllerSimpleName: `ProxySearchController-0`,
+      defaultRole: 'PUBLIC',
+      description: `Search endpoint 0`,
+      id: 100000,
+      microservice: 'rs-access-project',
+      resource: '/datasets/search',
+      verb: "GET",
+    },
+    links: [],
   },
-  links: [],
-}))
+  {
+    content: {
+      controllerSimpleName: `ProxySearchController-1`,
+      defaultRole: 'PUBLIC',
+      description: `Search endpoint 1`,
+      id: 100001,
+      microservice: 'rs-access-project',
+      resource: '/dataobjects/search',
+      verb: "GET",
+    },
+    links: [],
+  },
+  {
+    content: {
+      controllerSimpleName: `CatalogServiceApplyController`,
+      defaultRole: 'PUBLIC',
+      description: `Catalog service apply controller`,
+      id: 100002,
+      microservice: 'rs-catalog',
+      resource: '/services/{puginConfigurationId}/apply',
+      verb: "POST",
+    },
+    links: [],
+  },
+]
 
 function getResourcesDependencies({ content, links, metadata }, pathParams, queryParams, bodyParams) {
   return {
     content: {
-      content: content.concat(geMockResources()),
+      content: content.concat(MOCK_RESOURCES),
       links,
       metadata: {
-        size: metadata.size + MOCK_RESOURCES_PATHS.length,
-        totalElements: metadata.totalElements + MOCK_RESOURCES_PATHS.length,
+        size: metadata.size + MOCK_RESOURCES.length,
+        totalElements: metadata.totalElements + MOCK_RESOURCES.length,
         totalPages: metadata.totalPages,
       }
     }

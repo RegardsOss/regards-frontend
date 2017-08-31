@@ -63,7 +63,7 @@ describe('[Entities Common] Testing ServiceContainer', () => {
     const targets = [
       buildOneElementTarget('xxx'),
       buildManyElementsTarget(['x1', 'x2']),
-      buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA),
+      buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
     ]
     targets.forEach((target) => {
       const propsForTarget = {
@@ -95,7 +95,7 @@ describe('[Entities Common] Testing ServiceContainer', () => {
     const targets = [
       buildOneElementTarget('xxx'),
       buildManyElementsTarget(['x1', 'x2']),
-      buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA),
+      buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
     ]
     targets.forEach((target) => {
       const propsForTarget = {
