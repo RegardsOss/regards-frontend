@@ -15,10 +15,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import merge from 'lodash/merge'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Card, CardActions, CardText } from 'material-ui/Card'
+import { CardActions, CardText } from 'material-ui/Card'
 import { CardActionsComponent, Title } from '@regardsoss/components'
 import { Container as ContainerShape } from '@regardsoss/model'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
@@ -79,14 +79,13 @@ class FormLayoutComponent extends React.Component {
   }
 
   render() {
-    const style = { width: '100%' }
     return (
-      <Card>
-        <Title
-          level={3}
-          label={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
-        />
-        <CardText style={style}>
+      <div>
+        <CardText>
+          <Title
+            level={3}
+            label={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
+          />
           <LayoutConfigurationComponent
             layout={this.state.currentLayout}
             hideDynamicContentOption
@@ -100,7 +99,7 @@ class FormLayoutComponent extends React.Component {
             mainButtonTouchTap={this.resetLayout}
           />
         </CardActions>
-      </Card>
+      </div>
     )
   }
 }

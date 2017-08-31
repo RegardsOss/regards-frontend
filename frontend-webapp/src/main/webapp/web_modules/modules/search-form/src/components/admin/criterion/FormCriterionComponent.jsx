@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import {
   Table,
   TableBody,
@@ -29,6 +29,7 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import concat from 'lodash/concat'
 import filter from 'lodash/filter'
+import { CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -185,7 +186,7 @@ class FormCriterionComponent extends React.Component {
   render() {
     const dialogTitle = this.context.intl.formatMessage({ id: 'form.criterion.criteria.new.title' })
     return (
-      <div>
+      <CardText>
         <Title
           level={3}
           label={this.context.intl.formatMessage({ id: 'form.criterion.tab.title' })}
@@ -227,7 +228,7 @@ class FormCriterionComponent extends React.Component {
             availableCriterion={this.props.availableCriterion}
           />
         </Dialog>
-      </div>
+      </CardText>
     )
   }
 }

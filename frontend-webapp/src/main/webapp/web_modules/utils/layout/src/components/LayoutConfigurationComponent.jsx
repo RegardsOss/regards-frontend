@@ -126,18 +126,14 @@ class LayoutConfigurationComponent extends React.Component {
 
     return (
       <div >
-        <Card>
-          <CardText>
-            <Container
-              appName="admin"
-              container={this.props.layout}
-              project={this.props.project}
-              onContainerClick={this.containerSelection}
-              configurationMode
-              mainContainer
-            />
-          </CardText>
-        </Card>
+        <Container
+          appName="admin"
+          container={this.props.layout}
+          project={this.props.project}
+          onContainerClick={this.containerSelection}
+          configurationMode
+          mainContainer
+        />
         <Dialog
           title={dialogTitle}
           modal={false}

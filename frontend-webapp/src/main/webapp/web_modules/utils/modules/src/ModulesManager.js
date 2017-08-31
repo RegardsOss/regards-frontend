@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import isNil from 'lodash/isNil'
 
 /** Management tools and definitions for regards front end modules  */
@@ -71,7 +71,7 @@ const trueFunction = any => true
  */
 function getAvailableModuleTypes(dependenciesFilter = trueFunction) {
   const allModuleTypes = getAllModuleTypes()
-  return Promise.all(allModuleTypes.map(loadModule))
+  const modules = Promise.all(allModuleTypes.map(loadModule))
     .then(loadedModules => loadedModules.reduce((acc, module, index) => {
       // filter null modules and replace module content by its type
       if (isNil(module) || !dependenciesFilter(module)) {
@@ -79,6 +79,9 @@ function getAvailableModuleTypes(dependenciesFilter = trueFunction) {
       }
       return [...acc, allModuleTypes[index]]
     }, []))
+  console.error('MODULES', modules)
+
+  return modules
 }
 
 export default {
