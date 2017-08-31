@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import map from 'lodash/map'
 import fpmap from 'lodash/fp/map'
 import fpfilter from 'lodash/fp/filter'
@@ -25,12 +25,14 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import Paper from 'material-ui/Paper'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
+import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { FormattedMessage } from 'react-intl'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { I18nProvider } from '@regardsoss/i18n'
+import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
 import { PluginProvider } from '@regardsoss/plugins'
+import { themeContextType } from '@regardsoss/theme'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
 import { DELETE_ACTION, ADD_ACTION, EDIT_ACTION } from './LayoutConfigurationComponent'
@@ -63,6 +65,11 @@ class Container extends React.Component {
   }
 
   static iconMenu = (<IconButton><MoreVertIcon /></IconButton>)
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
   /**
    * Render the children containers of the current container
@@ -180,8 +187,13 @@ class Container extends React.Component {
             <Toolbar style={toolbarStyle}>
               <ToolbarGroup key="name">
                 <ToolbarTitle text={this.props.container.id} />
+                {this.props.container.dynamicContent ?
+                  <div title={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}>
+                     <MenuIcon color={this.context.muiTheme.palette.disabledColor} />
+                   </div>
+                : null}
               </ToolbarGroup>
-              <ToolbarGroup key="actions">
+              <ToolbarGroup key="actions" lastChild>
                 <IconMenu
                   iconButtonElement={Container.iconMenu}
                   anchorOrigin={anchorOrigin}

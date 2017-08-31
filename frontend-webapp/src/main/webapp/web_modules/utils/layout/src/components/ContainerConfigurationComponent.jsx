@@ -19,12 +19,7 @@
 import map from 'lodash/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
-import Badge from 'material-ui/Badge'
 import MenuItem from 'material-ui/MenuItem'
-import IconButton from 'material-ui/IconButton'
-import Help from 'material-ui/svg-icons/action/help'
-import { Checkbox as BasicRenderCheckbox } from 'redux-form-material-ui'
-import { Field as BasicField } from 'redux-form'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -36,18 +31,10 @@ import {
   ValidationHelpers,
 } from '@regardsoss/form-utils'
 import ShowHideAdvancedOptions from './ShowHideAdvancedOptions'
+import DynamicContentField from './DynamicContentField'
 import ContainerShape from '../model/ContainerShape'
 import ContainerTypes from '../default/ContainerTypes'
 
-const labelStyle = { width: '100%' }
-const dynamicContentWrapperStyle = { display: 'flex' }
-const checkboxStyle = { marginTop: 15 }
-const badgeStyle = { paddingLeft: 0 }
-const badgeBadgeStyle = { top: 20 }
-const smallIconStyle = {
-  width: 20,
-  height: 20,
-}
 const classesFormat = (values, name) => join(values, ',')
 const classesParse = (value, name) => split(value, ',')
 
@@ -67,6 +54,7 @@ class ContainerConfigurationComponent extends React.Component {
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -100,33 +88,18 @@ class ContainerConfigurationComponent extends React.Component {
     input.onChange(value)
   }
 
-  renderDynamicContent = () => {
-    const { muiTheme, intl: { formatMessage } } = this.context
+/**
+ * When the user checks the "Main Container" option, warn him that only one container can be "Main Container" at once
+ */
+  warnOnlyOneMainContainer = (event, newValue, previousValue) => {
+    this.setState({
+      warnDialogOpen: true,
+    })
+  }
 
+  renderDynamicContent = () => {
     if (!this.props.hideDynamicContentOption) {
-      return (
-        <div style={dynamicContentWrapperStyle}>
-          <Badge
-            style={badgeStyle}
-            badgeStyle={badgeBadgeStyle}
-            badgeContent={<IconButton
-              tooltip={formatMessage({ id: 'container.form.dynamicContent.info' })}
-              tooltipPosition="top-right"
-              iconStyle={smallIconStyle}
-            >
-              <Help color={muiTheme.palette.disabledColor} />
-            </IconButton>}
-          >
-            <BasicField
-              name="dynamicContent"
-              style={checkboxStyle}
-              component={BasicRenderCheckbox}
-              label={formatMessage({ id: 'container.form.dynamicContent' })}
-              labelStyle={labelStyle}
-            />
-          </Badge>
-        </div>
-      )
+      return <DynamicContentField change={this.props.change} />
     }
     return null
   }
