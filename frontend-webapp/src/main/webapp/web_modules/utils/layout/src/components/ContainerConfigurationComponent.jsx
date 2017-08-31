@@ -22,9 +22,6 @@ import split from 'lodash/split'
 import Badge from 'material-ui/Badge'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
-import RaisedButton from 'material-ui/RaisedButton'
-import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import Help from 'material-ui/svg-icons/action/help'
 import { Checkbox as BasicRenderCheckbox } from 'redux-form-material-ui'
 import { Field as BasicField } from 'redux-form'
@@ -38,12 +35,12 @@ import {
   reduxForm,
   ValidationHelpers,
 } from '@regardsoss/form-utils'
+import ShowHideAdvancedOptions from './ShowHideAdvancedOptions'
 import ContainerShape from '../model/ContainerShape'
 import ContainerTypes from '../default/ContainerTypes'
 
 const labelStyle = { width: '100%' }
 const dynamicContentWrapperStyle = { display: 'flex' }
-const buttonStyle = { marginTop: 20 }
 const checkboxStyle = { marginTop: 15 }
 const badgeStyle = { paddingLeft: 0 }
 const badgeBadgeStyle = { top: 20 }
@@ -138,9 +135,6 @@ class ContainerConfigurationComponent extends React.Component {
     const { pristine, submitting, container, handleSubmit, onSubmit, onCancel } = this.props
     const { intl: { formatMessage } } = this.context
     const { advanced } = this.state
-    const iconToggleAdvanced = advanced ?
-      <KeyboardArrowUp /> :
-      <KeyboardArrowDown />
 
     return (
       <form
@@ -174,6 +168,7 @@ class ContainerConfigurationComponent extends React.Component {
             ))}
           </Field>
           {this.renderDynamicContent()}
+          <ShowHideAdvancedOptions advanced={advanced} onTouchTap={this.onAdvancedClick} />
           <ShowableAtRender
             show={advanced}
           >
@@ -196,26 +191,15 @@ class ContainerConfigurationComponent extends React.Component {
               label={formatMessage({ id: 'container.form.styles' })}
             />
           </ShowableAtRender>
-          <RaisedButton
-            label={formatMessage({ id: 'container.form.advanced.mode' })}
-            primary
-            icon={iconToggleAdvanced}
-            onTouchTap={this.onAdvancedClick}
-            style={buttonStyle}
-          />
           <CardActionsComponent
-            mainButtonLabel={
-              formatMessage({
-                id: container ? 'container.form.update.button' : 'container.form.submit.button',
-              })
-            }
+            mainButtonLabel={formatMessage({ id: container ? 'container.form.update.button' : 'container.form.submit.button' })}
             mainButtonType="submit"
             isMainButtonDisabled={pristine || submitting}
             secondaryButtonLabel={formatMessage({ id: 'container.form.cancel.button' })}
             secondaryButtonTouchTap={onCancel}
           />
         </div>
-      </form>
+      </form >
     )
   }
 
@@ -225,7 +209,6 @@ const UnconnectedContainerConfigurationComponent = ContainerConfigurationCompone
 export {
   UnconnectedContainerConfigurationComponent,
 }
-
 
 export default reduxForm({
   form: 'edit-layout-container-form',
