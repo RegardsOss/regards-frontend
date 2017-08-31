@@ -107,7 +107,6 @@ export class DatasetEditUIServicesContainer extends React.Component {
   }
 
   handleSubmit = (updatedLinkUIPluginDataset) => {
-    console.log(updatedLinkUIPluginDataset)
     Promise.resolve(this.props.updateLinkUIPluginDataset(this.props.params.datasetIpId, updatedLinkUIPluginDataset))
       .then((actionResult) => {
         if (!actionResult.error) {
