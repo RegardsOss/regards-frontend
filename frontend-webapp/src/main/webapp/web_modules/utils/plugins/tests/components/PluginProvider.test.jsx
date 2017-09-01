@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -85,7 +85,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly that a plugin is loading', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={'0'}
+        pluginInstanceId={0}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -103,7 +103,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly a plugin', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={'0'}
+        pluginInstanceId={0}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -135,10 +135,10 @@ describe('[PLUGINS] Testing Plugins load', () => {
     expect(wrapper.find(IntlProvider)).to.have.length(1)
   })
 
-  it('Should render correctly a element with a plugin as a prop', () => {
+  it('Should render correctly an element with a plugin as a prop', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={'0'}
+        pluginInstanceId={0}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
