@@ -31,6 +31,11 @@ export default {
   INVALID_PASSWORD: 'invalid.password',
   INVALID_URL: 'invalid.url',
   TYPE_STRING: 'type.string',
+  LOWER_THAN_MIN: 'invalid.number.lower.than.min',
+  GREATER_THAN_MAX: 'invalid.number.greater.than.max',
+  INVALID_INTEGER_NUMBER: 'invalid.integer.number',
+  INVALID_FLOATING_NUMBER: 'invalid.floating.number',
+  INVALID_CHARACTER: 'invalid.character',
   invalidRegex: regexp => ({
     key: 'invalid.regex.pattern',
     props: { regexp },

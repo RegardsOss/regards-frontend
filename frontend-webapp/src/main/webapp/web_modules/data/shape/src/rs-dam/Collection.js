@@ -22,7 +22,6 @@ const Collection = PropTypes.shape({
     name: PropTypes.string,
   }).isRequired,
 })
-// TODO : too light
 
 const CollectionList = PropTypes.objectOf(Collection)
 const CollectionArray = PropTypes.arrayOf(Collection)

@@ -24,7 +24,7 @@
 set -e
 
 # Lint
-npm link eslint-config-es6-rules
+npm install eslint-config-es6-rules
 
 # Webpack REGARDS conf
 npm install webpack-config-front

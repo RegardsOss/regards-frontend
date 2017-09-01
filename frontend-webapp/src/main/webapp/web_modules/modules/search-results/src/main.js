@@ -21,6 +21,7 @@ import adminContainer from './containers/AdminContainer'
 import styles from './styles/styles'
 import reducer from './reducer'
 import dependencies from './dependencies'
+
 /**
  * Module main file to expose public interface
  * @author Sébastien binda

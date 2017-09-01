@@ -39,10 +39,15 @@ import BasicSignalSelectors from './signal/BasicSignalSelectors'
 import BasicSignalActions from './signal/BasicSignalActions'
 import BasicSignalReducers from './signal/BasicSignalReducers'
 
+
 import BasicPartitionSelectors from './partition/BasicPartitionSelectors'
 import BasicPartitionActions from './partition/BasicPartitionActions'
 import BasicPartitionReducers from './partition/BasicPartitionReducers'
 import entityListPartitionDataHandler from './partition/EntityListPartitionDataHandler'
+
+import DownloadFileSelectors from './download/DownloadFileSelectors'
+import DownloadFileActions from './download/DownloadFileActions'
+import DownloadFileReducers from './download/DownloadFileReducers'
 
 import RequestVerbEnum from './RequestVerbEnum'
 import RequestErrorShape from './RequestErrorShape'
@@ -69,6 +74,9 @@ export default {
   BasicPartitionReducers,
   BasicPartitionSelectors,
   entityListPartitionDataHandler,
+  DownloadFileActions,
+  DownloadFileReducers,
+  DownloadFileSelectors,
   RequestErrorShape,
   RequestVerbEnum,
 }

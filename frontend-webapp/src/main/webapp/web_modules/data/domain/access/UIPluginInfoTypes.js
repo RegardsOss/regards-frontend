@@ -16,6 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+
+const UI_PLUGIN_INFO_TYPES_ENUM = {
+  CRITERIA: 'CRITERIA',
+  SERVICE: 'SERVICE',
+}
+
+const UI_PLUGIN_INFO_TYPES = values(UI_PLUGIN_INFO_TYPES_ENUM)
 
 /**
  * Available UIPlugin types
@@ -23,7 +31,7 @@
  * @author Sébastien Binda
  */
 
-export default [
-  'CRITERIA',
-  'SERVICE',
-]
+export default {
+  UI_PLUGIN_INFO_TYPES_ENUM,
+  UI_PLUGIN_INFO_TYPES,
+}

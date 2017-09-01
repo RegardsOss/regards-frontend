@@ -29,6 +29,7 @@ const messages = Object.assign({
   'plugin.form.name': 'Nom',
   'plugin.form.type': 'Type',
   'plugin.form.sourcesPath': 'Chemin d\'accès au fichier javascript du plugin',
+  'plugin.form.icon': 'Icône de représentation du plugin (Lien https)',
   'plugin.form.submit.button': 'Ajouter',
   'plugin.form.update.button': 'Mettre à jour',
   'plugin.form.cancel.button': 'Annuler',

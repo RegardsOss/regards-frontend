@@ -27,6 +27,7 @@ const PluginConfigurationContent = PropTypes.shape({
   active: PropTypes.bool,
   pluginClassName: PropTypes.string,
   parameters: PropTypes.arrayOf(PluginParameterContent),
+  iconUrl: PropTypes.string,
 })
 const PluginConfiguration = PropTypes.shape({
   content: PluginConfigurationContent,

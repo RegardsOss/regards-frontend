@@ -32,4 +32,4 @@ const initPlugin = (pluginClass, reducer, messages, pluginInfo) => {
   document.dispatchEvent(event)
 }
 
-export { initPlugin }
+export default { initPlugin }

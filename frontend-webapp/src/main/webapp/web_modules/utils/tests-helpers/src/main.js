@@ -15,12 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
+* */
 import defaultFluxStandardError from './DefaultFluxStandardError'
 import IntlStub from './IntlStub'
 import muiThemeStub from './MuiThemeStub'
 import buildTestContext from './TestContextStub'
 import testSuiteHelpers from './TestSuiteHelpers'
+import uiPluginServiceTestHelpers from './UIPluginServiceTestHelpers'
 import ReduxEntityTester from './store/ReduxEntityTester'
 import DumpProvider from './clientDump/DumpProvider'
 
@@ -32,4 +33,5 @@ export default {
   DumpProvider,
   buildTestContext,
   testSuiteHelpers,
+  uiPluginServiceTestHelpers,
 }

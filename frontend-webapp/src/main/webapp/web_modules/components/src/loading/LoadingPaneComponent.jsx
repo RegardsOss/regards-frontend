@@ -20,7 +20,7 @@ import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import CircularProgress from 'material-ui/CircularProgress'
 
 /**
- * Shows loading with title and subtitle (optional)
+ * Shows loading with title and subtitle (optional) in a card (useing card overlay)
  */
 class LoadingPaneComponent extends React.Component {
 

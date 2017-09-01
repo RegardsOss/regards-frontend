@@ -20,20 +20,18 @@ import React from 'react'
 import map from 'lodash/map'
 import merge from 'lodash/merge'
 import find from 'lodash/find'
+import IconButton from 'material-ui/IconButton'
 import Divider from 'material-ui/Divider'
-import GetApp from 'material-ui/svg-icons/action/get-app'
+import DownloadIcon from 'material-ui/svg-icons/action/get-app'
 import Checkbox from 'material-ui/Checkbox'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
-import InfoIcon from 'material-ui/svg-icons/action/info-outline'
-import { DamDomain } from '@regardsoss/domain'
-import {
-  CatalogEntity,
-  AttributeModel,
-  ObjectLinkedFileTypes,
-} from '@regardsoss/model'
+import { DamDomain, CatalogDomain } from '@regardsoss/domain'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { getTypeRender } from '@regardsoss/attributes-common'
-import { TableColumnConfiguration, TableColumnConfigurationController } from '@regardsoss/components'
+import { TableColumnConfiguration, TableColumnConfigurationController, DownloadButton } from '@regardsoss/components'
+import OneElementServicesButton from '../options/OneElementServicesButton'
+import EntityDescriptionButton from '../options/EntityDescriptionButton'
 
 /**
  * Component to display datasets in search results.
@@ -45,8 +43,8 @@ class ListViewEntityCellComponent extends React.Component {
   static propTypes = {
 
     // Entity to display
-    entity: CatalogEntity.isRequired,
-    attributes: PropTypes.objectOf(AttributeModel),
+    entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
+    attributes: PropTypes.objectOf(DataManagementShapes.AttributeModel),
     lineHeight: PropTypes.number.isRequired,
     // Parameters to handle row selection
     isTableSelected: PropTypes.bool,
@@ -55,15 +53,20 @@ class ListViewEntityCellComponent extends React.Component {
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
     // Callback to run a new search with the given tag
     onSearchTag: PropTypes.func,
-    // eslint-disable-next-line react/forbid-prop-types
-    styles: PropTypes.object,
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
+    // tooltips, as i18n context isn't available in the table context
+    downloadTooltip: PropTypes.string.isRequired,
+    servicesTooltip: PropTypes.string.isRequired,
     descriptionTooltip: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    styles: PropTypes.object, // styles as style context isn't available in the table context
     // callback: on entity selection (or null when not clickable)
     onEntitySelection: PropTypes.func,
     // callback: on show description
     onShowDescription: PropTypes.func.isRequired,
+    // callback: parent service starting handler
+    onServiceStarted: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -201,7 +204,7 @@ class ListViewEntityCellComponent extends React.Component {
    * @returns {XML}
    */
   displayThumbnail = () => {
-    const thumbnail = find(this.props.entity.content.files, file => file.dataType === ObjectLinkedFileTypes.THUMBNAIL)
+    const thumbnail = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.ObjectLinkedFileTypes.THUMBNAIL)
     if (thumbnail) {
       return (
         <div style={this.props.styles.thumbnail}>
@@ -213,53 +216,67 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayTitle = () => {
-    const mainStyle = { display: 'flex', alignItems: 'center' }
-    const checkboxStyle = { width: 'auto' }
-    const titleStyle = { marginRight: 10 }
-    const downloadStyle = { display: 'flex', right: 15, position: 'absolute' }
-    const infoIconStyle = { cursor: 'pointer', marginLeft: 15 }
+    const { descriptionTooltip, onShowDescription, styles } = this.props
+    const { rootStyles, checkboxStyles, titleLabelStyles, optionsBarStyles, option } = styles.title
     return (
-      <div style={mainStyle}>
+      <div style={rootStyles}>
         {this.props.displayCheckbox ? <Checkbox
           onCheck={this.props.selectTableEntityCallback}
           defaultChecked={this.props.isTableSelected}
-          style={checkboxStyle}
+          style={checkboxStyles}
         /> : null}
         <span
           onMouseEnter={this.props.onEntitySelection ? this.setHoverClickableStyle : undefined}
           onMouseLeave={this.props.onEntitySelection ? this.setStandardStyle : undefined}
           onTouchTap={this.props.onEntitySelection ? this.props.onEntitySelection : undefined}
-          style={titleStyle}
+          style={titleLabelStyles}
         >{this.props.entity.content.label}</span>
-        <div style={downloadStyle}>
-          {this.displayDownload()}
-          <div title={this.props.descriptionTooltip}>
-            <InfoIcon
-              onTouchTap={this.props.onShowDescription}
-              style={infoIconStyle}
-            />
-          </div>
+        <div style={optionsBarStyles}>
+          {this.displayDownload() // Download if available
+          }
+          {this.displayServices() // Services if any
+          }
+          <EntityDescriptionButton // Description
+            style={option.buttonStyles}
+            iconStyle={option.iconStyles}
+            tooltip={descriptionTooltip}
+            onShowDescription={onShowDescription}
+          />
         </div>
       </div>
     )
   }
 
   displayDownload = () => {
-    const rawdata = find(this.props.entity.content.files, file => file.dataType === ObjectLinkedFileTypes.RAWDATA)
+    const rawdata = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.ObjectLinkedFileTypes.RAWDATA)
     if (rawdata) {
-      const iconStyle = { cursor: 'pointer' }
+      const { styles: { title: { option } }, downloadTooltip } = this.props
       return (
-        <div>
-          <a href={rawdata.fileRef} download title="download">
-            <GetApp
-              style={iconStyle}
-              hoverColor={this.context.muiTheme.palette.accent1Color}
-            />
-          </a>
-        </div>
-      )
+        <DownloadButton
+          style={option.buttonStyles}
+          tooltip={downloadTooltip}
+          iconStyle={option.iconStyles}
+          downloadURL={rawdata.fileRef}
+          ButtonIcon={null} // remove default icon, use children instead for an Icon button
+          ButtonConstructor={IconButton}
+        >
+          <DownloadIcon />
+        </DownloadButton>)
     }
     return null
+  }
+
+  displayServices = () => {
+    const { entity: { content: { services = [] } }, onServiceStarted, servicesTooltip } = this.props
+    const { option } = this.props.styles.title
+    return !services.length ? null : (
+      <OneElementServicesButton
+        style={option.buttonStyles}
+        iconStyle={option.iconStyles}
+        tooltip={servicesTooltip}
+        services={services}
+        onServiceStarted={onServiceStarted}
+      />)
   }
 
   displayEntityAttributes = () => {

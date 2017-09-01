@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isDate from 'lodash/isDate'
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
-import { dateTimeFormat } from '@regardsoss/i18n'
-import isDate from 'lodash/isDate'
 import IconButton from 'material-ui/IconButton'
-import Clear from 'material-ui/svg-icons/content/clear'
+import Clear from 'material-ui/svg-icons/content/backspace'
+import { dateTimeFormat } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import RenderHelper from './RenderHelper'
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
@@ -48,6 +49,10 @@ export class RenderDateTimeField extends React.Component {
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),
+    meta: PropTypes.shape({
+      touched: PropTypes.bool,
+      error: PropTypes.string,
+    }),
     timeFormat: PropTypes.string,
   }
 
@@ -60,39 +65,85 @@ export class RenderDateTimeField extends React.Component {
     ...themeContextType,
   }
 
-  static style = {
-    rootContainer: {
+  static STYLES = {
+    fieldsLine: {
+      marginTop: '14px',
+      height: '58px',
       display: 'flex',
       alignItems: 'center',
-      flexWrap: 'wrap',
-    },
-    attributeName: {
-      margin: '0px 10px',
-      fontSize: '1.1em',
     },
     datePicker: {
       margin: '0 10px 0 0',
+      flexGrow: 1,
     },
     datePickerText: {
-      maxWidth: 85,
+      width: '100%',
       top: -13,
     },
+    timePicker: {
+      flexGrow: 1,
+    },
     timePickerText: {
-      maxWidth: 40,
+      width: '100%',
       top: -13,
     },
   }
 
-  getLabel = () => {
-    const { label } = this.props
-    if (label) {
-      return (
-        <span style={RenderDateTimeField.style.attributeName}>
-          {label} (UTC)
-        </span>
-      )
+
+  /**
+   * Callback function that is fired when the date value changes.
+   *
+   * @param {Object} event Change event targetting the text field.
+   * @param {String} newValue The new value of the text field.
+   */
+  onChangeDate = (event, newValue) => {
+    const { input: { value, onChange } } = this.props
+    const parsedDate = this.getDateForComponent(value)
+    // Pick the time part from the time picker
+    if (isDate(parsedDate)) {
+      newValue.setHours(parsedDate.getHours(), parsedDate.getMinutes(), parsedDate.getSeconds(), parsedDate.getMilliseconds())
     }
-    return null
+    onChange(newValue)
+  }
+
+  /**
+   * Callback function that is fired when the time value changes.
+   *
+   * @param {Object} event Change event targetting the text field.
+   * @param {String} newValue The new value of the text field.
+   */
+  onChangeTime = (event, newValue) => {
+    const { input: { value, onChange } } = this.props
+    const parsedDate = this.getDateForComponent(value)
+    // Pick the date part from the the date picker
+    if (isDate(parsedDate)) {
+      newValue.setFullYear(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate())
+    }
+    onChange(newValue)
+    this.onTouched() // make sure the field is marked as touched
+  }
+
+  /**
+   * Clear the entered date & time values
+   */
+  onClearInput = () => {
+    const { input: { onChange } } = this.props
+    onChange(null)
+    this.onTouched() // make sure the field is marked as touched
+  }
+  /**
+   * On any field dialog dismissed: make sure the whole field is marked as touched (allow showing errors)
+   */
+  onFieldDialogDismissed = () => this.onTouched() // make sure the field is marked as touched
+
+  /**
+   * On touched: propagate touched event to redux-form
+   */
+  onTouched = () => {
+    const { input: { onBlur }, meta: { touched } } = this.props
+    if (!touched) {
+      onBlur()
+    }
   }
 
   /**
@@ -110,86 +161,51 @@ export class RenderDateTimeField extends React.Component {
     return null
   }
 
-  /**
-   * Callback function that is fired when the date value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {String} newValue The new value of the text field.
-   */
-  handleChangeDate = (event, newValue) => {
-    const { input: { value, onChange } } = this.props
-    const parsedDate = this.getDateForComponent(value)
-    // Pick the time part from the time picker
-    if (isDate(parsedDate)) {
-      newValue.setHours(parsedDate.getHours(), parsedDate.getMinutes(), parsedDate.getSeconds(), parsedDate.getMilliseconds())
-    }
-    onChange(newValue)
-  }
-
-  /**
-   * Callback function that is fired when the time value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {String} newValue The new value of the text field.
-   */
-  handleChangeTime = (event, newValue) => {
-    const { input: { value, onChange } } = this.props
-    const parsedDate = this.getDateForComponent(value)
-    // Pick the date part from the the date picker
-    if (isDate(parsedDate)) {
-      newValue.setFullYear(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate())
-    }
-    onChange(newValue)
-  }
-
-  /**
-   * Clear the entered date & time values
-   */
-  handleClear = () => {
-    const { input: { onChange } } = this.props
-    onChange(null)
-  }
-
   render() {
-    const { intl, timeFormat, input } = this.props
-    const clearButtonDisplayed = input.value !== undefined
+    const { intl, label, timeFormat, input, meta: { touched, error } } = this.props
+    const clearButtonDisplayed = !!input.value
+    const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
     // At first the value is an empty string
     const dateValue = this.getDateForComponent(input.value)
     return (
-      <div
-        style={RenderDateTimeField.style.rootContainer}
-      >
-        {this.getLabel()}
+      <div style={RenderDateTimeField.STYLES.fieldsLine} >
         <DatePicker
           value={dateValue}
-          onChange={this.handleChangeDate}
+          onChange={this.onChangeDate}
           DateTimeFormat={dateTimeFormat}
           locale="fr"
-          hintText={intl.formatMessage({ id: 'form.datetimepicker.date.label' })}
-          floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.date.label' })}
+          hintText={intl.formatMessage({ id: 'form.datetimepicker.date.label' }, { label })}
+          floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.date.label' }, { label })}
           okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
           cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
-          style={RenderDateTimeField.style.datePicker}
-          textFieldStyle={RenderDateTimeField.style.datePickerText}
+          style={RenderDateTimeField.STYLES.datePicker}
+          textFieldStyle={RenderDateTimeField.STYLES.datePickerText}
+          onFocus={this.onInnerFieldFocus}
+          onDismiss={this.onFieldDialogDismissed}
+          errorText={errorMessage}
         />
         <TimePicker
           value={dateValue}
-          onChange={this.handleChangeTime}
+          onChange={this.onChangeTime}
           format={timeFormat}
-          floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.time.label' })}
-          hintText={intl.formatMessage({ id: 'form.datetimepicker.time.label' })}
+          floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.time.label' }, { label })}
+          hintText={intl.formatMessage({ id: 'form.datetimepicker.time.label' }, { label })}
           okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
           cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
-          textFieldStyle={RenderDateTimeField.style.timePickerText}
+          style={RenderDateTimeField.STYLES.timePicker}
+          textFieldStyle={RenderDateTimeField.STYLES.timePickerText}
+          onDismiss={this.onFieldDialogDismissed}
+          errorText={errorMessage ? ' ' : null} // small hack here to show the error style but not message in double
         />
-        <IconButton
-          tooltip={intl.formatMessage({ id: 'form.datetimepicker.clear' })}
-          style={{
-            transform: `scale(${clearButtonDisplayed ? 1 : 0})`,
-          }}
-        >
-          <Clear onTouchTap={this.handleClear} />
-        </IconButton>
+        {
+          clearButtonDisplayed ? (
+            <IconButton
+              tooltip={intl.formatMessage({ id: 'form.datetimepicker.clear' })}
+              style={RenderDateTimeField.STYLES.clearButton}
+            >
+              <Clear onTouchTap={this.onClearInput} />
+            </IconButton>) : null
+        }
       </div>
     )
   }

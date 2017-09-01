@@ -15,74 +15,71 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 
 /**
  * Yeoman generator to create REGARDS UI plugins.
  * @author Sébastien Binda
  */
-var Generator = require('yeoman-generator')
+const Generator = require('yeoman-generator')
 
 module.exports = class extends Generator {
 
   prompting() {
     return this.prompt([{
-      type    : 'input',
-      name    : 'name',
+      type: 'input',
+      name: 'name',
       required: true,
-      message : 'Your plugin name',
-      default : this.appname // Default to current folder name
+      message: 'Your plugin name',
+      default: this.appname, // Default to current folder name
     }, {
-      type    : 'list',
-      name    : 'type',
+      type: 'list',
+      name: 'type',
       required: true,
-      message : 'What kind of plugin do you want to create?',
-      choices : [{name:"UI Search form criteria",value:"CRITERIA"},{name:"UI Catalog Service",value:"SERVICE"}]
+      message: 'What kind of plugin do you want to create?',
+      choices: [{ name: 'UI Search form criteria', value: 'CRITERIA' }, { name: 'UI Catalog Service', value: 'SERVICE' }],
     }, {
-      when: function (response) {
-        return response.type === 'SERVICE';
-      },
-      type    : 'list',
-      name    : 'target',
+      when: response => response.type === 'SERVICE',
+      type: 'checkbox',
+      name: 'applicationModes',
       required: true,
-      message : "Target entities of your Catalog Service",
-      choices : [
-        {name:"Service applies to dataset",value:"DATASET"},
-        {name:"Service applies to a selection of datas",value:"DATAOBJECTS"},
-        {name:"Service applies to a unique selected data",value:"DATAOBJECT"}
-        ]
-    },{
-      type    : 'input',
-      name    : 'description',
-      required: true,
-      message : "Simple description of your plugin"
+      message: 'Does service apply to one entity, many entities or both?',
+      choices: [
+        { name: 'One entity only', value: 'ONE' },
+        { name: 'Many entities', value: 'MANY' },
+      ],
     }, {
-      type    : 'input',
-      name    : 'author',
+      type: 'input',
+      name: 'description',
       required: true,
-      message : "Plugin author name"
+      message: 'Simple description of your plugin',
     }, {
-      type    : 'input',
-      name    : 'email',
+      type: 'input',
+      name: 'author',
       required: true,
-      message : "Plugin author email"
+      message: 'Plugin author name',
     }, {
-      type    : 'input',
-      name    : 'company',
+      type: 'input',
+      name: 'email',
       required: true,
-      message : "Plugin author company"
+      message: 'Plugin author email',
     }, {
-      type    : 'input',
-      name    : 'url',
+      type: 'input',
+      name: 'company',
       required: true,
-      message : "Plugin description page url"
+      message: 'Plugin author company',
     }, {
-      type    : 'input',
-      name    : 'licence',
+      type: 'input',
+      name: 'url',
       required: true,
-      message : "Plugin description page url",
-      default : 'GPL-V3'
-    }
+      message: 'Plugin description page url',
+    }, {
+      type: 'input',
+      name: 'licence',
+      required: true,
+      message: 'Plugin license page url',
+      default: 'GPL-V3',
+    },
     ]).then((answers) => {
       this.answers = answers
     })
@@ -93,8 +90,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath(pluginDirectory),
       this.destinationPath(`${this.answers.name}-regards-ui-plugin`),
-      this.answers
-    )
+      this.answers)
   }
 
 }

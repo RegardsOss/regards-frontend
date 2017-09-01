@@ -70,7 +70,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
           content: {
             id: pluginDefinitionId,
             name: 'plugin-test',
-            type: 'test',
+            type: 'CRITERIA',
             sourcePath: '/test/plugin.js',
           },
         }}
@@ -119,7 +119,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
           info: {
             name: 'testPlugin',
             description: 'description',
-            version: 1.0,
+            version: '1.0',
             author: 'Sébastien Binda',
             company: 'CS-SI',
             type: 'CRITERIA',
@@ -154,7 +154,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
           info: {
             name: 'testPlugin',
             description: 'description',
-            version: 1.0,
+            version: '1.0',
             author: 'Sébastien Binda',
             company: 'CS-SI',
             type: 'CRITERIA',

@@ -18,9 +18,11 @@
  **/
 import { LinkUIPluginDataset, LinkUIPluginDatasetList } from './UIPlugin/LinkUIPluginDataset'
 import { UIPluginInstanceContent } from './UIPlugin/UIPluginInstanceContent'
-import { UIPluginDefinition, UIPluginDefinitionList } from './UIPlugin/UIPluginDefinition'
+import { UIPluginDefinitionContent, UIPluginDefinition, UIPluginDefinitionList } from './UIPlugin/UIPluginDefinition'
 import { UIPluginInfoContent } from './UIPlugin/UIPluginInfoContent'
 import { UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray } from './UIPlugin/UIPluginConf'
+import RuntimeConfiguration from './UIPlugin/RuntimeConfiguration'
+import RuntimeTarget from './UIPlugin/RuntimeTarget'
 
 import AttributeConfigurationContent from './AttributeConfigurationContent'
 import AttributesGroupConfigurationContent from './AttributesGroupConfigurationContent'
@@ -30,11 +32,15 @@ import { Module, ModuleList, ModuleArray } from './Module'
 import { Project, ProjectList } from './Project'
 import { ThemeContent, Theme, ThemeList } from './Theme'
 
+import PluginServiceDefinitions from './PluginService'
+import { EntityWithServices } from './EntityWithServices'
+
 export default {
   LinkUIPluginDataset,
   LinkUIPluginDatasetList,
   UIPluginInstanceContent,
   UIPluginDefinition,
+  UIPluginDefinitionContent,
   UIPluginDefinitionList,
   UIPluginInfoContent,
   UIPluginConfContent,
@@ -61,4 +67,10 @@ export default {
   ThemeContent,
   Theme,
   ThemeList,
+
+  ...PluginServiceDefinitions,
+  ...RuntimeConfiguration,
+  ...RuntimeTarget,
+
+  EntityWithServices,
 }

@@ -22,7 +22,5 @@
  * @author Sébastien Binda
  */
 export default PropTypes.objectOf(
-  PropTypes.oneOfType(
-    [PropTypes.string, PropTypes.number],
-  ),
+  PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 )

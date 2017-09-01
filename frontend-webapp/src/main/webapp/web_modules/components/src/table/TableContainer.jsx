@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import concat from 'lodash/concat'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -40,6 +39,8 @@ import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
 
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
+
+const MODULE_STYLES = { styles }
 
 const defaultLineHeight = 42
 
@@ -166,7 +167,6 @@ class TableContainer extends React.Component {
   onPropertiesUpdate = (previousProps, nextProps) => {
     const previousState = this.state
     const nextState = this.state ? { ...this.state } : { ...TableContainer.DEFAULT_STATE } // initialize to previous state or use default one
-
     // initialization or authentication update: fetch the first page
     if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
       !isEqual(nextProps.authentication, previousProps.authentication)) {
@@ -178,6 +178,8 @@ class TableContainer extends React.Component {
       nextProps.flushEntities()
       // Fetch the first page results
       nextProps.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
+      // Finally, we ensure the selection is empty, as the new entities list may not contain previously selected elements
+      nextProps.dispatchUnselectAll()
     }
 
 
@@ -332,7 +334,6 @@ class TableContainer extends React.Component {
       toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration }, emptyComponent,
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
-    const moduleStyles = { styles }
 
     const tableData = {
       pageSize,
@@ -344,7 +345,7 @@ class TableContainer extends React.Component {
 
     return (
       <I18nProvider messageDir={'components/src/table/i18n'}>
-        <ModuleThemeProvider module={moduleStyles}>
+        <ModuleThemeProvider module={MODULE_STYLES}>
           <TablePane
             tableData={tableData}
             columns={allColumns}

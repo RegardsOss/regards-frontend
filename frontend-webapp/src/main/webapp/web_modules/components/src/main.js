@@ -27,10 +27,11 @@ import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
 import BaseBoardItemComponent from './board/BaseBoardItemComponent'
 
+import DownloadButton from './buttons/DownloadButton'
+import DropDownButton from './buttons/DropDownButton'
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
 import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
-import DropDownButton from './buttons/DropDownButton'
 
 import ActionButtonComponent from './cards/ActionButtonComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
@@ -40,6 +41,7 @@ import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
 
+import FileContentDisplayer from './content/FileContentDisplayer'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
@@ -99,11 +101,13 @@ export {
   ChipList,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
+  DownloadButton,
   DropDownButton,
   ErrorCardComponent,
   ErrorDecoratorComponent,
   PageNotFoundComponent,
   IFrameURLContentDisplayer,
+  FileContentDisplayer,
   TableContainer,
   TablePaneHeader,
   TableSelectionModes,

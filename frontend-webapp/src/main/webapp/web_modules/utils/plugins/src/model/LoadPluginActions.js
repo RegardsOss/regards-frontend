@@ -46,9 +46,9 @@ export const savePluginLoaded = ({ sourcePath, info, plugin, reducer, messages, 
 
 /**
  * Load a plugin with a given name and a given sourcePath
- * @param pluginName
- * @param sourcePath
- * @param dispatchAction
+ * @param {string} sourcePath plugin source path
+ * @param {function}onErrorCallback error callback, first param is attempted loading path
+ * @param {function} dispatchAction Dispatch success action (can also be used as success callback, first param is action to dispatch)
  */
 export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
   let fullSourcePlugin = ''
@@ -58,7 +58,6 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
     } else {
       fullSourcePlugin = `${root.location.origin}/${sourcePath}`
     }
-
     // Add dateNow tag at the end of the plugin sourcePath to allow reload of the plugin file.
     const sourcePathPluginWithDateTag = `${fullSourcePlugin}?${Date.now()}`
 
@@ -74,6 +73,7 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
       scriptjs(sourcePathPluginWithDateTag, sourcePath)
     } catch (e) {
       console.error('Error getting plugin', e)
+      onErrorCallback(fullSourcePlugin)
     }
     root.document.addEventListener('error', (e, url) => {
       if (get(e, 'srcElement.src', null) === sourcePathPluginWithDateTag) {

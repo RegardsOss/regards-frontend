@@ -92,4 +92,24 @@ export default theme => ({
       },
     },
   },
+  pluginServiceDialog: {
+    widthPercent: 70,
+    heightPercent: 68,
+    commonBodyStyles: {
+      borderWidth: '1px 0 1px 0',
+      borderColor: theme.toolbar.separatorColor,
+      borderStyle: 'solid',
+      padding: '16px',
+    },
+    resultsBodyStyle: { // different style to enhance the available view area size
+      borderWidth: '1px 0 1px 0',
+      borderColor: theme.toolbar.separatorColor,
+      borderStyle: 'solid',
+      padding: '0',
+    },
+    contentStyles: {
+      width: '100%',
+      height: '100%',
+    },
+  },
 })

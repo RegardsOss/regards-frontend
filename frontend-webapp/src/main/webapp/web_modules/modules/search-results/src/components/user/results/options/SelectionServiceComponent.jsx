@@ -1,24 +1,52 @@
 /**
 * LICENSE_PLACEHOLDER
-**/
+* */
+import isEqual from 'lodash/isEqual'
 import FlatButton from 'material-ui/FlatButton'
 import { themeContextType } from '@regardsoss/theme'
-import Service from '../../../../definitions/service/Service'
-import ServiceIconComponent from './ServiceIconComponent'
+import { AccessShapes } from '@regardsoss/shape'
 
 /**
-* Selection service button
-*/
+ * Selection service button
+ * @author Raphaël Mechali
+ */
 class SelectionServiceComponent extends React.Component {
 
   static propTypes = {
+    // displayed service
+    service: AccessShapes.PluginServiceWithContent,
+    // on run service callback
     onRunService: PropTypes.func.isRequired,
-    iconSize: PropTypes.number.isRequired, // icon size style is injected, as this component is rendered in table context
-    service: PropTypes.instanceOf(Service).isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
+  }
+
+  static DEFAULT_STATE = {
+    serviceIconComponent: null,
+  }
+
+  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+
+  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+
+  /**
+   * Handles properties update
+   */
+  onPropertiesChanged = ({ service: oldService }, { service: newService }) => {
+    const oldState = this.state
+    const newState = oldState ? { ...oldState } : SelectionServiceComponent.DEFAULT_STATE
+    if (oldService !== newService) {
+      const { muiTheme } = this.context
+      // prepare service icon to avoid building new instances at runtime
+      newState.serviceIconComponent = newService.content.iconUrl ?
+        <img src={newService.content.iconUrl} alt="" width={muiTheme.spacing.iconSize} height={muiTheme.spacing.iconSize} />
+        : null
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
   }
 
   onClick = () => {
@@ -27,16 +55,13 @@ class SelectionServiceComponent extends React.Component {
   }
 
   render() {
-    const { service, iconSize } = this.props
+    const { service } = this.props
+    const { serviceIconComponent } = this.state
     return (
       <FlatButton
-        label={service.label}
+        label={service.content.label}
         onTouchTap={this.onClick}
-        icon={
-          <ServiceIconComponent
-            size={iconSize}
-            iconDescription={service.icon}
-          />}
+        icon={serviceIconComponent}
       />
     )
   }

@@ -53,6 +53,21 @@ const formStyles = theme => ({
       style: { width: '150px', height: '150px' },
     },
   },
+  service: {
+    list: {
+      optionsStyles: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+      },
+    },
+    form: {
+      subheaderStyles: {
+        paddingLeft: 0,
+        margin: '35px 0 -14px 0',
+      },
+    },
+  },
 })
 
 export default formStyles

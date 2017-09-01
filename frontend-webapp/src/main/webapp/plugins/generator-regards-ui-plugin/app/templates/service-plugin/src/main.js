@@ -15,8 +15,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import SampleService from './components/SampleService'
+ * */
+import SampleService from './containers/SampleService'
 import { initPlugin } from './common/RegardsPlugin'
 import messagesEn from './i18n/messages.en.i18n'
 import messagesFr from './i18n/messages.fr.i18n'

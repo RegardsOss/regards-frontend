@@ -15,13 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
+import isNil from 'lodash/isNil'
+import isEmpty from 'lodash/isEmpty'
 import { IntlProvider } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { i18nSelectors } from '@regardsoss/i18n'
-import isNil from 'lodash/isNil'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { loadPlugin } from '../model/LoadPluginActions'
@@ -80,16 +81,19 @@ class PluginLoader extends React.Component {
       })
       nextProps.loadPlugin(nextProps.pluginPath, this.errorCallback)
     }
-    if (!this.state.registered && nextProps.loadedPlugin && nextProps.loadedPlugin.reducer) {
-      const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
-      const loadedPluginReducer = {}
+    if (!this.state.registered && nextProps.loadedPlugin) {
+      if (!isEmpty(nextProps.loadedPlugin.reducer)) {
+        const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
+        const loadedPluginReducer = {}
+
+        loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
+        if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
+          getReducerRegistry().register(loadedPluginReducer)
+        }
+      }
       this.setState({
         registered: true,
       })
-      loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
-      if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
-        getReducerRegistry().register(loadedPluginReducer)
-      }
     }
   }
 

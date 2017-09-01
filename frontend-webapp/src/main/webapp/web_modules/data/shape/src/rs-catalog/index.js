@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import Entity from './Entity/Entity'
+import { Entity } from './Entity/Entity'
 import Tag from './Entity/Tag'
 
 import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'

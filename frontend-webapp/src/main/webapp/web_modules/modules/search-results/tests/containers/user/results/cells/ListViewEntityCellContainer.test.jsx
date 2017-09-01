@@ -16,15 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import omit from 'lodash/omit'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CatalogEntityTypes } from '@regardsoss/model'
 import { ListViewEntityCellContainer } from '../../../../../src/containers/user/results/cells/ListViewEntityCellContainer'
+import ListViewEntityCellComponent from '../../../../../src/components/user/results/cells/ListViewEntityCellComponent'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
+/**
+ * Test ListViewEntityCellContainer
+ * @author Raphaël Mechali
+ */
 describe('[Search Results] Testing ListViewEntityCellContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -45,6 +51,7 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
           geometry: null,
           properties: {},
           tags: [],
+          services: [],
         },
       },
 
@@ -55,11 +62,26 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       tableColumns: [],
       onSearchTag: () => { },
       onClick: () => { },
+      displayCheckbox: true,
+      downloadTooltip: 'download.tooltip',
+      servicesTooltip: 'services.tooltip',
+      descriptionTooltip: 'description.tooltip',
       styles: context.moduleTheme.user.listViewStyles,
-      displayCheckBoxes: true,
-      descriptionTooltip: 'hello',
+
+      // from map dispatch to props
       dispatchShowDescription: () => { },
+      dispatchRunService: () => { },
     }
-    shallow(<ListViewEntityCellContainer {...props} />, { context })
+    const render = shallow(<ListViewEntityCellContainer {...props} />, { context })
+    const component = render.find(ListViewEntityCellComponent)
+    assert.lengthOf(render, 1, 'There should be a render component')
+    testSuiteHelpers.assertWrapperProperties(component, {
+      // all previous props are reported, expected dispatchers and onClick callback (locally wrapped callbacks)
+      ...(omit(props, ['dispatchShowDescription', 'dispatchRunService', 'onClick'])),
+      // also check local callbacks
+      onEntitySelection: render.instance().onEntitySelection, // should be provided as there is an onClick handler
+      onShowDescription: render.instance().onShowDescription,
+      onServiceStarted: render.instance().onServiceStarted,
+    }, 'The container should report corretly properties to its component')
   })
 })

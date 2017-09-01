@@ -29,7 +29,6 @@ import DescriptionContainer from './user/DescriptionContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
 import DisplayModeEnum from '../models/navigation/DisplayModeEnum'
 
-
 /**
  * Main container to display module form.
  * @author Sébastien binda
