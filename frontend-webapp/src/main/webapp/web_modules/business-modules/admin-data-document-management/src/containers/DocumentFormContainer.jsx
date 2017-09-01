@@ -104,9 +104,9 @@ export class DocumentFormContainer extends React.Component {
     />)
   }
 
-  redirectToLinksPage = (documentId) => {
+  redirectToFilesPage = (documentId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/document/${documentId}/links`
+    const url = `/admin/${project}/data/document/${documentId}/files`
     browserHistory.push(url)
   }
 
@@ -121,7 +121,7 @@ export class DocumentFormContainer extends React.Component {
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          this.redirectToLinksPage(this.props.params.documentId)
+          this.redirectToFilesPage(this.props.params.documentId)
         }
       })
   }
@@ -154,7 +154,7 @@ export class DocumentFormContainer extends React.Component {
         if (!actionResult.error) {
           // We extract the document id from the action
           const documentId = actionResult.payload.result
-          this.redirectToLinksPage(documentId)
+          this.redirectToFilesPage(documentId)
         }
       })
   }

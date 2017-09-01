@@ -30,10 +30,10 @@ import { CardActionsComponent } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import DocumentStepperComponent from './DocumentStepperComponent'
+import DocumentStepperContainer from '../containers/DocumentStepperContainer'
 
 /**
- * React component to list documents.
+ * React component to list documents tags.
  */
 export class DocumentEditLinksComponent extends React.Component {
 
@@ -54,14 +54,18 @@ export class DocumentEditLinksComponent extends React.Component {
 
 
   render() {
-    const { remainingCollections, linkedCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl } = this.props
+    const { currentDocument, remainingCollections, linkedCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl } = this.props
     return (
       <Card>
         <CardTitle
           title={this.context.intl.formatMessage({ id: 'document.form.links.title' })}
           subtitle={this.context.intl.formatMessage({ id: 'document.form.links.subtitle' })}
         />
-        <DocumentStepperComponent stepIndex={1} />
+        <DocumentStepperContainer
+          stepIndex={2}
+          isEditing
+          currentDocumentId={currentDocument.content.id}
+        />
         <CardText>
           <div className="row">
             <div className="col-sm-50">

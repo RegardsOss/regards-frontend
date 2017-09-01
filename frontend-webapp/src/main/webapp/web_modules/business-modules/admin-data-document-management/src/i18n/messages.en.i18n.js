@@ -61,6 +61,10 @@ const messages = Object.assign({
 
   'document.stepper.links': 'Edit links with others documents',
   'document.stepper.attributes': 'Setup document attributes',
+  'document.stepper.files': 'Associated files',
+
+  'document.form.files.docFiles.subtitle': 'Associated files list',
+  'document.form.files.addFile.subtitle': 'Add files',
 }, Locales.en)
 
 export default messages

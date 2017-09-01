@@ -31,7 +31,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { EntitiesAttributesFormContainer, getInitialFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import MenuItem from 'material-ui/MenuItem'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import DocumentStepperComponent from './DocumentStepperComponent'
+import DocumentStepperContainer from '../containers/DocumentStepperContainer'
 
 
 /**
@@ -130,7 +130,11 @@ export class DocumentFormComponent extends React.Component {
             title={title}
             subtitle={this.context.intl.formatMessage({ id: 'document.form.subtitle' })}
           />
-          <DocumentStepperComponent stepIndex={0} />
+          <DocumentStepperContainer
+            stepIndex={0}
+            isEditing={!this.state.isCreating}
+            currentDocumentId={get(this.props.currentDocument, 'content.id', 'undefined')}
+          />
           <CardText>
             <Field
               name="label"

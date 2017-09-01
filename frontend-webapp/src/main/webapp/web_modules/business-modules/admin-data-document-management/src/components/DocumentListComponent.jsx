@@ -41,7 +41,6 @@ import { tableActions, tableSelectors } from '../clients/TableClient'
 import { documentActions, documentSelectors } from '../clients/DocumentClient'
 import DocumentTableCustomCellActions from './DocumentTableCustomCellActions'
 
-
 /**
  * Component to list Document
  *

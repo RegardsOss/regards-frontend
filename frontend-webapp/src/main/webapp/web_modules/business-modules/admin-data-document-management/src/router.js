@@ -52,6 +52,19 @@ export const editDocumentLinksRoute = {
   },
 }
 
+export const editDocumentFilesRoute = {
+  path: ':documentId/files',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const DocumentEditFilesContainer = require('./containers/DocumentEditFilesContainer')
+      cb(null, {
+        content: DocumentEditFilesContainer.default,
+      })
+    })
+  },
+}
+
+
 
 export const editDocumentRoute = {
   path: ':documentId/:mode',
@@ -70,6 +83,7 @@ const documentDataManagementRouter = {
   childRoutes: [
     listDocumentRoute,
     createDocumentRoute,
+    editDocumentFilesRoute,
     editDocumentLinksRoute,
     editDocumentRoute,
   ],

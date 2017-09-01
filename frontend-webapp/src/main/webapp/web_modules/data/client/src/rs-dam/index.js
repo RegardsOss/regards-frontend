@@ -86,6 +86,10 @@ import DocumentActions from './document/DocumentActions'
 import getDocumentReducer from './document/DocumentReducer'
 import getDocumentSelectors from './document/DocumentSelectors'
 
+
+import DocumentFileActions from './documentFile/DocumentFileActions'
+import getDocumentFileReducer from './documentFile/DocumentFileReducer'
+
 import DocumentLinkActions from './documentLink/DocumentLinkActions'
 import getDocumentLinkReducer from './documentLink/DocumentLinkReducer'
 
@@ -169,6 +173,9 @@ export default {
   DocumentActions,
   getDocumentReducer,
   getDocumentSelectors,
+
+  DocumentFileActions,
+  getDocumentFileReducer,
 
   DocumentLinkActions,
   getDocumentLinkReducer,

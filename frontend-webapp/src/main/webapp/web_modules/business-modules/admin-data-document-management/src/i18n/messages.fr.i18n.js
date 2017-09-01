@@ -44,6 +44,14 @@ const messages = Object.assign({
   'document.form.links.action.cancel': 'Retour',
   'document.form.links.remainingdocument.search': 'Filtrer les documents sur leur nom',
 
+
+  'document.form.files.title': 'Gestion des fichiers du document {name}',
+  'document.form.files.subtitle': 'Vous pouvez ajouter de nouveaux fichiers à votre document, ou supprimer ceux déjà présent',
+  'document.form.files.action.next': 'Suite',
+  'document.form.files.action.cancel': 'Annuler',
+
+
+
   'document.form.action.next': 'Suivant',
   'document.form.action.cancel': 'Annuler',
   'document.form.model': 'Modèles de document',
@@ -61,6 +69,10 @@ const messages = Object.assign({
 
   'document.stepper.links': 'Edition des liens avec les autres documents',
   'document.stepper.attributes': 'Saisie des attributs d\'une document',
+  'document.stepper.files': 'Fichiers associés',
+
+  'document.form.files.docFiles.subtitle': 'Liste des fichiers associés',
+  'document.form.files.addFile.subtitle': 'Ajouter des fichiers',
 }, Locales.fr)
 
 export default messages

@@ -22,7 +22,7 @@ import has from 'lodash/has'
 import isString from 'lodash/isString'
 
 /**
- * Redux actions to handle Collection entities from backend server.
+ * Redux actions to handle Document entities from backend server.
  *
  * @author Léo Mieulet
  */

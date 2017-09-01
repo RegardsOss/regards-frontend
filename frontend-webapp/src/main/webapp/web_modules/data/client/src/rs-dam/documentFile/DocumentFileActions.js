@@ -16,18 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { DataManagementClient } from '@regardsoss/client'
+import Schemas from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
+import has from 'lodash/has'
+import isString from 'lodash/isString'
 
 /**
- * UI Plugin Configuration entities client.
+ * Redux actions to handle Document files entities from backend server.
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['not', 'used']
+export default class DocumentFileActions extends BasicListActions {
 
-const fragmentSelectors = DataManagementClient.FragmentSelectors(ENTITIES_STORE_PATH)
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/documents/{document_id}/files`,
+      entityPathVariable: 'file_id',
+      schemaTypes: {
+        ENTITY: Schemas.DOCUMENT,
+        ENTITY_ARRAY: Schemas.DOCUMENT_ARRAY,
+      },
+    })
+  }
 
-
-export default {
-  fragmentSelectors,
 }
