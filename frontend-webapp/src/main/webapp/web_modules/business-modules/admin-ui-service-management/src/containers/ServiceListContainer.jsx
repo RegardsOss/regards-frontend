@@ -87,6 +87,13 @@ export class ServiceListContainer extends React.Component {
     browserHistory.push(url)
   }
 
+
+  handleCreate = (uiPluginServiceId) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/ui/service/${uiPluginServiceId}/create`
+    browserHistory.push(url)
+  }
+
   render() {
     const { uiPluginDefinitionList } = this.props
     const { isLoading } = this.state
@@ -98,6 +105,7 @@ export class ServiceListContainer extends React.Component {
           <ServiceListComponent
             uiPluginDefinitionList={uiPluginDefinitionList}
             handleOpen={this.handleOpen}
+            handleCreate={this.handleCreate}
             handleBack={this.handleBack}
           />
         </LoadableContentDisplayDecorator>

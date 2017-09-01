@@ -37,14 +37,17 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceListComponent', () => {
   it('Render properly', () => {
     const handleOpenSpy = spy()
     const handleBackSpy = spy()
+    const handleCreateSpy = spy()
     const props = {
       uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
+      handleCreate: handleCreateSpy,
       handleOpen: handleOpenSpy,
       handleBack: handleBackSpy,
     }
 
     const enzymeWrapper = shallow(<ServiceListComponent {...props} />, { context, lifecycleExperimental: true })
     expect(enzymeWrapper.find(Card)).to.have.length(6)
+    assert.isTrue(handleCreateSpy.notCalled, 'Not called yet')
     assert.isTrue(handleOpenSpy.notCalled, 'Not called yet')
     assert.isTrue(handleBackSpy.notCalled, 'Not called yet')
   })
