@@ -17,36 +17,36 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  * */
 import React from 'react'
-import muiThemeable from 'material-ui/styles/muiThemeable'
-import withWidth from 'material-ui/utils/withWidth'
-import ClearFix from 'material-ui/internal/ClearFix'
 import AppBar from 'material-ui/AppBar'
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import IconMenu from 'material-ui/IconMenu'
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
-import IconButton from 'material-ui/IconButton'
+import Checkbox from 'material-ui/Checkbox'
+import DatePicker from 'material-ui/DatePicker'
+import Dialog from 'material-ui/Dialog'
+import DropDownMenu from 'material-ui/DropDownMenu'
+import FlatButton from 'material-ui/FlatButton'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FontIcon from 'material-ui/FontIcon'
+import IconButton from 'material-ui/IconButton'
+import IconMenu from 'material-ui/IconMenu'
+import ClearFix from 'material-ui/internal/ClearFix'
+import MenuItem from 'material-ui/MenuItem'
+import Paper from 'material-ui/Paper'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import Snackbar from 'material-ui/Snackbar'
+import Slider from 'material-ui/Slider'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import Call from 'material-ui/svg-icons/communication/call'
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
+import { Tabs, Tab } from 'material-ui/Tabs'
+import TextField from 'material-ui/TextField'
+import TimePicker from 'material-ui/TimePicker'
+import Toggle from 'material-ui/Toggle'
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import withWidth from 'material-ui/utils/withWidth'
 import { themeContextType } from '@regardsoss/theme'
-import {
-  Checkbox,
-  DatePicker,
-  Dialog,
-  DropDownMenu,
-  FlatButton,
-  MenuItem,
-  Paper,
-  RadioButton,
-  RadioButtonGroup,
-  RaisedButton,
-  Snackbar,
-  Slider,
-  Tabs,
-  Tab,
-  TextField,
-  Toggle,
-} from 'material-ui'
-import rocket from '../resources/rocket.png'
+import exampleImage from '../resources/example-image.png'
 import stylesFunc from '../styles/styles'
 
 function getStyles(muiTheme) {
@@ -100,6 +100,16 @@ class ThemesPage extends React.Component {
           </div>
           <div style={styles.showcase.containerCentered}>
             <RaisedButton label="Default" />
+          </div>
+          <div style={styles.showcase.containerCentered}>
+            <FloatingActionButton>
+              <ContentAdd />
+            </FloatingActionButton>
+          </div>
+          <div style={styles.showcase.containerCentered}>
+            <FloatingActionButton secondary mini>
+              <Call />
+            </FloatingActionButton>
           </div>
         </div>
         <div style={styles.showcase.group}>
@@ -158,9 +168,15 @@ class ThemesPage extends React.Component {
           </div>
           <div style={styles.showcase.container}>
             <DatePicker
-              hintText="Landscape Dialog"
+              hintText="Date Picker"
               mode="landscape"
               style={styles.showcase.datePicker}
+            />
+          </div>
+          <div style={styles.showcase.container}>
+            <TimePicker
+              format="24hr"
+              hintText="Time Picker"
             />
           </div>
           <div style={styles.showcase.container}>
@@ -181,7 +197,7 @@ class ThemesPage extends React.Component {
             <CardHeader
               title="URL Avatar"
               subtitle="Subtitle"
-              avatar={rocket}
+              avatar={exampleImage}
               actAsExpander
               showExpandableButton
             />
@@ -197,7 +213,7 @@ class ThemesPage extends React.Component {
               expandable
               overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
             >
-              <img src={rocket} alt="A rocket illustration" />
+              <img src={exampleImage} alt="Staring at the skies" />
             </CardMedia>
             <CardTitle title="Card title" subtitle="Card subtitle" expandable />
             <CardText expandable>

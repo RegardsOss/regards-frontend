@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 
 /**
@@ -24,7 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = Object.assign({
   'layout.title': 'Application layout configuration',
-  'layout.subtitle': 'You can manage your interface layout by declaring containers. Then you can use those containers to position your modules',
+  'layout.subtitle': 'You can manage your interface layout by declaring containers. Then place your modules into these containers',
   'layout.submit': 'Save',
   'layout.cancel': 'Cancel',
 }, Locales.en)

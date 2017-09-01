@@ -15,10 +15,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import xor from 'lodash/xor'
 import map from 'lodash/map'
-import { Card } from 'material-ui/Card'
+import { CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { PageableListContainer, ListContainer, Title } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -185,7 +185,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
 
   render() {
     return (
-      <Card>
+      <CardText>
         <Title
           level={3}
           label={this.context.intl.formatMessage({ id: 'form.datasets.tab.title' })}
@@ -197,7 +197,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
           disabled={this.props.disableChangeDatasets}
         />
         {this.renderType()}
-      </Card>
+      </CardText>
     )
   }
 }
