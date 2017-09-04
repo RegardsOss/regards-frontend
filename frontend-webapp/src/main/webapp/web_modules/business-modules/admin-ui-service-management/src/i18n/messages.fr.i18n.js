@@ -53,7 +53,7 @@ const messages = Object.assign({
   'service.form.dynamic.configuration.title': 'Paramètres d\'éxécution (valeurs pré-remplies pour l\'utilisateurs)',
   'service.form.mandatory.field': '{label} (*)',
   'service.form.isActive': 'Activer cette configuration',
-  'service.form.isDefault': 'Associer automatiquement ce service avec la configuration courante sur TOUS les jeux',
+  'service.form.linkedToAllEntities': 'Associer automatiquement ce service avec la configuration courante sur TOUS les jeux',
   'service.form.action.save': 'Sauvegarder',
   'service.form.action.back': 'Retour',
 }, Locales.fr)

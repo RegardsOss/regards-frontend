@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -93,13 +93,10 @@ export class ServiceConfigurationFormContainer extends React.Component {
   handleUpdate = (values) => {
     const updatedPluginConfiguration = Object.assign({}, {
       id: this.props.uiPluginConfiguration.content.id,
-      pluginDefinition: {
-        id: this.props.uiPluginConfiguration.content.uiPluginId,
-      },
-    }, {
+      pluginDefinition: this.props.uiPluginConfiguration.content.pluginDefinition,
       label: values.label,
       active: values.isActive,
-      linkedToAllEntities: values.isDefault,
+      linkedToAllEntities: values.linkedToAllEntities,
       conf: {
         static: values.static || {},
         dynamic: values.dynamic || {},
@@ -122,9 +119,7 @@ export class ServiceConfigurationFormContainer extends React.Component {
   handleCreate = (values) => {
     const newPluginConfiguration = {
       label: values.label,
-      pluginDefinition: {
-        id: this.props.params.uiPluginId,
-      },
+      pluginDefinition: this.props.uiPluginConfiguration.content.pluginDefinition,
       active: values.isActive,
       linkedToAllEntities: values.isDefault,
       conf: {

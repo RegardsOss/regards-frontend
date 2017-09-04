@@ -31,6 +31,7 @@ import FieldsBuilderComponent from './FieldsBuilderComponent'
 import moduleStyles from '../styles/styles'
 
 const styles = moduleStyles()
+const labelValidators = [ValidationHelpers.required, ValidationHelpers.string]
 
 /**
  * React component to list connections.
@@ -82,7 +83,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
     if (!this.props.isCreating) {
       const { uiPluginConfiguration } = this.props
       initialValues = {
-        isDefault: uiPluginConfiguration.content.linkedToAllEntities,
+        linkedToAllEntities: uiPluginConfiguration.content.linkedToAllEntities,
         isActive: uiPluginConfiguration.content.active,
         label: uiPluginConfiguration.content.label,
         dynamic: uiPluginConfiguration.content.conf.dynamic,
@@ -91,7 +92,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
     } else {
       initialValues = {
         isActive: true,
-        isDefault: false,
+        linkedToAllEntities: false,
       }
     }
     this.props.initialize(initialValues)
@@ -118,7 +119,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={formatMessage({ id: 'service.form.label' })}
-              validate={ValidationHelpers.validRequiredString}
+              validate={labelValidators}
               normalize={trim}
             />
             {
@@ -161,10 +162,10 @@ export class ServiceConfigurationFormComponent extends React.Component {
               label={formatMessage({ id: 'service.form.isActive' })}
             />
             <Field
-              name="isDefault"
+              name="linkedToAllEntities"
               fullWidth
               component={RenderCheckbox}
-              label={formatMessage({ id: 'service.form.isDefault' })}
+              label={formatMessage({ id: 'service.form.linkedToAllEntities' })}
             />
           </CardText>
           <CardActions>

@@ -53,7 +53,7 @@ const messages = Object.assign({
   'service.form.dynamic.configuration.title': 'Runtime parameter (pre-filled values for user)',
   'service.form.mandatory.field': '{label} (*)',
   'service.form.isActive': 'Activate this configuration',
-  'service.form.isDefault': 'Automatically associate this service with the current configuration on ALL datasets',
+  'service.form.linkedToAllEntities': 'Automatically associate this service with the current configuration on ALL datasets',
   'service.form.action.save': 'Save',
   'service.form.action.back': 'Back',
 
