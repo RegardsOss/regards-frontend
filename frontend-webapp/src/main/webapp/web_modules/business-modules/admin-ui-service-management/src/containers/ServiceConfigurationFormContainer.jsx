@@ -119,7 +119,7 @@ export class ServiceConfigurationFormContainer extends React.Component {
   handleCreate = (values) => {
     const newPluginConfiguration = {
       label: values.label,
-      pluginDefinition: this.props.uiPluginConfiguration.content.pluginDefinition,
+      pluginDefinition: { id: this.props.params.uiPluginId },
       active: values.isActive,
       linkedToAllEntities: values.isDefault,
       conf: {
