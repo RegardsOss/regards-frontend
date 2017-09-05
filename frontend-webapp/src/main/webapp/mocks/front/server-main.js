@@ -21,14 +21,14 @@
  * Mock service entry point: uses its entry points here or delegates onto json mock server
  */
 const _ = require('lodash')
-const {JSON_CONTENT_TYPE} = require('./mock-front-utils')
+const { JSON_CONTENT_TYPE } = require('./mock-front-utils')
 const FacadeCore = require('./mock-front-core')
 const MockUsers = require('./mock-users')
 const MockCatalog = require('./mock-catalog')
 const MockServices = require('./mock-services')
 
 const maintennceResultContent = {
-  content : {
+  content: {
     project1: {
       active: false,
       lastUpdate: '2017-05-20T00:00:00.000Z'
@@ -38,7 +38,7 @@ const maintennceResultContent = {
 }
 
 const maintennceActiveResultContent = {
-  content : {
+  content: {
     project1: {
       active: true,
       lastUpdate: '2017-05-20T00:00:00.000Z'
@@ -61,7 +61,7 @@ const entryDelegates = {
   GET: {
     // EXAMPLE : GET http://localhost:3000/api/v1/test-url ==> 200 and [...]test-url?nok=whatiwant ==> 500
     '/test-url': (request, query) =>
-      (query.nok ? {content: 'Everything is NOT OK ', code: 500} : {
+      (query.nok ? { content: 'Everything is NOT OK ', code: 500 } : {
         content: 'Everything is OK ',
         code: 200,
         contentType: 'text/plain'
