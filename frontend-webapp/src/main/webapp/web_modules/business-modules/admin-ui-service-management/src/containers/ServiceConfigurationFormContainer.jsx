@@ -121,7 +121,7 @@ export class ServiceConfigurationFormContainer extends React.Component {
       label: values.label,
       pluginDefinition: { id: this.props.params.uiPluginId },
       active: values.isActive,
-      linkedToAllEntities: values.isDefault,
+      linkedToAllEntities: values.linkedToAllEntities,
       conf: {
         static: values.static || {},
         dynamic: values.dynamic || {},
