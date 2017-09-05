@@ -33,6 +33,8 @@ STATIC_CONF = {
     AUTHENTICATION: 'rs-authentication',
     CATALOG: 'rs-catalog',
     DAM: 'rs-dam',
+    ORDER: 'rs-order',
+    // STORAGE: 'rs-archival-storage',
   },
   IMSERVICES: {
     ACCESS_INSTANCE: 'rs-access-instance',

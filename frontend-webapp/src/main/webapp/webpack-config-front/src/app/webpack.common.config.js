@@ -1,8 +1,7 @@
-const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = function (projectContextPath, mode = 'dev') {
   return {
@@ -27,7 +26,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         // Add the current folder (for webpack loaders)
         __dirname,
         'web_modules',
-        'node_modules'
+        'node_modules',
       ],
     },
     module: {
@@ -64,7 +63,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         },
         {
           test: /\.html/,
-          loader: 'file-loader?name=/html/[name].[ext]'
+          loader: 'file-loader?name=/html/[name].[ext]',
         },
       ],
     },
@@ -73,7 +72,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new HtmlWebpackPlugin({
         template: 'index.ejs',
         hash: true,
-        isProduction: mode === 'prod'
+        isProduction: mode === 'prod',
       }),
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({

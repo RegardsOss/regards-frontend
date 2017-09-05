@@ -34,7 +34,7 @@ module.exports = function (projectContextPath, mode) {
       dns: 'empty',
     },
     output: {
-      path: projectContextPath + '/target/' + mode,
+      path: `${projectContextPath}/target/${mode}`,
       filename: 'plugin.js',
     },
     resolve: {
@@ -44,7 +44,7 @@ module.exports = function (projectContextPath, mode) {
       modules: [
         // Root directories from which requires are made
         path.join(projectContextPath),
-        'node_modules'
+        'node_modules',
       ],
     },
     module: {
@@ -59,7 +59,7 @@ module.exports = function (projectContextPath, mode) {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: 'css-loader'
+            use: 'css-loader',
           }),
         },
         {
@@ -94,11 +94,11 @@ module.exports = function (projectContextPath, mode) {
       new ExtractTextPlugin({
         filename: 'css/styles.css',
         disable: false,
-        allChunks: true
+        allChunks: true,
       }),
       new webpack.optimize.LimitChunkCountPlugin({
-        maxChunks: 1
-      })
+        maxChunks: 1,
+      }),
     ],
   }
 }

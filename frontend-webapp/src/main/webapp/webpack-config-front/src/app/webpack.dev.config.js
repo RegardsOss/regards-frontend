@@ -57,6 +57,7 @@ module.exports = function (projectContextPath) {
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
         // within that bundle
+        // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/dist/dev/core-manifest.json`),
         context: projectContextPath,
       }),

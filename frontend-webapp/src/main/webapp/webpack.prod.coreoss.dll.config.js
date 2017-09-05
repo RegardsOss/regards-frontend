@@ -16,19 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const path = require('path')
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
 
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'dll',
-    projectContextPath: __dirname
+    projectContextPath: __dirname,
   })
   .addProductionPlugins()
   .merge({
     output: {
-      path:  `${__dirname}/dist/prod/`
+      path: `${__dirname}/dist/prod/`,
     },
     entry: {
       coreoss: [
@@ -61,6 +60,7 @@ const conf = webpackConfigurator
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
         // within that bundle
+        // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${__dirname}/dist/prod/core-manifest.json`),
         context: __dirname,
       }),
@@ -80,9 +80,9 @@ const conf = webpackConfigurator
   .runShell({
     onBuildEnd: [
       'echo "Updating webpack-config-front dist folder for plugins production build"',
-      'rm -rf ./webpack-config-front/dist || true',
-      'cp -Rp ./dist/prod ./webpack-config-front/dist'
-    ]
+      'rm -rf ./webpack-config-front/dist/ || true',
+      'cp -Rp ./dist/prod ./webpack-config-front/dist',
+    ],
   })
   .get()
 

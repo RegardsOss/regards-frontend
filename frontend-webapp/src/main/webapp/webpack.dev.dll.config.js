@@ -16,22 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const path = require('path')
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
 
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'dll',
-    projectContextPath: __dirname
+    projectContextPath: __dirname,
   })
   .cleanFolder({
     projectContextPath: __dirname,
-    pathToDelete: 'dist/dev'
+    pathToDelete: 'dist/dev',
   })
   .merge({
     output: {
-      path: `${__dirname}/dist/dev/`
+      path: `${__dirname}/dist/dev/`,
     },
     entry: {
       core: [
@@ -64,8 +63,8 @@ const conf = webpackConfigurator
         'redux-thunk',
         'scriptjs',
         'window-or-global',
-        'fixed-data-table-2'
-      ]
+        'fixed-data-table-2',
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({
