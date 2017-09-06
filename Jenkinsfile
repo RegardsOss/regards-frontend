@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Verify and build webapp') {
             steps {
-                sh 'cd test/node && docker build -t rs_node'
+                sh 'cd test/node && docker build -t rs_node .'
                 sh 'cd test/node && docker run -ti -v ../../frontend-webapp/src/main/webapp:/app_to_build rs_node'
             }
         }
