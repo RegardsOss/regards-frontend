@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-cd /app_to_build/frontend-webapp/src/main/webapp
+cd /app_to_build
 
 echo "execute preinstallation (bootstrap)"
 npm run bootstrap
