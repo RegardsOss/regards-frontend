@@ -37,6 +37,7 @@ pipeline {
             }
             steps {
                 // image mvn
+                echo 'coucou'
             }
         }
     }
