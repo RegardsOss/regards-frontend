@@ -13,7 +13,7 @@ echo "execute tests"
 npm run test:mocha
 
 echo "build app and plugins"
-npm build:plugins
+npm run build:plugins
 
 echo "Success !"
 exit 0
