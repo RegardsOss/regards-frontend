@@ -34,12 +34,12 @@ pipeline {
         stage('Deploy Maven image') {
             when {
                 anyOf {
-                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'
+                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'; branch 'feature/V1.1.0/multibranch_pipeline'
                 }
             }
             steps {
-                // image mvn
-                echo 'coucou'
+                sh 'cd test/java && docker build -t rs-maven-front .'
+                sh 'cd test/java && docker run -i -v ${WORKSPACE}/:/app_to_build rs-maven-front'
             }
         }
     }
