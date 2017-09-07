@@ -154,8 +154,10 @@ export class RenderDateTimeField extends React.Component {
   }
 
   render() {
-    const { intl, timeFormat, input, meta: { touched, error } } = this.props
-    const clearButtonDisplayed = input.value !== undefined
+    const { intl, timeFormat, input, meta: { error } } = this.props
+    const buttonStyle = { // show button only when value has been set
+      transform: `scale(${input.value !== undefined ? 1 : 0})`,
+    }
     // At first the value is an empty string
     const dateValue = this.getDateForComponent(input.value)
     return (
@@ -188,9 +190,7 @@ export class RenderDateTimeField extends React.Component {
           />
           <IconButton
             tooltip={intl.formatMessage({ id: 'form.datetimepicker.clear' })}
-            style={{
-              transform: `scale(${clearButtonDisplayed ? 1 : 0})`,
-            }}
+            style={buttonStyle}
           >
             <Clear onTouchTap={this.handleClear} />
           </IconButton>

@@ -18,7 +18,7 @@
  **/
 import { expect } from 'chai'
 import reducer from '../../src/model/I18nReducers'
-import { SET_LOCALE, SET_LOCALE_MSG } from '../../src/model/I18nActions'
+import { SET_LOCALE } from '../../src/model/I18nActions'
 
 describe('[COMMON] Testing i18n reducer', () => {
   it('should return the initial state', () => {

@@ -330,7 +330,6 @@ class TableContainer extends React.Component {
       emptyComponent,
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
-    const moduleStyles = { styles }
 
     const tableData = {
       pageSize,

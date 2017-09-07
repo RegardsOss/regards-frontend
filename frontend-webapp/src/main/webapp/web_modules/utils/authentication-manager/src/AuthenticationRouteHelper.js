@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AuthenticationRouteParameters from './AuthenticationRouteParameters'
 import root from 'window-or-global'
+import AuthenticationRouteParameters from './AuthenticationRouteParameters'
 
 const moduleReducerPath = 'modules.authentication'
 
