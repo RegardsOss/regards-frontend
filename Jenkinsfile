@@ -20,8 +20,9 @@ pipeline {
         stage('Verify and build webapp') {
             steps {
                 sh 'cd test/node && docker build -t rs_node .'
+                // Edit the rs_node container to compile the entire front !!
                 sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node'
-                // TODO use several containers
+                // TODO use several containers to parralialize and readuce the time to compile
             }
         }
         stage('Deploy Docker image') {
