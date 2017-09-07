@@ -15,5 +15,8 @@ npm run test:mocha
 echo "build app and plugins"
 npm run build:plugins
 
+echo "Fix permissions"
+chmod -R 0777 /app_to_build/frontend-webapp/src/main/webapp/dist/prod
+
 echo "Success !"
 exit 0
