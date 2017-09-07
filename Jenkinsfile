@@ -26,9 +26,9 @@ pipeline {
         stage('Deploy Docker image') {
             steps {
                 // Copy the bundle inside the folder where apache container will be bundledededed
-                sh 'cp -R ./frontend-webapp/src/main/webapp/dist/prod test/apache/dist'
+                sh 'cp -R ./frontend-webapp/src/main/webapp/dist/prod test/nginx/dist'
                 // build image from apache, tag with version/branch, then push
-                sh 'cd test/apache && ./buildTagAndPush.sh'
+                sh 'cd test/nginx && ./buildTagAndPush.sh'
             }
         }
         stage('Deploy Maven image') {
