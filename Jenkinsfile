@@ -21,6 +21,7 @@ pipeline {
             steps {
                 sh 'cd test/node && docker build -t rs_node .'
                 sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node'
+                // TODO use several containers
             }
         }
         stage('Deploy Docker image') {
@@ -34,12 +35,12 @@ pipeline {
         stage('Deploy Maven image') {
             when {
                 anyOf {
+                    // TODO : remove branch 'feature/V1.1.0/multibranch_pipeline'
                     branch 'master'; branch 'develop'; branch 'develop_V1.1.0'; branch 'feature/V1.1.0/multibranch_pipeline'
                 }
             }
             steps {
-                sh 'cd test/java && docker build -t rs-maven-front .'
-                sh 'cd test/java && docker run -i -v ${WORKSPACE}/:/app_to_build -e BRANCH_NAME -e WORKSPACE -e CI_DIR=test/java -e MODE=Deploy rs-maven-front'
+                sh 'cd test/java && docker run -i -v ${WORKSPACE}/:/app_to_build -e BRANCH_NAME -e WORKSPACE -e CI_DIR=test/java -e MODE=Deploy 172.26.46.158/rs-maven'
             }
         }
     }
