@@ -33,12 +33,10 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
   })
   it('should render properly', () => {
     const props = {
+      servicesTooltip: 'services.tooltip',
+      descriptionTooltip: 'description.tooltip',
+      styles: context.moduleTheme.user.optionsStyles,
       onShowDescription: () => { },
-      tooltip: 'hello',
-      styles: {
-        buttonStyles: {},
-        iconStyles: {},
-      },
     }
     shallow(<TableViewOptionsCellComponent {...props} />, { context })
   })

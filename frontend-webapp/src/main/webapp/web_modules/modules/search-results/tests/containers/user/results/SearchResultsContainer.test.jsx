@@ -20,7 +20,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SearchResultsTargetsEnum } from '@regardsoss/model'
-import { TableSelectionModes } from '@regardsoss/components'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
 import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
@@ -49,10 +48,6 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       attributeModels: {},
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       levels: [],
-      toggledElements: { 1: { coucou: 'loulou' } },
-      selectionMode: TableSelectionModes.includeSelected,
-      datasetServices: [],
-      selectedDataobjectsServices: [],
       displayMode: DisplayModeEnum.LIST,
 
       dispatchChangeViewObjectType: () => { },

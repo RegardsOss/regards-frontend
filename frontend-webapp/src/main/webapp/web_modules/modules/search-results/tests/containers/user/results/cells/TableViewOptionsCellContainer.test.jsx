@@ -21,10 +21,15 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CatalogEntityTypes } from '@regardsoss/model'
 import { TableViewOptionsCellContainer } from '../../../../../src/containers/user/results/cells/TableViewOptionsCellContainer'
+import TableViewOptionsCellComponent from '../../../../../src/components/user/results/cells/TableViewOptionsCellComponent'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
+/**
+* Test TableViewOptionsCellContainer
+* @author Raphaël Mechali
+*/
 describe('[Search Results] Testing TableViewOptionsCellContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -47,13 +52,17 @@ describe('[Search Results] Testing TableViewOptionsCellContainer', () => {
           tags: [],
         },
       },
-      tooltip: 'hello',
-      styles: {
-        buttonStyles: {},
-        iconStyles: {},
-      },
+      descriptionTooltip: 'description.tooltip',
+      styles: context.moduleTheme.user.optionsStyles,
       dispatchShowDescription: () => { },
     }
-    shallow(<TableViewOptionsCellContainer {...props} />, { context })
+    const render = shallow(<TableViewOptionsCellContainer {...props} />, { context })
+    const component = render.find(TableViewOptionsCellComponent)
+    assert.lengthOf(component, 1, 'The container should use a component to render')
+    testSuiteHelpers.assertWrapperProperties(component, {
+      styles: props.styles,
+      descriptionTooltip: props.descriptionTooltip,
+      onShowDescription: render.instance().onShowDescription,
+    }, 'The container should provider the right properties to the render component')
   })
 })

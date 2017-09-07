@@ -45,7 +45,6 @@ const messages = Object.assign({
   'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.regroupement.section.title': 'Configure attributes clustering to display after every search result',
   'form.attributes.section.title': 'Configure attributes from dynamic models retrieved from each search result',
-  'form.attributes.section.clear.filters.tooltip': 'Clear current filter',
   'form.attributes.standard.section.title': 'Configure default models attributes. Default models attributes are attributes that are associated to each model without configuration',
   'form.attributes.filter.label': 'Search for attribute label ... ',
   'form.attributes.regroupement.remove': 'Remove',
@@ -64,11 +63,11 @@ const messages = Object.assign({
   'list.sort.none.label': 'None',
   'view.type.table.button.label': 'Display results with table format',
   'view.type.list.button.label': 'Display results with list format',
-  'show.description.tooltip': 'View entity details',
+  'download.tooltip': 'Download',
+  'show.description.tooltip': 'Details',
   'results.no.content.title': 'No results',
   'results.no.content.subtitle': 'Your search returned no results. Try to change your criteria',
   'results.options.column.label': 'Options and services',
-  'results.download': 'Download',
 }, Locales.en)
 
 export default messages

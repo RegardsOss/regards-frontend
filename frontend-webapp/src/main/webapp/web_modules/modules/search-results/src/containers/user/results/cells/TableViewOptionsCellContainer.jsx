@@ -2,12 +2,14 @@
 * LICENSE_PLACEHOLDER
 **/
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { descriptionLevelActions } from '../../../../models/description/DescriptionLevelModel'
 import TableViewOptionsCellComponent from '../../../../components/user/results/cells/TableViewOptionsCellComponent'
 
+
 /**
 * Container for list view entity cell
+* @author Raphaël Mechali
 */
 export class TableViewOptionsCellContainer extends React.Component {
 
@@ -19,10 +21,11 @@ export class TableViewOptionsCellContainer extends React.Component {
 
   static propTypes = {
     // Parameters set by table component
-    entity: CatalogEntity.isRequired, // Entity to display
-    // from cell components properties
-    tooltip: PropTypes.string.isRequired, // tooltip, as i18n could not be solved in the table context
-    styles: PropTypes.shape({
+    entity: CatalogShapes.Entity.isRequired,
+    // tooltips, as i18n context isn't available in the table context
+    descriptionTooltip: PropTypes.string.isRequired,
+    styles: PropTypes.shape({   // styles as style context isn't available in the table context
+      rootStyles: PropTypes.object.isRequired,
       buttonStyles: PropTypes.object.isRequired,
       iconStyles: PropTypes.object.isRequired,
     }).isRequired,
@@ -40,11 +43,12 @@ export class TableViewOptionsCellContainer extends React.Component {
   }
 
   render() {
-    const { styles, tooltip } = this.props
+    const { styles, entity, servicesTooltip, descriptionTooltip } = this.props
     return (
       <TableViewOptionsCellComponent
+        services={entity.content.services}
         styles={styles}
-        tooltip={tooltip}
+        descriptionTooltip={descriptionTooltip}
         onShowDescription={this.onShowDescription}
       />
     )

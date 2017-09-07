@@ -15,50 +15,36 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CatalogEntityTypes } from '@regardsoss/model'
-import ListViewEntityCellComponent from '../../../../../src/components/user/results/cells/ListViewEntityCellComponent'
+import IconButton from 'material-ui/IconButton'
+import EntityDescriptionButton from '../../../../../src/components/user/results/options/EntityDescriptionButton'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Results] Testing ListViewEntityCellComponent', () => {
+/**
+* Test EntityDescriptionButton
+* @author Raphaël Mechali
+*/
+describe('[Search Results] Testing EntityDescriptionButton', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ListViewEntityCellComponent)
+    assert.isDefined(EntityDescriptionButton)
   })
-  it('should render correctly', () => {
+  it('should render correctly and start action on click', () => {
     const props = {
-      entity: {
-        content: {
-          id: 1,
-          ipId: 'coucou',
-          sipId: '1',
-          label: 'O.D.I.L',
-          entityType: CatalogEntityTypes.DATASET,
-          files: [],
-          geometry: null,
-          properties: {},
-          tags: [],
-        },
-      },
-      attributes: {},
-      lineHeight: 20,
-      isTableSelected: false,
-      selectTableEntityCallback: () => { },
-      tableColumns: [],
-      onSearchTag: () => { },
-      onClick: () => { },
-      downloadTooltip: 'download.tooltip',
-      descriptionTooltip: 'description.tooltip',
-      styles: context.moduleTheme.user.listViewStyles,
+      tooltip: 'a tooltip',
       onShowDescription: () => { },
     }
-    shallow(<ListViewEntityCellComponent {...props} />, { context })
+    const render = shallow(<EntityDescriptionButton {...props} />, { context })
+    const innerButton = render.find(IconButton)
+    assert.lengthOf(innerButton, 1, 'It should use button to render')
+    assert.equal(innerButton.props().title, props.tooltip, 'The tooltip should be visible')
+    assert.equal(innerButton.props().onTouchTap, props.onShowDescription, 'The button should invoke onShowDescription after on touch tap')
   })
 })

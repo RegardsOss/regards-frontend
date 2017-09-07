@@ -22,7 +22,6 @@ import values from 'lodash/values'
 import sortBy from 'lodash/sortBy'
 import find from 'lodash/find'
 import FlatButton from 'material-ui/FlatButton'
-import MenuItem from 'material-ui/MenuItem'
 import ListView from 'material-ui/svg-icons/action/list'
 import TableView from 'material-ui/svg-icons/action/view-module'
 import DatasetLibrary from 'material-ui/svg-icons/image/collections-bookmark'
@@ -39,13 +38,10 @@ import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
-import Service from '../../../definitions/service/Service'
 import ListViewEntityCellContainer from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import TableViewOptionsCellContainer from '../../../containers/user/results/cells/TableViewOptionsCellContainer'
 import TableSortFilterComponent from './options/TableSortFilterComponent'
 import TableSelectAllContainer from '../../../containers/user/results/options/TableSelectAllContainer'
-import SelectionServiceComponent from './options/SelectionServiceComponent'
-import ServiceIconComponent from './options/ServiceIconComponent'
 import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 
 /**
@@ -61,7 +57,6 @@ class SearchResultsComponent extends React.Component {
     project: PropTypes.string,
     allowingFacettes: PropTypes.bool.isRequired,
     displayDatasets: PropTypes.bool.isRequired,
-    displaySelectCheckboxes: PropTypes.bool.isRequired,
 
     // dynamic display control
     showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
@@ -78,12 +73,6 @@ class SearchResultsComponent extends React.Component {
       openSearchQuery: PropTypes.string.isRequired,
     })),
     searchQuery: PropTypes.string.isRequired,
-
-    // services
-    datasetServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
-    selectedDataobjectsServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
-
-
     // Attributes configurations for results columns
     // eslint-disable-next-line react/no-unused-prop-types
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
@@ -106,11 +95,6 @@ class SearchResultsComponent extends React.Component {
     onShowTableView: PropTypes.func.isRequired,
     onSortChanged: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
-
-    onDatasetServiceSelected: PropTypes.func.isRequired, // (service) => void
-    onSelectionServiceSelected: PropTypes.func.isRequired, // (service) => void
-    // eslint-disable-next-line react/no-unused-prop-types
-    onDataobjectServiceSelected: PropTypes.func.isRequired, // (service, dataobject) => void
   }
 
   static contextTypes = {
@@ -149,14 +133,15 @@ class SearchResultsComponent extends React.Component {
     label: this.context.intl.formatMessage({ id: 'results.options.column.label' }),
     attributes: [],
     order: Number.MAX_VALUE,
-    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH,
+    // TODO here: handle the basket if available!
+    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * 2,
     sortable: false,
     hideLabel: true,
     // order: number.
     customCell: {
       component: TableViewOptionsCellContainer,
       props: {
-        tooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
+        descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
         styles: this.context.moduleTheme.user.optionsStyles,
       },
     },
@@ -238,14 +223,15 @@ class SearchResultsComponent extends React.Component {
         // click: select a dataset when in dataset mode
         onClick: showingDataobjects ? null : onSelectDataset,
         attributes: attributeModels,
-        styles: this.context.moduleTheme.user.listViewStyles,
         onSearchTag: onSelectSearchTag,
         tableColumns,
-        displayCheckbox: showingDataobjects && this.props.displaySelectCheckboxes,
+        displayCheckbox: showingDataobjects,
+        downloadTooltip: this.context.intl.formatMessage({ id: 'download.tooltip' }),
+        descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
+        styles: this.context.moduleTheme.user.listViewStyles,
       },
     },
   }]
-
 
   /**
   * Updates component state: stores in state the graphics variable computed from new properties, to avoid render time computing
@@ -304,28 +290,18 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
-   * Renders table context options (middle area of the header)
+   * Renders table context options
    * @return rendered options list
    */
   renderTableContextOptions = () => {
-    const { allowingFacettes, showingFacettes, onToggleShowFacettes, displaySelectCheckboxes,
-      showingDataobjects, selectedDataobjectsServices, onSelectionServiceSelected } = this.props
+    const { allowingFacettes, showingFacettes, onToggleShowFacettes, showingDataobjects } = this.props
     const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
 
     return [
-      //  Selection services
-      ...selectedDataobjectsServices.map((service, index) => (
-        <SelectionServiceComponent
-          key={service.serviceKey}
-          service={service}
-          iconSize={this.context.moduleTheme.user.options.selection.service.iconSize}
-          onRunService={onSelectionServiceSelected}
-        />)),
-      // separator
-      selectedDataobjectsServices.length ? <TableOptionsSeparator key="services.options.separator" /> : null,
-      // List view optionsselect all and sort options
-      this.isInListView() && showingDataobjects && displaySelectCheckboxes ? <TableSelectAllContainer
+
+      // List view option select all and sort options
+      this.isInListView() && showingDataobjects ? <TableSelectAllContainer
         key="select.filter.option"
         pageSelectors={searchSelectors}
       /> : null,
@@ -392,29 +368,6 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
-   * Renders advanced options (to be shown in 'more' menu)
-   */
-  renderAdvancedOptions = () => {
-    const { datasetServices, onDatasetServiceSelected } = this.props
-    // note: it is not possible here to create sub components, as material UI menu will not close anymore...
-    // therefore we are obliged here to use lambdas...
-    return datasetServices.map(service =>
-      (<MenuItem
-        key={service.serviceKey}
-        value={// Workaround: makes the menu close on item clicked, useless otherwise (crappy material UI)
-          'more.option'}
-        onTouchTap={() => onDatasetServiceSelected(service)}
-        primaryText={service.label}
-        icon={
-          <ServiceIconComponent
-            size={this.context.moduleTheme.user.options.more.service.iconSize}
-            iconDescription={service.icon}
-          />}
-      />),
-    )
-  }
-
-  /**
    * Returns contextual table header (shows facet or default)
    */
   renderTableHeaderArea = () => {
@@ -449,7 +402,7 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage } } = this.context
-    const { showingDataobjects, viewMode, searchQuery, resultPageActions, displaySelectCheckboxes } = this.props
+    const { showingDataobjects, viewMode, searchQuery, resultPageActions } = this.props
     const { tableColumns, listColumns } = this.state
 
     const pageSize = 13
@@ -467,7 +420,7 @@ class SearchResultsComponent extends React.Component {
       cellsStyle = null
       displayColumnsHeader = true
       showParameters = true
-      displayCheckbox = showingDataobjects && displaySelectCheckboxes
+      displayCheckbox = showingDataobjects
     } else {
       columns = listColumns
       lineHeight = 160
@@ -484,7 +437,7 @@ class SearchResultsComponent extends React.Component {
       cellsStyle,
       lineHeight,
       displayCheckbox,
-      displaySelectAll: displaySelectCheckboxes,
+      displaySelectAll: showingDataobjects,
       onSortByColumn: this.onSortByColumn,
     }
 
@@ -493,7 +446,6 @@ class SearchResultsComponent extends React.Component {
       customTableOptions: this.renderTableRightSideOptions(),
       contextOptions: this.renderTableContextOptions(),
       customTableHeaderArea: this.renderTableHeaderArea(),
-      advancedOptions: this.renderAdvancedOptions(),
       displayTableHeader: true,
       displaySortFilter: true,
       showParameters,
@@ -503,7 +455,7 @@ class SearchResultsComponent extends React.Component {
 
     return (
       <TableContainer
-        key={`${showingDataobjects ? 'do' : 'ds'}-${viewMode}`}
+        key={showingDataobjects ? 'do' : 'ds'} // unmount the table when change entity type (using key trick)
         pageActions={resultPageActions}
         pageSelectors={searchSelectors}
         tableActions={TableClient.tableActions}
@@ -518,10 +470,6 @@ class SearchResultsComponent extends React.Component {
       />
     )
   }
-}
-
-SearchResultsComponent.defaultProps = {
-  displaySelectCheckboxes: false,
 }
 
 export default SearchResultsComponent

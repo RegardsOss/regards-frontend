@@ -11,8 +11,9 @@ import TableClient from '../../../../clients/TableClient'
 import TableSelectAllComponent from '../../../../components/user/results/options/TableSelectAllComponent'
 
 /**
-* Container for table select all component (used by list to select all elements)
-*/
+ * Container for table select all component (used by list to select all elements)
+ * @author Raphaël Mechali
+ */
 export class TableSelectAllContainer extends React.Component {
 
   static mapStateToProps = (state, { pageSelectors }) => ({

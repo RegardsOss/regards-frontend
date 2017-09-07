@@ -1,35 +1,37 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import IconButton from 'material-ui/IconButton'
-import InfoIcon from 'material-ui/svg-icons/action/info-outline'
+import EntityDescriptionButton from '../options/EntityDescriptionButton'
 
 /**
 * Options display cell for table view
+* @author Raphaël Mechali
 */
 class TableViewOptionsCellComponent extends React.Component {
 
   static propTypes = {
-    onShowDescription: PropTypes.func.isRequired,
-    tooltip: PropTypes.string.isRequired,
-    styles: PropTypes.shape({
+    // tooltips, as i18n context isn't available in the table context
+    descriptionTooltip: PropTypes.string.isRequired,
+    styles: PropTypes.shape({ // styles as style context isn't available in the table context
+      rootStyles: PropTypes.object.isRequired,
       buttonStyles: PropTypes.object.isRequired,
       iconStyles: PropTypes.object.isRequired,
     }).isRequired,
+    // parent handlers
+    onShowDescription: PropTypes.func.isRequired,
   }
 
   render() {
-    const { onShowDescription, styles: { buttonStyles, iconStyles }, tooltip } = this.props
-
+    const { onShowDescription, styles: { rootStyles, buttonStyles, iconStyles }, descriptionTooltip } = this.props
     return (
-      <IconButton
-        title={tooltip}
-        style={buttonStyles}
-        iconStyle={iconStyles}
-        onTouchTap={onShowDescription}
-      >
-        <InfoIcon />
-      </IconButton>
+      <div style={rootStyles}>
+        <EntityDescriptionButton
+          style={buttonStyles}
+          iconStyle={iconStyles}
+          tooltip={descriptionTooltip}
+          onShowDescription={onShowDescription}
+        />
+      </div>
     )
   }
 }
