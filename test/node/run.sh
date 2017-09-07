@@ -8,15 +8,17 @@ npm run bootstrap
 echo "execute npm install"
 npm install
 
-# let's build the app
-echo "execute tests"
-npm run test:mocha
+# echo "execute tests"
+# npm run test:mocha
 
-echo "build app and plugins"
-npm run build:plugins
+# echo "Building app"
+# npm run build:production
+
+# echo "build app and plugins"
+# npm run build:plugins
 
 echo "Fix permissions"
-chmod -R 0777 /app_to_build/frontend-webapp/src/main/webapp/dist/prod
+chmod -R 0777 /app_to_build/dist/prod
 
 echo "Success !"
 exit 0
