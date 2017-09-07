@@ -59,23 +59,7 @@
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<configuration>
-					<forceTags>true</forceTags>
-					<imageName>${docker.registry.host}/${fr.cnes.regards.docker.image.name}</imageName>
-					<baseImage>${docker.registry.host}/rs-alpine-oraclejdk8</baseImage>
-					<entryPoint>["/bin/bash", "-c", "chmod +x prestart.sh &amp;&amp; /prestart.sh &amp;&amp; java -jar /${project.build.finalName}.${project.packaging} --regards.frontend.www.path=/static/"]</entryPoint>
-					<!-- We rewrite the entrypoint because rs-frontend requires the GATEWAY_PUBLIC_URL inside staticConfiguration.js -->
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.${project.packaging}</include>
-						</resource>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.basedir}/src/main/docker</directory>
-							<include>prestart.sh</include>
-						</resource>
-					</resources>
+					<skipDockerBuild>true</skipDockerBuild>
 				</configuration>
 			</plugin>
 			<plugin>
