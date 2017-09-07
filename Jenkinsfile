@@ -39,7 +39,7 @@ pipeline {
             }
             steps {
                 sh 'cd test/java && docker build -t rs-maven-front .'
-                sh 'cd test/java && docker run -i -v ${WORKSPACE}/:/app_to_build -e BRANCH_NAME -e WORKSPACE -e CI_DIR -e MODE=Deploy rs-maven-front'
+                sh 'cd test/java && docker run -i -v ${WORKSPACE}/:/app_to_build -e BRANCH_NAME -e WORKSPACE -e CI_DIR=test/java -e MODE=Deploy rs-maven-front'
             }
         }
     }
