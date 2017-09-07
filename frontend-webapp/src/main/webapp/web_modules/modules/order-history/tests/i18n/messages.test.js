@@ -15,29 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicPageableReducers } from '@regardsoss/store-utils'
-import { ModuleConfiguration } from '@regardsoss/api'
-import ModulesActions from './ModulesActions'
-
-/**
- * Redux store reducer for Module entities
  */
-class ModulesReducer extends BasicPageableReducers {
-  constructor() {
-    super(ModuleConfiguration, ModulesActions)
-  }
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesEN from '../../src/i18n/messages.en.i18n'
+import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
-}
+describe('[Order History] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-const instance = new ModulesReducer()
-
-/**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
-const getModulesReducer = (state, action) => instance.reduce(state, action)
-
-export default getModulesReducer
+  it('should exist', () => {
+    assert.isDefined(MessagesEN)
+    assert.isDefined(MessagesFR)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFR), keys(MessagesEN))
+  })
+})

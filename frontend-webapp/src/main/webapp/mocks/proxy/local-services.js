@@ -61,19 +61,19 @@ function withProxyFetcher(proxiedURL, handler) {
  * List of mocked dependencies
  */
 const MOCK_RESOURCES = [
-  // example of mocked resources
-  //   {
-  //   content: {
-  //     controllerSimpleName: `CatalogServiceApplyController`,
-  //     defaultRole: 'PUBLIC',
-  //     description: `Catalog service apply controller`,
-  //     id: 100002,
-  //     microservice: 'rs-catalog',
-  //     resource: '/services/{puginConfigurationId}/apply',
-  //     verb: "POST",
-  //   },
-  //   links: [],
-  // },
+  // mock backet deps
+  {
+    content: {
+      controllerSimpleName: `OrderServiceBasketController`,
+      defaultRole: 'PUBLIC',
+      description: `Order service basket controller`,
+      id: 100000,
+      microservice: 'rs-order',
+      resource: '/order/basket',
+      verb: 'GET',
+    },
+    links: [],
+  },
 ]
 
 function getResourcesDependencies({ content, links, metadata }, pathParams, queryParams, bodyParams) {
@@ -90,20 +90,85 @@ function getResourcesDependencies({ content, links, metadata }, pathParams, quer
   }
 }
 
+// Holds current basket data
+const currentBasketData = {}
+
+function getBasket(request) {
+  const token = request.headers.authorization
+  if (currentBasketData.token !== token) {
+    // re init mock basket
+    currentBasketData.token = token
+    currentBasketData.basket = {
+      id: 0,
+      email: 'test@mail.com',
+      datasetSelections: [],
+    }
+    currentBasketData.datasetSelectionId = 0
+    currentBasketData.selectionItemId = 0
+  }
+  if (_.isEmpty(currentBasketData.basket)) {
+    return {
+      code: 204,
+    }
+  } else {
+    return {
+      code: 200,
+      content: {
+        content: currentBasketData.basket,
+        links: [],
+      }
+    }
+  }
+}
+
+// TODO remove when useless
+// {
+//         id: 0,
+//         datasetIpId: 'kikou.1',
+//         datasetLabel: 'Kikou 1',
+//         objectsCount: 12,
+//         filesCount: 12,
+//         filesSize: 1000023,
+//       }, {
+//         id: 0,
+//         datasetIpId: 'kikou.2',
+//         datasetLabel: 'Kikou 2',
+//         objectsCount: 6,
+//         filesCount: 8,
+//         filesSize: 255,
+//       }
+
+function pushInBasket(request, response, pathParameters, queryParameters, bodyParameters) {
+
+}
+
+function clearBasket() {
+
+}
+function removeBasketDataset() {
+
+}
+function removeBasketItem() {
+
+}
+
 function buildLocalServices(gatewayURL) {
   return {
     GET: {
       // Mock: add missing dependencies
-      proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) }
+      proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
+      getBasket: { url: 'rs-order/order/basket', handler: getBasket },
     },
     PUT: {
 
     },
     POST: {
-
+      addInBasket: { url: 'rs-order/order/basket', handler: pushInBasket },
     },
     DELETE: {
-
+      clearBasket: { url: 'rs-order/order/basket', handler: clearBasket },
+      removeBasketDataset: { url: 'rs-order/order/basket/dataset/{datasetSelectionId}', handler: removeBasketDataset },
+      removeBasketItem: { url: 'rs-order/order/basket/dataset/{datasetSelectionId}/{itemsSelectionDate}', handler: removeBasketItem },
     },
   }
 }

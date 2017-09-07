@@ -16,17 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
- * Redux store Selectors for Layout entities
- */
-class LayoutsSelector extends BasicListSelectors {
-  constructor() {
-    super(['user', 'layout'])
+* User module container
+* @author Raphaël Mechali
+*/
+export default class UserModuleContainer extends React.Component {
+
+  static propTypes = {
+    // TODO client to pull history for user or all users
+    showUserName: PropTypes.bool.isRequired,
+    // from mapStateToProps
+    // from mapDispatchToProps
   }
 
-}
+  static defaultProps = {
+    showUserName: false, // when used in User interface, this module must not show the user name
+    // TODO default actions to pull history for user (defaults to user history)
+  }
 
-const instance = new LayoutsSelector()
-export default instance
+  render() {
+    return (
+      <div />
+    )
+  }
+}

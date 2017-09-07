@@ -68,6 +68,29 @@ const menuStyles = theme => (
         },
       },
     },
+    cart: {
+      iconButton: {
+        style: { padding: 0 },
+        iconStyle: { position: 'relative', width: '48px', height: '48px' },
+      },
+      overlay: {
+        style: {
+          position: 'absolute',
+          color: 'red',
+          bottom: '0',
+          left: '0',
+          width: '100%',
+          zIndex: '1',
+        },
+        chip: {
+          labelStyle: { fontSize: '10px', padding: 3, lineHeight: undefined, fontWeight: 'bold' },
+          style: { opacity: '0.9', backgroundColor: theme.palette.accent1Color, margin: 'auto' },
+        },
+      },
+      icon: {
+        style: { position: 'absolute', left: '12px', top: '12px' },
+      },
+    },
   })
 
 export default menuStyles

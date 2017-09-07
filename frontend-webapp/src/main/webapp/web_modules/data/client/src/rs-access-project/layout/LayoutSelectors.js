@@ -26,7 +26,7 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * storePath : Array<String>, example :  ['common','enitites'].
  * With this example, all projects will be stored in the subpart 'common.entities' of the global
  * application store.
- *
+ * @param storePath selectors store path, leave empty for default client selectors
  * @author Sébastien Binda
  */
-export default storePath => new BasicPageableSelectors(storePath)
+export default (storePath = ['user', 'layout']) => new BasicPageableSelectors(storePath)

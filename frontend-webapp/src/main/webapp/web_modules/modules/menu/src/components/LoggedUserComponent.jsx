@@ -71,7 +71,10 @@ class LoggedUserComponent extends React.Component {
 
     const profileContainer = showProfileEdition ? <ProfileEditionContainer /> : null
     return (
-      <div style={this.context.moduleTheme.loggedUser.text}>
+      <div
+        style={this.context.moduleTheme.loggedUser.text}
+        title={intl.formatMessage({ id: 'menu.form.displayauthentication.logged' })}
+      >
         <span>{name}</span>
         {profileContainer}
         <IconMenu

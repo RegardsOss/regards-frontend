@@ -25,6 +25,7 @@ export default [
   {
     content: {
       id: 1,
+      type: 'menuType',
       name: 'menu',
       description: 'IHM Menu',
       applicationId: 'testApp',
@@ -36,6 +37,7 @@ export default [
     content: {
       id: 1,
       name: 'form',
+      type: 'formType',
       description: 'Search form module',
       applicationId: 'testApp',
       container: 'body',
@@ -46,6 +48,7 @@ export default [
     content: {
       id: 1,
       name: 'form',
+      type: 'formType',
       description: 'Search form module',
       applicationId: 'otherApp',
       container: 'body',
@@ -56,6 +59,7 @@ export default [
     content: {
       id: 1,
       name: 'form',
+      type: 'formType',
       description: 'Search form module',
       applicationId: 'testApp',
       container: 'body',

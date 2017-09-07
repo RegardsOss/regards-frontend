@@ -17,10 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { AccessProjectClient } from '@regardsoss/client'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { AccessShapes } from '@regardsoss/shape'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
-import ModulesSelector from '../model/modules/ModulesSelector'
+
+// get default modules client selector
+const modulesSelectors = AccessProjectClient.ModuleSelectors()
 
 /**
  * Component to display the dynamic content of the application.
@@ -70,7 +73,7 @@ class DynamicContentContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  module: ModulesSelector.getById(state, ownProps.params.moduleId),
+  module: modulesSelectors.getById(state, ownProps.params.moduleId),
 })
 
 const mapDispatchToProps = dispatch => ({

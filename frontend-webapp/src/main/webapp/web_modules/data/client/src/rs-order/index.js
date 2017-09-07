@@ -15,29 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicPageableReducers } from '@regardsoss/store-utils'
-import { LayoutConfiguration } from '@regardsoss/api'
-import LayoutActions from './LayoutActions'
+ */
+import OrderBasketActions from './basket/OrderBasketActions'
+import getOrderBasketReducer from './basket/OrderBasketReducer'
+import getOrderBasketSelectors from './basket/OrderBasketSelectors'
 
 /**
- * Redux store reducers for Layout entities
+ * Index for all order microservice clients.
+ * @author Raphaël Mechali
  */
-class LayoutsReducer extends BasicPageableReducers {
-  constructor() {
-    super(LayoutConfiguration, LayoutActions)
-  }
-
+export default {
+  OrderBasketActions,
+  getOrderBasketReducer,
+  getOrderBasketSelectors,
 }
-
-const instance = new LayoutsReducer()
-
-/**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
-const getLayoutReducer = (state, action) => instance.reduce(state, action)
-
-export default getLayoutReducer

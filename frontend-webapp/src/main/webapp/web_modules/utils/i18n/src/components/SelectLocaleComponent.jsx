@@ -34,6 +34,7 @@ class SelectLocaleComponent extends React.Component {
     locales: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentLocale: PropTypes.string,
     handleLocaleChange: PropTypes.func,
+    tooltip: PropTypes.string,
   }
 
   static contextTypes = {
@@ -41,7 +42,7 @@ class SelectLocaleComponent extends React.Component {
   }
 
   render() {
-    const { locales, currentLocale, handleLocaleChange } = this.props
+    const { locales, currentLocale, tooltip, handleLocaleChange } = this.props
     const items = map(locales, locale => (
       <MenuItem
         value={locale}
@@ -53,6 +54,7 @@ class SelectLocaleComponent extends React.Component {
       <DropDownMenu
         value={currentLocale}
         onChange={handleLocaleChange}
+        title={tooltip}
       >
         {items}
       </DropDownMenu>

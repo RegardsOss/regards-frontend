@@ -16,23 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
- * Redux store Actions for Layout entities
+ * Module hateoas depencies
+ * @author Raphaël Mechali
  */
-class LayoutActions extends BasicListActions {
-  constructor() {
-    super({
-      namespace: 'user/layout',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/api/v1/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/layouts`,
-      schemaTypes: {
-        ENTITY: Schemas.LAYOUT,
-      },
-    })
-  }
-}
+/**
+ * Mandatory Dependencies to display module in user interface
+ * @type {Array}
+ */
+const user = []
 
-const instance = new LayoutActions()
-export default instance
+/**
+ * Mandatory Dependencies to display module in admin interface
+ * @type {Array}
+ */
+const admin = []
+
+export default {
+  user,
+  admin,
+}

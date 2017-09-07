@@ -16,24 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+
+// TODO import connected form container with right properties
 
 /**
- * Redux store Actions for Module entities.
- */
-class ModulesActions extends BasicPageableActions {
-  constructor() {
-    super({
-      namespace: 'user/layout/modules',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/applications/{applicationId}/modules`,
-      schemaTypes: {
-        ENTITY: Schemas.MODULE,
-        ENTITY_ARRAY: Schemas.MODULE_ARRAY,
-      },
-    })
+* Admin module container
+* @author Raphaël Mechali
+*/
+export default class AdminModuleContainer extends React.Component {
+
+  static propTypes = {
+    // from mapStateToProps
+    // from mapDispatchToProps
+  }
+
+  static defaultProps = {
+    // TODO actions to pull basket (default props)
+  }
+
+  render() {
+    return (
+      <div />
+    )
   }
 }
-
-const instance = new ModulesActions()
-export default instance

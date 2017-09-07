@@ -32,6 +32,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
+import modulesManager from '../ModulesManager'
 import Styles from '../styles/styles'
 
 const ListItemWithResourceDisplayControl = withResourceDisplayControl(ListItem)
@@ -78,7 +79,7 @@ class ModuleListComponent extends React.Component {
    */
   onModuleSelection = (module) => {
     this.props.onCloseMenu()
-    browserHistory.push(`/user/${this.props.project}/modules/${module.content.id}`)
+    browserHistory.push(modulesManager.getModuleURL(this.props.project, module.content.id))
   }
 
   getSectionLabel = (section) => {

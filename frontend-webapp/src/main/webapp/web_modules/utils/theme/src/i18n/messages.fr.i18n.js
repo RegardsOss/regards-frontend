@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const messages = {
-  'select.theme.label': 'Selectionner votre thème : ',
+  // empty
 }
 
 export default messages

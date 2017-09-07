@@ -16,16 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+
+// TODO import connected form container with right properties
 
 /**
- * Redux store selectors for Module Entities
- */
-class ModulesSelector extends BasicPageableSelectors {
-  constructor() {
-    super(['user', 'layout.modules'])
+* Admin module container
+* @author Raphaël Mechali
+*/
+export default class AdminModuleContainer extends React.Component {
+
+  static propTypes = {
+    // from mapStateToProps
+    // from mapDispatchToProps
+  }
+
+  static defaultProps = {
+    // TODO actions to pull basket (default props)
+  }
+
+  render() {
+    return (
+      <div />
+    )
   }
 }
-
-const instance = new ModulesSelector()
-export default instance

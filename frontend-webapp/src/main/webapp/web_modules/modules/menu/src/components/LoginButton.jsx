@@ -30,15 +30,18 @@ class LoginButton extends React.Component {
     onLoginAction: PropTypes.func.isRequired,
   }
 
-  static contextTypes= {
+  static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
+
     return (
       <MainActionButtonComponent
-        label={this.context.intl.formatMessage({ id: 'loginButtonLabel' })}
+        label={formatMessage({ id: 'loginButtonLabel' })}
+        title={formatMessage({ id: 'menu.form.displayauthentication.not.logged' })}
         onTouchTap={this.props.onLoginAction}
       />
     )

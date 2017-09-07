@@ -17,34 +17,33 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
-
-/** Management tools and definitions for regards front end modules  */
-
-/** Defines all module types for application available for project administration and as user module  */
-const AVAILABLE_MODULES = [
-  'menu',
-  // 'news',
-  'projects-list',
-  'search-form',
-  'search-graph',
-  'search-results',
-  // 'archival-storage-aip-status',
-  // 'archival-storage-plugins-monitoring',
-  'home-page',
-  'licenses',
-]
+import values from 'lodash/values'
 
 /**
- * Returns all modules available for application
- * @returns {Array(string)} all module types
+ * Definitions and management tools and  for regards front end modules
+ * @author Raphaël Mechali
  */
-function getAllModuleTypes() {
-  return AVAILABLE_MODULES
+const ModuleTypes = {
+  // 'archival-storage-aip-status',
+  // 'archival-storage-plugins-monitoring',
+  HOME_PAGE: 'home-page',
+  LICENSE: 'licenses',
+  MENU: 'menu',
+  // NEWS: 'news',
+  ORDER_CART: 'order-cart',
+  ORDER_HISTORY: 'order-history',
+  PROJECT_LIST: 'projects-list',
+  SEARCH_FORM: 'search-form',
+  SEARCH_GRAPH: 'search-graph',
+  SEARCH_RESULTS: 'search-results',
 }
+
+/** Defines all module types for application available for project administration and as user module  */
+const ALL_MODULE_TYPES = values(ModuleTypes)
 
 /**
  * Builds a promise to load a module from its type
- * @param {*} moduleType module type. Note that it is not necessary defined in AVAILABLE_MODULES (case of the runtime only modules)
+ * @param {*} moduleType module type. Note that it is not necessary defined in ModuleTypes (case of the runtime only modules)
  * @return promise for loading module. The promise will return (then) the loaded module or null if loading failed
  */
 function loadModule(moduleType) {
@@ -70,20 +69,30 @@ const trueFunction = any => true
  * @return A promise to load all modules. Promise results (then) is the array of available module types (containing only loadable and filtered modules)
  */
 function getAvailableModuleTypes(dependenciesFilter = trueFunction) {
-  const allModuleTypes = getAllModuleTypes()
-  return Promise.all(allModuleTypes.map(loadModule))
+  return Promise.all(ALL_MODULE_TYPES.map(loadModule))
     .then(loadedModules => loadedModules.reduce((acc, module, index) => {
       // filter null modules and replace module content by its type
       if (isNil(module) || !dependenciesFilter(module)) {
         return acc
       }
-      return [...acc, allModuleTypes[index]]
+      return [...acc, ALL_MODULE_TYPES[index]]
     }, []))
 }
 
+/**
+ * Returns UI URL to reach a project module
+ * @param {string} project project
+ * @param {number} moduleId module ID
+ * @return {string} module URL on UI
+ */
+function getModuleURL(project, moduleId) {
+  return `/user/${project}/modules/${moduleId}`
+}
+
 export default {
-  getAllModuleTypes,
+  ModuleTypes,
   loadModule,
   getAvailableModuleTypes,
+  getModuleURL,
 }
 

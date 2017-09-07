@@ -17,9 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import { connect } from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
+import { routeHelpers } from '@regardsoss/authentication-manager'
 import LoginButton from '../components/LoginButton'
 import LoggedUserContainer from './LoggedUserContainer'
 
@@ -33,7 +32,6 @@ export class AuthenticationMenuContainer extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,
-    // from mapStateToProps
     isAuthenticated: PropTypes.bool,
   }
 
@@ -110,8 +108,5 @@ export class AuthenticationMenuContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-})
 
-export default connect(mapStateToProps)(AuthenticationMenuContainer)
+export default AuthenticationMenuContainer

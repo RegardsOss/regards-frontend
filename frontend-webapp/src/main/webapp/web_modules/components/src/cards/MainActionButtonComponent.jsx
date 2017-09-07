@@ -44,5 +44,6 @@ MainActionButtonComponent.propTypes = {
   onTouchTap: PropTypes.func,
   isVisible: PropTypes.bool,
   disabled: PropTypes.bool,
+  title: PropTypes.string,
 }
 export default MainActionButtonComponent
