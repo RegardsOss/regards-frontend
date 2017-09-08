@@ -49,7 +49,6 @@ pipeline {
         //     }
         // }
         stage('Deploy Docker image') {
-            agent any
             steps {
                 // Copy the bundle inside the folder where apache container will be bundledededed
                 sh 'cp -R ./frontend-webapp/src/main/webapp/dist/prod test/nginx/dist'
@@ -58,7 +57,6 @@ pipeline {
             }
         }
         stage('Deploy Maven artifact') {
-            agent any
             when {
                 anyOf {
                     // TODO : remove branch 'feature/V1.1.0/multibranch_pipeline'
