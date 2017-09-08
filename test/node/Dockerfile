@@ -1,4 +1,4 @@
-FROM node:7.10.1 AS rs_node
+FROM node:7.10.1
 
 VOLUME /app_to_build
 

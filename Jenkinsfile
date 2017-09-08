@@ -14,45 +14,28 @@
  * @see https://jenkins.io/doc/book/pipeline/jenkinsfile/
  */
 pipeline {
-    agent none
+    agent any
 
     stages {
         stage('Install') {
-            agent {
-                docker {
-                    dir 'test/node'
-                }
-            }
             steps {
                 sh 'cd test/node && docker build -t rs_node .'
                 sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./install.sh'
             }
         }
         stage('Build webapp') {
-            agent {
-                docker {
-                    image 'rs_node' // Build in previous stage from Dockerfile
-                }
-            }
             steps {
-                sh 'npm --version'
-                sh 'id'
-                // sh './build_webapp.sh'
+                sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
             }
         }
         stage('Build plugins') {
-            agent {
-                docker {
-                    image 'rs_node' // Build in previous stage from Dockerfile
-                }
-            }
             steps {
                 parallel(
-                    example: {
-                        sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
+                    plugin1: {
+                        sh 'echo coucou'
                     },
-                    full_text: {
-                        sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
+                    plugin2: {
+                        sh 'echo coucou'
                     }
                 )
             }
