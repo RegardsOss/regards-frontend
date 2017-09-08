@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { map, values } from 'lodash'
 import IconButton from 'material-ui/IconButton'
 import Clear from 'material-ui/svg-icons/content/clear'
 import { FormattedMessage } from 'react-intl'
@@ -27,11 +26,17 @@ import { FormattedMessage } from 'react-intl'
  */
 const ClearButton = ({ onTouchTap, displayed }) => (
   <IconButton
-    tooltip={<FormattedMessage id="criterion.clear"/>}
+    tooltip={<FormattedMessage id="criterion.clear" />}
     style={{ transform: `scale(${displayed ? 1 : 0})` }}
+    onTouchTap={onTouchTap}
   >
-    <Clear onTouchTap={onTouchTap}/>
+    <Clear />
   </IconButton>
 )
+
+ClearButton.propTypes = {
+  onTouchTap: React.PropTypes.func,
+  displayed: React.PropTypes.bool,
+}
 
 export default ClearButton
