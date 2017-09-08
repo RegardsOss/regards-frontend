@@ -25,6 +25,7 @@ pipeline {
         }
         stage('Build webapp') {
             steps {
+                sh 'echo coucou'
                 // sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
             }
         }
