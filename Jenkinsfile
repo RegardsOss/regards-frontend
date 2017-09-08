@@ -17,23 +17,46 @@ pipeline {
     agent any
 
     stages {
-        stage('Verify and build webapp') {
+        stage('Install') {
             steps {
                 sh 'cd test/node && docker build -t rs_node .'
-                // Edit the rs_node container to compile the entire front !!
-                sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node'
-                // TODO use several containers to parralialize and readuce the time to compile
+                sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./install.sh'
             }
         }
+        stage('Build webapp') {
+            steps {
+                sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
+            }
+        }
+        stage('Build plugins') {
+            steps {
+                parallel(
+                    plugin1: {
+                        sh 'echo coucou'
+                    },
+                    plugin2: {
+                        sh 'echo coucou'
+                    }
+                )
+            }
+        }
+        // stage('Verify and build webapp') {
+        //     steps {
+        //         sh 'cd test/node && docker build -t rs_node .'
+        //         // Edit the rs_node container to compile the entire front !!
+        //         sh 'cd test/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node'
+        //         // TODO use several containers to parralialize and readuce the time to compile
+        //     }
+        // }
         stage('Deploy Docker image') {
             steps {
                 // Copy the bundle inside the folder where apache container will be bundledededed
                 sh 'cp -R ./frontend-webapp/src/main/webapp/dist/prod test/nginx/dist'
-                // build image from apache, tag with version/branch, then push
+                // build image from nginx, tag with version/branch, then push
                 sh 'cd test/nginx && ./buildTagAndPush.sh'
             }
         }
-        stage('Deploy Maven image') {
+        stage('Deploy Maven artifact') {
             when {
                 anyOf {
                     // TODO : remove branch 'feature/V1.1.0/multibranch_pipeline'
