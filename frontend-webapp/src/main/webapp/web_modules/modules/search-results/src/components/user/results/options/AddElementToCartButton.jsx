@@ -17,17 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import InfoIcon from 'material-ui/svg-icons/action/info-outline'
+import AddIcon from 'material-ui/svg-icons/action/add-shopping-cart'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
 * Button to show description in results table
 * @author Raphaël Mechali
 */
-class EntityDescriptionButton extends React.Component {
+class AddElementToCartButton extends React.Component {
 
   static propTypes = {
-    onShowDescription: PropTypes.func.isRequired,
+    onAddToCart: PropTypes.func,
     // other properties are reported to the button
   }
 
@@ -36,17 +36,17 @@ class EntityDescriptionButton extends React.Component {
   }
 
   render() {
-    const { onShowDescription, ...otherProperties } = this.props
+    const { onAddToCart, ...otherProperties } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        title={formatMessage({ id: 'show.description.tooltip' })}
-        onTouchTap={onShowDescription}
+        title={formatMessage({ id: 'add.to.cart.tooltip' })}
+        onTouchTap={onAddToCart}
         {...otherProperties}
       >
-        <InfoIcon />
+        <AddIcon />
       </IconButton>
     )
   }
 }
-export default EntityDescriptionButton
+export default AddElementToCartButton

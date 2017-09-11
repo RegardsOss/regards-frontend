@@ -52,17 +52,15 @@ describe('[Search Results] Testing TableViewOptionsCellContainer', () => {
           tags: [],
         },
       },
-      descriptionTooltip: 'description.tooltip',
-      styles: context.moduleTheme.user.optionsStyles,
       dispatchShowDescription: () => { },
+      onAddToCart: () => { },
     }
     const render = shallow(<TableViewOptionsCellContainer {...props} />, { context })
     const component = render.find(TableViewOptionsCellComponent)
     assert.lengthOf(component, 1, 'The container should use a component to render')
     testSuiteHelpers.assertWrapperProperties(component, {
-      styles: props.styles,
-      descriptionTooltip: props.descriptionTooltip,
       onShowDescription: render.instance().onShowDescription,
+      onAddToCart: render.instance().onAddToCart,
     }, 'The container should provider the right properties to the render component')
   })
 })

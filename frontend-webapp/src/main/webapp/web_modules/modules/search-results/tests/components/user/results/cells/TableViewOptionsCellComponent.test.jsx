@@ -19,7 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ShowableAtRender } from '@regardsoss/components'
 import TableViewOptionsCellComponent from '../../../../../src/components/user/results/cells/TableViewOptionsCellComponent'
+import AddElementToCartButton from '../../../../../src/components/user/results/options/AddElementToCartButton'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -31,13 +33,31 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
   it('should exists', () => {
     assert.isDefined(TableViewOptionsCellComponent)
   })
-  it('should render properly', () => {
+  it('should render properly without cart', () => {
     const props = {
-      servicesTooltip: 'services.tooltip',
-      descriptionTooltip: 'description.tooltip',
-      styles: context.moduleTheme.user.optionsStyles,
+      displayAddToBasket: true,
       onShowDescription: () => { },
+      onAddToCart: null,
     }
-    shallow(<TableViewOptionsCellComponent {...props} />, { context })
+
+    const renderWrapper = shallow(<TableViewOptionsCellComponent {...props} />, { context })
+    const showableWrapper = renderWrapper.find(ShowableAtRender)
+    assert.lengthOf(showableWrapper, 1, 'There should be a showable wrapper for add to cart button')
+    assert.isFalse(showableWrapper.props().show, 'Cart button should be hidden')
+  })
+  it('should render properly with cart', () => {
+    const props = {
+      displayAddToBasket: true,
+      onShowDescription: () => { },
+      onAddToCart: () => { },
+    }
+
+    const renderWrapper = shallow(<TableViewOptionsCellComponent {...props} />, { context })
+    const showableWrapper = renderWrapper.find(ShowableAtRender)
+    assert.lengthOf(showableWrapper, 1, 'There should be a showable wrapper for add to cart button')
+    assert.isTrue(showableWrapper.props().show, 'Cart button should be visible')
+    const buttonWrapper = renderWrapper.find(AddElementToCartButton)
+    assert.lengthOf(buttonWrapper, 1, 'The should be the cart button')
+    assert.equal(buttonWrapper.props().onAddToCart, props.onAddToCart, 'The callback should be correctly reported')
   })
 })

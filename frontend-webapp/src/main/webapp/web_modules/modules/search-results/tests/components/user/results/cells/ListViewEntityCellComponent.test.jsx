@@ -20,7 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CatalogEntityTypes } from '@regardsoss/model'
+import { ShowableAtRender } from '@regardsoss/components'
 import ListViewEntityCellComponent from '../../../../../src/components/user/results/cells/ListViewEntityCellComponent'
+import AddElementToCartButton from '../../../../../src/components/user/results/options/AddElementToCartButton'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -52,13 +54,15 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       isTableSelected: false,
       selectTableEntityCallback: () => { },
       tableColumns: [],
+      displayAddToBasket: true,
       onSearchTag: () => { },
       onClick: () => { },
-      downloadTooltip: 'download.tooltip',
-      descriptionTooltip: 'description.tooltip',
-      styles: context.moduleTheme.user.listViewStyles,
+      onAddToCart: null,
       onShowDescription: () => { },
     }
-    shallow(<ListViewEntityCellComponent {...props} />, { context })
+    const renderWrapper = shallow(<ListViewEntityCellComponent {...props} />, { context })
+    // the cart button should not be rendered without the callback
+    renderWrapper.find(ShowableAtRender)
+    // cannot test further easily due to card title...
   })
 })

@@ -19,31 +19,30 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import IconButton from 'material-ui/IconButton'
-import EntityDescriptionButton from '../../../../../src/components/user/results/options/EntityDescriptionButton'
+import FlatButton from 'material-ui/FlatButton'
+import { AddSelectionToCartComponent } from '../../../../../src/components/user/results/options/AddSelectionToCartComponent'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test EntityDescriptionButton
+* Test AddSelectionToCartComponent
 * @author Raphaël Mechali
 */
-describe('[Search Results] Testing EntityDescriptionButton', () => {
+describe('[Search Results] Testing AddSelectionToCartComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(EntityDescriptionButton)
+    assert.isDefined(AddSelectionToCartComponent)
   })
-  it('should render correctly and start action on click', () => {
+  it('should render correctly', () => {
     const props = {
-      onShowDescription: () => { },
+      onAddSelectionToCart: () => { },
     }
-    const render = shallow(<EntityDescriptionButton {...props} />, { context })
-    const innerButton = render.find(IconButton)
-    assert.lengthOf(innerButton, 1, 'It should use button to render')
-    assert.isOk(innerButton.props().title, props.tooltip, 'The tooltip should be visible')
-    assert.equal(innerButton.props().onTouchTap, props.onShowDescription, 'The button should invoke onShowDescription after on touch tap')
+    const enzymeWrapper = shallow(<AddSelectionToCartComponent {...props} />, { context })
+    const buttonWrapper = enzymeWrapper.find(FlatButton)
+    assert.lengthOf(buttonWrapper, 1, 'There should a button')
+    assert.equal(buttonWrapper.props().onTouchTap, props.onAddSelectionToCart, 'The callback should be correctly reported')
   })
 })

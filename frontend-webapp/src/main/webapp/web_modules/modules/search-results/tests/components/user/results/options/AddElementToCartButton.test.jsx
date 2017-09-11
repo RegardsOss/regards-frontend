@@ -18,32 +18,29 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import IconButton from 'material-ui/IconButton'
-import EntityDescriptionButton from '../../../../../src/components/user/results/options/EntityDescriptionButton'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import AddElementToCartButton from '../../../../../src/components/user/results/options/AddElementToCartButton'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test EntityDescriptionButton
+* Test AddElementToCartButton
 * @author Raphaël Mechali
 */
-describe('[Search Results] Testing EntityDescriptionButton', () => {
+describe('[Search Results] Testing AddElementToCartButton', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(EntityDescriptionButton)
+    assert.isDefined(AddElementToCartButton)
   })
-  it('should render correctly and start action on click', () => {
-    const props = {
-      onShowDescription: () => { },
-    }
-    const render = shallow(<EntityDescriptionButton {...props} />, { context })
-    const innerButton = render.find(IconButton)
-    assert.lengthOf(innerButton, 1, 'It should use button to render')
-    assert.isOk(innerButton.props().title, props.tooltip, 'The tooltip should be visible')
-    assert.equal(innerButton.props().onTouchTap, props.onShowDescription, 'The button should invoke onShowDescription after on touch tap')
+  it('should render correctly', () => {
+    const props = { onAddToCart: () => { } }
+    const enzymeWrapper = shallow(<AddElementToCartButton {...props} />, { context })
+    const iconButtonWrapper = enzymeWrapper.find(IconButton)
+    assert.lengthOf(iconButtonWrapper, 1, 'There should be a button')
+    assert.equal(iconButtonWrapper.props().onTouchTap, props.onAddToCart, 'The callback should be correctly reported')
   })
 })

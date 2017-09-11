@@ -41,6 +41,7 @@ import TableClient from '../../../clients/TableClient'
 import ListViewEntityCellContainer from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import TableViewOptionsCellContainer from '../../../containers/user/results/cells/TableViewOptionsCellContainer'
 import TableSortFilterComponent from './options/TableSortFilterComponent'
+import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
 import TableSelectAllContainer from '../../../containers/user/results/options/TableSelectAllContainer'
 import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 
@@ -81,7 +82,6 @@ class SearchResultsComponent extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
     attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
-
     // control
     resultPageActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
     onFiltersChanged: PropTypes.func.isRequired,
@@ -95,6 +95,9 @@ class SearchResultsComponent extends React.Component {
     onShowTableView: PropTypes.func.isRequired,
     onSortChanged: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
+    // from OrderCartContainer
+    onAddSelectionToCart: PropTypes.func, // callback to add selection to cart, null when disabled
+    onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
   }
 
   static contextTypes = {
@@ -133,16 +136,14 @@ class SearchResultsComponent extends React.Component {
     label: this.context.intl.formatMessage({ id: 'results.options.column.label' }),
     attributes: [],
     order: Number.MAX_VALUE,
-    // TODO here: handle the basket if available!
-    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * 2,
+    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (this.props.onAddElementToCart ? 2 : 1), // reserve space for add to cart if is available
     sortable: false,
     hideLabel: true,
     // order: number.
     customCell: {
       component: TableViewOptionsCellContainer,
       props: {
-        descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
-        styles: this.context.moduleTheme.user.optionsStyles,
+        onAddToCart: this.props.onAddElementToCart,
       },
     },
   })
@@ -214,7 +215,7 @@ class SearchResultsComponent extends React.Component {
   * Create columns configuration for table view
   * @returns {Array}
   */
-  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSelectDataset, onSelectSearchTag }) => [{
+  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSelectDataset, onSelectSearchTag, onAddElementToCart }) => [{
     label: 'ListviewCell',
     attributes: [],
     customCell: {
@@ -226,9 +227,7 @@ class SearchResultsComponent extends React.Component {
         onSearchTag: onSelectSearchTag,
         tableColumns,
         displayCheckbox: showingDataobjects,
-        downloadTooltip: this.context.intl.formatMessage({ id: 'download.tooltip' }),
-        descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
-        styles: this.context.moduleTheme.user.listViewStyles,
+        onAddToCart: onAddElementToCart,
       },
     },
   }]
@@ -294,7 +293,7 @@ class SearchResultsComponent extends React.Component {
    * @return rendered options list
    */
   renderTableContextOptions = () => {
-    const { allowingFacettes, showingFacettes, onToggleShowFacettes, showingDataobjects } = this.props
+    const { allowingFacettes, showingFacettes, onToggleShowFacettes, showingDataobjects, onAddSelectionToCart } = this.props
     const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
 
@@ -314,7 +313,10 @@ class SearchResultsComponent extends React.Component {
       /> : null,
       // separator, if required
       this.isInListView() && showingDataobjects && allowingFacettes ? <TableOptionsSeparator key="list.options.separator" /> : null,
+      // Add selection to cart option
+      onAddSelectionToCart ? <AddSelectionToCartComponent key="add.selection.to.cart" onAddSelectionToCart={onAddSelectionToCart} /> : null,
       // facets option
+      // TODO: contdition can be externalized here too
       <ShowableAtRender
         key="facet.filter.option"
         show={allowingFacettes && showingDataobjects}
@@ -402,7 +404,7 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage } } = this.context
-    const { showingDataobjects, viewMode, searchQuery, resultPageActions } = this.props
+    const { showingDataobjects, searchQuery, resultPageActions } = this.props
     const { tableColumns, listColumns } = this.state
 
     const pageSize = 13

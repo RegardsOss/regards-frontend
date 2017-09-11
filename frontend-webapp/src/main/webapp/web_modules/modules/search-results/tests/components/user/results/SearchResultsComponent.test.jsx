@@ -39,10 +39,9 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     appName: 'test',
     project: 'project',
     allowingFacettes: true,
-    showingFacettes: true,
     displayDatasets: true,
     filters: [],
-
+    showingFacettes: true,
     searchQuery: '',
     facettesQuery: '',
     attributesConf: [],

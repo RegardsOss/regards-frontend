@@ -16,18 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import IconButton from 'material-ui/IconButton'
-import InfoIcon from 'material-ui/svg-icons/action/info-outline'
-import { i18nContextType } from '@regardsoss/i18n'
+import FlatButton from 'material-ui/FlatButton'
+import AddIcon from 'material-ui/svg-icons/action/add-shopping-cart'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import messages from '../../../../i18n'
 
 /**
 * Button to show description in results table
 * @author Raphaël Mechali
 */
-class EntityDescriptionButton extends React.Component {
+export class AddSelectionToCartComponent extends React.Component {
 
   static propTypes = {
-    onShowDescription: PropTypes.func.isRequired,
+    onAddSelectionToCart: PropTypes.func,
     // other properties are reported to the button
   }
 
@@ -36,17 +37,17 @@ class EntityDescriptionButton extends React.Component {
   }
 
   render() {
-    const { onShowDescription, ...otherProperties } = this.props
+    const { onAddSelectionToCart } = this.props
     const { intl: { formatMessage } } = this.context
     return (
-      <IconButton
-        title={formatMessage({ id: 'show.description.tooltip' })}
-        onTouchTap={onShowDescription}
-        {...otherProperties}
-      >
-        <InfoIcon />
-      </IconButton>
+      <FlatButton
+        label={formatMessage({ id: 'add.selection.to.cart.label' })}
+        title={formatMessage({ id: 'add.selection.to.cart.tooltip' })}
+        icon={<AddIcon />}
+        onTouchTap={onAddSelectionToCart}
+      />
+
     )
   }
 }
-export default EntityDescriptionButton
+export default withI18n(messages)(AddSelectionToCartComponent)

@@ -38,8 +38,9 @@ import CartSelectorContainer from './CartSelectorContainer'
 const layoutSelectors = AccessProjectClient.LayoutSelectors()
 // get default modules client actions and reducers instances - we will use it to verify if a basket exists AND if it is in a dynamic container
 const modulesSelectors = AccessProjectClient.ModuleSelectors()
+// build default basket actions to check if user has rights get its basket
+const basketActionsGetDependencies = new OrderClient.OrderBasketActions().getDependencies('GET')
 
-const basketActionsGetDependencies = new OrderClient.OrderBasketActions().getDependencies('GET') // default basket actions client GET dependencies
 /**
  * Main component of module menu
  * @author Sébastien binda
@@ -79,7 +80,6 @@ export class MenuContainer extends React.Component {
     modules: AccessShapes.ModuleList,
     // eslint-disable-next-line react/no-unused-prop-types
     availableEndpoints: PropTypes.arrayOf(PropTypes.string),
-
   }
 
   static contextTypes = {
@@ -159,6 +159,7 @@ export class MenuContainer extends React.Component {
       }
       // C - check that user is authenticated and has enough rights to read the cart content from backend
       return {
+        // TODO : enable back on first line: isAuthenticated &&
         displayCart: isAuthenticated && allMatchHateoasDisplayLogic(MenuContainer.BASKET_DEPENDENCIES, availableEndpoints),
         cartModuleId: dynamicOrderCartModules[0].content.id,
       }

@@ -76,7 +76,7 @@ class OrderBasketActions {
    * @return {object} redux action (redux API middleware compatible) to get basket content
    */
   addToBasket(ipIds = [], selectAllOpenSearchRequest = null) {
-    return this.selectionDelegate.sendSignal('POST', { ipIds, selectAllOpenSearchRequest })
+    return this.selectionDelegate.sendSignal('POST', { basketSelectionRequest: { ipIds, selectAllOpenSearchRequest } })
   }
 
   /**

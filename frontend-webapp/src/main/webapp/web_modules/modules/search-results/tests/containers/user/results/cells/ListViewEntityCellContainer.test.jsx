@@ -62,9 +62,7 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       onSearchTag: () => { },
       onClick: () => { },
       displayCheckbox: true,
-      downloadTooltip: 'download.tooltip',
-      descriptionTooltip: 'description.tooltip',
-      styles: context.moduleTheme.user.listViewStyles,
+      onAddToCart: () => { },
 
       // from map dispatch to props
       dispatchShowDescription: () => { },
@@ -74,10 +72,11 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
     assert.lengthOf(render, 1, 'There should be a render component')
     testSuiteHelpers.assertWrapperProperties(component, {
       // all previous props are reported, expected dispatchers and onClick callback (locally wrapped callbacks)
-      ...(omit(props, ['dispatchShowDescription', 'onClick'])),
+      ...(omit(props, ['dispatchShowDescription', 'onClick', 'onAddToCart'])),
       // also check local callbacks
       onEntitySelection: render.instance().onEntitySelection, // should be provided as there is an onClick handler
       onShowDescription: render.instance().onShowDescription,
+      onAddToCart: render.instance().onAddToCart,
     }, 'The container should report corretly properties to its component')
   })
 })

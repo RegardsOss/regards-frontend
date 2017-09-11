@@ -35,7 +35,7 @@ import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
-import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
+import OrderCartContainer from './OrderCartContainer'
 
 /**
  * Search results container, drives corresponding component
@@ -77,6 +77,7 @@ export class SearchResultsContainer extends React.Component {
     // From map state to props
     viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired, // current view object type
     displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired, // Display mode
+    // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
@@ -256,17 +257,22 @@ export class SearchResultsContainer extends React.Component {
 
   render() {
     const {
-      appName, project, enableFacettes, attributesConf, viewObjectType, facettesQuery, attributesRegroupementsConf, levels,
+      appName, project, enableFacettes, attributesConf, viewObjectType, facettesQuery, attributesRegroupementsConf,
       attributeModels, displayDatasets, dispatchDatasetSelected, dispatchTagSelected, displayMode, datasetAttributesConf,
+      searchQuery: initialSearchQuery,
     } = this.props
-    const { showingFacettes, filters, searchTag, fullSearchQuery, searchActions, sortingOn } = this.state
+    const { showingFacettes, filters, searchTag, openSearchQuery, fullSearchQuery, searchActions, sortingOn } = this.state
 
     // compute view mode
     const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
     return (
-      <SearchResultsComponent
-        // search results display properties
+      <OrderCartContainer
+        // order cart container properties
+        initialSearchQuery={initialSearchQuery}
+        openSearchQuery={openSearchQuery}
+
+        // common and search results component only properties
         appName={appName}
         project={project}
         allowingFacettes={enableFacettes && !!facettesQuery}
