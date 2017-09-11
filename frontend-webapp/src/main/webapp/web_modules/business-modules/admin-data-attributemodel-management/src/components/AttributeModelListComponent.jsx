@@ -52,6 +52,8 @@ export class AttributeModelListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static DEPENDENCIES = [attributeModelActions.getDependency(RequestVerbEnum.POST)]
+
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
@@ -172,7 +174,7 @@ export class AttributeModelListComponent extends React.Component {
                 id="attrmodel.list.action.add"
               />
             }
-            mainHateoasDependencies={[attributeModelActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={AttributeModelListComponent.DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'attrmodel.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

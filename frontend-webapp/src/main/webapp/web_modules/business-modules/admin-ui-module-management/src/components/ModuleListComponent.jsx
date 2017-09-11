@@ -60,6 +60,8 @@ class ModuleListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static DEPENDENCIES = [moduleActions.getDependency(RequestVerbEnum.POST)]
+
   constructor(props) {
     super(props)
     this.state = {
@@ -185,7 +187,7 @@ class ModuleListComponent extends React.Component {
                 id="modules.list.action.add"
               />
             }
-            mainHateoasDependencies={[moduleActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={ModuleListComponent.DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />

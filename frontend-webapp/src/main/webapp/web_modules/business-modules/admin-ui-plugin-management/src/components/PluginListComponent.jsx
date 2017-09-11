@@ -52,6 +52,8 @@ class PluginListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static DEPENDENCIES = [uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]
+
   constructor(props) {
     super(props)
     this.state = {
@@ -150,7 +152,7 @@ class PluginListComponent extends React.Component {
                 id="plugins.list.action.add"
               />
             }
-            mainHateoasDependencies={[uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={PluginListComponent.DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugins.list.action.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />

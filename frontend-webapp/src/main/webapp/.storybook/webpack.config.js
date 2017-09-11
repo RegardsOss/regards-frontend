@@ -13,7 +13,7 @@ const path = require('path')
 const merge = require('webpack-merge')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 // load the default config generator of storybook
-const genDefaultConfig = require('@storybook/react/dist/server/config/defaults/webpack.config.js');
+const genDefaultConfig = require('@storybook/react/dist/server/config/defaults/webpack.config.js')
 
 let config = DevWebpackConfig
 // Remove the entry
@@ -38,10 +38,10 @@ config = merge(config, {
 })
 
 module.exports = (baseConfig, env) => {
-  const originalStorybookConfig = genDefaultConfig(baseConfig, env);
+  const originalStorybookConfig = genDefaultConfig(baseConfig, env)
 
   // Extend it as you need.
   config = merge(originalStorybookConfig, config)
 
-  return config;
-};
+  return config
+}

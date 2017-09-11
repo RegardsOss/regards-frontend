@@ -22,7 +22,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CatalogEntityTypes } from '@regardsoss/model'
 import { ShowableAtRender } from '@regardsoss/components'
 import ListViewEntityCellComponent from '../../../../../src/components/user/results/cells/ListViewEntityCellComponent'
-import AddElementToCartButton from '../../../../../src/components/user/results/options/AddElementToCartButton'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)

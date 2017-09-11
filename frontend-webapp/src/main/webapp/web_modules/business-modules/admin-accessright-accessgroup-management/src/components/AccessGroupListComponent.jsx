@@ -59,6 +59,8 @@ export class AccessGroupListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static DEPENDENCIES = [accessGroupActions.getDependency(RequestVerbEnum.POST)]
+
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
@@ -107,6 +109,7 @@ export class AccessGroupListComponent extends React.Component {
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
     }
+
 
     return (
       <Card>
@@ -189,7 +192,7 @@ export class AccessGroupListComponent extends React.Component {
               />
             }
             mainButtonClassName="selenium-createButton"
-            mainHateoasDependencies={[accessGroupActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={AccessGroupListComponent.DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'group.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

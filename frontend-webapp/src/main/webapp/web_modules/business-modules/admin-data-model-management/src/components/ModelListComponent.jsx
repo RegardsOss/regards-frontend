@@ -43,7 +43,7 @@ const actionsBreakpoints = [940, 995, 1065, 1320, 1380]
 /**
  * React components to list project.
  */
-export class ProjectListComponent extends React.Component {
+export class ModelListComponent extends React.Component {
 
   static propTypes = {
     modelList: DataManagementShapes.ModelList,
@@ -60,6 +60,8 @@ export class ProjectListComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static DEPENDENCIES = [modelActions.getDependency(RequestVerbEnum.POST)]
 
   state = {
     deleteDialogOpened: false,
@@ -237,7 +239,7 @@ export class ProjectListComponent extends React.Component {
                 id="model.list.action.add"
               />
             }
-            mainHateoasDependencies={[modelActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={ModelListComponent.DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'model.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
@@ -247,5 +249,5 @@ export class ProjectListComponent extends React.Component {
   }
 }
 
-export default ProjectListComponent
+export default ModelListComponent
 

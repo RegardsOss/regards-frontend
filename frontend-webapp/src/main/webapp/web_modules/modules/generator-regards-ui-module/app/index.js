@@ -21,6 +21,7 @@
  * Yeoman generator to create REGARDS UI plugins.
  * @author Sébastien Binda
  */
+// eslint-disable-next-line import/no-unresolved
 const Generator = require('yeoman-generator')
 
 module.exports = class extends Generator {

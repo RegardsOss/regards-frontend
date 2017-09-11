@@ -63,6 +63,8 @@ class ServiceConfigurationListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static DEPENDENCIES = [uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)]
+
 
   render() {
     const { uiPluginConfigurationList, plugin, handleToggleActivation, handleDuplicate, handleToggleDefault, handleEdit, handleDelete, createUrl, backUrl } = this.props
@@ -182,7 +184,7 @@ class ServiceConfigurationListComponent extends React.Component {
                 id="service.listconf.action.add"
               />
             }
-            mainHateoasDependencies={[uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={ServiceConfigurationListComponent.DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'service.listconf.action.back' })}
             secondaryButtonUrl={backUrl}
           />

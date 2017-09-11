@@ -55,6 +55,10 @@ export class CollectionListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static DEPENDENCY = collectionActions.getDependency(RequestVerbEnum.POST)
+
+  static DEPENDENCIES_ARRAY = [collectionActions.getDependency(RequestVerbEnum.POST)]
+
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
@@ -146,7 +150,7 @@ export class CollectionListComponent extends React.Component {
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
                       <ResourceIconAction
-                        resourceDependencies={collectionActions.getDependency(RequestVerbEnum.POST)}
+                        resourceDependencies={CollectionListComponent.DEPENDENCY}
                         onTouchTap={() => handleDuplicate(collection.content.id)}
                         title={intl.formatMessage({ id: 'collection.list.action.duplicate' })}
                       >
@@ -175,7 +179,7 @@ export class CollectionListComponent extends React.Component {
                 id="collection.list.action.add"
               />
             }
-            mainHateoasDependencies={[collectionActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={CollectionListComponent.DEPENDENCIES_ARRAY}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

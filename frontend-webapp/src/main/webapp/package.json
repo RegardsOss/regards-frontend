@@ -36,7 +36,7 @@
     "storybook:start": "start-storybook -p 6006 -c .storybook",
     "storybook:build": "build-storybook -o reports/storybook",
     "esdoc": "esdoc -c esdoc.json",
-    "lint": "eslint web_modules .storybook src --ext .js,.jsx",
+    "lint": "eslint web_modules src --ext .js,.jsx",
     "lint:fix": "eslint --fix web_modules src --ext .js,.jsx"
   },
   "author": "CS-SI",
