@@ -151,7 +151,7 @@ const mapStateToProps = (state, ownProps) => {
     modules: modulesSelectors.getList(state),
     layoutIsFetching: layoutSelectors.isFetching(state),
     modulesIsFetching: modulesSelectors.isFetching(state),
-    currentRole: authenticationResult ? authenticationResult.role : '',
+    currentRole: (authenticationResult && authenticationResult.role) || '',
     isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
   }
 }

@@ -169,6 +169,10 @@ export default (theme) => {
       },
     },
     checkButton: {
+      styles: {
+        paddingRight: 0,
+        marginLeft: 11,
+      },
       checkedIcon: {
         color: theme.palette.primary1Color,
         width: 24,
