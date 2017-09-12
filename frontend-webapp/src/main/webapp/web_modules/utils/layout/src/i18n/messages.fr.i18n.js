@@ -29,7 +29,7 @@ const messages = Object.assign({
   'container.form.styles': 'Styles HTML',
   'container.form.dynamicContent': 'Conteneur principal',
   'container.form.dynamicContent.info': 'Le menu de l\'application sera composé des modules de ce conteneur',
-  'container.form.dynamicContent.modal.title': 'Faire de ce conteneur le conteneur principal ?',
+  'container.form.dynamicContent.modal.title': 'En faire le conteneur principal ?',
   'container.form.dynamicContent.modal.content': 'Le menu de l\'application sera composé des modules de ce conteneur. Si vous aviez un autre conteneur principal, il sera converti en conteneur statique',
   'container.form.dynamicContent.modal.cancel': 'Annuler',
   'container.form.dynamicContent.modal.ok': 'OK',
