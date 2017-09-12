@@ -42,6 +42,7 @@ const messages = Object.assign({
   'service.listconf.plugin.email': 'Contact e-mail: {value}',
   'service.listconf.plugin.license': 'License: {value}',
   'service.listconf.plugin.url': 'Url: {value}',
+  'service.listconf.delete.confirm.title': 'Supprimer la configuration ?',
 
   'service.form.create.title': 'Creation d\'une configuration de service',
   'service.form.edit.title': 'Edition de la configuration de service {name}',
