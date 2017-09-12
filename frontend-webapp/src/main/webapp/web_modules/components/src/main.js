@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import ApplicationErrorComponent from './ApplicationErrorComponent'
 import CenteredDiv from './CenteredDiv'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
@@ -48,6 +48,7 @@ import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/C
 import PositionedDialog from './dialogs/PositionedDialog'
 import LoadableContentDialogContainer from './dialogs/LoadableContentDialogContainer'
 import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogContainer'
+import withConfirmDialog from './dialogs/withConfirmDialog'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 import PageNotFoundComponent from './error/PageNotFoundProvider'
@@ -141,4 +142,5 @@ export {
   LinkComponent,
   HelpMessageComponent,
   NoContentComponent,
+  withConfirmDialog,
 }
