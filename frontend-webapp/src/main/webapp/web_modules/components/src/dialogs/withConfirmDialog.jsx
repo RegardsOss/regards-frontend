@@ -22,7 +22,7 @@ import getDisplayName from '../getDisplayName'
 
 /**
  * Decorates a React component.
- * Intercepts the action performed on click in order to add a confirm modal before perorming the action.
+ * Intercepts the action performed on click in order to add a confirm modal before performing the action.
  *
  * @type {function}
  * @param {React.Component} DecoratedComponent The component to enhance
