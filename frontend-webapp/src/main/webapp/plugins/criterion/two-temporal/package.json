@@ -1,6 +1,6 @@
 {
   "name": "two-temporal-criteria-plugin",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "REGARDS frontend criteria plugin for two temporal attributes",
   "private": true,
   "scripts": {
