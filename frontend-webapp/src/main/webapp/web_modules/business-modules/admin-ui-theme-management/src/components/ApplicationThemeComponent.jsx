@@ -187,7 +187,7 @@ class ApplicationThemeComponent extends React.Component {
         hateoasKey={HateoasKeys.UPDATE}
         onTouchTap={() => this.onSave(editingTheme)}
         tooltip={formatMessage({ id: 'application.theme.save' })}
-      ><Save color={style.toolbar.icon.color} /></HateoasIconAction>
+      ><Save color={muiTheme.palette.alternateTextColor} /></HateoasIconAction>
     )
     const deleteButton = (<ConfirmableHateoasIconAction
       entityLinks={editingTheme.links}
@@ -197,7 +197,7 @@ class ApplicationThemeComponent extends React.Component {
       dialogTitle={formatMessage({ id: 'application.theme.remove.confirm' })}
     >
       <Delete
-        color={muiTheme.toolbar.iconColor}
+        color={muiTheme.palette.alternateTextColor}
         hoverColor={muiTheme.palette.accent1Color}
       />
     </ConfirmableHateoasIconAction>)
