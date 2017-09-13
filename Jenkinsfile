@@ -77,8 +77,7 @@ pipeline {
         stage('Deploy Maven artifact') {
             when {
                 anyOf {
-                    // TODO : remove branch 'feature/V1.1.0/multibranch_pipeline'
-                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'; branch 'feature/V1.1.0/multibranch_pipeline'
+                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'
                 }
             }
             steps {
