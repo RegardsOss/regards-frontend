@@ -20,51 +20,52 @@ pipeline {
         stage('Install') {
             steps {
                 sh 'cd jenkins/node && docker build -t rs_node . && chmod -R 0777 ${WORKSPACE}/frontend-webapp'
-
-                sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./install.sh'
+                sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./install.sh'
+            }
+            post {
+                always {
+                    sh 'docker run -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh'
+                }
             }
         }
         stage('Build') {
             steps {
                 parallel(
                     webapp: {
-                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
+                        sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
                     },
-                    plugin_criterion_example: {
-                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/example'
-                    },
+                    //plugin_criterion_example: {
+                    //    sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/example'
+                    //},
                     plugin_criterion_full_text: {
-                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/full-text'
+                        sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/full-text'
                     },
-                    plugin_criterion_numerical: {
-                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/numerical'
-                    },
+                    //plugin_criterion_numerical: {
+                    //    sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/numerical'
+                    //},
                     plugin_criterion_string: {
-                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/string'
+                        sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/string'
                     },
                     plugin_criterion_temporal: {
-                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/temporal'
+                        sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/temporal'
                     },
                     plugin_criterion_two_numerical: {
-                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/two-numerical'
+                        sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/two-numerical'
                     },
                     plugin_criterion_two_temporal: {
-                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/two-temporal'
+                        sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/000000000es -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/two-temporal'
                     },
                     plugin_service_example: {
-                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh service/example'
+                        sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh service/example'
                     }
                 )
             }
+            post {
+                always {
+                    sh 'docker run -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh'
+                }
+            }
         }
-        // stage('Verify and build webapp') {
-        //     steps {
-        //         sh 'cd jenkins/node && docker build -t rs_node .'
-        //         // Edit the rs_node container to compile the entire front !!
-        //         sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node'
-        //         // TODO use several containers to parralialize and readuce the time to compile
-        //     }
-        // }
         stage('Deploy Docker image') {
             steps {
                 // Copy the bundle inside the folder where apache container will be bundledededed
@@ -81,13 +82,8 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd jenkins/java && docker run -i -v ${WORKSPACE}/:/app_to_build -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy 172.26.46.158/rs-maven'
+                sh 'docker run -i -v ${WORKSPACE}/:/app_to_build -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy 172.26.46.158/rs-maven'
             }
-        }
-    }
-    post {
-        always {
-            deleteDir() /* clean up our workspace */
         }
     }
 }

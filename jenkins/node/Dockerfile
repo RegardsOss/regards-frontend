@@ -2,12 +2,13 @@ FROM node:7.10.1
 
 VOLUME /app_to_build
 
-COPY install.sh build_webapp.sh build_plugin.sh /
+COPY install.sh build_webapp.sh build_plugin.sh reset_rights.sh /
 
 	# Set rights on scripts
 RUN chmod +x /install.sh \
 			/build_webapp.sh \
 			/build_plugin.sh \
+			/reset_rights.sh \
 	# Configure npm by allowing root to use npm
  && echo "unsafe-perm=true" > ~/.npmrc \
 	# Use our own registry

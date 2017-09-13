@@ -8,14 +8,13 @@ echo "Plugin path from webapp: ${PLUGIN_PATH}"
 # First install npm links of the main app
 
 cd /app_to_build/plugins/${PLUGIN_PATH}/
+echo "Install the plugin dependencies"
 npm install
 
-echo "Fix permissions"
-chmod -R 0777 /app_to_build/plugins/${PLUGIN_PATH}/
-
+echo "Run tests"
 npm test
 
+echo "Bundle the plugin and copy it to the dist/prod "
 npm run build
-
-echo "Fix permissions"
-chmod -R 0777 /app_to_build/plugins/${PLUGIN_PATH}/target
+mkdir -p ../../../dist/prod/plugins/${PLUGIN_PATH}/
+cp ./target/prod/plugin.js ../../../dist/prod/plugins/${PLUGIN_PATH}/
