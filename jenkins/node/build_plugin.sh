@@ -12,5 +12,9 @@ npm run bootstrap
 
 cd /app_to_build/plugins/${PLUGIN_PATH}/
 npm install
+
+echo "Fix permissions"
+chmod -R 0777 /app_to_build/
+
 npm run test
 npm run build
