@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                sh 'cd jenkins/node && docker build -t rs_node . && chmod -R 0777 ${WORKSPACE}/frontend-webapp'
+                sh 'cd jenkins/node && docker build -t rs_node . && ls -al ${WORKSPACE}/frontend-webapp/node_modules && chmod -R 0777 ${WORKSPACE}/frontend-webapp'
                 sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./install.sh'
             }
         }
@@ -82,6 +82,11 @@ pipeline {
             steps {
                 sh 'cd jenkins/java && docker run -i -v ${WORKSPACE}/:/app_to_build -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy 172.26.46.158/rs-maven'
             }
+        }
+    }
+    post {
+        always {
+            deleteDir() /* clean up our workspace */
         }
     }
 }
