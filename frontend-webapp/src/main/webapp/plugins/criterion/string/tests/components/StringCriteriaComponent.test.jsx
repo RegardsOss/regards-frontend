@@ -42,6 +42,11 @@ describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () =>
       },
       getDefaultState: () => {
       },
+      savePluginState: () => {
+      },
+      pluginInstanceId: "Some value",
+      onChange: () => {
+      },
     }
     const enzymeWrapper = shallow(<StringCriteriaComponent {...props} />)
     expect(enzymeWrapper.find(TextField)).to.have.length(1)
