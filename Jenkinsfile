@@ -23,15 +23,12 @@ pipeline {
                 sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./install.sh'
             }
         }
-        stage('Build webapp') {
-            steps {
-                sh 'echo coucou'
-                // sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
-            }
-        }
-        stage('Build plugins') {
+        stage('Build') {
             steps {
                 parallel(
+                    webapp: {
+                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
+                    },
                     plugin1: {
                         sh 'echo coucou'
                     },
