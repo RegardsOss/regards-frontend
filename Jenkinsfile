@@ -53,7 +53,7 @@ pipeline {
                         sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/two-numerical'
                     },
                     plugin_criterion_two_temporal: {
-                        sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/000000000es -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/two-temporal'
+                        sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/two-temporal'
                     },
                     plugin_service_example: {
                         sh 'docker run -i -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh service/example'
@@ -83,6 +83,11 @@ pipeline {
             }
             steps {
                 sh 'docker run -i -v ${WORKSPACE}/:/app_to_build -v /opt/maven-multibranch-repository:/localRepository -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy 172.26.46.158/rs-maven'
+            }
+            post {
+                always {
+                    sh 'docker run -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh'
+                }
             }
         }
     }
