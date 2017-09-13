@@ -11,6 +11,6 @@ echo "Setup npm links"
 npm run bootstrap
 
 cd ./plugins/${PLUGIN_PATH}/
-npm run install
+npm install
 npm run test
 npm run build
