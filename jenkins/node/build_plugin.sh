@@ -16,5 +16,9 @@ npm install
 echo "Fix permissions"
 chmod -R 0777 /app_to_build/
 
-npm run test
+npm test
+
 npm run build
+
+echo "Fix permissions"
+chmod -R 0777 /app_to_build/plugins/${PLUGIN_PATH}/target
