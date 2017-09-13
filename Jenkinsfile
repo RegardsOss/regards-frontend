@@ -29,8 +29,8 @@ pipeline {
                     webapp: {
                         sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_webapp.sh'
                     },
-                    plugin1: {
-                        sh 'echo coucou'
+                    plugin_criterion_example: {
+                        sh 'cd jenkins/node && docker run -i -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build rs_node ./build_plugin.sh criterion/example'
                     },
                     plugin2: {
                         sh 'echo coucou'
