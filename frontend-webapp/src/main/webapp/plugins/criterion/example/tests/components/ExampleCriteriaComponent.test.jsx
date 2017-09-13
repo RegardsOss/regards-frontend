@@ -19,16 +19,16 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import TextField from 'material-ui/TextField'
-import { StringCriteriaComponent } from '../../src/components/StringCriteriaComponent'
+import { ExampleCriteriaComponent } from '../../src/components/ExampleCriteriaComponent'
 
 /**
- * Test case for {@link StringCriteriaComponent}
+ * Test case for {@link ExampleCriteriaComponent}
  *
  * @author Xavier-Alexandre Brochard
  */
 describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () => {
   it('should exists', () => {
-    assert.isDefined(StringCriteriaComponent)
+    assert.isDefined(ExampleCriteriaComponent)
     assert.isDefined(TextField)
   })
   it('should render self and sub components', () => {
@@ -44,7 +44,7 @@ describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () =>
       onChange: () => {
       },
     }
-    const enzymeWrapper = shallow(<StringCriteriaComponent {...props} />)
+    const enzymeWrapper = shallow(<ExampleCriteriaComponent {...props} />)
     expect(enzymeWrapper.find(TextField)).to.have.length(1)
   })
 })
