@@ -82,7 +82,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker run -i -v ${WORKSPACE}/:/app_to_build -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy 172.26.46.158/rs-maven'
+                sh 'docker run -i -v ${WORKSPACE}/:/app_to_build -v /opt/maven-multibranch-repository:/localRepository -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy 172.26.46.158/rs-maven'
             }
         }
     }
