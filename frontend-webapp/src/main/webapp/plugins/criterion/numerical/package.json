@@ -1,6 +1,6 @@
 {
   "name": "numerical-criteria-plugin",
-  "version": "2.0.0",
+  "version": "2.0.0-SNAPSHOT",
   "description": "REGARDS frontend criteria plugin for numerical attributes",
   "private": true,
   "scripts": {
