@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import filter from 'lodash/filter'
@@ -42,7 +42,7 @@ import DescriptionContainer from './DescriptionContainer'
 
 /**
  * Module container for user interface
- * */
+ **/
 export class UserModuleContainer extends React.Component {
 
   static mapStateToProps = (state, { moduleConf }) => ({
@@ -92,7 +92,11 @@ export class UserModuleContainer extends React.Component {
     dispatchLevelDataLoaded: PropTypes.func.isRequired,
   }
 
-  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  componentWillMount = () => {
+    // initialize resolved dataset attributes to empty collection
+    // note: the moment it will get resolved is not important for this component
+    this.setState({ graphDatasetAttributes: [] })
+  }
 
   componentDidMount = () => {
     // Fetch attribute models in order to resolve dataset attributes for the graph
@@ -100,12 +104,10 @@ export class UserModuleContainer extends React.Component {
     fetchAttributeModels()
   }
 
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
-
-  onPropertiesChanged = (oldProps, newProps) => {
-    const { moduleConf: { graphDatasetAttributes }, attributeModels, authentication } = oldProps
+  componentWillReceiveProps = (nextProps) => {
+    const { moduleConf: { graphDatasetAttributes }, attributeModels, authentication } = this.props
     const { moduleConf: { graphDatasetAttributes: nextGraphDatasetAttributes },
-      attributeModels: nextAttributesModels, authentication: nextAuthentication } = newProps
+      attributeModels: nextAttributesModels, authentication: nextAuthentication } = nextProps
     // update graph attributes if required (store it in state)
     if (!isEqual(graphDatasetAttributes, nextGraphDatasetAttributes) || !isEqual(attributeModels, nextAttributesModels)) {
       const attributesConfiguration = nextGraphDatasetAttributes || []
