@@ -5,4 +5,4 @@ COPY dist /var/www
 COPY prestart.sh /
 RUN chmod +x /prestart.sh
 
-CMD ["/prestart.sh", "&&", "nginx", "-g", "daemon off;"]
+CMD ["/prestart.sh", "&&", "nginx", "-g", "'daemon off;'"]
