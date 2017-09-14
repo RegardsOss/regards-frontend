@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import filter from 'lodash/filter'
@@ -42,7 +42,7 @@ import DescriptionContainer from './DescriptionContainer'
 
 /**
  * Module container for user interface
- **/
+ * */
 export class UserModuleContainer extends React.Component {
 
   static mapStateToProps = (state, { moduleConf }) => ({
@@ -92,11 +92,7 @@ export class UserModuleContainer extends React.Component {
     dispatchLevelDataLoaded: PropTypes.func.isRequired,
   }
 
-  componentWillMount = () => {
-    // initialize resolved dataset attributes to empty collection
-    // note: the moment it will get resolved is not important for this component
-    this.setState({ graphDatasetAttributes: [] })
-  }
+  componentWillMount = () => this.onPropertiesChanged(undefined, this.props)
 
   componentDidMount = () => {
     // Fetch attribute models in order to resolve dataset attributes for the graph
@@ -104,8 +100,10 @@ export class UserModuleContainer extends React.Component {
     fetchAttributeModels()
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    const { moduleConf: { graphDatasetAttributes }, attributeModels, authentication } = this.props
+  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+
+  onPropertiesChanged = (oldProps, nextProps) => {
+    const { moduleConf: { graphDatasetAttributes }, attributeModels, authentication } = (oldProps || { moduleConf: { attributeModels: [], graphLevels: [] } })
     const { moduleConf: { graphDatasetAttributes: nextGraphDatasetAttributes },
       attributeModels: nextAttributesModels, authentication: nextAuthentication } = nextProps
     // update graph attributes if required (store it in state)
@@ -148,7 +146,7 @@ export class UserModuleContainer extends React.Component {
     }
 
     // login state changed: we need to refresh every level while selection is still valid and delete the selected elements where it isn't
-    if (authentication !== nextAuthentication) {
+    if (authentication !== nextAuthentication && oldProps) { // do not refresh on mount
       this.refreshCompleteGraph(nextProps)
     }
   }
