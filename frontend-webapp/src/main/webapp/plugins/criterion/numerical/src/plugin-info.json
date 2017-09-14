@@ -1,19 +1,19 @@
 {
   "name": "numerical-criteria",
   "description": "Criteria widget to search for a given numerical value into a model attribute",
-  "version" : 1.0,
-  "author" : "Xavier-Alexandre Brochard",
-  "company" : "CS-SI",
-  "email" : "sebastien.binda@c-s.fr",
-  "url" : "http://www.cnes.fr",
+  "version": "1.0.0",
+  "author": "Xavier-Alexandre Brochard",
+  "company": "CS-SI",
+  "email": "sebastien.binda@c-s.fr",
+  "url": "http://www.cnes.fr",
   "license": "GPL V2",
-  "type" : "CRITERIA",
-  "conf" : {
+  "type": "CRITERIA",
+  "conf": {
     "attributes": [
       {
-        "name":"searchField",
+        "name": "searchField",
         "description": "Attribute to search",
-        "type":"numerical"
+        "type": "numerical"
       }
     ]
   }

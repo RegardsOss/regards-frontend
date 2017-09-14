@@ -75,7 +75,7 @@ class FullTextCriteriaComponent extends PluginComponent {
         />
         <TextField
           id="search"
-          floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
+          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
           value={this.state.value}
           onChange={(event, value) => {
             this.changeValue(value)
@@ -86,7 +86,7 @@ class FullTextCriteriaComponent extends PluginComponent {
             maxWidth: 165,
           }}
         />
-        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }
