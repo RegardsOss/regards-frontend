@@ -1,15 +1,21 @@
 {
   "name": "service-example",
   "description": "Hello world !",
-  "version": 1.0,
+  "version": "1.0.0",
   "author": "Mieulet Léo",
   "company": "CS-SI",
   "email": "leo.mieulet@c-s.fr",
   "url": "http://www.cnes.fr",
   "license": "GPL-3.0",
-  "type" : "SERVICE",
+  "type": "SERVICE",
   "conf": {
-    "applicationMode": ["ONE","MANY"],
+    "applicationModes": [
+      "ONE",
+      "MANY"
+    ],
+    "entityTypes": [
+      "DATA"
+    ],
     "static": {
       "static1": {
         "type": "string",
@@ -18,16 +24,36 @@
       "static2": {
         "type": "string",
         "required": true
-      },
+      }
     },
     "dynamic": {
-      "dynamic1": {
-        "label": "Voici un label",
-        "type": "string",
+      "pBool": {
+        "label": "A boolean",
+        "type": "bool",
+        "required": true
+      },
+      "pChar": {
+        "label": "A char",
+        "type": "char",
         "required": false
       },
-      "dynamic2": {
-        "label": "Voici un autre label",
+      "pDate": {
+        "label": "A date",
+        "type": "date",
+        "required": true
+      },
+      "pFloat": {
+        "label": "A floating number",
+        "type": "float",
+        "required": false
+      },
+      "pInt": {
+        "label": "An integer",
+        "type": "int",
+        "required": true
+      },
+      "pString": {
+        "label": "A string",
         "type": "string",
         "required": true
       }

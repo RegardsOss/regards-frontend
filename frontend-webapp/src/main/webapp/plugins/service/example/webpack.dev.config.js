@@ -19,14 +19,13 @@
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
 
-
 const PLUGIN_TYPE = 'service'
 const PLUGIN_NAME = 'example'
 
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'pkg_build_dev',
-    projectContextPath: __dirname
+    projectContextPath: __dirname,
   })
   // Save the plugin into the webpack dev server public folder (dist/dev)
   .saveDevPlugin(PLUGIN_TYPE, PLUGIN_NAME)

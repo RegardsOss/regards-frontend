@@ -22,7 +22,12 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.label': 'Search field ...',
+  'title.plugin.top.message': 'Information',
+  'title.static.configuration': 'Paramètres administrateurs',
+  'title.dynamic.configuration': 'Parramètres utilisateurs',
+  'title.plugin.content': 'Entities  distribution on date parameter',
+  'plugin.content.loading': 'Currently loading {currentIndex} / {totalElements} ({lastLoadedEntity}) ...',
+  'plugin.content.error': 'An error occurred: "{errorMessage}"',
 }
 
 export default messages
