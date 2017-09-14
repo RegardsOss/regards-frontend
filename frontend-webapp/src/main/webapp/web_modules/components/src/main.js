@@ -48,6 +48,7 @@ import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/C
 import PositionedDialog from './dialogs/PositionedDialog'
 import LoadableContentDialogContainer from './dialogs/LoadableContentDialogContainer'
 import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogContainer'
+import withConfirmDialog from './dialogs/withConfirmDialog'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 import PageNotFoundComponent from './error/PageNotFoundProvider'
@@ -141,4 +142,5 @@ export {
   LinkComponent,
   HelpMessageComponent,
   NoContentComponent,
+  withConfirmDialog,
 }

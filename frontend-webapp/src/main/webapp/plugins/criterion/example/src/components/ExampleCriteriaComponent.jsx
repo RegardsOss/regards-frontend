@@ -22,7 +22,7 @@ import TextField from 'material-ui/TextField'
 import { connect } from 'react-redux'
 import AttributeModel from '../common/AttributeModel'
 
-export class ExampleCriteria extends React.Component {
+export class ExampleCriteriaComponent extends React.Component {
 
   static propTypes = {
     /**
@@ -115,4 +115,4 @@ const mapDispatchToProps = dispatch => ({
   testDispatch: () => dispatch({ type: 'plugin/TEST' }),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExampleCriteria)
+export default connect(mapStateToProps, mapDispatchToProps)(ExampleCriteriaComponent)
