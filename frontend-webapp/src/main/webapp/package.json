@@ -107,6 +107,7 @@
     "@regardsoss/store": "0.0.1",
     "@regardsoss/store-utils": "0.0.1",
     "@regardsoss/theme": "0.0.1",
+    "@regardsoss/units": "0.0.1",
     "@regardsoss/user": "0.0.1",
     "@regardsoss/user-metadata-common": "0.0.1",
     "@regardsoss/vendors": "0.0.1",

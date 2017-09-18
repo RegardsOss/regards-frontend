@@ -24,6 +24,13 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
  * @author Sébastien binda
  */
 const messages = {
+  // admin
+  'menu.form.title': 'Titre du menu',
+  'menu.form.displayauthentication': 'Options d\'autentification',
+  'menu.form.displaylocale': 'Option de changement de langue',
+  'menu.form.displaycart': 'Option d\'accès rapide au panier',
+  'menu.form.displaytheme': 'Option de changement de thème',
+  // user
   loginFormTitle: 'Connexion à l\'interface projet',
   loginButtonLabel: 'Connexion',
   logoutLabel: 'Déconnexion',
@@ -31,15 +38,14 @@ const messages = {
   changeRole: 'Changer de rôle',
   resetRole: 'Rôle par défaut',
   'menu.modules.list.button': 'Menu',
-  'menu.form.title': 'Titre du menu',
-  'menu.form.displayauthentication.logged': 'Mes options',
-  'menu.form.displayauthentication.not.logged': 'S\'authentifier',
-  'menu.form.displaylocale': 'Changer la langue',
-  'menu.form.displaycart': 'Mon panier: {elementsCountTooltip}',
-  'menu.form.displaycart.empty.tooltip': 'vide',
-  'menu.form.displaycart.elements.count.tooltip': '{elementsCount} objet(s)',
-  'menu.form.cart.max.count': '{maxCount}+',
-  'menu.form.displaytheme': 'Changer le thème',
+  'user.menu.displayauthentication.logged': 'Mes options',
+  'user.menu.displayauthentication.not.logged': 'S\'authentifier',
+  'user.menu.displaylocale': 'Changer la langue',
+  'user.menu.displaycart.tooltip': 'Mon panier: {elementsCountTooltip}',
+  'user.menu.displaycart.empty.tooltip': 'vide',
+  'user.menu.displaycart.elements.count.tooltip': '{elementsCount} objet(s)',
+  'user.menu.cart.max.count': '{maxCount}+',
+  'user.menu.displaytheme': 'Changer le thème',
   // profile form
   'edit.profile.form.title': 'Edition du profil',
   'edit.profile.form.message': 'Vous pouvez mettre à jour ci-dessous les données de votre compte utilisateur',

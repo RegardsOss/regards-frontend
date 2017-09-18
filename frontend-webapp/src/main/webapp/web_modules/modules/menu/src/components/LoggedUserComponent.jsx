@@ -73,7 +73,7 @@ class LoggedUserComponent extends React.Component {
     return (
       <div
         style={this.context.moduleTheme.loggedUser.text}
-        title={intl.formatMessage({ id: 'menu.form.displayauthentication.logged' })}
+        title={intl.formatMessage({ id: 'user.menu.displayauthentication.logged' })}
       >
         <span>{name}</span>
         {profileContainer}

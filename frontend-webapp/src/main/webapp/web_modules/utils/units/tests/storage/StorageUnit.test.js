@@ -18,7 +18,7 @@
  */
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import StorageUnitScale from '../../src/helper/StorageUnit'
+import { StorageUnitScale } from '../../src/storage/StorageUnit'
 
 // Test unit functions
 describe('[STORAGE PLUGINS MONITORING] Testing units', () => {

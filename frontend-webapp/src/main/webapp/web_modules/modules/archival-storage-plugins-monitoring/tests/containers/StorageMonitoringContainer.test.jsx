@@ -19,8 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-
-
+import { storage } from '@regardsoss/units'
 import { StorageMonitoringContainer } from '../../src/containers/StorageMonitoringContainer'
 import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
 

@@ -24,8 +24,7 @@ import values from 'lodash/values'
  * @author Raphaël Mechali
  */
 const ModuleTypes = {
-  // 'archival-storage-aip-status',
-  // 'archival-storage-plugins-monitoring',
+  // AIP_STATUS: 'archival-storage-aip-status',
   HOME_PAGE: 'home-page',
   LICENSE: 'licenses',
   MENU: 'menu',
@@ -36,6 +35,7 @@ const ModuleTypes = {
   SEARCH_FORM: 'search-form',
   SEARCH_GRAPH: 'search-graph',
   SEARCH_RESULTS: 'search-results',
+  STORAGE_MONITORING: 'archival-storage-plugins-monitoring',
 }
 
 /** Defines all module types for application available for project administration and as user module  */

@@ -24,7 +24,29 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   ...Locales.en,
-  // empty so far
+
+  'order-cart.module.title': 'My cart',
+  'order-cart.module.subtitle': 'Cart content display and control, sorted by dataset and added elements groups, start command...',
+  'order-cart.module.order.label': 'Order',
+  'order-cart.module.order.tooltip': 'Order cart content',
+  'order-cart.module.order.confirmation.title': 'Order',
+  'order-cart.module.order.confirmation.message': 'This action will start order and clear basket. Would you like to continue?',
+  'order-cart.module.clear.label': 'Clear',
+  'order-cart.module.clear.tooltip': 'Clear cart content',
+  'order-cart.module.clear.confirmation.title': 'Clear basket',
+  'order-cart.module.clear.confirmation.message': 'This action will clear all current basket content',
+  'order-cart.module.basket.table.column.identifier': 'Dataset label / add date',
+  'order-cart.module.basket.table.column.objects.count': 'Objects count',
+  'order-cart.module.basket.table.column.files.count': 'Files count',
+  'order-cart.module.basket.table.column.files.size': 'Total files size',
+  'order-cart.module.basket.table.column.options': 'Options',
+  'order-cart.module.basket.table.delete.dataset.tooltip': 'Remove this dataset selections dataobjects',
+  'order-cart.module.basket.table.delete.dataset.confirm.message': 'That operation will remove all selections in this dataset and their dataobjects from basket. It cannot be undone',
+  'order-cart.module.basket.table.delete.dataset.confirm.title': 'Remove dataset selections',
+  'order-cart.module.basket.table.delete.selection.tooltip': 'Remove selection dataobjects',
+  'order-cart.module.basket.table.delete.selection.confirm.message': 'That operation will remove all dataobjects in this selection from basket. It cannot be undone',
+  'order-cart.module.basket.table.delete.selection.confirm.title': 'Remove selection',
+  'order-cart.module.basket.table.show.selection.detail.tooltip': 'Shows added object list',
 }
 
 export default messages

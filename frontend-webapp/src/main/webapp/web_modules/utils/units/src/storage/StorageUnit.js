@@ -19,6 +19,7 @@
 
 /**
  * A storagae unit (o, Ko, Mo...)
+ * @author Raphaël Mechali
  */
 class StorageUnit {
 
@@ -39,13 +40,13 @@ class StorageUnit {
    * @returns {string}
    */
   get messageKey() {
-    return `archival.storage.capacity.monitoring.unit.${this.symbol}`
+    return `storage.capacity.monitoring.unit.${this.symbol}`
   }
 
 }
 
-const bit = new StorageUnit('b', 1)
-const byte = new StorageUnit('B', 8)
+const BIT = new StorageUnit('b', 1)
+const BYTE = new StorageUnit('B', 8)
 
 /**
  * Possible unit scales
@@ -119,14 +120,16 @@ class StorageUnitScale {
 
 /** Scale steps (inner use only, to generate all units) **/
 StorageUnitScale.scalesSteps = ['k', 'm', 'g', 't', 'p', 'e', 'z', 'y']
-StorageUnitScale.bitsScale = new StorageUnitScale('bits', bit, 'b', 10 ** 3, [/^\s*([a-z]?)b\s*$/, /^([a-z]?)bit[s]?\s*$/i])
+StorageUnitScale.bitsScale = new StorageUnitScale('bits', BIT, 'b', 10 ** 3, [/^\s*([a-z]?)b\s*$/, /^([a-z]?)bit[s]?\s*$/i])
 // Bytes: parsed as both french octets 'o' and standard 'B' 'byte(s)'
-StorageUnitScale.bytesScale = new StorageUnitScale('bytes', byte, 'B', 10 ** 3, [/^\s*([A-Z]?)B\s*$/, /^\s*([a-z]?)o\s*$/i, /^\s*([a-z]?)bytes?\s*$/i])
-StorageUnitScale.bitsSIPrefixScale = new StorageUnitScale('bits.si.prefix', bit, 'ib', 2 ** 10, [/^\s*([a-z])ib\s*$/, /^\s*([a-z])ibits?\s*$/i])
-StorageUnitScale.bytesSIPrefixScale = new StorageUnitScale('bytes.si.prefix', byte, 'iB', 2 ** 10, [/^\s*([A-Z])iB\s*$/, /^\s*([a-z])io\s*$/i, /^\s*([a-z])ibytes?\s*$/i])
+StorageUnitScale.bytesScale = new StorageUnitScale('bytes', BYTE, 'B', 10 ** 3, [/^\s*([A-Z]?)B\s*$/, /^\s*([a-z]?)o\s*$/i, /^\s*([a-z]?)bytes?\s*$/i])
+StorageUnitScale.bitsSIPrefixScale = new StorageUnitScale('bits.si.prefix', BIT, 'ib', 2 ** 10, [/^\s*([a-z])ib\s*$/, /^\s*([a-z])ibits?\s*$/i])
+StorageUnitScale.bytesSIPrefixScale = new StorageUnitScale('bytes.si.prefix', BYTE, 'iB', 2 ** 10, [/^\s*([A-Z])iB\s*$/, /^\s*([a-z])io\s*$/i, /^\s*([a-z])ibytes?\s*$/i])
 // all units, ordered by less specific to more specific
 StorageUnitScale.all = [StorageUnitScale.bitsScale, StorageUnitScale.bytesScale, StorageUnitScale.bitsSIPrefixScale, StorageUnitScale.bytesSIPrefixScale]
 
-export default StorageUnitScale
-
-export const StorageUnitScaleShape = PropTypes.instanceOf(StorageUnitScale).isRequired
+export default {
+  StorageUnitScale,
+  StorageUnits: { BIT, BYTE },
+  StorageUnitScaleShape: PropTypes.instanceOf(StorageUnitScale),
+}

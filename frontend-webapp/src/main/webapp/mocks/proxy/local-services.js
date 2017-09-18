@@ -63,9 +63,9 @@ const MOCK_RESOURCES = [
   // mock backet deps
   {
     content: {
-      controllerSimpleName: `OrderServiceBasketControllerViewContent`,
+      controllerSimpleName: 'OrderServiceControllerOrder',
       defaultRole: 'PUBLIC',
-      description: `Order service basket controller - view content`,
+      description: 'Order service basket controller - view content',
       id: 100000,
       microservice: 'rs-order',
       resource: '/order/basket',
@@ -75,12 +75,60 @@ const MOCK_RESOURCES = [
   },
   {
     content: {
-      controllerSimpleName: `OrderServiceBasketControllerAddSelection`,
+      controllerSimpleName: 'OrderServiceBasketControllerAddSelection',
       defaultRole: 'PUBLIC',
-      description: `Order service basket controller - add selection`,
+      description: 'Order service basket controller - add selection',
       id: 100001,
       microservice: 'rs-order',
       resource: '/order/basket/selection',
+      verb: 'POST',
+    },
+    links: [],
+  },
+  {
+    content: {
+      controllerSimpleName: 'OrderServiceControllerOrder',
+      defaultRole: 'PUBLIC',
+      description: 'Order service basket controller - clear basket selection',
+      id: 100002,
+      microservice: 'rs-order',
+      resource: '/order/basket',
+      verb: 'DELETE',
+    },
+    links: [],
+  },
+  {
+    content: {
+      controllerSimpleName: 'OrderServiceControllerOrder',
+      defaultRole: 'PUBLIC',
+      description: 'Order service basket controller - remove dataset selections',
+      id: 100003,
+      microservice: 'rs-order',
+      resource: '/order/basket/dataset/{datasetSelectionId}',
+      verb: 'DELETE',
+    },
+    links: [],
+  },
+  {
+    content: {
+      controllerSimpleName: 'OrderServiceControllerOrder',
+      defaultRole: 'PUBLIC',
+      description: 'Order service basket controller - remove dated item selection',
+      id: 100004,
+      microservice: 'rs-order',
+      resource: '/order/basket/dataset/{datasetSelectionId}/{itemsSelectionDate}',
+      verb: 'DELETE',
+    },
+    links: [],
+  },
+  {
+    content: {
+      controllerSimpleName: 'OrderServiceControllerOrder',
+      defaultRole: 'PUBLIC',
+      description: 'Order service controller - do order',
+      id: 100005,
+      microservice: 'rs-order',
+      resource: '/user/orders',
       verb: 'POST',
     },
     links: [],
@@ -102,20 +150,196 @@ function getResourcesDependencies({ content, links, metadata }, pathParams, quer
 }
 
 const MOCKED_BASKET = { // MOCK a full backet, win TIME, SAVE MONNEY
-  "id": 0,
-  "email": "test@mail.com",
-  "datasetSelections": [
+  id: 0,
+  email: 'test@mail.com',
+  datasetSelections: [
     {
-      "id": 0,
-      "datasetIpid":
-      "TEST-DATASET:URN",
-      "objectsCount": 19,
-      "filesCount": 0,
-      "filesSize": 27730,
-      "datasetLabel": "TEST-DATASET:URN",
-      "openSearchRequest": null, "itemsSelections": [{ "id": 0, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886397664, "openSearchRequest": null }, { "id": 1, "objectsCount": 1, "filesCount": 0, "filesSize": 956, "date": 1504886398682, "openSearchRequest": null }, { "id": 2, "objectsCount": 1, "filesCount": 0, "filesSize": 2294, "date": 1504886399649, "openSearchRequest": null }, { "id": 4, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886432497, "openSearchRequest": null }, { "id": 5, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886432802, "openSearchRequest": null }, { "id": 6, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886433465, "openSearchRequest": null }, { "id": 7, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886433597, "openSearchRequest": null }, { "id": 8, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886433725, "openSearchRequest": null }, { "id": 9, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886436269, "openSearchRequest": null }, { "id": 10, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886436401, "openSearchRequest": null }, { "id": 11, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886436533, "openSearchRequest": null }, { "id": 12, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886436664, "openSearchRequest": null }, { "id": 13, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886436795, "openSearchRequest": null }, { "id": 14, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886436915, "openSearchRequest": null }, { "id": 15, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886437054, "openSearchRequest": null }, { "id": 16, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886437185, "openSearchRequest": null }, { "id": 17, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886437355, "openSearchRequest": null }, { "id": 18, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886437467, "openSearchRequest": null }, { "id": 19, "objectsCount": 1, "filesCount": 0, "filesSize": 1440, "date": 1504886437545, "openSearchRequest": null }]
-    }, { "id": 1, "datasetIpid": "test-dataset-for-fake-search", "objectsCount": 25, "filesCount": 306, "filesSize": 5048, "datasetLabel": "test-dataset-for-fake-search", "openSearchRequest": null, "itemsSelections": [{ "id": 3, "objectsCount": 25, "filesCount": 306, "filesSize": 5048, "date": 1504886402625, "openSearchRequest": null }] }]
+      id: 0,
+      datasetIpid: "TEST-DATASET:URN",
+      objectsCount: 19,
+      filesCount: 0,
+      filesSize: 27730,
+      datasetLabel: "Fake dataset 1",
+      openSearchRequest: null,
+      itemsSelections: [{
+        id: 0,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T15:59:57.664Z',
+        openSearchRequest: '"tag:fake-tag-index0"'
+      },
+      {
+        id: 1,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 956,
+        date: '2017-09-08T15:59:58.682Z',
+        openSearchRequest: '"tag:fake-tag-index1"'
+      },
+      {
+        id: 2,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 2294,
+        date: '2017-09-08T15:59:59.649Z',
+        openSearchRequest: '"tag:fake-tag-index2"'
+      },
+      {
+        id: 4,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:32.497Z',
+        openSearchRequest: '"tag:fake-tag-index3"'
+      },
+      {
+        id: 5,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:32.802Z',
+        openSearchRequest: '"tag:fake-tag-index4"'
+      },
+      {
+        id: 6,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:33.465Z',
+        openSearchRequest: '"tag:fake-tag-index5"'
+      },
+      {
+        id: 7,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:33.597Z',
+        openSearchRequest: '"tag:fake-tag-index6"'
+      },
+      {
+        id: 8,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:33.725Z',
+        openSearchRequest: '"tag:fake-tag-index7"'
+      },
+      {
+        id: 9,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:36.269Z',
+        openSearchRequest: '"tag:fake-tag-index8"'
+      },
+      {
+        id: 10,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:36.401Z',
+        openSearchRequest: '"tag:fake-tag-index9"'
+      },
+      {
+        id: 11,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:36.533Z',
+        openSearchRequest: '"tag:fake-tag-index10"'
+      },
+      {
+        id: 12,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:36.664Z',
+        openSearchRequest: '"tag:fake-tag-index11"'
+      },
+      {
+        id: 13,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:36.795Z',
+        openSearchRequest: '"tag:fake-tag-index12"'
+      },
+      {
+        id: 14,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:36.915Z',
+        openSearchRequest: '"tag:fake-tag-index13"'
+      },
+      {
+        id: 15,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:37.054Z',
+        openSearchRequest: '"tag:fake-tag-index14"'
+      },
+      {
+        id: 16,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:37.185Z',
+        openSearchRequest: '"tag:fake-tag-index15"'
+      },
+      {
+        id: 17,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:37.355Z',
+        openSearchRequest: '"tag:fake-tag-index16"'
+      },
+      {
+        id: 18,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:37.467Z',
+        openSearchRequest: '"tag:fake-tag-index17"'
+      },
+      {
+        id: 19,
+        objectsCount: 1,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T16:00:37.545Z',
+        openSearchRequest: '"tag:fake-tag-index18"'
+      }]
+    }, {
+      id: 1,
+      datasetIpid: "test-dataset-for-fake-search",
+      objectsCount: 25,
+      filesCount: 306, "filesSize": 5048,
+      datasetLabel: "Fake dataset 2",
+      openSearchRequest: null,
+      itemsSelections: [{
+        id: 3,
+        objectsCount: 25,
+        filesCount: 306,
+        filesSize: 5048,
+        date: '2017-09-08T16:00:02.625Z',
+        openSearchRequest: '"tag:fake-tag-index0"'
+      }]
+    }]
 }
+
+// TODO remove when useless, use to change the itemSelections format
+// const printDates = MOCKED_BASKET.datasetSelections.forEach(selection =>
+//   console.error('>>>>>>>>>>>>>>>\n', selection.itemsSelections.map(
+//     ({ id, objectsCount, filesCount, filesSize, date, openSearchRequest }, index) => ({
+//       id, objectsCount, filesCount, filesSize,
+//       date: new Date(parseInt(date, 10)).toISOString(),
+//       openSearchRequest: `"tag:fake-tag-index${index}"`,
+//     })
+//   )))
 
 // Holds current basket data
 const currentBasketData = {
@@ -203,7 +427,6 @@ function getPushInBasketHandler(gatewayURL) {
   return function pushInBasketHandler(request, response, pathParameters, queryParameters,
     { basketSelectionRequest: { ipIds, selectAllOpenSearchRequest } }) {
     return new Promise((resolve, reject) => {
-      console.error('WHAT THE HELL LITLLE FUCKET?? ', selectAllOpenSearchRequest)
       if (!selectAllOpenSearchRequest) {
         // case 1: adding a list of dataobjects: 
         // 1 - resolve them all (collect results through identity handler)

@@ -17,14 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNumber from 'lodash/isNumber'
-import StorageUnitScale from './StorageUnit'
+import { StorageUnitScale } from './StorageUnit'
 
 
 /**
  * A storage capacity (like 8Mo, 36 Gio...)
+ * @author Raphaël Mechali
  */
 class StorageCapacity {
 
+  /**
+   * Constructor
+   * @param {number} value
+   * @param {StorageUnit} unit
+   */
   constructor(value = 0, unit) {
     this.value = value
     this.unit = unit
@@ -32,8 +38,8 @@ class StorageCapacity {
 
   /**
    * Converts into (returns a new object)
-   * @param newUnit new unit
-   * @return StorageCapacity in new unit (new object)
+   * @param {StorageUnit} newUnit new unit
+   * @return {StorageCapacity} StorageCapacity in new unit (new object)
    */
   convert(newUnit) {
     const valueInNU = this.value * (this.unit.toBits / newUnit.toBits)
@@ -45,7 +51,7 @@ class StorageCapacity {
    * capacity uses [unit m] in unitsScale where:
    * Y [unit m+1] <= 1 <= X [unit m] <= Z [unit m-1]
    * @param unitsScale a unit scale like bits, bytes... see StorageUnit file
-   * @return Capacity in new unit (new object)
+   * @return {StorageCapacity} capacity in new unit (new object)
    */
   scaleAndConvert(unitsScale) {
     // pre: units are ordered from smallest to biggest
@@ -57,9 +63,9 @@ class StorageCapacity {
 
   /**
    * Performs binariy arithmetic operation between this and other as parameter
-   * @param other {number|StorageCapacity} other operand
-   * @param binaryOperator operator to apply
-   * @returns {StorageCapacity}, new instance
+   * @param {number|StorageCapacity} other other operand
+   * @param {function} binaryOperator operator to apply
+   * @returns {StorageCapacity} new instance
    */
   doArithmeticOperation(binaryOperator, other) {
     if (isNumber(other)) {
@@ -73,7 +79,7 @@ class StorageCapacity {
 
   /**
    * Add an other value to this capacity
-   * @param other {number|StorageCapacity} other value
+   * @param {number|StorageCapacity} other other value
    * @returns {StorageCapacity}, new instance
    */
   add(other) {
@@ -82,7 +88,7 @@ class StorageCapacity {
 
   /**
    * Subtract an other value to this capacity
-   * @param other {number|StorageCapacity} other value
+   * @param {number|StorageCapacity} other other value
    * @returns {StorageCapacity}, new instance
    */
   subtract(other) {
@@ -91,7 +97,7 @@ class StorageCapacity {
 
   /**
    * Multiply by an other value
-   * @param other {number|StorageCapacity} other value
+   * @param {number|StorageCapacity} other  other value
    * @returns {StorageCapacity}, new instance
    */
   multiply(other) {
@@ -100,7 +106,7 @@ class StorageCapacity {
 
   /**
    * Divide by an other value
-   * @param other {number|StorageCapacity} other value
+   * @param {number|StorageCapacity} other other value
    * @returns {StorageCapacity}, new instance
    */
   divide(other) {
@@ -109,7 +115,7 @@ class StorageCapacity {
 
   /**
    * Parses capacity from value
-   * @param textValue text value
+   * @param {string} textValue text value
    * @returns {StorageCapacity | null} null if text cannot get parsed
    */
   static fromValue(textValue) {
@@ -129,6 +135,7 @@ class StorageCapacity {
 
 }
 
-export default StorageCapacity
-
-export const StorageCapacityShape = PropTypes.instanceOf(StorageCapacity)
+export default {
+  StorageCapacity,
+  StorageCapacityShape: PropTypes.instanceOf(StorageCapacity),
+}

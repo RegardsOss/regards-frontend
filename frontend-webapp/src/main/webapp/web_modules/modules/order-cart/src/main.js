@@ -20,6 +20,7 @@ import adminContainer from './containers/admin/AdminModuleContainer'
 import moduleContainer from './containers/user/UserModuleContainer'
 import styles from './styles/styles'
 import dependencies from './dependencies'
+import messages from './i18n'
 
 /**
  * Module main file to expose public interface
@@ -29,6 +30,6 @@ export default {
   adminContainer,
   moduleContainer,
   styles,
-  messagesDir: 'modules/news/src/i18n',
+  messages,
   dependencies,
 }

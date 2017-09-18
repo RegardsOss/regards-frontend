@@ -29,6 +29,6 @@ export default {
   adminContainer,
   moduleContainer,
   styles,
-  messagesDir: 'modules/news/src/i18n',
+  messagesDir: 'modules/order-history/src/i18n',
   dependencies,
 }

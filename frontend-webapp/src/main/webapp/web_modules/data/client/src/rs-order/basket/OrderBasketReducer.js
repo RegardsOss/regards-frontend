@@ -67,7 +67,7 @@ class OrderBasketReducer {
 /**
  * Exports the reducer builder on namespace, leave parameter blank to get default client reducer instance
  * @param {string} namespace namespace (leave undefined to get default one)
- * @return {function}
+ * @return {function} reduce function
  */
 export default (namespace) => {
   const instance = new OrderBasketReducer(namespace)

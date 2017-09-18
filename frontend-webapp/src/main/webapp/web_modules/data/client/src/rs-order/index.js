@@ -19,13 +19,35 @@
 import OrderBasketActions from './basket/OrderBasketActions'
 import getOrderBasketReducer from './basket/OrderBasketReducer'
 import getOrderBasketSelectors from './basket/OrderBasketSelectors'
+import OrderDatasetDetailActions from './history/OrderDatasetDetailActions'
+import getOrderDatasetDetailReducer from './history/OrderDatasetDetailReducer'
+import getOrderDatasetDetailSelectors from './history/OrderDatasetDetailSelectors'
+import OrderListActions from './history/OrderListActions'
+import getOrderListReducer from './history/OrderListReducer'
+import getOrderListSelectors from './history/OrderListSelectors'
+import CreateOrderActions from './order/CreateOrderActions'
+import getCreateOrderReducer from './order/CreateOrderReducer'
+import getCreateOrderSelectors from './order/CreateOrderSelectors'
 
 /**
  * Index for all order microservice clients.
  * @author Raphaël Mechali
  */
 export default {
+  // current basket content actions
   OrderBasketActions,
   getOrderBasketReducer,
   getOrderBasketSelectors,
+  // get a dataset order detail (history)
+  OrderDatasetDetailActions,
+  getOrderDatasetDetailReducer,
+  getOrderDatasetDetailSelectors,
+  // get orders list (history) for current or all users
+  OrderListActions,
+  getOrderListReducer,
+  getOrderListSelectors,
+  // transform basket into a new order actions
+  CreateOrderActions,
+  getCreateOrderReducer,
+  getCreateOrderSelectors,
 }

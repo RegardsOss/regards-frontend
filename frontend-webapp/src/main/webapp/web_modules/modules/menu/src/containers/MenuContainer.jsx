@@ -160,7 +160,7 @@ export class MenuContainer extends React.Component {
       // C - check that user is authenticated and has enough rights to read the cart content from backend
       return {
         // TODO : enable back on first line: isAuthenticated &&
-        displayCart: isAuthenticated && allMatchHateoasDisplayLogic(MenuContainer.BASKET_DEPENDENCIES, availableEndpoints),
+        displayCart: allMatchHateoasDisplayLogic(MenuContainer.BASKET_DEPENDENCIES, availableEndpoints),
         cartModuleId: dynamicOrderCartModules[0].content.id,
       }
     }
@@ -238,14 +238,14 @@ export class MenuContainer extends React.Component {
     let themeSelector = null
     if (moduleConf.displayThemeSelector) {
       themeSelector = (
-        <SelectThemeContainer tooltip={intl.formatMessage({ id: 'menu.form.displaytheme' })} />
+        <SelectThemeContainer tooltip={intl.formatMessage({ id: 'user.menu.displaytheme' })} />
       )
     }
 
     let localeSelector = null
     if (moduleConf.displayLocaleSelector) {
       localeSelector = (
-        <SelectLocaleContainer tooltip={intl.formatMessage({ id: 'menu.form.displaylocale' })} />
+        <SelectLocaleContainer tooltip={intl.formatMessage({ id: 'user.menu.displaylocale' })} />
       )
     }
 

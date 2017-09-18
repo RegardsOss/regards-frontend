@@ -41,7 +41,7 @@ class LoginButton extends React.Component {
     return (
       <MainActionButtonComponent
         label={formatMessage({ id: 'loginButtonLabel' })}
-        title={formatMessage({ id: 'menu.form.displayauthentication.not.logged' })}
+        title={formatMessage({ id: 'user.menu.displayauthentication.not.logged' })}
         onTouchTap={this.props.onLoginAction}
       />
     )

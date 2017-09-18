@@ -24,7 +24,30 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   ...Locales.fr,
-  // empty so far
+
+  'order-cart.module.title': 'Mon panier',
+  'order-cart.module.subtitle': 'Affichage et gestion du contenu du panier, trié par jeux de données et groupes d\'ajout. Vous pouvez vider le contenu ou lancer la commande en utilisant les options en haut à droite',
+  'order-cart.module.order.label': 'Commander',
+  'order-cart.module.order.tooltip': 'Finaliser la commande du contenu du panier',
+  'order-cart.module.order.confirmation.title': 'Commander',
+  'order-cart.module.order.confirmation.message': 'Cette action démarrera la commande et videra le panier. Voulez vous continuer?',
+  'order-cart.module.clear.label': 'Effacer',
+  'order-cart.module.clear.tooltip': 'Effacer le contenu du panier',
+  'order-cart.module.clear.confirmation.title': 'Vider le panier',
+  'order-cart.module.clear.confirmation.message': 'Cette action effacera l\'intégralité des éléments du panier',
+  'order-cart.module.basket.table.column.identifier': 'Nom du dataset / date de l\'ajout',
+  'order-cart.module.basket.table.column.objects.count': 'Nombre d\'objets',
+  'order-cart.module.basket.table.column.files.count': 'Nombre de fichiers',
+  'order-cart.module.basket.table.column.files.size': 'Taille totale des fichiers',
+  'order-cart.module.basket.table.column.options': 'Options',
+  'order-cart.module.basket.table.delete.dataset.tooltip': 'Supprimer les selections d\'objets de ce jeu de données',
+  'order-cart.module.basket.table.delete.dataset.confirm.message': 'Cette opération supprimera du panier tous les objets de toutes les sélections de ce jeu de données. Elle ne peut pas être annulée',
+  'order-cart.module.basket.table.delete.dataset.confirm.title': 'Supprimer les sélections',
+  'order-cart.module.basket.table.delete.selection.tooltip': 'Supprimer la sélection',
+  'order-cart.module.basket.table.delete.selection.confirm.message': 'Cette opération supprimera du panier tous les objets de cette sélection. Elle ne peut pas être annulée',
+  'order-cart.module.basket.table.delete.selection.confirm.title': 'Supprimer la sélection',
+  'order-cart.module.basket.table.show.selection.detail.tooltip': 'Shows added object list',
+
 }
 
 export default messages

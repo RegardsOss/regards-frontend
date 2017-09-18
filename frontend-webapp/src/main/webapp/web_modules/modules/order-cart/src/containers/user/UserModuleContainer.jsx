@@ -16,26 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import OrderCartContainer from './OrderCartContainer'
 
 /**
-* User module container
-* @author Raphaël Mechali
-*/
-export default class UserModuleContainer extends React.Component {
-
-  static propTypes = {
-    // TODO actions to pull basket (default props) or an history order content
-    // from mapStateToProps
-    // from mapDispatchToProps
-  }
-
-  static defaultProps = {
-    // TODO actions to pull basket (default props)
-  }
+ * User module container
+ * @author Raphaël Mechali
+ */
+class UserModuleContainer extends React.Component {
 
   render() {
-    return (
-      <div />
-    )
+    return <OrderCartContainer />
   }
 }
+
+export default UserModuleContainer

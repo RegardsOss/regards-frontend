@@ -20,10 +20,10 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Table } from 'material-ui/Table'
 import { IntlStub, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { storage } from '@regardsoss/units'
 import { ChartAdapter } from '@regardsoss/adapters'
 import StoragePluginCapacityComponent from '../../src/components/StoragePluginCapacityComponent'
 import styles from '../../src/styles/styles'
-import StorageCapacity from '../../src/helper/StorageCapacity'
 
 describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', () => {
   before(testSuiteHelpers.before)
@@ -69,8 +69,8 @@ describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', 
     const enzymeWrapper = shallow(<StoragePluginCapacityComponent
       label="A label"
       description="A description"
-      totalSize={StorageCapacity.fromValue('10To')}
-      usedSize={StorageCapacity.fromValue('2To')}
+      totalSize={storage.StorageCapacity.fromValue('10To')}
+      usedSize={storage.StorageCapacity.fromValue('2To')}
     />, { context })
 
     // check one table is built for the plugin

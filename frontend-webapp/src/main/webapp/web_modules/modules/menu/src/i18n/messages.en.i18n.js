@@ -24,6 +24,13 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
  * @author Sébastien binda
  */
 const messages = {
+  // admin
+  'menu.form.title': 'Menu Title',
+  'menu.form.displayauthentication': 'Authentication options',
+  'menu.form.displaylocale': 'Change language option',
+  'menu.form.displaycart': 'Quick cart access option',
+  'menu.form.displaytheme': 'Change theme option',
+  // user
   loginFormTitle: 'Login to project interface',
   loginButtonLabel: 'Login',
   logoutLabel: 'Logout',
@@ -31,15 +38,14 @@ const messages = {
   changeRole: 'Change role',
   resetRole: 'Default role',
   'menu.modules.list.button': 'Menu',
-  'menu.form.title': 'Menu Title',
-  'menu.form.displayauthentication.logged': 'My options',
-  'menu.form.displayauthentication.not.logged': 'Authenticate',
-  'menu.form.displaylocale': 'Change language',
-  'menu.form.displaycart': 'My cart: {elementsCountTooltip}',
-  'menu.form.displaycart.empty.tooltip': 'empty',
-  'menu.form.displaycart.elements.count.tooltip': '{elementsCount} object(s)',
-  'menu.form.cart.max.count': '{maxCount}+',
-  'menu.form.displaytheme': 'Select theme',
+  'user.menu.displayauthentication.logged': 'My options',
+  'user.menu.displayauthentication.not.logged': 'Authenticate',
+  'user.menu.displaylocale': 'Change language',
+  'user.menu.displaycart.tooltip': 'My cart: {elementsCountTooltip}',
+  'user.menu.displaycart.empty.tooltip': 'empty',
+  'user.menu.displaycart.elements.count.tooltip': '{elementsCount} object(s)',
+  'user.menu.cart.max.count': '{maxCount}+',
+  'user.menu.displaytheme': 'Select theme',
   // profile form
   'edit.profile.form.title': 'Profile edition',
   'edit.profile.form.message': 'You can update below your user account data',

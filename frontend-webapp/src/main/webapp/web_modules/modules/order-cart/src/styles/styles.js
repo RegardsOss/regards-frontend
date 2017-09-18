@@ -22,7 +22,55 @@
  * @author Raphaël Mechali
  */
 const moduleStyles = theme => ({
-  // no specific styles
+  user: {
+    // root card container
+    styles: {
+      margin: '0 0 10px 0',
+    },
+    // module content styles
+    content: {
+      styles: {
+        borderStyle: 'solid',
+        borderWidth: '1px 0 0 0',
+        borderColor: theme.toolbar.separatorColor,
+        padding: 5,
+      },
+      table: {
+        optionColumn: {
+          style: {
+            width: 48,
+            height: 48,
+            padding: 0,
+          },
+        },
+      },
+    },
+    // module header styles
+    header: {
+      styles: {
+        background: theme.palette.canvasColor,
+        height: '', // remove useless MUI height there!
+      },
+      firstToolbarGroup: {
+        styles: {
+          flexGrow: 1,
+        },
+      },
+      cardTitle: {
+        styles: {
+          padding: '10px',
+        },
+        titleStyles: {
+          lineHeight: '', // remove wrong height!
+          padding: '0 0 5px 0',
+        },
+      },
+      options: {
+        styles: { marginLeft: 0, marginRight: 6 },
+        separator: { styles: { marginLeft: 6, marginRight: 12 } },
+      },
+    },
+  },
 })
 
 export default moduleStyles

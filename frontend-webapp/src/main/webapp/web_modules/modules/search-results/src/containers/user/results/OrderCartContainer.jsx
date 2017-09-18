@@ -257,7 +257,7 @@ export class OrderCartContainer extends React.Component {
   isBasketAvailable = ({ isAuthenticated, modules, availableEndpoints }) => {
     // Available if...
     // A - User is logged in
-    if (isAuthenticated) { // TODO remove after tests
+    if (isAuthenticated || true) { // TODO remove after tests
       // B - There is / are active Order cart module(s)
       const hasOrderCartModule = find((modules || {}), module =>
         (get(module, 'content.type', '') === modulesManager.ModuleTypes.ORDER_CART &&

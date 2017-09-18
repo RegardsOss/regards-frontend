@@ -54,7 +54,7 @@ class OrderBasketActions {
 
   /**
    * Returns action to get basket content
-   * @return {object} redux action (redux API middleware compatible) to get basket content
+   * @return {type:string, ...} redux action (redux API middleware compatible) to to get basket content
    */
   getBasket() {
     return this.rootDelegate.sendSignal('GET')
@@ -62,10 +62,18 @@ class OrderBasketActions {
 
   /**
    * Returns action to get basket content
-   * @return {object} redux action (redux API middleware compatible) to get basket content
+   * @return {type:string, ...} redux action (redux API middleware compatible) to get basket content
    */
   clearBasket() {
     return this.rootDelegate.sendSignal('DELETE')
+  }
+
+  /**
+   * Returns action to clear fetched basket content
+   * @return {type:string, ...} redux action (redux API middleware compatible) to flush basket
+   */
+  flushBasket() {
+    return this.rootDelegate.flush()
   }
 
   /**
@@ -73,7 +81,7 @@ class OrderBasketActions {
    * @param {[string]} ipIds elements IP IDs, to either include (if there is no request) or exclude (when specifying request)
    * @param {string} selectAllOpenSearchRequest open search request that provides all elements to include, or null / undefined if
    * elements to include are in the IP IDs list
-   * @return {object} redux action (redux API middleware compatible) to get basket content
+   * @return {type:string, ...} redux action (redux API middleware compatible) to add elements or request to the basket
    */
   addToBasket(ipIds = [], selectAllOpenSearchRequest = null) {
     return this.selectionDelegate.sendSignal('POST', { basketSelectionRequest: { ipIds, selectAllOpenSearchRequest } })
@@ -85,7 +93,7 @@ class OrderBasketActions {
    * that object is only related with one dataset)
    * @param {number} datasetSelectionId parent dataset selection ID
    * @param {number} itemsSelectionDate dated items selection operation date
-   * @return {object} redux action (redux API middleware compatible) to get basket content
+   * @return {type:string, ...} redux action (redux API middleware compatible) to remove all dataset related selections from basket
    */
   removeDatasetSelectionFromBasket(datasetSelectionId) {
     return this.datasetDelegate.sendSignal('DELETE', null, { datasetSelectionId })
@@ -96,7 +104,8 @@ class OrderBasketActions {
    * addToBasket method)
    * @param {number} datasetSelectionId parent dataset selection ID
    * @param {number} itemsSelectionDate dated items selection operation date
-   * @return {object} redux action (redux API middleware compatible) to get basket content
+   * @return {type:string, ...} redux action (redux API middleware compatible) to remove a group of item - that where added at
+   * a given date - from  dataset, in basket
    */
   removeItemsSelectionFromBasket(datasetSelectionId, itemsSelectionDate) {
     return this.datasetItemDelegate.sendSignal('DELETE', null, { datasetSelectionId, itemsSelectionDate })

@@ -1,8 +1,8 @@
-# @regardsoss/news
+# @regardsoss/order-cart
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. This module is used to display the data order cart content and -internally- previous history order content. Please Note that his module must be instantiated once to enable the order cart functionnality in regards user interface. However, instantiating it more than once instance is useless - only the dynamic module instance will be used - and may be risky, dependeing on the global configuration.
+This module is a dynamic configurable module for the configurable interfaces. It is used to display the data order cart content. Please Note that his module must be instantiated once, in a dynamic container, to enable the order cart functionnality in regards user interface. However, instantiating it more than once instance is useless - only the dynamic module instance will be used - and may be risky, depending on the global configuration.
   
 ## Module structure
 
@@ -23,9 +23,7 @@ This module is a dynamic configurable module for the configurable interfaces. Th
 
 ## Route
 
-This module is routed as a dynamic module to display order cart content in user interface. It is also used by
-  * User order history module, to show an history order content
-  * Indirectly by admin order history module when displaying one history order content, though history module
+This module is routed as a dynamic module to display order cart content in user interface.
 Static modules are always displayed in the interface layout.
 Dynamic modules are only displayed when the interface route is /modules/:module_id where module_id is the configuration identifier of the module.
 

@@ -22,8 +22,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import { ChartAdapter } from '@regardsoss/adapters'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { StorageCapacityShape } from '../helper/StorageCapacity'
-import StorageUnitScale, { StorageUnitScaleShape } from '../helper/StorageUnit'
+import { storage } from '@regardsoss/units'
 
 /**
  * Displays storage plugin capacity information
@@ -33,13 +32,13 @@ class StoragePluginCapacityComponent extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired, // null or capacity
-    scale: StorageUnitScaleShape,
-    totalSize: StorageCapacityShape, // null or capacity
-    usedSize: StorageCapacityShape,
+    scale: storage.StorageUnitScaleShape,
+    totalSize: storage.StorageCapacityShape, // null or capacity
+    usedSize: storage.StorageCapacityShape,
   }
 
   static defaultProps = {
-    scale: StorageUnitScale.bytesScale,
+    scale: storage.StorageUnitScale.bytesScale,
   }
 
   /** I18N injection & themes */
@@ -47,33 +46,11 @@ class StoragePluginCapacityComponent extends React.Component {
     ...themeContextType, ...i18nContextType,
   }
 
-  /**
-   * Builds I18N label for capacity as parameter
-   */
-  buildI18NCapacity = (capacity) => {
-    const { formatMessage } = this.context.intl
-    if (!capacity) {
-      // unknown capacity
-      return formatMessage({ id: 'archival.storage.capacity.monitoring.capacity.unknown' })
-    }
-    // recover current scale unit
-    const { scale } = this.props
-    // pick up best matching unit in scale
-    const capacityToShow = capacity.scaleAndConvert(scale)
-    const unitLabel = this.buildI18NUnit(capacityToShow.unit)
-    const valueLabel = this.formatNumber(capacityToShow.value)
-    return formatMessage({
-      id: 'archival.storage.capacity.monitoring.capacity',
-    }, {
-      valueLabel,
-      unitLabel,
-    })
+  /** Number format options */
+  static NUMBER_FORMAT_OPTIONS = {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }
-
-  buildI18NUnit = unit => this.context.intl.formatMessage({ id: unit.messageKey })
-
-  /** Formats a number on 2 digits (presentation need) */
-  formatNumber = number => (Math.round(number * 100) / 100).toString()
 
   /**
    * Builds Pie data model for a plugin sizes
@@ -86,7 +63,7 @@ class StoragePluginCapacityComponent extends React.Component {
     let labels
     let data
     let colors
-    const { moduleTheme, intl: { formatMessage } } = this.context
+    const { moduleTheme, intl: { formatMessage, formatNumber } } = this.context
     if (usedSize && totalSize) {
       // A - show both used and used size on storage
       labels = [formatMessage({
@@ -96,7 +73,7 @@ class StoragePluginCapacityComponent extends React.Component {
       })]
       // unused size computation, as percents
       const totalPercent = 100
-      const usedPercentValue = this.formatNumber(usedSize.multiply(totalPercent).divide(totalSize).value)
+      const usedPercentValue = formatNumber(usedSize.multiply(totalPercent).divide(totalSize).value, StoragePluginCapacityComponent.NUMBER_FORMAT_OPTIONS)
       data = [usedPercentValue, totalPercent - usedPercentValue]
       colors = [moduleTheme.chart.curves.usedSizeColor, moduleTheme.chart.curves.unusedSizeColor]
     } else if (totalSize) {
@@ -104,9 +81,9 @@ class StoragePluginCapacityComponent extends React.Component {
       labels = [formatMessage({
         id: 'archival.storage.capacity.monitoring.chart.total.size',
       }, {
-        unitLabel: this.buildI18NUnit(totalSize.unit),
+        unitLabel: this.context.intl.formatMessage({ id: totalSize.unit.messageKey }),
       })]
-      data = [this.formatNumber(totalSize.value)]
+      data = [formatNumber(totalSize.value, StoragePluginCapacityComponent.NUMBER_FORMAT_OPTIONS)]
       colors = [moduleTheme.chart.curves.unusedSizeColor]
     } else {
       // C unknown size, keep graphic but don't show anything except a grey circle
@@ -126,7 +103,7 @@ class StoragePluginCapacityComponent extends React.Component {
   }
 
   render() {
-    const { label, description, totalSize, usedSize } = this.props
+    const { label, description, totalSize, usedSize, scale } = this.props
     const { moduleTheme, muiTheme } = this.context
     const firstCellStyles = Object.assign({}, moduleTheme.table.firstColumn, moduleTheme.table.row)
 
@@ -167,13 +144,13 @@ class StoragePluginCapacityComponent extends React.Component {
               <TableBody displayRowCheckbox={false} style={moduleTheme.table.body}>
                 <TableRow style={firstCellStyles}>
                   <TableRowColumn style={firstCellStyles}>
-                    {this.buildI18NCapacity(totalSize)}
+                    <storage.FormattedStorageCapacity capacity={totalSize && totalSize.scaleAndConvert(scale)} />
                   </TableRowColumn>
                   <TableRowColumn style={moduleTheme.table.row}>
-                    {this.buildI18NCapacity(usedSize)}
+                    <storage.FormattedStorageCapacity capacity={usedSize && usedSize.scaleAndConvert(scale)} />
                   </TableRowColumn>
                   <TableRowColumn style={moduleTheme.table.row}>
-                    {this.buildI18NCapacity(usedSize && totalSize ? totalSize.subtract(usedSize) : null)}
+                    <storage.FormattedStorageCapacity capacity={usedSize && totalSize && totalSize.subtract(usedSize).scaleAndConvert(scale)} />
                   </TableRowColumn>
                 </TableRow>
               </TableBody>

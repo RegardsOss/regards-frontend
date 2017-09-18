@@ -1,8 +1,8 @@
-# @regardsoss/news
+# @regardsoss/order-history
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. This module is used to display the history of user orders (carts)content and -internally- to show all users history in administration interface. Please Note that this module must be instantiated once to enable the order cart history functionnality in regards user interface. Although it is not forbidden, instantiating it more than once seems meaningless.
+This module is a dynamic configurable module for the configurable interfaces. This module is used to display the history of user orders (carts)content and -internally- to show all users history in administration interface.
   
 ## Module structure
 
@@ -23,8 +23,7 @@ This module is a dynamic configurable module for the configurable interfaces. Th
 
 ## Route
 
-This module is routed as a dynamic module to show user order history. It is also used by admin order history module when displaying all users history
-Static modules are always displayed in the interface layout.
+This module is routed as a dynamic module to show user order history.
 Dynamic modules are only displayed when the interface route is /modules/:module_id where module_id is the configuration identifier of the module.
 
 ## Exposed functions

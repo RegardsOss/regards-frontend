@@ -55,17 +55,17 @@ class CartSelectorComponent extends React.Component {
 
     // compute label for current count
     const elementsCountLabel = notifications < CartSelectorComponent.MAX_ELEMENTS_COUNT ? notifications :
-      formatMessage({ id: 'menu.form.cart.max.count' }, { maxCount: CartSelectorComponent.MAX_ELEMENTS_COUNT })
+      formatMessage({ id: 'user.menu.cart.max.count' }, { maxCount: CartSelectorComponent.MAX_ELEMENTS_COUNT })
 
     // compute tooltip for current count
     const elementsCountTooltip = notifications ?
-      formatMessage({ id: 'menu.form.displaycart.elements.count.tooltip' }, { elementsCount: notifications }) :
-      formatMessage({ id: 'menu.form.displaycart.empty.tooltip' })
+      formatMessage({ id: 'user.menu.displaycart.elements.count.tooltip' }, { elementsCount: notifications }) :
+      formatMessage({ id: 'user.menu.displaycart.empty.tooltip' })
 
     // render
     return (
       <IconButton
-        title={formatMessage({ id: 'menu.form.displaycart' }, { elementsCountTooltip })}
+        title={formatMessage({ id: 'user.menu.displaycart.tooltip' }, { elementsCountTooltip })}
         style={cart.iconButton.style}
         iconStyle={cart.iconButton.iconStyle}
         onClick={onCartClicked}

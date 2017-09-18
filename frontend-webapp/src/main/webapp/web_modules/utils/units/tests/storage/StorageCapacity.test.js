@@ -18,8 +18,8 @@
  */
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import StorageUnitScale from '../../src/helper/StorageUnit'
-import StorageCapacity from '../../src/helper/StorageCapacity'
+import { StorageUnitScale } from '../../src/storage/StorageUnit'
+import { StorageCapacity } from '../../src/storage/StorageCapacity'
 
 // Test capacity functions a components rendering
 describe('[STORAGE PLUGINS MONITORING] Testing capacity object', () => {

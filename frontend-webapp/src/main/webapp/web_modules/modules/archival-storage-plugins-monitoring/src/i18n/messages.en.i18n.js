@@ -16,7 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { storage } from '@regardsoss/units'
+
+/**
+ * English local messages for module. Note: we also merge the storage unit messages to
+ * internationalize 'expicitely' units in charts
+ * @author Raphaël Mechali
+ */
 const messages = {
+  ...storage.messages.en,
+  // module messages
   'archival.storage.capacity.monitoring.title': 'Storage capacity',
   'archival.storage.capacity.monitoring.units.scale.bits': 'Bits',
   'archival.storage.capacity.monitoring.units.scale.bits.si.prefix': 'Bits with binary prefix',
@@ -31,46 +40,6 @@ const messages = {
   'archival.storage.capacity.monitoring.chart.used.size': 'Used space (%)',
   'archival.storage.capacity.monitoring.chart.unused.size': 'Unused space (%)',
   'archival.storage.capacity.monitoring.chart.unknown.size': 'No size information',
-  'archival.storage.capacity.monitoring.capacity.unknown': 'unknown',
-  'archival.storage.capacity.monitoring.capacity': '{valueLabel} {unitLabel}',
-  // bits
-  'archival.storage.capacity.monitoring.unit.b': 'b',
-  'archival.storage.capacity.monitoring.unit.kb': 'kb',
-  'archival.storage.capacity.monitoring.unit.mb': 'mb',
-  'archival.storage.capacity.monitoring.unit.gb': 'gb',
-  'archival.storage.capacity.monitoring.unit.tb': 'tb',
-  'archival.storage.capacity.monitoring.unit.pb': 'pb',
-  'archival.storage.capacity.monitoring.unit.eb': 'eb',
-  'archival.storage.capacity.monitoring.unit.zb': 'zb',
-  'archival.storage.capacity.monitoring.unit.yb': 'yb',
-  // bits SI
-  'archival.storage.capacity.monitoring.unit.kib': 'kib',
-  'archival.storage.capacity.monitoring.unit.mib': 'mib',
-  'archival.storage.capacity.monitoring.unit.gib': 'gib',
-  'archival.storage.capacity.monitoring.unit.tib': 'tib',
-  'archival.storage.capacity.monitoring.unit.pib': 'pib',
-  'archival.storage.capacity.monitoring.unit.eib': 'eib',
-  'archival.storage.capacity.monitoring.unit.zib': 'zib',
-  'archival.storage.capacity.monitoring.unit.yib': 'yib',
-  // bytes
-  'archival.storage.capacity.monitoring.unit.B': 'b',
-  'archival.storage.capacity.monitoring.unit.KB': 'KB',
-  'archival.storage.capacity.monitoring.unit.MB': 'MB',
-  'archival.storage.capacity.monitoring.unit.GB': 'GB',
-  'archival.storage.capacity.monitoring.unit.TB': 'TB',
-  'archival.storage.capacity.monitoring.unit.PB': 'PB',
-  'archival.storage.capacity.monitoring.unit.EB': 'EB',
-  'archival.storage.capacity.monitoring.unit.ZB': 'ZB',
-  'archival.storage.capacity.monitoring.unit.YB': 'YB',
-  // bytes SI
-  'archival.storage.capacity.monitoring.unit.KiB': 'KiB',
-  'archival.storage.capacity.monitoring.unit.MiB': 'MiB',
-  'archival.storage.capacity.monitoring.unit.GiB': 'GiB',
-  'archival.storage.capacity.monitoring.unit.TiB': 'TiB',
-  'archival.storage.capacity.monitoring.unit.PiB': 'PiB',
-  'archival.storage.capacity.monitoring.unit.EiB': 'EiB',
-  'archival.storage.capacity.monitoring.unit.ZiB': 'ZiB',
-  'archival.storage.capacity.monitoring.unit.YiB': 'YiB',
 }
 
 export default messages
