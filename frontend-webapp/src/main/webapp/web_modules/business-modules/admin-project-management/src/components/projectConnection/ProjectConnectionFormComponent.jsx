@@ -26,8 +26,8 @@ import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActi
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
 import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage, ValidationHelpers } from '@regardsoss/form-utils'
 
-const { required, number } = ValidationHelpers
-const requiredNumber = [required, number]
+const { required, intNumber } = ValidationHelpers
+const requiredIntNumber = [required, intNumber]
 
 /**
  * Reusable {@link ProjectConnection} form for reading, editing, creating.
@@ -174,9 +174,9 @@ export class ProjectConnectionFormComponent extends React.Component {
           name="port"
           fullWidth
           component={RenderTextField}
-          type="number"
+          type="string"
           label={this.context.intl.formatMessage({ id: 'database.form.input.port' })}
-          validate={requiredNumber}
+          validate={requiredIntNumber}
           normalize={trim}
         />
         <Field
@@ -242,11 +242,6 @@ validate(values) {
   }
   if (!values.address) {
     errors.address = ErrorTypes.REQUIRED
-  }
-  if (!values.port) {
-    errors.port = ErrorTypes.REQUIRED
-  } else if (isNaN(values.port)) {
-    errors.port = ErrorTypes.NUMERIC
   }
   if (!values.db_name) {
     errors.db_name = ErrorTypes.REQUIRED

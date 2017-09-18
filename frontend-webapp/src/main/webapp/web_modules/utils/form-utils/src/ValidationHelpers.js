@@ -85,14 +85,6 @@ export const required = value => !isNil(value) && value !== '' ? undefined : Err
 export const string = value => isString(value) || isNil(value) ? undefined : ErrorTypes.TYPE_STRING
 
 /**
- * Redux-Form-style validator for Fields which content must be a number.
- *
- * @param {String} value
- * @returns {String||undefined}
- */
-export const number = value => (isNumber(value) && isFinite(value)) || isNil(value) ? undefined : ErrorTypes.NUMERIC
-
-/**
  * Redux-Form-style validator for Fields which content must not be empty.
  *
  * @param {String} value
@@ -164,6 +156,15 @@ export const lessThan = pNumber => value => isNil(value) || value <= pNumber ? u
  */
 export const moreThan = pNumber => value => isNil(value) || value >= pNumber ? undefined : ErrorTypes.moreThan(pNumber)
 
+/** Regexp to match a number */
+const NUMBER_REGEXP = /^[0-9.,]*$/
+
+/** Regexp to match a number */
+const INTEGER_REGEXP = /^[0-9]*$/
+
+/** Parse int function bound to base 10  */
+const parseInt10 = partialRight(parseInt, 10)
+
 /**
  * Validates a parsable number
  * @param parser parser like {string} => {number}
@@ -173,9 +174,12 @@ export const moreThan = pNumber => value => isNil(value) || value >= pNumber ? u
  * @param {*} max max accepted value
  * @return value validator like {string} => {string|undefined}
  */
-const parsableNumberValidator = (parser, parsingError, min, max) =>
+const parsableNumberValidator = (parser, parsingError, min, max, regexp = NUMBER_REGEXP) =>
   (value) => {
-    if (value) {
+    if (isString(value)) { // string input
+      if (!value.match(regexp)) { // forbid any non numeric character
+        return parsingError
+      }
       const parsed = parser(value)
       if (Number.isNaN(parsed)) {
         return parsingError
@@ -184,18 +188,26 @@ const parsableNumberValidator = (parser, parsingError, min, max) =>
       } else if (parsed > max) {
         return ErrorTypes.GREATER_THAN_MAX
       }
+    } else if (!isNumber(value)) { // non handled type
+      return parsingError
     }
     return undefined // no error
   }
 
+/** Validates a JS number */
+export const number = parsableNumberValidator(parseFloat, ErrorTypes.NUMERIC, Number.MIN_VALUE, Number.MAX_VALUE)
+
+/** Validates a JS integer number */
+export const intNumber = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, INTEGER_REGEXP)
+
 /** Validates a standard Java byte */
-const javaByteValidator = parsableNumberValidator(partialRight(parseInt, 10), ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 7), (2 ** 7) - 1)
+const javaByteValidator = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 7), (2 ** 7) - 1, INTEGER_REGEXP)
 /** Validates a standard Java Short */
-const javaShortValidator = parsableNumberValidator(partialRight(parseInt, 10), ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 15), (2 ** 15) - 1)
+const javaShortValidator = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 15), (2 ** 15) - 1, INTEGER_REGEXP)
 /** Validates a standard Java Integer */
-const javaIntegerValidator = parsableNumberValidator(partialRight(parseInt, 10), ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 31), (2 ** 31) - 1)
+const javaIntegerValidator = parsableNumberValidator(parseInt10, ErrorTypes.INVALID_INTEGER_NUMBER, -(2 ** 31), (2 ** 31) - 1, INTEGER_REGEXP)
 /** Validates a standard Java Long. Please note that Java long is greater than max safe value in JS, so we limit it to JS value */
-const javaLongValidator = parsableNumberValidator(partialRight(parseInt, 10), ErrorTypes.INVALID_INTEGER_NUMBER, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER)
+const javaLongValidator = intNumber
 
 /** Validates a standard Float Double. Please note that Java double is (slightly) greater than max JS value, so we limit it to JS value */
 const javaDoubleValidator = parsableNumberValidator(parseFloat, ErrorTypes.INVALID_FLOATING_NUMBER, Number.MIN_VALUE, Number.MAX_VALUE)
@@ -227,6 +239,7 @@ export default {
   lessThan,
   moreThan,
   number,
+  intNumber,
   url,
   characterValidator,
   javaByteValidator,
