@@ -12,6 +12,9 @@ RUN chmod +x /install.sh \
 	# Configure npm by allowing root to use npm
  && echo "unsafe-perm=true" > ~/.npmrc \
 	# Use our own registry
+ && npm config set proxy http://proxy2.si.c-s.fr:3128/ \
+ && npm config set https-proxy http://proxy2.si.c-s.fr:3128/ \
+ && npm config set strict-ssl false \
  #&& npm config set strict-ssl false \
  #&& npm config set registry "https://172.26.46.158:8443/repository/NPM-proxy/" \
     # Fix npm link permissions : https://github.com/npm/npm/issues/13306#issuecomment-236876133
