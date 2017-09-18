@@ -12,8 +12,8 @@ RUN chmod +x /install.sh \
 	# Configure npm by allowing root to use npm
  && echo "unsafe-perm=true" > ~/.npmrc \
 	# Use our own registry
- && npm config set strict-ssl false \
- && npm config set registry "https://172.26.46.158:8443/repository/NPM-proxy/" \
+ #&& npm config set strict-ssl false \
+ #&& npm config set registry "https://172.26.46.158:8443/repository/NPM-proxy/" \
     # Fix npm link permissions : https://github.com/npm/npm/issues/13306#issuecomment-236876133
  && cd $(npm root -g)/npm \
  && npm install fs-extra \
