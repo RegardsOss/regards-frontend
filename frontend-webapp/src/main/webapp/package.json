@@ -129,6 +129,7 @@
     "react-infinite": "^0.11.0",
     "react-intl": "~2.3.0",
     "react-markdown": "^2.5.0",
+    "react-material-color-picker": "^1.1.0",
     "react-measure": "~1.4.7",
     "react-redux": "~5.0.4",
     "react-resizable": "~1.7.0",
