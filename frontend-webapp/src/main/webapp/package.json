@@ -185,7 +185,7 @@
     "mocha": "~3.5.0",
     "mocha-loader": "~1.1.1",
     "mocha-sonar-reporter": "~0.1.6",
-    "mocha-webpack": "^1.0.0-rc.0",
+    "mocha-webpack": "^1.0.0-rc.1",
     "mochawesome": "^2.3.0",
     "nock": "~9.0.13",
     "node-http-proxy": "^0.2.3",
