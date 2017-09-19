@@ -19,7 +19,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'service.list.title': 'Liste des plugins IHM service',
+  'service.list.title': 'Services IHM',
   'service.list.open.tooltip': 'Configurations',
   'service.list.create.tooltip': 'Créer',
 
@@ -45,7 +45,7 @@ const messages = Object.assign({
   'service.listconf.plugin.url': 'Url: {value}',
   'service.listconf.delete.confirm.title': 'Supprimer la configuration ?',
 
-  'service.form.create.title': 'Creation d\'une configuration de service',
+  'service.form.create.title': 'Création d\'une configuration de service',
   'service.form.edit.title': 'Edition de la configuration de service {name}',
   'service.form.duplicate.title': 'Duplication à partir de la configuration de service {name}',
   'service.form.subtitle': 'Les services ont deux types de variable en entrée: celle que vous fixez ici même dans ce formulaire (variables statiques) et les variables fixées par l\'utilisateur final (variables dynamiques). Pour les variables dynamiques, vous pouvez saisir la valeur par défaut',

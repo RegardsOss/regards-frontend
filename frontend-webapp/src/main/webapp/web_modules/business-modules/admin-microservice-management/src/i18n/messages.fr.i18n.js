@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -57,7 +57,7 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.form.edit.title': 'Editer la configuration',
   'microservice-management.plugin.configuration.form.pluginClassName': 'Classe du plugin (chemin complet)',
   'microservice-management.plugin.configuration.form.label': 'Label *',
-  'microservice-management.plugin.configuration.form.version': 'Version',
+  'microservice-management.plugin.configuration.form.version': 'Version *',
   'microservice-management.plugin.configuration.form.priorityOrder': 'Priorité *',
   'microservice-management.plugin.configuration.form.icon': 'Icône (lien http)',
   'microservice-management.plugin.configuration.form.active': 'Activée',

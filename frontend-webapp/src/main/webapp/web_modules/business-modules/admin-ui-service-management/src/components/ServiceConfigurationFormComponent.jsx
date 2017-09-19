@@ -31,7 +31,7 @@ import FieldsBuilderComponent from './FieldsBuilderComponent'
 import moduleStyles from '../styles/styles'
 
 const styles = moduleStyles()
-const labelValidators = [ValidationHelpers.required, ValidationHelpers.string]
+const labelValidators = [ValidationHelpers.required, ValidationHelpers.string, ValidationHelpers.lengthLessThan(32)]
 
 /**
  * React component to list connections.

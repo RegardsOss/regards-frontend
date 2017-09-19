@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 
 /**
@@ -35,7 +35,9 @@ const messages = Object.assign({
   'plugin.form.cancel.button': 'Annuler',
   'plugin.form.submit.error.invalid.plugin': ' Le plugin ne correspond pas à un plugin valide',
   'plugin.form.submit.error': 'Erreur durant la sauvegarde du plugin',
-  'plugins.list.delete.message': 'Suppression du plugin {name}',
+  'plugin.form.delete': 'Supprimer',
+  'plugin.form.edit': 'Editer',
+  'plugins.list.delete.message': 'Supprimer le plugin {name} ?',
   'plugins.list.title': 'Plugins',
   'plugins.list.subtitle': 'Définissez des critères de recherche ou des services avec ces plugins',
   'plugins.list.table.name': 'Nom',

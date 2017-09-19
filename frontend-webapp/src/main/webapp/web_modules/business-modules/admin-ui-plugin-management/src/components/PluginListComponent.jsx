@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
@@ -126,6 +126,7 @@ class PluginListComponent extends React.Component {
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.UPDATE}
                       onTouchTap={() => this.props.onEdit(plugin.content)}
+                      title={this.context.intl.formatMessage({ id: 'plugin.form.edit' })}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
@@ -133,6 +134,7 @@ class PluginListComponent extends React.Component {
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.DELETE}
                       onTouchTap={() => this.openDeleteDialog(plugin.content)}
+                      title={this.context.intl.formatMessage({ id: 'plugin.form.delete' })}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>
