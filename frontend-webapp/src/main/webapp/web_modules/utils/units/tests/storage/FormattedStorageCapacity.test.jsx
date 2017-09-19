@@ -39,9 +39,9 @@ describe('[Units] Testing FormattedStorageCapacity', () => {
     shallow(<FormattedStorageCapacity />, { context })
   })
   const capacities = [
-    StorageCapacity.fromValue('10b'),
-    StorageCapacity.fromValue('30Mo'),
-    StorageCapacity.fromValue('70Gio'),
+    '10b',
+    '30Mo',
+    '70Gio',
   ]
   capacities.forEach(capacity =>
     it(`should render correctly with capacity: ${capacity}`, () => {

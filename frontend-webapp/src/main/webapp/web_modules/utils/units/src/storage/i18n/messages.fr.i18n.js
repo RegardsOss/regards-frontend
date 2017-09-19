@@ -24,6 +24,12 @@
 const messages = {
   'storage.capacity.monitoring.capacity': '{valueLabel} {unitLabel}',
   'storage.capacity.monitoring.capacity.unknown': '-',
+  // scales families
+  'storage.capacity.monitoring.title': 'Capacité de stockage',
+  'storage.capacity.monitoring.units.scale.bits': 'Bits',
+  'storage.capacity.monitoring.units.scale.bits.si.prefix': 'Bits avec préfixe binaire',
+  'storage.capacity.monitoring.units.scale.bytes': 'Octets',
+  'storage.capacity.monitoring.units.scale.bytes.si.prefix': 'Octets avec préfixe binaire',
   // bits
   'storage.capacity.monitoring.unit.b': 'b',
   'storage.capacity.monitoring.unit.kb': 'Kb',

@@ -26,11 +26,6 @@ import { storage } from '@regardsoss/units'
 const messages = {
   ...storage.messages.en,
   // module messages
-  'archival.storage.capacity.monitoring.title': 'Storage capacity',
-  'archival.storage.capacity.monitoring.units.scale.bits': 'Bits',
-  'archival.storage.capacity.monitoring.units.scale.bits.si.prefix': 'Bits with binary prefix',
-  'archival.storage.capacity.monitoring.units.scale.bytes': 'Bytes',
-  'archival.storage.capacity.monitoring.units.scale.bytes.si.prefix': 'Bytes with binary prefix',
   // table
   'archival.storage.capacity.monitoring.table.total.size': 'Total space',
   'archival.storage.capacity.monitoring.table.used.size': 'Used space',

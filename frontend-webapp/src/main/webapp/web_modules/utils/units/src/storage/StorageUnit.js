@@ -113,7 +113,7 @@ class StorageUnitScale {
    * @returns {string}
    */
   get messageKey() {
-    return `archival.storage.capacity.monitoring.units.scale.${this.id}`
+    return `storage.capacity.monitoring.units.scale.${this.id}`
   }
 
 }
