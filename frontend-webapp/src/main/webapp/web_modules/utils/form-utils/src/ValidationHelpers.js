@@ -166,31 +166,39 @@ const parseInt10 = partialRight(parseInt, 10)
 
 /**
  * Validates a parsable number
- * @param parser parser like {string} => {number}
- * @param parsingError parsing error
+ * @param {function} parser parser like {string} => {number}
+ * @param {string} parsingError parsing error
  * @param {*} value value
- * @param {*} min min accepted value
- * @param {*} max max accepted value
- * @return value validator like {string} => {string|undefined}
+ * @param {number} min min accepted value
+ * @param {string} max max accepted value
+ * @return {function} value validator like {string} => {string|undefined}
  */
 const parsableNumberValidator = (parser, parsingError, min, max, regexp = NUMBER_REGEXP) =>
   (value) => {
-    if (isString(value)) { // string input
-      if (!value.match(regexp)) { // forbid any non numeric character
-        return parsingError
+    if (value) {
+      let asNumberValue = null
+      // 1 - compute value to consider
+      if (isString(value)) {
+        // string input
+        asNumberValue = value.match(regexp) ? parser(value) : Number.NaN
+      } else if (isNumber(value)) {
+        // number input
+        asNumberValue = value
+      } else {
+        // non handled type
+        asNumberValue = Number.NaN
       }
-      const parsed = parser(value)
-      if (Number.isNaN(parsed)) {
+      // 2 - check value
+      if (!isNumber(asNumberValue) || !isFinite(asNumberValue) || isNaN(asNumberValue)) {
         return parsingError
-      } else if (parsed < min) {
+      } else if (asNumberValue < min) {
         return ErrorTypes.LOWER_THAN_MIN
-      } else if (parsed > max) {
+      } else if (asNumberValue > max) {
         return ErrorTypes.GREATER_THAN_MAX
       }
-    } else if (!isNumber(value)) { // non handled type
-      return parsingError
     }
-    return undefined // no error
+    // no error
+    return undefined
   }
 
 /** Validates a JS number */
