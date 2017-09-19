@@ -78,11 +78,8 @@ class StoragePluginCapacityComponent extends React.Component {
       colors = [moduleTheme.chart.curves.usedSizeColor, moduleTheme.chart.curves.unusedSizeColor]
     } else if (totalSize) {
       // B - show total size as used size is not available
-      labels = [formatMessage({
-        id: 'archival.storage.capacity.monitoring.chart.total.size',
-      }, {
-        unitLabel: this.context.intl.formatMessage({ id: totalSize.unit.messageKey }),
-      })]
+      labels = [formatMessage({ id: 'archival.storage.capacity.monitoring.chart.total.size' },
+        { unitLabel: this.context.intl.formatMessage({ id: totalSize.unit.messageKey }) })]
       data = [formatNumber(totalSize.value, StoragePluginCapacityComponent.NUMBER_FORMAT_OPTIONS)]
       colors = [moduleTheme.chart.curves.unusedSizeColor]
     } else {

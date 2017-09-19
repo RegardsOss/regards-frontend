@@ -19,11 +19,14 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Table } from 'material-ui/Table'
-import { IntlStub, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { storage } from '@regardsoss/units'
 import { ChartAdapter } from '@regardsoss/adapters'
 import StoragePluginCapacityComponent from '../../src/components/StoragePluginCapacityComponent'
 import styles from '../../src/styles/styles'
+
+
+const context = buildTestContext(styles)
 
 describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', () => {
   before(testSuiteHelpers.before)
@@ -32,38 +35,6 @@ describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', 
   it('should exists', () => {
     assert.isDefined(StoragePluginCapacityComponent)
   })
-  // define context
-  let unknownCount = 0
-  const unknownTextKey = 'archival.storage.capacity.monitoring.capacity.unknown'
-  const context = {
-    intl: Object.assign({}, IntlStub, {
-      // replace formatMessage to spy it
-      formatMessage: (message) => {
-        // mark unknown instance count
-        if (message.id === unknownTextKey) {
-          unknownCount += 1
-        }
-        return message.id
-      },
-    }),
-    muiTheme: {
-      palette: {
-        textColor: {},
-        canvas: {},
-      },
-      card: {},
-      muiTheme: {
-        palette: {
-          textColor: {},
-          canvas: {},
-        },
-        appBar: {
-          textColor: {},
-        },
-      },
-    },
-    moduleTheme: styles({}),
-  }
 
   it('Should render properly', () => {
     const enzymeWrapper = shallow(<StoragePluginCapacityComponent
@@ -77,19 +48,27 @@ describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginCapacityComponent', 
     expect(enzymeWrapper.find(Table)).to.have.length(1)
     // check one pie chart is built for the plugin
     expect(enzymeWrapper.find(ChartAdapter)).to.have.length(1)
-    // assert there was no unknown
-    assert.equal(unknownCount, 0, 'There should be no unknown values here')
+    // there should be 3 capacity formatters
+    const capacityFormatters = enzymeWrapper.find(storage.FormattedStorageCapacity)
+    assert(capacityFormatters.length, 3, 'There should be 3 capacity formatters')
+    // they should all be defined
+    capacityFormatters.forEach((formatter, index) => {
+      assert.isOk(formatter.props().capacity, `The formatter capacity should be defined at ${index}`)
+    })
   })
 
-  it('Should internationalize unknown values', () => {
-    shallow(<StoragePluginCapacityComponent
+  it('Should render unknown values', () => {
+    const enzymeWrapper = shallow(<StoragePluginCapacityComponent
       label="A label"
       description="A description"
       totalSize={null}
       usedSize={null}
     />, { context })
 
-    // check text is marked as unknown 3 times (total, unused and used size columns)
-    assert.equal(unknownCount, 3, 'There should be 3 unknown values internationalize here')
+    const capacityFormatters = enzymeWrapper.find(storage.FormattedStorageCapacity)
+    assert(capacityFormatters.length, 3, 'There should be 3 capacity formatters')
+    // check that all capacities are unknown
+    const firstDefinedElement = capacityFormatters.map(formatter => formatter.props().capacity).find(capacity => !!capacity)
+    assert.isNotOk(firstDefinedElement, `There should be no capacity defined but we have found ${firstDefinedElement}`)
   })
 })
