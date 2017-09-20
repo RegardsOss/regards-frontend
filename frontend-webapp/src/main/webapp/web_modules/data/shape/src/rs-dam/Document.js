@@ -44,5 +44,5 @@ const DocumentList = PropTypes.objectOf(Document)
 export default {
   Document,
   DocumentContent,
-  DocumentList
+  DocumentList,
 }

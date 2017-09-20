@@ -38,6 +38,7 @@ import DocumentStepperContainer from '../containers/DocumentStepperContainer'
 export class DocumentEditLinksComponent extends React.Component {
 
   static propTypes = {
+    currentDocument: DataManagementShapes.Document,
     linkedCollections: DataManagementShapes.CollectionArray,
     remainingCollections: DataManagementShapes.CollectionArray,
     handleAdd: PropTypes.func.isRequired,
@@ -70,8 +71,8 @@ export class DocumentEditLinksComponent extends React.Component {
           <div className="row">
             <div className="col-sm-50">
               <List>
-                <Subheader><FormattedMessage id="document.form.links.document.subtitle" /></Subheader>
-                {map(linkedCollections, (collection) => (
+                <Subheader><FormattedMessage id="document.form.links.collection.subtitle" /></Subheader>
+                {map(linkedCollections, collection => (
                   <ListItem
                     key={collection.content.ipId}
                     primaryText={collection.content.label}
@@ -87,11 +88,11 @@ export class DocumentEditLinksComponent extends React.Component {
             </div>
             <div className="col-sm-50">
               <List>
-                <Subheader><FormattedMessage id="document.form.links.remainingdocument.subtitle" /></Subheader>
+                <Subheader><FormattedMessage id="document.form.links.remainingcollection.subtitle" /></Subheader>
                 <ListItem
                   primaryText={
                     <TextField
-                      hintText={this.context.intl.formatMessage({ id: 'document.form.links.remainingdocument.search' })}
+                      hintText={this.context.intl.formatMessage({ id: 'document.form.links.remainingcollection.search' })}
                       onChange={handleSearch}
                       fullWidth
                     />

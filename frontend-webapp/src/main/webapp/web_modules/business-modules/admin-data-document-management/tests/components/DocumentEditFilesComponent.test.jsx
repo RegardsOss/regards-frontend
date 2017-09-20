@@ -19,35 +19,37 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { DocumentListContainer } from '../../src/containers/DocumentListContainer'
+import { ListItem } from 'material-ui/List'
+import { DocumentEditFilesComponent } from '../../src/components/DocumentEditFilesComponent'
+import DocumentStepperContainer from '../../src/containers/DocumentStepperContainer'
+import { Field } from '@regardsoss/form-utils'
 
 
-describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing DocumentListContainer', () => {
+describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DocumentListContainer)
-    assert.isDefined(LoadableContentDisplayDecorator)
+    assert.isDefined(DocumentEditFilesComponent)
   })
   const context = buildTestContext()
 
   it('Render properly', () => {
     const props = {
-      params: {
-        project: 'someprocjet',
-      },
-      // from mapStateToProps
-      documentList: DumpProvider.get('DataManagementClient', 'Document'),
-      isFetching: false,
-      // from mapDispatchToProps
-      fetchDocumentList: () => {},
-      deleteDocument: () => {},
+      document: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
+      handleDeleteDocFile: () => {},
+      onSubmit: () => {},
+      backUrl: '#',
+      unregisterField: () => {},
 
+      // from reduxForm
+      submitting: false,
+      invalid: false,
+      handleSubmit: () => {},
     }
-    const enzymeWrapper = shallow(<DocumentListContainer {...props} />, { context })
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
-    assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
+    const enzymeWrapper = shallow(<DocumentEditFilesComponent {...props} />, { context })
+    expect(enzymeWrapper.find(ListItem)).to.have.length(2)
+    expect(enzymeWrapper.find(DocumentStepperContainer)).to.have.length(1)
+    expect(enzymeWrapper.find(Field)).to.have.length(1)
   })
 })

@@ -19,29 +19,30 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
-import { TableRow } from 'material-ui/Table'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { DocumentStepperContainer } from '../../src/containers/DocumentStepperContainer'
 import DocumentListComponent from '../../src/components/DocumentListComponent'
+import { Step } from 'material-ui/Stepper'
 
-describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing DocumentListComponent', () => {
+describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentStepperContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
+
   it('should exists', () => {
-    assert.isDefined(DocumentListComponent)
+    assert.isDefined(DocumentStepperContainer)
+    assert.isDefined(Step)
   })
   const context = buildTestContext()
 
   it('Render properly', () => {
     const props = {
-      documentList: DumpProvider.get('DataManagementClient', 'Document'),
-      handleDelete: () => {},
-      handleEdit: () => {},
-      handleDuplicate: () => {},
-      createUrl: '#',
-      backUrl: '#',
+      stepIndex: 1,
+      isEditing: true,
+      currentDocumentId: 4,
+      projectName: 'lambda',
     }
-
-    const enzymeWrapper = shallow(<DocumentListComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TableRow)).to.have.length(4)
+    const enzymeWrapper = shallow(<DocumentStepperContainer {...props} />, { context })
+    expect(enzymeWrapper.find(Step)).to.have.length(3)
   })
 })

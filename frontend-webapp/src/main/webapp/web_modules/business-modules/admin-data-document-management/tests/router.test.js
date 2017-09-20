@@ -22,18 +22,20 @@ import Routes from '../src/router'
 import DocumentFormContainer from '../src/containers/DocumentFormContainer'
 import DocumentListContainer from '../src/containers/DocumentListContainer'
 import DocumentEditLinksContainer from '../src/containers/DocumentEditLinksContainer'
+import DocumentEditFilesContainer from '../src/containers/DocumentEditFilesContainer'
 
-describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing router', () => {
+describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(4)
+    expect(Routes.childRoutes).to.have.length(5)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq('create')
-    expect(Routes.childRoutes[2].path).to.eq(':documentId/links')
-    expect(Routes.childRoutes[3].path).to.eq(':documentId/:mode')
+    expect(Routes.childRoutes[2].path).to.eq(':documentId/files')
+    expect(Routes.childRoutes[3].path).to.eq(':documentId/links')
+    expect(Routes.childRoutes[4].path).to.eq(':documentId/:mode')
   })
   it('list should return DocumentListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -47,14 +49,20 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('edit links should return DocumentEditLinksContainer', (done) => {
+  it('edit links should return DocumentEditFilesContainer', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(DocumentEditFilesContainer)
+      done()
+    })
+  })
+  it('edit links should return DocumentEditLinksContainer', (done) => {
+    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(DocumentEditLinksContainer)
       done()
     })
   })
   it('create should return DocumentFormContainer', (done) => {
-    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(DocumentFormContainer)
       done()
     })

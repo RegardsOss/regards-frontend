@@ -60,7 +60,6 @@ export class DocumentListContainer extends React.Component {
   }
 
 
-
   render() {
     return (
       <I18nProvider messages={messages}>

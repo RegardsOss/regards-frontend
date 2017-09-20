@@ -42,6 +42,7 @@ import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-admin/Wa
 import AccessGroupDump from '@regardsoss/client/tests/rs-dam/AccessGroup.dump'
 import UserGroupDump from '@regardsoss/client/tests/rs-dam/UserGroup.dump'
 import AccessRightDump from '@regardsoss/client/tests/rs-dam/AccessRight.dump'
+import DocumentDump from '@regardsoss/client/tests/rs-dam/Document.dump'
 
 import {
 
@@ -105,6 +106,9 @@ import {
 
   COLLECTION_ARRAY,
   CollectionConfiguration,
+
+  DOCUMENT_ARRAY,
+  DocumentConfiguration,
 
   LINK_UI_PLUGIN_DATASET_ARRAY,
   LinkUIPluginDatasetConfiguration,
@@ -265,6 +269,12 @@ export default {
       dump: CollectionDump,
       ENTITY_ARRAY: COLLECTION_ARRAY,
       normalizrKey: CollectionConfiguration.normalizrKey,
+    },
+    Document: {
+      isPageable: true,
+      dump: DocumentDump,
+      ENTITY_ARRAY: DOCUMENT_ARRAY,
+      normalizrKey: DocumentConfiguration.normalizrKey,
     },
     ModelAttributesComputationTypes: {
       isPageable: false,

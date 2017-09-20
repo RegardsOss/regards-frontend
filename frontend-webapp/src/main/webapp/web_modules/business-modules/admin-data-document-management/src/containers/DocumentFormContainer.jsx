@@ -199,7 +199,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchDocument: id => dispatch(documentActions.fetchEntity(id)),
-  createDocument: (values) => dispatch(documentActions.createEntity(values)),
+  createDocument: values => dispatch(documentActions.createEntity(values)),
   updateDocument: (id, values) => dispatch(documentActions.updateEntity(id, values)),
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.DOCUMENT })),
   fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),

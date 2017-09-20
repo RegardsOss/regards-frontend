@@ -65,7 +65,6 @@ export const editDocumentFilesRoute = {
 }
 
 
-
 export const editDocumentRoute = {
   path: ':documentId/:mode',
   getComponents(nextState, cb) {

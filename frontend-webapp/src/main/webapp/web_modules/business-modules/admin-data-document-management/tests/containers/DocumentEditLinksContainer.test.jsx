@@ -20,45 +20,37 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { DocumentFormContainer } from '../../src/containers/DocumentFormContainer'
+import { DocumentEditLinksContainer } from '../../src/containers/DocumentEditLinksContainer'
 
-describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing DocumentFormContainer', () => {
+const context = buildTestContext()
+
+describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DocumentFormContainer)
+    assert.isDefined(DocumentEditLinksContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
-  const context = buildTestContext()
-
   it('Render properly', () => {
     const props = {
       // from router
       params: {
         project: 'lambda',
         documentId: DumpProvider.getFirstEntityKey('DataManagementClient', 'Document'),
-        mode: 'duplicate',
       },
       // from mapStateToProps
       currentDocument: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
-      isFetchingDocument: false,
-      isFetchingModelAttribute: false,
-      isFetchingModel: false,
-      modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
-      modelList: DumpProvider.get('DataManagementClient', 'Model'),
-      // from redux-form
-      unregisterField: () => {},
+      collectionList: DumpProvider.get('DataManagementClient', 'Collection'),
       // from mapDispatchToProps
-      createDocument: () => {},
-      updateDocument: () => {},
+      removeTagFromDocument: () => {},
+      addTagToDocument: () => {},
       fetchDocument: () => {},
-      fetchModelList: () => {},
-      fetchModelAttributeList: () => {},
+      fetchCollectionList: () => {},
     }
-    const enzymeWrapper = shallow(<DocumentFormContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<DocumentEditLinksContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
+    enzymeWrapper.instance().setState({ isLoading: false })
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
   })
 })
-

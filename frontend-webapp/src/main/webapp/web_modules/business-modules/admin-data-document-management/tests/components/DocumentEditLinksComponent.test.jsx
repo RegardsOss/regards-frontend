@@ -18,13 +18,13 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import { ListItem } from 'material-ui/List'
 import DocumentEditLinksComponent from '../../src/components/DocumentEditLinksComponent'
-import DocumentStepperComponent from '../../src/components/DocumentStepperComponent'
+import DocumentStepperContainer from '../../src/containers/DocumentStepperContainer'
 
 
-describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing DocumentEditLinksComponent', () => {
+describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -32,15 +32,15 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing DocumentEditLinksComponent'
     assert.isDefined(DocumentEditLinksComponent)
   })
   const context = buildTestContext()
-
   it('Render properly', () => {
     const props = {
+      currentDocument: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
       backUrl: '#',
       doneUrl: '#',
       handleDelete: () => {},
       handleAdd: () => {},
       handleSearch: () => {},
-      linkedDocuments: [
+      linkedCollections: [
         { content: {
           type: 'COLLECTION',
           lastUpdate: '2017-01-30T11:16:23.919',
@@ -60,7 +60,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing DocumentEditLinksComponent'
           },
         } },
       ],
-      remainingDocuments: [
+      remainingCollections: [
         { content: {
           type: 'COLLECTION',
           lastUpdate: '2017-01-30T11:16:23.919',
@@ -100,6 +100,6 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing DocumentEditLinksComponent'
     }
     const enzymeWrapper = shallow(<DocumentEditLinksComponent {...props} />, { context })
     expect(enzymeWrapper.find(ListItem)).to.have.length(4)
-    expect(enzymeWrapper.find(DocumentStepperComponent)).to.have.length(1)
+    expect(enzymeWrapper.find(DocumentStepperContainer)).to.have.length(1)
   })
 })

@@ -36,20 +36,21 @@ const messages = Object.assign({
   'document.no.dataset.title': 'Aucun document',
 
   'document.form.links.component.subtitle': 'Lien de la document courante',
-  'document.form.links.remainingdocument.subtitle': 'Document disponibles',
-  'document.form.links.document.subtitle': 'Document liées',
-  'document.form.links.subtitle': 'Les documents disposent de liens entre elles afin de simplifier la recherche',
-  'document.form.links.title': 'Mise à jour des liens entre documents',
+  'document.form.links.remainingcollection.subtitle': 'Collection disponibles',
+  'document.form.links.collection.subtitle': 'Collection liées',
+  'document.form.links.subtitle': 'Les documents disposent de liens avec des collections afin de simplifier la recherche',
+  'document.form.links.title': 'Mise à jour des liens des documents',
   'document.form.links.action.done': 'Terminer',
   'document.form.links.action.cancel': 'Retour',
-  'document.form.links.remainingdocument.search': 'Filtrer les documents sur leur nom',
+  'document.form.links.remainingcollection.search': 'Filtrer les collections sur leur nom',
 
 
   'document.form.files.title': 'Gestion des fichiers du document {name}',
   'document.form.files.subtitle': 'Vous pouvez ajouter de nouveaux fichiers à votre document, ou supprimer ceux déjà présent',
   'document.form.files.action.next': 'Suite',
   'document.form.files.action.cancel': 'Annuler',
-
+  'document.form.files.docFiles.subtitle': 'Liste des fichiers associés',
+  'document.form.files.addFile.subtitle': 'Ajouter des fichiers',
 
 
   'document.form.action.next': 'Suivant',
@@ -71,8 +72,6 @@ const messages = Object.assign({
   'document.stepper.attributes': 'Saisie des attributs d\'une document',
   'document.stepper.files': 'Fichiers associés',
 
-  'document.form.files.docFiles.subtitle': 'Liste des fichiers associés',
-  'document.form.files.addFile.subtitle': 'Ajouter des fichiers',
 }, Locales.fr)
 
 export default messages

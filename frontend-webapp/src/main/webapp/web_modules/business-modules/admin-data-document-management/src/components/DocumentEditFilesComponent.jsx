@@ -45,6 +45,7 @@ export class DocumentEditFilesComponent extends React.Component {
     handleDeleteDocFile: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
+    unregisterField: PropTypes.func.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -57,51 +58,50 @@ export class DocumentEditFilesComponent extends React.Component {
   }
 
   state = {
-    nbInputs: 1
+    nbInputs: 1,
   }
 
   static rowInputAndButtonStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
   }
 
   addFileInput = () => {
     this.setState({
-      nbInputs: this.state.nbInputs + 1
+      nbInputs: this.state.nbInputs + 1,
     })
   }
 
   deleteFileInput = () => {
+    this.props.unregisterField('document-files', `files_${this.state.nbInputs}`)
     this.setState({
-      nbInputs: this.state.nbInputs - 1
+      nbInputs: this.state.nbInputs - 1,
     })
   }
 
-  getFileInput = (inputId) => {
-      return (
-        <div
-          style={DocumentEditFilesComponent.rowInputAndButtonStyle}
-          key={inputId}
-        >
-          <Field
-            name={`files_${inputId}`}
-            component={RenderFileField}
-            fullWidth
-          />
-          <ShowableAtRender show={(inputId === this.state.nbInputs - 1)}>
-            <div>
-              <IconButton onTouchTap={this.addFileInput}>
-                <Add />
-              </IconButton>
-              <IconButton onTouchTap={this.deleteFileInput}>
-                <Remove />
-              </IconButton>
-            </div>
-          </ShowableAtRender>
+  getFileInput = inputId => (
+    <div
+      style={DocumentEditFilesComponent.rowInputAndButtonStyle}
+      key={inputId}
+    >
+      <Field
+        name={`files_${inputId}`}
+        component={RenderFileField}
+        fullWidth
+      />
+      <ShowableAtRender show={(inputId === this.state.nbInputs - 1)}>
+        <div>
+          <IconButton onTouchTap={this.addFileInput}>
+            <Add />
+          </IconButton>
+          <IconButton onTouchTap={this.deleteFileInput}>
+            <Remove />
+          </IconButton>
         </div>
+      </ShowableAtRender>
+    </div>
       )
-  }
   render() {
     const { document, handleDeleteDocFile, backUrl, submitting, invalid } = this.props
     return (
@@ -110,7 +110,7 @@ export class DocumentEditFilesComponent extends React.Component {
       >
         <Card>
           <CardTitle
-            title={this.context.intl.formatMessage({ id: 'document.form.files.title' }, {name: document.content.name})}
+            title={this.context.intl.formatMessage({ id: 'document.form.files.title' }, { name: document.content.name })}
             subtitle={this.context.intl.formatMessage({ id: 'document.form.files.subtitle' })}
           />
           <DocumentStepperContainer
@@ -123,10 +123,10 @@ export class DocumentEditFilesComponent extends React.Component {
               <div className="col-sm-50">
                 <List>
                   <Subheader><FormattedMessage id="document.form.files.docFiles.subtitle" /></Subheader>
-                  {map(document.content.documents, (document) => (
+                  {map(document.content.documents, document => (
                     <ListItem
-                      key={document.content.ipId}
-                      primaryText={document.content.label}
+                      key={document.checksum}
+                      primaryText={document.checksum}
                       rightIconButton={
                         <IconButton onTouchTap={() => handleDeleteDocFile(document.id)}>
                           <Remove />
@@ -157,7 +157,6 @@ export class DocumentEditFilesComponent extends React.Component {
     )
   }
 }
-
 
 
 export default reduxForm({

@@ -36,13 +36,22 @@ const messages = Object.assign({
   'document.no.dataset.title': 'No document',
 
   'document.form.links.component.subtitle': 'Current document links',
-  'document.form.links.remainingdocument.subtitle': 'Available documents',
-  'document.form.links.document.subtitle': 'Document links',
-  'document.form.links.subtitle': 'Documents are linked together to ease search',
+  'document.form.links.remainingcollection.subtitle': 'Available collections',
+  'document.form.links.collection.subtitle': 'Collections links',
+  'document.form.links.subtitle': 'Documents are linked with collections to ease search',
   'document.form.links.title': 'Update document links',
   'document.form.links.action.done': 'Save',
   'document.form.links.action.cancel': 'Back',
-  'document.form.links.remainingdocument.search': 'Filter documents with their names',
+  'document.form.links.remainingcollection.search': 'Filter collections with their names',
+
+
+  'document.form.files.title': 'Gestion des fichiers du document {name}',
+  'document.form.files.subtitle': 'Vous pouvez ajouter de nouveaux fichiers à votre document, ou supprimer ceux déjà présent',
+  'document.form.files.action.next': 'Suite',
+  'document.form.files.action.cancel': 'Annuler',
+  'document.form.files.docFiles.subtitle': 'Associated files list',
+  'document.form.files.addFile.subtitle': 'Add files',
+
 
   'document.form.action.next': 'Next',
   'document.form.action.cancel': 'Cancel',
@@ -63,8 +72,6 @@ const messages = Object.assign({
   'document.stepper.attributes': 'Setup document attributes',
   'document.stepper.files': 'Associated files',
 
-  'document.form.files.docFiles.subtitle': 'Associated files list',
-  'document.form.files.addFile.subtitle': 'Add files',
 }, Locales.en)
 
 export default messages

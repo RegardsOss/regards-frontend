@@ -65,8 +65,14 @@ function setup() {
       },
     },
   }
-
-  const enzymeWrapper = shallow(<SelectThemeContainer {...props} />)
+  const context = {
+    muiTheme: {
+      palette: {
+        alternateTextColor: '#ffffff',
+      },
+    },
+  }
+  const enzymeWrapper = shallow(<SelectThemeContainer {...props} />, { context })
   return {
     props,
     enzymeWrapper,

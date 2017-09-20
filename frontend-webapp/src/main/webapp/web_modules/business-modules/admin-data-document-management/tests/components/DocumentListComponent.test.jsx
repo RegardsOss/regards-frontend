@@ -19,37 +19,27 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
-import { Field } from '@regardsoss/form-utils'
-import MenuItem from 'material-ui/MenuItem'
-import { DocumentFormComponent } from '../../src/components/DocumentFormComponent'
-import DocumentStepperComponent from '../../src/components/DocumentStepperComponent'
+import { TableContainer } from '@regardsoss/components'
+import DocumentListComponent from '../../src/components/DocumentListComponent'
 
-describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing DocumentFormComponent', () => {
+describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentListComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DocumentFormComponent)
+    assert.isDefined(DocumentListComponent)
   })
   const context = buildTestContext()
+
   it('Render properly', () => {
     const props = {
-      currentDocument: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
-      onSubmit: () => {},
+      handleDelete: () => {},
+      handleEdit: () => {},
       backUrl: '#',
-      modelList: DumpProvider.get('DataManagementClient', 'Model'),
-      modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
-      isDuplicating: false,
-      handleUpdateModel: () => {},
-      // from reduxForm
-      submitting: false,
-      invalid: false,
-      handleSubmit: () => {},
-      initialize: () => {},
+      createUrl: '#',
     }
-    const enzymeWrapper = shallow(<DocumentFormComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Field)).to.have.length(5)
-    expect(enzymeWrapper.find(MenuItem)).to.have.length(1)
-    expect(enzymeWrapper.find(DocumentStepperComponent)).to.have.length(1)
+
+    const enzymeWrapper = shallow(<DocumentListComponent {...props} />, { context })
+    expect(enzymeWrapper.find(TableContainer)).to.have.length(1)
   })
 })

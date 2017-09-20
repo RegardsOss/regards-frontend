@@ -18,22 +18,31 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { Stepper } from 'material-ui/Stepper'
-import DocumentStepperComponent from '../../src/components/DocumentStepperComponent'
+import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
+import Delete from 'material-ui/svg-icons/action/delete'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import DocumentTableCustomCellActions from '../../src/components/DocumentTableCustomCellActions'
 
-describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing DocumentStepperComponent', () => {
+describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentTableCustomCellActions', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DocumentStepperComponent)
+    assert.isDefined(DocumentTableCustomCellActions)
   })
   const context = buildTestContext()
 
   it('Render properly', () => {
-    const props = {}
-    const enzymeWrapper = shallow(<DocumentStepperComponent {...props} />, { context })
-    expect(enzymeWrapper.find(Stepper)).to.have.length(1)
+    const props = {
+      entity: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
+      onDelete: () => {},
+      onEdit: () => {},
+      intl: context.intl,
+      lineHeight: 40,
+    }
+    const enzymeWrapper = shallow(<DocumentTableCustomCellActions {...props} />)
+    console.log(enzymeWrapper.debug())
+    expect(enzymeWrapper.find(Delete)).to.have.length(1)
+    expect(enzymeWrapper.find(Edit)).to.have.length(1)
   })
 })

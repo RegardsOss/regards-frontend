@@ -58,9 +58,9 @@ export class DocumentEditLinksContainer extends React.Component {
 
   componentDidMount() {
     Promise.all([
-        this.props.fetchCollectionList(),
-        this.props.fetchDocument(this.props.params.documentId)
-      ])
+      this.props.fetchCollectionList(),
+      this.props.fetchDocument(this.props.params.documentId),
+    ])
       .then(() => {
         this.setState({
           isLoading: false,
