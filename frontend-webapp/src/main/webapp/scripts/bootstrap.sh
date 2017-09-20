@@ -19,12 +19,12 @@
 
 ## To enable auto reload we need to create symlink between the modules and the app
 ## Webpack compiles all these packages without that package depend on another package
-# and uses the main webapp/node_modules to provides dependencies to these modules (fallback of webpack)
+## and uses the main webapp/node_modules to provides dependencies to these modules (fallback of webpack)
 
 set -e
 
 # Lint
-npm link eslint-config-es6-rules
+npm install eslint-config-es6-rules
 
 # Webpack REGARDS conf
 npm install webpack-config-front
@@ -77,6 +77,7 @@ npm link web_modules/business-modules/admin-data-collection-management
 npm link web_modules/business-modules/admin-data-connection-management
 npm link web_modules/business-modules/admin-data-dataset-management
 npm link web_modules/business-modules/admin-data-datasource-management
+npm link web_modules/business-modules/admin-data-document-management
 npm link web_modules/business-modules/admin-data-fragment-management
 npm link web_modules/business-modules/admin-microservice-management
 npm link web_modules/business-modules/admin-project-management

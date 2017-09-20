@@ -29,6 +29,7 @@ import { Model, ModelList } from './Model'
 import { ModelAttribute, ModelAttributeList } from './ModelAttribute'
 import { StandartAttributeModelContent, StandartAttributeModel } from './StandartAttributeModel'
 import { ModelAttributeComputationTypes, ModelAttributeComputationTypesList } from './ModelAttributeComputationTypes'
+import { Document, DocumentContent, DocumentList } from './Document'
 
 export default {
   AccessGroup,
@@ -53,6 +54,10 @@ export default {
   Dataset,
   DatasetContent,
   DatasetList,
+
+  Document,
+  DocumentContent,
+  DocumentList,
 
   Datasource,
   DatasourceList,
