@@ -42,7 +42,9 @@ class ModuleContainer extends React.Component {
 
   render() {
     return (
-      <SampleComponent />
+      <SampleComponent
+        message={this.props.moduleConf.messageParameter}
+      />
     )
   }
 }

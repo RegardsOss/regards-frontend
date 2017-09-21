@@ -25,6 +25,10 @@ import { themeContextType } from '@regardsoss/theme'
  **/
 class SampleComponent extends React.Component {
 
+  static propTypes = {
+    message: PropTypes.string,
+  }
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -35,6 +39,8 @@ class SampleComponent extends React.Component {
     return (
       <div style={moduleTheme.exampleStyle}>
         {intl.formatMessage({ id: 'exampleMessage' })}
+        {' : '}
+        <span style={moduleTheme.configuredText}>{this.props.message}</span>
       </div>
     )
   }

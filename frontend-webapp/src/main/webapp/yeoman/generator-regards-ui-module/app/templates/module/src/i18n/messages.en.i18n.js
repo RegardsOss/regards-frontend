@@ -24,6 +24,7 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
  * @author <%= author %>
  */
 const messages = {
+  "admin.message.field.label" : "Message to display in example module",
   exampleMessage: 'Message example',
   ...Locales.en,
   ...MetadataLocales.en,

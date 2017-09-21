@@ -22,7 +22,7 @@
  * @author <%= author %>
  */
 const ModuleConfigurationShape = PropTypes.shape({
-
+  messageParameter: PropTypes.string
 })
 
 export default ModuleConfigurationShape
