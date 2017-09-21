@@ -16,20 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const PLUGIN_TEST = 'plugin/TEST'
+// this service plugin example does not demonstrate the redux reducer principles
 
-function reducer(state = {
-  pluginTest: false,
-  message: 'Loading plugin.',
-}, action) {
-  switch (action.type) {
-    case PLUGIN_TEST:
-      return { ...state, pluginTest: true }
-    default:
-      return state
-  }
-}
-
-export default {
-  pluginTest: reducer,
-}
+export default {}

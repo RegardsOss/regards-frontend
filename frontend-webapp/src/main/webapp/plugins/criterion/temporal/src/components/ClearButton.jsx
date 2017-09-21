@@ -27,11 +27,17 @@ import { FormattedMessage } from 'react-intl'
  */
 const ClearButton = ({ onTouchTap, displayed }) => (
   <IconButton
-    tooltip={<FormattedMessage id="criterion.clear"/>}
+    tooltip={<FormattedMessage id="criterion.clear" />}
     style={{ transform: `scale(${displayed ? 1 : 0})` }}
+    onTouchTap={onTouchTap}
   >
-    <Clear onTouchTap={onTouchTap}/>
+    <Clear />
   </IconButton>
 )
+
+ClearButton.propTypes = {
+  onTouchTap: React.PropTypes.func,
+  displayed: React.PropTypes.bool,
+}
 
 export default ClearButton

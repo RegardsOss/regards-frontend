@@ -2,13 +2,10 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
-const path = require('path')
 
 module.exports = function (projectContextPath) {
-
-  let config = getCommonConfig(projectContextPath, 'test')
-
-  config = merge(config, {
+  const config = getCommonConfig(projectContextPath, 'test')
+  return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [nodeExternals({
       // this WILL include `*regardsoss*` in the bundle
