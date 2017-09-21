@@ -1,11 +1,12 @@
 /**
 * LICENSE_PLACEHOLDER
-**/
+* */
 import Divider from 'material-ui/Divider'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import TableOptionsSeparator from './TableOptionsSeparator'
 import TableLoadingComponent from './TableLoadingComponent'
+import ResultsCountComponent from './ResultsCountComponent'
 
 /**
 * Fixed table header Component
@@ -30,7 +31,7 @@ class TablePaneHeader extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { header }, intl: { formatMessage } } = this.context
+    const { moduleTheme: { header } } = this.context
     const {
       resultsTabsButtons, customTableOptions, contextOptions,
       customTableHeaderArea, resultsCount, loading } = this.props
@@ -70,12 +71,16 @@ class TablePaneHeader extends React.Component {
               if (loading) { // loading
                 return <TableLoadingComponent />
               } else if (customTableHeaderArea) { // custom table header area
-                return customTableHeaderArea
+                return (
+                  <div style={header.customAreaWrapperWithResultsWrapper.styles}>
+                    <ResultsCountComponent resultsCount={resultsCount} />
+                    <div style={header.customAreaWrapper.styles}>
+                      {customTableHeaderArea}
+                    </div>
+                  </div>
+                )
               }  // default table hedaer area, shows result count
-              return (
-                <div style={header.text.styles}>
-                  {formatMessage({ id: 'table.results.count' }, { count: resultsCount || '0' })}
-                </div>)
+              return <ResultsCountComponent resultsCount={resultsCount} />
             }())
           }
         </div>

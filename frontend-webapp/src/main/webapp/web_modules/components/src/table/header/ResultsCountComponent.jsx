@@ -16,13 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  * */
-import SearchEntitiesActions from './SearchEntitiesActions'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
- * Actions to search for catalog dataobjects, reduced by the same handler than catalog dataset entity actions
+ * Displays the search results count
+ *
+ * @author Xavier-Alexandre Brochard
  */
-export default class CatalogDataobjectEntityActions extends SearchEntitiesActions {
-  constructor(namespace) {
-    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/dataobjects/search?{queryParams}`)
-  }
+const ResultsCountComponent = ({ resultsCount }, { moduleTheme: { header }, intl: { formatMessage } }) => (
+    <div style={header.text.styles}>
+        {formatMessage({ id: 'table.results.count' }, { count: resultsCount || '0' })}
+    </div>
+)
+
+ResultsCountComponent.propTypes = {
+    resultsCount: PropTypes.number.isRequired,
 }
+
+ResultsCountComponent.contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+}
+
+export default ResultsCountComponent

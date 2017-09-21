@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 
 /**
  * FixedTable styles
@@ -107,6 +107,16 @@ export default (theme) => {
           thickness: 1.5,
           size: 22,
           color: theme.palette.textColor,
+        },
+      },
+      customAreaWrapperWithResultsWrapper: {
+        styles: {
+          display: 'flex',
+        },
+      },
+      customAreaWrapper: {
+        styles: {
+          flexGrow: 1,
         },
       },
     },
