@@ -1,7 +1,7 @@
 {
   "name": "generator-regards-ui-plugin",
   "version": "1.0.0",
-  "private" : true,
+  "private": true,
   "description": "Yeoman generator to create yout own REGARDS UI Plugin",
   "files": [
     "generators"
