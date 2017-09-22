@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Avatar from 'material-ui/Avatar'
-import { ObjectLinkedFileTypes } from '@regardsoss/model'
+import { CatalogDomain } from '@regardsoss/domain'
 import ThumbnailAttributesRender from '../../src/render/ThumbnailAttributesRender'
 
 /**
@@ -35,8 +35,8 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
     const props = {
       attributes: {
         files: [
-          { dataType: ObjectLinkedFileTypes.THUMBNAIL, fileRef: 'http://test.fr' },
-          { dataType: ObjectLinkedFileTypes.RAWDATA, fileRef: 'http://error.fr' },
+          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL, fileRef: 'http://test.fr' },
+          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA, fileRef: 'http://error.fr' },
         ],
       },
       lineHeight: 150,
@@ -51,8 +51,8 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
     const props = {
       attributes: {
         files: [
-          { dataType: ObjectLinkedFileTypes.RAWDATA, fileRef: 'http://test.fr' },
-          { dataType: ObjectLinkedFileTypes.RAWDATA, fileRef: 'http://error.fr' },
+          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA, fileRef: 'http://test.fr' },
+          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA, fileRef: 'http://error.fr' },
         ],
       },
       lineHeight: 150,
