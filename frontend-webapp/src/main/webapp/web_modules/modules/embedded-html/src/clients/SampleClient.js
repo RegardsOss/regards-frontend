@@ -16,14 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DataManagementClient } from '@regardsoss/client'
 
 /**
- * Additional mui theme properties for regards.
- * @author Sébastien Binda.
+ * Client to access attributes from backend-server
+ * @author Sébastien Binda
  */
+export const REDUCER_PATH = 'attributes'
+
+/**
+ * Server AttributeModel entities client.
+ */
+const ENTITIES_STORE_PATH = ['modules.header', REDUCER_PATH]
+const REDUX_ACTION_NAMESPACE = 'header/attributes'
+
+export const AttributeModelActions = new DataManagementClient.AttributeModelActions(REDUX_ACTION_NAMESPACE)
+export const AttributeModelReducer = DataManagementClient.AttributeModelReducer(REDUX_ACTION_NAMESPACE, AttributeModelActions)
+export const AttributeModelSelectors = DataManagementClient.AttributeModelSelectors(ENTITIES_STORE_PATH)
+
 export default {
-  palette: {
-    background:'',
-    backgroundImage: '',
-  },
+  AttributeModelActions,
+  AttributeModelReducer,
+  AttributeModelSelectors,
 }

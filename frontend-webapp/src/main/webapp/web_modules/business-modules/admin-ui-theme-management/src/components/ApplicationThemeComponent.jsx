@@ -27,6 +27,7 @@ import Close from 'material-ui/svg-icons/navigation/close'
 import Save from 'material-ui/svg-icons/content/save'
 import MenuItem from 'material-ui/MenuItem'
 import Toggle from 'material-ui/Toggle'
+import TextField from 'material-ui/TextField'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import Paper from 'material-ui/Paper'
@@ -85,6 +86,7 @@ class ApplicationThemeComponent extends React.Component {
     }
 
     this.state = {
+      background: theme.content.configuration.palette.background,
       editingTheme: theme,
       snackBarOpen: false,
       snackBarMessageId: 'application.theme.save.success',
@@ -94,7 +96,13 @@ class ApplicationThemeComponent extends React.Component {
   onThemeSelect = (event, index, value) => {
     Promise.resolve(this.props.fetchTheme(value)).then((actionResult) => {
       if (!actionResult.error) {
-        this.setState({ editingTheme: find(this.props.themeList, theme => theme.content.id === value) })
+        const newTheme = find(this.props.themeList, theme => theme.content.id === value)
+        if (newTheme){
+          this.setState({
+            background: newTheme.content.configuration.palette.background || '',
+            editingTheme: newTheme
+          })
+        }
       }
     })
   }
@@ -161,6 +169,15 @@ class ApplicationThemeComponent extends React.Component {
     const newEditingTheme = this.state.editingTheme
     newEditingTheme.content.active = !newEditingTheme.content.active
     this.setState({
+      editingTheme: newEditingTheme,
+    })
+  }
+
+  changeBackground = (event, newValue) => {
+    const newEditingTheme = this.state.editingTheme
+    newEditingTheme.content.configuration.palette.background=newValue
+    this.setState({
+      background: newValue,
       editingTheme: newEditingTheme,
     })
   }
@@ -258,6 +275,11 @@ class ApplicationThemeComponent extends React.Component {
         >
           <div style={style.contentWrapper}>
             {themeActivationToggle}
+            <TextField
+              hintText="Background style"
+              value={this.state.background}
+              onChange={this.changeBackground}
+            />
             {themeConfigurer}
           </div>
         </LoadableContentDisplayDecorator>

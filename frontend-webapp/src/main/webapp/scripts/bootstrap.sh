@@ -94,6 +94,7 @@ npm link web_modules/business-modules/admin-user-role-management
 
 # Global modules
 npm link web_modules/modules/authentication
+npm link web_modules/modules/embedded-html
 npm link web_modules/modules/home-page
 npm link web_modules/modules/licenses
 npm link web_modules/modules/menu

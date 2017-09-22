@@ -15,15 +15,33 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import ModuleContainer from '../../src/containers/ModuleContainer'
+import styles from '../../src/styles/styles'
 
 /**
- * Additional mui theme properties for regards.
- * @author Sébastien Binda.
+ * ModuleContainer tests
+ * @author Sébastien Binda
  */
-export default {
-  palette: {
-    background:'',
-    backgroundImage: '',
-  },
-}
+
+const context = buildTestContext(styles)
+
+describe('[Menu] Testing MenuContainer', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exists', () => {
+    assert.isDefined(ModuleContainer)
+  })
+  it('should render properly', () => {
+    const props = {
+      project: 'any',
+      appName: 'any',
+      moduleConf: {},
+    }
+    shallow(<ModuleContainer {...props} />, { context })
+  })
+})

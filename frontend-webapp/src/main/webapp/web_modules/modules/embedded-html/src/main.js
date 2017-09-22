@@ -16,14 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import moduleContainer from './containers/ModuleContainer'
+import adminContainer from './containers/AdminContainer'
+import styles from './styles/styles'
+import reducer from './reducer'
+import dependencies from './dependencies'
 
 /**
- * Additional mui theme properties for regards.
- * @author Sébastien Binda.
- */
+ * Main file of module to expose public interface
+ * @author Sébastien Binda
+ **/
+// Import the index.html file
+require('./cdpp-footer.html')
+require('./cdpp-header.html')
+
 export default {
-  palette: {
-    background:'',
-    backgroundImage: '',
-  },
+  adminContainer,
+  moduleContainer,
+  reducer,
+  styles,
+  messagesDir: 'modules/embedded-html/src/i18n',
+  dependencies,
 }

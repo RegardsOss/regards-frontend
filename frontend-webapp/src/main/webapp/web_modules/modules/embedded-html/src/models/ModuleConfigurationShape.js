@@ -18,12 +18,13 @@
  **/
 
 /**
- * Additional mui theme properties for regards.
- * @author Sébastien Binda.
+ * Module configuration shape
+ * @author Sébastien Binda
  */
-export default {
-  palette: {
-    background:'',
-    backgroundImage: '',
-  },
-}
+const ModuleConfigurationShape = PropTypes.shape({
+  headerHeight: PropTypes.string,
+  headerWidth: PropTypes.string,
+  htmlUrl: PropTypes.string,
+})
+
+export default ModuleConfigurationShape

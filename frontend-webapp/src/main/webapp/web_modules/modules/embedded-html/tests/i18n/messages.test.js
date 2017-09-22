@@ -15,15 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesEN from '../../src/i18n/messages.en.i18n'
+import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
 /**
- * Additional mui theme properties for regards.
- * @author Sébastien Binda.
+ * Tests for i18n messages of menu module
+ * @author Sébastien Binda
  */
-export default {
-  palette: {
-    background:'',
-    backgroundImage: '',
-  },
-}
+describe('[Menu] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exist', () => {
+    assert.isDefined(MessagesEN)
+    assert.isDefined(MessagesFR)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFR), keys(MessagesEN))
+  })
+})
