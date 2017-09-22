@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -105,11 +105,13 @@ class TableContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     entitiesFetching: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
     pageMetadata: PropTypes.shape({
       number: PropTypes.number,
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    resultsCount: PropTypes.number.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     error: PropTypes.object,
     // authentication data
@@ -330,7 +332,7 @@ class TableContainer extends React.Component {
 
   render() {
     const {
-      entitiesFetching, error, pageSize, pageMetadata, tablePaneConfiguration,
+      entitiesFetching, error, pageSize, resultsCount, tablePaneConfiguration,
       toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration }, emptyComponent,
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
@@ -353,7 +355,7 @@ class TableContainer extends React.Component {
             error={error}
             maxRowCounts={this.maxRowCounts}
             minRowCounts={this.props.minRowCounts}
-            resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
+            resultsCount={resultsCount}
             allSelected={allSelected}
             toggledElements={toggledElements}
             selectionMode={selectionMode}
@@ -379,6 +381,7 @@ const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
   // selection
   toggledElements: tableSelectors.getToggledElements(state),
   selectionMode: tableSelectors.getSelectionMode(state),
+  resultsCount: pageSelectors.getResultsCount(state),
 })
 
 const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({

@@ -109,16 +109,6 @@ export default (theme) => {
           color: theme.palette.textColor,
         },
       },
-      customAreaWrapperWithResultsWrapper: {
-        styles: {
-          display: 'flex',
-        },
-      },
-      customAreaWrapper: {
-        styles: {
-          flexGrow: 1,
-        },
-      },
     },
     table: {
       position: 'relative',
