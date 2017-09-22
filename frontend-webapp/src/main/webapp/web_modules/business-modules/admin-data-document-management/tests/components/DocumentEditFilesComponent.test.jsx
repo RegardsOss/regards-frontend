@@ -37,10 +37,11 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksComponent', 
   it('Render properly', () => {
     const props = {
       document: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
+      accessToken: 'abcdef',
       handleDeleteDocFile: () => {},
       onSubmit: () => {},
       backUrl: '#',
-      unregisterField: () => {},
+      removeOneFieldOfTheForm: () => {},
 
       // from reduxForm
       submitting: false,

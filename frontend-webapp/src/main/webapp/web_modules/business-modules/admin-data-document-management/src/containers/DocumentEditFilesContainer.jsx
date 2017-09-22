@@ -23,6 +23,7 @@ import mapKeys from 'lodash/mapKeys'
 import { browserHistory } from 'react-router'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
+import { authenticationSelectors } from '../clients/AuthenticationClient'
 import { documentActions, documentSelectors } from '../clients/DocumentClient'
 import { documentFileActions } from '../clients/DocumentFileClient'
 import DocumentEditFilesComponent from '../components/DocumentEditFilesComponent'
@@ -43,6 +44,7 @@ export class DocumentEditFilesContainer extends React.Component {
     currentDocument: DataManagementShapes.Document,
     // from mapDispatchToProps
     addFiles: PropTypes.func,
+    removeFile: PropTypes.func,
     unregisterField: PropTypes.func,
     fetchDocument: PropTypes.func,
   }
@@ -57,6 +59,7 @@ export class DocumentEditFilesContainer extends React.Component {
       .then(() => {
         this.setState({
           isLoading: false,
+          isSendingFiles: false,
         })
       })
   }
@@ -67,14 +70,15 @@ export class DocumentEditFilesContainer extends React.Component {
   }
 
   getComponent = () => {
-    const { currentDocument, unregisterField } = this.props
+    const { currentDocument, accessToken } = this.props
     return (
       <DocumentEditFilesComponent
         document={currentDocument}
+        accessToken={accessToken}
         handleDeleteDocFile={this.handleDeleteDocFile}
         onSubmit={this.handleSubmit}
         backUrl={this.getBackUrl()}
-        unregisterField={unregisterField}
+        removeOneFieldOfTheForm={this.props.unregisterField}
       />)
   }
 
@@ -89,28 +93,33 @@ export class DocumentEditFilesContainer extends React.Component {
    * @param tag
    */
   handleSubmit = (values) => {
-    /*const tesst = mapKeys(values, (value, key) => (
-      `files_${key}`
-    ))*/
-    console.log(values)
+    this.setState({
+      isSendingFiles: true,
+    })
     Promise.resolve(this.props.addFiles(values, this.props.params.documentId))
-      .then(() => {
-        this.redirectToLinksPage()
+      .then((actionResult) => {
+        this.setState({
+          isSendingFiles: false,
+        })
+        // We receive here the action
+        if (!actionResult.error) {
+          this.redirectToLinksPage()
+        }
       })
   }
   /**
    * When the user remove a file
    * @param tag
    */
-  handleDeleteDocFile = docFileId => Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, docFileId))
-    .then(actionResult => this.props.fetchDocument(this.props.params.documentId))
+  handleDeleteDocFile = documentFileChecksum => console.error(documentFileChecksum) || Promise.resolve(this.props.removeFile(this.props.currentDocument.content.id, documentFileChecksum))
+    .then(actionResult => this.props.fetchDocument(this.props.currentDocument.content.id))
 
   render() {
-    const { isLoading } = this.state
+    const { isLoading, isSendingFiles } = this.state
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
-          isLoading={isLoading}
+          isLoading={isLoading || isSendingFiles}
         >
           {this.getComponent}
         </LoadableContentDisplayDecorator>
@@ -121,11 +130,13 @@ export class DocumentEditFilesContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   currentDocument: documentSelectors.getById(state, ownProps.params.documentId),
+  accessToken: authenticationSelectors.getAccessToken(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchDocument: id => dispatch(documentActions.fetchEntity(id)),
   addFiles: (files, docId) => dispatch(documentFileActions.sendMultipleFiles({}, files, 'files', { document_id: docId })),
+  removeFile: (docId, documentFileChecksum) => dispatch(documentFileActions.deleteEntity(documentFileChecksum, { document_id: docId })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 

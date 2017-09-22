@@ -44,6 +44,7 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditFilesContainer', 
       currentDocument: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
       // from mapDispatchToProps
       addFiles: () => {},
+      removeFile: () => {},
       unregisterField: () => {},
       fetchDocument: () => {},
     }

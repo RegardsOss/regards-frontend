@@ -23,6 +23,7 @@ import map from 'lodash/map'
 import times from 'lodash/times'
 import Remove from 'material-ui/svg-icons/action/highlight-off'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
+import Download from 'material-ui/svg-icons/file/file-download'
 import { RenderTextField, RenderSelectField, Field, RenderFileField, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import TextField from 'material-ui/TextField'
@@ -42,10 +43,11 @@ export class DocumentEditFilesComponent extends React.Component {
 
   static propTypes = {
     document: DataManagementShapes.Document,
+    accessToken: PropTypes.string.isRequired,
     handleDeleteDocFile: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
-    unregisterField: PropTypes.func.isRequired,
+    removeOneFieldOfTheForm: PropTypes.func.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -73,8 +75,13 @@ export class DocumentEditFilesComponent extends React.Component {
     })
   }
 
+  getDocumentUrlWithToken = (document) => {
+    const { accessToken } = this.props
+    return `${document.uri}?token=${accessToken}` || ''
+  }
+
   deleteFileInput = () => {
-    this.props.unregisterField('document-files', `files_${this.state.nbInputs}`)
+    this.props.removeOneFieldOfTheForm('document-files', `files_${this.state.nbInputs}`)
     this.setState({
       nbInputs: this.state.nbInputs - 1,
     })
@@ -92,11 +99,13 @@ export class DocumentEditFilesComponent extends React.Component {
       />
       <ShowableAtRender show={(inputId === this.state.nbInputs - 1)}>
         <div>
+          <ShowableAtRender show={(inputId > 0)}>
+            <IconButton onTouchTap={this.deleteFileInput}>
+              <Remove />
+            </IconButton>
+          </ShowableAtRender>
           <IconButton onTouchTap={this.addFileInput}>
             <Add />
-          </IconButton>
-          <IconButton onTouchTap={this.deleteFileInput}>
-            <Remove />
           </IconButton>
         </div>
       </ShowableAtRender>
@@ -126,11 +135,16 @@ export class DocumentEditFilesComponent extends React.Component {
                   {map(document.content.documents, document => (
                     <ListItem
                       key={document.checksum}
-                      primaryText={document.checksum}
+                      primaryText={document.name}
                       rightIconButton={
-                        <IconButton onTouchTap={() => handleDeleteDocFile(document.id)}>
-                          <Remove />
-                        </IconButton>
+                        <div>
+                          <a href={this.getDocumentUrlWithToken(document)} target="_black" rel="noopener noreferrer">
+                            <Download />
+                          </a>
+                          <IconButton onTouchTap={() => handleDeleteDocFile(document.checksum)}>
+                            <Remove />
+                          </IconButton>
+                        </div>
                       }
                       disabled
                     />
