@@ -204,7 +204,7 @@ class ListViewEntityCellComponent extends React.Component {
    * @returns {XML}
    */
   displayThumbnail = () => {
-    const thumbnail = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.ObjectLinkedFileTypes.THUMBNAIL)
+    const thumbnail = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL)
     if (thumbnail) {
       return (
         <div style={this.props.styles.thumbnail}>
@@ -248,7 +248,7 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayDownload = () => {
-    const rawdata = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.ObjectLinkedFileTypes.RAWDATA)
+    const rawdata = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA)
     if (rawdata) {
       const { styles: { title: { option } }, downloadTooltip } = this.props
       return (

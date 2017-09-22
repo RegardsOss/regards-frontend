@@ -18,6 +18,7 @@
  **/
 
 import { Entity } from './Entity/Entity'
+import { ObjectLinkedFile } from './Entity/ObjectLinkedFile'
 import Tag from './Entity/Tag'
 
 import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
@@ -25,6 +26,7 @@ import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
 
 export default {
   Entity,
+  ObjectLinkedFile,
   Tag,
 
   LinkPluginDataset,
