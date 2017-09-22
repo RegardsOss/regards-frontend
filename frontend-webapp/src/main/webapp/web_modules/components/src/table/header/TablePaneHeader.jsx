@@ -71,14 +71,7 @@ class TablePaneHeader extends React.Component {
               if (loading) { // loading
                 return <TableLoadingComponent />
               } else if (customTableHeaderArea) { // custom table header area
-                return (
-                  <div style={header.customAreaWrapperWithResultsWrapper.styles}>
-                    <ResultsCountComponent resultsCount={resultsCount} />
-                    <div style={header.customAreaWrapper.styles}>
-                      {customTableHeaderArea}
-                    </div>
-                  </div>
-                )
+                return customTableHeaderArea
               }  // default table hedaer area, shows result count
               return <ResultsCountComponent resultsCount={resultsCount} />
             }())

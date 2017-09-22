@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import filter from 'lodash/filter'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
@@ -49,12 +49,17 @@ export class ModuleContainer extends React.Component {
     // from map state to props
     // eslint-disable-next-line react/no-unused-prop-types
     facets: FacetArray.isRequired, // facets, used only in onPropertiesChanged
+    resultsCount: PropTypes.number.isRequired,
   }
 
   /** Default component state */
   static DEFAULT_STATE = {
     filters: [],
     facets: [],
+  }
+
+  static defaultProps = {
+    resultsCount: 0,
   }
 
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
@@ -118,7 +123,7 @@ export class ModuleContainer extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { moduleConf: { show, filters } } = this.props
+    const { moduleConf: { show, filters }, resultsCount } = this.props
     const { facets } = this.state
 
     return (
@@ -128,6 +133,7 @@ export class ModuleContainer extends React.Component {
           filters={filters}
           applyFilter={this.applyFilter}
           deleteFilter={this.deleteFilter}
+          resultsCount={resultsCount}
         />
       </ShowableAtRender>
     )
@@ -136,6 +142,7 @@ export class ModuleContainer extends React.Component {
 
 const mapStateToProps = (state, { moduleConf: { resultsSelectors, facets } }) => ({
   facets: resultsSelectors.getFacets(state) || [],
+  resultsCount: resultsSelectors.getResultsCount(state),
 })
 
 export default connect(mapStateToProps)(ModuleContainer)

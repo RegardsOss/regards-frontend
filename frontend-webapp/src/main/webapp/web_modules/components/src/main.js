@@ -68,6 +68,7 @@ import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPick
 import TableContainer from './table/TableContainer'
 import TablePaneHeader from './table/header/TablePaneHeader'
 import TableOptionsSeparator from './table/header/TableOptionsSeparator'
+import ResultsCountComponent from './table/header/ResultsCountComponent'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import TableActions from './table/model/TableActions'
 import getTableReducer from './table/model/TableReducer'
@@ -143,4 +144,5 @@ export {
   HelpMessageComponent,
   NoContentComponent,
   withConfirmDialog,
+  ResultsCountComponent,
 }
