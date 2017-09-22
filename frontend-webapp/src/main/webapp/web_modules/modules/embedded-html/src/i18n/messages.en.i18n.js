@@ -16,14 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Locales } from '@regardsoss/form-utils'
+import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
 /**
- * Additional mui theme properties for regards.
- * @author Sébastien Binda.
+ * i18n messages english language
+ * @author Sébastien Binda
  */
-export default {
-  palette: {
-    background:'',
-    backgroundImage: '',
-  },
+const messages = {
+  "admin.header.height.label":"Banner height in pixels",
+  "admin.header.html.url":"Html file url",
+  ...Locales.en,
+  ...MetadataLocales.en,
 }
+
+export default messages

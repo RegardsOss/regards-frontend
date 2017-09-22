@@ -157,13 +157,33 @@
       "description": "Another graph for tests",
       "container": "content",
       "id": 16
+    },
+    {
+      "applicationId": "user",
+      "active": true,
+      "defaultDynamicModule": false,
+      "conf": "{\"headerHeight\":\"140\",\"headerWidth\":\"100%\",\"htmlUrl\":\"/html/cdpp-header.html\"}",
+      "type": "embedded-html",
+      "description": "Application header",
+      "container": "header",
+      "id": 17
+    },
+    {
+      "applicationId": "user",
+      "active": true,
+      "defaultDynamicModule": false,
+      "conf": "{\"headerHeight\":\"110\",\"headerWidth\":\"100%\",\"htmlUrl\":\"/html/cdpp-footer.html\"}",
+      "type": "embedded-html",
+      "description": "Application footer",
+      "container": "footer",
+      "id": 18
     }
   ],
   "layouts": [
     {
       "id": 0,
       "applicationId": "user",
-      "layout": "{\"id\":\"user\",\"type\":\"MainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"header\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{}},{\"id\":\"content\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{},\"dynamicContent\":true},{\"id\":\"footer\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{}}]}"
+      "layout": "{\"id\":\"user\",\"type\":\"MainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"header\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{}},{\"id\":\"content\",\"type\":\"ContentRowContainer\",\"classes\":[],\"styles\":{},\"dynamicContent\":true},{\"id\":\"footer\",\"type\":\"RowContainer\",\"classes\":[],\"styles\":{}}]}"
     }
   ],
   "themes": [
@@ -177,6 +197,12 @@
       "configuration": "{\"palette\":{\"backgroundImage\":\"http://localhost:3333/img/background.jpg\",\"primary2Color\":\"#0097A7\",\"primary3Color\":\"#757575\",\"textColor\":\"#FFFFFF\",\"secondaryTextColor\":\"rgba(255, 255, 255, 0.7)\",\"alternateTextColor\":\"#303030\",\"canvasColor\":\"#303030\",\"borderColor\":\"rgba(255, 255, 255, 0.3)\",\"disabledColor\":\"rgba(255, 255, 255, 0.3)\",\"pickerHeaderColor\":\"rgba(255, 255, 255, 0.12)\",\"clockCircleColor\":\"rgba(255, 255, 255, 0.12)\",\"shadowColor\":\"rgba(0, 0, 0, 1)\",\"accent2Color\":\"#2196f3\",\"accent3Color\":\"#ff6d00\",\"primary1Color\":\"#2196f3\",\"accent1Color\":\"#ff6d00\"},\"themeName\":\"Dark\",\"tableRow\":{\"stripeColor\":\"#212121\",\"hoverColor\":\"#424242\"},\"menuItem\":{\"rightIconDesktopFill\":\"#fb8c00\",\"selectedTextColor\":\"#ff6d00\",\"hoverColor\":\"#1e88e5\"},\"badge\":{\"primaryTextColor\":\"#FFFFFF\",\"secondaryTextColor\":\"#FFFFFF\",\"primaryColor\":\"#ff6d00\",\"secondaryColor\":\"#2196f3\"},\"appBar\":{\"textColor\":\"#FFFFFF\"},\"tabs\":{\"textColor\":\"#fafafa\",\"selectedTextColor\":\"#ff9100\"},\"raisedButton\":{\"primaryTextColor\":\"#fafafa\",\"secondaryTextColor\":\"#fafafa\"},\"stepper\":{\"disabledTextColor\":\"#757575\",\"textColor\":\"#ffffff\"}}",
       "id": 3,
       "name": "Dark",
+      "active": false
+    },
+    {
+      "configuration": "{\"palette\":{\"background\":\"radial-gradient(ellipse at center top , #000 0px, #0075A0 120%) no-repeat fixed center center transparent\",\"primary2Color\":\"#0097A7\",\"primary3Color\":\"#757575\",\"textColor\":\"#FFFFFF\",\"secondaryTextColor\":\"rgba(255, 255, 255, 0.7)\",\"alternateTextColor\":\"#303030\",\"canvasColor\":\"transparent\",\"borderColor\":\"rgba(255, 255, 255, 0.3)\",\"disabledColor\":\"rgba(255, 255, 255, 0.3)\",\"pickerHeaderColor\":\"rgba(255, 255, 255, 0.12)\",\"clockCircleColor\":\"rgba(255, 255, 255, 0.12)\",\"shadowColor\":\"rgba(0, 0, 0, 1)\",\"accent2Color\":\"rgb(0, 96, 128)\",\"accent3Color\":\"#ff6d00\",\"primary1Color\":\"rgb(0, 96, 128)\",\"accent1Color\":\"#ff6d00\"},\"themeName\":\"Dark\",\"tableRow\":{\"stripeColor\":\"#212121\",\"hoverColor\":\"#424242\"},\"menuItem\":{\"rightIconDesktopFill\":\"#fb8c00\",\"selectedTextColor\":\"#ff6d00\",\"hoverColor\":\"#1e88e5\"},\"badge\":{\"primaryTextColor\":\"#FFFFFF\",\"secondaryTextColor\":\"#FFFFFF\",\"primaryColor\":\"#ff6d00\",\"secondaryColor\":\"#2196f3\"},\"appBar\":{\"textColor\":\"#FFFFFF\"},\"tabs\":{\"textColor\":\"#fafafa\",\"selectedTextColor\":\"#ff9100\"},\"raisedButton\":{\"primaryTextColor\":\"#fafafa\",\"secondaryTextColor\":\"#fafafa\"},\"stepper\":{\"disabledTextColor\":\"#757575\",\"textColor\":\"#ffffff\"}}",
+      "id": 2,
+      "name": "Cdpp",
       "active": true
     }
   ]

@@ -33,6 +33,9 @@ export default {
       backgroundAttachment: 'fixed',
       backgroundSize: 'cover',
       paddingRight: '1px', // Quick fix for bootstrap grid .row
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column'
     },
   },
 
@@ -43,6 +46,17 @@ export default {
     classes: ['row'],
     styles: {
       margin: 0,
+      flexShrink: 0,
+      flexGrow: 0,
+    },
+  },
+
+  ContentRowContainer: {
+    classes: ['row'],
+    styles: {
+      margin: 0,
+      flexShrink: 1,
+      flexGrow: 1,
     },
   },
 

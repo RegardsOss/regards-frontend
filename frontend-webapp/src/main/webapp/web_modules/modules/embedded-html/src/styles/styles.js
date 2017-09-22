@@ -15,15 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 /**
- * Additional mui theme properties for regards.
- * @author Sébastien Binda.
+ * Styles for menu module
+ * @author Sébastien binda
  */
-export default {
-  palette: {
-    background:'',
-    backgroundImage: '',
-  },
-}
+const moduleStyles = theme => (
+  {
+    exampleStyle: {
+      backgroundColor: theme.palette.primary1Color,
+      margin : '20px 20px',
+      height: 50,
+      border: '2px solid Black',
+      textAlign: 'center',
+      paddingTop: '15px',
+      fontSize: '1.2em'
+    },
+    configuredText: {
+      color: theme.palette.secondaryTextColor,
+    }
+  })
+
+export default moduleStyles

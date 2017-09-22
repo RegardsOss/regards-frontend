@@ -30,6 +30,7 @@ const AVAILABLE_MODULES = [
   'search-results',
   // 'archival-storage-aip-status',
   // 'archival-storage-plugins-monitoring',
+  'embedded-html',
   'home-page',
   'licenses',
 ]

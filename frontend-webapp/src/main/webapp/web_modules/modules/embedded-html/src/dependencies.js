@@ -18,12 +18,22 @@
  **/
 
 /**
- * Additional mui theme properties for regards.
- * @author Sébastien Binda.
+ * Module hateoas depencies
+ * @author Sébastien Binda
  */
+/**
+ * Mandatory Dependencies to display module in user interface
+ * @type {Array}
+ */
+const user = []
+
+/**
+ * Mandatory Dependencies to display module in admin interface
+ * @type {Array}
+ */
+const admin = []
+
 export default {
-  palette: {
-    background:'',
-    backgroundImage: '',
-  },
+  user,
+  admin,
 }
