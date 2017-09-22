@@ -73,6 +73,7 @@ class OrderBasketActions {
    * @return {type:string, ...} redux action (redux API middleware compatible) to flush basket
    */
   flushBasket() {
+    // note: we do not care here what action type will flush the local data
     return this.rootDelegate.flush()
   }
 

@@ -18,6 +18,7 @@
  **/
 import adminContainer from './containers/admin/AdminModuleContainer'
 import moduleContainer from './containers/user/UserModuleContainer'
+import reducer from './reducer'
 import styles from './styles/styles'
 import dependencies from './dependencies'
 import messages from './i18n'
@@ -29,6 +30,7 @@ import messages from './i18n'
 export default {
   adminContainer,
   moduleContainer,
+  reducer,
   styles,
   messages,
   dependencies,

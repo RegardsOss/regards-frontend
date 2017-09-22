@@ -46,12 +46,20 @@ const withConfirmDialog = (DecoratedComponent) => {
       this.setState({ open: true })
     }
 
+    handleConfirm = (evt) => {
+      // A - close dialog
+      this.handleClose()
+      // B - run action
+      const { onTouchTap } = this.props
+      onTouchTap(evt)
+    }
+
     handleClose = () => {
       this.setState({ open: false })
     }
 
     render() {
-      const { onTouchTap, dialogTitle, dialogMessage, ...otherProps } = this.props
+      const { dialogTitle, dialogMessage, ...otherProps } = this.props
       const { open } = this.state
       otherProps.onTouchTap = this.handleOpen
       const decoratedComponentElement = React.createElement(DecoratedComponent, otherProps)
@@ -62,7 +70,7 @@ const withConfirmDialog = (DecoratedComponent) => {
           <ConfirmDialogComponent
             title={dialogTitle}
             message={dialogMessage}
-            onConfirm={onTouchTap}
+            onConfirm={this.handleConfirm}
             onClose={this.handleClose}
             open={open}
           />

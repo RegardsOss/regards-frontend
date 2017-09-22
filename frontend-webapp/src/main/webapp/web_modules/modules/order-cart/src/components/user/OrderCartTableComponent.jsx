@@ -97,40 +97,41 @@ class OrderCartTableComponent extends React.Component {
     second: 'numeric',
   }
 
+  /** When there is less dataset selections than this count, initially expand all rows */
+  static AUTO_EXPANDED_DS_SELECTIONS_COUNT = 5
+
   /**
  * Builds table rows for basket as parameter (model to tree model converter)
  * @param {*} basket current basket model (optional) as described in Basket shape
  * @return [TreeTableRow] root tree table rows
  */
-  buildTableRows = (basket = { datasetSelections: [] }) => basket.datasetSelections.map(this.buildDatasetSelectionRow)
+  buildTableRows = (basket = { datasetSelections: [] }) => basket.datasetSelections.map(selection =>
+    this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
 
   /**
    * Builds a dataset selection row
    * @param {*} datasetSelection dataset selection, as described by BasketDatasetSelection
    * @return TreeTableRow for the dataset selection as parameter
    */
-  buildDatasetSelectionRow = ({ id, datasetLabel, objectsCount, filesCount, filesSize, itemsSelections = [] }) =>
-    new TreeTableRow(
-      // row cell values
-      [datasetLabel, objectsCount, filesCount,
-        OrderCartTableComponent.getStorageCapacity(filesSize), // scale the size to the level its the more readable
-        null, // no detail option
-        { datasetSelectionId: id }, // keep dataset selection id
-      ],
-      itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datedSelectionItem))) // sub rows
+  buildDatasetSelectionRow = ({ id, datasetLabel, objectsCount, filesCount, filesSize, itemsSelections = [] }, rowExpanded) =>
+    new TreeTableRow(`dataset.selection.${id}`, [datasetLabel, objectsCount, filesCount,
+      OrderCartTableComponent.getStorageCapacity(filesSize), // scale the size to the level its the more readable
+      null, // no detail option
+      { datasetSelectionId: id }, // keep dataset selection id
+    ], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
+      rowExpanded)
 
   /**
    * Builds a dated selection item row
    * @param {*} datasetSelection dataset selection, as described by BasketDatedItemsSelection
    * @return TreeTableRow for the dated selection item
    */
-  buildDatedSelectionRow = (datasetSelectionId, { date, objectsCount, filesCount, filesSize, openSearchRequest }) =>
-
+  buildDatedSelectionRow = (datasetSelectionId, datasetLabel, { date, objectsCount, filesCount, filesSize, openSearchRequest }) =>
     // row cell values (no sub row)
-    new TreeTableRow([date, objectsCount, filesCount,
+    new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, objectsCount, filesCount,
       OrderCartTableComponent.getStorageCapacity(filesSize), // scale the size to the level its the more readable
-      openSearchRequest, // keep request for detail option
-      { datasetSelectionId, itemsSelectionDate: date }, // keep both dataset selection id and date for corresponding option
+      { datasetLabel, date, openSearchRequest }, // keep date and request for detail option
+      { datasetSelectionId, itemsSelectionDate: date }, // keep parent id and date for delete option
     ])
 
   /**
@@ -176,13 +177,15 @@ class OrderCartTableComponent extends React.Component {
         return <storage.FormattedStorageCapacity capacity={cellValue} />
       // detail option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL:
-        {
-          return OrderCartTableComponent.DATASET_SELECTION_LEVEL === level ?
-            // dataset: no detail
-            null :
-            // selection: detail option, cell value is open search request
-            <ShowDatedItemSelectionDetailContainer openSearchRequest={cellValue} />
-        }
+        return OrderCartTableComponent.DATASET_SELECTION_LEVEL === level ?
+          // dataset: no detail
+          null :
+          // selection: detail option, cell value is open search request
+          <ShowDatedItemSelectionDetailContainer
+            datasetLabel={cellValue.datasetLabel}
+            date={cellValue.date}
+            openSearchRequest={cellValue.openSearchRequest}
+          />
       // delete option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE:
         {

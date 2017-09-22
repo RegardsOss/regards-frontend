@@ -16,20 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEmpty from 'lodash/isEmpty'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar'
-import FlatButton from 'material-ui/FlatButton'
-import ClearBasketIcon from 'material-ui/svg-icons/action/delete'
-import OrderIcon from 'material-ui/svg-icons/action/play-for-work'
+import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
+import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withConfirmDialog } from '@regardsoss/components'
+import { NoContentMessageInfo } from '@regardsoss/components'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import OrderComponent from './options/OrderComponent'
+import ClearCartComponent from './options/ClearCartComponent'
 import OrderCartTableComponent from './OrderCartTableComponent'
-
-// TODO very temporary
-
-const WithConfirmationButton = withConfirmDialog(FlatButton)
 
 /**
  * Order cart content component
@@ -38,10 +37,10 @@ const WithConfirmationButton = withConfirmDialog(FlatButton)
 class OrderCartComponent extends React.Component {
 
   static propTypes = {
+    isAuthenticated: PropTypes.bool,
     basket: OrderShapes.Basket,
-    hasError: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    onClearBasket: PropTypes.func.isRequired,
+    onClearCart: PropTypes.func.isRequired,
     onOrder: PropTypes.func.isRequired,
   }
 
@@ -51,12 +50,17 @@ class OrderCartComponent extends React.Component {
   }
 
   render() {
-    const { basket, hasError, isFetching, onClearBasket, onOrder } = this.props
-
-    // TODO 1: empty basket: ni clear ni order (disabled)
-    // TODO 2: tester clear et order
-
+    const { isAuthenticated, basket, isFetching, onClearCart, onOrder } = this.props
     const { intl: { formatMessage }, moduleTheme: { user } } = this.context
+
+    const emptyBasket = isEmpty(basket) || isEmpty(basket.datasetSelections)
+
+    // compute current no content data
+    const isNoContent = (!isAuthenticated || emptyBasket) && !isFetching
+    const noContentTitleKey = !isAuthenticated ? 'order-cart.module.not.logged.title' : 'order-cart.module.empty.basket.title'
+    const noContentMesageKey = !isAuthenticated ? 'order-cart.module.not.logged.messsage' : 'order-cart.module.empty.basket.messsage'
+    const NoContentIconConstructor = !isAuthenticated ? NotLoggedIcon : CartIcon
+
     return (
       <Card style={user.styles}>
         {/* 1 - Card title */}
@@ -73,39 +77,30 @@ class OrderCartComponent extends React.Component {
           {/* 1.b - Clear basket */}
           {/* 1.c - order */}
           <ToolbarGroup lastChild>
-            <WithConfirmationButton
-              onTouchTap={onOrder} // confirmation properties
-              dialogTitle={formatMessage({ id: 'order-cart.module.order.confirmation.title' })}
-              dialogMessage={formatMessage({ id: 'order-cart.module.order.confirmation.message' })}
-
-              label={formatMessage({ id: 'order-cart.module.order.label' })} // button properties
-              title={formatMessage({ id: 'order-cart.module.order.tooltip' })}
-              icon={<OrderIcon />}
-              style={user.header.options.styles}
-            />
+            <OrderComponent empty={isNoContent} onOrder={onOrder} />
             <ToolbarSeparator style={user.header.options.separator.styles} />
-            <WithConfirmationButton
-              onTouchTap={onClearBasket} // confirmation properties
-              dialogTitle={formatMessage({ id: 'order-cart.module.clear.confirmation.title' })}
-              dialogMessage={formatMessage({ id: 'order-cart.module.clear.confirmation.message' })}
-
-              label={formatMessage({ id: 'order-cart.module.clear.label' })} // button properties
-              title={formatMessage({ id: 'order-cart.module.clear.tooltip' })}
-              icon={<ClearBasketIcon />}
-              style={user.header.options.styles}
-            />
+            <ClearCartComponent empty={isNoContent} onClearCart={onClearCart} />
           </ToolbarGroup>
         </Toolbar>
         {/* 2 - Card content */}
         <CardMedia >
           <div style={user.content.styles}>
-            {/* 2.a - Error / empty display */}
-            {/* 2.b - loading or content display */}
-            {/* TODO  */}
-            <OrderCartTableComponent basket={basket} />
+            {/* 2.a - Empty basket display */}
+            <NoContentMessageInfo
+              noContent={isNoContent}
+              title={formatMessage({ id: noContentTitleKey })}
+              message={formatMessage({ id: noContentMesageKey })}
+              Icon={NoContentIconConstructor}
+            >
+              {/* 2.b - content  */}
+              <OrderCartTableComponent basket={basket} />
+              {/* 2.c - loading (content is not inside, as we need the table to not be
+              unmounted. Indeed the table uses previous props to restore the rows expanded state  */}
+              <LoadableContentDisplayDecorator isLoading={isFetching} />
+            </NoContentMessageInfo>
           </div>
         </CardMedia>
-      </Card>
+      </Card >
     )
   }
 

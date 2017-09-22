@@ -44,6 +44,10 @@ const moduleStyles = theme => ({
           },
         },
       },
+      detail: {
+        widthPercent: 80,
+        heightPercent: 70,
+      },
     },
     // module header styles
     header: {

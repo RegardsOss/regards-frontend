@@ -24,9 +24,13 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   ...Locales.fr,
-
+  'order-cart.module.admin.message': 'Il n\'y a pas d\'options spécifiques pour ce module',
   'order-cart.module.title': 'Mon panier',
   'order-cart.module.subtitle': 'Affichage et gestion du contenu du panier, trié par jeux de données et groupes d\'ajout. Vous pouvez vider le contenu ou lancer la commande en utilisant les options en haut à droite',
+  'order-cart.module.not.logged.title': 'Utilisateur non authentifié',
+  'order-cart.module.not.logged.messsage': 'Le panier n\'est accessible qu\'aux utilisateurs authentifiés. Vous pouvez vous connecter en utilisant le bouton "Connexion"',
+  'order-cart.module.empty.basket.title': 'Panier vide',
+  'order-cart.module.empty.basket.messsage': 'Votre panier ne contient aucun objet à commander. Vous pouvez en ajouter via les pages de recherche, de graphe et de résultats disponibles dans le menu de navigation',
   'order-cart.module.order.label': 'Commander',
   'order-cart.module.order.tooltip': 'Finaliser la commande du contenu du panier',
   'order-cart.module.order.confirmation.title': 'Commander',
@@ -46,8 +50,10 @@ const messages = {
   'order-cart.module.basket.table.delete.selection.tooltip': 'Supprimer la sélection',
   'order-cart.module.basket.table.delete.selection.confirm.message': 'Cette opération supprimera du panier tous les objets de cette sélection. Elle ne peut pas être annulée',
   'order-cart.module.basket.table.delete.selection.confirm.title': 'Supprimer la sélection',
-  'order-cart.module.basket.table.show.selection.detail.tooltip': 'Shows added object list',
-
+  'order-cart.module.basket.table.show.selection.detail.tooltip': 'Afficher la liste des objets',
+  'order-cart.module.basket.items.group.selection.detail.title': '{dataset}: Objets sélectionnés le {date}',
+  'order-cart.module.basket.items.group.selection.detail.no.data.title': 'Aucun élément',
+  'order-cart.module.basket.items.group.selection.detail.no.data.message': 'Il n\'y a plus d\'élément dans ce groupe de sélection. Ceux-ci ont pu être supprimés ou leurs droits d\'accès ont pus être modifiés.',
 }
 
 export default messages

@@ -17,10 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { createOrderReducer } from './client/CreateOrderClient'
+import { searchDataobjectsReducer } from './client/SearchDataobjectsClient'
+import { moduleDialogReducer } from './model/ModuleDialogReducer'
 
 /**
  * Module reducer (configures there combined path at module level)
  */
 export default {
   createOrder: createOrderReducer,
+  dialog: moduleDialogReducer,
+  searchDataobjects: searchDataobjectsReducer,
 }

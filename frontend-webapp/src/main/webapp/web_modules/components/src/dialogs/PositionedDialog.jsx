@@ -23,6 +23,8 @@ class PositionedDialog extends React.Component {
     minHeight: PropTypes.number,
     maxHeight: PropTypes.number,
     dialogHeightPercent: CommonShapes.Percent.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    contentStyle: PropTypes.object, // allows locally overriding the styles
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -60,15 +62,14 @@ class PositionedDialog extends React.Component {
     Math.min(maxDimension, Math.max(minDimension, (screenDimension * percentDimension) / 100))
 
   getScreenDimensions = () => {
-    const body = get(root, 'document.body', {})
+    const documentElement = get(root, 'document.documentElement', {})
     // using body
-    if (body) {
-      return { width: body.clientWidth, height: body.clientHeight }
+    if (documentElement) {
+      return { width: documentElement.clientWidth, height: documentElement.clientHeight }
     }
     // no info
     return { width: 0, height: 0 }
   }
-
 
   getDialogDimensions = () => {
     const { dialogWidthPercent, minWidth, maxWidth,
@@ -81,11 +82,13 @@ class PositionedDialog extends React.Component {
   }
 
   updateDimensions = () => {
+    const { contentStyle = {} } = this.props
     const { width, height } = this.getDialogDimensions()
     this.setState({
       contentStyle: {
         width,
         maxWidth: 'none',
+        ...contentStyle,
       },
       rootContainerStyle: {
         position: 'relative',

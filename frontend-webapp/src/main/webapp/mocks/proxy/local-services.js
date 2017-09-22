@@ -149,6 +149,12 @@ function getResourcesDependencies({ content, links, metadata }, pathParams, quer
   }
 }
 
+const EMPTY_BASKET = {
+  id: 0,
+  email: 'test@mail.com',
+  datasetSelections: [],
+}
+
 const MOCKED_BASKET = { // MOCK a full backet, win TIME, SAVE MONNEY
   id: 0,
   email: 'test@mail.com',
@@ -344,7 +350,7 @@ const MOCKED_BASKET = { // MOCK a full backet, win TIME, SAVE MONNEY
 // Holds current basket data
 const currentBasketData = {
   // init mock basket (even for unlogged user, that is mock BRO!)
-  token: null,
+  token: undefined,
   basket: MOCKED_BASKET,
   datasetSelectionId: 0,
   selectionItemId: 0
@@ -446,42 +452,84 @@ function getPushInBasketHandler(gatewayURL) {
               const filesSize = _.reduce(addedEntities, (acc, entity) => acc + _.get(entity, 'content.properties.FILE_SIZE', 0), 0) // sum all file size
               updateBasketWithDatasetInfo(objectsCount, filesCount, filesSize, datasetKey)
             })
-            resolve({
-              code: 200,
-              content: {
-                content: currentBasketData.basket,
-                links: [],
-              }
-            })
+            resolve(getBasket(request))
           }).catch(err => logMessage(err, true, '[Add to basket]') || reject({
             code: 500,
             content: err
           }))
       } else {
         // case 2: adding a request, excluding the list of dataobjects: we will just mock it
-        console.error('<<<<<<<<<<<<<<<< ', currentBasketData.basket)
         updateBasketWithDatasetInfo(25, 306, 5048, 'test-dataset-for-fake-search')
-        console.error('>>>>>>>>>>>>>>>> ', currentBasketData.basket)
-        resolve({
-          code: 200,
-          content: {
-            content: currentBasketData.basket,
-            links: [],
-          }
-        })
+        resolve(getBasket(request))
       }
     })
   }
 }
 
-function clearBasket() {
-
+function orderBasket(request) {
+  return { code: 200, content: { content: { id: 5, message: 'Dummy object' } } } // nothing important in this return value, lets ignore it
 }
-function removeBasketDataset() {
 
+function clearBasket(request) {
+  // reinit basket
+  currentBasketData.basket = EMPTY_BASKET
+  return getBasket(request) // use default basket delegate
 }
-function removeBasketItem() {
 
+function removeBasketDataset(request, response, { datasetSelectionId }) {
+  const currentBasket = currentBasketData.basket || {}
+  const dsSelections = currentBasket.datasetSelections || []
+  const searchedIndex = parseInt(datasetSelectionId, 10)
+  const foundIndex = dsSelections.findIndex(selection => selection.id === searchedIndex)
+  if (foundIndex === -1) {
+    return { code: 500 }
+  }
+  console.error(foundIndex, dsSelections.slice(0, foundIndex).concat(dsSelections.slice(foundIndex + 1, dsSelections.length)))
+  // for the basket, we need to clone dataset selection
+  currentBasketData.basket = Object.assign({}, currentBasket, {
+    datasetSelections: dsSelections.slice(0, foundIndex).concat(dsSelections.slice(foundIndex + 1, dsSelections.length)),
+  })
+  return getBasket(request)
+}
+
+function removeBasketItem(request, response, { datasetSelectionId, itemsSelectionDate }) {
+  const currentBasket = currentBasketData.basket || {}
+  const dsSelections = currentBasket.datasetSelections || []
+  const searchedIndex = parseInt(datasetSelectionId, 10)
+  const foundIndex = dsSelections.findIndex(selection => selection.id === searchedIndex)
+  if (foundIndex === -1) {
+    return { code: 500 }
+  }
+  // clone the DS selection, remove the dated selection and rebuild the next basket
+  const previousDSSelection = dsSelections[foundIndex]
+  const dsItemsSelections = previousDSSelection.itemsSelections
+  const datedItemIndex = dsItemsSelections.findIndex(selection => selection.date === itemsSelectionDate)
+
+  if (datedItemIndex === -1) {
+    return { code: 500 }
+  }
+  // remove the item
+  const nextItems = dsItemsSelections.slice(0, datedItemIndex).concat(dsItemsSelections.slice(datedItemIndex + 1, dsItemsSelections.length))
+  // build the next DS selection
+  const newDsSelection = nextItems.length ? Object.assign({}, previousDSSelection, {
+    objectsCount: nextItems.reduce((acc, item) => acc + item.objectsCount, 0),
+    filesCount: nextItems.reduce((acc, item) => acc + item.filesCount, 0),
+    filesSize: nextItems.reduce((acc, item) => acc + item.filesSize, 0),
+    itemsSelections: nextItems,
+  }) : null
+
+  // rebuild DS selections list
+  nextSelections = dsSelections.slice(0, foundIndex)
+  if (newDsSelection) {
+    nextSelections.push(newDsSelection)
+  }
+  nextSelections = nextSelections.concat(dsSelections.slice(foundIndex + 1, dsSelections.length))
+
+  // update basket
+  currentBasketData.basket = Object.assign({}, currentBasket, {
+    datasetSelections: nextSelections,
+  })
+  return getBasket(request)
 }
 
 function buildLocalServices(gatewayURL) {
@@ -496,6 +544,7 @@ function buildLocalServices(gatewayURL) {
     },
     POST: {
       addInBasket: { url: 'rs-order/order/basket', handler: getPushInBasketHandler(gatewayURL) },
+      order: { url: 'rs-order/user/orders', handler: orderBasket },
     },
     DELETE: {
       clearBasket: { url: 'rs-order/order/basket', handler: clearBasket },

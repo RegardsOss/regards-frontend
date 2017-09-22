@@ -29,7 +29,7 @@ import OrderDatasetDetailActions from './OrderDatasetDetailActions'
  * @param {*} namespace namespace
  * @return reduce function (state, action) => state
  */
-const getOrderDatasetDetailReducer = (namespace) => { // TODO is it a signal or a list reducer? (pay attention to configuration)
+const getOrderDatasetDetailReducer = (namespace) => {
   const reducerInstance = new BasicSignalReducers(new OrderDatasetDetailActions(namespace))
   // reduce function
   return (state, action) => reducerInstance.reduce(state, action)

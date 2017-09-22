@@ -16,17 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEqual from 'lodash/isEqual'
 
+/**
+ * A tree table row for TreeTableComponent
+ * @author Raphaël Mechali
+ */
 class TreeTableRow {
 
   /**
    * Constructor
+   * @param {string} key table row key
    * @param {[*]} rowCells rows cell values: array of any (depends on what should be converted, at render, into a cell component)
    * @param {[TreeTableRow]} subRows sub rows of this row
    * @param {boolean} expanded is row expanded
    */
-  constructor(rowCells = [], subRows = [], expanded = false) {
+  constructor(key, rowCells = [], subRows = [], expanded = false) {
+    this.key = key
     this.rowCells = rowCells
     this.subRows = subRows
     this.expanded = expanded
@@ -40,26 +45,30 @@ class TreeTableRow {
   }
 
   /**
-   * Is this row matching another one? (value comparison, two matching rows are very likely to be extracted from the same model element)
-   * @param {TreeTableRow} otherRow
-   * @return {boolean} true if this row matches the other row
+   * Is same row than other on
+   * @param {TreeTableRow} otherRow other row
+   * @return {boolean} true if this row is the same row
    */
-  matches(otherRow) {
-    return isEqual(this.rowCells, otherRow.rowCells) && // A - This row values must be identical
-      this.subRows.length === otherRow.subRows.length && // B - Other row as the same count of sub rows
-      !this.subRows.find((row, index) => !row.matches(otherRow.subRows[index]))// C - All sub rows also matches each other (A non matching row cannot be found - optimization)
+  isSameRow(otherRow) {
+    return this.key === otherRow.key
   }
 
   /**
    * Restores expanded state from another row.
-   * Pre: the other row matches STRICTLY this one
-   * @param {TreeTableRow} otherRow
+   * @param {TreeTableRow} otherRow other row, must match this one
    */
   restoreExpandedStatefrom(otherRow) {
     // current level restoration
     this.expanded = otherRow.expanded
+
     // depth restoration
-    this.subRows.forEach((subRow, index) => subRow.restoreExpandedStatefrom(otherRow.subRows[index]))
+    this.subRows.forEach((thisSubRow, index) => {
+      const matchingOtherSubRow = otherRow.subRows.find(otherSubRow => thisSubRow.isSameRow(otherSubRow))
+      if (matchingOtherSubRow) {
+        // recursive sub levels restoration
+        thisSubRow.restoreExpandedStatefrom(matchingOtherSubRow)
+      }
+    })
   }
 
 }

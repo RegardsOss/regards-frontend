@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import UserModuleContainer from '../../../src/containers/user/UserModuleContainer'
+import OrderCartContainer from '../../../src/containers/user/OrderCartContainer'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -36,10 +37,7 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
     assert.isDefined(UserModuleContainer)
   })
   it('should render correctly', () => {
-    const props = {
-      // TODO props
-    }
-    // TODO tests
-    shallow(<UserModuleContainer name {...props} />, { context })
+    const renderWrapper = shallow(<UserModuleContainer />, { context })
+    assert.lengthOf(renderWrapper.find(OrderCartContainer), 1, 'There should be the sub container (this one does\'t do anything')
   })
 })

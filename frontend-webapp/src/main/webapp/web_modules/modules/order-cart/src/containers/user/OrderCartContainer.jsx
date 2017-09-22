@@ -19,8 +19,10 @@
 import { connect } from '@regardsoss/redux'
 import { OrderClient } from '@regardsoss/client'
 import { OrderShapes } from '@regardsoss/shape'
-import OrderCartComponent from '../../components/user/OrderCartComponent'
+import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { createOrderActions, createOrderSelectors } from '../../client/CreateOrderClient'
+import SelectionItemDetailContainer from './detail/SelectionItemDetailContainer'
+import OrderCartComponent from '../../components/user/OrderCartComponent'
 
 // get an instance of default actions / selectors (the basket state is shared over all modules)
 const orderBasketActions = new OrderClient.OrderBasketActions()
@@ -40,9 +42,10 @@ export class OrderCartContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
+      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
       basket: orderBasketSelectors.getOrderBasket(state),
       hasError: orderBasketSelectors.hasError(state),
-      isFetching: orderBasketSelectors.isFetching(state),
+      isFetching: orderBasketSelectors.isFetching(state) || createOrderSelectors.isFetching(state),
     }
   }
 
@@ -55,39 +58,70 @@ export class OrderCartContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       dispatchGetBasket: () => dispatch(orderBasketActions.getBasket()),
-      dispatchClearBasket: () => dispatch(orderBasketActions.clearBasket()), // TODO MOVE INTO LOWER CONTAINER
+      dispatchFlushBasket: () => dispatch(orderBasketActions.flushBasket()),
+      dispatchClearCart: () => dispatch(orderBasketActions.clearBasket()),
       // after dispatching an order, clear the basket as it is now empty on server side
       dispatchStartOrder: () =>
-        dispatch(createOrderActions.order()).then(payload => !payload.error && dispatch(orderBasketActions.flush())),
+        dispatch(createOrderActions.order()).then(payload => !payload.error && dispatch(orderBasketActions.flushBasket())),
     }
   }
 
   static propTypes = {
     // from mapStateToProps
+    isAuthenticated: PropTypes.bool, // used only in properties changed
     basket: OrderShapes.Basket,
     hasError: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool.isRequired,
     // from mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     dispatchGetBasket: PropTypes.func.isRequired,
-    dispatchClearBasket: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatchFlushBasket: PropTypes.func.isRequired, // locally clears basket
     dispatchStartOrder: PropTypes.func.isRequired,
+    dispatchClearCart: PropTypes.func.isRequired, // clears basket on server side
   }
 
   /**
-   * On component mount: fetch current basket content for user
+   * Lifecycle method: component did mount. Notify properties changed to fetch basket if logged for user
    */
-  componentDidMount = () => this.props.dispatchGetBasket()
+  componentDidMount = () => this.onPropertiesChanged({}, this.props)
+
+  /**
+   * Lifecycle method: component will receive props. Notify properties changed to fetch basket if logged for user
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+
+  /**
+   * Event handler: component properties changed. If user just logged in, fetch the basket content
+   * @param {*} oldProps previous component properties
+   * @param {*} newProps new component properties
+   */
+  onPropertiesChanged = (oldProps, newProps) => {
+    if (oldProps.isAuthenticated !== newProps.isAuthenticated) {
+      if (newProps.isAuthenticated) {
+        newProps.dispatchGetBasket()
+      } else {
+        newProps.dispatchFlushBasket()
+      }
+    }
+  }
 
   render() {
-    const { basket, hasError, isFetching, dispatchClearBasket, dispatchStartOrder } = this.props
+    const { basket, hasError, isAuthenticated, isFetching, dispatchClearCart, dispatchStartOrder } = this.props
     return (
-      <OrderCartComponent
-        basket={basket}
-        hasError={hasError}
-        isFetching={isFetching}
-        onClearBasket={dispatchClearBasket}
-        onOrder={dispatchStartOrder}
-      />
+      <div>
+        {/* 1 - Add main view */}
+        <OrderCartComponent
+          basket={basket}
+          hasError={hasError}
+          isFetching={isFetching}
+          isAuthenticated={isAuthenticated}
+          onClearCart={dispatchClearCart}
+          onOrder={dispatchStartOrder}
+        />
+        {/* 2 - Add detail dialog */}
+        <SelectionItemDetailContainer />
+      </div>
     )
   }
 }

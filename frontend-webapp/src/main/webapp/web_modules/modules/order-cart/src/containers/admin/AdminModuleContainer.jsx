@@ -16,27 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-// TODO import connected form container with right properties
+import { withI18n } from '@regardsoss/i18n'
+import AdminMessageComponent from '../../components/admin/AdminMessageComponent'
+import messages from '../../i18n'
 
 /**
-* Admin module container
-* @author Raphaël Mechali
-*/
-export default class AdminModuleContainer extends React.Component {
-
-  static propTypes = {
-    // from mapStateToProps
-    // from mapDispatchToProps
-  }
-
-  static defaultProps = {
-    // TODO actions to pull basket (default props)
-  }
+ * Admin module container: simply shows its component with intl
+ * @author Raphaël Mechali
+ */
+export class AdminModuleContainer extends React.Component {
 
   render() {
     return (
-      <div />
+      <AdminMessageComponent />
     )
   }
 }
+
+export default withI18n(messages)(AdminModuleContainer)
+

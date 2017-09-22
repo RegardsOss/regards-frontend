@@ -24,9 +24,13 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   ...Locales.en,
-
+  'order-cart.module.admin.message': 'There is no specific options for that module',
   'order-cart.module.title': 'My cart',
   'order-cart.module.subtitle': 'Cart content display and control, sorted by dataset and added elements groups, start command...',
+  'order-cart.module.not.logged.title': 'User not authentified',
+  'order-cart.module.not.logged.messsage': 'The cart is not available while you are not logged in application. Please log in using connection button.',
+  'order-cart.module.empty.basket.title': 'Empty cart',
+  'order-cart.module.empty.basket.messsage': 'Your cart does not contain any dataobject to order. You can add some using search results, graph and form pages available in navigation menu',
   'order-cart.module.order.label': 'Order',
   'order-cart.module.order.tooltip': 'Order cart content',
   'order-cart.module.order.confirmation.title': 'Order',
@@ -47,6 +51,9 @@ const messages = {
   'order-cart.module.basket.table.delete.selection.confirm.message': 'That operation will remove all dataobjects in this selection from basket. It cannot be undone',
   'order-cart.module.basket.table.delete.selection.confirm.title': 'Remove selection',
   'order-cart.module.basket.table.show.selection.detail.tooltip': 'Shows added object list',
+  'order-cart.module.basket.items.group.selection.detail.title': '{dataset}: Items selected on {date}',
+  'order-cart.module.basket.items.group.selection.detail.no.data.title': 'No item',
+  'order-cart.module.basket.items.group.selection.detail.no.data.message': 'There is no longer item in this selection group. They may have been deleted or their access rights could have changed',
 }
 
 export default messages

@@ -56,7 +56,8 @@ class ServiceConfigurationListComponent extends React.Component {
     handleToggleActivation: PropTypes.func.isRequired,
     handleToggleDefault: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
-    backUrl: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    backUrl: PropTypes.string.isRequired, // TODO remove or use
   }
 
   static contextTypes = {
@@ -68,7 +69,7 @@ class ServiceConfigurationListComponent extends React.Component {
 
 
   render() {
-    const { uiPluginConfigurationList, plugin, handleToggleActivation, handleDuplicate, handleToggleDefault, handleEdit, handleDelete, createUrl, backUrl } = this.props
+    const { uiPluginConfigurationList, plugin, handleToggleActivation, handleDuplicate, handleToggleDefault, handleEdit, handleDelete, createUrl } = this.props
     const { intl: { formatMessage } } = this.context
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,

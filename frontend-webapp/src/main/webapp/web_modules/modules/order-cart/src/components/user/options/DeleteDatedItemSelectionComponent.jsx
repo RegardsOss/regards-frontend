@@ -21,7 +21,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withConfirmDialog } from '@regardsoss/components'
 
-const IconButtonWithConfirmDialog = withConfirmDialog(IconButton)
+export const IconButtonWithConfirmDialog = withConfirmDialog(IconButton)
 
 /**
 * Shows deleted dated items selection in basket

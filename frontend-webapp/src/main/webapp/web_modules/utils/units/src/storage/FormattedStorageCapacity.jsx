@@ -52,7 +52,7 @@ export class FormattedStorageCapacity extends React.Component {
 
   render() {
     const { capacity } = this.props
-    const { intl: { formatMessage, formatNumber } } = this.context // TODO report format number into archival storage
+    const { intl: { formatMessage, formatNumber } } = this.context
 
     const formatProperties = {
       id: 'storage.capacity.monitoring.capacity.unknown',

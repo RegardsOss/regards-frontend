@@ -159,8 +159,7 @@ export class MenuContainer extends React.Component {
       }
       // C - check that user is authenticated and has enough rights to read the cart content from backend
       return {
-        // TODO : enable back on first line: isAuthenticated &&
-        displayCart: allMatchHateoasDisplayLogic(MenuContainer.BASKET_DEPENDENCIES, availableEndpoints),
+        displayCart: isAuthenticated && allMatchHateoasDisplayLogic(MenuContainer.BASKET_DEPENDENCIES, availableEndpoints),
         cartModuleId: dynamicOrderCartModules[0].content.id,
       }
     }

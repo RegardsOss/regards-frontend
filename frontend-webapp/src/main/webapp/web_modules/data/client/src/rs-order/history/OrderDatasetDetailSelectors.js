@@ -28,7 +28,7 @@ import { BasicSignalSelectors } from '@regardsoss/store-utils'
  * @param {[string]} storePath path to access state in redux store
  * @return selectors instance
  */
-const getOrderDatasetDetailSelectors = storePath => new BasicSignalSelectors(storePath) // TODO list selectors?
+const getOrderDatasetDetailSelectors = storePath => new BasicSignalSelectors(storePath)
 
 export default getOrderDatasetDetailSelectors
 

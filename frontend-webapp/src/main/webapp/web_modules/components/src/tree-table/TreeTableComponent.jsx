@@ -25,6 +25,7 @@ import omit from 'lodash/omit'
 import { Table, TableBody, TableHeader, TableRow, TableRowColumn, TableHeaderColumn } from 'material-ui/Table'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import TreeTableRow from './TreeTableRow'
 import ExpandCollapseComponent from './ExpandCollapseComponent'
 import messages from './i18n'
 import styles from './styles/styles'
@@ -57,6 +58,8 @@ export class TreeTableComponent extends React.Component {
     ...themeContextType,
   }
 
+  static ROOT_ROW_KEY = 'inner.model.root.row'
+
   /** Lyfecycle method: component will mount. Used here to rebuild rows and local model from model */
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
 
@@ -64,7 +67,7 @@ export class TreeTableComponent extends React.Component {
    * Lyfecycle method: component receive props. Used here to rebuild rows and local model from model
    * @param nextProps next properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged({}, nextProps)
+  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
 
   /**
    * On properties changed detected: update local rows model
@@ -73,17 +76,18 @@ export class TreeTableComponent extends React.Component {
    */
   onPropertiesChanged = ({ model: previousModel, buildTreeTableRows: previousBuilder }, { model: newModel, buildTreeTableRows: newBuilder }) => {
     const previousState = this.state
+
     // check if model needs to be rebuilt
     if (!isEqual(previousModel, newModel) || !isEqual(previousBuilder, newBuilder)) {
-      const newRootRows = newBuilder(newModel) || []
-      const previousRootRows = get(previousState, 'tableRootRows', [])
-      // restore expanded / collapsed state for identical rows (such cases indicate the model was not replaced but 'completed'
-      for (let i = 0; i < Math.min(newRootRows.length, previousRootRows.length) && newRootRows[i].matches(previousRootRows[i]); i += 1) {
-        // the row still matches, restore row and sub rows state
-        newRootRows.forEach((row, index) => row.restoreExpandedStatefrom(previousRootRows[index]))
+      // wrap all rows in a root tree row (allows using the rows functions when handling rows)
+      const newRootRow = new TreeTableRow(TreeTableComponent.ROOT_ROW_KEY, [], newBuilder(newModel) || [])
+      const previousRootRow = get(previousState, 'tableRootRow', null)
+      if (previousRootRow) {
+        // restore as much as possible from previous state
+        newRootRow.restoreExpandedStatefrom(previousRootRow)
       }
       // update state
-      this.setState({ tableRootRows: newRootRows })
+      this.setState({ tableRootRow: newRootRow })
     }
   }
 
@@ -132,15 +136,13 @@ export class TreeTableComponent extends React.Component {
   renderRow = (row, indexInLevel, parentIndexChain = [], leftIndentation = this.context.moduleTheme.firstCell.leftMarginForLevel) => {
     const { moduleTheme: { oddLevelRowStyle, evenLevelRowStyle, expandCell, firstCell } } = this.context
     const depthLevel = parentIndexChain.length
-    // 1 - prepare unique tree path identifier on index
     const uniqueKeyChain = [...parentIndexChain, indexInLevel]
-    const localRowKeyFromChain = uniqueKeyChain.join('.')
 
     // 2 - Render the parent row
     const rootRow = (
       // sadly here we have to use an inline lambda, because MUI table accept only MUI table rows
       <TableRow
-        key={`row.level.${localRowKeyFromChain}`}
+        key={row.key}
         onDoubleClick={() => this.onToggleExpanded(row)}
         style={depthLevel % 2 === 0 ? evenLevelRowStyle : oddLevelRowStyle}
       >
@@ -149,7 +151,7 @@ export class TreeTableComponent extends React.Component {
             this.renderCell(rowCell, columnIndex, depthLevel, leftIndentation))
         }
         {/* add last column cell for expand collapse */}
-        <TableRowColumn key={`cell.-${row.rowCells.length}`} style={expandCell.style}>
+        <TableRowColumn key={`${row.key}.cell.expand`} style={expandCell.style}>
           {
             // render: nothing when row has no sub row, or expanded / collapsed icon
             row.subRows.length ?
@@ -169,15 +171,15 @@ export class TreeTableComponent extends React.Component {
     const { moduleTheme: { expandCell } } = this.context
     // report to table any property that is not specific to this component
     const tableProperties = omit(this.props, keys(TreeTableComponent.propTypes))
-    const { tableRootRows } = this.state
+    const { tableRootRow } = this.state
+
     return (
-      <Table selectable={false}>
+      <Table selectable={false} {...tableProperties}>
         {/* Table header with user columns */}
         <TableHeader
           displaySelectAll={false}
           adjustForCheckbox={false}
           enableSelectAll={false}
-          {...tableProperties}
         >
           <TableRow>
             {columns}
@@ -188,16 +190,15 @@ export class TreeTableComponent extends React.Component {
         {/* Table body, hacked into a recursive rendered tree */}
         <TableBody
           displayRowCheckbox={false}
-          showRowHover={false}
+          showRowHover
         >
           {
-            flatMap(tableRootRows, (row, indexInLevel) => this.renderRow(row, indexInLevel))
+            flatMap(tableRootRow.subRows, (row, indexInLevel) => this.renderRow(row, indexInLevel))
           }
         </TableBody>
       </Table >
     )
   }
-
 
 }
 

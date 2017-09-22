@@ -316,7 +316,6 @@ class SearchResultsComponent extends React.Component {
       // Add selection to cart option
       onAddSelectionToCart ? <AddSelectionToCartComponent key="add.selection.to.cart" onAddSelectionToCart={onAddSelectionToCart} /> : null,
       // facets option
-      // TODO: contdition can be externalized here too
       <ShowableAtRender
         key="facet.filter.option"
         show={allowingFacettes && showingDataobjects}

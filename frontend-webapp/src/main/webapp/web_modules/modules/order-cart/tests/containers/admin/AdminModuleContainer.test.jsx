@@ -19,7 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AdminModuleContainer from '../../../src/containers/admin/AdminModuleContainer'
+import { AdminModuleContainer } from '../../../src/containers/admin/AdminModuleContainer'
+import AdminMessageComponent from '../../../src/components/admin/AdminMessageComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -35,11 +36,8 @@ describe('[Order Cart] Testing AdminModuleContainer', () => {
   it('should exists', () => {
     assert.isDefined(AdminModuleContainer)
   })
-  it('should render correctly', () => {
-    const props = {
-      // TODO props
-    }
-    // TODO tests
-    shallow(<AdminModuleContainer name {...props} />, { context })
+  it('should render correctly its children', () => {
+    const renderWrapper = shallow(<AdminModuleContainer />, { context })
+    assert.lengthOf(renderWrapper.find(AdminMessageComponent), 1, 'There should be the message displayer')
   })
 })

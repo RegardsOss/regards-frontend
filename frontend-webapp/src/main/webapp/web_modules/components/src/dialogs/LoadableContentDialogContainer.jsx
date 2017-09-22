@@ -1,15 +1,22 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import CircularProgress from 'material-ui/CircularProgress'
+
 import { CommonShapes } from '@regardsoss/shape'
+import { withModuleStyle } from '@regardsoss/theme'
 import ShowableAtRender from '../cards/ShowableAtRender'
 import PositionedDialog from './PositionedDialog'
+import DialogLoadingComponent from './DialogLoadingComponent'
+
+import styles from './styles/styles'
+
+const DIALOG_STYLES = { styles }
 
 /**
-* Shows loadable children in a dialog. Must be driven using loaded true / false
-*/
-class LoadableContentDialogContainer extends React.Component {
+ * Shows loadable children in a dialog. Must be driven using loaded true / false
+ * @author Raphaël Mechali
+ */
+export class LoadableContentDialogContainer extends React.Component {
 
   static propTypes = {
     loaded: PropTypes.bool.isRequired,
@@ -22,6 +29,11 @@ class LoadableContentDialogContainer extends React.Component {
     ]).isRequired,
   }
 
+  /** style to show children  */
+  static SHOW_CHILDREN_STYLE = { height: '100%', maxHeight: '100%' }
+  /** style to hide children */
+  static HIDE_CHILDREN_STYLE = { display: 'none' }
+
   render() {
     const { loaded, loadingMessage, dialogHeightPercent, dialogWidthPercent, children, ...dialogProperties } = this.props
     return (
@@ -31,16 +43,13 @@ class LoadableContentDialogContainer extends React.Component {
         {...dialogProperties}
       >
         <ShowableAtRender show={!loaded}>
-          <div style={{ position: 'absolute', width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }} >
-            <CircularProgress size={256} />
-            <p style={{ marginTop: '2em' }}>{loadingMessage}</p>
-          </div>
+          <DialogLoadingComponent loadingMessage={loadingMessage} />
         </ShowableAtRender>
-        <div style={loaded ? { height: '100%', maxHeight: '100%' } : { display: 'none' }}>
+        <div style={loaded ? LoadableContentDialogContainer.SHOW_CHILDREN_STYLE : LoadableContentDialogContainer.HIDE_CHILDREN_STYLE}>
           {children}
         </div>
       </PositionedDialog >
     )
   }
 }
-export default LoadableContentDialogContainer
+export default withModuleStyle(DIALOG_STYLES)(LoadableContentDialogContainer)

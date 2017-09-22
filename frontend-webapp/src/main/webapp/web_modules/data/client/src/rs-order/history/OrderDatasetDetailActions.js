@@ -30,10 +30,8 @@ class OrderDatasetDetailActions extends BasicSignalActions {
    */
   constructor(namespace) {
     super({
-      // TODO: should user access it through URL user/orders?
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/{order_id}/dataset/{dataset_id}`,
       namespace,
-      // TODO: 2 this may need order dataset detail schema if backend returns a list
     })
   }
 
@@ -44,7 +42,6 @@ class OrderDatasetDetailActions extends BasicSignalActions {
    * @return {type: string, ...} redux action to dispatch to fetch order dataset detail
    */
   getOrderDatasetDetail(orderId, datasetId) {
-    // TODO change if list actions
     return this.sendSignal('GET', null, { order_id: orderId, dataset_id: datasetId })
   }
 

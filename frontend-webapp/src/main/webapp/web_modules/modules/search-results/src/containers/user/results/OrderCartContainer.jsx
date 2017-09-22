@@ -57,11 +57,11 @@ export class OrderCartContainer extends React.Component {
 
   /**
    * TODO share with services container when merging V1.1
-  * @param selectionMode current seletion mode
-  * @param toggledElements toggled elements
-  * @param pageMetadata page metadata
-  * @return true if selection is empty
-  */
+   * @param selectionMode current seletion mode
+   * @param toggledElements toggled elements
+   * @param pageMetadata page metadata
+   * @return true if selection is empty
+   */
   static isEmptySelection = (selectionMode, toggledElements, pageMetadata) => {
     const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
     const selectionSize = keys(toggledElements).length
@@ -257,7 +257,7 @@ export class OrderCartContainer extends React.Component {
   isBasketAvailable = ({ isAuthenticated, modules, availableEndpoints }) => {
     // Available if...
     // A - User is logged in
-    if (isAuthenticated || true) { // TODO remove after tests
+    if (isAuthenticated) {
       // B - There is / are active Order cart module(s)
       const hasOrderCartModule = find((modules || {}), module =>
         (get(module, 'content.type', '') === modulesManager.ModuleTypes.ORDER_CART &&

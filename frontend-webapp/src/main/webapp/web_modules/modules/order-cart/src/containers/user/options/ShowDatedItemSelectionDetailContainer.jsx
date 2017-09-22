@@ -21,9 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { withI18n } from '@regardsoss/i18n'
 import messages from '../../../i18n'
 import ShowDatedItemSelectionDetailComponent from '../../../components/user/options/ShowDatedItemSelectionDetailComponent'
-
-// TODO MOVE ALL BELOW INTO LOWER CONTAINER
-
+import { moduleDialogActions } from '../../../model/ModuleDialogActions'
 
 /**
 * Container for dated item selection detail display
@@ -37,13 +35,17 @@ export class ShowDatedItemSelectionDetailContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { openSearchRequest }) {
+  static mapDispatchToProps(dispatch, { datasetLabel, date, openSearchRequest }) {
     return {
-      dispatchShowDetail: () => console.error('HELLO ', openSearchRequest),
+      dispatchShowDetail: () => dispatch(moduleDialogActions.showDetail(datasetLabel, date, openSearchRequest)),
     }
   }
 
   static propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
+    datasetLabel: PropTypes.string.isRequired, // used only in mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    date: PropTypes.string.isRequired, // used only in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     openSearchRequest: PropTypes.string, // used only in mapDispatchToProps
     // from mapDispatchToProps

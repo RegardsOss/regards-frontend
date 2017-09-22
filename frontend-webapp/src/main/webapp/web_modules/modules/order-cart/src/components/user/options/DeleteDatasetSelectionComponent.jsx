@@ -21,7 +21,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withConfirmDialog } from '@regardsoss/components'
 
-const IconButtonWithConfirmDialog = withConfirmDialog(IconButton)
+export const IconButtonWithConfirmDialog = withConfirmDialog(IconButton)
 
 /**
 * Shows delete dataset option in basket
@@ -40,8 +40,6 @@ class DeleteDatasetSelectionComponent extends React.Component {
   render() {
     const { intl: { formatMessage } } = this.context
     const { onDelete } = this.props
-
-    //
     return (
       <IconButtonWithConfirmDialog
         onTouchTap={onDelete}
