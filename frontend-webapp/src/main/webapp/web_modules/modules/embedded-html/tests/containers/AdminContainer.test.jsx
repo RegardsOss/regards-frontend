@@ -29,7 +29,7 @@ import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Menu] Testing AdminContainer', () => {
+describe('[Embedded-html] Testing AdminContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

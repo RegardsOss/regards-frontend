@@ -15,15 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 
 /**
  * Module configuration shape
  * @author Sébastien Binda
  */
 const ModuleConfigurationShape = PropTypes.shape({
-  headerHeight: PropTypes.string,
-  headerWidth: PropTypes.string,
+  cssHeight: PropTypes.string,
+  cssWidth: PropTypes.string,
   htmlUrl: PropTypes.string,
 })
 
