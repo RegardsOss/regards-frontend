@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { Locales } from '@regardsoss/form-utils'
 import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
@@ -24,8 +24,9 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
  * @author Sébastien Binda
  */
 const messages = {
-  "admin.header.height.label":"Hauteur en pixels du bandeau",
-  "admin.header.html.url":"Url d'accès au fichier html",
+  'admin.css.height.label': 'Propriété CSS Height',
+  'admin.css.width.label': 'PRopriété CSS Width',
+  'admin.html.url': "Url d'accès au fichier html",
   ...Locales.fr,
   ...MetadataLocales.fr,
 }

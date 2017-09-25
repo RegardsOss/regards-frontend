@@ -1,4 +1,4 @@
-# @regardsoss/header
+# @regardsoss/embedded-html
 
 ## Description
 

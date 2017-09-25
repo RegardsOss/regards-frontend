@@ -29,7 +29,7 @@ import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Menu] Testing MenuContainer', () => {
+describe('[Embedded-html] Testing MenuContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -40,7 +40,9 @@ describe('[Menu] Testing MenuContainer', () => {
     const props = {
       project: 'any',
       appName: 'any',
-      moduleConf: {},
+      moduleConf: {
+        htmlUrl: '/html/test.html',
+      },
     }
     shallow(<ModuleContainer {...props} />, { context })
   })

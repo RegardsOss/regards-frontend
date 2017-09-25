@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
@@ -57,8 +57,8 @@ class AdminContainer extends React.Component {
           <IFrameURLContentDisplayer
             contentURL={this.props.adminForm.form.conf.htmlUrl}
             style={{
-              width: this.props.adminForm.form.conf.headerWidth || "100%",
-              height: this.props.adminForm.form.conf.headerHeight || 100
+              width: this.props.adminForm.form.conf.cssWidth || '100%',
+              height: this.props.adminForm.form.conf.cssHeight || 100,
 
             }}
           />
@@ -69,30 +69,29 @@ class AdminContainer extends React.Component {
   }
 
   render() {
-    console.error(this.props.adminForm.form)
     const { intl } = this.context
     return (
       <div>
         <Field
-          name="conf.headerHeight"
+          name="conf.cssHeight"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={intl.formatMessage({ id: 'admin.header.height.label' })}
+          label={intl.formatMessage({ id: 'admin.css.height.label' })}
         />
         <Field
-          name="conf.headerWidth"
+          name="conf.cssWidth"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={intl.formatMessage({ id: 'admin.header.width.label' })}
+          label={intl.formatMessage({ id: 'admin.css.width.label' })}
         />
         <Field
           name="conf.htmlUrl"
           fullWidth
           component={RenderTextField}
           type="text"
-          label={intl.formatMessage({ id: 'admin.header.html.url' })}
+          label={intl.formatMessage({ id: 'admin.html.url' })}
         />
         {this.renderHTML()}
       </div>

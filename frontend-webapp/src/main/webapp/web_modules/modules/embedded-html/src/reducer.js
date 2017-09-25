@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import {
   AttributeModelReducer,
   REDUCER_PATH,
@@ -24,5 +24,4 @@ import {
  * @author Sébastien Binda
  */
 export default {
-  [REDUCER_PATH]: AttributeModelReducer,
 }
