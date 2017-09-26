@@ -18,6 +18,7 @@
  **/
 import map from 'lodash/map'
 import find from 'lodash/find'
+import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import stubTrue from 'lodash/stubTrue'
 import merge from 'lodash/merge'
@@ -85,8 +86,10 @@ class ApplicationThemeComponent extends React.Component {
       theme = values(props.themeList)[0]
     }
 
+    const background = get(theme,'content.configuration.palette.background',null)
+
     this.state = {
-      background: theme.content.configuration.palette.background,
+      background: background,
       editingTheme: theme,
       snackBarOpen: false,
       snackBarMessageId: 'application.theme.save.success',
@@ -97,10 +100,10 @@ class ApplicationThemeComponent extends React.Component {
     Promise.resolve(this.props.fetchTheme(value)).then((actionResult) => {
       if (!actionResult.error) {
         const newTheme = find(this.props.themeList, theme => theme.content.id === value)
-        if (newTheme){
+        if (newTheme) {
           this.setState({
             background: newTheme.content.configuration.palette.background || '',
-            editingTheme: newTheme
+            editingTheme: newTheme,
           })
         }
       }
@@ -175,7 +178,7 @@ class ApplicationThemeComponent extends React.Component {
 
   changeBackground = (event, newValue) => {
     const newEditingTheme = this.state.editingTheme
-    newEditingTheme.content.configuration.palette.background=newValue
+    newEditingTheme.content.configuration.palette.background = newValue
     this.setState({
       background: newValue,
       editingTheme: newEditingTheme,

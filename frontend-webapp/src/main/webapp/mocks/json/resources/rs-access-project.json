@@ -63,25 +63,6 @@
       "conf": "{\"title\":\"Regards user interface\",\"displayAuthentication\":true,\"displayLocaleSelector\":true,\"displayThemeSelector\":true}"
     },
     {
-      "active": false,
-      "defaultDynamicModule": false,
-      "type": "news",
-      "description": "Flux atom",
-      "container": "content",
-      "applicationId": "user",
-      "id": 6
-    },
-    {
-      "active": true,
-      "defaultDynamicModule": false,
-      "conf": "{\"resultType\":\"dataobjects\",\"layout\":{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]},\"datasets\":{\"type\":\"selectedDatasets\",\"selectedDatasets\":[\"urn://dataset_1\",\"urn://dataset_2\",\"urn://dataset_3\"]},\"criterion\":[{\"pluginId\":1,\"container\":\"Column1\",\"conf\":{\"attributes\":{\"searchField\":0}}},{\"pluginId\":1,\"container\":\"Column2\",\"pluginConf\":{\"attributes\":{\"searchField\":1}}}],\"attributesRegroupements\":[{\"label\":\"Format / Language\",\"attributes\":[1,0],\"visibility\":true}],\"attributes\":[{\"id\":1,\"visibility\":true,\"facetable\":false},{\"id\":0,\"visibility\":true,\"facetable\":false}]}",
-      "type": "search-form",
-      "description": "Recherche simple",
-      "container": "content",
-      "applicationId": "user",
-      "id": 8
-    },
-    {
       "active": true,
       "defaultDynamicModule": false,
       "conf": "{}",
@@ -89,7 +70,7 @@
       "description": "Storage plugins overview",
       "container": "content",
       "applicationId": "user",
-      "id": 9
+      "id": 3
     },
     {
       "active": true,
@@ -98,27 +79,7 @@
       "container": "user",
       "conf": "{\"htmlPath\": \"http://cdpp.eu/\"}",
       "applicationId": "user",
-      "id": 10
-    },
-    {
-      "active": true,
-      "defaultDynamicModule": true,
-      "conf": "{\"resultType\":\"dataobjects\",\"layout\":{\"id\":\"main\",\"type\":\"FormMainContainer\",\"classes\":[],\"styles\":{\"border\":\"1px dotted black\",\"padding\":\"5px\",\"margin\":\"5px\"},\"containers\":[{\"id\":\"Plop\",\"type\":\"RowContainer\",\"containers\":[{\"id\":\"Column1\",\"type\":\"50PercentColumnContainer\"},{\"id\":\"Column2\",\"type\":\"50PercentColumnContainer\"}]}]},\"datasets\":{\"type\":\"all\",\"selectedDatasets\":[\"urn://dataset_1\",\"urn://dataset_2\",\"urn://dataset_3\"]},\"criterion\":[{\"pluginId\":1,\"container\":\"Column1\",\"conf\":{\"attributes\":{\"searchField\":0}}},{\"pluginId\":1,\"container\":\"Column2\",\"pluginConf\":{\"attributes\":{\"searchField\":1}}},{\"pluginId\":2,\"pluginConf\":{\"attributes\":{\"searchField\":0}},\"container\":\"Column1\"},{\"pluginId\":3,\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":0}},\"container\":\"Column2\"},{\"pluginId\":3,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":1}}},{\"pluginId\":4,\"pluginConf\":{\"attributes\":{\"searchField\":0}},\"container\":\"Column1\"},{\"pluginId\":5,\"container\":\"Column1\",\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":0}}},{\"pluginId\":5,\"pluginConf\":{\"attributes\":{\"firstField\":0,\"secondField\":1}},\"container\":\"Column2\"}],\"attributesRegroupements\":[],\"attributes\":[{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"order\":2},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":false,\"order\":3},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":false,\"order\":4}]}",
-      "type": "search-form",
-      "description": "Recherche complexe (multijeux)",
-      "container": "content",
-      "applicationId": "user",
-      "id": 11
-    },
-    {
-      "active": true,
-      "conf": "{\"displayDatasets\":true,\"attributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":false,\"facetable\":false,\"order\":null},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":true,\"order\":2},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":true,\"order\":3},{\"attributeFullQualifiedName\":\"infos.size\",\"visibility\":true,\"facetable\":false,\"order\":5},{\"attributeFullQualifiedName\":\"infos.dateRange\",\"visibility\":true,\"facetable\":false,\"order\":56},{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":true,\"order\":1},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":true,\"order\":4},{\"attributeFullQualifiedName\":\"infos.date\",\"visibility\":true,\"facetable\":false,\"order\":6},{\"attributeFullQualifiedName\":\"infos.url\",\"visibility\":true,\"facetable\":false,\"order\":7}],\"enableFacettes\":true}",
-      "type": "search-results",
-      "description": "Catalogue de données",
-      "container": "content",
-      "defaultDynamicModule": true,
-      "applicationId": "user",
-      "id": 12
+      "id": 4
     },
     {
       "active": true,
@@ -127,56 +88,37 @@
       "description": "License displayer",
       "container": "user",
       "applicationId": "user",
-      "id": 13
-    },
-    {
-      "active": true,
-      "conf": "{\"layout\":{\"id\":\"application\",\"type\":\"MainContainer\",\"classes\":[],\"styles\":{},\"containers\":[]},\"datasets\":{\"type\":\"all\"},\"attributes\":[{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"order\":2},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":true,\"order\":3},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":true,\"order\":4}],\"criterion\":[{\"pluginId\":6,\"container\":\"application\"}]}",
-      "type": "search-form",
-      "description": "Recherche globale (tous les jeux)",
-      "container": "content",
-      "applicationId": "user",
-      "id": 14
+      "id": 5
     },
     {
       "applicationId": "user",
       "active": true,
       "defaultDynamicModule": false,
-      "conf": "{\"graphLevels\":[\"Missions\",\"Experiments\",\"Instruments\",\"Results\",\"Resolutions\"],\"enableFacettes\":true,\"attributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":false,\"order\":2},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"order\":3},{\"attributeFullQualifiedName\":\"creationDate\",\"visibility\":true,\"facetable\":false,\"order\":4},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":false,\"order\":5},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":false,\"order\":6}],\"graphDatasetAttributes\":[{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":false,\"facetable\":false,\"order\":null},{\"attributeFullQualifiedName\":\"creationDate\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"default.language\",\"visibility\":true,\"facetable\":false,\"order\":2},{\"attributeFullQualifiedName\":\"default.format\",\"visibility\":true,\"facetable\":false,\"order\":3},{\"attributeFullQualifiedName\":\"infos.date\",\"visibility\":true,\"facetable\":false,\"order\":4}]}",
-      "type": "search-graph",
-      "description": "Recherche par graphe",
-      "container": "content",
-      "id": 15
-    },
-    {
-      "applicationId": "user",
-      "active": true,
-      "defaultDynamicModule": false,
-      "conf": "{\"graphLevels\":[\"Missions\",\"Experiments\"],\"graphDatasetAttributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"order\":2}],\"attributes\":[{\"attributeFullQualifiedName\":\"ipId\",\"visibility\":true,\"facetable\":false,\"order\":1},{\"attributeFullQualifiedName\":\"sipId\",\"visibility\":true,\"facetable\":false,\"order\":2}]}",
-      "type": "search-graph",
-      "description": "Another graph for tests",
-      "container": "content",
-      "id": 16
-    },
-    {
-      "applicationId": "user",
-      "active": true,
-      "defaultDynamicModule": false,
-      "conf": "{\"headerHeight\":\"140\",\"headerWidth\":\"100%\",\"htmlUrl\":\"/html/cdpp-header.html\"}",
+      "conf": "{\"cssHeight\":\"140px\",\"cssWidth\":\"100%\",\"htmlUrl\":\"/html/cdpp-header.html\"}",
       "type": "embedded-html",
       "description": "Application header",
       "container": "header",
-      "id": 17
+      "id": 6
     },
     {
       "applicationId": "user",
       "active": true,
       "defaultDynamicModule": false,
-      "conf": "{\"headerHeight\":\"110\",\"headerWidth\":\"100%\",\"htmlUrl\":\"/html/cdpp-footer.html\"}",
+      "conf": "{\"cssHeight\":\"110px\",\"cssWidth\":\"100%\",\"htmlUrl\":\"/html/cdpp-footer.html\"}",
       "type": "embedded-html",
       "description": "Application footer",
       "container": "footer",
-      "id": 18
+      "id": 7
+    },
+    {
+      "applicationId": "user",
+      "active": true,
+      "defaultDynamicModule": true,
+      "conf": "{\"displayDatasets\":true,\"enableFacettes\":true,\"attributes\":[{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":2},{\"attributeFullQualifiedName\":\"creationDate\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":3},{\"attributeFullQualifiedName\":\"thumbnail\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":1},{\"attributeFullQualifiedName\":\"download\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":4}],\"datasetAttributes\":[{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":2},{\"attributeFullQualifiedName\":\"creationDate\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":3},{\"attributeFullQualifiedName\":\"thumbnail\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":1}]}",
+      "type": "search-results",
+      "description": "Catalogue",
+      "container": "content",
+      "id": 8
     }
   ],
   "layouts": [
@@ -200,7 +142,7 @@
       "active": false
     },
     {
-      "configuration": "{\"palette\":{\"background\":\"radial-gradient(ellipse at center top , #000 0px, #0075A0 120%) no-repeat fixed center center transparent\",\"primary2Color\":\"#0097A7\",\"primary3Color\":\"#757575\",\"textColor\":\"#FFFFFF\",\"secondaryTextColor\":\"rgba(255, 255, 255, 0.7)\",\"alternateTextColor\":\"#303030\",\"canvasColor\":\"transparent\",\"borderColor\":\"rgba(255, 255, 255, 0.3)\",\"disabledColor\":\"rgba(255, 255, 255, 0.3)\",\"pickerHeaderColor\":\"rgba(255, 255, 255, 0.12)\",\"clockCircleColor\":\"rgba(255, 255, 255, 0.12)\",\"shadowColor\":\"rgba(0, 0, 0, 1)\",\"accent2Color\":\"rgb(0, 96, 128)\",\"accent3Color\":\"#ff6d00\",\"primary1Color\":\"rgb(0, 96, 128)\",\"accent1Color\":\"#ff6d00\"},\"themeName\":\"Dark\",\"tableRow\":{\"stripeColor\":\"#212121\",\"hoverColor\":\"#424242\"},\"menuItem\":{\"rightIconDesktopFill\":\"#fb8c00\",\"selectedTextColor\":\"#ff6d00\",\"hoverColor\":\"#1e88e5\"},\"badge\":{\"primaryTextColor\":\"#FFFFFF\",\"secondaryTextColor\":\"#FFFFFF\",\"primaryColor\":\"#ff6d00\",\"secondaryColor\":\"#2196f3\"},\"appBar\":{\"textColor\":\"#FFFFFF\"},\"tabs\":{\"textColor\":\"#fafafa\",\"selectedTextColor\":\"#ff9100\"},\"raisedButton\":{\"primaryTextColor\":\"#fafafa\",\"secondaryTextColor\":\"#fafafa\"},\"stepper\":{\"disabledTextColor\":\"#757575\",\"textColor\":\"#ffffff\"}}",
+      "configuration": "{\"palette\":{\"background\":\"radial-gradient(ellipse at center top , #000 0px, #0075A0 120%) no-repeat fixed center center transparent\",\"backgroundImage\":\"\",\"primary1Color\":\"#006080\",\"primary2Color\":\"#0097a7\",\"primary3Color\":\"#bdbdbd\",\"accent3Color\":\"#fafafa\",\"pickerHeaderColor\":\"#00bcd4\",\"clockCircleColor\":\"rgba(0, 0, 0, 0.07)\",\"accent1Color\":\"#ffb74b\",\"canvasColor\":\"#1d7191\",\"borderColor\":\"#fb8c00\",\"secondaryTextColor\":\"#ffa726\",\"accent2Color\":\"#ffb300\",\"disabledColor\":\"#fafafa\",\"shadowColor\":\"#ffffff\",\"alternateTextColor\":\"#ff6f00\",\"textColor\":\"#ffffff\"},\"themeName\":\"CDPP\",\"button\":{\"iconButtonSize\":30,\"minWidth\":40},\"checkbox\":{\"boxColor\":\"#bdbdbd\"},\"menu\":{\"backgroundColor\":\"#009688\"},\"toggle\":{\"thumbOnColor\":\"#3e2723\"},\"radioButton\":{\"backgroundColor\":\"#ffc107\"},\"raisedButton\":{\"fontWeight\":50,\"color\":\"#ffc400\"}}",
       "id": 2,
       "name": "Cdpp",
       "active": true

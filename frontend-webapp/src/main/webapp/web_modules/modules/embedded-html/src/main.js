@@ -19,7 +19,6 @@
 import moduleContainer from './containers/ModuleContainer'
 import adminContainer from './containers/AdminContainer'
 import styles from './styles/styles'
-import reducer from './reducer'
 import dependencies from './dependencies'
 
 /**
@@ -33,7 +32,6 @@ require('./cdpp-header.html')
 export default {
   adminContainer,
   moduleContainer,
-  reducer,
   styles,
   messagesDir: 'modules/embedded-html/src/i18n',
   dependencies,

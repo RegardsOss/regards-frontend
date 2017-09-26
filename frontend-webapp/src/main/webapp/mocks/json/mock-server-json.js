@@ -266,6 +266,9 @@ const runServer = () => {
     '/api/v1/rs-dam/connections': '/api/v1/rs-dam-list/connections',
     '/api/v1/rs-catalog/dataobjects/search': '/api/v1/rs-catalog/search',
     '/api/v1/rs-catalog/dataobjects/datasets/search': '/api/v1/rs-catalog/search',
+    '/api/v1/rs-access-project/dataobjects/search': '/api/v1/rs-catalog/search',
+    '/api/v1/rs-access-project/datasets/search': '/api/v1/rs-catalog/search',
+    '/api/v1/rs-access-project/dataobjects/datasets/search': '/api/v1/rs-catalog/search',
     '/oauth/token': '/tokens/1',
   }))
 
