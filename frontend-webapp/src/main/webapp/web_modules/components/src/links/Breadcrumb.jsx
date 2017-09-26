@@ -39,7 +39,7 @@ export default class Breadcrumb extends React.Component {
 
   /**
    * Packs the rendering model for element and index as parameter, so that no newq reference is generated at render time
-   * @param label gen
+   * @param labelGenerator label generator
    */
   packElementModel = (labelGenerator, onAction, element, index) => ({
     label: labelGenerator(element, index),

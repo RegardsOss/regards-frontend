@@ -30,7 +30,7 @@ const styles = theme => ({
       border: 'none',
       padding: '0px',
       font: 'inherit',
-      fontSize: '21px',
+      fontSize: theme.dialog.titleFontSize,
     },
     pathHover: {
       cursor: 'pointer',
@@ -39,7 +39,7 @@ const styles = theme => ({
       border: 'none',
       padding: '0px',
       font: 'inherit',
-      fontSize: '21px',
+      fontSize: theme.dialog.titleFontSize,
     },
     separator: {
       verticalAlign: 'text-bottom',

@@ -66,10 +66,10 @@ export class NumericalComparatorComponent extends React.Component {
     return (
       <div>
         <RaisedButton
-          label={<FormattedMessage id={`comparator.${this.props.value}`}/>}
+          label={<FormattedMessage id={`comparator.${this.props.value}`} />}
           onTouchTap={this.handleOpenMenu}
           style={{
-            height: 48,
+            height: 48, // TODO use muiTheme.button.iconButtonSize
             width: 48,
             minWidth: 'initial',
           }}
@@ -82,13 +82,16 @@ export class NumericalComparatorComponent extends React.Component {
           value={this.props.value}
         >
           {map(EnumNumericalComparator, (value, key) => {
-            const label = <FormattedMessage id={`comparator.${value}`}/>
+            const label = <FormattedMessage id={`comparator.${value}`} />
             return (
               <MenuItem
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
-                }} key={key} primaryText={label} value={key}
+                }}
+                key={key}
+                primaryText={label}
+                value={key}
               />
             )
           })}
