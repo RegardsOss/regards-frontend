@@ -23,12 +23,20 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@regardsoss/store'
 import rootReducer from './rootReducer'
 import rootRouter from './rootRouter'
+import './cdppResources'
 
 /**
  * Main entry point for js application.
  *
  * @author Sébastien Binda
  */
+
+// import global resources
+require('../resources/logo_regards_blue_black.png')
+require('../resources/logo_regards_blue_white.png')
+require('../resources/logo_regards_grey_black.png')
+require('../resources/logo_regards_grey_white.png')
+
 
 // import static configuration parameters
 if (process.env.NODE_ENV === 'production') {
