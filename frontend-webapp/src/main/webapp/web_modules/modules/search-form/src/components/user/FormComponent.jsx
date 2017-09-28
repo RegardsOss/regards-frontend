@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { Card, CardText, CardHeader } from 'material-ui/Card'
@@ -97,6 +97,9 @@ class FormComponent extends React.Component {
       getDefaultState: this.getPluginDefaultState,
       savePluginState: this.savePluginState,
     }
+
+    // Container type changed between version 1 and version 1.1. So, to avoid changing every configuration saved, we force container type with the new value.
+    this.props.layout.type = 'FormMainContainer'
     return (
       <Card
         onExpandChange={this.handleExpand}

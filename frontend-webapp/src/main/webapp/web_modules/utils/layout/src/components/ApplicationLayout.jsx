@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import merge from 'lodash/merge'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
@@ -54,7 +54,7 @@ class ApplicationLayout extends React.Component {
     if (this.context.muiTheme) {
       if (this.context.muiTheme.palette.background && this.context.muiTheme.palette.background !== '') {
         bodyStyles = {
-          background: this.context.muiTheme.palette.background
+          background: this.context.muiTheme.palette.background,
         }
       } else if (this.context.muiTheme.palette.backgroundImage) {
         bodyStyles = {

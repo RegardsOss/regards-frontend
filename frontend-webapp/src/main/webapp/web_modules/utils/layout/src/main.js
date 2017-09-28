@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import Container from './components/Container'
 import ContainerShape from './model/ContainerShape'
 import ContainerHelper from './ContainerHelper'

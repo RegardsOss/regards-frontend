@@ -23,8 +23,7 @@ import { CardActionsComponent, Title } from '@regardsoss/components'
 import { Container as ContainerShape } from '@regardsoss/model'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
-
-const searchFormDefaultLayout = merge({}, DefaultLayout, {
+const searchFormDefaultLayout = merge({}, DefaultLayout('FormMainContainer'), {
   containers: [
     {
       id: 'defaultCriterionLine',
@@ -35,6 +34,7 @@ const searchFormDefaultLayout = merge({}, DefaultLayout, {
     },
   ],
 })
+
 /**
  * Component to display the search form layout configuration panel
  * @author Sébastien binda

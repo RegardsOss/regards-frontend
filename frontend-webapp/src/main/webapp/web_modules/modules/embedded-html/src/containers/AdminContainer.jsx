@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  * */
+import { Card, CardText } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { IFrameURLContentDisplayer } from '@regardsoss/components'
 import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
-
 
 /**
  * React component to display module administration module.
@@ -71,30 +71,32 @@ class AdminContainer extends React.Component {
   render() {
     const { intl } = this.context
     return (
-      <div>
-        <Field
-          name="conf.cssHeight"
-          fullWidth
-          component={RenderTextField}
-          type="text"
-          label={intl.formatMessage({ id: 'admin.css.height.label' })}
-        />
-        <Field
-          name="conf.cssWidth"
-          fullWidth
-          component={RenderTextField}
-          type="text"
-          label={intl.formatMessage({ id: 'admin.css.width.label' })}
-        />
-        <Field
-          name="conf.htmlUrl"
-          fullWidth
-          component={RenderTextField}
-          type="text"
-          label={intl.formatMessage({ id: 'admin.html.url' })}
-        />
-        {this.renderHTML()}
-      </div>
+      <Card>
+        <CardText>
+          <Field
+            name="conf.cssHeight"
+            fullWidth
+            component={RenderTextField}
+            type="text"
+            label={intl.formatMessage({ id: 'admin.css.height.label' })}
+          />
+          <Field
+            name="conf.cssWidth"
+            fullWidth
+            component={RenderTextField}
+            type="text"
+            label={intl.formatMessage({ id: 'admin.css.width.label' })}
+          />
+          <Field
+            name="conf.htmlUrl"
+            fullWidth
+            component={RenderTextField}
+            type="text"
+            label={intl.formatMessage({ id: 'admin.html.url' })}
+          />
+          {this.renderHTML()}
+        </CardText>
+      </Card>
     )
   }
 }
