@@ -91,9 +91,9 @@ class ContainerConfigurationComponent extends React.Component {
     input.onChange(value)
   }
 
-/**
- * When the user checks the "Main Container" option, warn him that only one container can be "Main Container" at once
- */
+  /**
+   * When the user checks the "Main Container" option, warn him that only one container can be "Main Container" at once
+   */
   warnOnlyOneMainContainer = (event, newValue, previousValue) => {
     this.setState({
       warnDialogOpen: true,
@@ -119,7 +119,7 @@ class ContainerConfigurationComponent extends React.Component {
             label={formatMessage({ id: 'container.form.id' })}
             validate={ValidationHelpers.required}
           />
-          {container.type !== 'MainContainer' ?
+          {container && container.type !== 'MainContainer' ?
             <Field
               name="type"
               fullWidth
@@ -132,9 +132,9 @@ class ContainerConfigurationComponent extends React.Component {
               {flow(
                 fpfilter(typeName => typeName !== 'MainContainer'),
                 fpmap(typeName => (<MenuItem value={typeName} key={typeName} primaryText={typeName} />)),
-               )(keys(ContainerTypes))}
+              )(keys(ContainerTypes))}
             </Field> : null}
-          {!this.props.hideDynamicContentOption && container.type !== 'MainContainer' ? <DynamicContentField change={this.props.change} /> : null }
+          {!this.props.hideDynamicContentOption && container && container.type !== 'MainContainer' ? <DynamicContentField change={this.props.change} /> : null}
           <ShowHideAdvancedOptions advanced={advanced} onTouchTap={this.onAdvancedClick} />
           <ShowableAtRender
             show={advanced}
