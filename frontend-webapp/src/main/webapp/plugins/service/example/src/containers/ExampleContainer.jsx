@@ -239,8 +239,8 @@ export class ExampleContainer extends React.Component {
    * Renders the configuration value into DOM (knowing only string can be rendered)
    */
   renderValue = (value) => {
-    if (isUndefined(value)) {
-      return 'undefined value'
+    if (!value) {
+      return 'value not set'
     }
     if (isDate(value)) {
       // parameters of type date
