@@ -105,6 +105,16 @@ export const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExclude
  */
 export const validAlphaNumericUnderscore = value => isValidAlphaNumericUnderscore(value) ? undefined : ErrorTypes.ALPHA_NUMERIC
 
+/**
+ * Wrap the {@link isValidUrl} logic into a Redux-Form-style validator.
+ *
+ * @param {String} value
+ * @returns {String||undefined}
+ * @author Léo Mieulet
+ * @author Xavier-Alexandre Brochard
+ */
+export const validUrl = value => isValidUrl(value, true) ? undefined : ErrorTypes.INVALID_URL
+
 export default {
   isValidEmail,
   isValidUrl,
@@ -117,4 +127,5 @@ export default {
   validAlphaNumericUnderscore,
   matchRegex,
   isInNumericRange,
+  validUrl,
 }

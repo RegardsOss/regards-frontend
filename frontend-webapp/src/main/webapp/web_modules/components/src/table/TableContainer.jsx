@@ -157,6 +157,8 @@ class TableContainer extends React.Component {
 
   componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
 
+  static EMPTY_ENTITY_VALUE = {}
+
   /**
    * Updates state and runs fetches required on properties change
    */
@@ -179,26 +181,36 @@ class TableContainer extends React.Component {
 
 
     // New entities retrieved
-    if (!isEqual(previousProps.entities, !nextProps.entities) && !isEqual(previousProps.pageMetadata, nextProps.pageMetadata)) {
+    if (!isEqual(previousProps.entities, nextProps.entities) || !isEqual(previousProps.pageMetadata, nextProps.pageMetadata)) {
       // 1 - update row entities
       if (nextProps.pageMetadata) {
-        if (!nextState.entities.length) { // pre-init all entities
-          nextState.entities = fill(Array(this.getTotalNumberOfResults(nextProps)), {})
-        } else { // get new reference
-          nextState.entities = [...nextState.entities]
-        }
-        // convert new entities
-        const firstPageIndex = nextProps.pageMetadata.number * nextProps.pageMetadata.size
-        keys(nextProps.entities).forEach((key, index) => {
-          nextState.entities[firstPageIndex + index] = nextProps.entities[key]
-        })
+        const previousElements = previousState.entities
+        const previousEltsCount = previousElements ? previousState.entities.length : 0
+        // The page
+        const firstPageElementIndex = nextProps.pageMetadata.number * nextProps.pageMetadata.size
+        const lastKeepedElementIndex = Math.min(firstPageElementIndex, previousEltsCount)
+        // convert received page
+        const newElementsTotalCount = this.getTotalNumberOfResults(nextProps)
+        // the number of elements that we'll throw away
+        const numberOfResetElements = newElementsTotalCount - (lastKeepedElementIndex + nextProps.entities.length)
+
+        nextState.entities = [
+          // recover elements from the previous state (less the one removed)
+          ...(previousElements || []).slice(0, lastKeepedElementIndex),
+
+          // We add the current page elements
+          ...nextProps.entities,
+
+          // clear all following elements (suppression may shift next pages ) after the current page :
+          // ==> these elements will be reloaded on scroll
+          ...fill(Array(numberOfResetElements), TableContainer.EMPTY_ENTITY_VALUE),
+        ]
       }
       // 2 - build columns for state
       nextState.allColumns = this.computeAllColumns(nextProps, nextState.entities)
     } else if (!isEqual(previousProps.columns, nextProps.columns)) {
       nextState.allColumns = this.computeAllColumns(nextProps, nextState.entities)
     }
-
     // always update the all selected state
     nextState.allSelected = this.computeAllSelected(nextProps)
 

@@ -40,7 +40,8 @@ describe('[FORM UTILS] Testing validation helpers', () => {
     assert.isTrue(ValidationHelpers.isValidUrl('https://google.com', false))
     assert.isTrue(ValidationHelpers.isValidUrl('./mes-recettes/ma-petite-tarte.gif', true))
     assert.isTrue(ValidationHelpers.isValidUrl('../mes_recettes/ma-petite-tarte.gif', true))
-    assert.isFalse(ValidationHelpers.isValidUrl('/mes_recettes/ma-petite-tarte.gif', true))
+    assert.isFalse(ValidationHelpers.isValidUrl('/mes_recettes/ma-petite-tarte.gif', false))
+    assert.isTrue(ValidationHelpers.isValidUrl('/mes_recettes/ma-petite-tarte.gif', true))
     assert.isFalse(ValidationHelpers.isValidUrl('mes:recettes/ma-petite-tarte.gif', true))
   })
   it('should should accept only valid IPs', () => {

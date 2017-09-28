@@ -86,10 +86,10 @@ class ApplicationThemeComponent extends React.Component {
       theme = values(props.themeList)[0]
     }
 
-    const background = get(theme,'content.configuration.palette.background',null)
+    const background = get(theme, 'content.configuration.palette.background', null)
 
     this.state = {
-      background: background,
+      background,
       editingTheme: theme,
       snackBarOpen: false,
       snackBarMessageId: 'application.theme.save.success',

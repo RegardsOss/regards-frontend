@@ -35,7 +35,7 @@ export default {
       paddingRight: '1px', // Quick fix for bootstrap grid .row
       minHeight: '100vh',
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
     },
   },
 
