@@ -18,11 +18,9 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { DocumentStepperContainer } from '../../src/containers/DocumentStepperContainer'
-import DocumentListComponent from '../../src/components/DocumentListComponent'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { Step } from 'material-ui/Stepper'
+import { DocumentStepperContainer } from '../../src/containers/DocumentStepperContainer'
 
 describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentStepperContainer', () => {
   before(testSuiteHelpers.before)

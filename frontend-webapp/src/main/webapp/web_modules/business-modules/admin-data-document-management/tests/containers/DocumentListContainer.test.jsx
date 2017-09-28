@@ -18,8 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { DocumentListContainer } from '../../src/containers/DocumentListContainer'
 import DocumentListComponent from '../../src/components/DocumentListComponent'
 

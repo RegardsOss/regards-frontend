@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import { ListItem } from 'material-ui/List'
+import { Field } from '@regardsoss/form-utils'
 import { DocumentEditFilesComponent } from '../../src/components/DocumentEditFilesComponent'
 import DocumentStepperContainer from '../../src/containers/DocumentStepperContainer'
-import { Field } from '@regardsoss/form-utils'
 
 
 describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksComponent', () => {

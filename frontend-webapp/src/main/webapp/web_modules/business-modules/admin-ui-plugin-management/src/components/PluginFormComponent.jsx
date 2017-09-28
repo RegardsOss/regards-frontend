@@ -26,7 +26,7 @@ import { connect } from '@regardsoss/redux'
 import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
-import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, reduxForm, validUrl } from '@regardsoss/form-utils'
 import { formValueSelector } from 'redux-form'
 import { PluginLoader } from '@regardsoss/plugins'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
@@ -174,6 +174,7 @@ class pluginFormComponent extends React.Component {
                   fullWidth
                   type="text"
                   label={this.context.intl.formatMessage({ id: 'plugin.form.sourcesPath' })}
+                  validate={validUrl}
                 />
                 <IconButton
                   tooltip="Search plugin"

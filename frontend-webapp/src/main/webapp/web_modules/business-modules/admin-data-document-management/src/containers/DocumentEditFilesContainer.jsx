@@ -19,7 +19,6 @@
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
-import mapKeys from 'lodash/mapKeys'
 import { browserHistory } from 'react-router'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
@@ -42,12 +41,14 @@ export class DocumentEditFilesContainer extends React.Component {
     }),
     // from mapStateToProps
     currentDocument: DataManagementShapes.Document,
+    accessToken: PropTypes.string,
     // from mapDispatchToProps
     addFiles: PropTypes.func,
     removeFile: PropTypes.func,
     unregisterField: PropTypes.func,
     fetchDocument: PropTypes.func,
   }
+
   state = {
     isLoading: true,
   }

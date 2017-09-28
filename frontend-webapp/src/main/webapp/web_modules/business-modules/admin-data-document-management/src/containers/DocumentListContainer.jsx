@@ -19,10 +19,8 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { DataManagementShapes } from '@regardsoss/shape'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { documentActions, documentSelectors } from '../clients/DocumentClient'
 import DocumentListComponent from '../components/DocumentListComponent'
+import { documentActions } from '../clients/DocumentClient'
 import messages from '../i18n'
 
 /**
@@ -37,6 +35,7 @@ export class DocumentListContainer extends React.Component {
     }),
     // from mapDispatchToProps
     deleteDocument: PropTypes.func,
+    fetchPagedEntityList: PropTypes.func,
   }
 
   getCreateUrl = () => {
@@ -55,8 +54,12 @@ export class DocumentListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete = (documentId) => {
+  handleDelete = (documentId, { rowIndex, pageSize }) => {
     this.props.deleteDocument(documentId)
+      .then((actionResult) => {
+        const pageToRefresh = Math.floor(rowIndex / pageSize)
+        return this.props.fetchPagedEntityList(pageToRefresh, pageSize)
+      })
   }
 
 
@@ -76,6 +79,7 @@ export class DocumentListContainer extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   deleteDocument: id => dispatch(documentActions.deleteEntity(id)),
+  fetchPagedEntityList: (pageToRefresh, nbElementPerPage) => dispatch(documentActions.fetchPagedEntityList(pageToRefresh, nbElementPerPage)),
 })
 
 export default connect(null, mapDispatchToProps)(DocumentListContainer)

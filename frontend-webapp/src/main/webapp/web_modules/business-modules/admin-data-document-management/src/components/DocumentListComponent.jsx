@@ -17,10 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { CardActions, Card, CardTitle, CardText } from 'material-ui/Card'
-import Dialog from 'material-ui/Dialog'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
-import FlatButton from 'material-ui/FlatButton'
-import values from 'lodash/values'
 import get from 'lodash/get'
 import {
   CardActionsComponent,
@@ -31,10 +27,7 @@ import {
   NoContentComponent,
 } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-
-import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { tableActions, tableSelectors } from '../clients/TableClient'
@@ -60,6 +53,8 @@ class DocumentListComponent extends React.Component {
     ...themeContextType,
   }
 
+  static PAGE_SIZE = 10
+
   constructor(props) {
     super(props)
     this.state = {
@@ -83,10 +78,13 @@ class DocumentListComponent extends React.Component {
    * Callback to open the delete confirmation dialog.
    * @param entity Dataset to delete.
    */
-  openDeleteDialog = (entity) => {
+  openDeleteDialog = (entity, rowIndex, pageSize) => {
     this.setState({
       deleteDialogOpened: true,
       entityToDelete: entity.content,
+      entityDeletePayload: {
+        rowIndex, pageSize,
+      },
     })
   }
 
@@ -104,7 +102,7 @@ class DocumentListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.id)
+            this.props.handleDelete(this.state.entityToDelete.id, this.state.entityDeletePayload)
           }}
           onClose={this.closeDeleteDialog}
           title={title}
@@ -112,6 +110,7 @@ class DocumentListComponent extends React.Component {
       </ShowableAtRender>
     )
   }
+
 
   render() {
     const { intl } = this.context
@@ -165,6 +164,7 @@ class DocumentListComponent extends React.Component {
         customCell: {
           component: DocumentTableCustomCellActions,
           props: {
+            pageSize: DocumentListComponent.PAGE_SIZE,
             onDelete: this.openDeleteDialog,
             onEdit: handleEdit,
             intl,
@@ -195,9 +195,10 @@ class DocumentListComponent extends React.Component {
             tableSelectors={tableSelectors}
             tableConfiguration={tableConfiguration}
             tablePaneConfiguration={tablePaneConfiguration}
-            pageSize={10}
+            pageSize={DocumentListComponent.PAGE_SIZE}
             columns={columns}
             emptyComponent={emptyComponent}
+            minRowCounts={1}
           />
 
           <CardActions>

@@ -19,22 +19,19 @@
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { List, ListItem } from 'material-ui/List'
 import { FormattedMessage } from 'react-intl'
-import map from 'lodash/map'
 import times from 'lodash/times'
+import map from 'lodash/map'
 import Remove from 'material-ui/svg-icons/action/highlight-off'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Download from 'material-ui/svg-icons/file/file-download'
-import { RenderTextField, RenderSelectField, Field, RenderFileField, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { Field, RenderFileField, reduxForm } from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
-import TextField from 'material-ui/TextField'
-import Search from 'material-ui/svg-icons/action/search'
 import Subheader from 'material-ui/Subheader'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import DocumentStepperContainer from '../containers/DocumentStepperContainer'
-import ShowableAtLoad from '../../../../components/src/ShowableAtLoad'
 
 /**
  * React component to list documents files.
@@ -59,14 +56,14 @@ export class DocumentEditFilesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    nbInputs: 1,
-  }
-
   static rowInputAndButtonStyle = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+  }
+
+  state = {
+    nbInputs: 1,
   }
 
   addFileInput = () => {
@@ -111,6 +108,9 @@ export class DocumentEditFilesComponent extends React.Component {
       </ShowableAtRender>
     </div>
       )
+
+
+
   render() {
     const { document, handleDeleteDocFile, backUrl, submitting, invalid } = this.props
     return (
@@ -132,16 +132,16 @@ export class DocumentEditFilesComponent extends React.Component {
               <div className="col-sm-50">
                 <List>
                   <Subheader><FormattedMessage id="document.form.files.docFiles.subtitle" /></Subheader>
-                  {map(document.content.documents, document => (
+                  {map(document.content.files, file => (
                     <ListItem
-                      key={document.checksum}
-                      primaryText={document.name}
+                      key={file.checksum}
+                      primaryText={file.name}
                       rightIconButton={
                         <div>
-                          <a href={this.getDocumentUrlWithToken(document)} target="_black" rel="noopener noreferrer">
+                          <a href={this.getDocumentUrlWithToken(file)} target="_black" rel="noopener noreferrer">
                             <Download />
                           </a>
-                          <IconButton onTouchTap={() => handleDeleteDocFile(document.checksum)}>
+                          <IconButton onTouchTap={() => handleDeleteDocFile(file.checksum)}>
                             <Remove />
                           </IconButton>
                         </div>

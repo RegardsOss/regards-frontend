@@ -17,20 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import has from 'lodash/has'
 import keys from 'lodash/keys'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, RenderFileField, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { RenderTextField, RenderSelectField, Field,ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { EntitiesAttributesFormContainer, getInitialFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import MenuItem from 'material-ui/MenuItem'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import DocumentStepperContainer from '../containers/DocumentStepperContainer'
 
 
@@ -52,7 +49,6 @@ export class DocumentFormComponent extends React.Component {
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func,
     initialize: PropTypes.func,
-    change: PropTypes.func,
   }
 
   static contextTypes = {

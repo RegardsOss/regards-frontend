@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -33,6 +32,8 @@ class DocumentTableCustomCellActions extends React.Component {
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     entity: DataManagementShapes.Document,
+    rowIndex: PropTypes.number.isRequired,
+    pageSize: PropTypes.number.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     intl: PropTypes.object,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -44,7 +45,7 @@ class DocumentTableCustomCellActions extends React.Component {
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   render() {
-    const { entity } = this.props
+    const { entity, rowIndex, pageSize } = this.props
     return (
       <div>
         <ActionsMenuCell
@@ -54,7 +55,7 @@ class DocumentTableCustomCellActions extends React.Component {
             title={this.props.intl.formatMessage({ id: 'document.list.action.delete' })}
             iconStyle={DocumentTableCustomCellActions.iconStyle}
             style={DocumentTableCustomCellActions.buttonStyle}
-            onTouchTap={() => this.props.onDelete(entity)}
+            onTouchTap={() => this.props.onDelete(entity, rowIndex, pageSize)}
             entityLinks={entity.links}
             hateoasKey={HateoasKeys.DELETE}
           >

@@ -32,9 +32,12 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentTableCustomCellAction
   })
   const context = buildTestContext()
 
+
   it('Render properly', () => {
     const props = {
       entity: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
+      rowIndex: 3,
+      pageSize: 10,
       onDelete: () => {},
       onEdit: () => {},
       intl: context.intl,
