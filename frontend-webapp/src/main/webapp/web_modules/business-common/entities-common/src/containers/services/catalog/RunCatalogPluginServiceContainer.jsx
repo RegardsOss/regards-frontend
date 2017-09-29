@@ -1,6 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
-* */
+**/
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { CommonClient, CatalogClient } from '@regardsoss/client'
@@ -103,7 +103,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
    * On fetch meta done : handles error / resolves parameters and enters edition or running step if no parameter resolved
    * @param result fetch result
    * @param pluginConfiguration previously fetched plugin configuration
-   * */
+   **/
   onFetchMetaDataDone = ({ payload, error = false }, pluginConfiguration) => {
     const pluginMetaData = get(payload, `entities.${PluginMetaDataConfiguration.normalizrKey}.${pluginConfiguration.content.pluginId}`)
     if (error || !pluginMetaData) {

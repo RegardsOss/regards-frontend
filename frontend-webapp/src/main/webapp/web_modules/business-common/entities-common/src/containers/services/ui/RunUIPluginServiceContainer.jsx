@@ -78,7 +78,7 @@ export class RunUIPluginServiceContainer extends React.Component {
    * On fetch configuration done : handles error or starts loading plugin JS code
    * @param result fetch result
    * @param configId running service configuration ID
-   * */
+   **/
   onFetchConfigurationDone = ({ payload, error = false }, configId) => {
     const pluginConfiguration = get(payload, `entities.${UIPluginConfConfiguration.normalizrKey}.${configId}`)
     // In conf, also retrieve the definition, required for next operation

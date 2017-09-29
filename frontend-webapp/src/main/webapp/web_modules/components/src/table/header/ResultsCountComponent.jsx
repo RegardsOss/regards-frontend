@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import { themeContextType } from '@regardsoss/theme'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import moduleStyles from '../styles/styles'
@@ -28,10 +28,10 @@ import moduleStyles from '../styles/styles'
 const ResultsCountComponent = ({ resultsCount }, { muiTheme, intl: { formatMessage } }) => {
   const styles = moduleStyles(muiTheme)
   return (
-      <div style={styles.header.text.styles}>
-          {formatMessage({ id: 'table.results.count' }, { count: resultsCount || '0' })}
-        </div>
-    )
+    <div style={styles.header.text.styles}>
+      {formatMessage({ id: 'table.results.count' }, { count: resultsCount || '0' })}
+    </div>
+  )
 }
 
 ResultsCountComponent.propTypes = {

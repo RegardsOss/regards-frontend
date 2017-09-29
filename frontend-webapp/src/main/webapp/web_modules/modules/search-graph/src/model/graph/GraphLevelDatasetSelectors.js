@@ -1,6 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
-* */
+**/
 import get from 'lodash/get'
 import includes from 'lodash/includes'
 import keys from 'lodash/keys'

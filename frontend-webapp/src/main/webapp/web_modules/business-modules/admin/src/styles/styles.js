@@ -30,7 +30,7 @@ import {
 const styles = (theme) => {
   let background = theme ? theme.palette.canvasColor : 'transparent'
   if (theme && theme.palette.background && theme.palette.background !== '') {
-      background = theme.palette.background
+    background = theme.palette.background
   } else {
     background = theme && theme.palette.backgroundImage ? `url('${theme.palette.backgroundImage}') no-repeat fixed center center` : background
   }

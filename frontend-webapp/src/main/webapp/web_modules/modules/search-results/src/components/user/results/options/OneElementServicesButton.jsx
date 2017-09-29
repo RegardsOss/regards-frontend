@@ -26,7 +26,7 @@ import { DropDownButton } from '@regardsoss/components'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
 const IconButtonConstructorWrapper = props => (
-  <IconButton {...(omit(props, ['label', 'labelPosition'])) }>
+  <IconButton {...(omit(props, ['label', 'labelPosition']))}>
     <OptionsIcon />
   </IconButton>)
 

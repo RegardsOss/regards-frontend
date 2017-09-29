@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import filter from 'lodash/filter'
@@ -42,7 +42,7 @@ import DescriptionContainer from './DescriptionContainer'
 
 /**
  * Module container for user interface
- * */
+ **/
 export class UserModuleContainer extends React.Component {
 
   static mapStateToProps = (state, { moduleConf }) => ({

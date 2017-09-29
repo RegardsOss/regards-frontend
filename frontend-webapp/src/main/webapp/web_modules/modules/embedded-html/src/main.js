@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import moduleContainer from './containers/ModuleContainer'
 import adminContainer from './containers/AdminContainer'
 import styles from './styles/styles'
@@ -24,7 +24,7 @@ import dependencies from './dependencies'
 /**
  * Main file of module to expose public interface
  * @author Sébastien Binda
- * */
+ **/
 export default {
   adminContainer,
   moduleContainer,

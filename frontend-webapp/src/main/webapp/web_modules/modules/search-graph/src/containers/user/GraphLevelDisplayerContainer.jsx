@@ -1,6 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
-* */
+**/
 import { connect } from '@regardsoss/redux'
 import { CatalogEntity, CatalogEntityTypes } from '@regardsoss/model'
 import GraphLevelDisplayer from '../../components/user/GraphLevelDisplayer'

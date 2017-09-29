@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import trim from 'lodash/trim'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import merge from 'lodash/merge'
 import isEqual from 'lodash/isEqual'
 import { Card, CardText } from 'material-ui/Card'
@@ -76,13 +76,13 @@ class DynamicModuleFormComponent extends React.Component {
     return (
       <Card id="dynamicFields" style={styles}>
         <LazyModuleComponent
-            project={this.props.project}
-            module={this.props.module}
-            admin
-            adminForm={this.props.adminForm}
-            appName={this.props.appName}
-            onLoadAction={this.moduleLoaded}
-          />
+          project={this.props.project}
+          module={this.props.module}
+          admin
+          adminForm={this.props.adminForm}
+          appName={this.props.appName}
+          onLoadAction={this.moduleLoaded}
+        />
       </Card>
     )
   }

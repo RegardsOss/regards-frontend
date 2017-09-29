@@ -87,12 +87,12 @@ export class DatasetEditUIServicesComponent extends React.Component {
     let updatedLinkUIPluginConfigurationActiveList = cloneDeep(linkUIPluginConfigurationActiveList)
     if (this.isPluginConfigurationActivated(uiPluginConfiguration)) {
       remove(updatedLinkUIPluginConfigurationActiveList, value =>
-        uiPluginConfiguration.content.id === value.id
+        uiPluginConfiguration.content.id === value.id,
       )
     } else {
       updatedLinkUIPluginConfigurationActiveList = [
         ...updatedLinkUIPluginConfigurationActiveList,
-        {id: uiPluginConfiguration.content.id}
+        { id: uiPluginConfiguration.content.id },
       ]
     }
     this.setState({
@@ -104,7 +104,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
     const { linkUIPluginDataset } = this.props
     const updateLinkUIPluginDataset = {
       ...linkUIPluginDataset.content,
-      services: this.state.linkUIPluginConfigurationActiveList
+      services: this.state.linkUIPluginConfigurationActiveList,
     }
     this.props.handleSubmit(updateLinkUIPluginDataset)
   }
