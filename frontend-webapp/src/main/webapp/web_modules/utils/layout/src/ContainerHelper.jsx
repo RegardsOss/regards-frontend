@@ -27,7 +27,7 @@ import flattenDeep from 'lodash/flattenDeep'
 import ContainerTypes from './default/ContainerTypes'
 
 /**
- * Recursion function for "flattenContainer" method defined next
+ * Recursion function for "getAllContainersInLayout" method defined next
  */
 const visit = (container) => {
   const result = [container]
