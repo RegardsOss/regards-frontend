@@ -16,7 +16,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import map from 'lodash/map'
 import find from 'lodash/find'
 import forEach from 'lodash/forEach'

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM, UI_PLUGIN_CONF_PARAMETER_TYPES } from '@regardsoss/domain/access'
 import { ValidationHelpers } from '@regardsoss/form-utils'

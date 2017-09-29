@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import merge from 'lodash/merge'
 import union from 'lodash/union'
 import unionBy from 'lodash/unionBy'
@@ -27,7 +27,7 @@ import flattenDeep from 'lodash/flattenDeep'
 import ContainerTypes from './default/ContainerTypes'
 
 /**
- * Recursion function for "flattenContainer" method defined next
+ * Recursion function for "getAllContainersInLayout" method defined next
  */
 const visit = (container) => {
   const result = [container]

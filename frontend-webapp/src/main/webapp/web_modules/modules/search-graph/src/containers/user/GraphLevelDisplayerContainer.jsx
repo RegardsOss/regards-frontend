@@ -1,8 +1,9 @@
 /**
 * LICENSE_PLACEHOLDER
-* */
+**/
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity, CatalogEntityTypes } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
+import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 import GraphLevelDisplayer from '../../components/user/GraphLevelDisplayer'
 import { SelectionPath } from '../../model/graph/SelectionShape'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
@@ -24,7 +25,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
     const partitionKey = getLevelPartitionKey(levelIndex)
     // has parent selection, and is it a collectionb?
     const parentSelection = GraphContextSelectors.getSelectionForParentLevel(state, levelIndex)
-    const parentIpId = parentSelection && parentSelection.entityType === CatalogEntityTypes.COLLECTION ? parentSelection.ipId : null
+    const parentIpId = parentSelection && parentSelection.entityType === ENTITY_TYPES.COLLECTION ? parentSelection.ipId : null
     return {
       parentIpId,
       // retrieve level data from partitioned store
@@ -85,8 +86,8 @@ export class GraphLevelDisplayerContainer extends React.Component {
     isShowable: PropTypes.bool.isRequired, // is showable in current selection state
     isLoading: PropTypes.bool.isRequired, // is loading
     hasError: PropTypes.bool.isRequired, // has fetch error
-    collections: PropTypes.objectOf(CatalogEntity).isRequired,  // level displayed collections
-    datasets: PropTypes.objectOf(CatalogEntity).isRequired,  // the level displayed dataset
+    collections: CatalogShapes.EntityList.isRequired,  // level displayed collections
+    datasets: CatalogShapes.EntityList.isRequired,  // the level displayed dataset
     parentIpId: PropTypes.string, // currently selected parent collection IP ID or null
 
     // from mapDispatchToProps

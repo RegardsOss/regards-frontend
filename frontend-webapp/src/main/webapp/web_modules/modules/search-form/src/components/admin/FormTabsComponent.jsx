@@ -18,7 +18,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { PluginDefinition, AttributeModel } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import FormParametersComponent from './parameters/FormParametersComponent'
 import FormDatasetsConfigurationComponent from './datasets/FormDatasetsConfigurationComponent'
@@ -46,10 +46,10 @@ class FormTabsComponent extends React.Component {
     defaultConf: ModuleConfiguration.isRequired,
 
     // From mapStateToProps and mapDispatchToProps
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    selectableAttributes: DataManagementShapes.AttributeModelList,
     selectableAttributesFectching: PropTypes.bool,
     disableChangeDatasets: PropTypes.bool,
-    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    availableCriterion: AccessShapes.UIPluginDefinitionList,
     criterionFetching: PropTypes.bool,
   }
 

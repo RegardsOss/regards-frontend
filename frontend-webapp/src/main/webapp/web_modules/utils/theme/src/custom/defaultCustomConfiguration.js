@@ -23,7 +23,7 @@
  */
 export default {
   palette: {
-    background:'',
+    background: '',
     backgroundImage: '',
   },
 }

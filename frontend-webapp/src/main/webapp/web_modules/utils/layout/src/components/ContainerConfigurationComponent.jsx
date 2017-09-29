@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import flow from 'lodash/flow'
 import keys from 'lodash/keys'
 import fpfilter from 'lodash/fp/filter'

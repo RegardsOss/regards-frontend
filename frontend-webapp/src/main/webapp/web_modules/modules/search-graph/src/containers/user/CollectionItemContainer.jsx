@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import GraphContextActions from '../../model/graph/GraphContextActions'
 import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
@@ -26,7 +26,7 @@ export class CollectionItemContainer extends React.Component {
 
 
   static propTypes = {
-    collection: CatalogEntity.isRequired,
+    collection: CatalogShapes.Entity.isRequired,
     isLastLevel: PropTypes.bool.isRequired,
     // from map state to props
     selected: PropTypes.bool.isRequired,

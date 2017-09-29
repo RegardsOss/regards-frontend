@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { Model, AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import CollectionModelSelectors from '../../model/CollectionModelSelectors'
 import CollectionModelActions from '../../model/CollectionModelActions'
@@ -40,8 +40,8 @@ export class AdminModuleContainer extends React.Component {
       form: ModuleConfiguration,
     }),
     // form map state to properties
-    collectionModels: PropTypes.objectOf(Model).isRequired,
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    collectionModels: DataManagementShapes.ModelList.isRequired,
+    selectableAttributes: DataManagementShapes.AttributeModelList,
     hasError: PropTypes.bool,
     // from map dispatch to properies
     fetchCollectionModels: PropTypes.func.isRequired,

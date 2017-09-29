@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import find from 'lodash/find'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
@@ -87,10 +87,10 @@ class ApplicationThemeComponent extends React.Component {
       theme = values(props.themeList)[0]
     }
 
-    const background = get(theme,'content.configuration.palette.background',null)
+    const background = get(theme, 'content.configuration.palette.background', null)
 
     this.state = {
-      background: background,
+      background,
       editingTheme: theme,
       snackBarOpen: false,
       snackBarMessageId: 'application.theme.save.success',

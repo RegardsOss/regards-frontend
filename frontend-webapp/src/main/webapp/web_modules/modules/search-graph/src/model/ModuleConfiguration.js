@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 /**
  * form configuration
  */
@@ -24,13 +24,13 @@ const ModuleConfiguration = PropTypes.shape({
   // name of collection model, ordered by level for graph navigation
   graphLevels: PropTypes.arrayOf(PropTypes.string),
   // array of attributes to display on datasets in graph
-  graphDatasetAttributes: PropTypes.arrayOf(AttributeConfiguration),
+  graphDatasetAttributes: AccessShapes.AttributeConfigurationArray,
   // [Result form module] Default Target of results
   resultType: PropTypes.string,
   // [Result form module] Search form attributes configuration
-  attributes: PropTypes.arrayOf(AttributeConfiguration),
+  attributes: AccessShapes.AttributeConfigurationArray,
   // [Result form module] Search form attributes regroupements configuration
-  attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+  attributesRegroupements: AccessShapes.AttributesGroupConfigurationArray,
   // [Result form module] should enable facettes?
   enableFacettes: PropTypes.bool,
 })

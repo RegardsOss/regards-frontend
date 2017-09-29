@@ -22,7 +22,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderSelectField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
-import { PluginDefinition, PluginConf, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { ContainerHelper } from '@regardsoss/layout'
 import { PluginProvider } from '@regardsoss/plugins'
 import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
@@ -35,17 +35,17 @@ class FormCriteriaComponent extends React.Component {
 
   static propTypes = {
     // Criteria to edit or null to create a new one.
-    criteria: PluginConf,
+    criteria: AccessShapes.UIPluginConf,
     // Callback to submit the current criteria
     saveCriteria: PropTypes.func,
     // Cancel criteria edition
     cancel: PropTypes.func,
     // Form layout
-    layout: ContainerShape,
+    layout: AccessShapes.ContainerContent,
     // All selectable attributes for the current form
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    selectableAttributes: DataManagementShapes.AttributeModelList,
     // Set by React Redux connection
-    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    availableCriterion: AccessShapes.UIPluginDefinitionList,
     criterionFetching: PropTypes.bool,
     // from reduxForm
     submitting: PropTypes.bool,

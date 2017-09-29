@@ -299,7 +299,7 @@ class ModuleContainer extends React.Component {
     // If a search query is set, hide form component
     /* if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
      return null
-     }*/
+     } */
     if (this.props.moduleConf.layout) {
       const pluginsProps = {
         onChange: this.onCriteriaChange,

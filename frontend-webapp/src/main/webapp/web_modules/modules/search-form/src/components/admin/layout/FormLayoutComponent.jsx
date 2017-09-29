@@ -15,12 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import merge from 'lodash/merge'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CardActions, CardText } from 'material-ui/Card'
 import { CardActionsComponent, Title } from '@regardsoss/components'
-import { Container as ContainerShape } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
 const searchFormDefaultLayout = merge({}, DefaultLayout('FormMainContainer'), {
@@ -42,7 +42,7 @@ const searchFormDefaultLayout = merge({}, DefaultLayout('FormMainContainer'), {
 class FormLayoutComponent extends React.Component {
 
   static propTypes = {
-    defaultLayout: ContainerShape,
+    defaultLayout: AccessShapes.ContainerContent,
     changeField: PropTypes.func,
   }
 

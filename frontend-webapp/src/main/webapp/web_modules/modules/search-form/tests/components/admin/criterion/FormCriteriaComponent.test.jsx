@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ * */
 import merge from 'lodash/merge'
 import { shallow } from 'enzyme'
 import { spy } from 'sinon'
@@ -41,7 +41,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
 
   const containerName = 'defaultCriterionLine'
 
-  const testLayout = merge({}, DefaultLayout, {
+  const testLayout = merge({}, DefaultLayout('MainContainer'), {
     containers: [
       {
         id: containerName,

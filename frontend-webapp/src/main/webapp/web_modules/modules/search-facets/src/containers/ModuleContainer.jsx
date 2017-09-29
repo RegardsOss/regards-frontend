@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import filter from 'lodash/filter'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'

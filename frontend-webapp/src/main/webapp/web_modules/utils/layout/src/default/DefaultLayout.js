@@ -15,15 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 /**
  * Default layout set when creating a new search form
  * @author Sébastien binda
  */
-export default (type) => ({
-    id: 'application',
-    type: type || 'MainContainer',
-    classes: [],
-    styles: {},
-    containers: [],
-  })
+export default (type = 'MainContainer') => ({
+  id: 'application',
+  type,
+  classes: [],
+  styles: {},
+  containers: [],
+})
