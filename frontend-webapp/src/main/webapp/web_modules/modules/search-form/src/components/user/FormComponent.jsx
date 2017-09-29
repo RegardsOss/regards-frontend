@@ -20,7 +20,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { Card, CardText, CardHeader } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { Container } from '@regardsoss/layout'
 import { themeContextType } from '@regardsoss/theme'
 

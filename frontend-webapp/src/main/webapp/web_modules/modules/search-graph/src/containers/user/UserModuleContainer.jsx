@@ -24,7 +24,8 @@ import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { DamDomain, AccessDomain } from '@regardsoss/domain'
-import { CatalogEntityTypes, AttributeModel } from '@regardsoss/model'
+import { ENTITY_TYPES } from '@regardsoss/domain/dam'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { SelectionPath } from '../../model/graph/SelectionShape'
@@ -54,7 +55,7 @@ export class UserModuleContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
+    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: ENTITY_TYPES.DATASET })),
     fetchCollections: (levelIndex, parentEntityId, levelModelName) =>
       dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
     fetchDatasets: (levelIndex, parentPath) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath)),
@@ -77,7 +78,7 @@ export class UserModuleContainer extends React.Component {
     // from map state to props
     // eslint-disable-next-line react/no-unused-prop-types
     selectionPath: SelectionPath.isRequired,
-    attributeModels: PropTypes.objectOf(AttributeModel),
+    attributeModels: DataManagementShapes.AttributeModelList,
     moduleCollapsed: PropTypes.bool.isRequired,
     authentication: AuthenticateShape,
     // from map dispatch to props
@@ -174,7 +175,7 @@ export class UserModuleContainer extends React.Component {
           if (!retrievedParentSelection) {
             // (break case) the parent level selection could not be restored: remove it from selection then stop
             dispatchClearLevelSelection(level - 1)
-          } else if (selectedParentType !== CatalogEntityTypes.DATASET) {
+          } else if (selectedParentType !== ENTITY_TYPES.DATASET) {
             // loop case: resolve next
             const parentPath = selectionPath.slice(0, level).map(({ ipId }) => ipId) // prepare parent path for datasets
             Promise.all([

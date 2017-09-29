@@ -24,7 +24,7 @@ import { UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray 
 import RuntimeConfiguration from './UIPlugin/RuntimeConfiguration'
 import RuntimeTarget from './UIPlugin/RuntimeTarget'
 
-import { AttributeConfigurationContent, AttributeConfigurationArray} from './AttributeConfigurationContent'
+import { AttributeConfigurationContent, AttributeConfigurationArray } from './AttributeConfigurationContent'
 import { AttributesGroupConfigurationContent, AttributesGroupConfigurationArray } from './AttributesGroupConfigurationContent'
 import ContainerContent from './ContainerContent'
 import { Layout, LayoutContent, LayoutList } from './Layout'

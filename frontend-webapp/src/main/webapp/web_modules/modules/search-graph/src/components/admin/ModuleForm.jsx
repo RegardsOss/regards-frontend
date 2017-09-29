@@ -6,7 +6,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { CardTitle } from 'material-ui/Card'
 import Divider from 'material-ui/Divider'
-import { Model, AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { FieldArray } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
@@ -30,9 +30,9 @@ class ModuleForm extends React.Component {
       form: ModuleConfiguration,
     }),
     // values pool as fetched and normalized
-    collectionModels: PropTypes.objectOf(Model).isRequired,
+    collectionModels: DataManagementShapes.ModelList.isRequired,
     // attributes that user can display on datasets
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    selectableAttributes: DataManagementShapes.AttributeModelList,
   }
 
   static contextTypes = {

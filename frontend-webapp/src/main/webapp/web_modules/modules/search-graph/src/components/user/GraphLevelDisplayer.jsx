@@ -3,7 +3,7 @@
 **/
 import map from 'lodash/map'
 import size from 'lodash/size'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
 import { ScrollArea } from '@regardsoss/adapters'
@@ -24,8 +24,8 @@ class GraphLevelDispayer extends React.Component {
     isLoading: PropTypes.bool.isRequired, // is loading
     isLastLevel: PropTypes.bool.isRequired, // is last level?
     hasError: PropTypes.bool.isRequired, // has fetch error
-    collections: PropTypes.objectOf(CatalogEntity).isRequired,
-    datasets: PropTypes.objectOf(CatalogEntity).isRequired,
+    collections: CatalogShapes.EntityList.isRequired,
+    datasets: CatalogShapes.EntityList.isRequired,
     levelIndex: PropTypes.number.isRequired,
   }
 

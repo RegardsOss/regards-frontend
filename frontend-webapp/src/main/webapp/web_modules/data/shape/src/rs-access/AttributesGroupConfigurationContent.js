@@ -32,10 +32,10 @@ const AttributesGroupConfigurationContent = PropTypes.shape({
   order: PropTypes.number,
 })
 
-const AttributesGroupConfigurationContentArray = PropTypes.arrayOf(AttributesGroupConfigurationContent)
+const AttributesGroupConfigurationArray = PropTypes.arrayOf(AttributesGroupConfigurationContent)
 
 
 export default {
   AttributesGroupConfigurationContent,
-  AttributesGroupConfigurationArray
+  AttributesGroupConfigurationArray,
 }

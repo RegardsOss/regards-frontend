@@ -20,7 +20,6 @@ import join from 'lodash/join'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
-import { AttributeModel, PluginDefinition } from '@regardsoss/model'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ModuleConfiguration from '../models/ModuleConfiguration'
@@ -54,7 +53,7 @@ class AdminContainer extends React.Component {
     // Set by mapStateToProps and mapDispatchToProps
     selectableAttributes: DataManagementShapes.AttributeModelList,
     selectableAttributesFectching: PropTypes.bool,
-    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    availableCriterion: AccessShapes.UIPluginDefinitionList,
     fetchCriterion: PropTypes.func,
     fetchModelsAttributes: PropTypes.func,
     fetchAllModelsAttributes: PropTypes.func,

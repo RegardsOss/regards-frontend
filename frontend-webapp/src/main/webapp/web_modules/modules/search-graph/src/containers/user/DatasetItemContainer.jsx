@@ -4,7 +4,7 @@
 import isEqual from 'lodash/isEqual'
 import { AttributeModelController } from '@regardsoss/domain/dam'
 import { TagTypes } from '@regardsoss/domain/catalog'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import GraphContextActions from '../../model/graph/GraphContextActions'
@@ -38,7 +38,7 @@ export class DatasetItemContainer extends React.Component {
   static propTypes = {
     attributesVisible: PropTypes.bool.isRequired, // are dataset attributes currently visible?
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
-    dataset: CatalogEntity.isRequired,
+    dataset: CatalogShapes.Entity.isRequired,
     // from map state to props
     locked: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,

@@ -49,7 +49,10 @@ const Entity = PropTypes.shape({
   content: PropTypes.shape(entityFields).isRequired,
 })
 
+const EntityList = PropTypes.objectOf(Entity)
+
 export default {
   entityFields,
   Entity,
+  EntityList,
 }
