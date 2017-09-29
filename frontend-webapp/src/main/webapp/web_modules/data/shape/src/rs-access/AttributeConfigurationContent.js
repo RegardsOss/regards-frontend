@@ -35,7 +35,7 @@ const AttributeConfigurationContent = PropTypes.shape({
   initialSort: PropTypes.bool,
 })
 
-AttributeConfigurationArray = PropTypes.arrayOf(AttributeConfigurationContent)
+const AttributeConfigurationArray = PropTypes.arrayOf(AttributeConfigurationContent)
 
 
 export default {
