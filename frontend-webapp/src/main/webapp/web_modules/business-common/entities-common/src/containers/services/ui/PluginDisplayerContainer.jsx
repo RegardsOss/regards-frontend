@@ -20,6 +20,7 @@ import { IntlProvider } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nSelectors } from '@regardsoss/i18n'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 
 /**
 * A very light version of the @regardoss/plugin/PluginLoader, which does not perform any loading, nor error checking
@@ -78,7 +79,9 @@ export class PluginDisplayerContainer extends React.Component {
         locale={locale}
         messages={pluginInstance.messages[locale]}
       >
-        {renderedPlugin}
+        <ModuleThemeProvider module={pluginInstance.styles} >
+          {renderedPlugin}
+        </ModuleThemeProvider>
       </IntlProvider>
     )
   }

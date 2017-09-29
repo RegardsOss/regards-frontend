@@ -19,6 +19,8 @@
 import values from 'lodash/values'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
@@ -37,38 +39,38 @@ export class NumericalCriteriaComponent extends React.Component {
      * value:<value>
      * comparator:<ComparatorEnumType>
      */
-    onChange: React.PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     /**
      * Label of the field
      */
-    label: React.PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
     /**
      * Init with a specific comparator set.
      */
-    comparator: React.PropTypes.oneOf(values(EnumNumericalComparator)),
+    comparator: PropTypes.oneOf(values(EnumNumericalComparator)),
     /**
      * Default value to display
      */
-    value: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     /**
      * Does the comparator is modifiable
      */
-    fixedComparator: React.PropTypes.bool,
+    fixedComparator: PropTypes.bool,
     /**
      * If true, the attribute name, comparator and and field will be rendered in reversed order
      * Default to false.
      */
-    reversed: React.PropTypes.bool,
+    reversed: PropTypes.bool,
     /**
      * If true, the attribute name will not be rendered.
      * Default to false.
      */
-    hideAttributeName: React.PropTypes.bool,
+    hideAttributeName: PropTypes.bool,
     /**
      * If true, the commparator will not be rendered.
      * Default to false.
      */
-    hideComparator: React.PropTypes.bool,
+    hideComparator: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -78,6 +80,13 @@ export class NumericalCriteriaComponent extends React.Component {
     hideComparator: false,
     value: undefined,
     comparator: EnumNumericalComparator.EQ,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   /**
@@ -117,15 +126,18 @@ export class NumericalCriteriaComponent extends React.Component {
 
   render() {
     const { label, comparator, value, reversed, hideAttributeName, hideComparator, fixedComparator } = this.props
+    const { moduleTheme: { labelSpanStyle, textFieldStyle, lineStyle } } = this.context
 
     // Store the content in an array because we need to maybe reverse to order
     const content = []
     if (!hideAttributeName) {
-      content.push(<span
-        key="label" style={{
-        margin: '0px 10px',
-      }}
-      >{label}</span>)
+      content.push(
+        <span
+          key="label"
+          style={labelSpanStyle}
+        >
+          {label}
+        </span>)
     }
     if (!hideComparator) {
       content.push(
@@ -142,14 +154,10 @@ export class NumericalCriteriaComponent extends React.Component {
         id="search"
         key="field"
         type="number"
-        floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
+        floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
         value={this.format(value)}
         onChange={this.handleChangeValue}
-        style={{
-          top: -13,
-          maxWidth: 80,
-          margin: '0px 10px',
-        }}
+        style={textFieldStyle}
       />,
     )
 
@@ -157,12 +165,7 @@ export class NumericalCriteriaComponent extends React.Component {
 
     return (
       <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-        }}
+        style={lineStyle}
       >
         {content}
       </div>

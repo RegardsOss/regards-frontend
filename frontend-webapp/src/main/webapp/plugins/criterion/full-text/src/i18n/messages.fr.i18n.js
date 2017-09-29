@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { buttonsMessages } from '@regardsoss/components'
 
 /**
  * i18n messages French language
@@ -23,7 +24,9 @@
  */
 const messages = {
   'criterion.search.field.label': 'Que cherchez vous ?',
-  'criterion.clear': 'Vider',
+
+  // TODO delete in V2
+  ...buttonsMessages.fr, // adds all buttons messages to enable use of clear button and comparators
 }
 
 export default messages

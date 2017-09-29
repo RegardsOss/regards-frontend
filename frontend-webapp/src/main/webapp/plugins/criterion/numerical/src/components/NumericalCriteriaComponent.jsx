@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ClearFieldButton } from '@regardsoss/components'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
-import ClearButton from './ClearButton'
-import PluginComponent from '../common/PluginComponent'
-import AttributeModel from '../common/AttributeModel'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
@@ -30,7 +31,7 @@ import EnumNumericalComparator from '../model/EnumNumericalComparator'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class NumericalCriteriaComponent extends PluginComponent {
+export class NumericalCriteriaComponent extends PluginCriterionContainer {
 
   static propTypes = {
     /**
@@ -38,13 +39,59 @@ export class NumericalCriteriaComponent extends PluginComponent {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   state = {
     searchField: undefined,
     comparator: EnumNumericalComparator.EQ,
   }
+
+  getPluginSearchQuery = (state) => {
+    let query = ''
+    if (state.searchField && state.comparator) {
+      const attribute = this.getAttributeName('searchField')
+      switch (state.comparator) {
+        case EnumNumericalComparator.EQ:
+          query = `${attribute}:${state.searchField}`
+          break
+        case EnumNumericalComparator.GE:
+          query = `${attribute}:[${state.searchField} TO *]`
+          break
+        case EnumNumericalComparator.LE:
+          query = `${attribute}:[* TO ${state.searchField}]`
+          break
+        case EnumNumericalComparator.NE:
+          query = `${attribute}:!${state.searchField}`
+          break
+        default:
+          console.error('Unavailable comparator')
+      }
+    }
+
+    return query
+  }
+
+  /**
+   * Parses the value given from the field input component.
+   *
+   * @param {String} value
+   */
+  parse = value => parseFloat(value)
+
+  /**
+   * Formats the value before displaying in the field input component.
+   *
+   * @param {String} value
+   */
+  format = value => !isNaN(value) ? value : ''
 
   /**
    * Callback function that is fired when the textfield's value changes.
@@ -68,54 +115,15 @@ export class NumericalCriteriaComponent extends PluginComponent {
     this.setState({ searchField: undefined })
   }
 
-  getPluginSearchQuery = (state) => {
-    let query = ''
-    if (state.searchField && state.comparator) {
-      const attribute = this.getAttributeName('searchField')
-      switch (state.comparator) {
-        case EnumNumericalComparator.EQ:
-          query = `${attribute}:${state.searchField}`
-          break
-        case EnumNumericalComparator.GE :
-          query = `${attribute}:[${state.searchField} TO *]`
-          break
-        case EnumNumericalComparator.LE :
-          query = `${attribute}:[* TO ${state.searchField}]`
-          break
-        case EnumNumericalComparator.NE :
-          query = `${attribute}:!${state.searchField}`
-          break
-        default :
-          console.error('Unavailable comparator')
-      }
-    }
-
-    return query
-  }
-
-  /**
-   * Parses the value given from the field input component.
-   *
-   * @param {String} value
-   */
-  parse = value => parseFloat(value)
-
-  /**
-   * Formats the value before displaying in the field input component.
-   *
-   * @param {String} value
-   */
-  format = value => !isNaN(value) ? value : ''
-
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
     if (isNaN(openSearchQuery)) {
-      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
+      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9*]*) TO ([0-9*]*)[ ]{0,1}\]/)
       if (values.length === 3) {
-        if (values[1] === "*") {
+        if (values[1] === '*') {
           this.setState({ comparator: EnumNumericalComparator.LE })
           return values[2]
         }
-        if (values[2] === "*") {
+        if (values[2] === '*') {
           this.setState({ comparator: EnumNumericalComparator.GE })
           return values[1]
         }
@@ -125,24 +133,15 @@ export class NumericalCriteriaComponent extends PluginComponent {
     return openSearchQuery
   }
 
+
   render() {
+    const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField } = this.state
     const clearButtonDisplayed = !isNaN(searchField)
-
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        <span
-          style={{
-            margin: '0px 10px',
-          }}
-        >
+      <div style={rootStyle} >
+        <span style={labelSpanStyle} >
           {attributeLabel}
         </span>
         <NumericalComparatorComponent
@@ -152,16 +151,12 @@ export class NumericalCriteriaComponent extends PluginComponent {
         <TextField
           id="search"
           type="number"
-          floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
+          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
           value={this.format(searchField)}
           onChange={this.handleChangeValue}
-          style={{
-            top: -13,
-            maxWidth: 80,
-            margin: '0px 10px',
-          }}
+          style={textFieldStyle}
         />
-        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

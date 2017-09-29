@@ -18,11 +18,13 @@
  **/
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import ClearButton from './ClearButton'
-import AttributeModel from '../common/AttributeModel'
-import PluginComponent from '../common/PluginComponent'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ClearFieldButton } from '@regardsoss/components'
 
-class FullTextCriteriaComponent extends PluginComponent {
+class FullTextCriteriaComponent extends PluginCriterionContainer {
 
   static propTypes = {
     /**
@@ -30,7 +32,14 @@ class FullTextCriteriaComponent extends PluginComponent {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -58,21 +67,11 @@ class FullTextCriteriaComponent extends PluginComponent {
   handleClear = () => this.changeValue('')
 
   render() {
+    const { moduleTheme: { rootStyle, textFieldStyle } } = this.context
     const clearButtonDisplayed = this.state.value !== ''
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        <span
-          style={{
-            margin: '0px 10px',
-          }}
-        />
+      <div style={rootStyle}>
         <TextField
           id="search"
           floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
@@ -80,13 +79,9 @@ class FullTextCriteriaComponent extends PluginComponent {
           onChange={(event, value) => {
             this.changeValue(value)
           }}
-          style={{
-            top: -13,
-            margin: '0px 10px',
-            maxWidth: 165,
-          }}
+          style={textFieldStyle}
         />
-        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

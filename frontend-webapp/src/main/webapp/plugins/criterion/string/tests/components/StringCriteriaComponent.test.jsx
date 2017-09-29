@@ -44,7 +44,7 @@ describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () =>
       },
       savePluginState: () => {
       },
-      pluginInstanceId: "Some value",
+      pluginInstanceId: 'Some value',
       onChange: () => {
       },
     }
