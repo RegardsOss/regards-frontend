@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { PluginConf, AttributeConfiguration, AttributesRegroupementConfiguration, Container } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import DatasetsConfShape from './datasets/DatasetsConfShape'
 /**
  * Form entity description
@@ -27,17 +27,17 @@ const ModuleConfiguration = PropTypes.shape({
     // Search form datasets configuration
     datasets: DatasetsConfShape,
     // Search form Layout configuration
-    layout: Container,
+    layout: AccessShapes.ContainerContent,
     // Search form criterion configuration
-    criterion: PropTypes.arrayOf(PluginConf),
+    criterion: AccessShapes.UIPluginConfArray,
     // Search form resultType configuration
     resultType: PropTypes.string,
     // Search form attributes configuration
-    attributes: PropTypes.arrayOf(AttributeConfiguration),
+    attributes: AccessShapes.AttributeConfigurationArray,
     // Search form attributes regroupements configuration
-    attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+    attributesRegroupements: AccessShapes.AttributesGroupConfigurationArray,
     // Search results dataset attributes configuration
-    datasetAttributes: PropTypes.arrayOf(AttributeConfiguration),
+    datasetAttributes: AccessShapes.AttributeConfigurationArray,
     // Does search form render for preview or for full use
     preview: PropTypes.bool,
     // should enable facettes?

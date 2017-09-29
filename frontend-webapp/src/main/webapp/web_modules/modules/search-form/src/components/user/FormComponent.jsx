@@ -20,7 +20,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import { Card, CardText, CardHeader } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginConf, Container as ContainerShape } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { Container } from '@regardsoss/layout'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -33,8 +33,8 @@ class FormComponent extends React.Component {
   static propTypes = {
     expanded: PropTypes.bool,
     description: PropTypes.string.isRequired,
-    layout: ContainerShape.isRequired,
-    plugins: PropTypes.arrayOf(PluginConf),
+    layout: AccessShapes.ContainerContent.isRequired,
+    plugins: AccessShapes.UIPluginConfArray,
     pluginsProps: PropTypes.shape({
       onChange: PropTypes.func.isRequired,
     }),
