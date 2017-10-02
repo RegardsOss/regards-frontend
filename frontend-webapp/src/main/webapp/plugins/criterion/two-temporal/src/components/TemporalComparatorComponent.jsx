@@ -16,13 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { map, values } from 'lodash'
+import map from 'lodash/map'
+import values from 'lodash/values'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import RaisedButton from 'material-ui/RaisedButton'
-import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
 /**
@@ -37,15 +39,22 @@ export class TemporalComparatorComponent extends React.Component {
      * Signature:
      * function(value: EnumTemporalComparator) => void
      */
-    onChange: React.PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     /**
      * Optionally init with a specific value
      */
-    value: React.PropTypes.oneOf(values(EnumTemporalComparator)),
+    value: PropTypes.oneOf(values(EnumTemporalComparator)),
   }
 
   static defaultProps = {
     value: EnumTemporalComparator.LE,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   state = {
@@ -71,15 +80,17 @@ export class TemporalComparatorComponent extends React.Component {
   render() {
     const { value } = this.props
     const { openMenu } = this.state
+    const { moduleTheme: { comparatorButtonStyle, comparatorMenuStyle, comparatorMenuItemStyle } } = this.context
 
     return (
       <div>
         <RaisedButton
           label={value}
           onTouchTap={this.handleOpenMenu}
+          style={comparatorButtonStyle}
         />
         <IconMenu
-          iconButtonElement={<IconButton style={{ display: 'none' }}><MoreVertIcon /></IconButton>}
+          iconButtonElement={<IconButton style={comparatorMenuStyle}><MoreVertIcon /></IconButton>}
           open={openMenu}
           onChange={this.handleChange}
           onRequestChange={this.handleOnRequestChange}
@@ -87,11 +98,10 @@ export class TemporalComparatorComponent extends React.Component {
         >
           {map(EnumTemporalComparator, comparator => (
             <MenuItem
-              style={{
-                display: 'flex',
-                textTransform: 'uppercase',
-                justifyContent: 'center',
-              }} key={comparator} primaryText={comparator} value={comparator}
+              style={comparatorMenuItemStyle}
+              key={comparator}
+              primaryText={comparator}
+              value={comparator}
             />
           ))}
         </IconMenu>

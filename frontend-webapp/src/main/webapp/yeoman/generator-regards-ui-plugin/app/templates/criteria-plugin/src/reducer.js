@@ -17,5 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+/**
+ * Exports plugin Redux reducers
+ */
 export default {}
 

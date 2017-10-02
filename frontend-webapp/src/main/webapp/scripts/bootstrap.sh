@@ -44,6 +44,7 @@ npm link web_modules/utils/authentication-manager
 npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
 npm link web_modules/utils/plugins
+npm link web_modules/utils/plugins-api
 npm link web_modules/utils/store-utils
 npm link web_modules/utils/theme
 npm link web_modules/utils/display-control

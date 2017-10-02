@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ClearFieldButton } from '@regardsoss/components'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
-import AttributeModel from '../common/AttributeModel'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
-import PluginComponent from '../common/PluginComponent'
-import ClearButton from './ClearButton'
 
 /**
  * Component allowing the user to configure the numerical value of two different attributes with a mathematical comparator (=, >, <=, ...).
@@ -31,7 +33,7 @@ import ClearButton from './ClearButton'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
+export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContainer {
 
   static propTypes = {
     /**
@@ -39,7 +41,14 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   state = {
@@ -81,7 +90,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
     if (isNaN(openSearchQuery)) {
-      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
+      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9*]*) TO ([0-9*]*)[ ]{0,1}\]/)
       if (values && values.length === 3) {
         const value = values[1] !== '*' ? values[1] : values[2]
         const operator = values[1] === '*' ? EnumNumericalComparator.LE : EnumNumericalComparator.GE
@@ -124,13 +133,13 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
     let openSearchQuery = ''
     const lvalue = value || '*'
     switch (operator) {
-      case EnumNumericalComparator.EQ :
+      case EnumNumericalComparator.EQ:
         openSearchQuery = `${this.getAttributeName(attribute)}:${lvalue}`
         break
-      case EnumNumericalComparator.LE :
+      case EnumNumericalComparator.LE:
         openSearchQuery = `${this.getAttributeName(attribute)}:[* TO ${lvalue}]`
         break
-      case EnumNumericalComparator.GE :
+      case EnumNumericalComparator.GE:
         openSearchQuery = `${this.getAttributeName(attribute)}:[${lvalue} TO *]`
         break
       default:
@@ -141,15 +150,11 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
 
   render() {
     const { firstField, secondField, operator1, operator2 } = this.state
+    const { moduleTheme: { rootStyle, lineStyle } } = this.context
     return (
-      <div style={{ display: 'flex' }}>
+      <div style={rootStyle}>
         <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-          }}
+          style={lineStyle}
         >
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('firstField')}
@@ -165,7 +170,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
             onChange={this.changeValue2}
             fixedComparator={false}
           />
-          <ClearButton onTouchTap={this.handleClear} displayed={firstField || secondField}/>
+          <ClearFieldButton onTouchTap={this.handleClear} displayed={!!(firstField || secondField)} />
         </div>
       </div>
     )

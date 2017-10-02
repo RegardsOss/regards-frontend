@@ -20,35 +20,45 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import { connect } from 'react-redux'
-import AttributeModel from '../common/AttributeModel'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 
-export class ExampleCriteriaComponent extends React.Component {
+export class ExampleCriteriaComponent extends PluginCriterionContainer {
 
   static propTypes = {
     /**
      * Plugin identifier
      */
-    pluginInstanceId: React.PropTypes.string,
+    pluginInstanceId: PropTypes.string,
     /**
      * Callback to change the current criteria values in form
      * Parameters :
      * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
      * id: current plugin identifier
      */
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
     // From mapStateToProps
-    test: React.PropTypes.bool,
+    test: PropTypes.bool,
     // From mapDispatchToProps
     /**
      * Just for checking that  we can dispatch an action from the plugin
      */
-    testDispatch: React.PropTypes.func,
+    testDispatch: PropTypes.func,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -75,20 +85,11 @@ export class ExampleCriteriaComponent extends React.Component {
 
   render() {
     const attributeLabel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
+    const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        <span
-          style={{
-            margin: '0px 10px',
-          }}
-        >
+      <div style={rootStyle}>
+        <span style={labelSpanStyle} >
           {attributeLabel}
         </span>
         <TextField
@@ -98,11 +99,7 @@ export class ExampleCriteriaComponent extends React.Component {
           onChange={(event, value) => {
             this.changeValue(value)
           }}
-          style={{
-            top: -13,
-            margin: '0px 10px',
-            maxWidth: 165,
-          }}
+          style={textFieldStyle}
         />
       </div>
     )

@@ -17,13 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import React from 'react'
+import replace from 'lodash/replace'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import { connect } from 'react-redux'
-import PluginComponent from '../common/PluginComponent'
-import AttributeModel from '../common/AttributeModel'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginContainer } from '@regardsoss/plugins'
 
-export class SampleCriteria extends PluginComponent {
+export class SampleCriteria extends PluginContainer {
 
   static propTypes = {
     /**
@@ -31,7 +31,7 @@ export class SampleCriteria extends PluginComponent {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
   }
 
   /**
@@ -41,7 +41,7 @@ export class SampleCriteria extends PluginComponent {
   constructor(props) {
     super(props)
     this.state = {
-      value:''
+      value: '',
     }
   }
 
@@ -51,7 +51,7 @@ export class SampleCriteria extends PluginComponent {
    * @param value
    */
   changeValue = (value) => {
-    this.setState({value})
+    this.setState({ value })
   }
 
   /**
@@ -70,10 +70,9 @@ export class SampleCriteria extends PluginComponent {
     return openSearchQuery
   }
 
-  parseOpenSearchQuery = (parameterName, openSearchQuery) => {
+  parseOpenSearchQuery = (parameterName, openSearchQuery) =>
     // Return the value without the additional " characters
-    return replace(openSearchQuery,/\"/g)
-  }
+    replace(openSearchQuery, /"/g)
 
   /**
    * Method to display search criteria
@@ -98,7 +97,7 @@ export class SampleCriteria extends PluginComponent {
         </span>
         <TextField
           id="search"
-          floatingLabelText={<FormattedMessage id="criterion.search.field.label"/>}
+          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
           value={this.state.value}
           onChange={(event, value) => {
             this.changeValue(value)

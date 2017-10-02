@@ -99,6 +99,7 @@
     "@regardsoss/model": "0.0.1",
     "@regardsoss/modules": "0.0.1",
     "@regardsoss/plugins": "0.0.1",
+    "@regardsoss/plugins-api": "0.0.1",
     "@regardsoss/portal": "0.0.1",
     "@regardsoss/project-handler": "0.0.1",
     "@regardsoss/redux": "0.0.1",
