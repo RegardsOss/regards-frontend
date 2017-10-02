@@ -18,7 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import DatasetItem from '../../../src/components/user/DatasetItem'
 import ItemLinkContainer from '../../../src/containers/user/ItemLinkContainer'
 import DatasetAttributes from '../../../src/components/user/DatasetAttributes'
@@ -35,14 +35,7 @@ describe('[Search Graph] Testing DatasetItem', () => {
   })
   it('should render properly', () => {
     const props = {
-      dataset: {
-        content: {
-          ipId: 'ip-1',
-          label: 'any,',
-          entityType: 'DATASET',
-          properties: {},
-        },
-      },
+      dataset: DumpProvider.getFirstEntity('DataManagementClient', 'Dataset'),
       attributesVisible: false,
       locked: false,
       selected: false,

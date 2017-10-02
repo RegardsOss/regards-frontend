@@ -16,26 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
-import Schemas from '@regardsoss/api'
+import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 
 /**
- * Direct research entities actions
- */
-export default class CatalogSearchEntitiesActions extends BasicFacetsPageableActions {
-  /**
-   * Constructor
-   * @param {*} namespace namespace for actions
-   * @param {*} endpoint endpoint (optional, default to generic search catalog endpoint)
-   */
-  constructor(namespace, endpoint = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search?{queryParams}`) {
-    super({
-      namespace,
-      entityEndpoint: endpoint,
-      schemaTypes: {
-        ENTITY: Schemas.ENTITY,
-        ENTITY_ARRAY: Schemas.ENTITY_ARRAY,
-      },
-    })
-  }
-}
+ * Function to get redux store selectors for search entities actions results
+*/
+export default storePath => new BasicFacetsPageableSelectors(storePath)

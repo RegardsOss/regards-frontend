@@ -18,7 +18,7 @@
  **/
 import merge from 'lodash/merge'
 import isEqual from 'lodash/isEqual'
-import { Card, CardText } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { AccessShapes } from '@regardsoss/shape'
 
