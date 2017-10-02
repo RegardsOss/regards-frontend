@@ -61,6 +61,9 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
             fr: {},
             en: {},
           },
+          styles: {
+            styles: () => { },
+          },
           info: {
             name: 'fake.plugin',
             description: 'A fake plugin',

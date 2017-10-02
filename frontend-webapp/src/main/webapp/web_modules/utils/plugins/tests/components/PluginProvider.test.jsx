@@ -116,6 +116,9 @@ describe('[PLUGINS] Testing Plugins load', () => {
             fr: {},
             en: {},
           },
+          styles: {
+            styles: () => { },
+          },
           info: {
             name: 'testPlugin',
             description: 'description',
@@ -151,6 +154,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
             fr: {},
             en: {},
           },
+          styles: {},
           info: {
             name: 'testPlugin',
             description: 'description',
