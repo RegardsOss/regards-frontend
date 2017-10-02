@@ -18,9 +18,13 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TwoNumericalCriteriaComponent from '../../src/components/TwoNumericalCriteriaComponent'
 import TwoNumericalCriteriaSimpleComponent from '../../src/components/TwoNumericalCriteriaSimpleComponent'
 import TwoNumericalCriteriaComposedComponent from '../../src/components/TwoNumericalCriteriaComposedComponent'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Test case for {@link TwoNumericalCriteriaComponent}
@@ -28,11 +32,18 @@ import TwoNumericalCriteriaComposedComponent from '../../src/components/TwoNumer
  * @author Xavier-Alexandre Brochard
  */
 describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria component', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(TwoNumericalCriteriaComponent)
   })
   it('should render the simple component when two different attributes', () => {
     const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
       attributes: {
         firstField: {
           name: 'firstAttribute',
@@ -45,16 +56,18 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria com
           type: 'numerical',
         },
       },
-      pluginInstanceId: 42,
-      onChange: () => {
-      },
     }
-    const enzymeWrapper = shallow(<TwoNumericalCriteriaComponent {...props} />)
+    const enzymeWrapper = shallow(<TwoNumericalCriteriaComponent {...props} />, { context })
     expect(enzymeWrapper.find(TwoNumericalCriteriaSimpleComponent)).to.have.length(1)
     expect(enzymeWrapper.find(TwoNumericalCriteriaComposedComponent)).to.have.length(0)
   })
   it('should render the composed component when just a single attribute', () => {
     const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
       attributes: {
         firstAttribute: {
           name: 'attribute',
@@ -62,11 +75,8 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria com
           type: 'numerical',
         },
       },
-      pluginInstanceId: 42,
-      onChange: () => {
-      },
     }
-    const enzymeWrapper = shallow(<TwoNumericalCriteriaComponent {...props} />)
+    const enzymeWrapper = shallow(<TwoNumericalCriteriaComponent {...props} />, { context })
     expect(enzymeWrapper.find(TwoNumericalCriteriaSimpleComponent)).to.have.length(0)
     expect(enzymeWrapper.find(TwoNumericalCriteriaComposedComponent)).to.have.length(1)
   })

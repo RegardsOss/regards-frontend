@@ -30,7 +30,7 @@ const messages = {
   'comparator.GE': '>',
   'comparator.NE': '!=',
 
-  // TODO delete in V2
+  // XXX delete in V2
   ...buttonsMessages.fr, // adds all buttons messages to enable use of clear button and comparators
 }
 

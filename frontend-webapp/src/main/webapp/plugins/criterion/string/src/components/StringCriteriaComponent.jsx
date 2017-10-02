@@ -38,6 +38,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class StringCriteriaComponent extends PluginCriterionContainer {
 
   static propTypes = {
+    // parent props
+    ...PluginCriterionContainer.propTypes,
     attributes: DataManagementShapes.AttributeModelList,
   }
 

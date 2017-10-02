@@ -26,7 +26,7 @@ const messages = {
   'criterion.search.field.label': 'Search field ...',
   'criterion.search.field.word.checkbox.label': 'Words',
 
-  // TODO delete in V2
+  // XXX delete in V2
   ...buttonsMessages.en, // adds all buttons messages to enable use of clear button and comparators
 }
 

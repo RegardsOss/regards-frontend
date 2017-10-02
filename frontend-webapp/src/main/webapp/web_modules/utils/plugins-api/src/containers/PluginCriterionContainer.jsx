@@ -38,14 +38,14 @@ class PluginCriterionContainer extends React.Component {
     /**
      * Plugin identifier
      */
-    pluginInstanceId: PropTypes.string,
+    pluginInstanceId: PropTypes.string.isRequired,
     /**
      * Callback to change the current criteria values in form
      * Parameters :
      * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
      * id: current plugin identifier
      */
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
@@ -55,11 +55,11 @@ class PluginCriterionContainer extends React.Component {
     /**
      * Function to get initial plugin state saved by the next props savePluginState
      */
-    getDefaultState: PropTypes.func,
+    getDefaultState: PropTypes.func.isRequired,
     /**
      * Save the current state in order to retrieve it at initialization with getDefaultState
      */
-    savePluginState: PropTypes.func,
+    savePluginState: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -143,7 +143,7 @@ class PluginCriterionContainer extends React.Component {
     return get(props, `initialValues["${attributeName}"]`)
   }
 
-  getAttributeLabel = (configuredAttributeName) => get(this.props, `attributes["${configuredAttributeName}"].label`, get(this.props, `attributes["${configuredAttributeName}"].name`, 'Undefined attribute'))
+  getAttributeLabel = configuredAttributeName => get(this.props, `attributes["${configuredAttributeName}"].label`, get(this.props, `attributes["${configuredAttributeName}"].name`, 'Undefined attribute'))
 
   setState(state) {
     super.setState(state, this.onPluginChangeValue)

@@ -18,11 +18,14 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { spy } from 'sinon'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
 import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComponent'
 import TemporalComparatorComponent from '../../src/components/TemporalComparatorComponent'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Test case for {@link TemporalCriteriaComponent}
@@ -30,6 +33,8 @@ import TemporalComparatorComponent from '../../src/components/TemporalComparator
  * @author Xavier-Alexandre Brochard
  */
 describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(TemporalCriteriaComponent)
     assert.isDefined(TemporalComparatorComponent)
@@ -38,6 +43,11 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
   })
   it('should render self and subcomponents', () => {
     const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
       attributes: {
         searchField: {
           name: 'searchField',
@@ -45,11 +55,8 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
           type: 'temporal',
         },
       },
-      getDefaultState: spy(),
-      savePluginState: spy(),
-      onChange: spy(),
     }
-    const enzymeWrapper = shallow(<TemporalCriteriaComponent {...props} />)
+    const enzymeWrapper = shallow(<TemporalCriteriaComponent {...props} />, { context })
     expect(enzymeWrapper.find(TemporalComparatorComponent)).to.have.length(1)
     expect(enzymeWrapper.find(DatePicker)).to.have.length(1)
     expect(enzymeWrapper.find(TimePicker)).to.have.length(1)

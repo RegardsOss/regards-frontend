@@ -20,6 +20,7 @@ import flow from 'lodash/flow'
 import uniq from 'lodash/uniq'
 import fpmap from 'lodash/fp/map'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import TwoNumericalCriteriaSimpleComponent from './TwoNumericalCriteriaSimpleComponent'
 import TwoNumericalCriteriaComposedComponent from './TwoNumericalCriteriaComposedComponent'
 
@@ -29,7 +30,7 @@ import TwoNumericalCriteriaComposedComponent from './TwoNumericalCriteriaCompose
  * Below is an example of the simple layout for two different attributes :
  * attribute1 < value1 and attribute2 != value2
  *
- * TODO + TBC
+ * XXX + TBC
  * Now if the two passed attributes are the same, we switch to as composed layout:
  * value1 <= attribute <= value2
  *
@@ -38,6 +39,8 @@ import TwoNumericalCriteriaComposedComponent from './TwoNumericalCriteriaCompose
 export class TwoNumericalCriteriaComponent extends React.Component {
 
   static propTypes = {
+    // container props (propagated to children)
+    ...PluginCriterionContainer.propTypes,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
@@ -57,8 +60,9 @@ export class TwoNumericalCriteriaComponent extends React.Component {
   render() {
     const { isComposed } = this.state
 
-    return isComposed ? <TwoNumericalCriteriaComposedComponent {...this.props} /> :
-    <TwoNumericalCriteriaSimpleComponent {...this.props} />
+    return isComposed ?
+      <TwoNumericalCriteriaComposedComponent {...this.props} /> :
+      <TwoNumericalCriteriaSimpleComponent {...this.props} />
   }
 }
 
