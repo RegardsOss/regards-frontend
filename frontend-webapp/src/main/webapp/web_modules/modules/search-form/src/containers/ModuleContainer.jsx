@@ -33,7 +33,7 @@ import { browserHistory } from 'react-router'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
-import { AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import DatasetSelectionType from '../models/datasets/DatasetSelectionTypes'
@@ -57,7 +57,7 @@ class ModuleContainer extends React.Component {
     // Set by mapDispatchToProps
     fetchAttribute: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributeModels: PropTypes.objectOf(AttributeModel),
+    attributeModels: DataManagementShapes.AttributeModelList,
     attributesLoading: PropTypes.bool,
     attributeModelsError: PropTypes.bool,
   }

@@ -29,7 +29,7 @@ import Error from 'material-ui/svg-icons/alert/error'
 import Warning from 'material-ui/svg-icons/alert/warning'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
+import { EnumConnectivity } from '@regardsoss/domain/admin'
 import { AdminShapes } from '@regardsoss/shape'
 import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
 

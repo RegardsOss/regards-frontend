@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
-import { AttributeModel, AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model'
+import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
 
@@ -28,10 +28,10 @@ class ModuleComponent extends React.Component {
     facettesQuery: PropTypes.string,
 
     // Attributes configurations for results columns
-    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    datasetAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    attributeModels: PropTypes.objectOf(AttributeModel),
+    attributesConf: AccessShapes.AttributeConfigurationArray,
+    attributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
+    datasetAttributesConf: AccessShapes.AttributeConfigurationArray,
+    attributeModels: DataManagementShapes.AttributeModelList,
 
   }
 

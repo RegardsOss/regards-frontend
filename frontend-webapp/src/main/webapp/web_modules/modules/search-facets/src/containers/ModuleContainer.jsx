@@ -23,7 +23,7 @@ import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { StringComparison } from '@regardsoss/form-utils'
 import { DamDomain } from '@regardsoss/domain'
-import { AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import ModuleContentComponent from '../components/ModuleContentComponent'
 import { FacetArray } from '../model/FacetShape'
 import { filterListShape } from '../model/FilterShape'
@@ -44,7 +44,7 @@ export class ModuleContainer extends React.Component {
       filters: filterListShape.isRequired,
       show: PropTypes.bool.isRequired,
       resultsSelectors: PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
-      attributeModels: PropTypes.objectOf(AttributeModel).isRequired,
+      attributeModels: DataManagementShapes.AttributeModelList.isRequired,
     }).isRequired,
     // from map state to props
     // eslint-disable-next-line react/no-unused-prop-types

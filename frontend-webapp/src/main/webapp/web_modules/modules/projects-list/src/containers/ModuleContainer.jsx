@@ -18,7 +18,7 @@
  **/
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { AccessProject } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import ProjectListComponent from '../components/ProjectListComponent'
 import ProjectsSelector from '../model/ProjectsSelector'
@@ -33,7 +33,7 @@ export class ModuleContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     appName: PropTypes.string.isRequired,
     // Set by mapStateToProps
-    projects: PropTypes.objectOf(AccessProject),
+    projects: AccessShapes.ProjectList,
     isFetching: PropTypes.bool,
     // Set by mapDispatchToProps
     fetchProjects: PropTypes.func,

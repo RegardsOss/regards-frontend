@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { AccessProject } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import ProjectComponent from './ProjectComponent'
 
@@ -29,7 +29,7 @@ class ProjectListComponent extends React.Component {
    * @type {{projects: *, theme: *}}
    */
   static propTypes = {
-    projects: PropTypes.arrayOf(AccessProject),
+    projects: AccessShapes.ProjectArray,
   }
 
   /**

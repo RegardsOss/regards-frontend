@@ -21,6 +21,7 @@ import AdminShapes from './rs-admin/index'
 import CommonShapes from './rs-common/index'
 import DataManagementShapes from './rs-dam/index'
 import CatalogShapes from './rs-catalog/index'
+import ArchivalStorageShapes from './rs-archival-storage/index'
 
 export default {
   AccessShapes,
@@ -28,5 +29,6 @@ export default {
   CatalogShapes,
   CommonShapes,
   DataManagementShapes,
+  ArchivalStorageShapes,
 }
 

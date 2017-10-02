@@ -29,7 +29,7 @@ import { AttributesGroupConfigurationContent, AttributesGroupConfigurationArray 
 import ContainerContent from './ContainerContent'
 import { Layout, LayoutContent, LayoutList } from './Layout'
 import { Module, ModuleList, ModuleArray } from './Module'
-import { Project, ProjectList } from './Project'
+import { Project, ProjectList, ProjectArray } from './Project'
 import { ThemeContent, Theme, ThemeList } from './Theme'
 
 import PluginServiceDefinitions from './PluginService'
@@ -65,6 +65,7 @@ export default {
 
   Project,
   ProjectList,
+  ProjectArray,
 
   ThemeContent,
   Theme,

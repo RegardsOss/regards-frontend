@@ -4,7 +4,7 @@
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { SearchResultsTargetsEnum } from '@regardsoss/model'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
 import NavigationLevel from '../../models/navigation/NavigationLevel'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'

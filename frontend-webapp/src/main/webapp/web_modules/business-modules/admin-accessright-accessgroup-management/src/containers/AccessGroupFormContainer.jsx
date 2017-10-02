@@ -18,7 +18,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { AccessGroup } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
@@ -38,7 +38,7 @@ export class AccessGroupFormContainer extends React.Component {
       mode: PropTypes.string,
     }),
     // from mapStateToProps
-    currentAccessGroup: AccessGroup,
+    currentAccessGroup: DataManagementShapes.AccessGroup,
     // from mapDispatchToProps
     fetchAccessGroup: PropTypes.func,
     updateAccessGroup: PropTypes.func,

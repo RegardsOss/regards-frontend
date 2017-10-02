@@ -21,7 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
-import { PluginMetaDataList } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import PluginTypeActions from '../../model/plugin/PluginTypeActions'
 import PluginTypeSelectors from '../../model/plugin/PluginTypeSelectors'
 import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
@@ -46,7 +46,7 @@ export class PluginMetaDataListContainer extends React.Component {
     pluginTypes: PropTypes.arrayOf(PropTypes.shape({
       content: PropTypes.string,
     })),
-    pluginMetaDataList: PluginMetaDataList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
     fetchPluginTypeList: PropTypes.func,
     fetchPluginMetaDataList: PropTypes.func,

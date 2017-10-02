@@ -16,24 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIPluginInfoContent } from './UIPluginInfoContent'
-/**
- * IHM Plugin entity definition
- * @author Sébastien Binda
- */
-const UIPluginInstanceContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  plugin: PropTypes.func.isRequired,
-  styles: PropTypes.shape({
-    styles: PropTypes.func,
-  }).isRequired,
-  messages: PropTypes.shape({
-    fr: PropTypes.object,
-    en: PropTypes.object,
-  }).isRequired,
-  info: UIPluginInfoContent,
-})
+
+
+/** Possible states for AIP in storage process */
+const AIP_STATES = [
+  'VALID', // Valid, waiting for storage
+  'PENDING', // storage in progress
+  'STORED', // stored
+  'STORAGE_ERROR', // storage error, waiting for next attempt
+  'DELETED', // deleted
+]
 
 export default {
-  UIPluginInstanceContent,
+  AIP_STATES,
 }

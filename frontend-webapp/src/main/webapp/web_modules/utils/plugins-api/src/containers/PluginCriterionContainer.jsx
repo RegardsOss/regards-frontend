@@ -143,7 +143,7 @@ class PluginCriterionContainer extends React.Component {
     return get(props, `initialValues["${attributeName}"]`)
   }
 
-  getAttributeLabel = (configuredAttributeName) => get(this.props, `attributes["${configuredAttributeName}"].label`, get(this.props, `attributes["${configuredAttributeName}"].name`, 'Undefined attribute'))
+  getAttributeLabel = configuredAttributeName => get(this.props, `attributes["${configuredAttributeName}"].label`, get(this.props, `attributes["${configuredAttributeName}"].name`, 'Undefined attribute'))
 
   setState(state) {
     super.setState(state, this.onPluginChangeValue)

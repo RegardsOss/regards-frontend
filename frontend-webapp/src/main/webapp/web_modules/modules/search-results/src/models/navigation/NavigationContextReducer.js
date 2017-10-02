@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { SearchResultsTargetsEnum } from '@regardsoss/model'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
 import NavigationLevel from './NavigationLevel'
 import navigationContextActions from './NavigationContextActions'
 

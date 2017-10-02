@@ -16,24 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIPluginInfoContent } from './UIPluginInfoContent'
-/**
- * IHM Plugin entity definition
- * @author Sébastien Binda
- */
-const UIPluginInstanceContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  plugin: PropTypes.func.isRequired,
-  styles: PropTypes.shape({
-    styles: PropTypes.func,
-  }).isRequired,
-  messages: PropTypes.shape({
-    fr: PropTypes.object,
-    en: PropTypes.object,
-  }).isRequired,
-  info: UIPluginInfoContent,
-})
+import { AIPStatusContent, AIPStatus, AIPStatusList } from './AIPStatus'
+import { StoragePlugin, StoragePluginContent, StoragePluginArray, StoragePluginList } from './StoragePlugin'
 
 export default {
-  UIPluginInstanceContent,
+  AIPStatusContent,
+  AIPStatus,
+  AIPStatusList,
+
+  StoragePluginContent,
+  StoragePlugin,
+  StoragePluginArray,
+  StoragePluginList,
 }

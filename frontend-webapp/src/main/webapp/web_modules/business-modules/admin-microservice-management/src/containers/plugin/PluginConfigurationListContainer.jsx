@@ -18,7 +18,7 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { PluginMetaData, PluginConfigurationList } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
@@ -43,8 +43,8 @@ export class PluginConfigurationListContainer extends React.Component {
       pluginConfigurationId: PropTypes.string,
     }),
     // from mapStateToProps
-    pluginMetaData: PluginMetaData,
-    pluginConfigurationList: PluginConfigurationList,
+    pluginMetaData: CommonShapes.PluginMetaData,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
     // from mapDispatchToProps
     fetchPluginMetaData: PropTypes.func,
     fetchPluginConfigurationList: PropTypes.func,

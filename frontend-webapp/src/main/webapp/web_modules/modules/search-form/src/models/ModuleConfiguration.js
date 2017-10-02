@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import DatasetsConfShape from './datasets/DatasetsConfShape'
 /**
  * Form entity description

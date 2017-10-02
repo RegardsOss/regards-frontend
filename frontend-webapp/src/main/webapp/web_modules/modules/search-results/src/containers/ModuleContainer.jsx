@@ -20,7 +20,8 @@ import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
 import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
-import { AttributeModel, SearchResultsTargetsEnum } from '@regardsoss/model'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
@@ -44,7 +45,7 @@ export class ModuleContainer extends React.Component {
 
     // Set by mapDispatchToProps
     fetchAllModelsAttributes: PropTypes.func,
-    attributeModels: PropTypes.objectOf(AttributeModel),
+    attributeModels: DataManagementShapes.AttributeModelList,
   }
 
   constructor(props) {

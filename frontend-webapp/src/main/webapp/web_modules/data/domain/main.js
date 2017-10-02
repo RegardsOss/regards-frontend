@@ -21,6 +21,7 @@ import AdminDomain from './admin/index'
 import CatalogDomain from './catalog/index'
 import CommonDomain from './common/index'
 import DamDomain from './dam/index'
+import ArchivalStorageDomain from './archival-storage/index'
 
 export default {
   AccessDomain,
@@ -28,4 +29,5 @@ export default {
   CatalogDomain,
   CommonDomain,
   DamDomain,
+  ArchivalStorageDomain,
 }

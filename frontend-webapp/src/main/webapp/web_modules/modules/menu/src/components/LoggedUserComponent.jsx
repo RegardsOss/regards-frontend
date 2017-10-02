@@ -31,7 +31,7 @@ import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { Role } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import ProfileEditionContainer from '../containers/ProfileEditionContainer'
 
 
@@ -44,7 +44,7 @@ class LoggedUserComponent extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
-    borrowableRoles: PropTypes.objectOf(Role).isRequired,
+    borrowableRoles: AdminShapes.RoleList.isRequired,
     onBorrowRole: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     showProfileEdition: PropTypes.bool.isRequired,
@@ -110,11 +110,11 @@ class LoggedUserComponent extends React.Component {
               }
             />
           </ShowableAtRender>
-          { /** Divider, only when there are more options than disconnect*/}
+          { /** Divider, only when there are more options than disconnect */}
           <ShowableAtRender show={hasMoreOption}>
             <Divider />
           </ShowableAtRender>
-          { /** Logout option*/}
+          { /** Logout option */}
           <MenuItem
             primaryText={intl.formatMessage({ id: 'logoutLabel' })}
             leftIcon={ActionExit}

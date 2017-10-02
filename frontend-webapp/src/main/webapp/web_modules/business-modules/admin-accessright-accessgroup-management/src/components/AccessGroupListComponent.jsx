@@ -27,7 +27,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { AccessGroup } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -43,7 +43,7 @@ const ResourceIconAction = withResourceDisplayControl(IconButton)
 export class AccessGroupListComponent extends React.Component {
 
   static propTypes = {
-    accessGroupList: PropTypes.objectOf(AccessGroup),
+    accessGroupList: DataManagementShapes.AccessGroupList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleEditAccessRights: PropTypes.func.isRequired,

@@ -25,7 +25,7 @@ import MenuItem from 'material-ui/MenuItem'
 import LinearScale from 'material-ui/svg-icons/editor/linear-scale'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { StoragePluginShape } from '@regardsoss/model'
+import { ArchivalStorageShapes } from '@regardsoss/shape'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
@@ -36,7 +36,7 @@ class StorageMonitoringComponent extends React.Component {
 
   static propTypes = {
     initScale: StorageUnitScaleShape,
-    storagePlugins: PropTypes.arrayOf(StoragePluginShape).isRequired,
+    storagePlugins: ArchivalStorageShapes.StoragePluginArray.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasError: PropTypes.bool.isRequired,
   }
