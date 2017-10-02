@@ -32,8 +32,6 @@ npm install webpack-config-front
 # Data
 npm link web_modules/data/api
 npm link web_modules/data/store
-# To remove
-npm link web_modules/data/model
 npm link web_modules/data/shape
 npm link web_modules/data/domain
 npm link web_modules/data/client
