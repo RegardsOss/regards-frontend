@@ -1,12 +1,13 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import map from 'lodash/map'
 import size from 'lodash/size'
+import values from 'lodash/values'
 import { CatalogShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
 import { ScrollArea } from '@regardsoss/adapters'
+import { StringComparison } from '@regardsoss/form-utils'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import DatasetItemContainer from '../../containers/user/DatasetItemContainer'
 import CollectionItemContainer from '../../containers/user/CollectionItemContainer'
@@ -31,6 +32,16 @@ class GraphLevelDispayer extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+  }
+
+  /**
+   * Compares entities (-used)
+   * @param {Entity} entity1 first entity
+   * @param {Entity} entity2 second entity
+   * @return {number} 1 if entity 1 is greater than entity 2, - 1 if it is lower, 0 if both entities are equal
+   */
+  static compareEntities({ content: { label: l1 } }, { content: { label: l2 } }) {
+    return StringComparison.compare(l1, l2)
   }
 
   render() {
@@ -58,7 +69,7 @@ class GraphLevelDispayer extends React.Component {
               style={scrollStyles}
             >
               {
-                map(collections, collection =>
+                values(collections).sort(GraphLevelDispayer.compareEntities).map(collection =>
                   (<CollectionItemContainer
                     key={collection.content.ipId}
                     collection={collection}
@@ -67,7 +78,7 @@ class GraphLevelDispayer extends React.Component {
                   />))
               }
               {
-                map(datasets, dataset =>
+                values(datasets).sort(GraphLevelDispayer.compareEntities).map(dataset =>
                   (<DatasetItemContainer
                     graphDatasetAttributes={graphDatasetAttributes}
                     key={dataset.content.ipId}

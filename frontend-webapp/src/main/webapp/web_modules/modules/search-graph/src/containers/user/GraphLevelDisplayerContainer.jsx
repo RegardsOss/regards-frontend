@@ -3,7 +3,7 @@
 **/
 import { connect } from '@regardsoss/redux'
 import { CatalogShapes } from '@regardsoss/shape'
-import { ENTITY_TYPES } from '@regardsoss/domain/dam'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import GraphLevelDisplayer from '../../components/user/GraphLevelDisplayer'
 import { SelectionPath } from '../../model/graph/SelectionShape'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
@@ -25,7 +25,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
     const partitionKey = getLevelPartitionKey(levelIndex)
     // has parent selection, and is it a collectionb?
     const parentSelection = GraphContextSelectors.getSelectionForParentLevel(state, levelIndex)
-    const parentIpId = parentSelection && parentSelection.entityType === ENTITY_TYPES.COLLECTION ? parentSelection.ipId : null
+    const parentIpId = parentSelection && parentSelection.entityType === ENTITY_TYPES_ENUM.COLLECTION ? parentSelection.ipId : null
     return {
       parentIpId,
       // retrieve level data from partitioned store
