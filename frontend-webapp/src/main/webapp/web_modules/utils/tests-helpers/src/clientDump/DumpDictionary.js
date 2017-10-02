@@ -43,6 +43,10 @@ import AccessGroupDump from '@regardsoss/client/tests/rs-dam/AccessGroup.dump'
 import UserGroupDump from '@regardsoss/client/tests/rs-dam/UserGroup.dump'
 import AccessRightDump from '@regardsoss/client/tests/rs-dam/AccessRight.dump'
 
+import DatasetEntityDump from '@regardsoss/client/tests/rs-access-project/DatasetEntity.dump'
+import DataobjectEntityDump from '@regardsoss/client/tests/rs-access-project/DataobjectEntity.dump'
+import CollectionEntityDump from '@regardsoss/client/tests/rs-access-project/CollectionEntity.dump'
+
 import {
 
   ROLE_ARRAY,
@@ -109,6 +113,8 @@ import {
   LINK_UI_PLUGIN_DATASET_ARRAY,
   LinkUIPluginDatasetConfiguration,
 
+  ENTITY_ARRAY as ENTITY_CATALOG_ARRAY,
+  EntityConfiguration,
 } from '@regardsoss/api'
 
 /**
@@ -137,6 +143,24 @@ export default {
       dump: LinkUIPluginDatasetDump,
       ENTITY_ARRAY: LINK_PLUGIN_DATASET_ARRAY,
       normalizrKey: LinkPluginDatasetConfiguration.normalizrKey,
+    },
+    DataobjectEntity: {
+      isPageable: true,
+      dump: DataobjectEntityDump,
+      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
+      normalizrKey: EntityConfiguration.normalizrKey,
+    },
+    DatasetEntity: {
+      isPageable: true,
+      dump: DatasetEntityDump,
+      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
+      normalizrKey: EntityConfiguration.normalizrKey,
+    },
+    CollectionEntity: {
+      isPageable: true,
+      dump: CollectionEntityDump,
+      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
+      normalizrKey: EntityConfiguration.normalizrKey,
     },
   },
   AdminClient: {

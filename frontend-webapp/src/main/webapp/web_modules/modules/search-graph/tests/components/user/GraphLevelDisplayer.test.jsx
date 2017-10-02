@@ -18,7 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { ShowableAtRender } from '@regardsoss/components'
 import { ScrollArea } from '@regardsoss/adapters'
 import GraphLevelDisplayer from '../../../src/components/user/GraphLevelDisplayer'
@@ -155,16 +155,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
     // switch loading to true
     enzymeWrapper.setProps({
       ...props,
-      collections: {
-        1: {
-          content: {
-            ipId: 'ip-1',
-            label: 'any,',
-            entityType: 'COLLECTION',
-            properties: {},
-          },
-        },
-      },
+      collections: DumpProvider.get('AccessProjectClient', 'CollectionEntity'),
     })
     showables = getAllShowable(enzymeWrapper)
     assert.isFalse(showables.emptyShowable.props().show, 'Empty message should be hidden')
@@ -178,27 +169,13 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
       {
         key: 'collections',
         values: [{}, {
-          1: {
-            content: {
-              ipId: 'ip-1',
-              label: 'any,',
-              entityType: 'COLLECTION',
-              properties: {},
-            },
-          },
+          1: DumpProvider.getFirstEntity('AccessProjectClient', 'CollectionEntity'),
         }],
       },
       {
         key: 'datasets',
         values: [{}, {
-          1: {
-            content: {
-              ipId: 'ip-2',
-              label: 'any,',
-              entityType: 'DATASET',
-              properties: {},
-            },
-          },
+          1: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
         }],
       },
     ]

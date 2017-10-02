@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import partial from 'lodash/partial'
 import reduce from 'lodash/reduce'
-import { CatalogClient } from '@regardsoss/client'
+import { AccessProjectClient } from '@regardsoss/client'
 import { DamDomain } from '@regardsoss/domain'
 import { EntityConfiguration } from '@regardsoss/api'
 
@@ -41,15 +41,15 @@ class QueryRuntimeHelpersBuilder {
   static getActions(entityType, namespace) {
     switch (entityType) {
       case DamDomain.ENTITY_TYPES_ENUM.COLLECTION:
-        return new CatalogClient.SearchCollectionsActions(namespace)
+        return new AccessProjectClient.SearchCollectionsActions(namespace)
       case DamDomain.ENTITY_TYPES_ENUM.DATASET:
-        return new CatalogClient.SearchDatasetsActions(namespace)
+        return new AccessProjectClient.SearchDatasetsActions(namespace)
       case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
-        return new CatalogClient.SearchDocumentsActions(namespace)
+        return new AccessProjectClient.SearchDocumentsActions(namespace)
       case DamDomain.ENTITY_TYPES_ENUM.DATA:
-        return new CatalogClient.SearchDataobjectsActions(namespace)
+        return new AccessProjectClient.SearchDataobjectsActions(namespace)
       default: // covers ulterior cases with mixed up entity types
-        return new CatalogClient.SearchEntitiesActions(namespace)
+        return new AccessProjectClient.SearchEntitiesActions(namespace)
     }
   }
 

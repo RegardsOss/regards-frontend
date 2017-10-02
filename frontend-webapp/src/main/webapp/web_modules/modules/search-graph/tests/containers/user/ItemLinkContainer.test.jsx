@@ -18,7 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import ItemLink from '../../../src/components/user/ItemLink'
 import { ItemLinkContainer } from '../../../src/containers/user/ItemLinkContainer'
 import styles from '../../../src/styles/styles'
@@ -35,13 +35,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
   it('should render correctly and propagate its properties to ItemLink', () => {
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'Héssketumanteného',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: false,
@@ -63,13 +57,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     let lastNotifiedState = null
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'tant mieux',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: false,
@@ -105,13 +93,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     let lastNotifiedState = null
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'tant mieux',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: false,
@@ -147,13 +129,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     let lastNotifiedState = null
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'tant mieux',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: true,
@@ -185,13 +161,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     let callCount = 0
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'tant mieux',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: false,

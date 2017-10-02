@@ -106,7 +106,7 @@ class PictureLinkComponent extends React.Component {
     }
     const iconStyle = { color: imageColor, ...iconStyles }
     const textStyle = { color: textColor, textAlign: 'center', flexGrow: '1', flexShrink: '1', marginLeft: iconToTextGap }
-    /* eslint-disable jsx-a11y/no-static-element-interactions*/
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
       <div
         className={className}
@@ -125,7 +125,7 @@ class PictureLinkComponent extends React.Component {
         </div>
       </div>
     )
-    /* eslint-enable jsx-a11y/no-static-element-interactions*/
+    /* eslint-enable jsx-a11y/no-static-element-interactions */
   }
 }
 
