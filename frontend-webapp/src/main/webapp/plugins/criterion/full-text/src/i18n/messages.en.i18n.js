@@ -25,7 +25,7 @@ import { buttonsMessages } from '@regardsoss/components'
 const messages = {
   'criterion.search.field.label': 'What are you looking for ?',
 
-  // TODO delete in V2
+  // XXX delete in V2
   ...buttonsMessages.en, // adds all buttons messages to enable use of clear button and comparators
 }
 

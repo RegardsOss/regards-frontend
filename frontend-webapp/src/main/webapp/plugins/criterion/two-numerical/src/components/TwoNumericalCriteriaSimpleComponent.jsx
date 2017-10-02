@@ -36,6 +36,8 @@ import EnumNumericalComparator from '../model/EnumNumericalComparator'
 export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContainer {
 
   static propTypes = {
+    // parent props
+    ...PluginCriterionContainer.propTypes,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json

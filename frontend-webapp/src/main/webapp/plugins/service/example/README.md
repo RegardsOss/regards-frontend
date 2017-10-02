@@ -97,7 +97,7 @@ propTypes = {
     pluginInstanceId: PropTypes.string,
 }
 ```
-TODO 
+XXX 
 
 ## Compile your plugin
 

@@ -56,6 +56,8 @@ if (areIntlLocalesSupported(['fr'])) {
 export class TemporalCriteriaComponent extends PluginCriterionContainer {
 
   static propTypes = {
+    // parent props
+    ...PluginCriterionContainer.propTypes,
     attributes: DataManagementShapes.AttributeModelList,
   }
 

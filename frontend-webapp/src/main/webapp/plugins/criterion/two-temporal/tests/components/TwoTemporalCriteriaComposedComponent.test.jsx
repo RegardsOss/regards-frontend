@@ -18,9 +18,12 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { spy } from 'sinon'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TwoTemporalCriteriaComposedComponent from '../../src/components/TwoTemporalCriteriaComposedComponent'
 import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComponent'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Test case for {@link TwoTemporalCriteriaComposedComponent}
@@ -28,12 +31,19 @@ import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComp
  * @author Xavier-Alexandre Brochard
  */
 describe('[PLUGIN TWO TEMPORAL CRITERIA COMPOSED] Testing the two temporal criteria composed component', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(TwoTemporalCriteriaComposedComponent)
     assert.isDefined(TemporalCriteriaComponent)
   })
   it('should render self and subcomponents', () => {
     const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
       attributes: {
         firstAttribute: {
           name: 'firstAttribute',
@@ -41,11 +51,8 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA COMPOSED] Testing the two temporal crite
           type: 'temporal',
         },
       },
-      getDefaultState: spy(),
-      savePluginState: spy(),
-      onChange: spy(),
     }
-    const enzymeWrapper = shallow(<TwoTemporalCriteriaComposedComponent {...props} />)
+    const enzymeWrapper = shallow(<TwoTemporalCriteriaComposedComponent {...props} />, { context })
     const children = enzymeWrapper.find(TemporalCriteriaComponent)
     expect(children).to.have.length(2)
     const first = children.at(0)

@@ -28,22 +28,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class ExampleCriteriaComponent extends PluginCriterionContainer {
 
   static propTypes = {
-    /**
-     * Plugin identifier
-     */
-    pluginInstanceId: PropTypes.string,
-    /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
-     */
-    onChange: PropTypes.func,
-    /**
-     * List of attributes associated to the plugin.
-     * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
-     * Value of each keys are the attribute id (retrieved from the server) associated
-     */
+    // parent props
+    ...PluginCriterionContainer.propTypes,
     attributes: DataManagementShapes.AttributeModelList,
     // From mapStateToProps
     test: PropTypes.bool,
@@ -81,6 +67,14 @@ export class ExampleCriteriaComponent extends PluginCriterionContainer {
     this.setState({
       value,
     })
+  }
+
+  getPluginSearchQuery = (state) => {
+    let openSearchQuery = ''
+    if (state.value && state.value.length > 0) {
+      openSearchQuery = `"${state.value}"`
+    }
+    return openSearchQuery
   }
 
   render() {

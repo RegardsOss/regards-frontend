@@ -92,7 +92,7 @@ for rootFolder in "${buildFolders[@]}"; do
             rm -rf "node_modules/@regardsoss"
           fi
           pwd
-          # npm prune
+          npm prune
           npm install
           run build commands as specified by the command user
           for buildCommand in "${buildCommands[@]}"; do

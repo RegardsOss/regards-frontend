@@ -24,7 +24,7 @@ import ExampleChartDisplayer from '../../src/components/ExampleChartDisplayer'
 /* build the test context (fake i18n, fake styles) for shallow renderering.
 When working with externalized styles, the styles object imported from file can be added as first method
 parameter */
-// const context = buildTestContext()
+const context = buildTestContext()
 
 /**
 * Test ExampleChartDisplayer. Shows how to test a react component in REGARDS

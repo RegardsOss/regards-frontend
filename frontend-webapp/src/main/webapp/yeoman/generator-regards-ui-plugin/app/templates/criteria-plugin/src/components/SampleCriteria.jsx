@@ -21,11 +21,13 @@ import replace from 'lodash/replace'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { PluginContainer } from '@regardsoss/plugins'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 
-export class SampleCriteria extends PluginContainer {
+export class SampleCriteria extends PluginCriterionContainer {
 
   static propTypes = {
+    // parent props
+    ...PluginCriterionContainer.propTypes,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
@@ -79,20 +81,11 @@ export class SampleCriteria extends PluginContainer {
    */
   render() {
     const attributeLabel = this.getAttributeLabel('searchField')
+    const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        <span
-          style={{
-            margin: '0px 10px',
-          }}
-        >
+      <div style={rootStyle} >
+        <span style={labelSpanStyle} >
           {attributeLabel}
         </span>
         <TextField
@@ -102,11 +95,7 @@ export class SampleCriteria extends PluginContainer {
           onChange={(event, value) => {
             this.changeValue(value)
           }}
-          style={{
-            top: -13,
-            margin: '0px 10px',
-            maxWidth: 165,
-          }}
+          style={textFieldStyle}
         />
       </div>
     )

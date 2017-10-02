@@ -34,7 +34,7 @@ const messages = {
   'criterion.aggregator.between': '{label} entre',
   'criterion.aggregator.and': 'et',
 
-  // TODO delete in V2
+  // XXX delete in V2
   ...buttonsMessages.fr, // adds all buttons messages to enable use of clear button and comparators
 }
 
