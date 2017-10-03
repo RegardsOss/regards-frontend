@@ -30,10 +30,6 @@ import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
 class AdminContainer extends React.Component {
 
   static propTypes = {
-    // Application name
-    appName: PropTypes.string,
-    // Project name
-    project: PropTypes.string,
     // Form parameters
     adminForm: PropTypes.shape({
       // Function to change a field value
@@ -42,7 +38,7 @@ class AdminContainer extends React.Component {
       form: ModuleConfigurationShape,
     }).isRequired,
     // Default values of the module configuration
-    moduleConf: ModuleConfigurationShape.isRequired,
+    // moduleConf: ModuleConfigurationShape.isRequired,
   }
 
   static contextTypes = {
@@ -52,15 +48,15 @@ class AdminContainer extends React.Component {
 
   renderHTML() {
     if (this.props.adminForm.form.conf && this.props.adminForm.form.conf.htmlUrl) {
+      const renderStyle = {
+        width: this.props.adminForm.form.conf.cssWidth || '100%',
+        height: this.props.adminForm.form.conf.cssHeight || 100,
+      }
       return (
         <div>
           <IFrameURLContentDisplayer
             contentURL={this.props.adminForm.form.conf.htmlUrl}
-            style={{
-              width: this.props.adminForm.form.conf.cssWidth || '100%',
-              height: this.props.adminForm.form.conf.cssHeight || 100,
-
-            }}
+            style={renderStyle}
           />
         </div>
       )

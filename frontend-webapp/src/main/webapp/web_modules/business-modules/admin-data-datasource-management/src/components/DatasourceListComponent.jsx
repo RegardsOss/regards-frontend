@@ -51,6 +51,8 @@ export class DatasourceListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static CREATE_DEPENDENCIES = [datasourceActions.getDependency(RequestVerbEnum.POST)]
+
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
@@ -161,7 +163,7 @@ export class DatasourceListComponent extends React.Component {
                 id="datasource.list.action.add"
               />
             }
-            mainHateoasDependencies={[datasourceActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={DatasourceListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

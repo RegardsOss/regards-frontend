@@ -53,4 +53,4 @@ export class ClearFieldButton extends React.Component {
   }
 }
 
-export default ClearFieldButton // TODO v2 use withI18N, and update plugins to not import it anymore
+export default ClearFieldButton // XXX v2 use withI18N, and update plugins to not import it anymore

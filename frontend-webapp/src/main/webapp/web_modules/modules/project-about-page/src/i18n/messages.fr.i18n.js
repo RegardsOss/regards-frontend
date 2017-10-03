@@ -16,18 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import HomePageContainer from './containers/HomePageContainer'
-import adminContainer from './containers/AdminContainer'
-import styles from './styles/styles'
-import dependencies from './dependencies'
+import { Locales } from '@regardsoss/form-utils'
 
 /**
- * Module main file to expose public interface
+ * i18n messages French language
+ * @type {*}
  */
-export default {
-  moduleContainer: HomePageContainer,
-  adminContainer,
-  styles,
-  messagesDir: 'modules/home-page/src/i18n',
-  dependencies,
-}
+const messages = Object.assign({
+  'project.about.page.ok': 'Fermer',
+  'project.about.page.display': 'Afficher au démarrage',
+  'project.about.page.hide': 'Ne plus afficher',
+  'project.about.page.admin.url': 'URL du fichier HTML',
+  'project.about.page.admin.test': 'Tester',
+  'project.about.page.loading.message': 'Page de démarrage du projet en cours de chargement, veuillez patienter...',
+}, Locales.fr)
+
+export default messages

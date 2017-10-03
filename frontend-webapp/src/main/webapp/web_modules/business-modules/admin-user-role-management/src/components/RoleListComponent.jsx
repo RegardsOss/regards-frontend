@@ -53,6 +53,8 @@ export class RoleListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static CREATE_DEPENDENCIES = [roleActions.getDependency(RequestVerbEnum.POST)]
+
   constructor(props) {
     super(props)
     this.state = {
@@ -206,7 +208,7 @@ export class RoleListComponent extends React.Component {
                 id="role.list.action.add"
               />
             }
-            mainHateoasDependencies={[roleActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={RoleListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={
               <FormattedMessage
                 id="role.list.action.cancel"

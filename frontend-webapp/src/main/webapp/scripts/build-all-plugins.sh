@@ -94,7 +94,7 @@ for rootFolder in "${buildFolders[@]}"; do
           pwd
           npm prune
           npm install
-          run build commands as specified by the command user
+          # run build commands as specified by the command user
           for buildCommand in "${buildCommands[@]}"; do
             ${buildCommand}
           done

@@ -53,6 +53,8 @@ export class ConnectionListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static CREATE_DEPENDENCIES = [connectionActions.getDependency(RequestVerbEnum.POST)]
+
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
@@ -173,7 +175,7 @@ export class ConnectionListComponent extends React.Component {
                 id="connection.list.action.add"
               />
             }
-            mainHateoasDependencies={[connectionActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={ConnectionListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'connection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

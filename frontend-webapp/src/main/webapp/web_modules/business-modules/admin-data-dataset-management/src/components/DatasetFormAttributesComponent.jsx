@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import keys from 'lodash/keys'
 import has from 'lodash/has'
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'

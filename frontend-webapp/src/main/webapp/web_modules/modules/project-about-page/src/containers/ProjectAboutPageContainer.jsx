@@ -32,12 +32,13 @@ require('../../html/regards-homepage.html')
  * Home page module container (shows home page for a project)
  * @author Maxime Bouveron
  */
-class HomePageContainer extends React.Component {
+class ProjectAboutPageContainer extends React.Component {
 
   static propTypes = {
     project: PropTypes.string.isRequired,
     moduleConf: PropTypes.shape({
       htmlPath: PropTypes.string.isRequired,
+      buttonComponent: PropTypes.node,
     }).isRequired,
   }
 
@@ -49,7 +50,7 @@ class HomePageContainer extends React.Component {
 
   componentWillMount = () => {
     this.setState({
-      dialogOpen: !this.isHomePageHiddenCached(),
+      dialogOpen: !this.isProjectAboutPageHiddenCached(),
     })
   }
 
@@ -58,13 +59,13 @@ class HomePageContainer extends React.Component {
     this.setState({ dialogOpen: false })
   }
 
-  onCacheHomePageHidden = () => {
-    root.localStorage.setItem(`${this.props.project}HomePageHidden`, true)
+  onCacheProjectAboutPageHidden = () => {
+    root.localStorage.setItem(`${this.props.project}ProjectAboutPageHidden`, true)
     this.onClose()
   }
 
-  onCacheHomePageDisplayed = () => {
-    root.localStorage.setItem(`${this.props.project}HomePageHidden`, false)
+  onCacheProjectAboutPageDisplayed = () => {
+    root.localStorage.setItem(`${this.props.project}ProjectAboutPageHidden`, false)
     this.onClose()
   }
 
@@ -80,7 +81,7 @@ class HomePageContainer extends React.Component {
     return path
   }
 
-  isHomePageHiddenCached = () => !!JSON.parse(root.localStorage.getItem(`${this.props.project}HomePageHidden`))
+  isProjectAboutPageHiddenCached = () => !!JSON.parse(root.localStorage.getItem(`${this.props.project}ProjectAboutPageHidden`))
 
   forceOpen = () => {
     this.setState({ dialogOpen: true })
@@ -88,22 +89,22 @@ class HomePageContainer extends React.Component {
 
   renderActionButtons = () => {
     const actionButtons = []
-    if (this.isHomePageHiddenCached()) {
+    if (this.isProjectAboutPageHiddenCached()) {
       actionButtons.push(<FlatButton
-        key="homepage.display"
-        label={this.context.intl.formatMessage({ id: 'homepage.display' })}
-        onTouchTap={this.onCacheHomePageDisplayed}
+        key="project.about.page.display"
+        label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
+        onTouchTap={this.onCacheProjectAboutPageDisplayed}
       />)
     } else {
       actionButtons.push(<FlatButton
-        key="homepage.hide"
-        label={this.context.intl.formatMessage({ id: 'homepage.hide' })}
-        onTouchTap={this.onCacheHomePageHidden}
+        key="project.about.page.hide"
+        label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
+        onTouchTap={this.onCacheProjectAboutPageHidden}
       />)
     }
     actionButtons.push(<FlatButton
-      key="homepage.ok"
-      label={this.context.intl.formatMessage({ id: 'homepage.ok' })}
+      key="project.about.page.ok"
+      label={this.context.intl.formatMessage({ id: 'project.about.page.ok' })}
       primary
       onTouchTap={this.onClose}
     />)
@@ -111,32 +112,40 @@ class HomePageContainer extends React.Component {
   }
 
   render() {
-    const { moduleConf: { htmlPath } } = this.props
+    const { moduleConf: { htmlPath, buttonComponent } } = this.props
     const { dialogOpen } = this.state
     const { dialog: { bodyStyle, heightPercent, widthPercent, button } } = this.context.moduleTheme
+
+    // render: is there a button provided or should we used module default one?
+    const runtimeButton = buttonComponent ?
+      // use provided button with added callback
+      React.cloneElement(buttonComponent, { onTouchTap: this.forceOpen }) :
+      // create default button
+      (<FloatingActionButton
+        style={button}
+        mini
+        title="Home" // XXX i18N!
+        onTouchTap={this.forceOpen}
+      >
+        <HomeIcone />
+      </FloatingActionButton>)
+
     return (
       <div>
-        <FloatingActionButton
-          style={button}
-          mini
-          onTouchTap={this.forceOpen}
-          title="Home"
-        >
-          <HomeIcone />
-        </FloatingActionButton>
+        {runtimeButton}
         <SingleContentURLDialogContainer
           open={dialogOpen}
           contentURL={this.getFullPath(htmlPath)}
-          loadingMessage={this.context.intl.formatMessage({ id: 'homepage.loading.message' })}
+          loadingMessage={this.context.intl.formatMessage({ id: 'project.about.page.loading.message' })}
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}
           bodyStyle={bodyStyle}
           actions={this.renderActionButtons()}
         />
-      </div>
+      </div >
     )
   }
 }
-export default HomePageContainer
+export default ProjectAboutPageContainer
 

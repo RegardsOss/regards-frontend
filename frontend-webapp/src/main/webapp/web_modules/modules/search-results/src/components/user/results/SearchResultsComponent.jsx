@@ -415,7 +415,7 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage } } = this.context
-    const { showingDataobjects, viewMode, searchQuery, resultPageActions } = this.props
+    const { showingDataobjects, searchQuery, resultPageActions } = this.props
     const { tableColumns, listColumns } = this.state
 
     const pageSize = 13

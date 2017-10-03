@@ -23,53 +23,56 @@
  */
 const menuStyles = theme => (
   {
-    bar: {
-      backgroundColor: theme.palette.primary1Color,
-      fontFamily: theme.fontFamily,
-      titleFontSize: 23,
-      height: 50,
-    },
-    title: {
-      color: theme.palette.alternateTextColor,
-      marginLeft: '40px',
-    },
-    localeDropdown: {
-      color: theme.palette.primary2Color,
-    },
-    loginButton: {
-      backgroundColor: theme.palette.accent1Color,
-      color: theme.palette.alternateTextColor,
-    },
-    loggedUser: {
-      text: {
-        paddingTop: '5px',
-        color: theme.palette.alternateTextColor,
-      },
-      icon: {
-        color: theme.palette.alternateTextColor,
+    admin: {
+      rootStyle: {
+        padding: 10,
       },
     },
-    menu: {
-      icon: {
-        color: theme.palette.alternateTextColor,
+    user: {
+      rootStyle: {
+        display: 'flex',
+        flexWrap: 'nowrap',
+        flexDirection: 'row',
+        justifyContent: 'flexStart',
+        alignItems: 'center',
+        background: theme.appBar.color,
+        borderWidth: '0 0 1px 0',
+        borderColor: theme.toolbar.separatorColor,
+        borderStyle: 'solid',
       },
-    },
-    profile: {
-      dialog: {
-        styles: {
-          padding: '0',
-          overflowY: 'none',
+      optionsGroup: {
+        flexGrow: 0,
+        flexShrink: 0,
+      },
+      optionsLabelStyle: {
+        textTransform: undefined,
+      },
+      titleGroup: {
+        flexGrow: 1,
+        flexShrink: 1,
+        fontSize: theme.flatButton.fontSize,
+        fontFamily: theme.fontFamily,
+        textAlign: 'center',
+        color: theme.palette.textColor,
+        fontWeight: 'bold',
+      },
+      profile: {
+        dialog: {
+          styles: {
+            padding: '0',
+            overflowY: 'none',
+          },
         },
-      },
-      scrollArea: {
-        styles: {
-          height: '55vh',
+        scrollArea: {
+          styles: {
+            height: '55vh',
+          },
         },
-      },
-      actions: {
-        styles: {
-          display: 'flex',
-          justifyContent: 'flex-end',
+        actions: {
+          styles: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+          },
         },
       },
     },

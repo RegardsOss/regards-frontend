@@ -31,8 +31,10 @@ import LoggedUserContainer from './LoggedUserContainer'
 export class AuthenticationMenuContainer extends React.Component {
 
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    // should be displayed?
+    display: PropTypes.bool,
     appName: PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     // from mapStateToProps
     isAuthenticated: PropTypes.bool,
   }
@@ -72,8 +74,12 @@ export class AuthenticationMenuContainer extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, project, appName } = this.props
+    const { display, isAuthenticated, project, appName } = this.props
     const { authenticationVisible } = this.state
+
+    if (!display) { // hidden by configuration
+      return null
+    }
 
     // Initialise the authentication module configuration
     const authenticationModule = {

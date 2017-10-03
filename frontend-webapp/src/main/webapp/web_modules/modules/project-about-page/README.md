@@ -1,8 +1,8 @@
-# @regardsoss/home-page
+# @regardsoss/project-about-page
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. It displays the configured project homePage in an iframe. It stores the 'do not show again' option in local web browser storage.
+This module is a dynamic configurable module for the configurable interfaces. It displays the configured project about page in an iframe. It stores the 'do not show again' option in local web browser storage.
   
 ## Module structure
 
@@ -48,7 +48,7 @@ This module as a dynamic configurable module exposes is own :
   ```javascript
     render() {
     const moduleConfiguration = {
-       type: 'home-page',
+       type: 'project-about-page',
        active: true,
        conf: {}
     }

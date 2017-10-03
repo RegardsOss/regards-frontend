@@ -25,7 +25,6 @@ import {
   RenderSelectField,
   Field,
   ValidationHelpers,
-  ErrorTypes,
   reduxForm,
 } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'

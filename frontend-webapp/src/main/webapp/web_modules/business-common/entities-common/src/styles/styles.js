@@ -12,7 +12,7 @@ const growingVerticalLayout = { ...growingFlexElement, ...verticalLayout }
  */
 export default theme => ({
   descriptionDialog: {
-    widthPercent: 70,
+    widthPercent: 88,
     heightPercent: 68,
     body: { padding: '0', overflowY: 'none' },
     card: {

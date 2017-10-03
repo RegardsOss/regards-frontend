@@ -137,7 +137,6 @@ class ModuleListComponent extends React.Component {
         open={this.props.open}
         docked={false}
         width={300}
-        openSecondary
         onRequestChange={this.props.onCloseMenu}
       >
         <List>

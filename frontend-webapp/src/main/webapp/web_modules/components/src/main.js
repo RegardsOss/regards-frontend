@@ -99,7 +99,7 @@ export {
   BaseBoardComponent,
   BoardComponent,
   BoardItemComponent,
-  buttonsMessages, // TODO remove me in V2
+  buttonsMessages, // XXX remove me in V2
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,

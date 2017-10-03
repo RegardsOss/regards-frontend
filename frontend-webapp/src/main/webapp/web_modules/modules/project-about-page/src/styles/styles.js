@@ -16,19 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Locales } from '@regardsoss/form-utils'
+const projectAboutPageStyles = theme => ({
+  dialog: {
+    heightPercent: 80,
+    widthPercent: 55,
+    bodyStyle: {
+      padding: '5px',
+    },
+    button: {
+      position: 'fixed',
+      bottom: 10,
+      right: 15,
+      zIndex: 5000,
+    },
+  },
+  iFrameWrapper: {
+    margin: 'auto',
+    width: '90%',
+    height: 500,
+    marginTop: 20,
+  },
+  iFrame: {
+    height: '100%',
+    width: '100%',
+    position: 'relative',
+  },
+  adminIframeLoading: {
+    margin: 'auto',
+  },
+})
 
-/**
- * i18n messages French language
- * @type {*}
- */
-const messages = Object.assign({
-  'homepage.ok': 'Fermer',
-  'homepage.display': 'Afficher au démarrage',
-  'homepage.hide': 'Ne plus afficher',
-  'homepage.admin.url': 'URL du fichier HTML',
-  'homepage.admin.test': 'Tester',
-  'homepage.loading.message': 'Page de démarrage du projet en cours de chargement, veuillez patienter...',
-}, Locales.fr)
-
-export default messages
+export default projectAboutPageStyles

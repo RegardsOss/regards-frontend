@@ -39,7 +39,7 @@ export default {
   PluginConfigurationArray,
 
   PluginParameterType,
-  
+
   // Common
   getChainableTypeChecker,
 

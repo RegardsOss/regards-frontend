@@ -57,6 +57,8 @@ export class AccessGroupListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static CREATE_DEPENDENCIES = [accessGroupActions.getDependency(RequestVerbEnum.POST)]
+
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
@@ -183,7 +185,7 @@ export class AccessGroupListComponent extends React.Component {
               />
             }
             mainButtonClassName="selenium-createButton"
-            mainHateoasDependencies={[accessGroupActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={AccessGroupListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'group.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

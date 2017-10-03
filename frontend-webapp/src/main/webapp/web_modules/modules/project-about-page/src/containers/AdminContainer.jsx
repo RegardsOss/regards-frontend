@@ -109,13 +109,13 @@ class AdminContainer extends React.Component {
             component={RenderTextField}
             type="text"
             validate={ValidationHelpers.string}
-            label={formatMessage({ id: 'homepage.admin.url' })}
+            label={formatMessage({ id: 'project.about.page.admin.url' })}
           />
           <LoadableContentDisplayDecorator
             isLoading={isLoading}
           >
             <RaisedButton
-              label={formatMessage({ id: 'homepage.admin.test' })}
+              label={formatMessage({ id: 'project.about.page.admin.test' })}
               primary
               disabled={isLoading || !path}
               onTouchTap={this.startTest}

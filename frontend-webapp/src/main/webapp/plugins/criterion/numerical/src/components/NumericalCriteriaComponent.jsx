@@ -119,7 +119,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
     if (isNaN(openSearchQuery)) {
-      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9*]*) TO ([0-9*]*)[ ]{0,1}\]/)
+      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9*]*) TO ([0-9*]*)[ ]{0,1}\]/) || []
       if (values.length === 3) {
         if (values[1] === '*') {
           this.setState({ comparator: EnumNumericalComparator.LE })

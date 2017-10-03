@@ -1,8 +1,8 @@
 {
-  "name": "@regardsoss-modules/home-page",
+  "name": "@regardsoss-modules/project-about-page",
   "version": "0.0.1",
   "private": true,
-  "description": "Display the project's home page",
+  "description": "Display the project's about page",
   "main": "src/main.js",
   "author": "CS-SI",
   "license": "GPL-3.0"

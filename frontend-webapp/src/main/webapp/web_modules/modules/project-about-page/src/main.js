@@ -16,34 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const homePageStyles = theme => ({
-  dialog: {
-    heightPercent: 80,
-    widthPercent: 55,
-    bodyStyle: {
-      padding: '5px',
-    },
-    button: {
-      position: 'fixed',
-      bottom: 10,
-      right: 15,
-      zIndex: 5000,
-    },
-  },
-  iFrameWrapper: {
-    margin: 'auto',
-    width: '90%',
-    height: 500,
-    marginTop: 20,
-  },
-  iFrame: {
-    height: '100%',
-    width: '100%',
-    position: 'relative',
-  },
-  adminIframeLoading: {
-    margin: 'auto',
-  },
-})
+import ProjectAboutPageContainer from './containers/ProjectAboutPageContainer'
+import adminContainer from './containers/AdminContainer'
+import styles from './styles/styles'
+import dependencies from './dependencies'
 
-export default homePageStyles
+/**
+ * Module main file to expose public interface
+ */
+export default {
+  moduleContainer: ProjectAboutPageContainer,
+  adminContainer,
+  styles,
+  messagesDir: 'modules/project-about-page/src/i18n',
+  dependencies,
+}

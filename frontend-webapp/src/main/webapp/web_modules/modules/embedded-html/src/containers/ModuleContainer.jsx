@@ -29,9 +29,6 @@ import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
 class ModuleContainer extends React.Component {
 
   static propTypes = {
-    // Set by module loader (LazyModuleComponent)
-    project: PropTypes.string,
-    appName: PropTypes.string.isRequired,
     // Module configuration.
     moduleConf: ModuleConfigurationShape,
   }
@@ -42,13 +39,14 @@ class ModuleContainer extends React.Component {
   }
 
   render() {
+    const renderStyles = {
+      width: this.props.moduleConf.cssWidth || '100%',
+      height: this.props.moduleConf.cssHeight || 100,
+    }
     return (
       <IFrameURLContentDisplayer
         contentURL={this.props.moduleConf.htmlUrl}
-        style={{
-          width: this.props.moduleConf.cssWidth || '100%',
-          height: this.props.moduleConf.cssHeight || 100,
-        }}
+        style={renderStyles}
       />
     )
   }

@@ -23,7 +23,7 @@
  * @author Sébastien Binda
  */
 const messages = {
-  'modules.list.menu.label': 'Menu',
+  'modules.list.menu.label': 'Browse',
   'section.search-form': 'Search forms',
   'section.search-results': 'Data catalogs',
   'section.search-graph': 'Data tree navigation',

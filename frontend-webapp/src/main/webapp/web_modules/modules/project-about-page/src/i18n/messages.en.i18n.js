@@ -23,12 +23,12 @@ import { Locales } from '@regardsoss/form-utils'
  * @type {*}
  */
 const messages = Object.assign({
-  'homepage.ok': 'Close',
-  'homepage.display': 'Always display',
-  'homepage.hide': 'Don\'t show again',
-  'homepage.admin.url': 'HTML file URL',
-  'homepage.admin.test': 'Test',
-  'homepage.loading.message': 'Loading project home page, please wait...',
+  'project.about.page.ok': 'Close',
+  'project.about.page.display': 'Always display',
+  'project.about.page.hide': 'Don\'t show again',
+  'project.about.page.admin.url': 'HTML file URL',
+  'project.about.page.admin.test': 'Test',
+  'project.about.page.loading.message': 'Loading project project.about. page, please wait...',
 }, Locales.en)
 
 export default messages

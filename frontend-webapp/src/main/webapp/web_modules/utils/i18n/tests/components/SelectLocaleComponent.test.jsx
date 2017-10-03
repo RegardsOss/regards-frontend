@@ -18,20 +18,17 @@
 **/
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
-import * as sinon from 'sinon'
 import MenuItem from 'material-ui/MenuItem'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
 
-const options = {
-  context: buildTestContext(),
-}
+const context = buildTestContext()
 
 /**
  * Test a components rendering
  * @author Sébastien Binda
  */
-describe('[COMMON] Testing i18n Select Locale components', () => {
+describe('[I18N] Testing i18n Select Locale components', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -39,14 +36,14 @@ describe('[COMMON] Testing i18n Select Locale components', () => {
     const onLocaleChange = (locale) => {
       expect(locale).to.equals('es')
     }
-    const spy = sinon.spy(onLocaleChange)
     const props = {
-      setLocale: spy,
+      setLocale: onLocaleChange,
       currentLocale: 'ru',
       locales: ['fr', 'en', 'ru', 'es'],
+      muiTheme: context.muiTheme,
     }
 
-    const wrapper = shallow(<SelectLocaleComponent {...props} />, options)
+    const wrapper = shallow(<SelectLocaleComponent {...props} />, { context })
     expect(wrapper.find(MenuItem)).to.have.length(4)
   })
 })

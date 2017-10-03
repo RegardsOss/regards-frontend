@@ -15,33 +15,41 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import MenuContainer from '../../src/containers/MenuContainer'
+import { ShowableAtRender } from '@regardsoss/components'
+import ContactComponent from '../../src/components/ContactComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Menu] Testing MenuContainer', () => {
+/**
+* Test ContactComponent
+* @author Raphaël Mechali
+*/
+describe('[Menu] Testing ContactComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(MenuContainer)
+    assert.isDefined(ContactComponent)
   })
-  it('should render properly', () => {
+  it('should render correctly without contact', () => {
+    const props = {}
+    const enzymeWrapper = shallow(<ContactComponent {...props} />, { context })
+    const showable = enzymeWrapper.find(ShowableAtRender)
+    assert.lengthOf(showable, 1, 'There should be a showable')
+    assert.isFalse(showable.props().show, 'It should be hidden')
+  })
+  it('should render correctly with contacts', () => {
     const props = {
-      project: 'any',
-      appName: 'any',
-      moduleConf: {
-        title: 'any',
-        displayAuthentication: true,
-        displayLocaleSelector: true,
-        displayThemeSelector: true,
-      },
+      contacts: 'gégé.bg@pmu.fr',
     }
-    shallow(<MenuContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<ContactComponent {...props} />, { context })
+    const showable = enzymeWrapper.find(ShowableAtRender)
+    assert.lengthOf(showable, 1, 'There should be a showable')
+    assert.isTrue(showable.props().show, 'It should be shown')
   })
 })

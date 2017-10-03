@@ -233,12 +233,14 @@ class ContainerHelper {
    * In a layout, only one container is allowed to be dynamic
    * If the given container is dynamic, make all other containers static
    *
-   * @param {Container} container The current container
-   * @param {Layout} layout The layout containing all containers
+   * @param {Container} container (out param) The current container
+   * @param {Layout} layout (out param) The layout containing all containers
    */
   static selectDynamicContainerInLayout(container, layout) {
     if (container.dynamicContent) {
+      // eslint-disable-next-line no-param-reassign
       getAllContainersInLayout(layout).forEach((cont) => { cont.dynamicContent = false })
+      // eslint-disable-next-line no-param-reassign
       container.dynamicContent = true
     }
   }
