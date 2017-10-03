@@ -135,8 +135,8 @@ export class CollectionFormComponent extends React.Component {
    */
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentCollection } = this.props
-      const properties = getInitialFormValues(currentCollection)
+      const { currentCollection, modelAttributeList } = this.props
+      const properties = getInitialFormValues(modelAttributeList, currentCollection)
       const initialValues = {
         label: currentCollection.content.label,
         geometry: currentCollection.content.geometry,
