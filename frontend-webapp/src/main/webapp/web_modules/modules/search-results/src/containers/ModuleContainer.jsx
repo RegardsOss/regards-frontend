@@ -57,14 +57,15 @@ export class ModuleContainer extends React.Component {
     const facettes = reduce(attributes, (result, value, key) =>
       value.facetable ? [...result, value.attributeFullQualifiedName] : result, [])
     this.state = {
+      expanded: true,
       attributesFetching: true,
       facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
     }
   }
 
-  componentWillMount() {
-    return Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
-  }
+  componentDidMount = () => Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
+
+  onExpandChange = () => this.setState({ expanded: !this.state.expanded })
 
   render() {
     const { appName, project } = this.props
@@ -79,7 +80,7 @@ export class ModuleContainer extends React.Component {
         displayDatasets,
         breadcrumbInitialContextLabel,
     } } = this.props
-    const { attributesFetching, facettesQuery } = this.state
+    const { expanded, attributesFetching, facettesQuery } = this.state
     // when showing datasets, select dataset tab first (by default)
     const initialViewObjectType = displayDatasets ? SearchResultsTargetsEnum.DATASET_RESULTS : SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
@@ -100,6 +101,8 @@ export class ModuleContainer extends React.Component {
           <ModuleComponent
             appName={appName}
             project={project}
+            expanded={expanded}
+            onExpandChange={this.onExpandChange}
             resultsTitle={breadcrumbInitialContextLabel}
             enableFacettes={!!enableFacettes}
             searchQuery={searchQuery}

@@ -4,6 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { CatalogShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import GraphLevelDisplayer from '../../components/user/GraphLevelDisplayer'
 import { SelectionPath } from '../../model/graph/SelectionShape'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
@@ -15,6 +16,9 @@ import GraphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions
 import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
 import GraphLevelCollectionSelectors from '../../model/graph/GraphLevelCollectionSelectors'
 import GraphLevelDatasetSelectors, { getTerminalDatasets } from '../../model/graph/GraphLevelDatasetSelectors'
+import styles from '../../styles/styles'
+
+const moduleStyles = { styles }
 
 /**
  * Container for collection content displayer (connects with selection state and level content)
@@ -155,16 +159,18 @@ export class GraphLevelDisplayerContainer extends React.Component {
       datasets,
     } = this.props
     return (
-      <GraphLevelDisplayer
-        graphDatasetAttributes={graphDatasetAttributes}
-        isShowable={isShowable}
-        isLoading={isLoading}
-        hasError={hasError}
-        collections={collections}
-        datasets={datasets}
-        levelIndex={levelIndex}
-        isLastLevel={isLastLevel}
-      />)
+      <ModuleThemeProvider module={moduleStyles}>
+        <GraphLevelDisplayer
+          graphDatasetAttributes={graphDatasetAttributes}
+          isShowable={isShowable}
+          isLoading={isLoading}
+          hasError={hasError}
+          collections={collections}
+          datasets={datasets}
+          levelIndex={levelIndex}
+          isLastLevel={isLastLevel}
+        />
+      </ModuleThemeProvider>)
   }
 
 }

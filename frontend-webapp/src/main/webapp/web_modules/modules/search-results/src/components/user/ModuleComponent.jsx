@@ -1,8 +1,9 @@
 /**
-* LICENSE_PLACEHOLDER
-**/
-import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+ * LICENSE_PLACEHOLDER
+ **/
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
+import { DynamicModule } from '@regardsoss/components'
 import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
 
@@ -16,6 +17,10 @@ class ModuleComponent extends React.Component {
     appName: PropTypes.string,
     project: PropTypes.string,
     resultsTitle: PropTypes.string,
+
+    // expanded state management
+    expanded: PropTypes.bool.isRequired,
+    onExpandChange: PropTypes.func.isRequired,
 
     // initial configuration
     // eslint-disable-next-line react/no-unused-prop-types
@@ -32,33 +37,41 @@ class ModuleComponent extends React.Component {
     attributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
     datasetAttributesConf: AccessShapes.AttributeConfigurationArray,
     attributeModels: DataManagementShapes.AttributeModelList,
-
   }
 
-  static defaultProps = {}
+  static contextTypes = {
+    ...themeContextType,
+  }
 
   render() {
     const {
-      appName, project, searchQuery, enableFacettes, facettesQuery, displayDatasets, resultsTitle,
-      attributesConf, attributesRegroupementsConf, datasetAttributesConf, attributeModels } = this.props
+      appName, project, resultsTitle, searchQuery, enableFacettes, expanded, onExpandChange, facettesQuery,
+      displayDatasets, attributesConf, attributesRegroupementsConf, datasetAttributesConf, attributeModels } = this.props
+
     return (
-      <Card>
-        <CardTitle title={<NavigationContainer resultsTitle={resultsTitle} displayDatasets={displayDatasets} />} />
-        <CardMedia>
-          <SearchResultsContainer
-            appName={appName}
-            project={project}
-            enableFacettes={enableFacettes}
+      <DynamicModule
+        title={
+          <NavigationContainer
+            resultsTitle={resultsTitle}
             displayDatasets={displayDatasets}
-            searchQuery={searchQuery}
-            facettesQuery={facettesQuery}
-            attributesConf={attributesConf}
-            attributesRegroupementsConf={attributesRegroupementsConf}
-            datasetAttributesConf={datasetAttributesConf}
-            attributeModels={attributeModels}
           />
-        </CardMedia>
-      </Card>
+        }
+        onExpandChange={onExpandChange}
+        expanded={expanded}
+      >
+        <SearchResultsContainer
+          appName={appName}
+          project={project}
+          enableFacettes={enableFacettes}
+          displayDatasets={displayDatasets}
+          searchQuery={searchQuery}
+          facettesQuery={facettesQuery}
+          attributesConf={attributesConf}
+          attributesRegroupementsConf={attributesRegroupementsConf}
+          datasetAttributesConf={datasetAttributesConf}
+          attributeModels={attributeModels}
+        />
+      </DynamicModule >
     )
   }
 }

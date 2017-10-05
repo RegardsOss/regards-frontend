@@ -35,6 +35,9 @@ const formStyles = theme => ({
     },
   },
   user: {
+    cardTitle: {
+      padding: '0',
+    },
     searchButtonContainer: {
       display: 'flex',
       alignItems: 'center',
@@ -49,9 +52,6 @@ const formStyles = theme => ({
         height: '24px',
         width: '24px',
       },
-    },
-    formHeader: {
-      backgroundColor: theme.palette.primary2Color,
     },
     optionsStyles: {
       rootStyles: {

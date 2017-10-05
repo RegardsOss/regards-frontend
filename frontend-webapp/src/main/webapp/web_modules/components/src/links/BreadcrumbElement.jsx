@@ -1,6 +1,9 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import FlatButton from 'material-ui/FlatButton'
+import RootLocationIcon from 'material-ui/svg-icons/communication/location-on'
+import NextLevelIcon from 'material-ui/svg-icons/action/label'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -9,6 +12,8 @@ import { themeContextType } from '@regardsoss/theme'
 class BreadcrumbElement extends React.Component {
 
   static propTypes = {
+    isFirst: PropTypes.bool,
+    isLast: PropTypes.bool,
     onAction: PropTypes.func.isRequired, // callback () => void
     label: PropTypes.string.isRequired,
   }
@@ -17,33 +22,19 @@ class BreadcrumbElement extends React.Component {
     ...themeContextType,
   }
 
-
-  componentWillMount = () => {
-    // initially not hover
-    this.setMouseOver(false)
-  }
-
-  onMouseOver = () => this.setMouseOver(true)
-
-  onMouseOut = () => this.setMouseOver(false)
-
-  setMouseOver = mouseOver => this.setState({ mouseOver })
-
-
   render() {
-    const { onAction, label } = this.props
-    const { mouseOver } = this.state
-    const { path, pathHover } = this.context.moduleTheme.breadcrumb
-    const elementStyle = mouseOver ? pathHover : path
+    const { isFirst, isLast, onAction, label } = this.props
+    const { element: { style, iconStyle, labelStyle } } = this.context.moduleTheme.breadcrumb
+    const IconConstructor = isFirst ? RootLocationIcon : NextLevelIcon
     return (
-      <button
-        style={elementStyle}
+      <FlatButton
+        icon={<IconConstructor style={iconStyle} />}
+        label={label}
+        labelStyle={labelStyle}
+        secondary={isLast && !isFirst}
         onClick={onAction}
-        onMouseOver={this.onMouseOver}
-        onMouseOut={this.onMouseOut}
-      >
-        {label}
-      </button>
+        style={style}
+      />
     )
   }
 }

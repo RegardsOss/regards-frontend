@@ -60,10 +60,13 @@ import PictureLinkComponent from './links/PictureLinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
 import ListContainer from './list/ListContainer'
-
 import ChipList from './list/ChipList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
+
+import DynamicModule from './module/DynamicModule'
+import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
+import ModuleTitle from './module/ModuleTitle'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
@@ -109,18 +112,21 @@ export {
   ConfirmDialogComponentTypes,
   DownloadButton,
   DropDownButton,
+  DynamicModule,
   ErrorCardComponent,
   ErrorDecoratorComponent,
-  PageNotFoundComponent,
-  IFrameURLContentDisplayer,
   FileContentDisplayer,
+  getTableReducer,
+  getTableSelectors,
+  HorizontalAreasSeparator,
+  IFrameURLContentDisplayer,
+  ModuleTitle,
+  PageNotFoundComponent,
   TableContainer,
   TablePaneHeader,
   TableSelectionModes,
   TableActions,
   Title,
-  getTableReducer,
-  getTableSelectors,
   TableSortOrders,
   TableColumnConfiguration,
   TableColumnConfigurationController,

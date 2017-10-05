@@ -15,37 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ModuleComponent from '../../../src/components/user/ModuleComponent'
-import styles from '../../../src/styles/styles'
+import HorizontalAreasSeparator from '../../src/module/HorizontalAreasSeparator'
+import styles from '../../src/module/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Results] Testing ModuleComponent', () => {
+/**
+* Test HorizontalAreasSeparator
+* @author Raphaël Mechali
+*/
+describe('[Components] Testing HorizontalAreasSeparator', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModuleComponent)
+    assert.isDefined(HorizontalAreasSeparator)
   })
-  it('should render properly', () => {
-    const props = {
-      appName: 'hello.app',
-      project: 'say-hello',
-      searchQuery: 'kikikisonlessnorki?',
-      enableFacettes: true,
-      displayDatasets: true,
-      facettesQuery: '',
-      initialDatasetIpId: 'xxxxxx-8',
-      attributesConf: [],
-      attributesRegroupementsConf: [],
-      attributeModels: {},
-      expanded: true,
-      onExpandChange: () => { },
-    }
-    shallow(<ModuleComponent {...props} />, { context })
+  it('should render correctly', () => {
+    shallow(<HorizontalAreasSeparator />, { context })
   })
 })

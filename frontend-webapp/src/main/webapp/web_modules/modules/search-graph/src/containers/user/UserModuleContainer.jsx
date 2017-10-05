@@ -67,7 +67,7 @@ export class UserModuleContainer extends React.Component {
         dispatch(patitionTypeActions.onDataLoadingDone(getLevelPartitionKey(levelIndex), results))
       } // ignore empty objects, due to initilization case
     },
-
+    dispatchSetModuleCollapsed: collapsed => dispatch(graphContextActions.setModuleCollapsed(collapsed)),
   })
 
   static propTypes = {
@@ -91,9 +91,13 @@ export class UserModuleContainer extends React.Component {
     dispatchClearLevelSelection: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchLevelDataLoaded: PropTypes.func.isRequired,
+    dispatchSetModuleCollapsed: PropTypes.func.isRequired,
   }
 
-  componentWillMount = () => this.onPropertiesChanged(undefined, this.props)
+  componentWillMount = () => {
+    this.setState({ expanded: true })
+    this.onPropertiesChanged(undefined, this.props)
+  }
 
   componentDidMount = () => {
     // Fetch attribute models in order to resolve dataset attributes for the graph
@@ -151,6 +155,14 @@ export class UserModuleContainer extends React.Component {
       this.refreshCompleteGraph(nextProps)
     }
   }
+
+  /** User callback: toggles expanded / collapsed state for module */
+  onExpandChange = () => {
+    const { dispatchSetModuleCollapsed, moduleCollapsed } = this.props
+    dispatchSetModuleCollapsed(!moduleCollapsed)
+  }
+
+
   /**
    * Refreshes the complete graph, computes recursively the new visible content by level, tries to restore each level
    * selection and content or reset selection at the level where selected element is no longer available
@@ -201,9 +213,10 @@ export class UserModuleContainer extends React.Component {
         { /* Description handling */}
         <DescriptionContainer />
         <SearchGraph
-          moduleCollapsed={moduleCollapsed}
           graphDatasetAttributes={graphDatasetAttributes}
           moduleConf={moduleConf}
+          expanded={!moduleCollapsed}
+          onExpandChange={this.onExpandChange}
         />
         <NavigableSearchResultsContainer
           appName={appName}

@@ -35,7 +35,9 @@ import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { HorizontalAreasSeparator } from '@regardsoss/components'
 import DatasetSelectionType from '../models/datasets/DatasetSelectionTypes'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import FormComponent from '../components/user/FormComponent'
@@ -64,7 +66,9 @@ class ModuleContainer extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
+
 
   static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
   static TAGS_PARAM = 'tags'
@@ -75,6 +79,7 @@ class ModuleContainer extends React.Component {
     this.state = {
       searchQuery: '',
       expanded: true,
+      hasSearched: false,
     }
   }
 
@@ -83,7 +88,6 @@ class ModuleContainer extends React.Component {
 
     // Read query parameters form current URL
     const query = browserHistory ? browserHistory.getCurrentLocation().query : null
-    const expanded = !query || !query.q
 
     let q = this.getInitialQuery()
 
@@ -95,7 +99,8 @@ class ModuleContainer extends React.Component {
 
     this.setState({
       searchQuery: q,
-      expanded,
+      expanded: true,
+      hasSearched: false,
     })
   }
 
@@ -113,7 +118,8 @@ class ModuleContainer extends React.Component {
     if (query && query.q && query.q !== this.state.searchQuery) {
       this.setState({
         searchQuery: query.q,
-        expanded: false,
+        expanded: true,
+        hasSearched: false,
         resetCriterion: true,
       })
       this.criterionValues = {}
@@ -121,6 +127,7 @@ class ModuleContainer extends React.Component {
       // NO query specified, display the search form open and run initial Query search
       this.setState({
         searchQuery: this.getInitialQuery(),
+        hasSearched: false,
         expanded: true,
       })
       this.criterionValues = {}
@@ -238,6 +245,7 @@ class ModuleContainer extends React.Component {
   handleSearch = () => {
     const query = this.createSearchQueryFromCriterion()
     this.setState({
+      hasSearched: true, // first search performed
       searchQuery: query,
     })
     this.criterionValues = {}
@@ -298,8 +306,8 @@ class ModuleContainer extends React.Component {
   renderForm() {
     // If a search query is set, hide form component
     /* if (this.state.searchQuery && this.state.searchQuery !== this.getInitialQuery()) {
-     return null
-     } */
+      return null
+    } */
     if (this.props.moduleConf.layout) {
       const pluginsProps = {
         onChange: this.onCriteriaChange,
@@ -326,48 +334,54 @@ class ModuleContainer extends React.Component {
   }
 
   renderResults() {
-    if (!this.props.moduleConf.preview) {
-      // is single dataset?
-      const { type, selectedDatasets } = this.props.moduleConf.datasets || {}
-      const singleDatasetIpId = (type === DatasetSelectionType.DATASET_TYPE && null && selectedDatasets && selectedDatasets.length === 1 &&
-        selectedDatasets[0]) || null
+    if (this.props.moduleConf.preview || !this.state.hasSearched) {
+      // no render when in form preview or when user has not yet clicked search
+      return null
+    }
+    const { intl: { formatMessage } } = this.context
 
+    // is single dataset?
+    const { type, selectedDatasets } = this.props.moduleConf.datasets || {}
+    const singleDatasetIpId = (type === DatasetSelectionType.DATASET_TYPE && null && selectedDatasets && selectedDatasets.length === 1 &&
+      selectedDatasets[0]) || null
 
-      const module = {
-        type: 'search-results',
-        active: true,
-        applicationId: this.props.appName,
-        description: this.props.description,
-        conf: {
-          resultType: this.props.moduleConf.resultType,
-          attributes: this.props.moduleConf.attributes,
-          attributesRegroupements: this.props.moduleConf.attributesRegroupements,
-          datasetAttributes: this.props.moduleConf.datasetAttributes,
-          selectableAttributes: this.props.attributeModels,
-          enableFacettes: this.props.moduleConf.enableFacettes,
-          displayDatasets: this.props.moduleConf.displayDatasets,
-          searchQuery: this.state.searchQuery,
-          breadcrumbInitialContextLabel: this.props.description,
-          singleDatasetIpId,
-        },
-      }
+    const module = {
+      type: 'search-results',
+      active: true,
+      applicationId: this.props.appName,
+      description: this.props.description,
+      conf: {
+        resultType: this.props.moduleConf.resultType,
+        attributes: this.props.moduleConf.attributes,
+        attributesRegroupements: this.props.moduleConf.attributesRegroupements,
+        datasetAttributes: this.props.moduleConf.datasetAttributes,
+        selectableAttributes: this.props.attributeModels,
+        enableFacettes: this.props.moduleConf.enableFacettes,
+        displayDatasets: this.props.moduleConf.displayDatasets,
+        searchQuery: this.state.searchQuery,
+        breadcrumbInitialContextLabel: formatMessage({ id: 'results.module.title' }),
+        singleDatasetIpId,
+      },
+    }
 
-      return (
+    return (
+      <div>
+        {/* Separare sub module */}
+        <HorizontalAreasSeparator />
+        {/* Render sub module */}
         <LazyModuleComponent
           project={this.props.project}
           appName={this.props.appName}
           module={module}
         />
-      )
-    }
-    return null
+      </div>
+    )
   }
 
   render() {
     return (
       <div>
         {this.renderForm()}
-        <div style={{ marginTop: 10 }} />
         {this.renderResults()}
       </div>
     )

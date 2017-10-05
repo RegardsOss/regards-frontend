@@ -26,4 +26,14 @@ export default {
     background: '',
     backgroundImage: '',
   },
+  module: {
+    titleBarHeight: '48px',
+    titleMargin: '0 0 0 8px',
+    titleIconMargin: '0',
+    titleIconSize: '24px',
+    titleTextMargin: '0 0 0 8px',
+    titleFontSize: '20px',
+    titleFontWeight: '500',
+    titleTextTransform: undefined,
+  },
 }

@@ -17,41 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-/**
- * Styles for form module
- * @author Sébastien binda
- */
-const formStyles = theme => ({
-  criteria: {
-    label: {
-      marginRight: 20,
-    },
-  },
-  user: {
-    searchButtonContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-    },
-    searchButton: {
-      margin: '12px 0 8px 0',
-      width: 200,
-    },
-  },
-  resultsButtonsType: {
-    buttonsGroup: {
-      top: 0,
-      position: 'fixed',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      zIndex: 1000,
-    },
-    buttons: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-  },
-})
+import styles from './styles'
 
-export default formStyles
+export default { styles }

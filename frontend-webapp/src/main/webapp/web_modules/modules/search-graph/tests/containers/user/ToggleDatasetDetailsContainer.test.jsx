@@ -19,33 +19,28 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ModuleComponent from '../../../src/components/user/ModuleComponent'
+import { ToggleDatasetDetailsContainer } from '../../../src/containers/user/ToggleDatasetDetailsContainer'
+import ToggleDatasetDetails from '../../../src/components/user/ToggleDatasetDetails'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Results] Testing ModuleComponent', () => {
+describe('[Search Graph] Testing ToggleDatasetDetailsContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModuleComponent)
+    assert.isDefined(ToggleDatasetDetailsContainer)
   })
   it('should render properly', () => {
     const props = {
-      appName: 'hello.app',
-      project: 'say-hello',
-      searchQuery: 'kikikisonlessnorki?',
-      enableFacettes: true,
-      displayDatasets: true,
-      facettesQuery: '',
-      initialDatasetIpId: 'xxxxxx-8',
-      attributesConf: [],
-      attributesRegroupementsConf: [],
-      attributeModels: {},
-      expanded: true,
-      onExpandChange: () => { },
+      graphDatasetAttributes: [],
+      // from mapStateToProps
+      datasetAttributesVisible: true,
+      // from mapDispatchToProps
+      dispatchSetDatasetAttributesVisible: () => { },
     }
-    shallow(<ModuleComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ToggleDatasetDetailsContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(ToggleDatasetDetails), 1, 'The corresponding component should be rendered')
   })
 })

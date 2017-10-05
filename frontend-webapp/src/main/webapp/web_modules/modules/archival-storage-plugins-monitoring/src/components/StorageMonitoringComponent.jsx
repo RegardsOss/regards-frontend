@@ -102,9 +102,9 @@ class StorageMonitoringComponent extends React.Component {
   /*  // */
     return (
       <Paper >
-
         <Toolbar>
           <ToolbarGroup firstChild>
+            { /** XXX-V2: change for module title with icon **/ }
             <ToolbarTitle text={intl.formatMessage({ id: 'archival.storage.capacity.monitoring.title' })} />
           </ToolbarGroup>
           <ToolbarGroup>

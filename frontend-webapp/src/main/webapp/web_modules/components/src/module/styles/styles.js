@@ -18,22 +18,55 @@
  **/
 
 /**
- * Styles for board items components
- * @param theme
- * @author Sébastien Binda
+ * Card components styles
+ * @author Raphaël Mechali
  */
-const styles = theme => ({
-  breadcrumb: {
-    style: {
-      height: theme.module.titleBarHeight,
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
+export default function getStyles(theme) {
+  return {
+    horizontalSeparator: {
+      rootStyle: {
+        background: theme.palette.canvasColor,
+        padding: '0 0 3px 0',
+      },
+      lineStyle: {
+        padding: '3px 0 0',
+        borderStyle: 'solid',
+        borderWidth: '0 0 1px 0',
+        width: '100%',
+        borderColor: theme.appBar.color,
+      },
     },
-    element: {
+    module: {
+      cardHeaderStyle: {
+        padding: '0',
+      },
+      cardHeaderContentStyle: {
+        width: '100%',
+        paddingRight: theme.button.iconButtonSize + 5,
+      },
+      titleBarDivStyle: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+      },
+      titleDivStyle: {
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+      optionsDivStyle: {
+        flexGrow: 0,
+        flexShrink: 0,
+      },
+    },
+    moduleTitle: {
       style: {
         margin: theme.module.titleMargin,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        height: theme.module.titleBarHeight,
       },
       iconStyle: {
         width: theme.module.titleIconSize,
@@ -46,10 +79,7 @@ const styles = theme => ({
         fontSize: theme.module.titleFontSize,
         fontWeight: theme.module.titleFontWeight,
         textTransform: theme.module.textTransform,
-        padding: 0,
       },
     },
-  },
-})
-
-export default styles
+  }
+}

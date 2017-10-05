@@ -15,37 +15,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ModuleComponent from '../../../src/components/user/ModuleComponent'
-import styles from '../../../src/styles/styles'
+import AnyIcon from 'material-ui/svg-icons/action/accessibility'
+import ModuleTitle from '../../src/module/ModuleTitle'
+import styles from '../../src/module/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Results] Testing ModuleComponent', () => {
+/**
+* Test ModuleTitle
+* @author Raphaël Mechali
+*/
+describe('[Components] Testing ModuleTitle', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModuleComponent)
+    assert.isDefined(ModuleTitle)
   })
-  it('should render properly', () => {
-    const props = {
-      appName: 'hello.app',
-      project: 'say-hello',
-      searchQuery: 'kikikisonlessnorki?',
-      enableFacettes: true,
-      displayDatasets: true,
-      facettesQuery: '',
-      initialDatasetIpId: 'xxxxxx-8',
-      attributesConf: [],
-      attributesRegroupementsConf: [],
-      attributeModels: {},
-      expanded: true,
-      onExpandChange: () => { },
-    }
-    shallow(<ModuleComponent {...props} />, { context })
+  it('should render correctly', () => {
+    shallow(<ModuleTitle text="IDK" tooltip="IDK" IconConstructor={AnyIcon} />, { context })
   })
 })

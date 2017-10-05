@@ -25,6 +25,7 @@ import { connect } from '@regardsoss/redux'
 import { AccessDomain, CatalogDomain } from '@regardsoss/domain'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import { TableSortOrders } from '@regardsoss/components'
 import {
   searchDataobjectsActions,
@@ -37,6 +38,9 @@ import navigationContextActions from '../../../models/navigation/NavigationConte
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
 import PluginServicesContainer from './PluginServicesContainer'
+import styles from '../../../styles/styles'
+
+const moduleStyles = { styles }
 
 /**
  * Search results container, drives corresponding component
@@ -266,41 +270,43 @@ export class SearchResultsContainer extends React.Component {
     const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
     return (
-      <PluginServicesContainer
-        // plugin service exlusive properties
-        viewObjectType={viewObjectType}
-        levels={levels}
-        openSearchQuery={openSearchQuery}
+      <ModuleThemeProvider module={moduleStyles}>
+        <PluginServicesContainer
+          // plugin service exlusive properties
+          viewObjectType={viewObjectType}
+          levels={levels}
+          openSearchQuery={openSearchQuery}
 
-        // search results display properties
-        appName={appName}
-        project={project}
-        allowingFacettes={enableFacettes && !!facettesQuery}
-        searchQuery={fullSearchQuery}
-        viewMode={displayMode || DisplayModeEnum.LIST}
-        showingFacettes={showingFacettes}
-        displayDatasets={displayDatasets}
-        sortingOn={sortingOn}
-        filters={filters}
-        searchTag={searchTag}
-        attributesConf={attributesConf}
-        attributesRegroupementsConf={attributesRegroupementsConf}
-        datasetAttributesConf={datasetAttributesConf}
-        attributeModels={attributeModels}
-        resultPageActions={searchActions}
-        showingDataobjects={showingDataobjects}
+          // search results display properties
+          appName={appName}
+          project={project}
+          allowingFacettes={enableFacettes && !!facettesQuery}
+          searchQuery={fullSearchQuery}
+          viewMode={displayMode || DisplayModeEnum.LIST}
+          showingFacettes={showingFacettes}
+          displayDatasets={displayDatasets}
+          sortingOn={sortingOn}
+          filters={filters}
+          searchTag={searchTag}
+          attributesConf={attributesConf}
+          attributesRegroupementsConf={attributesRegroupementsConf}
+          datasetAttributesConf={datasetAttributesConf}
+          attributeModels={attributeModels}
+          resultPageActions={searchActions}
+          showingDataobjects={showingDataobjects}
 
-        onShowDatasets={this.onShowDatasets}
-        onShowDataobjects={this.onShowDataobjects}
-        onShowListView={this.onShowListView}
-        onShowTableView={this.onShowTableView}
-        onToggleShowFacettes={this.onToggleShowFacettes}
-        onSelectDataset={dispatchDatasetSelected}
-        onSelectSearchTag={dispatchTagSelected}
-        onFiltersChanged={this.onFiltersChanged}
-        onResetNavigationContext={this.onResetNavigationContext}
-        onSortChanged={this.onSortChanged}
-      />
+          onShowDatasets={this.onShowDatasets}
+          onShowDataobjects={this.onShowDataobjects}
+          onShowListView={this.onShowListView}
+          onShowTableView={this.onShowTableView}
+          onToggleShowFacettes={this.onToggleShowFacettes}
+          onSelectDataset={dispatchDatasetSelected}
+          onSelectSearchTag={dispatchTagSelected}
+          onFiltersChanged={this.onFiltersChanged}
+          onResetNavigationContext={this.onResetNavigationContext}
+          onSortChanged={this.onSortChanged}
+        />
+      </ModuleThemeProvider>
     )
   }
 }

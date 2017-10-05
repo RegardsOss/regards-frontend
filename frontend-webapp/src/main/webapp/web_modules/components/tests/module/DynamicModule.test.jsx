@@ -15,34 +15,37 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SearchGraphHeaderContainer } from '../../../src/containers/user/SearchGraphHeaderContainer'
-import SearchGraphHeader from '../../../src/components/user/SearchGraphHeader'
-import styles from '../../../src/styles/styles'
+import DynamicModule from '../../src/module/DynamicModule'
+import styles from '../../src/module/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Graph] Testing SearchGraphHeaderContainer', () => {
+/**
+* Test DynamicModule
+* @author Raphaël Mechali
+*/
+describe('[Components] Testing DynamicModule', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SearchGraphHeaderContainer)
+    assert.isDefined(DynamicModule)
   })
-  it('should render properly', () => {
+  it('should render correctly', () => {
     const props = {
-      graphDatasetAttributes: [],
-      // from mapStateToProps
-      datasetAttributesVisible: true,
-      moduleCollapsed: true,
-      // from mapDispatchToProps
-      dispatchSetDatasetAttributesVisible: () => { },
-      dispatchSetModuleCollapsed: () => { },
+      title: <div>The title</div>,
+      options: [<div key="an.option">An option </div>],
+      onExpandChange: () => { },
+      expanded: true,
     }
-    const enzymeWrapper = shallow(<SearchGraphHeaderContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(SearchGraphHeader), 1, 'The corresponding component should be rendered')
+    shallow((
+      <DynamicModule {...props} >
+        <div>Some content</div>
+      </DynamicModule>
+    ), { context })
   })
 })
