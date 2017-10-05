@@ -139,8 +139,8 @@ export class DatasetFormAttributesComponent extends React.Component {
    */
   handleInitialize = () => {
     if (this.props.isEditing || this.props.isCreatinguUsingDatasetValues) {
-      const { currentDataset } = this.props
-      const properties = getInitialFormValues(currentDataset)
+      const { currentDataset, modelAttributeList } = this.props
+      const properties = getInitialFormValues(modelAttributeList, currentDataset)
       const initialValues = {
         label: currentDataset.content.label,
         geometry: currentDataset.content.geometry,
