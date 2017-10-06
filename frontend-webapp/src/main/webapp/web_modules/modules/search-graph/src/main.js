@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import ModuleIcon from 'material-ui/svg-icons/hardware/device-hub'
 import moduleContainer from './containers/user/UserModuleContainer'
 import adminContainer from './containers/admin/AdminModuleContainer'
 import styles from './styles/styles'
@@ -30,5 +31,6 @@ export default {
   moduleContainer,
   reducer,
   styles,
+  ModuleIcon,
   dependencies,
 }

@@ -54,8 +54,8 @@ export class ListViewEntityCellContainer extends React.Component {
   }
 
   /**
- * Callback when a dataset is selected. Click on his label
- */
+   * Callback when a dataset label is selected
+   */
   onEntitySelection = () => {
     const { onClick, entity } = this.props
     onClick(entity)

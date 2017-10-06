@@ -22,6 +22,7 @@
  * @author Sébastien Binda
  */
 export default theme => ({
+  modulesListWidth: 400,
   moduleListButtonsGroup: {
     top: '45vh',
     right: 0,

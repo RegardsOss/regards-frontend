@@ -41,7 +41,6 @@ const styles = theme => ({
         margin: theme.module.titleIconMargin,
       },
       labelStyle: {
-        color: theme.palette.textColor,
         margin: theme.module.titleTextMargin,
         fontSize: theme.module.titleFontSize,
         fontWeight: theme.module.titleFontWeight,

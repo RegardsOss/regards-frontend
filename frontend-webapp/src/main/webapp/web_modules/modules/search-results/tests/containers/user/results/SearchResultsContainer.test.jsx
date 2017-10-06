@@ -51,7 +51,7 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       displayMode: DisplayModeEnum.LIST,
 
       dispatchChangeViewObjectType: () => { },
-      dispatchDatasetSelected: () => { },
+      dispatchSetEntityAsTag: () => { },
       dispatchTagSelected: () => { },
       dispatchChangeDisplayMode: () => { },
     }

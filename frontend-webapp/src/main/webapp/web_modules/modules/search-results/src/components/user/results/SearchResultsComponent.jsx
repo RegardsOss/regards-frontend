@@ -89,9 +89,8 @@ class SearchResultsComponent extends React.Component {
     resultPageActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
     onFiltersChanged: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    onSelectDataset: PropTypes.func.isRequired,
+    onSetEntityAsTag: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    onSelectSearchTag: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired,
     onShowDataobjects: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
@@ -218,16 +217,15 @@ class SearchResultsComponent extends React.Component {
   * Create columns configuration for table view
   * @returns {Array}
   */
-  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSelectDataset, onSelectSearchTag }) => [{
+  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSetEntityAsTag }) => [{
     label: 'ListviewCell',
     attributes: [],
     customCell: {
       component: ListViewEntityCellContainer,
       props: {
         // click: select a dataset when in dataset mode
-        onClick: showingDataobjects ? null : onSelectDataset,
+        onSearchEntity: showingDataobjects ? null : onSetEntityAsTag,
         attributes: attributeModels,
-        onSearchTag: onSelectSearchTag,
         tableColumns,
         displayCheckbox: showingDataobjects,
         downloadTooltip: this.context.intl.formatMessage({ id: 'download.tooltip' }),

@@ -105,7 +105,8 @@ class TableContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     entitiesFetching: PropTypes.bool,
-    pageMetadata: PropTypes.shape({
+    // eslint-disable-next-line react/no-unused-prop-types
+    pageMetadata: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
       size: PropTypes.number,
       totalElements: PropTypes.number,
@@ -146,6 +147,7 @@ class TableContainer extends React.Component {
   }
 
   static MAX_NB_ENTITIES = STATIC_CONF.CATALOG_MAX_NUMBER_OF_ENTITIES || 10000
+  static EMPTY_ENTITY_VALUE = {}
 
   constructor(props) {
     super(props)
@@ -162,7 +164,6 @@ class TableContainer extends React.Component {
 
   componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
 
-  static EMPTY_ENTITY_VALUE = {}
 
   /**
    * Updates state and runs fetches required on properties change

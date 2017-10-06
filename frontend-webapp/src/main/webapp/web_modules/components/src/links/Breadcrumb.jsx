@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import DefaultRootIconConstructor from 'material-ui/svg-icons/communication/location-on'
 import { ModuleThemeProvider } from '@regardsoss/modules'
 import BreadcrumbImpl from './BreadcrumbImpl'
 import styles from './styles/styles'
@@ -24,6 +25,12 @@ export default class Breadcrumb extends React.Component {
     /** On breadcrumb element action callback: (element, index) => void */
     // eslint-disable-next-line react/no-unused-prop-types
     onAction: PropTypes.func.isRequired,
+    /** Root icon constructor (optional, replaced by default if not provided) */
+    RootIconConstructor: PropTypes.func,
+  }
+
+  static defaultProps = {
+    RootIconConstructor: DefaultRootIconConstructor,
   }
 
   componentWillMount = () => this.onPropertiesChanged(this.props)
@@ -48,9 +55,10 @@ export default class Breadcrumb extends React.Component {
 
   render() {
     const { elements } = this.state
+    const { RootIconConstructor } = this.props
     return (
       <ModuleThemeProvider module={BREADCRUMB_STYLES}>
-        <BreadcrumbImpl elements={elements} />
+        <BreadcrumbImpl elements={elements} RootIconConstructor={RootIconConstructor} />
       </ModuleThemeProvider >
     )
   }

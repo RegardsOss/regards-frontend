@@ -2,8 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import FlatButton from 'material-ui/FlatButton'
-import RootLocationIcon from 'material-ui/svg-icons/communication/location-on'
-import NextLevelIcon from 'material-ui/svg-icons/action/label'
+import NextLevelIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -16,6 +15,7 @@ class BreadcrumbElement extends React.Component {
     isLast: PropTypes.bool,
     onAction: PropTypes.func.isRequired, // callback () => void
     label: PropTypes.string.isRequired,
+    RootIconConstructor: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -23,9 +23,9 @@ class BreadcrumbElement extends React.Component {
   }
 
   render() {
-    const { isFirst, isLast, onAction, label } = this.props
+    const { isFirst, isLast, onAction, label, RootIconConstructor } = this.props
     const { element: { style, iconStyle, labelStyle } } = this.context.moduleTheme.breadcrumb
-    const IconConstructor = isFirst ? RootLocationIcon : NextLevelIcon
+    const IconConstructor = isFirst ? RootIconConstructor : NextLevelIcon
     return (
       <FlatButton
         icon={<IconConstructor style={iconStyle} />}

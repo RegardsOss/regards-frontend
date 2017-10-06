@@ -61,8 +61,8 @@ export class ItemLinkContainer extends React.Component {
    * On link click handler: dispatch selection
    */
   onLinkClicked = () => {
-    const { locked, selected, onSelect } = this.props
-    if (!locked && !selected) {
+    const { locked, onSelect } = this.props
+    if (!locked) {
       onSelect()
     }
   }

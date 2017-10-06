@@ -4,6 +4,7 @@
 import { themeContextType } from '@regardsoss/theme'
 import BreadcrumbElement from './BreadcrumbElement'
 
+
 /**
 * Breadcrumb implementation, that work with context styles. XXX-V2 merge with Breadcrumb!
 */
@@ -14,6 +15,7 @@ class BreadcrumbImpl extends React.Component {
       label: PropTypes.string.isRequired,
       onAction: PropTypes.func.isRequired, // click callback: () => void
     }).isRequired).isRequired,
+    RootIconConstructor: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -21,7 +23,7 @@ class BreadcrumbImpl extends React.Component {
   }
 
   render() {
-    const { elements } = this.props
+    const { elements, RootIconConstructor } = this.props
     const { moduleTheme: { breadcrumb: { style } } } = this.context
     return (
       <div style={style}>
@@ -34,6 +36,7 @@ class BreadcrumbImpl extends React.Component {
               key={label}
               label={label}
               onAction={onAction}
+              RootIconConstructor={RootIconConstructor}
             />))
         }
       </div>

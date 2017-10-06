@@ -2,13 +2,14 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
+import { TagTypes } from '@regardsoss/domain/catalog'
+import { Tag } from '../../../src/models/navigation/Tag'
 import navigationContextActions from '../../../src/models/navigation/NavigationContextActions'
 import reduce, { DEFAULT_STATE } from '../../../src/models/navigation/NavigationContextReducer'
 import DisplayModeEnum from '../../../src/models/navigation/DisplayModeEnum'
-import NavigationLevel from '../../../src/models/navigation/NavigationLevel'
 
 
-describe('[Search Graph] Test navigation context reducer', () => {
+describe('[Search Results] Test navigation context reducer', () => {
   it('should return the initial state', () => {
     assert.deepEqual(reduce(undefined, {}), DEFAULT_STATE, 'Reducer should return an empty initial state')
   })
@@ -32,19 +33,15 @@ describe('[Search Graph] Test navigation context reducer', () => {
 
     // 2 - with option informations and a previous context (to verify it is context independent)
     currentState = expected
-    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', DisplayModeEnum.LIST, 'find:fries', {
-      content: {
-        label: 'name1',
-        ipId: 'IPID1',
-      },
-    }))
+    const tags = [
+      new Tag(TagTypes.DATASET, 'label1', 'URN:ip1'),
+      new Tag(TagTypes.WORD, 'fries', 'fries'),
+    ]
+    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', DisplayModeEnum.LIST, tags))
     expected = {
       viewObjectType: 'anotherType',
       displayMode: DisplayModeEnum.LIST,
-      levels: [ // we expect here to retrieve the levels as: SEARCH_TAG, DATASET
-        NavigationLevel.buildSearchTagLevel('find:fries'),
-        NavigationLevel.buildDatasetLevel('IPID1', 'name1'),
-      ],
+      levels: tags,
     }
 
     assert.deepEqual(reduced, expected, 'Initialization should be correctly reduced with optional parameters')
@@ -60,74 +57,59 @@ describe('[Search Graph] Test navigation context reducer', () => {
     assert.deepEqual(reduced, expected, 'Change view object type should be correctly reduced')
   })
 
-  it('should reduce change search tag', () => {
+  it('should reduce add search tag', () => {
     // check search tag is append
     let currentState = {
       ...DEFAULT_STATE,
-      levels: [],
     }
-    let reduced = reduce(currentState, navigationContextActions.changeSearchTag('find:frogs'))
+    const tag1 = new Tag(TagTypes.DATASET, 'label1', 'URN:ip1')
+    let reduced = reduce(currentState, navigationContextActions.addSearchTag(tag1))
     let expected = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildSearchTagLevel('find:frogs')],
+      levels: [tag1],
     }
     assert.deepEqual(reduced, expected, 'Change search tags should be correctly reduced in default navigation context')
 
     // also verify a search tag replaces the current search tag and following context
-    currentState = {
-      ...DEFAULT_STATE,
-      levels: [
-        NavigationLevel.buildSearchTagLevel('find:butterflies'),
-        NavigationLevel.buildDatasetLevel('any', 'any')],
-    }
-    reduced = reduce(currentState, navigationContextActions.changeSearchTag('find:frogs'))
+    const tag2 = new Tag(TagTypes.WORD, 'fries', 'fries')
+    currentState = reduced
+    reduced = reduce(currentState, navigationContextActions.addSearchTag(tag2))
     expected = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildSearchTagLevel('find:frogs')],
+      levels: [tag1, tag2],
     }
     assert.deepEqual(reduced, expected, 'Change search tags should be correctly reduced with a navigation context')
   })
 
-  it('should reduce change dataset', () => {
+  it('should avoid adding twice the same tag', () => {
     // check dataset is append
     let currentState = {
       ...DEFAULT_STATE,
       levels: [],
     }
-    let reduced = reduce(currentState, navigationContextActions.changeDataset({
-      content: {
-        label: 'name1',
-        ipId: 'ip1',
-      },
-    }))
+    const tag1 = new Tag(TagTypes.DATASET, 'a label1', 'URN:DS1')
+    let reduced = reduce(currentState, navigationContextActions.addSearchTag(new Tag(TagTypes.DATASET, 'a label1', 'URN:DS1')))
     let expected = {
       ...DEFAULT_STATE,
-      levels: [NavigationLevel.buildDatasetLevel('ip1', 'name1')],
+      levels: [tag1],
     }
     assert.deepEqual(reduced, expected, 'Change dataset should be correctly reduced in default navigation context')
 
-    // also verify the search tag is not replaced when there is one
-    currentState = {
-      ...DEFAULT_STATE,
-      levels: [
-
-        NavigationLevel.buildSearchTagLevel('find:frogs'),
-        NavigationLevel.buildDatasetLevel('any', 'any'),
-      ],
-    }
-    reduced = reduce(currentState, navigationContextActions.changeDataset({
-      content: {
-        label: 'name2',
-        ipId: 'ip2',
-      },
-    }))
+    currentState = reduced
+    reduced = reduce(currentState, navigationContextActions.addSearchTag(new Tag(TagTypes.DATASET, 'another label1', 'URN:DS1')))
     expected = {
       ...DEFAULT_STATE,
-      levels: [
+      levels: [tag1], // the second tag should be ignored as only the label differs
+    }
+    assert.deepEqual(reduced, expected, 'Change dataset should preserve the tag currently selected')
 
-        NavigationLevel.buildSearchTagLevel('find:frogs'),
-        NavigationLevel.buildDatasetLevel('ip2', 'name2'),
-      ],
+    // verify another tag can still be added
+    currentState = reduced
+    const tag2 = new Tag(TagTypes.DATASET, 'a label1', 'URN:DS2') // a different URN means a different object
+    reduced = reduce(currentState, navigationContextActions.addSearchTag(tag2))
+    expected = {
+      ...DEFAULT_STATE,
+      levels: [tag1, tag2], // the second tag should be ignored as only the label differs
     }
     assert.deepEqual(reduced, expected, 'Change dataset should preserve the tag currently selected')
   })
@@ -144,21 +126,16 @@ describe('[Search Graph] Test navigation context reducer', () => {
       levels: [],
     }
     assert.deepEqual(reduced, expected, 'Goto last index should keep the state unchanged (1)')
-
+    const t1 = new Tag(TagTypes.DATASET, 'label1', 'URN:ip1')
+    const t2 = new Tag(TagTypes.WORD, 'fries', 'fries')
     currentState = {
       ...DEFAULT_STATE,
-      levels: [
-        NavigationLevel.buildSearchTagLevel('find:coffee'),
-        NavigationLevel.buildDatasetLevel('ip', 'name'),
-      ],
+      levels: [t1, t2],
     }
     reduced = reduce(currentState, navigationContextActions.gotoLevel(2))
     expected = {
       ...DEFAULT_STATE,
-      levels: [
-        NavigationLevel.buildSearchTagLevel('find:coffee'),
-        NavigationLevel.buildDatasetLevel('ip', 'name'),
-      ],
+      levels: [t1, t2],
     }
     assert.deepEqual(reduced, expected, 'Goto last index should keep the state unchanged (2)')
 
@@ -166,10 +143,7 @@ describe('[Search Graph] Test navigation context reducer', () => {
     reduced = reduce(currentState, navigationContextActions.gotoLevel(1))
     expected = {
       ...DEFAULT_STATE,
-      levels: [
-
-        NavigationLevel.buildSearchTagLevel('find:coffee'),
-      ],
+      levels: [t1],
     }
     assert.deepEqual(reduced, expected, 'Should reduce correctly a parent level browsing')
 

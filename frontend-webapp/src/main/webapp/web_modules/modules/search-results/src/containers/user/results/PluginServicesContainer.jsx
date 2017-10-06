@@ -19,10 +19,10 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { pluginServiceActions, pluginServiceSelectors } from '../../../clients/PluginServiceClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
+import { Tag } from '../../../models/navigation/Tag'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import runPluginServiceActions from '../../../models/services/RunPluginServiceActions'
 import runPluginServiceSelectors from '../../../models/services/RunPluginServiceSelectors'
-import NavigationLevel from '../../../models/navigation/NavigationLevel'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 
 // Determinate the required resource name to apply catalog plugins
@@ -140,9 +140,14 @@ export class PluginServicesContainer extends React.Component {
     return selectionServices
   }
 
+  /**
+   * Returns selected dataset IP ID or null if none
+   * @param {*} state redux state
+   * @param {*} properties component properties
+   */
   static getSelectedDatasetIpId = (state, { initialDatasetIpId }) => {
-    const datasetLevel = NavigationLevel.getDatasetLevel(navigationContextSelectors.getLevels(state))
-    return (datasetLevel && datasetLevel.levelValue) || initialDatasetIpId
+    const dynamicTag = Tag.getSearchedDatasetTag(navigationContextSelectors.getLevels(state))
+    return dynamicTag ? dynamicTag.searchKey : initialDatasetIpId
   }
 
   static mapStateToProps = (state, props) => ({
@@ -171,7 +176,7 @@ export class PluginServicesContainer extends React.Component {
     // context related
     viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired, // currently displayed entities type
     initialDatasetIpId: PropTypes.string, // initial dataset ip id or none
-    levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
     openSearchQuery: PropTypes.string.isRequired,
 
     // from mapStateToProps

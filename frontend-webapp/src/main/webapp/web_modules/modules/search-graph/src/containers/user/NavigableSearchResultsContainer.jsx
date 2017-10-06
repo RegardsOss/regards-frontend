@@ -47,7 +47,7 @@ export class NavigableSearchResultsContainer extends React.Component {
         searchTag = tag.data.content.ipId
         singleDatasetIpId = searchTag
         break
-      default: // any other entity: same working mode but no initial data
+      default: // any other entity: same working mode but no initial dataset
         breadcrumbInitialContextLabel = tag.data.content.label
         searchTag = tag.data.content.ipId
     }

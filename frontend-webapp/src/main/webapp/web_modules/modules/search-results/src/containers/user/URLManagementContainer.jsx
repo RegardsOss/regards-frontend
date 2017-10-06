@@ -5,27 +5,26 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
-import NavigationLevel from '../../models/navigation/NavigationLevel'
+import { Tag } from '../../models/navigation/Tag'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
 import { actions as searchEntityActions } from '../../clients/SearchEntityClient'
 import DisplayModeEnum from '../../models/navigation/DisplayModeEnum'
 
-
-/**
- * module URL parameters
- */
-const ModuleURLParameters = {
-  TARGET_PARAMETER: 't',
-  DATASET_IPID_PARAMETER: 'ds',
-  SEARCH_TAG_PARAMETER: 'tag',
-  DISPLAY_MODE_PARAMETER: 'd',
-}
-
 /**
 * URL management container: reflects the current module state into URL, intialize module from URL (no graphics view)
 */
 export class URLManagementContainer extends React.Component {
+
+  /**
+ * module URL parameters
+ */
+  static ModuleURLParameters = {
+    TARGET_PARAMETER: 't',
+    SEARCH_TAGS_PARAMETER: 'tags',
+    DISPLAY_MODE_PARAMETER: 'd',
+  }
+
 
   static mapStateToProps = state => ({
     levels: navigationContextSelectors.getLevels(state),
@@ -34,7 +33,7 @@ export class URLManagementContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    dispatchFetchDataset: datasetIpId => dispatch(searchEntityActions.getEntity(datasetIpId)),
+    dispatchFetchEntity: datasetIpId => dispatch(searchEntityActions.getEntity(datasetIpId)),
     initialize: ((viewObjectType, displayMode, rootContextLabel, searchTag, dataset) =>
       dispatch(navigationContextActions.initialize(viewObjectType, displayMode, rootContextLabel, searchTag, dataset))),
   })
@@ -56,11 +55,11 @@ export class URLManagementContainer extends React.Component {
     // Display mode
     displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]),
     // eslint-disable-next-line react/no-unused-prop-types
-    levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired,
     // from mapDispatchToProps
     initialize: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    dispatchFetchDataset: PropTypes.func.isRequired,
+    dispatchFetchEntity: PropTypes.func.isRequired,
   }
 
   /**
@@ -107,24 +106,24 @@ export class URLManagementContainer extends React.Component {
     const { initialViewObjectType, initialDisplayMode, initialize, currentQuery: query, displayDatasets } = nextProps
 
     // collect query parameters from URL
-
-    const viewObjectType = displayDatasets ? (query[ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType) :
+    const viewObjectType = displayDatasets ? (query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType) :
       SearchResultsTargetsEnum.DATAOBJECT_RESULTS // object type: forbid dataset when they cannot be displayed
-    const searchTag = query[ModuleURLParameters.SEARCH_TAG_PARAMETER]
-    const datasetIpId = query[ModuleURLParameters.DATASET_IPID_PARAMETER]
-    const displayMode = query[ModuleURLParameters.DISPLAY_MODE_PARAMETER] || initialDisplayMode
+    const displayMode = query[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] || initialDisplayMode
+    const searchTags = Tag.fromURLParameterValue(query[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER])
 
-    // do not update if already equivalent
-    const getLevelValue = level => level && level.levelValue // return level value or undefined, to compare with URL parameters
+    // compare previous and current tags values
+    const hasAlreadySameTags = nextProps.levels.length === searchTags.length &&
+      searchTags.reduce((acc, tagFromURL, index) => acc && (tagFromURL === nextProps.levels[index].searchKey), true)
 
     // when not initialized or any change, re initialize
-    if (!nextProps.levels.length || nextProps.viewObjectType !== viewObjectType ||
-      getLevelValue(NavigationLevel.getDatasetLevel(nextProps.levels)) !== datasetIpId ||
-      getLevelValue(NavigationLevel.getSearchTagLevel(nextProps.levels)) !== searchTag) {
-      // initialize
-      this.getDataset(datasetIpId, nextProps.dispatchFetchDataset)
-        .then(({ payload: dataset }) => initialize(viewObjectType, displayMode, searchTag, dataset))
-        .catch(initialize(viewObjectType, displayMode, searchTag))
+    if (nextProps.viewObjectType !== viewObjectType || nextProps.displayMode !== displayMode || !hasAlreadySameTags) {
+      // initialize: build a promise to resolve all entities tags, remove tags when it could be resolved
+      // (in both case, make sure to restove view mode and object type)
+      Promise.all(searchTags.map(tag => Tag.getTagPromise(nextProps.dispatchFetchEntity, tag)))
+        // all entity tags (if any) were correctly resolved, initialize the store
+        .then(tags => initialize(viewObjectType, displayMode, tags))
+        // there was error, remove guilty tags in the store
+        .catch(initialize(viewObjectType, displayMode))
     }
   }
 
@@ -140,33 +139,25 @@ export class URLManagementContainer extends React.Component {
 
     // 1 - View object type (do not update default URL when in default mode, ie no update when the parameter is missing, while the
     // mode is dataobject)
-    const urlObjectType = currentQuery[ModuleURLParameters.TARGET_PARAMETER]
+    const urlObjectType = currentQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER]
     if (viewObjectType !== SearchResultsTargetsEnum.DATAOBJECT_RESULTS || urlObjectType) {
-      nextBrowserQuery[ModuleURLParameters.TARGET_PARAMETER] = viewObjectType
+      nextBrowserQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] = viewObjectType
     }
 
-    const urlDisplayMode = currentQuery[ModuleURLParameters.DISPLAY_MODE_PARAMETER]
+    const urlDisplayMode = currentQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER]
     if (displayMode !== urlDisplayMode || this.props.initialDisplayMode) {
-      nextBrowserQuery[ModuleURLParameters.DISPLAY_MODE_PARAMETER] = displayMode
+      nextBrowserQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] = displayMode
     }
 
     // 2 - search tag
-    const { levelValue: searchTag } = NavigationLevel.getSearchTagLevel(levels) || {}
-    if (searchTag) {
-      nextBrowserQuery[ModuleURLParameters.SEARCH_TAG_PARAMETER] = searchTag
+    const searchTagParameterValue = Tag.toURLParameterValue(levels)
+    if (searchTagParameterValue) {
+      nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER] = searchTagParameterValue
     } else {
-      delete nextBrowserQuery[ModuleURLParameters.SEARCH_TAG_PARAMETER]
+      delete nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]
     }
 
-    // 3 - dataset
-    const { levelValue: datasetIpId } = NavigationLevel.getDatasetLevel(levels) || {}
-    if (datasetIpId) {
-      nextBrowserQuery[ModuleURLParameters.DATASET_IPID_PARAMETER] = datasetIpId
-    } else {
-      delete nextBrowserQuery[ModuleURLParameters.DATASET_IPID_PARAMETER]
-    }
-
-    // 4 - Finally update the URL if any change was detected
+    // 3 - Finally update the URL if any change was detected
     if (!isEqual(currentQuery, nextBrowserQuery)) {
       browserHistory.push({ pathname: currentPath, query: nextBrowserQuery })
     }
