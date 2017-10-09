@@ -55,6 +55,8 @@ const messages = Object.assign({
   'dataset.form.uiservices.subtitle': 'To add user interactions with the dataset, activate those services.',
   'dataset.form.uiservices.action.next': 'Finish',
   'dataset.form.uiservices.action.cancel': 'Previous',
+  'dataset.form.uiservices.services': 'Services UI',
+  'dataset.form.uiservices.latestVersion': 'latest',
 
 
   'dataset.form.subsetting.subtitle': 'Setup subsetting',
@@ -91,9 +93,9 @@ const messages = Object.assign({
   'dataset.form.create.title': 'Create a datasource',
   'dataset.form.create.subtitle': 'To create a dataset, select a datasource. Otherwise you can click on the button to create a new datasource',
 
-  'dataset.stepper.links': 'Edit links with collections',
+  'dataset.stepper.links': 'Edit links',
   'dataset.stepper.attributes': 'Attributes',
-  'dataset.stepper.subsetting': 'Subsetting (datasource)',
+  'dataset.stepper.subsetting': 'Subsetting',
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'UI services',
 

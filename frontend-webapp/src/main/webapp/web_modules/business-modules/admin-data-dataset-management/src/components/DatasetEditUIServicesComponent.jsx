@@ -27,6 +27,8 @@ import some from 'lodash/some'
 import remove from 'lodash/remove'
 import cloneDeep from 'lodash/cloneDeep'
 import Checkbox from 'material-ui/Checkbox'
+import Subheader from 'material-ui/Subheader'
+import Divider from 'material-ui/Divider'
 import { AccessShapes } from '@regardsoss/shape'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
@@ -137,17 +139,20 @@ export class DatasetEditUIServicesComponent extends React.Component {
         />
         <CardText>
           <List>
+            <Subheader>{this.context.intl.formatMessage({ id: 'dataset.form.uiservices.services' })}</Subheader>
+            <Divider />
             {map(uiPluginDefinitionList, (uiPluginDefinition, id) => (
               <ListItem
                 key={id}
                 primaryText={uiPluginDefinition.content.name}
+                secondaryText={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.latestVersion' })}
                 primaryTogglesNestedList
                 disabled
                 open
                 autoGenerateNestedIndicator={false}
                 nestedItems={
-                    this.getConfigurationListItems(uiPluginDefinition)
-                  }
+                  this.getConfigurationListItems(uiPluginDefinition)
+                }
               />
               ),
             )}
