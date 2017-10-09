@@ -60,8 +60,7 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       isTableSelected: false,
       selectTableEntityCallback: () => { },
       tableColumns: [],
-      onSearchTag: () => { },
-      onClick: () => { },
+      onSearchEntity: () => { },
       displayCheckbox: true,
       downloadTooltip: 'download.tooltip',
       servicesTooltip: 'services.tooltip',
@@ -76,8 +75,8 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
     const component = render.find(ListViewEntityCellComponent)
     assert.lengthOf(render, 1, 'There should be a render component')
     testSuiteHelpers.assertWrapperProperties(component, {
-      // all previous props are reported, expected dispatchers and onClick callback (locally wrapped callbacks)
-      ...(omit(props, ['dispatchShowDescription', 'dispatchRunService', 'onClick'])),
+      // all previous props are reported, expected dispatchers and onSearchEntity callback (locally wrapped callbacks)
+      ...(omit(props, ['dispatchShowDescription', 'dispatchRunService', 'onSearchEntity'])),
       // also check local callbacks
       onEntitySelection: render.instance().onEntitySelection, // should be provided as there is an onClick handler
       onShowDescription: render.instance().onShowDescription,

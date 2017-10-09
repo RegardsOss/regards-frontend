@@ -41,6 +41,7 @@ const messages = Object.assign({
   'microservice-management.plugin.list.configurations': 'Configurations',
 
   'microservice-management.plugin.configuration.list.add': 'Ajouter',
+  'microservice-management.plugin.configuration.list.back': 'Retour',
 
   'microservice-management.plugin.configuration.copy': 'Dupliquer',
   'microservice-management.plugin.configuration.increment.priorityOrder': 'Augmenter la priorité',

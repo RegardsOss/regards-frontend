@@ -39,6 +39,12 @@ const microserviceManagementStyles = theme => ({
       styles: {
         margin: 20,
       },
+      actionsStyles: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+      },
     },
     gridList: {
       margin: 0,

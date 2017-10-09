@@ -235,9 +235,9 @@ class Container extends React.Component {
     const containerStyles = ContainerHelper.getContainerStyles(this.props.container)
 
     if (this.props.configurationMode) {
-      containerStyles.border = '1px dotted black'
-      containerStyles.padding = '5px'
-      containerStyles.margin = '5px'
+      containerStyles.border = `1px solid ${this.context.muiTheme.toolbar.separatorColor}`
+      containerStyles.padding = '1px 2px'
+      containerStyles.margin = '2px'
     }
 
     return (

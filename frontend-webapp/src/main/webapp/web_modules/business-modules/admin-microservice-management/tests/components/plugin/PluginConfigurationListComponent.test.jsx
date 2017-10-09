@@ -49,10 +49,8 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list comp
       },
       pluginConfigurationList: DumpProvider.get('CommonClient', 'PluginConfiguration'),
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
-      handleBackClick: () => {
-      },
-      handleAddClick: () => {
-      },
+      getAddURL: () => ' ',
+      getBackURL: () => ' ',
     }
 
     const enzymeWrapper = shallow(<PluginConfigurationListComponent {...props} />, options)

@@ -38,7 +38,6 @@ export default {
       flexDirection: 'column',
     },
   },
-
   FormMainContainer: {
     classes: [],
     styles: {
@@ -51,7 +50,6 @@ export default {
       flexDirection: 'column',
     },
   },
-
   /**
    * Row container to display a responsive row.
    */

@@ -34,10 +34,8 @@ export class ListViewEntityCellContainer extends React.Component {
     // Parameters set by columnConfiguration
     // Columns configuration to display
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
-    // Callback to run a new search with the given tag
-    onSearchTag: PropTypes.func,
     // Callback when click on entity label
-    onClick: PropTypes.func,
+    onSearchEntity: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
@@ -57,8 +55,8 @@ export class ListViewEntityCellContainer extends React.Component {
    * Callback when a dataset label is selected
    */
   onEntitySelection = () => {
-    const { onClick, entity } = this.props
-    onClick(entity)
+    const { onSearchEntity, entity } = this.props
+    onSearchEntity(entity)
   }
 
   /**
@@ -82,7 +80,7 @@ export class ListViewEntityCellContainer extends React.Component {
 
   render() {
     const { entity, attributes, lineHeight, isTableSelected, selectTableEntityCallback,
-      tableColumns, onSearchTag, onClick, styles, displayCheckbox,
+      tableColumns, onSearchEntity, styles, displayCheckbox,
       downloadTooltip, servicesTooltip, descriptionTooltip } = this.props
     return (
       <ListViewEntityCellComponent
@@ -92,13 +90,12 @@ export class ListViewEntityCellContainer extends React.Component {
         isTableSelected={isTableSelected}
         selectTableEntityCallback={selectTableEntityCallback}
         tableColumns={tableColumns}
-        onSearchTag={onSearchTag}
         styles={styles}
         displayCheckbox={displayCheckbox}
         downloadTooltip={downloadTooltip}
         servicesTooltip={servicesTooltip}
         descriptionTooltip={descriptionTooltip}
-        onEntitySelection={onClick ? this.onEntitySelection : null}
+        onEntitySelection={onSearchEntity ? this.onEntitySelection : null}
         onShowDescription={this.onShowDescription}
         onServiceStarted={this.onServiceStarted}
       />
