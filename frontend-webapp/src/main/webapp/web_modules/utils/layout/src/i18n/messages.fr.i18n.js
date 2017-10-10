@@ -42,6 +42,13 @@ const messages = Object.assign({
   'container.configuration.add.subsection': 'Ajouter une sous-section',
   'container.configuration.edit.section': 'Editer',
   'container.configuration.edit.dialog.title': 'Editer le conteneur',
+
+  'container.type.row.container': 'Ligne',
+  'container.type.content.row.container': 'Ligne expansive',
+  'container.type.content.column.100.percent.container': 'Colonne de largeur 100%',
+  'container.type.content.column.75.percent.container': 'Colonne de largeur 75%',
+  'container.type.content.column.50.percent.container': 'Colonne de largeur 50%',
+  'container.type.content.column.25.percent.container': 'Colonne de largeur 25%',
 }, Locales.fr)
 
 export default messages

@@ -16,10 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import flow from 'lodash/flow'
-import keys from 'lodash/keys'
-import fpfilter from 'lodash/fp/filter'
-import fpmap from 'lodash/fp/map'
+import map from 'lodash/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
 import MenuItem from 'material-ui/MenuItem'
@@ -105,6 +102,8 @@ class ContainerConfigurationComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     const { advanced } = this.state
 
+    const containerModel = container && ContainerTypes[container.type]
+
     return (
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -119,7 +118,7 @@ class ContainerConfigurationComponent extends React.Component {
             label={formatMessage({ id: 'container.form.id' })}
             validate={ValidationHelpers.required}
           />
-          {container && container.type !== 'MainContainer' ?
+          {(containerModel && containerModel.inUserApp) ?
             <Field
               name="type"
               fullWidth
@@ -129,12 +128,15 @@ class ContainerConfigurationComponent extends React.Component {
               label={formatMessage({ id: 'container.form.type' })}
               validate={ValidationHelpers.required}
             >
-              {flow(
-                fpfilter(typeName => typeName !== 'MainContainer'),
-                fpmap(typeName => (<MenuItem value={typeName} key={typeName} primaryText={typeName} />)),
-              )(keys(ContainerTypes))}
+              { /** Show option (remove container types used for root container) */
+                map(ContainerTypes, (containerOption, containerKey) =>
+                  containerOption.inUserApp ?
+                    <MenuItem value={containerKey} key={containerKey} primaryText={formatMessage({ id: containerOption.i18nKey })} /> :
+                    null)
+              }
             </Field> : null}
-          {!this.props.hideDynamicContentOption && container && container.type !== 'MainContainer' ? <DynamicContentField change={this.props.change} /> : null}
+          {!this.props.hideDynamicContentOption && container && container.inUserApp ?
+            <DynamicContentField change={this.props.change} /> : null}
           <ShowHideAdvancedOptions advanced={advanced} onTouchTap={this.onAdvancedClick} />
           <ShowableAtRender
             show={advanced}

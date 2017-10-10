@@ -42,6 +42,13 @@ const messages = Object.assign({
   'container.configuration.add.subsection': 'Add a sub-section',
   'container.configuration.edit.section': 'Edit',
   'container.configuration.edit.dialog.title': 'Edit the container',
+
+  'container.type.row.container': 'Row',
+  'container.type.content.row.container': 'Growing row',
+  'container.type.content.column.100.percent.container': '100% width column',
+  'container.type.content.column.75.percent.container': '75% width column',
+  'container.type.content.column.50.percent.container': '50% width column',
+  'container.type.content.column.25.percent.container': '25% width column',
 }, Locales.en)
 
 export default messages
