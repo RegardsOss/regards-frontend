@@ -3,11 +3,9 @@
 **/
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import Measure from 'react-measure'
-import { MarkdownFileContentDisplayer } from '@regardsoss/components'
+import { MarkdownFileContentDisplayer, NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ScrollArea } from '@regardsoss/adapters'
-import { NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/components'
 import LoadingDisplayerComponent from '../LoadingDisplayerComponent'
 
 /**
@@ -36,12 +34,12 @@ class DescriptionFileComponent extends React.Component {
 
   onSizeChanged = ({ width, height }) => this.updateDisplayAreaStyle(width, height)
 
-  updateDisplayAreaStyle = (width, minHeight) => this.setState({ displayAreaStyle: { width, minHeight } })
+  updateDisplayAreaStyle = (width, height) => this.setState({ displayAreaStyle: { width, height } })
 
   render() {
     const { loading, descriptionFileURL, descriptionFile } = this.props
     const { intl: { formatMessage } } = this.context
-    const { rootStyle} = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.descriptionTab
+    const { rootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.descriptionTab
 
     const { displayAreaStyle } = this.state
     return (
@@ -59,15 +57,7 @@ class DescriptionFileComponent extends React.Component {
               }
               if (descriptionFile) {
                 // render MD
-                return (
-                  <ScrollArea
-                    horizontal={false}
-                    vertical
-                    style={displayAreaStyle}
-                    contentStyle={displayAreaStyle}
-                  >
-                      <MarkdownFileContentDisplayer source={descriptionFile.content}/>
-                  </ScrollArea>)
+                return <MarkdownFileContentDisplayer heightToFit={displayAreaStyle.height} source={descriptionFile.content} />
               }
               // render no data (no need for child here)
               return (

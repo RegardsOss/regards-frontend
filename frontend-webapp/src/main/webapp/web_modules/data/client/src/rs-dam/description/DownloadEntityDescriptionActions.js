@@ -30,7 +30,7 @@ export default class DownloadEntityDescriptionActions extends BasicSignalActions
    * @param {*} res raw result
    */
   // eslint-disable-next-line class-methods-use-this
-  buildResults = (stream) =>
+  buildResults = stream =>
     // asserted: char stream here, and not bytes!
     stream.text().then(content => ({
       entityId: this.currentDownloadEntityId,
