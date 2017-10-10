@@ -3,7 +3,7 @@
 **/
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import Measure from 'react-measure'
-import ReactMarkdown from 'react-markdown'
+import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ScrollArea } from '@regardsoss/adapters'
@@ -36,12 +36,12 @@ class DescriptionFileComponent extends React.Component {
 
   onSizeChanged = ({ width, height }) => this.updateDisplayAreaStyle(width, height)
 
-  updateDisplayAreaStyle = (width, height) => this.setState({ displayAreaStyle: { width, height } })
+  updateDisplayAreaStyle = (width, minHeight) => this.setState({ displayAreaStyle: { width, minHeight } })
 
   render() {
     const { loading, descriptionFileURL, descriptionFile } = this.props
     const { intl: { formatMessage } } = this.context
-    const { rootStyle, markdownContainerStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.descriptionTab
+    const { rootStyle} = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.descriptionTab
 
     const { displayAreaStyle } = this.state
     return (
@@ -64,10 +64,9 @@ class DescriptionFileComponent extends React.Component {
                     horizontal={false}
                     vertical
                     style={displayAreaStyle}
+                    contentStyle={displayAreaStyle}
                   >
-                    <div style={markdownContainerStyle}>
-                      <ReactMarkdown source={descriptionFile.content} />
-                    </div>
+                      <MarkdownFileContentDisplayer source={descriptionFile.content}/>
                   </ScrollArea>)
               }
               // render no data (no need for child here)

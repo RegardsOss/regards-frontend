@@ -42,10 +42,6 @@ export default theme => ({
             },
             descriptionTab: {
               rootStyle: growingFlexElement,
-              markdownContainerStyle: {
-                padding: '10px 0 10px 0',
-                color: theme.palette.textColor,
-              },
             },
             propertiesTab: {
               rootStyle: { display: 'flex', flexDirection: 'row', alignItems: 'stretch', ...growingFlexElement },

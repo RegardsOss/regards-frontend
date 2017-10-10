@@ -43,6 +43,7 @@ import ShowableAtRender from './cards/ShowableAtRender'
 
 import FileContentDisplayer from './content/FileContentDisplayer'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
+import MarkdownFileContentDisplayer from './content/MarkdownFileContentDisplayer'
 
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
 import PositionedDialog from './dialogs/PositionedDialog'
@@ -128,6 +129,7 @@ export {
   PositionedDialog,
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
+  MarkdownFileContentDisplayer,
   NewsItemComponent,
   NoContentMessageInfo,
   OnHoverSwitchFlatButton,
