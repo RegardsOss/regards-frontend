@@ -135,7 +135,7 @@ class ContainerConfigurationComponent extends React.Component {
                     null)
               }
             </Field> : null}
-          {!this.props.hideDynamicContentOption && container && container.inUserApp ?
+          {!this.props.hideDynamicContentOption && containerModel && containerModel.inUserApp ?
             <DynamicContentField change={this.props.change} /> : null}
           <ShowHideAdvancedOptions advanced={advanced} onTouchTap={this.onAdvancedClick} />
           <ShowableAtRender
