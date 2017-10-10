@@ -19,7 +19,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { AccessGroup } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import AccessGroupListComponent from '../components/AccessGroupListComponent'
@@ -35,7 +35,7 @@ export class AccessGroupListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    accessGroupList: PropTypes.objectOf(AccessGroup).isRequired,
+    accessGroupList: DataManagementShapes.AccessGroupList.isRequired,
     isFetching: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchAccessGroupList: PropTypes.func,

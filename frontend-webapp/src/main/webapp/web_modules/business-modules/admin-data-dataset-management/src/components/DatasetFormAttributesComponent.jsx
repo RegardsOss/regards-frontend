@@ -15,9 +15,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import map from 'lodash/map'
-import keys from 'lodash/keys'
 import has from 'lodash/has'
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
@@ -140,8 +139,8 @@ export class DatasetFormAttributesComponent extends React.Component {
    */
   handleInitialize = () => {
     if (this.props.isEditing || this.props.isCreatinguUsingDatasetValues) {
-      const { currentDataset } = this.props
-      const properties = getInitialFormValues(currentDataset)
+      const { currentDataset, modelAttributeList } = this.props
+      const properties = getInitialFormValues(modelAttributeList, currentDataset)
       const initialValues = {
         label: currentDataset.content.label,
         geometry: currentDataset.content.geometry,

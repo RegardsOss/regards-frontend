@@ -54,7 +54,7 @@ class ApplicationLayout extends React.Component {
     if (this.context.muiTheme) {
       if (this.context.muiTheme.palette.background && this.context.muiTheme.palette.background !== '') {
         bodyStyles = {
-          background: this.context.muiTheme.palette.background
+          background: this.context.muiTheme.palette.background,
         }
       } else if (this.context.muiTheme.palette.backgroundImage) {
         bodyStyles = {

@@ -1,6 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
-* */
+**/
 import isEqual from 'lodash/isEqual'
 import FlatButton from 'material-ui/FlatButton'
 import { themeContextType } from '@regardsoss/theme'

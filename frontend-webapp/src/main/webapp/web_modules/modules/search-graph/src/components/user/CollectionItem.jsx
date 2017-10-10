@@ -4,7 +4,7 @@
 import CollectionIcon from 'material-ui/svg-icons/file/folder'
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import { themeContextType } from '@regardsoss/theme'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import ItemLinkContainer from '../../containers/user/ItemLinkContainer'
 import ItemLink from './ItemLink'
 
@@ -14,7 +14,7 @@ import ItemLink from './ItemLink'
 class CollectionItem extends React.Component {
 
   static propTypes = {
-    collection: CatalogEntity.isRequired,
+    collection: CatalogShapes.Entity.isRequired,
     expensible: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,
     onSelect: PropTypes.func.isRequired,

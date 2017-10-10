@@ -26,7 +26,7 @@ const { apiMiddleware } = require('redux-api-middleware')
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)
 
-describe('[COMMON] Testing i18n actions', () => {
+describe('[I18N] Testing i18n actions', () => {
   // Test dégradé dans le cas ou le serveur renvoie un erreur
   it('Test actions creation for internationalization language change', () => {
     const store = mockStore({
@@ -61,8 +61,8 @@ describe('[COMMON] Testing i18n actions', () => {
     const expectedActions = [setLocaleAction, setLocaleMessage, setLocaleMessage2]
 
     return store.dispatch(updateLocale('en'))
-                .then(() =>  // return of async actions
-                   expect(store.getActions()).to.eql(expectedActions))
+      .then(() =>  // return of async actions
+        expect(store.getActions()).to.eql(expectedActions))
   }).timeout(20000)
 
   it('Test fallback en-US --> en', () => {
@@ -100,6 +100,6 @@ describe('[COMMON] Testing i18n actions', () => {
 
     return store.dispatch(updateLocale('en-US'))
       .then(() =>  // return of async actions
-         expect(store.getActions()).to.eql(expectedActions))
+        expect(store.getActions()).to.eql(expectedActions))
   })
 })

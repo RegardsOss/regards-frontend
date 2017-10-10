@@ -1,6 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
-* */
+**/
 import Divider from 'material-ui/Divider'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'

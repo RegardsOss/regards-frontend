@@ -18,11 +18,13 @@
  **/
 import isNil from 'lodash/isNil'
 import { FormattedMessage } from 'react-intl'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ClearFieldButton } from '@regardsoss/components'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
-import ClearButton from './ClearButton'
-import AttributeModel from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
-import PluginComponent from '../common/PluginComponent'
 
 /**
  * Component allowing the user to configure the temporal value of a single attribute with two date comparators (before, after, ...).
@@ -33,15 +35,24 @@ import PluginComponent from '../common/PluginComponent'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
+export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContainer {
 
   static propTypes = {
+    // parent props
+    ...PluginCriterionContainer.propTypes,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   state = {
@@ -77,11 +88,11 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
     const groups = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
     if (groups.length === 3) {
       if (parameterName === 'firstField') {
-        date= new Date(groups[1])
+        date = new Date(groups[1])
       } else {
         date = new Date(groups[2])
       }
-      if (isNaN(date.getTime())){
+      if (isNaN(date.getTime())) {
         date = null
       }
     }
@@ -99,20 +110,13 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
   render() {
     const { firstField, secondField } = this.state
     const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
+    const { moduleTheme: { rootStyle, lineStyle, labelSpanStyle }, intl: { formatMessage } } = this.context
 
     return (
-      <div style={{ display: 'flex' }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-          }}
-        >
-          <span style={{ margin: '0px 10px' }}>
-            <FormattedMessage id="criterion.aggregator.between"
-                              values={{label: this.getAttributeLabel('firstField')}}
-            />
+      <div style={rootStyle}>
+        <div style={lineStyle} >
+          <span style={labelSpanStyle}>
+            {formatMessage({ id: 'criterion.aggregator.between' }, { label: this.getAttributeLabel('firstField') })}
           </span>
           <TemporalCriteriaComponent
             label={this.getAttributeLabel('firstField')}
@@ -122,7 +126,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
             hideAttributeName
             hideComparator
           />
-          <FormattedMessage id="criterion.aggregator.and"/>
+          <FormattedMessage id="criterion.aggregator.and" />
           <TemporalCriteriaComponent
             label={this.getAttributeLabel('secondField')}
             comparator={EnumTemporalComparator.LE}
@@ -131,7 +135,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginComponent {
             hideAttributeName
             hideComparator
           />
-          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+          <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )

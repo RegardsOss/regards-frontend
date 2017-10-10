@@ -20,7 +20,7 @@ import { expect } from 'chai'
 import reducer from '../../src/model/I18nReducers'
 import { SET_LOCALE, SET_LOCALE_MSG } from '../../src/model/I18nActions'
 
-describe('[COMMON] Testing i18n reducer', () => {
+describe('[I18N] Testing i18n reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).to.eql({
       locale: 'en',

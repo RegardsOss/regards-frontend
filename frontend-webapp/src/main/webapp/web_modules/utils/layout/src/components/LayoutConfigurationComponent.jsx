@@ -15,9 +15,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import { AccessShapes } from '@regardsoss/shape'
-import { Card, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import Container from './Container'

@@ -50,7 +50,7 @@ export class ProfileEditionFormComponent extends React.Component {
       userMetadata, onEdit, onCancel,
       pristine, submitting, invalid, handleSubmit,
     } = this.props
-    const { moduleTheme } = this.context
+    const { moduleTheme: { user: { profile } } } = this.context
     return (
       <div>
         <form onSubmit={handleSubmit(onEdit)}>
@@ -63,7 +63,7 @@ export class ProfileEditionFormComponent extends React.Component {
               <ScrollArea
                 vertical
                 horizontal={false}
-                style={moduleTheme.profile.scrollArea.styles}
+                style={profile.scrollArea.styles}
               >
                 {
                   // show only metadata that are meaningful after registration
@@ -80,7 +80,7 @@ export class ProfileEditionFormComponent extends React.Component {
                 <br />
               </ScrollArea>
             </CardText>
-            <CardActions style={moduleTheme.profile.actions.styles}>
+            <CardActions style={profile.actions.styles}>
               <RaisedButton
                 disabled={submitting}
                 label={this.context.intl.formatMessage({ id: 'edit.profile.form.cancel' })}

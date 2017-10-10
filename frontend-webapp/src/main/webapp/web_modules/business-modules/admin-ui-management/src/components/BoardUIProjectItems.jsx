@@ -95,7 +95,7 @@ export default (project, intl) => [
     actions: [{
       path: `/admin/${project}/ui/service/list`,
       icon: <ExtensionIcon />,
-      tooltipMsg: intl.formatMessage({ id: 'action.list.tooltip' }),
+      tooltipMsg: intl.formatMessage({ id: 'action.service.list.tooltip' }),
       hateoasDependencies: serviceUIDependencies.boardListRequiredDependencies,
     }],
   },

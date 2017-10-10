@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 // import Dialog from 'material-ui/Dialog'
 import ConfirmDialogComponent from './ConfirmDialogComponent'
 import getDisplayName from '../getDisplayName'

@@ -15,9 +15,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import map from 'lodash/map'
-import keys from 'lodash/keys'
 import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'

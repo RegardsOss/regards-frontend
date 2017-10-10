@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import map from 'lodash/map'
 import has from 'lodash/has'
 import get from 'lodash/get'
@@ -135,8 +135,8 @@ export class CollectionFormComponent extends React.Component {
    */
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentCollection } = this.props
-      const properties = getInitialFormValues(currentCollection)
+      const { currentCollection, modelAttributeList } = this.props
+      const properties = getInitialFormValues(modelAttributeList, currentCollection)
       const initialValues = {
         label: currentCollection.content.label,
         geometry: currentCollection.content.geometry,

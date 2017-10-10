@@ -29,6 +29,8 @@ import { connect } from 'react-redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { AccessDomain } from '@regardsoss/domain'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import { ScrollArea } from '@regardsoss/adapters'
 import ExampleChartDisplayer from '../components/ExampleChartDisplayer'
 
@@ -75,7 +77,7 @@ export class ExampleContainer extends React.Component {
      * for plugin services, but we do not use it. see below how we disable the eslint warning one one line only
      * for a specific warning type (VS Code or IntelliJfetchSelectionThroughAction normally shows the corresponding rule as tooltip) */
     // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: React.PropTypes.string.isRequired,
+    pluginInstanceId: PropTypes.string.isRequired,
     /** Runtime target: see regards documentation for more details */
     runtimeTarget: AccessShapes.RuntimeTarget.isRequired,
     /** Static and dynamic configurations: see regards documentation for more details */
@@ -85,6 +87,13 @@ export class ExampleContainer extends React.Component {
     // From mapDispatchToProps
     getReducePromise: PropTypes.func.isRequired, // partially applied reduce promise, see mapStateToProps and later code demo
     fetchSelectionThroughAction: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   // the scroll area styles
@@ -238,6 +247,9 @@ export class ExampleContainer extends React.Component {
    * Renders the configuration value into DOM (knowing only string can be rendered)
    */
   renderValue = (value) => {
+    if (!value) {
+      return 'value not set'
+    }
     if (isDate(value)) {
       // parameters of type date
       return `${value.toString()} (date)`
@@ -272,6 +284,8 @@ export class ExampleContainer extends React.Component {
    * @regardsoss/form-utils for instance)
    * - Normally, react containers are not supposed carrying of the graphics (style and such), but for the demo pruposes, we did
    * not split the code file in container / components files
+   * - we could access plugin styles using:
+   * const { moduleTheme } = this.context (styles function results is in moduleTheme variable)
    */
   render() {
     const { loading, currentIndex, totalElements, lastLoadedEntity, errorMessage, results } = this.state

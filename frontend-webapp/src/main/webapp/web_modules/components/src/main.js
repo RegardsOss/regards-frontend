@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import ApplicationErrorComponent from './ApplicationErrorComponent'
 import CenteredDiv from './CenteredDiv'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
@@ -27,6 +27,8 @@ import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
 import BaseBoardItemComponent from './board/BaseBoardItemComponent'
 
+import buttonsMessages from './buttons/i18n'
+import ClearFieldButton from './buttons/ClearFieldButton'
 import DownloadButton from './buttons/DownloadButton'
 import DropDownButton from './buttons/DropDownButton'
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
@@ -59,10 +61,13 @@ import PictureLinkComponent from './links/PictureLinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
 import ListContainer from './list/ListContainer'
-
 import ChipList from './list/ChipList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
+
+import DynamicModule from './module/DynamicModule'
+import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
+import ModuleTitle from './module/ModuleTitle'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
@@ -94,30 +99,35 @@ export {
   ActionIconWithNotifications,
   ActionsMenuCell,
   ApplicationErrorComponent,
-  BoardComponent,
-  BaseBoardComponent,
-  BoardItemComponent,
   BaseBoardItemComponent,
+  BaseBoardComponent,
+  BoardComponent,
+  BoardItemComponent,
+  buttonsMessages, // XXX remove me in V2
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,
   ChipList,
+  ClearFieldButton,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
   DownloadButton,
   DropDownButton,
+  DynamicModule,
   ErrorCardComponent,
   ErrorDecoratorComponent,
-  PageNotFoundComponent,
-  IFrameURLContentDisplayer,
   FileContentDisplayer,
+  getTableReducer,
+  getTableSelectors,
+  HorizontalAreasSeparator,
+  IFrameURLContentDisplayer,
+  ModuleTitle,
+  PageNotFoundComponent,
   TableContainer,
   TablePaneHeader,
   TableSelectionModes,
   TableActions,
   Title,
-  getTableReducer,
-  getTableSelectors,
   TableSortOrders,
   TableColumnConfiguration,
   TableColumnConfigurationController,

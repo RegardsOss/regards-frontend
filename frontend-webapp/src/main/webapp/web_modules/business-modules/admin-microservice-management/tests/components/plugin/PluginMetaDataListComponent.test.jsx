@@ -42,10 +42,9 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list compon
       // from mapStateToProps
       pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
       pluginTypes: [],
-      handleClose: () => {
-      },
-      handleProjectConfigurationListClick: () => {
-      },
+      getProjectConfigurationListURL: () => ' ',
+      getAddURL: () => ' ',
+      getBackURL: () => ' ',
     }
 
     const enzymeWrapper = shallow(<PluginMetaDataListComponent {...props} />, { context })

@@ -90,49 +90,6 @@ const menuStyles = (theme) => {
       },
     },
     user: {
-      // root card container
-      styles: {
-        margin: '0 0 10px 0',
-      },
-      // graph container (contains scrollable area)
-      graph: {
-        styles: {
-          borderStyle: 'solid',
-          borderWidth: '1px 0 0 0',
-          borderColor: theme.toolbar.separatorColor,
-        },
-      },
-      // graph header styles
-      header: {
-        styles: {
-          background: theme.palette.canvasColor,
-          height: '', // remove useless MUI height there!
-        },
-        firstToolbarGroup: {
-          styles: {
-            flexGrow: 1,
-          },
-        },
-        cardTitle: {
-          styles: {
-            padding: '10px',
-          },
-          titleStyles: {
-            lineHeight: '', // remove wrong height!
-            padding: '0 0 5px 0',
-          },
-        },
-        collapseButton: {
-          styles: {
-            width: 48,
-            height: 48,
-          },
-          iconStyles: {
-            width: 24,
-            height: 24,
-          },
-        },
-      },
       // scrolling definition
       scrolling: {
         width: '100%',

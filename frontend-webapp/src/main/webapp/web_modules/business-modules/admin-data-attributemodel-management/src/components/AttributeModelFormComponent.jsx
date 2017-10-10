@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import map from 'lodash/map'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 
@@ -25,7 +25,6 @@ import {
   RenderSelectField,
   Field,
   ValidationHelpers,
-  ErrorTypes,
   reduxForm,
 } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'

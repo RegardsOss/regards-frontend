@@ -45,6 +45,16 @@ import LinkUIPluginDatasetActions from './linkUIPluginDataset/LinkUIPluginDatase
 import getLinkUIPluginDatasetReducer from './linkUIPluginDataset/LinkUIPluginDatasetReducer'
 import getLinkUIPluginDatasetSelectors from './linkUIPluginDataset/LinkUIPluginDatasetSelectors'
 
+
+import SearchCollectionsActions from './search/SearchCollectionsActions'
+import SearchDataobjectsActions from './search/SearchDataobjectsActions'
+import SearchDatasetsFromDataObjectsActions from './search/SearchDatasetsFromDataObjectsActions'
+import SearchDocumentsActions from './search/SearchDocumentsActions'
+import SearchDatasetsActions from './search/SearchDatasetsActions'
+import SearchEntitiesActions from './search/SearchEntitiesActions'
+import getSearchEntitiesReducer from './search/SearchEntitiesReducer'
+import getSearchEntitiesSelectors from './search/SearchEntitiesSelectors'
+
 export default {
 
   ModuleActions,
@@ -75,4 +85,14 @@ export default {
   LinkUIPluginDatasetActions,
   getLinkUIPluginDatasetReducer,
   getLinkUIPluginDatasetSelectors,
+
+
+  SearchCollectionsActions,
+  SearchDataobjectsActions,
+  SearchDatasetsActions,
+  SearchDatasetsFromDataObjectsActions,
+  SearchDocumentsActions,
+  SearchEntitiesActions,
+  getSearchEntitiesReducer,
+  getSearchEntitiesSelectors,
 }

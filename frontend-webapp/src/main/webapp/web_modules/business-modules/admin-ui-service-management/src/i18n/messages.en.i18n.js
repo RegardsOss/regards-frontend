@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -54,7 +54,7 @@ const messages = Object.assign({
   'service.form.dynamic.configuration.title': 'Runtime parameter (pre-filled values for user)',
   'service.form.mandatory.field': '{label} (*)',
   'service.form.isActive': 'Activate this configuration',
-  'service.form.linkedToAllEntities': 'Automatically associate this service with the current configuration on ALL datasets',
+  'service.form.linkedToAllEntities': 'Incluse this service within every dataset',
   'service.form.action.save': 'Save',
   'service.form.action.back': 'Back',
 

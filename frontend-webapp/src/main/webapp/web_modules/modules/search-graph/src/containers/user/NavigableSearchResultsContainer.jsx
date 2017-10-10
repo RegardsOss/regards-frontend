@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { TagTypes, OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { CatalogShapes } from '@regardsoss/shape'
-
+import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
@@ -47,7 +47,7 @@ export class NavigableSearchResultsContainer extends React.Component {
         searchTag = tag.data.content.ipId
         singleDatasetIpId = searchTag
         break
-      default: // any other entity: same working mode but no initial data
+      default: // any other entity: same working mode but no initial dataset
         breadcrumbInitialContextLabel = tag.data.content.label
         searchTag = tag.data.content.ipId
     }
@@ -81,11 +81,14 @@ export class NavigableSearchResultsContainer extends React.Component {
     const { project, appName, searchTag } = this.props
     const { resultsConfiguration } = this.state
     return searchTag ? (
-      <LazyModuleComponent
-        project={project}
-        appName={appName}
-        module={resultsConfiguration}
-      />
+      <div>
+        <HorizontalAreasSeparator />
+        <LazyModuleComponent
+          project={project}
+          appName={appName}
+          module={resultsConfiguration}
+        />
+      </div>
     ) : null
   }
 }

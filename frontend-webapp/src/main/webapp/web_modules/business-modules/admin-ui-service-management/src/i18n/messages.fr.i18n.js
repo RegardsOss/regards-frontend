@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -54,7 +54,7 @@ const messages = Object.assign({
   'service.form.dynamic.configuration.title': 'Paramètres d\'éxécution (valeurs pré-remplies pour l\'utilisateurs)',
   'service.form.mandatory.field': '{label} (*)',
   'service.form.isActive': 'Activer cette configuration',
-  'service.form.linkedToAllEntities': 'Associer automatiquement ce service avec la configuration courante sur TOUS les jeux',
+  'service.form.linkedToAllEntities': 'Associer à tous les jeux de données',
   'service.form.action.save': 'Sauvegarder',
   'service.form.action.back': 'Retour',
 }, Locales.fr)

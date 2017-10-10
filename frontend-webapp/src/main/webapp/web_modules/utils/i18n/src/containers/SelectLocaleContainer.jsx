@@ -33,7 +33,7 @@ export class SelectLocaleContainer extends React.Component {
    * @param {number} index
    * @param {string} value Form value
    */
-  handleLocaleChange = (event, index, value) => {
+  handleLocaleChange = (event, value) => {
     this.setState({ value })
     this.props.setLocale(value)
   }
@@ -45,6 +45,7 @@ export class SelectLocaleContainer extends React.Component {
         <SelectLocaleComponent
           locales={locales}
           currentLocale={this.props.currentLocale}
+          muiTheme={this.props.muiTheme}
           handleLocaleChange={this.handleLocaleChange}
         />
       </I18nProvider>
@@ -55,6 +56,8 @@ export class SelectLocaleContainer extends React.Component {
 SelectLocaleContainer.propTypes = {
   currentLocale: PropTypes.string,
   setLocale: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  muiTheme: PropTypes.object.isRequired,
 }
 
 // Add projects from store to the containers props

@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SearchResultsTargetsEnum } from '@regardsoss/model'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
 import PluginServicesContainer from '../../../../src/containers/user/results/PluginServicesContainer'
 import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
@@ -51,7 +51,7 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       displayMode: DisplayModeEnum.LIST,
 
       dispatchChangeViewObjectType: () => { },
-      dispatchDatasetSelected: () => { },
+      dispatchSetEntityAsTag: () => { },
       dispatchTagSelected: () => { },
       dispatchChangeDisplayMode: () => { },
     }

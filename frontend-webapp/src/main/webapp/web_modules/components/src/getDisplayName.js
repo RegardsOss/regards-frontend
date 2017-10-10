@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-* */
+**/
 /**
  * Function returning the display name of React component.
  * Use it in a decorator if order to facilitate debugging.

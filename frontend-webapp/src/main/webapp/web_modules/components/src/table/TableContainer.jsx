@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -106,7 +106,7 @@ class TableContainer extends React.Component {
     entities: PropTypes.arrayOf(PropTypes.object),
     entitiesFetching: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
-    pageMetadata: PropTypes.shape({
+    pageMetadata: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
       size: PropTypes.number,
       totalElements: PropTypes.number,
@@ -147,6 +147,7 @@ class TableContainer extends React.Component {
   }
 
   static MAX_NB_ENTITIES = STATIC_CONF.CATALOG_MAX_NUMBER_OF_ENTITIES || 10000
+  static EMPTY_ENTITY_VALUE = {}
 
   constructor(props) {
     super(props)
@@ -163,12 +164,14 @@ class TableContainer extends React.Component {
 
   componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
 
+
   /**
    * Updates state and runs fetches required on properties change
    */
   onPropertiesUpdate = (previousProps, nextProps) => {
     const previousState = this.state
     const nextState = this.state ? { ...this.state } : { ...TableContainer.DEFAULT_STATE } // initialize to previous state or use default one
+
     // initialization or authentication update: fetch the first page
     if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
       !isEqual(nextProps.authentication, previousProps.authentication)) {
@@ -180,32 +183,40 @@ class TableContainer extends React.Component {
       nextProps.flushEntities()
       // Fetch the first page results
       nextProps.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
-      // Finally, we ensure the selection is empty, as the new entities list may not contain previously selected elements
-      nextProps.dispatchUnselectAll()
     }
 
 
     // New entities retrieved
-    if (!isEqual(previousProps.entities, !nextProps.entities) && !isEqual(previousProps.pageMetadata, nextProps.pageMetadata)) {
+    if (!isEqual(previousProps.entities, nextProps.entities) || !isEqual(previousProps.pageMetadata, nextProps.pageMetadata)) {
       // 1 - update row entities
       if (nextProps.pageMetadata) {
-        if (!nextState.entities.length) { // pre-init all entities
-          nextState.entities = fill(Array(this.getTotalNumberOfResults(nextProps)), {})
-        } else { // get new reference
-          nextState.entities = [...nextState.entities]
-        }
-        // convert new entities
-        const firstPageIndex = nextProps.pageMetadata.number * nextProps.pageMetadata.size
-        keys(nextProps.entities).forEach((key, index) => {
-          nextState.entities[firstPageIndex + index] = nextProps.entities[key]
-        })
+        const previousElements = previousState.entities
+        const previousEltsCount = previousElements ? previousState.entities.length : 0
+        // The page
+        const firstPageElementIndex = nextProps.pageMetadata.number * nextProps.pageMetadata.size
+        const lastKeepedElementIndex = Math.min(firstPageElementIndex, previousEltsCount)
+        // convert received page
+        const newElementsTotalCount = this.getTotalNumberOfResults(nextProps)
+        // the number of elements that we'll throw away
+        const numberOfResetElements = newElementsTotalCount - (lastKeepedElementIndex + nextProps.entities.length)
+
+        nextState.entities = [
+          // recover elements from the previous state (less the one removed)
+          ...(previousElements || []).slice(0, lastKeepedElementIndex),
+
+          // We add the current page elements
+          ...nextProps.entities,
+
+          // clear all following elements (suppression may shift next pages ) after the current page :
+          // ==> these elements will be reloaded on scroll
+          ...fill(Array(numberOfResetElements), TableContainer.EMPTY_ENTITY_VALUE),
+        ]
       }
       // 2 - build columns for state
       nextState.allColumns = this.computeAllColumns(nextProps, nextState.entities)
     } else if (!isEqual(previousProps.columns, nextProps.columns)) {
       nextState.allColumns = this.computeAllColumns(nextProps, nextState.entities)
     }
-
     // always update the all selected state
     nextState.allSelected = this.computeAllSelected(nextProps)
 

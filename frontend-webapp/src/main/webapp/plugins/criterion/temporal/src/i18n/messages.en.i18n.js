@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { buttonsMessages } from '@regardsoss/components'
 
 /**
  * i18n messages english language
@@ -30,7 +31,9 @@ const messages = {
   'criterion.time.picker.cancel': 'Cancel',
   'criterion.seconds.field.label': 'Sec',
   'criterion.milliseconds.field.label': 'Ms',
-  'criterion.clear': 'Clear',
+
+  // XXX delete in V2
+  ...buttonsMessages.en, // adds all buttons messages to enable use of clear button and comparators
 }
 
 export default messages

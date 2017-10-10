@@ -22,6 +22,8 @@ import DatePicker from 'material-ui/DatePicker'
 import TextField from 'material-ui/TextField'
 import TimePicker from 'material-ui/TimePicker'
 import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
@@ -58,34 +60,34 @@ export class TemporalCriteriaComponent extends React.Component {
      * value: The value of the field as a Date
      * comparator: EnumTemporalComparator
      */
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
     /**
      * Label of the field displayed
      */
-    label: React.PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
     /**
      * Init with a specific comparator set.
      */
-    comparator: React.PropTypes.oneOf(values(EnumTemporalComparator)),
+    comparator: PropTypes.oneOf(values(EnumTemporalComparator)),
     /**
      * Default value
      */
-    value: React.PropTypes.instanceOf(Date),
+    value: PropTypes.instanceOf(Date),
     /**
      * If true, the attribute name, comparator and and field will be rendered in reversed order
      * Default to false.
      */
-    reversed: React.PropTypes.bool,
+    reversed: PropTypes.bool,
     /**
      * If true, the attribute name will not be rendered.
      * Default to false.
      */
-    hideAttributeName: React.PropTypes.bool,
+    hideAttributeName: PropTypes.bool,
     /**
      * If true, the comparator will not be rendered.
      * Default to false.
      */
-    hideComparator: React.PropTypes.bool,
+    hideComparator: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -94,6 +96,14 @@ export class TemporalCriteriaComponent extends React.Component {
     hideComparator: false,
     value: undefined,
     comparator: EnumTemporalComparator.BEFORE,
+  }
+
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   static textStyle = {
@@ -184,6 +194,8 @@ export class TemporalCriteriaComponent extends React.Component {
 
   render() {
     const { label, comparator, value, reversed, hideAttributeName, hideComparator } = this.props
+    const { moduleTheme: { datePickerTextFieldStyle, datePickerStyle, timePickerStyles,
+      secondsTextFieldStyle, millisecondsTextFieldStyle } } = this.context
 
     // Store the content in an array because we need to maybe reverse to order
     const content = []
@@ -192,7 +204,7 @@ export class TemporalCriteriaComponent extends React.Component {
     }
     if (!hideComparator) {
       content.push(
-        <TemporalComparatorComponent key="comparator" value={comparator} onChange={this.handleChangeComparator}/>,
+        <TemporalComparatorComponent key="comparator" value={comparator} onChange={this.handleChangeComparator} />,
       )
     }
     content.push([
@@ -202,56 +214,39 @@ export class TemporalCriteriaComponent extends React.Component {
         onChange={this.handleChangeDate}
         DateTimeFormat={DateTimeFormat}
         locale="fr"
-        hintText={<FormattedMessage id="criterion.date.field.label"/>}
-        floatingLabelText={<FormattedMessage id="criterion.date.field.label"/>}
-        okLabel={<FormattedMessage id="criterion.date.picker.ok"/>}
-        cancelLabel={<FormattedMessage id="criterion.date.picker.cancel"/>}
-        style={{
-          margin: '0px 10px',
-        }}
-        textFieldStyle={{
-          maxWidth: 85,
-          top: -13,
-        }}
+        hintText={<FormattedMessage id="criterion.date.field.label" />}
+        floatingLabelText={<FormattedMessage id="criterion.date.field.label" />}
+        okLabel={<FormattedMessage id="criterion.date.picker.ok" />}
+        cancelLabel={<FormattedMessage id="criterion.date.picker.cancel" />}
+        style={datePickerStyle}
+        textFieldStyle={datePickerTextFieldStyle}
       />,
       <TimePicker
         key={`${label}.time`}
         value={value}
         onChange={this.handleChangeTime}
         format="24hr"
-        floatingLabelText={<FormattedMessage id="criterion.time.field.label"/>}
-        hintText={<FormattedMessage id="criterion.time.field.label"/>}
-        okLabel={<FormattedMessage id="criterion.time.picker.ok"/>}
-        cancelLabel={<FormattedMessage id="criterion.time.picker.cancel"/>}
-        style={{
-          marginRight: 10,
-        }}
-        textFieldStyle={{
-          maxWidth: 40,
-          top: -13,
-        }}
+        floatingLabelText={<FormattedMessage id="criterion.time.field.label" />}
+        hintText={<FormattedMessage id="criterion.time.field.label" />}
+        okLabel={<FormattedMessage id="criterion.time.picker.ok" />}
+        cancelLabel={<FormattedMessage id="criterion.time.picker.cancel" />}
+        textFieldStyle={timePickerStyles}
       />,
       <TextField
+        key={`${label}.seconds`}
         type="number"
-        floatingLabelText={<FormattedMessage id="criterion.seconds.field.label"/>}
+        floatingLabelText={<FormattedMessage id="criterion.seconds.field.label" />}
         value={this.formatSeconds(value)}
         onChange={this.handleChangeSeconds}
-        style={{
-          top: -13,
-          maxWidth: 45,
-          margin: '0px 10px',
-        }}
+        style={secondsTextFieldStyle}
       />,
       <TextField
+        key={`${label}.millis`}
         type="number"
-        floatingLabelText={<FormattedMessage id="criterion.milliseconds.field.label"/>}
+        floatingLabelText={<FormattedMessage id="criterion.milliseconds.field.label" />}
         value={this.formatMilliseconds(value)}
         onChange={this.handleChangeMilliseconds}
-        style={{
-          top: -13,
-          maxWidth: 50,
-          margin: '0px 10px',
-        }}
+        style={millisecondsTextFieldStyle}
       />,
     ])
 

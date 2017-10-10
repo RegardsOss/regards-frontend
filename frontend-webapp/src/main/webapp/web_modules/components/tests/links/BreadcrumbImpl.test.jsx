@@ -41,6 +41,7 @@ describe('[Components] Testing BreadcrumbImpl', () => {
         label: 'l2',
         onAction: () => { },
       }],
+      RootIconConstructor: () => <div />,
     }
     const enzymeWrapper = shallow(<BreadcrumbImpl {...props} />, { context })
     const elementsWrapper = enzymeWrapper.find(BreadcrumbElement)

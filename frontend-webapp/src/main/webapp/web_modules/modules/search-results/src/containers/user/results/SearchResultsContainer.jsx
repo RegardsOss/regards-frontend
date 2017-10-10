@@ -20,23 +20,26 @@ import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
 import remove from 'lodash/remove'
-
 import { connect } from '@regardsoss/redux'
 import { AccessDomain, CatalogDomain } from '@regardsoss/domain'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import { TableSortOrders } from '@regardsoss/components'
+import { Tag } from '../../../models/navigation/Tag'
 import {
   searchDataobjectsActions,
   searchDatasetsFromDataObjectsActions,
   searchDatasetsActions,
 } from '../../../clients/SearchEntitiesClient'
-import NavigationLevel from '../../../models/navigation/NavigationLevel'
 import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
 import PluginServicesContainer from './PluginServicesContainer'
+import styles from '../../../styles/styles'
+
+const moduleStyles = { styles }
 
 /**
  * Search results container, drives corresponding component
@@ -53,9 +56,9 @@ export class SearchResultsContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     dispatchChangeViewObjectType: viewObjectType => dispatch(navigationContextActions.changeViewObjectType(viewObjectType)),
     dispatchChangeDisplayMode: displayMode => dispatch(navigationContextActions.changeDisplayMode(displayMode)),
-    dispatchTagSelected: searchTag => dispatch(navigationContextActions.changeSearchTag(searchTag)),
-    dispatchDatasetSelected: (dataset) => {
-      dispatch(navigationContextActions.changeDataset(dataset))
+    // lets user select an entity and set it as a current search tag
+    dispatchSetEntityAsTag: ({ content: { entityType, label, ipId } }) => {
+      dispatch(navigationContextActions.addSearchTag(new Tag(entityType, label, ipId)))
       dispatch(navigationContextActions.changeViewObjectType(CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS))
     },
   })
@@ -78,12 +81,11 @@ export class SearchResultsContainer extends React.Component {
     // From map state to props
     viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired, // current view object type
     displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired, // Display mode
-    levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
     dispatchChangeDisplayMode: PropTypes.func.isRequired,
-    dispatchDatasetSelected: PropTypes.func.isRequired,
-    dispatchTagSelected: PropTypes.func.isRequired,
+    dispatchSetEntityAsTag: PropTypes.func.isRequired,
   }
 
   /**
@@ -170,33 +172,34 @@ export class SearchResultsContainer extends React.Component {
     const facettes = showingFacettes && viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
     const facettesQueryPart = showingFacettes ? facettesQuery : ''
 
-    const datasetLevel = find(levels, { levelType: NavigationLevel.LevelTypes.DATASET })
-    const tagLevel = find(levels, { levelType: NavigationLevel.LevelTypes.SEARCH_TAG })
-
     let searchActions
     let sorting
     let initialSearchQuery
-    const parameters = [
-      // restrict to given tag?
-      OpenSearchQuery.buildTagParameter(tagLevel ? tagLevel.levelValue : ''), // common tag parameter
-    ]
+    const datasetTag = Tag.getSearchedDatasetTag(levels)
+
+    // extract search parameters from level tags (every parameter except the datasets, that may be used specifically into the datasets search)
+    const parameters = levels.reduce(
+      (acc, levelTag) => levelTag.isDataset() ? acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
+
     if (showingDataobjects) {
+      // 1 - Data object search : use data object actions, search query and dataset as a Tag on dataobjects
       initialSearchQuery = searchQuery
-      // using dataobject actions
       searchActions = searchDataobjectsActions
-      // restrict to given dataset tag?
-      parameters.push(OpenSearchQuery.buildTagParameter(datasetLevel ? datasetLevel.levelValue : ''))
+      parameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
       // check if user specified or sorting or provide one (Only available for dataobjects)
       sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
     } else {
-      if (datasetLevel || tagLevel || !searchQuery) {
-        // we bypass the default query
-        searchActions = searchDatasetsActions
+      // 2 - Showing datasets: use specific dataset actions to cut down fetch time when possible
+      const datasetLevel = Tag.getSearchedDatasetTag(levels)
+      if (datasetLevel || parameters.length || !searchQuery) {
+        // not restricted or requestable directly onto the datasets
+        searchActions = searchDatasetsActions // XXX V2 this will induce a problem because we don't know if we speak about DO or DS tag!!
       } else {
+        // restricted, requires to check the dataobjects in order to gather corresponding datasets
         initialSearchQuery = searchQuery
         searchActions = searchDatasetsFromDataObjectsActions
       }
-      parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.levelValue : ''))
+      parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.searchKey : ''))
     }
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters).toQueryString()
 
@@ -258,7 +261,7 @@ export class SearchResultsContainer extends React.Component {
   render() {
     const {
       appName, project, enableFacettes, attributesConf, viewObjectType, facettesQuery, attributesRegroupementsConf, levels,
-      attributeModels, displayDatasets, dispatchDatasetSelected, dispatchTagSelected, displayMode, datasetAttributesConf,
+      attributeModels, displayDatasets, dispatchSetEntityAsTag, displayMode, datasetAttributesConf,
     } = this.props
     const { showingFacettes, filters, searchTag, openSearchQuery, fullSearchQuery, searchActions, sortingOn } = this.state
 
@@ -266,41 +269,42 @@ export class SearchResultsContainer extends React.Component {
     const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
     return (
-      <PluginServicesContainer
-        // plugin service exlusive properties
-        viewObjectType={viewObjectType}
-        levels={levels}
-        openSearchQuery={openSearchQuery}
+      <ModuleThemeProvider module={moduleStyles}>
+        <PluginServicesContainer
+          // plugin service exlusive properties
+          viewObjectType={viewObjectType}
+          levels={levels}
+          openSearchQuery={openSearchQuery}
 
-        // search results display properties
-        appName={appName}
-        project={project}
-        allowingFacettes={enableFacettes && !!facettesQuery}
-        searchQuery={fullSearchQuery}
-        viewMode={displayMode || DisplayModeEnum.LIST}
-        showingFacettes={showingFacettes}
-        displayDatasets={displayDatasets}
-        sortingOn={sortingOn}
-        filters={filters}
-        searchTag={searchTag}
-        attributesConf={attributesConf}
-        attributesRegroupementsConf={attributesRegroupementsConf}
-        datasetAttributesConf={datasetAttributesConf}
-        attributeModels={attributeModels}
-        resultPageActions={searchActions}
-        showingDataobjects={showingDataobjects}
+          // search results display properties
+          appName={appName}
+          project={project}
+          allowingFacettes={enableFacettes && !!facettesQuery}
+          searchQuery={fullSearchQuery}
+          viewMode={displayMode || DisplayModeEnum.LIST}
+          showingFacettes={showingFacettes}
+          displayDatasets={displayDatasets}
+          sortingOn={sortingOn}
+          filters={filters}
+          searchTag={searchTag}
+          attributesConf={attributesConf}
+          attributesRegroupementsConf={attributesRegroupementsConf}
+          datasetAttributesConf={datasetAttributesConf}
+          attributeModels={attributeModels}
+          resultPageActions={searchActions}
+          showingDataobjects={showingDataobjects}
 
-        onShowDatasets={this.onShowDatasets}
-        onShowDataobjects={this.onShowDataobjects}
-        onShowListView={this.onShowListView}
-        onShowTableView={this.onShowTableView}
-        onToggleShowFacettes={this.onToggleShowFacettes}
-        onSelectDataset={dispatchDatasetSelected}
-        onSelectSearchTag={dispatchTagSelected}
-        onFiltersChanged={this.onFiltersChanged}
-        onResetNavigationContext={this.onResetNavigationContext}
-        onSortChanged={this.onSortChanged}
-      />
+          onShowDatasets={this.onShowDatasets}
+          onShowDataobjects={this.onShowDataobjects}
+          onShowListView={this.onShowListView}
+          onShowTableView={this.onShowTableView}
+          onToggleShowFacettes={this.onToggleShowFacettes}
+          onSetEntityAsTag={dispatchSetEntityAsTag}
+          onFiltersChanged={this.onFiltersChanged}
+          onResetNavigationContext={this.onResetNavigationContext}
+          onSortChanged={this.onSortChanged}
+        />
+      </ModuleThemeProvider>
     )
   }
 }

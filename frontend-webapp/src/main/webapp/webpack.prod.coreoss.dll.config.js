@@ -44,7 +44,6 @@ const conf = webpackConfigurator
         '@regardsoss/form-utils',
         '@regardsoss/global-system-error',
         '@regardsoss/i18n',
-        //'@regardsoss/model',
         '@regardsoss/plugins',
         '@regardsoss/project-handler',
         '@regardsoss/redux',

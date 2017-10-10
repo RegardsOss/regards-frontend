@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AttributeModel, AttributeConfiguration, AttributesRegroupementConfiguration } from '@regardsoss/model'
+import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 /**
  * Form entity description
  * @author Sébastien binda
@@ -25,13 +25,13 @@ const Form = PropTypes.shape({
   // Default Target of results
   resultType: PropTypes.string,
   // Search form attributes configuration
-  attributes: PropTypes.arrayOf(AttributeConfiguration),
+  attributes: AccessShapes.AttributeConfigurationArray,
   // Search form attributes regroupements configuration
-  attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
+  attributesRegroupements: AccessShapes.AttributesGroupConfigurationArray,
   // Search results dataset attributes configuration
-  datasetAttributes: PropTypes.arrayOf(AttributeConfiguration),
+  datasetAttributes: AccessShapes.AttributeConfigurationArray,
   // Special configuration given if the module is not load as a independent module
-  selectableAttributes: PropTypes.objectOf(AttributeModel),
+  selectableAttributes: DataManagementShapes.AttributeModelList,
   // should enable facettes?
   enableFacettes: PropTypes.bool,
   // For modules using the single dataset capacity (hide the datasets configuration in admin)

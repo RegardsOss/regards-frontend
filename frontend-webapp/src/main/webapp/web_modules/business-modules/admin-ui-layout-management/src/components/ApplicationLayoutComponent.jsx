@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -46,6 +46,8 @@ class ApplicationLayoutComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
   }
+
+  static UPDATE_DEPENDENCIES = [LayoutActions.getDependency(RequestVerbEnum.PUT)]
 
   constructor(props) {
     super(props)
@@ -98,7 +100,7 @@ class ApplicationLayoutComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'layout.submit' })}
               mainButtonType="submit"
-              mainHateoasDependencies={[LayoutActions.getDependency(RequestVerbEnum.PUT)]}
+              mainHateoasDependencies={ApplicationLayoutComponent.UPDATE_DEPENDENCIES}
               isMainButtonDisabled={pristine || submitting}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
               secondaryButtonTouchTap={this.props.onCancel}

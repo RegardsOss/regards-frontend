@@ -3,7 +3,7 @@
 **/
 import { connect } from '@regardsoss/redux'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
-import NavigationLevel from '../../../models/navigation/NavigationLevel'
+import { Tag } from '../../../models/navigation/Tag'
 import NavigationContextActions from '../../../models/navigation/NavigationContextActions'
 import NavigationComponent from '../../../components/user/navigation/NavigationComponent'
 
@@ -16,7 +16,6 @@ export class NavigationContainer extends React.Component {
     levels: navigationContextSelectors.getLevels(state),
   })
 
-
   static mapDispatchToProps(dispatch) {
     return ({
       gotoLevel: levelIndex => dispatch(NavigationContextActions.gotoLevel(levelIndex)),
@@ -26,8 +25,7 @@ export class NavigationContainer extends React.Component {
   static propTypes = {
     resultsTitle: PropTypes.string,
     // from mapStateToProps
-    levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
-    displayDatasets: PropTypes.bool.isRequired,
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired,
     gotoLevel: PropTypes.func.isRequired,
   }
 
@@ -37,13 +35,11 @@ export class NavigationContainer extends React.Component {
   onLevelSelected = (level, index) => this.props.gotoLevel(index) // works for root (0) and "real" levels after
 
   render() {
-    const { levels, displayDatasets, resultsTitle } = this.props
-    // hide single dataset level if datasets are not displayed (user should not use it to navigate)
-    const displayLevels = displayDatasets ? levels : levels.filter(level => level.levelType !== NavigationLevel.LevelTypes.DATASET)
+    const { levels, resultsTitle } = this.props
     return (
       <NavigationComponent
         resultsTitle={resultsTitle}
-        navigationLevels={displayLevels}
+        navigationLevels={levels}
         onLevelSelected={this.onLevelSelected}
       />
     )

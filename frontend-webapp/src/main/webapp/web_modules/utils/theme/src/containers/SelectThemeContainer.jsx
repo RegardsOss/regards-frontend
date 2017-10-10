@@ -58,11 +58,10 @@ export class SelectThemeContainer extends React.Component {
 
   render() {
     const { currentTheme, themeList, onChange } = this.props
-    const { muiTheme } = this.context
     const items = map(themeList, item => (
       <MenuItem value={item.content.id} key={item.content.id} primaryText={item.content.name} />
     ))
-    const iconButtonElement = (<IconButton iconStyle={{ color: muiTheme.palette.alternateTextColor }}><Palette /></IconButton>)
+    const iconButtonElement = (<IconButton><Palette /></IconButton>)
 
     return (
       <I18nProvider messageDir="utils/theme/src/i18n">

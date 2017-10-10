@@ -27,6 +27,8 @@ import some from 'lodash/some'
 import remove from 'lodash/remove'
 import cloneDeep from 'lodash/cloneDeep'
 import Checkbox from 'material-ui/Checkbox'
+import Subheader from 'material-ui/Subheader'
+import Divider from 'material-ui/Divider'
 import { AccessShapes } from '@regardsoss/shape'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
@@ -87,12 +89,12 @@ export class DatasetEditUIServicesComponent extends React.Component {
     let updatedLinkUIPluginConfigurationActiveList = cloneDeep(linkUIPluginConfigurationActiveList)
     if (this.isPluginConfigurationActivated(uiPluginConfiguration)) {
       remove(updatedLinkUIPluginConfigurationActiveList, value =>
-        uiPluginConfiguration.content.id === value.id
+        uiPluginConfiguration.content.id === value.id,
       )
     } else {
       updatedLinkUIPluginConfigurationActiveList = [
         ...updatedLinkUIPluginConfigurationActiveList,
-        {id: uiPluginConfiguration.content.id}
+        { id: uiPluginConfiguration.content.id },
       ]
     }
     this.setState({
@@ -104,7 +106,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
     const { linkUIPluginDataset } = this.props
     const updateLinkUIPluginDataset = {
       ...linkUIPluginDataset.content,
-      services: this.state.linkUIPluginConfigurationActiveList
+      services: this.state.linkUIPluginConfigurationActiveList,
     }
     this.props.handleSubmit(updateLinkUIPluginDataset)
   }
@@ -137,17 +139,20 @@ export class DatasetEditUIServicesComponent extends React.Component {
         />
         <CardText>
           <List>
+            <Subheader>{this.context.intl.formatMessage({ id: 'dataset.form.uiservices.services' })}</Subheader>
+            <Divider />
             {map(uiPluginDefinitionList, (uiPluginDefinition, id) => (
               <ListItem
                 key={id}
                 primaryText={uiPluginDefinition.content.name}
+                secondaryText={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.latestVersion' })}
                 primaryTogglesNestedList
                 disabled
                 open
                 autoGenerateNestedIndicator={false}
                 nestedItems={
-                    this.getConfigurationListItems(uiPluginDefinition)
-                  }
+                  this.getConfigurationListItems(uiPluginDefinition)
+                }
               />
               ),
             )}

@@ -72,6 +72,7 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
         name: 'test plugin',
         plugin: () => { },
         messages: {},
+        styles: {},
         info: TestPluginInfo,
       },
     }

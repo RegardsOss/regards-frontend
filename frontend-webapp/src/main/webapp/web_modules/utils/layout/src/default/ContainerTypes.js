@@ -35,10 +35,21 @@ export default {
       paddingRight: '1px', // Quick fix for bootstrap grid .row
       minHeight: '100vh',
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
     },
   },
-
+  FormMainContainer: {
+    classes: [],
+    styles: {
+      backgroundColor: 'transparent',
+      // background: "url('/img/background.jpg') top right no-repeat",
+      backgroundAttachment: 'fixed',
+      backgroundSize: 'cover',
+      paddingRight: '1px', // Quick fix for bootstrap grid .row
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
   /**
    * Row container to display a responsive row.
    */

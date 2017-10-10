@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import { CardText } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Title } from '@regardsoss/components'

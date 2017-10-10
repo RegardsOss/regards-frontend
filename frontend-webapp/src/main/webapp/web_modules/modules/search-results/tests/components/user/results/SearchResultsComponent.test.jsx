@@ -51,7 +51,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     attributeModels: {},
 
     onFiltersChanged: () => { },
-    onSelectDataset: () => { },
+    onSetEntityAsTag: () => { },
     onSelectSearchTag: () => { },
     onShowDatasets: () => { },
     onShowDataobjects: () => { },

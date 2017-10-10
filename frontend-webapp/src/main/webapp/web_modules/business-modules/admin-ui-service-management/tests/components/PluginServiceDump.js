@@ -27,6 +27,9 @@ export default {
       'criterion.search.field.label': 'Nombre ...',
     },
   },
+  styles: {
+    styles: () => { },
+  },
   info: {
     name: 'numerical-criteria',
     description: 'Criteria widget to search for a given numerical value into a model attribute',

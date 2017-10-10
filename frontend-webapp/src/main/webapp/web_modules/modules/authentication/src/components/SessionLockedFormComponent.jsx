@@ -1,6 +1,6 @@
 /**
 * LICENSE_PLACEHOLDER
-* */
+**/
 import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'

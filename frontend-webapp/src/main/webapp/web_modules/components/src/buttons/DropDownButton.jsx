@@ -20,6 +20,7 @@ class DropDownButton extends React.Component {
     disabled: PropTypes.bool,
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any,
+    // other button properties
   }
 
   static defaultProps = {
@@ -77,7 +78,6 @@ class DropDownButton extends React.Component {
         <ButtonConstructor
           label={getLabel(value)}
           onTouchTap={this.onOpenMenu}
-          labelPosition="before"
           icon={<DrowDownIcon />}
           disabled={disabled}
           {...otherButtonProperties}

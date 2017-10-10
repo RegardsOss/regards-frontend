@@ -21,7 +21,7 @@ import filter from 'lodash/filter'
 import map from 'lodash/map'
 import find from 'lodash/find'
 import { I18nProvider } from '@regardsoss/i18n'
-import { AccessGroup, AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import AccessRightListContainer from './AccessRightListContainer'
 import { accessRightActions, accessRightSelectors } from '../clients/AccessRightClient'
@@ -36,10 +36,10 @@ export class AccessGroupAccessRightsContainer extends React.Component {
       accessgroup: PropTypes.string.isRequired,
     }).isRequired,
     // from mapStateToProps
-    accessGroup: AccessGroup,
-    accessRights: PropTypes.objectOf(AccessRight),
-    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration),
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData),
+    accessGroup: DataManagementShapes.AccessGroup,
+    accessRights: DataManagementShapes.AccessRightList,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
     fetchAccessGroup: PropTypes.func,
     fetchPluginConfigurationList: PropTypes.func,

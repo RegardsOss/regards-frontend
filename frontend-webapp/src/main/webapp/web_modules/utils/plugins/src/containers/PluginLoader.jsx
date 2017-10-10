@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import isNil from 'lodash/isNil'
 import isEmpty from 'lodash/isEmpty'
 import { IntlProvider } from 'react-intl'
@@ -24,6 +24,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { i18nSelectors } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { loadPlugin } from '../model/LoadPluginActions'
 import LoadPluginSelector from '../model/LoadPluginSelector'
@@ -121,7 +122,9 @@ class PluginLoader extends React.Component {
             locale={this.props.locale}
             messages={this.props.loadedPlugin.messages[this.props.locale]}
           >
-            {element}
+            <ModuleThemeProvider module={this.props.loadedPlugin.styles} >
+              {element}
+            </ModuleThemeProvider>
           </IntlProvider>
         )
       } else if (this.props.children) {

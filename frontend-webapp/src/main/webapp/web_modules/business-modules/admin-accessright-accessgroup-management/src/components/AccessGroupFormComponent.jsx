@@ -15,11 +15,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import keys from 'lodash/keys'
 import trim from 'lodash/trim'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { AccessGroup } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -31,7 +31,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class AccessGroupFormComponent extends React.Component {
 
   static propTypes = {
-    currentAccessGroup: AccessGroup,
+    currentAccessGroup: DataManagementShapes.AccessGroup,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isDuplicating: PropTypes.bool,

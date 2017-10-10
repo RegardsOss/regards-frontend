@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SearchResultsTargetsEnum } from '@regardsoss/model'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
 import ModuleComponent from '../../src/components/user/ModuleComponent'
 import URLManagementContainer from '../../src/containers/user/URLManagementContainer'
 import { ModuleContainer } from '../../src/containers/ModuleContainer'

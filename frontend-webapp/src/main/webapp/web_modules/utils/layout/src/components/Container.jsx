@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import map from 'lodash/map'
 import fpmap from 'lodash/fp/map'
 import fpfilter from 'lodash/fp/filter'
@@ -191,7 +191,7 @@ class Container extends React.Component {
                   <div title={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}>
                     <Bookmark color={this.context.muiTheme.palette.accent1Color} />
                   </div>
-                : null}
+                  : null}
               </ToolbarGroup>
               <ToolbarGroup key="actions" lastChild>
                 <IconMenu
@@ -235,9 +235,9 @@ class Container extends React.Component {
     const containerStyles = ContainerHelper.getContainerStyles(this.props.container)
 
     if (this.props.configurationMode) {
-      containerStyles.border = '1px dotted black'
-      containerStyles.padding = '5px'
-      containerStyles.margin = '5px'
+      containerStyles.border = `1px solid ${this.context.muiTheme.toolbar.separatorColor}`
+      containerStyles.padding = '1px 2px'
+      containerStyles.margin = '2px'
     }
 
     return (

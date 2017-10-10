@@ -15,6 +15,6 @@ echo "Run tests"
 npm test
 
 echo "Bundle the plugin and copy it to the dist/prod "
-npm run build
+npm run build:production
 mkdir -p ../../../dist/prod/plugins/${PLUGIN_PATH}/
 cp ./target/prod/plugin.js ../../../dist/prod/plugins/${PLUGIN_PATH}/

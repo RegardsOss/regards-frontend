@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -41,6 +41,7 @@ const messages = Object.assign({
   'microservice-management.plugin.list.configurations': 'Configurations',
 
   'microservice-management.plugin.configuration.list.add': 'Add',
+  'microservice-management.plugin.configuration.list.back': 'Back',
 
   'microservice-management.plugin.configuration.copy': 'Duplicate',
   'microservice-management.plugin.configuration.increment.priorityOrder': 'Increase the prority',

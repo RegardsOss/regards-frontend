@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ShowableAtRender } from '@regardsoss/components'
+import { DynamicModule } from '@regardsoss/components'
 import SearchGraph from '../../../src/components/user/SearchGraph'
 import styles from '../../../src/styles/styles'
 
@@ -32,10 +32,11 @@ describe('[Search Graph] Testing SearchGraph', () => {
   it('should exists', () => {
     assert.isDefined(SearchGraph)
   })
-  it('should render when module is not collapsed', () => {
+  it('should render when module is expanded', () => {
     const props = {
       graphDatasetAttributes: [],
-      moduleCollapsed: false,
+      onExpandChange: () => { },
+      expanded: true,
       moduleConf: {
         graphLevels: [
 
@@ -45,16 +46,17 @@ describe('[Search Graph] Testing SearchGraph', () => {
     }
     // check correctly rendered
     const enzymeWrapper = shallow(<SearchGraph {...props} />, { context })
-    let showables = enzymeWrapper.find(ShowableAtRender)
-    assert.lengthOf(showables, 1, 'There should be a module showable render')
-    assert.isTrue(showables.at(0).props().show, 'The module content should be visible when not collapsed')
+    let moduleDisplayer = enzymeWrapper.find(DynamicModule)
+    assert.lengthOf(moduleDisplayer, 1, 'There should be a module displayer render')
+    assert.equal(moduleDisplayer.at(0).props().onExpandChange, props.onExpandChange, 'The expand callback should be correctly reported')
+    assert.isTrue(moduleDisplayer.at(0).props().expanded, 'The module content should be visible when expanded')
 
     const nextProps = {
       ...props,
-      moduleCollapsed: true,
+      expanded: false,
     }
     enzymeWrapper.setProps(nextProps)
-    showables = enzymeWrapper.find(ShowableAtRender)
-    assert.isFalse(showables.at(0).props().show, 'The module content should be hidden when collapsed')
+    moduleDisplayer = enzymeWrapper.find(DynamicModule)
+    assert.isFalse(moduleDisplayer.at(0).props().expanded, 'The module content should be hidden when collapsed')
   })
 })

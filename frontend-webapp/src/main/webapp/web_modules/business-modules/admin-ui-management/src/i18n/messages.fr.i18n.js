@@ -46,6 +46,8 @@ const messages = Object.assign({
 
   'action.list.tooltip': 'Liste',
   'action.add.tooltip': 'Ajouter',
+
+  'action.service.list.tooltip': 'Services IHM',
 }, Locales.fr)
 
 export default messages

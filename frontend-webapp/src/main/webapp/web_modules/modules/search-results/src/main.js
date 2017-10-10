@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import ModuleIcon from 'material-ui/svg-icons/image/style'
 import moduleContainer from './containers/ModuleContainer'
 import adminContainer from './containers/AdminContainer'
 import styles from './styles/styles'
@@ -32,5 +33,6 @@ export default {
   styles,
   reducer,
   messagesDir: 'modules/search-results/src/i18n',
+  ModuleIcon,
   dependencies,
 }

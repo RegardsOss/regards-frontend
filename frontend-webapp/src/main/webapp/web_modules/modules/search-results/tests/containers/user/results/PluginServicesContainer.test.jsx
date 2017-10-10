@@ -33,8 +33,7 @@ const commonSearchResultsProperties = {
   sortingOn: [],
 
   onFiltersChanged: () => { },
-  onSelectDataset: () => { },
-  onSelectSearchTag: () => { },
+  onSetEntityAsTag: () => { },
   onShowDatasets: () => { },
   onShowDataobjects: () => { },
   onShowListView: () => { },

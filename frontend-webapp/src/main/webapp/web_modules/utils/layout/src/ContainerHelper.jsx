@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import merge from 'lodash/merge'
 import union from 'lodash/union'
 import unionBy from 'lodash/unionBy'
@@ -27,7 +27,7 @@ import flattenDeep from 'lodash/flattenDeep'
 import ContainerTypes from './default/ContainerTypes'
 
 /**
- * Recursion function for "flattenContainer" method defined next
+ * Recursion function for "getAllContainersInLayout" method defined next
  */
 const visit = (container) => {
   const result = [container]
@@ -233,12 +233,14 @@ class ContainerHelper {
    * In a layout, only one container is allowed to be dynamic
    * If the given container is dynamic, make all other containers static
    *
-   * @param {Container} container The current container
-   * @param {Layout} layout The layout containing all containers
+   * @param {Container} container (out param) The current container
+   * @param {Layout} layout (out param) The layout containing all containers
    */
   static selectDynamicContainerInLayout(container, layout) {
     if (container.dynamicContent) {
+      // eslint-disable-next-line no-param-reassign
       getAllContainersInLayout(layout).forEach((cont) => { cont.dynamicContent = false })
+      // eslint-disable-next-line no-param-reassign
       container.dynamicContent = true
     }
   }

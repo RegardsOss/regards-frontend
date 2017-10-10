@@ -19,7 +19,7 @@
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
-import { PluginParameterType } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import moduleStyles from '../../../styles/styles'
@@ -37,7 +37,7 @@ export class DynamicValueCreateComponent extends React.Component {
     open: PropTypes.bool,
     onRequestClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    pluginParameterType: PluginParameterType,
+    pluginParameterType: CommonShapes.PluginParameterType,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,

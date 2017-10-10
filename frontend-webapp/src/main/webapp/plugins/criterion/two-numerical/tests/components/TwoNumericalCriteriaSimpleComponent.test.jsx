@@ -18,9 +18,12 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { spy } from 'sinon'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TwoNumericalCriteriaSimpleComponent from '../../src/components/TwoNumericalCriteriaSimpleComponent'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Test case for {@link TwoNumericalCriteriaSimpleComponent}
@@ -28,12 +31,18 @@ import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaCo
  * @author Xavier-Alexandre Brochard
  */
 describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical criteria simple component', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(TwoNumericalCriteriaSimpleComponent)
     assert.isDefined(NumericalCriteriaComponent)
   })
   it('should render self and subcomponents', () => {
     const props = {
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
       attributes: {
         firstField: {
           name: 'firstField',
@@ -46,11 +55,8 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
           type: 'numerical',
         },
       },
-      getDefaultState: spy(),
-      savePluginState: spy(),
-      onChange: spy(),
     }
-    const enzymeWrapper = shallow(<TwoNumericalCriteriaSimpleComponent {...props} />)
+    const enzymeWrapper = shallow(<TwoNumericalCriteriaSimpleComponent {...props} />, { context })
     expect(enzymeWrapper.find(NumericalCriteriaComponent)).to.have.length(2)
   })
 })

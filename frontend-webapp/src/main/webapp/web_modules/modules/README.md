@@ -22,7 +22,7 @@ Here is the list of available modules :
   | Module         | Description                       |
   |----------------|-----------------------------------|
   | authentication | Add the authentication functionalities |
-  | home-page      | Display a configured home-page as dialog |
+  | project-about-page      | Display a configured project-about-page as dialog |
   | licenses       | Display the project license inside a dialog after user authentication |
   | menu           | Display the main menu of the interface |
   | projects-list  | Display the list of public accessible REGARDS projects and allow to access their "User project interface" |

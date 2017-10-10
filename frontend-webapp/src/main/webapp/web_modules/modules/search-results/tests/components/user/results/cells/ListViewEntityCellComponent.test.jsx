@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CatalogEntityTypes } from '@regardsoss/model'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import ListViewEntityCellComponent from '../../../../../src/components/user/results/cells/ListViewEntityCellComponent'
 import styles from '../../../../../src/styles/styles'
 
@@ -40,7 +40,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           ipId: 'coucou',
           sipId: '1',
           label: 'O.D.I.L',
-          entityType: CatalogEntityTypes.DATASET,
+          entityType: ENTITY_TYPES_ENUM.DATASET,
           files: [],
           geometry: null,
           properties: {},

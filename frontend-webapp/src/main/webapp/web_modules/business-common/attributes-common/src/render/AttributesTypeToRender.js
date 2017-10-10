@@ -26,6 +26,7 @@ import UrlAttributesRender from './UrlAttributesRender'
 import BooleanAttributesRender from './BooleanAttributesRender'
 import ThumbnailAttributesRender from './ThumbnailAttributesRender'
 import RawDataAttributesRender from './RawDataAttributesRender'
+import StringArrayAttributesRender from './StringArrayAttributesRender'
 
 /**
  * Enum to associate attribute types to sRender renderer component.
@@ -44,6 +45,7 @@ const typeToRenderMap = {
   INTEGER_INTERVAL: RangeAttributesRender,
   LONG_INTERVAL: RangeAttributesRender,
   STRING: StringAttributesRender,
+  STRING_ARRAY: StringArrayAttributesRender,
   THUMBNAIL: ThumbnailAttributesRender,
   URL: UrlAttributesRender,
   DOWNLOAD_LINK: RawDataAttributesRender,

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import filter from 'lodash/filter'
@@ -24,7 +24,8 @@ import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { DamDomain, AccessDomain } from '@regardsoss/domain'
-import { CatalogEntityTypes, AttributeModel } from '@regardsoss/model'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { SelectionPath } from '../../model/graph/SelectionShape'
@@ -42,7 +43,7 @@ import DescriptionContainer from './DescriptionContainer'
 
 /**
  * Module container for user interface
- * */
+ **/
 export class UserModuleContainer extends React.Component {
 
   static mapStateToProps = (state, { moduleConf }) => ({
@@ -54,7 +55,7 @@ export class UserModuleContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
+    fetchAttributeModels: () => dispatch(AttributeModelActions.fetchEntityList({ pModelType: ENTITY_TYPES_ENUM.DATASET })),
     fetchCollections: (levelIndex, parentEntityId, levelModelName) =>
       dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
     fetchDatasets: (levelIndex, parentPath) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath)),
@@ -66,7 +67,7 @@ export class UserModuleContainer extends React.Component {
         dispatch(patitionTypeActions.onDataLoadingDone(getLevelPartitionKey(levelIndex), results))
       } // ignore empty objects, due to initilization case
     },
-
+    dispatchSetModuleCollapsed: collapsed => dispatch(graphContextActions.setModuleCollapsed(collapsed)),
   })
 
   static propTypes = {
@@ -77,7 +78,7 @@ export class UserModuleContainer extends React.Component {
     // from map state to props
     // eslint-disable-next-line react/no-unused-prop-types
     selectionPath: SelectionPath.isRequired,
-    attributeModels: PropTypes.objectOf(AttributeModel),
+    attributeModels: DataManagementShapes.AttributeModelList,
     moduleCollapsed: PropTypes.bool.isRequired,
     authentication: AuthenticateShape,
     // from map dispatch to props
@@ -90,9 +91,13 @@ export class UserModuleContainer extends React.Component {
     dispatchClearLevelSelection: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchLevelDataLoaded: PropTypes.func.isRequired,
+    dispatchSetModuleCollapsed: PropTypes.func.isRequired,
   }
 
-  componentWillMount = () => this.onPropertiesChanged(undefined, this.props)
+  componentWillMount = () => {
+    this.setState({ expanded: true })
+    this.onPropertiesChanged(undefined, this.props)
+  }
 
   componentDidMount = () => {
     // Fetch attribute models in order to resolve dataset attributes for the graph
@@ -150,6 +155,14 @@ export class UserModuleContainer extends React.Component {
       this.refreshCompleteGraph(nextProps)
     }
   }
+
+  /** User callback: toggles expanded / collapsed state for module */
+  onExpandChange = () => {
+    const { dispatchSetModuleCollapsed, moduleCollapsed } = this.props
+    dispatchSetModuleCollapsed(!moduleCollapsed)
+  }
+
+
   /**
    * Refreshes the complete graph, computes recursively the new visible content by level, tries to restore each level
    * selection and content or reset selection at the level where selected element is no longer available
@@ -174,7 +187,7 @@ export class UserModuleContainer extends React.Component {
           if (!retrievedParentSelection) {
             // (break case) the parent level selection could not be restored: remove it from selection then stop
             dispatchClearLevelSelection(level - 1)
-          } else if (selectedParentType !== CatalogEntityTypes.DATASET) {
+          } else if (selectedParentType !== ENTITY_TYPES_ENUM.DATASET) {
             // loop case: resolve next
             const parentPath = selectionPath.slice(0, level).map(({ ipId }) => ipId) // prepare parent path for datasets
             Promise.all([
@@ -200,9 +213,10 @@ export class UserModuleContainer extends React.Component {
         { /* Description handling */}
         <DescriptionContainer />
         <SearchGraph
-          moduleCollapsed={moduleCollapsed}
           graphDatasetAttributes={graphDatasetAttributes}
           moduleConf={moduleConf}
+          expanded={!moduleCollapsed}
+          onExpandChange={this.onExpandChange}
         />
         <NavigableSearchResultsContainer
           appName={appName}

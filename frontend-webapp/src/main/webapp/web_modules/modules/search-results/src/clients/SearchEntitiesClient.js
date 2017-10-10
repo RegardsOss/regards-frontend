@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { CatalogClient } from '@regardsoss/client'
+import { AccessProjectClient } from '@regardsoss/client'
 
 export const REDUCER_PATH = 'searchCatalog'
 
@@ -9,12 +9,12 @@ const ENTITIES_STORE_PATH = ['modules.search-results', REDUCER_PATH]
 const REDUX_ACTION_NAMESPACE = 'search-results/search-catalog'
 
 
-export const searchDataobjectsActions = new CatalogClient.SearchDataobjectsActions(REDUX_ACTION_NAMESPACE)
-export const searchDatasetsFromDataObjectsActions = new CatalogClient.SearchDatasetsFromDataObjectsActions(REDUX_ACTION_NAMESPACE)
-export const searchDatasetsActions = new CatalogClient.SearchDatasetsActions(REDUX_ACTION_NAMESPACE)
-export const searchEntitiesActions = new CatalogClient.SearchEntitiesActions(REDUX_ACTION_NAMESPACE)
-export const reducer = CatalogClient.getSearchEntitiesReducer(REDUX_ACTION_NAMESPACE)
-export const selectors = CatalogClient.getSearchEntitiesSelectors(ENTITIES_STORE_PATH)
+export const searchDataobjectsActions = new AccessProjectClient.SearchDataobjectsActions(REDUX_ACTION_NAMESPACE)
+export const searchDatasetsFromDataObjectsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(REDUX_ACTION_NAMESPACE)
+export const searchDatasetsActions = new AccessProjectClient.SearchDatasetsActions(REDUX_ACTION_NAMESPACE)
+export const searchEntitiesActions = new AccessProjectClient.SearchEntitiesActions(REDUX_ACTION_NAMESPACE)
+export const reducer = AccessProjectClient.getSearchEntitiesReducer(REDUX_ACTION_NAMESPACE)
+export const selectors = AccessProjectClient.getSearchEntitiesSelectors(ENTITIES_STORE_PATH)
 
 /**
  * Client to search in catalog.

@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
@@ -51,6 +51,8 @@ class PluginListComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static CREATE_DEPENDENCIES = [uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]
 
   constructor(props) {
     super(props)
@@ -152,7 +154,7 @@ class PluginListComponent extends React.Component {
                 id="plugins.list.action.add"
               />
             }
-            mainHateoasDependencies={[uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={PluginListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugins.list.action.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />

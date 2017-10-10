@@ -22,7 +22,8 @@ import { Locales } from '@regardsoss/form-utils'
  * i18n messages English language
  * @author Sébastien binda
  */
-const messages = Object.assign({
+const messages = {
+  ...Locales.en,
 
   // Administration messages
 
@@ -85,9 +86,9 @@ const messages = Object.assign({
   'form.criterion.criteria.select.attribute.label': 'Select model attribute ...',
 
   // User display component
-
   'form.search.button.label': 'Search',
+  'results.module.title': 'Results',
 
-}, Locales.en)
+}
 
 export default messages

@@ -19,11 +19,11 @@
  */
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
-import DropDownMenu from 'material-ui/DropDownMenu'
-import { FormattedHTMLMessage } from 'react-intl'
+import IconMenu from 'material-ui/IconMenu'
+import IconButton from 'material-ui/IconButton'
 import i18nContextType from '../contextType'
-import '../FR.png'
-import '../GB.png'
+import fr from '../fr_flag.png'
+import en from '../gb_flag.png'
 
 /**
  * React component to display the language selector widget
@@ -35,29 +35,53 @@ class SelectLocaleComponent extends React.Component {
     locales: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentLocale: PropTypes.string,
     handleLocaleChange: PropTypes.func,
+    // MUI theme, externally provided as this component cannot access it - XXX v2: move such components to avoid cicly dependencies!
+    // eslint-disable-next-line react/forbid-prop-types
+    muiTheme: PropTypes.object.isRequired,
   }
+
 
   static contextTypes = {
     ...i18nContextType,
+    // ...themeContextType, XXX this cannot be done here! (module cicly deps)
+  }
+
+  /** Maps locale to icon */
+  static localToIcon = {
+    fr,
+    en,
   }
 
   render() {
-    const { locales, currentLocale, handleLocaleChange } = this.props
-    const items = map(locales, locale => (
-      <MenuItem
-        value={locale}
-        key={locale}
-        label={<FormattedHTMLMessage id="label" />}
-        primaryText={<FormattedHTMLMessage id={locale} />}
-      />))
+    const { locales, currentLocale, handleLocaleChange, muiTheme: { spacing: { iconSize } } } = this.props
+    const { intl: { formatMessage } } = this.context
+
+    const localeIcon = SelectLocaleComponent.localToIcon[currentLocale]
+    const iconStyle = { width: iconSize, height: iconSize }
+
     return (
-      <DropDownMenu
+      <IconMenu
+        iconButtonElement={
+          <IconButton iconStyle={iconStyle} >
+            <img src={localeIcon} alt={formatMessage({ id: `language.selector.option.${currentLocale}` })} />
+          </IconButton>}
+        title={formatMessage({ id: 'language.selector.tooltip' })}
         value={currentLocale}
         onChange={handleLocaleChange}
-        underlineStyle={{ display: 'none' }}
       >
-        {items}
-      </DropDownMenu>
+        {map(locales, locale => (
+          <MenuItem
+            value={locale}
+            key={locale}
+            primaryText={formatMessage({ id: `language.selector.option.${locale}` })}
+            leftIcon={
+              <img
+                style={iconStyle}
+                src={SelectLocaleComponent.localToIcon[locale]}
+                alt={formatMessage({ id: `language.selector.option.${locale}` })}
+              />}
+          />))}
+      </IconMenu>
     )
   }
 }

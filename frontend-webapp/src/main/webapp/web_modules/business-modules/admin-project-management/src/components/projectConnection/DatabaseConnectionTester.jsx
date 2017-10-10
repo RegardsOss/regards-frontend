@@ -25,8 +25,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Snackbar from 'material-ui/Snackbar'
 import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
-import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
-import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
+import { AdminShapes } from '@regardsoss/shape'
+import { EnumConnectivity } from '@regardsoss/domain/admin'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
 import moduleStyles from '../../styles/styles'
 
@@ -39,7 +39,7 @@ import moduleStyles from '../../styles/styles'
 class DatabaseConnectionTester extends React.Component {
 
   static propTypes = {
-    projectConnection: ProjectConnection.isRequired,
+    projectConnection: AdminShapes.ProjectConnection.isRequired,
     testConnection: PropTypes.func.isRequired,
   }
 

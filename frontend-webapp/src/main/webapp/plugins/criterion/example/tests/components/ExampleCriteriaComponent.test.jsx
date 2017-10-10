@@ -18,21 +18,32 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TextField from 'material-ui/TextField'
 import { ExampleCriteriaComponent } from '../../src/components/ExampleCriteriaComponent'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Test case for {@link ExampleCriteriaComponent}
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () => {
+describe('[PLUGIN STRING CRITERIA] Testing the example criteria component', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(ExampleCriteriaComponent)
     assert.isDefined(TextField)
   })
   it('should render self and sub components', () => {
     const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
       attributes: {
         searchField: {
           name: 'searchField',
@@ -40,11 +51,8 @@ describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () =>
           type: 'string',
         },
       },
-      pluginInstanceId: 42,
-      onChange: () => {
-      },
     }
-    const enzymeWrapper = shallow(<ExampleCriteriaComponent {...props} />)
+    const enzymeWrapper = shallow(<ExampleCriteriaComponent {...props} />, { context })
     expect(enzymeWrapper.find(TextField)).to.have.length(1)
   })
 })

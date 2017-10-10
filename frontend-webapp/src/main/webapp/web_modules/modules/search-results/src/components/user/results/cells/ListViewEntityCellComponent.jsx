@@ -51,8 +51,6 @@ class ListViewEntityCellComponent extends React.Component {
     selectTableEntityCallback: PropTypes.func,
     // Columns configuration to display
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
-    // Callback to run a new search with the given tag
-    onSearchTag: PropTypes.func,
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
     // tooltips, as i18n context isn't available in the table context
@@ -286,10 +284,6 @@ class ListViewEntityCellComponent extends React.Component {
       return map(tableColumns, (column, key) => this.displayEntityProperty(key, column))
     }
     return map(properties, (property, key) => this.displayFragment(key, property))
-  }
-
-  handleSearchTag = (tag) => {
-    this.props.onSearchTag(tag)
   }
 
   /**

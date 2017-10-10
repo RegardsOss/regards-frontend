@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { ProjectUser } from '@regardsoss/model'
+import { AdminShapes } from '@regardsoss/shape'
 import AccountActions from '../../src/model/AccountActions'
 import getAccountReducer from '../../src/model/AccountReducers'
 import AccountSelectors from '../../src/model/AccountSelectors'
@@ -27,7 +27,7 @@ const backendServerResultList = AccountNetworkDump
 const options = {
 }
 
-const entityTester = new ReduxEntityTester(AccountActions, getAccountReducer, AccountSelectors, PropTypes.objectOf(ProjectUser).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(AccountActions, getAccountReducer, AccountSelectors, AdminShapes.ProjectUserList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing model Account', () => {
   before(() => {

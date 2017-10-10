@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import findIndex from 'lodash/findIndex'
-import { PluginMetaData, PluginParameter, PluginParameterType } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 
 /**
  * Builds a node allowing to display a left & a right text in the {@code primaryText} of a {@link MenuItem}.
@@ -43,10 +43,10 @@ const getFieldName = (name, pluginMetaData, suffix) => {
  */
 const pluginParameterComponentPropTypes = {
   microserviceName: PropTypes.string.isRequired,
-  pluginMetaData: PluginMetaData,
+  pluginMetaData: CommonShapes.PluginMetaData,
   // eslint-disable-next-line react/no-unused-prop-types
-  pluginParameter: PluginParameter,
-  pluginParameterType: PluginParameterType,
+  pluginParameter: CommonShapes.PluginParameterContent,
+  pluginParameterType: CommonShapes.PluginParameterType,
   // eslint-disable-next-line react/no-unused-prop-types
   mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
   // eslint-disable-next-line react/no-unused-prop-types

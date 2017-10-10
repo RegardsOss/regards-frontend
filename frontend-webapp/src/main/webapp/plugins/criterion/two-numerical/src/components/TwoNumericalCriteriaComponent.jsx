@@ -16,10 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { mapValues, chain } from 'lodash'
+import flow from 'lodash/flow'
+import uniq from 'lodash/uniq'
+import fpmap from 'lodash/fp/map'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import TwoNumericalCriteriaSimpleComponent from './TwoNumericalCriteriaSimpleComponent'
 import TwoNumericalCriteriaComposedComponent from './TwoNumericalCriteriaComposedComponent'
-import AttributeModel from '../common/AttributeModel'
 
 /**
  * Search form criteria plugin allowing the user to configure the numerical value of two different attributes with comparators.
@@ -27,7 +30,7 @@ import AttributeModel from '../common/AttributeModel'
  * Below is an example of the simple layout for two different attributes :
  * attribute1 < value1 and attribute2 != value2
  *
- * TODO + TBC
+ * XXX + TBC
  * Now if the two passed attributes are the same, we switch to as composed layout:
  * value1 <= attribute <= value2
  *
@@ -36,38 +39,30 @@ import AttributeModel from '../common/AttributeModel'
 export class TwoNumericalCriteriaComponent extends React.Component {
 
   static propTypes = {
-    /**
-     * Plugin identifier
-     */
-    pluginInstanceId: React.PropTypes.string,
-    /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
-     */
-    onChange: React.PropTypes.func,
+    // container props (propagated to children)
+    ...PluginCriterionContainer.propTypes,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       // Switch to composed mode if only one attribute passed
-      isComposed: chain(props.attributes).map('name').uniq().value().length === 1,
+      isComposed: flow(fpmap('name'), uniq)(props.attributes).length === 1,
     }
   }
 
   render() {
     const { isComposed } = this.state
 
-    return isComposed ? <TwoNumericalCriteriaComposedComponent {...this.props} /> :
-    <TwoNumericalCriteriaSimpleComponent {...this.props} />
+    return isComposed ?
+      <TwoNumericalCriteriaComposedComponent {...this.props} /> :
+      <TwoNumericalCriteriaSimpleComponent {...this.props} />
   }
 }
 

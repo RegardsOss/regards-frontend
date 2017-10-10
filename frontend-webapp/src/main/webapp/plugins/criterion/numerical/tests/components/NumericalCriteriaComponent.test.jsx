@@ -18,9 +18,13 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TextField from 'material-ui/TextField'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
 import NumericalComparatorComponent from '../../src/components/NumericalComparatorComponent'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Test case for {@link NumericalCriteriaComponent}
@@ -28,6 +32,8 @@ import NumericalComparatorComponent from '../../src/components/NumericalComparat
  * @author Xavier-Alexandre Brochard
  */
 describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(NumericalCriteriaComponent)
     assert.isDefined(NumericalComparatorComponent)
@@ -35,6 +41,10 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
   })
   it('should render self and subcomponents', () => {
     const props = {
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
       attributes: {
         searchField: {
           name: 'searchField',
@@ -42,10 +52,8 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
           type: 'numerical',
         },
       },
-      getDefaultState: () => {
-      },
     }
-    const enzymeWrapper = shallow(<NumericalCriteriaComponent {...props} />)
+    const enzymeWrapper = shallow(<NumericalCriteriaComponent {...props} />, { context })
     expect(enzymeWrapper.find(NumericalComparatorComponent)).to.have.length(1)
     expect(enzymeWrapper.find(TextField)).to.have.length(1)
   })

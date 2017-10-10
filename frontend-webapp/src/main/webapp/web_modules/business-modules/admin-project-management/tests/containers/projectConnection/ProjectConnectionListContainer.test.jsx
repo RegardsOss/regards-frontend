@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
-import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
+import { EnumConnectivity } from '@regardsoss/domain/admin'
 import { ProjectConnectionListContainer } from '../../../src/containers/projectConnection/ProjectConnectionListContainer'
 import ProjectConnectionListComponent from '../../../src/components/projectConnection/ProjectConnectionListComponent'
 
