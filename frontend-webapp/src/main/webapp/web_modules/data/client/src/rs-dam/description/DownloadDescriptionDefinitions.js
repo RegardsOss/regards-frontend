@@ -7,8 +7,8 @@ import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 const DATASET_TYPE_URL = 'datasets'
 const COLLECTION_TYPE_URL = 'collections'
 const typeToURL = {
-  [ENTITY_TYPES_ENUM.COLLECTION]: COLLECTION_TYPE_URL,
-  [ENTITY_TYPES_ENUM.DATASET]: DATASET_TYPE_URL,
+  [ENTITY_TYPES_ENUM.COLLECTION]: `${STATIC_CONF.MSERVICES.DAM}/${COLLECTION_TYPE_URL}`,
+  [ENTITY_TYPES_ENUM.DATASET]: `${STATIC_CONF.MSERVICES.CATALOG}/${DATASET_TYPE_URL}`,
 }
 
 /**
@@ -19,7 +19,7 @@ const typeToURL = {
    * @return download URL
    */
 const getDownloadURL = (entityType, id = '{id}') =>
-  `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/${typeToURL[entityType]}/${id}/file`
+  `${GATEWAY_HOSTNAME}/${API_URL}/${typeToURL[entityType]}/${id}/file`
 
 /**
  * This module provides common variables to access file description downloads

@@ -116,7 +116,7 @@ function asyncValidate({ newPassword }, dispatch, props) {
   // ugly async connection should be done by the container bu we can't
   const { fetchPasswordValidity } = props
   return fetchPasswordValidity(newPassword).then((result) => {
-    const validity = get(result, 'payload.content.validity', false)
+    const validity = get(result, 'payload.validity', false)
     const errors = {}
     if (!validity) { // invalid password
       errors.newPassword = ErrorTypes.INVALID_PASSWORD

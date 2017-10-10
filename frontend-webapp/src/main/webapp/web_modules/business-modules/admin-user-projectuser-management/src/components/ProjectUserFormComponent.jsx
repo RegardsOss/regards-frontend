@@ -358,7 +358,7 @@ function asyncValidate({ password }, dispatch, props) {
   }
   // validate password
   return fetchPasswordValidity(password).then((result) => {
-    const validity = get(result, 'payload.content.validity', false)
+    const validity = get(result, 'payload.validity', false)
     const errors = {}
     if (!validity) { // invalid password
       errors.password = ErrorTypes.INVALID_PASSWORD
