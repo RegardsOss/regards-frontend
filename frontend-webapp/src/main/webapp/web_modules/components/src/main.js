@@ -44,6 +44,7 @@ import SecondaryActionButtonComponent from './cards/SecondaryActionButtonCompone
 import ShowableAtRender from './cards/ShowableAtRender'
 
 import FileContentDisplayer from './content/FileContentDisplayer'
+import CodeFileDisplayer from './content/CodeFileDisplayer'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 import MarkdownFileContentDisplayer from './content/MarkdownFileContentDisplayer'
 
@@ -140,6 +141,7 @@ export {
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
   MarkdownFileContentDisplayer,
+  CodeFileDisplayer,
   NewsItemComponent,
   NoContentMessageInfo,
   OnHoverSwitchFlatButton,

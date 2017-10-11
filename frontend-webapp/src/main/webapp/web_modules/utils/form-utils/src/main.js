@@ -37,6 +37,7 @@ import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
 import StringComparison from './StringComparison'
 import reduxForm from './reduxForm'
 import RenderDateTimeField from './RenderDateTimeField'
+import RenderJsonCodeEditorField from './RenderJsonCodeEditorField'
 
 export default {
   RenderTextField,
@@ -60,4 +61,5 @@ export default {
   EnumInputsHelper,
   StringComparison,
   reduxForm,
+  RenderJsonCodeEditorField,
 }

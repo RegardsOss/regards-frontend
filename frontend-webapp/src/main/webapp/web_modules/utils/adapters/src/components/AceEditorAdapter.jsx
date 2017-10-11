@@ -72,6 +72,7 @@ class AceEditorAdapter extends React.Component {
     // value: editor content
     // setOptions: editor options
     // ...
+    onChange: PropTypes.func,
   }
 
   constructor(props) {

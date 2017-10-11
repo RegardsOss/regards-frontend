@@ -26,6 +26,7 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   RenderTextField,
   RenderSelectField,
+  RenderJsonCodeEditorField,
   Field,
   reduxForm,
   ValidationHelpers,
@@ -52,6 +53,7 @@ class ContainerConfigurationComponent extends React.Component {
     // from reduxForm
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
+    invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
@@ -97,8 +99,20 @@ class ContainerConfigurationComponent extends React.Component {
     })
   }
 
+  validatedJSON = (value, allValues, props, name) => {
+    if (value == null || value == undefined){
+      return this.context.intl.formatMessage({id : 'container.configuration.edit.styles.error.json.format'})
+    }
+    try {
+      JSON.stringify(value)
+      return undefined
+    } catch (e) {
+      return this.context.intl.formatMessage({id : 'container.configuration.edit.styles.error.json.format'})
+    }
+  }
+
   render() {
-    const { pristine, submitting, container, handleSubmit, onSubmit, onCancel } = this.props
+    const { pristine, submitting, invalid, container, handleSubmit, onSubmit, onCancel } = this.props
     const { intl: { formatMessage } } = this.context
     const { advanced } = this.state
 
@@ -154,18 +168,16 @@ class ContainerConfigurationComponent extends React.Component {
             />
             <Field
               name="styles"
-              format={JSON.stringify}
-              parse={JSON.parse}
               fullWidth
-              component={RenderTextField}
-              type="text"
+              validate={this.validatedJSON}
+              component={RenderJsonCodeEditorField}
               label={formatMessage({ id: 'container.form.styles' })}
             />
           </ShowableAtRender>
           <CardActionsComponent
             mainButtonLabel={formatMessage({ id: container ? 'container.form.update.button' : 'container.form.submit.button' })}
             mainButtonType="submit"
-            isMainButtonDisabled={pristine || submitting}
+            isMainButtonDisabled={pristine || submitting || invalid}
             secondaryButtonLabel={formatMessage({ id: 'container.form.cancel.button' })}
             secondaryButtonTouchTap={onCancel}
           />

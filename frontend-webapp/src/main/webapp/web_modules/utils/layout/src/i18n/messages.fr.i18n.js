@@ -49,6 +49,7 @@ const messages = Object.assign({
   'container.type.content.column.75.percent.container': 'Colonne de largeur 75%',
   'container.type.content.column.50.percent.container': 'Colonne de largeur 50%',
   'container.type.content.column.25.percent.container': 'Colonne de largeur 25%',
+  'container.configuration.edit.styles.error.json.format' : ' - Format JSON invalide',
 }, Locales.fr)
 
 export default messages
