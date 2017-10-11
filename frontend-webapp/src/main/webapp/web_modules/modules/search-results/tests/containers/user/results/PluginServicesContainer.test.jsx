@@ -202,7 +202,7 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     // provide user rights for catalog plugins and check catalog services have been added
     const propsWithRights = {
       ...props,
-      availableDependencies: ['rs-catalog@/services/{puginConfigurationId}/apply@POST'], // specific endpoint rights
+      availableDependencies: ['rs-catalog@/services/{pluginConfigurationId}/apply@POST'], // specific endpoint rights
     }
     render = shallow(<PluginServicesContainer {...propsWithRights} />, { context })
     selectionServices = render.state('selectionServices')

@@ -32,21 +32,21 @@ export default class CatalogPluginServiceResultActions extends DownloadFileActio
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/services/{puginConfigurationId}/apply`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/services/{pluginConfigurationId}/apply`,
       headers: { Accept: '*/*' },
     })
   }
 
   /**
    * Fetches apply result
-   * @param {*} puginConfigurationId plugin configuration ID
+   * @param {*} pluginConfigurationId plugin configuration ID
    * @param {*} dynamicParameters dynamic parameters
    * @param {*} targetParams plugin service target related parameters, one of the following structures:*
    * { entity } | { entities } | { q, entityType }
    * @return action to dispatch in order to fetch plugin service results
    */
-  fetchResult(puginConfigurationId, dynamicParameters, targetParams) {
-    return this.download({ puginConfigurationId }, null, 'POST', { dynamicParameters, ...targetParams })
+  fetchResult(pluginConfigurationId, dynamicParameters, targetParams) {
+    return this.download({ pluginConfigurationId }, null, 'POST', { dynamicParameters, ...targetParams })
   }
 
 }

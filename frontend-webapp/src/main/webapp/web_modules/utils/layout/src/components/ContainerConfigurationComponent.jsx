@@ -103,6 +103,8 @@ class ContainerConfigurationComponent extends React.Component {
     const { advanced } = this.state
 
     const containerModel = container && ContainerTypes[container.type]
+    // dynamic options (layout and main container) are available for non root container (ie new ones or inUserApp marked layouts)
+    const hasDynamicOptions = !container || containerModel.inUserApp
 
     return (
       <form
@@ -118,7 +120,7 @@ class ContainerConfigurationComponent extends React.Component {
             label={formatMessage({ id: 'container.form.id' })}
             validate={ValidationHelpers.required}
           />
-          {(containerModel && containerModel.inUserApp) ?
+          {hasDynamicOptions ? // available for new elements and
             <Field
               name="type"
               fullWidth
@@ -135,7 +137,7 @@ class ContainerConfigurationComponent extends React.Component {
                     null)
               }
             </Field> : null}
-          {!this.props.hideDynamicContentOption && containerModel && containerModel.inUserApp ?
+          {!this.props.hideDynamicContentOption && hasDynamicOptions ?
             <DynamicContentField change={this.props.change} /> : null}
           <ShowHideAdvancedOptions advanced={advanced} onTouchTap={this.onAdvancedClick} />
           <ShowableAtRender

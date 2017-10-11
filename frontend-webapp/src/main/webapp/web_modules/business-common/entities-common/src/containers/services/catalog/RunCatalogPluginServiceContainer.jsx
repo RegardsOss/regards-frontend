@@ -270,8 +270,8 @@ function mapDispatchToProps(dispatch) {
     dispatchFetchPluginMetaData: pluginId => dispatch(pluginMetaDataActions.fetchEntity(pluginId, {
       microserviceName: STATIC_CONF.MSERVICES.CATALOG,
     })),
-    dispatchFetchPluginResult: (puginConfigurationId, dynamicParameters, targetParams) =>
-      dispatch(catalogPluginServiceResultActions.fetchResult(puginConfigurationId, dynamicParameters, targetParams)),
+    dispatchFetchPluginResult: (pluginConfigurationId, dynamicParameters, targetParams) =>
+      dispatch(catalogPluginServiceResultActions.fetchResult(pluginConfigurationId, dynamicParameters, targetParams)),
   }
 }
 
