@@ -234,16 +234,18 @@ class Container extends React.Component {
     const containerClasses = ContainerHelper.getContainerClassNames(this.props.container)
     const containerStyles = ContainerHelper.getContainerStyles(this.props.container)
 
+    let containerStylesRender = containerStyles
     if (this.props.configurationMode) {
       containerStyles.border = `1px solid ${this.context.muiTheme.toolbar.separatorColor}`
       containerStyles.padding = '1px 2px'
       containerStyles.margin = '2px'
+      containerStylesRender = { ...containerStyles, position: 'relative' }
     }
 
     return (
       <div
         className={containerClasses.join(' ')}
-        style={containerStyles}
+        style={containerStylesRender}
         key={this.props.container.id}
       >
         {this.renderConfigurationMode()}

@@ -26,7 +26,7 @@ const messages = Object.assign({
   'container.form.id': 'Nom',
   'container.form.type': 'Type',
   'container.form.classes': 'Classes CSS',
-  'container.form.styles': 'Styles HTML',
+  'container.form.styles': 'Styles "inline" du conteneur (JSON)',
   'container.form.dynamicContent': 'Conteneur principal',
   'container.form.dynamicContent.info': 'Le menu de l\'application sera composé des modules de ce conteneur',
   'container.form.dynamicContent.modal.title': 'En faire le conteneur principal ?',
@@ -49,7 +49,7 @@ const messages = Object.assign({
   'container.type.content.column.75.percent.container': 'Colonne de largeur 75%',
   'container.type.content.column.50.percent.container': 'Colonne de largeur 50%',
   'container.type.content.column.25.percent.container': 'Colonne de largeur 25%',
-  'container.configuration.edit.styles.error.json.format' : ' - Format JSON invalide',
+  'container.configuration.edit.styles.error.json.format': ' - Format JSON invalide',
 }, Locales.fr)
 
 export default messages

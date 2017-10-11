@@ -100,14 +100,14 @@ class ContainerConfigurationComponent extends React.Component {
   }
 
   validatedJSON = (value, allValues, props, name) => {
-    if (value == null || value == undefined){
-      return this.context.intl.formatMessage({id : 'container.configuration.edit.styles.error.json.format'})
+    if (value == null || value === undefined) {
+      return this.context.intl.formatMessage({ id: 'container.configuration.edit.styles.error.json.format' })
     }
     try {
       JSON.stringify(value)
       return undefined
     } catch (e) {
-      return this.context.intl.formatMessage({id : 'container.configuration.edit.styles.error.json.format'})
+      return this.context.intl.formatMessage({ id: 'container.configuration.edit.styles.error.json.format' })
     }
   }
 

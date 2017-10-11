@@ -36,14 +36,21 @@ class RenderJsonCodeEditorField extends React.Component {
         props: PropTypes.object,
       })]),
     }),
-    // fullWidth: PropTypes.bool,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func,
-    }),
   }
 
   static contextTypes = {
     ...themeContextType,
+  }
+
+  static ROOT_FIELD_STYLES = { // XXX after refactor, in module or theme styles
+    padding: '24px 0 12px 0',
+    lineHeight: 1,
+  }
+
+  static DEFAULT_FIELD_STYLES = { // XXX after refactor, in module or theme styles
+    width: '100%',
+    height: '140px',
+    marginTop: '8px',
   }
 
   static EDITOR_PROPS = {
@@ -52,7 +59,13 @@ class RenderJsonCodeEditorField extends React.Component {
   }
 
   state = {
-    currentValue: "{}",
+    currentValue: '{}',
+  }
+
+  componentWillMount() {
+    if (this.props.input.value) {
+      this.parseJSON(JSON.stringify(this.props.input.value) || '{}')
+    }
   }
 
   onAceChange = (newValue) => {
@@ -64,18 +77,13 @@ class RenderJsonCodeEditorField extends React.Component {
     try {
       input.onChange(JSON.parse(jsonString))
     } catch (e) {
-      input.onChange(null);
+      input.onChange(null)
     }
     this.setState({
-      currentValue: jsonString
+      currentValue: jsonString,
     })
   }
 
-  componentWillMount() {
-    if (this.props.input.value) {
-      this.parseJSON(JSON.stringify(this.props.input.value) ||  "{}")
-    }
-  }
 
   displayError = () => {
     if (this.props.meta.error) {
@@ -85,24 +93,29 @@ class RenderJsonCodeEditorField extends React.Component {
   }
 
   render() {
-    const styles = {
-      width: '100%',
-      height: '100px',
+    const { muiTheme } = this.context
+    const fieldId = `json-field-${this.props.input.name}`
+    const labelStyle = {
+      color: muiTheme.textField.floatingLabelColor,
     }
     return (
-      <div>
-        {this.props.label}
+      <div style={RenderJsonCodeEditorField.ROOT_FIELD_STYLES}>
+        <label htmlFor={fieldId} style={labelStyle}>
+          {this.props.label}
+        </label>
         {this.displayError()}
         <AceEditorAdapter
-          mode="application/json"
+          id={fieldId}
+          mode="json"
           theme="monokai"
           value={this.state.currentValue}
           setOptions={RenderJsonCodeEditorField.EDITOR_PROPS}
-          style={styles}
+          style={RenderJsonCodeEditorField.DEFAULT_FIELD_STYLES}
+          onChange={this.onAceChange}
+
           showPrintMargin={false}
           showGutter
           highlightActiveLine
-          onChange={this.onAceChange}
         />
       </div>
     )
