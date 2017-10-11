@@ -80,12 +80,13 @@ class LoggedUserComponent extends React.Component {
           getLabel={this.getLabel}
           title={formatMessage({ id: 'loggedButtonTooltip' }, { login: name })}
           icon={<LoginIcon />}
-          onChange={this.onChange}
           labelStyle={optionsLabelStyle}
+          hasSubMenus
         >
           { /* Access user profile (do not insert a showable to not block menu auto-closing) */
             showProfileEdition ? (
               <MenuItem
+                key="profile.edition"
                 primaryText={formatMessage({ id: 'accountLabel' })}
                 leftIcon={accountIcon}
                 onTouchTap={onShowProfileEdition}
@@ -96,6 +97,7 @@ class LoggedUserComponent extends React.Component {
           { /* Show borrowables roles submenu, only when there are borrowable roles (do not insert a showable to not block menu auto-closing) */
             showBorrowableRoles ? (
               <MenuItem
+                key="borrowable.roles"
                 primaryText={formatMessage({ id: 'changeRole' })}
                 leftIcon={changeRoleIcon}
                 rightIcon={arrowIcon}
@@ -115,11 +117,15 @@ class LoggedUserComponent extends React.Component {
               />) : null
           }
           { /* Divider, only when there are more options than disconnect */}
-          <ShowableAtRender show={hasMoreOption}>
+          <ShowableAtRender
+            key="menu.divider"
+            show={hasMoreOption}
+          >
             <Divider />
           </ShowableAtRender>
           { /* Logout option */}
           <MenuItem
+            key="loggout"
             primaryText={formatMessage({ id: 'logoutLabel' })}
             leftIcon={ActionExit}
             onTouchTap={onLogout}
