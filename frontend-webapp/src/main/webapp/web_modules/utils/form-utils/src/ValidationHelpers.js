@@ -107,6 +107,8 @@ export const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExclude
  */
 export const validAlphaNumericUnderscore = value => isValidAlphaNumericUnderscore(value) ? undefined : ErrorTypes.ALPHA_NUMERIC
 
+export const validStringSize = (minSize, maxSize) => value => !value || (isString(value) && value.length <= maxSize && value.length >= minSize) ? undefined : ErrorTypes.invalidStringSize(minSize || "0", maxSize)
+
 /**
  * Redux-Form-style validator for Fields which content must be an email.
  *
@@ -236,6 +238,7 @@ export default {
   compose,
   required,
   string,
+  validStringSize,
   validRequiredNumber,
   validAlphaNumericUnderscore,
   matchRegex,

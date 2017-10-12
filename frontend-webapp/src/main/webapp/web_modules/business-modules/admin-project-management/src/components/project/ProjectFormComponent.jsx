@@ -25,10 +25,12 @@ import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
-const { string, url, required, validAlphaNumericUnderscore } = ValidationHelpers
+const { string, url, validStringSize, required, validAlphaNumericUnderscore } = ValidationHelpers
 const requiredStringValidator = [required, string]
-const requiredUrlValidator = [required, url]
+const requiredUrlValidator = [required, url, validStringSize(1,255)]
 const nameValidator = [validAlphaNumericUnderscore, ...requiredStringValidator]
+const validUrlSize255 = [url, validStringSize(0,255)]
+
 
 /**
  * Display edit and create project form
@@ -137,7 +139,7 @@ export class ProjectFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'project.form.icon' })}
-              validate={url}
+              validate={validUrlSize255}
               normalize={trim}
             />
             <Field
@@ -146,7 +148,7 @@ export class ProjectFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'project.form.license' })}
-              validate={url}
+              validate={validUrlSize255}
               normalize={trim}
             />
             <Field

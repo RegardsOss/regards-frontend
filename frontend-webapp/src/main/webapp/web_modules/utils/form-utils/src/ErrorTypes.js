@@ -47,6 +47,13 @@ export default {
       upperBound,
     },
   }),
+  invalidStringSize: (minSize, maxSize) => ({
+    key: 'invalid.string.size',
+    props: {
+      minSize,
+      maxSize,
+    },
+  }),
   lengthLessThan: number => ({
     key: 'invalid.length.less.than',
     props: { number },
