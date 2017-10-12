@@ -93,8 +93,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
       initialize: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
-    // field count : 6 for account
-    expect(enzymeWrapper.find(Field)).to.have.length(6)
+    // field count : 7 for account
+    expect(enzymeWrapper.find(Field)).to.have.length(7)
     // Metadata field count: 1 for each metadata model (hold by front end in V1)
     expect(enzymeWrapper.find(MetadataField)).to.have.length(getMetadataArray().length)
 
@@ -146,7 +146,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
     }
     const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context, lifecycleExperimental: true })
     const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(6)
+    expect(subComponent).to.have.length(7)
     let showableComps = enzymeWrapper.find(ShowableAtRender)
     assert.isTrue(showableComps.at(0).props().show, 'We are creating a user, re use account check box should be visible')
     assert.isTrue(showableComps.at(1).props().show, 'The account fields should be visible')

@@ -60,6 +60,7 @@ const messages = {
   'projectUser.create.input.firstName': 'Prénom',
   'projectUser.create.input.lastName': 'Nom',
   'projectUser.create.input.password': 'Mot de passe',
+  'projectUser.create.input.password.confirm': 'Confirmer le mot de passe',
   'projectUser.create.input.status': 'Statut',
   'projectUser.create.input.groups': 'Groupes',
   'projectUser.create.action.add': 'Ajouter',
