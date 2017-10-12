@@ -274,6 +274,15 @@ export class ProjectUserFormComponent extends React.Component {
                   normalize={trim}
                 />
                 <Field
+                  name="confirmPassword"
+                  fullWidth
+                  component={RenderTextField}
+                  type="password"
+                  label={formatMessage({ id: 'projectUser.create.input.password.confirm' })}
+                  validate={required}
+                  normalize={trim}
+                />
+                <Field
                   name="firstName"
                   fullWidth
                   component={RenderTextField}
@@ -338,8 +347,14 @@ export class ProjectUserFormComponent extends React.Component {
   }
 }
 
-function validate(formValues) {
+function validate(fieldValues) {
   const errors = {}
+
+  if (fieldValues.confirmPassword && fieldValues.password && fieldValues.password !== fieldValues.confirmPassword) {
+    errors.password = ErrorTypes.DIFFERENT_PASSWORDS
+    errors.confirmPassword = ErrorTypes.DIFFERENT_PASSWORDS
+  }
+
   return errors
 }
 
