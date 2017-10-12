@@ -19,14 +19,22 @@
 import has from 'lodash/has'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
-import { TableRow, TableRowColumn } from 'material-ui/Table'
-import { DamDomain } from '@regardsoss/domain'
-import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderCheckbox, RenderDateTimeField, RenderSelectField, Field, ValidationHelpers, FieldArray } from '@regardsoss/form-utils'
-import { ShowableAtRender } from '@regardsoss/components'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
-import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
+import {TableRow, TableRowColumn} from 'material-ui/Table'
+import {DamDomain} from '@regardsoss/domain'
+import {DataManagementShapes} from '@regardsoss/shape'
+import {
+  RenderTextField,
+  RenderCheckbox,
+  RenderDateTimeField,
+  RenderSelectField,
+  Field,
+  ValidationHelpers,
+  FieldArray
+} from '@regardsoss/form-utils'
+import {ShowableAtRender } from '@regardsoss/components'
+import {themeContextType} from '@regardsoss/theme'
+import {i18nContextType} from '@regardsoss/i18n'
+import {getFullQualifiedAttributeName, MODEL_ATTR_TYPES} from '@regardsoss/domain/dam'
 import ParameterArrayAttributeComponent from './ParameterArrayAttributeComponent'
 import isRestrictedWithEnum from '../utils/isRestrictedWithEnum'
 
@@ -92,7 +100,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       fullWidth
       component={RenderTextField}
       type={type}
-      label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
+      label={this.context.intl.formatMessage({id: 'entities-attributes.form.table.input'})}
       validate={this.getRestrictions(modelAttribute)}
     />
   )
@@ -116,7 +124,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       fullWidth
       component={RenderSelectField}
       validate={this.getRestrictions(modelAttribute)}
-      label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
+      label={this.context.intl.formatMessage({id: 'entities-attributes.form.table.input'})}
     >
       {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
         <MenuItem
@@ -140,22 +148,24 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
 
   getEnumTextArrayField = modelAttribute => (
-    <Field
-      name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
-      fullWidth
-      component={RenderSelectField}
-      label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
-      multiple
-    >
-      {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
-        <MenuItem
-          value={acceptableValue}
-          key={acceptableValue}
-          primaryText={acceptableValue}
-        />
-      ))
-      }
-    </Field>
+    <div>
+      <Field
+        name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
+        fullWidth
+        component={RenderSelectField}
+        label={this.context.intl.formatMessage({id: 'entities-attributes.form.table.input.multiple'})}
+        multiple
+      >
+        {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
+          <MenuItem
+            value={acceptableValue}
+            key={acceptableValue}
+            primaryText={acceptableValue}
+          />
+        ))
+        }
+      </Field>
+    </div>
   )
 
   getComplexRestriction = (restriction) => {
@@ -222,14 +232,14 @@ export class EntitiesAttributeFormComponent extends React.Component {
   }
 
   render() {
-    const { modelAttribute } = this.props
+    const {modelAttribute} = this.props
     return (
       <TableRow>
         <TableRowColumn
           title={modelAttribute.content.attribute.description}
         >
           {modelAttribute.content.attribute.label}
-          {this.showStarIfInputRequired(modelAttribute.content.attribute)}<br />
+          {this.showStarIfInputRequired(modelAttribute.content.attribute)}<br/>
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
         </TableRowColumn>
         <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>

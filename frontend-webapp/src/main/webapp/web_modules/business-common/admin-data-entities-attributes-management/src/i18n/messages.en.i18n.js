@@ -23,6 +23,7 @@ const messages = Object.assign({
   'entities-attributes.form.table.type': 'Type',
   'entities-attributes.form.table.fragmentAndLabel': 'Fragment and attribute name',
   'entities-attributes.form.table.input': 'Attribute value',
+  'entities-attributes.form.table.input.multiple' : 'Attribute values',
   'entities-attributes.form.table.stringarray.action.remove': 'Remove the value',
   'entities-attributes.form.table.stringarray.action.add': 'Add a new value',
 
