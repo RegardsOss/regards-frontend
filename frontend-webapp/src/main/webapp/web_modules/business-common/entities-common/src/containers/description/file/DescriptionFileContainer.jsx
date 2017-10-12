@@ -9,8 +9,8 @@ import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { authenticationSelectors } from '../../../clients/AuthenticationClient'
 import DownloadDescriptionClient from '../../../clients/DownloadDescriptionClient'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import DescriptionFileComponent from '../../../components/description/file/DescriptionFileComponent'
-
 
 /**
 * Description container: resolves and provide the description to corresponding component
@@ -25,8 +25,8 @@ export class DescriptionFileContainer extends React.Component {
       // dispatching fetched data, the component will select the right one and store it in state
       fetchedCollectionDescriptionResult: downloadCollectionDescriptionSelectors.getResult(state),
       fetchedDatasetDescriptionResult: downloadDatasetDescriptionSelectors.getResult(state),
-      accessToken: (authenticationSelectors.getAuthentication(state).result &&
-        authenticationSelectors.getAuthentication(state).result.access_token) || null, // map the token for direct download
+      accessToken: get(authenticationSelectors.getAuthentication(state), 'result.access_token', null), // map the token for direct download
+      scope: AuthenticationParametersSelectors.getProject(state),
     }
   }
 
@@ -92,6 +92,7 @@ export class DescriptionFileContainer extends React.Component {
     fetchedDatasetDescriptionResult: nextDatasetDescription,
     fetchedCollectionDescriptionResult: nextCollectionDescription,
     accessToken,
+    scope,
     dispatchFetchDescription,
   }) => {
     const oldState = this.state
@@ -111,7 +112,7 @@ export class DescriptionFileContainer extends React.Component {
     }
 
     // 2 - resolve description
-    newState.description = this.resolveDescription(newEntity, nextCollectionDescription, nextDatasetDescription, accessToken)
+    newState.description = this.resolveDescription(newEntity, nextCollectionDescription, nextDatasetDescription, accessToken, scope)
 
     // 3 - set state if any change is detected
     if (!isEqual(oldState, newState)) {
@@ -127,7 +128,7 @@ export class DescriptionFileContainer extends React.Component {
   * @param nextDatasetDesc next dataset description file (if any)
   * @return description state for this state, with URL or content depending on case
   */
-  resolveDescription = (newEntity, nextCollectionDesc, nextDatasetDesc, accessToken) => {
+  resolveDescription = (newEntity, nextCollectionDesc, nextDatasetDesc, accessToken, scope) => {
     const nextDescription = { ...DescriptionFileContainer.DEFAULT_STATE.description }
     if (newEntity) {
       const { content: { ipId, entityType, descriptionFile } } = newEntity
@@ -148,7 +149,7 @@ export class DescriptionFileContainer extends React.Component {
             }
           } else {
             // Case 2b: local file addressed as external URL
-            nextDescription.url = DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(entityType, ipId, accessToken)
+            nextDescription.url = DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(entityType, ipId, accessToken, scope)
           }
         }
       }
