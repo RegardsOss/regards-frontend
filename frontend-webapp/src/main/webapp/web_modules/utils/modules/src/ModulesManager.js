@@ -80,7 +80,6 @@ function getAvailableModuleTypes(dependenciesFilter = trueFunction) {
       }
       return [...acc, allModuleTypes[index]]
     }, []))
-  console.error('MODULES', modules)
 
   return modules
 }
