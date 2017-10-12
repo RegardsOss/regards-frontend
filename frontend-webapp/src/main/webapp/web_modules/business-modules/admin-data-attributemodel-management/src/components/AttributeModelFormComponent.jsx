@@ -25,7 +25,6 @@ import {
   RenderSelectField,
   Field,
   ValidationHelpers,
-  ErrorTypes,
   reduxForm,
 } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
@@ -39,6 +38,8 @@ import EnumerationComponent, { initializeEnumerationForm } from './EnumerationCo
 import PatternComponent, { initializePatternForm } from './PatternComponent'
 import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
+
+const nameFieldValidators = [ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
 
 /**
  * Display edit and create attribute model form
@@ -245,6 +246,7 @@ export class AttributeModelFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'attrmodel.form.name' })}
+                validate={nameFieldValidators}
               />
             </ShowableAtRender>
             <Field
@@ -253,6 +255,7 @@ export class AttributeModelFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'attrmodel.form.label' })}
+              validate={ValidationHelpers.lengthLessThan(20)}
             />
             <Field
               name="description"
@@ -336,22 +339,6 @@ export class AttributeModelFormComponent extends React.Component {
  */
 function validate(values) {
   const errors = {}
-  if (values.name) {
-    if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
-      errors.name = ErrorTypes.ALPHA_NUMERIC
-    }
-    if (values.name.length < 3) {
-      errors.name = 'invalid.min_3_carac'
-    }
-    if (values.name.length > 32) {
-      errors.name = 'invalid.max_32_carac'
-    }
-  }
-  if (values.label) {
-    if (values.label.length > 20) {
-      errors.label = 'invalid.max_20_carac'
-    }
-  }
   // flag the user if he active two filters on the same time
   if (values.restriction) {
     const restrictions = ['INTEGER_RANGE', 'DOUBLE_RANGE', 'LONG_RANGE', 'ENUMERATION', 'PATTERN']

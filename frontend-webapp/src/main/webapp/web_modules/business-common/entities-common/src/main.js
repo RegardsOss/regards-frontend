@@ -22,6 +22,15 @@ import getDescriptionLevelReducer from './model/description/DescriptionLevelRedu
 import getDescriptionLevelSelectors from './model/description/DescriptionLevelSelectors'
 import EntityDescriptionContainer from './containers/description/EntityDescriptionContainer'
 
+import ServiceContainer from './containers/services/ServiceContainer'
+import { PluginServiceRunModel } from './definitions/PluginServiceRunModel'
+import ServiceTargetDefinitions from './definitions/ServiceTarget'
+
+import BooleanParameterField from './components/services/parameters/BooleanParameterField'
+import ChoiceParameterField from './components/services/parameters/ChoiceParameterField'
+import DateParameterField from './components/services/parameters/DateParameterField'
+import TextParameterField from './components/services/parameters/TextParameterField'
+
 export default {
   DownloadDescriptionClient,
   EntityDescriptionContainer,
@@ -30,4 +39,13 @@ export default {
     getDescriptionLevelReducer,
     getDescriptionLevelSelectors,
   },
+  // Services
+  ServiceContainer,
+  PluginServiceRunModel,
+  target: ServiceTargetDefinitions,
+
+  BooleanParameterField,
+  ChoiceParameterField,
+  DateParameterField,
+  TextParameterField,
 }

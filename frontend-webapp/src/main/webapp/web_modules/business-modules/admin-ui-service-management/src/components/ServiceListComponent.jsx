@@ -16,21 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import map from 'lodash/map'
 import AppBar from 'material-ui/AppBar'
 import { Card, CardActions, CardTitle } from 'material-ui/Card'
 import IconList from 'material-ui/svg-icons/action/list'
+import IconAdd from 'material-ui/svg-icons/content/add-circle'
 import Back from 'material-ui/svg-icons/navigation/arrow-back'
-import map from 'lodash/map'
+import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
-import IconButton from 'material-ui/IconButton'
 import moduleStyles from '../styles/styles'
 import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 
-const styles = moduleStyles().plugins
+const styles = moduleStyles()
 const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
@@ -42,6 +43,7 @@ class ServiceListComponent extends React.Component {
 
   static propTypes = {
     uiPluginDefinitionList: AccessShapes.UIPluginDefinitionList,
+    handleCreate: PropTypes.func.isRequired,
     handleOpen: PropTypes.func.isRequired,
     handleBack: PropTypes.func.isRequired,
   }
@@ -57,14 +59,14 @@ class ServiceListComponent extends React.Component {
    * @param plugin
    */
   renderPlugin = (uiPluginDefinition) => {
-    const { handleOpen } = this.props
+    const { handleOpen, handleCreate } = this.props
     return (
-      <div className={styles.tile.classes} key={uiPluginDefinition.content.id}>
-        <Card style={styles.tile.styles}>
+      <div className={styles.plugins.tile.classes} key={uiPluginDefinition.content.id}>
+        <Card style={styles.plugins.tile.styles}>
           <CardTitle
             title={uiPluginDefinition.content.name}
           />
-          <CardActions>
+          <CardActions style={styles.service.list.optionsStyles}>
             <ResourceIconAction
               resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST)}
               tooltip={this.context.intl.formatMessage({ id: 'service.list.open.tooltip' })}
@@ -72,9 +74,16 @@ class ServiceListComponent extends React.Component {
             >
               <IconList />
             </ResourceIconAction>
+            <ResourceIconAction
+              resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)}
+              tooltip={this.context.intl.formatMessage({ id: 'service.list.create.tooltip' })}
+              onTouchTap={() => handleCreate(uiPluginDefinition.content.id)}
+            >
+              <IconAdd />
+            </ResourceIconAction>
           </CardActions>
         </Card>
-      </div>
+      </div >
     )
   }
 
@@ -87,8 +96,8 @@ class ServiceListComponent extends React.Component {
           title={this.context.intl.formatMessage({ id: 'service.list.title' })}
           iconElementLeft={<IconButton onTouchTap={handleBack}><Back /></IconButton>}
         />
-        <div style={styles.root}>
-          <div style={styles.grid}>
+        <div style={styles.plugins.root}>
+          <div style={styles.plugins.grid}>
             {map(uiPluginDefinitionList, uiPluginDefinition => (
               this.renderPlugin(uiPluginDefinition)
             ))}

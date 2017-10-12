@@ -24,6 +24,9 @@ import { UIPluginInfoContent } from './UIPluginInfoContent'
 const UIPluginInstanceContent = PropTypes.shape({
   name: PropTypes.string.isRequired,
   plugin: PropTypes.func.isRequired,
+  styles: PropTypes.shape({
+    styles: PropTypes.func,
+  }).isRequired,
   messages: PropTypes.shape({
     fr: PropTypes.object,
     en: PropTypes.object,

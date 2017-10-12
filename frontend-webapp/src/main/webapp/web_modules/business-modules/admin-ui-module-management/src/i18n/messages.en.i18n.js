@@ -60,7 +60,7 @@ const messages = Object.assign({
   'module.form.description': 'Description',
   'module.form.container': 'Layout container',
   'module.form.active': 'Activate mdule',
-  'module.form.isDefault': 'Use as default module ?',
+  'module.form.isDefault': 'Will be the element selected by default in the menu',
   'module.form.submit.button': 'Create module',
   'module.form.update.button': 'Update module',
   'module.form.cancel.button': 'Cancel',

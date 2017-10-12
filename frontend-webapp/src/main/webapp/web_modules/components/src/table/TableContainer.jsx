@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import flow from 'lodash/flow'
+==== BASE ====
+import concat from 'lodash/concat'
+==== BASE ====
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -39,6 +41,8 @@ import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
 import messages from './i18n'
+
+const MODULE_STYLES = { styles }
 
 const defaultLineHeight = 42
 
@@ -103,7 +107,8 @@ class TableContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     entitiesFetching: PropTypes.bool,
-    pageMetadata: PropTypes.shape({
+    // eslint-disable-next-line react/no-unused-prop-types
+    pageMetadata: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
       size: PropTypes.number,
       totalElements: PropTypes.number,
@@ -141,6 +146,7 @@ class TableContainer extends React.Component {
   }
 
   static MAX_NB_ENTITIES = STATIC_CONF.CATALOG_MAX_NUMBER_OF_ENTITIES || 10000
+  static EMPTY_ENTITY_VALUE = {}
 
   constructor(props) {
     super(props)
@@ -157,7 +163,6 @@ class TableContainer extends React.Component {
 
   componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
 
-  static EMPTY_ENTITY_VALUE = {}
 
   /**
    * Updates state and runs fetches required on properties change
@@ -342,7 +347,6 @@ class TableContainer extends React.Component {
       emptyComponent,
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
-    const moduleStyles = { styles }
 
     const tableData = {
       pageSize,
@@ -398,4 +402,3 @@ export default flow(
   connect(mapStateToProps, mapDispatchToProps),
 )(TableContainer)
 
-// export default connect(mapStateToProps, mapDispatchToProps)(TableContainer)

@@ -18,10 +18,17 @@
  **/
 import PluginProvider from './containers/PluginProvider'
 import PluginLoader from './containers/PluginLoader'
+import { loadPlugin, savePluginLoaded } from './model/LoadPluginActions'
 import PluginReducer from './reducer'
 
 /**
  * Main interface to expose plugins utils
  * @author Sébastien Binda
  */
-export { PluginReducer, PluginLoader, PluginProvider }
+export {
+  PluginReducer,
+  PluginLoader,
+  PluginProvider,
+  loadPlugin,
+  savePluginLoaded,
+}

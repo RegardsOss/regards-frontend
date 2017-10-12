@@ -31,7 +31,7 @@ const AVAILABLE_MODULES = [
   // 'archival-storage-aip-status',
   // 'archival-storage-plugins-monitoring',
   'embedded-html',
-  'home-page',
+  'project-about-page',
   'licenses',
 ]
 

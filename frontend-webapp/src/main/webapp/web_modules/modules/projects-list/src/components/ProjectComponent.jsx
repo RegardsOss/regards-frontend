@@ -21,13 +21,13 @@ import Avatar from 'material-ui/Avatar'
 import Lock from 'material-ui/svg-icons/action/lock-outline'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
-import { AccessProject } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { Link } from 'react-router'
 /*
 interface ProjectProps {
   project: any
   isAccessible: boolean
-}*/
+} */
 
 /**
  * Show the list of users for the current project
@@ -38,7 +38,7 @@ class ProjectComponent extends React.Component {
    * @type {{projects: *, theme: *}}
    */
   static propTypes = {
-    project: AccessProject,
+    project: AccessShapes.Project,
   }
 
   static contextTypes = {

@@ -30,10 +30,13 @@ import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
 import BaseBoardItemComponent from './board/BaseBoardItemComponent'
 
+import buttonsMessages from './buttons/i18n'
+import ClearFieldButton from './buttons/ClearFieldButton'
+import DownloadButton from './buttons/DownloadButton'
+import DropDownButton from './buttons/DropDownButton'
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
 import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
-import DropDownButton from './buttons/DropDownButton'
 
 import ActionButtonComponent from './cards/ActionButtonComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
@@ -42,7 +45,10 @@ import MainActionButtonComponent from './cards/MainActionButtonComponent'
 import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 
+import FileContentDisplayer from './content/FileContentDisplayer'
+import CodeFileDisplayer from './content/CodeFileDisplayer'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
+import MarkdownFileContentDisplayer from './content/MarkdownFileContentDisplayer'
 
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
 import PositionedDialog from './dialogs/PositionedDialog'
@@ -59,16 +65,20 @@ import PictureLinkComponent from './links/PictureLinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
 import ListContainer from './list/ListContainer'
-
 import ChipList from './list/ChipList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
+
+import DynamicModule from './module/DynamicModule'
+import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
+import ModuleTitle from './module/ModuleTitle'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
 import TableContainer from './table/TableContainer'
 import TablePaneHeader from './table/header/TablePaneHeader'
 import TableOptionsSeparator from './table/header/TableOptionsSeparator'
+import ResultsCountComponent from './table/header/ResultsCountComponent'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import TableActions from './table/model/TableActions'
 import getTableReducer from './table/model/TableReducer'
@@ -93,29 +103,38 @@ export {
   ActionIconWithNotifications,
   ActionsMenuCell,
   ApplicationErrorComponent,
-  BoardComponent,
+  BaseBoardItemComponent,
   BaseBoardComponent,
+  BoardComponent,
   BoardItemComponent,
   BaseBoardItemComponent,
+  buttonsMessages, // XXX remove me in V2
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,
   ChipList,
+  ClearFieldButton,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
+  DownloadButton,
   DropDownButton,
+  DynamicModule,
   ErrorCardComponent,
   ErrorDecoratorComponent,
   FormErrorMessage,
   PageNotFoundComponent,
+  FileContentDisplayer,
+  getTableReducer,
+  getTableSelectors,
+  HorizontalAreasSeparator,
   IFrameURLContentDisplayer,
+  ModuleTitle,
+  PageNotFoundComponent,
   TableContainer,
   TablePaneHeader,
   TableSelectionModes,
   TableActions,
   Title,
-  getTableReducer,
-  getTableSelectors,
   TableSortOrders,
   TableColumnConfiguration,
   TableColumnConfigurationController,
@@ -127,6 +146,8 @@ export {
   PositionedDialog,
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
+  MarkdownFileContentDisplayer,
+  CodeFileDisplayer,
   NewsItemComponent,
   NoContentMessageInfo,
   OnHoverSwitchFlatButton,
@@ -143,4 +164,5 @@ export {
   HelpMessageComponent,
   NoContentComponent,
   withConfirmDialog,
+  ResultsCountComponent,
 }

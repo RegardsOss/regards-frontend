@@ -2,14 +2,15 @@
 * LICENSE_PLACEHOLDER
 **/
 import Measure from 'react-measure'
-import { Card, CardMedia } from 'material-ui/Card'
-import { ScrollArea } from '@regardsoss/adapters'
+import ModuleIcon from 'material-ui/svg-icons/hardware/device-hub'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ShowableAtRender } from '@regardsoss/components'
+import { DynamicModule, ModuleTitle } from '@regardsoss/components'
+import { ScrollArea } from '@regardsoss/adapters'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
-import SearchGraphHeaderContainer from '../../containers/user/SearchGraphHeaderContainer'
 import GraphLevelDisplayerContainer from '../../containers/user/GraphLevelDisplayerContainer'
+import ToggleDatasetDetailsContainer from '../../containers/user/ToggleDatasetDetailsContainer'
 
 /**
 * Search graph (collections explorer)
@@ -18,12 +19,14 @@ class SearchGraph extends React.Component {
 
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
-    moduleCollapsed: PropTypes.bool.isRequired, // is module collapsed
+    onExpandChange: PropTypes.func.isRequired,
+    expanded: PropTypes.bool.isRequired, // is module expanded
     moduleConf: ModuleConfiguration.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   componentWillMount = () => {
@@ -55,52 +58,65 @@ class SearchGraph extends React.Component {
   }
 
   render() {
-    const { moduleConf: { graphLevels }, moduleCollapsed, graphDatasetAttributes } = this.props
+    const { moduleConf: { graphLevels }, onExpandChange, expanded, graphDatasetAttributes } = this.props
     const { viewportStyles } = this.state
-    const { moduleTheme: { user } } = this.context
+    const { moduleTheme: { user }, intl: { formatMessage } } = this.context
+
+    // header options
+    const headerOptionsComponents = [
+      <ToggleDatasetDetailsContainer
+        key="toggle.datasets.visible"
+        graphDatasetAttributes={graphDatasetAttributes}
+      />]
+
     return (
-      <Card style={user.styles}>
-        { /* Graph Heeader */}
-        <SearchGraphHeaderContainer graphDatasetAttributes={graphDatasetAttributes} />
-        { /* Graph horizontal scroll area, holding columns */}
-        <ShowableAtRender show={!moduleCollapsed}>
-          <CardMedia>
-            <div style={user.graph.styles}>
-              <ScrollArea
-                horizontal
-                vertical={false}
-                smoothScrolling
-                contentStyle={viewportStyles}
-                ref={(scrollArea) => { this.scrollArea = scrollArea }}
-              >
-                <Measure onMeasure={this.onLevelsResized}>
-                  <div style={user.levels.styles}>
-                    {graphLevels.map((levelModelName, index) => (
-                      <GraphLevelDisplayerContainer
-                        graphDatasetAttributes={graphDatasetAttributes}
-                        key={levelModelName}
-                        levelModelName={levelModelName}
-                        levelIndex={index}
-                        isFirstLevel={index === 0}
-                        isLastLevel={false}
-                      />
-                    ))}
-                    {/* Last level to show datasets */}
-                    <GraphLevelDisplayerContainer
-                      graphDatasetAttributes={graphDatasetAttributes}
-                      key="last.level.datasets.only"
-                      levelModelName={null}
-                      levelIndex={graphLevels.length}
-                      isFirstLevel={graphLevels.length === 0}
-                      isLastLevel
-                    />
-                  </div>
-                </Measure>
-              </ScrollArea>
-            </div>
-          </CardMedia>
-        </ShowableAtRender>
-      </Card >
+      <DynamicModule
+        title={
+          <ModuleTitle
+            IconConstructor={ModuleIcon}
+            text={formatMessage({ id: 'search.graph.title' })}
+            tooltip={formatMessage({ id: 'search.graph.subtitle' })}
+          />
+        }
+        options={headerOptionsComponents}
+        onExpandChange={onExpandChange}
+        expanded={expanded}
+      >
+        <div>
+          { /* Graph horizontal scroll area, holding columns */}
+          <ScrollArea
+            horizontal
+            vertical={false}
+            smoothScrolling
+            contentStyle={viewportStyles}
+            ref={(scrollArea) => { this.scrollArea = scrollArea }}
+          >
+            <Measure onMeasure={this.onLevelsResized}>
+              <div style={user.levels.styles}>
+                {graphLevels.map((levelModelName, index) => (
+                  <GraphLevelDisplayerContainer
+                    graphDatasetAttributes={graphDatasetAttributes}
+                    key={levelModelName}
+                    levelModelName={levelModelName}
+                    levelIndex={index}
+                    isFirstLevel={index === 0}
+                    isLastLevel={false}
+                  />
+                ))}
+                {/* Last level to show datasets */}
+                <GraphLevelDisplayerContainer
+                  graphDatasetAttributes={graphDatasetAttributes}
+                  key="last.level.datasets.only"
+                  levelModelName={null}
+                  levelIndex={graphLevels.length}
+                  isFirstLevel={graphLevels.length === 0}
+                  isLastLevel
+                />
+              </div>
+            </Measure>
+          </ScrollArea>
+        </div>
+      </DynamicModule>
     )
   }
 }

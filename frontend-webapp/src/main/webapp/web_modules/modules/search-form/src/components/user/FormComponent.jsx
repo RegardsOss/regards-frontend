@@ -18,11 +18,11 @@
  **/
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
-import { Card, CardText, CardHeader } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginConf, Container as ContainerShape } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { Container } from '@regardsoss/layout'
 import { themeContextType } from '@regardsoss/theme'
+import { DynamicModule, ModuleTitle } from '@regardsoss/components'
 
 /**
  * Component to display a configured Search form module
@@ -33,8 +33,8 @@ class FormComponent extends React.Component {
   static propTypes = {
     expanded: PropTypes.bool,
     description: PropTypes.string.isRequired,
-    layout: ContainerShape.isRequired,
-    plugins: PropTypes.arrayOf(PluginConf),
+    layout: AccessShapes.ContainerContent.isRequired,
+    plugins: AccessShapes.UIPluginConfArray,
     pluginsProps: PropTypes.shape({
       onChange: PropTypes.func.isRequired,
     }),
@@ -97,39 +97,38 @@ class FormComponent extends React.Component {
       getDefaultState: this.getPluginDefaultState,
       savePluginState: this.savePluginState,
     }
+
+    // XXX - please correct that horror...
+    // Container type changed between version 1 and version 1.1. So, to avoid changing every configuration saved, we force container type with the new value.
+    this.props.layout.type = 'FormMainContainer'
+
     return (
-      <Card
+      <DynamicModule
+        title={<ModuleTitle IconConstructor={SearchIcon} text={this.props.description} />}
         onExpandChange={this.handleExpand}
         expanded={this.state.expanded}
+        onKeyPress={this.onKeyPress}
       >
-        <CardHeader
-          title={this.props.description}
-          actAsExpander
-          showExpandableButton
+        <Container
+          appName="user"
+          container={this.props.layout}
+          plugins={this.props.plugins}
+          pluginProps={pluginsProps}
+          formHeader
         />
-        <CardText expandable onKeyPress={this.onKeyPress}>
-          <Container
-            appName="user"
-            container={this.props.layout}
-            plugins={this.props.plugins}
-            pluginProps={pluginsProps}
-            mainContainer
+        <div
+          style={this.context.moduleTheme.user.searchButtonContainer}
+        >
+          <RaisedButton
+            label={this.context.intl.formatMessage({ id: 'form.search.button.label' })}
+            labelPosition="before"
+            primary
+            icon={<SearchIcon />}
+            style={this.context.moduleTheme.user.searchButton}
+            onTouchTap={this.onHandleSearch}
           />
-          <div
-            style={this.context.moduleTheme.user.searchButtonContainer}
-          >
-            <RaisedButton
-              label={this.context.intl.formatMessage({ id: 'form.search.button.label' })}
-              labelPosition="before"
-              primary
-              icon={<SearchIcon />}
-              style={this.context.moduleTheme.user.searchButton}
-              onTouchTap={this.onHandleSearch}
-            />
-          </div>
-        </CardText>
-      </Card>
-    )
+        </div>
+      </DynamicModule>)
   }
 }
 

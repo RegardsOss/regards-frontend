@@ -26,6 +26,7 @@ export default {
    * Default application main container.
    */
   MainContainer: {
+    inUserApp: false,
     classes: [],
     styles: {
       backgroundColor: 'transparent',
@@ -38,11 +39,25 @@ export default {
       flexDirection: 'column',
     },
   },
-
+  FormMainContainer: {
+    inUserApp: false,
+    classes: [],
+    styles: {
+      backgroundColor: 'transparent',
+      // background: "url('/img/background.jpg') top right no-repeat",
+      backgroundAttachment: 'fixed',
+      backgroundSize: 'cover',
+      paddingRight: '1px', // Quick fix for bootstrap grid .row
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
   /**
    * Row container to display a responsive row.
    */
   RowContainer: {
+    inUserApp: true,
+    i18nKey: 'container.type.row.container',
     classes: ['row'],
     styles: {
       margin: 0,
@@ -50,8 +65,9 @@ export default {
       flexGrow: 0,
     },
   },
-
   ContentRowContainer: {
+    inUserApp: true,
+    i18nKey: 'container.type.content.row.container',
     classes: ['row'],
     styles: {
       margin: 0,
@@ -59,30 +75,35 @@ export default {
       flexGrow: 1,
     },
   },
-
   /**
-   * Full width column
+   * Column container to display full width responsive column
    */
-  FullWidthColumnContainer: {
+  ColumnContainer100PercentWidth: {
+    i18nKey: 'container.type.content.column.100.percent.container',
+    inUserApp: true,
     classes: ['col-sm-98', 'col-sm-offset-1'],
     styles: {
       marginBottom: '1px',
     },
   },
   /**
-   * Column container to display a large responsive column.
-   */
-  '50PercentColumnContainer': {
-    classes: ['col-sm-48'],
+ * Column container to display a large responsive column.
+ */
+  ColumnContainer75PercentWidth: {
+    i18nKey: 'container.type.content.column.75.percent.container',
+    inUserApp: true,
+    classes: ['col-sm-75'],
     styles: {
       margin: '1px',
     },
   },
   /**
-   * Column container to display a large responsive column.
+   * Column container to display a middle-sized responsive column.
    */
-  LargeColumnContainer: {
-    classes: ['col-sm-75'],
+  ColumnContainer50PercentWidth: {
+    inUserApp: true,
+    i18nKey: 'container.type.content.column.50.percent.container',
+    classes: ['col-sm-48'],
     styles: {
       margin: '1px',
     },
@@ -90,7 +111,9 @@ export default {
   /**
    * Column container to display a small responsive column.
    */
-  SmallColumnContainer: {
+  ColumnContainer25PercentWidth: {
+    i18nKey: 'container.type.content.column.25.percent.container',
+    inUserApp: true,
     classes: ['col-sm-23'],
     styles: {
       margin: '1px',

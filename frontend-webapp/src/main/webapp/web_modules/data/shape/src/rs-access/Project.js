@@ -34,4 +34,6 @@ const Project = PropTypes.shape({
 
 const ProjectList = PropTypes.objectOf(Project)
 
-export default { Project, ProjectList }
+const ProjectArray = PropTypes.arrayOf(Project)
+
+export default { Project, ProjectList, ProjectArray }

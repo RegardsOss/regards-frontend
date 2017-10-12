@@ -56,7 +56,6 @@ const messages = Object.assign({
   'connection.connectionTester.snackbar.success': 'Connection to {label} is working',
   'connection.connectionTester.snackbar.error': 'Connection to {label} failed',
   'connection.connectionTester.pending': 'Trying to connect...',
-  'invalid.minPoolSizeLow': 'Insufficient connections',
   'invalid.maxPoolSizeGreaterThanMinPoolSize': 'The maximum number of connections must be greater than the minimum',
 }, Locales.en)
 

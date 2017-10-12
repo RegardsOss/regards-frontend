@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { reduxForm, RenderTextField, Field } from '@regardsoss/form-utils'
+import { reduxForm, RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
@@ -69,8 +70,10 @@ export class AccountFormComponent extends React.Component {
           <CardTitle
             title={
               this.context.intl.formatMessage({ id: 'account.form.edit.title' },
-                { firstName: this.props.currentAccount.content.firstName,
-                  lastName: this.props.currentAccount.content.lastName })}
+                {
+                  firstName: this.props.currentAccount.content.firstName,
+                  lastName: this.props.currentAccount.content.lastName,
+                })}
           />
           <CardText>
 
@@ -80,6 +83,8 @@ export class AccountFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'account.form.input.email' })}
+              validate={ValidationHelpers.email}
+              normalize={trim}
             />
             <Field
               name="firstName"
@@ -111,14 +116,7 @@ export class AccountFormComponent extends React.Component {
   }
 }
 
-
-function validate(values) {
-  const errors = {}
-  return errors
-}
-
 export default reduxForm({
   form: 'account-form',
-  validate,
 })(AccountFormComponent)
 

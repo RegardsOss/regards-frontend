@@ -63,9 +63,6 @@ const messages = Object.assign({
 
   'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Ajouter un attribut obligatoire à un fragment déjà utilisé par des modèles peut provoquer des erreurs lors des ingestions et des mises à jour futures',
 
-  'invalid.min_3_carac': 'Minimum 3 caractères',
-  'invalid.max_32_carac': 'Maximum 32 caractères',
-  'invalid.max_20_carac': 'Maximum 20 caractères',
   'invalid.only_1_restriction_on_the_same_time': 'Vous ne pouvez activer qu\'une seule restriction à la fois',
 }, Locales.fr)
 messages[`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`] = 'Pas de fragment'

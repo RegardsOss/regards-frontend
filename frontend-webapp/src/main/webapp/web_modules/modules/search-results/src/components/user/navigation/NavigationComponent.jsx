@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import DefaultModuleIcon from 'material-ui/svg-icons/image/style'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Breadcrumb } from '@regardsoss/components'
-import NavigationLevel from '../../../models/navigation/NavigationLevel'
+import { Tag } from '../../../models/navigation/Tag'
 
 const ROOT_PLACEHOLDER = {}
 
@@ -31,7 +32,7 @@ class NavigationComponent extends React.Component {
 
   static propTypes = {
     resultsTitle: PropTypes.string,
-    navigationLevels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired,
+    navigationLevels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired,
     onLevelSelected: PropTypes.func.isRequired, // on level selected in breadcrumb: (level, index) => void
   }
 
@@ -39,14 +40,14 @@ class NavigationComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getLevelLabel = (level, index) => {
+  getLevelLabel = (levelTag, index) => {
     const { resultsTitle } = this.props
     const { intl: { formatMessage } } = this.context
     if (index === 0) {
       // root level may have no label (use home then)
       return resultsTitle || formatMessage({ id: 'navigation.home.label' })
     }
-    return level.label
+    return levelTag.label
   }
 
   render() {
@@ -56,7 +57,12 @@ class NavigationComponent extends React.Component {
       ...navigationLevels,
     ]
     return (
-      <Breadcrumb elements={breadcrumbElements} labelGenerator={this.getLevelLabel} onAction={onLevelSelected} />
+      <Breadcrumb
+        RootIconConstructor={DefaultModuleIcon}
+        elements={breadcrumbElements}
+        labelGenerator={this.getLevelLabel}
+        onAction={onLevelSelected}
+      />
     )
   }
 

@@ -134,7 +134,7 @@ export class DatasetStepperContainer extends React.Component {
     const { stepIndex } = this.props
     return (
       <div className="row">
-        <div className="col-lg-80 col-lg-offset-10 col-xs-100">
+        <div className="col-lg-90 col-lg-offset-5 col-xs-100">
           <Stepper activeStep={stepIndex}>
             <Step>
               <StepLabel

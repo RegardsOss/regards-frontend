@@ -15,14 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 // import Dialog from 'material-ui/Dialog'
 import ConfirmDialogComponent from './ConfirmDialogComponent'
 import getDisplayName from '../getDisplayName'
 
 /**
  * Decorates a React component.
- * Intercepts the action performed on click in order to add a confirm modal before perorming the action.
+ * Intercepts the action performed on click in order to add a confirm modal before performing the action.
  *
  * @type {function}
  * @param {React.Component} DecoratedComponent The component to enhance

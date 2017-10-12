@@ -23,6 +23,8 @@ import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import RaisedButton from 'material-ui/RaisedButton'
 import { FormattedMessage } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
@@ -35,8 +37,15 @@ export class NumericalComparatorComponent extends React.Component {
      * Signature:
      * function(value: EnumNumericalComparator) => void
      */
-    onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -63,32 +72,29 @@ export class NumericalComparatorComponent extends React.Component {
   }
 
   render() {
+    const { moduleTheme: { comparatorButtonStyle, comparatorMenuStyle, comparatorMenuItemStyle } } = this.context
     return (
       <div>
         <RaisedButton
-          label={<FormattedMessage id={`comparator.${this.props.value}`}/>}
+          label={<FormattedMessage id={`comparator.${this.props.value}`} />}
           onTouchTap={this.handleOpenMenu}
-          style={{
-            height: 48,
-            width: 48,
-            minWidth: 'initial',
-          }}
+          style={comparatorButtonStyle}
         />
         <IconMenu
-          iconButtonElement={<IconButton style={{ display: 'none' }}><MoreVertIcon /></IconButton>}
+          iconButtonElement={<IconButton style={comparatorMenuStyle}><MoreVertIcon /></IconButton>}
           open={this.state.openMenu}
           onChange={this.handleChange}
           onRequestChange={this.handleOnRequestChange}
           value={this.props.value}
         >
           {map(EnumNumericalComparator, (value, key) => {
-            const label = <FormattedMessage id={`comparator.${value}`}/>
+            const label = <FormattedMessage id={`comparator.${value}`} />
             return (
               <MenuItem
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }} key={key} primaryText={label} value={key}
+                style={comparatorMenuItemStyle}
+                key={key}
+                primaryText={label}
+                value={key}
               />
             )
           })}

@@ -16,23 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UI_PLUGIN_INFO_TYPES } from '@regardsoss/domain/access'
 
 /**
  * IHM Plugin entity definition
  * @author Sébastien Binda
  */
+const UIPluginDefinitionContent = PropTypes.shape({
+  id: PropTypes.number,
+  name: PropTypes.string,
+  type: PropTypes.oneOf(UI_PLUGIN_INFO_TYPES),
+  sourcePath: PropTypes.string,
+  iconUrl: PropTypes.string,
+  applicationModes: PropTypes.arrayOf(PropTypes.string),
+  entityTypes: PropTypes.arrayOf(PropTypes.string),
+})
+
 const UIPluginDefinition = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    sourcePath: PropTypes.string,
-  }).isRequired,
+  content: UIPluginDefinitionContent.isRequired,
 })
 
 const UIPluginDefinitionList = PropTypes.objectOf(UIPluginDefinition)
 
 export default {
+  UIPluginDefinitionContent,
   UIPluginDefinition,
   UIPluginDefinitionList,
 }

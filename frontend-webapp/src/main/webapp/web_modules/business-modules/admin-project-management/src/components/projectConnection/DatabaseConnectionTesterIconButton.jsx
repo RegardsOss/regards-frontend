@@ -25,8 +25,8 @@ import Warning from 'material-ui/svg-icons/alert/warning'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import OnHoverSwitchIconButton from '@regardsoss/components/src/buttons/OnHoverSwitchIconButton'
-import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
-import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
+import { AdminShapes } from '@regardsoss/shape'
+import { EnumConnectivity } from '@regardsoss/domain/admin'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
 
 /**
@@ -38,7 +38,7 @@ import ConnectionTesterProgress from './ConnectionTesterProgress'
 class DatabaseConnectionTesterIconButton extends React.Component {
 
   static propTypes = {
-    projectConnection: ProjectConnection.isRequired,
+    projectConnection: AdminShapes.ProjectConnection.isRequired,
     testConnection: PropTypes.func.isRequired,
     refreshConnection: PropTypes.func.isRequired,
   }

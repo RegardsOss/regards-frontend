@@ -30,7 +30,10 @@ class renderTextField extends React.Component {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     meta: PropTypes.shape({
       touched: PropTypes.bool,
-      error: PropTypes.string,
+      error: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
+        key: PropTypes.string,
+        props: PropTypes.object,
+      })]),
     }),
     // fullWidth: PropTypes.bool,
     type: PropTypes.string,

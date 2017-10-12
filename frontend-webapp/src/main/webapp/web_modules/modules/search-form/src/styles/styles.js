@@ -34,11 +34,8 @@ const formStyles = theme => ({
       flexDirection: 'column',
     },
     searchButton: {
-      marginTop: 10,
+      margin: '12px 0 8px 0',
       width: 200,
-    },
-    formHeader: {
-      backgroundColor: theme.palette.primary2Color,
     },
   },
   resultsButtonsType: {

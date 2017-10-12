@@ -32,7 +32,7 @@ import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginParameter, PluginMetaDataList, PluginMetaData, PluginConfiguration, PluginParameterType } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
@@ -56,14 +56,14 @@ export class PluginParameterPlugin extends React.Component {
 
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
-    pluginParameter: PluginParameter.isRequired,
-    pluginMetaData: PluginMetaData,
+    pluginParameter: CommonShapes.PluginParameterContent.isRequired,
+    pluginMetaData: CommonShapes.PluginMetaData,
     change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
     mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
     // form mapStateToProps
-    pluginMetaDataList: PluginMetaDataList,
-    pluginConfigurationList: PropTypes.arrayOf(PluginConfiguration),
-    pluginParameterType: PluginParameterType.isRequired,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    pluginConfigurationList: CommonShapes.PluginConfigurationArray,
+    pluginParameterType: CommonShapes.PluginParameterType.isRequired,
     fetchPluginConfigurationList: PropTypes.func.isRequired,
   }
 

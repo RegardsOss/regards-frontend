@@ -3,11 +3,9 @@
 **/
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import Measure from 'react-measure'
-import ReactMarkdown from 'react-markdown'
+import { MarkdownFileContentDisplayer, NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ScrollArea } from '@regardsoss/adapters'
-import { NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/components'
 import LoadingDisplayerComponent from '../LoadingDisplayerComponent'
 
 /**
@@ -41,7 +39,7 @@ class DescriptionFileComponent extends React.Component {
   render() {
     const { loading, descriptionFileURL, descriptionFile } = this.props
     const { intl: { formatMessage } } = this.context
-    const { rootStyle, markdownContainerStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.descriptionTab
+    const { rootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.descriptionTab
 
     const { displayAreaStyle } = this.state
     return (
@@ -59,16 +57,7 @@ class DescriptionFileComponent extends React.Component {
               }
               if (descriptionFile) {
                 // render MD
-                return (
-                  <ScrollArea
-                    horizontal={false}
-                    vertical
-                    style={displayAreaStyle}
-                  >
-                    <div style={markdownContainerStyle}>
-                      <ReactMarkdown source={descriptionFile.content} />
-                    </div>
-                  </ScrollArea>)
+                return <MarkdownFileContentDisplayer heightToFit={displayAreaStyle.height} source={descriptionFile.content} />
               }
               // render no data (no need for child here)
               return (

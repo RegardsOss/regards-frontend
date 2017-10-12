@@ -23,9 +23,11 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
-import ClearButton from './ClearButton'
-import AttributeModel from '../common/AttributeModel'
-import PluginComponent from '../common/PluginComponent'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
+import { ClearFieldButton } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Search form criteria plugin displaying a simple text field
@@ -33,11 +35,21 @@ import PluginComponent from '../common/PluginComponent'
  * @author Sébastien Binda
  * @author Xavier-Alexandre Brochard
  */
-export class StringCriteriaComponent extends PluginComponent {
+export class StringCriteriaComponent extends PluginCriterionContainer {
 
   static propTypes = {
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    // parent props
+    ...PluginCriterionContainer.propTypes,
+    attributes: DataManagementShapes.AttributeModelList,
   }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
+  }
+
 
   state = {
     searchField: '',
@@ -54,7 +66,7 @@ export class StringCriteriaComponent extends PluginComponent {
   }
 
   getPluginSearchQuery = (state) => {
-    if (state.searchField && state.searchField != '') {
+    if (state.searchField && state.searchField !== '') {
       let openSearchQuery = null
       if (this.state.checked) {
         openSearchQuery = `"${state.searchField}"`
@@ -71,7 +83,7 @@ export class StringCriteriaComponent extends PluginComponent {
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
     if (openSearchQuery.includes('"')) {
       this.setState({ checked: true })
-      return replace(openSearchQuery, /\"/g, '')
+      return replace(openSearchQuery, /"/g, '')
     }
 
     let value = replace(openSearchQuery, /\(/g, '')
@@ -89,20 +101,11 @@ export class StringCriteriaComponent extends PluginComponent {
   render() {
     const attributeLabel = this.getAttributeLabel('searchField')
     const clearButtonDisplayed = this.state.searchField !== ''
+    const { moduleTheme: { rootStyle, labelSpanStyle, checkboxStyle, textFieldStyle } } = this.context
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        <span
-          style={{
-            margin: '0px 10px',
-          }}
-        >
+      <div style={rootStyle} >
+        <span style={labelSpanStyle} >
           {attributeLabel}
         </span>
         <TextField
@@ -110,20 +113,15 @@ export class StringCriteriaComponent extends PluginComponent {
           floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
           value={this.state.searchField}
           onChange={this.handleChange}
-          style={{
-            top: -18,
-            margin: '0px 10px',
-          }}
+          style={textFieldStyle}
         />
-        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
         <Checkbox
           label={<FormattedMessage id="criterion.search.field.word.checkbox.label" />}
           labelPosition="right"
           checked={this.state.checked}
           onCheck={this.onCheck}
-          style={{
-            width: 150
-          }}
+          style={checkboxStyle}
         />
       </div>
     )

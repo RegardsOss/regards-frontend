@@ -27,10 +27,13 @@ export default {
       'criterion.search.field.label': 'Nombre ...',
     },
   },
+  styles: {
+    styles: () => { },
+  },
   info: {
     name: 'numerical-criteria',
     description: 'Criteria widget to search for a given numerical value into a model attribute',
-    version: 1,
+    version: '1.0',
     author: 'Xavier-Alexandre Brochard',
     company: 'CS-SI',
     email: 'sebastien.binda@c-s.fr',
@@ -66,5 +69,5 @@ export default {
       },
     },
   },
-  plugin: () => {},
+  plugin: () => { },
 }

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { PluginConfiguration } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import PluginConfigurationActions from '../../../src/model/plugin/PluginConfigurationActions'
 import PluginConfigurationReducers from '../../../src/model/plugin/PluginConfigurationReducers'
 import PluginConfigurationSelectors from '../../../src/model/plugin/PluginConfigurationSelectors'
@@ -28,7 +28,7 @@ const options = {
   urlParams: { microserviceName: 'rs-dam', pluginId: '0' },
 }
 
-const entityTester = new ReduxEntityTester(PluginConfigurationActions, PluginConfigurationReducers, PluginConfigurationSelectors, PropTypes.objectOf(PluginConfiguration).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(PluginConfigurationActions, PluginConfigurationReducers, PluginConfigurationSelectors, CommonShapes.PluginConfigurationList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing model PluginConfiguration', () => {
   before(() => {

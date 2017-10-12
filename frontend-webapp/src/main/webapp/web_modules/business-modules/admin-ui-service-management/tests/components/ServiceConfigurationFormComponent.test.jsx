@@ -19,14 +19,16 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { spy } from 'sinon'
+import Subheader from 'material-ui/Subheader'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import { ServiceConfigurationFormComponent } from '../../src/components/ServiceConfigurationFormComponent'
+import FieldsBuilderComponent from '../../src/components/FieldsBuilderComponent'
 import PluginServiceDump from './PluginServiceDump'
 
 const context = buildTestContext()
 
-describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceConfigurationListComponent', () => {
+describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceConfigurationFormComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -55,9 +57,47 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceConfigurationListComponen
     }
 
     const enzymeWrapper = shallow(<ServiceConfigurationFormComponent {...props} />, { context, lifecycleExperimental: true })
-    expect(enzymeWrapper.find(Field)).to.have.length(7)
+    // the label, active and default fields should be displayed as fields
+    expect(enzymeWrapper.find(Field)).to.have.length(3)
+    // the static and dynamic parameters should be displayed as Fields builders
+    assert.lengthOf(enzymeWrapper.find(FieldsBuilderComponent), 4, 'There should be 4 field builders')
+    // the subheaders should be visible
+    assert.lengthOf(enzymeWrapper.find(Subheader), 2, 'There should static and dynamic parameters headers')
+
+
     assert.isTrue(onSubmitSpy.notCalled, 'Not called yet')
     assert.isTrue(handleSubmitSpy.calledOnce, 'Not called yet')
     assert.isTrue(initializeSpy.calledOnce, 'Initialize the form since we are duplicating an entity')
+  })
+
+  it('should render correctly with configuration parameters', () => {
+    // prepare a configuration without parameters
+    const props = {
+      uiPluginConfiguration: DumpProvider.getFirstEntity('AccessProjectClient', 'UIPluginConfiguration'),
+      plugin: {
+        ...PluginServiceDump,
+        info: {
+          ...PluginServiceDump.info,
+          conf: { static: {}, dynamic: {} },
+        },
+      },
+      isCreating: false,
+      isDuplicating: true,
+      onSubmit: () => { },
+      backUrl: '#',
+      // from reduxForm
+      submitting: false,
+      invalid: false,
+      handleSubmit: () => { },
+      initialize: () => { },
+    }
+    // render
+    const enzymeWrapper = shallow(<ServiceConfigurationFormComponent {...props} />, { context, lifecycleExperimental: true })
+    // the label, active and default fields should be displayed as fields
+    expect(enzymeWrapper.find(Field)).to.have.length(3)
+    // the static and dynamic parameters should be hidden
+    assert.lengthOf(enzymeWrapper.find(FieldsBuilderComponent), 0, 'There should be no field builders')
+    // the subheaders should be hidden
+    assert.lengthOf(enzymeWrapper.find(Subheader), 0, 'There should static and dynamic parameters headers')
   })
 })

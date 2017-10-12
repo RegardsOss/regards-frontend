@@ -16,16 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { FormattedMessage } from 'react-intl'
 import areIntlLocalesSupported from 'intl-locales-supported'
 import DatePicker from 'material-ui/DatePicker'
 import TextField from 'material-ui/TextField'
 import TimePicker from 'material-ui/TimePicker'
-import { CardTitle } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ClearFieldButton } from '@regardsoss/components'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
-import ClearButton from './ClearButton'
-import AttributeModel from '../common/AttributeModel'
-import PluginComponent from '../common/PluginComponent'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
 let DateTimeFormat
@@ -52,10 +53,19 @@ if (areIntlLocalesSupported(['fr'])) {
  *
  *  @author Xavier-Alexandre Brochard
  */
-export class TemporalCriteriaComponent extends PluginComponent {
+export class TemporalCriteriaComponent extends PluginCriterionContainer {
 
   static propTypes = {
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    // parent props
+    ...PluginCriterionContainer.propTypes,
+    attributes: DataManagementShapes.AttributeModelList,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   state = {
@@ -155,10 +165,10 @@ export class TemporalCriteriaComponent extends PluginComponent {
         case EnumTemporalComparator.BEFORE:
           query = `${attribute}:[* TO ${state.searchField.toISOString()}]`
           break
-        case EnumTemporalComparator.AFTER :
+        case EnumTemporalComparator.AFTER:
           query = `${attribute}:[${state.searchField.toISOString()} TO *]`
           break
-        default :
+        default:
           console.error('Unavailable comparator')
       }
     }
@@ -182,79 +192,55 @@ export class TemporalCriteriaComponent extends PluginComponent {
   }
 
   render() {
+    const { moduleTheme: { rootStyle, labelSpanStyle, datePickerTextFieldStyle,
+      datePickerStyle, timePickerStyles, secondsTextFieldStyle, millisecondsTextFieldStyle } } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField, comparator } = this.state
     const clearButtonDisplayed = searchField !== undefined
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        <span
-          style={{
-            margin: '0px 10px',
-          }}
-        >
+      <div style={rootStyle} >
+        <span style={labelSpanStyle} >
           {attributeLabel}
         </span>
-        <TemporalComparatorComponent onChange={this.handleChangeComparator} value={comparator}/>
+        <TemporalComparatorComponent onChange={this.handleChangeComparator} value={comparator} />
         <DatePicker
           value={searchField}
           onChange={this.handleChangeDate}
           DateTimeFormat={DateTimeFormat}
           locale="fr"
-          hintText={<FormattedMessage id="criterion.date.field.label"/>}
-          floatingLabelText={<FormattedMessage id="criterion.date.field.label"/>}
-          okLabel={<FormattedMessage id="criterion.date.picker.ok"/>}
-          cancelLabel={<FormattedMessage id="criterion.date.picker.cancel"/>}
-          style={{
-            margin: '0px 10px',
-          }}
-          textFieldStyle={{
-            maxWidth: 85,
-            top: -13,
-          }}
+          hintText={<FormattedMessage id="criterion.date.field.label" />}
+          floatingLabelText={<FormattedMessage id="criterion.date.field.label" />}
+          okLabel={<FormattedMessage id="criterion.date.picker.ok" />}
+          cancelLabel={<FormattedMessage id="criterion.date.picker.cancel" />}
+          style={datePickerStyle}
+          textFieldStyle={datePickerTextFieldStyle}
         />
         <TimePicker
           value={searchField}
           onChange={this.handleChangeTime}
           format="24hr"
-          floatingLabelText={<FormattedMessage id="criterion.time.field.label"/>}
-          hintText={<FormattedMessage id="criterion.time.field.label"/>}
-          okLabel={<FormattedMessage id="criterion.time.picker.ok"/>}
-          cancelLabel={<FormattedMessage id="criterion.time.picker.cancel"/>}
-          textFieldStyle={{
-            maxWidth: 40,
-            top: -13,
-          }}
+          floatingLabelText={<FormattedMessage id="criterion.time.field.label" />}
+          hintText={<FormattedMessage id="criterion.time.field.label" />}
+          okLabel={<FormattedMessage id="criterion.time.picker.ok" />}
+          cancelLabel={<FormattedMessage id="criterion.time.picker.cancel" />}
+          textFieldStyle={timePickerStyles}
         />
         <TextField
           type="number"
-          floatingLabelText={<FormattedMessage id="criterion.seconds.field.label"/>}
+          floatingLabelText={<FormattedMessage id="criterion.seconds.field.label" />}
           value={this.formatSeconds(searchField)}
           onChange={this.handleChangeSeconds}
-          style={{
-            top: -13,
-            maxWidth: 45,
-            margin: '0px 10px',
-          }}
+          style={secondsTextFieldStyle}
         />
         <TextField
           type="number"
-          floatingLabelText={<FormattedMessage id="criterion.milliseconds.field.label"/>}
+          floatingLabelText={<FormattedMessage id="criterion.milliseconds.field.label" />}
           value={this.formatMilliseconds(searchField)}
           onChange={this.handleChangeMilliseconds}
-          style={{
-            top: -13,
-            maxWidth: 50,
-            margin: '0px 10px',
-          }}
+          style={millisecondsTextFieldStyle}
         />
-        <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

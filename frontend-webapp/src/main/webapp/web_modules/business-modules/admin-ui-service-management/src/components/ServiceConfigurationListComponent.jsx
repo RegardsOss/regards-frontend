@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
@@ -25,7 +25,7 @@ import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
-import { CardActionsComponent, SVGIconFromString, withConfirmDialog } from '@regardsoss/components'
+import { CardActionsComponent, withConfirmDialog } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
@@ -49,6 +49,7 @@ class ServiceConfigurationListComponent extends React.Component {
 
   static propTypes = {
     uiPluginConfigurationList: AccessShapes.UIPluginConfList,
+    uiPluginDefinition: AccessShapes.UIPluginDefinition.isRequired,
     plugin: AccessShapes.UIPluginInstanceContent,
     handleDelete: PropTypes.func.isRequired,
     handleDuplicate: PropTypes.func.isRequired,
@@ -64,6 +65,15 @@ class ServiceConfigurationListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static CREATE_DEPENDENCIES = [uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)]
+
+  renderIcon = () => {
+    const { uiPluginDefinition } = this.props
+    if (uiPluginDefinition.content.iconUrl) {
+      return <img src={uiPluginDefinition.content.iconUrl} alt="" width="75" height="75" />
+    }
+    return null
+  }
 
   render() {
     const { uiPluginConfigurationList, plugin, handleToggleActivation, handleDuplicate, handleToggleDefault, handleEdit, handleDelete, createUrl, backUrl } = this.props
@@ -99,11 +109,7 @@ class ServiceConfigurationListComponent extends React.Component {
               <div><FormattedMessage id="service.listconf.plugin.url" values={urlMsgValues} /> </div>
             </div>
             <div className={styles.icon.classes}>
-              <SVGIconFromString
-                viewBox={plugin.info.icon.viewBox}
-                style={styles.icon.style}
-                icon={plugin.info.icon.content}
-              />
+              {this.renderIcon()}
             </div>
           </div>
           <Table
@@ -128,7 +134,7 @@ class ServiceConfigurationListComponent extends React.Component {
             >
               {map(uiPluginConfigurationList, (uiPluginConfiguration, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{uiPluginConfiguration.content.conf.label}</TableRowColumn>
+                  <TableRowColumn>{uiPluginConfiguration.content.label}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasToggle
                       entityLinks={uiPluginConfiguration.links}
@@ -141,7 +147,7 @@ class ServiceConfigurationListComponent extends React.Component {
                     <HateoasToggle
                       entityLinks={uiPluginConfiguration.links}
                       hateoasKey={HateoasKeys.UPDATE}
-                      toggled={uiPluginConfiguration.content.default}
+                      toggled={uiPluginConfiguration.content.linkedToAllEntities}
                       disabled={!uiPluginConfiguration.content.active}
                       onToggle={() => handleToggleDefault(uiPluginConfiguration.content)}
                     />
@@ -185,7 +191,7 @@ class ServiceConfigurationListComponent extends React.Component {
                 id="service.listconf.action.add"
               />
             }
-            mainHateoasDependencies={[uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={ServiceConfigurationListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={formatMessage({ id: 'service.listconf.action.back' })}
             secondaryButtonUrl={backUrl}
           />

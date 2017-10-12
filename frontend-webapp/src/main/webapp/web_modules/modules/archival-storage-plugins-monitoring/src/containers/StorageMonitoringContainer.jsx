@@ -18,7 +18,7 @@
  **/
 import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
-import { StoragePlugin } from '@regardsoss/model'
+import { ArchivalStorageShapes } from '@regardsoss/shape'
 import StorageMonitoringComponent from '../components/StorageMonitoringComponent'
 import StoragePluginSelectors from '../model/StoragePluginSelectors'
 import StoragePluginActions from '../model/StoragePluginActions'
@@ -32,7 +32,7 @@ export class StorageMonitoringContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
     // Set by module loader, required for map state to props
-    storagePlugins: PropTypes.objectOf(StoragePlugin).isRequired,
+    storagePlugins: ArchivalStorageShapes.StoragePluginList.isRequired,
     isFetching: PropTypes.bool,
     hasError: PropTypes.bool,
     // from mapDispatchToProps

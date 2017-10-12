@@ -17,8 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SampleCriteria } from '../../src/components/SampleCriteria'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Test case for {@link StringCriteriaComponent}
@@ -26,10 +30,26 @@ import { SampleCriteria } from '../../src/components/SampleCriteria'
  * @author Xavier-Alexandre Brochard
  */
 describe('[PLUGIN SampleCriteria CRITERIA] Testing the criteria component', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(SampleCriteria)
   })
   it('should render self and sub components', () => {
-    shallow(<SampleCriteria />)
+    const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
+      attributes: {
+        searchField: {
+          name: 'searchField',
+          description: 'Attribute to search',
+          type: 'string',
+        },
+      },
+    }
+    shallow(<SampleCriteria {...props} />, { context })
   })
 })

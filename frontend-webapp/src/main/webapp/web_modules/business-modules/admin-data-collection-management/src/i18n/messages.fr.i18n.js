@@ -48,7 +48,6 @@ const messages = Object.assign({
   'collection.edit.title': 'Edition de la collection {name}',
   'collection.create.title': 'Création d\'une collection',
   'collection.duplicate.title': 'Dupliquer la collection {name}',
-  'invalid.max_128_carac': 'Le label d\'une collection ne peut dépasser 128 caractères',
   'collection.stepper.links': 'Edition des liens avec les autres collections',
   'collection.stepper.attributes': 'Saisie des attributs d\'une collection',
 

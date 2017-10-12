@@ -50,7 +50,6 @@ import AIPStatus from './archival-storage/AIPStatus'
 import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
 import PluginParameter from './admin/PluginParameter'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
-import BusinessPluginConfiguration from './microservice-common/BusinessPluginConfiguration'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -159,8 +158,6 @@ export default {
 
   ...LinkPluginDataset,
   ...UIPluginConf,
-
-  ...BusinessPluginConfiguration,
 
   ...LinkUIPluginDataset,
 }

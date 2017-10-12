@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { SearchResultsTargetsEnum } from '@regardsoss/model'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 /**
 * Search result configuration form, using search result module

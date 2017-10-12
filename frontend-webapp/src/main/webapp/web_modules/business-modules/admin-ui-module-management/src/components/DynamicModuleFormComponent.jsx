@@ -18,7 +18,7 @@
  **/
 import merge from 'lodash/merge'
 import isEqual from 'lodash/isEqual'
-import { Card, CardText } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { AccessShapes } from '@regardsoss/shape'
 
@@ -75,16 +75,14 @@ class DynamicModuleFormComponent extends React.Component {
 
     return (
       <Card id="dynamicFields" style={styles}>
-        <CardText>
-          <LazyModuleComponent
-            project={this.props.project}
-            module={this.props.module}
-            admin
-            adminForm={this.props.adminForm}
-            appName={this.props.appName}
-            onLoadAction={this.moduleLoaded}
-          />
-        </CardText>
+        <LazyModuleComponent
+          project={this.props.project}
+          module={this.props.module}
+          admin
+          adminForm={this.props.adminForm}
+          appName={this.props.appName}
+          onLoadAction={this.moduleLoaded}
+        />
       </Card>
     )
   }

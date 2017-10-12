@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { TableRow } from 'material-ui/Table'
-import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
+import { EnumConnectivity } from '@regardsoss/domain/admin'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { ProjectConnectionListComponent } from '../../../src/components/projectConnection/ProjectConnectionListComponent'
 

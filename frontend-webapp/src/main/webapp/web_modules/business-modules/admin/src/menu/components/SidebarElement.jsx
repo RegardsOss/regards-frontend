@@ -40,11 +40,11 @@ class SidebarElement extends React.Component {
 
   render() {
     const style = getModuleStyles()
-     // removes everything after the last / (/board etc.)
+    // removes everything after the last / (/board etc.)
     const urlToSearch = this.props.to.substring(0, this.props.to.lastIndexOf('/') + 1).toLowerCase()
 
     const linkStyle = this.props.currentPath.toLowerCase().includes(urlToSearch) ?
-      { backgroundColor: this.context.muiTheme.palette.primary1Color } : null
+      { backgroundColor: this.context.muiTheme.palette.primary3Color } : null
 
     return (
       <Link to={this.props.to} style={style.menu.link}>

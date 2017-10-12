@@ -32,8 +32,6 @@ npm install webpack-config-front
 # Data
 npm link web_modules/data/api
 npm link web_modules/data/store
-# To remove
-npm link web_modules/data/model
 npm link web_modules/data/shape
 npm link web_modules/data/domain
 npm link web_modules/data/client
@@ -44,6 +42,7 @@ npm link web_modules/utils/authentication-manager
 npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
 npm link web_modules/utils/plugins
+npm link web_modules/utils/plugins-api
 npm link web_modules/utils/store-utils
 npm link web_modules/utils/theme
 npm link web_modules/utils/display-control
@@ -95,10 +94,10 @@ npm link web_modules/business-modules/admin-user-role-management
 # Global modules
 npm link web_modules/modules/authentication
 npm link web_modules/modules/embedded-html
-npm link web_modules/modules/home-page
 npm link web_modules/modules/licenses
 npm link web_modules/modules/menu
 npm link web_modules/modules/news
+npm link web_modules/modules/project-about-page
 npm link web_modules/modules/projects-list
 npm link web_modules/modules/search-facets
 npm link web_modules/modules/search-form

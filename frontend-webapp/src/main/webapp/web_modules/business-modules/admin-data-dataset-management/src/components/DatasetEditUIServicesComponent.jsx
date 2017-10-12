@@ -24,9 +24,11 @@ import { List, ListItem } from 'material-ui/List'
 import filter from 'lodash/filter'
 import map from 'lodash/map'
 import some from 'lodash/some'
-import pull from 'lodash/pull'
+import remove from 'lodash/remove'
 import cloneDeep from 'lodash/cloneDeep'
 import Checkbox from 'material-ui/Checkbox'
+import Subheader from 'material-ui/Subheader'
+import Divider from 'material-ui/Divider'
 import { AccessShapes } from '@regardsoss/shape'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
@@ -53,7 +55,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentLinkUIPluginDataset: cloneDeep(props.linkUIPluginDataset.content),
+      linkUIPluginConfigurationActiveList: cloneDeep(props.linkUIPluginDataset.content.services),
     }
   }
 
@@ -61,16 +63,17 @@ export class DatasetEditUIServicesComponent extends React.Component {
     const { uiPluginConfigurationList } = this.props
     // Retrieve the list of configuration for the current UIPlugiNDefinition
     const uiPluginCurrentConfigurationList = filter(uiPluginConfigurationList, (uiPluginConf, id) => (
-      uiPluginConf.content.pluginId === uiPluginDefinition.content.id
+      uiPluginConf.content.pluginDefinition.id === uiPluginDefinition.content.id
     ))
     return map(uiPluginCurrentConfigurationList, (uiPluginConfiguration, id) => (
       <ListItem
         key={id}
-        primaryText={uiPluginConfiguration.content.conf.label}
+        primaryText={uiPluginConfiguration.content.label}
         leftCheckbox={
           <Checkbox
             onCheck={() => { this.handleCheck(uiPluginConfiguration) }}
             checked={this.isPluginConfigurationActivated(uiPluginConfiguration)}
+            disabled={this.isPluginConfigurationActivatedForAllDataset(uiPluginConfiguration)}
           />
         }
       />
@@ -82,26 +85,43 @@ export class DatasetEditUIServicesComponent extends React.Component {
    * @param uiPluginConfiguration
    */
   handleCheck = (uiPluginConfiguration) => {
-    const uiPluginConfigurationActiveList = this.state.uiPluginConfigurationActiveList
+    const { linkUIPluginConfigurationActiveList } = this.state
+    let updatedLinkUIPluginConfigurationActiveList = cloneDeep(linkUIPluginConfigurationActiveList)
     if (this.isPluginConfigurationActivated(uiPluginConfiguration)) {
-      pull(uiPluginConfigurationActiveList, uiPluginConfiguration.content)
+      remove(updatedLinkUIPluginConfigurationActiveList, value =>
+        uiPluginConfiguration.content.id === value.id,
+      )
     } else {
-      uiPluginConfigurationActiveList.push(uiPluginConfiguration.content)
+      updatedLinkUIPluginConfigurationActiveList = [
+        ...updatedLinkUIPluginConfigurationActiveList,
+        { id: uiPluginConfiguration.content.id },
+      ]
     }
     this.setState({
-      uiPluginConfigurationActiveList,
+      linkUIPluginConfigurationActiveList: updatedLinkUIPluginConfigurationActiveList,
     })
   }
 
   handleSubmit = () => {
-    this.props.handleSubmit(this.state.currentLinkUIPluginDataset)
+    const { linkUIPluginDataset } = this.props
+    const updateLinkUIPluginDataset = {
+      ...linkUIPluginDataset.content,
+      services: this.state.linkUIPluginConfigurationActiveList,
+    }
+    this.props.handleSubmit(updateLinkUIPluginDataset)
   }
   /**
    * Return true if the dataset is associated with the UIPluginConfiguration
    * @param uiPluginConfiguration
    * @returns {*}
    */
-  isPluginConfigurationActivated = uiPluginConfiguration => some(this.state.currentLinkUIPluginDataset, uiPluginConfiguration.content.id)
+  isPluginConfigurationActivated = uiPluginConfiguration => (
+    this.isPluginConfigurationActivatedForAllDataset(uiPluginConfiguration) ||
+        some(this.state.linkUIPluginConfigurationActiveList, entity =>
+          (entity.id === uiPluginConfiguration.content.id))
+  )
+
+  isPluginConfigurationActivatedForAllDataset = uiPluginConfiguration => uiPluginConfiguration.content.linkedToAllEntities
 
   render() {
     const { backUrl, uiPluginDefinitionList } = this.props
@@ -119,15 +139,20 @@ export class DatasetEditUIServicesComponent extends React.Component {
         />
         <CardText>
           <List>
+            <Subheader>{this.context.intl.formatMessage({ id: 'dataset.form.uiservices.services' })}</Subheader>
+            <Divider />
             {map(uiPluginDefinitionList, (uiPluginDefinition, id) => (
               <ListItem
                 key={id}
                 primaryText={uiPluginDefinition.content.name}
-                initiallyOpen
+                secondaryText={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.latestVersion' })}
                 primaryTogglesNestedList
+                disabled
+                open
+                autoGenerateNestedIndicator={false}
                 nestedItems={
-                    this.getConfigurationListItems(uiPluginDefinition)
-                  }
+                  this.getConfigurationListItems(uiPluginDefinition)
+                }
               />
               ),
             )}

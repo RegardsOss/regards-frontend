@@ -22,10 +22,13 @@ import union from 'lodash/union'
 import fpmap from 'lodash/fp/map'
 import flow from 'lodash/flow'
 import fpfilter from 'lodash/fp/filter'
+import last from 'lodash/fp/last'
+import { Link } from 'react-router'
 import AppBar from 'material-ui/AppBar'
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import Checkbox from 'material-ui/Checkbox'
 import Drawer from 'material-ui/Drawer'
+import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import Back from 'material-ui/svg-icons/navigation/arrow-back'
 import IconButton from 'material-ui/IconButton'
 import { List, ListItem } from 'material-ui/List'
@@ -42,7 +45,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import moduleStyles from '../../styles/styles'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 
-const ResourceIconAction = withResourceDisplayControl(IconButton)
+const ResourceLink = withResourceDisplayControl(Link)
 
 /**
  * Displays the list of plugins for the current microservice (in route) as a {@link GridList} of {@link Card}s sorted by
@@ -59,8 +62,9 @@ export default class PluginMetaDataListComponent extends React.Component {
       content: PropTypes.string,
     })),
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
-    handleClose: PropTypes.func,
-    handleProjectConfigurationListClick: PropTypes.func,
+    getProjectConfigurationListURL: PropTypes.func.isRequired,
+    getAddURL: PropTypes.func.isRequired,
+    getBackURL: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -84,7 +88,8 @@ export default class PluginMetaDataListComponent extends React.Component {
     map(this.props.pluginTypes, type => (
       <ListItem
         key={type.content}
-        primaryText={type.content}
+        primaryText={last(type.content.split('.'))}
+        secondaryText={type.content}
         leftCheckbox={
           <Checkbox
             checked={this.state.displayedTypes.includes(type)}
@@ -130,14 +135,25 @@ export default class PluginMetaDataListComponent extends React.Component {
         <CardText>
           {plugin.content.description}
         </CardText>
-        <CardActions>
-          <ResourceIconAction
+        <CardActions style={this.styles.tile.actionsStyles}>
+          <ResourceLink
             resourceDependencies={PluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.microserviceName)}
-            tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.configurations' })}
-            onTouchTap={() => this.props.handleProjectConfigurationListClick(plugin.content.pluginId)}
+            title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.configurations' })}
+            to={this.props.getProjectConfigurationListURL(plugin.content.pluginId)}
           >
-            <IconList />
-          </ResourceIconAction>
+            <IconButton>
+              <IconList />
+            </IconButton>
+          </ResourceLink>
+          <ResourceLink
+            resourceDependencies={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, this.props.microserviceName)}
+            title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.list.add' })}
+            to={this.props.getAddURL(plugin.content.pluginId)}
+          >
+            <IconButton>
+              <AddCircle />
+            </IconButton>
+          </ResourceLink>
         </CardActions>
       </Card>
     </div>
@@ -171,7 +187,11 @@ export default class PluginMetaDataListComponent extends React.Component {
       <Paper>
         <AppBar
           title={`${microserviceName} > Plugins`}
-          iconElementLeft={<IconButton><Back onTouchTap={this.props.handleClose} /></IconButton>}
+          iconElementLeft={
+            <Link to={this.props.getBackURL}>
+              <IconButton><Back /></IconButton>
+            </Link>
+          }
           iconElementRight={
             <IconButton
               onTouchTap={this.handleFilterSwitch}
@@ -186,7 +206,11 @@ export default class PluginMetaDataListComponent extends React.Component {
             {this.getGrid()}
           </div>
         </div>
-        <Drawer width={500} openSecondary open={this.state.filterOpen}>
+        <Drawer
+          width={500}
+          openSecondary
+          open={this.state.filterOpen}
+        >
           <AppBar
             iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
             title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.filter.title' })}

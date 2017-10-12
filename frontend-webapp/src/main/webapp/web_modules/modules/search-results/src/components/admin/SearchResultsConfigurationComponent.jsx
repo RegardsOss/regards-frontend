@@ -16,14 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card } from 'material-ui/Card'
+import { CardText } from 'material-ui/Card'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { i18nContextType } from '@regardsoss/i18n'
-import {
-  AttributeModel,
-  AttributeConfiguration,
-  AttributesRegroupementConfiguration,
-} from '@regardsoss/model'
+import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender, Title } from '@regardsoss/components'
 import { Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
@@ -42,14 +38,14 @@ class SearchResultsConfigurationComponent extends React.Component {
   static propTypes = {
     defaultDisplayDatasets: PropTypes.bool,
     defaultEnableFacettes: PropTypes.bool,
-    defaultAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    defaultAttributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    defaultDatasetAttributes: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    datasetAttributes: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
-    datasetSelectableAttributes: PropTypes.objectOf(AttributeModel),
+    defaultAttributesConf: AccessShapes.AttributeConfigurationArray,
+    defaultAttributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
+    defaultDatasetAttributes: AccessShapes.AttributesGroupConfigurationArray,
+    attributesConf: AccessShapes.AttributeConfigurationArray,
+    attributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
+    datasetAttributes: AccessShapes.AttributesGroupConfigurationArray,
+    selectableAttributes: DataManagementShapes.AttributeModelList,
+    datasetSelectableAttributes: DataManagementShapes.AttributeModelList,
     hideDatasetsConfiguration: PropTypes.bool.isRequired,
     changeField: PropTypes.func.isRequired,
     displayDataset: PropTypes.bool,
@@ -106,7 +102,7 @@ class SearchResultsConfigurationComponent extends React.Component {
   render() {
     const { topOptions } = this.context.moduleTheme.configuration
     return (
-      <Card>
+      <CardText>
         <Title
           level={3}
           label={this.context.intl.formatMessage({ id: 'form.configuration.tab.title' })}
@@ -130,7 +126,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           />
         </div>
         {this.renderAttributesConfiguration()}
-      </Card>
+      </CardText>
     )
   }
 }

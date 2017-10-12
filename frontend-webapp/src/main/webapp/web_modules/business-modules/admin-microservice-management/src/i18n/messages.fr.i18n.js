@@ -41,6 +41,7 @@ const messages = Object.assign({
   'microservice-management.plugin.list.configurations': 'Configurations',
 
   'microservice-management.plugin.configuration.list.add': 'Ajouter',
+  'microservice-management.plugin.configuration.list.back': 'Retour',
 
   'microservice-management.plugin.configuration.copy': 'Dupliquer',
   'microservice-management.plugin.configuration.increment.priorityOrder': 'Augmenter la priorité',
@@ -56,9 +57,10 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.form.create.title': 'Ajouter une configuration',
   'microservice-management.plugin.configuration.form.edit.title': 'Editer la configuration',
   'microservice-management.plugin.configuration.form.pluginClassName': 'Classe du plugin (chemin complet)',
-  'microservice-management.plugin.configuration.form.label': 'Label',
-  'microservice-management.plugin.configuration.form.version': 'Version',
-  'microservice-management.plugin.configuration.form.priorityOrder': 'Priorité',
+  'microservice-management.plugin.configuration.form.label': 'Label *',
+  'microservice-management.plugin.configuration.form.version': 'Version *',
+  'microservice-management.plugin.configuration.form.priorityOrder': 'Priorité *',
+  'microservice-management.plugin.configuration.form.icon': 'Icône (lien http)',
   'microservice-management.plugin.configuration.form.active': 'Activée',
   'microservice-management.plugin.configuration.form.inactive': 'Désactivée',
   'microservice-management.plugin.configuration.form.action.submit.add': 'Ajouter',

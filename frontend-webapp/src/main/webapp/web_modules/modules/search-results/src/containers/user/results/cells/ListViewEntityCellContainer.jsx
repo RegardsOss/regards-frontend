@@ -2,14 +2,14 @@
 * LICENSE_PLACEHOLDER
 **/
 import compose from 'lodash/fp/compose'
+import { connect } from '@regardsoss/redux'
 import { TableColumnConfiguration } from '@regardsoss/components'
 import { withI18n } from '@regardsoss/i18n'
-import {
-  CatalogEntity,
-  AttributeModel,
-} from '@regardsoss/model'
-import { connect } from '@regardsoss/redux'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { TableColumnConfiguration } from '@regardsoss/components'
+import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { descriptionLevelActions } from '../../../../models/description/DescriptionLevelModel'
+import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
 import ListViewEntityCellComponent from '../../../../components/user/results/cells/ListViewEntityCellComponent'
 import messages from '../../../../i18n'
 
@@ -21,14 +21,15 @@ export class ListViewEntityCellContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       dispatchShowDescription: entity => dispatch(descriptionLevelActions.show(entity)),
+      dispatchRunService: (service, serviceTarget) => dispatch(runPluginServiceActions.runService(service, serviceTarget)),
     }
   }
 
   static propTypes = {
     // Parameters set by table component
     // Entity to display
-    entity: CatalogEntity.isRequired,
-    attributes: PropTypes.objectOf(AttributeModel),
+    entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
+    attributes: PropTypes.objectOf(DataManagementShapes.AttributeModel),
     lineHeight: PropTypes.number.isRequired,
     // Parameters to handle row selection
     isTableSelected: PropTypes.bool,
@@ -37,24 +38,22 @@ export class ListViewEntityCellContainer extends React.Component {
     // Parameters set by columnConfiguration
     // Columns configuration to display
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
-    // Callback to run a new search with the given tag
-    onSearchTag: PropTypes.func,
     // Callback when click on entity label
-    onClick: PropTypes.func,
+    onSearchEntity: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
-    styles: PropTypes.object,
     // Display checbox for entities selection ?
     displayCheckBoxes: PropTypes.bool,
     // from map dispatch to props
     dispatchShowDescription: PropTypes.func.isRequired,
+    dispatchRunService: PropTypes.func.isRequired,
   }
 
   /**
- * Callback when a dataset is selected. Click on his label
- */
+   * Callback when a dataset label is selected
+   */
   onEntitySelection = () => {
-    const { onClick, entity } = this.props
-    onClick(entity)
+    const { onSearchEntity, entity } = this.props
+    onSearchEntity(entity)
   }
 
   /**
@@ -66,10 +65,20 @@ export class ListViewEntityCellContainer extends React.Component {
     dispatchShowDescription(entity)
   }
 
+  /**
+   * Callback: on service started by user. Dispatches run service event
+   * @param service service wrapped in content
+   */
+  onServiceStarted = ({ content: service }) => {
+    const { entity, dispatchRunService } = this.props
+    dispatchRunService(new PluginServiceRunModel(service,
+      target.buildOneElementTarget(entity.content.ipId)))
+  }
+
   render() {
     const { entity, attributes, lineHeight, isTableSelected, selectTableEntityCallback,
-      tableColumns, onSearchTag, onClick, styles, displayCheckBoxes } = this.props
-    return (
+      tableColumns, onSearchEntity, onClick, styles, displayCheckBoxes } = this.props
+    return ( // TODO: not styles not i18n
       <ListViewEntityCellComponent
         entity={entity}
         attributes={attributes}
@@ -77,11 +86,14 @@ export class ListViewEntityCellContainer extends React.Component {
         isTableSelected={isTableSelected}
         selectTableEntityCallback={selectTableEntityCallback}
         tableColumns={tableColumns}
-        onSearchTag={onSearchTag}
         styles={styles}
-        displayCheckBoxes={displayCheckBoxes}
-        onEntitySelection={onClick ? this.onEntitySelection : null}
+        displayCheckbox={displayCheckbox}
+        downloadTooltip={downloadTooltip}
+        servicesTooltip={servicesTooltip}
+        descriptionTooltip={descriptionTooltip}
+        onEntitySelection={onSearchEntity ? this.onEntitySelection : null}
         onShowDescription={this.onShowDescription}
+        onServiceStarted={this.onServiceStarted}
       />
     )
   }

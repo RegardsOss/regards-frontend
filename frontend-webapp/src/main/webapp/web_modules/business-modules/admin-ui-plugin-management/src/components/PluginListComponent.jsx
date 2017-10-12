@@ -52,6 +52,8 @@ class PluginListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static CREATE_DEPENDENCIES = [uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]
+
   constructor(props) {
     super(props)
     this.state = {
@@ -126,6 +128,7 @@ class PluginListComponent extends React.Component {
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.UPDATE}
                       onTouchTap={() => this.props.onEdit(plugin.content)}
+                      title={this.context.intl.formatMessage({ id: 'plugin.form.edit' })}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
@@ -133,6 +136,7 @@ class PluginListComponent extends React.Component {
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.DELETE}
                       onTouchTap={() => this.openDeleteDialog(plugin.content)}
+                      title={this.context.intl.formatMessage({ id: 'plugin.form.delete' })}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>
@@ -150,7 +154,7 @@ class PluginListComponent extends React.Component {
                 id="plugins.list.action.add"
               />
             }
-            mainHateoasDependencies={[uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={PluginListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugins.list.action.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />

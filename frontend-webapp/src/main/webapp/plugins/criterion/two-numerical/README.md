@@ -81,32 +81,32 @@ propTypes = {
     /**
      * Plugin unique identifier provided by the plugin loader
      */
-    pluginInstanceId: React.PropTypes.string,
+    pluginInstanceId: PropTypes.string,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: PropTypes.objectOf(AttributeModel),
     /**
       * Function to get initial plugin state saved by the savePluginState
       * Parameters :
       * id: current plugin identifier
       */
-    getDefaultState: React.PropTypes.func,
+    getDefaultState: PropTypes.func,
     /**
      * Save the current state in order to retrieve it at initialization with getDefaultState
      * Parameters :
      * id: current plugin identifier
      */
-    savePluginState: React.PropTypes.func,
+    savePluginState: PropTypes.func,
     /**
      * Callback to change the current criteria values in form
      * Parameters :
      * query : The OpenSearch query to add to the global research
      * id: current plugin identifier
      */
-     onChange: React.PropTypes.func,
+     onChange: PropTypes.func,
   }
 ```
 
@@ -118,7 +118,7 @@ this.getAttributeName('searchField')
 
 ```
 
-Attributes labels can be simply retrieved by using the getAttributeLabel from the superClass PluginComponent.
+Attributes labels can be simply retrieved by using the getAttributeLabel from the superClass PluginCriterionContainer.
 In the example below 'searchField" in the attribute given in the plugin-info.json
 ```js
 this.getAttributeLabel('searchField')

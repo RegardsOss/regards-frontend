@@ -16,19 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const path = require('path')
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
 
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'dll',
-    projectContextPath: __dirname
+    projectContextPath: __dirname,
   })
   .addProductionPlugins()
   .merge({
     output: {
-      path:  `${__dirname}/dist/prod/`
+      path: `${__dirname}/dist/prod/`,
     },
     entry: {
       coreoss: [
@@ -45,7 +44,6 @@ const conf = webpackConfigurator
         '@regardsoss/form-utils',
         '@regardsoss/global-system-error',
         '@regardsoss/i18n',
-        //'@regardsoss/model',
         '@regardsoss/plugins',
         '@regardsoss/project-handler',
         '@regardsoss/redux',
@@ -81,8 +79,8 @@ const conf = webpackConfigurator
     onBuildEnd: [
       'echo "Updating webpack-config-front dist folder for plugins production build"',
       'rm -rf ./webpack-config-front/dist || true',
-      'cp -Rp ./dist/prod ./webpack-config-front/dist'
-    ]
+      'cp -Rp ./dist/prod ./webpack-config-front/dist',
+    ],
   })
   .get()
 

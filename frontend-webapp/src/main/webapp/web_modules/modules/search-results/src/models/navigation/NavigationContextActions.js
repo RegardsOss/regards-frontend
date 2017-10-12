@@ -11,8 +11,7 @@ class NavigationContextActions {
     this.INITIALIZE = 'search-results/navigation-context/INITIALIZE'
     this.CHANGE_VIEW_OBJECT_TYPE = 'search-results/navigation-context/CHANGE_VIEW_OBJECT_TYPE'
     this.CHANGE_DISPLAY_MODE = 'search-results/navigation-context/CHANGE_DISPLAY_MODE'
-    this.CHANGE_SEARCH_TAG = 'search-results/navigation-context/CHANGE_SEARCH_TAG'
-    this.CHANGE_DATASET = 'search-results/navigation-context/CHANGE_DATASET'
+    this.ADD_SEARCH_TAG = 'search-results/navigation-context/ADD_SEARCH_TAG'
     this.GOTO_LEVEL = 'search-results/navigation-context/GOTO_LEVEL'
   }
 
@@ -20,25 +19,22 @@ class NavigationContextActions {
    * Initializes the store for module root navigation context (mapped from URL)
    * @param viewObjectType initial view object type (dataobjects or datasets)
    * @param displayMode display mode
-   * @param searchTag initial search tag, optional
-   * @param dataset dataset, optional
-   *
-   * @return action to dispatch
+   * @param {[Tag]} tags current tags list (optional)
+   * @return {type: string, ...} dispatchable redux action
    */
-  initialize(viewObjectType, displayMode, searchTag, dataset) {
+  initialize(viewObjectType, displayMode, tags = []) {
     return {
       type: this.INITIALIZE,
       viewObjectType,
       displayMode,
-      searchTag,
-      dataset,
+      tags,
     }
   }
 
   /**
    * Change view object type
    * @param viewObjectType new view object type (dataobjects or datasets)
-   * @return action to dispatch
+   * @return {type: string, ...} dispatchable redux action
    */
   changeViewObjectType(viewObjectType) {
     return {
@@ -50,7 +46,7 @@ class NavigationContextActions {
   /**
    * Change dislay type
    * @param viewObjectType new view object type (dataobjects or datasets)
-   * @return action to dispatch
+   * @return {type: string, ...} dispatchable redux action
    */
   changeDisplayMode(displayMode) {
     return {
@@ -60,33 +56,21 @@ class NavigationContextActions {
   }
 
   /**
-   * Change or remove search tag
-   * @param {string} searchTag  new search tag or null
+   * Adds a search tag in current tags list context
+   * @return {type: string, ...} dispatchable redux action
    */
-  changeSearchTag(searchTag) {
+  addSearchTag(tag) {
     return {
-      type: this.CHANGE_SEARCH_TAG,
-      searchTag,
+      type: this.ADD_SEARCH_TAG,
+      tag,
     }
   }
-
-  /**
-   * Change or remove dataset
-   * @param {*} dataset  new dataset as specified by dataset model { content: {ipId, label}} or null
-   */
-  changeDataset(dataset) {
-    return {
-      type: this.CHANGE_DATASET,
-      dataset,
-    }
-  }
-
 
   /**
    * Moves navigation context to level index as parameter (and deletes the following navigation elements). Index ranges from
    * 0 (delete all elements) to N+1 (=== levels.length, keep all elements)
    * @param levelIndex level index of the new last navigation element, from 0 to size(navigationContextArray -1
-   * @return action to dispatch
+   * @return {type: string, ...} dispatchable redux action
    */
   gotoLevel(levelIndex) {
     return {

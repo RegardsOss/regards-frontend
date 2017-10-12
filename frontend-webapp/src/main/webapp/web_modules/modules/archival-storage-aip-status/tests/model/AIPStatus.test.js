@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { AIPStatus, aipStates, aipDataTypes } from '@regardsoss/model'
+import { ArchivalStorageShapes } from '@regardsoss/shape'
+import { AIP_STATES } from '@regardsoss/domain/archival-storage'
+import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 import AIPStatusActions from '../../src/model/AIPStatusActions'
 import AIPStatusReducers from '../../src/model/AIPStatusReducers'
 import AIPStatusSelectors from '../../src/model/AIPStatusSelectors'
@@ -28,8 +30,8 @@ const backendServerResultList = {
       id: 1,
       ipId: 'ip_idX',
       sipId: 'sip_spaceX_01',
-      type: aipDataTypes[0],
-      state: aipStates[0],
+      type: ENTITY_TYPES[0],
+      state: AIP_STATES[0],
       date: '1997-07-16T19:20+01:00',
       comment: 'I am the spaceX program, I have nothing to do here =)',
     },
@@ -45,7 +47,7 @@ const backendServerResultList = {
 // URL options and parameters
 const options = {}
 
-const entityTester = new ReduxEntityTester(AIPStatusActions, AIPStatusReducers, AIPStatusSelectors, PropTypes.objectOf(AIPStatus).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(AIPStatusActions, AIPStatusReducers, AIPStatusSelectors, ArchivalStorageShapes.AIPStatusList.isRequired, backendServerResultList, options)
 
 describe('[ARCHIVAL STORAGE AIP STATUS] Testing model AIPStatus', () => {
   before(() => {

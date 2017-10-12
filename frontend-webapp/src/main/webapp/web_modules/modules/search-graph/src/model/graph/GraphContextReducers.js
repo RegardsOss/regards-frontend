@@ -35,7 +35,8 @@ export const DEFAULT_STATE = {
 const reduce = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case graphContextActions.ENTITY_SELECTED:
-      return { ...state, selectionPath: getNewSelectionPath(state.selectionPath, action) }
+      // reset search tag
+      return { ...state, searchTag: null, selectionPath: getNewSelectionPath(state.selectionPath, action) }
     case graphContextActions.SET_DATASET_ATTRIBUTES_VISIBLE:
       return { ...state, datasetsAttributesVisible: action.visible }
     case graphContextActions.SET_MODULE_COLLAPSED:

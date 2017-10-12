@@ -82,6 +82,23 @@ export class DatasetEditPluginContainer extends React.Component {
     return `/admin/${project}/data/dataset/${datasetId}/links`
   }
 
+  getForm = () => {
+    const {
+      pluginConfigurationList,
+      pluginMetaDataList,
+      linkPluginDataset,
+    } = this.props
+    return (<DatasetEditPluginComponent
+      pluginConfigurationList={pluginConfigurationList}
+      pluginMetaDataList={pluginMetaDataList}
+      linkPluginDataset={linkPluginDataset}
+      onSubmit={this.onSubmit}
+      backUrl={this.getBackUrl()}
+      currentDatasetIpId={this.props.params.datasetIpId}
+      currentDatasetId={this.props.params.datasetId}
+    />)
+  }
+
   redirectToUIServices = () => {
     const { params: { project, datasetId, datasetIpId } } = this.props
     const url = `/admin/${project}/data/dataset/${datasetId}/${datasetIpId}/ui-services`
@@ -90,26 +107,12 @@ export class DatasetEditPluginContainer extends React.Component {
 
   render() {
     const { isLoading } = this.state
-    const {
-      pluginConfigurationList,
-      pluginMetaDataList,
-      linkPluginDataset,
-    } = this.props
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {() => (<DatasetEditPluginComponent
-            pluginConfigurationList={pluginConfigurationList}
-            pluginMetaDataList={pluginMetaDataList}
-            linkPluginDataset={linkPluginDataset}
-            onSubmit={this.onSubmit}
-            backUrl={this.getBackUrl()}
-            currentDatasetIpId={this.props.params.datasetIpId}
-            currentDatasetId={this.props.params.datasetId}
-          />)
-          }
+          {this.getForm}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -129,12 +132,12 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-catalog',
   }, {
-    pluginId: 'fr.cnes.regards.modules.search.plugin.IService',
+    pluginType: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
   })),
   fetchPluginMetaData: () => dispatch(pluginMetaDataActions.fetchEntityList({
     microserviceName: 'rs-catalog',
   }, {
-    pluginType: 'fr.cnes.regards.modules.search.plugin.IService',
+    pluginType: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
   })),
   fetchLinkPluginDataset: datasetIpId => dispatch(linkPluginDatasetActions.fetchEntity(datasetIpId)),
   updateLinkPluginDataset: (datasetIpId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetIpId, linkPluginDataset)),

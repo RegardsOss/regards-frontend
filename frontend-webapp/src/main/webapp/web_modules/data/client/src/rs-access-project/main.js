@@ -24,9 +24,9 @@ import LayoutActions from './layout/LayoutActions'
 import LayoutReducers from './layout/LayoutReducers'
 import LayoutSelectors from './layout/LayoutSelectors'
 
-import UIServiceActions from './services/UIServiceActions'
-import getUIServiceReducer from './services/UIServiceReducer'
-import getUIServiceSelectors from './services/UIServiceSelectors'
+import PluginServiceActions from './pluginServices/PluginServiceActions'
+import getPluginServiceReducer from './pluginServices/PluginServiceReducer'
+import getPluginServiceSelectors from './pluginServices/PluginServiceSelectors'
 
 import ThemeActions from './theme/ThemeActions'
 import ThemeReducers from './theme/ThemeReducers'
@@ -45,6 +45,16 @@ import LinkUIPluginDatasetActions from './linkUIPluginDataset/LinkUIPluginDatase
 import getLinkUIPluginDatasetReducer from './linkUIPluginDataset/LinkUIPluginDatasetReducer'
 import getLinkUIPluginDatasetSelectors from './linkUIPluginDataset/LinkUIPluginDatasetSelectors'
 
+
+import SearchCollectionsActions from './search/SearchCollectionsActions'
+import SearchDataobjectsActions from './search/SearchDataobjectsActions'
+import SearchDatasetsFromDataObjectsActions from './search/SearchDatasetsFromDataObjectsActions'
+import SearchDocumentsActions from './search/SearchDocumentsActions'
+import SearchDatasetsActions from './search/SearchDatasetsActions'
+import SearchEntitiesActions from './search/SearchEntitiesActions'
+import getSearchEntitiesReducer from './search/SearchEntitiesReducer'
+import getSearchEntitiesSelectors from './search/SearchEntitiesSelectors'
+
 export default {
 
   ModuleActions,
@@ -55,18 +65,17 @@ export default {
   LayoutReducers,
   LayoutSelectors,
 
-  UIServiceActions,
-  getUIServiceReducer,
-  getUIServiceSelectors,
-
   ThemeActions,
   ThemeReducers,
   ThemeSelectors,
 
+  PluginServiceActions,
+  getPluginServiceReducer,
+  getPluginServiceSelectors,
+
   UIPluginDefinitionActions,
   UIPluginDefinitionReducers,
   UIPluginDefinitionSelectors,
-
 
   UIPluginConfigurationActions,
   UIPluginConfigurationReducers,
@@ -76,4 +85,14 @@ export default {
   LinkUIPluginDatasetActions,
   getLinkUIPluginDatasetReducer,
   getLinkUIPluginDatasetSelectors,
+
+
+  SearchCollectionsActions,
+  SearchDataobjectsActions,
+  SearchDatasetsActions,
+  SearchDatasetsFromDataObjectsActions,
+  SearchDocumentsActions,
+  SearchEntitiesActions,
+  getSearchEntitiesReducer,
+  getSearchEntitiesSelectors,
 }

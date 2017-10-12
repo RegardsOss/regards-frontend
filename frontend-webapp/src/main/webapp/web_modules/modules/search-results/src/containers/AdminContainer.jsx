@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
 import {
   AttributeModelActions as DataobjectAttributeModelActions,
@@ -51,8 +51,8 @@ export class AdminContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapStateToProps and mapDispatchToProps
-    attributeModels: PropTypes.objectOf(AttributeModel),
-    datasetAttributeModels: PropTypes.objectOf(AttributeModel),
+    attributeModels: DataManagementShapes.AttributeModelList,
+    datasetAttributeModels: DataManagementShapes.AttributeModelList,
     fetchAllDataobjectsAttributes: PropTypes.func,
     fetchAllDatasetModelsAttributes: PropTypes.func,
   }

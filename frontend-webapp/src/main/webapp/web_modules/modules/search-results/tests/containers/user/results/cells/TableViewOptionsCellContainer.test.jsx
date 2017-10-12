@@ -19,12 +19,17 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CatalogEntityTypes } from '@regardsoss/model'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { TableViewOptionsCellContainer } from '../../../../../src/containers/user/results/cells/TableViewOptionsCellContainer'
+import TableViewOptionsCellComponent from '../../../../../src/components/user/results/cells/TableViewOptionsCellComponent'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
+/**
+ * Test TableViewOptionsCellContainer
+ * @author Raphaël Mechali
+ */
 describe('[Search Results] Testing TableViewOptionsCellContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -40,20 +45,29 @@ describe('[Search Results] Testing TableViewOptionsCellContainer', () => {
           ipId: 'coucou',
           sipId: '1',
           label: 'O.D.I.L',
-          entityType: CatalogEntityTypes.DATASET,
+          entityType: ENTITY_TYPES_ENUM.DATASET,
           files: [],
           geometry: null,
           properties: {},
           tags: [],
         },
       },
-      tooltip: 'hello',
-      styles: {
-        buttonStyles: {},
-        iconStyles: {},
-      },
+      servicesTooltip: 'services.tooltip',
+      descriptionTooltip: 'description.tooltip',
+      styles: context.moduleTheme.user.optionsStyles,
       dispatchShowDescription: () => { },
+      dispatchRunService: () => { },
     }
-    shallow(<TableViewOptionsCellContainer {...props} />, { context })
+    const render = shallow(<TableViewOptionsCellContainer {...props} />, { context })
+    const component = render.find(TableViewOptionsCellComponent)
+    assert.lengthOf(component, 1, 'The container should use a component to render')
+    testSuiteHelpers.assertWrapperProperties(component, {
+      services: props.entity.content.services,
+      styles: props.styles,
+      servicesTooltip: props.servicesTooltip,
+      descriptionTooltip: props.descriptionTooltip,
+      onShowDescription: render.instance().onShowDescription,
+      onServiceStarted: render.instance().onServiceStarted,
+    }, 'The container should provider the right properties to the render component')
   })
 })

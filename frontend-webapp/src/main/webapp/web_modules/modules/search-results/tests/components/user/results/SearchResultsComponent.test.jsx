@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableContainer, TableSortOrders } from '@regardsoss/components'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { searchDataobjectsActions, searchDatasetsActions } from '../../../../src/clients/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import Styles from '../../../../src/styles/styles'
@@ -50,7 +51,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     attributeModels: {},
 
     onFiltersChanged: () => { },
-    onSelectDataset: () => { },
+    onSetEntityAsTag: () => { },
     onSelectSearchTag: () => { },
     onShowDatasets: () => { },
     onShowDataobjects: () => { },
@@ -60,11 +61,8 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     onToggleShowFacettes: () => { },
 
     // services
-    datasetServices: [],
-    selectedDataobjectsServices: [],
-    onDatasetServiceSelected: () => { },
-    onSelectionServiceSelected: () => { },
-    onDataobjectServiceSelected: () => { },
+    selectionServices: [],
+    onStartSelectionService: () => { },
   }
 
   // define the test cases
@@ -109,4 +107,33 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     const wrapper = shallow(<SearchResultsComponent {...props} />, options)
     assert.lengthOf(wrapper.find(TableContainer), 1, 'There should be a TableContainer rendered')
   }))
+
+  it('should render selection services, indepently of view modes and types', () => {
+    const props = {
+      ...commonProperties,
+      ...testCases[0].caseProperties,
+      selectionServices: [{
+        content: {
+          configId: 0,
+          label: 'ui-service-0',
+          icon: null,
+          applicationModes: [AccessDomain.applicationModes.ONE],
+          entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
+          type: AccessDomain.pluginTypes.UI,
+        },
+      }, {
+        content: {
+          configId: 0,
+          label: 'catalog-service-0',
+          icon: 'http://my-little-poney/ponatator.gif',
+          applicationModes: [AccessDomain.applicationModes.ONE],
+          entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
+          type: AccessDomain.pluginTypes.CATALOG,
+        },
+      }],
+    }
+    shallow(<SearchResultsComponent {...props} />, options)
+    // note: it would be very long here to count services as their component are in table properties,
+    // and therefore not in an enzyme wrapper
+  })
 })

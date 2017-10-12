@@ -18,13 +18,12 @@
  **/
 import merge from 'lodash/merge'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Card, CardActions, CardText } from 'material-ui/Card'
+import { CardActions, CardText } from 'material-ui/Card'
 import { CardActionsComponent, Title } from '@regardsoss/components'
-import { Container as ContainerShape } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { LayoutConfigurationComponent, DefaultLayout } from '@regardsoss/layout'
 
-
-const searchFormDefaultLayout = merge({}, DefaultLayout, {
+const searchFormDefaultLayout = merge({}, DefaultLayout('FormMainContainer'), {
   containers: [
     {
       id: 'defaultCriterionLine',
@@ -35,6 +34,7 @@ const searchFormDefaultLayout = merge({}, DefaultLayout, {
     },
   ],
 })
+
 /**
  * Component to display the search form layout configuration panel
  * @author Sébastien binda
@@ -42,7 +42,7 @@ const searchFormDefaultLayout = merge({}, DefaultLayout, {
 class FormLayoutComponent extends React.Component {
 
   static propTypes = {
-    defaultLayout: ContainerShape,
+    defaultLayout: AccessShapes.ContainerContent,
     changeField: PropTypes.func,
   }
 
@@ -79,14 +79,13 @@ class FormLayoutComponent extends React.Component {
   }
 
   render() {
-    const style = { width: '100%' }
     return (
-      <Card>
-        <Title
-          level={3}
-          label={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
-        />
-        <CardText style={style}>
+      <div>
+        <CardText>
+          <Title
+            level={3}
+            label={this.context.intl.formatMessage({ id: 'form.layout.tab.title' })}
+          />
           <LayoutConfigurationComponent
             layout={this.state.currentLayout}
             hideDynamicContentOption
@@ -100,7 +99,7 @@ class FormLayoutComponent extends React.Component {
             mainButtonTouchTap={this.resetLayout}
           />
         </CardActions>
-      </Card>
+      </div>
     )
   }
 }

@@ -23,6 +23,9 @@ const messages = Object.assign({
   'entities-attributes.form.table.type': 'Type',
   'entities-attributes.form.table.fragmentAndLabel': 'Fragment et nom de l\'attribut',
   'entities-attributes.form.table.input': 'Valeur de l\'attribut',
+  'entities-attributes.form.table.input.multiple' : 'Valeurs de l\'attribute',
+  'entities-attributes.form.table.stringarray.action.remove': 'Supprimer la valeur',
+  'entities-attributes.form.table.stringarray.action.add': 'Ajouter une valeur',
 
 }, Locales.fr)
 

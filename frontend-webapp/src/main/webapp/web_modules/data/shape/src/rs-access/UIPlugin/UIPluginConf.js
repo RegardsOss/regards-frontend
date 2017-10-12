@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import UIPluginConfCriterionContent from './UIPluginConfCriterionContent'
-import UIPluginConfServiceContent from './UIPluginConfServiceContent'
+import { UIPluginDefinitionContent } from './UIPluginDefinition'
 
 /**
  * UI Plugin configuration for layout display
@@ -27,15 +26,15 @@ import UIPluginConfServiceContent from './UIPluginConfServiceContent'
 const UIPluginConfContent = PropTypes.shape({
   id: PropTypes.number,
   active: PropTypes.bool,
-  pluginId: PropTypes.number.isRequired, // plugin definition ID
   label: PropTypes.string,
-  conf: PropTypes.oneOfType([
-    UIPluginConfCriterionContent,
-    UIPluginConfServiceContent,
-  ]),
-  // TODO A supprimer
-  container: PropTypes.string,
-  pluginConf: PropTypes.object,
+  // conf as saved by the corresponding administration form: see admin-ui-service-management/src/containers/ServiceConfigurationFormContainer
+  conf: PropTypes.shape({
+    // must be filled by the admin (empty if no parameter)
+    static: PropTypes.object.isRequired,
+    // can be, optionally, filled by the admin (empty if no parameter)
+    dynamic: PropTypes.object.isRequired,
+  }),
+  pluginDefinition: UIPluginDefinitionContent.isRequired,
 })
 
 const UIPluginConf = PropTypes.shape({

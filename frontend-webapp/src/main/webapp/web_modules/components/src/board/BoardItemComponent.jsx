@@ -18,7 +18,7 @@
  **/
 import { Link } from 'react-router'
 import map from 'lodash/map'
-import forEach from 'lodash/forEach'
+import reduce from 'lodash/reduce'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl, someListMatchHateoasDisplayLogic } from '@regardsoss/display-control'
@@ -109,14 +109,11 @@ class BoardItemComponent extends React.Component {
     ))
 
     // Create list of all need endpoints for all board actions
-    const actionsHateoasRequiredEndpoints = []
-    forEach(item.actions, (action) => {
-      if (action.hateoasDependencies) {
-        if (action.hateoasDependencies.length > 0) {
-          actionsHateoasRequiredEndpoints.push(action.hateoasDependencies)
-        }
-      }
-    })
+    const actionsHateoasRequiredEndpoints = reduce(item.actions,
+      (acc, action) => action.hateoasDependencies && action.hateoasDependencies.length > 0 ?
+        [...acc, action.hateoasDependencies]
+        : acc
+      , [])
 
     return (
       <BaseBoardItemComponentWithResourceDisplayControl

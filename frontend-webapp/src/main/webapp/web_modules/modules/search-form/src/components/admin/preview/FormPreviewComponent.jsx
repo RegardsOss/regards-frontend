@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CardText } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Title } from '@regardsoss/components'
 import { LazyModuleComponent } from '@regardsoss/modules'
@@ -46,8 +47,7 @@ class FormPreviewComponent extends React.Component {
         previewModule.description = 'preview'
       }
       return (
-
-        <div style={{ marginTop: 10 }}>
+        <CardText>
           <Title
             level={3}
             label={this.context.intl.formatMessage({ id: 'form.preview.tab.title' })}
@@ -57,7 +57,7 @@ class FormPreviewComponent extends React.Component {
             project={this.props.project}
             appName={'admin'}
           />
-        </div>
+        </CardText>
       )
     }
     return <div>Loading...</div>

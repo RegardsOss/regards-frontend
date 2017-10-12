@@ -19,9 +19,9 @@
 import flow from 'lodash/flow'
 import fpmap from 'lodash/fp/map'
 import fpuniq from 'lodash/fp/uniq'
+import { DataManagementShapes } from '@regardsoss/shape'
 import TwoTemporalCriteriaSimpleComponent from './TwoTemporalCriteriaSimpleComponent'
 import TwoTemporalCriteriaComposedComponent from './TwoTemporalCriteriaComposedComponent'
-import AttributeModel from '../common/AttributeModel'
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of two different attributes with comparators.
@@ -38,18 +38,11 @@ export class TwoTemporalCriteriaComponent extends React.Component {
 
   static propTypes = {
     /**
-     * Callback to change the current criteria values in form
-     * Parameters :
-     * criteria : an object like : {attribute:<AttributeModel>, comparator:<ComparatorEnumType>, value:<value>}
-     * id: current plugin identifier
-     */
-    onChange: React.PropTypes.func,
-    /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
   }
 
   constructor(props) {
@@ -58,7 +51,7 @@ export class TwoTemporalCriteriaComponent extends React.Component {
       // Switch to composed mode if only one attribute passed
       isComposed: flow(
         fpmap('name'),
-        fpuniq
+        fpuniq,
       )(props.attributes).length === 1,
     }
   }
@@ -66,7 +59,8 @@ export class TwoTemporalCriteriaComponent extends React.Component {
   render() {
     const { isComposed } = this.state
 
-    return isComposed ? <TwoTemporalCriteriaComposedComponent {...this.props} /> :
+    return isComposed ?
+      <TwoTemporalCriteriaComposedComponent {...this.props} /> :
       <TwoTemporalCriteriaSimpleComponent {...this.props} />
   }
 }

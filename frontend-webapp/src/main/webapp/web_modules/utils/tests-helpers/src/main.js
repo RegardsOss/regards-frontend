@@ -21,6 +21,7 @@ import IntlStub from './IntlStub'
 import muiThemeStub from './MuiThemeStub'
 import buildTestContext from './TestContextStub'
 import testSuiteHelpers from './TestSuiteHelpers'
+import uiPluginServiceTestHelpers from './UIPluginServiceTestHelpers'
 import ReduxEntityTester from './store/ReduxEntityTester'
 import DumpProvider from './clientDump/DumpProvider'
 
@@ -32,4 +33,5 @@ export default {
   DumpProvider,
   buildTestContext,
   testSuiteHelpers,
+  uiPluginServiceTestHelpers,
 }

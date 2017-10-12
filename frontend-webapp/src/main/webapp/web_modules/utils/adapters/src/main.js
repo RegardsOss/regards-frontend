@@ -16,11 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
-
+import AceEditorAdapter from './components/AceEditorAdapter'
 import ChartAdapter from './components/ChartAdapter'
 import ScrollArea from './components/ScrollAreaAdapter'
 
 export default {
+  AceEditorAdapter,
   ChartAdapter,
   ScrollArea,
 }

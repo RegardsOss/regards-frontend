@@ -16,5 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
-export default ['string', 'numerical', 'temporal']
+const UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM = {
+  BOOL: 'bool',
+  CHAR: 'char',
+  DATE: 'date',
+  FLOAT: 'float',
+  INT: 'int',
+  STRING: 'string',
+}
+
+export default {
+  UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM,
+  UI_PLUGIN_CONF_PARAMETER_TYPES: values(UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM),
+}

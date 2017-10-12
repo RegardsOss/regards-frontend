@@ -24,6 +24,8 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import RaisedButton from 'material-ui/RaisedButton'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
@@ -36,19 +38,26 @@ export class NumericalComparatorComponent extends React.Component {
      * Signature:
      * function(value: EnumNumericalComparator) => void
      */
-    onChange: React.PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     /**
      * Init with a specific comparator set.
      */
-    value: React.PropTypes.oneOf(values(EnumNumericalComparator)),
+    value: PropTypes.oneOf(values(EnumNumericalComparator)),
     /**
      * Does the comparator is modifiable
      */
-    fixedComparator: React.PropTypes.bool,
+    fixedComparator: PropTypes.bool,
   }
 
   static defaultProps = {
     fixedComparator: false,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -78,9 +87,11 @@ export class NumericalComparatorComponent extends React.Component {
     <div>
       {this.props.value}
     </div>
-    )
+  )
 
   render() {
+    const { moduleTheme: { comparatorButtonStyle, comparatorMenuStyle, comparatorMenuItemStyle } } = this.context
+
     if (this.props.fixedComparator) {
       return this.renderFixedComparator()
     }
@@ -89,14 +100,10 @@ export class NumericalComparatorComponent extends React.Component {
         <RaisedButton
           label={EnumNumericalComparator.getLabel(this.props.value)}
           onTouchTap={this.handleOpenMenu}
-          style={{
-            height: 48,
-            width: 48,
-            minWidth: 'initial',
-          }}
+          style={comparatorButtonStyle}
         />
         <IconMenu
-          iconButtonElement={<IconButton style={{ display: 'none' }}><MoreVertIcon /></IconButton>}
+          iconButtonElement={<IconButton style={comparatorMenuStyle}><MoreVertIcon /></IconButton>}
           open={this.state.openMenu}
           onChange={this.handleChange}
           onRequestChange={this.handleOnRequestChange}
@@ -108,10 +115,10 @@ export class NumericalComparatorComponent extends React.Component {
             }
             return (
               <MenuItem
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }} key={key} primaryText={EnumNumericalComparator.getLabel(value)} value={value}
+                key={key}
+                style={comparatorMenuItemStyle}
+                primaryText={EnumNumericalComparator.getLabel(value)}
+                value={value}
               />
             )
           })}

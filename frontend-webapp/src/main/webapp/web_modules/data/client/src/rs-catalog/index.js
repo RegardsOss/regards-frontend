@@ -21,33 +21,32 @@ import LinkPluginDatasetActions from './linkPluginDataset/LinkPluginDatasetActio
 import getLinkPluginDatasetReducer from './linkPluginDataset/LinkPluginDatasetReducer'
 import getLinkPluginDatasetSelectors from './linkPluginDataset/LinkPluginDatasetSelectors'
 
+import SearchCollectionsActions from './search/SearchCollectionsActions'
 import SearchDataobjectsActions from './search/SearchDataobjectsActions'
 import SearchDatasetsFromDataObjectsActions from './search/SearchDatasetsFromDataObjectsActions'
+import SearchDocumentsActions from './search/SearchDocumentsActions'
 import SearchDatasetsActions from './search/SearchDatasetsActions'
 import SearchEntitiesActions from './search/SearchEntitiesActions'
 import getSearchEntitiesReducer from './search/SearchEntitiesReducer'
 import getSearchEntitiesSelectors from './search/SearchEntitiesSelectors'
 import SearchEntityActions from './search/SearchEntityActions'
 
-import BusinessServiceActions from './services/BusinessServiceActions'
-import getBusinessServiceReducer from './services/BusinessServiceReducer'
-import getBusinessServiceSelectors from './services/BusinessServiceSelectors'
+import CatalogPluginServiceResultActions from './services/CatalogPluginServiceResultActions'
 
 export default {
   LinkPluginDatasetActions,
   getLinkPluginDatasetReducer,
   getLinkPluginDatasetSelectors,
 
+  SearchCollectionsActions,
   SearchDataobjectsActions,
   SearchDatasetsActions,
   SearchDatasetsFromDataObjectsActions,
+  SearchDocumentsActions,
   SearchEntitiesActions,
   getSearchEntitiesReducer,
   getSearchEntitiesSelectors,
 
   SearchEntityActions,
-
-  BusinessServiceActions,
-  getBusinessServiceReducer,
-  getBusinessServiceSelectors,
+  CatalogPluginServiceResultActions,
 }

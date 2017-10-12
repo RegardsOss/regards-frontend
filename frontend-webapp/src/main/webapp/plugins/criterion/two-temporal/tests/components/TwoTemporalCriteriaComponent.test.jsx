@@ -18,9 +18,13 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TwoTemporalCriteriaComponent from '../../src/components/TwoTemporalCriteriaComponent'
 import TwoTemporalCriteriaSimpleComponent from '../../src/components/TwoTemporalCriteriaSimpleComponent'
 import TwoTemporalCriteriaComposedComponent from '../../src/components/TwoTemporalCriteriaComposedComponent'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Test case for {@link TwoTemporalCriteriaComponent}
@@ -28,11 +32,18 @@ import TwoTemporalCriteriaComposedComponent from '../../src/components/TwoTempor
  * @author Xavier-Alexandre Brochard
  */
 describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the two temporal criteria component', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(TwoTemporalCriteriaComponent)
   })
   it('should render the simple component when two different attributes', () => {
     const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
       attributes: {
         firstField: {
           name: 'firstAttribute',
@@ -45,15 +56,18 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the two temporal criteria compo
           type: 'temporal',
         },
       },
-      onChange: () => {
-      },
     }
-    const enzymeWrapper = shallow(<TwoTemporalCriteriaComponent {...props} />)
+    const enzymeWrapper = shallow(<TwoTemporalCriteriaComponent {...props} />, { context })
     expect(enzymeWrapper.find(TwoTemporalCriteriaSimpleComponent)).to.have.length(1)
     expect(enzymeWrapper.find(TwoTemporalCriteriaComposedComponent)).to.have.length(0)
   })
   it('should render the composed component when just a single attribute', () => {
     const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      onChange: () => { },
+      getDefaultState: () => { },
+      savePluginState: () => { },
       attributes: {
         firstAttribute: {
           name: 'attribute',
@@ -61,11 +75,8 @@ describe('[PLUGIN TWO TEMPORAL CRITERIA] Testing the two temporal criteria compo
           type: 'temporal',
         },
       },
-      pluginInstanceId: 42,
-      onChange: () => {
-      },
     }
-    const enzymeWrapper = shallow(<TwoTemporalCriteriaComponent {...props} />)
+    const enzymeWrapper = shallow(<TwoTemporalCriteriaComponent {...props} />, { context })
     expect(enzymeWrapper.find(TwoTemporalCriteriaSimpleComponent)).to.have.length(0)
     expect(enzymeWrapper.find(TwoTemporalCriteriaComposedComponent)).to.have.length(1)
   })

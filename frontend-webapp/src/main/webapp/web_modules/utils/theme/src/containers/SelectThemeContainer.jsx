@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 import map from 'lodash/map'
 import IconButton from 'material-ui/IconButton'
 import Palette from 'material-ui/svg-icons/image/palette'
@@ -29,6 +29,7 @@ import getCurrentTheme from '../model/selectors/getCurrentTheme'
 import setCurrentTheme from '../model/actions/setCurrentTheme'
 import { themeSelectors } from '../clients/ThemeClient'
 import defaultTheme from '../model/defaultTheme'
+import themeContextType from '../contextType'
 import messages from '../i18n'
 
 /**
@@ -46,6 +47,10 @@ export class SelectThemeContainer extends React.Component {
 
   static defaultProps = {
     currentTheme: defaultTheme,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   static iconButtonElement = (<IconButton><Palette /></IconButton>)

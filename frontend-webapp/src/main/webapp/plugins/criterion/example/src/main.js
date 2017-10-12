@@ -16,16 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ExampleCriteria from './components/ExampleCriteria'
-import { initPlugin } from './common/RegardsPlugin'
-import messagesEn from './i18n/messages.en.i18n'
-import messagesFr from './i18n/messages.fr.i18n'
+import { initPlugin } from '@regardsoss/plugins-api'
+import ExampleCriteria from './components/ExampleCriteriaComponent'
+import messages from './i18n'
+import styles from './styles'
 import pluginInfo from './plugin-info.json'
 import reducer from './model/pluginReducer'
 
-const messages = {
-  en: messagesEn,
-  fr: messagesFr,
-}
 
-initPlugin(ExampleCriteria, reducer, messages, pluginInfo)
+initPlugin(ExampleCriteria, pluginInfo, reducer, messages, styles)

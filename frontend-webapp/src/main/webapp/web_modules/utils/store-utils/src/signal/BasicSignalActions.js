@@ -77,10 +77,7 @@ class BasicSignalActions extends BasicActions {
    * @param {*} res fetch result
    * @return result
    */
-  // eslint-disable-next-line class-methods-use-this
-  buildResults(stream) {
-    return getJSON(stream).then(json => json)
-  }
+  buildResults = res => getJSON(res).then(json => json)
 
 }
 

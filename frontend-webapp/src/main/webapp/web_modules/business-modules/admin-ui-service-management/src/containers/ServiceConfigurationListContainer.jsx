@@ -23,7 +23,11 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { PluginLoader } from '@regardsoss/plugins'
 import { AccessShapes } from '@regardsoss/shape'
-import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
+import {
+  uiPluginConfigurationSelectors,
+  uiPluginConfigurationByPluginActions,
+  uiPluginConfigurationActions,
+} from '../clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceConfigurationListComponent from '../components/ServiceConfigurationListComponent'
 import messages from '../i18n'
@@ -62,9 +66,9 @@ export class ServiceConfigurationListContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    deleteUIPluginConfiguration: (uiPluginConfId, uiPluginId) => dispatch(uiPluginConfigurationActions.deleteEntity(uiPluginConfId, { pluginId: uiPluginId })),
-    fetchUIPluginConfigurationList: uiPluginId => dispatch(uiPluginConfigurationActions.fetchPagedEntityList(0, 100, { pluginId: uiPluginId })),
-    updateUIPluginConfiguration: (uiPluginId, value) => dispatch(uiPluginConfigurationActions.updateEntity(uiPluginId, value, { pluginId: uiPluginId })),
+    deleteUIPluginConfiguration: (uiPluginConfId, uiPluginId) => dispatch(uiPluginConfigurationActions.deleteEntity(uiPluginConfId)),
+    fetchUIPluginConfigurationList: uiPluginId => dispatch(uiPluginConfigurationByPluginActions.fetchPagedEntityList(0, 100, { pluginId: uiPluginId })),
+    updateUIPluginConfiguration: (uiPluginId, value) => dispatch(uiPluginConfigurationActions.updateEntity(uiPluginId, value)),
     fetchUIPluginDefinition: uiPluginId => dispatch(uiPluginDefinitionActions.fetchEntity(uiPluginId)),
   })
 
@@ -124,7 +128,7 @@ export class ServiceConfigurationListContainer extends React.Component {
   handleToggleDefault = (uiPluginConf) => {
     const { params: { uiPluginId } } = this.props
     const updatedPluginConfiguration = Object.assign({}, uiPluginConf, {
-      default: !uiPluginConf.default,
+      linkedToAllEntities: !uiPluginConf.linkedToAllEntities,
     })
     this.props.updateUIPluginConfiguration(uiPluginConf.id, updatedPluginConfiguration, uiPluginId)
   }
@@ -140,11 +144,12 @@ export class ServiceConfigurationListContainer extends React.Component {
           {() => (
             <PluginLoader
               pluginPath={uiPluginDefinition.content.sourcePath}
-              pluginInstanceId="something"
+              pluginInstanceId={uiPluginDefinition.content.id}
               displayPlugin={false}
             >
               <ServiceConfigurationListComponent
                 uiPluginConfigurationList={uiPluginConfigurationList}
+                uiPluginDefinition={uiPluginDefinition}
                 handleEdit={this.handleEdit}
                 handleDelete={this.handleDelete}
                 handleDuplicate={this.handleDuplicate}

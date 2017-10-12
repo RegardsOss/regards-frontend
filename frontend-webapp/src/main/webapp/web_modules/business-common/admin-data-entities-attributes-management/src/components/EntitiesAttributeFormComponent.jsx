@@ -19,14 +19,24 @@
 import has from 'lodash/has'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
-import { TableRow, TableRowColumn } from 'material-ui/Table'
-import { DamDomain } from '@regardsoss/domain'
-import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderCheckbox, RenderDateTimeField, RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import { ShowableAtRender } from '@regardsoss/components'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
-import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
+import {TableRow, TableRowColumn} from 'material-ui/Table'
+import {DamDomain} from '@regardsoss/domain'
+import {DataManagementShapes} from '@regardsoss/shape'
+import {
+  RenderTextField,
+  RenderCheckbox,
+  RenderDateTimeField,
+  RenderSelectField,
+  Field,
+  ValidationHelpers,
+  FieldArray
+} from '@regardsoss/form-utils'
+import {ShowableAtRender } from '@regardsoss/components'
+import {themeContextType} from '@regardsoss/theme'
+import {i18nContextType} from '@regardsoss/i18n'
+import {getFullQualifiedAttributeName, MODEL_ATTR_TYPES} from '@regardsoss/domain/dam'
+import ParameterArrayAttributeComponent from './ParameterArrayAttributeComponent'
+import isRestrictedWithEnum from '../utils/isRestrictedWithEnum'
 
 
 /**
@@ -51,7 +61,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
   getField = (modelAttribute) => {
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
-        if (this.isRestrictedWithEnum(modelAttribute)) {
+        if (isRestrictedWithEnum(modelAttribute)) {
           return this.getFieldSelect(modelAttribute)
         }
         return this.getFieldTextField(modelAttribute, 'text')
@@ -66,11 +76,16 @@ export class EntitiesAttributeFormComponent extends React.Component {
         return this.getFieldCheckbox(modelAttribute)
       case MODEL_ATTR_TYPES.DATE:
         return this.getFieldDateTime(modelAttribute)
+      case MODEL_ATTR_TYPES.STRING_ARRAY:
+        if (isRestrictedWithEnum(modelAttribute)) {
+          return this.getEnumTextArrayField(modelAttribute)
+        }
+        return this.getFieldTextFieldWithValuesArray(modelAttribute, 'text')
       case MODEL_ATTR_TYPES.INTEGER_ARRAY:
       case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
-      case MODEL_ATTR_TYPES.DATE_ARRAY:
       case MODEL_ATTR_TYPES.LONG_ARRAY:
-      case MODEL_ATTR_TYPES.STRING_ARRAY:
+        return this.getFieldTextFieldWithValuesArray(modelAttribute, 'number')
+      case MODEL_ATTR_TYPES.DATE_ARRAY:
       case MODEL_ATTR_TYPES.INTEGER_INTERVAL:
       case MODEL_ATTR_TYPES.DOUBLE_INTERVAL:
       case MODEL_ATTR_TYPES.DATE_INTERVAL:
@@ -86,7 +101,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       fullWidth
       component={RenderTextField}
       type={type}
-      label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
+      label={this.context.intl.formatMessage({id: 'entities-attributes.form.table.input'})}
       validate={this.getRestrictions(modelAttribute)}
       disabled={this.isDisabled()}
     />
@@ -128,6 +143,37 @@ export class EntitiesAttributeFormComponent extends React.Component {
     </Field>
   )
 
+  getFieldTextFieldWithValuesArray = (modelAttribute, type) => (
+    <FieldArray
+      name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
+      component={ParameterArrayAttributeComponent}
+      modelAttribute={modelAttribute}
+      type={type}
+      constraints={this.getRestrictions(modelAttribute)}
+    />)
+
+
+  getEnumTextArrayField = modelAttribute => (
+    <div>
+      <Field
+        name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
+        fullWidth
+        component={RenderSelectField}
+        label={this.context.intl.formatMessage({id: 'entities-attributes.form.table.input.multiple'})}
+        multiple
+      >
+        {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
+          <MenuItem
+            value={acceptableValue}
+            key={acceptableValue}
+            primaryText={acceptableValue}
+          />
+        ))
+        }
+      </Field>
+    </div>
+  )
+
   getComplexRestriction = (restriction) => {
     const restrictions = []
     if (restriction) {
@@ -152,6 +198,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
+      case MODEL_ATTR_TYPES.STRING_ARRAY:
         if (!modelAttribute.content.attribute.optional) {
           return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
         }
@@ -159,6 +206,9 @@ export class EntitiesAttributeFormComponent extends React.Component {
       case MODEL_ATTR_TYPES.DOUBLE:
       case MODEL_ATTR_TYPES.LONG:
       case MODEL_ATTR_TYPES.INTEGER:
+      case MODEL_ATTR_TYPES.INTEGER_ARRAY:
+      case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
+      case MODEL_ATTR_TYPES.LONG_ARRAY:
         if (!modelAttribute.content.attribute.optional) {
           return [ValidationHelpers.validRequiredNumber, ...complexRestriction]
         }
@@ -167,18 +217,10 @@ export class EntitiesAttributeFormComponent extends React.Component {
         if (!modelAttribute.content.attribute.optional) {
           return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
         }
-        return []
-      case MODEL_ATTR_TYPES.DATE:
-        if (!modelAttribute.content.attribute.optional) {
-          return [ValidationHelpers.required]
-        }
-        return []
+        return complexRestriction
       case MODEL_ATTR_TYPES.BOOLEAN:
-      case MODEL_ATTR_TYPES.INTEGER_ARRAY:
-      case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
+      case MODEL_ATTR_TYPES.DATE:
       case MODEL_ATTR_TYPES.DATE_ARRAY:
-      case MODEL_ATTR_TYPES.LONG_ARRAY:
-      case MODEL_ATTR_TYPES.STRING_ARRAY:
       case MODEL_ATTR_TYPES.INTEGER_INTERVAL:
       case MODEL_ATTR_TYPES.DOUBLE_INTERVAL:
       case MODEL_ATTR_TYPES.DATE_INTERVAL:
@@ -195,27 +237,15 @@ export class EntitiesAttributeFormComponent extends React.Component {
     return null
   }
 
-  isDisabled = () => {
-    const { modelAttribute, isEditing } = this.props
-    return !modelAttribute.content.attribute.alterable && isEditing
-  }
-
-  isRestrictedWithEnum = (modelAttribute) => {
-    if (has(modelAttribute, 'content.attribute.restriction.type')) {
-      return modelAttribute.content.attribute.restriction.type === 'ENUMERATION'
-    }
-    return false
-  }
-
   render() {
-    const { modelAttribute } = this.props
+    const {modelAttribute} = this.props
     return (
       <TableRow>
         <TableRowColumn
           title={modelAttribute.content.attribute.description}
         >
           {modelAttribute.content.attribute.label}
-          {this.showStarIfInputRequired(modelAttribute.content.attribute)}<br />
+          {this.showStarIfInputRequired(modelAttribute.content.attribute)}<br/>
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
         </TableRowColumn>
         <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>

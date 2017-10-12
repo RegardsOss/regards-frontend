@@ -18,11 +18,13 @@
  **/
 import isNil from 'lodash/isNil'
 import { FormattedMessage } from 'react-intl'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ClearFieldButton } from '@regardsoss/components'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
-import AttributeModel from '../common/AttributeModel'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
-import PluginComponent from '../common/PluginComponent'
-import ClearButton from './ClearButton'
 
 /**
  * Component allowing the user to configure the numerical value of a single attribute with two mathematical comparators (=, >, <=, ...).
@@ -33,15 +35,24 @@ import ClearButton from './ClearButton'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
+export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContainer {
 
   static propTypes = {
+    // parent props
+    ...PluginCriterionContainer.propTypes,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   constructor(props) {
@@ -65,7 +76,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
-    const groups = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
+    const groups = openSearchQuery.match(/\[[ ]{0,1}([0-9*]*) TO ([0-9*]*)[ ]{0,1}\]/)
     if (groups) {
       if (groups.length === 3) {
         if (parameterName === 'firstField') {
@@ -99,26 +110,13 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
   render() {
     const { firstField, secondField } = this.state
     const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
-
-    const labelStyle = {
-      margin: '0px 10px',
-    }
+    const { moduleTheme: { rootStyle, lineStyle, labelSpanStyle }, intl: { formatMessage } } = this.context
 
     return (
-      <div style={{ display: 'flex' }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-          }}
-        >
-          <span style={labelStyle}>
-            <FormattedMessage
-              id="criterion.aggregator.between"
-              values={{label : this.getAttributeLabel('firstField')}}
-            />
+      <div style={rootStyle}>
+        <div style={lineStyle} >
+          <span style={labelSpanStyle}>
+            {formatMessage({ id: 'criterion.aggregator.between' }, { label: this.getAttributeLabel('firstField') })}
           </span>
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('firstField')}
@@ -130,7 +128,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
             reversed
             fixedComparator
           />
-          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and"/></span>
+          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and" /></span>
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('secondField')}
             value={secondField}
@@ -140,7 +138,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginComponent {
             hideComparator
             fixedComparator
           />
-          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+          <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )

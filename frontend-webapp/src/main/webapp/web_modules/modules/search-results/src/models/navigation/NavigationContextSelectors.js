@@ -24,7 +24,7 @@ import { BasicSelector } from '@regardsoss/store-utils'
 class NavigationContextSelectors extends BasicSelector {
 
   /**
-   * Returns current levels
+   * Returns current tags levels
    * @param {*} state store
    * @return store navigation view object type
    */

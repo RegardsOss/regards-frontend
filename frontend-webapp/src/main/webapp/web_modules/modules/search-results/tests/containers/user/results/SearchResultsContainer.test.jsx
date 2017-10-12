@@ -19,10 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SearchResultsTargetsEnum } from '@regardsoss/model'
-import { TableSelectionModes } from '@regardsoss/components'
-import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
+import PluginServicesContainer from '../../../../src/containers/user/results/PluginServicesContainer'
 import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
 import styles from '../../../../src/styles/styles'
 
@@ -49,18 +48,14 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       attributeModels: {},
       viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
       levels: [],
-      toggledElements: { 1: { coucou: 'loulou' } },
-      selectionMode: TableSelectionModes.includeSelected,
-      datasetServices: [],
-      selectedDataobjectsServices: [],
       displayMode: DisplayModeEnum.LIST,
 
       dispatchChangeViewObjectType: () => { },
-      dispatchDatasetSelected: () => { },
+      dispatchSetEntityAsTag: () => { },
       dispatchTagSelected: () => { },
       dispatchChangeDisplayMode: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(SearchResultsComponent), 1, 'The corresponding component should be rendered')
+    assert.lengthOf(enzymeWrapper.find(PluginServicesContainer), 1, 'It should render the service container')
   })
 })

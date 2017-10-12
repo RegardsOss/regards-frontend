@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export const StoragePluginShape = PropTypes.shape({
+const StoragePluginContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -25,7 +25,13 @@ export const StoragePluginShape = PropTypes.shape({
 }).isRequired
 
 const StoragePlugin = PropTypes.shape({
-  content: StoragePluginShape,
+  content: StoragePluginContent,
 }).isRequired
 
-export default StoragePlugin
+/**
+ * BE CAREFUL THIS IS ALMOST UNIQUE IN THIS MODULE !!!!!!!!!!!
+ * NO CONTENT ???!!!
+ */
+const StoragePluginArray = PropTypes.arrayOf(StoragePluginContent)
+const StoragePluginList = PropTypes.objectOf(StoragePlugin)
+export default { StoragePlugin, StoragePluginContent, StoragePluginArray, StoragePluginList }
