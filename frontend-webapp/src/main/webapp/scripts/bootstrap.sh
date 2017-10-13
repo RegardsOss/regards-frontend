@@ -19,12 +19,12 @@
 
 ## To enable auto reload we need to create symlink between the modules and the app
 ## Webpack compiles all these packages without that package depend on another package
-# and uses the main webapp/node_modules to provides dependencies to these modules (fallback of webpack)
+## and uses the main webapp/node_modules to provides dependencies to these modules (fallback of webpack)
 
 set -e
 
 # Lint
-npm link eslint-config-es6-rules
+npm install eslint-config-es6-rules
 
 # Webpack REGARDS conf
 npm install webpack-config-front
@@ -32,8 +32,6 @@ npm install webpack-config-front
 # Data
 npm link web_modules/data/api
 npm link web_modules/data/store
-# To remove
-npm link web_modules/data/model
 npm link web_modules/data/shape
 npm link web_modules/data/domain
 npm link web_modules/data/client
@@ -47,6 +45,7 @@ npm link web_modules/utils/i18n
 npm link web_modules/utils/layout
 npm link web_modules/utils/modules
 npm link web_modules/utils/plugins
+npm link web_modules/utils/plugins-api
 npm link web_modules/utils/redux
 npm link web_modules/utils/store-utils
 npm link web_modules/utils/tests-helpers
@@ -78,6 +77,7 @@ npm link web_modules/business-modules/admin-data-collection-management
 npm link web_modules/business-modules/admin-data-connection-management
 npm link web_modules/business-modules/admin-data-dataset-management
 npm link web_modules/business-modules/admin-data-datasource-management
+npm link web_modules/business-modules/admin-data-document-management
 npm link web_modules/business-modules/admin-data-fragment-management
 npm link web_modules/business-modules/admin-microservice-management
 npm link web_modules/business-modules/admin-project-management
@@ -94,12 +94,13 @@ npm link web_modules/business-modules/admin-user-role-management
 
 # Global modules
 npm link web_modules/modules/authentication
-npm link web_modules/modules/home-page
+npm link web_modules/modules/embedded-html
 npm link web_modules/modules/licenses
 npm link web_modules/modules/menu
 npm link web_modules/modules/news
 npm link web_modules/modules/order-cart
 npm link web_modules/modules/order-history
+npm link web_modules/modules/project-about-page
 npm link web_modules/modules/projects-list
 npm link web_modules/modules/search-facets
 npm link web_modules/modules/search-form

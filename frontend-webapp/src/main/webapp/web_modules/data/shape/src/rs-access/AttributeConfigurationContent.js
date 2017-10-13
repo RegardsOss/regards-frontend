@@ -21,7 +21,8 @@
  * Type definition for AttributeConfiguration objects
  * @author Sébastien binda
  */
-export default PropTypes.shape({
+
+const AttributeConfigurationContent = PropTypes.shape({
   // Attribute name as <fragmentName>.<attributeName>
   attributeFullQualifiedName: PropTypes.string.isRequired,
   // Display order of the attribute
@@ -33,3 +34,11 @@ export default PropTypes.shape({
   // Default sort results on this attribute ?
   initialSort: PropTypes.bool,
 })
+
+const AttributeConfigurationArray = PropTypes.arrayOf(AttributeConfigurationContent)
+
+
+export default {
+  AttributeConfigurationContent,
+  AttributeConfigurationArray,
+}

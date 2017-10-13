@@ -22,6 +22,7 @@
  * @author Sébastien Binda
  */
 export default theme => ({
+  modulesListWidth: 400,
   moduleListButtonsGroup: {
     top: '45vh',
     right: 0,
@@ -29,6 +30,6 @@ export default theme => ({
     zIndex: 1000,
   },
   moduleListSection: {
-    backgroundColor: theme.palette.primary2Color,
+    background: theme.appBar.color,
   },
 })

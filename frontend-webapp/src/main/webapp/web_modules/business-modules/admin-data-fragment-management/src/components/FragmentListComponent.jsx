@@ -57,7 +57,7 @@ export class FragmentListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static DEPENDENCIES = [fragmentActions.getDependency(RequestVerbEnum.POST)]
+  static CREATE_DEPENDENCIES = [fragmentActions.getDependency(RequestVerbEnum.POST)]
 
   state = {
     deleteDialogOpened: false,
@@ -191,7 +191,7 @@ export class FragmentListComponent extends React.Component {
                 id="fragment.list.action.add"
               />
             }
-            mainHateoasDependencies={FragmentListComponent.DEPENDENCIES}
+            mainHateoasDependencies={FragmentListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'fragment.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

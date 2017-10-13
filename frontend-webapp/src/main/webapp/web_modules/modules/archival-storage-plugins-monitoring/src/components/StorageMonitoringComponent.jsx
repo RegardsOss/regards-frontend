@@ -23,11 +23,11 @@ import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import LinearScale from 'material-ui/svg-icons/editor/linear-scale'
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { storage } from '@regardsoss/units'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { StoragePluginShape } from '@regardsoss/model'
+import { ArchivalStorageShapes } from '@regardsoss/shape'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
 
@@ -98,12 +98,11 @@ class StorageMonitoringComponent extends React.Component {
     const { intl } = this.context
     const { currentScale, plugins } = this.state
     const { isFetching, hasError, storagePlugins } = this.props
-    /*  // */
     return (
       <Paper >
-
         <Toolbar>
           <ToolbarGroup firstChild>
+            { /** XXX-V2: change for module title with icon **/ }
             <ToolbarTitle text={intl.formatMessage({ id: 'archival.storage.capacity.monitoring.title' })} />
           </ToolbarGroup>
           <ToolbarGroup>

@@ -99,11 +99,12 @@ class ModuleListComponent extends React.Component {
 
         const that = this
         if (loadedModule.moduleContainer) {
+          const LineIcon = loadedModule.ModuleIcon || GoToIcon
           const element = (
             <ListItemWithResourceDisplayControl
               key={key}
               resourceDependencies={moduleDependencies}
-              leftIcon={<GoToIcon />}
+              leftIcon={<LineIcon />}
               primaryText={
                 <div style={{ marginRight: 20 }}>
                   {module.content.description}
@@ -137,8 +138,7 @@ class ModuleListComponent extends React.Component {
       <Drawer
         open={this.props.open}
         docked={false}
-        width={300}
-        openSecondary
+        width={styles.modulesListWidth}
         onRequestChange={this.props.onCloseMenu}
       >
         <List>
@@ -152,7 +152,7 @@ class ModuleListComponent extends React.Component {
                 <div key={section}>
                   <ListItem
                     primaryText={this.getSectionLabel(section)}
-                    initiallyOpen={false}
+                    initiallyOpen
                     primaryTogglesNestedList
                     nestedItems={modules}
                   />

@@ -25,14 +25,16 @@ import Divider from 'material-ui/Divider'
 import DownloadIcon from 'material-ui/svg-icons/action/get-app'
 import Checkbox from 'material-ui/Checkbox'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
-import { i18nContextType } from '@regardsoss/i18n'
+import { DamDomain, CatalogDomain } from '@regardsoss/domain'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { DamDomain, CatalogDomain } from '@regardsoss/domain'
 import { CatalogShapes, DataManagementShapes } from '@regardsoss/shape'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { TableColumnConfiguration, TableColumnConfigurationController, DownloadButton, ShowableAtRender } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import OneElementServicesButton from '../options/OneElementServicesButton'
 import EntityDescriptionButton from '../options/EntityDescriptionButton'
-import AddElementToCartButton from '../options/AddElementToCartButton'
 
 /**
  * Component to display datasets in search results.
@@ -44,7 +46,7 @@ class ListViewEntityCellComponent extends React.Component {
   static propTypes = {
 
     // Entity to display
-    entity: CatalogShapes.Entity.isRequired,
+    entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     attributes: PropTypes.objectOf(DataManagementShapes.AttributeModel),
     lineHeight: PropTypes.number.isRequired,
     // Parameters to handle row selection
@@ -52,8 +54,6 @@ class ListViewEntityCellComponent extends React.Component {
     selectTableEntityCallback: PropTypes.func,
     // Columns configuration to display
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
-    // Callback to run a new search with the given tag
-    onSearchTag: PropTypes.func,
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
     // optional callback: add element to cart (entity) => ()
@@ -62,6 +62,8 @@ class ListViewEntityCellComponent extends React.Component {
     onEntitySelection: PropTypes.func,
     // callback: on show description
     onShowDescription: PropTypes.func.isRequired,
+    // callback: parent service starting handler
+    onServiceStarted: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -202,7 +204,7 @@ class ListViewEntityCellComponent extends React.Component {
    * @returns {XML}
    */
   displayThumbnail = () => {
-    const thumbnail = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.ObjectLinkedFileTypes.THUMBNAIL)
+    const thumbnail = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL)
     const { moduleTheme: { user: { listViewStyles } } } = this.context
     if (thumbnail) {
       return (
@@ -214,9 +216,10 @@ class ListViewEntityCellComponent extends React.Component {
     return null
   }
 
+// TODO handle with i18n and styles!!!!
   displayTitle = () => {
     const { onShowDescription, onAddToCart } = this.props
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
+    const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage } } = this.context
     const { rootStyles, checkboxStyles, titleLabelStyles, optionsBarStyles, option } = listViewStyles.title
     return (
       <div style={rootStyles}>
@@ -233,6 +236,8 @@ class ListViewEntityCellComponent extends React.Component {
         >{this.props.entity.content.label}</span>
         <div style={optionsBarStyles}>
           {this.displayDownload() // Download if available
+          }
+          {this.displayServices() // Services if any
           }
           <EntityDescriptionButton // Description
             style={option.buttonStyles}
@@ -252,7 +257,7 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayDownload = () => {
-    const rawdata = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.ObjectLinkedFileTypes.RAWDATA)
+    const rawdata = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA)
     if (rawdata) {
       const { intl: { formatMessage }, moduleTheme: { user: { listViewStyles } } } = this.context
       return (
@@ -270,6 +275,19 @@ class ListViewEntityCellComponent extends React.Component {
     return null
   }
 
+  displayServices = () => {
+    const { entity: { content: { services = [] } }, onServiceStarted, servicesTooltip } = this.props
+    const { option } = this.props.styles.title
+    return !services.length ? null : (
+      <OneElementServicesButton
+        style={option.buttonStyles}
+        iconStyle={option.iconStyles}
+        tooltip={servicesTooltip}
+        services={services}
+        onServiceStarted={onServiceStarted}
+      />)
+  }
+
   displayEntityAttributes = () => {
     const { properties } = this.props.entity.content
     const { tableColumns } = this.props
@@ -277,10 +295,6 @@ class ListViewEntityCellComponent extends React.Component {
       return map(tableColumns, (column, key) => this.displayEntityProperty(key, column))
     }
     return map(properties, (property, key) => this.displayFragment(key, property))
-  }
-
-  handleSearchTag = (tag) => {
-    this.props.onSearchTag(tag)
   }
 
   /**

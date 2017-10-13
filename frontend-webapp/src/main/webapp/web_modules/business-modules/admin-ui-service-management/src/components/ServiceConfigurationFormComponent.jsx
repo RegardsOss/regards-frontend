@@ -16,14 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
+import trim from 'lodash/trim'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import Subheader from 'material-ui/Subheader'
 import { reduxForm } from 'redux-form'
 import { AccessShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import FieldsBuilderComponent from './FieldsBuilderComponent'
+import moduleStyles from '../styles/styles'
+
+const styles = moduleStyles()
+const labelValidators = [ValidationHelpers.required, ValidationHelpers.string, ValidationHelpers.lengthLessThan(32)]
 
 /**
  * React component to list connections.
@@ -55,13 +63,6 @@ export class ServiceConfigurationFormComponent extends React.Component {
     this.handleInitialize()
   }
 
-  getStaticFieldValidation = (input) => {
-    if (input.required) {
-      return [ValidationHelpers.validRequiredString]
-    }
-    return []
-  }
-
   getTitle = () => {
     let title
     if (this.props.isCreating) {
@@ -82,16 +83,16 @@ export class ServiceConfigurationFormComponent extends React.Component {
     if (!this.props.isCreating) {
       const { uiPluginConfiguration } = this.props
       initialValues = {
-        isDefault: uiPluginConfiguration.content.default,
+        linkedToAllEntities: uiPluginConfiguration.content.linkedToAllEntities,
         isActive: uiPluginConfiguration.content.active,
-        label: uiPluginConfiguration.content.conf.label,
+        label: uiPluginConfiguration.content.label,
         dynamic: uiPluginConfiguration.content.conf.dynamic,
         static: uiPluginConfiguration.content.conf.static,
       }
     } else {
       initialValues = {
         isActive: true,
-        isDefault: false,
+        linkedToAllEntities: false,
       }
     }
     this.props.initialize(initialValues)
@@ -100,6 +101,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
 
   render() {
     const { plugin, submitting, invalid, backUrl } = this.props
+    const { formatMessage } = this.context.intl
     const title = this.getTitle()
     return (
       <form
@@ -108,7 +110,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={this.context.intl.formatMessage({ id: 'service.form.subtitle' })}
+            subtitle={formatMessage({ id: 'service.form.subtitle' })}
           />
           <CardText>
             <Field
@@ -116,51 +118,62 @@ export class ServiceConfigurationFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'service.form.label' })}
-              validate={ValidationHelpers.validRequiredString}
+              label={formatMessage({ id: 'service.form.label' })}
+              validate={labelValidators}
+              normalize={trim}
             />
-            {map(plugin.info.conf.static, (input, id) => (
-              <Field
-                key={id}
-                name={`static.${id}`}
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={this.context.intl.formatMessage({ id: 'service.form.staticField' }, { name: id })}
-                validate={this.getStaticFieldValidation(input)}
-              />
-            ))}
-            {map(plugin.info.conf.dynamic, (input, id) => (
-              <Field
-                key={id}
-                name={`dynamic.${id}`}
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={this.context.intl.formatMessage({ id: 'service.form.dynamicField' }, { name: id })}
-              />
-            ))}
-            <br />
-            <br />
+            {
+              isEmpty(plugin.info.conf.static) ? null : (
+                <div>
+                  <Subheader style={styles.service.form.subheaderStyles}>
+                    {formatMessage({ id: 'service.form.static.configuration.title' })}
+                  </Subheader>
+                  {
+                    map(plugin.info.conf.static, (input, id) => (
+                      <FieldsBuilderComponent
+                        key={`static.${id}`}
+                        name={id}
+                        parameter={input}
+                        staticParameter
+                      />
+                    ))}
+                  <br />
+                  <br />
+                </div>
+              )}
+            {
+              isEmpty(plugin.info.conf.static) ? null : (
+                <div>
+                  <Subheader style={styles.service.form.subheaderStyles}>{formatMessage({ id: 'service.form.dynamic.configuration.title' })}</Subheader>
+                  {map(plugin.info.conf.dynamic, (input, id) => (
+                    <FieldsBuilderComponent
+                      key={`dynamic.${id}`}
+                      name={id}
+                      parameter={input}
+                      staticParameter={false}
+                    />
+                  ))}
+                </div>
+              )}
             <Field
               name="isActive"
               fullWidth
               component={RenderCheckbox}
-              label={this.context.intl.formatMessage({ id: 'service.form.isActive' })}
+              label={formatMessage({ id: 'service.form.isActive' })}
             />
             <Field
-              name="isDefault"
+              name="linkedToAllEntities"
               fullWidth
               component={RenderCheckbox}
-              label={this.context.intl.formatMessage({ id: 'service.form.isDefault' })}
+              label={formatMessage({ id: 'service.form.linkedToAllEntities' })}
             />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'service.form.action.save' })}
+              mainButtonLabel={formatMessage({ id: 'service.form.action.save' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'service.form.action.back' })}
+              secondaryButtonLabel={formatMessage({ id: 'service.form.action.back' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

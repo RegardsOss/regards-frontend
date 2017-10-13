@@ -24,6 +24,11 @@ const _ = require('lodash')
 const fetch = require('node-fetch')
 const { loadFile, logMessage } = require('./utils')
 
+function findServiceWithType(type, condition) {
+  const services = _.flowRight([_.flatten, _.values])(catalogServices)
+  return services.find(s => s.type === type && condition(s))
+}
+
 /**
  * Decorates handler that require to fetch a server result in order to build a response
  * @param {*} proxiedURL proxy URL (without query parameters, append at runtime)
@@ -33,26 +38,27 @@ function withProxyFetcher(proxiedURL, handler) {
   /** Real request handler */
   return function handleWithProxy(request, response, pathParams, queryParams, bodyParams) {
     // fetching induce promise resolution first
-    const dynamicProxyURL = `${proxiedURL}${_.isEmpty(queryParams) ? '' : '?'}${_.join(_.map(queryParams, (value, key) => `${key}=${value}`), '&')}`
+    const dynamicProxyURL = `${proxiedURL}?${_.join(_.map(queryParams, (value, key) => `${key}=${value}`), '&')}`
     logMessage(`Serving on proxy mock service using real back URL ${dynamicProxyURL}`, false, 'Local services')
-    const headers = _.omit(request.headers, 'content-length', 'content-type')
-    return fetch(dynamicProxyURL, {
-      headers: headers,
-    }).then((fetchedResults) => {
-      if (fetchedResults.status !== 200) {
-        // On 'normal' error
-        return { code: fetchedResults.status, content: fetchedResults.statusText }
-      } else {
-        // note: fetch res.headers.raw() return an object where each field is an array: we need here to keep only a single value
-        const serverHeaders = _.reduce(fetchedResults.headers.raw(), (acc, [value], key) =>
-          Object.assign({ [key]: value }, acc), {}) // note: we reuse here accumulator for perfs
-        // read the content and provide it to subhandler
-        return fetchedResults.json().then((json) => {
-          const { content, code, contentType, binary, headers = {} } = handler(json, pathParams, queryParams, bodyParams)
-          return { content, code, contentType, binary, headers: Object.assign({}, headers, serverHeaders) }
-        })
-      }
-    }).catch(err => logMessage(JSON.stringify(err), true, '[Proxy]') || err)
+    return new Promise(resolve => {
+      fetch(dynamicProxyURL, {
+        headers: request.headers,
+      }).then((fetchedResults) => {
+        if (fetchedResults.status !== 200) {
+          // On 'normal' error
+          resolve({ code: fetchedResults.status, content: fetchedResults.statusText })
+        } else {
+          // note: fetch res.headers.raw() return an object where each field is an array: we need here to keep only a single value
+          const serverHeaders = _.reduce(fetchedResults.headers.raw(), (acc, [value], key) =>
+            Object.assign({ [key]: value }, acc), {}) // note: we reuse here accumulator for perfs
+          // read the content and provide it to subhandler
+          fetchedResults.json().then((json) => {
+            const { content, code, contentType, binary, headers = {} } = handler(json, pathParams, queryParams, bodyParams)
+            resolve({ content, code, contentType, binary, headers: Object.assign({}, headers, serverHeaders) })
+          })
+        }
+      })
+    }).catch(error => resolve({ code: 500, content: error }))
   }
 }
 
@@ -557,4 +563,3 @@ function buildLocalServices(gatewayURL) {
 module.exports = {
   buildLocalServices,
 }
-

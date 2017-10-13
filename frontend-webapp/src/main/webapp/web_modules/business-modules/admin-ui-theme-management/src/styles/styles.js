@@ -50,8 +50,8 @@ const formStyles = (theme) => {
         },
         themeDropDownMenu: {
           style: {
-            top: -2,
-            left: -10,
+            top: -4,
+            left: -6,
           },
           labelStyle: {
             color: theme.palette.alternateTextColor,

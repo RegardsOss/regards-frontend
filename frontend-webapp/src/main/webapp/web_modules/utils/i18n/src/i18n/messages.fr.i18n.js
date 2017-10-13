@@ -16,14 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import fr from '../FR.png'
-import gb from '../GB.png'
 
 const messages = {
-  title: 'Langue',
-  label: `<img style='margin-bottom: 5px' src='${fr}'/>`,
-  fr: `<img style='margin-bottom: 2px' src='${fr}'/> Français`,
-  en: `<img style='margin-bottom: 2px' src='${gb}'/> Anglais`,
+  'language.selector.tooltip': 'Sélectionnez une langue',
+  'language.selector.option.fr': 'Français',
+  'language.selector.option.en': 'English',
 }
 
 export default messages

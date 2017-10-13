@@ -17,7 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
+import { themeContextType } from '@regardsoss/theme'
+import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@regardsoss/form-utils'
 
 /**
  * React component to display module administration module.
@@ -27,18 +28,36 @@ class AdminContainer extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
+  static validateOptionalEmail = value => value && ValidationHelpers.email(value)
+
   render() {
-    const { intl } = this.context
+    const { intl, moduleTheme: { admin } } = this.context
     return (
-      <div>
+      <div style={admin.rootStyle}>
         <Field
           name="conf.title"
           fullWidth
           component={RenderTextField}
           type="text"
           label={intl.formatMessage({ id: 'menu.form.title' })}
+        />
+        <Field
+          name="conf.contacts"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={intl.formatMessage({ id: 'menu.form.contacts' })}
+          validate={AdminContainer.validateOptionalEmail}
+        />
+        <Field
+          name="conf.projectAboutPage"
+          fullWidth
+          component={RenderTextField}
+          label={intl.formatMessage({ id: 'menu.form.projectpage' })}
+          validate={ValidationHelpers.url}
         />
         <Field
           name="conf.displayAuthentication"

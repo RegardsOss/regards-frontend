@@ -1,14 +1,19 @@
 {
   "presets": [
-    "es2015", "react", "stage-3"
+    "es2015",
+    "react",
+    "stage-3"
   ],
-  "plugins": ["transform-class-properties", "add-module-exports","syntax-dynamic-import"],
+  "plugins": [
+    "transform-class-properties",
+    "add-module-exports",
+    "syntax-dynamic-import"
+  ],
   "env": {
-    "development": {
-      "plugins": ["react-hot-loader/babel"]
-    },
     "coverage": {
-      "plugins": ["istanbul"]
+      "plugins": [
+        "istanbul"
+      ]
     }
   }
 }

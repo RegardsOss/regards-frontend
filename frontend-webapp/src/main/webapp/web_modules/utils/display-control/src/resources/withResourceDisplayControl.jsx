@@ -41,12 +41,12 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       // Either the dependency or the array of dependencies we require in order to display the decorated component
       resourceDependencies: PropTypes.oneOfType([
         PropTypes.string,
-        PropTypes.arrayOf(PropTypes.string.isRequired),
-        PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string.isRequired)),
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
       ]),
       // From mapStateToProps
       // The full list of dependencies
-      availableDependencies: PropTypes.arrayOf(PropTypes.string.isRequired),
+      availableDependencies: PropTypes.arrayOf(PropTypes.string),
       // Bypass the display logic if user is instance admin
       isInstance: PropTypes.bool,
     }

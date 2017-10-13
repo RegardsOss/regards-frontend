@@ -106,7 +106,7 @@ class ItemLink extends React.Component {
       intl: { formatMessage },
   } = this.context
 
-    /* eslint-disable jsx-a11y/no-static-element-interactions*/
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
       <div
         style={rootStyles}
@@ -148,7 +148,7 @@ class ItemLink extends React.Component {
         </IconButton>
       </div>
     )
-    /* eslint-enable jsx-a11y/no-static-element-interactions*/
+    /* eslint-enable jsx-a11y/no-static-element-interactions */
   }
 }
 export default ItemLink

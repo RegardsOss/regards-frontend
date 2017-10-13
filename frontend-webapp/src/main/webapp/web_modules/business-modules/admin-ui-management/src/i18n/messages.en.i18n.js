@@ -45,6 +45,8 @@ const messages = Object.assign({
 
   'action.list.tooltip': 'List',
   'action.add.tooltip': 'Add',
+
+  'action.service.list.tooltip': 'UI Services',
 }, Locales.en)
 
 export default messages

@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { MainActionButtonComponent } from '@regardsoss/components'
+import FlatButton from 'material-ui/FlatButton'
+import LoginIcon from 'material-ui/svg-icons/action/account-circle'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+
 
 /**
  * Component to display a login button
@@ -31,18 +33,19 @@ class LoginButton extends React.Component {
   }
 
   static contextTypes = {
-    ...themeContextType,
     ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
-
+    const { moduleTheme: { user: { optionsLabelStyle } }, intl: { formatMessage  } = this.context
     return (
-      <MainActionButtonComponent
+      <FlatButton
+        icon={<LoginIcon />}
         label={formatMessage({ id: 'loginButtonLabel' })}
-        title={formatMessage({ id: 'user.menu.displayauthentication.not.logged' })}
+        title={formatMessage({ id: 'loginButtonTooltip' })}
         onTouchTap={this.props.onLoginAction}
+        labelStyle={optionsLabelStyle}
       />
     )
   }

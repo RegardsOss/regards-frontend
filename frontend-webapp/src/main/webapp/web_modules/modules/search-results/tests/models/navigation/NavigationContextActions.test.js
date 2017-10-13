@@ -4,6 +4,8 @@
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { assert } from 'chai'
+import { TagTypes } from '@regardsoss/domain/catalog'
+import { Tag } from '../../../src/models/navigation/Tag'
 import navigationContextActions from '../../../src/models/navigation/NavigationContextActions'
 
 
@@ -19,36 +21,23 @@ function dispatchAndCheck(action, expectedAction, store) {
 
 describe('[Search Results] Test navigation context actions', () => {
   it('It should dispatch state initialization (from URL)', () => {
+    const tags = [new Tag(TagTypes.WORD, 'fries', 'fries')]
     const expectedAction = {
       type: navigationContextActions.INITIALIZE,
       viewObjectType: 'any1',
       displayMode: 'any2',
-      searchTag: 'any3',
-      dataset: 'any4',
+      tags,
     }
-    dispatchAndCheck(navigationContextActions.initialize('any1', 'any2', 'any3', 'any4'), expectedAction, buildMockStore({}))
+    dispatchAndCheck(navigationContextActions.initialize('any1', 'any2', tags), expectedAction, buildMockStore({}))
   })
 
-  it('It should dispatch dataset changing', () => {
-    const dataset = {
-      content: {
-        ipId: 'anIPID',
-        label: 'aLabel',
-      },
-    }
+  it('It should dispatch search tag add', () => {
+    const tag = new Tag(TagTypes.DATASET, 'The fries dataset', 'URN:ip1')
     const expectedAction = {
-      type: navigationContextActions.CHANGE_DATASET,
-      dataset,
+      type: navigationContextActions.ADD_SEARCH_TAG,
+      tag,
     }
-    dispatchAndCheck(navigationContextActions.changeDataset(dataset), expectedAction, buildMockStore({}))
-  })
-
-  it('It should dispatch search tag changing', () => {
-    const expectedAction = {
-      type: navigationContextActions.CHANGE_SEARCH_TAG,
-      searchTag: 'hello there!',
-    }
-    dispatchAndCheck(navigationContextActions.changeSearchTag('hello there!'), expectedAction, buildMockStore({}))
+    dispatchAndCheck(navigationContextActions.addSearchTag(tag), expectedAction, buildMockStore({}))
   })
 
 

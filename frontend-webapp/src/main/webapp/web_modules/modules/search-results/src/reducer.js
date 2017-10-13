@@ -31,6 +31,8 @@ import { tableReducer } from './clients/TableClient'
 import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './clients/DownloadDescriptionClient'
 import { descriptionLevelReducer } from './models/description/DescriptionLevelModel'
 import modelAttributeClient from './clients/ModelAttributeClient'
+import pluginServiceClient from './clients/PluginServiceClient'
+import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
 
 /**
  * Reducers for search-results module
@@ -49,6 +51,9 @@ const searchResultsReducers = {
   [DATASET_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadDatasetDescription,
   [COLLECTION_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadCollectionDescription,
   [modelAttributeClient.REDUCER_PATH]: modelAttributeClient.ModelAttributesReducer,
+  // services
+  runPluginService: runPluginServiceReducer,
+  pluginServices: pluginServiceClient.pluginServiceReducer,
 }
 
 export default searchResultsReducers

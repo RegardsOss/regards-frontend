@@ -17,11 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import keys from 'lodash/keys'
-import Badge from 'material-ui/Badge'
+import trim from 'lodash/trim'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import InfoOutline from 'material-ui/svg-icons/action/info-outline'
-import { AccessGroup } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -34,7 +32,7 @@ import moduleStyles from '../styles/styles'
 export class AccessGroupFormComponent extends React.Component {
 
   static propTypes = {
-    currentAccessGroup: AccessGroup,
+    currentAccessGroup: DataManagementShapes.AccessGroup,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isDuplicating: PropTypes.bool,
@@ -107,6 +105,7 @@ export class AccessGroupFormComponent extends React.Component {
               disabled={this.props.isEditing}
               validate={nameFieldValidations}
               label={this.context.intl.formatMessage({ id: 'group.form.name' })}
+              normalize={trim}
             />
             <br />
             <br />

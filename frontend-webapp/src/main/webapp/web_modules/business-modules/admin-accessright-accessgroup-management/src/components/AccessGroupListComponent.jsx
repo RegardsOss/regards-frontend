@@ -28,7 +28,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { AccessGroup } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -45,7 +45,7 @@ const ResourceIconAction = withResourceDisplayControl(IconButton)
 export class AccessGroupListComponent extends React.Component {
 
   static propTypes = {
-    accessGroupList: PropTypes.objectOf(AccessGroup),
+    accessGroupList: DataManagementShapes.AccessGroupList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleEditAccessRights: PropTypes.func.isRequired,
@@ -59,7 +59,7 @@ export class AccessGroupListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static DEPENDENCIES = [accessGroupActions.getDependency(RequestVerbEnum.POST)]
+  static CREATE_DEPENDENCIES = [accessGroupActions.getDependency(RequestVerbEnum.POST)]
 
   state = {
     deleteDialogOpened: false,
@@ -192,7 +192,7 @@ export class AccessGroupListComponent extends React.Component {
               />
             }
             mainButtonClassName="selenium-createButton"
-            mainHateoasDependencies={AccessGroupListComponent.DEPENDENCIES}
+            mainHateoasDependencies={AccessGroupListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'group.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

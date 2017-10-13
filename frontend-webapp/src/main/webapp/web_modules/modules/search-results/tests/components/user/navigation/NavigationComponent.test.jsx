@@ -20,8 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Breadcrumb } from '@regardsoss/components'
+import { TagTypes } from '@regardsoss/domain/catalog'
+import { Tag } from '../../../../src/models/navigation/Tag'
 import NavigationComponent from '../../../../src/components/user/navigation/NavigationComponent'
-import NavigationLevel from '../../../../src/models/navigation/NavigationLevel'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -35,8 +36,8 @@ describe('[Search Results] Testing NavigationComponent', () => {
   })
   it('should render properly', () => {
     const levels = [
-      NavigationLevel.buildDatasetLevel('oki', 'doki'),
-      NavigationLevel.buildSearchTagLevel('styles:patatoes'),
+      new Tag(TagTypes.DATASET, 'a dataset', 'URN:TEST'),
+      new Tag(TagTypes.DATASET, 'styles:patatoes', 'styles:patatoes'),
     ]
     const props = {
       navigationLevels: levels,

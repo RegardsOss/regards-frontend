@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import flow from 'lodash/flow'
+==== BASE ====
+import concat from 'lodash/concat'
+==== BASE ====
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -39,6 +41,8 @@ import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
 import messages from './i18n'
+
+const MODULE_STYLES = { styles }
 
 const defaultLineHeight = 42
 
@@ -103,7 +107,8 @@ class TableContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     entitiesFetching: PropTypes.bool,
-    pageMetadata: PropTypes.shape({
+    // eslint-disable-next-line react/no-unused-prop-types
+    pageMetadata: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
       size: PropTypes.number,
       totalElements: PropTypes.number,
@@ -141,6 +146,7 @@ class TableContainer extends React.Component {
   }
 
   static MAX_NB_ENTITIES = STATIC_CONF.CATALOG_MAX_NUMBER_OF_ENTITIES || 10000
+  static EMPTY_ENTITY_VALUE = {}
 
   constructor(props) {
     super(props)
@@ -156,6 +162,7 @@ class TableContainer extends React.Component {
   componentDidMount = () => this.onPropertiesUpdate({}, this.props)
 
   componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
+
 
   /**
    * Updates state and runs fetches required on properties change
@@ -179,26 +186,36 @@ class TableContainer extends React.Component {
 
 
     // New entities retrieved
-    if (!isEqual(previousProps.entities, !nextProps.entities) && !isEqual(previousProps.pageMetadata, nextProps.pageMetadata)) {
+    if (!isEqual(previousProps.entities, nextProps.entities) || !isEqual(previousProps.pageMetadata, nextProps.pageMetadata)) {
       // 1 - update row entities
       if (nextProps.pageMetadata) {
-        if (!nextState.entities.length) { // pre-init all entities
-          nextState.entities = fill(Array(this.getTotalNumberOfResults(nextProps)), {})
-        } else { // get new reference
-          nextState.entities = [...nextState.entities]
-        }
-        // convert new entities
-        const firstPageIndex = nextProps.pageMetadata.number * nextProps.pageMetadata.size
-        keys(nextProps.entities).forEach((key, index) => {
-          nextState.entities[firstPageIndex + index] = nextProps.entities[key]
-        })
+        const previousElements = previousState.entities
+        const previousEltsCount = previousElements ? previousState.entities.length : 0
+        // The page
+        const firstPageElementIndex = nextProps.pageMetadata.number * nextProps.pageMetadata.size
+        const lastKeepedElementIndex = Math.min(firstPageElementIndex, previousEltsCount)
+        // convert received page
+        const newElementsTotalCount = this.getTotalNumberOfResults(nextProps)
+        // the number of elements that we'll throw away
+        const numberOfResetElements = newElementsTotalCount - (lastKeepedElementIndex + nextProps.entities.length)
+
+        nextState.entities = [
+          // recover elements from the previous state (less the one removed)
+          ...(previousElements || []).slice(0, lastKeepedElementIndex),
+
+          // We add the current page elements
+          ...nextProps.entities,
+
+          // clear all following elements (suppression may shift next pages ) after the current page :
+          // ==> these elements will be reloaded on scroll
+          ...fill(Array(numberOfResetElements), TableContainer.EMPTY_ENTITY_VALUE),
+        ]
       }
       // 2 - build columns for state
       nextState.allColumns = this.computeAllColumns(nextProps, nextState.entities)
     } else if (!isEqual(previousProps.columns, nextProps.columns)) {
       nextState.allColumns = this.computeAllColumns(nextProps, nextState.entities)
     }
-
     // always update the all selected state
     nextState.allSelected = this.computeAllSelected(nextProps)
 
@@ -386,4 +403,3 @@ export default flow(
   connect(mapStateToProps, mapDispatchToProps),
 )(TableContainer)
 
-// export default connect(mapStateToProps, mapDispatchToProps)(TableContainer)

@@ -21,6 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'service.list.title': 'UI Service plugin list',
   'service.list.open.tooltip': 'Configurations',
+  'service.list.create.tooltip': 'Create',
 
   'service.listconf.title': 'List service configurations {value}',
   'service.listconf.subtitle': 'You can define several configurations for each service',
@@ -49,10 +50,11 @@ const messages = Object.assign({
   'service.form.duplicate.title': 'Duplicate using the service configuration {name}',
   'service.form.subtitle': 'Services have two types of input variables: those fixed here in this form (static variables) and variables provided by the user (dynamic variables). For dynamic variables, you can define here the default value',
   'service.form.label': 'Configuration label (only for administrators)',
-  'service.form.staticField': 'Value of the static variable "{name}"',
-  'service.form.dynamicField': 'Value used by default by the dynamic variable "{name}"',
+  'service.form.static.configuration.title': 'Configuration parameters',
+  'service.form.dynamic.configuration.title': 'Runtime parameter (pre-filled values for user)',
+  'service.form.mandatory.field': '{label} (*)',
   'service.form.isActive': 'Activate this configuration',
-  'service.form.isDefault': 'Automatically associate this service with the current configuration on ALL datasets',
+  'service.form.linkedToAllEntities': 'Incluse this service within every dataset',
   'service.form.action.save': 'Save',
   'service.form.action.back': 'Back',
 

@@ -16,7 +16,7 @@ import PopupMenuIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
-import { Model } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 
 /**
 * Render for selected levels field
@@ -25,7 +25,7 @@ class SelectedLevelFormRender extends React.Component {
 
   static propTypes = {
     // values pool as fetched and normalized
-    collectionModels: PropTypes.objectOf(Model).isRequired,
+    collectionModels: DataManagementShapes.ModelList.isRequired,
     meta: PropTypes.shape({
       touched: PropTypes.bool,
       error: PropTypes.string,
@@ -44,12 +44,9 @@ class SelectedLevelFormRender extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      menuVisible: false,
-      menuAnchor: null,
-    }
+  state = {
+    menuVisible: false,
+    menuAnchor: null,
   }
 
   /**

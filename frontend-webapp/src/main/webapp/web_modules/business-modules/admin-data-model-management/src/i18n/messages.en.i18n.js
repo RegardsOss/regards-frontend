@@ -48,7 +48,6 @@ const messages = Object.assign({
   'model.form.file': 'Or send an XML file containing the model, fragments and its attributes',
   'model.form.action.cancel': 'Cancel',
   'model.form.action.submit': 'Save',
-  'invalid.too_short': 'At least 3 caracters',
 
 }, Locales.en)
 

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-// import ExtensionIcon from 'material-ui/svg-icons/action/extension'
+import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
 import Palette from 'material-ui/svg-icons/image/palette'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
@@ -25,7 +25,7 @@ import { themeUIDependencies } from '@regardsoss/admin-ui-theme-management'
 import { pluginUIDependencies } from '@regardsoss/admin-ui-plugin-management'
 import { moduleUIDependencies } from '@regardsoss/admin-ui-module-management'
 import { layoutUIDependencies } from '@regardsoss/admin-ui-layout-management'
-// import { serviceUIDependencies } from '@regardsoss/admin-ui-service-management'
+import { serviceUIDependencies } from '@regardsoss/admin-ui-service-management'
 
 /**
  * Configuration file for UI-Configuration boards items.
@@ -88,8 +88,6 @@ export default (project, intl) => [
       hateoasDependencies: pluginUIDependencies.boardAddRequiredDependencies,
     }],
   },
-  /**
-   * TODO Add services management
   {
     title: intl.formatMessage({ id: 'project.service.title' }),
     description: intl.formatMessage({ id: 'project.service.description' }),
@@ -97,8 +95,8 @@ export default (project, intl) => [
     actions: [{
       path: `/admin/${project}/ui/service/list`,
       icon: <ExtensionIcon />,
-      tooltipMsg: intl.formatMessage({ id: 'action.list.tooltip' }),
+      tooltipMsg: intl.formatMessage({ id: 'action.service.list.tooltip' }),
       hateoasDependencies: serviceUIDependencies.boardListRequiredDependencies,
     }],
-  },*/
+  },
 ]

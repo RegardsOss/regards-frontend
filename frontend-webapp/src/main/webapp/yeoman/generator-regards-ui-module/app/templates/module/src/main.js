@@ -31,6 +31,6 @@ export default {
   moduleContainer,
   reducer,
   styles,
-  messagesDir: 'modules/menu/src/i18n',
+  messagesDir: 'modules/<%= name %>/src/i18n',
   dependencies,
 }

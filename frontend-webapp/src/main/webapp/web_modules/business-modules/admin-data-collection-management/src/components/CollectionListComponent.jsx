@@ -55,9 +55,7 @@ export class CollectionListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static DEPENDENCY = collectionActions.getDependency(RequestVerbEnum.POST)
-
-  static DEPENDENCIES_ARRAY = [collectionActions.getDependency(RequestVerbEnum.POST)]
+  static CREATE_DEPENDENCIES = [collectionActions.getDependency(RequestVerbEnum.POST)]
 
   state = {
     deleteDialogOpened: false,
@@ -179,7 +177,7 @@ export class CollectionListComponent extends React.Component {
                 id="collection.list.action.add"
               />
             }
-            mainHateoasDependencies={CollectionListComponent.DEPENDENCIES_ARRAY}
+            mainHateoasDependencies={CollectionListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

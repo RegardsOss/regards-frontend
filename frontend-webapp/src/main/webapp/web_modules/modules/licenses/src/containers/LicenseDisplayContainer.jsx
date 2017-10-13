@@ -23,7 +23,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
-import { URL } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import ProjectLicenseActions from '../model/ProjectLicenseActions'
 import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
@@ -37,7 +37,7 @@ export class LicenseDisplayContainer extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     // from mapStateToProps
-    licenseLink: URL,
+    licenseLink: CommonShapes.URL,
     accepted: PropTypes.bool,
     // from mapDispatchToProps
     fetchLicenseInformation: PropTypes.func.isRequired,

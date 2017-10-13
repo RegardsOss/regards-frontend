@@ -5,7 +5,7 @@ const merge = require('webpack-merge')
 const path = require('path')
 
 module.exports = function (projectContextPath) {
-  let config = getCommonConfig(projectContextPath, 'test')
+  let config = getCommonConfig(projectContextPath, 'dev')
 
   config = merge(config, {
     // Enable sourcemaps for debugging webpack's output.

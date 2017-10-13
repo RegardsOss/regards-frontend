@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Field } from '@regardsoss/form-utils'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
+import { EnumConnectivity } from '@regardsoss/domain/admin'
 import { ProjectConnectionFormComponent } from '../../../src/components/projectConnection/ProjectConnectionFormComponent'
 
 const options = {

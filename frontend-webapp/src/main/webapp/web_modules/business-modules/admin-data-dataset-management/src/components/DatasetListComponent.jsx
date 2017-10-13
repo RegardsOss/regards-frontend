@@ -52,7 +52,7 @@ export class DatasetListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static DEPENDENCIES = [datasetActions.getDependency(RequestVerbEnum.POST)]
+  static CREATE_DEPENDENCIES = [datasetActions.getDependency(RequestVerbEnum.POST)]
 
   state = {
     deleteDialogOpened: false,
@@ -164,7 +164,7 @@ export class DatasetListComponent extends React.Component {
                 id="dataset.list.action.add"
               />
             }
-            mainHateoasDependencies={DatasetListComponent.DEPENDENCIES}
+            mainHateoasDependencies={DatasetListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

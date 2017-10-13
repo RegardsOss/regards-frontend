@@ -22,9 +22,10 @@ import PluginParamType from './PluginParamType'
 
 export default {
   // Plugin
-  PluginParamType,
+  ...PluginParamType,
 
   // URL
   relativeURLRegexp,
   validURLRegexp,
+
 }

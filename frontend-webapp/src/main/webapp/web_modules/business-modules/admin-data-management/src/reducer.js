@@ -25,6 +25,7 @@ import { collectionDataManagementReducer } from '@regardsoss/admin-data-collecti
 import { datasetDataManagementReducer } from '@regardsoss/admin-data-dataset-management'
 import { datasourceDataManagementReducer } from '@regardsoss/admin-data-datasource-management'
 import { connectionDataManagementReducer } from '@regardsoss/admin-data-connection-management'
+import { documentDataManagementReducer } from '@regardsoss/admin-data-document-management'
 
 
 const dataManagementReducer = combineReducers({
@@ -36,6 +37,7 @@ const dataManagementReducer = combineReducers({
   dataset: datasetDataManagementReducer,
   datasource: datasourceDataManagementReducer,
   connection: connectionDataManagementReducer,
+  document: documentDataManagementReducer,
 })
 
 

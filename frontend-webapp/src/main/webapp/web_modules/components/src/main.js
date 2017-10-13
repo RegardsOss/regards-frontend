@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
+import { ShowableAtRender } from '@regardsoss/display-control'
+
 import ApplicationErrorComponent from './ApplicationErrorComponent'
 import CenteredDiv from './CenteredDiv'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
@@ -27,6 +30,8 @@ import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
 import BaseBoardItemComponent from './board/BaseBoardItemComponent'
 
+import buttonsMessages from './buttons/i18n'
+import ClearFieldButton from './buttons/ClearFieldButton'
 import DownloadButton from './buttons/DownloadButton'
 import DropDownButton from './buttons/DropDownButton'
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
@@ -41,7 +46,10 @@ import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
 import ShowableAtRender from './cards/ShowableAtRender'
 
+import FileContentDisplayer from './content/FileContentDisplayer'
+import CodeFileDisplayer from './content/CodeFileDisplayer'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
+import MarkdownFileContentDisplayer from './content/MarkdownFileContentDisplayer'
 import NoContentComponent from './content/NoContentComponent'
 
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
@@ -68,11 +76,16 @@ import ChipList from './list/ChipList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
+import DynamicModule from './module/DynamicModule'
+import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
+import ModuleTitle from './module/ModuleTitle'
+
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
 import TableContainer from './table/TableContainer'
 import TablePaneHeader from './table/header/TablePaneHeader'
 import TableOptionsSeparator from './table/header/TableOptionsSeparator'
+import ResultsCountComponent from './table/header/ResultsCountComponent'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import TableActions from './table/model/TableActions'
 import getTableReducer from './table/model/TableReducer'
@@ -93,29 +106,41 @@ export {
   ActionIconWithNotifications,
   ActionsMenuCell,
   ApplicationErrorComponent,
-  BoardComponent,
+  BaseBoardItemComponent,
   BaseBoardComponent,
+  BoardComponent,
   BoardItemComponent,
   BaseBoardItemComponent,
+  buttonsMessages, // XXX remove me in V2
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,
   ChipList,
+  ClearFieldButton,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
   DownloadButton,
   DropDownButton,
+  DynamicModule,
   ErrorCardComponent,
   ErrorDecoratorComponent,
   FormErrorMessage,
   PageNotFoundComponent,
+  FileContentDisplayer,
+  getTableReducer,
+  getTableSelectors,
+  HorizontalAreasSeparator,
   IFrameURLContentDisplayer,
+  ModuleTitle,
+  PageNotFoundComponent,
   ListContainer,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
   PositionedDialog,
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
+  MarkdownFileContentDisplayer,
+  CodeFileDisplayer,
   NewsItemComponent,
   NoContentMessageInfo,
   OnHoverSwitchFlatButton,
@@ -150,4 +175,5 @@ export {
   TreeTableRow,
 
   withConfirmDialog,
+  ResultsCountComponent,
 }

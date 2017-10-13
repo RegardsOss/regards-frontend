@@ -29,12 +29,13 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import concat from 'lodash/concat'
 import filter from 'lodash/filter'
+import { CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { CardActionsComponent, Title } from '@regardsoss/components'
-import { PluginConf, PluginDefinition, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import FormCriteriaComponent from './FormCriteriaComponent'
 
@@ -48,15 +49,15 @@ class FormCriterionComponent extends React.Component {
     // Fu,ction to update current redux-form
     changeField: PropTypes.func,
     // Default form criterion list
-    defaultCriterion: PropTypes.arrayOf(PluginConf),
+    defaultCriterion: AccessShapes.UIPluginConfArray,
     // Current form criterion list
-    criterion: PropTypes.arrayOf(PluginConf),
+    criterion: AccessShapes.UIPluginConfArray,
     // Current layout form
-    layout: ContainerShape,
+    layout: AccessShapes.ContainerContent,
     // List of availables attributes to edit criterion configuration
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    selectableAttributes: DataManagementShapes.AttributeModelList,
     // List of available criterion plugins
-    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    availableCriterion: AccessShapes.UIPluginDefinitionList,
   }
 
   static contextTypes = {
@@ -185,7 +186,7 @@ class FormCriterionComponent extends React.Component {
   render() {
     const dialogTitle = this.context.intl.formatMessage({ id: 'form.criterion.criteria.new.title' })
     return (
-      <div>
+      <CardText>
         <Title
           level={3}
           label={this.context.intl.formatMessage({ id: 'form.criterion.tab.title' })}
@@ -227,7 +228,7 @@ class FormCriterionComponent extends React.Component {
             availableCriterion={this.props.availableCriterion}
           />
         </Dialog>
-      </div>
+      </CardText>
     )
   }
 }

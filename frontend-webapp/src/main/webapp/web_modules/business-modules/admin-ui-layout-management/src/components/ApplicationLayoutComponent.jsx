@@ -47,7 +47,7 @@ class ApplicationLayoutComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static DEPENDENCIES = [LayoutActions.getDependency(RequestVerbEnum.PUT)]
+  static UPDATE_DEPENDENCIES = [LayoutActions.getDependency(RequestVerbEnum.PUT)]
 
   constructor(props) {
     super(props)
@@ -100,7 +100,7 @@ class ApplicationLayoutComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'layout.submit' })}
               mainButtonType="submit"
-              mainHateoasDependencies={ApplicationLayoutComponent.DEPENDENCIES}
+              mainHateoasDependencies={ApplicationLayoutComponent.UPDATE_DEPENDENCIES}
               isMainButtonDisabled={pristine || submitting}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
               secondaryButtonTouchTap={this.props.onCancel}
@@ -112,12 +112,6 @@ class ApplicationLayoutComponent extends React.Component {
   }
 }
 
-function validate(values) {
-  const errors = {}
-  return errors
-}
-
 export default reduxForm({
   form: 'app-layout-form',
-  validate,
 })(ApplicationLayoutComponent)

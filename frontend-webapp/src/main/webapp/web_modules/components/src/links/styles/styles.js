@@ -24,26 +24,29 @@
  */
 const styles = theme => ({
   breadcrumb: {
-    path: {
-      color: theme.palette.textColor,
-      backgroundColor: 'transparent',
-      border: 'none',
-      padding: '0px',
-      font: 'inherit',
-      fontSize: '21px',
+    style: {
+      height: theme.module.titleBarHeight,
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
     },
-    pathHover: {
-      cursor: 'pointer',
-      color: theme.palette.accent1Color,
-      backgroundColor: 'transparent',
-      border: 'none',
-      padding: '0px',
-      font: 'inherit',
-      fontSize: '21px',
-    },
-    separator: {
-      verticalAlign: 'text-bottom',
-      margin: ' 0px 5px',
+    element: {
+      style: {
+        margin: theme.module.titleMargin,
+      },
+      iconStyle: {
+        width: theme.module.titleIconSize,
+        height: theme.module.titleIconSize,
+        margin: theme.module.titleIconMargin,
+      },
+      labelStyle: {
+        margin: theme.module.titleTextMargin,
+        fontSize: theme.module.titleFontSize,
+        fontWeight: theme.module.titleFontWeight,
+        textTransform: theme.module.textTransform,
+        padding: 0,
+      },
     },
   },
 })

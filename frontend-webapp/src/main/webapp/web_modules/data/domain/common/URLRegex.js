@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const relativeURLRegexp =
-  /^(\.\.?\/)*([-a-z\d%_.~+]+)(\/[-a-z\d%_:.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i
+  /^([.\/]*[-a-z\d%_.~+]*)+([;&a-z\d%_.~+=-]*)(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i
 
 
 const validURLRegexp =

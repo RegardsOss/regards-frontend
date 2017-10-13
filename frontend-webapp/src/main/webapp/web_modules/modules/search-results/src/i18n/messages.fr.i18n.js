@@ -43,6 +43,7 @@ const messages = Object.assign({
   'form.attributes.initialSort.label': 'Trier les résultats sur cet attribut',
   'form.attributes.regroupement.section.title': 'Configurer les regroupements d\'attributs',
   'form.attributes.section.title': 'Configurer les attributs dynamiques',
+  'form.attributes.section.clear.filters.tooltip': 'Effacer le filtre courant',
   'form.attributes.standard.section.title': 'Configuration des attributs communs (attributs créés par défaut sur tous les objets de données)',
   'form.attributes.filter.label': 'Filtrer les attributs ...',
   'form.attributes.regroupement.remove': 'Supprimer',
@@ -62,6 +63,7 @@ const messages = Object.assign({
   'view.type.table.button.label': 'Afficher les résultats dans un tableau',
   'view.type.list.button.label': 'Afficher les résultats en liste',
   'download.tooltip': 'Télécharger',
+  'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Détail',
   'add.to.cart.tooltip': 'Ajouter l\'élément à mon panier',
   'add.selection.to.cart.label': 'Ajouter au panier',
@@ -69,6 +71,7 @@ const messages = Object.assign({
   'results.no.content.title': 'Pas de résultats',
   'results.no.content.subtitle': 'Votre recherche n\'a donné aucun résultat. Essayez de modifier vos critères',
   'results.options.column.label': 'Options et services',
+  'results.download': 'Télécharger',
 }, Locales.fr)
 
 export default messages

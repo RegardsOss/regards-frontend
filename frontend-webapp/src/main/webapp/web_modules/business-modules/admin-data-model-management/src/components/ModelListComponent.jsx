@@ -61,7 +61,7 @@ export class ModelListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static DEPENDENCIES = [modelActions.getDependency(RequestVerbEnum.POST)]
+  static CREATE_DEPENDENCIES = [modelActions.getDependency(RequestVerbEnum.POST)]
 
   state = {
     deleteDialogOpened: false,
@@ -239,7 +239,7 @@ export class ModelListComponent extends React.Component {
                 id="model.list.action.add"
               />
             }
-            mainHateoasDependencies={ModelListComponent.DEPENDENCIES}
+            mainHateoasDependencies={ModelListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'model.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

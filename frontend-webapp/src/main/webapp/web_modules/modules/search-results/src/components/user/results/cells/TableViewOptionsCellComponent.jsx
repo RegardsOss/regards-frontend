@@ -3,9 +3,12 @@
 **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import EntityDescriptionButton from '../options/EntityDescriptionButton'
+import OneElementServicesButton from '../options/OneElementServicesButton'
 import AddElementToCartButton from '../options/AddElementToCartButton'
+
 
 /**
 * Options display cell for table view
@@ -14,25 +17,31 @@ import AddElementToCartButton from '../options/AddElementToCartButton'
 class TableViewOptionsCellComponent extends React.Component {
 
   static propTypes = {
+    services: AccessShapes.PluginServiceWithContentArray,
     // optional callback: add element to cart (entity) => ()
     onAddToCart: PropTypes.func,
     // parent handlers
     onShowDescription: PropTypes.func.isRequired,
+    onServiceStarted: PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    ...i18nContextType,
-    ...themeContextType,
-  }
-
+==== BASE ====
   render() {
-    const { onShowDescription, onAddToCart } = this.props
+    const { onShowDescription, services, onServiceStarted, onAddToCart } = this.props
     const { moduleTheme: { user: { optionsStyles: { rootStyles, buttonStyles, iconStyles } } } } = this.context
     return (
       <div style={rootStyles}>
+        <OneElementServicesButton
+          style={buttonStyles}
+          iconStyle={iconStyles}
+          tooltip={servicesTooltip}
+          services={services}
+          onServiceStarted={onServiceStarted}
+        />
         <EntityDescriptionButton
           style={buttonStyles}
           iconStyle={iconStyles}
+          tooltip={descriptionTooltip}
           onShowDescription={onShowDescription}
         />
         {/* show add to cart only when available */}
@@ -48,4 +57,4 @@ class TableViewOptionsCellComponent extends React.Component {
     )
   }
 }
-export default TableViewOptionsCellComponent
+export default TableViewOptionsCellComponent // TODO same!!!

@@ -43,6 +43,10 @@ import TableViewOptionsCellContainer from '../../../containers/user/results/cell
 import TableSortFilterComponent from './options/TableSortFilterComponent'
 import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
 import TableSelectAllContainer from '../../../containers/user/results/options/TableSelectAllContainer'
+==== BASE ====
+import SelectionServiceComponent from './options/SelectionServiceComponent'
+import ServiceIconComponent from './options/ServiceIconComponent'
+==== BASE ====
 import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 
 /**
@@ -74,6 +78,8 @@ class SearchResultsComponent extends React.Component {
       openSearchQuery: PropTypes.string.isRequired,
     })),
     searchQuery: PropTypes.string.isRequired,
+    // services
+    selectionServices: AccessShapes.PluginServiceWithContentArray,
     // Attributes configurations for results columns
     // eslint-disable-next-line react/no-unused-prop-types
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
@@ -86,15 +92,15 @@ class SearchResultsComponent extends React.Component {
     resultPageActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
     onFiltersChanged: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    onSelectDataset: PropTypes.func.isRequired,
+    onSetEntityAsTag: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    onSelectSearchTag: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired,
     onShowDataobjects: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
     onSortChanged: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
+    onStartSelectionService: PropTypes.func.isRequired,
     // from OrderCartContainer
     onAddSelectionToCart: PropTypes.func, // callback to add selection to cart, null when disabled
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
@@ -136,7 +142,7 @@ class SearchResultsComponent extends React.Component {
     label: this.context.intl.formatMessage({ id: 'results.options.column.label' }),
     attributes: [],
     order: Number.MAX_VALUE,
-    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (this.props.onAddElementToCart ? 2 : 1), // reserve space for add to cart if is available
+    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (2 + this.props.onAddElementToCart ? 2 : 1), // reserve space for services and add to cart if is available
     sortable: false,
     hideLabel: true,
     // order: number.
@@ -215,19 +221,23 @@ class SearchResultsComponent extends React.Component {
   * Create columns configuration for table view
   * @returns {Array}
   */
-  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSelectDataset, onSelectSearchTag, onAddElementToCart }) => [{
+  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSetEntityAsTag,  }) => [{
     label: 'ListviewCell',
     attributes: [],
     customCell: {
       component: ListViewEntityCellContainer,
       props: {
         // click: select a dataset when in dataset mode
-        onClick: showingDataobjects ? null : onSelectDataset,
+        onSearchEntity: showingDataobjects ? null : onSetEntityAsTag,
         attributes: attributeModels,
+==== BASE ====
+        styles: this.context.moduleTheme.user.listViewStyles,
         onSearchTag: onSelectSearchTag,
+==== BASE ====
         tableColumns,
-        displayCheckbox: showingDataobjects,
-        onAddToCart: onAddElementToCart,
+==== BASE ====
+        displayCheckbox: showingDataobjects && this.props.displaySelectCheckboxes,
+==== BASE ====
       },
     },
   }]
@@ -293,12 +303,20 @@ class SearchResultsComponent extends React.Component {
    * @return rendered options list
    */
   renderTableContextOptions = () => {
-    const { allowingFacettes, showingFacettes, onToggleShowFacettes, showingDataobjects, onAddSelectionToCart } = this.props
+    const { allowingFacettes, showingFacettes, onToggleShowFacettes, showingDataobjects,
+      selectionServices, onStartSelectionService, onAddSelectionToCart } = this.props
     const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
 
     return [
-
+      //  Selection services
+      ...selectionServices.map(service => (
+        <SelectionServiceComponent
+          key={`${service.content.type}.service.${service.content.configId}`}
+          service={service}
+          onRunService={onStartSelectionService}
+        />)),
+      selectionServices.length ? <TableOptionsSeparator key="services.separator" /> : null,
       // List view option select all and sort options
       this.isInListView() && showingDataobjects ? <TableSelectAllContainer
         key="select.filter.option"
@@ -313,6 +331,7 @@ class SearchResultsComponent extends React.Component {
       /> : null,
       // separator, if required
       this.isInListView() && showingDataobjects && allowingFacettes ? <TableOptionsSeparator key="list.options.separator" /> : null,
+      // TODO showable
       // Add selection to cart option
       onAddSelectionToCart ? <AddSelectionToCartComponent key="add.selection.to.cart" onAddSelectionToCart={onAddSelectionToCart} /> : null,
       // facets option

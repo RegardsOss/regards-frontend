@@ -20,10 +20,10 @@
  * Default layout set when creating a new search form
  * @author Sébastien binda
  */
-export default {
+export default (type = 'MainContainer') => ({
   id: 'application',
-  type: 'MainContainer',
+  type,
   classes: [],
   styles: {},
   containers: [],
-}
+})

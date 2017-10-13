@@ -16,27 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonShapes } from '@regardsoss/shape'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { themeContextType } from '@regardsoss/theme'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import AppBar from 'material-ui/AppBar'
-import IconButton from 'material-ui/IconButton'
-import Paper from 'material-ui/Paper'
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
-import AddCircle from 'material-ui/svg-icons/content/add-circle'
-import Subheader from 'material-ui/Subheader'
 import flow from 'lodash/flow'
 import fpfilter from 'lodash/fp/filter'
 import fpsortBy from 'lodash/fp/sortBy'
 import fpmap from 'lodash/fp/map'
+import { FormattedMessage } from 'react-intl'
+import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
+import Subheader from 'material-ui/Subheader'
+import { CommonShapes } from '@regardsoss/shape'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { themeContextType } from '@regardsoss/theme'
+import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import PluginConfigurationContainer from './../../containers/plugin/PluginConfigurationContainer'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 import moduleStyles from '../../styles/styles'
 import messages from '../../i18n'
-
-const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Container connecting the plugin configuration list to the redux store and handling user interface actions.
@@ -54,14 +49,16 @@ export default class PluginConfigurationListComponent extends React.Component {
     }),
     pluginMetaData: CommonShapes.PluginMetaData,
     pluginConfigurationList: CommonShapes.PluginConfigurationList,
-    handleBackClick: PropTypes.func,
-    handleAddClick: PropTypes.func,
+    getBackURL: PropTypes.func.isRequired,
+    getAddURL: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static getCreateDependencies = microserviceName => [PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)]
 
   constructor(props, context) {
     super(props)
@@ -73,6 +70,8 @@ export default class PluginConfigurationListComponent extends React.Component {
       params: { microserviceName },
       pluginMetaData,
       pluginConfigurationList,
+      getAddURL,
+      getBackURL,
     } = this.props
 
     const activeConfs = flow(
@@ -96,28 +95,35 @@ export default class PluginConfigurationListComponent extends React.Component {
       />)))(pluginConfigurationList)
 
     return (
-      <I18nProvider messages={messages}>
-        <Paper>
-          <AppBar
+      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
+        <Card>
+          <CardTitle
             title={`${microserviceName} > Plugins > ${pluginMetaData && pluginMetaData.content.pluginId}`}
-            iconElementLeft={<IconButton onTouchTap={this.props.handleBackClick}><ArrowBack /></IconButton>}
-            iconElementRight={
-              <ResourceIconAction
-                resourceDependencies={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)}
-                tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.list.add' })}
-                onTouchTap={this.props.handleAddClick}
-              >
-                <AddCircle />
-              </ResourceIconAction>
-            }
           />
-          <div style={this.styles.root}>
-            <Subheader>Active</Subheader>
-            {activeConfs}
-            <Subheader>Inactive</Subheader>
-            {inactiveConfs}
-          </div>
-        </Paper>
+          <CardText>
+            <div style={this.styles.root}>
+              <ShowableAtRender show={!!activeConfs.length}>
+                <Subheader>Active</Subheader>
+                {activeConfs}
+              </ShowableAtRender>
+              <ShowableAtRender show={!!inactiveConfs.length}>
+                <Subheader>Inactive</Subheader>
+                {inactiveConfs}
+              </ShowableAtRender>
+            </div>
+          </CardText>
+          <CardActions>
+            <CardActionsComponent
+              mainButtonUrl={getAddURL()}
+              mainButtonLabel={
+                <FormattedMessage id="microservice-management.plugin.configuration.list.add" />
+              }
+              mainHateoasDependencies={PluginConfigurationListComponent.getCreateDependencies(this.props.params.microserviceName)}
+              secondaryButtonLabel={<FormattedMessage id="microservice-management.plugin.configuration.list.back" />}
+              secondaryButtonUrl={getBackURL()}
+            />
+          </CardActions>
+        </Card>
       </I18nProvider>
     )
   }

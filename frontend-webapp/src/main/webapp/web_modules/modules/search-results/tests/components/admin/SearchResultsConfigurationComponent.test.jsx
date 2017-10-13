@@ -21,7 +21,7 @@ import { spy } from 'sinon'
 import { assert } from 'chai'
 import { Field } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SearchResultsTargetsEnum } from '@regardsoss/model'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
 import SearchResultsConfigurationComponent from '../../../src/components/admin/SearchResultsConfigurationComponent'
 import Styles from '../../../src/styles/styles'
 

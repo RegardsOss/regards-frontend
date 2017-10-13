@@ -25,6 +25,7 @@ import { fragmentDependencies } from '@regardsoss/admin-data-fragment-management
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
 import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
+import { documentDependencies } from '@regardsoss/admin-data-document-management'
 
 
 /**
@@ -72,25 +73,6 @@ const items = (projectName, intl) => [
     ],
   },
   {
-    title: intl.formatMessage({ id: 'data.board.collection.title' }),
-    description: intl.formatMessage({ id: 'data.board.collection.description' }),
-    advanced: false,
-    actions: [
-      {
-        path: `/admin/${projectName}/data/collection/list`,
-        icon: <ViewLinesIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
-        hateoasDependencies: collectionDependencies.listDependencies,
-      },
-      {
-        path: `/admin/${projectName}/data/collection/create`,
-        icon: <AddIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
-        hateoasDependencies: collectionDependencies.addDependencies,
-      },
-    ],
-  },
-  {
     title: intl.formatMessage({ id: 'data.board.fragment.title' }),
     description: intl.formatMessage({ id: 'data.board.fragment.description' }),
     advanced: false,
@@ -110,6 +92,25 @@ const items = (projectName, intl) => [
     ],
   },
   {
+    title: intl.formatMessage({ id: 'data.board.collection.title' }),
+    description: intl.formatMessage({ id: 'data.board.collection.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/collection/list`,
+        icon: <ViewLinesIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: collectionDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/collection/create`,
+        icon: <AddIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: collectionDependencies.addDependencies,
+      },
+    ],
+  },
+  {
     title: intl.formatMessage({ id: 'data.board.dataset.title' }),
     description: intl.formatMessage({ id: 'data.board.dataset.description' }),
     advanced: false,
@@ -125,6 +126,25 @@ const items = (projectName, intl) => [
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
         hateoasDependencies: datasetDependencies.addDependencies,
+      },
+    ],
+  },
+  {
+    title: intl.formatMessage({ id: 'data.board.document.title' }),
+    description: intl.formatMessage({ id: 'data.board.document.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/document/list`,
+        icon: <ViewLinesIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.list.tooltip' }),
+        hateoasDependencies: documentDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/document/create`,
+        icon: <AddIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: documentDependencies.addDependencies,
       },
     ],
   },

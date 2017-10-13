@@ -36,6 +36,7 @@ import Dataset, { DatasetConfiguration } from './dam/Dataset'
 import AccessRight from './dam/AccessRight'
 import AccessGroup from './dam/AccessGroup'
 import Datasource from './dam/Datasource'
+import Document from './dam/Document'
 import Entity, { EntityConfiguration } from './catalog/Entity'
 import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
 import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribute'
@@ -49,7 +50,6 @@ import AIPStatus from './archival-storage/AIPStatus'
 import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
 import PluginParameter from './admin/PluginParameter'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
-import BusinessPluginConfiguration from './microservice-common/BusinessPluginConfiguration'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -150,6 +150,7 @@ export default {
   ...PluginParameter,
 
   ...Datasource,
+  ...Document,
   ...AccessRight,
   ...AccessGroup,
   ...Connection,
@@ -157,8 +158,6 @@ export default {
 
   ...LinkPluginDataset,
   ...UIPluginConf,
-
-  ...BusinessPluginConfiguration,
 
   ...LinkUIPluginDataset,
 }

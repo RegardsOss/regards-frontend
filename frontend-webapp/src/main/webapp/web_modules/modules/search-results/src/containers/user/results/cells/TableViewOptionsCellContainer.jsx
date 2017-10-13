@@ -5,32 +5,37 @@ import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
-import { CatalogShapes } from '@regardsoss/shape'
+import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
+import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { descriptionLevelActions } from '../../../../models/description/DescriptionLevelModel'
+import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
 import TableViewOptionsCellComponent from '../../../../components/user/results/cells/TableViewOptionsCellComponent'
 import messages from '../../../../i18n'
 import styles from '../../../../styles'
 
 
+
 /**
-* Container for list view entity cell
-* @author Raphaël Mechali
-*/
+ * Container for table view entity cell
+ * @author Raphaël Mechali
+ */
 export class TableViewOptionsCellContainer extends React.Component {
 
   static mapDispatchToProps(dispatch) {
     return {
       dispatchShowDescription: entity => dispatch(descriptionLevelActions.show(entity)),
+      dispatchRunService: (service, serviceTarget) => dispatch(runPluginServiceActions.runService(service, serviceTarget)),
     }
   }
 
   static propTypes = {
     // Parameters set by table component
-    entity: CatalogShapes.Entity.isRequired,
+    entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     // optional callback: add element to cart (entity) => ()
     onAddToCart: PropTypes.func,
     // from map state to props
     dispatchShowDescription: PropTypes.func.isRequired,
+    dispatchRunService: PropTypes.func.isRequired,
   }
 
   /**
@@ -40,6 +45,16 @@ export class TableViewOptionsCellContainer extends React.Component {
     // dispatch show description event
     const { entity, dispatchShowDescription } = this.props
     dispatchShowDescription(entity)
+  }
+
+  /**
+   * Callback: on service started by user. Dispatches run service event
+   * @param service service wrapped in content
+   */
+  onServiceStarted = ({ content: service }) => {
+    const { entity, dispatchRunService } = this.props
+    dispatchRunService(new PluginServiceRunModel(service,
+      target.buildOneElementTarget(entity.content.ipId)))
   }
 
   /**
@@ -54,11 +69,13 @@ export class TableViewOptionsCellContainer extends React.Component {
 
 
   render() {
-    const { onAddToCart } = this.props
+    const { styles, entity, servicesTooltip, descriptionTooltip } = this.props
     return (
       <TableViewOptionsCellComponent
+        services={entity.content.services}
         onAddToCart={onAddToCart ? this.onAddToCart : null} // set up callback only when parent one is provided
         onShowDescription={this.onShowDescription}
+        onServiceStarted={this.onServiceStarted}
       />
     )
   }

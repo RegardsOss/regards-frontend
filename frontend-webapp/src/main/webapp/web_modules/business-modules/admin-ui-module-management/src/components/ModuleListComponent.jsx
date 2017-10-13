@@ -60,7 +60,7 @@ class ModuleListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static DEPENDENCIES = [moduleActions.getDependency(RequestVerbEnum.POST)]
+  static CREATE_DEPENDENCIES = [moduleActions.getDependency(RequestVerbEnum.POST)]
 
   constructor(props) {
     super(props)
@@ -187,7 +187,7 @@ class ModuleListComponent extends React.Component {
                 id="modules.list.action.add"
               />
             }
-            mainHateoasDependencies={ModuleListComponent.DEPENDENCIES}
+            mainHateoasDependencies={ModuleListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />

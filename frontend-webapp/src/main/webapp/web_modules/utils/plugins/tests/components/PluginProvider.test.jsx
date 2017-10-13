@@ -70,7 +70,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
           content: {
             id: pluginDefinitionId,
             name: 'plugin-test',
-            type: 'test',
+            type: 'CRITERIA',
             sourcePath: '/test/plugin.js',
           },
         }}
@@ -85,7 +85,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly that a plugin is loading', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={'0'}
+        pluginInstanceId={0}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -103,7 +103,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly a plugin', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={'0'}
+        pluginInstanceId={0}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -116,10 +116,13 @@ describe('[PLUGINS] Testing Plugins load', () => {
             fr: {},
             en: {},
           },
+          styles: {
+            styles: () => { },
+          },
           info: {
             name: 'testPlugin',
             description: 'description',
-            version: 1.0,
+            version: '1.0',
             author: 'Sébastien Binda',
             company: 'CS-SI',
             type: 'CRITERIA',
@@ -135,10 +138,10 @@ describe('[PLUGINS] Testing Plugins load', () => {
     expect(wrapper.find(IntlProvider)).to.have.length(1)
   })
 
-  it('Should render correctly a element with a plugin as a prop', () => {
+  it('Should render correctly an element with a plugin as a prop', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={'0'}
+        pluginInstanceId={0}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -151,10 +154,11 @@ describe('[PLUGINS] Testing Plugins load', () => {
             fr: {},
             en: {},
           },
+          styles: {},
           info: {
             name: 'testPlugin',
             description: 'description',
-            version: 1.0,
+            version: '1.0',
             author: 'Sébastien Binda',
             company: 'CS-SI',
             type: 'CRITERIA',

@@ -17,11 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import get from 'lodash/get'
+import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 
 /**
  * Reset password request form component
@@ -42,7 +43,6 @@ export class ChangePasswordFormComponent extends React.Component {
   }
 
   static contextTypes = { ...themeContextType, ...i18nContextType }
-
 
   /**
    * Render function
@@ -69,6 +69,8 @@ export class ChangePasswordFormComponent extends React.Component {
                 component={RenderTextField}
                 type="password"
                 label={formatMessage({ id: 'reset.password.update.new.password' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
               />
               <Field
                 name="confirmPassword"
@@ -76,6 +78,8 @@ export class ChangePasswordFormComponent extends React.Component {
                 component={RenderTextField}
                 type="password"
                 label={formatMessage({ id: 'reset.password.update.confirm.password' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
@@ -96,12 +100,6 @@ export class ChangePasswordFormComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  if (!values.newPassword) {
-    errors.newPassword = ErrorTypes.REQUIRED
-  }
-  if (!values.confirmPassword) {
-    errors.confirmPassword = ErrorTypes.REQUIRED
-  }
   if (values.confirmPassword && values.newPassword && values.newPassword !== values.confirmPassword) {
     errors.confirmPassword = ErrorTypes.DIFFERENT_PASSWORDS
   }
@@ -118,7 +116,7 @@ function asyncValidate({ newPassword }, dispatch, props) {
   // ugly async connection should be done by the container bu we can't
   const { fetchPasswordValidity } = props
   return fetchPasswordValidity(newPassword).then((result) => {
-    const validity = get(result, 'payload.content.validity', false)
+    const validity = get(result, 'payload.validity', false)
     const errors = {}
     if (!validity) { // invalid password
       errors.newPassword = ErrorTypes.INVALID_PASSWORD

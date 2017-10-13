@@ -19,8 +19,9 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'service.list.title': 'Liste des plugins IHM service',
+  'service.list.title': 'Services IHM',
   'service.list.open.tooltip': 'Configurations',
+  'service.list.create.tooltip': 'Créer',
 
   'service.listconf.title': 'Liste des configurations du service {value}',
   'service.listconf.subtitle': 'Vous pouvez definir plusieurs configurations différentes pour chaque service',
@@ -44,15 +45,16 @@ const messages = Object.assign({
   'service.listconf.plugin.url': 'Url: {value}',
   'service.listconf.delete.confirm.title': 'Supprimer la configuration ?',
 
-  'service.form.create.title': 'Creation d\'une configuration de service',
+  'service.form.create.title': 'Création d\'une configuration de service',
   'service.form.edit.title': 'Edition de la configuration de service {name}',
   'service.form.duplicate.title': 'Duplication à partir de la configuration de service {name}',
   'service.form.subtitle': 'Les services ont deux types de variable en entrée: celle que vous fixez ici même dans ce formulaire (variables statiques) et les variables fixées par l\'utilisateur final (variables dynamiques). Pour les variables dynamiques, vous pouvez saisir la valeur par défaut',
   'service.form.label': 'Label de la configuration (uniquement pour les administrateurs)',
-  'service.form.staticField': 'Valeur de la variable statique "{name}"',
-  'service.form.dynamicField': 'Valeur par défaut de la variable dynamique "{name}"',
+  'service.form.static.configuration.title': 'Paramètres de configuration',
+  'service.form.dynamic.configuration.title': 'Paramètres d\'éxécution (valeurs pré-remplies pour l\'utilisateurs)',
+  'service.form.mandatory.field': '{label} (*)',
   'service.form.isActive': 'Activer cette configuration',
-  'service.form.isDefault': 'Associer automatiquement ce service avec la configuration courante sur TOUS les jeux',
+  'service.form.linkedToAllEntities': 'Associer à tous les jeux de données',
   'service.form.action.save': 'Sauvegarder',
   'service.form.action.back': 'Retour',
 }, Locales.fr)

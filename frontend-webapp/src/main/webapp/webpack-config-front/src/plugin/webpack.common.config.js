@@ -44,6 +44,8 @@ module.exports = function (projectContextPath, mode) {
       modules: [
         // Root directories from which requires are made
         path.join(projectContextPath),
+        path.join(projectContextPath, '../../..'),
+        'web_modules',
         'node_modules',
       ],
     },

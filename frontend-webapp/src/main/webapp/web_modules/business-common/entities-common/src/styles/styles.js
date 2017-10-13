@@ -12,7 +12,7 @@ const growingVerticalLayout = { ...growingFlexElement, ...verticalLayout }
  */
 export default theme => ({
   descriptionDialog: {
-    widthPercent: 70,
+    widthPercent: 88,
     heightPercent: 68,
     body: { padding: '0', overflowY: 'none' },
     card: {
@@ -42,10 +42,6 @@ export default theme => ({
             },
             descriptionTab: {
               rootStyle: growingFlexElement,
-              markdownContainerStyle: {
-                padding: '10px 0 10px 0',
-                color: theme.palette.textColor,
-              },
             },
             propertiesTab: {
               rootStyle: { display: 'flex', flexDirection: 'row', alignItems: 'stretch', ...growingFlexElement },
@@ -90,6 +86,26 @@ export default theme => ({
           },
         },
       },
+    },
+  },
+  pluginServiceDialog: {
+    widthPercent: 70,
+    heightPercent: 68,
+    commonBodyStyles: {
+      borderWidth: '1px 0 1px 0',
+      borderColor: theme.toolbar.separatorColor,
+      borderStyle: 'solid',
+      padding: '16px',
+    },
+    resultsBodyStyle: { // different style to enhance the available view area size
+      borderWidth: '1px 0 1px 0',
+      borderColor: theme.toolbar.separatorColor,
+      borderStyle: 'solid',
+      padding: '0',
+    },
+    contentStyles: {
+      width: '100%',
+      height: '100%',
     },
   },
 })

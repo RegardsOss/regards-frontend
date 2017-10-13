@@ -18,6 +18,11 @@
  */
 const projectsStyles = theme => (
   {
+    wrapper: {
+      styles: {
+        display: 'flex',
+      },
+    },
     noFacetMessage: {
       styles: {
         margin: '16px 1em 15px 0',
@@ -29,6 +34,7 @@ const projectsStyles = theme => (
         flexDirection: 'row',
         margin: '0 0 0 1em',
         justifyContent: 'center',
+        flexGrow: 1,
       },
       selector: {
         styles: {

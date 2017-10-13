@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { AttributeConfiguration, AttributesRegroupementConfiguration, AttributeModel } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import ModuleConfiguration from '../../../models/ModuleConfiguration'
 /**
  * Component to display search results parameters
@@ -32,9 +32,9 @@ class FormParametersComponent extends React.Component {
       changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
-    attributes: PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupements: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    attributes: AccessShapes.AttributeConfigurationContent,
+    attributesRegroupements: AccessShapes.AttributesGroupConfigurationContent,
+    selectableAttributes: DataManagementShapes.AttributeModelList,
     resultType: PropTypes.string,
   }
 

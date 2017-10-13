@@ -947,6 +947,22 @@
       "resource": "/plugins",
       "verb": "GET",
       "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 76,
+      "description": "Run entity search",
+      "microservice": "rs-access-project",
+      "resource": "/datasets/search",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
+    },
+    {
+      "id": 77,
+      "description": "Run entity search",
+      "microservice": "rs-access-project",
+      "resource": "/dataobjects/search",
+      "verb": "GET",
+      "controllerSimpleName": "Controller 1"
     }
   ]
 }

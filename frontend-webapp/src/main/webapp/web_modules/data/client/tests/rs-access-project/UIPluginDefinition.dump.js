@@ -27,7 +27,7 @@ export default {
       content: {
         id: 1,
         name: 'string-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/string/plugin.js',
       },
       links: [
@@ -57,7 +57,7 @@ export default {
       content: {
         id: 2,
         name: 'numerical-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/numerical/plugin.js',
       },
       links: [
@@ -87,7 +87,7 @@ export default {
       content: {
         id: 3,
         name: 'two-numerical-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/two-numerical/plugin.js',
       },
       links: [
@@ -117,7 +117,7 @@ export default {
       content: {
         id: 4,
         name: 'temporal-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/temporal/plugin.js',
       },
       links: [
@@ -147,7 +147,7 @@ export default {
       content: {
         id: 5,
         name: 'two-temporal-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/two-temporal/plugin.js',
       },
       links: [
@@ -177,7 +177,7 @@ export default {
       content: {
         sourcePath: '/plugins/criterion/full-text/plugin.js',
         name: 'full-text-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         id: 6,
       },
       links: [

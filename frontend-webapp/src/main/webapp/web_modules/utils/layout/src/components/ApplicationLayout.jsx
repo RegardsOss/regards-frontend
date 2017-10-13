@@ -52,7 +52,11 @@ class ApplicationLayout extends React.Component {
   render() {
     let bodyStyles = {}
     if (this.context.muiTheme) {
-      if (this.context.muiTheme.palette.backgroundImage) {
+      if (this.context.muiTheme.palette.background && this.context.muiTheme.palette.background !== '') {
+        bodyStyles = {
+          background: this.context.muiTheme.palette.background,
+        }
+      } else if (this.context.muiTheme.palette.backgroundImage) {
         bodyStyles = {
           background: `url('${this.context.muiTheme.palette.backgroundImage}') no-repeat fixed center center`,
           backgroundSize: 'cover',

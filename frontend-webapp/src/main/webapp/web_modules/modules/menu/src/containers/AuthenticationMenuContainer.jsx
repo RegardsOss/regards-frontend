@@ -17,8 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { i18nContextType } from '@regardsoss/i18n'
+import { connect } from '@regardsoss/redux'
 import { LazyModuleComponent } from '@regardsoss/modules'
-import { routeHelpers } from '@regardsoss/authentication-manager'
+import { AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
 import LoginButton from '../components/LoginButton'
 import LoggedUserContainer from './LoggedUserContainer'
 
@@ -30,8 +31,11 @@ import LoggedUserContainer from './LoggedUserContainer'
 export class AuthenticationMenuContainer extends React.Component {
 
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    // should be displayed?
+    display: PropTypes.bool,
     appName: PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
+    // from mapStateToProps
     isAuthenticated: PropTypes.bool,
   }
 
@@ -70,8 +74,12 @@ export class AuthenticationMenuContainer extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, project, appName } = this.props
+    const { display, isAuthenticated, project, appName } = this.props
     const { authenticationVisible } = this.state
+
+    if (!display) { // hidden by configuration
+      return null
+    }
 
     // Initialise the authentication module configuration
     const authenticationModule = {
@@ -108,5 +116,8 @@ export class AuthenticationMenuContainer extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+})
 
 export default AuthenticationMenuContainer

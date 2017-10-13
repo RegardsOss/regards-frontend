@@ -28,7 +28,7 @@ export default class CatalogSearchEntitiesActions extends BasicFacetsPageableAct
    * @param {*} namespace namespace for actions
    * @param {*} endpoint endpoint (optional, default to generic search catalog endpoint)
    */
-  constructor(namespace, endpoint = `${GATEWAY_HOSTNAME}/${API_URL}/rs-catalog/search?{queryParams}`) {
+  constructor(namespace, endpoint = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search?{queryParams}`) {
     super({
       namespace,
       entityEndpoint: endpoint,

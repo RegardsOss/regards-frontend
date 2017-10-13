@@ -20,7 +20,7 @@ import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import PluginConfigurationComponent from '../../components/plugin/PluginConfigurationComponent'
@@ -40,8 +40,8 @@ export class PluginConfigurationContainer extends React.Component {
       microserviceName: PropTypes.string.isRequired,
       pluginId: PropTypes.string.isRequired,
     }),
-    pluginConfiguration: PluginConfiguration,
-    pluginMetaData: PluginMetaData,
+    pluginConfiguration: CommonShapes.PluginConfiguration,
+    pluginMetaData: CommonShapes.PluginMetaData,
     // from mapStateToProps
     // from mapDispatchToProps
     updatePluginConfiguration: PropTypes.func,

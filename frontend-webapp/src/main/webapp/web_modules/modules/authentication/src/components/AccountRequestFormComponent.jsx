@@ -16,17 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import values from 'lodash/values'
+import trim from 'lodash/trim'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { formValueSelector } from 'redux-form'
-import values from 'lodash/values'
-import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FormErrorMessage } from '@regardsoss/components'
-import { Field, RenderTextField, ValidationHelpers, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { Field, RenderTextField, FormErrorMessage, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+
+const emailValidator = [ValidationHelpers.required, ValidationHelpers.email]
 
 /** Possible form Ids, matching with corresponding request */
 export const requestFormIds = {
@@ -99,6 +100,8 @@ export class AccountRequestFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'account.request.form.mail' })}
+                validate={emailValidator}
+                normalize={trim}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
@@ -123,33 +126,14 @@ export class AccountRequestFormComponent extends React.Component {
   }
 }
 
-function validate(fieldValues) {
-  const errors = {}
-  if (isEmpty(fieldValues)) {
-    // XXX workaround for redux form bug initial validation:
-    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
-    return errors
-  }
-  const mailValue = fieldValues[mailFieldId]
-  if (!mailValue) {
-    errors[mailFieldId] = ErrorTypes.REQUIRED
-  } else if (!ValidationHelpers.isValidEmail(mailValue)) {
-    errors[mailFieldId] = ErrorTypes.EMAIL
-  }
-  return errors
-}
-
-
 // prepare redux form
-const formId = 'account-request-form'
+const form = 'account-request-form'
 const connectedReduxForm = reduxForm({
-  form: formId,
-  validate,
+  form,
 })(AccountRequestFormComponent)
 
-
 // connect with selector to select the last mail value
-const selector = formValueSelector(formId)
+const selector = formValueSelector(form)
 export default connect(
   state => ({
     currentMailValue: selector(state, mailFieldId),

@@ -85,7 +85,6 @@ const messages = Object.assign({
   'datasource.form.mapping.custom.subtitle': 'In the first place, write an SQL request FROM, WHERE in order to retrieve data. Then specify the SELECT clause (in SQL) to retrieve the model attribute value',
   'datasource.form.mapping.custom.fromClause': 'Clause FROM, WHERE, [GROUP BY and HAVING]',
 
-  'invalid.max_128_carac': 'Use 128 characters or fewer for datasource names',
   'invalid.one_pk_required': 'Choose a field as primary key',
   'invalid.only_one_pk_allowed': 'Use only one primary key',
 }, Locales.en)

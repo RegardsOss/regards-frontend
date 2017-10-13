@@ -31,6 +31,11 @@ export default {
   INVALID_PASSWORD: 'invalid.password',
   INVALID_URL: 'invalid.url',
   TYPE_STRING: 'type.string',
+  LOWER_THAN_MIN: 'invalid.number.lower.than.min',
+  GREATER_THAN_MAX: 'invalid.number.greater.than.max',
+  INVALID_INTEGER_NUMBER: 'invalid.integer.number',
+  INVALID_FLOATING_NUMBER: 'invalid.floating.number',
+  INVALID_CHARACTER: 'invalid.character',
   invalidRegex: regexp => ({
     key: 'invalid.regex.pattern',
     props: { regexp },
@@ -41,5 +46,28 @@ export default {
       lowerBound,
       upperBound,
     },
+  }),
+  invalidStringSize: (minSize, maxSize) => ({
+    key: 'invalid.string.size',
+    props: {
+      minSize,
+      maxSize,
+    },
+  }),
+  lengthLessThan: number => ({
+    key: 'invalid.length.less.than',
+    props: { number },
+  }),
+  lengthMoreThan: number => ({
+    key: 'invalid.length.more.than',
+    props: { number },
+  }),
+  lessThan: number => ({
+    key: 'invalid.less.than',
+    props: { number },
+  }),
+  moreThan: number => ({
+    key: 'invalid.more.than',
+    props: { number },
   }),
 }

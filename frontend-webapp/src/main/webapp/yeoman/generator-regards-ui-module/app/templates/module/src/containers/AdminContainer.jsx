@@ -18,6 +18,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { RenderTextField, Field } from '@regardsoss/form-utils'
 import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
 import SampleComponent from '../components/SampleComponent'
 
@@ -49,8 +50,17 @@ class AdminContainer extends React.Component {
   }
 
   render() {
+    const { intl } = this.context
     return (
-      <SampleComponent />
+      <div>
+        <Field
+          name="conf.messageParameter"
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={intl.formatMessage({ id: 'admin.message.field.label' })}
+        />
+      </div>
     )
   }
 }

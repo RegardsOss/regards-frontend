@@ -18,7 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { CollectionItemContainer } from '../../../src/containers/user/CollectionItemContainer'
 import CollectionItem from '../../../src/components/user/CollectionItem'
 import styles from '../../../src/styles/styles'
@@ -34,14 +34,7 @@ describe('[Search Graph] Testing CollectionItemContainer', () => {
   })
   it('should render properly', () => {
     const props = {
-      collection: {
-        content: {
-          ipId: 'ip-1',
-          label: 'any,',
-          entityType: 'COLLECTION',
-          properties: {},
-        },
-      },
+      collection: DumpProvider.getFirstEntity('AccessProjectClient', 'CollectionEntity'),
       isLastLevel: false,
       selected: false,
       // from map dispatch to props

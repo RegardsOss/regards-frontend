@@ -19,8 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/components'
-import { ScrollArea } from '@regardsoss/adapters'
+import { NoContentMessageInfo, IFrameURLContentDisplayer, MarkdownFileContentDisplayer } from '@regardsoss/components'
 import DescriptionFileComponent from '../../../../src/components/description/file/DescriptionFileComponent'
 import LoadingDisplayerComponent from '../../../../src/components/description/LoadingDisplayerComponent'
 import styles from '../../../../src/styles/styles'
@@ -79,7 +78,7 @@ describe('[Entities Common] Testing DescriptionFileComponent', () => {
     }
 
     const enzymeWrapper = shallow(<DescriptionFileComponent {...props} />, { context })
-    const localMarkdownWrapper = enzymeWrapper.find(ScrollArea)
+    const localMarkdownWrapper = enzymeWrapper.find(MarkdownFileContentDisplayer)
     assert.lengthOf(localMarkdownWrapper, 1, 'There should be markdown displayer (scrollable container here)')
   })
 })

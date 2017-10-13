@@ -1,10 +1,9 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import flatten from 'lodash/flatten'
-import LabelIcon from 'material-ui/svg-icons/action/label'
-import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import BreadcrumbElement from './BreadcrumbElement'
+import DefaultRootIconConstructor from 'material-ui/svg-icons/communication/location-on'
+import { ModuleThemeProvider } from '@regardsoss/modules'
+import BreadcrumbImpl from './BreadcrumbImpl'
 import styles from './styles/styles'
 
 /** Render constant: module syles  */
@@ -27,6 +26,12 @@ class Breadcrumb extends React.Component {
     /** On breadcrumb element action callback: (element, index) => void */
     // eslint-disable-next-line react/no-unused-prop-types
     onAction: PropTypes.func.isRequired,
+    /** Root icon constructor (optional, replaced by default if not provided) */
+    RootIconConstructor: PropTypes.func,
+  }
+
+  static defaultProps = {
+    RootIconConstructor: DefaultRootIconConstructor,
   }
 
   static contextTypes = {
@@ -46,7 +51,7 @@ class Breadcrumb extends React.Component {
 
   /**
    * Packs the rendering model for element and index as parameter, so that no newq reference is generated at render time
-   * @param label gen
+   * @param labelGenerator label generator
    */
   packElementModel = (labelGenerator, onAction, element, index) => ({
     label: labelGenerator(element, index),
@@ -55,17 +60,11 @@ class Breadcrumb extends React.Component {
 
   render() {
     const { elements } = this.state
-    const { separator } = this.context.moduleTheme.breadcrumb
+    const { RootIconConstructor } = this.props
     return (
-      <div>
-        {
-          // for each element, generate array of separator from previous (if not first) and clickable element.
-          flatten(elements.map(({ label, onAction }, index) => [
-            index ? <LabelIcon key={`separator-${label}`} style={separator} /> : null,
-            <BreadcrumbElement key={label} label={label} onAction={onAction} />,
-          ]))
-        }
-      </div>
+      <ModuleThemeProvider module={BREADCRUMB_STYLES}>
+        <BreadcrumbImpl elements={elements} RootIconConstructor={RootIconConstructor} />
+      </ModuleThemeProvider >
     )
   }
 }

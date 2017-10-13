@@ -51,7 +51,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'licence',
       required: true,
-      message: 'Module description page url',
+      message: 'License',
       default: 'GPL-V3',
     },
     ]).then((answers) => {

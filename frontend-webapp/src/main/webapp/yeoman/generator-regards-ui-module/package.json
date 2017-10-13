@@ -1,6 +1,6 @@
 {
-  "name": "@regardsoss/generator-regards-ui-module",
-  "version": "0.0.1",
+  "name": "generator-regards-ui-module",
+  "version": "1.0.0",
   "private": true,
   "description": "Yeoman generator to create your own REGARDS UI Module",
   "files": [

@@ -20,7 +20,8 @@ import find from 'lodash/find'
 import GetApp from 'material-ui/svg-icons/action/get-app'
 import NotInterested from 'material-ui/svg-icons/av/not-interested'
 import { themeContextType } from '@regardsoss/theme'
-import { ObjectLinkedFile, ObjectLinkedFileTypes, CatalogEntity } from '@regardsoss/model'
+import { CatalogDomain } from '@regardsoss/domain'
+import { CatalogShapes } from '@regardsoss/shape'
 
 /**
  * Component to render rawdata download attributes group
@@ -31,10 +32,10 @@ class RawDataAttributesRender extends React.Component {
 
   static propTypes = {
     attributes: PropTypes.shape({
-      files: PropTypes.arrayOf(ObjectLinkedFile),
+      files: PropTypes.arrayOf(CatalogShapes.ObjectLinkedFile),
     }),
     // eslint-disable-next-line react/no-unused-prop-types
-    entity: CatalogEntity,
+    entity: CatalogShapes.Entity,
     // eslint-disable-next-line react/no-unused-prop-types
     lineHeight: PropTypes.number.isRequired,
   }
@@ -45,7 +46,7 @@ class RawDataAttributesRender extends React.Component {
 
   render() {
     if (this.props.attributes.files && this.props.attributes.files.length > 0) {
-      const thumbnail = find(this.props.attributes.files, file => file.dataType === ObjectLinkedFileTypes.RAWDATA)
+      const thumbnail = find(this.props.attributes.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA)
       if (thumbnail) {
         const styles = { cursor: 'pointer', marginTop: '5px' }
         return (

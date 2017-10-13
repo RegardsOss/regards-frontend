@@ -19,25 +19,28 @@
 import map from 'lodash/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
-import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
-import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
-import RaisedButton from 'material-ui/RaisedButton'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import {
   RenderTextField,
   RenderSelectField,
+  RenderJsonCodeEditorField,
   Field,
-  RenderCheckbox,
   reduxForm,
   ValidationHelpers,
 } from '@regardsoss/form-utils'
+import ShowHideAdvancedOptions from './ShowHideAdvancedOptions'
+import DynamicContentField from './DynamicContentField'
 import ContainerShape from '../model/ContainerShape'
 import ContainerTypes from '../default/ContainerTypes'
 
+const classesFormat = (values, name) => join(values, ',')
+const classesParse = (value, name) => split(value, ',')
+
 /**
- * REact container to edit a container configuration
+ * React container to edit a container configuration
  */
 class ContainerConfigurationComponent extends React.Component {
 
@@ -50,19 +53,19 @@ class ContainerConfigurationComponent extends React.Component {
     // from reduxForm
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
+    invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    hideDynamicContentOption: false,
   }
 
   static contextTypes = {
     ...i18nContextType,
-  }
-
-  static buttonStyle = {
-    marginTop: 20,
-  }
-  static checkboxStyle = {
-    marginTop: 15,
+    ...themeContextType,
   }
 
   state = {
@@ -87,29 +90,39 @@ class ContainerConfigurationComponent extends React.Component {
     input.onChange(value)
   }
 
-  renderDynamicContent = () => {
-    if (!this.props.hideDynamicContentOption) {
-      return (
-        <Field
-          name="dynamicContent"
-          style={ContainerConfigurationComponent.checkboxStyle}
-          component={RenderCheckbox}
-          label={this.context.intl.formatMessage({ id: 'container.form.dynamicContent' })}
-        />
-      )
+  /**
+   * When the user checks the "Main Container" option, warn him that only one container can be "Main Container" at once
+   */
+  warnOnlyOneMainContainer = (event, newValue, previousValue) => {
+    this.setState({
+      warnDialogOpen: true,
+    })
+  }
+
+  validatedJSON = (value, allValues, props, name) => {
+    if (value == null || value === undefined) {
+      return this.context.intl.formatMessage({ id: 'container.configuration.edit.styles.error.json.format' })
     }
-    return null
+    try {
+      JSON.stringify(value)
+      return undefined
+    } catch (e) {
+      return this.context.intl.formatMessage({ id: 'container.configuration.edit.styles.error.json.format' })
+    }
   }
 
   render() {
-    const { pristine, submitting } = this.props
-    const iconToggleAdvanced = this.state.advanced ?
-      <KeyboardArrowUp /> :
-      <KeyboardArrowDown />
+    const { pristine, submitting, invalid, container, handleSubmit, onSubmit, onCancel } = this.props
+    const { intl: { formatMessage } } = this.context
+    const { advanced } = this.state
+
+    const containerModel = container && ContainerTypes[container.type]
+    // dynamic options (layout and main container) are available for non root container (ie new ones or inUserApp marked layouts)
+    const hasDynamicOptions = !container || containerModel.inUserApp
 
     return (
       <form
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div>
           <Field
@@ -117,84 +130,62 @@ class ContainerConfigurationComponent extends React.Component {
             fullWidth
             component={RenderTextField}
             type="text"
-            disabled={this.props.container !== null}
-            label={this.context.intl.formatMessage({ id: 'container.form.id' })}
+            disabled={container !== null}
+            label={formatMessage({ id: 'container.form.id' })}
+            validate={ValidationHelpers.required}
           />
-          <Field
-            name="type"
-            fullWidth
-            component={RenderSelectField}
-            type="text"
-            onSelect={this.selectContainerType}
-            label={this.context.intl.formatMessage({ id: 'container.form.type' })}
-          >
-            {map(ContainerTypes, (type, typeName) => (
-              <MenuItem
-                value={typeName}
-                key={typeName}
-                primaryText={typeName}
-              />
-            ))}
-          </Field>
-          {this.renderDynamicContent()}
+          {hasDynamicOptions ? // available for new elements and
+            <Field
+              name="type"
+              fullWidth
+              component={RenderSelectField}
+              type="text"
+              onSelect={this.selectContainerType}
+              label={formatMessage({ id: 'container.form.type' })}
+              validate={ValidationHelpers.required}
+            >
+              { /** Show option (remove container types used for root container) */
+                map(ContainerTypes, (containerOption, containerKey) =>
+                  containerOption.inUserApp ?
+                    <MenuItem value={containerKey} key={containerKey} primaryText={formatMessage({ id: containerOption.i18nKey })} /> :
+                    null)
+              }
+            </Field> : null}
+          {!this.props.hideDynamicContentOption && hasDynamicOptions ?
+            <DynamicContentField change={this.props.change} /> : null}
+          <ShowHideAdvancedOptions advanced={advanced} onTouchTap={this.onAdvancedClick} />
           <ShowableAtRender
-            show={this.state.advanced}
+            show={advanced}
           >
             <Field
               name="classes"
-              format={(values, name) => join(values, ',')}
-              parse={(value, name) => split(value, ',')}
+              format={classesFormat}
+              parse={classesParse}
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'container.form.classes' })}
+              label={formatMessage({ id: 'container.form.classes' })}
             />
             <Field
               name="styles"
-              format={(values, name) => JSON.stringify(values)}
-              parse={(values, name) => JSON.parse(values)}
               fullWidth
-              component={RenderTextField}
-              type="text"
-              label={this.context.intl.formatMessage({ id: 'container.form.styles' })}
+              validate={this.validatedJSON}
+              component={RenderJsonCodeEditorField}
+              label={formatMessage({ id: 'container.form.styles' })}
             />
           </ShowableAtRender>
-          <RaisedButton
-            label={this.context.intl.formatMessage({ id: 'container.form.advanced.mode' })}
-            primary
-            icon={iconToggleAdvanced}
-            onTouchTap={this.onAdvancedClick}
-            style={ContainerConfigurationComponent.buttonStyle}
-          />
           <CardActionsComponent
-            mainButtonLabel={
-              this.context.intl.formatMessage({
-                id: this.props.container ? 'container.form.update.button' : 'container.form.submit.button',
-              })
-            }
+            mainButtonLabel={formatMessage({ id: container ? 'container.form.update.button' : 'container.form.submit.button' })}
             mainButtonType="submit"
-            isMainButtonDisabled={pristine || submitting}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'container.form.cancel.button' })}
-            secondaryButtonTouchTap={this.props.onCancel}
+            isMainButtonDisabled={pristine || submitting || invalid}
+            secondaryButtonLabel={formatMessage({ id: 'container.form.cancel.button' })}
+            secondaryButtonTouchTap={onCancel}
           />
         </div>
-      </form>
+      </form >
     )
   }
 
-}
-
-ContainerConfigurationComponent.defaultProps = {
-  hideDynamicContentOption: false,
-}
-
-function validate(values) {
-  const errors = {}
-
-  errors.id = ValidationHelpers.required(values.id)
-  errors.type = ValidationHelpers.required(values.type)
-
-  return errors
 }
 
 const UnconnectedContainerConfigurationComponent = ContainerConfigurationComponent
@@ -202,8 +193,6 @@ export {
   UnconnectedContainerConfigurationComponent,
 }
 
-
 export default reduxForm({
   form: 'edit-layout-container-form',
-  validate,
 })(ContainerConfigurationComponent)

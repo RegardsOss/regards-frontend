@@ -44,7 +44,6 @@ const conf = webpackConfigurator
         '@regardsoss/form-utils',
         '@regardsoss/global-system-error',
         '@regardsoss/i18n',
-        //'@regardsoss/model',
         '@regardsoss/plugins',
         '@regardsoss/project-handler',
         '@regardsoss/redux',
@@ -80,7 +79,7 @@ const conf = webpackConfigurator
   .runShell({
     onBuildEnd: [
       'echo "Updating webpack-config-front dist folder for plugins production build"',
-      'rm -rf ./webpack-config-front/dist/ || true',
+      'rm -rf ./webpack-config-front/dist || true',
       'cp -Rp ./dist/prod ./webpack-config-front/dist',
     ],
   })

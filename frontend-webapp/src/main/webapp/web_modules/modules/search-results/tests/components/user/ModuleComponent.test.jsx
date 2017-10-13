@@ -43,7 +43,8 @@ describe('[Search Results] Testing ModuleComponent', () => {
       attributesConf: [],
       attributesRegroupementsConf: [],
       attributeModels: {},
-
+      expanded: true,
+      onExpandChange: () => { },
     }
     shallow(<ModuleComponent {...props} />, { context })
   })

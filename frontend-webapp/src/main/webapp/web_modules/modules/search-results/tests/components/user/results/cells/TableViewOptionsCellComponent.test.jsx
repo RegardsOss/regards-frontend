@@ -19,8 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { ShowableAtRender } from '@regardsoss/components'
 import TableViewOptionsCellComponent from '../../../../../src/components/user/results/cells/TableViewOptionsCellComponent'
+import EntityDescriptionButton from '../../../../../src/components/user/results/options/EntityDescriptionButton'
+import OneElementServicesButton from '../../../../../src/components/user/results/options/OneElementServicesButton'
 import AddElementToCartButton from '../../../../../src/components/user/results/options/AddElementToCartButton'
 import styles from '../../../../../src/styles/styles'
 
@@ -33,6 +36,47 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
   it('should exists', () => {
     assert.isDefined(TableViewOptionsCellComponent)
   })
+  it('should render correctly with services', () => {
+    const props = {
+      services: [{
+        content: {
+          configId: 0,
+          label: 'ui-service-0',
+          icon: null,
+          applicationModes: [AccessDomain.applicationModes.ONE],
+          entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
+          type: AccessDomain.pluginTypes.UI,
+        },
+      }, {
+        content: {
+          configId: 0,
+          label: 'catalog-service-0',
+          icon: 'http://my-little-poney/ponatator.gif',
+          applicationModes: [AccessDomain.applicationModes.ONE],
+          entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
+          type: AccessDomain.pluginTypes.CATALOG,
+        },
+      }],
+      servicesTooltip: 'services.tooltip',
+      descriptionTooltip: 'description.tooltip',
+      styles: context.moduleTheme.user.optionsStyles,
+      onShowDescription: () => { },
+      onServiceStarted: () => { },
+    }
+    const render = shallow(<TableViewOptionsCellComponent {...props} />, { context })
+
+    const descButton = render.find(EntityDescriptionButton)
+    assert.lengthOf(descButton, 1, 'There should be a button to show description')
+    assert.equal(descButton.props().onShowDescription, props.onShowDescription, 'Description button should use right tooltip')
+    assert.equal(descButton.props().tooltip, props.descriptionTooltip, 'Description button should use right callback')
+
+    const servicesButton = render.find(OneElementServicesButton)
+    assert.lengthOf(servicesButton, 1, 'There should be a button to show services')
+    assert.equal(servicesButton.props().onServiceStarted, props.onServiceStarted, 'Services button should use right tooltip')
+    assert.equal(servicesButton.props().services, props.services, 'Service button should have the list of services')
+    // note: no need to test disabled state here, performed in OneElementServicesButton tests
+  })
+
   it('should render properly without cart', () => {
     const props = {
       displayAddToBasket: true,

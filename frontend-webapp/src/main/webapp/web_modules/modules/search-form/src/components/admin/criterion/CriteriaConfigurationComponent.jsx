@@ -23,7 +23,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { DamDomain } from '@regardsoss/domain'
-import { AttributeModel, Plugin } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -33,9 +33,9 @@ import { themeContextType } from '@regardsoss/theme'
 class CriteriaConfigurationComponent extends React.Component {
 
   static propTypes = {
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    selectableAttributes: DataManagementShapes.AttributeModelList,
     // Set by plugin provider
-    plugin: Plugin,
+    plugin: AccessShapes.UIPluginInstanceContent,
   }
 
   static contextTypes = {

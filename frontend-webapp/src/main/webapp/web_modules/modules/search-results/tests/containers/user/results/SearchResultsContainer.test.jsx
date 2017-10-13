@@ -19,8 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SearchResultsTargetsEnum } from '@regardsoss/model'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
 import { SearchResultsContainer } from '../../../../src/containers/user/results/SearchResultsContainer'
+import PluginServicesContainer from '../../../../src/containers/user/results/PluginServicesContainer'
 import OrderCartContainer from '../../../../src/containers/user/results/OrderCartContainer'
 import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
 import styles from '../../../../src/styles/styles'
@@ -51,11 +52,12 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       displayMode: DisplayModeEnum.LIST,
 
       dispatchChangeViewObjectType: () => { },
-      dispatchDatasetSelected: () => { },
+      dispatchSetEntityAsTag: () => { },
       dispatchTagSelected: () => { },
       dispatchChangeDisplayMode: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(PluginServicesContainer), 1, 'It should render the service container')
     assert.lengthOf(enzymeWrapper.find(OrderCartContainer), 1, 'It should render oder cart enabling container')
   })
 })

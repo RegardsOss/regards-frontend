@@ -8,7 +8,8 @@ import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 
 /**
 * Drop down button (used where drop down menu is not adequate). You can add some other properties to this component,
-* it will ass them through to the button instance
+* it will pass them through to the button instance
+* XXX ulterior MUI version: disable the fix when submenus are correctly handled!
 */
 class DropDownButton extends React.Component {
 
@@ -20,11 +21,15 @@ class DropDownButton extends React.Component {
     disabled: PropTypes.bool,
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any,
+    // set up explicitely to true to use the submenus problem fix (not compatible with a value menu)
+    hasSubMenus: PropTypes.bool,
+    // other button properties
   }
 
   static defaultProps = {
     ButtonConstructor: FlatButton,
     disabled: false,
+    hasSubMenus: false,
   }
 
   componentWillMount = () => {
@@ -65,10 +70,59 @@ class DropDownButton extends React.Component {
     }
   }
 
+  /**
+   * Sets the current menu item value
+   */
   setCurrentValue = value => this.setState({ value })
 
+  /**
+   * Applies the sub menus fix to a menu item (and sub items). Ignores non menu items
+   * @param menuItem menu item
+   * @return element unchanged or menu item cloned
+   */
+  buildAutoClosingMenuItem = (element) => {
+    if (element.type.muiName !== 'MenuItem') { // element to ignore?
+      return element
+    }
+    const { menuItems: subItems, onTouchTap: initialCallback, ...otherItemProps } = element.props
+    let menuItems = subItems
+    let onTouchTap = initialCallback
+    if (subItems && subItems.length) {
+      // A sub menus container: we need to set up the hack in all sub items (and successively)
+      menuItems = subItems.map(item => this.buildAutoClosingMenuItem(item))
+    } else {
+      // a last level menu item: we need to fix the callback to close this menu
+      onTouchTap = () => {
+        this.onCloseMenu() // close the menu
+        if (initialCallback) { // run the callback if any
+          initialCallback()
+        }
+      }
+    }
+    // clone the menu item with computed properties
+    return React.cloneElement(element, { ...otherItemProps, menuItems, onTouchTap })
+  }
+
+  /**
+   * Prepares drop down box children: makes sure that the sub menus fix will be set up when required
+   * @param hasSubMenus should apply sub menus fix?
+   * @param children component children
+   * @return children as they should be used
+   */
+  prepareChildren = (hasSubMenus, children) => {
+    if (!children || !children.length) {
+      return null
+    }
+    if (!hasSubMenus) {
+      // can use directly children
+      return children
+    }
+    // wrap required to ensure menu closes (remove null elements)
+    return children.filter(menuItem => !!menuItem).map(menuItem => this.buildAutoClosingMenuItem(menuItem))
+  }
+
   render() {
-    const { ButtonConstructor, getLabel, children, disabled, ...otherButtonProperties } = this.props
+    const { ButtonConstructor, getLabel, children, disabled, hasSubMenus, ...otherButtonProperties } = this.props
     const { value, menuVisibleOn } = this.state
     const iconAnchor = { horizontal: 'left', vertical: 'bottom' }
     const iconTarget = { horizontal: 'left', vertical: 'top' }
@@ -77,7 +131,6 @@ class DropDownButton extends React.Component {
         <ButtonConstructor
           label={getLabel(value)}
           onTouchTap={this.onOpenMenu}
-          labelPosition="before"
           icon={<DrowDownIcon />}
           disabled={disabled}
           {...otherButtonProperties}
@@ -89,8 +142,10 @@ class DropDownButton extends React.Component {
           targetOrigin={iconTarget}
           onRequestClose={this.onCloseMenu}
         >
-          <Menu onChange={this.onMenuItemSelected}>
-            {children || null}
+          <Menu onChange={hasSubMenus ? undefined : this.onMenuItemSelected}>
+            { // Children, null, or wrapped children when workarounding the sub menus problem
+              this.prepareChildren(hasSubMenus, children)
+            }
           </Menu>
         </Popover>
       </div>
