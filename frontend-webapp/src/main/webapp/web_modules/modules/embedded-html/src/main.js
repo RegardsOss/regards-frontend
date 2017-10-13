@@ -19,6 +19,7 @@
 import moduleContainer from './containers/ModuleContainer'
 import adminContainer from './containers/AdminContainer'
 import styles from './styles/styles'
+import messages from './i18n'
 import dependencies from './dependencies'
 
 /**
@@ -29,6 +30,6 @@ export default {
   adminContainer,
   moduleContainer,
   styles,
-  messagesDir: 'modules/embedded-html/src/i18n',
+  messages,
   dependencies,
 }

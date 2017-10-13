@@ -19,6 +19,7 @@
 import moduleContainer from './containers/ModuleContainer'
 import adminContainer from './containers/AdminContainer'
 import styles from './styles/styles'
+import messages from './i18n'
 import reducer from './reducer'
 import dependencies from './dependencies'
 
@@ -31,6 +32,6 @@ export default {
   moduleContainer,
   reducer,
   styles,
-  messagesDir: 'modules/<%= name %>/src/i18n',
+  messages,
   dependencies,
 }
