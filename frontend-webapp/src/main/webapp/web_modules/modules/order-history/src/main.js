@@ -19,6 +19,7 @@
 import adminContainer from './containers/admin/AdminModuleContainer'
 import moduleContainer from './containers/user/UserModuleContainer'
 import styles from './styles/styles'
+import messages from './i18n'
 import dependencies from './dependencies'
 
 /**
@@ -29,6 +30,6 @@ export default {
   adminContainer,
   moduleContainer,
   styles,
-  messagesDir: 'modules/order-history/src/i18n',
+  messages,
   dependencies,
 }

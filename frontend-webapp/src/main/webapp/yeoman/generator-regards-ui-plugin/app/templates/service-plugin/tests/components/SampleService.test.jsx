@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { SampleService } from '../../src/components/SampleService'
+import { assert } from 'chai'
+import { SampleService } from '../../src/containers/SampleService'
 
 /**
  * Test case for {@link StringCriteriaComponent}

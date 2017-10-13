@@ -17,12 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
-const webpack = require('webpack')
 
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'pkg_test',
-    projectContextPath: __dirname
+    projectContextPath: __dirname,
   })
   .get()
 
