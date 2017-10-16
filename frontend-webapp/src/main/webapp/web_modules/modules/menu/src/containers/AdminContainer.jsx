@@ -32,6 +32,7 @@ class AdminContainer extends React.Component {
   }
 
   static validateOptionalEmail = value => value && ValidationHelpers.email(value)
+  static validateOptionalUrl = value => value && ValidationHelpers.url(value)
 
   render() {
     const { intl, moduleTheme: { admin } } = this.context
@@ -57,7 +58,7 @@ class AdminContainer extends React.Component {
           fullWidth
           component={RenderTextField}
           label={intl.formatMessage({ id: 'menu.form.projectpage' })}
-          validate={ValidationHelpers.url}
+          validate={AdminContainer.validateOptionalUrl}
         />
         <Field
           name="conf.displayAuthentication"

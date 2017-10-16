@@ -24,6 +24,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { HelpMessageComponent } from '@regardsoss/components'
 import { reduxForm, RenderTextField, RenderCheckbox, Field, FormErrorMessage, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import { ScrollArea } from '@regardsoss/adapters'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
@@ -89,10 +90,13 @@ export class AskProjectAccessFormComponent extends React.Component {
         <form onSubmit={handleSubmit(onRequestAction)}>
           <Card>
             <CardTitle
-              title={formatMessage({ id: 'ask.project.access.request.title' }, { project })}
-              subtitle={formatMessage({ id: 'ask.project.access.request.message' }, { project, passwordRules })}
+              title={formatMessage({ id: 'ask.project.access.request.title' })}
+              subtitle={formatMessage({ id: 'ask.project.access.request.message' })}
             />
             <CardText>
+              <HelpMessageComponent
+                message={passwordRules}
+              />
               <FormErrorMessage>{errorMessage}</FormErrorMessage>
               <ScrollArea
                 vertical
