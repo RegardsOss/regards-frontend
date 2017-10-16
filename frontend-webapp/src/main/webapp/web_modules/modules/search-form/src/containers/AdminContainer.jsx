@@ -92,8 +92,8 @@ class AdminContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Check if the selectable attributes have to be updated
-    const datasetsConf = get(this.props,"adminForm.form.conf.datasets",null)
-    const newDatasetsConf = get(nextProps, "adminForm.form.conf.datasets", null)
+    const datasetsConf = get(this.props, 'adminForm.form.conf.datasets', null)
+    const newDatasetsConf = get(nextProps, 'adminForm.form.conf.datasets', null)
     if (datasetsConf && newDatasetsConf && !isEqual(datasetsConf, newDatasetsConf)) {
       this.updateselectableDataObjectsAttributes(newDatasetsConf.type,
         newDatasetsConf.selectedModels,

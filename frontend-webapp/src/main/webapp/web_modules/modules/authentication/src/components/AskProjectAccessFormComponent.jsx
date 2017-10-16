@@ -49,8 +49,6 @@ export class AskProjectAccessFormComponent extends React.Component {
     onRequestAction: PropTypes.func.isRequired,
     // back
     onBack: PropTypes.func.isRequired,
-    // project name
-    project: PropTypes.string.isRequired,
     // project metadata
     projectMetadata: MetadataList.isRequired,
     // from reduxFormSelector
@@ -79,7 +77,7 @@ export class AskProjectAccessFormComponent extends React.Component {
 
   render() {
     const {
-      project, projectMetadata, passwordRules,
+      projectMetadata, passwordRules,
       currentMailValue, useExistingAccount, errorMessage,
       onBack, onRequestAction,
       pristine, submitting, invalid, handleSubmit,

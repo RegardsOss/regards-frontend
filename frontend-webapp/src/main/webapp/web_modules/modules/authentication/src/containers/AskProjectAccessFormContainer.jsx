@@ -39,8 +39,6 @@ export class AskProjectAccessFormContainer extends React.Component {
   static propTypes = {
     // Form initial value
     initialMail: PropTypes.string,
-    // current project (empty if admin)
-    project: PropTypes.string.isRequired,
     // back callback
     onBack: PropTypes.func.isRequired,
     // New account done callback
@@ -118,7 +116,7 @@ export class AskProjectAccessFormContainer extends React.Component {
 
 
   render() {
-    const { project, initialMail, onBack, newAccountFetchStatus, newUserFetchStatus, passwordRules, fetchPasswordValidity } = this.props
+    const { initialMail, onBack, newAccountFetchStatus, newUserFetchStatus, passwordRules, fetchPasswordValidity } = this.props
     const { lastRequestType } = (this.state || {})
     const { intl } = this.context
     // select error to show in current mode
@@ -140,7 +138,6 @@ export class AskProjectAccessFormContainer extends React.Component {
 
     return (
       <AskProjectAccessFormComponent
-        project={project}
         passwordRules={passwordRules}
         initialMail={initialMail}
         errorMessage={errorMessage}

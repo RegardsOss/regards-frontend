@@ -3,13 +3,13 @@
 **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { connect } from '@regardsoss/redux'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { authenticationSelectors } from '../../../clients/AuthenticationClient'
 import DownloadDescriptionClient from '../../../clients/DownloadDescriptionClient'
-import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import DescriptionFileComponent from '../../../components/description/file/DescriptionFileComponent'
 
 /**
