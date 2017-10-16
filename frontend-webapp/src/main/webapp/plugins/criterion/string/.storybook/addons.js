@@ -16,25 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
 
-/**
-* Horizontal areas separator impl XXX V2 merge with parent
-* @author Raphaël Mechali
-*/
-class HorizontalAreasSeparatorImpl extends React.Component {
-
-  static contextTypes = {
-    ...themeContextType,
-  }
-
-  render() {
-    const { moduleTheme: { horizontalSeparator: { rootStyle, lineStyle } } } = this.context
-    return (
-      <div style={rootStyle}>
-        <div style={lineStyle} />
-      </div>
-    )
-  }
-}
-export default HorizontalAreasSeparatorImpl
+//  To get our default addons (actions and links)
+import '@kadira/storybook/addons'
+//  To add the knobs addon
+import '@kadira/storybook-addon-knobs/register'
+// Material-Ui addon
+import 'storybook-addon-material-ui'

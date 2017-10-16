@@ -120,4 +120,4 @@ const mapStateToProps = state => ({
   isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
 })
 
-export default AuthenticationMenuContainer
+export default connect(mapStateToProps)(AuthenticationMenuContainer)

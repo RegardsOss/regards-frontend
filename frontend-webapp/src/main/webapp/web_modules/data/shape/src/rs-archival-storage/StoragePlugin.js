@@ -28,10 +28,6 @@ const StoragePlugin = PropTypes.shape({
   content: StoragePluginContent,
 }).isRequired
 
-/**
- * BE CAREFUL THIS IS ALMOST UNIQUE IN THIS MODULE !!!!!!!!!!!
- * NO CONTENT ???!!!
- */
-const StoragePluginArray = PropTypes.arrayOf(StoragePluginContent)
+const StoragePluginContentArray = PropTypes.arrayOf(StoragePluginContent)
 const StoragePluginList = PropTypes.objectOf(StoragePlugin)
-export default { StoragePlugin, StoragePluginContent, StoragePluginArray, StoragePluginList }
+export default { StoragePlugin, StoragePluginContent, StoragePluginContentArray, StoragePluginList }

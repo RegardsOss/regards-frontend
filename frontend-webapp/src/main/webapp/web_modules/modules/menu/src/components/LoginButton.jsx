@@ -38,7 +38,7 @@ class LoginButton extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { user: { optionsLabelStyle } }, intl: { formatMessage  } = this.context
+    const { moduleTheme: { user: { optionsLabelStyle } }, intl: { formatMessage } } = this.context
     return (
       <FlatButton
         icon={<LoginIcon />}

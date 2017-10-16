@@ -16,17 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
-  'entities-attributes.form.table.value': 'Fixed value',
-  'entities-attributes.form.table.type': 'Type',
-  'entities-attributes.form.table.fragmentAndLabel': 'Fragment and attribute name',
-  'entities-attributes.form.table.input': 'Attribute value',
-  'entities-attributes.form.table.input.multiple': 'Attribute values',
-  'entities-attributes.form.table.stringarray.action.remove': 'Remove the value',
-  'entities-attributes.form.table.stringarray.action.add': 'Add a new value',
+import styles from './styles'
 
-}, Locales.en)
-
-export default messages
+export default { styles }

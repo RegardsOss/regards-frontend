@@ -81,7 +81,7 @@ export class OrderCartContainer extends React.Component {
       // cart availability related
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
       modules: modulesSelectors.getList(state),
-      availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
       // TODO when mergin 1.1.0, think about sharing those values
       // seletion and research related
       selectionMode: TableClient.tableSelectors.getSelectionMode(state),
@@ -124,7 +124,7 @@ export class OrderCartContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     modules: AccessShapes.ModuleList,
     // eslint-disable-next-line react/no-unused-prop-types
-    availableEndpoints: PropTypes.arrayOf(PropTypes.string),
+    availableDependencies: PropTypes.arrayOf(PropTypes.string),
     // seletion and research related
     // TODO when merging v1.1, think about sharing those properties with ServicesContainer
     toggledElements: PropTypes.objectOf(CatalogShapes.Entity).isRequired,
@@ -146,7 +146,7 @@ export class OrderCartContainer extends React.Component {
     'openSearchQuery',
     'isAuthenticated',
     'modules',
-    'availableEndpoints',
+    'availableDependencies',
     'toggledElements',
     'selectionMode',
     'dispatchAddToCart',
@@ -181,7 +181,7 @@ export class OrderCartContainer extends React.Component {
     const newState = { ...(oldState || OrderCartContainer.DEFAULT_STATE) }
     if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated) ||
       !isEqual(oldProps.modules, newProps.modules) ||
-      !isEqual(oldProps.availableEndpoints, newProps.availableEndpoints)) {
+      !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       // recompute if basket should be displayed
       newState.basketAvailaible = this.isBasketAvailable(newProps)
     }
@@ -254,7 +254,7 @@ export class OrderCartContainer extends React.Component {
  * @param {*} properties this component properties
  * @return {boolean} true if basket is available
  */
-  isBasketAvailable = ({ isAuthenticated, modules, availableEndpoints }) => {
+  isBasketAvailable = ({ isAuthenticated, modules, availableDependencies }) => {
     // Available if...
     // A - User is logged in
     if (isAuthenticated) {
@@ -265,7 +265,7 @@ export class OrderCartContainer extends React.Component {
       )
       if (hasOrderCartModule) {
         // C - Finally, user must have rights to manage the basket
-        return allMatchHateoasDisplayLogic(OrderCartContainer.BASKET_DEPENDENCIES, availableEndpoints)
+        return allMatchHateoasDisplayLogic(OrderCartContainer.BASKET_DEPENDENCIES, availableDependencies)
       }
     }
     // otherwise: NO it isn't

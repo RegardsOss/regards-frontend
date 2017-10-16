@@ -16,15 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ModuleThemeProvider } from '@regardsoss/modules'
-import ModuleTitleImpl from './ModuleTitleImpl'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import styles from './styles'
 
 /**
 * Common dynamic modules title (when not using a breadcrumb) - XXX-V2-merge with breadcrumb
 * @author Raphaël Mechali
 */
-class ModuleTitle extends React.Component {
+export class ModuleTitle extends React.Component {
 
   static propTypes = {
     IconConstructor: PropTypes.func.isRequired,
@@ -32,17 +31,21 @@ class ModuleTitle extends React.Component {
     tooltip: PropTypes.string,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   render() {
     const { IconConstructor, text, tooltip } = this.props
+    const { moduleTheme: { moduleTitle } } = this.context
     return (
-      <ModuleThemeProvider module={styles}>
-        <ModuleTitleImpl
-          IconConstructor={IconConstructor}
-          text={text}
-          tooltip={tooltip}
-        />
-      </ModuleThemeProvider >
+      <div style={moduleTitle.style} title={tooltip}>
+        <IconConstructor style={moduleTitle.iconStyle} />
+        <div style={moduleTitle.labelStyle}>
+          {text}
+        </div >
+      </div>
     )
   }
 }
-export default ModuleTitle
+export default withModuleStyle(styles)(ModuleTitle)

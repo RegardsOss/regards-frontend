@@ -18,14 +18,13 @@
  **/
 import root from 'window-or-global'
 import { CommonShapes } from '@regardsoss/shape'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { I18nProvider } from '@regardsoss/i18n'
 import IFrameURLContentDisplayer from './IFrameURLContentDisplayer'
 import CodeFileDisplayer from './CodeFileDisplayer'
 import ImageFileDisplayer from './ImageFileDisplayer'
-import styles from './styles/styles'
-
-const MODULE_STYLES = { styles }
+import messages from './i18n'
+import styles from './styles'
 
 /**
  * Shows file content through the adequate content displayer, if any, or relies on a local URL iFrame renderer
@@ -80,8 +79,8 @@ class FileContentDisplayer extends React.Component {
     const { file, style } = this.props
     const { localAccessURL } = this.state
     return (
-      <I18nProvider messageDir={'components/src/content/i18n'}>
-        <ModuleThemeProvider module={MODULE_STYLES}>
+      <I18nProvider messages={messages}>
+        <ModuleStyleProvider module={styles}>
           {
             (() => {
               // 1 - Render through a code view for corresponding MIME type
@@ -100,7 +99,7 @@ class FileContentDisplayer extends React.Component {
                 />)
             })()
           }
-        </ModuleThemeProvider>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

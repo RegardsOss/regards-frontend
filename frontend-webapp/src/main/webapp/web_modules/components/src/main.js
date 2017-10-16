@@ -44,7 +44,6 @@ import CardActionsView from './cards/CardActionsView'
 import MainActionButtonComponent from './cards/MainActionButtonComponent'
 import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
-import ShowableAtRender from './cards/ShowableAtRender'
 
 import FileContentDisplayer from './content/FileContentDisplayer'
 import CodeFileDisplayer from './content/CodeFileDisplayer'
@@ -106,11 +105,10 @@ export {
   ActionIconWithNotifications,
   ActionsMenuCell,
   ApplicationErrorComponent,
-  BaseBoardItemComponent,
   BaseBoardComponent,
+  BaseBoardItemComponent,
   BoardComponent,
   BoardItemComponent,
-  BaseBoardItemComponent,
   buttonsMessages, // XXX remove me in V2
   CardActionsComponent,
   CardActionsView,
@@ -125,17 +123,16 @@ export {
   ErrorCardComponent,
   ErrorDecoratorComponent,
   FormErrorMessage,
-  PageNotFoundComponent,
   FileContentDisplayer,
   getTableReducer,
   getTableSelectors,
   HorizontalAreasSeparator,
   IFrameURLContentDisplayer,
-  ModuleTitle,
-  PageNotFoundComponent,
   ListContainer,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
+  ModuleTitle,
+  PageNotFoundComponent,
   PositionedDialog,
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
@@ -161,8 +158,6 @@ export {
   TablePaneHeader,
   TableSelectionModes,
   TableActions,
-  getTableReducer,
-  getTableSelectors,
   TableSortOrders,
   TableColumnConfiguration,
   TableColumnConfigurationController,

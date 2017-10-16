@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'table.results.count': '{count} results',
   'table.filter.columns.label': 'Columns...',
   'table.select.all.label': 'All',
@@ -29,6 +28,6 @@ const messages = Object.assign({
   'table.actions.more': 'More actions',
   'table.column.visibility.filter': 'Visible columns',
   'table.loading.message': 'Loading content',
-}, Locales.en)
+}
 
 export default messages

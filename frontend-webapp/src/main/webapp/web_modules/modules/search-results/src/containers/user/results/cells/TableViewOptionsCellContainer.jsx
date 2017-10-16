@@ -5,14 +5,13 @@ import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
-import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { descriptionLevelActions } from '../../../../models/description/DescriptionLevelModel'
 import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
 import TableViewOptionsCellComponent from '../../../../components/user/results/cells/TableViewOptionsCellComponent'
 import messages from '../../../../i18n'
 import styles from '../../../../styles'
-
 
 
 /**
@@ -69,7 +68,7 @@ export class TableViewOptionsCellContainer extends React.Component {
 
 
   render() {
-    const { styles, entity, servicesTooltip, descriptionTooltip } = this.props
+    const { onAddToCart, entity } = this.props
     return (
       <TableViewOptionsCellComponent
         services={entity.content.services}

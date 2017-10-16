@@ -66,15 +66,15 @@ export class DocumentEditFilesComponent extends React.Component {
     nbInputs: 1,
   }
 
+  getDocumentUrlWithToken = (document) => {
+    const { accessToken } = this.props
+    return `${document.uri}?token=${accessToken}` || ''
+  }
+
   addFileInput = () => {
     this.setState({
       nbInputs: this.state.nbInputs + 1,
     })
-  }
-
-  getDocumentUrlWithToken = (document) => {
-    const { accessToken } = this.props
-    return `${document.uri}?token=${accessToken}` || ''
   }
 
   deleteFileInput = () => {
@@ -84,7 +84,8 @@ export class DocumentEditFilesComponent extends React.Component {
     })
   }
 
-  getFileInput = inputId => (
+
+  renderFileInput = inputId => (
     <div
       style={DocumentEditFilesComponent.rowInputAndButtonStyle}
       key={inputId}
@@ -107,8 +108,7 @@ export class DocumentEditFilesComponent extends React.Component {
         </div>
       </ShowableAtRender>
     </div>
-      )
-
+  )
 
 
   render() {
@@ -153,7 +153,7 @@ export class DocumentEditFilesComponent extends React.Component {
               </div>
               <div className="col-sm-50">
                 <Subheader><FormattedMessage id="document.form.files.addFile.subtitle" /></Subheader>
-                {times(this.state.nbInputs, i => this.getFileInput(i))}
+                {times(this.state.nbInputs, i => this.renderFileInput(i))}
               </div>
             </div>
           </CardText>

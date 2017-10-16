@@ -27,9 +27,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 
 const { string, url, validStringSize, required, validAlphaNumericUnderscore } = ValidationHelpers
 const requiredStringValidator = [required, string]
-const requiredUrlValidator = [required, url, validStringSize(1,255)]
+const requiredUrlValidator = [required, url, validStringSize(1, 255)]
 const nameValidator = [validAlphaNumericUnderscore, ...requiredStringValidator]
-const validUrlSize255 = [url, validStringSize(0,255)]
+const validUrlSize255 = [url, validStringSize(0, 255)]
 
 
 /**

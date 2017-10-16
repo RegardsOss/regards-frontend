@@ -16,17 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Locales } from '@regardsoss/form-utils'
+import { IntlProvider } from 'react-intl'
+import messages from '../../src/i18n/messages.en.i18n'
 
-const messages = Object.assign({
-  'entities-attributes.form.table.value': 'Fixed value',
-  'entities-attributes.form.table.type': 'Type',
-  'entities-attributes.form.table.fragmentAndLabel': 'Fragment and attribute name',
-  'entities-attributes.form.table.input': 'Attribute value',
-  'entities-attributes.form.table.input.multiple': 'Attribute values',
-  'entities-attributes.form.table.stringarray.action.remove': 'Remove the value',
-  'entities-attributes.form.table.stringarray.action.add': 'Add a new value',
+const reactInlt = story => (
+  <IntlProvider locale="en" messages={messages}>
+    {story()}
+  </IntlProvider>
+)
 
-}, Locales.en)
-
-export default messages
+export default reactInlt

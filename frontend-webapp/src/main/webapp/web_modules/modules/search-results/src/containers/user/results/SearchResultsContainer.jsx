@@ -24,7 +24,7 @@ import { connect } from '@regardsoss/redux'
 import { AccessDomain, CatalogDomain } from '@regardsoss/domain'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { TableSortOrders } from '@regardsoss/components'
 import { Tag } from '../../../models/navigation/Tag'
 import {
@@ -32,7 +32,6 @@ import {
   searchDatasetsFromDataObjectsActions,
   searchDatasetsActions,
 } from '../../../clients/SearchEntitiesClient'
-import NavigationLevel from '../../../models/navigation/NavigationLevel'
 import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
@@ -84,7 +83,7 @@ export class SearchResultsContainer extends React.Component {
     viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired, // current view object type
     displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired, // Display mode
     // eslint-disable-next-line react/no-unused-prop-types
-    levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)), // only used to build query
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
     dispatchChangeDisplayMode: PropTypes.func.isRequired,
@@ -273,7 +272,7 @@ export class SearchResultsContainer extends React.Component {
     const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
     return (
-      <ModuleThemeProvider module={moduleStyles}>
+      <ModuleStyleProvider module={moduleStyles}>
         <PluginServicesContainer
           // plugin service exlusive properties
           viewObjectType={viewObjectType}
@@ -308,7 +307,7 @@ export class SearchResultsContainer extends React.Component {
           onResetNavigationContext={this.onResetNavigationContext}
           onSortChanged={this.onSortChanged}
         />
-      </ModuleThemeProvider>
+      </ModuleStyleProvider>
     )
   }
 }

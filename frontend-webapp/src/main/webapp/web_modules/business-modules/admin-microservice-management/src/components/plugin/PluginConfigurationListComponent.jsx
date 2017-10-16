@@ -95,7 +95,7 @@ export default class PluginConfigurationListComponent extends React.Component {
       />)))(pluginConfigurationList)
 
     return (
-      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
+      <I18nProvider messages={messages}>
         <Card>
           <CardTitle
             title={`${microserviceName} > Plugins > ${pluginMetaData && pluginMetaData.content.pluginId}`}

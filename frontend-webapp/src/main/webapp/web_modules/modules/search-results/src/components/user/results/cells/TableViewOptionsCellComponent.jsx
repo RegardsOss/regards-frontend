@@ -25,7 +25,8 @@ class TableViewOptionsCellComponent extends React.Component {
     onServiceStarted: PropTypes.func.isRequired,
   }
 
-==== BASE ====
+  static contextTypes = { ...i18nContextType, ...themeContextType }
+
   render() {
     const { onShowDescription, services, onServiceStarted, onAddToCart } = this.props
     const { moduleTheme: { user: { optionsStyles: { rootStyles, buttonStyles, iconStyles } } } } = this.context
@@ -34,14 +35,12 @@ class TableViewOptionsCellComponent extends React.Component {
         <OneElementServicesButton
           style={buttonStyles}
           iconStyle={iconStyles}
-          tooltip={servicesTooltip}
           services={services}
           onServiceStarted={onServiceStarted}
         />
         <EntityDescriptionButton
           style={buttonStyles}
           iconStyle={iconStyles}
-          tooltip={descriptionTooltip}
           onShowDescription={onShowDescription}
         />
         {/* show add to cart only when available */}
@@ -57,4 +56,4 @@ class TableViewOptionsCellComponent extends React.Component {
     )
   }
 }
-export default TableViewOptionsCellComponent // TODO same!!!
+export default TableViewOptionsCellComponent

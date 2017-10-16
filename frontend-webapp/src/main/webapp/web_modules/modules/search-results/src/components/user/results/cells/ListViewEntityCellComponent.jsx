@@ -28,11 +28,10 @@ import { Card, CardHeader, CardText } from 'material-ui/Card'
 import { DamDomain, CatalogDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { DamDomain, CatalogDomain } from '@regardsoss/domain'
-import { CatalogShapes, DataManagementShapes } from '@regardsoss/shape'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { TableColumnConfiguration, TableColumnConfigurationController, DownloadButton, ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
+import AddElementToCartButton from '../options/AddElementToCartButton'
 import OneElementServicesButton from '../options/OneElementServicesButton'
 import EntityDescriptionButton from '../options/EntityDescriptionButton'
 
@@ -216,10 +215,9 @@ class ListViewEntityCellComponent extends React.Component {
     return null
   }
 
-// TODO handle with i18n and styles!!!!
   displayTitle = () => {
     const { onShowDescription, onAddToCart } = this.props
-    const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage } } = this.context
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
     const { rootStyles, checkboxStyles, titleLabelStyles, optionsBarStyles, option } = listViewStyles.title
     return (
       <div style={rootStyles}>
@@ -276,13 +274,13 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayServices = () => {
-    const { entity: { content: { services = [] } }, onServiceStarted, servicesTooltip } = this.props
-    const { option } = this.props.styles.title
+    const { entity: { content: { services = [] } }, onServiceStarted } = this.props
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
+    const { option } = listViewStyles.title
     return !services.length ? null : (
       <OneElementServicesButton
         style={option.buttonStyles}
         iconStyle={option.iconStyles}
-        tooltip={servicesTooltip}
         services={services}
         onServiceStarted={onServiceStarted}
       />)

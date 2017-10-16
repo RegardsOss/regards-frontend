@@ -2,15 +2,12 @@
 * LICENSE_PLACEHOLDER
 **/
 import DefaultRootIconConstructor from 'material-ui/svg-icons/communication/location-on'
-import { ModuleThemeProvider } from '@regardsoss/modules'
-import BreadcrumbImpl from './BreadcrumbImpl'
-import styles from './styles/styles'
-
-/** Render constant: module syles  */
-const BREADCRUMB_STYLES = { styles }
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import BreadcrumbElement from './BreadcrumbElement'
+import styles from './styles'
 
 /**
- * Breadcrumb displayer (with element types). Note that it must be called like BreadcrumbComponent(Type).
+ * Breadcrumb displayer (with element types).
  *
  * @author Raphaël Mechali
  */
@@ -61,12 +58,24 @@ class Breadcrumb extends React.Component {
   render() {
     const { elements } = this.state
     const { RootIconConstructor } = this.props
+    const { moduleTheme: { breadcrumb: { style } } } = this.context
     return (
-      <ModuleThemeProvider module={BREADCRUMB_STYLES}>
-        <BreadcrumbImpl elements={elements} RootIconConstructor={RootIconConstructor} />
-      </ModuleThemeProvider >
+      <div style={style}>
+        {
+          // for each element, generate array of separator from previous (if not first) and clickable element.
+          elements.map(({ label, onAction }, index) =>
+            (<BreadcrumbElement
+              isFirst={!index}
+              isLast={index === elements.length - 1}
+              key={label}
+              label={label}
+              onAction={onAction}
+              RootIconConstructor={RootIconConstructor}
+            />))
+        }
+      </div>
     )
   }
 }
 
-export default withModuleStyle(BREADCRUMB_STYLES)(Breadcrumb)
+export default withModuleStyle(styles)(Breadcrumb)

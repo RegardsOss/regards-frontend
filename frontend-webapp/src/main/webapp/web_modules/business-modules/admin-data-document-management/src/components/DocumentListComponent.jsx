@@ -53,6 +53,8 @@ class DocumentListComponent extends React.Component {
     ...themeContextType,
   }
 
+  static CREATE_DEPENDENCIES = [documentActions.getDependency(RequestVerbEnum.POST)]
+
   static PAGE_SIZE = 10
 
   constructor(props) {
@@ -209,7 +211,7 @@ class DocumentListComponent extends React.Component {
                   id="document.list.action.add"
                 />
               }
-              mainHateoasDependencies={[documentActions.getDependency(RequestVerbEnum.POST)]}
+              mainHateoasDependencies={DocumentListComponent.CREATE_DEPENDENCIES}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'document.list.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />

@@ -43,10 +43,7 @@ import TableViewOptionsCellContainer from '../../../containers/user/results/cell
 import TableSortFilterComponent from './options/TableSortFilterComponent'
 import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
 import TableSelectAllContainer from '../../../containers/user/results/options/TableSelectAllContainer'
-==== BASE ====
 import SelectionServiceComponent from './options/SelectionServiceComponent'
-import ServiceIconComponent from './options/ServiceIconComponent'
-==== BASE ====
 import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 
 /**
@@ -142,7 +139,8 @@ class SearchResultsComponent extends React.Component {
     label: this.context.intl.formatMessage({ id: 'results.options.column.label' }),
     attributes: [],
     order: Number.MAX_VALUE,
-    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (2 + this.props.onAddElementToCart ? 2 : 1), // reserve space for services and add to cart if is available
+    // reserve space for description, services and add to cart if is available
+    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (2 + (this.props.onAddElementToCart ? 1 : 0)),
     sortable: false,
     hideLabel: true,
     // order: number.
@@ -221,7 +219,7 @@ class SearchResultsComponent extends React.Component {
   * Create columns configuration for table view
   * @returns {Array}
   */
-  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSetEntityAsTag,  }) => [{
+  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSetEntityAsTag, onStartSelectionService }) => [{
     label: 'ListviewCell',
     attributes: [],
     customCell: {
@@ -230,14 +228,9 @@ class SearchResultsComponent extends React.Component {
         // click: select a dataset when in dataset mode
         onSearchEntity: showingDataobjects ? null : onSetEntityAsTag,
         attributes: attributeModels,
-==== BASE ====
-        styles: this.context.moduleTheme.user.listViewStyles,
-        onSearchTag: onSelectSearchTag,
-==== BASE ====
         tableColumns,
-==== BASE ====
-        displayCheckbox: showingDataobjects && this.props.displaySelectCheckboxes,
-==== BASE ====
+        onServiceStarted: onStartSelectionService,
+        displayCheckbox: showingDataobjects,
       },
     },
   }]
@@ -316,24 +309,30 @@ class SearchResultsComponent extends React.Component {
           service={service}
           onRunService={onStartSelectionService}
         />)),
-      selectionServices.length ? <TableOptionsSeparator key="services.separator" /> : null,
+      <ShowableAtRender show={selectionServices.length} key="services.separator">
+        <TableOptionsSeparator />
+      </ShowableAtRender>,
       // List view option select all and sort options
-      this.isInListView() && showingDataobjects ? <TableSelectAllContainer
-        key="select.filter.option"
-        pageSelectors={searchSelectors}
-      /> : null,
-      this.isInListView() && showingDataobjects ? <TableSortFilterComponent
-        key="sort.filter.option"
-        onSortByColumn={this.onSortByColumn}
-        tableColumns={tableColumns}
-        prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
-        noneLabel={formatMessage({ id: 'list.sort.none.label' })}
-      /> : null,
+      <ShowableAtRender show={this.isInListView() && showingDataobjects} key="select.filter.option">
+        <TableSelectAllContainer pageSelectors={searchSelectors} />
+      </ShowableAtRender>,
+      <ShowableAtRender show={this.isInListView() && showingDataobjects} key="sort.filter.option" >
+        <TableSortFilterComponent
+          key="sort.filter.option"
+          onSortByColumn={this.onSortByColumn}
+          tableColumns={tableColumns}
+          prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
+          noneLabel={formatMessage({ id: 'list.sort.none.label' })}
+        />
+      </ShowableAtRender>,
       // separator, if required
-      this.isInListView() && showingDataobjects && allowingFacettes ? <TableOptionsSeparator key="list.options.separator" /> : null,
-      // TODO showable
+      <ShowableAtRender show={this.isInListView() && showingDataobjects && allowingFacettes} key="list.options.separator">
+        <TableOptionsSeparator />
+      </ShowableAtRender>,
       // Add selection to cart option
-      onAddSelectionToCart ? <AddSelectionToCartComponent key="add.selection.to.cart" onAddSelectionToCart={onAddSelectionToCart} /> : null,
+      <ShowableAtRender show={!!onAddSelectionToCart} key="add.selection.to.cart">
+        <AddSelectionToCartComponent onAddSelectionToCart={onAddSelectionToCart} />
+      </ShowableAtRender>,
       // facets option
       <ShowableAtRender
         key="facet.filter.option"
@@ -346,7 +345,7 @@ class SearchResultsComponent extends React.Component {
           secondary={showingFacettes}
         />
       </ShowableAtRender>,
-      // note : more option is rendered by the table pane directly
+      // note : more option button is rendered by the table pane directly
     ]
   }
 
