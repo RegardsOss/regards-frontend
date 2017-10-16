@@ -75,11 +75,14 @@ class FormCriterionComponent extends React.Component {
       return ''
     }
     return reduce(attributes, (result, attribute) => {
-      const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label') || attribute
-      if (result !== '') {
-        return `${result} - ${attrLabel}`
+      if (this.props.selectableAttributes && this.props.selectableAttributes[attribute]) {
+        const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label', null) || attribute
+        if (result !== '') {
+          return `${result} - ${attrLabel}`
+        }
+        return attrLabel
       }
-      return attrLabel
+      return attribute
     }, '')
   }
 

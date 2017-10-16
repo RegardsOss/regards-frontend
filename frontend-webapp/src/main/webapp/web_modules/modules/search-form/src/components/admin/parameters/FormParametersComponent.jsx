@@ -32,8 +32,8 @@ class FormParametersComponent extends React.Component {
       changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
-    attributes: AccessShapes.AttributeConfigurationContent,
-    attributesRegroupements: AccessShapes.AttributesGroupConfigurationContent,
+    attributes: AccessShapes.AttributeConfigurationArray,
+    attributesRegroupements: AccessShapes.AttributesGroupConfigurationArray,
     selectableAttributes: DataManagementShapes.AttributeModelList,
     resultType: PropTypes.string,
   }

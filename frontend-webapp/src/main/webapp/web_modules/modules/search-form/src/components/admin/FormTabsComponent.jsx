@@ -45,7 +45,6 @@ class FormTabsComponent extends React.Component {
     // Default props given to the form
     defaultConf: ModuleConfiguration.isRequired,
 
-    // From mapStateToProps and mapDispatchToProps
     selectableAttributes: DataManagementShapes.AttributeModelList,
     selectableAttributesFectching: PropTypes.bool,
     disableChangeDatasets: PropTypes.bool,
