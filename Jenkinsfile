@@ -77,11 +77,25 @@ pipeline {
         stage('Deploy Maven artifact') {
             when {
                 anyOf {
-                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'
+                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'; branch 'feature/front-artifact-and-sonar'
                 }
             }
             steps {
-                sh 'docker run --rm -i -v ${WORKSPACE}/:/app_to_build -v /opt/maven-multibranch-repository:/localRepository -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy 172.26.46.158/rs-maven'
+                parallel(
+                    artifact: {
+                        sh 'tar zcvf frontend.tar.gz ./frontend-webapp/src/main/webapp/dist/prod'
+                        archiveArtifacts artifacts: './frontend.tar.gz', fingerprint: true
+                    },
+                    sonar: {
+                        sh 'docker run --rm --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
+                          -v $(WORKSPACE)/frontend-webapp/src/main/webapp:/data sebp/sonar-runner \
+                          -Dsonar.host.url=http://172.26.46.158:9000/
+                        '
+                    },
+                    maven: {
+                        sh 'docker run --rm -i -v ${WORKSPACE}/:/app_to_build -v /opt/maven-multibranch-repository:/localRepository -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy 172.26.46.158/rs-maven'
+                    }
+                )
             }
             post {
                 always {
