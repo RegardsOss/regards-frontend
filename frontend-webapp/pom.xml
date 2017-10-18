@@ -32,10 +32,13 @@
 
 	<profiles>
 		<profile>
+			<!-- Standard build, the frontend webapp npm compilation is done with 
+				maven exec plugin -->
 			<id>LT</id>
+			<activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
 			<build>
-				<!-- Standard build, the frontend webapp npm compilation is done with 
-					maven exec plugin -->
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -149,9 +152,9 @@
 		</profile>
 		<profile>
 			<id>CI</id>
-			<!-- Jenkins build, the frontend webapp npm compilation is done thanks 
-				to Jenkinsfile -->
 			<build>
+				<!-- Jenkins build, the frontend webapp npm compilation is done thanks 
+					to Jenkinsfile -->
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
