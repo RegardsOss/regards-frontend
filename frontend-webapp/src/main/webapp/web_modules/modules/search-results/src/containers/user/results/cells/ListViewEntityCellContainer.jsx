@@ -3,8 +3,8 @@
 **/
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
-import { TableColumnConfiguration } from '@regardsoss/components'
 import { withI18n } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { TableColumnConfiguration } from '@regardsoss/components'
 import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
@@ -12,6 +12,7 @@ import { descriptionLevelActions } from '../../../../models/description/Descript
 import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
 import ListViewEntityCellComponent from '../../../../components/user/results/cells/ListViewEntityCellComponent'
 import messages from '../../../../i18n'
+import styles from '../../../../styles'
 
 /**
 * Container for list view entity cell
@@ -40,9 +41,10 @@ export class ListViewEntityCellContainer extends React.Component {
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
     // Callback when click on entity label
     onSearchEntity: PropTypes.func,
-    // eslint-disable-next-line react/forbid-prop-types
     // Display checbox for entities selection ?
-    displayCheckBoxes: PropTypes.bool,
+    displayCheckbox: PropTypes.bool,
+    // optional callback: add element to cart (entity) => ()
+    onAddToCart: PropTypes.func,
     // from map dispatch to props
     dispatchShowDescription: PropTypes.func.isRequired,
     dispatchRunService: PropTypes.func.isRequired,
@@ -57,8 +59,8 @@ export class ListViewEntityCellContainer extends React.Component {
   }
 
   /**
-  * Callback when user asks description
-  */
+   * Callback when user asks description
+   */
   onShowDescription = () => {
     // dispatch show description event
     const { entity, dispatchShowDescription } = this.props
@@ -77,8 +79,9 @@ export class ListViewEntityCellContainer extends React.Component {
 
   render() {
     const { entity, attributes, lineHeight, isTableSelected, selectTableEntityCallback,
-      tableColumns, onSearchEntity, onClick, styles, displayCheckBoxes } = this.props
-    return ( // TODO: not styles not i18n
+      tableColumns, onSearchEntity, displayCheckbox, onAddToCart } = this.props
+
+    return (
       <ListViewEntityCellComponent
         entity={entity}
         attributes={attributes}
@@ -86,11 +89,8 @@ export class ListViewEntityCellContainer extends React.Component {
         isTableSelected={isTableSelected}
         selectTableEntityCallback={selectTableEntityCallback}
         tableColumns={tableColumns}
-        styles={styles}
         displayCheckbox={displayCheckbox}
-        downloadTooltip={downloadTooltip}
-        servicesTooltip={servicesTooltip}
-        descriptionTooltip={descriptionTooltip}
+        onAddToCart={onAddToCart ? this.onAddToCart : null} // set up callback only when parent one is provided
         onEntitySelection={onSearchEntity ? this.onEntitySelection : null}
         onShowDescription={this.onShowDescription}
         onServiceStarted={this.onServiceStarted}
@@ -102,4 +102,4 @@ export class ListViewEntityCellContainer extends React.Component {
 export default compose(
   connect(null, ListViewEntityCellContainer.mapDispatchToProps),
   withI18n(messages),
-)(ListViewEntityCellContainer)
+  withModuleStyle(styles))(ListViewEntityCellContainer)

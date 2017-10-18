@@ -5,7 +5,6 @@ const merge = require('webpack-merge')
 const path = require('path')
 
 module.exports = function (projectContextPath) {
-
   let config = getCommonConfig(projectContextPath, 'prod')
 
   config = merge(config, {
@@ -52,7 +51,7 @@ module.exports = function (projectContextPath) {
           to(context) {
             return context.match[0]
           },
-        },],
+        }],
       },
     },
     devtool: 'cheap-module-source-map',
@@ -62,6 +61,7 @@ module.exports = function (projectContextPath) {
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
         // within that bundle
+        // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/dist/prod/core-manifest.json`),
         context: projectContextPath,
       }),
@@ -70,6 +70,7 @@ module.exports = function (projectContextPath) {
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
         // within that bundle
+        // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/dist/prod/coreoss-manifest.json`),
         context: projectContextPath,
       }),

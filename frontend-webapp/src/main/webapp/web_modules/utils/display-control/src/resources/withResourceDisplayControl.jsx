@@ -18,9 +18,9 @@
  **/
 import isString from 'lodash/isString'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
-import ShowableAtRender from '../ShowableAtRender'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { connect } from '@regardsoss/redux'
+import ShowableAtRender from '../ShowableAtRender'
 import allMatchHateoasDisplayLogic from './../logics/allMatchHateoasDisplayLogic'
 import getDisplayName from '../getDisplayName'
 

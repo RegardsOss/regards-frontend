@@ -25,12 +25,13 @@ import some from 'lodash/some'
 import isString from 'lodash/isString'
 import debounce from 'lodash/debounce'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
+import TextField from 'material-ui/TextField'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import TextField from 'material-ui/TextField'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import LineComponent from './LineComponent'
 import ListHeaderComponent from './ListHeaderComponent'
-import ShowableAtRender from '../cards/ShowableAtRender'
+
 
 /**
  * React component to handle paginated list of elements.

@@ -59,6 +59,7 @@ const conf = webpackConfigurator
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
         // within that bundle
+        // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${__dirname}/dist/prod/core-manifest.json`),
         context: __dirname,
       }),

@@ -28,6 +28,12 @@ import messages from '../i18n'
  */
 export class SelectLocaleContainer extends React.Component {
 
+  static propTypes = {
+    tooltip: PropTypes.string,
+  }
+
+  static LOCALES = ['en', 'fr']
+
   /**
    * on change locale
    * @param {TouchEvent} event
@@ -40,14 +46,15 @@ export class SelectLocaleContainer extends React.Component {
   }
 
   render() {
-    const locales = ['en', 'fr']
+    const { tooltip } = this.props
     return (
       <I18nProvider messages={messages}>
         <SelectLocaleComponent
-          locales={locales}
+          locales={SelectLocaleContainer.LOCALES}
           currentLocale={this.props.currentLocale}
           muiTheme={this.props.muiTheme}
           handleLocaleChange={this.handleLocaleChange}
+          tooltip={tooltip}
         />
       </I18nProvider>
     )

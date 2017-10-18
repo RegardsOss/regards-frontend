@@ -18,8 +18,6 @@
  */
 import Schemas from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
-import has from 'lodash/has'
-import isString from 'lodash/isString'
 
 /**
  * Redux actions to handle Document files entities from backend server.

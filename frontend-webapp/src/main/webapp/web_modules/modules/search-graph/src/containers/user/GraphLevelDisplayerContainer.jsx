@@ -4,7 +4,7 @@
 import { connect } from '@regardsoss/redux'
 import { CatalogShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import GraphLevelDisplayer from '../../components/user/GraphLevelDisplayer'
 import { SelectionPath } from '../../model/graph/SelectionShape'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
@@ -159,7 +159,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
       datasets,
     } = this.props
     return (
-      <ModuleThemeProvider module={moduleStyles}>
+      <ModuleStyleProvider module={moduleStyles}>
         <GraphLevelDisplayer
           graphDatasetAttributes={graphDatasetAttributes}
           isShowable={isShowable}
@@ -170,7 +170,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
           levelIndex={levelIndex}
           isLastLevel={isLastLevel}
         />
-      </ModuleThemeProvider>)
+      </ModuleStyleProvider>)
   }
 
 }

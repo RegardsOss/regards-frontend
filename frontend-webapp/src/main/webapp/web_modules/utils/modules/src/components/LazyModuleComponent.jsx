@@ -38,7 +38,8 @@ const WithResourceDisplayControl = withResourceDisplayControl(Div)
  * - adminContainer  : (optional) Main React component to display the configuration of the module
  * - styles          : (optional) The styles of the module based on the current theme
  * - reducers        : (optional) The combined reducers of the module
- * - messagesDir     : (optional) The directory of the i18n messages files. Default src/i18n
+ * - messages        : (optional) The directory of the i18n messages files. Default src/i18n
+ * - ModuleIcon       : Default module icon (used when displaying a dynamic module)
  * @author Sébastien Binda
  */
 class LazyModuleComponent extends React.Component {
@@ -167,7 +168,6 @@ class LazyModuleComponent extends React.Component {
       }
 
       moduleElt = React.createElement(moduleContainer, moduleProps)
-
       return (
         <I18nProvider messages={moduleMessages}>
           <ModuleStyleProvider module={module}>

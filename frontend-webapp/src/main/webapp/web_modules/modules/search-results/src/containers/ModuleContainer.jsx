@@ -20,7 +20,7 @@ import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
 import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
-import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
@@ -82,7 +82,7 @@ export class ModuleContainer extends React.Component {
     } } = this.props
     const { expanded, attributesFetching, facettesQuery } = this.state
     // when showing datasets, select dataset tab first (by default)
-    const initialViewObjectType = displayDatasets ? SearchResultsTargetsEnum.DATASET_RESULTS : SearchResultsTargetsEnum.DATAOBJECT_RESULTS
+    const initialViewObjectType = displayDatasets ? ENTITY_TYPES_ENUM.DATASET : ENTITY_TYPES_ENUM.DATA
 
     if (!attributesFetching) {
       return (

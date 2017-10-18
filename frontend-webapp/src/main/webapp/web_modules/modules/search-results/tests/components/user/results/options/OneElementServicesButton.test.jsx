@@ -40,21 +40,19 @@ describe('[Search Results] Testing OneElementServicesButton', () => {
   })
   it('should render correctly when empty', () => {
     const props = {
-      tooltip: 'a tooltip',
       services: null,
       onServiceStarted: () => { },
     }
     const enzymeWrapper = shallow(<OneElementServicesButton {...props} />, { context })
     const innerButton = enzymeWrapper.find(DropDownButton)
     assert.lengthOf(innerButton, 1, 'It should use a drop down button to render')
-    assert.equal(innerButton.props().title, props.tooltip, 'The tooltip should be visible')
+    assert.isOk(innerButton.props().title, 'The tooltip should be defined')
     assert.equal(innerButton.props().onChange, props.onServiceStarted, 'The button should invoke onServiceStarted when a menu item is selected')
     assert.lengthOf(innerButton.find(MenuItem), 0, ' There should be no option as there is no service')
     assert.isTrue(enzymeWrapper.props().disabled, 'The button should be disabled when there is no service')
   })
   it('should render all services available', () => {
     const props = {
-      tooltip: 'a tooltip',
       services: [{
         content: {
           configId: 0,
@@ -80,7 +78,7 @@ describe('[Search Results] Testing OneElementServicesButton', () => {
     assert.isFalse(enzymeWrapper.props().disabled, 'The button should be enabled when there are service')
     const innerButton = enzymeWrapper.find(DropDownButton)
     assert.lengthOf(innerButton, 1, 'It should use a drop down button to render')
-    assert.equal(innerButton.props().title, props.tooltip, 'The tooltip should be visible')
+    assert.isOk(innerButton.props().title, 'The tooltip should be defined')
     assert.equal(innerButton.props().onChange, props.onServiceStarted, 'The button should invoke onServiceStarted when a menu item is selected')
     const menuItems = innerButton.find(MenuItem)
     assert.lengthOf(menuItems, props.services.length, 'There should be no option as there is no service')

@@ -38,12 +38,12 @@ class LoginButton extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { user: { optionsLabelStyle } } } = this.context
+    const { moduleTheme: { user: { optionsLabelStyle } }, intl: { formatMessage } } = this.context
     return (
       <FlatButton
         icon={<LoginIcon />}
-        label={this.context.intl.formatMessage({ id: 'loginButtonLabel' })}
-        title={this.context.intl.formatMessage({ id: 'loginButtonTooltip' })}
+        label={formatMessage({ id: 'loginButtonLabel' })}
+        title={formatMessage({ id: 'loginButtonTooltip' })}
         onTouchTap={this.props.onLoginAction}
         labelStyle={optionsLabelStyle}
       />

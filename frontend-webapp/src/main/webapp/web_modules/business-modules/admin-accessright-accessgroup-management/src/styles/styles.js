@@ -23,18 +23,7 @@
  * @author Xavier-Alexandre Brochard
  */
 const styles = theme => ({
-  nameCell: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  hoverButtonEdit: theme.palette.primary1Color,
-  hoverButtonDelete: theme.palette.accent1Color,
-  hoverButtonDuplicate: theme.palette.primary3Color,
-  info: {
-    height: 20,
-    width: 20,
-  },
+  // unused
 })
 
 export default styles

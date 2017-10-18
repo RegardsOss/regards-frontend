@@ -4,13 +4,14 @@
 import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import { RenderTextField, Field, FormErrorMessage, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { FormErrorMessage } from '@regardsoss/components'
+import { RenderTextField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 
 /**
-*Session management component : if session is locked, shows unlock screen, renders children otherwise
-*/
+ * Session management component : if session is locked, shows unlock screen, renders children otherwise
+ */
 export class SessionLockedFormComponent extends React.Component {
 
   static propTypes = {

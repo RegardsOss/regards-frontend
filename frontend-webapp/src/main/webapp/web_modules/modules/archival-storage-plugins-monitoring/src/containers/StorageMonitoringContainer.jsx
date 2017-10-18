@@ -19,10 +19,10 @@
 import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
 import { ArchivalStorageShapes } from '@regardsoss/shape'
+import { storage } from '@regardsoss/units'
 import StorageMonitoringComponent from '../components/StorageMonitoringComponent'
 import StoragePluginSelectors from '../model/StoragePluginSelectors'
 import StoragePluginActions from '../model/StoragePluginActions'
-import StorageUnitScale from '../helper/StorageUnit'
 
 /**
  * Fetches storage plugins monitoring information, then display the corresponding component with fetched data
@@ -52,7 +52,7 @@ export class StorageMonitoringContainer extends React.Component {
       <StorageMonitoringComponent
         isFetching={isFetching}
         hasError={hasError}
-        initScale={StorageUnitScale.bytesScale}
+        initScale={storage.StorageUnitScale.bytesScale}
         storagePlugins={map(storagePlugins, ({ content }) => content)}
       />
     )

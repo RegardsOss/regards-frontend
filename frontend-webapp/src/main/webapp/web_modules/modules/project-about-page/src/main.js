@@ -18,6 +18,7 @@
  **/
 import ProjectAboutPageContainer from './containers/ProjectAboutPageContainer'
 import adminContainer from './containers/AdminContainer'
+import messages from './i18n'
 import styles from './styles/styles'
 import dependencies from './dependencies'
 
@@ -28,6 +29,6 @@ export default {
   moduleContainer: ProjectAboutPageContainer,
   adminContainer,
   styles,
-  messagesDir: 'modules/project-about-page/src/i18n',
+  messages,
   dependencies,
 }

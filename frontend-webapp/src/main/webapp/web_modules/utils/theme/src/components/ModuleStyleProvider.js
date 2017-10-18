@@ -20,7 +20,7 @@ import themeContextType from '../contextType'
 
 /**
  * Provide specific module theme styles into the context of children component.
- * Each module surrounded by the ModuleThemeProvider must expose a public Styles
+ * Each module surrounded by the ModuleStyleProvider must expose a public Styles
  * function as : export Styles = (theme) => {}
  * @author Sébastien Binda
  */

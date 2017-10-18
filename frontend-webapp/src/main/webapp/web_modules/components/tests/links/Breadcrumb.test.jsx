@@ -32,6 +32,7 @@ describe('[Components] Testing Breadcrumb', () => {
   it('should exists', () => {
     assert.isDefined(Breadcrumb)
   })
+
   it('should render properly', () => {
     const props = {
       elements: ['a', 'b', 'c'],

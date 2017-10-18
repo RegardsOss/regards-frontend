@@ -28,7 +28,7 @@ import Menu from 'material-ui/Menu'
 import { FormattedMessage } from 'react-intl'
 import { I18nProvider } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import ShowableAtRender from '../cards/ShowableAtRender'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import messages from './i18n'
 
 /**

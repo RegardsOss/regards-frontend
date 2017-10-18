@@ -21,7 +21,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { spy } from 'sinon'
-import { IntlProvider } from 'react-intl'
+import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginTest from './PluginTest'
 import PluginLoader, { UnconnectedPluginLoader } from '../../src/containers/PluginLoader'
@@ -135,7 +135,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
 
     expect(wrapper.find(PluginTest)).to.have.length(1)
     expect(wrapper.find(PluginTest).prop('parameter')).to.equal('value')
-    expect(wrapper.find(IntlProvider)).to.have.length(1)
+    expect(wrapper.find(I18nProvider)).to.have.length(1)
   })
 
   it('Should render correctly an element with a plugin as a prop', () => {
@@ -175,7 +175,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
     expect(wrapper.find('div')).to.have.length(1)
     const pluginParam = wrapper.find('div').prop('plugin')
     assert.isDefined(pluginParam)
-    expect(wrapper.find(IntlProvider)).to.have.length(0)
+    expect(wrapper.find(I18nProvider)).to.have.length(0)
   })
 })
 

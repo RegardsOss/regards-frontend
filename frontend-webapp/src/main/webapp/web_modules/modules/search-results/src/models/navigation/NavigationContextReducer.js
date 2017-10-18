@@ -1,14 +1,14 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
+import { DamDomain } from '@regardsoss/domain'
 import navigationContextActions from './NavigationContextActions'
 
 /**
  * Default navigation context state
  */
 export const DEFAULT_STATE = {
-  viewObjectType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+  viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
   levels: [],
 }
 

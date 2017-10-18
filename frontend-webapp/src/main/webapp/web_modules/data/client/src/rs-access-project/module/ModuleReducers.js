@@ -30,11 +30,20 @@ import ModuleActions from './ModuleActions'
  * @author Sébastien Binda
  */
 class ModuleReducers extends BasicPageableReducers {
-  constructor(namespace) {
+
+  /**
+  * Constructor
+  * @param {string} namespace namespace, leave empty for default client reducer
+  */
+  constructor(namespace = 'user/layout/modules') {
     super(ModuleConfiguration, new ModuleActions(namespace))
   }
 }
 
+/**
+ * Builds reducer function instance
+ * @param {string} namespace namespace, leave empty for default client reducer
+ */
 export default (namespace) => {
   const instance = new ModuleReducers(namespace)
   return (state, action) => instance.reduce(state, action)

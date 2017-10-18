@@ -35,12 +35,17 @@ const messages = {
   resetRole: 'Default role',
   contactTooltip: 'Contact us...',
   AboutPageTooltip: 'About...',
+  'user.menu.displaycart.tooltip': 'My cart: {elementsCountTooltip}',
+  'user.menu.displaycart.empty.tooltip': 'empty',
+  'user.menu.displaycart.elements.count.tooltip': '{elementsCount} object(s)',
+  'user.menu.cart.max.count': '{maxCount}+',
   'menu.modules.list.button.label': 'Browse',
   'menu.modules.list.button.tooltip': 'Browse within the site pages',
   'menu.form.title': 'Menu Title',
   'menu.form.contacts': 'Contact',
   'menu.form.projectpage': 'Project about page',
   'menu.form.displayauthentication': 'Display authentication option',
+  'menu.form.displaycart': 'Display cart link',
   'menu.form.displaylocale': 'Display Locale selector',
   'menu.form.displaytheme': 'Display Theme selector',
   // profile form
@@ -51,7 +56,6 @@ const messages = {
   'edit.profile.form.lastName': 'Last name',
   'edit.profile.form.confirm': 'Confirm',
   'edit.profile.form.cancel': 'Cancel',
-
 
   ...Locales.en,
   ...MetadataLocales.en,

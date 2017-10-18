@@ -1,5 +1,4 @@
-const runShell  = require('./runShell')
-
+const runShell = require('./runShell')
 
 
 // Save the plugin into the webpack dev server public folder
@@ -8,7 +7,7 @@ module.exports = function (oldConf, frontendWebappPath, pluginType, pluginName) 
     onBuildEnd: [
       'echo "Copying dev plugin into front dev"',
       `mkdir -p ${frontendWebappPath}/dist/dev/plugins/${pluginType}/${pluginName}`,
-      `cp -p ./target/dev/plugin.js ${frontendWebappPath}/dist/dev/plugins/${pluginType}/${pluginName}/plugin.js`
-    ]
+      `cp -p ./target/dev/plugin.js ${frontendWebappPath}/dist/dev/plugins/${pluginType}/${pluginName}/plugin.js`,
+    ],
   })
 }

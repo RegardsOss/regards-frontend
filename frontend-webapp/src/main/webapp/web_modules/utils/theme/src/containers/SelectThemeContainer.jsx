@@ -43,6 +43,7 @@ export class SelectThemeContainer extends React.Component {
     currentTheme: AccessShapes.Theme,
     themeList: AccessShapes.ThemeList,
     onChange: PropTypes.func,
+    tooltip: PropTypes.string,
   }
 
   static defaultProps = {
@@ -60,23 +61,25 @@ export class SelectThemeContainer extends React.Component {
   static targetOriginStyle = { horizontal: 'middle', vertical: 'bottom' }
 
   render() {
-    const { currentTheme, themeList, onChange } = this.props
+    const { currentTheme, themeList, onChange, tooltip } = this.props
     const items = map(themeList, item => (
       <MenuItem value={item.content.id} key={item.content.id} primaryText={item.content.name} />
     ))
 
     return (
       <I18nProvider messages={messages}>
-        <IconMenu
-          iconButtonElement={SelectThemeContainer.iconButtonElement}
-          anchorOrigin={SelectThemeContainer.anchorOriginStyle}
-          targetOrigin={SelectThemeContainer.targetOriginStyle}
-          value={currentTheme.content.id}
-          onChange={(event, value) => onChange(value)}
-        >
-          {items}
-        </IconMenu>
-      </I18nProvider>
+        <div title={tooltip}>
+          <IconMenu
+            iconButtonElement={SelectThemeContainer.iconButtonElement}
+            anchorOrigin={SelectThemeContainer.anchorOriginStyle}
+            targetOrigin={SelectThemeContainer.targetOriginStyle}
+            value={currentTheme.content.id}
+            onChange={(event, value) => onChange(value)}
+          >
+            {items}
+          </IconMenu>
+        </div>
+      </I18nProvider >
     )
   }
 }

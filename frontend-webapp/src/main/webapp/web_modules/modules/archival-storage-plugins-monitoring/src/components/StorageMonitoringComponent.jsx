@@ -23,26 +23,25 @@ import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import LinearScale from 'material-ui/svg-icons/editor/linear-scale'
+import { storage } from '@regardsoss/units'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ArchivalStorageShapes } from '@regardsoss/shape'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
-import StorageUnitScale, { StorageUnitScaleShape } from '../helper/StorageUnit'
-import StorageCapacity from '../helper/StorageCapacity'
 
 class StorageMonitoringComponent extends React.Component {
 
   static propTypes = {
-    initScale: StorageUnitScaleShape,
-    storagePlugins: ArchivalStorageShapes.StoragePluginArray.isRequired,
+    initScale: storage.StorageUnitScaleShape,
+    storagePlugins: ArchivalStorageShapes.StoragePluginContentArray.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasError: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
-    initScale: StorageUnitScale.bytesScale,
+    initScale: storage.StorageUnitScale.bytesScale,
     isFetching: false,
     hasError: false,
     storagePlugins: [],
@@ -78,8 +77,8 @@ class StorageMonitoringComponent extends React.Component {
     id,
     label,
     description,
-    totalSize: StorageCapacity.fromValue(totalSize),
-    usedSize: StorageCapacity.fromValue(usedSize),
+    totalSize: storage.StorageCapacity.fromValue(totalSize),
+    usedSize: storage.StorageCapacity.fromValue(usedSize),
   }))
 
   /**
@@ -99,12 +98,11 @@ class StorageMonitoringComponent extends React.Component {
     const { intl } = this.context
     const { currentScale, plugins } = this.state
     const { isFetching, hasError, storagePlugins } = this.props
-  /*  // */
     return (
       <Paper >
         <Toolbar>
           <ToolbarGroup firstChild>
-            { /** XXX-V2: change for module title with icon **/ }
+            { /** XXX-V2: change for module title with icon **/}
             <ToolbarTitle text={intl.formatMessage({ id: 'archival.storage.capacity.monitoring.title' })} />
           </ToolbarGroup>
           <ToolbarGroup>
@@ -114,7 +112,7 @@ class StorageMonitoringComponent extends React.Component {
               value={currentScale}
               onChange={(evt, value) => this.onUnitScaleSelected(value)}
             >
-              {StorageUnitScale.all.map(scale => (
+              {storage.StorageUnitScale.all.map(scale => (
                 <MenuItem
                   key={scale.id}
                   value={scale}
@@ -137,7 +135,7 @@ class StorageMonitoringComponent extends React.Component {
               // map all plugins to cards
               plugins.map(pluginModel => (
                 <StoragePluginCapacityComponent key={pluginModel.id} scale={currentScale} {...pluginModel} />
-                ))
+              ))
             }
           </div>
         </LoadableContentDisplayDecorator>

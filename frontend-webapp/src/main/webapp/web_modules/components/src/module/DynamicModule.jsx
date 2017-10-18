@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ModuleThemeProvider } from '@regardsoss/modules'
-import DynamicModuleImpl from './DynamicModuleImpl'
+import { Card, CardMedia, CardHeader } from 'material-ui/Card'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import styles from './styles'
 
 /**
 * Presents a dynamic module. XXX-V2 merge with DynamicModuleImpl
 * @author Raphaël Mechali
 */
-class DynamicModule extends React.Component {
+export class DynamicModule extends React.Component {
 
   static propTypes = {
     // module title component
@@ -48,22 +48,41 @@ class DynamicModule extends React.Component {
     options: [],
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   render() {
     const { title, options, children, onExpandChange, expanded, onKeyPress } = this.props
+    const { moduleTheme: { module: { cardHeaderStyle, cardHeaderContentStyle, titleBarDivStyle,
+      titleDivStyle, optionsDivStyle } } } = this.context
     return (
-      <ModuleThemeProvider module={styles}>
-        <DynamicModuleImpl
-          title={title}
-          options={options}
-          onExpandChange={onExpandChange}
-          expanded={expanded}
-          onKeyPress={onKeyPress}
-        >
+      <Card
+        onExpandChange={onExpandChange}
+        expanded={expanded}
+      >
+        <CardHeader
+          style={cardHeaderStyle}
+          textStyle={cardHeaderContentStyle}
+          title={/* render title and options on the title bar */
+            <div style={titleBarDivStyle}>
+              <div style={titleDivStyle}>
+                {title}
+              </div>
+              <div style={optionsDivStyle}>
+                {options}
+              </div>
+            </div>
+          }
+          showExpandableButton
+        />
+        <CardMedia expandable onKeyPress={onKeyPress}>
           {children}
-        </DynamicModuleImpl>
-      </ModuleThemeProvider >
+        </CardMedia>
+      </Card>
     )
   }
 
 }
-export default DynamicModule
+
+export default withModuleStyle(styles)(DynamicModule)

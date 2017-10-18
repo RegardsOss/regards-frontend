@@ -27,18 +27,19 @@ To use the REGARDS `I18nProvider` you must add the here under package to your pa
 
 To use the REGARDS I18nProvider you need to surround your component that needs internationalization with the I18nProvider.  
 The `I18nProvider` only needs one parameter :
- - **messageDir** : relative path to the directory containing the internalized messages files. (relative from the web_modules) directory.
+ - **messages** : messages object, containing one field for each locale language then i18n keys and values 
  
 Example :
 
 ```javascript
 import { I18nProvider } from '@regardsoss/i18n'
+import messages from '../i18n'
 
 export class ExmapleContainer extends React.Component {
 
 	render() {
 		return (
-			<I18nProvider messageDir="business-modules/exampleModule/src/i18n">
+			<I18nProvider messages={messages}>
 				<ExampleComponent />
 			</I18nProvider>
 		)

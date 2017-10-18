@@ -34,7 +34,12 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  * @author Sébastien Binda
  */
 class LayoutActions extends BasicPageableActions {
-  constructor(namespace) {
+
+  /**
+   * Constructor
+   * @param {string} namespace namespace, leave empty for default client actions
+   */
+  constructor(namespace = 'user/layout') {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/layouts`,
@@ -47,4 +52,8 @@ class LayoutActions extends BasicPageableActions {
   }
 }
 
+/**
+ * Builds actions instance
+ * @param {string} namespace namespace, leave empty for default client actions
+ */
 export default namespace => new LayoutActions(namespace)

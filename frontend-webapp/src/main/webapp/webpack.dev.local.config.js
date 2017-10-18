@@ -27,7 +27,7 @@ const webpack = require('webpack')
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'dev',
-    projectContextPath: __dirname
+    projectContextPath: __dirname,
   })
   .merge({
     plugins: [

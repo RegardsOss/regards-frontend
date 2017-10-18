@@ -20,6 +20,7 @@ import forEach from 'lodash/forEach'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import { AccessProjectClient } from '@regardsoss/client'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ThemeProvider } from '@regardsoss/theme'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
@@ -28,10 +29,15 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { ProjectHandler } from '@regardsoss/project-handler'
 import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-manager'
-import LayoutSelector from '../model/layout/LayoutSelector'
-import LayoutActions from '../model/layout/LayoutActions'
-import ModulesSelector from '../model/modules/ModulesSelector'
-import ModulesActions from '../model/modules/ModulesActions'
+
+// get default layout client actions and reducers instances
+const layoutActions = AccessProjectClient.LayoutActions()
+const layoutSelectors = AccessProjectClient.LayoutSelectors()
+
+// get default modules client actions and reducers instances
+const modulesActions = AccessProjectClient.ModuleActions()
+const modulesSelectors = AccessProjectClient.ModuleSelectors()
+
 /**
  * Provides the theme to sub containers
  */
@@ -141,19 +147,19 @@ export class UserApp extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
   return {
-    layout: LayoutSelector.getById(state, 'user'),
-    modules: ModulesSelector.getList(state),
-    layoutIsFetching: LayoutSelector.isFetching(state),
-    modulesIsFetching: ModulesSelector.isFetching(state),
-    currentRole: authenticationResult ? authenticationResult.role : '',
+    layout: layoutSelectors.getById(state, 'user'),
+    modules: modulesSelectors.getList(state),
+    layoutIsFetching: layoutSelectors.isFetching(state),
+    modulesIsFetching: modulesSelectors.isFetching(state),
+    currentRole: (authenticationResult && authenticationResult.role) || '',
     isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-  fetchLayout: () => dispatch(LayoutActions.fetchEntity('user')),
-  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
+  fetchLayout: () => dispatch(layoutActions.fetchEntity('user')),
+  fetchModules: () => dispatch(modulesActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
   fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
 })
 

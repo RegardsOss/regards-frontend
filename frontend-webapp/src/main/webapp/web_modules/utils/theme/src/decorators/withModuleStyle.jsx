@@ -19,7 +19,7 @@
 import ModuleStyleProvider from '../components/ModuleStyleProvider'
 
 /**
- * Decorator adding the I18nProvider around a React Component
+ * Decorator adding the styles around a React Component
  *
  * @author Xavier-Alexandre Brochard
  */

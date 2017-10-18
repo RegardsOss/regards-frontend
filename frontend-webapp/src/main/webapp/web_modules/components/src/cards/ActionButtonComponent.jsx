@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isFunction from 'lodash/isFunction'
-import RaisedButton from 'material-ui/RaisedButton'
 import { Link } from 'react-router'
-import ShowableAtRender from './ShowableAtRender'
+import RaisedButton from 'material-ui/RaisedButton'
+import { ShowableAtRender } from '@regardsoss/display-control'
 
 /**
  * A generic button used for UI actions
@@ -41,6 +41,7 @@ class ActionButtonComponent extends React.Component {
     style: PropTypes.objectOf(PropTypes.string),
     type: PropTypes.string,
     disabled: PropTypes.bool,
+    title: PropTypes.string,
   }
 
   static defaultProps = {
@@ -72,7 +73,7 @@ class ActionButtonComponent extends React.Component {
   )
 
   render() {
-    const { className, button, isVisible, disabled, url, style, label, primary, secondary, onTouchTap, type } = this.props
+    const { className, button, isVisible, disabled, url, style, label, primary, secondary, onTouchTap, type, title } = this.props
     return (
       <ShowableAtRender show={isVisible}>
         {(() => {
@@ -89,6 +90,7 @@ class ActionButtonComponent extends React.Component {
                   secondary,
                   type,
                   disabled,
+                  title,
                 })}
               </Link>
             )
@@ -102,6 +104,7 @@ class ActionButtonComponent extends React.Component {
               onTouchTap,
               type,
               disabled,
+              title,
             })
           )
         })()}

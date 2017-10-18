@@ -148,7 +148,7 @@ export class CollectionListComponent extends React.Component {
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
                       <ResourceIconAction
-                        resourceDependencies={collectionActions.getDependency(RequestVerbEnum.POST)}
+                        resourceDependencies={CollectionListComponent.DEPENDENCY}
                         onTouchTap={() => handleDuplicate(collection.content.id)}
                         title={intl.formatMessage({ id: 'collection.list.action.duplicate' })}
                       >

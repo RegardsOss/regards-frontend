@@ -24,7 +24,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage, ValidationHelpers } from '@regardsoss/form-utils'
+import { FormErrorMessage } from '@regardsoss/components'
+import { RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 
 const { required, intNumber } = ValidationHelpers
 const requiredIntNumber = [required, intNumber]

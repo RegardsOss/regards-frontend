@@ -29,6 +29,10 @@ class StringAttributesRender extends React.Component {
     attributes: PropTypes.object,
   }
 
+  static SPAN_SINGLE_LINE_STYLES = {
+    whiteSpace: 'nowrap',
+  }
+
   render() {
     const attributes = map(this.props.attributes, (attribute) => {
       if (attribute) {
@@ -36,9 +40,13 @@ class StringAttributesRender extends React.Component {
       }
       return null
     })
+    const value = attributes.join(' ')
     return (
-      <span title={attributes.join(' ')}>
-        {map(attributes, (attribute, key) => <span key={key}>{attribute}</span>)}
+      <span
+        title={value}
+        style={StringAttributesRender.SPAN_SINGLE_LINE_STYLES}
+      >
+        {value}
       </span>
     )
   }

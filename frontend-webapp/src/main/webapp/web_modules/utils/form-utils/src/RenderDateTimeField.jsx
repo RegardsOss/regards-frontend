@@ -54,9 +54,6 @@ export class RenderDateTimeField extends React.Component {
       error: PropTypes.string,
     }),
     timeFormat: PropTypes.string,
-    meta: PropTypes.shape({
-      error: PropTypes.string,
-    }),
   }
 
   static defaultProps = {
@@ -213,5 +210,5 @@ export class RenderDateTimeField extends React.Component {
     )
   }
 }
-
+// XXX-V2 we also need some styles here... (with comps refactor?)
 export default RenderDateTimeField

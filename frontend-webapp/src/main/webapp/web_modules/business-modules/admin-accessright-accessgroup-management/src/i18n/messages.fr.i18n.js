@@ -40,8 +40,7 @@ const messages = Object.assign({
   'group.form.name': 'Nom',
   'group.form.action.cancel': 'Annuler',
   'group.form.action.save': 'Sauvegarder',
-  'group.form.public': 'Public',
-  'group.form.public.info': 'Tous les utilisateurs et visiteurs auront automatiquement ce groupe',
+  'group.form.public': 'Rattacher automatiquement ce groupe à tous les utilisateurs et visiteurs',
   'invalid.max_32_carac': 'Utilisez 32 caractères ou moins pour les noms de groupes d\'accès',
 }, Locales.fr)
 

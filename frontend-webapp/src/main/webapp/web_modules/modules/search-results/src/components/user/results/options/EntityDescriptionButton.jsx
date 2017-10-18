@@ -18,6 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import InfoIcon from 'material-ui/svg-icons/action/info-outline'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
 * Button to show description in results table
@@ -26,18 +27,20 @@ import InfoIcon from 'material-ui/svg-icons/action/info-outline'
 class EntityDescriptionButton extends React.Component {
 
   static propTypes = {
-    tooltip: PropTypes.string.isRequired,
     onShowDescription: PropTypes.func.isRequired,
     // other properties are reported to the button
   }
 
-  static defaultProps = {}
+  static contextTypes = {
+    ...i18nContextType,
+  }
 
   render() {
-    const { tooltip, onShowDescription, ...otherProperties } = this.props
+    const { onShowDescription, ...otherProperties } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        title={tooltip}
+        title={formatMessage({ id: 'show.description.tooltip' })}
         onTouchTap={onShowDescription}
         {...otherProperties}
       >

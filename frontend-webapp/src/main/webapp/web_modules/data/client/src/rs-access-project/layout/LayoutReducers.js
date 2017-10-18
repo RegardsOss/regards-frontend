@@ -30,11 +30,20 @@ import LayoutActions from './LayoutActions'
  * @author Sébastien Binda
  */
 class LayoutReducers extends BasicPageableReducers {
-  constructor(namespace) {
+
+  /**
+   * Constructor
+   * @param {string} namespace namespace, leave empty for default client reducer
+   */
+  constructor(namespace = 'user/layout') {
     super(LayoutConfiguration, new LayoutActions(namespace))
   }
 }
 
+/**
+ * Builds reducer function instance
+ * @param {string} namespace namespace, leave empty for default client reducer
+ */
 export default (namespace) => {
   const instance = new LayoutReducers(namespace)
   return (state, action) => instance.reduce(state, action)

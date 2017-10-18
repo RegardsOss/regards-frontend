@@ -21,6 +21,7 @@ import { SelectThemeContainer, themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import AuthenticationMenuContainer from '../containers/AuthenticationMenuContainer'
+import CartSelectorContainer from '../containers/CartSelectorContainer'
 import ModulesNavigatorContainer from '../containers/ModulesNavigatorContainer'
 import ProjectAboutPageLinkContainer from '../containers/ProjectAboutPageLinkContainer'
 import ContactComponent from './ContactComponent'
@@ -38,6 +39,7 @@ class MainMenuComponent extends React.Component {
     title: PropTypes.string,
     contacts: PropTypes.string,
     displayAuthentication: PropTypes.bool,
+    displayCartSelector: PropTypes.bool,
     displayLocaleSelector: PropTypes.bool,
     displayThemeSelector: PropTypes.bool,
     projectAboutPage: CommonShapes.URL,
@@ -50,7 +52,8 @@ class MainMenuComponent extends React.Component {
 
 
   render() {
-    const { title, displayAuthentication, displayLocaleSelector, displayThemeSelector, projectAboutPage, contacts } = this.props
+    const { title, displayAuthentication, displayCartSelector,
+      displayLocaleSelector, displayThemeSelector, projectAboutPage, contacts } = this.props
     const { moduleTheme: { user: { rootStyle, titleGroup, optionsGroup } }, muiTheme } = this.context
 
     return (
@@ -66,6 +69,10 @@ class MainMenuComponent extends React.Component {
         </div>
         {/* Authentication access, state and options */}
         <AuthenticationMenuContainer display={displayAuthentication} appName={this.props.appName} project={this.props.project} />
+        {/* User cart stateful link */}
+        <ShowableAtRender show={!!displayCartSelector}>
+          <CartSelectorContainer project={this.props.project} />
+        </ShowableAtRender>
         {/* Contact project team */}
         <ContactComponent contacts={contacts} />
         {/* About project if any (display should be in container) */}

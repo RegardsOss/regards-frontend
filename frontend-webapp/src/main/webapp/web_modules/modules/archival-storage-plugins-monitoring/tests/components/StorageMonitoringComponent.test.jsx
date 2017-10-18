@@ -19,11 +19,10 @@
 import { shallow } from 'enzyme'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { expect, assert } from 'chai'
+import { storage } from '@regardsoss/units'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
 import StoragePluginCapacityComponent from '../../src/components/StoragePluginCapacityComponent'
-import StorageCapacity from '../../src/helper/StorageCapacity'
-import StorageUnitScale from '../../src/helper/StorageUnit'
 
 
 describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () => {
@@ -35,7 +34,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
   })
   // define context
   const context = {
-    initScale: StorageUnitScale.bytesScale,
+    initScale: storage.StorageUnitScale.bytesScale,
     ...buildTestContext(),
   }
 
@@ -80,12 +79,12 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
       const plugin = props.storagePlugins[i]
       assert.equal(label, plugin.label)
       assert.equal(description, plugin.description)
-      if (StorageCapacity.fromValue(plugin.usedSize)) {
+      if (storage.StorageCapacity.fromValue(plugin.usedSize)) {
         assert.isOk(usedSize)
       } else {
         assert.isNotOk(usedSize)
       }
-      if (StorageCapacity.fromValue(plugin.totalSize)) {
+      if (storage.StorageCapacity.fromValue(plugin.totalSize)) {
         assert.isOk(totalSize)
       } else {
         assert.isNotOk(totalSize)

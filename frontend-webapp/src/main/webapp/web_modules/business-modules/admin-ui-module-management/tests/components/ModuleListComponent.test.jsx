@@ -41,6 +41,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
     0: {
       content: {
         id: 0,
+        type: 'aType',
         name: 'module',
         description: 'First Module',
         active: true,
@@ -53,6 +54,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
     1: {
       content: {
         id: 1,
+        type: 'aType',
         name: 'module',
         description: 'Second Module',
         active: true,
@@ -65,6 +67,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
     2: {
       content: {
         id: 2,
+        type: 'aType',
         name: 'module',
         description: 'Third Module',
         active: false,

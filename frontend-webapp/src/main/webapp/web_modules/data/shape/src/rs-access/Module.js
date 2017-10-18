@@ -25,6 +25,7 @@
 const Module = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
+    type: PropTypes.string.isRequired,
     name: PropTypes.string,
     description: PropTypes.string,
     active: PropTypes.bool,

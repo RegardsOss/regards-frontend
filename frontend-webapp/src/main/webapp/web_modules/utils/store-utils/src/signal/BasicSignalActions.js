@@ -60,7 +60,7 @@ class BasicSignalActions extends BasicActions {
           this.SIGNAL_REQUEST,
           {
             type: this.SIGNAL_SUCCESS,
-            payload: (action, state, res) => this.buildResults(res),
+            payload: (action, state, res) => res.status === 204 ? null : this.buildResults(res),
           },
           this.buildFailureAction(this.SIGNAL_FAILURE),
         ],

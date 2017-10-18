@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-==== BASE ====
-import concat from 'lodash/concat'
-==== BASE ====
+import flow from 'lodash/flow'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -41,8 +39,6 @@ import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
 import messages from './i18n'
-
-const MODULE_STYLES = { styles }
 
 const defaultLineHeight = 42
 
@@ -98,9 +94,9 @@ class TableContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
     // eslint-disable-next-line react/no-unused-prop-types
-    tableActions: PropTypes.instanceOf(TableActions).isRequired, // Table actions instance
+    tableActions: PropTypes.instanceOf(TableActions), // Table actions instance
     // eslint-disable-next-line react/no-unused-prop-types
-    tableSelectors: PropTypes.instanceOf(TableSelectors).isRequired, // Table selectors instance
+    tableSelectors: PropTypes.instanceOf(TableSelectors), // Table selectors instance
 
     // from map state to props
     // page data
@@ -384,16 +380,17 @@ const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
   // authentication
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
   // selection
-  toggledElements: tableSelectors.getToggledElements(state),
-  selectionMode: tableSelectors.getSelectionMode(state),
+  toggledElements: tableSelectors ? tableSelectors.getToggledElements(state) : {},
+  selectionMode: tableSelectors ? tableSelectors.getSelectionMode(state) : TableSelectionModes.includeSelected,
 })
 
 const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({
   flushEntities: () => dispatch(pageActions.flush()),
   fetchEntities: (pageNumber, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, requestParams)),
   toggleRowSelection: (rowIndex, entity) => dispatch(tableActions.toggleElement(rowIndex, entity)),
-  dispatchSelectAll: () => dispatch(tableActions.selectAll()),
-  dispatchUnselectAll: () => dispatch(tableActions.unselectAll()),
+  // keep optional callbacks but stub them when the client is not provided
+  dispatchSelectAll: () => tableActions && dispatch(tableActions.selectAll()),
+  dispatchUnselectAll: () => tableActions && dispatch(tableActions.unselectAll()),
 })
 
 export default flow(

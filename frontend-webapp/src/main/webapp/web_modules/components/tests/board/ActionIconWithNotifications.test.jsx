@@ -20,8 +20,8 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import Notifications from 'material-ui/svg-icons/social/notifications'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import ActionIconWithNotifications from '../../src/board/ActionIconWithNotifications'
-import ShowableAtRender from '../../src/cards/ShowableAtRender'
 
 const context = buildTestContext()
 describe('[COMPONENTS] Testing ActionIconWithNotifications', () => {

@@ -32,6 +32,6 @@ describe('[Module] Testing module interface', () => {
     assert.isDefined(Module.adminContainer, 'Module should define a main container for administration page')
     assert.isDefined(Module.moduleContainer, 'Module should define a main container')
     assert.isDefined(Module.styles, 'Module should define a styles file')
-    assert.isDefined(Module.messagesDir, 'Form module should define his internationalization messages dir')
+    assert.isDefined(Module.messages, 'Form module should define his internationalization messages')
   })
 })

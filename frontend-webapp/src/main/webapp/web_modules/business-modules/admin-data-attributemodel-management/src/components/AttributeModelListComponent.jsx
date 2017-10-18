@@ -26,14 +26,13 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { CardActionsComponent, ActionsMenuCell, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { fragmentSelectors } from '../clients/FragmentClient'
 import { attributeModelActions } from '../clients/AttributeModelClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const actionsBreakpoints = [995, 995]
 
 /**
  * React components to list project.

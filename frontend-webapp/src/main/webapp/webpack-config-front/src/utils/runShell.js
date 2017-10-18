@@ -1,4 +1,4 @@
-var WebpackShellPlugin = require('webpack-shell-plugin')
+const WebpackShellPlugin = require('webpack-shell-plugin')
 const merge = require('./merge')
 
 
@@ -6,7 +6,7 @@ const merge = require('./merge')
 module.exports = function (oldConf, config) {
   return merge(oldConf, {
     plugins: [
-      new WebpackShellPlugin(config)
+      new WebpackShellPlugin(config),
     ],
   })
 }

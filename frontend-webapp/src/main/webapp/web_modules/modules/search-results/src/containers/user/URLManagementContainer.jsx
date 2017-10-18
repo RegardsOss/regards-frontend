@@ -4,7 +4,7 @@
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
+import { DamDomain } from '@regardsoss/domain'
 import { Tag } from '../../models/navigation/Tag'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
@@ -40,7 +40,7 @@ export class URLManagementContainer extends React.Component {
 
   static propTypes = {
     // context initial view mode
-    initialViewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    initialViewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
     // context initial display mode
     initialDisplayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired,
     // current URL query information, used to detect browsing
@@ -51,7 +51,7 @@ export class URLManagementContainer extends React.Component {
     displayDatasets: PropTypes.bool.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
     // Display mode
     displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]),
     // eslint-disable-next-line react/no-unused-prop-types
@@ -106,8 +106,9 @@ export class URLManagementContainer extends React.Component {
     const { initialViewObjectType, initialDisplayMode, initialize, currentQuery: query, displayDatasets } = nextProps
 
     // collect query parameters from URL
-    const viewObjectType = displayDatasets ? (query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType) :
-      SearchResultsTargetsEnum.DATAOBJECT_RESULTS // object type: forbid dataset when they cannot be displayed
+    const viewObjectType = displayDatasets ?
+      (query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType) :
+      DamDomain.ENTITY_TYPES_ENUM.DATA // object type: forbid dataset when they cannot be displayed
     const displayMode = query[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] || initialDisplayMode
     const searchTags = Tag.fromURLParameterValue(query[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER])
 
@@ -140,7 +141,7 @@ export class URLManagementContainer extends React.Component {
     // 1 - View object type (do not update default URL when in default mode, ie no update when the parameter is missing, while the
     // mode is dataobject)
     const urlObjectType = currentQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER]
-    if (viewObjectType !== SearchResultsTargetsEnum.DATAOBJECT_RESULTS || urlObjectType) {
+    if (viewObjectType !== DamDomain.ENTITY_TYPES_ENUM.DATA || urlObjectType) {
       nextBrowserQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] = viewObjectType
     }
 

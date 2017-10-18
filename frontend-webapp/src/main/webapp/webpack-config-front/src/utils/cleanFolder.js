@@ -11,7 +11,7 @@ module.exports = function (oldConf, projectContextPath, pathToDelete) {
         root: projectContextPath,
         verbose: false,
         dry: false,
-      })
+      }),
     ],
   })
 }

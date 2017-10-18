@@ -40,7 +40,6 @@ class SelectLocaleComponent extends React.Component {
     muiTheme: PropTypes.object.isRequired,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
     // ...themeContextType, XXX this cannot be done here! (module cicly deps)

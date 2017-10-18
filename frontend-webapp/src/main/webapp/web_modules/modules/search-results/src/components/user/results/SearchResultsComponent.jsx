@@ -41,6 +41,7 @@ import TableClient from '../../../clients/TableClient'
 import ListViewEntityCellContainer from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import TableViewOptionsCellContainer from '../../../containers/user/results/cells/TableViewOptionsCellContainer'
 import TableSortFilterComponent from './options/TableSortFilterComponent'
+import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
 import TableSelectAllContainer from '../../../containers/user/results/options/TableSelectAllContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
 import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
@@ -60,7 +61,7 @@ class SearchResultsComponent extends React.Component {
     displayDatasets: PropTypes.bool.isRequired,
 
     // dynamic display control
-    showingDataobjects: PropTypes.bool.isRequired,     // is Currently showing data objects (false: showing datasets)
+    viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
     viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
     showingFacettes: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -84,7 +85,6 @@ class SearchResultsComponent extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
     attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
-
     // control
     resultPageActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
     onFiltersChanged: PropTypes.func.isRequired,
@@ -97,7 +97,11 @@ class SearchResultsComponent extends React.Component {
     onShowTableView: PropTypes.func.isRequired,
     onSortChanged: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
-    onStartSelectionService: PropTypes.func.isRequired,
+    // from PluginServicesContainer
+    onStartSelectionService: PropTypes.func, // callback to start a selection service
+    // from OrderCartContainer
+    onAddSelectionToCart: PropTypes.func, // callback to add selection to cart, null when disabled
+    onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
   }
 
   static contextTypes = {
@@ -113,8 +117,8 @@ class SearchResultsComponent extends React.Component {
   componentWillReceiveProps = nextProps => this.updateState(this.props, nextProps)
 
   /**
-   * Sorting adaptation for parent container (to avoid runtime lambdas)
-   */
+ * Sorting adaptation for parent container (to avoid runtime lambdas)
+ */
   onSortByColumn = (column, type, clear) => {
     this.props.onSortChanged(column ? column.attributes[0] : null, type, clear)
   }
@@ -136,17 +140,15 @@ class SearchResultsComponent extends React.Component {
     label: this.context.intl.formatMessage({ id: 'results.options.column.label' }),
     attributes: [],
     order: Number.MAX_VALUE,
-    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * 2,
+    // reserve space for description, services and add to cart if is available
+    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (2 + (this.props.onAddElementToCart ? 1 : 0)),
     sortable: false,
     hideLabel: true,
     // order: number.
     customCell: {
       component: TableViewOptionsCellContainer,
-// TODO no longer!
       props: {
-        servicesTooltip: this.context.intl.formatMessage({ id: 'show.entity.services.tooltip' }),
-        descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
-        styles: this.context.moduleTheme.user.optionsStyles,
+        onAddToCart: this.props.onAddElementToCart,
       },
     },
   })
@@ -218,22 +220,18 @@ class SearchResultsComponent extends React.Component {
   * Create columns configuration for table view
   * @returns {Array}
   */
-  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSetEntityAsTag }) => [{
+  buildListColumns = (tableColumns, { attributeModels, viewObjectType, onSetEntityAsTag, onStartSelectionService }) => [{
     label: 'ListviewCell',
     attributes: [],
     customCell: {
       component: ListViewEntityCellContainer,
       props: {
         // click: select a dataset when in dataset mode
-        onSearchEntity: showingDataobjects ? null : onSetEntityAsTag,
+        onSearchEntity: viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET ? onSetEntityAsTag : null,
         attributes: attributeModels,
-// TODO no longer
         tableColumns,
-        displayCheckbox: showingDataobjects,
-        downloadTooltip: this.context.intl.formatMessage({ id: 'download.tooltip' }),
-        servicesTooltip: this.context.intl.formatMessage({ id: 'show.entity.services.tooltip' }),
-        descriptionTooltip: this.context.intl.formatMessage({ id: 'show.description.tooltip' }),
-        styles: this.context.moduleTheme.user.listViewStyles,
+        onServiceStarted: onStartSelectionService,
+        displayCheckbox: viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA,
       },
     },
   }]
@@ -247,7 +245,7 @@ class SearchResultsComponent extends React.Component {
     const oldState = this.state
     const newState = oldState || {}
 
-    if (newProperties.showingDataobjects) {
+    if (newProperties.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
       // table columns
       newState.tableColumns = this.buildTableColumns(newProperties.attributesConf, newProperties.attributeModels, newProperties.attributesRegroupementsConf, newProperties.sortingOn, true)
       // list columns
@@ -265,8 +263,13 @@ class SearchResultsComponent extends React.Component {
     }
   }
 
+  /** @return {boolean} true if currently displaying dataobjects */
+  isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
+
+  /** @return {boolean} true if currently in list view */
   isInListView = () => this.props.viewMode === DisplayModeEnum.LIST
 
+  /** @return {boolean} true if currently in table view */
   isInTableView = () => this.props.viewMode === DisplayModeEnum.TABLE
 
   /**
@@ -274,7 +277,7 @@ class SearchResultsComponent extends React.Component {
    */
   renderTableTabs = () => {
     const { intl: { formatMessage } } = this.context
-    const { showingDataobjects, onShowDatasets, onShowDataobjects, displayDatasets } = this.props
+    const { onShowDatasets, onShowDataobjects, displayDatasets } = this.props
     // show tabs only when datasets are displayed
     return displayDatasets ? [
       <FlatButton
@@ -282,14 +285,14 @@ class SearchResultsComponent extends React.Component {
         label={formatMessage({ id: 'navigation.datasets.label' })}
         onTouchTap={onShowDatasets}
         icon={<DatasetLibrary />}
-        secondary={!showingDataobjects}
+        secondary={!this.isDisplayingDataobjects()}
       />,
       <FlatButton
         key="dataobjects.tab"
         label={formatMessage({ id: 'navigation.dataobjects.label' })}
         onTouchTap={onShowDataobjects}
         icon={<DataLibrary />}
-        secondary={showingDataobjects}
+        secondary={this.isDisplayingDataobjects()}
       />,
     ] : []
   }
@@ -299,8 +302,8 @@ class SearchResultsComponent extends React.Component {
    * @return rendered options list
    */
   renderTableContextOptions = () => {
-    const { allowingFacettes, showingFacettes, onToggleShowFacettes, showingDataobjects,
-      selectionServices, onStartSelectionService } = this.props
+    const { allowingFacettes, showingFacettes, onToggleShowFacettes,
+      selectionServices, onStartSelectionService, onAddSelectionToCart } = this.props
     const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
 
@@ -312,25 +315,37 @@ class SearchResultsComponent extends React.Component {
           service={service}
           onRunService={onStartSelectionService}
         />)),
-      selectionServices.length ? <TableOptionsSeparator key="services.separator" /> : null,
-      // List view optionsselect all and sort options
-      this.isInListView() && showingDataobjects ? <TableSelectAllContainer
-        key="select.filter.option"
-        pageSelectors={searchSelectors}
-      /> : null,
-      this.isInListView() && showingDataobjects ? <TableSortFilterComponent
-        key="sort.filter.option"
-        onSortByColumn={this.onSortByColumn}
-        tableColumns={tableColumns}
-        prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
-        noneLabel={formatMessage({ id: 'list.sort.none.label' })}
-      /> : null,
+      <ShowableAtRender show={!!selectionServices.length} key="services.separator">
+        <TableOptionsSeparator />
+      </ShowableAtRender>,
+      // List view option select all and sort options
+      <ShowableAtRender show={this.isInListView() && this.isDisplayingDataobjects()} key="select.filter.option">
+        <TableSelectAllContainer pageSelectors={searchSelectors} />
+      </ShowableAtRender>,
+      <ShowableAtRender show={this.isInListView() && this.isDisplayingDataobjects()} key="sort.filter.option" >
+        <TableSortFilterComponent
+          key="sort.filter.option"
+          onSortByColumn={this.onSortByColumn}
+          tableColumns={tableColumns}
+          prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
+          noneLabel={formatMessage({ id: 'list.sort.none.label' })}
+        />
+      </ShowableAtRender>,
       // separator, if required
-      this.isInListView() && showingDataobjects && allowingFacettes ? <TableOptionsSeparator key="list.options.separator" /> : null,
+      <ShowableAtRender
+        show={this.isInListView() && this.isDisplayingDataobjects() && allowingFacettes}
+        key="list.options.separator"
+      >
+        <TableOptionsSeparator />
+      </ShowableAtRender>,
+      // Add selection to cart option
+      <ShowableAtRender show={!!onAddSelectionToCart} key="add.selection.to.cart">
+        <AddSelectionToCartComponent onAddSelectionToCart={onAddSelectionToCart} />
+      </ShowableAtRender>,
       // facets option
       <ShowableAtRender
         key="facet.filter.option"
-        show={allowingFacettes && showingDataobjects}
+        show={allowingFacettes && this.isDisplayingDataobjects()}
       >
         <FlatButton
           label={formatMessage({ id: 'navigation.filter.by.facets' })}
@@ -339,7 +354,7 @@ class SearchResultsComponent extends React.Component {
           secondary={showingFacettes}
         />
       </ShowableAtRender>,
-      // note : more option is rendered by the table pane directly
+      // note : more option button is rendered by the table pane directly
     ]
   }
 
@@ -384,11 +399,10 @@ class SearchResultsComponent extends React.Component {
    * Returns contextual table header (shows facet or default)
    */
   renderTableHeaderArea = () => {
-    const { appName, project, allowingFacettes, showingFacettes,
-      showingDataobjects, attributeModels, filters, onFiltersChanged } = this.props
+    const { appName, project, allowingFacettes, showingFacettes, attributeModels, filters, onFiltersChanged } = this.props
 
     // when in facet mode, render facet module
-    if (showingDataobjects && allowingFacettes && showingFacettes) {
+    if (this.isDisplayingDataobjects() && allowingFacettes && showingFacettes) {
       // when facettes are allowed and visible, use facets module as table header
       const searchFacetsModule = {
         type: 'search-facets',
@@ -415,7 +429,7 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage } } = this.context
-    const { showingDataobjects, searchQuery, resultPageActions } = this.props
+    const { searchQuery, viewObjectType, resultPageActions } = this.props
     const { tableColumns, listColumns } = this.state
 
     const pageSize = 13
@@ -433,7 +447,7 @@ class SearchResultsComponent extends React.Component {
       cellsStyle = null
       displayColumnsHeader = true
       showParameters = true
-      displayCheckbox = showingDataobjects
+      displayCheckbox = this.isDisplayingDataobjects()
     } else {
       columns = listColumns
       lineHeight = 160
@@ -450,7 +464,7 @@ class SearchResultsComponent extends React.Component {
       cellsStyle,
       lineHeight,
       displayCheckbox,
-      displaySelectAll: true,
+      displaySelectAll: this.isDisplayingDataobjects(),
       onSortByColumn: this.onSortByColumn,
     }
 
@@ -468,7 +482,7 @@ class SearchResultsComponent extends React.Component {
 
     return (
       <TableContainer
-        key={showingDataobjects ? 'do' : 'ds'} // unmount the table when change entity type (using key trick)
+        key={viewObjectType} // unmount the table when change entity type (using key trick)
         pageActions={resultPageActions}
         pageSelectors={searchSelectors}
         tableActions={TableClient.tableActions}

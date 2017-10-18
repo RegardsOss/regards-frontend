@@ -24,7 +24,6 @@ import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } 
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import moduleStyles from '../styles/styles'
 
 /**
  * React component to edit/create/duplicate an accessgroup.
@@ -85,9 +84,6 @@ export class AccessGroupFormComponent extends React.Component {
     const { submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
     const nameFieldValidations = [ValidationHelpers.required, ValidationHelpers.string, ValidationHelpers.validAlphaNumericUnderscore]
-    const styles = moduleStyles(this.context.muiTheme)
-    const { formatMessage } = this.context.intl
-
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -109,16 +105,12 @@ export class AccessGroupFormComponent extends React.Component {
             />
             <br />
             <br />
-            <Badge
-              badgeContent={<IconButton tooltip={formatMessage({ id: 'group.form.public.info' })} tooltipPosition="bottom-right" iconStyle={styles.info}><InfoOutline /></IconButton>}
-            >
-              <Field
-                name="isPublic"
-                fullWidth
-                component={RenderCheckbox}
-                label={this.context.intl.formatMessage({ id: 'group.form.public' })}
-              />
-            </Badge>
+            <Field
+              name="isPublic"
+              fullWidth
+              component={RenderCheckbox}
+              label={this.context.intl.formatMessage({ id: 'group.form.public' })}
+            />
           </CardText>
           <CardActions>
             <CardActionsComponent

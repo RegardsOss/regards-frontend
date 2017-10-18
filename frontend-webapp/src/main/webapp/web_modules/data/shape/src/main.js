@@ -18,17 +18,19 @@
  **/
 import AccessShapes from './rs-access/index'
 import AdminShapes from './rs-admin/index'
-import CommonShapes from './rs-common/index'
-import DataManagementShapes from './rs-dam/index'
-import CatalogShapes from './rs-catalog/index'
 import ArchivalStorageShapes from './rs-archival-storage/index'
+import CommonShapes from './rs-common/index'
+import CatalogShapes from './rs-catalog/index'
+import DataManagementShapes from './rs-dam/index'
+import OrderShapes from './rs-order/index'
 
 export default {
   AccessShapes,
   AdminShapes,
+  ArchivalStorageShapes,
   CatalogShapes,
   CommonShapes,
   DataManagementShapes,
-  ArchivalStorageShapes,
+  OrderShapes,
 }
 

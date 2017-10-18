@@ -20,7 +20,7 @@
 /**
  * Props to manage global theme (muiTheme) and local module theme (moduleTheme)
  * muiTheme is provided by MuiThemeProvider.
- * moduleTheme is provider by ModuleThemeProvider
+ * moduleTheme is provider by ModuleStyleProvider
  * @type {{muiTheme: *, moduleTheme: *}}
  */
 const contextTypes = {

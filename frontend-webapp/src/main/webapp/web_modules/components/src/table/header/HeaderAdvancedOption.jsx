@@ -2,7 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import { i18nContextType } from '@regardsoss/i18n'
-import ShowableAtRender from '../../cards/ShowableAtRender'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import DropDownButton from '../../buttons/DropDownButton'
 
 /**

@@ -252,7 +252,7 @@ class BasicListActions extends BasicActions {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicListActions.createFormData(objectValues, files)
+    const formData = BasicListActions.createFormDataWithFilesMap(objectValues, files)
     return {
       [CALL_API]: {
         types: [
