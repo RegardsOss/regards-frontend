@@ -30,26 +30,12 @@
 		<sonar.javascript.jstestdriver.reportsPath>src/main/webapp/reports/coverage/TEST-xunit.xml</sonar.javascript.jstestdriver.reportsPath>
 	</properties>
 
-	<!-- Internal build, the frontend webapp npm compilation is done with the 
-		JenkinsFile -->
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<warSourceDirectory>src/main/webapp/dist/prod</warSourceDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-	<!-- External build, the frontend webapp npm compilation need to be done -->
 	<profiles>
 		<profile>
-			<id>delivery</id>
+			<id>LT</id>
 			<build>
+				<!-- Standard build, the frontend webapp npm compilation is done with 
+					maven exec plugin -->
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -157,6 +143,23 @@
 								</configuration>
 							</execution>
 						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>CI</id>
+			<!-- Jenkins build, the frontend webapp npm compilation is done thanks 
+				to Jenkinsfile -->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>3.0.0</version>
+						<configuration>
+							<warSourceDirectory>src/main/webapp/dist/prod</warSourceDirectory>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
