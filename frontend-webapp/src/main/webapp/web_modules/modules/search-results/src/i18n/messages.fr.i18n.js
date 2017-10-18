@@ -64,7 +64,7 @@ const messages = Object.assign({
   'download.tooltip': 'Télécharger',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Détail',
-  'results.no.content.title': 'Pas de résultats',
+  'results.no.content.title': 'Pas de résultat',
   'results.no.content.subtitle': 'Votre recherche n\'a donné aucun résultat. Essayez de modifier vos critères',
   'results.options.column.label': 'Options et services',
 }, Locales.fr)

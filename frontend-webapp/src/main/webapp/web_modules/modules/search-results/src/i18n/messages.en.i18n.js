@@ -66,8 +66,8 @@ const messages = Object.assign({
   'download.tooltip': 'Download',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
-  'results.no.content.title': 'No results',
-  'results.no.content.subtitle': 'Your search returned no results. Try to change your criteria',
+  'results.no.content.title': 'No result',
+  'results.no.content.subtitle': 'Your search returned no result. Try to change your criteria',
   'results.options.column.label': 'Options and services',
 }, Locales.en)
 
