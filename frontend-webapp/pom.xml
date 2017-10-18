@@ -48,7 +48,7 @@
 	<!-- External build, the frontend webapp npm compilation need to be done -->
 	<profiles>
 		<profile>
-			<id>celivery</id>
+			<id>delivery</id>
 			<build>
 				<plugins>
 					<plugin>

@@ -76,6 +76,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+                                        <layout>WAR</layout>
+                                </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
