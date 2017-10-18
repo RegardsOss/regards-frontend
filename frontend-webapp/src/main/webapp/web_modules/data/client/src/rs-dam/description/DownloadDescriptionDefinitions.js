@@ -48,11 +48,11 @@ export default {
    * @param token
    * @return action download URL for description file
    */
-  getDirectDownloadURL: (entityType, id, token) => {
+  getDirectDownloadURL: (entityType, id, token, scope) => {
     const downloadURL = getDownloadURL(entityType, id)
     // add request origin for X-Frame-Options bypass. WARN: bad security workaround
     const requestOrigin = `${root.location.protocol}//${root.location.host}`
-    return encodeURI(`${downloadURL}?origin=${requestOrigin}${token ? `&token=${token}` : ''}`)
+    return encodeURI(`${downloadURL}?origin=${requestOrigin}${token ? `&token=${token}` : `&scope=${scope}`}`)
   },
 
 
