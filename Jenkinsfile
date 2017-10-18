@@ -84,7 +84,7 @@ pipeline {
                 parallel(
                     artifact: {
                         sh 'tar zcvf frontend.tar.gz ./frontend-webapp/src/main/webapp/dist/prod'
-                        archiveArtifacts artifacts: './frontend.tar.gz', fingerprint: true
+                        archiveArtifacts artifacts: 'frontend.tar.gz', fingerprint: true
                     },
                     sonar: {
                         sh 'docker run --rm --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
