@@ -31,7 +31,7 @@ class CartSelectorComponent extends React.Component {
 
   static propTypes = {
     // number of nofications
-    notifications: PropTypes.number.isRequired,
+    objectsCount: PropTypes.number.isRequired,
     // callback: on cart button clicked
     onCartClicked: PropTypes.func.isRequired,
   }
@@ -50,16 +50,16 @@ class CartSelectorComponent extends React.Component {
 
 
   render() {
-    const { notifications, onCartClicked } = this.props
+    const { objectsCount, onCartClicked } = this.props
     const { intl: { formatMessage }, moduleTheme: { cart } } = this.context
 
     // compute label for current count
-    const elementsCountLabel = notifications < CartSelectorComponent.MAX_ELEMENTS_COUNT ? notifications :
+    const elementsCountLabel = objectsCount < CartSelectorComponent.MAX_ELEMENTS_COUNT ? objectsCount :
       formatMessage({ id: 'user.menu.cart.max.count' }, { maxCount: CartSelectorComponent.MAX_ELEMENTS_COUNT })
 
     // compute tooltip for current count
-    const elementsCountTooltip = notifications ?
-      formatMessage({ id: 'user.menu.displaycart.elements.count.tooltip' }, { elementsCount: notifications }) :
+    const elementsCountTooltip = objectsCount ?
+      formatMessage({ id: 'user.menu.displaycart.elements.count.tooltip' }, { elementsCount: objectsCount }) :
       formatMessage({ id: 'user.menu.displaycart.empty.tooltip' })
 
     // render
@@ -72,7 +72,7 @@ class CartSelectorComponent extends React.Component {
       >
         { /*Create a free position chip over the icon */}
         <div>
-          <ShowableAtRender show={!!notifications}>
+          <ShowableAtRender show={!!objectsCount}>
             <div style={cart.overlay.style}>
               <Chip
                 labelStyle={cart.overlay.chip.labelStyle}

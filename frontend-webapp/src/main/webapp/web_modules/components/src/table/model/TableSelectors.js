@@ -16,24 +16,57 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
+import { createSelector } from 'reselect'
 import { BasicSelector } from '@regardsoss/store-utils'
+import TableSelectionModes from './TableSelectionModes'
 
 export class TableSelectors extends BasicSelector {
 
+
   /**
-   * @param store redux store
-   * @return current selection mode (as a TableSelectionModes)
+   * Is empty selection? Compute empty selection using external page results selectors and buffers it with reselect
+   * @param state redux store
+   * @param pageResultsSelectors page results selectors: selects metadata in table results
+   * @return {boolean} computed empty selection state
    */
-  getSelectionMode(store) {
-    return this.uncombineStore(store).selectionMode
+  isEmptySelection = (state, pageResultsSelectors) => {
+    if (!this.reselectEmptySelection) {
+      // init reselector instance
+      this.reselectEmptySelection = createSelector([
+        // 1 - get page meta
+        localState => pageResultsSelectors.getMetaData(localState),
+        // 2 - get toggled elements
+        localState => this.getSelectionMode(localState),
+        // 3 - get selection mode
+        localState => this.getToggledElements(localState),
+      ], (pageMetadata, toggledElements, selectionMode) => {
+        const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
+        const selectionSize = keys(toggledElements).length
+
+        return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0) ||
+          (selectionMode === TableSelectionModes.excludeSelected && selectionSize === totalElements)
+      },
+      )
+    }
+    // select or reselect
+    return this.reselectEmptySelection(state)
   }
 
   /**
-   * @param store redux store
+   * @param state redux store
+   * @return current selection mode (as a TableSelectionModes)
+   */
+  getSelectionMode(state) {
+    return this.uncombineStore(state).selectionMode
+  }
+
+  /**
+   * @param state redux store
    * @return currently toggled elements
    */
-  getToggledElements(store) {
-    return this.uncombineStore(store).toggledElements
+  getToggledElements(state) {
+    return this.uncombineStore(state).toggledElements
   }
 
 }

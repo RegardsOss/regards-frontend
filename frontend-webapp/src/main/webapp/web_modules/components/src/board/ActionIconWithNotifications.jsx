@@ -2,8 +2,8 @@
 * LICENSE_PLACEHOLDER
 **/
 import Badge from 'material-ui/Badge'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
-import ShowableAtRender from '../cards/ShowableAtRender'
 import styles from './styles/styles'
 
 /**

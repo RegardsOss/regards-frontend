@@ -15,28 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-class ShowableAtRender extends React.Component {
-
-  static propTypes = {
-    show: PropTypes.bool,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-    ]),
-  }
-
-  render() {
-    const { show, children } = this.props
-    if (show) {
-      if (React.Children.count(children) === 1) {
-        return React.Children.only(children)
-      }
-      return (<div>{children}</div>)
-    }
-    return null
-  }
-}
-
-export default ShowableAtRender
+describe('[PLUGIN NUMERICAL CRITERIA] Testing i18n', () => {
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

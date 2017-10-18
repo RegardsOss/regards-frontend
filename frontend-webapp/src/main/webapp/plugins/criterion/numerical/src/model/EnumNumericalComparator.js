@@ -16,15 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-/**
- * Search form results type enum
- * @author Sébastien binda
- */
-const DATASET_RESULTS = 'datasets'
-const DATAOBJECT_RESULTS = 'dataobjects'
-
 export default {
-  DATASET_RESULTS,
-  DATAOBJECT_RESULTS,
+  EQ: 'EQ',
+  NE: 'NE',
+  LE: 'LE',
+  GE: 'GE',
 }

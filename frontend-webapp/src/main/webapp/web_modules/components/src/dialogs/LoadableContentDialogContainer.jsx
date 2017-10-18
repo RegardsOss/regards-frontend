@@ -4,7 +4,7 @@
 
 import { CommonShapes } from '@regardsoss/shape'
 import { withModuleStyle } from '@regardsoss/theme'
-import ShowableAtRender from '../cards/ShowableAtRender'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import PositionedDialog from './PositionedDialog'
 import DialogLoadingComponent from './DialogLoadingComponent'
 

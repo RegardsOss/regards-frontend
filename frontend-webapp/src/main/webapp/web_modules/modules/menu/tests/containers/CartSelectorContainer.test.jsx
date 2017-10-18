@@ -19,11 +19,46 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ShowableAtRender } from '@regardsoss/display-control'
+import { modulesManager } from '@regardsoss/modules'
 import CartSelectorComponent from '../../src/components/CartSelectorComponent'
 import { CartSelectorContainer } from '../../src/containers/CartSelectorContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
+
+/**
+ * An example of resolved properties
+ */
+const resolvedProps = {
+  project: 'any',
+  objectsCount: 10,
+  dispatchGetBasket: () => { },
+  isAuthenticated: true, // user must be logged
+  userLayout: { // there must be the dynamic module
+    content: {
+      id: 0,
+      applicationId: 'any',
+      layout: {
+        id: '0',
+        type: 'any',
+        // we just add here one dynamic container, as we want to have a fake order-cart module in a dynamic container
+        containers: [{ id: 'my-container', type: 'any', dynamicContent: true }],
+      },
+    },
+  },
+  modules: { // set up many modules, only the module 3 should be resolved
+    // another module (just to test we are truely searching in list) - should be ignored
+    0: { content: { id: 0, type: modulesManager.ModuleTypes.MENU, name: 'idk', active: true, container: 'my-container' } },
+    // an order-cart module on a wrong container - should be ignored
+    1: { content: { id: 1, type: modulesManager.ModuleTypes.ORDER_CART, name: 'idk1', active: true, container: 'another-container', conf: {} } },
+    // an order-cart module disabled - should be ignored
+    2: { content: { id: 2, type: modulesManager.ModuleTypes.ORDER_CART, name: 'idk2', active: false, container: 'my-container', conf: {} } },
+    // the order-cart module that should be retrieved
+    3: { content: { id: 3, type: modulesManager.ModuleTypes.ORDER_CART, name: 'idk3', active: true, container: 'my-container', conf: {} } },
+  },
+  availableEndpoints: ['rs-order@/order/basket@GET'],
+}
 
 /**
 * Test CartSelectorContainer
@@ -36,18 +71,73 @@ describe('[Menu] Testing CartSelectorContainer', () => {
   it('should exists', () => {
     assert.isDefined(CartSelectorContainer)
   })
-  it('should render correctly', () => {
+  it('should render correctly, showing the sub component only when module ID is resolved (covers authentication / deps and modules state)', () => {
     const props = {
       project: 'any',
-      cartModuleId: 0,
       objectsCount: 10,
       dispatchGetBasket: () => { },
     }
     const enzymeWrapper = shallow(<CartSelectorContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(CartSelectorComponent)
+    let showableWrapper = enzymeWrapper.find(ShowableAtRender)
+    assert.lengthOf(showableWrapper, 1, 'The showable component should be used to switch visible component state')
+    assert.isFalse(showableWrapper.props().show, 'The showable component should be hiding component')
+    let componentWrapper = enzymeWrapper.find(CartSelectorComponent)
     assert.lengthOf(componentWrapper, 1, 'The component should be rendered')
-    // check component properties
-    assert.equal(componentWrapper.props().notifications, enzymeWrapper.props().notifications, 'The notifications should be reported')
+
+    // resolve module id in state and check sub component is shown
+    enzymeWrapper.setState({ cartModuleId: 10 })
+    showableWrapper = enzymeWrapper.find(ShowableAtRender)
+    assert.isTrue(showableWrapper.props().show, 'The showable component should be displaying component')
+
+    componentWrapper = enzymeWrapper.find(CartSelectorComponent)
+    assert.equal(componentWrapper.props().objectsCount, props.objectsCount, 'The notifications should be reported')
     assert.equal(componentWrapper.props().onCartClicked, enzymeWrapper.instance().onCartClicked, 'Container should provide on cart clicked method')
+  })
+
+  const testCases = [{
+    resolved: false,
+    subTitle: 'when not authentified',
+    props: {
+      ...resolvedProps,
+      isAuthenticated: false,
+    },
+  }, {
+    resolved: false,
+    subTitle: 'when no layout is defined',
+    props: {
+      ...resolvedProps,
+      userLayout: {},
+    },
+  }, {
+    resolved: false,
+    subTitle: 'when no module is defined',
+    props: {
+      ...resolvedProps,
+      modules: {},
+    },
+  }, {
+    resolved: false,
+    subTitle: 'when user has not dependencies to basket',
+    props: {
+      ...resolvedProps,
+      availableEndpoints: [],
+    },
+  }, {
+    resolved: true,
+    subTitle: 'when module is found, user is authenticated and has dependencies to basket',
+    props: resolvedProps,
+  }]
+
+  testCases.forEach(({ resolved, subTitle, props }) => {
+    it(`${resolved ? 'should' : 'should not'} resolve cart module ID ${subTitle}`, () => {
+      const enzymeWrapper = shallow(<CartSelectorContainer {...props} />, { context })
+      // note: the resolution, due to fetch methods required, is performed on componentDidMount. Therefore, we can only test here the instance tool itself
+      const cartModuleId = enzymeWrapper.instance().getCartModuleId(props)
+      if (resolved) {
+        assert.equal(cartModuleId, resolvedProps.modules['3'].content.id, 'The module 3 should be resolved (see common test props)')
+      } else {
+        assert.isNotOk(cartModuleId, 'Cart module ID should not be resolved with current props')
+      }
+    })
   })
 })

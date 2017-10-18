@@ -26,16 +26,18 @@ import someMatchHateoasDisplayLogic from './logics/someMatchHateoasDisplayLogic'
 import someListMatchHateoasDisplayLogic from './logics/someListMatchHateoasDisplayLogic'
 import LoadableContentDisplayDecorator from './async/LoadableContentDisplayDecorator'
 import LoadingComponent from './async/loading/LoadingComponent'
+import HOCCloneUtils from './hoc/HOCCloneUtils'
 
 export {
+  allMatchHateoasDisplayLogic,
   HateoasKeys,
   HateoasLinks,
-  allMatchHateoasDisplayLogic,
+  HOCCloneUtils,
+  LoadingComponent,
+  LoadableContentDisplayDecorator,
+  ShowableAtRender,
   someMatchHateoasDisplayLogic,
   someListMatchHateoasDisplayLogic,
-  LoadableContentDisplayDecorator,
-  LoadingComponent,
   withHateoasDisplayControl,
   withResourceDisplayControl,
-  ShowableAtRender,
 }

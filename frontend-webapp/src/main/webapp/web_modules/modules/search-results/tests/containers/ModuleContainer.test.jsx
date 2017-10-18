@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
+import { DamDomain } from '@regardsoss/domain'
 import ModuleComponent from '../../src/components/user/ModuleComponent'
 import URLManagementContainer from '../../src/containers/user/URLManagementContainer'
 import { ModuleContainer } from '../../src/containers/ModuleContainer'
@@ -57,7 +57,7 @@ describe('[Search Results] Testing ModuleContainer', () => {
         searchQuery: '',
         attributes: [],
         attributesRegroupements: [],
-        resultType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+        resultType: DamDomain.ENTITY_TYPES_ENUM.DATA,
         singleDatasetIpId: null,
         breadcrumbInitialContextLabel: 'hello home',
       },

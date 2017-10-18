@@ -168,7 +168,6 @@ class LazyModuleComponent extends React.Component {
       }
 
       moduleElt = React.createElement(moduleContainer, moduleProps)
-
       return (
         <I18nProvider messages={moduleMessages}>
           <ModuleStyleProvider module={module}>

@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import { LoadableContentDialogContainer } from '../../src/dialogs/LoadableContentDialogContainer'
-import ShowableAtRender from '../../src/cards/ShowableAtRender'
 
 describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
   before(testSuiteHelpers.before)

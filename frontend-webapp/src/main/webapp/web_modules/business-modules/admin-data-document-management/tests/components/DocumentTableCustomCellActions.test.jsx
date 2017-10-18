@@ -38,13 +38,12 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentTableCustomCellAction
       entity: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
       rowIndex: 3,
       pageSize: 10,
-      onDelete: () => {},
-      onEdit: () => {},
+      onDelete: () => { },
+      onEdit: () => { },
       intl: context.intl,
       lineHeight: 40,
     }
     const enzymeWrapper = shallow(<DocumentTableCustomCellActions {...props} />)
-    console.log(enzymeWrapper.debug())
     expect(enzymeWrapper.find(Delete)).to.have.length(1)
     expect(enzymeWrapper.find(Edit)).to.have.length(1)
   })

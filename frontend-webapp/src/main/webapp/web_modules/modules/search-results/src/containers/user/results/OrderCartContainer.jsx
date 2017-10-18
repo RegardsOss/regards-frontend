@@ -19,21 +19,19 @@
 import find from 'lodash/find'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import keys from 'lodash/keys'
-import omit from 'lodash/omit'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
+import { DamDomain } from '@regardsoss/domain'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
-import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
-import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { allMatchHateoasDisplayLogic, HOCCloneUtils } from '@regardsoss/display-control'
 import TableClient from '../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
-import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 
 // get default modules client actions and reducers instances - we will use it to verify if a basket exists AND if it is in a dynamic container
 const modulesSelectors = AccessProjectClient.ModuleSelectors()
@@ -56,21 +54,6 @@ export class OrderCartContainer extends React.Component {
   static BASKET_DEPENDENCIES = basketDependencies
 
   /**
-   * TODO share with services container when merging V1.1
-   * @param selectionMode current seletion mode
-   * @param toggledElements toggled elements
-   * @param pageMetadata page metadata
-   * @return true if selection is empty
-   */
-  static isEmptySelection = (selectionMode, toggledElements, pageMetadata) => {
-    const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
-    const selectionSize = keys(toggledElements).length
-
-    return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0) ||
-      (selectionMode === TableSelectionModes.excludeSelected && selectionSize === totalElements)
-  }
-
-  /**
    * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
@@ -82,11 +65,10 @@ export class OrderCartContainer extends React.Component {
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
       modules: modulesSelectors.getList(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-      // TODO when mergin 1.1.0, think about sharing those values
       // seletion and research related
-      selectionMode: TableClient.tableSelectors.getSelectionMode(state),
       toggledElements: TableClient.tableSelectors.getToggledElements(state),
-      pageMetadata: searchSelectors.getMetaData(state),
+      selectionMode: TableClient.tableSelectors.getSelectionMode(state),
+      emptySelection: TableClient.tableSelectors.isEmptySelection(state, searchSelectors),
     }
   }
 
@@ -116,7 +98,13 @@ export class OrderCartContainer extends React.Component {
     openSearchQuery: PropTypes.string.isRequired,
     // this property is used by this container and sub components (used only in onPropertiesChanged)
     // eslint-disable-next-line react/no-unused-prop-types
-    showingDataobjects: PropTypes.bool.isRequired,
+    viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
+    // components children, where this container will inject order cart related properties
+    // eslint-disable-next-line react/no-unused-prop-types
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
     // from mapStateToProps
     // cart availability related
     // eslint-disable-next-line react/no-unused-prop-types
@@ -126,33 +114,18 @@ export class OrderCartContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     availableDependencies: PropTypes.arrayOf(PropTypes.string),
     // seletion and research related
-    // TODO when merging v1.1, think about sharing those properties with ServicesContainer
-    toggledElements: PropTypes.objectOf(CatalogShapes.Entity).isRequired,
+    toggledElements: PropTypes.objectOf(AccessShapes.EntityWithServices).isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)),
     // eslint-disable-next-line react/no-unused-prop-types
-    pageMetadata: PropTypes.shape({ // only used in onPropertiesChanged
-      number: PropTypes.number,
-      size: PropTypes.number,
-      totalElements: PropTypes.number,
-    }),
+    emptySelection: PropTypes.bool.isRequired,
     // from map dispatch to props
     dispatchAddToCart: PropTypes.func.isRequired,
     // ... child component properties
+
   }
 
-  /** Specific container properties, that should not be provided to child component */
-  static CONTAINER_SPECIFIC_PROPERTIES = [
-    'initialSearchQuery',
-    'openSearchQuery',
-    'isAuthenticated',
-    'modules',
-    'availableDependencies',
-    'toggledElements',
-    'selectionMode',
-    'dispatchAddToCart',
-  ]
-
   static DEFAULT_STATE = {
+    children: [], // pre rendered children
     basketAvailaible: false, // marks a state where basket is available
     onAddElementToBasket: null,  // callback to add an element into basket
     onAddSelectionToBasket: null, // callback to add selection to basket
@@ -185,27 +158,31 @@ export class OrderCartContainer extends React.Component {
       // recompute if basket should be displayed
       newState.basketAvailaible = this.isBasketAvailable(newProps)
     }
-
-    if (newState.basketAvailaible) {
-      // set up the right callbacks for current state
-      if (newProps.showingDataobjects) {
-        newState.onAddElementToBasket = this.onAddDataOjbectToBasketHandler
-        // enable selection add only when there is a selection
-        newState.onAddSelectionToBasket =
-          OrderCartContainer.isEmptySelection(newProps.selectionMode, newProps.toggledElements, newProps.pageMetadata) ?
-            null : this.onAddDataOjbectsSelectionToBasketHandler
+    // update callbacks when basket available state changes or view object type changes
+    if (oldProps.viewObjectType !== newProps.viewObjectType || oldState.basketAvailaible !== newState.basketAvailaible) {
+      if (newState.basketAvailaible) {
+        // set up the right callbacks for current state
+        if (newProps.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
+          newState.onAddElementToBasket = this.onAddDataOjbectToBasketHandler
+          // enable selection add only when there is a selection
+          newState.onAddSelectionToBasket = newProps.emptySelection ? null : this.onAddDataOjbectsSelectionToBasketHandler
+        } else {
+          newState.onAddElementToBasket = this.onAddDatasetToBasketHandler
+          newState.onAddSelectionToBasket = null // user cannot add a dataset selection to basket
+        }
       } else {
-        newState.onAddElementToBasket = this.onAddDatasetToBasketHandler
-        newState.onAddSelectionToBasket = null // user cannot add a dataset selection to basket
+        // remove callbacks to disable the functionnality
+        newState.onAddElementToBasket = null
+        newState.onAddSelectionToBasket = null
       }
-    } else {
-      // remove callbacks to disable the functionnality
-      newState.onAddElementToBasket = null
-      newState.onAddSelectionToBasket = null
     }
-
-
-    if (!isEqual(oldState, newState)) {
+    // when state or children changed, re render children then update state
+    if (!isEqual(oldState, newState) || !isEqual(oldState.children, newState.children)) {
+      // pre render children (attempt to enhance render performances)
+      newState.children = HOCCloneUtils.defaultCloneChildren(this, {
+        onAddElementToCart: newState.onAddElementToBasket,
+        onAddSelectionToCart: newState.onAddSelectionToBasket,
+      })
       this.setState(newState)
     }
   }
@@ -268,21 +245,15 @@ export class OrderCartContainer extends React.Component {
         return allMatchHateoasDisplayLogic(OrderCartContainer.BASKET_DEPENDENCIES, availableDependencies)
       }
     }
-    // otherwise: NO it isn't
+    // otherwise: it isn't available
     return false
   }
 
-
   render() {
-    const componentReportedProps = omit(this.props, OrderCartContainer.CONTAINER_SPECIFIC_PROPERTIES)
-    const { onAddElementToBasket, onAddSelectionToBasket } = this.state
-    return (
-      <SearchResultsComponent
-        {...componentReportedProps}
-        onAddElementToCart={onAddElementToBasket}
-        onAddSelectionToCart={onAddSelectionToBasket}
-      />
-    )
+    const { children } = this.state
+    // render only the children list
+    return HOCCloneUtils.renderChildren(children)
   }
+
 }
 export default connect(OrderCartContainer.mapStateToProps, OrderCartContainer.mapDispatchToProps)(OrderCartContainer)

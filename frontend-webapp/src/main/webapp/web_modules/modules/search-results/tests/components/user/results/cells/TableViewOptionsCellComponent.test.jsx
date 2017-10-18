@@ -57,8 +57,6 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
           type: AccessDomain.pluginTypes.CATALOG,
         },
       }],
-      servicesTooltip: 'services.tooltip',
-      descriptionTooltip: 'description.tooltip',
       styles: context.moduleTheme.user.optionsStyles,
       onShowDescription: () => { },
       onServiceStarted: () => { },
@@ -67,12 +65,11 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
 
     const descButton = render.find(EntityDescriptionButton)
     assert.lengthOf(descButton, 1, 'There should be a button to show description')
-    assert.equal(descButton.props().onShowDescription, props.onShowDescription, 'Description button should use right tooltip')
-    assert.equal(descButton.props().tooltip, props.descriptionTooltip, 'Description button should use right callback')
+    assert.equal(descButton.props().onShowDescription, props.onShowDescription, 'Description button should use right callback')
 
     const servicesButton = render.find(OneElementServicesButton)
     assert.lengthOf(servicesButton, 1, 'There should be a button to show services')
-    assert.equal(servicesButton.props().onServiceStarted, props.onServiceStarted, 'Services button should use right tooltip')
+    assert.equal(servicesButton.props().onServiceStarted, props.onServiceStarted, 'Services button should use right callback')
     assert.equal(servicesButton.props().services, props.services, 'Service button should have the list of services')
     // note: no need to test disabled state here, performed in OneElementServicesButton tests
   })
@@ -81,6 +78,7 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
     const props = {
       displayAddToBasket: true,
       onShowDescription: () => { },
+      onServiceStarted: () => { },
       onAddToCart: null,
     }
 
@@ -93,6 +91,7 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
     const props = {
       displayAddToBasket: true,
       onShowDescription: () => { },
+      onServiceStarted: () => { },
       onAddToCart: () => { },
     }
 

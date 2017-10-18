@@ -32,7 +32,7 @@ class OrderBasketSelectors extends BasicSignalSelectors {
    * @param {*} state redux application state
    */
   getOrderBasket(state) {
-    return this.uncombineStore(state).result.content
+    return get(this.uncombineStore(state), 'result.content')
   }
 
   getObjectsCount = createSelector([state => this.getOrderBasket(state)],

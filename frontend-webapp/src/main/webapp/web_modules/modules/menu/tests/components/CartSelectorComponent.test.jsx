@@ -40,7 +40,7 @@ describe('[Menu] Testing CartSelectorComponent', () => {
   })
   it('should render correctly without basket content', () => {
     const props = {
-      notifications: 0,
+      objectsCount: 0,
       onCartClicked: () => { },
     }
     const enzymeWrapper = shallow(<CartSelectorComponent {...props} />, { context })
@@ -55,9 +55,9 @@ describe('[Menu] Testing CartSelectorComponent', () => {
     // check tool tip is set up
     assert.isDefined(buttonWrapper.props().title, 'There should be a tooltip')
   })
-  it('should render correctly with  low count basket content', () => {
+  it('should render correctly with low count basket content', () => {
     const props = {
-      notifications: CartSelectorComponent.MAX_ELEMENTS_COUNT - 1,
+      objectsCount: CartSelectorComponent.MAX_ELEMENTS_COUNT - 1,
       onCartClicked: () => { },
     }
     const enzymeWrapper = shallow(<CartSelectorComponent {...props} />, { context })
@@ -69,16 +69,16 @@ describe('[Menu] Testing CartSelectorComponent', () => {
     const buttonWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(buttonWrapper, 1, 'There should be a button')
     assert.equal(buttonWrapper.props().onClick, props.onCartClicked, 'Callback should be set')
-    // check tool tip is set up and contains notifications count
+    // check tool tip is set up and contains objectsCount count
     assert.isDefined(buttonWrapper.props().title, 'There should be a tooltip')
-    // check the chip label contains notifications count
+    // check the chip label contains objectsCount count
     const chipWrapper = enzymeWrapper.find(Chip)
-    assert.lengthOf(chipWrapper, 1, 'There should be a chip to show notifications')
-    assert.include(chipWrapper.debug(), `${props.notifications}`, 'The chip text should contain notifications count')
+    assert.lengthOf(chipWrapper, 1, 'There should be a chip to show objectsCount')
+    assert.include(chipWrapper.debug(), `${props.objectsCount}`, 'The chip text should contain objectsCount count')
   })
-  it('should render correctly with  high count basket content', () => {
+  it('should render correctly with high count basket content', () => {
     const props = {
-      notifications: CartSelectorComponent.MAX_ELEMENTS_COUNT + 1,
+      objectsCount: CartSelectorComponent.MAX_ELEMENTS_COUNT + 1,
       onCartClicked: () => { },
     }
     const enzymeWrapper = shallow(<CartSelectorComponent {...props} />, { context })
@@ -90,11 +90,11 @@ describe('[Menu] Testing CartSelectorComponent', () => {
     const buttonWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(buttonWrapper, 1, 'There should be a button')
     assert.equal(buttonWrapper.props().onClick, props.onCartClicked, 'Callback should be set')
-    // check tool tip is set up and contains notifications count
+    // check tool tip is set up and contains objectsCount count
     assert.isDefined(buttonWrapper.props().title, 'There should be a tooltip')
-    // check the chip label shows max count info (not notifications)
+    // check the chip label shows max count info (not objectsCount)
     const chipWrapper = enzymeWrapper.find(Chip)
-    assert.lengthOf(chipWrapper, 1, 'There should be a chip to show notifications')
-    assert.isFalse(chipWrapper.debug().includes(`${props.notifications}`), 'The chip text should not contain notifications count, but a replacement text')
+    assert.lengthOf(chipWrapper, 1, 'There should be a chip to show objectsCount')
+    assert.isFalse(chipWrapper.debug().includes(`${props.objectsCount}`), 'The chip text should not contain objectsCount count, but a replacement text')
   })
 })

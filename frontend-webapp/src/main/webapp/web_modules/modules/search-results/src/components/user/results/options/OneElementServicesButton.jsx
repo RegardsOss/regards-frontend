@@ -38,7 +38,6 @@ const IconButtonConstructorWrapper = props => (
 class OneElementServicesButton extends React.Component {
 
   static propTypes = {
-    tooltip: PropTypes.string.isRequired,
     services: AccessShapes.PluginServiceWithContentArray,
     onServiceStarted: PropTypes.func.isRequired,
     // other properties are reported to the drop down button

@@ -1,20 +1,5 @@
 /**
- * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
- *
- * This file is part of REGARDS.
- *
- * REGARDS is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * REGARDS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ * LICENSE_PLACEHOLDER
  **/
 import { normalize } from 'normalizr'
 import forEach from 'lodash/forEach'
@@ -252,7 +237,7 @@ class BasicListActions extends BasicActions {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicListActions.createFormDataWithFilesMap(objectValues, files)
+    const formData = BasicListActions.createFormData(objectValues, files)
     return {
       [CALL_API]: {
         types: [
@@ -273,7 +258,7 @@ class BasicListActions extends BasicActions {
   /**
    * Allows to send multiple objects on the same time
    * Requires that the API send back the updated entity
-   * IT SENDS THE UPDATE USING THE VERB POST INSTEAD OF PUT (cf spec HTTP)
+   * IT SEND THE UPDATE USING THE VERB POST INSTEAD OF PUT (cf spec HTTP)
    * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
    * @param files Object containing key - values with key expected by the API and value a file
    * @param pathParams
@@ -285,7 +270,7 @@ class BasicListActions extends BasicActions {
     endpoint = `${endpoint}/${keyValue}`
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicListActions.createFormDataWithFilesMap(objectValues, files)
+    const formData = BasicListActions.createFormData(objectValues, files)
     return {
       [CALL_API]: {
         types: [
@@ -302,40 +287,6 @@ class BasicListActions extends BasicActions {
       },
     }
   }
-
-
-  /**
-   * Allows to send multiple objects on the same time
-   * Requires that the API send back a new entity
-   * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
-   * @param files Array of file(s)
-   * @param fileKey the key expected by the api to retrieve the list of files
-   * @param pathParams
-   * @param queryParams
-   * @returns {{}}
-   */
-  sendMultipleFiles(objectValues, files, fileKey, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicListActions.createFormDataWithFilesList(objectValues, files, fileKey)
-    return {
-      [CALL_API]: {
-        types: [
-          this.CREATE_ENTITY_REQUEST,
-          {
-            type: this.CREATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
-          this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
-        ],
-        endpoint,
-        method: 'POST',
-        body: formData,
-      },
-    }
-  }
-
 
   /**
       * Extracts payload from action result
@@ -369,31 +320,9 @@ class BasicListActions extends BasicActions {
     return endpoint.replace(`/${API_URL}/`, `/zuul/${API_URL}/`)
   }
 
-  static createFormDataWithFilesMap(objectValues, filesMap) {
+  static createFormData(objectValues, files) {
     const formData = new FormData()
     // Handle object values
-    BasicListActions.addObjectValuesToFormData(formData, objectValues)
-    // Handle files
-    BasicListActions.addFilesMapToFormData(formData, filesMap)
-    return formData
-  }
-
-
-  static createFormDataWithFilesList(objectValues, filesList, filesKey) {
-    const formData = new FormData()
-    // Handle object values
-    BasicListActions.addObjectValuesToFormData(formData, objectValues)
-    // Handle files
-    BasicListActions.addFilesListToFormData(formData, filesList, filesKey)
-    return formData
-  }
-
-  /**
-   * Handle object values
-   * @param formData
-   * @param objectValues
-   */
-  static addObjectValuesToFormData(formData, objectValues) {
     forEach(objectValues, (value, key) => {
       if (isObject(value)) {
         // This is an object that we need to stringify
@@ -409,37 +338,14 @@ class BasicListActions extends BasicActions {
         formData.append(key, value)
       }
     })
-  }
-
-  /**
-   * Add a map of files<key, File> to FormData
-   * Uses the map key on the payload foreach file
-   * @param formData a FormData instance
-   * @param filesMap a map of files
-   */
-  static addFilesMapToFormData(formData, filesMap) {
-    forEach(filesMap, (value, key) => {
+    // Handle files
+    forEach(files, (value, key) => {
       if (isObject(value)) {
         // This is an image
         formData.append(key, value)
       }
     })
-  }
-
-
-  /**
-   * Add a list of files to FormData
-   * @param formData a FormData instance
-   * @param filesList a list of files
-   * @param fileKey the key used on the payload
-   */
-  static addFilesListToFormData(formData, filesList, fileKey) {
-    forEach(filesList, (value) => {
-      if (isObject(value)) {
-        // This is an image
-        formData.append(fileKey, value)
-      }
-    })
+    return formData
   }
 }
 

@@ -46,6 +46,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   static propTypes = {
     modelAttribute: DataManagementShapes.ModelAttribute,
+    isEditing: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -234,6 +235,18 @@ export class EntitiesAttributeFormComponent extends React.Component {
       return ' (*)'
     }
     return null
+  }
+
+  isDisabled = () => {
+    const { modelAttribute, isEditing } = this.props
+    return !modelAttribute.content.attribute.alterable && isEditing
+  }
+
+  isRestrictedWithEnum = (modelAttribute) => {
+    if (has(modelAttribute, 'content.attribute.restriction.type')) {
+      return modelAttribute.content.attribute.restriction.type === 'ENUMERATION'
+    }
+    return false
   }
 
   render() {

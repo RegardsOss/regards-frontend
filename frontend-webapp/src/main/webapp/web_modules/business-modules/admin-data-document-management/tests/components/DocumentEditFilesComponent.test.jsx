@@ -16,14 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
-import { ListItem } from 'material-ui/List'
-import { Field } from '@regardsoss/form-utils'
+//import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+// import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
+// import { ListItem } from 'material-ui/List'
+// import { Field } from '@regardsoss/form-utils'
 import { DocumentEditFilesComponent } from '../../src/components/DocumentEditFilesComponent'
-import DocumentStepperContainer from '../../src/containers/DocumentStepperContainer'
+//import DocumentStepperContainer from '../../src/containers/DocumentStepperContainer'
 
+//const context = buildTestContext()
 
 describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksComponent', () => {
   before(testSuiteHelpers.before)
@@ -32,7 +34,6 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksComponent', 
   it('should exists', () => {
     assert.isDefined(DocumentEditFilesComponent)
   })
-  const context = buildTestContext()
 
   // TODO Leo ==> seems the dump is now wrong
   // it('Render properly', () => {

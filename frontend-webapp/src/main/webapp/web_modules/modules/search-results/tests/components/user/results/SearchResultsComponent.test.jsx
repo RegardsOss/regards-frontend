@@ -49,6 +49,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     attributesConf: [],
     attributesRegroupementsConf: [],
     attributeModels: {},
+    selectionServices: [],
 
     onFiltersChanged: () => { },
     onSetEntityAsTag: () => { },
@@ -59,17 +60,15 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     onShowTableView: () => { },
     onSortChanged: () => { },
     onToggleShowFacettes: () => { },
-
-    // services
-    selectionServices: [],
     onStartSelectionService: () => { },
+
   }
 
   // define the test cases
   const testCases = [{
     caseLabel: 'Should render dataobjects in list mode',
     caseProperties: {
-      showingDataobjects: true,
+      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       resultPageActions: searchDataobjectsActions,
       viewMode: DisplayModeEnum.LIST,
       sortingOn: [],
@@ -77,7 +76,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   }, {
     caseLabel: 'Should render dataobjects in table mode',
     caseProperties: {
-      showingDataobjects: true,
+      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       resultPageActions: searchDataobjectsActions,
       viewMode: DisplayModeEnum.TABLE,
       sortingOn: [],
@@ -85,7 +84,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   }, {
     caseLabel: 'Should render datasets in list mode',
     caseProperties: {
-      showingDataobjects: false,
+      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       resultPageActions: searchDatasetsActions,
       viewMode: DisplayModeEnum.LIST,
       sortingOn: [],
@@ -94,7 +93,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   }, {
     caseLabel: 'Should render with sorting',
     caseProperties: {
-      showingDataobjects: true,
+      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       resultPageActions: searchDataobjectsActions,
       viewMode: DisplayModeEnum.TABLE,
       sortingOn: [{ attributePath: 'label', type: TableSortOrders.ASCENDING_ORDER }],

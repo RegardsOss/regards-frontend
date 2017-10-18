@@ -21,7 +21,7 @@ import { spy } from 'sinon'
 import { assert } from 'chai'
 import { Field } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
+import { DamDomain } from '@regardsoss/domain'
 import SearchResultsConfigurationComponent from '../../../src/components/admin/SearchResultsConfigurationComponent'
 import Styles from '../../../src/styles/styles'
 
@@ -37,7 +37,7 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
   it('Should render a SearchResultsConfigurationComponent to configure search results', () => {
     const selectCallback = spy()
     const props = {
-      defaultSelected: SearchResultsTargetsEnum.DATASET_RESULTS,
+      defaultSelected: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       onSelectType: selectCallback,
       disabled: false,
       selectableAttributes: {},
