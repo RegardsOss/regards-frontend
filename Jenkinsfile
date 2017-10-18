@@ -89,8 +89,7 @@ pipeline {
                     sonar: {
                         sh 'docker run --rm --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
                           -v $(WORKSPACE)/frontend-webapp/src/main/webapp:/data sebp/sonar-runner \
-                          -Dsonar.host.url=http://172.26.46.158:9000/
-                        '
+                          -Dsonar.host.url=http://172.26.46.158:9000/'
                     },
                     maven: {
                         sh 'docker run --rm -i -v ${WORKSPACE}/:/app_to_build -v /opt/maven-multibranch-repository:/localRepository -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy 172.26.46.158/rs-maven'
