@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import get from 'lodash/get'
 import { BasicSignalReducers } from '@regardsoss/store-utils'
 import AccountPasswordActions from './AccountPasswordActions'
 
@@ -59,8 +60,8 @@ export class AccountPasswordReducer extends BasicSignalReducers {
         return {
           ...nextState,
           // update rules or validity depending on what the action performed
-          rules: nextState.result.type === AccountPasswordActions.FetchingTypes.passwordRules ? nextState.result.content.rules : rules,
-          validity: nextState.result.type === AccountPasswordActions.FetchingTypes.passwordValidity ? nextState.result.content.validity : validity,
+          rules: get(nextState,"result.rules",null) ? get(nextState,"result.rules",null) : rules,
+          validity: get(nextState,"result.validity",null) ? get(nextState,"result.validity",null) : validity,
         }
       default:
         return nextState
