@@ -55,13 +55,12 @@ export class AccountPasswordReducer extends BasicSignalReducers {
           rules: AccountPasswordReducer.DEFAULT_STATE.rules,
           validity: AccountPasswordReducer.DEFAULT_STATE.validity,
         }
-
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
         return {
           ...nextState,
           // update rules or validity depending on what the action performed
-          rules: get(nextState, 'result.rules', null) ? get(nextState, 'result.rules', null) : rules,
-          validity: get(nextState, 'result.validity', null) ? get(nextState, 'result.validity', null) : validity,
+          rules: get(nextState, 'result.rules', rules),
+          validity: get(nextState, 'result.validity', validity),
         }
       default:
         return nextState
