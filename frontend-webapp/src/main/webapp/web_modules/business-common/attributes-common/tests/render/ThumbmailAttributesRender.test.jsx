@@ -43,8 +43,8 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
     }
     const wrapper = shallow(<ThumbnailAttributesRender {...props} />)
 
-    const value = wrapper.find(Avatar)
-    assert.lengthOf(value, 1, 'There should be one Avatar rendered')
+    const value = wrapper.find("img")
+    assert.lengthOf(value, 1, 'There should be one image rendered')
   })
 
   it('Should render an empty value', () => {
