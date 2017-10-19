@@ -80,7 +80,7 @@ export class SearchResultsContainer extends React.Component {
     attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
     // From map state to props
     viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired, // current view object type
-    displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired, // Display mode
+    displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // Display mode
     levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
