@@ -58,6 +58,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       downloadTooltip: 'download.tooltip',
       servicesTooltip: 'services.tooltip',
       descriptionTooltip: 'description.tooltip',
+      enableServices: true,
       styles: context.moduleTheme.user.listViewStyles,
       onShowDescription: () => { },
       onServiceStarted: () => { },

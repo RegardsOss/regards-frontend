@@ -25,6 +25,8 @@ export class TableViewOptionsCellContainer extends React.Component {
   static propTypes = {
     // Parameters set by table component
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
     // tooltips, as i18n context isn't available in the table context
     servicesTooltip: PropTypes.string.isRequired,
     descriptionTooltip: PropTypes.string.isRequired,
@@ -58,11 +60,12 @@ export class TableViewOptionsCellContainer extends React.Component {
   }
 
   render() {
-    const { styles, entity, servicesTooltip, descriptionTooltip } = this.props
+    const { styles, entity, enableServices, servicesTooltip, descriptionTooltip } = this.props
     return (
       <TableViewOptionsCellComponent
         services={entity.content.services}
         styles={styles}
+        enableServices={enableServices}
         servicesTooltip={servicesTooltip}
         descriptionTooltip={descriptionTooltip}
         onShowDescription={this.onShowDescription}

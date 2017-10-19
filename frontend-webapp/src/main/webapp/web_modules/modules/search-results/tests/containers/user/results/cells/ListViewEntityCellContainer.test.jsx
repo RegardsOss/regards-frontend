@@ -62,6 +62,7 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       tableColumns: [],
       onSearchEntity: () => { },
       displayCheckbox: true,
+      enableServices: true,
       downloadTooltip: 'download.tooltip',
       servicesTooltip: 'services.tooltip',
       descriptionTooltip: 'description.tooltip',

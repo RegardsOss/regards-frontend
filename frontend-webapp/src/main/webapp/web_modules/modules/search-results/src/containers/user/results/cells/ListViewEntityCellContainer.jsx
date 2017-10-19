@@ -39,6 +39,8 @@ export class ListViewEntityCellContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
     // tooltips, as i18n context isn't available in the table context
     downloadTooltip: PropTypes.string.isRequired,
     servicesTooltip: PropTypes.string.isRequired,
@@ -80,7 +82,7 @@ export class ListViewEntityCellContainer extends React.Component {
 
   render() {
     const { entity, attributes, lineHeight, isTableSelected, selectTableEntityCallback,
-      tableColumns, onSearchEntity, styles, displayCheckbox,
+      tableColumns, onSearchEntity, styles, displayCheckbox, enableServices,
       downloadTooltip, servicesTooltip, descriptionTooltip } = this.props
     return (
       <ListViewEntityCellComponent
@@ -92,6 +94,7 @@ export class ListViewEntityCellContainer extends React.Component {
         tableColumns={tableColumns}
         styles={styles}
         displayCheckbox={displayCheckbox}
+        enableServices={enableServices}
         downloadTooltip={downloadTooltip}
         servicesTooltip={servicesTooltip}
         descriptionTooltip={descriptionTooltip}

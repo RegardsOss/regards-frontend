@@ -57,6 +57,7 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
       }],
       servicesTooltip: 'services.tooltip',
       descriptionTooltip: 'description.tooltip',
+      enableServices: true,
       styles: context.moduleTheme.user.optionsStyles,
       onShowDescription: () => { },
       onServiceStarted: () => { },

@@ -57,6 +57,8 @@ class ListViewEntityCellComponent extends React.Component {
     downloadTooltip: PropTypes.string.isRequired,
     servicesTooltip: PropTypes.string.isRequired,
     descriptionTooltip: PropTypes.string.isRequired,
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     styles: PropTypes.object, // styles as style context isn't available in the table context
     // callback: on entity selection (or null when not clickable)
@@ -265,16 +267,16 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayServices = () => {
-    const { entity: { content: { services = [] } }, onServiceStarted, servicesTooltip } = this.props
+    const { entity: { content: { services = [] } }, enableServices, onServiceStarted, servicesTooltip } = this.props
     const { option } = this.props.styles.title
-    return !services.length ? null : (
+    return enableServices && services.length ? (
       <OneElementServicesButton
         style={option.buttonStyles}
         iconStyle={option.iconStyles}
         tooltip={servicesTooltip}
         services={services}
         onServiceStarted={onServiceStarted}
-      />)
+      />) : null
   }
 
   displayEntityAttributes = () => {

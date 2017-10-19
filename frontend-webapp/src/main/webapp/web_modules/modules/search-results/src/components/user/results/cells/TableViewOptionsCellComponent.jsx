@@ -13,6 +13,8 @@ import OneElementServicesButton from '../options/OneElementServicesButton'
 class TableViewOptionsCellComponent extends React.Component {
 
   static propTypes = {
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
     services: AccessShapes.PluginServiceWithContentArray,
     // tooltips, as i18n context isn't available in the table context
     servicesTooltip: PropTypes.string.isRequired,
@@ -29,16 +31,19 @@ class TableViewOptionsCellComponent extends React.Component {
 
   render() {
     const { onShowDescription, styles: { rootStyles, buttonStyles, iconStyles },
-      services, onServiceStarted, servicesTooltip, descriptionTooltip } = this.props
+      enableServices, services, onServiceStarted, servicesTooltip, descriptionTooltip } = this.props
     return (
       <div style={rootStyles}>
-        <OneElementServicesButton
-          style={buttonStyles}
-          iconStyle={iconStyles}
-          tooltip={servicesTooltip}
-          services={services}
-          onServiceStarted={onServiceStarted}
-        />
+        { // show / hide services on demand
+          enableServices ?
+            <OneElementServicesButton
+              style={buttonStyles}
+              iconStyle={iconStyles}
+              tooltip={servicesTooltip}
+              services={services}
+              onServiceStarted={onServiceStarted}
+            /> : null
+        }
         <EntityDescriptionButton
           style={buttonStyles}
           iconStyle={iconStyles}
