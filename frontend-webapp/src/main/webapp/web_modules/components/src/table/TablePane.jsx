@@ -207,7 +207,7 @@ class TablePane extends React.Component {
   }
 
   render() {
-    const { error, entitiesFetching, resultsCount, tableData, toggledElements, selectionMode,
+    const { entitiesFetching, resultsCount, tableData, toggledElements, selectionMode,
       allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent,
       maxRowCounts, minRowCounts } = this.props
     const { visibleColumns, tableWidth } = this.state

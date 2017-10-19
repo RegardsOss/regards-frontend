@@ -30,7 +30,7 @@ class TableViewOptionsCellComponent extends React.Component {
   static contextTypes = { ...i18nContextType, ...themeContextType }
 
   render() {
-    const { onShowDescription, services, onServiceStarted, onAddToCart } = this.props
+    const { onShowDescription, services, onServiceStarted, enableServices, onAddToCart } = this.props
     const { moduleTheme: { user: { optionsStyles: { rootStyles, buttonStyles, iconStyles } } } } = this.context
     return (
       <div style={rootStyles}>
@@ -39,7 +39,6 @@ class TableViewOptionsCellComponent extends React.Component {
             <OneElementServicesButton
               style={buttonStyles}
               iconStyle={iconStyles}
-              tooltip={servicesTooltip}
               services={services}
               onServiceStarted={onServiceStarted}
             /> : null

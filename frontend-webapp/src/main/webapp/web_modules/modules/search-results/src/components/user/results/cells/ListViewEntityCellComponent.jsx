@@ -276,7 +276,7 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayServices = () => {
-    const { entity: { content: { services = [] } }, onServiceStarted } = this.props
+    const { entity: { content: { services = [] } }, enableServices, onServiceStarted } = this.props
     const { moduleTheme: { user: { listViewStyles } } } = this.context
     const { option } = listViewStyles.title
     return enableServices && services.length ? (

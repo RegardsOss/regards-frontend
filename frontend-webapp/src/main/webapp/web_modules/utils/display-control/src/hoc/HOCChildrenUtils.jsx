@@ -20,7 +20,7 @@ import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 
 /**
- * Tools for HOC (containers) children cloning
+ * Tools for HOC (containers) to work with children (cloning, rendering...)
  * @author Raphaël Mechali
  */
 

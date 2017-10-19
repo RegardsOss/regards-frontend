@@ -29,7 +29,7 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AccessShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
-import { allMatchHateoasDisplayLogic, HOCCloneUtils } from '@regardsoss/display-control'
+import { allMatchHateoasDisplayLogic, HOCChildrenUtils } from '@regardsoss/display-control'
 import TableClient from '../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 
@@ -179,7 +179,7 @@ export class OrderCartContainer extends React.Component {
     // when state or children changed, re render children then update state
     if (!isEqual(oldState, newState) || !isEqual(oldState.children, newState.children)) {
       // pre render children (attempt to enhance render performances)
-      newState.children = HOCCloneUtils.defaultCloneChildren(this, {
+      newState.children = HOCChildrenUtils.defaultCloneChildren(this, {
         onAddElementToCart: newState.onAddElementToBasket,
         onAddSelectionToCart: newState.onAddSelectionToBasket,
       })
@@ -252,7 +252,7 @@ export class OrderCartContainer extends React.Component {
   render() {
     const { children } = this.state
     // render only the children list
-    return HOCCloneUtils.renderChildren(children)
+    return HOCChildrenUtils.renderChildren(children)
   }
 
 }

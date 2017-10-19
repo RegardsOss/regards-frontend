@@ -70,7 +70,7 @@ export class TableViewOptionsCellContainer extends React.Component {
 
 
   render() {
-    const { onAddToCart, entity } = this.props
+    const { entity, enableServices, onAddToCart } = this.props
     return (
       <TableViewOptionsCellComponent
         services={entity.content.services}

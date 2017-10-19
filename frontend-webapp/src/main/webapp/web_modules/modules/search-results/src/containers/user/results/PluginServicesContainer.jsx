@@ -13,7 +13,7 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { AccessShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { HOCCloneUtils } from '@regardsoss/display-control'
+import { HOCChildrenUtils } from '@regardsoss/display-control'
 import { pluginServiceActions, pluginServiceSelectors } from '../../../clients/PluginServiceClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
@@ -222,7 +222,7 @@ export class PluginServicesContainer extends React.Component {
     if (!isEqual(oldState, newState) || !isEqual(oldState.children, newState.children)) {
       console.info('Do I crazy thing here??? ', !!this.onStartSelectionService)
       // pre render children (attempts to enhance render performances)
-      newState.children = HOCCloneUtils.defaultCloneChildren(this, {
+      newState.children = HOCChildrenUtils.defaultCloneChildren(this, {
         selectionServices: newState.selectionServices,
         onStartSelectionService: this.onStartSelectionService,
       })
@@ -258,7 +258,7 @@ export class PluginServicesContainer extends React.Component {
           onQuit={dispatchCloseService}
         />
         { // render the children list (from pre rendered elements, see on properties changed)
-          HOCCloneUtils.renderChildren(children)
+          HOCChildrenUtils.renderChildren(children)
         }
       </div >
     )

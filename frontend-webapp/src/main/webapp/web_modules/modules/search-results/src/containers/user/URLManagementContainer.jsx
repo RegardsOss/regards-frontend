@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { DamDomain } from '@regardsoss/domain'
+import { HOCChildrenUtils } from '@regardsoss/display-control'
 import { Tag } from '../../models/navigation/Tag'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
@@ -194,15 +195,7 @@ export class URLManagementContainer extends React.Component {
     const { initialized } = this.state
     // render only when initialized to block sub element requests
     if (initialized) {
-      // XXX-V2 use the specific tool for that =)
-      switch (children.length) {
-        case 0:
-          return null
-        case 1:
-          return children[0]
-        default:
-          return <div>{children}</div>
-      }
+      return HOCChildrenUtils.renderChildren(children)
     }
     return null
   }
