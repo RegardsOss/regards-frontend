@@ -17,6 +17,8 @@ import AddElementToCartButton from '../options/AddElementToCartButton'
 class TableViewOptionsCellComponent extends React.Component {
 
   static propTypes = {
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
     services: AccessShapes.PluginServiceWithContentArray,
     // optional callback: add element to cart (entity) => ()
     onAddToCart: PropTypes.func,
@@ -32,12 +34,16 @@ class TableViewOptionsCellComponent extends React.Component {
     const { moduleTheme: { user: { optionsStyles: { rootStyles, buttonStyles, iconStyles } } } } = this.context
     return (
       <div style={rootStyles}>
-        <OneElementServicesButton
-          style={buttonStyles}
-          iconStyle={iconStyles}
-          services={services}
-          onServiceStarted={onServiceStarted}
-        />
+        { // show / hide services on demand
+          enableServices ?
+            <OneElementServicesButton
+              style={buttonStyles}
+              iconStyle={iconStyles}
+              tooltip={servicesTooltip}
+              services={services}
+              onServiceStarted={onServiceStarted}
+            /> : null
+        }
         <EntityDescriptionButton
           style={buttonStyles}
           iconStyle={iconStyles}

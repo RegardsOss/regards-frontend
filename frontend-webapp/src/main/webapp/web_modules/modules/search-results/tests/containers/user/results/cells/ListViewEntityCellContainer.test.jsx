@@ -62,7 +62,7 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       tableColumns: [],
       onSearchEntity: () => { },
       displayCheckbox: true,
-      onAddToCart: () => { },
+      enableServices: true,
 
       // from map dispatch to props
       dispatchShowDescription: () => { },

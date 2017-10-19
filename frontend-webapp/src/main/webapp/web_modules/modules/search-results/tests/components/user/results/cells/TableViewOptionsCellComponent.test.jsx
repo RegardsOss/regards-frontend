@@ -57,6 +57,7 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
           type: AccessDomain.pluginTypes.CATALOG,
         },
       }],
+      enableServices: true,
       styles: context.moduleTheme.user.optionsStyles,
       onShowDescription: () => { },
       onServiceStarted: () => { },

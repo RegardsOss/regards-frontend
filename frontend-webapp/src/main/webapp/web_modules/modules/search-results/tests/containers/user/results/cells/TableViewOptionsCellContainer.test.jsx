@@ -52,6 +52,7 @@ describe('[Search Results] Testing TableViewOptionsCellContainer', () => {
           tags: [],
         },
       },
+      enableServices: true,
       dispatchShowDescription: () => { },
       dispatchRunService: () => { },
       onAddToCart: () => { },

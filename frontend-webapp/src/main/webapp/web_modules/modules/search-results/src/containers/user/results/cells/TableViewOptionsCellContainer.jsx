@@ -30,6 +30,8 @@ export class TableViewOptionsCellContainer extends React.Component {
   static propTypes = {
     // Parameters set by table component
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
     // optional callback: add element to cart (entity) => ()
     onAddToCart: PropTypes.func,
     // from map state to props
@@ -72,6 +74,7 @@ export class TableViewOptionsCellContainer extends React.Component {
     return (
       <TableViewOptionsCellComponent
         services={entity.content.services}
+        enableServices={enableServices}
         onAddToCart={onAddToCart ? this.onAddToCart : null} // set up callback only when parent one is provided
         onShowDescription={this.onShowDescription}
         onServiceStarted={this.onServiceStarted}

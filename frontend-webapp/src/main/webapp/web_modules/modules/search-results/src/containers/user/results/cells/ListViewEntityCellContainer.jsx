@@ -43,6 +43,8 @@ export class ListViewEntityCellContainer extends React.Component {
     onSearchEntity: PropTypes.func,
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
     // optional callback: add element to cart (entity) => ()
     onAddToCart: PropTypes.func,
     // from map dispatch to props
@@ -90,6 +92,7 @@ export class ListViewEntityCellContainer extends React.Component {
         selectTableEntityCallback={selectTableEntityCallback}
         tableColumns={tableColumns}
         displayCheckbox={displayCheckbox}
+        enableServices={enableServices}
         onAddToCart={onAddToCart ? this.onAddToCart : null} // set up callback only when parent one is provided
         onEntitySelection={onSearchEntity ? this.onEntitySelection : null}
         onShowDescription={this.onShowDescription}

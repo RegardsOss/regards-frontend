@@ -55,6 +55,8 @@ class ListViewEntityCellComponent extends React.Component {
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
     // optional callback: add element to cart (entity) => ()
     onAddToCart: PropTypes.func,
     // callback: on entity selection (or null when not clickable)
@@ -277,13 +279,13 @@ class ListViewEntityCellComponent extends React.Component {
     const { entity: { content: { services = [] } }, onServiceStarted } = this.props
     const { moduleTheme: { user: { listViewStyles } } } = this.context
     const { option } = listViewStyles.title
-    return !services.length ? null : (
+    return enableServices && services.length ? (
       <OneElementServicesButton
         style={option.buttonStyles}
         iconStyle={option.iconStyles}
         services={services}
         onServiceStarted={onServiceStarted}
-      />)
+      />) : null
   }
 
   displayEntityAttributes = () => {

@@ -57,7 +57,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       displayAddToBasket: true,
       onSearchTag: () => { },
       onClick: () => { },
-      onAddToCart: null,
+      enableServices: true,
       onShowDescription: () => { },
       onServiceStarted: () => { },
     }

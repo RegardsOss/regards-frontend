@@ -128,26 +128,35 @@ class SearchResultsComponent extends React.Component {
    * @param attributesConf : results table attributes columns configuration
    * @param attributesRegroupementsConf: results table attributes regroupement columns configuration
    * @param attributeModels: fetched attribute models (to retrieve attributes)
+   * @param sortingOn current sorting attributes
+   * @param enableSorting enable sorting on columns?
+   * @param enableServices enable services?
    */
-  buildTableColumns = (attributesConf, attributeModels, attributesRegroupementsConf, sortingOn, enableSorting) =>
+  buildTableColumns = (attributesConf, attributeModels, attributesRegroupementsConf, sortingOn, enableSorting, enableServices) =>
     sortBy([
       ...this.buildAttributesColumns(attributesConf, attributeModels, sortingOn, enableSorting),
       ...this.buildAttrRegroupementColumns(attributesRegroupementsConf, attributeModels),
-      this.buildTableOptionsColumn()], a => a.order ? a.order : 1000)
+      this.buildTableOptionsColumn(enableServices)], a => a.order ? a.order : 1000)
 
-  /** @return table column to show table options (description button) */
-  buildTableOptionsColumn = () => ({
+  /**
+   * Builds options column
+   * @param enableServices enable services?
+   * @return table column to show table options (description button)
+   */
+  buildTableOptionsColumn = enableServices => ({
     label: this.context.intl.formatMessage({ id: 'results.options.column.label' }),
     attributes: [],
     order: Number.MAX_VALUE,
     // reserve space for description, services and add to cart if is available
     fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (2 + (this.props.onAddElementToCart ? 1 : 0)),
+    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (enableServices ? 2 : 1), // diminish column size when hiding services
     sortable: false,
     hideLabel: true,
     // order: number.
     customCell: {
       component: TableViewOptionsCellContainer,
       props: {
+        enableServices,
         onAddToCart: this.props.onAddElementToCart,
       },
     },
@@ -218,9 +227,12 @@ class SearchResultsComponent extends React.Component {
 
   /**
   * Create columns configuration for table view
+  * @param tableColumns table columns
+  * @param enableServices enable services?
   * @returns {Array}
   */
   buildListColumns = (tableColumns, { attributeModels, viewObjectType, onSetEntityAsTag, onStartSelectionService }) => [{
+  buildListColumns = (tableColumns, { attributeModels, showingDataobjects, onSetEntityAsTag }, enableServices) => [{
     label: 'ListviewCell',
     attributes: [],
     customCell: {
@@ -230,6 +242,7 @@ class SearchResultsComponent extends React.Component {
         onSearchEntity: viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET ? onSetEntityAsTag : null,
         attributes: attributeModels,
         tableColumns,
+        enableServices,
         onServiceStarted: onStartSelectionService,
         displayCheckbox: viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA,
       },
@@ -247,14 +260,15 @@ class SearchResultsComponent extends React.Component {
 
     if (newProperties.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
       // table columns
-      newState.tableColumns = this.buildTableColumns(newProperties.attributesConf, newProperties.attributeModels, newProperties.attributesRegroupementsConf, newProperties.sortingOn, true)
+      newState.tableColumns = this.buildTableColumns(newProperties.attributesConf, newProperties.attributeModels,
+        newProperties.attributesRegroupementsConf, newProperties.sortingOn, true, true)
       // list columns
-      newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)
+      newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties, true)
     } else {
       // table columns
-      newState.tableColumns = this.buildTableColumns(newProperties.datasetAttributesConf, newProperties.attributeModels, [], [], false)
+      newState.tableColumns = this.buildTableColumns(newProperties.datasetAttributesConf, newProperties.attributeModels, [], [], false, false)
       // list columns
-      newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)
+      newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties, false)
     }
 
     // update state when changed
