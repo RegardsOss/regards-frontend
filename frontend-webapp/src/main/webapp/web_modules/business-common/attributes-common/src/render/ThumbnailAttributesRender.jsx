@@ -68,12 +68,11 @@ class ThumbnailAttributesRender extends React.Component {
       const thumbnail = find(this.props.attributes.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL)
 
       if (thumbnail) {
-        const style = { cursor: 'pointer' }
+        const style = { display: 'block', cursor: 'pointer', height: this.props.lineHeight - 18, margin: '0 auto' }
         return (
           <div>
-            <Avatar
+            <img
               src={thumbnail.fileRef}
-              size={this.props.lineHeight - 20}
               style={style}
               onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
             />
