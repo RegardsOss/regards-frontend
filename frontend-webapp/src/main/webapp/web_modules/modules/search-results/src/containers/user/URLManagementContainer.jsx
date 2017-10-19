@@ -64,6 +64,7 @@ export class URLManagementContainer extends React.Component {
 
   /**
    * When component mounts: initialize redux state from URL parameters
+   * XXX-V2 : do it on did mount and make sure the container is not mounted before!
    */
   componentWillMount = () => this.update({}, this.props)
 
@@ -72,18 +73,6 @@ export class URLManagementContainer extends React.Component {
    * Note that it is never performed initially (what is cool here!)
    */
   componentWillReceiveProps = nextProps => this.update(this.props, nextProps)
-
-  /**
-   * Returns a promise to resolve dataset for ipId as parameter
-   * @param ipId search dataset IP ID or null / undefined if none
-   * @param dispatchFetchDataset function to fectch the dataset (ipId: string) => Promise() => action like {payload: DatasetModel}
-   */
-  getDataset = (datasetIpId, dispatchFetchDataset) => {
-    if (!datasetIpId) {
-      return Promise.resolve({}) // return object where payload is undefined
-    }
-    return dispatchFetchDataset(datasetIpId)
-  }
 
   /** Generic update method to synchronize module state with URL */
   update = (previousProps, nextProps) => {
@@ -124,7 +113,7 @@ export class URLManagementContainer extends React.Component {
         // all entity tags (if any) were correctly resolved, initialize the store
         .then(tags => initialize(viewObjectType, displayMode, tags))
         // there was error, remove guilty tags in the store
-        .catch(initialize(viewObjectType, displayMode))
+        .catch(() => initialize(viewObjectType, displayMode))
     }
   }
 
@@ -133,32 +122,37 @@ export class URLManagementContainer extends React.Component {
    * @param nextProps next component properties
    */
   updateURLFromState = (nextProps) => {
-    const { viewObjectType, displayMode, levels, currentQuery, currentPath } = nextProps
+    const { initialViewObjectType, initialDisplayMode, viewObjectType, displayMode, levels, currentQuery, currentPath } = nextProps
 
     // Report new state properties in URL, if significant
     const nextBrowserQuery = { ...currentQuery }
 
-    // 1 - View object type (do not update default URL when in default mode, ie no update when the parameter is missing, while the
-    // mode is dataobject)
-    const urlObjectType = currentQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER]
-    if (viewObjectType !== DamDomain.ENTITY_TYPES_ENUM.DATA || urlObjectType) {
+    // 1 - View object type: compare the current state URL with the current state props (take in account default)
+    const urlObjectType = currentQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType
+    const currentViewObjectType = viewObjectType || initialViewObjectType
+    if (urlObjectType !== currentViewObjectType) {
       nextBrowserQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] = viewObjectType
     }
 
-    const urlDisplayMode = currentQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER]
-    if (displayMode !== urlDisplayMode || this.props.initialDisplayMode) {
+    // 2 - display mode
+    const urlDisplayMode = currentQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] || initialDisplayMode
+    const currentDisplayMode = displayMode || initialDisplayMode
+    if (urlDisplayMode !== currentDisplayMode) {
       nextBrowserQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] = displayMode
     }
 
-    // 2 - search tag
-    const searchTagParameterValue = Tag.toURLParameterValue(levels)
-    if (searchTagParameterValue) {
-      nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER] = searchTagParameterValue
-    } else {
-      delete nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]
+    // 3 - search tag
+    const urlTags = currentQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER] || ''
+    const searchTagParameterValue = Tag.toURLParameterValue(levels) || ''
+    if (searchTagParameterValue !== urlTags) {
+      if (searchTagParameterValue) {
+        nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER] = searchTagParameterValue
+      } else { // clear the parameter
+        delete nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]
+      }
     }
 
-    // 3 - Finally update the URL if any change was detected
+    // 4 - Finally update the URL if any change was detected
     if (!isEqual(currentQuery, nextBrowserQuery)) {
       browserHistory.push({ pathname: currentPath, query: nextBrowserQuery })
     }
