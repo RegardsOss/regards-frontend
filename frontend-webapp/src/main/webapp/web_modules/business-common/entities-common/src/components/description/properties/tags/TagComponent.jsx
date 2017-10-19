@@ -28,8 +28,33 @@ class TagComponent extends React.Component {
     ...i18nContextType,
   }
 
+  renderSearchTag = () =>
+    // TODO : Add search tag functionality in V2.0
+    /**
+    const { onSearchTag } = this.props
+    const { iconStyle, actionStyle, buttonStyle } =
+      this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags.tagsContainer
+    const { intl: { formatMessage } } = this.context
+    // render search option if available
+    if (onSearchTag) {
+      return (
+        <div style={actionStyle}>
+          <IconButton
+            title={formatMessage({id: 'entities.common.properties.tag.search.tooltip'})}
+            onTouchTap={onSearchTag}
+            style={buttonStyle}
+            iconStyle={iconStyle}
+          >
+            <SearchIcon/>
+          </IconButton>
+        </div>
+      )
+    }
+     */
+     null
+
   render() {
-    const { tagLabel, isEntity, onShowDescription, onSearchTag } = this.props
+    const { tagLabel, isEntity, onShowDescription } = this.props
     const { rowStyle, iconCellStyle, iconStyle, infoIconStyle, labelStyle, actionStyle, buttonStyle } =
       this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags.tagsContainer
     const { intl: { formatMessage } } = this.context
@@ -43,21 +68,7 @@ class TagComponent extends React.Component {
           }
         </div>
         <div style={labelStyle}>{tagLabel}</div>
-        {
-          // render search option if available
-          onSearchTag ?
-            <div style={actionStyle}>
-              <IconButton
-                title={formatMessage({ id: 'entities.common.properties.tag.search.tooltip' })}
-                onTouchTap={onSearchTag}
-                style={buttonStyle}
-                iconStyle={iconStyle}
-              >
-                <SearchIcon />
-              </IconButton>
-            </div>
-            : null
-        }
+        {this.renderSearchTag()}
         {
           // render description option if available
           onShowDescription ?
