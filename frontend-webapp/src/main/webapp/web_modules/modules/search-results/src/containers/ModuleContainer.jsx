@@ -87,32 +87,33 @@ export class ModuleContainer extends React.Component {
     if (!attributesFetching) {
       return (
         <div>
-          { /* URL management container (no view) */}
+          { /* Description handling */}
+          <DescriptionContainer />
+          { /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */}
           <URLManagementContainer
             currentPath={browserHistory.getCurrentLocation().pathname}
             currentQuery={browserHistory.getCurrentLocation().query}
             initialViewObjectType={initialViewObjectType}
             initialDisplayMode={DisplayModeEnum.LIST}
             displayDatasets={!!displayDatasets}
-          />
-          { /* Description handling */}
-          <DescriptionContainer />
-          { /* View : module */}
-          <ModuleComponent
-            appName={appName}
-            project={project}
-            expanded={expanded}
-            onExpandChange={this.onExpandChange}
-            resultsTitle={breadcrumbInitialContextLabel}
-            enableFacettes={!!enableFacettes}
-            searchQuery={searchQuery}
-            facettesQuery={facettesQuery}
-            attributesConf={attributes}
-            displayDatasets={!!displayDatasets}
-            attributesRegroupementsConf={attributesRegroupements}
-            datasetAttributesConf={datasetAttributes}
-            attributeModels={attributeModels}
-          />
+          >
+            { /* View : module */}
+            <ModuleComponent
+              appName={appName}
+              project={project}
+              expanded={expanded}
+              onExpandChange={this.onExpandChange}
+              resultsTitle={breadcrumbInitialContextLabel}
+              enableFacettes={!!enableFacettes}
+              searchQuery={searchQuery}
+              facettesQuery={facettesQuery}
+              attributesConf={attributes}
+              displayDatasets={!!displayDatasets}
+              attributesRegroupementsConf={attributesRegroupements}
+              datasetAttributesConf={datasetAttributes}
+              attributeModels={attributeModels}
+            />
+          </URLManagementContainer>
         </div>
       )
     }
