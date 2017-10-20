@@ -73,7 +73,7 @@ class ThumbnailAttributesRender extends React.Component {
             <img
               src={thumbnail.fileRef}
               style={style}
-              alt="thumbnail not available"
+              alt="no thumbnail"
               onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
             />
             {this.displayFullSize(thumbnail.fileRef)}

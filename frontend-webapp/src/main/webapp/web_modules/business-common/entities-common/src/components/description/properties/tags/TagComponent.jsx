@@ -4,7 +4,6 @@
 import IconButton from 'material-ui/IconButton'
 import TagWithDescriptionIcon from 'material-ui/svg-icons/action/label'
 import TagIcon from 'material-ui/svg-icons/action/label-outline'
-import SearchIcon from 'material-ui/svg-icons/action/search'
 import DetailIcon from 'material-ui/svg-icons/action/info-outline'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -18,7 +17,7 @@ class TagComponent extends React.Component {
     tagLabel: PropTypes.string.isRequired,
     isEntity: PropTypes.bool.isRequired,
     // callback: on search tag (or null)
-    onSearchTag: PropTypes.func,
+    // onSearchTag: PropTypes.func,
     // callback: on show description (or null)
     onShowDescription: PropTypes.func,
   }

@@ -16,23 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
 
 /**
-* Table loading component (a filler)
-* @author Raphaël Mechali
-*/
-class TableLoadingComponent extends React.Component {
+ * Webpack configuration file
+ * Override the default dev configuration in order to run the app with the Regards continuous integration backend on VM perf.
+ */
+const webpackConfigurator = require('@regardsoss/webpack-config-front')
+const webpack = require('webpack')
 
-  static contextTypes = {
-    ...themeContextType,
-  }
+const conf = webpackConfigurator
+  .generateConfig({
+    mode: 'dev',
+    projectContextPath: __dirname,
+  })
+  .merge({
+    plugins: [
+      new webpack.DefinePlugin({
+        GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.95'),
+      }),
+    ],
+  })
+  .get()
 
-  render() {
-    const { styles } = this.context.moduleTheme.loadingComponent
-    return (
-      <div style={styles} />
-    )
-  }
-}
-export default TableLoadingComponent
+module.exports = conf
