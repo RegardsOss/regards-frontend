@@ -25,6 +25,7 @@
     "start:withmock-proxy-vm-perf": "npm-run-all --parallel start:mock-client start:mock-proxy-server-vm-perf",
     "start:withpreprod": "webpack-dev-server --progress --config webpack.dev.preprod.config.js",
     "start:withvmperf": "webpack-dev-server --progress --config webpack.dev.vmperf.config.js",
+    "start:withic": "webpack-dev-server --progress --config webpack.dev.ic.config.js",
     "start:copy-plugins": "./scripts/copyPlugins.sh",
     "poststart": "npm run start:copy-plugins",
     "pretest": "npm run lint:fix || true",

@@ -18,7 +18,6 @@
  **/
 import find from 'lodash/find'
 import Dialog from 'material-ui/Dialog'
-import Avatar from 'material-ui/Avatar'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { CatalogDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
@@ -74,6 +73,7 @@ class ThumbnailAttributesRender extends React.Component {
             <img
               src={thumbnail.fileRef}
               style={style}
+              alt="no thumbnail"
               onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
             />
             {this.displayFullSize(thumbnail.fileRef)}

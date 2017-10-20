@@ -5,7 +5,6 @@ import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { CommonClient, CatalogClient } from '@regardsoss/client'
 import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguration } from '@regardsoss/api'
-import { RuntimeTargetTypes } from '@regardsoss/domain/access'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FileContentDisplayer } from '@regardsoss/components'
@@ -13,7 +12,7 @@ import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../components/services/RunServiceDialogComponent'
 import PreviousButton from '../../../components/services/PreviousButton'
 import DownloadResultButton from '../../../components/services/catalog/DownloadResultButton'
-import { resolveParametersWithTypes } from '../../../definitions/CatalogPluginServiceHelper'
+import { resolveParametersWithTypes, packTargetParameters } from '../../../definitions/CatalogPluginServiceHelper'
 /**
 * Container to show configuration and run of a catalog plugin service
 * Note: it uses lifecycle (mount) to fetch plugin configuration and metadata, then it resolves edition parameters.
@@ -147,20 +146,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   onConfigurationDone = (formValues = {}) => {
     const { target, service, dispatchFetchPluginResult } = this.props
     // 1 - prepare target parameters
-    let targetParams = null
-    switch (target.type) {
-      case RuntimeTargetTypes.ONE:
-        targetParams = { entityId: target.entity }
-        break
-      case RuntimeTargetTypes.MANY:
-        targetParams = { entitiesId: target.entities }
-        break
-      case RuntimeTargetTypes.QUERY:
-        targetParams = { q: target.q, entityType: target.entityType }
-        break
-      default:
-        throw new Error('Invalid target') // development error only
-    }
+    const targetParams = packTargetParameters(target)
     // 2 - update state and dispatch
     const userParametersValues = formValues
     this.setState({ step: RunCatalogPluginServiceContainer.Steps.FETCH_APPLY_SERVICE, userParametersValues })

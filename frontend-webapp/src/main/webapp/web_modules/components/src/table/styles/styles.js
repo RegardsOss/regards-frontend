@@ -197,12 +197,7 @@ export default (theme) => {
     loadingComponent: {
       styles: {
         height: '45vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
       },
-      progressSize: 128,
-      progressColor: theme.tableRow.textColor,
     },
   })
 }
