@@ -61,6 +61,7 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       selectTableEntityCallback: () => { },
       tableColumns: [],
       onSearchEntity: () => { },
+      onAddToCart: () => { },
       displayCheckbox: true,
       enableServices: true,
 

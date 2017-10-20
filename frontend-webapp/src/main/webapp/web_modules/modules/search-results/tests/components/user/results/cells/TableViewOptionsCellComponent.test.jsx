@@ -58,7 +58,6 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
         },
       }],
       enableServices: true,
-      styles: context.moduleTheme.user.optionsStyles,
       onShowDescription: () => { },
       onServiceStarted: () => { },
     }
@@ -77,6 +76,7 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
 
   it('should render properly without cart', () => {
     const props = {
+      enableServices: true,
       displayAddToBasket: true,
       onShowDescription: () => { },
       onServiceStarted: () => { },
@@ -90,6 +90,7 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
   })
   it('should render properly with cart', () => {
     const props = {
+      enableServices: true,
       displayAddToBasket: true,
       onShowDescription: () => { },
       onServiceStarted: () => { },

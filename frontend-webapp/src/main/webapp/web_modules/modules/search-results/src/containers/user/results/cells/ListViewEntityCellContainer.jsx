@@ -70,6 +70,16 @@ export class ListViewEntityCellContainer extends React.Component {
   }
 
   /**
+   * Callback when user adds element to cart
+   * pre: never call when property onAddToCart is not provided
+   */
+  onAddToCart = () => {
+    // dispatch add to cart event
+    const { entity, onAddToCart } = this.props
+    onAddToCart(entity)
+  }
+
+  /**
    * Callback: on service started by user. Dispatches run service event
    * @param service service wrapped in content
    */

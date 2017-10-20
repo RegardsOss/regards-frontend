@@ -28,9 +28,7 @@ class TagComponent extends React.Component {
     ...i18nContextType,
   }
 
-  renderSearchTag = () =>
-    // TODO : Add search tag functionality in V2.0
-    /**
+  renderSearchTag = () => {
     const { onSearchTag } = this.props
     const { iconStyle, actionStyle, buttonStyle } =
       this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags.tagsContainer
@@ -40,18 +38,18 @@ class TagComponent extends React.Component {
       return (
         <div style={actionStyle}>
           <IconButton
-            title={formatMessage({id: 'entities.common.properties.tag.search.tooltip'})}
+            title={formatMessage({ id: 'entities.common.properties.tag.search.tooltip' })}
             onTouchTap={onSearchTag}
             style={buttonStyle}
             iconStyle={iconStyle}
           >
-            <SearchIcon/>
+            <SearchIcon />
           </IconButton>
         </div>
       )
     }
-     */
-     null
+    return null
+  }
 
   render() {
     const { tagLabel, isEntity, onShowDescription } = this.props

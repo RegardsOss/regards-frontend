@@ -220,13 +220,11 @@ export class PluginServicesContainer extends React.Component {
 
     // when state or children changed, re render children then update state
     if (!isEqual(oldState, newState) || !isEqual(oldState.children, newState.children)) {
-      console.info('Do I crazy thing here??? ', !!this.onStartSelectionService)
       // pre render children (attempts to enhance render performances)
       newState.children = HOCChildrenUtils.defaultCloneChildren(this, {
         selectionServices: newState.selectionServices,
         onStartSelectionService: this.onStartSelectionService,
       })
-      console.info('22222 ', newState.children.length && !!newState.children[0].props.onStartSelectionService)
       // update state
       this.setState(newState)
     }

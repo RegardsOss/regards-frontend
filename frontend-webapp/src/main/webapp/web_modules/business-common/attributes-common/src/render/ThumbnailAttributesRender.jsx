@@ -18,7 +18,6 @@
  **/
 import find from 'lodash/find'
 import Dialog from 'material-ui/Dialog'
-import Avatar from 'material-ui/Avatar'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { CatalogDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
@@ -66,7 +65,7 @@ class ThumbnailAttributesRender extends React.Component {
   render() {
     if (this.props.attributes.files && this.props.attributes.files.length > 0) {
       const thumbnail = find(this.props.attributes.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL)
-
+      // XXX-V2 get a style and i18n context here!
       if (thumbnail) {
         const style = { display: 'block', cursor: 'pointer', height: this.props.lineHeight - 18, margin: '0 auto' }
         return (
@@ -74,6 +73,7 @@ class ThumbnailAttributesRender extends React.Component {
             <img
               src={thumbnail.fileRef}
               style={style}
+              alt="thumbnail not available"
               onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
             />
             {this.displayFullSize(thumbnail.fileRef)}
