@@ -14,7 +14,7 @@
  * @see https://jenkins.io/doc/book/pipeline/jenkinsfile/
  */
 pipeline {
-    agent any
+    agent { label 'unix-validation' }
 
     stages {
         stage('Install') {
