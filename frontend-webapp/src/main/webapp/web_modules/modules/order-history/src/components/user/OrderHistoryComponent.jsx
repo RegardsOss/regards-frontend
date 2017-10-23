@@ -15,21 +15,33 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import React, { Component } from 'react'
+ **/
+import { DynamicModule } from '@regardsoss/components'
 
-class AIPStatus extends Component {
+/**
+* Order history - main module component
+* @author Raphaël Mechali
+*/
+class OrderHistoryComponent extends React.Component {
 
   static propTypes = {
-
+    // expanded state management
+    expanded: PropTypes.bool.isRequired,
+    onExpandChange: PropTypes.func.isRequired,
   }
 
   render() {
+    const { onExpandChange, expanded } = this.props
     return (
-      <div />
+      <DynamicModule
+        title="TEMP TITLE" // TODO
+        onExpandChange={onExpandChange}
+        expanded={expanded}
+      >
+        {/* TODO implement me */}
+        <div />
+      </DynamicModule>
     )
   }
 }
-
-
-export default AIPStatus
+export default OrderHistoryComponent

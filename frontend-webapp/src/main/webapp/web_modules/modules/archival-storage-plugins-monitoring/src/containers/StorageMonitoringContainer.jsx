@@ -39,21 +39,44 @@ export class StorageMonitoringContainer extends React.Component {
     fetchStoragePlugins: PropTypes.func,
   }
 
-  componentWillMount() {
+  /**
+   * Lifecycle method: component will mount.
+   * Initializes the expanded state of module
+   */
+  componentWillMount = () => this.setExpanded(true)
+
+  /**
+   * Lifecycle method: component did mount. Fetches module data.
+   */
+  componentDidMount = () => {
     this.props.fetchStoragePlugins()
   }
+
+  /**
+  * User callback: on toggle expanded state
+  */
+  onExpandChange = () => this.setExpanded(!this.state.expanded)
+
+  /**
+   * Sets the expanded state
+   * @param expanded new expanded state
+   */
+  setExpanded = expanded => this.setState({ expanded })
 
   /**
    * @returns {React.Component}
    */
   render() {
     const { isFetching, storagePlugins, hasError } = this.props
+    const { expanded } = this.state
     return (
       <StorageMonitoringComponent
         isFetching={isFetching}
         hasError={hasError}
         initScale={storage.StorageUnitScale.bytesScale}
         storagePlugins={map(storagePlugins, ({ content }) => content)}
+        expanded={expanded}
+        onExpandChange={this.onExpandChange}
       />
     )
   }

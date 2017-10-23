@@ -154,7 +154,7 @@ export class CartSelectorContainer extends React.Component {
       const moduleType = get(module, 'content.type', '')
       const isActiveModule = get(module, 'content.active', false)
       // module is retained when active, of type order cart and set up in the dynamic container
-      return isActiveModule && modulesManager.ModuleTypes.ORDER_CART === moduleType && dynamicContainerId === containerId
+      return isActiveModule && modulesManager.AllDynamicModuleTypes.ORDER_CART === moduleType && dynamicContainerId === containerId
     })
     return dynamicOrderCartModules.length ? dynamicOrderCartModules[0].content.id : null
   }

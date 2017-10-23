@@ -18,7 +18,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import getModuleStyles from '../styles/styles'
 
 /**
@@ -41,7 +41,7 @@ class AuthenticationContainer extends React.Component {
     const { isAuthenticated, children } = this.props
     const moduleStyles = getModuleStyles(this.context.muiTheme)
     const module = {
-      type: 'authentication',
+      type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
       active: true,
       conf: {
         showLoginWindow: !isAuthenticated,

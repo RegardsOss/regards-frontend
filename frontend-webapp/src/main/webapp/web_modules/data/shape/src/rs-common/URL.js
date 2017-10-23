@@ -16,6 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CommonDomain } from '@regardsoss/domain'
+import getChainableTypeChecker from './ChainableTypeChecker'
 
 // simple alias so far, may be replaced by stronger algorithm later
-export default PropTypes.string
+const urlValidator = (props, propName, componentName, location) => {
+  const localComponentName = componentName || '[Anonymous component]'
+  const urlValue = props[propName] // pre : never empty here (see ChainableTypeChecker)
+
+  if (!urlValue.match(CommonDomain.validURLRegexp) && !urlValue.match(CommonDomain.relativeURLRegexp)) {
+    return new Error(`${propName} (${location}) is not a valid URL in ${localComponentName}.`)
+  }
+  return null
+}
+
+export default getChainableTypeChecker(urlValidator)

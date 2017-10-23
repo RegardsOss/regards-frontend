@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import AIPStatusComponent from '../../components/user/AIPStatusComponent'
 
 /**
  * AIP status container
@@ -24,11 +25,30 @@ class AIPStatusContainer extends React.Component {
 
   static propTypes = {}
 
-  static defaultProps = {}
+  /**
+   * Lifecycle method: component will mount.
+   * Initializes the expanded state of module
+   */
+  componentWillMount = () => this.setExpanded(true)
+
+  /**
+  * User callback: on toggle expanded state
+  */
+  onExpandChange = () => this.setExpanded(!this.state.expanded)
+
+  /**
+   * Sets the expanded state
+   * @param expanded new expanded state
+   */
+  setExpanded = expanded => this.setState({ expanded })
 
   render() {
+    const { expanded } = this.state
     return (
-      <div>Component</div>
+      <AIPStatusComponent
+        expanded={expanded}
+        onExpandChange={this.onExpandChange}
+      />
     )
   }
 }

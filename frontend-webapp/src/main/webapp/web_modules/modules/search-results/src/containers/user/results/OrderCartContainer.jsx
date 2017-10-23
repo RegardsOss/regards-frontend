@@ -237,7 +237,7 @@ export class OrderCartContainer extends React.Component {
     if (isAuthenticated) {
       // B - There is / are active Order cart module(s)
       const hasOrderCartModule = find((modules || {}), module =>
-        (get(module, 'content.type', '') === modulesManager.ModuleTypes.ORDER_CART &&
+        (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART &&
           get(module, 'content.active', false)),
       )
       if (hasOrderCartModule) {

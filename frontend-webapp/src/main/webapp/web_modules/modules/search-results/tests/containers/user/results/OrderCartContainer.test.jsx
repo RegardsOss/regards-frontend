@@ -57,7 +57,7 @@ describe('[Search Results] Testing OrderCartContainer', () => {
     {},
     {
       // an order-cart module in list, enabling cart selection
-      1: { content: { id: 1, type: modulesManager.ModuleTypes.ORDER_CART, name: 'idk1', active: true, container: 'a-container', conf: {} } },
+      1: { content: { id: 1, type: modulesManager.AllDynamicModuleTypes.ORDER_CART, name: 'idk1', active: true, container: 'a-container', conf: {} } },
     }, {
       // no order-cart module, disabling cart selection
       1: { content: { id: 1, type: 'IDK', name: 'idk1', active: true, container: 'a-container', conf: {} } },

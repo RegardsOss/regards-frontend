@@ -121,6 +121,8 @@ class TableContainer extends React.Component {
     fetchEntities: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     flushEntities: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    flushSelection: PropTypes.func.isRequired,
 
     // selection
     toggleRowSelection: PropTypes.func.isRequired,
@@ -174,6 +176,8 @@ class TableContainer extends React.Component {
       nextState.entities = []
       // Remove index of fectced pages
       this.fetchedPages = []
+      // clear selection (if there is a selection model)
+      nextProps.flushSelection()
       // Remove entities in store
       nextProps.flushEntities()
       // Fetch the first page results
@@ -391,6 +395,7 @@ const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({
   // keep optional callbacks but stub them when the client is not provided
   dispatchSelectAll: () => tableActions && dispatch(tableActions.selectAll()),
   dispatchUnselectAll: () => tableActions && dispatch(tableActions.unselectAll()),
+  flushSelection: () => tableActions && dispatch(tableActions.unselectAll()),
 })
 
 export default flow(

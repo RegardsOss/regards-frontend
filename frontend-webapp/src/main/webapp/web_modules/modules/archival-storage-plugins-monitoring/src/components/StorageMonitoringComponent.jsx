@@ -18,17 +18,16 @@
  **/
 import { FormattedMessage } from 'react-intl'
 import isUndefined from 'lodash/isUndefined'
-import Paper from 'material-ui/Paper'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import LinearScale from 'material-ui/svg-icons/editor/linear-scale'
+import { ArchivalStorageShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ArchivalStorageShapes } from '@regardsoss/shape'
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { DynamicModule } from '@regardsoss/components'
 import StoragePluginCapacityComponent from './StoragePluginCapacityComponent'
 
 class StorageMonitoringComponent extends React.Component {
@@ -38,6 +37,9 @@ class StorageMonitoringComponent extends React.Component {
     storagePlugins: ArchivalStorageShapes.StoragePluginContentArray.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasError: PropTypes.bool.isRequired,
+    // expanded state management
+    expanded: PropTypes.bool.isRequired,
+    onExpandChange: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -94,37 +96,41 @@ class StorageMonitoringComponent extends React.Component {
     usedSize: usedSize ? usedSize.scaleAndConvert(newScale) : null,
   }))
 
+  renderOptions = () => {
+    const { currentScale } = this.state
+    // TODO v2 replace by a stateful drop down
+    return [
+      <FormattedMessage key="label" id={currentScale.messageKey} />,
+      <IconMenu
+        key="menu"
+        iconButtonElement={<IconButton><LinearScale /></IconButton>}
+        value={currentScale}
+        onChange={(evt, value) => this.onUnitScaleSelected(value)}
+      >
+        {storage.StorageUnitScale.all.map(scale => (
+          <MenuItem
+            key={scale.id}
+            value={scale}
+            primaryText={
+              <FormattedMessage id={scale.messageKey} />
+            }
+          />
+        ))}
+      </IconMenu>,
+    ]
+  }
+
   render() {
     const { intl } = this.context
     const { currentScale, plugins } = this.state
-    const { isFetching, hasError, storagePlugins } = this.props
+    const { isFetching, hasError, storagePlugins, expanded, onExpandChange } = this.props
     return (
-      <Paper >
-        <Toolbar>
-          <ToolbarGroup firstChild>
-            { /** XXX-V2: change for module title with icon **/}
-            <ToolbarTitle text={intl.formatMessage({ id: 'archival.storage.capacity.monitoring.title' })} />
-          </ToolbarGroup>
-          <ToolbarGroup>
-            <FormattedMessage id={currentScale.messageKey} />
-            <IconMenu
-              iconButtonElement={<IconButton><LinearScale /></IconButton>}
-              value={currentScale}
-              onChange={(evt, value) => this.onUnitScaleSelected(value)}
-            >
-              {storage.StorageUnitScale.all.map(scale => (
-                <MenuItem
-                  key={scale.id}
-                  value={scale}
-                  primaryText={
-                    <FormattedMessage id={scale.messageKey} />
-                  }
-                />
-              ))}
-            </IconMenu>
-          </ToolbarGroup>
-        </Toolbar>
-
+      <DynamicModule
+        title={intl.formatMessage({ id: 'archival.storage.capacity.monitoring.title' })}
+        onExpandChange={onExpandChange}
+        expanded={expanded}
+        options={this.renderOptions}
+      >
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
           isEmpty={isUndefined(storagePlugins) || !storagePlugins.length}
@@ -139,8 +145,7 @@ class StorageMonitoringComponent extends React.Component {
             }
           </div>
         </LoadableContentDisplayDecorator>
-
-      </Paper>
+      </DynamicModule>
     )
   }
 

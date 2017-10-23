@@ -18,7 +18,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
 import LoginButton from '../components/LoginButton'
 import LoggedUserContainer from './LoggedUserContainer'
@@ -83,7 +83,7 @@ export class AuthenticationMenuContainer extends React.Component {
 
     // Initialise the authentication module configuration
     const authenticationModule = {
-      type: 'authentication',
+      type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
       active: true,
       conf: {
         showLoginWindow: authenticationVisible,

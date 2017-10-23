@@ -15,20 +15,32 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-const StoragePluginContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  storagePhysicalId: PropTypes.string.isRequired,
-  totalSize: PropTypes.string,
-  usedSize: PropTypes.string,
-}).isRequired
+ */
+import React, { Component } from 'react'
+import { DynamicModule } from '@regardsoss/components'
 
-const StoragePlugin = PropTypes.shape({
-  content: StoragePluginContent,
-}).isRequired
+class AIPStatus extends Component {
 
-const StoragePluginContentArray = PropTypes.arrayOf(StoragePluginContent)
-const StoragePluginList = PropTypes.objectOf(StoragePlugin)
-export default { StoragePlugin, StoragePluginContent, StoragePluginContentArray, StoragePluginList }
+  static propTypes = {
+    // expanded state management
+    expanded: PropTypes.bool.isRequired,
+    onExpandChange: PropTypes.func.isRequired,
+  }
+
+  render() {
+    const { onExpandChange, expanded } = this.props
+    return (
+      <DynamicModule
+        title="TEMP TITLE" // TODO
+        onExpandChange={onExpandChange}
+        expanded={expanded}
+      >
+        {/* TODO implement me */}
+        <div />
+      </DynamicModule>
+    )
+  }
+}
+
+
+export default AIPStatus

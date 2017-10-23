@@ -101,7 +101,7 @@ class ModuleFormContainer extends React.Component {
       // reinit module list
       // load available modules (asynchronously recovered)
       const filterModules = ModuleFormContainer.filterAllowedModules.bind(null, newProps.isInstance, newProps.availableEndpoints)
-      return modulesManager.getAvailableModuleTypes(filterModules)
+      return modulesManager.getAvailableVisibleModuleTypes(filterModules)
         .then(availableModuleTypes => this.setState({ availableModuleTypes }))
     }
     return null

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import moduleContainer from './containers/AIPStatusContainer'
+import moduleContainer from './containers/user/AIPStatusContainer'
 import styles from './styles/styles'
 import reducer from './reducer'
 import dependencies from './dependencies'

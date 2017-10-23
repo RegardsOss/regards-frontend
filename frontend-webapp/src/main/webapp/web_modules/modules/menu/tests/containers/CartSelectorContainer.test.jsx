@@ -49,13 +49,13 @@ const resolvedProps = {
   },
   modules: { // set up many modules, only the module 3 should be resolved
     // another module (just to test we are truely searching in list) - should be ignored
-    0: { content: { id: 0, type: modulesManager.ModuleTypes.MENU, name: 'idk', active: true, container: 'my-container' } },
+    0: { content: { id: 0, type: modulesManager.AllDynamicModuleTypes.MENU, name: 'idk', active: true, container: 'my-container' } },
     // an order-cart module on a wrong container - should be ignored
-    1: { content: { id: 1, type: modulesManager.ModuleTypes.ORDER_CART, name: 'idk1', active: true, container: 'another-container', conf: {} } },
+    1: { content: { id: 1, type: modulesManager.AllDynamicModuleTypes.ORDER_CART, name: 'idk1', active: true, container: 'another-container', conf: {} } },
     // an order-cart module disabled - should be ignored
-    2: { content: { id: 2, type: modulesManager.ModuleTypes.ORDER_CART, name: 'idk2', active: false, container: 'my-container', conf: {} } },
+    2: { content: { id: 2, type: modulesManager.AllDynamicModuleTypes.ORDER_CART, name: 'idk2', active: false, container: 'my-container', conf: {} } },
     // the order-cart module that should be retrieved
-    3: { content: { id: 3, type: modulesManager.ModuleTypes.ORDER_CART, name: 'idk3', active: true, container: 'my-container', conf: {} } },
+    3: { content: { id: 3, type: modulesManager.AllDynamicModuleTypes.ORDER_CART, name: 'idk3', active: true, container: 'my-container', conf: {} } },
   },
   availableEndpoints: ['rs-order@/order/basket@GET'],
 }

@@ -81,10 +81,19 @@ export class OrderCartContainer extends React.Component {
     dispatchClearCart: PropTypes.func.isRequired, // clears basket on server side
   }
 
+
+  /**
+   * Lifecycle method: component will mount.
+   * Initializes the expanded state of module
+   */
+  componentWillMount = () => this.setExpanded(true)
+
   /**
    * Lifecycle method: component did mount. Notify properties changed to fetch basket if logged for user
    */
-  componentDidMount = () => this.onPropertiesChanged({}, this.props)
+  componentDidMount = () => {
+    this.onPropertiesChanged({}, this.props)
+  }
 
   /**
    * Lifecycle method: component will receive props. Notify properties changed to fetch basket if logged for user
@@ -106,8 +115,20 @@ export class OrderCartContainer extends React.Component {
     }
   }
 
+  /**
+   * User callback: on toggle expanded state
+   */
+  onExpandChange = () => this.setExpanded(!this.state.expanded)
+
+  /**
+   * Sets the expanded state
+   * @param expanded new expanded state
+   */
+  setExpanded = expanded => this.setState({ expanded })
+
   render() {
     const { basket, hasError, isAuthenticated, isFetching, dispatchClearCart, dispatchStartOrder } = this.props
+    const { expanded } = this.state
     return (
       <div>
         {/* 1 - Add main view */}
@@ -116,6 +137,8 @@ export class OrderCartContainer extends React.Component {
           hasError={hasError}
           isFetching={isFetching}
           isAuthenticated={isAuthenticated}
+          expanded={expanded}
+          onExpandChange={this.onExpandChange}
           onClearCart={dispatchClearCart}
           onOrder={dispatchStartOrder}
         />

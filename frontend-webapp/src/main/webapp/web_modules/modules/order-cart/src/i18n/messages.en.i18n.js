@@ -26,7 +26,6 @@ const messages = {
   ...Locales.en,
   'order-cart.module.admin.message': 'There is no specific options for that module',
   'order-cart.module.title': 'My cart',
-  'order-cart.module.subtitle': 'Cart content display and control, sorted by dataset and added elements groups, start command...',
   'order-cart.module.not.logged.title': 'User not authentified',
   'order-cart.module.not.logged.messsage': 'The cart is not available while you are not logged in application. Please log in using connection button.',
   'order-cart.module.empty.basket.title': 'Empty cart',

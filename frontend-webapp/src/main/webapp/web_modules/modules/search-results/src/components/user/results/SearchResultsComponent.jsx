@@ -31,7 +31,7 @@ import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders, NoContentComponent } from '@regardsoss/components'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { DamDomain, AccessDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
@@ -426,7 +426,7 @@ class SearchResultsComponent extends React.Component {
     if (this.isDisplayingDataobjects() && allowingFacettes && showingFacettes) {
       // when facettes are allowed and visible, use facets module as table header
       const searchFacetsModule = {
-        type: 'search-facets',
+        type: modulesManager.AllDynamicModuleTypes.SEARCH_FACETS,
         active: true,
         applicationId: appName,
         conf: {
