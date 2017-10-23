@@ -71,7 +71,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
           query = `${attribute}:[* TO ${state.searchField}]`
           break
         case EnumNumericalComparator.NE:
-          query = `${attribute}:!${state.searchField}`
+          query = `!(${attribute}:${state.searchField})`
           break
         default:
           console.error('Unavailable comparator')
