@@ -29,7 +29,12 @@ class NumberRangeFacetSelectorComponent extends React.Component {
     return this.formatFacetValue(facet,
       (value, count) => formatMessage({ id: 'search.facets.filter.menu.number.greater' }, { value, count }),
       (value, count) => formatMessage({ id: 'search.facets.filter.menu.number.lower' }, { value, count }),
-      (minValue, maxValue, count) => formatMessage({ id: 'search.facets.filter.menu.number.range' }, { minValue, maxValue, count }),
+      (minValue, maxValue, count) => {
+        if (minValue !== maxValue) {
+          return formatMessage({ id: 'search.facets.filter.menu.number.range' }, { minValue, maxValue, count })
+        }
+        return formatMessage({ id: 'search.facets.filter.menu.number.value' }, { value: minValue, count })
+      },
     )
   }
 
@@ -38,7 +43,12 @@ class NumberRangeFacetSelectorComponent extends React.Component {
     return this.formatFacetValue(facet,
       value => formatMessage({ id: 'search.facets.filter.chip.number.greater' }, { label, value }),
       value => formatMessage({ id: 'search.facets.filter.chip.number.lower' }, { label, value }),
-      (minValue, maxValue) => formatMessage({ id: 'search.facets.filter.chip.number.range' }, { label, minValue, maxValue }),
+      (minValue, maxValue) => {
+        if (minValue !== maxValue) {
+          return formatMessage({ id: 'search.facets.filter.chip.number.range' }, { label, minValue, maxValue })
+        }
+        return formatMessage({ id: 'search.facets.filter.chip.number.value' }, { label, value: minValue })
+      },
     )
   }
 

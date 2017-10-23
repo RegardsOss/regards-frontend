@@ -36,7 +36,12 @@ class DateRangeFacetSelectorComponent extends React.Component {
     return this.formatFacetValue(facet,
       (date, count) => formatMessage({ id: 'search.facets.filter.menu.date.after' }, { date, count }),
       (date, count) => formatMessage({ id: 'search.facets.filter.menu.date.before' }, { date, count }),
-      (minDate, maxDate, count) => formatMessage({ id: 'search.facets.filter.menu.date.range' }, { minDate, maxDate, count }),
+      (minDate, maxDate, count) => {
+        if (minDate !== maxDate) {
+          return formatMessage({ id: 'search.facets.filter.menu.date.range' }, { minDate, maxDate, count })
+        }
+        return formatMessage({ id: 'search.facets.filter.menu.date.value' }, { date: minDate, count })
+      },
     )
   }
 
@@ -45,7 +50,12 @@ class DateRangeFacetSelectorComponent extends React.Component {
     return this.formatFacetValue(facet,
       date => formatMessage({ id: 'search.facets.filter.chip.date.after' }, { label, date }),
       date => formatMessage({ id: 'search.facets.filter.chip.date.before' }, { label, date }),
-      (minDate, maxDate) => formatMessage({ id: 'search.facets.filter.chip.date.range' }, { label, minDate, maxDate }),
+      (minDate, maxDate) => {
+        if (minDate !== maxDate) {
+          return formatMessage({ id: 'search.facets.filter.chip.date.range' }, { label, minDate, maxDate })
+        }
+        return formatMessage({ id: 'search.facets.filter.chip.date.value' }, { label, date: minDate })
+      },
     )
   }
 
