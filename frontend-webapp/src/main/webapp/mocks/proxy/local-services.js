@@ -343,7 +343,7 @@ const MOCKED_BASKET = { // MOCK a full backet, win TIME, SAVE MONNEY
     }]
 }
 
-// TODO remove when useless, use to change the itemSelections format
+// XXX remove when useless, use to change the itemSelections format
 // const printDates = MOCKED_BASKET.datasetSelections.forEach(selection =>
 //   console.error('>>>>>>>>>>>>>>>\n', selection.itemsSelections.map(
 //     ({ id, objectsCount, filesCount, filesSize, date, openSearchRequest }, index) => ({
