@@ -28,7 +28,7 @@ class TagComponent extends React.Component {
   }
 
   renderSearchTag = () => null
-  // TODO : Add search tag functionality in V2.0
+  // XXX : Add search tag functionality in V2.0
   /**
   const { onSearchTag } = this.props
   const { iconStyle, actionStyle, buttonStyle } =

@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import BasicReducer from '../BasicReducer'
+
 /**
  * @author Léo Mieulet
  */
@@ -32,23 +34,28 @@ const defaultState = {
 /**
  *  Handle reduction for arrays
  */
-class BasicArrayReducer {
+class BasicArrayReducer extends BasicReducer {
 
   constructor(basicArrayActionInstance) {
+    super(basicArrayActionInstance, defaultState)
     this.basicArrayActionInstance = basicArrayActionInstance
   }
 
   reduce(state = defaultState, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
+    const newState = super.reduce(state, action)
     switch (action.type) {
       case this.basicArrayActionInstance.ENTITY_LIST_REQUEST:
         return {
-          ...state,
+          ...newState,
           isFetching: true,
           error: defaultState.error,
         }
       case this.basicArrayActionInstance.ENTITY_LIST_FAILURE:
         return {
-          ...state,
+          ...newState,
           error: {
             hasError: true,
             type: action.type,
@@ -58,15 +65,13 @@ class BasicArrayReducer {
         }
       case this.basicArrayActionInstance.ENTITY_LIST_SUCCESS:
         return {
-          ...state,
+          ...newState,
           isFetching: false,
           error: defaultState.error,
           items: action.payload,
         }
-      case this.basicArrayActionInstance.FLUSH:
-        return defaultState
       default:
-        return state
+        return newState
     }
   }
 

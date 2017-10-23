@@ -26,6 +26,10 @@ class AuthenticateReducers extends BasicSignalReducers {
   }
 
   reduce(state, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
+
     const { error, ...newState } = super.reduce(state, action)
 
     // apply required state changes
@@ -34,7 +38,7 @@ class AuthenticateReducers extends BasicSignalReducers {
       case this.basicSignalActionInstance.FLUSH:
         // same behavior as parent, add specific state fields: error.loginError (user is in result)
         return {
-          ...newState,
+          ...newState, // flush handled with parent state
           authenticateDate: null,
           sessionLocked: false,
           error: {
