@@ -20,11 +20,12 @@
 /**
  * @author Léo Mieulet
  */
+import BasicReducer from '../BasicReducer'
 
 /**
  *  Handle reduction for lists
  */
-class BasicSignalReducers {
+class BasicSignalReducers extends BasicReducer {
 
   static DEFAULT_STATE = {
     isFetching: false,
@@ -42,25 +43,29 @@ class BasicSignalReducers {
    * @param {*} defaultResultValue default results value (as signal is not typed, value may be an array, an object...)
    */
   constructor(basicSignalActionInstance, defaultResultValue = {}) {
-    this.basicSignalActionInstance = basicSignalActionInstance
-    this.defaultState = {
+    super(basicSignalActionInstance, {
       ...BasicSignalReducers.DEFAULT_STATE,
       result: defaultResultValue,
-    }
+    })
+    this.basicSignalActionInstance = basicSignalActionInstance
   }
 
 
   reduce(state = this.defaultState, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
+    const newState = super.reduce(state, action)
     switch (action.type) {
       case this.basicSignalActionInstance.SIGNAL_REQUEST:
         return {
-          ...state,
+          ...newState,
           isFetching: true,
           error: BasicSignalReducers.DEFAULT_STATE.error,
         }
       case this.basicSignalActionInstance.SIGNAL_FAILURE:
         return {
-          ...state,
+          ...newState,
           isFetching: false,
           error: {
             hasError: true,
@@ -71,16 +76,14 @@ class BasicSignalReducers {
         }
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
         return {
-          ...state,
+          ...newState,
           isFetching: false,
           error: BasicSignalReducers.DEFAULT_STATE.error,
           result: action.payload,
         }
-      case this.basicSignalActionInstance.FLUSH:
-        return BasicSignalReducers.DEFAULT_STATE
       default:
         // not in this reducer
-        return state
+        return newState
     }
   }
 
