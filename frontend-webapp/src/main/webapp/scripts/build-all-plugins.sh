@@ -18,6 +18,8 @@
 # along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 set -e
 
+home=`pwd`
+
 # 1 - Print command header
 modes=('all' 'dev' 'prod')
 types=('all' 'criterion' 'services')
@@ -50,10 +52,13 @@ runningType=$(findOrDefault types $2)
 # 2.2 -resolve running mode as build commands
 if [ "$runningMode" = "dev" ]; then
   buildCommands=('npm run build:dev')
+  globalDist="${home}/dist/dev"
 elif [ "$runningMode" = "prod" ]; then
   buildCommands=('npm run build:production')
+  globalDist="${home}/dist/prod"
 else 
   buildCommands=('npm run build:production' 'npm run build:dev')
+  globalDist="${home}/dist/dev"
 fi
 
 # 2.3 - resolve folders to run
@@ -66,7 +71,6 @@ else
 fi
 
 # 3 - For each plugin folder in build folders, build each folder with each build command
-home=`pwd`
 for rootFolder in "${buildFolders[@]}"; do
   echo ""
   echo "    -------------------------------------------"
@@ -98,6 +102,13 @@ for rootFolder in "${buildFolders[@]}"; do
           for buildCommand in "${buildCommands[@]}"; do
             ${buildCommand}
           done
+          # copy built plugin to global dist directory
+          echo ""
+          echo " Copying build file to global dist directory ${globalDist}"
+          if [ -f "target/${runningMode}/plugin.js" ]; then
+            mkdir -p "${globalDist}/plugins/${runningType}/${pluginFolder}"
+            cp "target/${runningMode}/plugin.js" "${globalDist}/plugins/${runningType}/${pluginFolder}/plugin.js"
+          fi
           cd ${home}
       fi
     fi
