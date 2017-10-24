@@ -106,7 +106,7 @@ for rootFolder in "${buildFolders[@]}"; do
           echo ""
           echo " Copying build file to global dist directory ${globalDist}"
           if [ -f "target/${runningMode}/plugin.js" ]; then
-            mkdir -p "${globalDist}/plugins/${runningType}/${pluginFolder}"
+            mkdir -p "${globalDist}/plugins/${rootFolder}/${pluginFolder}"
             cp "target/${runningMode}/plugin.js" "${globalDist}/plugins/${rootFolder}/${pluginFolder}/plugin.js"
           fi
           cd ${home}
