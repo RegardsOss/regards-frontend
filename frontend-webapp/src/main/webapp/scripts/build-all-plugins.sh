@@ -84,7 +84,7 @@ for rootFolder in "${buildFolders[@]}"; do
   cd ${home}
   for pluginFolder in ${pluginsInFolder}; do
     if [ $pluginFolder != '.' ] && [ $pluginFolder != '..' ]; then
-      if [ -d "plugins/criterion/${pluginFolder}" ]; then
+      if [ -d "plugins/${rootFolder}/${pluginFolder}" ]; then
           echo ""
           echo "        -------------------------------------"
           echo "        Compiling plugin ${pluginFolder} ...."
@@ -107,7 +107,7 @@ for rootFolder in "${buildFolders[@]}"; do
           echo " Copying build file to global dist directory ${globalDist}"
           if [ -f "target/${runningMode}/plugin.js" ]; then
             mkdir -p "${globalDist}/plugins/${runningType}/${pluginFolder}"
-            cp "target/${runningMode}/plugin.js" "${globalDist}/plugins/${runningType}/${pluginFolder}/plugin.js"
+            cp "target/${runningMode}/plugin.js" "${globalDist}/plugins/${rootFolder}/${pluginFolder}/plugin.js"
           fi
           cd ${home}
       fi
