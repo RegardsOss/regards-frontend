@@ -7,12 +7,12 @@
 	<name>REGARDS Frontend</name>
 	<groupId>fr.cs.regards</groupId>
 	<artifactId>frontend</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.1.0</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>fr.cnes.regards</groupId>
 		<artifactId>regards-aggregator-parent</artifactId>
-		<version>1.1.0-SNAPSHOT</version>
+		<version>1.1.0</version>
 	</parent>
 	<modules>
 		<module>frontend-boot</module>
@@ -37,7 +37,7 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<uniqueVersion>true</uniqueVersion>
-			<id>archiva-snapshots</id>
+			<id>archivas</id>
 			<name>Archiva Managed Snapshot Repository</name>
 			<url>http://172.26.46.158:8010/repository/snapshots/</url>
 		</snapshotRepository>
