@@ -162,7 +162,7 @@ export class ModelListComponent extends React.Component {
               showRowHover
             >
               {map(modelList, (model, i) => (
-                <TableRow key={i}>
+                <TableRow key={i} className={`selenium-${model.content.name}`}>
                   <TableRowColumn
                     title={model.content.name}
                   >
@@ -204,6 +204,7 @@ export class ModelListComponent extends React.Component {
                         hateoasKey={HateoasKeys.UPDATE}
                         onTouchTap={() => handleEdit(model.content.id)}
                         title={intl.formatMessage({ id: 'model.list.action.edit' })}
+                        className="selenium-editButton"
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
@@ -221,6 +222,7 @@ export class ModelListComponent extends React.Component {
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(model)}
                         title={intl.formatMessage({ id: 'model.list.action.delete' })}
+                        className="selenium-deleteButton"
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
                       </HateoasIconAction>
