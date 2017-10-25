@@ -51,6 +51,9 @@ module.exports = function (projectContextPath) {
         }],
       }, // Allow to expose plugins
       // publicPath: "/plugins/",
+      // Opens webpack-dev-server to DNS rebinding attacks https://github.com/webpack/webpack-dev-server/issues/887
+      // but allows any computer on your network to reach the frontend
+      disableHostCheck: true,
     },
     plugins: [
       new webpack.DllReferencePlugin({

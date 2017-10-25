@@ -27,7 +27,7 @@
  * @type {string}
  */
 // eslint-disable-next-line no-template-curly-in-string
-GATEWAY_HOSTNAME = 'http://${regards.config.cloud.gateway.uri}:${regards.config.cloud.gateway.port}'
+GATEWAY_HOSTNAME = '${regards.config.cloud.gateway.url}'
 
 /**
  * Static configurations
