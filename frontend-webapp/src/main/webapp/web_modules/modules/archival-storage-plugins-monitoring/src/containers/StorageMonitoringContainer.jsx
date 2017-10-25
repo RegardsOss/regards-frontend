@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
 import { ArchivalStorageShapes } from '@regardsoss/shape'
 import { storage } from '@regardsoss/units'

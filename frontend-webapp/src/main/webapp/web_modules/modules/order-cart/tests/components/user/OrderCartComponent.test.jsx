@@ -25,8 +25,6 @@ import { NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import OrderCartComponent from '../../../src/components/user/OrderCartComponent'
 import OrderCartTableComponent from '../../../src/components/user/OrderCartTableComponent'
-import OrderComponent from '../../../src/components/user/options/OrderComponent'
-import ClearCartComponent from '../../../src/components/user/options/ClearCartComponent'
 import styles from '../../../src/styles/styles'
 
 import { mockBasket1 } from '../../BasketMocks'
