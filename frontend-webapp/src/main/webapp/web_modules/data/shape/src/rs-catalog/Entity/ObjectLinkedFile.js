@@ -16,15 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { OBJECT_LINKED_FILE_TYPES } from '@regardsoss/domain/catalog'
 
 /**
  * File entity definition for files associated to each dataobject returned by cataog microservice.
  * @author Sébastien Binda
  */
 const ObjectLinkedFile = PropTypes.shape({
-  dataType: PropTypes.oneOf(OBJECT_LINKED_FILE_TYPES).isRequired,
-  fileRef: PropTypes.string.isRequired,
+  uri: PropTypes.string.isRequired,
 })
 
 export default {

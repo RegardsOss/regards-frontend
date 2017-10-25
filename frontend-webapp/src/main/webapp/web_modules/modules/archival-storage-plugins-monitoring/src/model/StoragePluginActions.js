@@ -19,6 +19,8 @@
 import Schemas from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
+// TODO client instead
+
 class StoragePluginActions extends BasicListActions {
   constructor() {
     super({

@@ -17,18 +17,30 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ENTITY_TYPES } from '@regardsoss/domain/dam'
+import { OBJECT_LINKED_FILE_TYPES } from '@regardsoss/domain/catalog'
 import EntityGeoProperties from './EntityGeoProperties'
 import { ObjectLinkedFile } from './ObjectLinkedFile'
 import URL from '../../rs-common/URL'
 
+/**
+ * Catalog entity definitions
+ * @author Raphaël Mechali
+ */
 
+/* Entity files attribute as key: file type, value: file array */
+const entityFiles = PropTypes.shape(OBJECT_LINKED_FILE_TYPES.reduce((acc, fileType) => ({
+  ...acc,
+  [fileType]: PropTypes.arrayOf(ObjectLinkedFile),
+}), {}))
+
+/** Fields of an entity (for re-use) */
 const entityFields = {
   id: PropTypes.number,
   ipId: PropTypes.string.isRequired,
   sipId: PropTypes.string,
   label: PropTypes.string.isRequired,
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
-  files: PropTypes.arrayOf(ObjectLinkedFile),
+  files: entityFiles.isRequired,
   geometry: EntityGeoProperties,
   properties: PropTypes.object,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,

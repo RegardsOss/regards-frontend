@@ -77,6 +77,7 @@ export class PluginServicesContainer extends React.Component {
       if (contextSelectionServices) {
         // filter service for current context (only selection services, working with current objects type),
         // then remove 'content' wrapper to have basic services shapes
+        // TODO what the fuck with filter on empty array???
         selectionServices = filter(contextSelectionServices, service =>
           PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies))
       }
@@ -207,6 +208,8 @@ export class PluginServicesContainer extends React.Component {
     // A - dataset changed, component was mounted or user rights changed, update global services
     if (!oldState || oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
       !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
+      // TODO: on dispatch,
+      // TODO why twice??
       newProps.dispatchFetchPluginServices(newProps.selectedDatasetIpId)
     }
 
