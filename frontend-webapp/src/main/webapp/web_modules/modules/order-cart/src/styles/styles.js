@@ -39,6 +39,13 @@ const moduleStyles = theme => ({
         heightPercent: 70,
       },
     },
+    // module header styles
+    header: {
+      options: {
+        styles: { marginLeft: 0, marginRight: 6 },
+        separator: { styles: { marginLeft: 6, marginRight: 12 } },
+      },
+    },
   },
 })
 

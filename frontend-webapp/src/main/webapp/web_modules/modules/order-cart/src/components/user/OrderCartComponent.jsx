@@ -17,14 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEmpty from 'lodash/isEmpty'
-import { Card, CardMedia, CardTitle } from 'material-ui/Card'
-import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar'
 import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
+import { ToolbarSeparator } from 'material-ui/Toolbar'
 import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DynamicModule, NoContentMessageInfo } from '@regardsoss/components'
+import { DynamicModule, ModuleTitle, NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import OrderComponent from './options/OrderComponent'
 import ClearCartComponent from './options/ClearCartComponent'
@@ -80,7 +79,7 @@ class OrderCartComponent extends React.Component {
     return (
 
       <DynamicModule
-        title={formatMessage({ id: 'order-cart.module.title' })}
+        title={<ModuleTitle IconConstructor={CartIcon} text={formatMessage({ id: 'order-cart.module.title' })} />}
         onExpandChange={onExpandChange}
         expanded={expanded}
         options={this.renderOptions(isNoContent)}

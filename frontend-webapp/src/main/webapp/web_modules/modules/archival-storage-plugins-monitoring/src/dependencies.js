@@ -33,6 +33,8 @@ const user = []
  */
 const admin = []
 
+// TODO v2 dependencies
+
 export default {
   user,
   admin,

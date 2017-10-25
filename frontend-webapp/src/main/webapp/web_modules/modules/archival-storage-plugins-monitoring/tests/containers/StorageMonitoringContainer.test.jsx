@@ -21,9 +21,10 @@ import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { StorageMonitoringContainer } from '../../src/containers/StorageMonitoringContainer'
 import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
+import { dump } from '../dump/dump'
 
 // Test a component rendering
-describe('[STORAGE PLUGINS MONITORING] Testing plugins monitoring container', () => {
+describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -31,19 +32,9 @@ describe('[STORAGE PLUGINS MONITORING] Testing plugins monitoring container', ()
     assert.isDefined(StorageMonitoringContainer)
   })
   const props = {
-    appName: 'any', // from mapStateToProps
     isFetching: false, // from mapStateToProps
-    storagePlugins: {
-      1: {
-        content: {
-          id: 1,
-          label: 'Test plugin',
-          description: 'This is a test plugin',
-          totalSize: '80To',
-          usedSize: '10To',
-        },
-      },
-    }, // from mapDispatchToProps
+    hasError: false,
+    storagePlugins: dump, // from mapDispatchToProps
     fetchStoragePlugins: () => {
     },
   }

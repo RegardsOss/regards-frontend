@@ -17,18 +17,21 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const StoragePluginContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
+  confId: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  storagePhysicalId: PropTypes.string.isRequired,
-  totalSize: PropTypes.string,
-  usedSize: PropTypes.string,
+  storageInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      storagePhysicalId: PropTypes.string.isRequired,
+      totalSize: PropTypes.string,
+      usedSize: PropTypes.string,
+    }),
+  ).isRequired,
 }).isRequired
 
 const StoragePlugin = PropTypes.shape({
   content: StoragePluginContent,
-}).isRequired
+})
 
-const StoragePluginContentArray = PropTypes.arrayOf(StoragePluginContent)
 const StoragePluginList = PropTypes.objectOf(StoragePlugin)
-export default { StoragePlugin, StoragePluginContent, StoragePluginContentArray, StoragePluginList }
+export default { StoragePlugin, StoragePluginContent, StoragePluginList }

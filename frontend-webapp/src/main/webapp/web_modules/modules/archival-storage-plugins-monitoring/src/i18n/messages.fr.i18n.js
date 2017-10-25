@@ -26,14 +26,16 @@ import { storage } from '@regardsoss/units'
 const messages = {
   ...storage.messages.fr,
   // module messages
+  'archival.storage.capacity.monitoring.title': 'Capacité des plugins de stockages',
   // table
-  'archival.storage.capacity.monitoring.table.total.size': 'Espace total',
-  'archival.storage.capacity.monitoring.table.used.size': 'Espace utilisé',
-  'archival.storage.capacity.monitoring.table.unused.size': 'Espace libre',
+  'archival.storage.capacity.monitoring.table.total.size': 'Total',
+  'archival.storage.capacity.monitoring.table.used.size': 'Utilisé',
+  'archival.storage.capacity.monitoring.table.unused.size': 'Libre',
   // chart
-  'archival.storage.capacity.monitoring.chart.total.size': 'Espace total en {unitLabel}',
-  'archival.storage.capacity.monitoring.chart.used.size': 'Espace utilisé (%)',
-  'archival.storage.capacity.monitoring.chart.unused.size': 'Espace libre (%)',
+  'archival.storage.capacity.monitoring.table.device.id': 'Volume',
+  'archival.storage.capacity.monitoring.chart.total.size': 'Total en {unitLabel}',
+  'archival.storage.capacity.monitoring.chart.used.size': 'Utilisé (%)',
+  'archival.storage.capacity.monitoring.chart.unused.size': 'Libre (%)',
   'archival.storage.capacity.monitoring.chart.unknown.size': 'Pas d\'information',
 }
 

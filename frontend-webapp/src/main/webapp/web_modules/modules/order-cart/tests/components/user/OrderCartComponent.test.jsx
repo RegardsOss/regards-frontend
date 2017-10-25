@@ -49,33 +49,25 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       isAuthenticated: false,
       basket: undefined,
       isFetching: false,
+      expanded: true,
+      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartComponent {...props} />, { context })
-    // 1 - check no data state
+    // Check no data state
     const noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be a no data component')
     assert.isTrue(noContentWrapper.props().noContent, 'No data component should be marked as no content')
-    // 1.b - check specific messages for authentication
+    // Check specific messages for authentication
     assert.equal(noContentWrapper.props().title, 'order-cart.module.not.logged.title', 'When not authenticated, title key should be correctly set up')
     assert.equal(noContentWrapper.props().message, 'order-cart.module.not.logged.messsage', 'When not authenticated, message key should be correctly set up')
     assert.equal(noContentWrapper.props().Icon, NotLoggedIcon, 'When not authenticated, icon should be a NotLoggedIcon')
-    // 2 - check order component
-    const orderWrapper = enzymeWrapper.find(OrderComponent)
-    assert.lengthOf(orderWrapper, 1, 'There should be an order component')
-    assert.isTrue(orderWrapper.props().empty, 'Order component should be marked as empty')
-    assert.equal(orderWrapper.props().onOrder, props.onOrder, 'Order component should have the right callback')
-    // 3 - check clear cart component
-    const clearCartWrapper = enzymeWrapper.find(ClearCartComponent)
-    assert.lengthOf(clearCartWrapper, 1, 'There should be a clear cart component')
-    assert.isTrue(clearCartWrapper.props().empty, 'Clear cart component component should be marked as empty')
-    assert.equal(clearCartWrapper.props().onClearCart, props.onClearCart, 'Clear cart component should have the right callback')
-    // 4 - Check table
+    // Check table
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
-    // 5 - Check loading
+    // Check loading
     const loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loadableWrapper, 1, 'There should be a loadable dispayer')
     assert.isFalse(loadableWrapper.props().isLoading, 'Loadable displayer should not be marked loading')
@@ -85,33 +77,25 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       isAuthenticated: true,
       basket: undefined,
       isFetching: false,
+      expanded: true,
+      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartComponent {...props} />, { context })
-    // 1 - check no data state
+    // Check no data state
     const noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be a no data component')
     assert.isTrue(noContentWrapper.props().noContent, 'No data component should be marked as no content')
-    // 1.b - check specific messages for empty basket
+    // Check specific messages for empty basket
     assert.equal(noContentWrapper.props().title, 'order-cart.module.empty.basket.title', 'When basket is empty, title key should be correctly set up')
     assert.equal(noContentWrapper.props().message, 'order-cart.module.empty.basket.messsage', 'When basket is empty, message key should be correctly set up')
     assert.equal(noContentWrapper.props().Icon, CartIcon, 'When basket is empty, icon should be a NotLoggedIcon')
-    // 2 - check order component
-    const orderWrapper = enzymeWrapper.find(OrderComponent)
-    assert.lengthOf(orderWrapper, 1, 'There should be an order component')
-    assert.isTrue(orderWrapper.props().empty, 'Order component should be marked as empty')
-    assert.equal(orderWrapper.props().onOrder, props.onOrder, 'Order component should have the right callback')
-    // 3 - check clear cart component
-    const clearCartWrapper = enzymeWrapper.find(ClearCartComponent)
-    assert.lengthOf(clearCartWrapper, 1, 'There should be a clear cart component')
-    assert.isTrue(clearCartWrapper.props().empty, 'Clear cart component component should be marked as empty')
-    assert.equal(clearCartWrapper.props().onClearCart, props.onClearCart, 'Clear cart component should have the right callback')
-    // 4 - Check table
+    // Check table
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
-    // 5 - Check loading
+    // Check loading
     const loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loadableWrapper, 1, 'There should be a loadable dispayer')
     assert.isFalse(loadableWrapper.props().isLoading, 'Loadable displayer should not be marked loading')
@@ -121,15 +105,17 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       isAuthenticated: true,
       basket: undefined,
       isFetching: true,
+      expanded: true,
+      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartComponent {...props} />, { context })
-    // 1 - check no data state is hidden
+    // Check no data state is hidden
     const noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be a no data component')
     assert.isFalse(noContentWrapper.props().noContent, 'No data component should be hidden')
-    // 2 - Check loading
+    // Check loading
     const loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loadableWrapper, 1, 'There should be a loadable dispayer')
     assert.isTrue(loadableWrapper.props().isLoading, 'Loadable dispayer should  be marked loading')
@@ -139,29 +125,21 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       isAuthenticated: true,
       basket: mockBasket1,
       isFetching: false,
+      expanded: true,
+      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartComponent {...props} />, { context })
-    // 1 - check no data state is hidden
+    // Check no data state is hidden
     const noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be a no data component')
     assert.isFalse(noContentWrapper.props().noContent, 'No data component should be marked as no content')
-    // 2 - check order component is enabled
-    const orderWrapper = enzymeWrapper.find(OrderComponent)
-    assert.lengthOf(orderWrapper, 1, 'There should be an order component')
-    assert.isFalse(orderWrapper.props().empty, 'Order component should be marked non empty')
-    assert.equal(orderWrapper.props().onOrder, props.onOrder, 'Order component should have the right callback')
-    // 3 - check clear cart component is enabled
-    const clearCartWrapper = enzymeWrapper.find(ClearCartComponent)
-    assert.lengthOf(clearCartWrapper, 1, 'There should be a clear cart component')
-    assert.isFalse(clearCartWrapper.props().empty, 'Clear cart component component should be marked non empty')
-    assert.equal(clearCartWrapper.props().onClearCart, props.onClearCart, 'Clear cart component should have the right callback')
-    // 4 - Check table
+    // Check table
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
-    // 5 - Check loading
+    // Check loading
     const loadableWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loadableWrapper, 1, 'There should be a loadable dispayer')
     assert.isFalse(loadableWrapper.props().isLoading, 'Loadable displayer should not be marked loading')

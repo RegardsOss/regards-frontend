@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DynamicModule } from '@regardsoss/components'
+import ModuleIcon from 'material-ui/svg-icons/notification/folder-special'
+import { DynamicModule, ModuleTitle } from '@regardsoss/components'
 
 /**
 * Order history - main module component
@@ -34,7 +35,7 @@ class OrderHistoryComponent extends React.Component {
     const { onExpandChange, expanded } = this.props
     return (
       <DynamicModule
-        title="TEMP TITLE" // TODO
+        title={<ModuleTitle IconConstructor={ModuleIcon} text={'TODO TITLE'} />} // TODO
         onExpandChange={onExpandChange}
         expanded={expanded}
       >

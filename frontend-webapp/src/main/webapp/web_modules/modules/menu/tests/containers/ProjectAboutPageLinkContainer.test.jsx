@@ -50,7 +50,7 @@ describe('[Menu] Testing ProjectAboutPageLinkContainer', () => {
     const props = {
       appName: 'user',
       project: 'hello-world',
-      projectAboutPage: 'gg-bg@pmu.fr',
+      projectAboutPage: 'gg-bg/pmu.fr',
     }
     const enzymeWrapper = shallow(<ProjectAboutPageLinkContainer {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)

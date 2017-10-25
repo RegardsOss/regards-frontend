@@ -28,25 +28,26 @@ import values from 'lodash/values'
  * Dynamic module types that can be instantiated by the administrator
  */
 const VisibleModuleTypes = {
-  // AIP_STATUS: 'archival-storage-aip-status',
+  ARCHIVAL_STORAGE_MONITORING: 'archival-storage-plugins-monitoring',
+  EMBEDDED_HMTL: 'embedded-html',
   LICENSE: 'licenses',
   MENU: 'menu',
-  // NEWS: 'news',
   ORDER_CART: 'order-cart',
   ORDER_HISTORY: 'order-history',
-  PROJECT_LIST: 'projects-list',
   PROJECT_ABOUT_PAGE: 'project-about-page',
+  PROJECT_LIST: 'projects-list',
   SEARCH_FORM: 'search-form',
   SEARCH_GRAPH: 'search-graph',
   SEARCH_RESULTS: 'search-results',
-  STORAGE_MONITORING: 'archival-storage-plugins-monitoring',
 }
 
 /**
  * Dynamic module types that cannot be instantiated by administrator (their UI needs external activation)
  */
 const HiddenModuleTypes = {
+  AIP_STATUS: 'archival-storage-aip-status', // XXX-V3 visible
   AUTHENTICATION: 'authentication',
+  NEWS: 'news', // XXX-V3 visible
   SEARCH_FACETS: 'search-facets',
 }
 

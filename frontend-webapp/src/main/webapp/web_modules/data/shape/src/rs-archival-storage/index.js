@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AIPStatusContent, AIPStatus, AIPStatusList } from './AIPStatus'
-import { StoragePlugin, StoragePluginContent, StoragePluginContentArray, StoragePluginList } from './StoragePlugin'
+import { StoragePlugin, StoragePluginContent, StoragePluginList } from './StoragePlugin'
 
 export default {
   AIPStatusContent,
@@ -26,6 +26,5 @@ export default {
 
   StoragePluginContent,
   StoragePlugin,
-  StoragePluginContentArray,
   StoragePluginList,
 }

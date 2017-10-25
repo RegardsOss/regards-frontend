@@ -16,14 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
 import { storage } from '@regardsoss/units'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
-import StoragePluginCapacityComponent from '../../src/components/StoragePluginCapacityComponent'
+import StoragePluginContainer from '../../src/containers/StoragePluginContainer'
+import styles from '../../src/styles/styles'
+import { dump } from '../dump/dump'
 
+const context = buildTestContext(styles)
 
 describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () => {
   before(testSuiteHelpers.before)
@@ -32,34 +36,16 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
   it('should exists', () => {
     assert.isDefined(StorageMonitoringComponent)
   })
-  // define context
-  const context = {
-    initScale: storage.StorageUnitScale.bytesScale,
-    ...buildTestContext(),
-  }
-
-  it('should render storage plugins in nominal case, with parsing errors', () => {
+  it('should render storage plugins in nominal case', () => {
     // initialize properties
     const props = {
-      storagePlugins: [{
-        id: 1,
-        label: 'Plugin1',
-        description: 'storage plugin 1',
-        totalSize: '10 To',
-        usedSize: '5 To',
-      }, {
-        id: 2,
-        label: 'Plugin2',
-        description: 'storage plugin 2',
-        totalSize: '5 Tio',
-        usedSize: '0gb',
-      }, {
-        id: 3,
-        label: 'Plugin3',
-        description: 'storage plugin 3',
-        totalSize: '8Txxo',
-        usedSize: 'ddOp',
-      }],
+      scale: storage.StorageUnitScale.bytesScale,
+      storagePlugins: dump,
+      isFetching: false,
+      hasError: false,
+      expanded: true,
+      onExpandChange: () => { },
+      onUnitScaleChanged: () => { },
     }
 
     const enzymeWrapper = shallow(<StorageMonitoringComponent {...props} />, { context })
@@ -71,32 +57,26 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
     assert.isFalse(displayableComponent.props().isEmpty, 'Empty content should be false')
 
     // Check each storage plugin component is correctly built, according with model data
-    const storagePluginsComponents = enzymeWrapper.find(StoragePluginCapacityComponent)
-    expect(storagePluginsComponents).to.have.length(3)
-    storagePluginsComponents.forEach((node, i) => {
-      // check each
-      const { label, description, usedSize, totalSize } = node.props()
-      const plugin = props.storagePlugins[i]
-      assert.equal(label, plugin.label)
-      assert.equal(description, plugin.description)
-      if (storage.StorageCapacity.fromValue(plugin.usedSize)) {
-        assert.isOk(usedSize)
-      } else {
-        assert.isNotOk(usedSize)
-      }
-      if (storage.StorageCapacity.fromValue(plugin.totalSize)) {
-        assert.isOk(totalSize)
-      } else {
-        assert.isNotOk(totalSize)
-      }
+    const storagePluginsContainers = enzymeWrapper.find(StoragePluginContainer)
+    const allPluginKeys = keys(dump)
+    assert.lengthOf(storagePluginsContainers, allPluginKeys.length, 'There should be one plugin container for each plugin')
+    storagePluginsContainers.forEach((node, i) => {
+      // check properties
+      const { scale, plugin } = node.props()
+      assert.equal(scale, props.scale, 'Scale should be correctly reported')
+      assert.equal(plugin, dump[allPluginKeys[i]])
     })
   })
 
   it('should render correctly in loading / error / empty states', () => {
     const props = {
+      scale: storage.StorageUnitScale.bytesScale,
+      storagePlugins: {},
       isFetching: true,
       hasError: true,
-      storagePlugins: [],
+      expanded: true,
+      onExpandChange: () => { },
+      onUnitScaleChanged: () => { },
     }
     // is rendering ok?
     const enzymeWrapper = shallow(<StorageMonitoringComponent {...props} />, { context })
@@ -105,6 +85,6 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
     assert.isTrue(displayableComponent.props().isLoading, 'Loading should be true')
     assert.isTrue(displayableComponent.props().isContentError, 'isContentError should be true')
     assert.isTrue(displayableComponent.props().isEmpty, 'Empty content should be true')
-    expect(enzymeWrapper.find(StoragePluginCapacityComponent)).to.have.length(0)
+    assert.lengthOf(enzymeWrapper.find(StoragePluginContainer), 0, 'There should be no plugin container')
   })
 })

@@ -31,7 +31,6 @@ export class StorageMonitoringContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    // Set by module loader, required for map state to props
     storagePlugins: ArchivalStorageShapes.StoragePluginList.isRequired,
     isFetching: PropTypes.bool,
     hasError: PropTypes.bool,
@@ -40,10 +39,18 @@ export class StorageMonitoringContainer extends React.Component {
   }
 
   /**
+   * Container default state
+   */
+  static DEFAULT_STATE = {
+    expanded: true,
+    currentScale: storage.StorageUnitScale.bytesScale,
+  }
+
+  /**
    * Lifecycle method: component will mount.
    * Initializes the expanded state of module
    */
-  componentWillMount = () => this.setExpanded(true)
+  componentWillMount = () => this.setState(StorageMonitoringContainer.DEFAULT_STATE)
 
   /**
    * Lifecycle method: component did mount. Fetches module data.
@@ -55,28 +62,29 @@ export class StorageMonitoringContainer extends React.Component {
   /**
   * User callback: on toggle expanded state
   */
-  onExpandChange = () => this.setExpanded(!this.state.expanded)
+  onExpandChange = () => this.setState({ expanded: !this.state.expanded })
 
   /**
-   * Sets the expanded state
-   * @param expanded new expanded state
+   * User callback: on unit scale changed by user
+   * @param newScale new selected scale
    */
-  setExpanded = expanded => this.setState({ expanded })
+  onUnitScaleChanged = newScale => this.setState({ currentScale: newScale })
 
   /**
    * @returns {React.Component}
    */
   render() {
     const { isFetching, storagePlugins, hasError } = this.props
-    const { expanded } = this.state
+    const { expanded, currentScale } = this.state
     return (
       <StorageMonitoringComponent
         isFetching={isFetching}
         hasError={hasError}
-        initScale={storage.StorageUnitScale.bytesScale}
-        storagePlugins={map(storagePlugins, ({ content }) => content)}
+        scale={currentScale}
+        storagePlugins={storagePlugins}
         expanded={expanded}
         onExpandChange={this.onExpandChange}
+        onUnitScaleChanged={this.onUnitScaleChanged}
       />
     )
   }

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import ModuleIcon from 'material-ui/svg-icons/action/lightbulb-outline'
 import ProjectAboutPageContainer from './containers/ProjectAboutPageContainer'
 import adminContainer from './containers/AdminContainer'
 import messages from './i18n'
@@ -30,5 +31,6 @@ export default {
   adminContainer,
   styles,
   messages,
+  ModuleIcon,
   dependencies,
 }
