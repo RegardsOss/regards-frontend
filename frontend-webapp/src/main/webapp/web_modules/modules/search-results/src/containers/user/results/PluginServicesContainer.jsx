@@ -220,7 +220,8 @@ export class PluginServicesContainer extends React.Component {
     }
 
     // when children changed or selection services changed, recompute children
-    if (!isEqual(oldProps.children, newProps.children) || !isEqual(oldState.selectionServices, newState.selectionServices)) {
+    if (!isEqual(oldState.selectionServices, newState.selectionServices) ||
+      HOCUtils.shouldCloneChildren(this, oldProps, newProps)) {
       // pre render children (attempts to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         ...HOCUtils.getOnlyNonDeclaredProps(this, newProps),

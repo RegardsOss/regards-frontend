@@ -178,9 +178,9 @@ export class OrderCartContainer extends React.Component {
     }
 
     // when callbacks or children changed, re render children
-    if (!isEqual(oldState.onAddElementToBasket, newState.onAddElementToBasket) ||
-      !isEqual(oldState.onAddSelectionToBasket, newState.onAddSelectionToBasket) ||
-      !isEqual(oldProps.children, newProps.children)) {
+    if (HOCUtils.shouldCloneChildren(this, oldProps, newProps) ||
+      !isEqual(oldState.onAddElementToBasket, newState.onAddElementToBasket) ||
+      !isEqual(oldState.onAddSelectionToBasket, newState.onAddSelectionToBasket)) {
       // pre render children (attempt to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         ...HOCUtils.getOnlyNonDeclaredProps(this, newProps), // this will report injected service data

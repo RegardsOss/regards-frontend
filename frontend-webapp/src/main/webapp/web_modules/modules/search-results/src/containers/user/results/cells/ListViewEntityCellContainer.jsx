@@ -92,7 +92,6 @@ export class ListViewEntityCellContainer extends React.Component {
   render() {
     const { entity, attributes, lineHeight, isTableSelected, selectTableEntityCallback,
       enableServices, tableColumns, onSearchEntity, displayCheckbox, onAddToCart } = this.props
-
     return (
       <ListViewEntityCellComponent
         entity={entity}

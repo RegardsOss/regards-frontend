@@ -122,7 +122,7 @@ class SearchResultsComponent extends React.Component {
    * @param {objectType} entity type
    * @return true if services are available for that type, false otherwise
    */
-  static hasServices = objectType => objectType !== DamDomain.ENTITY_TYPES_ENUM.DATA
+  static hasServices = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /** Preferred fixed column width */
   static PREF_FIXED_COLUMN_WIDTH = 50

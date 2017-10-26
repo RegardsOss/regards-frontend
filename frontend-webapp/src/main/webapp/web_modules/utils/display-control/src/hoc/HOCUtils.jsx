@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 
@@ -30,8 +31,23 @@ import omit from 'lodash/omit'
  * @param {*} props element properties to consider
  * @return properties in that element that have not been declare (allows reporting 'silent' properties only)
  */
-function getOnlyNonDeclaredProps(thatElement, props) {
+function getOnlyNonDeclaredProps(thatElement, props = {}) {
   return omit(props, keys(thatElement.constructor.propTypes))
+}
+
+
+/**
+ * Computes if children should be cloned again, taking in account the silent properties of
+ * thatElement container - as those properties are typically transferred to children
+ * @param {React.Component} thatElement that element (HOC)
+ * @param {*} oldProps old properties
+ * @param {*} newProps new properties
+ * @return true if children should be cloned again
+ */
+function shouldCloneChildren(thatElement, oldProps, newProps) {
+  const oldHiddenProps = getOnlyNonDeclaredProps(thatElement, oldProps)
+  const newHiddenProps = getOnlyNonDeclaredProps(thatElement, newProps)
+  return !isEqual(oldHiddenProps, newHiddenProps) || !isEqual(oldProps.children, newProps.children)
 }
 
 /**
@@ -67,5 +83,6 @@ function renderChildren(children = []) {
 export default {
   getOnlyNonDeclaredProps,
   cloneChildrenWith,
+  shouldCloneChildren,
   renderChildren,
 }
