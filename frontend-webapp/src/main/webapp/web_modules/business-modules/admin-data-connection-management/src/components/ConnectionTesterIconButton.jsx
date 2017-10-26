@@ -112,6 +112,7 @@ class ConnectionTesterIconButton extends React.Component {
       <IconButton
         label={this.context.intl.formatMessage({ id: 'database.connectionTester.start' })}
         onTouchTap={this.handleTouchTap}
+        className="selenium-testButton"
       >
         <PlayArrow hoverColor={this.context.muiTheme.palette.primary1Color} />
       </IconButton>
