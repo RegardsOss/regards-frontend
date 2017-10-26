@@ -83,9 +83,7 @@ class ModuleFormContainer extends React.Component {
       this.props.fetchModule(this.props.params.applicationId, this.props.params.duplicate_module_id)
     }
 
-    if (!this.props.layout) {
-      this.props.fetchLayout(this.props.params.applicationId)
-    }
+    this.props.fetchLayout(this.props.params.applicationId)
 
     // initialize as property change
     this.setState({ availableModuleTypes: [] })
