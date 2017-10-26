@@ -41,6 +41,7 @@ STATIC_CONF = {
     DAM: 'rs-dam',
     ORDER: 'rs-order',
     STORAGE: 'rs-storage',
+    INGEST: 'rs-ingest',
   },
   IMSERVICES: {
     ACCESS_INSTANCE: 'rs-access-instance',
