@@ -37,13 +37,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:b05d644e-b230-3c31-8562-23b988604689:V1',
       label: 'Data file six',
       model: {
@@ -111,13 +108,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:8bd850b3-c7c4-3244-8a76-34ce1dd86db2:V1',
       label: 'Dataset3 data number 4',
       model: {
@@ -185,13 +179,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:7a447b6e-7383-3ded-a92f-2486259eb29b:V1',
       label: 'Private data 1',
       model: {
@@ -259,13 +250,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:6f3447e2-6b6d-33f6-b20b-7cfa90fcc145:V1',
       label: 'Data file two',
       model: {
@@ -333,13 +321,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:55c9ad13-0748-3bfa-9eea-d4a8a278db46:V1',
       label: 'Data file one',
       model: {
@@ -407,13 +392,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:01ea0eb9-24c5-39f5-b693-aaec6d8c3b21:V1',
       label: 'Public data',
       model: {
@@ -481,13 +463,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:7a0ff42f-098b-3b19-96cf-86a4d6fdaa39:V1',
       label: 'Third test data',
       model: {
@@ -555,13 +534,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:356d7232-9455-362c-93ca-ab1b2072f6d4:V1',
       label: 'Data file five',
       model: {
@@ -629,13 +605,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:c8c3e095-1e7f-3402-8102-c3b197a22886:V1',
       label: 'Private data 3',
       model: {
@@ -703,13 +676,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:9812057f-4767-30b5-92bd-d326f41b1e18:V1',
       label: 'First test data',
       model: {
@@ -777,13 +747,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:581ecca6-baca-3d29-b55d-d3ffea31f050:V1',
       label: 'Data file seven',
       model: {
@@ -851,13 +818,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:7f4194f5-e861-39e4-bc96-ea7af9c21a86:V1',
       label: 'Dataset3 data number 5',
       model: {
@@ -925,13 +889,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:e4f13926-94f0-3e0c-bab8-f048e29d02df:V1',
       label: 'Universe atoms count',
       model: {
@@ -999,13 +960,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:99f81cbd-e970-3d44-9bb3-7e635fb9f8c3:V1',
       label: 'Data file three',
       model: {
@@ -1073,13 +1031,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:4979f060-24f2-3451-a705-d43863094846:V1',
       label: 'Data file nine',
       model: {
@@ -1147,13 +1102,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:5b60a81a-cdb2-34c2-b657-b18a6f4806bd:V1',
       label: 'Dataset3 data number 1',
       model: {
@@ -1221,13 +1173,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:2bc79969-f6f3-31fa-accd-a07c01b66422:V1',
       label: 'Data file four',
       model: {
@@ -1295,13 +1244,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:b09265d4-eac2-39f9-ae2f-156d56c4b0bd:V1',
       label: 'Dataset3 data number 3',
       model: {
@@ -1369,13 +1315,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:6a5644ea-e481-33d0-8d40-117e05b4d8f2:V1',
       label: 'Data file ten',
       model: {
@@ -1443,13 +1386,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:9ec57df6-59e5-3e41-8772-fdf6cc497ea3:V1',
       label: 'Dataset3 data number 6',
       model: {
@@ -1517,13 +1457,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:7f245ada-935c-311b-8f4b-af4b4f16d1f7:V1',
       label: 'Private data 2',
       model: {
@@ -1591,13 +1528,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:d4957c82-d39a-3261-88b5-c0806e3db31c:V1',
       label: 'Data file height',
       model: {
@@ -1665,13 +1599,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:cbb70269-f5f7-3e37-b214-77e49b22e197:V1',
       label: 'First test data copy',
       model: {
@@ -1739,13 +1670,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:146eae92-826b-3ed5-a8d2-b5d26b7a0132:V1',
       label: 'Dataset3 data number 2',
       model: {
@@ -1813,13 +1741,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:41eceb38-46f4-33d3-941b-7bf76c96bdd1:V1',
       label: 'Second test data',
       model: {
@@ -1887,13 +1812,10 @@ export default {
           2: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
         },
       },
-      files: [{
-        dataType: 'THUMBNAIL',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }, {
-        dataType: 'RAWDATA',
-        fileRef: 'http://172.26.47.107/img/test_thumbnail.png',
-      }],
+      files: {
+        THUMBNAIL: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+        RAWDATA: [{ uri: 'http://172.26.47.107/img/test_thumbnail.png' }],
+      },
       ipId: 'URN:AIP:DATA:raph_tests_validation_1_1_0__2:8d1170e7-c477-3cfc-9bca-a1bc7241f39d:V1',
       label: 'Happy New Year !',
       model: {

@@ -27,10 +27,11 @@ import omit from 'lodash/omit'
 /**
  * Returns only props that have not been declared in that react element
  * @param {React.Element} thatElement instance of a react class element
+ * @param {*} props element properties to consider
  * @return properties in that element that have not been declare (allows reporting 'silent' properties only)
  */
-function getOnlyNonDeclaredProps(thatElement) {
-  return omit(thatElement.props, keys(thatElement.constructor.propTypes))
+function getOnlyNonDeclaredProps(thatElement, props) {
+  return omit(props, keys(thatElement.constructor.propTypes))
 }
 
 /**
@@ -45,22 +46,6 @@ function cloneChildrenWith(children = [], newProps = {}) {
     ...child.props,
     ...newProps,
   }))
-}
-
-/**
- * Default clone children implementation: clones children with added properties as parameter, without declared propTypes in hoc
- * @param {React.Element} thatElement instance of a react class element to use as root here
- * @param {*} addedProps map string value of properties to add in children
- * @return [React.Element] clone children list with added properties as parameter, without declared THAT ELEMENT propTypes
- */
-function defaultCloneChildren(thatElement, addedProps) {
-  // A - compute props
-  const childrenProps = {
-    ...getOnlyNonDeclaredProps(thatElement),
-    ...addedProps,
-  }
-  // B - return cloned elements
-  return cloneChildrenWith(thatElement.props.children, childrenProps)
 }
 
 /**
@@ -82,6 +67,5 @@ function renderChildren(children = []) {
 export default {
   getOnlyNonDeclaredProps,
   cloneChildrenWith,
-  defaultCloneChildren,
   renderChildren,
 }

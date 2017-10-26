@@ -46,7 +46,7 @@ describe('[Search Results] Testing TableViewOptionsCellContainer', () => {
           sipId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          files: [],
+          files: {},
           geometry: null,
           properties: {},
           tags: [],

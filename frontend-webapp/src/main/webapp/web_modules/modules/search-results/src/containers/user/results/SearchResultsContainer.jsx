@@ -267,7 +267,6 @@ export class SearchResultsContainer extends React.Component {
       searchQuery: initialSearchQuery,
     } = this.props
     const { showingFacettes, filters, openSearchQuery, fullSearchQuery, searchActions, sortingOn } = this.state
-
     return (
       <ModuleStyleProvider module={moduleStyles}>
         {/* enable the services functionnalities */}

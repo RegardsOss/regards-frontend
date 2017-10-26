@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import React from 'react'
+import get from 'lodash/get'
 import map from 'lodash/map'
 import merge from 'lodash/merge'
-import find from 'lodash/find'
 import IconButton from 'material-ui/IconButton'
 import Divider from 'material-ui/Divider'
 import DownloadIcon from 'material-ui/svg-icons/action/get-app'
@@ -205,12 +205,12 @@ class ListViewEntityCellComponent extends React.Component {
    * @returns {XML}
    */
   displayThumbnail = () => {
-    const thumbnail = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL)
+    const thumbnailURI = get(this.props.entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL}[0].uri`, null)
     const { moduleTheme: { user: { listViewStyles } } } = this.context
-    if (thumbnail) {
+    if (thumbnailURI) {
       return (
         <div style={listViewStyles.thumbnail}>
-          <img height="80" width="80" src={thumbnail.fileRef} alt="" />
+          <img height="80" width="80" src={thumbnailURI} alt="" />
         </div>
       )
     }
@@ -257,15 +257,15 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayDownload = () => {
-    const rawdata = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA)
-    if (rawdata) {
-      const { intl: { formatMessage }, moduleTheme: { user: { listViewStyles } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { user: { listViewStyles } } } = this.context
+    const rawdataURI = get(this.props.entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}[0].uri`, null)
+    if (rawdataURI) {
       return (
         <DownloadButton
-          style={listViewStyles.option.buttonStyles}
+          style={listViewStyles.title.option.buttonStyles}
           tooltip={formatMessage({ id: 'download.tooltip' })}
-          iconStyle={listViewStyles.option.iconStyles}
-          downloadURL={rawdata.fileRef}
+          iconStyle={listViewStyles.title.option.iconStyles}
+          downloadURL={rawdataURI}
           ButtonIcon={null} // remove default icon, use children instead for an Icon button
           ButtonConstructor={IconButton}
         >

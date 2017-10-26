@@ -327,7 +327,6 @@ class SearchResultsComponent extends React.Component {
       selectionServices, onStartSelectionService, onAddSelectionToCart } = this.props
     const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
-
     return [
       //  Selection services
       ...selectionServices.map(service => (
@@ -500,7 +499,6 @@ class SearchResultsComponent extends React.Component {
     }
 
     const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
-
     return (
       <TableContainer
         key={viewObjectType} // unmount the table when change entity type (using key trick)

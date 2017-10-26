@@ -40,7 +40,7 @@ const entityFields = {
   sipId: PropTypes.string,
   label: PropTypes.string.isRequired,
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
-  files: entityFiles.isRequired,
+  files: entityFiles,
   geometry: EntityGeoProperties,
   properties: PropTypes.object,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -65,6 +65,7 @@ const EntityList = PropTypes.objectOf(Entity)
 
 export default {
   entityFields,
+  entityFiles,
   Entity,
   EntityList,
 }

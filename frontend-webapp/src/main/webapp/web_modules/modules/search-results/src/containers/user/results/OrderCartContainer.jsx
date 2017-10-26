@@ -29,7 +29,7 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AccessShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
-import { allMatchHateoasDisplayLogic, HOCChildrenUtils } from '@regardsoss/display-control'
+import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
 import TableClient from '../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 
@@ -150,7 +150,7 @@ export class OrderCartContainer extends React.Component {
   onPropertiesChanged = (oldProps, newProps) => {
     // when dependencies, modules, layout or authentication changes, update the state properties related to displaying cart
     // note that it may throw an exception to inform the administor that the module configuration is wrong
-    const oldState = this.state
+    const oldState = this.state || {}
     const newState = { ...(oldState || OrderCartContainer.DEFAULT_STATE) }
     if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated) ||
       !isEqual(oldProps.modules, newProps.modules) ||
@@ -176,10 +176,14 @@ export class OrderCartContainer extends React.Component {
         newState.onAddSelectionToBasket = null
       }
     }
-    // when state or children changed, re render children then update state
-    if (!isEqual(oldState, newState) || !isEqual(oldState.children, newState.children)) {
+
+    // when callbacks or children changed, re render children
+    if (!isEqual(oldState.onAddElementToBasket, newState.onAddElementToBasket) ||
+      !isEqual(oldState.onAddSelectionToBasket, newState.onAddSelectionToBasket) ||
+      !isEqual(oldProps.children, newProps.children)) {
       // pre render children (attempt to enhance render performances)
-      newState.children = HOCChildrenUtils.defaultCloneChildren(this, {
+      newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
+        ...HOCUtils.getOnlyNonDeclaredProps(this, newProps), // this will report injected service data
         onAddElementToCart: newState.onAddElementToBasket,
         onAddSelectionToCart: newState.onAddSelectionToBasket,
       })
@@ -252,7 +256,7 @@ export class OrderCartContainer extends React.Component {
   render() {
     const { children } = this.state
     // render only the children list
-    return HOCChildrenUtils.renderChildren(children)
+    return HOCUtils.renderChildren(children)
   }
 
 }

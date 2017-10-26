@@ -13,7 +13,7 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { AccessShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { HOCChildrenUtils } from '@regardsoss/display-control'
+import { HOCUtils } from '@regardsoss/display-control'
 import { pluginServiceActions, pluginServiceSelectors } from '../../../clients/PluginServiceClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
@@ -77,7 +77,6 @@ export class PluginServicesContainer extends React.Component {
       if (contextSelectionServices) {
         // filter service for current context (only selection services, working with current objects type),
         // then remove 'content' wrapper to have basic services shapes
-        // TODO what the fuck with filter on empty array???
         selectionServices = filter(contextSelectionServices, service =>
           PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies))
       }
@@ -114,8 +113,8 @@ export class PluginServicesContainer extends React.Component {
   /**
    * Returns selected dataset IP ID or null if none
    * @param {*} state redux state
-   * @param {*} properties component properties
-   */
+* @param {*} properties component properties
+*/
   static getSelectedDatasetIpId = (state, { initialDatasetIpId }) => {
     const dynamicTag = Tag.getSearchedDatasetTag(navigationContextSelectors.getLevels(state))
     return dynamicTag ? dynamicTag.searchKey : initialDatasetIpId
@@ -192,7 +191,7 @@ export class PluginServicesContainer extends React.Component {
     selectionServices: [],
   }
 
-  componentWillMount = () => this.onPropertiesChanged(this.props)
+  componentWillMount = () => this.onPropertiesChanged(this.props) // TODO dispatch on did mount
 
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(nextProps, this.props)
 
@@ -202,13 +201,12 @@ export class PluginServicesContainer extends React.Component {
    * @param oldProperties old properties
    */
   onPropertiesChanged = (newProps, oldProps = {}) => {
-    const oldState = this.state
+    const oldState = this.state || {}
     const newState = oldState ? { ...oldState } : PluginServicesContainer.DEFAULT_STATE
 
     // A - dataset changed, component was mounted or user rights changed, update global services
-    if (!oldState || oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
+    if (oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
       !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
-      // TODO: on dispatch,
       // TODO why twice??
       newProps.dispatchFetchPluginServices(newProps.selectedDatasetIpId)
     }
@@ -221,10 +219,11 @@ export class PluginServicesContainer extends React.Component {
       newState.selectionServices = PluginServicesContainer.getSelectionServices(newProps)
     }
 
-    // when state or children changed, re render children then update state
-    if (!isEqual(oldState, newState) || !isEqual(oldState.children, newState.children)) {
+    // when children changed or selection services changed, recompute children
+    if (!isEqual(oldProps.children, newProps.children) || !isEqual(oldState.selectionServices, newState.selectionServices)) {
       // pre render children (attempts to enhance render performances)
-      newState.children = HOCChildrenUtils.defaultCloneChildren(this, {
+      newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
+        ...HOCUtils.getOnlyNonDeclaredProps(this, newProps),
         selectionServices: newState.selectionServices,
         onStartSelectionService: this.onStartSelectionService,
       })
@@ -259,7 +258,7 @@ export class PluginServicesContainer extends React.Component {
           onQuit={dispatchCloseService}
         />
         { // render the children list (from pre rendered elements, see on properties changed)
-          HOCChildrenUtils.renderChildren(children)
+          HOCUtils.renderChildren(children)
         }
       </div >
     )

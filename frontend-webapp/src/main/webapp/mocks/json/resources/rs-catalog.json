@@ -9,16 +9,18 @@
       "model": {
         "id": 12
       },
-      "files": [
-        {
-          "dataType": "THUMBNAIL",
-          "fileRef": "http://fr.web.img4.acsta.net/medias/nmedia/18/35/57/73/18660716.jpg"
-        },
-        {
-          "dataType": "RAWDATA",
-          "fileRef": "http://fr.web.img4.acsta.net/medias/nmedia/18/35/57/73/18660716.jpg"
-        }
-      ],
+      "files": {
+        "THUMBNAIL": [
+          {
+            "uri": "http://fr.web.img4.acsta.net/medias/nmedia/18/35/57/73/18660716.jpg"
+          }
+        ],
+        "RAWDATA": [
+          {
+            "uri": "http://fr.web.img4.acsta.net/medias/nmedia/18/35/57/73/18660716.jpg"
+          }
+        ]
+      },
       "tags": [
         "col:movie",
         "col:classic",
@@ -100,12 +102,13 @@
       "ipId": "URN:AIP:DATA:1",
       "label": "Matrix",
       "entityType": "DATA",
-      "files": [
-        {
-          "dataType": "THUMBNAIL",
-          "fileRef": "https://images-na.ssl-images-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UY1200_CR84,0,630,1200_AL_.jpg"
-        }
-      ],
+      "files": {
+        "THUMBNAIL": [
+          {
+            "uri": "https://images-na.ssl-images-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UY1200_CR84,0,630,1200_AL_.jpg"
+          }
+        ]
+      },
       "tags": [
         "col:movie",
         "col:science-fiction",
@@ -123,12 +126,13 @@
       "ipId": "URN:AIP:DATA:2",
       "label": "La grande vadrouille",
       "entityType": "DATA",
-      "files": [
-        {
-          "dataType": "THUMBNAIL",
-          "fileRef": "http://fr.web.img5.acsta.net/pictures/16/06/16/12/01/072037.jpg"
-        }
-      ],
+      "files": {
+        "THUMBNAIL": [
+          {
+            "uri": "http://fr.web.img5.acsta.net/pictures/16/06/16/12/01/072037.jpg"
+          }
+        ]
+      },
       "tags": [
         "col:movie",
         "col:classic",
@@ -148,12 +152,13 @@
       "ipId": "URN:AIP:DATA:3",
       "label": "Matrix Reloaded",
       "entityType": "DATA",
-      "files": [
-        {
-          "dataType": "RAWDATA",
-          "fileRef": "https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg"
-        }
-      ],
+      "files": {
+        "RAWDATA": [
+          {
+            "uri": "https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg"
+          }
+        ]
+      },
       "tags": [
         "col:movie",
         "ds:NYCLibrary"
