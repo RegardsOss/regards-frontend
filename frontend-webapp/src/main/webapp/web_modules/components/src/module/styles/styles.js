@@ -55,6 +55,7 @@ export default function getStyles(theme) {
         flexShrink: 1,
       },
       optionsDivStyle: {
+        display: 'flex',
         flexGrow: 0,
         flexShrink: 0,
       },

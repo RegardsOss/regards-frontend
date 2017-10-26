@@ -59,7 +59,6 @@ class OrderCartComponent extends React.Component {
     const { onClearCart, onOrder } = this.props
     return [
       <OrderComponent key={'options.order'} empty={isNoContent} onOrder={onOrder} />,
-      <ToolbarSeparator key={'options.separator'} />,
       <ClearCartComponent key={'options.clear.cart'} empty={isNoContent} onClearCart={onClearCart} />,
     ]
   }

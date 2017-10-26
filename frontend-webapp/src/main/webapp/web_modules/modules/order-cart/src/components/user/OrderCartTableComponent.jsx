@@ -20,18 +20,19 @@ import reduce from 'lodash/reduce'
 import { TableHeaderColumn, TableRowColumn } from 'material-ui/Table'
 import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { storage } from '@regardsoss/units'
 import { TreeTableComponent, TreeTableRow } from '@regardsoss/components'
 import DeleteDatasetSelectionContainer from '../../containers/user/options/DeleteDatasetSelectionContainer'
 import DeleteDatedItemSelectionContainer from '../../containers/user/options/DeleteDatedItemSelectionContainer'
 import ShowDatedItemSelectionDetailContainer from '../../containers/user/options/ShowDatedItemSelectionDetailContainer'
+import styles from '../../styles'
 
 /**
 * Shows order cart content as a tree table
 * @author Raphaël Mechali
 */
-class OrderCartTableComponent extends React.Component {
+export class OrderCartTableComponent extends React.Component {
 
   static propTypes = {
     basket: OrderShapes.Basket,
@@ -224,4 +225,4 @@ class OrderCartTableComponent extends React.Component {
     )
   }
 }
-export default OrderCartTableComponent
+export default withModuleStyle(styles)(OrderCartTableComponent)
