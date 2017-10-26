@@ -191,8 +191,21 @@ export class PluginServicesContainer extends React.Component {
     selectionServices: [],
   }
 
-  componentWillMount = () => this.onPropertiesChanged(this.props) // TODO dispatch on did mount
+  /**
+   * Lifecycle hook. Used here to initialize state (avoids checking for null components in render method)
+   */
+  componentWillMount = () => this.setState(PluginServicesContainer.DEFAULT_STATE)
 
+
+  /**
+   * Lifecycle hook. Used here to detect properties change (preferred to componentWillMount as it may start fetching data)
+   */
+  componentDidMount = () => this.onPropertiesChanged(this.props)
+
+  /**
+   * Lifecycle hook. Used here to detect properties change
+   * @param {*} nextProps next component props
+   */
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(nextProps, this.props)
 
   /**
@@ -207,7 +220,6 @@ export class PluginServicesContainer extends React.Component {
     // A - dataset changed, component was mounted or user rights changed, update global services
     if (oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
       !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
-      // TODO why twice??
       newProps.dispatchFetchPluginServices(newProps.selectedDatasetIpId)
     }
 

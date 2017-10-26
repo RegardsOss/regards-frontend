@@ -243,7 +243,6 @@ export class SearchResultsContainer extends React.Component {
    * Computes states updates from old to new properties
    */
   updateState = (oldProperties, newProperties) => {
-    // TODO appelle deux fois à l'init!!
     const newState = {} // Default  state will be recovered by updateStateAndQuery
 
     //  initial sort attributes (used while the user hasn't set any sortedColumns)

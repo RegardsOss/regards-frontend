@@ -16,21 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import OrderShapes from './rs-order/index'
+import { combineReducers } from 'redux'
+import AIPStatusClient from './clients/AIPStatusClient'
 
-export default {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  OrderShapes,
-}
+const reducers = combineReducers({
+  aipPages: AIPStatusClient.aipStatusReducer,
+})
+
+export default reducers
 

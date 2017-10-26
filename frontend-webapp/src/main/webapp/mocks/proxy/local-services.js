@@ -22,7 +22,7 @@
  */
 const _ = require('lodash')
 const fetch = require('node-fetch')
-const { loadFile, logMessage } = require('./utils')
+const { addLinks, loadFile, logMessage } = require('./utils')
 
 function findServiceWithType(type, condition) {
   const services = _.flowRight([_.flatten, _.values])(catalogServices)
@@ -544,6 +544,12 @@ function buildLocalServices(gatewayURL) {
       // Mock: add missing dependencies
       proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
       getBasket: { url: 'rs-order/order/basket', handler: getBasket },
+      storageMonitoring: {
+        url: 'rs-archival-storage/storage-plugins', handler: () => {
+          const content = addLinks(JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')))
+          return { content }
+        }
+      }
     },
     PUT: {
 

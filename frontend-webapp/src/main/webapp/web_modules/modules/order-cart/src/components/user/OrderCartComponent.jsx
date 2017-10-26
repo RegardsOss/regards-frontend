@@ -19,7 +19,6 @@
 import isEmpty from 'lodash/isEmpty'
 import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
-import { ToolbarSeparator } from 'material-ui/Toolbar'
 import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

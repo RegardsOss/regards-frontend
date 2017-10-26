@@ -15,22 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import OrderShapes from './rs-order/index'
+ */
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { AIPStatusConfiguration } from '@regardsoss/api'
+import AIPStatusActions from './AIPStatusActions'
 
-export default {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  OrderShapes,
+/**
+ * AIP status fetch actions reducer
+ * @author Raphaël Mechali
+ */
+class AIPStatusReducer extends BasicPageableReducers {
+  constructor(namespace) {
+    super(AIPStatusConfiguration, new AIPStatusActions(namespace))
+  }
 }
 
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @return {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new AIPStatusReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

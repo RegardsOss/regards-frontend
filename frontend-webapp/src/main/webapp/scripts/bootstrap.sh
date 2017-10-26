@@ -93,6 +93,7 @@ npm link web_modules/business-modules/admin-user-role-resource-access-management
 npm link web_modules/business-modules/admin-user-role-management
 
 # Global modules
+npm link web_modules/modules/aip-status
 npm link web_modules/modules/authentication
 npm link web_modules/modules/embedded-html
 npm link web_modules/modules/licenses
@@ -106,8 +107,7 @@ npm link web_modules/modules/search-facets
 npm link web_modules/modules/search-form
 npm link web_modules/modules/search-graph
 npm link web_modules/modules/search-results
-npm link web_modules/modules/archival-storage-aip-status
-npm link web_modules/modules/archival-storage-plugins-monitoring
+npm link web_modules/modules/storage-monitoring
 
 # Applications
 npm link web_modules/business-modules/admin

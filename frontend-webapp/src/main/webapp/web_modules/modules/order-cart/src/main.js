@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ModuleIcon from 'material-ui/svg-icons/action/shopping-cart'
-import adminContainer from './containers/admin/AdminModuleContainer'
 import moduleContainer from './containers/user/UserModuleContainer'
 import reducer from './reducer'
 import styles from './styles/styles'
@@ -29,7 +28,6 @@ import messages from './i18n'
  * @author Raphaël Mechali
  */
 export default {
-  adminContainer,
   moduleContainer,
   reducer,
   styles,

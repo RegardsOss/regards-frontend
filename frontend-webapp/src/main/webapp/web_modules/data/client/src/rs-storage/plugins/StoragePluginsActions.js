@@ -15,22 +15,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import OrderShapes from './rs-order/index'
+ */
+import Schemas from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
-export default {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  OrderShapes,
+/**
+ * Actions to get storage plugins information
+ * @author Raphaël Mechali
+ */
+class StoragePluginsActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-archival-storage/storage-plugins`,
+      schemaTypes: {
+        ENTITY: Schemas.STORAGE_PLUGIN,
+        ENTITY_ARRAY: Schemas.STORAGE_PLUGIN_ARRAY,
+      },
+    })
+  }
 }
 
+export default StoragePluginsActions

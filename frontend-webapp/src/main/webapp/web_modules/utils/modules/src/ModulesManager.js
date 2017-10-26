@@ -28,7 +28,6 @@ import values from 'lodash/values'
  * Dynamic module types that can be instantiated by the administrator
  */
 const VisibleModuleTypes = {
-  ARCHIVAL_STORAGE_MONITORING: 'archival-storage-plugins-monitoring',
   EMBEDDED_HMTL: 'embedded-html',
   LICENSE: 'licenses',
   MENU: 'menu',
@@ -39,13 +38,14 @@ const VisibleModuleTypes = {
   SEARCH_FORM: 'search-form',
   SEARCH_GRAPH: 'search-graph',
   SEARCH_RESULTS: 'search-results',
+  STORAGE_MONITORING: 'storage-monitoring',
 }
 
 /**
  * Dynamic module types that cannot be instantiated by administrator (their UI needs external activation)
  */
 const HiddenModuleTypes = {
-  AIP_STATUS: 'archival-storage-aip-status', // XXX-V3 visible
+  AIP_STATUS: 'aip-status', // XXX-V3 visible
   AUTHENTICATION: 'authentication',
   NEWS: 'news', // XXX-V3 visible
   SEARCH_FACETS: 'search-facets',

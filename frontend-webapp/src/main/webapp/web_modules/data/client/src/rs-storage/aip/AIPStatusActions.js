@@ -15,22 +15,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import OrderShapes from './rs-order/index'
+ */
+import Schemas from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-export default {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  OrderShapes,
+/**
+ * Actions to fetchs AIP status
+ * @author Raphaël Mechali
+ */
+class AIPStatusConfiguration extends BasicPageableActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-archival-storage/aip-status`,
+      schemaTypes: {
+        ENTITY: Schemas.AIP_STATUS,
+        ENTITY_ARRAY: Schemas.AIP_STATUS_ARRAY,
+      },
+    })
+  }
 }
 
+export default AIPStatusConfiguration

@@ -16,21 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import OrderShapes from './rs-order/index'
+import { StorageClient } from '@regardsoss/client'
+
+const namespace = 'storage-plugins-module/informations'
+const storagePluginsActions = new StorageClient.StoragePluginsActions(namespace)
+const storagePluginsReducer = StorageClient.getStoragePluginsReducer(namespace)
+const storagePluginsSelectors = StorageClient.getStoragePluginsSelectors(['modules.storage-monitoring', 'storagePlugins'])
 
 export default {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  OrderShapes,
+  storagePluginsActions,
+  storagePluginsReducer,
+  storagePluginsSelectors,
 }
-

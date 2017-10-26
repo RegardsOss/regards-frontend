@@ -116,6 +116,18 @@ class BasicListReducers extends BasicReducer {
           },
         }
       case this.basicListActionInstance.ENTITY_LIST_SUCCESS:
+        if (action.error) {
+          return {
+            ...newState,
+            isSyncing: false,
+            error: {
+              hasError: true,
+              type: action.type,
+              message: action.payload.message,
+              status: defaultState.error.status,
+            },
+          }
+        }
         return {
           ...newState,
           isFetching: false,

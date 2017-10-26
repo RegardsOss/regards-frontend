@@ -15,22 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import OrderShapes from './rs-order/index'
+ */
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
-export default {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  OrderShapes,
-}
-
+/**
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
+ */
+export default storePath => new BasicListSelectors(storePath)

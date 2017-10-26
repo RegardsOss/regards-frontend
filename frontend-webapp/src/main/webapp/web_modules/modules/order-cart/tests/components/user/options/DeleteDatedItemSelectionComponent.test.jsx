@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DeleteDatedItemSelectionComponent, IconButtonWithConfirmDialog } from '../../../../src/components/user/options/DeleteDatedItemSelectionComponent'
+import DeleteDatedItemSelectionComponent, { IconButtonWithConfirmDialog } from '../../../../src/components/user/options/DeleteDatedItemSelectionComponent'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)

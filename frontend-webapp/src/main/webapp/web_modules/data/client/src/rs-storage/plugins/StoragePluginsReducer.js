@@ -16,21 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import OrderShapes from './rs-order/index'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { StoragePluginConfiguration } from '@regardsoss/api'
+import StoragePluginsActions from './StoragePluginsActions'
 
-export default {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  OrderShapes,
+/**
+ * Storage plugins fetch reducer
+ * @author Raphaël Mechali
+ */
+class StoragePluginsReducers extends BasicListReducers {
+  constructor(namespace) {
+    super(StoragePluginConfiguration, new StoragePluginsActions(namespace))
+  }
 }
 
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @return {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new StoragePluginsReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

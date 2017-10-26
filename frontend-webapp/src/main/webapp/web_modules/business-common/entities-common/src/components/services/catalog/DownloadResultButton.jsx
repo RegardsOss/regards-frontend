@@ -18,7 +18,6 @@
  **/
 import { DownloadButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CommonShapes } from '@regardsoss/shape'
 
 /**
 * Download result button for catalog service result
@@ -27,8 +26,7 @@ import { CommonShapes } from '@regardsoss/shape'
 class DownloadResultButton extends React.Component {
 
   static propTypes = {
-    localAccessURL: CommonShapes.URL.isRequired,
-
+    localAccessURL: PropTypes.string.isRequired, // Not URL as it may be local URL (prefixed by blob)
   }
 
   static contextTypes = {

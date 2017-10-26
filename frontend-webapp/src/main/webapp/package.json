@@ -43,8 +43,7 @@
   "author": "CS-SI",
   "license": "GPL-3.0",
   "dependencies": {
-    "@regardsoss-modules/archival-storage-aip-status": "0.0.1",
-    "@regardsoss-modules/archival-storage-plugins-monitoring": "0.0.1",
+    "@regardsoss-modules/aip-status": "0.0.1",
     "@regardsoss-modules/authentication": "0.0.1",
     "@regardsoss-modules/embedded-html": "1.0.0",
     "@regardsoss-modules/project-about-page": "0.0.1",
@@ -56,6 +55,7 @@
     "@regardsoss-modules/search-form": "0.0.1",
     "@regardsoss-modules/search-graph": "0.0.1",
     "@regardsoss-modules/search-results": "0.0.1",
+    "@regardsoss-modules/storage-monitoring": "0.0.1",
     "@regardsoss/adapters": "0.0.1",
     "@regardsoss/admin": "0.0.1",
     "@regardsoss/admin-accessright-accessgroup-management": "0.0.1",
