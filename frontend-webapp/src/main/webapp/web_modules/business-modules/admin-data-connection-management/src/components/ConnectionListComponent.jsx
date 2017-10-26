@@ -150,6 +150,7 @@ export class ConnectionListComponent extends React.Component {
                         hateoasKey={HateoasKeys.UPDATE}
                         onTouchTap={() => handleEdit(connection.content.id)}
                         title={intl.formatMessage({ id: 'connection.list.action.edit' })}
+                        className="selenium-editButton"
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
@@ -158,6 +159,7 @@ export class ConnectionListComponent extends React.Component {
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(connection)}
                         title={intl.formatMessage({ id: 'connection.list.action.delete' })}
+                        className="selenium-deleteButton"
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
                       </HateoasIconAction>
