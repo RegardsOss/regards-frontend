@@ -17,9 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from 'react-redux'
-import { setLocale } from '../model/I18nActions'
+import { I18nProvider, setLocale } from '@regardsoss/i18n'
 import SelectLocaleComponent from '../components/SelectLocaleComponent'
-import I18nProvider from './I18nProvider'
 import messages from '../i18n'
 
 /**

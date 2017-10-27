@@ -42,12 +42,12 @@ class RenderJsonCodeEditorField extends React.Component {
     ...themeContextType,
   }
 
-  static ROOT_FIELD_STYLES = { // XXX after refactor, in module or theme styles
+  static ROOT_FIELD_STYLES = { // FIXME-V2 after refactor, in module or theme styles
     padding: '24px 0 12px 0',
     lineHeight: 1,
   }
 
-  static DEFAULT_FIELD_STYLES = { // XXX after refactor, in module or theme styles
+  static DEFAULT_FIELD_STYLES = { // FIXME-V2 after refactor, in module or theme styles
     width: '100%',
     height: '140px',
     marginTop: '8px',

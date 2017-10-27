@@ -25,11 +25,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { connect } from 'react-redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
-import getCurrentTheme from '../model/selectors/getCurrentTheme'
-import setCurrentTheme from '../model/actions/setCurrentTheme'
-import { themeSelectors } from '../clients/ThemeClient'
-import defaultTheme from '../model/defaultTheme'
-import themeContextType from '../contextType'
+import { themeContextType, getCurrentTheme, setCurrentTheme, ThemeSelectors, defaultTheme } from '@regardsoss/theme'
 import messages from '../i18n'
 
 /**
@@ -86,7 +82,7 @@ export class SelectThemeContainer extends React.Component {
 
 const mapStateToProps = state => ({
   currentTheme: getCurrentTheme(state),
-  themeList: themeSelectors.getList(state),
+  themeList: ThemeSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
   onChange: themeId => dispatch(setCurrentTheme(themeId)),

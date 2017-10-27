@@ -30,7 +30,6 @@ import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
 import BaseBoardItemComponent from './board/BaseBoardItemComponent'
 
-import buttonsMessages from './buttons/i18n'
 import ClearFieldButton from './buttons/ClearFieldButton'
 import DownloadButton from './buttons/DownloadButton'
 import DropDownButton from './buttons/DropDownButton'
@@ -109,7 +108,6 @@ export {
   BaseBoardItemComponent,
   BoardComponent,
   BoardItemComponent,
-  buttonsMessages, // XXX remove me in V2
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,

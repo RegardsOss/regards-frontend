@@ -31,9 +31,6 @@ const messages = {
   'criterion.time.picker.cancel': 'Cancel',
   'criterion.seconds.field.label': 'Sec',
   'criterion.milliseconds.field.label': 'Ms',
-
-  // XXX delete in V2
-  ...buttonsMessages.en, // adds all buttons messages to enable use of clear button and comparators
 }
 
 export default messages

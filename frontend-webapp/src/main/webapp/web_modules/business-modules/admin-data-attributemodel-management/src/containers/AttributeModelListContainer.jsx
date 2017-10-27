@@ -80,8 +80,6 @@ export class AttributeModelListContainer extends React.Component {
 
   handleDelete = (attrModelId) => {
     this.props.throwError('Delete is not applicable on attributes yet.')
-    // XXX : Handle delete attribute into backend with new indexation of elasticsearch
-    // this.props.deleteAttrModel(attrModelId)
   }
 
 

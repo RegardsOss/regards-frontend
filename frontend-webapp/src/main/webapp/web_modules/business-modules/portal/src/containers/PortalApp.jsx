@@ -61,8 +61,6 @@ export class PortalApp extends React.Component {
     const project = (this.props.params && this.props.params.project)
     this.props.initializeApplication(project)
 
-    // XXX V2 : How to retrieve endpoints for instance as a public user ?
-    // this.props.fetchEndpoints()
     this.props.fetchLayout()
     this.props.fetchModules()
   }

@@ -20,7 +20,7 @@ import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import styles from './styles'
 
 /**
-* Common dynamic modules title (when not using a breadcrumb) - XXX-V2-merge with breadcrumb
+* Common dynamic modules title (when not using a breadcrumb)
 * @author Raphaël Mechali
 */
 export class ModuleTitle extends React.Component {

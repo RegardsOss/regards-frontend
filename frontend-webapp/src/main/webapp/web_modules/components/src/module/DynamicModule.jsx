@@ -21,7 +21,7 @@ import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import styles from './styles'
 
 /**
- * Presents a dynamic module. XXX-V2 merge with DynamicModuleImpl
+ * Presents a dynamic module.
  * Warning: beware that this component changes its sub elements styles context type
  * @author Raphaël Mechali
  */

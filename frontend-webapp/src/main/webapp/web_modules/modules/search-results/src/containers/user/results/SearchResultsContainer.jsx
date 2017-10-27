@@ -137,7 +137,6 @@ export class SearchResultsContainer extends React.Component {
    */
   onSortChanged = (attributePath, type, clear) => {
     const newSortingOn = clear ? [] : [...this.state.sortingOn]
-    // XXX we want to reset selection or adapt it there
     if (attributePath) {
       if (type && (type === TableSortOrders.ASCENDING_ORDER || type === TableSortOrders.DESCENDING_ORDER)) {
         // add the attribute to sorting list

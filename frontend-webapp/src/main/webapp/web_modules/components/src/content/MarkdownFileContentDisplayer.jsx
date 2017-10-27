@@ -19,8 +19,8 @@ class MarkdownFileContentDisplayer extends React.Component {
     display: 'flex',
   }
 
-  /** Scrollbar styles. XXX-V2 we'd need to correlate it with selected markdown styles, yet it is not possible! */
-  static SCROLLBAR_STYLES = {
+  /** Scrollbar styles. */
+  static SCROLLBAR_STYLES = { // TODO-V2 externalize within the theme!
     background: '#0366d6',
     borderRadius: '3px',
     width: '6px',

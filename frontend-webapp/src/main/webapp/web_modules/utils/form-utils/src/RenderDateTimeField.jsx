@@ -210,5 +210,5 @@ export class RenderDateTimeField extends React.Component {
     )
   }
 }
-// XXX-V2 we also need some styles here... (with comps refactor?)
+// FIXME-V2 we also need some styles here... (with comps refactor?)
 export default RenderDateTimeField

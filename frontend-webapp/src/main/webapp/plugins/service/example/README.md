@@ -97,8 +97,6 @@ propTypes = {
     pluginInstanceId: PropTypes.string,
 }
 ```
-XXX 
-
 ## Compile your plugin
 
 To compile your plugin you need the regards core.bundle.js. This bundle is a dependency in the webpack.config.js

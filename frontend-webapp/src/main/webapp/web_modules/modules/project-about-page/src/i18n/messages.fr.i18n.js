@@ -23,6 +23,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @type {*}
  */
 const messages = Object.assign({
+  'module.defaault.button.tooltip': 'A propos...',
   'project.about.page.ok': 'Fermer',
   'project.about.page.display': 'Afficher au démarrage',
   'project.about.page.hide': 'Ne plus afficher',

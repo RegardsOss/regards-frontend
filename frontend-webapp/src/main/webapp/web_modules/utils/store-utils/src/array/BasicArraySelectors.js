@@ -25,6 +25,7 @@ import BasicSelector from '../BasicSelector'
  */
 class BasicArraySelectors extends BasicSelector {
   getArray(state) {
+    console.error('OMFG!!!!! ', this.uncombineStore(state).items)
     return this.uncombineStore(state).items
   }
 }

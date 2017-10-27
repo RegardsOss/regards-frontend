@@ -21,7 +21,7 @@ import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
-import i18nContextType from '../contextType'
+import { i18nContextType } from '@regardsoss/i18n'
 import fr from '../fr_flag.png'
 import en from '../gb_flag.png'
 
@@ -35,14 +35,14 @@ class SelectLocaleComponent extends React.Component {
     locales: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentLocale: PropTypes.string,
     handleLocaleChange: PropTypes.func,
-    // MUI theme, externally provided as this component cannot access it - XXX v2: move such components to avoid cicly dependencies!
+    // MUI theme, externally provided as this component cannot access it - FIXME-V2: move such components to avoid cicly dependencies!
     // eslint-disable-next-line react/forbid-prop-types
     muiTheme: PropTypes.object.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
-    // ...themeContextType, XXX this cannot be done here! (module cicly deps)
+    // ...themeContextType, FIXME-V2 this cannot be done here! (module cicly deps)
   }
 
   /** Maps locale to icon */
