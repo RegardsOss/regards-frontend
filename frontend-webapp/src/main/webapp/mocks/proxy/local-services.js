@@ -146,7 +146,7 @@ const MOCK_RESOURCES = [
       description: 'Storage plugins list',
       id: 100006,
       microservice: 'rs-storage',
-      resource: '/user/orders',
+      resource: '/storage-plugins',
       verb: 'GET',
     },
     links: [],
