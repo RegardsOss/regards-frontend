@@ -192,15 +192,9 @@ export class PluginServicesContainer extends React.Component {
   }
 
   /**
-   * Lifecycle hook. Used here to initialize state (avoids checking for null components in render method)
+   * Lifecycle hook. Used here to detect properties change
    */
-  componentWillMount = () => this.setState(PluginServicesContainer.DEFAULT_STATE)
-
-
-  /**
-   * Lifecycle hook. Used here to detect properties change (preferred to componentWillMount as it may start fetching data)
-   */
-  componentDidMount = () => this.onPropertiesChanged(this.props)
+  componentWillMount = () => this.onPropertiesChanged(this.props)
 
   /**
    * Lifecycle hook. Used here to detect properties change
@@ -256,7 +250,7 @@ export class PluginServicesContainer extends React.Component {
     // pack query
     const serviceTarget = selectionMode === TableSelectionModes.includeSelected ?
       target.buildManyElementsTarget(ipIdArray) :
-      target.buildQueryTarget(openSearchQuery, PluginServicesContainer.getEntityTypeForViewType(viewObjectType), pageMetadata.totalElements, ipIdArray)
+      target.buildQueryTarget(openSearchQuery, viewObjectType, pageMetadata.totalElements, ipIdArray)
     // note : only service content is dipatched (see top methods conversion)
     dispatchRunService(new PluginServiceRunModel(service, serviceTarget))
   }
