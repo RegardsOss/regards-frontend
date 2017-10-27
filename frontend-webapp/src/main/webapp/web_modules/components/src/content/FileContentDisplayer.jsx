@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import root from 'window-or-global'
-import { CommonShapes } from '@regardsoss/shape'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { I18nProvider } from '@regardsoss/i18n'
 import IFrameURLContentDisplayer from './IFrameURLContentDisplayer'
@@ -46,7 +45,7 @@ class FileContentDisplayer extends React.Component {
     /** file access URL, allows access to the file as URL. Provide only when externally driven, use
      * FileContentDisplayer.buildLocalAccessURL to generate it in that case. It will free local URLs automatically */
     // eslint-disable-next-line react/no-unused-prop-types
-    fileAccessURL: CommonShapes.URL,
+    fileAccessURL: PropTypes.string, // Not URL as it may be a local browser URL (prefixed with blob:)
     // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.object,
   }

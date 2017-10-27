@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Entity, EntityList } from './Entity/Entity'
+import { Entity, EntityList, entityFiles } from './Entity/Entity'
 import { ObjectLinkedFile } from './Entity/ObjectLinkedFile'
 import Tag from './Entity/Tag'
 
@@ -25,6 +25,7 @@ import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
 
 
 export default {
+  entityFiles,
   Entity,
   EntityList,
   ObjectLinkedFile,

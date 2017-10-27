@@ -22,7 +22,7 @@
  */
 const _ = require('lodash')
 const fetch = require('node-fetch')
-const { loadFile, logMessage } = require('./utils')
+const { addLinks, loadFile, logMessage } = require('./utils')
 
 function findServiceWithType(type, condition) {
   const services = _.flowRight([_.flatten, _.values])(catalogServices)
@@ -139,6 +139,18 @@ const MOCK_RESOURCES = [
     },
     links: [],
   },
+  {
+    content: {
+      controllerSimpleName: 'StoragePluginsController',
+      defaultRole: 'PUBLIC',
+      description: 'Storage plugins list',
+      id: 100006,
+      microservice: 'rs-storage',
+      resource: '/storage-plugins',
+      verb: 'GET',
+    },
+    links: [],
+  },
 ]
 
 function getResourcesDependencies({ content, links, metadata }, pathParams, queryParams, bodyParams) {
@@ -161,189 +173,8 @@ const EMPTY_BASKET = {
   datasetSelections: [],
 }
 
-const MOCKED_BASKET = { // MOCK a full backet, win TIME, SAVE MONNEY
-  id: 0,
-  email: 'test@mail.com',
-  datasetSelections: [
-    {
-      id: 0,
-      datasetIpid: "TEST-DATASET:URN",
-      objectsCount: 19,
-      filesCount: 0,
-      filesSize: 27730,
-      datasetLabel: "Fake dataset 1",
-      openSearchRequest: null,
-      itemsSelections: [{
-        id: 0,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T15:59:57.664Z',
-        openSearchRequest: '"tag:fake-tag-index0"'
-      },
-      {
-        id: 1,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 956,
-        date: '2017-09-08T15:59:58.682Z',
-        openSearchRequest: '"tag:fake-tag-index1"'
-      },
-      {
-        id: 2,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 2294,
-        date: '2017-09-08T15:59:59.649Z',
-        openSearchRequest: '"tag:fake-tag-index2"'
-      },
-      {
-        id: 4,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:32.497Z',
-        openSearchRequest: '"tag:fake-tag-index3"'
-      },
-      {
-        id: 5,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:32.802Z',
-        openSearchRequest: '"tag:fake-tag-index4"'
-      },
-      {
-        id: 6,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:33.465Z',
-        openSearchRequest: '"tag:fake-tag-index5"'
-      },
-      {
-        id: 7,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:33.597Z',
-        openSearchRequest: '"tag:fake-tag-index6"'
-      },
-      {
-        id: 8,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:33.725Z',
-        openSearchRequest: '"tag:fake-tag-index7"'
-      },
-      {
-        id: 9,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:36.269Z',
-        openSearchRequest: '"tag:fake-tag-index8"'
-      },
-      {
-        id: 10,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:36.401Z',
-        openSearchRequest: '"tag:fake-tag-index9"'
-      },
-      {
-        id: 11,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:36.533Z',
-        openSearchRequest: '"tag:fake-tag-index10"'
-      },
-      {
-        id: 12,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:36.664Z',
-        openSearchRequest: '"tag:fake-tag-index11"'
-      },
-      {
-        id: 13,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:36.795Z',
-        openSearchRequest: '"tag:fake-tag-index12"'
-      },
-      {
-        id: 14,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:36.915Z',
-        openSearchRequest: '"tag:fake-tag-index13"'
-      },
-      {
-        id: 15,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:37.054Z',
-        openSearchRequest: '"tag:fake-tag-index14"'
-      },
-      {
-        id: 16,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:37.185Z',
-        openSearchRequest: '"tag:fake-tag-index15"'
-      },
-      {
-        id: 17,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:37.355Z',
-        openSearchRequest: '"tag:fake-tag-index16"'
-      },
-      {
-        id: 18,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:37.467Z',
-        openSearchRequest: '"tag:fake-tag-index17"'
-      },
-      {
-        id: 19,
-        objectsCount: 1,
-        filesCount: 0,
-        filesSize: 1440,
-        date: '2017-09-08T16:00:37.545Z',
-        openSearchRequest: '"tag:fake-tag-index18"'
-      }]
-    }, {
-      id: 1,
-      datasetIpid: "test-dataset-for-fake-search",
-      objectsCount: 25,
-      filesCount: 306, "filesSize": 5048,
-      datasetLabel: "Fake dataset 2",
-      openSearchRequest: null,
-      itemsSelections: [{
-        id: 3,
-        objectsCount: 25,
-        filesCount: 306,
-        filesSize: 5048,
-        date: '2017-09-08T16:00:02.625Z',
-        openSearchRequest: '"tag:fake-tag-index0"'
-      }]
-    }]
-}
+const MOCKED_BASKET = JSON.parse(loadFile('mocks/proxy/resources/mock-basket-content.json'))
 
-// TODO remove when useless, use to change the itemSelections format
 // const printDates = MOCKED_BASKET.datasetSelections.forEach(selection =>
 //   console.error('>>>>>>>>>>>>>>>\n', selection.itemsSelections.map(
 //     ({ id, objectsCount, filesCount, filesSize, date, openSearchRequest }, index) => ({
@@ -368,7 +199,7 @@ function getBasket(request) {
   if (currentBasketData.token !== token) {
     // re init mock basket
     currentBasketData.token = token
-    currentBasketData.basket = MOCKED_BASKET // reinit to mock
+    currentBasketData.basket = Object.assign({}, MOCKED_BASKET) // reinit to mock, get new reference
     currentBasketData.datasetSelectionId = 0
     currentBasketData.selectionItemId = 0
   }
@@ -544,6 +375,12 @@ function buildLocalServices(gatewayURL) {
       // Mock: add missing dependencies
       proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
       getBasket: { url: 'rs-order/order/basket', handler: getBasket },
+      storageMonitoring: {
+        url: 'rs-storage/storage-plugins', handler: () => {
+          const content = addLinks(JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')))
+          return { content }
+        }
+      }
     },
     PUT: {
 

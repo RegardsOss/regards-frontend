@@ -43,6 +43,8 @@ export class ListViewEntityCellContainer extends React.Component {
     onSearchEntity: PropTypes.func,
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
     // optional callback: add element to cart (entity) => ()
     onAddToCart: PropTypes.func,
     // from map dispatch to props
@@ -68,6 +70,16 @@ export class ListViewEntityCellContainer extends React.Component {
   }
 
   /**
+   * Callback when user adds element to cart
+   * pre: never call when property onAddToCart is not provided
+   */
+  onAddToCart = () => {
+    // dispatch add to cart event
+    const { entity, onAddToCart } = this.props
+    onAddToCart(entity)
+  }
+
+  /**
    * Callback: on service started by user. Dispatches run service event
    * @param service service wrapped in content
    */
@@ -79,8 +91,7 @@ export class ListViewEntityCellContainer extends React.Component {
 
   render() {
     const { entity, attributes, lineHeight, isTableSelected, selectTableEntityCallback,
-      tableColumns, onSearchEntity, displayCheckbox, onAddToCart } = this.props
-
+      enableServices, tableColumns, onSearchEntity, displayCheckbox, onAddToCart } = this.props
     return (
       <ListViewEntityCellComponent
         entity={entity}
@@ -90,6 +101,7 @@ export class ListViewEntityCellContainer extends React.Component {
         selectTableEntityCallback={selectTableEntityCallback}
         tableColumns={tableColumns}
         displayCheckbox={displayCheckbox}
+        enableServices={enableServices}
         onAddToCart={onAddToCart ? this.onAddToCart : null} // set up callback only when parent one is provided
         onEntitySelection={onSearchEntity ? this.onEntitySelection : null}
         onShowDescription={this.onShowDescription}

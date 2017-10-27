@@ -21,9 +21,10 @@ import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import styles from './styles'
 
 /**
-* Presents a dynamic module. XXX-V2 merge with DynamicModuleImpl
-* @author Raphaël Mechali
-*/
+ * Presents a dynamic module. XXX-V2 merge with DynamicModuleImpl
+ * Warning: beware that this component changes its sub elements styles context type
+ * @author Raphaël Mechali
+ */
 export class DynamicModule extends React.Component {
 
   static propTypes = {

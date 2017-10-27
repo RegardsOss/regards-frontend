@@ -20,7 +20,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
@@ -90,7 +90,7 @@ export class AdminLayout extends React.Component {
     }
 
     const menuModule = {
-      type: 'menu',
+      type: modulesManager.AllDynamicModuleTypes.MENU,
       active: true,
       conf: {
         title: 'REGARDS admin dashboard',

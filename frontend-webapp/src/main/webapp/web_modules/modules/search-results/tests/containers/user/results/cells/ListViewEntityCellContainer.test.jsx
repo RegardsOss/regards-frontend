@@ -47,7 +47,7 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
           sipId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          files: [],
+          files: {},
           geometry: null,
           properties: {},
           tags: [],
@@ -61,8 +61,9 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       selectTableEntityCallback: () => { },
       tableColumns: [],
       onSearchEntity: () => { },
-      displayCheckbox: true,
       onAddToCart: () => { },
+      displayCheckbox: true,
+      enableServices: true,
 
       // from map dispatch to props
       dispatchShowDescription: () => { },

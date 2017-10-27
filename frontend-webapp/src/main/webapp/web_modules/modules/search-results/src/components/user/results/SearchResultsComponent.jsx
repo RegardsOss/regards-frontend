@@ -31,7 +31,7 @@ import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders, NoContentComponent } from '@regardsoss/components'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { DamDomain, AccessDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
@@ -101,6 +101,7 @@ class SearchResultsComponent extends React.Component {
     onStartSelectionService: PropTypes.func, // callback to start a selection service
     // from OrderCartContainer
     onAddSelectionToCart: PropTypes.func, // callback to add selection to cart, null when disabled
+    // eslint-disable-next-line react/no-unused-prop-types
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
   }
 
@@ -108,6 +109,20 @@ class SearchResultsComponent extends React.Component {
     ...i18nContextType,
     ...themeContextType,
   }
+
+  /**
+   * Has object type as parameter the sorting option
+   * @param {objectType} entity type
+   * @return true if sorting is available for that type, false otherwise
+   */
+  static hasSorting = objectType => objectType !== DamDomain.ENTITY_TYPES_ENUM.DATASET
+
+  /**
+   * Has object type as parameter the services option
+   * @param {objectType} entity type
+   * @return true if services are available for that type, false otherwise
+   */
+  static hasServices = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /** Preferred fixed column width */
   static PREF_FIXED_COLUMN_WIDTH = 50
@@ -125,30 +140,40 @@ class SearchResultsComponent extends React.Component {
 
   /**
    * Builds table columns
-   * @param attributesConf : results table attributes columns configuration
+   * @param props : props map, to retrieve current properties
    * @param attributesRegroupementsConf: results table attributes regroupement columns configuration
    * @param attributeModels: fetched attribute models (to retrieve attributes)
+   * @param sortingOn current sorting attributes
+   * @param enableSorting enable sorting on columns?
+   * @param enableServices enable services?
+   * @param onAddElementToCart on add element to cart callback
    */
-  buildTableColumns = (attributesConf, attributeModels, attributesRegroupementsConf, sortingOn, enableSorting) =>
+  buildTableColumns = ({ attributesConf, attributeModels, attributesRegroupementsConf, sortingOn, onAddElementToCart, viewObjectType }) =>
     sortBy([
-      ...this.buildAttributesColumns(attributesConf, attributeModels, sortingOn, enableSorting),
+      ...this.buildAttributesColumns(attributesConf, attributeModels, sortingOn, SearchResultsComponent.hasSorting(viewObjectType)),
       ...this.buildAttrRegroupementColumns(attributesRegroupementsConf, attributeModels),
-      this.buildTableOptionsColumn()], a => a.order ? a.order : 1000)
+      this.buildTableOptionsColumn(onAddElementToCart, SearchResultsComponent.hasServices(viewObjectType))],
+      a => a.order ? a.order : 1000)
 
-  /** @return table column to show table options (description button) */
-  buildTableOptionsColumn = () => ({
+  /**
+   * Builds options column
+   * @param enableServices enable services?
+   * @return table column to show table options (description button)
+   */
+  buildTableOptionsColumn = (onAddElementToCart, enableServices) => ({
     label: this.context.intl.formatMessage({ id: 'results.options.column.label' }),
     attributes: [],
     order: Number.MAX_VALUE,
-    // reserve space for description, services and add to cart if is available
-    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (2 + (this.props.onAddElementToCart ? 1 : 0)),
+    // reserve space for description, services if enabled and add to cart if is available
+    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (1 + (onAddElementToCart ? 1 : 0) + (enableServices ? 1 : 0)),
     sortable: false,
     hideLabel: true,
     // order: number.
     customCell: {
       component: TableViewOptionsCellContainer,
       props: {
-        onAddToCart: this.props.onAddElementToCart,
+        enableServices,
+        onAddToCart: onAddElementToCart,
       },
     },
   })
@@ -218,19 +243,24 @@ class SearchResultsComponent extends React.Component {
 
   /**
   * Create columns configuration for table view
+  * @param tableColumns table columns
+  * @param props component properties
+  * @param enableServices enable services?
+  * @param onAddElementToCart on add element to cart callback
   * @returns {Array}
   */
-  buildListColumns = (tableColumns, { attributeModels, viewObjectType, onSetEntityAsTag, onStartSelectionService }) => [{
+  buildListColumns = (tableColumns, { attributeModels, viewObjectType, onAddElementToCart, onSetEntityAsTag }) => [{
     label: 'ListviewCell',
     attributes: [],
     customCell: {
       component: ListViewEntityCellContainer,
       props: {
-        // click: select a dataset when in dataset mode
-        onSearchEntity: viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET ? onSetEntityAsTag : null,
         attributes: attributeModels,
         tableColumns,
-        onServiceStarted: onStartSelectionService,
+        enableServices: SearchResultsComponent.hasServices(viewObjectType),
+        // click: select a dataset when in dataset mode
+        onSearchEntity: viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET ? onSetEntityAsTag : null,
+        onAddToCart: onAddElementToCart,
         displayCheckbox: viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA,
       },
     },
@@ -245,17 +275,8 @@ class SearchResultsComponent extends React.Component {
     const oldState = this.state
     const newState = oldState || {}
 
-    if (newProperties.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
-      // table columns
-      newState.tableColumns = this.buildTableColumns(newProperties.attributesConf, newProperties.attributeModels, newProperties.attributesRegroupementsConf, newProperties.sortingOn, true)
-      // list columns
-      newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)
-    } else {
-      // table columns
-      newState.tableColumns = this.buildTableColumns(newProperties.datasetAttributesConf, newProperties.attributeModels, [], [], false)
-      // list columns
-      newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)
-    }
+    newState.tableColumns = this.buildTableColumns(newProperties)
+    newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)
 
     // update state when changed
     if (!isEqual(oldState, newState)) {
@@ -306,7 +327,6 @@ class SearchResultsComponent extends React.Component {
       selectionServices, onStartSelectionService, onAddSelectionToCart } = this.props
     const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
-
     return [
       //  Selection services
       ...selectionServices.map(service => (
@@ -405,7 +425,7 @@ class SearchResultsComponent extends React.Component {
     if (this.isDisplayingDataobjects() && allowingFacettes && showingFacettes) {
       // when facettes are allowed and visible, use facets module as table header
       const searchFacetsModule = {
-        type: 'search-facets',
+        type: modulesManager.AllDynamicModuleTypes.SEARCH_FACETS,
         active: true,
         applicationId: appName,
         conf: {
@@ -479,7 +499,6 @@ class SearchResultsComponent extends React.Component {
     }
 
     const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
-
     return (
       <TableContainer
         key={viewObjectType} // unmount the table when change entity type (using key trick)

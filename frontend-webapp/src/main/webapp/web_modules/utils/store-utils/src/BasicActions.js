@@ -45,25 +45,42 @@ class BasicActions {
   constructor(options) {
     this.entityEndpoint = options.entityEndpoint
     this.entityPathVariable = options.entityPathVariable
-    this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
-    this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
-    this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
     this.FLUSH = `${options.namespace}/FLUSH`
     this.headers = options.headers || {}
     this.bypassErrorMiddleware = !!options.bypassErrorMiddleware
   }
 
+
   /**
    * Builds a failure action, storing status code and allowing bypass middleware (see constructor)
-   * @param type action type
+   * @param {string} type action type
    */
-  buildFailureAction = type => ({
-    type,
-    meta: (action, state, res) => ({
-      status: res && res.status,
-      bypassErrorMiddleware: this.bypassErrorMiddleware,
-    }),
-  })
+  buildFailureAction = (type) => {
+    const requestTime = Date.now()
+    return {
+      type,
+      meta: (action, state, res) => ({
+        status: res && res.status,
+        bypassErrorMiddleware: this.bypassErrorMiddleware,
+        requestTime,
+      }),
+    }
+  }
+
+  /**
+   * Builds a success action. Instantiates required data to handle the cancel pending events
+   * @param {string} type redux action type
+   * @param {function} payload optional action payload build function (optional)
+   * @return a CALL API compatible redux action
+   */
+  buildSuccessAction = (type, payload) => {
+    const requestTime = Date.now()
+    return {
+      type,
+      payload,
+      meta: () => ({ requestTime }),
+    }
+  }
 
   /**
    * Replace parameterized value in the current configured endpoint
@@ -103,12 +120,15 @@ class BasicActions {
 
   /**
    * Remove all existing entries
+   * @param {boolean} cancelPending: (default: true) should cancel pending actions?
    *
    * @returns {{type: string}}
    */
-  flush() {
+  flush(cancelPending = true) {
     return {
       type: this.FLUSH,
+      cancelPending,
+      flushTime: Date.now(),
     }
   }
 

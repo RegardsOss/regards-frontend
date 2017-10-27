@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import ModuleIcon from 'material-ui/svg-icons/communication/rss-feed'
 import moduleContainer from './containers/ModuleContainer'
 import styles from './styles/styles'
 import dependencies from './dependencies'
@@ -28,5 +29,6 @@ export default {
   moduleContainer,
   styles,
   messages,
+  ModuleIcon,
   dependencies,
 }

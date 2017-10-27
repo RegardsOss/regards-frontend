@@ -19,7 +19,6 @@
 import FlatButton from 'material-ui/FlatButton'
 import OrderIcon from 'material-ui/svg-icons/action/play-for-work'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
 import { withConfirmDialog } from '@regardsoss/components'
 
 export const ButtonWithConfirmDialog = withConfirmDialog(FlatButton)
@@ -37,13 +36,12 @@ class OrderComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
-    ...themeContextType,
   }
 
 
   render() {
     const { empty, onOrder } = this.props
-    const { intl: { formatMessage }, moduleTheme: { user: { header: { options } } } } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
       <ButtonWithConfirmDialog
         onTouchTap={onOrder}
@@ -54,7 +52,6 @@ class OrderComponent extends React.Component {
         title={formatMessage({ id: 'order-cart.module.order.tooltip' })}
         icon={<OrderIcon />}
         disabled={empty}
-        style={options.styles}
       />
     )
   }

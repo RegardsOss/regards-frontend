@@ -26,6 +26,7 @@ class TableActions {
   constructor(namespace) {
     this.SET_SELECTION = `${namespace}/TABLE/set-selection`
     this.TOGGLE_ELEMENT = `${namespace}/TABLE/toggle-element`
+    this.CLEAR = `${namespace}/TABLE/clear`
   }
 
   /**

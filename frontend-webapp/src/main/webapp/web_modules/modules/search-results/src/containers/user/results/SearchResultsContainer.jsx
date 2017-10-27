@@ -83,7 +83,7 @@ export class SearchResultsContainer extends React.Component {
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
     displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired, // Display mode
     // eslint-disable-next-line react/no-unused-prop-types
-    levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)), // only used to build query
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
     dispatchChangeDisplayMode: PropTypes.func.isRequired,
@@ -266,7 +266,6 @@ export class SearchResultsContainer extends React.Component {
       searchQuery: initialSearchQuery,
     } = this.props
     const { showingFacettes, filters, openSearchQuery, fullSearchQuery, searchActions, sortingOn } = this.state
-
     return (
       <ModuleStyleProvider module={moduleStyles}>
         {/* enable the services functionnalities */}

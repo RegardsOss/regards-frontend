@@ -90,17 +90,13 @@ class LazyModuleComponent extends React.Component {
         // eslint-disable-next-line import/no-dynamic-require
         const loadedModule = require(`@regardsoss-modules/${module.type}/src/main.js`)
         if (this.props.admin && !loadedModule.adminContainer) {
-          console.error(`Module ${module.type} does not contain an administration component`)
+          console.info(`Module ${module.type} does not contain an administration component`)
           self.setState({
             isLoaded: false,
             module: null,
           })
         } else if (!this.props.admin && !loadedModule.moduleContainer) {
-          console.error(`Module ${module.type} does not contain a main component`)
-          self.setState({
-            isLoaded: false,
-            module: null,
-          })
+          throw new Error(`Module ${module.type} does not contain a main component`)
         } else {
           if (loadedModule.reducer) {
             const loadedModuleReducerName = `modules.${module.type}`

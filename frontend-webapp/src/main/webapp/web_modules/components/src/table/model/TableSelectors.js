@@ -40,12 +40,11 @@ export class TableSelectors extends BasicSelector {
         localState => this.getSelectionMode(localState),
         // 3 - get selection mode
         localState => this.getToggledElements(localState),
-      ], (pageMetadata, toggledElements, selectionMode) => {
+      ], (pageMetadata, selectionMode, toggledElements) => {
         const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
         const selectionSize = keys(toggledElements).length
-
         return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0) ||
-          (selectionMode === TableSelectionModes.excludeSelected && selectionSize === totalElements)
+          (totalElements > 0 && selectionSize === totalElements)
       },
       )
     }

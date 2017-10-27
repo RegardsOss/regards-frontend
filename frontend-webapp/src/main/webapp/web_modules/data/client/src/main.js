@@ -24,6 +24,7 @@ import CatalogClient from './rs-catalog'
 import CommonClient from './rs-common'
 import DataManagementClient from './rs-dam'
 import OrderClient from './rs-order'
+import StorageClient from './rs-storage'
 
 
 /**
@@ -47,5 +48,6 @@ export default {
   CommonClient,
   DataManagementClient,
   OrderClient,
+  StorageClient,
 }
 

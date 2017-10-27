@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TreeTableComponent } from '@regardsoss/components'
-import OrderCartTableComponent from '../../../src/components/user/OrderCartTableComponent'
+import { OrderCartTableComponent } from '../../../src/components/user/OrderCartTableComponent'
 import styles from '../../../src/styles/styles'
 
 import { emptyBasket, mockBasket1, mockBasket2 } from '../../BasketMocks'

@@ -17,8 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isUndefined from 'lodash/isUndefined'
-import { ValidationHelpers } from '@regardsoss/form-utils'
 import { PluginParameterTypes, JavaPrimitiveTypes } from '@regardsoss/domain/common'
+import { RuntimeTargetTypes } from '@regardsoss/domain/access'
+import { OpenSearchQuery } from '@regardsoss/domain/catalog'
+import { ValidationHelpers } from '@regardsoss/form-utils'
 import { Parameter } from './parameters/Parameter'
 
 /**
@@ -99,7 +101,30 @@ function resolveParametersWithTypes(pluginConfiguration, metadata) {
 }
 
 
+/**
+ * Packs the service target
+ * @param {ServiceTarget} target target as provided by plugin run model
+ * @return usable target parameters
+ */
+function packTargetParameters(target) {
+  switch (target.type) {
+    case RuntimeTargetTypes.ONE:
+      return { entityId: target.entity }
+    case RuntimeTargetTypes.MANY:
+      return { entitiesId: target.entities }
+    case RuntimeTargetTypes.QUERY:
+      {
+        const q = new OpenSearchQuery(target.q, [OpenSearchQuery.buildIpIdParameter(target.excludedIpIds, true)]).toQueryString()
+        return { q, entityType: target.entityType }
+      }
+    default:
+      throw new Error('Invalid target') // development error only
+  }
+}
+
+
 export default {
   convertParameter, // exported at least for tests
+  packTargetParameters,
   resolveParametersWithTypes,
 }

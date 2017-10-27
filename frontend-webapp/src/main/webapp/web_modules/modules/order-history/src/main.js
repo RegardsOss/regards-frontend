@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import adminContainer from './containers/admin/AdminModuleContainer'
+import ModuleIcon from 'material-ui/svg-icons/notification/folder-special'
 import moduleContainer from './containers/user/UserModuleContainer'
 import styles from './styles/styles'
 import messages from './i18n'
@@ -27,9 +27,9 @@ import dependencies from './dependencies'
  * @author Raphaël Mechali
  */
 export default {
-  adminContainer,
   moduleContainer,
   styles,
   messages,
+  ModuleIcon,
   dependencies,
 }

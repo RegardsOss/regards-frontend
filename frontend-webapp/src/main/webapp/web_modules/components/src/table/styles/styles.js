@@ -202,5 +202,10 @@ export default (theme) => {
       display: 'flex',
       justifyContent: 'space-around',
     },
+    loadingComponent: {
+      styles: {
+        height: '45vh',
+      },
+    },
   })
 }

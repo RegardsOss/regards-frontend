@@ -13,7 +13,7 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { AccessShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { HOCCloneUtils } from '@regardsoss/display-control'
+import { HOCUtils } from '@regardsoss/display-control'
 import { pluginServiceActions, pluginServiceSelectors } from '../../../clients/PluginServiceClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
@@ -113,8 +113,8 @@ export class PluginServicesContainer extends React.Component {
   /**
    * Returns selected dataset IP ID or null if none
    * @param {*} state redux state
-   * @param {*} properties component properties
-   */
+* @param {*} properties component properties
+*/
   static getSelectedDatasetIpId = (state, { initialDatasetIpId }) => {
     const dynamicTag = Tag.getSearchedDatasetTag(navigationContextSelectors.getLevels(state))
     return dynamicTag ? dynamicTag.searchKey : initialDatasetIpId
@@ -191,8 +191,15 @@ export class PluginServicesContainer extends React.Component {
     selectionServices: [],
   }
 
+  /**
+   * Lifecycle hook. Used here to detect properties change
+   */
   componentWillMount = () => this.onPropertiesChanged(this.props)
 
+  /**
+   * Lifecycle hook. Used here to detect properties change
+   * @param {*} nextProps next component props
+   */
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(nextProps, this.props)
 
   /**
@@ -201,11 +208,11 @@ export class PluginServicesContainer extends React.Component {
    * @param oldProperties old properties
    */
   onPropertiesChanged = (newProps, oldProps = {}) => {
-    const oldState = this.state
+    const oldState = this.state || {}
     const newState = oldState ? { ...oldState } : PluginServicesContainer.DEFAULT_STATE
 
     // A - dataset changed, component was mounted or user rights changed, update global services
-    if (!oldState || oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
+    if (oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
       !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       newProps.dispatchFetchPluginServices(newProps.selectedDatasetIpId)
     }
@@ -218,15 +225,15 @@ export class PluginServicesContainer extends React.Component {
       newState.selectionServices = PluginServicesContainer.getSelectionServices(newProps)
     }
 
-    // when state or children changed, re render children then update state
-    if (!isEqual(oldState, newState) || !isEqual(oldState.children, newState.children)) {
-      console.info('Do I crazy thing here??? ', !!this.onStartSelectionService)
+    // when children changed or selection services changed, recompute children
+    if (!isEqual(oldState.selectionServices, newState.selectionServices) ||
+      HOCUtils.shouldCloneChildren(this, oldProps, newProps)) {
       // pre render children (attempts to enhance render performances)
-      newState.children = HOCCloneUtils.defaultCloneChildren(this, {
+      newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
+        ...HOCUtils.getOnlyNonDeclaredProps(this, newProps),
         selectionServices: newState.selectionServices,
         onStartSelectionService: this.onStartSelectionService,
       })
-      console.info('22222 ', newState.children.length && !!newState.children[0].props.onStartSelectionService)
       // update state
       this.setState(newState)
     }
@@ -243,7 +250,7 @@ export class PluginServicesContainer extends React.Component {
     // pack query
     const serviceTarget = selectionMode === TableSelectionModes.includeSelected ?
       target.buildManyElementsTarget(ipIdArray) :
-      target.buildQueryTarget(openSearchQuery, PluginServicesContainer.getEntityTypeForViewType(viewObjectType), pageMetadata.totalElements, ipIdArray)
+      target.buildQueryTarget(openSearchQuery, viewObjectType, pageMetadata.totalElements, ipIdArray)
     // note : only service content is dipatched (see top methods conversion)
     dispatchRunService(new PluginServiceRunModel(service, serviceTarget))
   }
@@ -258,7 +265,7 @@ export class PluginServicesContainer extends React.Component {
           onQuit={dispatchCloseService}
         />
         { // render the children list (from pre rendered elements, see on properties changed)
-          HOCCloneUtils.renderChildren(children)
+          HOCUtils.renderChildren(children)
         }
       </div >
     )

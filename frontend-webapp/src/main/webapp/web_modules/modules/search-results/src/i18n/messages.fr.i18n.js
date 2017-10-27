@@ -68,7 +68,7 @@ const messages = Object.assign({
   'add.to.cart.tooltip': 'Ajouter l\'élément à mon panier',
   'add.selection.to.cart.label': 'Ajouter au panier',
   'add.selection.to.cart.tooltip': 'Ajouter les éléments sélectionnés à mon panier',
-  'results.no.content.title': 'Pas de résultats',
+  'results.no.content.title': 'Pas de résultat',
   'results.no.content.subtitle': 'Votre recherche n\'a donné aucun résultat. Essayez de modifier vos critères',
   'results.options.column.label': 'Options et services',
   'results.download': 'Télécharger',

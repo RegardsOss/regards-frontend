@@ -26,7 +26,6 @@ const messages = {
   ...Locales.fr,
   'order-cart.module.admin.message': 'Il n\'y a pas d\'options spécifiques pour ce module',
   'order-cart.module.title': 'Mon panier',
-  'order-cart.module.subtitle': 'Affichage et gestion du contenu du panier, trié par jeux de données et groupes d\'ajout. Vous pouvez vider le contenu ou lancer la commande en utilisant les options en haut à droite',
   'order-cart.module.not.logged.title': 'Utilisateur non authentifié',
   'order-cart.module.not.logged.messsage': 'Le panier n\'est accessible qu\'aux utilisateurs authentifiés. Vous pouvez vous connecter en utilisant le bouton "Connexion"',
   'order-cart.module.empty.basket.title': 'Panier vide',

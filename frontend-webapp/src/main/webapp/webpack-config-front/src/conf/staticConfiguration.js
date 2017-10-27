@@ -27,7 +27,7 @@
  * @type {string}
  */
 // eslint-disable-next-line no-template-curly-in-string
-GATEWAY_HOSTNAME = 'http://${regards.config.cloud.gateway.uri}:${regards.config.cloud.gateway.port}'
+GATEWAY_HOSTNAME = '${regards.config.cloud.gateway.url}'
 
 /**
  * Static configurations
@@ -40,7 +40,8 @@ STATIC_CONF = {
     CATALOG: 'rs-catalog',
     DAM: 'rs-dam',
     ORDER: 'rs-order',
-    // STORAGE: 'rs-archival-storage',
+    STORAGE: 'rs-storage',
+    INGEST: 'rs-ingest',
   },
   IMSERVICES: {
     ACCESS_INSTANCE: 'rs-access-instance',

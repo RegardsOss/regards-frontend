@@ -57,7 +57,7 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
           type: AccessDomain.pluginTypes.CATALOG,
         },
       }],
-      styles: context.moduleTheme.user.optionsStyles,
+      enableServices: true,
       onShowDescription: () => { },
       onServiceStarted: () => { },
     }
@@ -76,6 +76,7 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
 
   it('should render properly without cart', () => {
     const props = {
+      enableServices: true,
       displayAddToBasket: true,
       onShowDescription: () => { },
       onServiceStarted: () => { },
@@ -89,6 +90,7 @@ describe('[Search Results] Testing TableViewOptionsCellComponent', () => {
   })
   it('should render properly with cart', () => {
     const props = {
+      enableServices: true,
       displayAddToBasket: true,
       onShowDescription: () => { },
       onServiceStarted: () => { },

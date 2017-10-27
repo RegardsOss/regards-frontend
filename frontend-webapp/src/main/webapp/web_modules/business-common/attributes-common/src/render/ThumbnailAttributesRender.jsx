@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
+import get from 'lodash/get'
 import Dialog from 'material-ui/Dialog'
-import Avatar from 'material-ui/Avatar'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { CatalogDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
@@ -32,7 +31,7 @@ class ThumbnailAttributesRender extends React.Component {
 
   static propTypes = {
     attributes: PropTypes.shape({
-      files: PropTypes.arrayOf(CatalogShapes.ObjectLinkedFile),
+      files: CatalogShapes.entityFiles,
     }),
     // eslint-disable-next-line react/no-unused-prop-types
     entity: CatalogShapes.Entity,
@@ -64,26 +63,22 @@ class ThumbnailAttributesRender extends React.Component {
   }
 
   render() {
-    if (this.props.attributes.files && this.props.attributes.files.length > 0) {
-      const thumbnail = find(this.props.attributes.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL)
-
-      if (thumbnail) {
-        const style = { cursor: 'pointer' }
-        return (
-          <div>
-            <Avatar
-              src={thumbnail.fileRef}
-              size={this.props.lineHeight - 20}
-              style={style}
-              onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
-            />
-            {this.displayFullSize(thumbnail.fileRef)}
-          </div>
-        )
-      }
-      return <NoDataIcon />
+    const thumbnailURI = get(this.props.attributes, `files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL}[0].uri`, null)
+    if (thumbnailURI) {
+      const style = { display: 'block', cursor: 'pointer', height: this.props.lineHeight - 18, margin: '0 auto' }
+      return (
+        <div>
+          <img
+            src={thumbnailURI}
+            style={style}
+            alt="no thumbnail"
+            onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
+          />
+          {this.displayFullSize(thumbnailURI)}
+        </div>
+      )
     }
-    return <NoDataIcon title="" />
+    return <NoDataIcon />
   }
 
 }

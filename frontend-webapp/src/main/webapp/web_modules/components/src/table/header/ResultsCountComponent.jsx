@@ -19,6 +19,7 @@
 import { themeContextType } from '@regardsoss/theme'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import moduleStyles from '../styles/styles'
+import messages from '../i18n'
 
 /**
  * Displays the search results count
@@ -43,4 +44,4 @@ ResultsCountComponent.contextTypes = {
   ...i18nContextType,
 }
 
-export default withI18n('components/src/table/i18n')(ResultsCountComponent)
+export default withI18n(messages)(ResultsCountComponent)

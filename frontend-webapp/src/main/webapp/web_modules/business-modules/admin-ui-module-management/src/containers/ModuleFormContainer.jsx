@@ -83,9 +83,7 @@ class ModuleFormContainer extends React.Component {
       this.props.fetchModule(this.props.params.applicationId, this.props.params.duplicate_module_id)
     }
 
-    if (!this.props.layout) {
-      this.props.fetchLayout(this.props.params.applicationId)
-    }
+    this.props.fetchLayout(this.props.params.applicationId)
 
     // initialize as property change
     this.setState({ availableModuleTypes: [] })
@@ -101,7 +99,7 @@ class ModuleFormContainer extends React.Component {
       // reinit module list
       // load available modules (asynchronously recovered)
       const filterModules = ModuleFormContainer.filterAllowedModules.bind(null, newProps.isInstance, newProps.availableEndpoints)
-      return modulesManager.getAvailableModuleTypes(filterModules)
+      return modulesManager.getAvailableVisibleModuleTypes(filterModules)
         .then(availableModuleTypes => this.setState({ availableModuleTypes }))
     }
     return null

@@ -45,9 +45,8 @@ class FormTabsComponent extends React.Component {
     // Default props given to the form
     defaultConf: ModuleConfiguration.isRequired,
 
-    // From mapStateToProps and mapDispatchToProps
-    selectableAttributes: DataManagementShapes.AttributeModelList,
-    selectableAttributesFectching: PropTypes.bool,
+    selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
+    selectableDataObjectsAttributesFectching: PropTypes.bool,
     disableChangeDatasets: PropTypes.bool,
     availableCriterion: AccessShapes.UIPluginDefinitionList,
     criterionFetching: PropTypes.bool,
@@ -58,13 +57,13 @@ class FormTabsComponent extends React.Component {
   }
 
   renderCriterionTab = () => {
-    if (!this.props.criterionFetching && !this.props.selectableAttributesFectching && this.props.adminForm.form.conf) {
+    if (!this.props.criterionFetching && !this.props.selectableDataObjectsAttributesFectching && this.props.adminForm.form.conf) {
       return (
         <FromCriterionComponent
           defaultCriterion={this.props.defaultConf.criterion}
           criterion={this.props.adminForm.form.conf.criterion}
           layout={this.props.adminForm.form.conf.layout}
-          selectableAttributes={this.props.selectableAttributes}
+          selectableAttributes={this.props.selectableDataObjectsAttributes}
           changeField={this.props.adminForm.changeField}
           availableCriterion={this.props.availableCriterion}
         />
@@ -80,7 +79,7 @@ class FormTabsComponent extends React.Component {
       adminForm={this.props.adminForm}
       attributes={this.props.defaultConf.attributes}
       attributesRegroupements={this.props.defaultConf.attributesRegroupements}
-      selectableAttributes={this.props.selectableAttributes}
+      selectableAttributes={this.props.selectableDataObjectsAttributes}
       resultType={this.props.defaultConf.resultType}
     />
   )

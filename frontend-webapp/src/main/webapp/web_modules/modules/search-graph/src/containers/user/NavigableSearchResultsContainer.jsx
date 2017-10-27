@@ -5,7 +5,7 @@ import { connect } from '@regardsoss/redux'
 import { TagTypes, OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { CatalogShapes } from '@regardsoss/shape'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 
@@ -63,7 +63,7 @@ export class NavigableSearchResultsContainer extends React.Component {
   onPropertiesChanged = ({ searchTag }, { searchTag: newSearchTag, appName, moduleConf }) => {
     // store new results module configuration in state
     const resultsConfiguration = {
-      type: 'search-results',
+      type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: appName,
       conf: {

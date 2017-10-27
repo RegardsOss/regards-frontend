@@ -206,7 +206,6 @@ export default class AuthenticationStatesContainer extends React.Component {
       case viewStates.askProjectAccessFormView:
         return (
           <AskProjectAccessFormContainer
-            project={project}
             initialMail={currentMail}
             onBack={this.onGoto(viewStates.authenticationFormView, true)}
             onNewAccountDone={this.onGoto(viewStates.createAccountSentMessageView, true)}

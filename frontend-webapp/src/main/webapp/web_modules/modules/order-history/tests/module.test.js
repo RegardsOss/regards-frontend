@@ -25,7 +25,6 @@ describe('[Order History] Testing module interface', () => {
   after(testSuiteHelpers.after)
 
   it('Should supply valid module interface', () => {
-    assert.isDefined(Module.adminContainer, 'Order cart module should define a main container')
     assert.isDefined(Module.moduleContainer, 'Order cart module should define a main container')
     assert.isDefined(Module.dependencies, 'Order cart module should define a its dependencies')
     assert.isDefined(Module.styles, 'Order cart module should define a styles file')

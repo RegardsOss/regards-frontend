@@ -19,7 +19,6 @@
 import FlatButton from 'material-ui/FlatButton'
 import ClearCartIcon from 'material-ui/svg-icons/action/delete'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
 import { withConfirmDialog } from '@regardsoss/components'
 
 export const ButtonWithConfirmDialog = withConfirmDialog(FlatButton)
@@ -37,12 +36,11 @@ class ClearCartComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
-    ...themeContextType,
   }
 
 
   render() {
-    const { intl: { formatMessage }, moduleTheme: { user: { header: { options } } } } = this.context
+    const { intl: { formatMessage } } = this.context
     const { empty, onClearCart } = this.props
     return (
       <ButtonWithConfirmDialog
@@ -54,9 +52,9 @@ class ClearCartComponent extends React.Component {
         title={formatMessage({ id: 'order-cart.module.clear.tooltip' })}
         icon={<ClearCartIcon />}
         disabled={empty}
-        style={options.styles}
       />
     )
   }
 }
+
 export default ClearCartComponent

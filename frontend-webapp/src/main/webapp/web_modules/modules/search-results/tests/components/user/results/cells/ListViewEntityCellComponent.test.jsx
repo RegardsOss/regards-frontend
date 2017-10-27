@@ -42,7 +42,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           sipId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          files: [],
+          files: {},
           geometry: null,
           properties: {},
           tags: [],
@@ -57,7 +57,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       displayAddToBasket: true,
       onSearchTag: () => { },
       onClick: () => { },
-      onAddToCart: null,
+      enableServices: true,
       onShowDescription: () => { },
       onServiceStarted: () => { },
     }

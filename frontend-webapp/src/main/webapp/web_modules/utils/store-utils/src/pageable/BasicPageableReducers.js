@@ -28,6 +28,9 @@ import BasicListReducers from '../list/BasicListReducers'
 class BasicPageableReducer extends BasicListReducers {
 
   reduce(state, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
     const newState = super.reduce(state, action)
     switch (action.type) {
       case this.basicListActionInstance.ENTITY_LIST_SUCCESS:

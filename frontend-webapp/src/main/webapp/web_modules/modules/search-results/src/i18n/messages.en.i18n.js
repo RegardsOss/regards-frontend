@@ -70,8 +70,8 @@ const messages = Object.assign({
   'add.to.cart.tooltip': 'Add element to my cart',
   'add.selection.to.cart.label': 'Add to basket',
   'add.selection.to.cart.tooltip': 'Add selected elements to my cart',
-  'results.no.content.title': 'No results',
-  'results.no.content.subtitle': 'Your search returned no results. Try to change your criteria',
+  'results.no.content.title': 'No result',
+  'results.no.content.subtitle': 'Your search returned no result. Try to change your criteria',
   'results.options.column.label': 'Options and services',
   'results.download': 'Download',
 }, Locales.en)
