@@ -1,4 +1,4 @@
-FROM node:7.10.1
+FROM node:8.8.1
 
 VOLUME /app_to_build
 
