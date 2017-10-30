@@ -3,11 +3,12 @@
  **/
 
 import { ScrollArea } from '@regardsoss/adapters'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import ReactMarkdown from 'react-remarkable'
 import './styles/github-markdown-styles.css'
+import styles from './styles'
 
-
-class MarkdownFileContentDisplayer extends React.Component {
+export class MarkdownFileContentDisplayer extends React.Component {
 
   static propTypes = {
     source: PropTypes.string.isRequired,
@@ -15,26 +16,24 @@ class MarkdownFileContentDisplayer extends React.Component {
     heightToFit: PropTypes.number,
   }
 
-  static EXPANDABLE_BODY_LAYOUT_STYLES = {
-    display: 'flex',
+  static contextTypes = {
+    ...themeContextType,
   }
 
-  /** Scrollbar styles. XXX-V2 we'd need to correlate it with selected markdown styles, yet it is not possible! */
-  static SCROLLBAR_STYLES = {
-    background: '#0366d6',
-    borderRadius: '3px',
-    width: '6px',
+  static EXPANDABLE_BODY_LAYOUT_STYLES = {
+    display: 'flex',
   }
 
   render() {
     const { source, heightToFit } = this.props
     const scrollAreaStyle = { height: heightToFit } // undefined if none
     const scrollContentStyle = { ...MarkdownFileContentDisplayer.EXPANDABLE_BODY_LAYOUT_STYLES, minHeight: heightToFit } // undefined if none
+    const { moduleTheme: { markdown: { scrollbarStyle } } } = this.context
     return (
       <ScrollArea
         style={scrollAreaStyle}
         contentStyle={scrollContentStyle}
-        verticalScrollbarStyle={MarkdownFileContentDisplayer.SCROLLBAR_STYLES}
+        verticalScrollbarStyle={scrollbarStyle}
         horizontal={false}
         vertical
       >
@@ -46,4 +45,4 @@ class MarkdownFileContentDisplayer extends React.Component {
   }
 }
 
-export default MarkdownFileContentDisplayer
+export default withModuleStyle(styles)(MarkdownFileContentDisplayer)

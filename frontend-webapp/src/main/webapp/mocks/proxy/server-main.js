@@ -32,7 +32,7 @@ function findMatchingLocalServices(methodServices, relativePath) {
       return '/([a-zA-Z0-9\\-_.:@]+)' // regexp to match parameter value
     })
     // match corresponding regexp againts current route
-    const matchURLExp = new RegExp(matchURLText)
+    const matchURLExp = new RegExp(`${matchURLText}$`)
     const found = relativePath.match(matchURLExp)
     return found ?
       acc.concat([{

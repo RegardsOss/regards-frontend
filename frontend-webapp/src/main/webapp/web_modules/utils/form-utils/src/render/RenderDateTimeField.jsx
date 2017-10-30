@@ -22,8 +22,10 @@ import TimePicker from 'material-ui/TimePicker'
 import IconButton from 'material-ui/IconButton'
 import Clear from 'material-ui/svg-icons/content/backspace'
 import { dateTimeFormat } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import RenderHelper from './RenderHelper'
+import styles from '../styles'
+
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
@@ -64,31 +66,6 @@ export class RenderDateTimeField extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }
-
-  static STYLES = {
-    fieldsLine: {
-      marginTop: '14px',
-      height: '58px',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    datePicker: {
-      margin: '0 10px 0 0',
-      flexGrow: 1,
-    },
-    datePickerText: {
-      width: '100%',
-      top: -13,
-    },
-    timePicker: {
-      flexGrow: 1,
-    },
-    timePickerText: {
-      width: '100%',
-      top: -13,
-    },
-  }
-
 
   /**
    * Callback function that is fired when the date value changes.
@@ -163,12 +140,13 @@ export class RenderDateTimeField extends React.Component {
 
   render() {
     const { intl, label, timeFormat, input, meta: { touched, error } } = this.props
+    const { moduleTheme: { dateFieldStyles } } = this.context
     const clearButtonDisplayed = !!input.value
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
     // At first the value is an empty string
     const dateValue = this.getDateForComponent(input.value)
     return (
-      <div style={RenderDateTimeField.STYLES.fieldsLine} >
+      <div style={dateFieldStyles.fieldsLine} >
         <DatePicker
           value={dateValue}
           onChange={this.onChangeDate}
@@ -178,8 +156,8 @@ export class RenderDateTimeField extends React.Component {
           floatingLabelText={intl.formatMessage({ id: 'form.datetimepicker.date.label' }, { label })}
           okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
           cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
-          style={RenderDateTimeField.STYLES.datePicker}
-          textFieldStyle={RenderDateTimeField.STYLES.datePickerText}
+          style={dateFieldStyles.datePicker}
+          textFieldStyle={dateFieldStyles.datePickerText}
           onFocus={this.onInnerFieldFocus}
           onDismiss={this.onFieldDialogDismissed}
           errorText={errorMessage}
@@ -192,8 +170,8 @@ export class RenderDateTimeField extends React.Component {
           hintText={intl.formatMessage({ id: 'form.datetimepicker.time.label' }, { label })}
           okLabel={intl.formatMessage({ id: 'form.datetimepicker.ok' })}
           cancelLabel={intl.formatMessage({ id: 'form.datetimepicker.cancel' })}
-          style={RenderDateTimeField.STYLES.timePicker}
-          textFieldStyle={RenderDateTimeField.STYLES.timePickerText}
+          style={dateFieldStyles.timePicker}
+          textFieldStyle={dateFieldStyles.timePickerText}
           onDismiss={this.onFieldDialogDismissed}
           errorText={errorMessage ? ' ' : null} // small hack here to show the error style but not message in double
         />
@@ -201,7 +179,6 @@ export class RenderDateTimeField extends React.Component {
           clearButtonDisplayed ? (
             <IconButton
               tooltip={intl.formatMessage({ id: 'form.datetimepicker.clear' })}
-              style={RenderDateTimeField.STYLES.clearButton}
             >
               <Clear onTouchTap={this.onClearInput} />
             </IconButton>) : null
@@ -210,5 +187,6 @@ export class RenderDateTimeField extends React.Component {
     )
   }
 }
-// XXX-V2 we also need some styles here... (with comps refactor?)
-export default RenderDateTimeField
+
+
+export default withModuleStyle(styles)(RenderDateTimeField)

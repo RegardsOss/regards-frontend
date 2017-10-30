@@ -30,10 +30,6 @@ import TwoNumericalCriteriaComposedComponent from './TwoNumericalCriteriaCompose
  * Below is an example of the simple layout for two different attributes :
  * attribute1 < value1 and attribute2 != value2
  *
- * XXX + TBC
- * Now if the two passed attributes are the same, we switch to as composed layout:
- * value1 <= attribute <= value2
- *
  * @author Xavier-Alexandre Brochard
  */
 export class TwoNumericalCriteriaComponent extends React.Component {

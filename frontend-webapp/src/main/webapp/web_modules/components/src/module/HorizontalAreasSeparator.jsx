@@ -20,7 +20,7 @@ import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import styles from './styles'
 
 /**
-* Horizontal separator component, mainly used to separate a dynamic module from other ones  XXX-V2 merge with IMPL
+* Horizontal separator component, mainly used to separate a dynamic module from other ones
 * @author Raphaël Mechali
 */
 export class HorizontalAreasSeparator extends React.Component {

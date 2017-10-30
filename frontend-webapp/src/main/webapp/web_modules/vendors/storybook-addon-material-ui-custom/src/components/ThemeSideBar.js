@@ -54,7 +54,7 @@ export default class ThemeSideBar extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // fixme shouldComponentUpdate - remove
+    // XXX: shouldComponentUpdate - remove
     return nextProps.shouldComponentUpdate
   }
 
@@ -146,7 +146,7 @@ export default class ThemeSideBar extends React.Component {
           >
             <div>
               {specificPropertyBlock}
-              <div style={{ height: 16 }}/>
+              <div style={{ height: 16 }} />
             </div>
           </div>
         </div>
@@ -176,7 +176,7 @@ export default class ThemeSideBar extends React.Component {
     )
   }
 
-  handleChange = (event, index, value) => this.setState({specificProperty: value})
+  handleChange = (event, index, value) => this.setState({ specificProperty: value })
 
   render() {
     const { muiTheme } = this.props
@@ -190,7 +190,7 @@ export default class ThemeSideBar extends React.Component {
           onChange={this.handleChange}
         >
           {keyList.map(key => (
-            <MenuItem key={key} value={key} primaryText={key}/>
+            <MenuItem key={key} value={key} primaryText={key} />
           ))}
         </SelectField>
         {this.props.open ? this.renderContent() : null}

@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import RenderTextField from './RenderTextField'
-import RenderSelectField from './RenderSelectField'
-import RenderCheckbox from './RenderCheckbox'
-import RenderRadio from './RenderRadio'
-import RenderFileField from './RenderFileField'
-import RenderToggle from './RenderToggle'
-import RenderDoubleLabelToggle from './RenderDoubleLabelToggle'
-import TextAreaField from './TextAreaField'
+import RenderTextField from './render/RenderTextField'
+import RenderSelectField from './render/RenderSelectField'
+import RenderCheckbox from './render/RenderCheckbox'
+import RenderRadio from './render/RenderRadio'
+import RenderFileField from './render/RenderFileField'
+import RenderToggle from './render/RenderToggle'
+import RenderDoubleLabelToggle from './render/RenderDoubleLabelToggle'
+import RenderDateTimeField from './render/RenderDateTimeField'
+import RenderJsonCodeEditorField from './render/RenderJsonCodeEditorField'
 import ErrorTypes from './ErrorTypes'
 import Locales from './i18n/Locales'
 import Field from './Field'
@@ -35,8 +36,6 @@ import EnumInputsComponent from './EnumInputs/EnumInputsComponent'
 import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
 import StringComparison from './StringComparison'
 import reduxForm from './reduxForm'
-import RenderDateTimeField from './RenderDateTimeField'
-import RenderJsonCodeEditorField from './RenderJsonCodeEditorField'
 
 export default {
   RenderTextField,
@@ -47,7 +46,6 @@ export default {
   RenderRadio,
   RenderFileField,
   RenderDateTimeField,
-  TextAreaField,
   ErrorTypes,
   Locales,
   Field,

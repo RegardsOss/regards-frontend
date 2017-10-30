@@ -105,6 +105,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
         fpmap(tableAttribute => (
           <MenuItem
             value={tableAttribute.name}
+            className={`selenium-pickMapping-${tableAttribute.name}`}
             key={tableAttribute.name}
             primaryText={`${tableAttribute.name}: ${tableAttribute.javaSqlType}`}
           />
@@ -115,6 +116,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
         label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
         checked={showAdvanced}
         onTouchTap={this.handleToggleAdvanced}
+        className={`selenium-useSQL-${modelAttribute.content.attribute.name}`}
       />
       <ShowableAtRender
         show={showAdvanced}

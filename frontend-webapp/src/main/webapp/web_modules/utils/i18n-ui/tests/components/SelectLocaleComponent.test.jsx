@@ -17,34 +17,33 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import Checkbox from 'material-ui/Checkbox'
+import { expect } from 'chai'
+import MenuItem from 'material-ui/MenuItem'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import RenderCheckbox from '../src/RenderCheckbox'
+import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
-// Test a components rendering
-describe('[FORM UTILS] Testing RenderCheckbox', () => {
+const context = buildTestContext(styles)
+
+/**
+ * Test a components rendering
+ * @author Sébastien Binda
+ */
+describe('[I18N] Testing i18n Select Locale components', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should exists', () => {
-    assert.isDefined(RenderCheckbox)
-  })
-  it('should retrive the right child', () => {
-    const props = {
-      label: 'Some label',
-      input: {
-        name: 'isItInteresting',
-        value: false,
-        onChange: () => {},
-      },
-      meta: {
-        error: 'false',
-      },
+  it('Should render correctly the SelectLocaleComponent', () => {
+    const onLocaleChange = (locale) => {
+      expect(locale).to.equals('es')
     }
-    const enzymeWrapper = shallow(<RenderCheckbox {...props} />, { context })
-    const subComponent = enzymeWrapper.find(Checkbox)
-    expect(subComponent).to.have.length(1)
+    const props = {
+      setLocale: onLocaleChange,
+      currentLocale: 'ru',
+      locales: ['fr', 'en', 'ru', 'es'],
+    }
+
+    const wrapper = shallow(<SelectLocaleComponent {...props} />, { context })
+    expect(wrapper.find(MenuItem)).to.have.length(4)
   })
 })

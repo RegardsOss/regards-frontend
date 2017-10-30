@@ -38,7 +38,7 @@ class FileContentDisplayer extends React.Component {
 
   static propTypes = {
     file: PropTypes.shape({
-      // XXX : Blob is not necessary present when loading the class (test issue)
+      // For tests: Blob is not necessary present when loading the class
       content: PropTypes.instanceOf(root.Blob || Object).isRequired,
       contentType: PropTypes.string.isRequired,
     }).isRequired,
@@ -73,7 +73,6 @@ class FileContentDisplayer extends React.Component {
     }
   }
 
-
   render() {
     const { file, style } = this.props
     const { localAccessURL } = this.state
@@ -103,4 +102,5 @@ class FileContentDisplayer extends React.Component {
     )
   }
 }
+
 export default FileContentDisplayer

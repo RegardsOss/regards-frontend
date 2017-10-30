@@ -114,7 +114,7 @@ class ProjectAboutPageContainer extends React.Component {
   render() {
     const { moduleConf: { htmlPath, buttonComponent } } = this.props
     const { dialogOpen } = this.state
-    const { dialog: { bodyStyle, heightPercent, widthPercent, button } } = this.context.moduleTheme
+    const { moduleTheme: { dialog: { bodyStyle, heightPercent, widthPercent, button } }, intl: { formatMessage } } = this.context
 
     // render: is there a button provided or should we used module default one?
     const runtimeButton = buttonComponent ?
@@ -124,7 +124,7 @@ class ProjectAboutPageContainer extends React.Component {
       (<FloatingActionButton
         style={button}
         mini
-        title="Home" // XXX i18N!
+        title={formatMessage({ id: 'module.defaault.button.tooltip' })}
         onTouchTap={this.forceOpen}
       >
         <HomeIcone />

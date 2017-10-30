@@ -26,7 +26,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import FlatButton from 'material-ui/FlatButton'
 import Field from '../Field'
-import RenderTextField from '../RenderTextField'
+import RenderTextField from '../render/RenderTextField'
 
 /**
  * Handle enumeration restriction

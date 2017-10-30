@@ -52,11 +52,11 @@ describe('[Search Graph] Test graph context actions', () => {
   })
 
   it('It should dispatch set search tag event', () => {
-    dispatchAndCheck(graphContextActions.setSearchTag({ type: TagTypes.WORD, data: 'xxx' }), {
+    dispatchAndCheck(graphContextActions.setSearchTag({ type: TagTypes.WORD, data: 'w' }), {
       type: graphContextActions.SET_SEARCH_TAG,
       searchTag: {
         type: TagTypes.WORD,
-        data: 'xxx',
+        data: 'w',
       },
     }, buildMockStore({}))
   })

@@ -98,8 +98,11 @@ class FormComponent extends React.Component {
       savePluginState: this.savePluginState,
     }
 
-    // XXX - please correct that horror...
-    // Container type changed between version 1 and version 1.1. So, to avoid changing every configuration saved, we force container type with the new value.
+    // Workround - Container type changed between version 1 and version 1.1. So, to avoid changing every configuration saved, we force container type with the new value.
+    const retroCompatibleLayout = {
+      ...this.props.layout,
+      type: 'FormMainContainer',
+    }
     this.props.layout.type = 'FormMainContainer'
 
     return (
@@ -111,7 +114,7 @@ class FormComponent extends React.Component {
       >
         <Container
           appName="user"
-          container={this.props.layout}
+          container={retroCompatibleLayout}
           plugins={this.props.plugins}
           pluginProps={pluginsProps}
           formHeader

@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AceEditorAdapter from '../../src/components/AceEditorAdapter'
+import { AceEditorAdapter } from '../../src/components/AceEditorAdapter'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -38,7 +38,6 @@ describe('[ Module name] Testing AceEditorAdapter', () => {
   it('should render properly', () => {
     const props = {
       mode: 'json',
-      theme: 'monokai',
       value: `{
         "xx": "yy",
         "zz": [] 

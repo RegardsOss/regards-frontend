@@ -21,7 +21,8 @@ import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
-import i18nContextType from '../contextType'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import fr from '../fr_flag.png'
 import en from '../gb_flag.png'
 
@@ -35,14 +36,11 @@ class SelectLocaleComponent extends React.Component {
     locales: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentLocale: PropTypes.string,
     handleLocaleChange: PropTypes.func,
-    // MUI theme, externally provided as this component cannot access it - XXX v2: move such components to avoid cicly dependencies!
-    // eslint-disable-next-line react/forbid-prop-types
-    muiTheme: PropTypes.object.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
-    // ...themeContextType, XXX this cannot be done here! (module cicly deps)
+    ...themeContextType,
   }
 
   /** Maps locale to icon */
@@ -52,35 +50,37 @@ class SelectLocaleComponent extends React.Component {
   }
 
   render() {
-    const { locales, currentLocale, handleLocaleChange, muiTheme: { spacing: { iconSize } } } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { locales, currentLocale, handleLocaleChange } = this.props
+    const { intl: { formatMessage }, muiTheme: { spacing: { iconSize } } } = this.context
 
     const localeIcon = SelectLocaleComponent.localToIcon[currentLocale]
     const iconStyle = { width: iconSize, height: iconSize }
 
     return (
-      <IconMenu
-        iconButtonElement={
-          <IconButton iconStyle={iconStyle} >
-            <img src={localeIcon} alt={formatMessage({ id: `language.selector.option.${currentLocale}` })} />
-          </IconButton>}
-        title={formatMessage({ id: 'language.selector.tooltip' })}
-        value={currentLocale}
-        onChange={handleLocaleChange}
-      >
-        {map(locales, locale => (
-          <MenuItem
-            value={locale}
-            key={locale}
-            primaryText={formatMessage({ id: `language.selector.option.${locale}` })}
-            leftIcon={
-              <img
-                style={iconStyle}
-                src={SelectLocaleComponent.localToIcon[locale]}
-                alt={formatMessage({ id: `language.selector.option.${locale}` })}
-              />}
-          />))}
-      </IconMenu>
+      <div title={formatMessage({ id: 'language.selector.tooltip' })} >
+        <IconMenu
+          iconButtonElement={
+            <IconButton iconStyle={iconStyle} >
+              <img src={localeIcon} alt={formatMessage({ id: `language.selector.option.${currentLocale}` })} />
+            </IconButton>}
+
+          value={currentLocale}
+          onChange={handleLocaleChange}
+        >
+          {map(locales, locale => (
+            <MenuItem
+              value={locale}
+              key={locale}
+              primaryText={formatMessage({ id: `language.selector.option.${locale}` })}
+              leftIcon={
+                <img
+                  style={iconStyle}
+                  src={SelectLocaleComponent.localToIcon[locale]}
+                  alt={formatMessage({ id: `language.selector.option.${locale}` })}
+                />}
+            />))}
+        </IconMenu>
+      </div>
     )
   }
 }

@@ -15,31 +15,36 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+**/
 import { shallow } from 'enzyme'
-import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
-import { SelectLocaleContainer } from '../../src/containers/SelectLocaleContainer'
+import { expect, assert } from 'chai'
+import Checkbox from 'material-ui/Checkbox'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import RenderCheckbox from '../../src/render/RenderCheckbox'
 
 const context = buildTestContext()
-
-/**
-* Test SelectLocaleContainer
-* @author Raphaël Mechali
-*/
-describe('[I18N] Testing SelectLocaleContainer', () => {
+// Test a components rendering
+describe('[FORM UTILS] Testing RenderCheckbox', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SelectLocaleContainer)
+    assert.isDefined(RenderCheckbox)
   })
-  it('should render correctly', () => {
+  it('should retrive the right child', () => {
     const props = {
-      muiTheme: context.muiTheme,
+      label: 'Some label',
+      input: {
+        name: 'isItInteresting',
+        value: false,
+        onChange: () => { },
+      },
+      meta: {
+        error: 'false',
+      },
     }
-    const enzymeWrapper = shallow(<SelectLocaleContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(SelectLocaleComponent), 1, 'The container should render its component')
+    const enzymeWrapper = shallow(<RenderCheckbox {...props} />, { context })
+    const subComponent = enzymeWrapper.find(Checkbox)
+    expect(subComponent).to.have.length(1)
   })
 })

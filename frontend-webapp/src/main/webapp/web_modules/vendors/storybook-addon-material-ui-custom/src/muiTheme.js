@@ -27,27 +27,27 @@ lightBaseTheme.themeName = 'Light Theme'
 darkBaseTheme.themeName = 'Dark Theme'
 
 export function muiTheme(themes, callback) {
-/** note: muiTheme arguments
- *
- *  the agrument 'themes' should be:
- *     - muiThemes (array): array with muiThemes;
- *     - muiTheme (object): single muiTheme;
- *  muiTheme is a two nesting level object with new or overriding props
- *
- */
+  /** note: muiTheme arguments
+   *
+   *  the agrument 'themes' should be:
+   *     - muiThemes (array): array with muiThemes;
+   *     - muiTheme (object): single muiTheme;
+   *  muiTheme is a two nesting level object with new or overriding props
+   *
+   */
 
-    // const channel = addons.getChannel();
+  // const channel = addons.getChannel();
   let themesInitList = [lightBaseTheme, darkBaseTheme]
   if (themes) {
     if (Array.isArray(themes)) {
       themesInitList = themes
       themesInitList.forEach((val, ind) => {
         if (typeof (val) === 'string') {
-                    /* note: unsupported names goes as lightBaseTheme
-                    if (val === lightBaseTheme.themeName) {
-                        themesInitList[ind] = lightBaseTheme;
-                    }
-                    */
+          /* note: unsupported names goes as lightBaseTheme
+          if (val === lightBaseTheme.themeName) {
+              themesInitList[ind] = lightBaseTheme;
+          }
+          */
           if (val === darkBaseTheme.themeName) {
             themesInitList[ind] = darkBaseTheme
           } else {
@@ -69,14 +69,14 @@ export function muiTheme(themes, callback) {
   themesAppliedList[0] = themeApply(themesInitList[0], themesOverrideList[0])
   const themesRenderedList = themeListRender(themesAppliedList)
 
-/** note: theme arrays description
- *
- *    themesInitList - initial list of base and user themes
- *    themesOverrideList - list of overwritings made by user
- *    themesAppliedList - overrided list (union InitList and OverrideList) - will be shown to user
- *    themesRenderedList - overrided list - will be used in ThemeProvider (resolved all links)
- *
- */
+  /** note: theme arrays description
+   *
+   *    themesInitList - initial list of base and user themes
+   *    themesOverrideList - list of overwritings made by user
+   *    themesAppliedList - overrided list (union InitList and OverrideList) - will be shown to user
+   *    themesRenderedList - overrided list - will be used in ThemeProvider (resolved all links)
+   *
+   */
 
   let storedState = {
     themeInd: 0,
@@ -110,8 +110,8 @@ export function muiTheme(themes, callback) {
     return themesAppliedList
   }
 
-    // fixme: EVENT_ID_INIT (local gecorators?)
-    // channel.emit(EVENT_ID_INIT, panelState(storedState));
+  // XXX: EVENT_ID_INIT (local gecorators?)
+  // channel.emit(EVENT_ID_INIT, panelState(storedState));
 
   return (story) => {
     const storyItem = story()
@@ -124,7 +124,7 @@ export function muiTheme(themes, callback) {
         initState={storedState}
         onChangeState={storeState}
         themeListRender={themeListRender}
-            // channel={channel}
+        // channel={channel}
         channel={null}
       />)
   }
@@ -140,7 +140,7 @@ function themeApply(prevTheme, overTheme) {
       }
 
       const subKeys = Object.keys(overTheme[val])
-            // note: find out a number or a string
+      // note: find out a number or a string
       subKeys.forEach((prop) => { newTheme[val][prop] = tryParse(overTheme[val][prop]) })
     } else {
       newTheme[val] = overTheme[val]
@@ -156,7 +156,7 @@ function themeListRender(themesAppliedList) {
 }
 
 function makeClone(obj) {
-    // future: use immutable
+  // future: use immutable
   return JSON.parse(JSON.stringify(obj))
 }
 

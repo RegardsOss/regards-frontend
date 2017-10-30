@@ -74,7 +74,7 @@ describe('[Components] Testing FileContentDisplayer', () => {
     contentTypes.forEach(mimeType =>
       it(`${message} "${mimeType}"`, () => {
         const file = {
-          content: new TestBlob('xxx'),
+          content: new TestBlob('local'),
           contentType: mimeType,
         }
         const render = shallow(<FileContentDisplayer file={file} />, { context })

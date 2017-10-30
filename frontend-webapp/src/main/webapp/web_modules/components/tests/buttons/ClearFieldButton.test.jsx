@@ -15,37 +15,37 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
+ **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import RenderSelectField from '../src/RenderSelectField'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ClearFieldButton } from '../../src/buttons/ClearFieldButton'
 
-// Test a components rendering
-describe('[FORM UTILS] Testing RenderSelectField', () => {
+const context = buildTestContext()
+
+/**
+* Test ClearFieldButton
+* @author Raphaël Mechali
+*/
+describe('[Components] Testing ClearFieldButton', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(RenderSelectField)
+    assert.isDefined(ClearFieldButton)
   })
-  it('should retrieve the right child', () => {
+  it('should render correctly not visible', () => {
     const props = {
-      label: 'Some label',
-      input: {
-        name: 'isItInteresting',
-        value: 'value1',
-      },
-      meta: {
-        touched: true,
-        error: '',
-      },
-      children: [<MenuItem key="0" value="value0" />, <MenuItem key="1" value="value1" />],
+      displayed: false,
+      onTouchTap: () => { },
     }
-    const enzymeWrapper = shallow(<RenderSelectField {...props} />)
-    const subComponent = enzymeWrapper.find(SelectField)
-    expect(subComponent).to.have.length(1)
+    shallow(<ClearFieldButton {...props} />, { context })
+  })
+  it('should render correctly visible', () => {
+    const props = {
+      displayed: true,
+      onTouchTap: () => { },
+    }
+    shallow(<ClearFieldButton {...props} />, { context })
   })
 })

@@ -17,8 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ErrorDecoratorComponent } from '@regardsoss/components'
-import { themeContextType } from '@regardsoss/theme'
 import { AceEditorAdapter } from '@regardsoss/adapters'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from '../styles'
 
 class RenderJsonCodeEditorField extends React.Component {
   static propTypes = {
@@ -40,22 +41,6 @@ class RenderJsonCodeEditorField extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-  }
-
-  static ROOT_FIELD_STYLES = { // XXX after refactor, in module or theme styles
-    padding: '24px 0 12px 0',
-    lineHeight: 1,
-  }
-
-  static DEFAULT_FIELD_STYLES = { // XXX after refactor, in module or theme styles
-    width: '100%',
-    height: '140px',
-    marginTop: '8px',
-  }
-
-  static EDITOR_PROPS = {
-    showLineNumbers: true,
-    readOnly: false,
   }
 
   state = {
@@ -93,24 +78,20 @@ class RenderJsonCodeEditorField extends React.Component {
   }
 
   render() {
-    const { muiTheme } = this.context
+    const { moduleTheme: { jsonFieldStyles } } = this.context
     const fieldId = `json-field-${this.props.input.name}`
-    const labelStyle = {
-      color: muiTheme.textField.floatingLabelColor,
-    }
     return (
-      <div style={RenderJsonCodeEditorField.ROOT_FIELD_STYLES}>
-        <label htmlFor={fieldId} style={labelStyle}>
+      <div style={jsonFieldStyles.containerStyle}>
+        <label htmlFor={fieldId} style={jsonFieldStyles.labelStyle}>
           {this.props.label}
         </label>
         {this.displayError()}
         <AceEditorAdapter
           id={fieldId}
           mode="json"
-          theme="monokai"
           value={this.state.currentValue}
-          setOptions={RenderJsonCodeEditorField.EDITOR_PROPS}
-          style={RenderJsonCodeEditorField.DEFAULT_FIELD_STYLES}
+          setOptions={jsonFieldStyles.editorProps}
+          style={jsonFieldStyles.fieldStyle}
           onChange={this.onAceChange}
 
           showPrintMargin={false}
@@ -122,4 +103,4 @@ class RenderJsonCodeEditorField extends React.Component {
   }
 }
 
-export default RenderJsonCodeEditorField
+export default withModuleStyle(styles)(RenderJsonCodeEditorField)

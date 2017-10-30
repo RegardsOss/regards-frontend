@@ -5,7 +5,6 @@
 This module is a dynamic configurable module for the configurable interfaces. 
 This module is used to display search forms to search data from the REGARDS catalog.
 This module uses UIPlugins to define the Criterion to display into the form.
-See TODO to know how to define and use UIPlugins.
   
 ## Module structure
 

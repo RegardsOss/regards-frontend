@@ -26,11 +26,11 @@ import { EVENT_ID_INIT, EVENT_ID_DATA } from '../'
 import ThemePanel from '../components/ThemePanel'
 
 const PROGRESS_STATUS = {
-  'button-clone': 'soon', // todo: [] button_clone
-  'button-download': 'done', // todo: [x] button_download
-  'button-clean': 'soon', // todo: [] button_clean
-  'textarea-edit': 'done', // todo: [x] textarea-edit
-  'textarea-update': 'done', // todo: [x] textarea-update
+  'button-clone': 'soon', // xxx: [] button_clone
+  'button-download': 'done', // xxx: [x] button_download
+  'button-clean': 'soon', // xxx: [] button_clean
+  'textarea-edit': 'done', // xxx: [x] textarea-edit
+  'textarea-update': 'done', // xxx: [x] textarea-update
 }
 
 const progressInfo = () => {
@@ -60,7 +60,7 @@ export default class PanelContainer extends React.Component {
     this.state = { isReady: false }
     this.isChannelData = false
 
-        // future: get from state with own theme ind
+    // future: get from state with own theme ind
     this.muiTheme = getMuiTheme(lightBaseTheme)
 
     this.onInitChannel = this.onInitChannel.bind(this)
@@ -83,7 +83,7 @@ export default class PanelContainer extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-//        if (!this.isChannelData) this.props.channel.emit(EVENT_ID_DATA, nextState);
+    //        if (!this.isChannelData) this.props.channel.emit(EVENT_ID_DATA, nextState);
     this.querySet(nextState)
     this.dataChannelSend(nextState)
     this.isChannelData = false
@@ -101,7 +101,7 @@ export default class PanelContainer extends React.Component {
   }
 
   onDataChannel(stateData) {
-//        const stateData = JSON.parse(strData);
+    //        const stateData = JSON.parse(strData);
     const themesNameList = this.genNameList(stateData.themesAppliedList)
     this.isChannelData = true // note: this state received by channel, don't need to send back
     this.setState({ ...stateData, themesNameList })
@@ -133,7 +133,7 @@ data:application/json,
 ${JSON.stringify(this.state.themesAppliedList[this.state.themeInd])}`
 
     const fileName = this.state.themesAppliedList[this.state.themeInd]
-            .themeFile || 'theme.json'
+      .themeFile || 'theme.json'
     const downloadTheme = document.createElement('a')
     downloadTheme.href = uri
     downloadTheme.download = fileName
@@ -148,11 +148,11 @@ ${JSON.stringify(this.state.themesAppliedList[this.state.themeInd])}`
     return
 
     const themesAppliedList = this.state.themesAppliedList
-    const newTheme = Object.assign({}, themesAppliedList[this.state.themeInd]) // fixme:  deeper
+    const newTheme = Object.assign({}, themesAppliedList[this.state.themeInd]) // XXX:  deeper
     newTheme.themeName = `${themesAppliedList[this.state.themeInd].themeName} clone`
     newTheme.themeFile = `${themesAppliedList[this.state.themeInd].themeFile}.clone`
     const newAppliedList = themesAppliedList.slice(0, this.state.themeInd + 1)
-            .concat(newTheme, themesAppliedList.slice(this.state.themeInd + 1))
+      .concat(newTheme, themesAppliedList.slice(this.state.themeInd + 1))
     const themesNameList = this.genNameList(newAppliedList)
     this.setState({ themesAppliedList: newAppliedList, themesNameList })
   }
@@ -207,33 +207,33 @@ ${JSON.stringify(this.state.themesAppliedList[this.state.themeInd])}`
 
   render() {
     return this.state.isReady ?
-        (
-          <MuiThemeProvider muiTheme={this.muiTheme}>
-            <ThemePanel
-              themesNameList={this.state.themesNameList}
-              defautThemeInd={this.state.themeInd}
-              isSideBarOpen={this.state.isSideBarOpen}
-              onThemeSelect={this.onThemeSelect}
-              onToggleSideBar={this.onToggleSideBar}
-              themeJSON={JSON.stringify(this.state
-                      .themesAppliedList[this.state.themeInd])}
-              onChangeTheme={this.onChangeTheme}
-              onDnLoadTheme={this.onDnLoadTheme}
-              onCloneTheme={this.onCloneTheme}
-              onCleanTheme={this.onCleanTheme}
-            />
-          </MuiThemeProvider>
-        ) : (
-          <div
-            style={{
-              padding: 16,
-              fontFamily: '"San Francisco", Roboto, "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif',
-              color: 'rgb(68, 68, 68)',
-            }}
-          >
-              waiting for muiTheme decorator...
+      (
+        <MuiThemeProvider muiTheme={this.muiTheme}>
+          <ThemePanel
+            themesNameList={this.state.themesNameList}
+            defautThemeInd={this.state.themeInd}
+            isSideBarOpen={this.state.isSideBarOpen}
+            onThemeSelect={this.onThemeSelect}
+            onToggleSideBar={this.onToggleSideBar}
+            themeJSON={JSON.stringify(this.state
+              .themesAppliedList[this.state.themeInd])}
+            onChangeTheme={this.onChangeTheme}
+            onDnLoadTheme={this.onDnLoadTheme}
+            onCloneTheme={this.onCloneTheme}
+            onCleanTheme={this.onCleanTheme}
+          />
+        </MuiThemeProvider>
+      ) : (
+        <div
+          style={{
+            padding: 16,
+            fontFamily: '"San Francisco", Roboto, "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif',
+            color: 'rgb(68, 68, 68)',
+          }}
+        >
+          waiting for muiTheme decorator...
           </div>
-        )
+      )
   }
 }
 

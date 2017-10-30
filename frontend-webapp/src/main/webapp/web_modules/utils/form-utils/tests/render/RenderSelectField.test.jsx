@@ -17,33 +17,35 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
 import { shallow } from 'enzyme'
-import { expect } from 'chai'
+import { expect, assert } from 'chai'
+import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import RenderSelectField from '../../src/render/RenderSelectField'
 
-const context = buildTestContext()
-
-/**
- * Test a components rendering
- * @author Sébastien Binda
- */
-describe('[I18N] Testing i18n Select Locale components', () => {
+// Test a components rendering
+describe('[FORM UTILS] Testing RenderSelectField', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should render correctly the SelectLocaleComponent', () => {
-    const onLocaleChange = (locale) => {
-      expect(locale).to.equals('es')
-    }
+  it('should exists', () => {
+    assert.isDefined(RenderSelectField)
+  })
+  it('should retrieve the right child', () => {
     const props = {
-      setLocale: onLocaleChange,
-      currentLocale: 'ru',
-      locales: ['fr', 'en', 'ru', 'es'],
-      muiTheme: context.muiTheme,
+      label: 'Some label',
+      input: {
+        name: 'isItInteresting',
+        value: 'value1',
+      },
+      meta: {
+        touched: true,
+        error: '',
+      },
+      children: [<MenuItem key="0" value="value0" />, <MenuItem key="1" value="value1" />],
     }
-
-    const wrapper = shallow(<SelectLocaleComponent {...props} />, { context })
-    expect(wrapper.find(MenuItem)).to.have.length(4)
+    const enzymeWrapper = shallow(<RenderSelectField {...props} />)
+    const subComponent = enzymeWrapper.find(SelectField)
+    expect(subComponent).to.have.length(1)
   })
 })

@@ -61,7 +61,7 @@ describe('[Entities Common] Testing ServiceContainer', () => {
       type: AccessDomain.pluginTypes.CATALOG,
     }
     const targets = [
-      buildOneElementTarget('xxx'),
+      buildOneElementTarget('n'),
       buildManyElementsTarget(['x1', 'x2']),
       buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
     ]
@@ -93,7 +93,7 @@ describe('[Entities Common] Testing ServiceContainer', () => {
       type: AccessDomain.pluginTypes.UI,
     }
     const targets = [
-      buildOneElementTarget('xxx'),
+      buildOneElementTarget('n'),
       buildManyElementsTarget(['x1', 'x2']),
       buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
     ]

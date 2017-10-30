@@ -137,7 +137,6 @@ export class SearchResultsContainer extends React.Component {
    */
   onSortChanged = (attributePath, type, clear) => {
     const newSortingOn = clear ? [] : [...this.state.sortingOn]
-    // XXX we want to reset selection or adapt it there
     if (attributePath) {
       if (type && (type === TableSortOrders.ASCENDING_ORDER || type === TableSortOrders.DESCENDING_ORDER)) {
         // add the attribute to sorting list
@@ -194,7 +193,7 @@ export class SearchResultsContainer extends React.Component {
       const datasetLevel = Tag.getSearchedDatasetTag(levels)
       if (datasetLevel || parameters.length || !searchQuery) {
         // not restricted or requestable directly onto the datasets
-        searchActions = searchDatasetsActions // XXX V2 this will induce a problem because we don't know if we speak about DO or DS tag!!
+        searchActions = searchDatasetsActions // FIXME V2 this will induce a problem because we don't know if we speak about DO or DS tag!!
       } else {
         // restricted, requires to check the dataobjects in order to gather corresponding datasets
         initialSearchQuery = searchQuery

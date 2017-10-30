@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { SelectLocaleContainer, i18nContextType } from '@regardsoss/i18n'
-import { SelectThemeContainer, themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { SelectLocaleContainer } from '@regardsoss/i18n-ui'
+import { SelectThemeContainer } from '@regardsoss/theme-ui'
 import { CommonShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import AuthenticationMenuContainer from '../containers/AuthenticationMenuContainer'
@@ -54,7 +56,7 @@ class MainMenuComponent extends React.Component {
   render() {
     const { title, displayAuthentication, displayCartSelector,
       displayLocaleSelector, displayThemeSelector, projectAboutPage, contacts } = this.props
-    const { moduleTheme: { user: { rootStyle, titleGroup, optionsGroup } }, muiTheme } = this.context
+    const { moduleTheme: { user: { rootStyle, titleGroup, optionsGroup } } } = this.context
 
     return (
       <div style={rootStyle}>
@@ -83,7 +85,7 @@ class MainMenuComponent extends React.Component {
         </ShowableAtRender>
         {/* UI Options: locale  */}
         <ShowableAtRender show={displayLocaleSelector} >
-          <SelectLocaleContainer muiTheme={muiTheme} />
+          <SelectLocaleContainer />
         </ShowableAtRender>
 
       </div>

@@ -15,41 +15,31 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
+ **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import TextField from 'material-ui/TextField'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import RenderTextField from '../src/RenderTextField'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
+import { SelectLocaleContainer } from '../../src/containers/SelectLocaleContainer'
+import styles from '../../src/styles'
 
-// Test a components rendering
-describe('[FORM UTILS] Testing RenderSelectField', () => {
+const context = buildTestContext(styles)
+
+/**
+* Test SelectLocaleContainer
+* @author Raphaël Mechali
+*/
+describe('[I18N] Testing SelectLocaleContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(RenderTextField)
+    assert.isDefined(SelectLocaleContainer)
   })
-  it('should retrive the right child', () => {
+  it('should render correctly', () => {
     const props = {
-      label: 'Some label',
-      input: {
-        name: 'isItInteresting',
-        value: 'test',
-      },
-      meta: {
-        touched: true,
-        error: '',
-      },
-      children: (<span />),
-      fullWidth: true,
-      type: 'password',
-      intl: {
-        formatMessage: () => {},
-      },
     }
-    const enzymeWrapper = shallow(<RenderTextField {...props} />)
-    const subComponent = enzymeWrapper.find(TextField)
-    expect(subComponent).to.have.length(1)
+    const enzymeWrapper = shallow(<SelectLocaleContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(SelectLocaleComponent), 1, 'The container should render its component')
   })
 })

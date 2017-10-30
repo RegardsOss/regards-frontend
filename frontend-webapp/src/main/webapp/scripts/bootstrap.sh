@@ -42,6 +42,7 @@ npm link web_modules/utils/authentication-manager
 npm link web_modules/utils/display-control
 npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
+npm link web_modules/utils/i18n-ui
 npm link web_modules/utils/layout
 npm link web_modules/utils/modules
 npm link web_modules/utils/plugins
@@ -50,6 +51,7 @@ npm link web_modules/utils/redux
 npm link web_modules/utils/store-utils
 npm link web_modules/utils/tests-helpers
 npm link web_modules/utils/theme
+npm link web_modules/utils/theme-ui
 npm link web_modules/utils/units
 
 # Common components

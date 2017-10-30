@@ -15,8 +15,6 @@ This module exports :
 Client to retrieve information about entities description files.  
 Description files can be markdown or PDF files.
 
-TODO : How to use ?
-
 ### DetailViewContainer
 
 React component to display a dialog with entity information : 

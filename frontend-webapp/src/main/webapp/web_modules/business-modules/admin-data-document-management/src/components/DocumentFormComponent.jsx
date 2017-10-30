@@ -192,7 +192,7 @@ export class DocumentFormComponent extends React.Component {
 function validate(values) {
   const errors = {}
   if (!keys(values).length) {
-    // XXX workaround for redux form bug initial validation:
+    // Workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
   }

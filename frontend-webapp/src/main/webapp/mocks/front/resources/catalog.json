@@ -509,7 +509,7 @@
             "name": "size",
             "label": "Size",
             "type": "string",
-            "jsonPath": "xxx",
+            "jsonPath": "/local",
             "fragment": {
               "id": 0,
               "name": "DEFAULT"
@@ -524,7 +524,7 @@
             "name": "type",
             "label": "Type",
             "type": "string",
-            "jsonPath": "xxx",
+            "jsonPath": "/local",
             "fragment": {
               "id": 0,
               "name": "DEFAULT"
@@ -539,7 +539,7 @@
             "name": "Investigator",
             "label": "Investigator",
             "type": "string",
-            "jsonPath": "xxx",
+            "jsonPath": "/local",
             "fragment": {
               "id": 1,
               "name": "infos"
@@ -559,7 +559,7 @@
             "name": "language",
             "label": "Language",
             "type": "string",
-            "jsonPath": "xxx",
+            "jsonPath": "/local",
             "fragment": {
               "id": 0,
               "name": "DEFAULT"
@@ -574,7 +574,7 @@
             "name": "format",
             "label": "Format",
             "type": "string",
-            "jsonPath": "xxx",
+            "jsonPath": "/local",
             "fragment": {
               "id": 0,
               "name": "DEFAULT"
@@ -589,7 +589,7 @@
             "name": "date",
             "label": "Date",
             "type": "DATE_ISO8601",
-            "jsonPath": "xxx",
+            "jsonPath": "/local",
             "fragment": {
               "id": 2,
               "name": "infos"
@@ -609,7 +609,7 @@
             "name": "language",
             "label": "Language",
             "type": "string",
-            "jsonPath": "xxx",
+            "jsonPath": "/local",
             "fragment": {
               "id": 0,
               "name": "DEFAULT"
@@ -624,7 +624,7 @@
             "name": "format",
             "label": "Format",
             "type": "string",
-            "jsonPath": "xxx",
+            "jsonPath": "/local",
             "fragment": {
               "id": 0,
               "name": "DEFAULT"
@@ -639,7 +639,7 @@
             "name": "date",
             "label": "Date",
             "type": "DATE_ISO8601",
-            "jsonPath": "xxx",
+            "jsonPath": "/local",
             "fragment": {
               "id": 2,
               "name": "infos"

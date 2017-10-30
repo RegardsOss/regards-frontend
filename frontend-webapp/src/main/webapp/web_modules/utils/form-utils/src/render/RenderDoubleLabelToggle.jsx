@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Component, createElement } from 'react'
-import DoubleLabelToggle from './DoubleLabelToggle'
+import DoubleLabelToggle from '../DoubleLabelToggle'
 
 /**
  * Creates a component class that renders the given Material UI component

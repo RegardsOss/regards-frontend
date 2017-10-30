@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import reduce from 'lodash/reduce'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from '../styles'
 
 const HeadlessAdapter = props => <div>{reduce(props, (acc, value, key) => `${acc}<br />${key}: ${value}`, '')}</div>
 
@@ -26,7 +28,7 @@ const HeadlessAdapter = props => <div>{reduce(props, (acc, value, key) => `${acc
 * and languages in initialize (an error is visible when a theme or mode is not found)
 * @author Raphaël Mechali
 */
-class AceEditorAdapter extends React.Component {
+export class AceEditorAdapter extends React.Component {
 
   /** supported themes */
   static supportedThemesToImport = []
@@ -35,6 +37,11 @@ class AceEditorAdapter extends React.Component {
   static supportedModesToImport = []
 
   static LOADED_COMPONENT = null
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   /**
    * Initializes this adapter static data: loads the component or replace with headless
    * component when in headles environment
@@ -66,8 +73,6 @@ class AceEditorAdapter extends React.Component {
   static propTypes = {
     // one of the ace editor modes
     mode: PropTypes.string.isRequired,
-    // one of the ace editor themes
-    theme: PropTypes.string.isRequired,
     // note: any other ace editor property will be propagated to component below like
     // value: editor content
     // setOptions: editor options
@@ -89,14 +94,16 @@ class AceEditorAdapter extends React.Component {
   }
 
   render() {
-    const { mode, theme, ...otherEditorProps } = this.props
+    const { mode, ...otherEditorProps } = this.props
+    const { muiTheme } = this.context
     const { RenderComponent } = this.state
     if (!RenderComponent) {
       return null // loading
     }
     return (
-      <RenderComponent mode={mode} theme={theme} {...otherEditorProps} />
+      <RenderComponent mode={mode} theme={muiTheme['ACE-editor'].theme} {...otherEditorProps} />
     )
   }
 }
-export default AceEditorAdapter
+
+export default withModuleStyle(styles)(AceEditorAdapter)

@@ -33,7 +33,7 @@ describe('[Components] Testing LinkComponent', () => {
   })
   it('should render properly', () => {
     const props = {
-      link: 'xxxx',
+      link: './local',
       label: 'hello link',
     }
     shallow(<LinkComponent {...props} />, { context })

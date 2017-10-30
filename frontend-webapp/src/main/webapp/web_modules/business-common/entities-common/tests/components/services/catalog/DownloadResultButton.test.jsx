@@ -37,7 +37,7 @@ describe('[Entities Common] Testing DownloadResultButton', () => {
   })
   it('should render properly', () => {
     const props = {
-      localAccessURL: './xxx',
+      localAccessURL: './local',
     }
     shallow(<DownloadResultButton {...props} />, { context })
   })

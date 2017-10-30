@@ -17,10 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from 'react-redux'
-import { setLocale } from '../model/I18nActions'
+import compose from 'lodash/fp/compose'
+import { withI18n, setLocale } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 import SelectLocaleComponent from '../components/SelectLocaleComponent'
-import I18nProvider from './I18nProvider'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * React component to display the language selector widget
@@ -28,9 +30,7 @@ import messages from '../i18n'
  */
 export class SelectLocaleContainer extends React.Component {
 
-  static propTypes = {
-    tooltip: PropTypes.string,
-  }
+  static propTypes = {}
 
   static LOCALES = ['en', 'fr']
 
@@ -46,17 +46,12 @@ export class SelectLocaleContainer extends React.Component {
   }
 
   render() {
-    const { tooltip } = this.props
     return (
-      <I18nProvider messages={messages}>
-        <SelectLocaleComponent
-          locales={SelectLocaleContainer.LOCALES}
-          currentLocale={this.props.currentLocale}
-          muiTheme={this.props.muiTheme}
-          handleLocaleChange={this.handleLocaleChange}
-          tooltip={tooltip}
-        />
-      </I18nProvider>
+      <SelectLocaleComponent
+        locales={SelectLocaleContainer.LOCALES}
+        currentLocale={this.props.currentLocale}
+        handleLocaleChange={this.handleLocaleChange}
+      />
     )
   }
 }
@@ -64,8 +59,6 @@ export class SelectLocaleContainer extends React.Component {
 SelectLocaleContainer.propTypes = {
   currentLocale: PropTypes.string,
   setLocale: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
-  muiTheme: PropTypes.object.isRequired,
 }
 
 // Add projects from store to the containers props
@@ -78,4 +71,6 @@ const mapDispatchToProps = dispatch => ({
   setLocale: locale => dispatch(setLocale(locale)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectLocaleContainer)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withModuleStyle(styles), withI18n(messages))(SelectLocaleContainer)

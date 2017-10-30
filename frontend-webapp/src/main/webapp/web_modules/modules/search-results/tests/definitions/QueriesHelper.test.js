@@ -12,13 +12,13 @@ describe('[Search Results] Testing QueriesHelper', () => {
 
   it('Should display correctly the url search with open search query', () => {
     const openSearchQuery = getOpenSearchQuery('meta:false', // root query
-      [{ openSearchQuery: 'xxxBlblblbl' }], // facettes selected
+      [{ openSearchQuery: 'anyBlblblbl' }], // facettes selected
       [getDatasetIpIdParameter('mimi-c-mati')]) // other parameters
-    assert.equal(openSearchQuery.toQueryString(), 'meta:false AND xxxBlblblbl AND tags:"mimi-c-mati"', 'Open search query should be correctly generated')
+    assert.equal(openSearchQuery.toQueryString(), 'meta:false AND anyBlblblbl AND tags:"mimi-c-mati"', 'Open search query should be correctly generated')
 
     const urlQuery = getURLQuery(openSearchQuery.toQueryString(), [{ attributePath: 'taille', type: TableSortOrders.ASCENDING_ORDER }], 'jeveuxlesfacettes=oui')
     assert.equal(urlQuery.toQueryString(),
-      'q=(meta:false AND xxxBlblblbl AND tags:"mimi-c-mati")&sort=taille,ASC&jeveuxlesfacettes=oui',
+      'q=(meta:false AND anyBlblblbl AND tags:"mimi-c-mati")&sort=taille,ASC&jeveuxlesfacettes=oui',
       'The URL query be correctly genereted',
     )
   })

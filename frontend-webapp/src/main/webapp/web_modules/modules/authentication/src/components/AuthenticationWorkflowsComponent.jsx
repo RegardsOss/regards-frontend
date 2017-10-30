@@ -98,7 +98,7 @@ export default class AuthenticationStatesContainer extends React.Component {
   }
 
   componentDidUpdate = () => {
-    // XXX-workaround for dialog not resized problem when switching from one screen to another (shifts the bigger one
+    // Workaround for dialog not resized problem when switching from one screen to another (shifts the bigger one
     // down the screen): simulate a resize even when switching state
     if (this.state.repositionRequired) {
       // fire resize event to force Material UI recomputing dialog position
@@ -132,14 +132,14 @@ export default class AuthenticationStatesContainer extends React.Component {
    * Updates this state
    * @param currentView current view
    * @param currentMail current mail (or undefined if unchanged)
-   * @param repositionRequired XXX-Workaround, see componentDidUpdate for more information
+   * @param repositionRequired Workaround, see componentDidUpdate for more information
    */
   updateState = (currentView, currentMail = null, repositionRequired = true) => {
     this.setState({
       currentView,
       // use provided mail if any, or current state mail if any
       currentMail: currentMail || (this.state && this.state.currentMail),
-      // XXX-workaround for repositionning dialog (see componentDidUpdate method for more detail)
+      // Workaround for repositionning dialog (see componentDidUpdate method for more detail)
       repositionRequired,
     })
   }

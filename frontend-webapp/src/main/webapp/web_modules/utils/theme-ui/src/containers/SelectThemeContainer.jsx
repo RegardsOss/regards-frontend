@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import compose from 'lodash/fp/compose'
 import map from 'lodash/map'
 import IconButton from 'material-ui/IconButton'
 import Palette from 'material-ui/svg-icons/image/palette'
@@ -23,14 +24,11 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 // cannot import our connect method here, cyclic dependencies
 import { connect } from 'react-redux'
-import { I18nProvider } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
-import getCurrentTheme from '../model/selectors/getCurrentTheme'
-import setCurrentTheme from '../model/actions/setCurrentTheme'
-import { themeSelectors } from '../clients/ThemeClient'
-import defaultTheme from '../model/defaultTheme'
-import themeContextType from '../contextType'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { withModuleStyle, themeContextType, getCurrentTheme, setCurrentTheme, ThemeSelectors, defaultTheme } from '@regardsoss/theme'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Selector allowing the user to change the app's theme.
@@ -43,7 +41,6 @@ export class SelectThemeContainer extends React.Component {
     currentTheme: AccessShapes.Theme,
     themeList: AccessShapes.ThemeList,
     onChange: PropTypes.func,
-    tooltip: PropTypes.string,
   }
 
   static defaultProps = {
@@ -51,6 +48,7 @@ export class SelectThemeContainer extends React.Component {
   }
 
   static contextTypes = {
+    ...i18nContextType,
     ...themeContextType,
   }
 
@@ -61,35 +59,37 @@ export class SelectThemeContainer extends React.Component {
   static targetOriginStyle = { horizontal: 'middle', vertical: 'bottom' }
 
   render() {
-    const { currentTheme, themeList, onChange, tooltip } = this.props
+    const { currentTheme, themeList, onChange } = this.props
+    const { intl: { formatMessage } } = this.context
     const items = map(themeList, item => (
       <MenuItem value={item.content.id} key={item.content.id} primaryText={item.content.name} />
     ))
 
     return (
-      <I18nProvider messages={messages}>
-        <div title={tooltip}>
-          <IconMenu
-            iconButtonElement={SelectThemeContainer.iconButtonElement}
-            anchorOrigin={SelectThemeContainer.anchorOriginStyle}
-            targetOrigin={SelectThemeContainer.targetOriginStyle}
-            value={currentTheme.content.id}
-            onChange={(event, value) => onChange(value)}
-          >
-            {items}
-          </IconMenu>
-        </div>
-      </I18nProvider >
+      <div title={formatMessage({ id: 'select.theme.tooltip' })}>
+        <IconMenu
+          iconButtonElement={SelectThemeContainer.iconButtonElement}
+          anchorOrigin={SelectThemeContainer.anchorOriginStyle}
+          targetOrigin={SelectThemeContainer.targetOriginStyle}
+          value={currentTheme.content.id}
+          onChange={(event, value) => onChange(value)}
+        >
+          {items}
+        </IconMenu>
+      </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
   currentTheme: getCurrentTheme(state),
-  themeList: themeSelectors.getList(state),
+  themeList: ThemeSelectors.getList(state),
 })
 const mapDispatchToProps = dispatch => ({
   onChange: themeId => dispatch(setCurrentTheme(themeId)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectThemeContainer)
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withI18n(messages), withModuleStyle(styles))(SelectThemeContainer)
