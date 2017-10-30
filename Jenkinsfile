@@ -129,6 +129,13 @@ pipeline {
                         archiveArtifacts artifacts: 'frontend.tar.gz', fingerprint: true
                     },
                     sonar: {
+                        sh 'docker run \
+                            --rm -i \
+                            -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss \
+                            -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules \
+                            -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build \
+                            rs_node ./run_coverage.sh'
+
                         sh 'docker run --rm \
                           -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/data \
                           sebp/sonar-runner \
