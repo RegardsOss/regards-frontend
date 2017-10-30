@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import TextField from 'material-ui/TextField'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import RenderTextField from '../src/RenderTextField'
+import RenderTextField from '../../src/render/RenderTextField'
 
 // Test a components rendering
 describe('[FORM UTILS] Testing RenderSelectField', () => {
@@ -45,7 +45,7 @@ describe('[FORM UTILS] Testing RenderSelectField', () => {
       fullWidth: true,
       type: 'password',
       intl: {
-        formatMessage: () => {},
+        formatMessage: () => { },
       },
     }
     const enzymeWrapper = shallow(<RenderTextField {...props} />)

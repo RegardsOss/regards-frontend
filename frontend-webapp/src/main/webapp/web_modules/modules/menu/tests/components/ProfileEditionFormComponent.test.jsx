@@ -37,19 +37,19 @@ describe('[Menu] Testing ProfileEditionFormComponent', () => {
       // project metadata
       userMetadata: [{
         key: 'meta1',
-        labelKey: 'xxx',
+        labelKey: 'l1',
         editor: editors.textEditor,
         mandatory: false,
         onlyAtRegistration: false,
       }, {
         key: 'meta2',
-        labelKey: 'xxx',
+        labelKey: 'l2',
         editor: editors.countriesEditor,
         mandatory: true,
         onlyAtRegistration: false,
       }, {
         key: 'meta3',
-        labelKey: 'xxx',
+        labelKey: 'l3',
         editor: editors.countriesEditor,
         mandatory: true,
         onlyAtRegistration: true, // should not be in form

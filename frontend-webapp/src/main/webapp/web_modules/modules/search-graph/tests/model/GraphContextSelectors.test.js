@@ -41,7 +41,7 @@ describe('[Search Graph] Test graph context selectors', () => {
   it('Should select searchTag state', () => {
     let fakeStore = buildMockStore()
     assert.isNull(graphContextSelectors.getSearchTag(fakeStore), 'Should select null for initial search label')
-    fakeStore = mockReduce(fakeStore, graphContextActions.setSearchTag({ type: TagTypes.WORD, label: 'xxx' }))
-    assert.deepEqual(graphContextSelectors.getSearchTag(fakeStore), { type: TagTypes.WORD, label: 'xxx' }, 'Should select new value for search tag')
+    fakeStore = mockReduce(fakeStore, graphContextActions.setSearchTag({ type: TagTypes.WORD, label: 'w' }))
+    assert.deepEqual(graphContextSelectors.getSearchTag(fakeStore), { type: TagTypes.WORD, label: 'w' }, 'Should select new value for search tag')
   })
 })

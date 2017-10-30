@@ -120,12 +120,12 @@ describe('[Search Graph] Test graph context reducer', () => {
 
   it('Should reduce search tag', () => {
     const currentState = DEFAULT_STATE
-    const reduced = reduce(currentState, graphContextActions.setSearchTag({ type: TagTypes.WORD, data: 'xxx' }))
+    const reduced = reduce(currentState, graphContextActions.setSearchTag({ type: TagTypes.WORD, data: 'w' }))
     assert.deepEqual(reduced, {
       ...currentState,
       searchTag: {
         type: TagTypes.WORD,
-        data: 'xxx',
+        data: 'w',
       },
       moduleCollapsed: true,
     }, 'Set search tag should be correctly reduced and module should be collapsed')

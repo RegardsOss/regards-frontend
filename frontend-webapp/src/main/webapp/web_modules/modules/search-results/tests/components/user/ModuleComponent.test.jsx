@@ -39,7 +39,7 @@ describe('[Search Results] Testing ModuleComponent', () => {
       enableFacettes: true,
       displayDatasets: true,
       facettesQuery: '',
-      initialDatasetIpId: 'xxxxxx-8',
+      initialDatasetIpId: 'URN:DATASET:8',
       attributesConf: [],
       attributesRegroupementsConf: [],
       attributeModels: {},

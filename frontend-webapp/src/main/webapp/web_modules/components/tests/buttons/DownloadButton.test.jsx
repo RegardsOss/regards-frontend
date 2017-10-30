@@ -41,7 +41,7 @@ describe('[Components] Testing DownloadButton', () => {
       ButtonConstructor: IconButton,
       ButtonIcon: DownloadIcon, // not mandatory, can use a simple label
       tooltip: 'say something',
-      downloadURL: './xxx',
+      downloadURL: './local',
       primary: true,
     }
     const enzymeWrapper = shallow(<DownloadButton {...props} />, { context })

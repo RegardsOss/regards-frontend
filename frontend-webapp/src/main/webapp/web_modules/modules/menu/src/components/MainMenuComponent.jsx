@@ -56,7 +56,7 @@ class MainMenuComponent extends React.Component {
   render() {
     const { title, displayAuthentication, displayCartSelector,
       displayLocaleSelector, displayThemeSelector, projectAboutPage, contacts } = this.props
-    const { moduleTheme: { user: { rootStyle, titleGroup, optionsGroup } }, muiTheme } = this.context
+    const { moduleTheme: { user: { rootStyle, titleGroup, optionsGroup } } } = this.context
 
     return (
       <div style={rootStyle}>
@@ -85,7 +85,7 @@ class MainMenuComponent extends React.Component {
         </ShowableAtRender>
         {/* UI Options: locale  */}
         <ShowableAtRender show={displayLocaleSelector} >
-          <SelectLocaleContainer muiTheme={muiTheme} />
+          <SelectLocaleContainer />
         </ShowableAtRender>
 
       </div>

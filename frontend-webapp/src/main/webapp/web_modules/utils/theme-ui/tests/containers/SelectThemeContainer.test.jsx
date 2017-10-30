@@ -20,8 +20,11 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import MenuItem from 'material-ui/MenuItem'
 import { IconMenu } from 'material-ui/IconMenu'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SelectThemeContainer } from '../../src/containers/SelectThemeContainer'
+import styles from '../../src/styles'
+
+const context = buildTestContext(styles)
 
 function setup() {
   const props = {
@@ -65,13 +68,7 @@ function setup() {
       },
     },
   }
-  const context = {
-    muiTheme: {
-      palette: {
-        alternateTextColor: '#ffffff',
-      },
-    },
-  }
+
   const enzymeWrapper = shallow(<SelectThemeContainer {...props} />, { context })
   return {
     props,

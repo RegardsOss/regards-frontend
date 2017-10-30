@@ -38,7 +38,7 @@ const defaultProps = {
   val: 'val',
   ind: 7,
   settingsObj: {},
-  valueHandler: () => {},
+  valueHandler: () => { },
   isCollapsed: true,
   isOpen: true,
   isHeader: true,
@@ -58,18 +58,18 @@ export default class ThemePropItem extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     return true
-// future: shouldComponentUpdate
-//        const val = this.props.val;
-//        const shouldCollapsed = (nextProps.isCollapsed !== this.props.isCollapsed);
-//        const shouldOpen = (nextProps.isOpen !== this.props.isOpen);
-//        const shouldsettingsObj = (nextProps.settingsObj[val] !== this.props.settingsObj[val]);
-//        const shouldUpdate = (shouldCollapsed || shouldOpen || shouldsettingsObj);
-//        if (shouldUpdate) {
-//            console.log(
-//      `shouldUpdate: ${val} ${shouldCollapsed} ${shouldOpen} ${shouldsettingsObj}`
-//      );
-//        }
-//        return shouldUpdate;
+    // future: shouldComponentUpdate
+    //        const val = this.props.val;
+    //        const shouldCollapsed = (nextProps.isCollapsed !== this.props.isCollapsed);
+    //        const shouldOpen = (nextProps.isOpen !== this.props.isOpen);
+    //        const shouldsettingsObj = (nextProps.settingsObj[val] !== this.props.settingsObj[val]);
+    //        const shouldUpdate = (shouldCollapsed || shouldOpen || shouldsettingsObj);
+    //        if (shouldUpdate) {
+    //            console.log(
+    //      `shouldUpdate: ${val} ${shouldCollapsed} ${shouldOpen} ${shouldsettingsObj}`
+    //      );
+    //        }
+    //        return shouldUpdate;
   }
 
   onToolTogle() {
@@ -135,7 +135,7 @@ function PropItem(props, context) {
         paddingRight: 4,
         paddingTop: isNotHeader ? 4 : 16,
         fontSize: 12,
-            // height: isOpen ? 50 : 0,
+        // height: isOpen ? 50 : 0,
         transition: 'all 100ms ease 0ms',
         overflow: 'hidden',
         color: isNotHeader ? '' : palette.secondaryTextColor,
@@ -251,7 +251,7 @@ function PropInput(props, context) {
         ...strStyle,
       }}
     >
-        Prop Value
+      Prop Value
       </div>
   )
 }
@@ -300,7 +300,7 @@ function PropToolPicker(props, context) {
     valueHandler(event)
     onToolTogle()
   }
-    // fixme: check onReset
+  // XXX: check onReset
   return (
     <div {...{ style }}>
       <div style={{ border: 'solid 1px grey' }}>
@@ -359,7 +359,7 @@ function PropToolPickerFull(props, context) {
           <div>
             <h2>Tab Two</h2>
             <p>
-                This is another example tab.
+              This is another example tab.
               </p>
             <Slider name="slider0" defaultValue={0.5} />
           </div>
@@ -373,7 +373,7 @@ function PropToolPickerFull(props, context) {
           <div>
             <h2>Tab Three</h2>
             <p>
-                This is a third example tab.
+              This is a third example tab.
               </p>
           </div>
         </Tab>
@@ -381,7 +381,7 @@ function PropToolPickerFull(props, context) {
           <div>
             <h2>Tab Two</h2>
             <p>
-                This is another example tab.
+              This is another example tab.
               </p>
             <Slider name="slider0" defaultValue={0.5} />
           </div>
@@ -390,7 +390,7 @@ function PropToolPickerFull(props, context) {
           <div>
             <h2>Tab Two</h2>
             <p>
-                This is another example tab.
+              This is another example tab.
               </p>
             <Slider name="slider0" defaultValue={0.5} />
           </div>

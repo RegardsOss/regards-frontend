@@ -26,6 +26,22 @@ export default {
     background: '',
     backgroundImage: '',
   },
+  'ACE-editor': {
+    theme: 'monokai',
+  },
+  'forms-extension:jsonField': {
+    marginTop: '8px',
+    padding: '24px 0 12px 0',
+    lineHeight: 1,
+    height: '140px',
+    showLineNumbers: true,
+  },
+  'forms-extension:dateField': {
+    marginTop: '14px',
+    innerMargins: '0 10px 0 0',
+    height: '58px',
+    textTop: '-13px',
+  },
   module: {
     titleBarHeight: '48px',
     titleMargin: '0 0 0 8px',

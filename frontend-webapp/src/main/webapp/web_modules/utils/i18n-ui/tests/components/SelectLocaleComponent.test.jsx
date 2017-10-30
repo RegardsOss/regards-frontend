@@ -21,8 +21,9 @@ import { expect } from 'chai'
 import MenuItem from 'material-ui/MenuItem'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 /**
  * Test a components rendering
@@ -40,7 +41,6 @@ describe('[I18N] Testing i18n Select Locale components', () => {
       setLocale: onLocaleChange,
       currentLocale: 'ru',
       locales: ['fr', 'en', 'ru', 'es'],
-      muiTheme: context.muiTheme,
     }
 
     const wrapper = shallow(<SelectLocaleComponent {...props} />, { context })

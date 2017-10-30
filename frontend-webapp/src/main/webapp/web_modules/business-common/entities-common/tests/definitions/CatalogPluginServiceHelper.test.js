@@ -163,7 +163,7 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
         parameters: [
           { name: 'A bool', type: 'java.lang.Boolean', paramType: 'PRIMITIVE', optional: false },
           { name: 'A string', type: 'java.lang.String', paramType: 'PRIMITIVE', defaultValue: 'Default val', optional: false },
-          { name: 'A string choice', type: 'java.lang.String', paramType: 'PRIMITIVE', defaultValue: 'xxx', optional: false },
+          { name: 'A string choice', type: 'java.lang.String', paramType: 'PRIMITIVE', defaultValue: 'v', optional: false },
         ],
       },
     }

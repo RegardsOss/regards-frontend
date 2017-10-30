@@ -16,38 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import TextField from 'material-ui/TextField'
 
 /**
- * Redux-form component to display a text-area
+ * Module styles
+ * @author Raphaël Mechali
  */
-class TextareaInput extends React.Component {
-
-  static propTypes = {
-    input: PropTypes.shape({
-      value: PropTypes.string,
-      name: PropTypes.string,
-    }),
-    meta: PropTypes.shape({
-      touched: PropTypes.bool,
-      error: PropTypes.string,
-    }),
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func,
-    }),
-  }
-
-  render() {
-    const { input, meta: { touched, error }, intl } = this.props
-    return (
-      <TextField
-        multiLine
-        fullWidth
-        errorText={touched && error && intl.formatMessage({ id: error })}
-        {...input}
-      />
-    )
-  }
-}
-
-export default TextareaInput
+export default theme => ({
+  // empty
+})

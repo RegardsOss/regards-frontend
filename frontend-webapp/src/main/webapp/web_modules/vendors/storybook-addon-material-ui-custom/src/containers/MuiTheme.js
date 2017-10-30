@@ -75,7 +75,7 @@ export default class MuiTheme extends React.Component {
   onChannel(state) {
     // this.needComponentUpdate('ThemeSideBar')
     this.isChannelData = true
-    // fixme: onThemeOverride - to store theme
+    // XXX: onThemeOverride - to store theme
     this.setState({
       ...state,
       isMount: false,

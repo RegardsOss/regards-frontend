@@ -100,7 +100,6 @@ propTypes = {
     pluginInstanceId: React.PropTypes.string,
 }
 ```
-TODO 
 
 ## Compile your plugin
 

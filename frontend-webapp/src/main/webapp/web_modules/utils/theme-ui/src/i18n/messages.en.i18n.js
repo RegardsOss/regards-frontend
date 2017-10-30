@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const messages = {
-  'select.theme.tooltip': 'Change color theme',
+  'select.theme.tooltip': 'Select a color theme',
 }
 
 export default messages

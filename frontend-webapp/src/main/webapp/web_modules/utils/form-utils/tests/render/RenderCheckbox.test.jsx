@@ -18,34 +18,33 @@
 **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import RenderSelectField from '../src/RenderSelectField'
+import Checkbox from 'material-ui/Checkbox'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import RenderCheckbox from '../../src/render/RenderCheckbox'
 
+const context = buildTestContext()
 // Test a components rendering
-describe('[FORM UTILS] Testing RenderSelectField', () => {
+describe('[FORM UTILS] Testing RenderCheckbox', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(RenderSelectField)
+    assert.isDefined(RenderCheckbox)
   })
-  it('should retrieve the right child', () => {
+  it('should retrive the right child', () => {
     const props = {
       label: 'Some label',
       input: {
         name: 'isItInteresting',
-        value: 'value1',
+        value: false,
+        onChange: () => { },
       },
       meta: {
-        touched: true,
-        error: '',
+        error: 'false',
       },
-      children: [<MenuItem key="0" value="value0" />, <MenuItem key="1" value="value1" />],
     }
-    const enzymeWrapper = shallow(<RenderSelectField {...props} />)
-    const subComponent = enzymeWrapper.find(SelectField)
+    const enzymeWrapper = shallow(<RenderCheckbox {...props} />, { context })
+    const subComponent = enzymeWrapper.find(Checkbox)
     expect(subComponent).to.have.length(1)
   })
 })

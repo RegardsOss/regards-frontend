@@ -24,7 +24,6 @@
 */
 const styles = theme => ({
   code: {
-    theme: 'monokai',
     styles: {
       width: '100%',
       height: '100%',
@@ -40,6 +39,13 @@ const styles = theme => ({
       maxWidth: '100%',
       maxHeight: '100%',
       objectFit: 'contain',
+    },
+  },
+  markdown: {
+    scrollbarStyle: {
+      background: '#0366d6',
+      borderRadius: '3px',
+      width: '6px',
     },
   },
 })

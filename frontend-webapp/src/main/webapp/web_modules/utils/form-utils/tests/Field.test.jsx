@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Field as ReduxField } from 'redux-form'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import RenderTextFiled from '../src/RenderTextField'
+import RenderTextFiled from '../src/render/RenderTextField'
 import Field from '../src/Field'
 
 const context = buildTestContext()

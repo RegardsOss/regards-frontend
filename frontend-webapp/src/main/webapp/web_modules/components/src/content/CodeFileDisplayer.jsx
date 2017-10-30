@@ -95,7 +95,6 @@ class CodeFileDisplayer extends React.Component {
     return (
       <AceEditorAdapter
         mode={CodeFileDisplayer.MIMETypeToMode[file.contentType]}
-        theme={code.theme}
         value={fileContent}
         setOptions={CodeFileDisplayer.EDITOR_PROPS}
         style={code.styles}

@@ -73,7 +73,6 @@ class FileContentDisplayer extends React.Component {
     }
   }
 
-
   render() {
     const { file, style } = this.props
     const { localAccessURL } = this.state
@@ -103,4 +102,5 @@ class FileContentDisplayer extends React.Component {
     )
   }
 }
+
 export default FileContentDisplayer

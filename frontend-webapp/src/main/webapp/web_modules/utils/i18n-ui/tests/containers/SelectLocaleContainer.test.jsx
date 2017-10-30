@@ -21,8 +21,9 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SelectLocaleComponent from '../../src/components/SelectLocaleComponent'
 import { SelectLocaleContainer } from '../../src/containers/SelectLocaleContainer'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 /**
 * Test SelectLocaleContainer
@@ -37,7 +38,6 @@ describe('[I18N] Testing SelectLocaleContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
-      muiTheme: context.muiTheme,
     }
     const enzymeWrapper = shallow(<SelectLocaleContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SelectLocaleComponent), 1, 'The container should render its component')

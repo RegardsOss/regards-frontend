@@ -15,27 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+
+/**
+ * Module styles
+ * @author Raphaël Mechali
  */
-import { shallow } from 'enzyme'
-import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import LinkComponent from '../../src/links/LinkComponent'
-import styles from '../../src/links/styles/styles'
-
-const context = buildTestContext(styles)
-
-describe('[Components] Testing LinkComponent', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
-
-  it('should exists', () => {
-    assert.isDefined(LinkComponent)
-  })
-  it('should render properly', () => {
-    const props = {
-      link: './local',
-      label: 'hello link',
-    }
-    shallow(<LinkComponent {...props} />, { context })
-  })
+export default theme => ({
+  // empty
 })
