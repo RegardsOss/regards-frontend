@@ -141,7 +141,9 @@ pipeline {
                           -Dsonar.host.url=http://172.26.46.158:9000/'
                     },
                     maven: {
-                        git branch: BRANCH_NAME, url: 'http://172.26.46.158:10080/regards/rs-cloud.git'
+                        dir('rs-cloud') {
+                            git branch: BRANCH_NAME, url: 'http://172.26.46.158:10080/regards/rs-cloud.git'
+                        }
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/rs-cloud/rs-frontend:/app_to_build \
                             -v ${WORKSPACE}/frontend-webapp/src/main/webapp/dist:/app_to_build/frontend-webapp/src/main/webapp/dist \
