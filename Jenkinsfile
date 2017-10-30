@@ -132,9 +132,12 @@ pipeline {
                             -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build \
                             rs_node ./run_coverage.sh'
 
-                        sh 'docker run --rm \
+                        sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./frontend-webapp/src/main/webapp) && \
+                          docker run --rm \
                           -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/data \
                           sebp/sonar-runner \
+                          /opt/sonar-runner-2.4/bin/sonar-runner \
+                          -Dsonar.projectVersion=${TAG}  \
                           -Dsonar.host.url=http://172.26.46.158:9000/'
                     },
                     maven: {
@@ -143,7 +146,7 @@ pipeline {
                             -v ${WORKSPACE}/rs-cloud/rs-frontend:/app_to_build \
                             -v ${WORKSPACE}/frontend-webapp/src/main/webapp/dist:/app_to_build/frontend-webapp/src/main/webapp/dist \
                             -v /opt/maven-multibranch-repository:/localRepository \
-                            -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy \
+                            -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins -e MODE=Deploy \
                             172.26.46.158/rs-maven'
                     }
                 )
