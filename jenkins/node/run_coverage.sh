@@ -6,7 +6,7 @@ echo "execute tests coverage"
 npm run test:coverage
 
 echo "Fix permissions"
-chmod -R 0777 /app_to_build/report
+chmod -R 0777 /app_to_build/reports
 
 echo "Success !"
 exit 0
