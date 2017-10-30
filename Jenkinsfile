@@ -124,8 +124,8 @@ pipeline {
             }
             steps {
                 parallel(
-                        sh 'tar zcvf frontend.tar.gz ./frontend-webapp/src/main/webapp/dist/prod'
                     artifact: {
+                        sh 'tar zcvf frontend.tar.gz ./frontend-webapp/src/main/webapp/dist/prod'
                         archiveArtifacts artifacts: 'frontend.tar.gz', fingerprint: true
                     },
                     sonar: {
@@ -134,11 +134,14 @@ pipeline {
                           -Dsonar.host.url=http://172.26.46.158:9000/'
                     },
                     maven: {
-                sh 'docker run --rm -i \
-                    -v ${WORKSPACE}/:/app_to_build \
-                    -v /opt/maven-multibranch-repository:/localRepository \
-                    -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy \
-                    172.26.46.158/rs-maven'
+                        dir('rs-cloud') {
+                            git branch: BRANCH_NAME, url: 'https://thor.si.c-s.fr/git/rs-cloud'
+                            sh 'docker run --rm -i \
+                                -v ${WORKSPACE}/:/app_to_build \
+                                -v /opt/maven-multibranch-repository:/localRepository \
+                                -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy \
+                                172.26.46.158/rs-maven'
+                        }
                     }
                 )
             }
