@@ -3,14 +3,12 @@
 **/
 import { pluginTypes } from '@regardsoss/domain/access'
 import { I18nProvider } from '@regardsoss/i18n'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { PluginServiceRunModel } from '../../definitions/PluginServiceRunModel'
 import RunCatalogPluginServiceContainer from './catalog/RunCatalogPluginServiceContainer'
 import RunUIPluginServiceContainer from './ui/RunUIPluginServiceContainer'
-import styles from '../../styles/styles'
-
-/** Render constant: module syles  */
-const MODULE_STYLES = { styles }
+import messages from '../../i18n'
+import styles from '../../styles'
 
 /**
 * Root container to run a service. It simply install module styles and messages then dispatches on the right service runner,
@@ -27,8 +25,8 @@ class ServiceContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="business-common/entities-common/src/i18n">
-        <ModuleThemeProvider module={MODULE_STYLES}>
+      <I18nProvider messages={messages}>
+        <ModuleStyleProvider module={styles}>
           { // render running service according with wrapper content
             (() => {
               const { serviceRunModel, onQuit } = this.props
@@ -55,7 +53,7 @@ class ServiceContainer extends React.Component {
               }
             })()
           }
-        </ModuleThemeProvider>
+        </ModuleStyleProvider>
       </I18nProvider>)
   }
 

@@ -8,13 +8,13 @@
 
 	<name>frontend-webapp</name>
 	<artifactId>frontend-webapp</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<parent>
 		<groupId>fr.cnes.regards</groupId>
 		<artifactId>regards-frontend-parent</artifactId>
-		<version>1.1.0-SNAPSHOT</version>
+		<version>2.0.0-SNAPSHOT</version>
 		<relativePath></relativePath>
 	</parent>
 
@@ -30,25 +30,14 @@
 		<sonar.javascript.jstestdriver.reportsPath>src/main/webapp/reports/coverage/TEST-xunit.xml</sonar.javascript.jstestdriver.reportsPath>
 	</properties>
 
-	<!-- Internal build, the frontend webapp npm compilation is done with the 
-		JenkinsFile -->
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<warSourceDirectory>src/main/webapp/dist/prod</warSourceDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-	<!-- External build, the frontend webapp npm compilation need to be done -->
 	<profiles>
 		<profile>
-			<id>celivery</id>
+			<!-- Standard build, the frontend webapp npm compilation is done with 
+				maven exec plugin -->
+			<id>LT</id>
+			<activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -157,6 +146,23 @@
 								</configuration>
 							</execution>
 						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>CI</id>
+			<build>
+				<!-- Jenkins build, the frontend webapp npm compilation is done thanks 
+					to Jenkinsfile -->
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>3.0.0</version>
+						<configuration>
+							<warSourceDirectory>src/main/webapp/dist/prod</warSourceDirectory>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>

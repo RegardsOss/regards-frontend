@@ -30,7 +30,7 @@ import isInteger from 'lodash/isInteger'
 import values from 'lodash/values'
 import unionBy from 'lodash/unionBy'
 import { browserHistory } from 'react-router'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -346,7 +346,7 @@ class ModuleContainer extends React.Component {
       selectedDatasets[0]) || null
 
     const module = {
-      type: 'search-results',
+      type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: this.props.appName,
       description: this.props.description,

@@ -23,6 +23,7 @@ import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
 import PluginFormComponent from '../components/PluginFormComponent'
+import messages from '../i18n'
 
 /**
  * React component to display a edition form for plugin entity
@@ -111,7 +112,7 @@ export class PluginFormContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-plugin-management/src/i18n">
+      <I18nProvider messages={messages}>
         <PluginFormComponent
           onSubmit={this.handleSubmit}
           onBack={this.handleBack}

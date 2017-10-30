@@ -25,7 +25,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { AccessDomain } from '@regardsoss/domain'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceListComponent from '../components/ServiceListComponent'
-
+import messages from '../i18n'
 
 /**
  * Displays the list of plugin service
@@ -98,7 +98,7 @@ export class ServiceListContainer extends React.Component {
     const { uiPluginDefinitionList } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-service-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

@@ -24,6 +24,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { PluginProvider } from '@regardsoss/plugins'
 import ServiceConfigurationFormComponent from '../components/ServiceConfigurationFormComponent'
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
+import messages from '../i18n'
 
 /**
  * Show the plugin service configuration form
@@ -140,7 +141,7 @@ export class ServiceConfigurationFormContainer extends React.Component {
     const { uiPluginConfiguration, params: { uiPluginId } } = this.props
     const { isCreating, isEditing, isDuplicating, isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-service-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

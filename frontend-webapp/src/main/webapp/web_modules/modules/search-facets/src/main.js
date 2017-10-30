@@ -19,10 +19,11 @@
 import moduleContainer from './containers/ModuleContainer'
 import styles from './styles/styles'
 import dependencies from './dependencies'
+import messages from './i18n'
 
 export default {
   moduleContainer,
   styles,
-  messagesDir: 'modules/search-facets/src/i18n',
+  messages,
   dependencies,
 }

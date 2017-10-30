@@ -36,4 +36,13 @@ export default {
     titleFontWeight: '500',
     titleTextTransform: undefined,
   },
+  // storage plugins module
+  'module:storage-plugins': {
+    tableRowHeight: '24px',
+    tableCellPadding: '0 5px 0 0',
+    usedSpaceColor: '#3DC9D5',
+    unusedSpaceColor: '#E0E0E0',
+    chartBorderColor: '#FFFFFF',
+    chartBorderWidth: '1px',
+  },
 }

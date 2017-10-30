@@ -5,7 +5,7 @@ const merge = require('webpack-merge')
 const path = require('path')
 
 module.exports = function (projectContextPath) {
-  let config = getCommonConfig(projectContextPath, 'test')
+  let config = getCommonConfig(projectContextPath, 'dev')
 
   config = merge(config, {
     // Enable sourcemaps for debugging webpack's output.
@@ -51,12 +51,16 @@ module.exports = function (projectContextPath) {
         }],
       }, // Allow to expose plugins
       // publicPath: "/plugins/",
+      // Opens webpack-dev-server to DNS rebinding attacks https://github.com/webpack/webpack-dev-server/issues/887
+      // but allows any computer on your network to reach the frontend
+      disableHostCheck: true,
     },
     plugins: [
       new webpack.DllReferencePlugin({
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
         // within that bundle
+        // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/dist/dev/core-manifest.json`),
         context: projectContextPath,
       }),

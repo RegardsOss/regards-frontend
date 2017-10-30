@@ -25,6 +25,7 @@ import DatasetEditPluginComponent from '../components/DatasetEditPluginComponent
 import { linkPluginDatasetActions, linkPluginDatasetSelectors } from './../clients/LinkPluginDatasetClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from './../clients/PluginConfigurationClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
+import messages from '../i18n'
 
 export class DatasetEditPluginContainer extends React.Component {
 
@@ -107,7 +108,7 @@ export class DatasetEditPluginContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

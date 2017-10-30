@@ -46,28 +46,24 @@ describe('[Search Results] Testing TableViewOptionsCellContainer', () => {
           sipId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          files: [],
+          files: {},
           geometry: null,
           properties: {},
           tags: [],
         },
       },
-      servicesTooltip: 'services.tooltip',
-      descriptionTooltip: 'description.tooltip',
-      styles: context.moduleTheme.user.optionsStyles,
+      enableServices: true,
       dispatchShowDescription: () => { },
       dispatchRunService: () => { },
+      onAddToCart: () => { },
     }
     const render = shallow(<TableViewOptionsCellContainer {...props} />, { context })
     const component = render.find(TableViewOptionsCellComponent)
     assert.lengthOf(component, 1, 'The container should use a component to render')
     testSuiteHelpers.assertWrapperProperties(component, {
-      services: props.entity.content.services,
-      styles: props.styles,
-      servicesTooltip: props.servicesTooltip,
-      descriptionTooltip: props.descriptionTooltip,
       onShowDescription: render.instance().onShowDescription,
       onServiceStarted: render.instance().onServiceStarted,
+      onAddToCart: render.instance().onAddToCart,
     }, 'The container should provider the right properties to the render component')
   })
 })

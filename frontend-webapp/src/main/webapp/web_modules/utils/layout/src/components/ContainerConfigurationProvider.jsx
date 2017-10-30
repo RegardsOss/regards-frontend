@@ -19,6 +19,7 @@
 import { I18nProvider } from '@regardsoss/i18n'
 import ContainerShape from '../model/ContainerShape'
 import ContainerConfigurationComponent from './ContainerConfigurationComponent'
+import messages from '../i18n'
 
 class ContainerConfigurationProvider extends React.Component {
 
@@ -31,7 +32,7 @@ class ContainerConfigurationProvider extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="utils/layout/src/i18n">
+      <I18nProvider messages={messages}>
         <ContainerConfigurationComponent
           container={this.props.container}
           hideDynamicContentOption={this.props.hideDynamicContentOption}

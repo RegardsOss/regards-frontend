@@ -32,7 +32,7 @@ import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CommonShapes } from '@regardsoss/shape'
-import ShowableAtRender from '../cards/ShowableAtRender'
+import { ShowableAtRender } from '@regardsoss/display-control'
 
 class PluginConfigurationPickerComponent extends React.Component {
 

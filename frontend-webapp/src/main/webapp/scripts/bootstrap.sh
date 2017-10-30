@@ -19,7 +19,7 @@
 
 ## To enable auto reload we need to create symlink between the modules and the app
 ## Webpack compiles all these packages without that package depend on another package
-# and uses the main webapp/node_modules to provides dependencies to these modules (fallback of webpack)
+## and uses the main webapp/node_modules to provides dependencies to these modules (fallback of webpack)
 
 set -e
 
@@ -39,17 +39,20 @@ npm link web_modules/data/client
 # Tools
 npm link web_modules/utils/adapters
 npm link web_modules/utils/authentication-manager
+npm link web_modules/utils/display-control
 npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
+npm link web_modules/utils/i18n-ui
+npm link web_modules/utils/layout
+npm link web_modules/utils/modules
 npm link web_modules/utils/plugins
 npm link web_modules/utils/plugins-api
-npm link web_modules/utils/store-utils
-npm link web_modules/utils/theme
-npm link web_modules/utils/display-control
-npm link web_modules/utils/tests-helpers
 npm link web_modules/utils/redux
-npm link web_modules/utils/modules
-npm link web_modules/utils/layout
+npm link web_modules/utils/store-utils
+npm link web_modules/utils/tests-helpers
+npm link web_modules/utils/theme
+npm link web_modules/utils/theme-ui
+npm link web_modules/utils/units
 
 # Common components
 npm link web_modules/components
@@ -76,6 +79,7 @@ npm link web_modules/business-modules/admin-data-collection-management
 npm link web_modules/business-modules/admin-data-connection-management
 npm link web_modules/business-modules/admin-data-dataset-management
 npm link web_modules/business-modules/admin-data-datasource-management
+npm link web_modules/business-modules/admin-data-document-management
 npm link web_modules/business-modules/admin-data-fragment-management
 npm link web_modules/business-modules/admin-microservice-management
 npm link web_modules/business-modules/admin-project-management
@@ -91,19 +95,21 @@ npm link web_modules/business-modules/admin-user-role-resource-access-management
 npm link web_modules/business-modules/admin-user-role-management
 
 # Global modules
+npm link web_modules/modules/aip-status
 npm link web_modules/modules/authentication
 npm link web_modules/modules/embedded-html
 npm link web_modules/modules/licenses
 npm link web_modules/modules/menu
 npm link web_modules/modules/news
+npm link web_modules/modules/order-cart
+npm link web_modules/modules/order-history
 npm link web_modules/modules/project-about-page
 npm link web_modules/modules/projects-list
 npm link web_modules/modules/search-facets
 npm link web_modules/modules/search-form
 npm link web_modules/modules/search-graph
 npm link web_modules/modules/search-results
-npm link web_modules/modules/archival-storage-aip-status
-npm link web_modules/modules/archival-storage-plugins-monitoring
+npm link web_modules/modules/storage-monitoring
 
 # Applications
 npm link web_modules/business-modules/admin

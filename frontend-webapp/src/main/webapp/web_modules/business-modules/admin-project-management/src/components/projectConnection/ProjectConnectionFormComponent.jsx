@@ -24,7 +24,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage, ValidationHelpers } from '@regardsoss/form-utils'
+import { FormErrorMessage } from '@regardsoss/components'
+import { RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 
 const { required, intNumber } = ValidationHelpers
 const requiredIntNumber = [required, intNumber]
@@ -233,7 +234,7 @@ function
 validate(values) {
   const errors = {}
   if (!keys(values).length) {
-    // XXX workaround for redux form bug initial validation:
+    // Workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
   }

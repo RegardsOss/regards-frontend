@@ -34,26 +34,26 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
   it('Should render a Thumbmail value', () => {
     const props = {
       attributes: {
-        files: [
-          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL, fileRef: 'http://test.fr' },
-          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA, fileRef: 'http://error.fr' },
-        ],
+        files: {
+          [CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL]: [{ uri: 'http://test.fr' }],
+          [CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA]: [{ uri: 'http://error.fr' }],
+        },
       },
       lineHeight: 150,
     }
     const wrapper = shallow(<ThumbnailAttributesRender {...props} />)
 
-    const value = wrapper.find(Avatar)
-    assert.lengthOf(value, 1, 'There should be one Avatar rendered')
+    const value = wrapper.find('img')
+    assert.lengthOf(value, 1, 'There should be one image rendered')
   })
 
   it('Should render an empty value', () => {
     const props = {
       attributes: {
-        files: [
-          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA, fileRef: 'http://test.fr' },
-          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA, fileRef: 'http://error.fr' },
-        ],
+        files: {
+          [CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA]: [{ uri: 'http://test.fr' }],
+          [CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA]: [{ uri: 'http://error.fr' }],
+        },
       },
       lineHeight: 150,
     }

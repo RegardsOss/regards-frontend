@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import ProjectsAction from './model/ProjectsAction'
 
 /**
  * Module hateoas depencies
@@ -26,8 +28,7 @@
  * @type {Array}
  */
 const user = [
-  // XXX V2 : How to retrieve endpoints for public users ?
-  // ProjectsAction.getDependency(RequestVerbEnum.GET_LIST),
+  ProjectsAction.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 /**

@@ -29,6 +29,7 @@ import DatasourceFormAttributesContainer from './DatasourceFormAttributesContain
 import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
 import { fragmentSelectors } from './../clients/FragmentClient'
+import messages from '../i18n'
 
 const states = {
   FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',
@@ -201,10 +202,11 @@ export class DatasourceFormContainer extends React.Component {
       }
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql
+        attributesMapping.push(newAttributeMapping)
       } else if (attribute.tableAttribute && attribute.tableAttribute.length > 0) {
         newAttributeMapping.nameDS = attribute.tableAttribute
+        attributesMapping.push(newAttributeMapping)
       }
-      attributesMapping.push(newAttributeMapping)
     })
     const { currentDatasource } = this.state
     if (formValuesSubset.table) {
@@ -261,7 +263,7 @@ export class DatasourceFormContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-datasource-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

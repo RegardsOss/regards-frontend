@@ -8,8 +8,8 @@ import SearchResultsContainer from '../../containers/user/results/SearchResultsC
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
 
 /**
-* Search results module view
-*/
+ * Search results module view
+ */
 class ModuleComponent extends React.Component {
 
   static propTypes = {

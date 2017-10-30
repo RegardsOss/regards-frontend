@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonShapes } from '@regardsoss/shape'
 import FlatButton from 'material-ui/FlatButton'
 import DownloadIcon from 'material-ui/svg-icons/file/file-download'
 
@@ -31,7 +30,7 @@ class DownloadButton extends React.Component {
     ButtonIcon: PropTypes.func, // not mandatory, can use a simple label
     label: PropTypes.string, // not mandatory, can use a simple icon
     tooltip: PropTypes.string,
-    downloadURL: CommonShapes.URL.isRequired,
+    downloadURL: PropTypes.string.isRequired,
     // ... other button properties, provided at runtime to the button
   }
 

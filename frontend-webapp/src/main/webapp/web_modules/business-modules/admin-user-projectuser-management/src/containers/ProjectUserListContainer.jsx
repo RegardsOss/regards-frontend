@@ -25,6 +25,8 @@ import { projectUserActions, projectUserSelectors } from '../clients/ProjectUser
 import { waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesSelectors } from '../clients/WaitingAccessUsersEntitiesClient'
 import { ProjectUserSignalActions } from '../clients/ProjectUserSignalClient'
 import ProjectUserListComponent from '../components/ProjectUserListComponent'
+import messages from '../i18n'
+
 /**
  * Show the user list for the current project
  */
@@ -125,7 +127,7 @@ export class ProjectUserListContainer extends React.Component {
     const { users, waitingAccessUsers } = this.props
     const { isFetchingActions, initialFecthing } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-user-projectuser-management/src/i18n">
+      <I18nProvider messages={messages}>
         <ProjectUserListComponent
           users={users}
           waitingAccessUsers={waitingAccessUsers}

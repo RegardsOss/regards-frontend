@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss-modules/order-history",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Display a user order history, or all users order histories when used by admin order history module",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPL-3.0"
+}

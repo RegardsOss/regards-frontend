@@ -20,16 +20,16 @@ import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
-import { withResourceDisplayControl, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
-import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import { ShowableAtRender, withResourceDisplayControl, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
 import RaisedButton from 'material-ui/RaisedButton'
-import ShowableAtRender from '../cards/ShowableAtRender'
 import styles from './styles/styles'
-
+import messages from './i18n'
 
 const RaisedButtonWithResourceDisplayControl = withResourceDisplayControl(RaisedButton)
+
 /**
  * React component to dislay a full board element.
  * The board items to display are expected to be either {@link BaseBoardItemComponent}s or {@link BoardItemComponent}s.
@@ -119,7 +119,7 @@ class BaseBoardComponent extends React.Component {
     const computedStyles = styles(this.context.muiTheme)
 
     return (
-      <I18nProvider messageDir={'components/src/board/i18n'}>
+      <I18nProvider messages={messages}>
         <div>
           <div
             className={computedStyles.section.classes}

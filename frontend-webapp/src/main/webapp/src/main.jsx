@@ -40,9 +40,9 @@ require('../resources/logo_regards_grey_white.png')
 
 // import static configuration parameters
 if (process.env.NODE_ENV === 'production') {
-  require('../conf/staticConfiguration.js')
+  require('@regardsoss/webpack-config-front/src/conf/staticConfiguration')
 } else {
-  require('../conf/staticConfiguration.dev.js')
+  require('@regardsoss/webpack-config-front/src/conf/staticConfiguration.dev')
 }
 
 const store = configureStore(rootReducer)

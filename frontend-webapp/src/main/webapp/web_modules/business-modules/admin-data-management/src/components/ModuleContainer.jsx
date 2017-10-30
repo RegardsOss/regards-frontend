@@ -18,6 +18,7 @@
  **/
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import DataManagementBoardComponent from './DataManagementBoardComponent'
+import messages from '../i18n'
 
 /**
  * Main container to render for the Datamanagement module
@@ -37,7 +38,7 @@ class ModuleContainer extends React.Component {
   render() {
     const { project } = this.props.params
     return (
-      <I18nProvider messageDir="business-modules/admin-data-management/src/i18n">
+      <I18nProvider messages={messages}>
         <DataManagementBoardComponent project={project} />
       </I18nProvider>
     )

@@ -30,10 +30,14 @@ export class AccountPasswordReducer extends BasicSignalReducers {
 
   constructor(namespace) {
     super(new AccountPasswordActions(namespace))
+    this.defaultState = AccountPasswordReducer.DEFAULT_STATE
   }
 
+  reduce(state = this.defaultState, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
 
-  reduce(state = AccountPasswordReducer.DEFAULT_STATE, action) {
     // in this reducer, we want to keep last rules fetch and last password validation separately
     const { rules, validity } = state
     const nextState = super.reduce(state, action)
@@ -48,20 +52,12 @@ export class AccountPasswordReducer extends BasicSignalReducers {
           rules: state.rules,
           validity: state.validity,
         }
-      case this.basicSignalActionInstance.FLUSH:
-        return {
-          ...nextState,
-          // reset rules and validity to defaults
-          rules: AccountPasswordReducer.DEFAULT_STATE.rules,
-          validity: AccountPasswordReducer.DEFAULT_STATE.validity,
-        }
-
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
         return {
           ...nextState,
           // update rules or validity depending on what the action performed
-          rules: get(nextState, 'result.rules', null) ? get(nextState, 'result.rules', null) : rules,
-          validity: get(nextState, 'result.validity', null) ? get(nextState, 'result.validity', null) : validity,
+          rules: get(nextState, 'result.rules', rules),
+          validity: get(nextState, 'result.validity', validity),
         }
       default:
         return nextState

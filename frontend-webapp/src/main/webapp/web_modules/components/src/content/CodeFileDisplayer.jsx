@@ -53,7 +53,7 @@ class CodeFileDisplayer extends React.Component {
 
   static propTypes = {
     file: PropTypes.shape({
-      // XXX : Blob is not necessary present when loading the class (test issue)
+      // For tests: Blob is not necessary present when loading the class
       content: PropTypes.instanceOf(root.Blob || Object).isRequired,
       contentType: PropTypes.string.isRequired,
     }).isRequired,

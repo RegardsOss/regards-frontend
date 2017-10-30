@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import flow from 'lodash/flow'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
@@ -24,23 +25,20 @@ import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { withModuleStyle } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
-import { I18nProvider } from '@regardsoss/i18n'
+import { withI18n } from '@regardsoss/i18n'
 import TablePane from './TablePane'
 import TableSelectionModes from './model/TableSelectionModes'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableConfigurationModel from './content/model/TableConfigurationModel'
 import ColumnConfigurationModel from './content/columns/model/ColumnConfiguration'
-
 import TableActions from './model/TableActions' // class for prop type
 import { TableSelectors } from './model/TableSelectors' // class for prop type
 import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
-
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
-
-const MODULE_STYLES = { styles }
+import messages from './i18n'
 
 const defaultLineHeight = 42
 
@@ -96,9 +94,9 @@ class TableContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
     // eslint-disable-next-line react/no-unused-prop-types
-    tableActions: PropTypes.instanceOf(TableActions).isRequired, // Table actions instance
+    tableActions: PropTypes.instanceOf(TableActions), // Table actions instance
     // eslint-disable-next-line react/no-unused-prop-types
-    tableSelectors: PropTypes.instanceOf(TableSelectors).isRequired, // Table selectors instance
+    tableSelectors: PropTypes.instanceOf(TableSelectors), // Table selectors instance
 
     // from map state to props
     // page data
@@ -111,9 +109,6 @@ class TableContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
-    resultsCount: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    error: PropTypes.object,
     // authentication data
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape,
@@ -126,6 +121,8 @@ class TableContainer extends React.Component {
     fetchEntities: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     flushEntities: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    flushSelection: PropTypes.func.isRequired,
 
     // selection
     toggleRowSelection: PropTypes.func.isRequired,
@@ -179,6 +176,8 @@ class TableContainer extends React.Component {
       nextState.entities = []
       // Remove index of fectced pages
       this.fetchedPages = []
+      // clear selection (if there is a selection model)
+      nextProps.flushSelection()
       // Remove entities in store
       nextProps.flushEntities()
       // Fetch the first page results
@@ -343,8 +342,9 @@ class TableContainer extends React.Component {
 
   render() {
     const {
-      entitiesFetching, error, pageSize, resultsCount, tablePaneConfiguration,
-      toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration }, emptyComponent,
+      entitiesFetching, pageSize, pageMetadata, tablePaneConfiguration,
+      toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
+      emptyComponent,
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
 
@@ -357,26 +357,21 @@ class TableContainer extends React.Component {
     }
 
     return (
-      <I18nProvider messageDir={'components/src/table/i18n'}>
-        <ModuleThemeProvider module={MODULE_STYLES}>
-          <TablePane
-            tableData={tableData}
-            columns={allColumns}
-            entitiesFetching={entitiesFetching}
-            error={error}
-            maxRowCounts={this.maxRowCounts}
-            minRowCounts={this.props.minRowCounts}
-            resultsCount={resultsCount}
-            allSelected={allSelected}
-            toggledElements={toggledElements}
-            selectionMode={selectionMode}
-            onToggleRowSelection={this.onToggleRowSelection}
-            onToggleSelectAll={this.onToggleSelectAll}
-            emptyComponent={emptyComponent}
-            {...tablePaneConfiguration}
-          />
-        </ModuleThemeProvider>
-      </I18nProvider>
+      <TablePane
+        tableData={tableData}
+        columns={allColumns}
+        entitiesFetching={entitiesFetching}
+        maxRowCounts={this.maxRowCounts}
+        minRowCounts={this.props.minRowCounts}
+        resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
+        allSelected={allSelected}
+        toggledElements={toggledElements}
+        selectionMode={selectionMode}
+        onToggleRowSelection={this.onToggleRowSelection}
+        onToggleSelectAll={this.onToggleSelectAll}
+        emptyComponent={emptyComponent}
+        {...tablePaneConfiguration}
+      />
     )
   }
 }
@@ -386,21 +381,26 @@ const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
   entities: pageSelectors.getOrderedList(state),
   pageMetadata: pageSelectors.getMetaData(state),
   entitiesFetching: pageSelectors.isFetching(state),
-  error: pageSelectors.getError(state),
   // authentication
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
   // selection
-  toggledElements: tableSelectors.getToggledElements(state),
-  selectionMode: tableSelectors.getSelectionMode(state),
-  resultsCount: pageSelectors.getResultsCount(state),
+  toggledElements: tableSelectors ? tableSelectors.getToggledElements(state) : {},
+  selectionMode: tableSelectors ? tableSelectors.getSelectionMode(state) : TableSelectionModes.includeSelected,
 })
 
 const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({
   flushEntities: () => dispatch(pageActions.flush()),
   fetchEntities: (pageNumber, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, requestParams)),
   toggleRowSelection: (rowIndex, entity) => dispatch(tableActions.toggleElement(rowIndex, entity)),
-  dispatchSelectAll: () => dispatch(tableActions.selectAll()),
-  dispatchUnselectAll: () => dispatch(tableActions.unselectAll()),
+  // keep optional callbacks but stub them when the client is not provided
+  dispatchSelectAll: () => tableActions && dispatch(tableActions.selectAll()),
+  dispatchUnselectAll: () => tableActions && dispatch(tableActions.unselectAll()),
+  flushSelection: () => tableActions && dispatch(tableActions.unselectAll()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableContainer)
+export default flow(
+  withModuleStyle({ styles }),
+  withI18n(messages),
+  connect(mapStateToProps, mapDispatchToProps),
+)(TableContainer)
+

@@ -20,12 +20,13 @@ import map from 'lodash/map'
 import merge from 'lodash/merge'
 import some from 'lodash/some'
 import isString from 'lodash/isString'
+import TextField from 'material-ui/TextField'
 import { connect } from '@regardsoss/redux'
 import { BasicListSelectors, BasicListActions } from '@regardsoss/store-utils'
-import TextField from 'material-ui/TextField'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import LineComponent from './LineComponent'
 import ListHeaderComponent from './ListHeaderComponent'
-import ShowableAtRender from '../cards/ShowableAtRender'
+
 
 /**
  * React component to handle list of elements.

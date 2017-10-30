@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import { initPlugin } from '@regardsoss/plugins-api'
 import SampleService from './containers/SampleService'
 import messages from './i18n'

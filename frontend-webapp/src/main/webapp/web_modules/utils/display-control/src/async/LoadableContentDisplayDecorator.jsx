@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isFunction from 'lodash/isFunction'
-import { ShowableAtRender } from '@regardsoss/components'
+import ShowableAtRender from '../ShowableAtRender'
 import LoadingComponent from './loading/LoadingComponent'
 import DefaultErrorComponent from './error/DefaultErrorComponent'
 import DefaultEmptyComponent from './empty/DefaultEmptyComponent'
@@ -81,11 +81,11 @@ class LoadableContentDisplayDecorator extends React.Component {
         <ShowableAtRender show={isContentError && !isLoading}>
           {contentErrorComponent}
         </ShowableAtRender>
-        <ShowableAtRender show={isEmpty && !isContentError && !isLoading}>
-          {emptyComponent}
-        </ShowableAtRender>
-        <ShowableAtRender show={isRequestEntityTooLarge && !isEmpty && !isContentError && !isLoading}>
+        <ShowableAtRender show={isRequestEntityTooLarge && !isContentError && !isLoading}>
           {requestEntityTooLargeComponent}
+        </ShowableAtRender>
+        <ShowableAtRender show={!isRequestEntityTooLarge && isEmpty && !isContentError && !isLoading}>
+          {emptyComponent}
         </ShowableAtRender>
         <ShowableAtRender show={!isRequestEntityTooLarge && !isEmpty && !isContentError && !isLoading}>
           {this.renderChild()}

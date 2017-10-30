@@ -30,6 +30,7 @@ import { collectionActions, collectionSelectors } from '../clients/CollectionCli
 import CollectionFormComponent from '../components/CollectionFormComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { modelAttributesSelectors, modelAttributesActions } from '../clients/ModelAttributesClient'
+import messages from '../i18n'
 
 /**
  * Show the collection form
@@ -183,7 +184,7 @@ export class CollectionFormContainer extends React.Component {
     const { isEditing, isDuplicating } = this.state
     const isLoading = ((isEditing || isDuplicating) && (isFetchingCollection || (isFetchingModelAttribute && Object.keys(modelAttributeList).length === 0) || isFetchingModel)) || isFetchingModel
     return (
-      <I18nProvider messageDir="business-modules/admin-data-collection-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

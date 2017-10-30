@@ -21,6 +21,6 @@ import ExampleContainer from './containers/ExampleContainer'
 import messages from './i18n'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
-import reducer from './model/pluginReducer'
+import reducer from './pluginReducer'
 
 initPlugin(ExampleContainer, pluginInfo, reducer, messages, styles)

@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
+import { ShowableAtRender } from '@regardsoss/display-control'
+
 import ApplicationErrorComponent from './ApplicationErrorComponent'
 import CenteredDiv from './CenteredDiv'
 import ErrorDecoratorComponent from './ErrorDecoratorComponent'
@@ -27,7 +30,6 @@ import BaseBoardComponent from './board/BaseBoardComponent'
 import BoardItemComponent from './board/BoardItemComponent'
 import BaseBoardItemComponent from './board/BaseBoardItemComponent'
 
-import buttonsMessages from './buttons/i18n'
 import ClearFieldButton from './buttons/ClearFieldButton'
 import DownloadButton from './buttons/DownloadButton'
 import DropDownButton from './buttons/DropDownButton'
@@ -41,12 +43,12 @@ import CardActionsView from './cards/CardActionsView'
 import MainActionButtonComponent from './cards/MainActionButtonComponent'
 import NoContentMessageInfo from './cards/NoContentMessageInfo'
 import SecondaryActionButtonComponent from './cards/SecondaryActionButtonComponent'
-import ShowableAtRender from './cards/ShowableAtRender'
 
 import FileContentDisplayer from './content/FileContentDisplayer'
 import CodeFileDisplayer from './content/CodeFileDisplayer'
 import IFrameURLContentDisplayer from './content/IFrameURLContentDisplayer'
 import MarkdownFileContentDisplayer from './content/MarkdownFileContentDisplayer'
+import NoContentComponent from './content/NoContentComponent'
 
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
 import PositionedDialog from './dialogs/PositionedDialog'
@@ -56,9 +58,15 @@ import withConfirmDialog from './dialogs/withConfirmDialog'
 
 import ErrorCardComponent from './error/ErrorCardComponent'
 import PageNotFoundComponent from './error/PageNotFoundProvider'
+import FormErrorMessage from './error/FormErrorMessage'
+
+import HelpMessageComponent from './help/HelpMessageComponent'
+
+import SVGIconFromString from './icon/SVGIconFromString'
 
 import Breadcrumb from './links/Breadcrumb'
 import PictureLinkComponent from './links/PictureLinkComponent'
+import LinkComponent from './links/LinkComponent'
 
 import PageableListContainer from './list/PageableListContainer'
 import ListContainer from './list/ListContainer'
@@ -83,28 +91,23 @@ import getTableSelectors from './table/model/TableSelectors'
 import { TableSortOrders } from './table/model/TableSortOrders'
 import TableStyles from './table/styles/styles'
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
-
-import SVGIconFromString from './icon/SVGIconFromString'
-
-import LinkComponent from './links/LinkComponent'
 import TableColumnConfiguration from './table/content/columns/model/ColumnConfiguration'
 import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 
-import HelpMessageComponent from './help/HelpMessageComponent'
-
 import Title from './titles/Title'
-import NoContentComponent from './content/NoContentComponent'
+
+import TreeTableComponent from './tree-table/TreeTableComponent'
+import TreeTableRow from './tree-table/TreeTableRow'
 
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
   ActionsMenuCell,
   ApplicationErrorComponent,
-  BaseBoardItemComponent,
   BaseBoardComponent,
+  BaseBoardItemComponent,
   BoardComponent,
   BoardItemComponent,
-  buttonsMessages, // XXX remove me in V2
   CardActionsComponent,
   CardActionsView,
   CenteredDiv,
@@ -117,26 +120,17 @@ export {
   DynamicModule,
   ErrorCardComponent,
   ErrorDecoratorComponent,
+  FormErrorMessage,
   FileContentDisplayer,
   getTableReducer,
   getTableSelectors,
   HorizontalAreasSeparator,
   IFrameURLContentDisplayer,
-  ModuleTitle,
-  PageNotFoundComponent,
-  TableContainer,
-  TablePaneHeader,
-  TableSelectionModes,
-  TableActions,
-  Title,
-  TableSortOrders,
-  TableColumnConfiguration,
-  TableColumnConfigurationController,
-  TableOptionsSeparator,
-  TableStyles,
   ListContainer,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
+  ModuleTitle,
+  PageNotFoundComponent,
   PositionedDialog,
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
@@ -157,6 +151,22 @@ export {
   LinkComponent,
   HelpMessageComponent,
   NoContentComponent,
+
+  TableContainer,
+  TablePaneHeader,
+  TableSelectionModes,
+  TableActions,
+  TableSortOrders,
+  TableColumnConfiguration,
+  TableColumnConfigurationController,
+  TableOptionsSeparator,
+  TableStyles,
+
+  Title,
+
+  TreeTableComponent,
+  TreeTableRow,
+
   withConfirmDialog,
   ResultsCountComponent,
 }

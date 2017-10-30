@@ -23,6 +23,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import DatasourceFormAttributesComponent from '../components/DatasourceFormAttributesComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { connectionActions, connectionSelectors } from './../clients/ConnectionClient'
+import messages from '../i18n'
 
 /**
  * Show the datasource form
@@ -68,7 +69,7 @@ export class DatasourceFormAttributesContainer extends React.Component {
     const { isLoading } = this.state
 
     return (
-      <I18nProvider messageDir="business-modules/admin-data-datasource-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

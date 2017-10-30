@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonShapes } from '@regardsoss/shape'
 import IconButton from 'material-ui/IconButton'
 import AboutIcon from 'material-ui/svg-icons/action/lightbulb-outline'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { CommonShapes } from '@regardsoss/shape'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -54,7 +54,7 @@ class ProjectAboutPageLinkComponent extends React.Component {
       </IconButton>)
 
     const searchFacetsModule = {
-      type: 'project-about-page',
+      type: modulesManager.AllDynamicModuleTypes.PROJECT_ABOUT_PAGE,
       active: true,
       applicationId: appName,
       conf: {

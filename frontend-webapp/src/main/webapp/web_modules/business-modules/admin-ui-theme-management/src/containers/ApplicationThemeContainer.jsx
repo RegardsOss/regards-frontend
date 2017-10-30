@@ -24,6 +24,7 @@ import { AuthenticationParametersSelectors } from '@regardsoss/authentication-ma
 import { connect } from '@regardsoss/redux'
 import { ThemeActions, ThemeInstanceActions, ThemeSelectors, getCurrentTheme } from '@regardsoss/theme'
 import ApplicationThemeComponent from '../components/ApplicationThemeComponent'
+import messages from '../i18n'
 
 /**
  * React container connecting {@link ApplicationThemeComponent} to redux and providing internationalization.
@@ -82,7 +83,7 @@ export class ApplicationThemeContainer extends React.Component {
     const fetchTheme = this.props.isInstance ? this.props.fetchThemeInstance : this.props.fetchTheme
 
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-theme-management/src/i18n">
+      <I18nProvider messages={messages}>
         <ApplicationThemeComponent
           themeList={themeList}
           currentTheme={currentTheme}

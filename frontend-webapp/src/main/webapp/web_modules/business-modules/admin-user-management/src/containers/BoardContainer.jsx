@@ -18,6 +18,7 @@
  **/
 import { I18nProvider } from '@regardsoss/i18n'
 import UserManagementBoardComponent from '../components/UserManagementBoardComponent'
+import messages from '../i18n'
 
 /**
  * Display user management functionalities
@@ -31,7 +32,7 @@ export class BoardContainer extends React.Component {
   render() {
     const { params: { project } } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-user-management/src/i18n">
+      <I18nProvider messages={messages}>
         <UserManagementBoardComponent projectName={project} />
       </I18nProvider>
     )

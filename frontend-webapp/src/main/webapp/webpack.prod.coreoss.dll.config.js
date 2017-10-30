@@ -44,6 +44,7 @@ const conf = webpackConfigurator
         '@regardsoss/form-utils',
         '@regardsoss/global-system-error',
         '@regardsoss/i18n',
+        '@regardsoss/i18n-ui',
         '@regardsoss/plugins',
         '@regardsoss/project-handler',
         '@regardsoss/redux',
@@ -51,6 +52,7 @@ const conf = webpackConfigurator
         '@regardsoss/store-utils',
         '@regardsoss/store',
         '@regardsoss/theme',
+        '@regardsoss/theme-ui',
         '@regardsoss/user-metadata-common',
       ],
     },
@@ -59,6 +61,7 @@ const conf = webpackConfigurator
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
         // within that bundle
+        // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${__dirname}/dist/prod/core-manifest.json`),
         context: __dirname,
       }),

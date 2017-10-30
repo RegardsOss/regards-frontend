@@ -31,6 +31,7 @@ import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { modelAttributesFragmentActions } from '../clients/ModelAttributesFragmentClient'
 import { fragmentSelectors } from '../clients/FragmentClient'
 import { modelAttributeComputationTypesActions } from '../clients/ModelAttributeComputationTypesClient'
+import messages from '../i18n'
 
 export class ModelAttributeFormContainer extends React.Component {
 
@@ -92,22 +93,22 @@ export class ModelAttributeFormContainer extends React.Component {
 
   handleCreateFragment = (fragment) => {
     Promise.resolve(this.props.bindFragment(fragment, [this.props.model.content.id]))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        this.props.fetchModelAttributeList(this.props.params.model_id)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          this.props.fetchModelAttributeList(this.props.params.model_id)
+        }
+      })
   }
 
   handleDeleteFragment = (fragment) => {
     Promise.resolve(this.props.unbindFragment(fragment.id, [this.props.model.content.id]))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        this.props.fetchModelAttributeList(this.props.params.model_id)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          this.props.fetchModelAttributeList(this.props.params.model_id)
+        }
+      })
   }
 
   handleCreateAttributeModel = (attributeModel) => {
@@ -181,7 +182,7 @@ export class ModelAttributeFormContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-modelattribute-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

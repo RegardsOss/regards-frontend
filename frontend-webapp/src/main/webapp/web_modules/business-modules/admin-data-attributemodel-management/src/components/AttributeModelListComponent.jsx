@@ -26,7 +26,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { CardActionsComponent, ActionsMenuCell, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { fragmentSelectors } from '../clients/FragmentClient'
@@ -143,27 +143,23 @@ export class AttributeModelListComponent extends React.Component {
                   <TableRowColumn>{attrmodel.content.description}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.type}</TableRowColumn>
                   <TableRowColumn>
-                    <ActionsMenuCell>
-                      <HateoasIconAction
-                        entityLinks={attrmodel.links}
-                        onTouchTap={() => handleEdit(attrmodel.content.id)}
-                        hateoasKey={HateoasKeys.UPDATE}
-                        breakpoint={940}
-                        title={intl.formatMessage({ id: 'attrmodel.list.action.edit' })}
-                      >
-                        <Edit hoverColor={style.hoverButtonEdit} />
-                      </HateoasIconAction>
+                    <HateoasIconAction
+                      entityLinks={attrmodel.links}
+                      onTouchTap={() => handleEdit(attrmodel.content.id)}
+                      hateoasKey={HateoasKeys.UPDATE}
+                      title={intl.formatMessage({ id: 'attrmodel.list.action.edit' })}
+                    >
+                      <Edit hoverColor={style.hoverButtonEdit} />
+                    </HateoasIconAction>
 
-                      <HateoasIconAction
-                        entityLinks={attrmodel.links}
-                        onTouchTap={() => this.openDeleteDialog(attrmodel)}
-                        hateoasKey={HateoasKeys.DELETE}
-                        breakpoint={995}
-                        title={intl.formatMessage({ id: 'attrmodel.list.action.delete' })}
-                      >
-                        <Delete hoverColor={style.hoverButtonDelete} />
-                      </HateoasIconAction>
-                    </ActionsMenuCell>
+                    <HateoasIconAction
+                      entityLinks={attrmodel.links}
+                      onTouchTap={() => this.openDeleteDialog(attrmodel)}
+                      hateoasKey={HateoasKeys.DELETE}
+                      title={intl.formatMessage({ id: 'attrmodel.list.action.delete' })}
+                    >
+                      <Delete hoverColor={style.hoverButtonDelete} />
+                    </HateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}

@@ -16,7 +16,7 @@
     "lint:fix": "eslint --fix  src tests --ext .js,.jsx"
   },
   "author": "<%= author %>",
-  "license": "GPL-3.0",
+  "license": "<%= licence %>",
   "dependencies": {
     "lodash": "^4.17.4",
     "material-ui": "^0.18.3",

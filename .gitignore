@@ -40,5 +40,3 @@ Thumbs.db
 frontend-webapp/src/main/webapp/\.vscode/
 
 frontend-webapp/src/main/webapp/\.history/
-
-jenkins/node/\.history/

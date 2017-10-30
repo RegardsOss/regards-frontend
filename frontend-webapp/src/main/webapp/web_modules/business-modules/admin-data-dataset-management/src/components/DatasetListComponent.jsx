@@ -32,6 +32,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasetActions } from '../clients/DatasetClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const actionsBreakpoints = [940, 995]
 
 /**
  * React component to list datasets.
@@ -129,12 +130,13 @@ export class DatasetListComponent extends React.Component {
                   <TableRowColumn>{dataset.content.label}</TableRowColumn>
                   <TableRowColumn>{dataset.content.model.name}</TableRowColumn>
                   <TableRowColumn>
-                    <ActionsMenuCell>
+                    <ActionsMenuCell
+                      breakpoints={actionsBreakpoints}
+                    >
                       <HateoasIconAction
                         entityLinks={dataset.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onTouchTap={() => handleEdit(dataset.content.id)}
-                        breakpoint={940}
                         title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
@@ -143,7 +145,6 @@ export class DatasetListComponent extends React.Component {
                         entityLinks={dataset.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(dataset)}
-                        breakpoint={995}
                         title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

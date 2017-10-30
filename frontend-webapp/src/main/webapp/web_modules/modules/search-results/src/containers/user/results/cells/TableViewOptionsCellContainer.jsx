@@ -1,16 +1,21 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
+import { withI18n } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { descriptionLevelActions } from '../../../../models/description/DescriptionLevelModel'
 import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
 import TableViewOptionsCellComponent from '../../../../components/user/results/cells/TableViewOptionsCellComponent'
+import messages from '../../../../i18n'
+import styles from '../../../../styles'
 
 
 /**
- * Container for list view entity cell
+ * Container for table view entity cell
  * @author Raphaël Mechali
  */
 export class TableViewOptionsCellContainer extends React.Component {
@@ -25,22 +30,18 @@ export class TableViewOptionsCellContainer extends React.Component {
   static propTypes = {
     // Parameters set by table component
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
-    // tooltips, as i18n context isn't available in the table context
-    servicesTooltip: PropTypes.string.isRequired,
-    descriptionTooltip: PropTypes.string.isRequired,
-    styles: PropTypes.shape({   // styles as style context isn't available in the table context
-      rootStyles: PropTypes.object.isRequired,
-      buttonStyles: PropTypes.object.isRequired,
-      iconStyles: PropTypes.object.isRequired,
-    }).isRequired,
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
+    // optional callback: add element to cart (entity) => ()
+    onAddToCart: PropTypes.func,
     // from map state to props
     dispatchShowDescription: PropTypes.func.isRequired,
     dispatchRunService: PropTypes.func.isRequired,
   }
 
   /**
-  * Callback when user asks description
-  */
+   * Callback when user asks description
+   */
   onShowDescription = () => {
     // dispatch show description event
     const { entity, dispatchShowDescription } = this.props
@@ -57,18 +58,31 @@ export class TableViewOptionsCellContainer extends React.Component {
       target.buildOneElementTarget(entity.content.ipId)))
   }
 
+  /**
+   * Callback when user adds element to cart
+   * pre: never call when property onAddToCart is not provided
+   */
+  onAddToCart = () => {
+    // dispatch add to cart event
+    const { entity, onAddToCart } = this.props
+    onAddToCart(entity)
+  }
+
+
   render() {
-    const { styles, entity, servicesTooltip, descriptionTooltip } = this.props
+    const { entity, enableServices, onAddToCart } = this.props
     return (
       <TableViewOptionsCellComponent
         services={entity.content.services}
-        styles={styles}
-        servicesTooltip={servicesTooltip}
-        descriptionTooltip={descriptionTooltip}
+        enableServices={enableServices}
+        onAddToCart={onAddToCart ? this.onAddToCart : null} // set up callback only when parent one is provided
         onShowDescription={this.onShowDescription}
         onServiceStarted={this.onServiceStarted}
       />
     )
   }
 }
-export default connect(null, TableViewOptionsCellContainer.mapDispatchToProps)(TableViewOptionsCellContainer)
+export default compose(
+  connect(null, TableViewOptionsCellContainer.mapDispatchToProps),
+  withI18n(messages),
+  withModuleStyle(styles))(TableViewOptionsCellContainer)

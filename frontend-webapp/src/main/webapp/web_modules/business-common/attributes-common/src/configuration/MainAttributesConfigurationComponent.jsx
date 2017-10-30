@@ -110,14 +110,11 @@ class MainAttributesConfigurationComponent extends React.Component {
     // Check if there is more than one defaultSort configured
     if (conf.initialSort) {
       newAttributesConf = transform(newAttributesConf, (results, attributeConf) => {
-        let transformed = attributeConf
-        if (attributeConf.attributeFullQualifiedName !== attributeFullQualifiedName) {
-          transformed = {
-            ...attributeConf,
-            initialSort: false,
-          }
+        const nextConf = {
+          ...attributeConf,
+          initialSort: attributeConf.initialSort && attributeConf.attributeFullQualifiedName === attributeFullQualifiedName,
         }
-        results.push(transformed)
+        results.push(nextConf)
       }, [])
     }
 

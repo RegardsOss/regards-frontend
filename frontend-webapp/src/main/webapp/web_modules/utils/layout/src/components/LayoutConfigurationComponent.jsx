@@ -22,6 +22,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import Container from './Container'
 import ContainerConfigurationProvider from './ContainerConfigurationProvider'
 import ContainerHelper from '../ContainerHelper'
+import messages from '../i18n'
 
 const DELETE_ACTION = 'DELETE'
 const ADD_ACTION = 'ADD'
@@ -153,7 +154,7 @@ class LayoutConfigurationComponent extends React.Component {
 
 }
 
-export default withI18n('utils/layout/src/i18n')(LayoutConfigurationComponent)
+export default withI18n(messages)(LayoutConfigurationComponent)
 
 export {
   ADD_ACTION,

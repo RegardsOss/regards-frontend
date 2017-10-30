@@ -21,17 +21,19 @@ import Settings from 'material-ui/svg-icons/action/settings'
 import Brush from 'material-ui/svg-icons/image/brush'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { } from '@regardsoss/admin-user-management'
-import { i18nContextType } from '@regardsoss/i18n'
+import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import getModuleStyles from '../../styles/styles'
 import SidebarElement from './SidebarElement'
 import WaitingAccountsNotificationContainer from '../containers/WaitingAccountsNotificationContainer'
+import messages from '../i18n'
 
 /**
  * React sidebar components. Display the admin application menu
  *
  * @author Sébastien Binda
  */
+// @withI18n(messages)
 class InstanceSidebarComponent extends React.Component {
 
   /**
@@ -86,4 +88,4 @@ class InstanceSidebarComponent extends React.Component {
   }
 }
 
-export default InstanceSidebarComponent
+export default withI18n(messages)(InstanceSidebarComponent)

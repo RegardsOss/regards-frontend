@@ -3,7 +3,7 @@
 **/
 import DefaultIcon from 'material-ui/svg-icons/social/sentiment-very-satisfied'
 import { themeContextType } from '@regardsoss/theme'
-import ShowableAtRender from './ShowableAtRender'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import NoContentComponent from '../content/NoContentComponent'
 
 /**

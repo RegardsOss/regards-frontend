@@ -20,7 +20,7 @@ export class DescriptionFileContainer extends React.Component {
   static mapStateToProps = (state, { downloadDescriptionClient }) => {
     const { downloadCollectionDescriptionSelectors, downloadDatasetDescriptionSelectors } = downloadDescriptionClient
     return {
-      // loading: is currently loading any description datimport { ModuleThemeProvider } from '@regardsoss/modules'a? (attributes or description file)
+      // loading: is currently loading any description data? (attributes or description file)
       loading: downloadCollectionDescriptionSelectors.isFetching(state) || downloadDatasetDescriptionSelectors.isFetching(state),
       // dispatching fetched data, the component will select the right one and store it in state
       fetchedCollectionDescriptionResult: downloadCollectionDescriptionSelectors.getResult(state),

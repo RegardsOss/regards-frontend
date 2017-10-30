@@ -149,6 +149,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
                   value={model.content.id}
                   key={id}
                   primaryText={model.content.name}
+                  className={`selenium-pickModel-${model.content.name}`}
                 />
               ))}
             </Field>
@@ -165,6 +166,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
                   value={pluginMetaData.content.pluginClassName}
                   key={id}
                   primaryText={`${pluginMetaData.content.pluginId}: ${pluginMetaData.content.version}`}
+                  className={`selenium-pickPlugin-${pluginMetaData.content.pluginId}`}
                 />
               ))}
             </Field>

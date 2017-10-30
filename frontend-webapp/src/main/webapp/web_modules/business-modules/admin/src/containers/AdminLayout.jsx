@@ -20,13 +20,14 @@ import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { themeContextType } from '@regardsoss/theme'
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
 import NotificationsManagerContainer from './NotificationsManagerContainer'
 import getModuleStyles from '../styles/styles'
+import messages from '../i18n'
 
 /**
  * React components to manage Administration application.
@@ -89,7 +90,7 @@ export class AdminLayout extends React.Component {
     }
 
     const menuModule = {
-      type: 'menu',
+      type: modulesManager.AllDynamicModuleTypes.MENU,
       active: true,
       conf: {
         title: 'REGARDS admin dashboard',
@@ -112,7 +113,7 @@ export class AdminLayout extends React.Component {
             />
           </div>
           <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
-            <I18nProvider messageDir="business-modules/admin/src/menu/i18n">
+            <I18nProvider messages={messages}>
               {this.getSidebar(isOnInstanceDashboard)}
             </I18nProvider>
             <div className={style.contentContainer.classes} style={style.contentContainer.styles}>

@@ -36,6 +36,7 @@ import Dataset, { DatasetConfiguration } from './dam/Dataset'
 import AccessRight from './dam/AccessRight'
 import AccessGroup from './dam/AccessGroup'
 import Datasource from './dam/Datasource'
+import Document from './dam/Document'
 import Entity, { EntityConfiguration } from './catalog/Entity'
 import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
 import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribute'
@@ -149,6 +150,7 @@ export default {
   ...PluginParameter,
 
   ...Datasource,
+  ...Document,
   ...AccessRight,
   ...AccessGroup,
   ...Connection,

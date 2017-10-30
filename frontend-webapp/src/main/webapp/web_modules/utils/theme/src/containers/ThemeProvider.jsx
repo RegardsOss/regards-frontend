@@ -37,7 +37,7 @@ import '../custom/background.jpg'
 import defaultTheme from '../model/defaultTheme'
 
 /**
- * React HOC customizing the default MMaterial-Ui's theme before injecting it in the context of all children tree.
+ * React HOC customizing the default Material-Ui's theme before injecting it in the context of all children tree.
  *
  * @author Xavier-Alexandre Brochard
  */

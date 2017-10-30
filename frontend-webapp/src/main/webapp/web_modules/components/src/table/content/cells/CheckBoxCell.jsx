@@ -30,6 +30,7 @@ import TableSelectionModes from '../../model/TableSelectionModes'
 export default class CheckBoxCell extends React.Component {
 
   static propTypes = {
+    hasEntity: PropTypes.func,
     toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     rowIndex: PropTypes.number,
@@ -55,7 +56,7 @@ export default class CheckBoxCell extends React.Component {
   }
 
   render() {
-    const { onToggleRowSelection, rowIndex, ...otherProps } = this.props
+    const { onToggleRowSelection, rowIndex, hasEntity, ...otherProps } = this.props
     const styles = this.context.moduleTheme
 
     let cellStyle = styles.cellOdd
@@ -73,10 +74,13 @@ export default class CheckBoxCell extends React.Component {
         style={cellStyle}
       >
         <div style={cellContentStyle}>
-          <Checkbox
-            onCheck={() => onToggleRowSelection(rowIndex)}
-            defaultChecked={this.isSelectedRow(rowIndex)}
-          />
+          {
+            hasEntity(rowIndex) ?
+              <Checkbox
+                onCheck={() => onToggleRowSelection(rowIndex)}
+                defaultChecked={this.isSelectedRow(rowIndex)}
+              /> : null
+          }
         </div>
       </Cell>
     )

@@ -23,7 +23,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { connectionSelectors, connectionActions } from './../clients/ConnectionClient'
 import DatasourceCreateOrPickConnectionComponent from '../components/DatasourceCreateOrPickConnectionComponent'
-
+import messages from '../i18n'
 
 /**
  * Pick the datasource if existing or ask the user to create a new one
@@ -77,7 +77,7 @@ export class DatasourceCreateOrPickConnectionContainer extends React.Component {
     const { connectionList } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-datasource-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

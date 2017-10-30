@@ -81,13 +81,13 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
           links: [],
         },
       },
-      onEdit: () => {},
-      onCreate: () => {},
-      onTestConnection: () => {},
-      refreshConnection: () => {},
+      onEdit: () => { },
+      onCreate: () => { },
+      onTestConnection: () => { },
+      refreshConnection: () => { },
     }
     const enzymeWrapper = shallow(<ProjectConnectionListComponent {...props} />, options)
-    expect(enzymeWrapper.find(TableRow)).to.have.length(6)
+    expect(enzymeWrapper.find(TableRow)).to.have.length(9)
   })
 },
 )

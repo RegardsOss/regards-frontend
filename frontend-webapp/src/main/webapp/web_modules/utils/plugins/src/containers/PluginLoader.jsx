@@ -18,13 +18,12 @@
  **/
 import isNil from 'lodash/isNil'
 import isEmpty from 'lodash/isEmpty'
-import { IntlProvider } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
-import { i18nSelectors } from '@regardsoss/i18n'
+import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { loadPlugin } from '../model/LoadPluginActions'
 import LoadPluginSelector from '../model/LoadPluginSelector'
@@ -43,8 +42,6 @@ class PluginLoader extends React.Component {
    * pluginConf : Props to add to the plugin rendered,
    * pluginProps : Props to add to the plugin rendered (legacy),
    * displayPlugin : Display the plugin component. If false the plugin is only passed as a prop to the children of this provider
-   *
-   * @type {{pluginId: *, pluginConf: *, displayPlugin: *, children: *, loadedPlugin: *, loadPlugin: *, locale: *}}
    */
   static propTypes = {
     pluginInstanceId: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.string.isRequired]),
@@ -59,7 +56,6 @@ class PluginLoader extends React.Component {
     // Set by mapstatetoprops
     loadedPlugin: AccessShapes.UIPluginInstanceContent,
     loadPlugin: PropTypes.func,
-    locale: PropTypes.string,
   }
 
   state = {
@@ -118,14 +114,11 @@ class PluginLoader extends React.Component {
           ...this.props.pluginProps,
         })
         return (
-          <IntlProvider
-            locale={this.props.locale}
-            messages={this.props.loadedPlugin.messages[this.props.locale]}
-          >
-            <ModuleThemeProvider module={this.props.loadedPlugin.styles} >
+          <I18nProvider messages={this.props.loadedPlugin.messages} >
+            <ModuleStyleProvider module={this.props.loadedPlugin.styles} >
               {element}
-            </ModuleThemeProvider>
-          </IntlProvider>
+            </ModuleStyleProvider>
+          </I18nProvider>
         )
       } else if (this.props.children) {
         return React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
@@ -158,7 +151,6 @@ class PluginLoader extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   loadedPlugin: LoadPluginSelector.getById(state, ownProps.pluginPath),
-  locale: i18nSelectors.getLocale(state),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

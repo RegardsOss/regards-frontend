@@ -3,19 +3,17 @@
 **/
 import filter from 'lodash/filter'
 import isEqual from 'lodash/isEqual'
-import keys from 'lodash/keys'
 import map from 'lodash/map'
-import omit from 'lodash/omit'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { TableSelectionModes } from '@regardsoss/components'
 import { CatalogClient } from '@regardsoss/client'
-import { AccessDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { AccessShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { HOCUtils } from '@regardsoss/display-control'
 import { pluginServiceActions, pluginServiceSelectors } from '../../../clients/PluginServiceClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
 import TableClient from '../../../clients/TableClient'
@@ -23,7 +21,6 @@ import { Tag } from '../../../models/navigation/Tag'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import runPluginServiceActions from '../../../models/services/RunPluginServiceActions'
 import runPluginServiceSelectors from '../../../models/services/RunPluginServiceSelectors'
-import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 
 // Determinate the required resource name to apply catalog plugins
 const tempActions = new CatalogClient.CatalogPluginServiceResultActions('entities-common/apply-catalog-service')
@@ -35,41 +32,13 @@ const catalogServiceDependency = tempActions.getDependency(RequestVerbEnum.POST)
  * 2. provides to component below the service related properties
  *   * selectionServices: list of services available for the current selection
  *   * onStartSelectionService: Handler to run when user started a service with current selection  (serviceWrapper) => ()
+ *
+ * It renders clones below element(s) and injects the resolved services with callbacks as following:
+ * - selectionServices: resolved services
+ * - onStartSelectionService: resolved callback
  * @author Raphaël Mechali
  */
 export class PluginServicesContainer extends React.Component {
-
-  /**
-   * @param selectionMode current seletion mode
-   * @param toggledElements toggled elements
-   * @param pageMetadata page metadata
-   * @return true if selection is empty
-   */
-  static isEmptySelection = (selectionMode, toggledElements, pageMetadata) => {
-    const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
-    const selectionSize = keys(toggledElements).length
-
-    return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0) ||
-      (selectionMode === TableSelectionModes.excludeSelected && selectionSize === totalElements)
-  }
-
-  /**
-   * Maps the possible results view types to equivalent entity type
-   * @param {SearchResultsTargetsEnum} viewType view type, not null
-   * @return {ENTITY_TYPES_ENUM} corresponding entity type for view type
-   */
-  static getEntityTypeForViewType = (viewType) => {
-    switch (viewType) {
-      case CatalogDomain.SearchResultsTargetsEnum.DATASET_RESULTS:
-        return DamDomain.ENTITY_TYPES_ENUM.DATASET
-      case CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS:
-        return DamDomain.ENTITY_TYPES_ENUM.DATA
-      // case CatalogDomain.SearchResultsTargetsEnum.DOCUMENT_RESULTS:
-      //   return DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
-      default:
-        throw new Error('Unknown results view type ', viewType)
-    }
-  }
 
   /**
    * Retains plugin services that are present in both services list, by there configId
@@ -90,7 +59,7 @@ export class PluginServicesContainer extends React.Component {
    */
   static isUsableSelectionService({ content: { applicationModes, entityTypes, type } }, viewObjectType, availableDependencies) {
     return applicationModes.includes(AccessDomain.applicationModes.MANY) &&
-      entityTypes.includes(PluginServicesContainer.getEntityTypeForViewType(viewObjectType)) &&
+      entityTypes.includes(viewObjectType) &&
       // For catalog service only: the user must be allowed to run catalog plugin service
       (type !== AccessDomain.pluginTypes.CATALOG || availableDependencies.includes(catalogServiceDependency))
   }
@@ -100,9 +69,10 @@ export class PluginServicesContainer extends React.Component {
    * @param properties properties describing current selection state and global services
    * @return [{PluginService}] services available for current selection
    */
-  static getSelectionServices = ({ selectionMode, toggledElements, pageMetadata, contextSelectionServices, viewObjectType, selectedDatasetIpId, availableDependencies = [] }) => {
+  static getSelectionServices = ({ selectionMode, toggledElements, pageMetadata, emptySelection,
+    contextSelectionServices, viewObjectType, selectedDatasetIpId, availableDependencies = [] }) => {
     let selectionServices = []
-    if (!PluginServicesContainer.isEmptySelection(selectionMode, toggledElements, pageMetadata)) {
+    if (!emptySelection) {
       // 1 - recover context services
       if (contextSelectionServices) {
         // filter service for current context (only selection services, working with current objects type),
@@ -143,8 +113,8 @@ export class PluginServicesContainer extends React.Component {
   /**
    * Returns selected dataset IP ID or null if none
    * @param {*} state redux state
-   * @param {*} properties component properties
-   */
+* @param {*} properties component properties
+*/
   static getSelectedDatasetIpId = (state, { initialDatasetIpId }) => {
     const dynamicTag = Tag.getSearchedDatasetTag(navigationContextSelectors.getLevels(state))
     return dynamicTag ? dynamicTag.searchKey : initialDatasetIpId
@@ -156,13 +126,13 @@ export class PluginServicesContainer extends React.Component {
     // seletion related
     selectionMode: TableClient.tableSelectors.getSelectionMode(state),
     toggledElements: TableClient.tableSelectors.getToggledElements(state),
+    emptySelection: TableClient.tableSelectors.isEmptySelection(state, searchSelectors),
     pageMetadata: searchSelectors.getMetaData(state),
     // fetched service related
     contextSelectionServices: pluginServiceSelectors.getResult(state),
     // running service related
     serviceRunModel: runPluginServiceSelectors.getServiceRunModel(state),
     // logged user state related
-    authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
     availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
   })
 
@@ -174,17 +144,26 @@ export class PluginServicesContainer extends React.Component {
 
   static propTypes = {
     // context related
-    viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired, // currently displayed entities type
+    viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // currently displayed entities type
+    // eslint-disable-next-line react/no-unused-prop-types
     initialDatasetIpId: PropTypes.string, // initial dataset ip id or none
-    levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
     openSearchQuery: PropTypes.string.isRequired,
+    // components children, where this container will inject services related properties
+    // eslint-disable-next-line react/no-unused-prop-types
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
 
     // from mapStateToProps
     // context related
+    // eslint-disable-next-line react/no-unused-prop-types
     selectedDatasetIpId: PropTypes.string, // selected dataset ip id (none when not a single dataset)
     // selection related
     toggledElements: PropTypes.objectOf(AccessShapes.EntityWithServices).isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)),
+    // eslint-disable-next-line react/no-unused-prop-types
+    emptySelection: PropTypes.bool.isRequired,
     pageMetadata: PropTypes.shape({
       number: PropTypes.number,
       size: PropTypes.number,
@@ -192,12 +171,13 @@ export class PluginServicesContainer extends React.Component {
     }),
     // service related
     serviceRunModel: PropTypes.instanceOf(PluginServiceRunModel),
+    // eslint-disable-next-line react/no-unused-prop-types
     contextSelectionServices: AccessShapes.PluginServiceWithContentArray,
-    // logged user and rights related
-    authentication: AuthenticateShape,
+    // eslint-disable-next-line react/no-unused-prop-types
     availableDependencies: PropTypes.arrayOf(PropTypes.string), // The full list of dependencies
 
     // from mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     dispatchFetchPluginServices: PropTypes.func.isRequired,
     dispatchRunService: PropTypes.func.isRequired,
     dispatchCloseService: PropTypes.func.isRequired,
@@ -206,12 +186,20 @@ export class PluginServicesContainer extends React.Component {
   }
 
   static DEFAULT_STATE = {
+    children: [], // pre rendered children
     // lists of gathered selection services
     selectionServices: [],
   }
 
+  /**
+   * Lifecycle hook. Used here to detect properties change
+   */
   componentWillMount = () => this.onPropertiesChanged(this.props)
 
+  /**
+   * Lifecycle hook. Used here to detect properties change
+   * @param {*} nextProps next component props
+   */
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(nextProps, this.props)
 
   /**
@@ -220,25 +208,33 @@ export class PluginServicesContainer extends React.Component {
    * @param oldProperties old properties
    */
   onPropertiesChanged = (newProps, oldProps = {}) => {
-    const oldState = this.state
-    let newState = oldState ? { ...oldState } : PluginServicesContainer.DEFAULT_STATE
+    const oldState = this.state || {}
+    const newState = oldState ? { ...oldState } : PluginServicesContainer.DEFAULT_STATE
 
     // A - dataset changed, component was mounted or user rights changed, update global services
-    if (!oldState || oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
+    if (oldProps.selectedDatasetIpId !== newProps.selectedDatasetIpId ||
       !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       newProps.dispatchFetchPluginServices(newProps.selectedDatasetIpId)
     }
 
-    // B - global services, view object type, selection changed or user rights changed: update available selection services
+    // B - global services, view object type, selection changed, user rights changed or children changed:
+    // update available selection services and clone children with new values
     if (newProps.contextSelectionServices !== oldProps.contextSelectionServices || oldProps.selectionMode !== newProps.selectionMode ||
       oldProps.toggledElements !== newProps.toggledElements || oldProps.pageMetadata !== newProps.pageMetadata ||
       oldProps.viewObjectType !== newProps.viewObjectType || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
-      newState = {
-        selectionServices: PluginServicesContainer.getSelectionServices(newProps),
-      }
+      newState.selectionServices = PluginServicesContainer.getSelectionServices(newProps)
     }
 
-    if (!isEqual(oldState, newState)) {
+    // when children changed or selection services changed, recompute children
+    if (!isEqual(oldState.selectionServices, newState.selectionServices) ||
+      HOCUtils.shouldCloneChildren(this, oldProps, newProps)) {
+      // pre render children (attempts to enhance render performances)
+      newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
+        ...HOCUtils.getOnlyNonDeclaredProps(this, newProps),
+        selectionServices: newState.selectionServices,
+        onStartSelectionService: this.onStartSelectionService,
+      })
+      // update state
       this.setState(newState)
     }
   }
@@ -254,27 +250,23 @@ export class PluginServicesContainer extends React.Component {
     // pack query
     const serviceTarget = selectionMode === TableSelectionModes.includeSelected ?
       target.buildManyElementsTarget(ipIdArray) :
-      target.buildQueryTarget(openSearchQuery, PluginServicesContainer.getEntityTypeForViewType(viewObjectType), pageMetadata.totalElements, ipIdArray)
+      target.buildQueryTarget(openSearchQuery, viewObjectType, pageMetadata.totalElements, ipIdArray)
     // note : only service content is dipatched (see top methods conversion)
     dispatchRunService(new PluginServiceRunModel(service, serviceTarget))
   }
 
   render() {
-    const { dispatchCloseService, serviceRunModel, ...otherProperties } = this.props
-    const { selectionServices } = this.state
-    // remove from sub component any property related to this container (only pass specific prop types through)
-    const subComponentProps = omit(otherProperties, keys(PluginServicesContainer.PropTypes))
+    const { dispatchCloseService, serviceRunModel } = this.props
+    const { children } = this.state
     return (
       <div >
         <ServiceContainer
           serviceRunModel={serviceRunModel} // running service display
           onQuit={dispatchCloseService}
         />
-        <SearchResultsComponent // inject all services in search results component, and provide parent display properties
-          selectionServices={selectionServices}
-          onStartSelectionService={this.onStartSelectionService}
-          {...subComponentProps} // add properties from parent results container
-        />
+        { // render the children list (from pre rendered elements, see on properties changed)
+          HOCUtils.renderChildren(children)
+        }
       </div >
     )
   }

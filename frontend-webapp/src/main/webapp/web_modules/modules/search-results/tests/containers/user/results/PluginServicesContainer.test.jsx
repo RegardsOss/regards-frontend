@@ -4,64 +4,35 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AccessDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
+import { AccessShapes } from '@regardsoss/shape'
 import { TableSelectionModes } from '@regardsoss/components'
 import { PluginServicesContainer } from '../../../../src/containers/user/results/PluginServicesContainer'
-import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
-import { searchDataobjectsActions } from '../../../../src/clients/SearchEntitiesClient'
-import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-const commonSearchResultsProperties = {
-  appName: 'test',
-  project: 'project',
-  allowingFacettes: true,
-  showingFacettes: true,
-  displayDatasets: true,
-  filters: [],
-
-  searchQuery: '',
-  facettesQuery: '',
-  attributesConf: [],
-  attributesRegroupementsConf: [],
-  attributeModels: {},
-  showingDataobjects: true,
-  resultPageActions: searchDataobjectsActions,
-  viewMode: DisplayModeEnum.LIST,
-  sortingOn: [],
-
-  onFiltersChanged: () => { },
-  onSetEntityAsTag: () => { },
-  onShowDatasets: () => { },
-  onShowDataobjects: () => { },
-  onShowListView: () => { },
-  onShowTableView: () => { },
-  onSortChanged: () => { },
-  onToggleShowFacettes: () => { },
-
-  // services
-  datasetServices: [],
-  selectedDataobjectsServices: [],
-  onDatasetServiceSelected: () => { },
-  selectionServices: [],
-  onStartSelectionService: () => { },
+// Tests render component
+const TestComponent = ({ selectionServices, onStartSelectionService }) => <div />
+TestComponent.propTypes = {
+  selectionServices: AccessShapes.PluginServiceWithContentArray,
+  onStartSelectionService: PropTypes.func,
 }
 
 const commonProperties = {
+  viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
   initialDatasetIpId: null,
-  selectedDatasetIpId: 'pipo1',
   openSearchQuery: '',
-  viewObjectType: CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
 
-  levels: [],
+  selectedDatasetIpId: 'URN:pipo1',
   toggledElements: {},
   selectionMode: TableSelectionModes.includeSelected,
-
+  emptySelection: true,
   pageMetadata: null,
+
   serviceRunModel: null,
   contextSelectionServices: [],
+  availableDependencies: [],
 
   dispatchFetchPluginServices: () => { },
   dispatchRunService: () => { },
@@ -77,14 +48,16 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
   })
 
   it('should render properly without results', () => {
-    const props = {
-      // Component properties
-      ...commonProperties,
-      // For sub component search results
-      ...commonSearchResultsProperties,
-    }
-    const render = shallow(<PluginServicesContainer {...props} />, { context })
-    assert.lengthOf(render.find(SearchResultsComponent), 1, 'There should be a sub component of type SearchResultsComponent as this container is a "pass-through"')
+    const props = commonProperties
+    const render = shallow(
+      <PluginServicesContainer {...props}>
+        <TestComponent />
+      </PluginServicesContainer>, { context })
+
+    const subCompWrapper = render.find(TestComponent)
+    assert.lengthOf(subCompWrapper, 1, 'Test component should be a render')
+    assert.isDefined(subCompWrapper.props().selectionServices, 'The test component should have selection service list as property')
+    assert.isDefined(subCompWrapper.props().onStartSelectionService, 'The test component should have selection service callback as property')
   })
 
   it('should dispatch fetch selection services on selected dataset IP ID, when provided', () => {
@@ -95,8 +68,6 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     const props = {
       // Component properties
       ...commonProperties,
-      // For sub component search results
-      ...commonSearchResultsProperties,
       // specifically spied values
       selectedDatasetIpId: 'cool:raoul',
       dispatchFetchPluginServices: (datasetIpId) => {
@@ -105,7 +76,10 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       },
     }
 
-    const render = shallow(<PluginServicesContainer {...props} />, { context })
+    const render = shallow(
+      <PluginServicesContainer {...props}>
+        <TestComponent />
+      </PluginServicesContainer>, { context })
     assert.equal(spiedFetch.count, 1, 'The plugin services should have been fetched one time')
     assert.equal(spiedFetch.datasetIpId, props.selectedDatasetIpId, `The plugin services should have been fetched for "${props.datasetIpId}"`)
 
@@ -124,12 +98,12 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       // Component properties
       ...commonProperties,
       // For sub component search results
-      ...commonSearchResultsProperties,
       // specifically spied values
       selectionMode: TableSelectionModes.includeSelected,
       pageMetadata: { number: 0, size: 10, totalElements: 20 },
+      emptySelection: false,
       selectedDatasetIpId: null,
-      viewObjectType: CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       contextSelectionServices: [{
         content: {
           configId: 1, // common-service-1: should remain in final list when in data mode
@@ -194,7 +168,10 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
         },
       },
     }
-    let render = shallow(<PluginServicesContainer {...props} />, { context })
+    let render = shallow(
+      <PluginServicesContainer {...props}>
+        <TestComponent />
+      </PluginServicesContainer>, { context })
     let selectionServices = render.state('selectionServices')
     assert.lengthOf(selectionServices, 1, 'There should be one service retained for dataobjects (the user doesn\'t currently have rights for catalog service application)')
     assert.isOk(selectionServices.find(({ content: { label } }) => label === 'entity-service-3', `The entity service 3 should be preserved in dataobject selection services ${selectionServices}`))
@@ -204,7 +181,10 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       ...props,
       availableDependencies: ['rs-catalog@/services/{pluginConfigurationId}/apply@POST'], // specific endpoint rights
     }
-    render = shallow(<PluginServicesContainer {...propsWithRights} />, { context })
+    render = shallow(
+      <PluginServicesContainer {...propsWithRights}>
+        <TestComponent />
+      </PluginServicesContainer>, { context })
     selectionServices = render.state('selectionServices')
     assert.lengthOf(selectionServices, 2, 'There should be two services retained for dataobjects (the user has now rights for catalog service application)')
     assert.isOk(selectionServices.find(({ content: { label } }) => label === 'entity-service-3', `The entity service 3 should be preserved in dataobject selection services ${selectionServices}`))
@@ -213,9 +193,12 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     // dynamic test: remove selection => no service should be available
     const props2 = {
       ...propsWithRights,
-      toggledElements: {},
+      emptySelection: true,
     }
-    render = shallow(<PluginServicesContainer {...props2} />, { context })
+    render = shallow(
+      <PluginServicesContainer {...props2}>
+        <TestComponent />
+      </PluginServicesContainer>, { context })
     selectionServices = render.state('selectionServices')
     assert.lengthOf(selectionServices, 0, 'There should be no selection services retained')
 
@@ -223,9 +206,12 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
     // be retained in services (we ignore here the selected elements, as their type doesn't matter in resolution algorithm)
     const props3 = {
       ...propsWithRights,
-      viewObjectType: CatalogDomain.SearchResultsTargetsEnum.DATASET_RESULTS,
+      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
     }
-    render = shallow(<PluginServicesContainer {...props3} />, { context })
+    render = shallow(
+      <PluginServicesContainer {...props3}>
+        <TestComponent />
+      </PluginServicesContainer>, { context })
     selectionServices = render.state('selectionServices')
     assert.lengthOf(selectionServices, 2, 'There should be two services retained for datasets')
     assert.isOk(selectionServices.find(({ content: { label } }) => label === 'common-service-2', `The context service 2 should be preserved in datasets selection services ${selectionServices}`))

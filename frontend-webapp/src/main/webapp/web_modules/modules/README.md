@@ -44,8 +44,10 @@ export default {
   styles,
   // A js object containing Redux reducers of both ModuleContainer and AdminContainer
   reducer,
-  // A string containing the path to the i18n directory, used by label and message internationalization
-  messagesDir,
+  // An object containing the i18n key values sets by locale
+  messages,
+  // An optional module icon (used when displaying a dynamic module)
+  ModuleIcon,
   // A js object containing server side endpoints dependencies to allow module to be displayed
   dependencies,
 }
@@ -256,14 +258,17 @@ With the previous example and for a module named "ExampleModule", the applicatio
 
 The same store can be accessed by both `ModuleContainer` and `AdminContainer`.
 
-### MessagesDir
+### Messages
 
-This parameter allows you to change the default directory where `@regardsoss/i18n` search *i18n* messages files.  
-By default the directory used is `src/i18n`.  
+This parameter allows you to change the locales keys and values sets. By default such object is imported from ./messages in eavh module
 Expected files containing internationalized messages shall be named as:  
 ```messages.<language>.i18n.js```
 
 Supported languages are `en` and `fr`
+
+### ModuleIcon
+
+This parameter allows you to set up a default module icon to be shown in user interface. It is optional. The expected value is a React class
 
 ### Dependencies
 

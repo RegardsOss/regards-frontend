@@ -23,6 +23,7 @@
 import omitBy from 'lodash/omitBy'
 import concat from 'lodash/concat'
 import without from 'lodash/without'
+import BasicReducer from '../BasicReducer'
 
 const defaultState = {
   isFetching: false,
@@ -40,9 +41,10 @@ const defaultState = {
 /**
  *  Handle reduction for lists
  */
-class BasicListReducers {
+class BasicListReducers extends BasicReducer {
 
   constructor(options, basicListActionInstance) {
+    super(basicListActionInstance, defaultState)
     this.entityKey = options.entityKey
     this.normalizrKey = options.normalizrKey
     this.basicListActionInstance = basicListActionInstance
@@ -65,12 +67,16 @@ class BasicListReducers {
     return newState
   }
 
-  reduce(state = defaultState, action) {
+  reduce(state = this.defaultState, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
+    const newState = super.reduce(state, action)
     switch (action.type) {
       case this.basicListActionInstance.ENTITY_LIST_REQUEST:
       case this.basicListActionInstance.ENTITY_REQUEST:
         return {
-          ...state,
+          ...newState,
           isFetching: true,
           error: defaultState.error,
         }
@@ -79,14 +85,14 @@ class BasicListReducers {
       case this.basicListActionInstance.DELETE_ENTITY_REQUEST:
       case this.basicListActionInstance.UPDATE_ENTITY_REQUEST:
         return {
-          ...state,
+          ...newState,
           isSyncing: true,
           error: defaultState.error,
         }
       case this.basicListActionInstance.ENTITY_LIST_FAILURE:
       case this.basicListActionInstance.ENTITY_FAILURE:
         return {
-          ...state,
+          ...newState,
           isFetching: false,
           error: {
             hasError: true,
@@ -100,7 +106,7 @@ class BasicListReducers {
       case this.basicListActionInstance.DELETE_ENTITY_FAILURE:
       case this.basicListActionInstance.UPDATE_ENTITY_FAILURE:
         return {
-          ...state,
+          ...newState,
           isSyncing: false,
           error: {
             hasError: true,
@@ -110,8 +116,20 @@ class BasicListReducers {
           },
         }
       case this.basicListActionInstance.ENTITY_LIST_SUCCESS:
+        if (action.error) {
+          return {
+            ...newState,
+            isSyncing: false,
+            error: {
+              hasError: true,
+              type: action.type,
+              message: action.payload.message,
+              status: defaultState.error.status,
+            },
+          }
+        }
         return {
-          ...state,
+          ...newState,
           isFetching: false,
           items: action.payload.entities[this.normalizrKey] || {},
           results: action.payload.result,
@@ -119,10 +137,10 @@ class BasicListReducers {
         }
       case this.basicListActionInstance.CREATE_ENTITIES_SUCCESS:
         return {
-          ...state,
+          ...newState,
           isSyncing: false,
           items: {
-            ...state.items,
+            ...newState.items,
             ...action.payload.entities[this.normalizrKey],
           },
           results: action.payload.result,
@@ -130,15 +148,13 @@ class BasicListReducers {
         }
       case this.basicListActionInstance.CREATE_ENTITY_SUCCESS:
       case this.basicListActionInstance.UPDATE_ENTITY_SUCCESS:
-        return this.rewriteEntity(state, action, { isSyncing: false, error: defaultState.error })
+        return this.rewriteEntity(newState, action, { isSyncing: false, error: defaultState.error })
       case this.basicListActionInstance.ENTITY_SUCCESS:
-        return this.rewriteEntity(state, action, { isFetching: false, error: defaultState.error })
+        return this.rewriteEntity(newState, action, { isFetching: false, error: defaultState.error })
       case this.basicListActionInstance.DELETE_ENTITY_SUCCESS:
-        return this.deleteEntityFromState(state, action, { isFetching: false, error: defaultState.error })
-      case this.basicListActionInstance.FLUSH:
-        return defaultState
+        return this.deleteEntityFromState(newState, action, { isFetching: false, error: defaultState.error })
       default:
-        return state
+        return newState
     }
   }
 

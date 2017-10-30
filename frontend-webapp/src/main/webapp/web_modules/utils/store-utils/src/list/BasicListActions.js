@@ -59,6 +59,9 @@ class BasicListActions extends BasicActions {
     this.UPDATE_ENTITY_SUCCESS = `${options.namespace}/UPDATE_SUCCESS`
     this.UPDATE_ENTITY_REQUEST = `${options.namespace}/UPDATE_REQUEST`
     this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
+    this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
+    this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
+    this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
   }
 
 
@@ -76,10 +79,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.ENTITY_LIST_REQUEST,
-          {
-            type: this.ENTITY_LIST_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json)),
-          },
+          this.buildSuccessAction(this.ENTITY_LIST_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json))),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
@@ -112,10 +113,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.ENTITY_REQUEST,
-          {
-            type: this.ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
         endpoint,
@@ -139,10 +138,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.ENTITY_REQUEST_SILENT,
-          {
-            type: this.ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
         endpoint,
@@ -158,10 +155,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.CREATE_ENTITY_REQUEST,
-          {
-            type: this.CREATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.CREATE_ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
         ],
         endpoint,
@@ -185,10 +180,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.CREATE_ENTITIES_REQUEST,
-          {
-            type: this.CREATE_ENTITIES_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json)),
-          },
+          this.buildSuccessAction(this.CREATE_ENTITIES_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json))),
           this.buildFailureAction(this.CREATE_ENTITIES_FAILURE),
         ],
         endpoint,
@@ -206,10 +199,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.UPDATE_ENTITY_REQUEST,
-          {
-            type: this.UPDATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.UPDATE_ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
         ],
         endpoint,
@@ -227,10 +218,7 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.DELETE_ENTITY_REQUEST,
-          {
-            type: this.DELETE_ENTITY_SUCCESS,
-            payload: keyValue,
-          },
+          this.buildSuccessAction(this.DELETE_ENTITY_SUCCESS, keyValue),
           this.buildFailureAction(this.DELETE_ENTITY_FAILURE),
         ],
         endpoint,
@@ -252,7 +240,69 @@ class BasicListActions extends BasicActions {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicListActions.createFormData(objectValues, files)
+    const formData = BasicListActions.createFormDataWithFilesMap(objectValues, files)
+    return {
+      [CALL_API]: {
+        types: [
+          this.CREATE_ENTITY_REQUEST,
+          this.buildSuccessAction(this.CREATE_ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
+          this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
+        ],
+        endpoint,
+        method: 'POST',
+        body: formData,
+      },
+    }
+  }
+
+  /**
+   * Allows to send multiple objects on the same time
+   * Requires that the API send back the updated entity
+   * IT SENDS THE UPDATE USING THE VERB POST INSTEAD OF PUT (cf spec HTTP)
+   * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
+   * @param files Object containing key - values with key expected by the API and value a file
+   * @param pathParams
+   * @param queryParams
+   * @returns {{}}
+   */
+  updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
+    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
+    endpoint = `${endpoint}/${keyValue}`
+    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
+    endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
+    const formData = BasicListActions.createFormDataWithFilesMap(objectValues, files)
+    return {
+      [CALL_API]: {
+        types: [
+          this.UPDATE_ENTITY_REQUEST,
+          this.buildSuccessAction(this.UPDATE_ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
+          this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
+        ],
+        endpoint,
+        method: 'POST',
+        body: formData,
+      },
+    }
+  }
+
+
+  /**
+   * Allows to send multiple objects on the same time
+   * Requires that the API send back a new entity
+   * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
+   * @param files Array of file(s)
+   * @param fileKey the key expected by the api to retrieve the list of files
+   * @param pathParams
+   * @param queryParams
+   * @returns {{}}
+   */
+  sendMultipleFiles(objectValues, files, fileKey, pathParams, queryParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
+    endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
+    const formData = BasicListActions.createFormDataWithFilesList(objectValues, files, fileKey)
     return {
       [CALL_API]: {
         types: [
@@ -270,38 +320,6 @@ class BasicListActions extends BasicActions {
     }
   }
 
-  /**
-   * Allows to send multiple objects on the same time
-   * Requires that the API send back the updated entity
-   * IT SEND THE UPDATE USING THE VERB POST INSTEAD OF PUT (cf spec HTTP)
-   * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
-   * @param files Object containing key - values with key expected by the API and value a file
-   * @param pathParams
-   * @param queryParams
-   * @returns {{}}
-   */
-  updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
-    endpoint = `${endpoint}/${keyValue}`
-    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
-    endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicListActions.createFormData(objectValues, files)
-    return {
-      [CALL_API]: {
-        types: [
-          this.UPDATE_ENTITY_REQUEST,
-          {
-            type: this.UPDATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
-          this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
-        ],
-        endpoint,
-        method: 'POST',
-        body: formData,
-      },
-    }
-  }
 
   /**
       * Extracts payload from action result
@@ -335,9 +353,31 @@ class BasicListActions extends BasicActions {
     return endpoint.replace(`/${API_URL}/`, `/zuul/${API_URL}/`)
   }
 
-  static createFormData(objectValues, files) {
+  static createFormDataWithFilesMap(objectValues, filesMap) {
     const formData = new FormData()
     // Handle object values
+    BasicListActions.addObjectValuesToFormData(formData, objectValues)
+    // Handle files
+    BasicListActions.addFilesMapToFormData(formData, filesMap)
+    return formData
+  }
+
+
+  static createFormDataWithFilesList(objectValues, filesList, filesKey) {
+    const formData = new FormData()
+    // Handle object values
+    BasicListActions.addObjectValuesToFormData(formData, objectValues)
+    // Handle files
+    BasicListActions.addFilesListToFormData(formData, filesList, filesKey)
+    return formData
+  }
+
+  /**
+   * Handle object values
+   * @param formData
+   * @param objectValues
+   */
+  static addObjectValuesToFormData(formData, objectValues) {
     forEach(objectValues, (value, key) => {
       if (isObject(value)) {
         // This is an object that we need to stringify
@@ -353,14 +393,37 @@ class BasicListActions extends BasicActions {
         formData.append(key, value)
       }
     })
-    // Handle files
-    forEach(files, (value, key) => {
+  }
+
+  /**
+   * Add a map of files<key, File> to FormData
+   * Uses the map key on the payload foreach file
+   * @param formData a FormData instance
+   * @param filesMap a map of files
+   */
+  static addFilesMapToFormData(formData, filesMap) {
+    forEach(filesMap, (value, key) => {
       if (isObject(value)) {
         // This is an image
         formData.append(key, value)
       }
     })
-    return formData
+  }
+
+
+  /**
+   * Add a list of files to FormData
+   * @param formData a FormData instance
+   * @param filesList a list of files
+   * @param fileKey the key used on the payload
+   */
+  static addFilesListToFormData(formData, filesList, fileKey) {
+    forEach(filesList, (value) => {
+      if (isObject(value)) {
+        // This is an image
+        formData.append(fileKey, value)
+      }
+    })
   }
 }
 

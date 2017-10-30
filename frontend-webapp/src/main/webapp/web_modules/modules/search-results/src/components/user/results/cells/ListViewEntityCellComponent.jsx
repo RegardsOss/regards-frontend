@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import React from 'react'
+import get from 'lodash/get'
 import map from 'lodash/map'
 import merge from 'lodash/merge'
-import find from 'lodash/find'
 import IconButton from 'material-ui/IconButton'
 import Divider from 'material-ui/Divider'
 import DownloadIcon from 'material-ui/svg-icons/action/get-app'
@@ -29,7 +29,9 @@ import { DamDomain, CatalogDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { getTypeRender } from '@regardsoss/attributes-common'
-import { TableColumnConfiguration, TableColumnConfigurationController, DownloadButton } from '@regardsoss/components'
+import { TableColumnConfiguration, TableColumnConfigurationController, DownloadButton, ShowableAtRender } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import AddElementToCartButton from '../options/AddElementToCartButton'
 import OneElementServicesButton from '../options/OneElementServicesButton'
 import EntityDescriptionButton from '../options/EntityDescriptionButton'
 
@@ -53,12 +55,10 @@ class ListViewEntityCellComponent extends React.Component {
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
     // Display checbox for entities selection ?
     displayCheckbox: PropTypes.bool,
-    // tooltips, as i18n context isn't available in the table context
-    downloadTooltip: PropTypes.string.isRequired,
-    servicesTooltip: PropTypes.string.isRequired,
-    descriptionTooltip: PropTypes.string.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    styles: PropTypes.object, // styles as style context isn't available in the table context
+    // Show services for entity?
+    enableServices: PropTypes.bool.isRequired,
+    // optional callback: add element to cart (entity) => ()
+    onAddToCart: PropTypes.func,
     // callback: on entity selection (or null when not clickable)
     onEntitySelection: PropTypes.func,
     // callback: on show description
@@ -69,27 +69,28 @@ class ListViewEntityCellComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      style: this.props.styles.lineOut,
-    }
-  }
+
+  /** Life cycle hook, component will mount. Initializes state */
+  componentWillMount = () => this.setStandardStyle()
+
   /**
    * Set the css styles when the cursor is hover the dataset cell
    * @param cursor
    */
   setHoverStyle = () => {
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
     this.setState({
-      style: merge({}, this.props.styles.lineHover),
+      style: merge({}, listViewStyles.lineHover),
     })
   }
 
   setHoverClickableStyle = () => {
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
     this.setState({
-      style: merge({}, this.props.styles.lineHover, { cursor: 'pointer' }),
+      style: merge({}, listViewStyles.lineHover, { cursor: 'pointer' }),
     })
   }
 
@@ -97,8 +98,9 @@ class ListViewEntityCellComponent extends React.Component {
    * Set the css styles when the cursor is out the dataset cell
    */
   setStandardStyle = () => {
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
     this.setState({
-      style: this.props.styles.lineOut,
+      style: listViewStyles.lineOut,
     })
   }
 
@@ -118,14 +120,14 @@ class ListViewEntityCellComponent extends React.Component {
     const element = React.createElement(valueCellRenderer, {
       attributes,
     })
-
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
     return (
       <div
         key={`${attribute.content.fragment.name}.${attribute.content.name}`}
-        style={this.props.styles.attribute}
+        style={listViewStyles.attribute}
       >
         <span
-          style={this.props.styles.attributeLabel}
+          style={listViewStyles.attributeLabel}
         >{attribute.content.label}</span>
         <span
           style={{
@@ -134,7 +136,7 @@ class ListViewEntityCellComponent extends React.Component {
           }}
         >:</span>
         <span
-          style={this.props.styles.attributeValue}
+          style={listViewStyles.attributeValue}
         >
           {element}
         </span>
@@ -168,6 +170,7 @@ class ListViewEntityCellComponent extends React.Component {
 
   displayEntityProperty = (key, column) => {
     // Do not display special files attributes like thumbmail or rawdata
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
     if (column.attributes && column.attributes.length > 0 && column.attributes[0] === 'files') {
       return null
     }
@@ -175,10 +178,10 @@ class ListViewEntityCellComponent extends React.Component {
       return (
         <div
           key={key}
-          style={this.props.styles.attribute}
+          style={listViewStyles.attribute}
         >
           <span
-            style={this.props.styles.attributeLabel}
+            style={listViewStyles.attributeLabel}
           >{column.label}</span>
           <span
             style={{
@@ -187,7 +190,7 @@ class ListViewEntityCellComponent extends React.Component {
             }}
           >:</span>
           <span
-            style={this.props.styles.attributeValue}
+            style={listViewStyles.attributeValue}
           >
             {TableColumnConfigurationController.getConfiguredColumnValueForEntity(column, this.props.entity)}
           </span>
@@ -202,11 +205,12 @@ class ListViewEntityCellComponent extends React.Component {
    * @returns {XML}
    */
   displayThumbnail = () => {
-    const thumbnail = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL)
-    if (thumbnail) {
+    const thumbnailURI = get(this.props.entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL}[0].uri`, null)
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
+    if (thumbnailURI) {
       return (
-        <div style={this.props.styles.thumbnail}>
-          <img height="80" width="80" src={thumbnail.fileRef} alt="" />
+        <div style={listViewStyles.thumbnail}>
+          <img height="80" width="80" src={thumbnailURI} alt="" />
         </div>
       )
     }
@@ -214,8 +218,9 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayTitle = () => {
-    const { descriptionTooltip, onShowDescription, styles } = this.props
-    const { rootStyles, checkboxStyles, titleLabelStyles, optionsBarStyles, option } = styles.title
+    const { onShowDescription, onAddToCart } = this.props
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
+    const { rootStyles, checkboxStyles, titleLabelStyles, optionsBarStyles, option } = listViewStyles.title
     return (
       <div style={rootStyles}>
         {this.props.displayCheckbox ? <Checkbox
@@ -237,24 +242,30 @@ class ListViewEntityCellComponent extends React.Component {
           <EntityDescriptionButton // Description
             style={option.buttonStyles}
             iconStyle={option.iconStyles}
-            tooltip={descriptionTooltip}
             onShowDescription={onShowDescription}
           />
+          <ShowableAtRender show={!!onAddToCart}>
+            <AddElementToCartButton // Add to cart, only when callback is available
+              onAddToCart={onAddToCart}
+              style={option.buttonStyles}
+              iconStyle={option.iconStyles}
+            />
+          </ShowableAtRender>
         </div>
       </div>
     )
   }
 
   displayDownload = () => {
-    const rawdata = find(this.props.entity.content.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA)
-    if (rawdata) {
-      const { styles: { title: { option } }, downloadTooltip } = this.props
+    const { intl: { formatMessage }, moduleTheme: { user: { listViewStyles } } } = this.context
+    const rawdataURI = get(this.props.entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}[0].uri`, null)
+    if (rawdataURI) {
       return (
         <DownloadButton
-          style={option.buttonStyles}
-          tooltip={downloadTooltip}
-          iconStyle={option.iconStyles}
-          downloadURL={rawdata.fileRef}
+          style={listViewStyles.title.option.buttonStyles}
+          tooltip={formatMessage({ id: 'download.tooltip' })}
+          iconStyle={listViewStyles.title.option.iconStyles}
+          downloadURL={rawdataURI}
           ButtonIcon={null} // remove default icon, use children instead for an Icon button
           ButtonConstructor={IconButton}
         >
@@ -265,16 +276,16 @@ class ListViewEntityCellComponent extends React.Component {
   }
 
   displayServices = () => {
-    const { entity: { content: { services = [] } }, onServiceStarted, servicesTooltip } = this.props
-    const { option } = this.props.styles.title
-    return !services.length ? null : (
+    const { entity: { content: { services = [] } }, enableServices, onServiceStarted } = this.props
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
+    const { option } = listViewStyles.title
+    return enableServices && services.length ? (
       <OneElementServicesButton
         style={option.buttonStyles}
         iconStyle={option.iconStyles}
-        tooltip={servicesTooltip}
         services={services}
         onServiceStarted={onServiceStarted}
-      />)
+      />) : null
   }
 
   displayEntityAttributes = () => {
@@ -303,6 +314,8 @@ class ListViewEntityCellComponent extends React.Component {
 
     const cardStyles = Object.assign({}, this.state.style, { height: this.props.lineHeight })
 
+    const { moduleTheme: { user: { listViewStyles } } } = this.context
+
     return (
       <Card
         style={cardStyles}
@@ -316,7 +329,7 @@ class ListViewEntityCellComponent extends React.Component {
           <Divider />
           {thumbnail}
           <div style={contentStyle}>
-            <div style={this.props.styles.line}>
+            <div style={listViewStyles.line}>
               {attributes}
             </div>
           </div>

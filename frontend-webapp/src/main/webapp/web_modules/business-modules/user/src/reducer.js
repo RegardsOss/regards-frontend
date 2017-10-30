@@ -20,14 +20,14 @@
  * Combine all reducers for this aa to a single root reducer.
  */
 import { combineReducers } from 'redux'
-import LayoutReducer from './model/layout/LayoutReducer'
-import LayoutModulesReducer from './model/modules/ModulesReducer'
+import { AccessProjectClient, OrderClient } from '@regardsoss/client'
 
 /**
  * Reducers for user module
  * @author Sébastien binda
  */
 export default combineReducers({
-  layout: LayoutReducer,
-  'layout.modules': LayoutModulesReducer,
+  layout: AccessProjectClient.LayoutReducers(), // install default layout client reducer
+  'layout.modules': AccessProjectClient.ModuleReducers(), // install default layout modules client reducer
+  'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
 })

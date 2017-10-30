@@ -1,9 +1,10 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import flow from 'lodash/flow'
 import { connect } from '@regardsoss/redux'
-import { I18nProvider } from '@regardsoss/i18n'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { withI18n } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
@@ -12,6 +13,7 @@ import DescriptionLevelActions from '../../model/description/DescriptionLevelAct
 import { DescriptionLevelSelectors } from '../../model/description/DescriptionLevelSelectors'
 import EntityDescriptionComponent from '../../components/description/EntityDescriptionComponent'
 import styles from '../../styles/styles'
+import messages from '../../i18n'
 
 /** Render constant: module syles  */
 const MODULE_STYLES = { styles }
@@ -64,26 +66,27 @@ export class EntityDescriptionContainer extends React.Component {
     const { shownEntity, onClose, downloadDescriptionClient, onSearchTag,
       fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors } = this.props
     return (
-      <I18nProvider messageDir="business-common/entities-common/src/i18n">
-        <ModuleThemeProvider module={MODULE_STYLES}>
-          <EntityDescriptionComponent
-            entity={shownEntity}
-            open={!!shownEntity}
+      <EntityDescriptionComponent
+        entity={shownEntity}
+        open={!!shownEntity}
 
-            downloadDescriptionClient={downloadDescriptionClient}
-            fetchModelAttributesActions={fetchModelAttributesActions}
-            fetchModelAttributesSelectors={fetchModelAttributesSelectors}
-            levelActions={levelActions}
-            levelSelectors={levelSelectors}
+        downloadDescriptionClient={downloadDescriptionClient}
+        fetchModelAttributesActions={fetchModelAttributesActions}
+        fetchModelAttributesSelectors={fetchModelAttributesSelectors}
+        levelActions={levelActions}
+        levelSelectors={levelSelectors}
 
-            onSearchTag={onSearchTag ? this.onSearchTag : null}
-            onClose={onClose}
-          />
-        </ModuleThemeProvider>
-      </I18nProvider>
+        onSearchTag={onSearchTag ? this.onSearchTag : null}
+        onClose={onClose}
+      />
     )
   }
 }
-export default connect(
-  EntityDescriptionContainer.mapStateToProps,
-  EntityDescriptionContainer.mapDispatchToProps)(EntityDescriptionContainer)
+
+export default flow(
+  withModuleStyle(MODULE_STYLES),
+  withI18n(messages),
+  connect(
+    EntityDescriptionContainer.mapStateToProps,
+    EntityDescriptionContainer.mapDispatchToProps),
+)(EntityDescriptionContainer)

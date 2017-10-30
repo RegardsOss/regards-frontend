@@ -39,6 +39,7 @@ const messages = {
   'search.graph.configuration.attributes.subtitle': 'Vous pouvez sélectionner ci-dessous les attributs des jeux de données qui seront visibles dans le graphe',
   'form.attributes.standard.section.title': 'Attributs communs',
   'form.attributes.section.title': 'Attributs dynamiques ',
+  'form.attributes.section.clear.filters.tooltip': 'Effacer le filtre courant',
   'form.attributes.order': 'ordre d\'affichage',
   'form.attributes.initialSort.label': 'Trier les résultats sur cet attribut',
   'form.attributes.visibility.label': 'Afficher',

@@ -91,18 +91,22 @@ export class DatasetEditPluginComponent extends React.Component {
           autoGenerateNestedIndicator={false}
           nestedItems={
             map(pluginConfigurationAssociated, (pluginConfiguration, id) => (
-              <ListItem
-                primaryText={pluginConfiguration.content.label}
-                secondaryText={pluginConfiguration.content.version}
+              <ShowableAtRender
+                show={pluginConfiguration.content.active}
                 key={`plugin-configuration-${id}`}
-                disabled
-                leftCheckbox={
-                  <Checkbox
-                    checked={this.isCheckboxChecked(pluginConfiguration)}
-                    onCheck={(event, isInputChecked) => { this.onCheck(pluginConfiguration, isInputChecked) }}
-                  />
-                }
-              />
+              >
+                <ListItem
+                  primaryText={pluginConfiguration.content.label}
+                  secondaryText={pluginConfiguration.content.version}
+                  disabled
+                  leftCheckbox={
+                    <Checkbox
+                      checked={this.isCheckboxChecked(pluginConfiguration)}
+                      onCheck={(event, isInputChecked) => { this.onCheck(pluginConfiguration, isInputChecked) }}
+                    />
+                  }
+                />
+              </ShowableAtRender>
             ))
           }
         />

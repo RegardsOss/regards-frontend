@@ -16,11 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { IntlProvider } from 'react-intl'
-import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
-import { i18nSelectors } from '@regardsoss/i18n'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { I18nProvider } from '@regardsoss/i18n'
+import { ModuleStyleProvider } from '@regardsoss/theme'
+
 
 /**
 * A very light version of the @regardoss/plugin/PluginLoader, which does not perform any loading, nor error checking
@@ -29,11 +28,16 @@ import { ModuleThemeProvider } from '@regardsoss/modules'
 */
 export class PluginDisplayerContainer extends React.Component {
 
+  /** Messages to use when the module provides none */
+  static DEFAULT_MESSAGES = { en: {}, fr: {} }
+
+  /** styles to use when the module provides none */
+  static DEFAULT_STYLES = {
+    styles: () => ({}),
+  }
+
   /** Instance Id counter, avoiding conflicts with mounted services */
   static PLUGIN_INSTANCE_ID = 0
-
-  static mapStateToProps = state => ({ locale: i18nSelectors.getLocale(state) })
-
 
   static propTypes = {
     pluginInstance: AccessShapes.UIPluginInstanceContent,
@@ -42,8 +46,6 @@ export class PluginDisplayerContainer extends React.Component {
       runtimeTarget: AccessShapes.RuntimeTarget,
       configuration: AccessShapes.RuntimeConfiguration,
     }).isRequired,
-    // from map state to props
-    locale: PropTypes.string.isRequired,
   }
 
   componentWillMount = () => this.onPropertiesChange(this.props)
@@ -72,20 +74,17 @@ export class PluginDisplayerContainer extends React.Component {
   }
 
   render() {
-    const { pluginInstance, locale } = this.props
+    const { pluginInstance } = this.props
     const { renderedPlugin } = this.state
     return (
-      <IntlProvider
-        locale={locale}
-        messages={pluginInstance.messages[locale]}
-      >
-        <ModuleThemeProvider module={pluginInstance.styles} >
+      <I18nProvider messages={pluginInstance.messages || PluginDisplayerContainer.DEFAULT_MESSAGES} >
+        <ModuleStyleProvider module={pluginInstance.styles || PluginDisplayerContainer.DEFAULT_STYLES} >
           {renderedPlugin}
-        </ModuleThemeProvider>
-      </IntlProvider>
+        </ModuleStyleProvider>
+      </I18nProvider>
     )
   }
 }
 
 
-export default connect(PluginDisplayerContainer.mapStateToProps)(PluginDisplayerContainer)
+export default PluginDisplayerContainer

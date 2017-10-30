@@ -18,6 +18,7 @@
  */
 import { I18nProvider } from '@regardsoss/i18n'
 import ProjectConnectionsContainer from './ProjectConnectionsContainer'
+import messages from '../../i18n'
 
 /**
  * I18n Provider for ProjectConnectionsContainer
@@ -26,7 +27,7 @@ export class ProjectConnectionsProvider extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-project-management/src/i18n">
+      <I18nProvider messages={messages}>
         <ProjectConnectionsContainer
           {...this.props}
         />

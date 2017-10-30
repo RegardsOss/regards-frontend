@@ -19,7 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { Field, FormErrorMessage } from '@regardsoss/form-utils'
+import { FormErrorMessage } from '@regardsoss/components'
+import { Field } from '@regardsoss/form-utils'
 import { SessionLockedFormComponent } from '../../src/components/SessionLockedFormComponent'
 
 import styles from '../../src/styles/styles'

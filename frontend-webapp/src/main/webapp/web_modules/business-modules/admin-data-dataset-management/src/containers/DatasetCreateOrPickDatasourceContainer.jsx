@@ -23,7 +23,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
 import DatasetCreateOrPickDatasourceComponent from '../components/DatasetCreateOrPickDatasourceComponent'
-
+import messages from '../i18n'
 
 /**
  * Pick the datasource if existing or ask the user to create a new one
@@ -61,7 +61,7 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
     const { params: { project } } = this.props
     return `/admin/${project}/data/dataset/list`
   }
-  getCreateDatasourceUrl= () => {
+  getCreateDatasourceUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/datasource/create/connection`
   }
@@ -76,7 +76,7 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
     const { datasourceList } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

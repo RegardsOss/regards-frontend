@@ -16,22 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ModuleThemeProvider } from '@regardsoss/modules'
-import HorizontalAreasSeparatorImpl from './HorizontalAreasSeparatorImpl'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import styles from './styles'
 
 /**
-* Horizontal separator component, mainly used to separate a dynamic module from other ones  XXX-V2 merge with IMPL
+* Horizontal separator component, mainly used to separate a dynamic module from other ones
 * @author Raphaël Mechali
 */
-class HorizontalAreasSeparator extends React.Component {
+export class HorizontalAreasSeparator extends React.Component {
+
+  static contextTypes = {
+    ...themeContextType,
+  }
 
   render() {
+    const { moduleTheme: { horizontalSeparator: { rootStyle, lineStyle } } } = this.context
     return (
-      <ModuleThemeProvider module={styles}>
-        <HorizontalAreasSeparatorImpl />
-      </ModuleThemeProvider>
+      <div style={rootStyle}>
+        <div style={lineStyle} />
+      </div>
     )
   }
 }
-export default HorizontalAreasSeparator
+export default withModuleStyle(styles)(HorizontalAreasSeparator)

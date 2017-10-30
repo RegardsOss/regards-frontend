@@ -30,6 +30,7 @@ import {
 } from '../clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceConfigurationListComponent from '../components/ServiceConfigurationListComponent'
+import messages from '../i18n'
 
 /**
  * Show the list of plugin service configuration
@@ -136,7 +137,7 @@ export class ServiceConfigurationListContainer extends React.Component {
     const { uiPluginDefinition, uiPluginConfigurationList } = this.props
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-service-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

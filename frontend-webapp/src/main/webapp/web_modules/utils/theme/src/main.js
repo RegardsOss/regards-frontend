@@ -18,10 +18,10 @@
  **/
 import themeContextType from './contextType'
 import ThemeInjector from './ThemeInjector'
-import SelectThemeContainer from './containers/SelectThemeContainer'
 import injectTheme from './ThemeInjectionDecorator'
 import reducers from './model/reducers'
 import getCurrentTheme from './model/selectors/getCurrentTheme'
+import setCurrentTheme from './model/actions/setCurrentTheme'
 import ThemeProvider from './containers/ThemeProvider'
 import defaultCustomConfiguration from './custom/defaultCustomConfiguration'
 import {
@@ -32,18 +32,22 @@ import {
   themeInstanceActions as ThemeInstanceActions,
 } from './clients/ThemeInstanceClient'
 import defaultTheme from './model/defaultTheme'
+import ModuleStyleProvider from './containers/ModuleStyleProvider'
+import withModuleStyle from './decorators/withModuleStyle'
 
 export {
   themeContextType,
   ThemeInjector,
-  SelectThemeContainer,
   injectTheme,
   reducers,
   ThemeSelectors,
   getCurrentTheme,
-  ThemeProvider,
+  setCurrentTheme,
   ThemeActions,
   ThemeInstanceActions,
   defaultCustomConfiguration,
   defaultTheme,
+  ThemeProvider,
+  ModuleStyleProvider,
+  withModuleStyle,
 }

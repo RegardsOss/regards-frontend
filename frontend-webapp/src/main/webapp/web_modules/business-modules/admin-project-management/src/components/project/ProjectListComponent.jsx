@@ -34,6 +34,7 @@ import { AdminShapes } from '@regardsoss/shape'
 import moduleStyle from '../../styles/styles'
 
 const styles = moduleStyle()
+const actionsBreakpoints = [904, 995, 1065, 1270, 1270]
 
 /**
  * React components to list project.
@@ -194,11 +195,12 @@ export class ProjectListComponent extends React.Component {
                     {this.getDeletedState(project.content.isDeleted)}
                   </TableRowColumn>
                   <TableRowColumn style={styles.tableRow} className="col-md-26">
-                    <ActionsMenuCell>
+                    <ActionsMenuCell
+                      breakpoints={actionsBreakpoints}
+                    >
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.openbutton' })}
                         onTouchTap={() => handleOpen(project.content.name)}
-                        breakpoint={940}
                         className="selenium-openbutton"
                       >
                         <Open hoverColor={style.hoverButtonView} />
@@ -206,7 +208,6 @@ export class ProjectListComponent extends React.Component {
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.editbutton' })}
                         onTouchTap={() => handleEdit(project.content.name)}
-                        breakpoint={995}
                         className="selenium-editbutton"
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
@@ -214,7 +215,6 @@ export class ProjectListComponent extends React.Component {
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.edit.connections.button' })}
                         onTouchTap={() => handleConfigureConnections(project.content.name)}
-                        breakpoint={1065}
                         className="selenium-editconnections"
                       >
                         <Settings hoverColor={style.hoverButtonEdit} />
@@ -224,7 +224,6 @@ export class ProjectListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'project.list.action.licenseUpdateButton' })}
                         onTouchTap={() => this.onLicenseUpdate(project.content.name)}
                         disabled={!!project.content.license}
-                        breakpoint={1270}
                         className="selenium-licenseUpdateButton"
                       >
                         <ResetLicences hoverColor={style.hoverButtonLicenseUpdate} />
@@ -232,7 +231,6 @@ export class ProjectListComponent extends React.Component {
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.deletebutton' })}
                         onTouchTap={() => this.onDelete(project.content.name)}
-                        breakpoint={1270}
                         className="selenium-deletebutton"
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

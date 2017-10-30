@@ -57,6 +57,7 @@ class ServiceConfigurationListComponent extends React.Component {
     handleToggleActivation: PropTypes.func.isRequired,
     handleToggleDefault: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     backUrl: PropTypes.string.isRequired,
   }
 

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { LazyModuleComponent } from '@regardsoss/modules'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import ModuleConfiguration from '../../../models/ModuleConfiguration'
 /**
@@ -48,7 +48,7 @@ class FormParametersComponent extends React.Component {
     }
 
     const module = {
-      type: 'search-results',
+      type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: this.props.appName,
       conf: moduleConf,

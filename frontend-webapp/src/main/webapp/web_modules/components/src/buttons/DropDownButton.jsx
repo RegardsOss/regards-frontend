@@ -7,10 +7,10 @@ import Menu from 'material-ui/Menu'
 import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 
 /**
-* Drop down button (used where drop down menu is not adequate). You can add some other properties to this component,
-* it will pass them through to the button instance
-* XXX ulterior MUI version: disable the fix when submenus are correctly handled!
-*/
+ * Drop down button (used where drop down menu is not adequate). You can add some other properties to this component,
+ * it will pass them through to the button instance
+ * WORKAROUND - remove when MUI handles submenus correctly!
+ */
 class DropDownButton extends React.Component {
 
   static propTypes = {

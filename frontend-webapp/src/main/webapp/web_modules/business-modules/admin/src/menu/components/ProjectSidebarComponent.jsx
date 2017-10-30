@@ -24,22 +24,23 @@ import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
 import Brush from 'material-ui/svg-icons/image/brush'
 import Divider from 'material-ui/Divider'
 import Back from 'material-ui/svg-icons/navigation/arrow-back'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
-import { browserHistory } from 'react-router'
+import MenuItem from 'material-ui/MenuItem'
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { browserHistory } from 'react-router'
 import { uiManagementDependencies } from '@regardsoss/admin-ui-management'
 import { userDependencies } from '@regardsoss/admin-user-management'
 import { dataManagementDependencies } from '@regardsoss/admin-data-management'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-management'
 import { microserviceDependencies } from '@regardsoss/admin-microservice-management'
 import { someMatchHateoasDisplayLogic, allMatchHateoasDisplayLogic, withResourceDisplayControl } from '@regardsoss/display-control'
-import MenuItem from 'material-ui/MenuItem'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import getModuleStyles from '../../styles/styles'
 import SidebarElement from './SidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
 import { projectActions } from '../clients/ProjectClient'
+import messages from '../i18n'
 
 const SidebarElementWithResourceDisplayControl = withResourceDisplayControl(SidebarElement)
 const MenuItemWithHateoasDisplayControl = withResourceDisplayControl(MenuItem)
@@ -167,4 +168,4 @@ class ProjectSidebarComponent extends React.Component {
   }
 }
 
-export default ProjectSidebarComponent
+export default withI18n(messages)(ProjectSidebarComponent)

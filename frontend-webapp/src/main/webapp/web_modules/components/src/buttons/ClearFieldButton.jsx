@@ -18,7 +18,8 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import Clear from 'material-ui/svg-icons/content/clear'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import messages from './i18n'
 
 /**
 * Common button to clear a field
@@ -53,4 +54,4 @@ export class ClearFieldButton extends React.Component {
   }
 }
 
-export default ClearFieldButton // XXX v2 use withI18N, and update plugins to not import it anymore
+export default withI18n(messages)(ClearFieldButton)

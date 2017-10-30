@@ -37,9 +37,9 @@ class ModuleActions extends BasicPageableActions {
 
   /**
    * Construtor
-   * @param namespace
+   * @param {string} namespace namespace, leave empty for default client actions
    */
-  constructor(namespace) {
+  constructor(namespace = 'user/layout/modules') {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/applications/{applicationId}/modules`,
@@ -51,4 +51,8 @@ class ModuleActions extends BasicPageableActions {
   }
 }
 
+/**
+ * Builds actions instance
+ * @param {string} namespace namespace, leave empty for default client actions
+ */
 export default namespace => new ModuleActions(namespace)

@@ -67,7 +67,7 @@ const styles = theme => ({
     },
   },
   actionIconWithNotifications: {
-    badgeCustomStyles: {
+    badgeStyles: {
       position: 'absolute',
       zIndex: '1',
       top: '-5px',

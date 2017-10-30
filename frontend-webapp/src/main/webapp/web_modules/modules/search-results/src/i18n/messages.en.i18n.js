@@ -45,6 +45,7 @@ const messages = Object.assign({
   'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.regroupement.section.title': 'Configure attributes clustering to display after every search result',
   'form.attributes.section.title': 'Configure attributes from dynamic models retrieved from each search result',
+  'form.attributes.section.clear.filters.tooltip': 'Clear current filter',
   'form.attributes.standard.section.title': 'Configure default models attributes. Default models attributes are attributes that are associated to each model without configuration',
   'form.attributes.filter.label': 'Search for attribute label ... ',
   'form.attributes.regroupement.remove': 'Remove',
@@ -66,9 +67,13 @@ const messages = Object.assign({
   'download.tooltip': 'Download',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
-  'results.no.content.title': 'No results',
-  'results.no.content.subtitle': 'Your search returned no results. Try to change your criteria',
+  'add.to.cart.tooltip': 'Add element to my cart',
+  'add.selection.to.cart.label': 'Add to basket',
+  'add.selection.to.cart.tooltip': 'Add selected elements to my cart',
+  'results.no.content.title': 'No result',
+  'results.no.content.subtitle': 'Your search returned no result. Try to change your criteria',
   'results.options.column.label': 'Options and services',
+  'results.download': 'Download',
 }, Locales.en)
 
 export default messages

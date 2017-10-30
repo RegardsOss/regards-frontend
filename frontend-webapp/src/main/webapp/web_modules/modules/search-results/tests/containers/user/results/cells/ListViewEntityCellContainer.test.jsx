@@ -47,7 +47,7 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
           sipId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          files: [],
+          files: {},
           geometry: null,
           properties: {},
           tags: [],
@@ -61,11 +61,9 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       selectTableEntityCallback: () => { },
       tableColumns: [],
       onSearchEntity: () => { },
+      onAddToCart: () => { },
       displayCheckbox: true,
-      downloadTooltip: 'download.tooltip',
-      servicesTooltip: 'services.tooltip',
-      descriptionTooltip: 'description.tooltip',
-      styles: context.moduleTheme.user.listViewStyles,
+      enableServices: true,
 
       // from map dispatch to props
       dispatchShowDescription: () => { },
@@ -76,11 +74,12 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
     assert.lengthOf(render, 1, 'There should be a render component')
     testSuiteHelpers.assertWrapperProperties(component, {
       // all previous props are reported, expected dispatchers and onSearchEntity callback (locally wrapped callbacks)
-      ...(omit(props, ['dispatchShowDescription', 'dispatchRunService', 'onSearchEntity'])),
+      ...(omit(props, ['dispatchShowDescription', 'dispatchRunService', 'onSearchEntity', 'onAddToCart'])),
       // also check local callbacks
       onEntitySelection: render.instance().onEntitySelection, // should be provided as there is an onClick handler
       onShowDescription: render.instance().onShowDescription,
       onServiceStarted: render.instance().onServiceStarted,
+      onAddToCart: render.instance().onAddToCart,
     }, 'The container should report corretly properties to its component')
   })
 })

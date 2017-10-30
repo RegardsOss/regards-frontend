@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 import React from 'react'
 import get from 'lodash/get'
 import isBoolean from 'lodash/isBoolean'
@@ -194,7 +194,7 @@ export class ExampleContainer extends React.Component {
    * Results counted through reduction promise
    * Note 1: Externalizing events callback methods is a good pratice as we
    * will be able to call it directly in tests
-   * Note 2: The lambda notation is a good practice for onXXX methods, as we do not need to bind lambda functions through react
+   * Note 2: The lambda notation is a good practice for on{Event} methods, as we do not need to bind lambda functions through react
    * (we can use them with this in JSX code). Obsviously it is not useful here, it is only a demonstration of such notation
    * @param results {beforeDateCount: number, afterDateCount: number, unknown: number} reduction results
    */

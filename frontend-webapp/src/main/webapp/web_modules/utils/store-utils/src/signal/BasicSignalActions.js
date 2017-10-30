@@ -58,10 +58,8 @@ class BasicSignalActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.SIGNAL_REQUEST,
-          {
-            type: this.SIGNAL_SUCCESS,
-            payload: (action, state, res) => this.buildResults(res),
-          },
+          this.buildSuccessAction(this.SIGNAL_SUCCESS,
+            (action, state, res) => res.status === 204 ? null : this.buildResults(res)),
           this.buildFailureAction(this.SIGNAL_FAILURE),
         ],
         headers: this.headers,

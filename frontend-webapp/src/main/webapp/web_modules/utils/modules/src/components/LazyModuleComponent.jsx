@@ -22,7 +22,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
-import ModuleThemeProvider from './ModuleThemeProvider'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 
 // Cheat, you should not do this but decorate components
 const Div = ({ children }) => <div>{children}</div>
@@ -38,7 +38,8 @@ const WithResourceDisplayControl = withResourceDisplayControl(Div)
  * - adminContainer  : (optional) Main React component to display the configuration of the module
  * - styles          : (optional) The styles of the module based on the current theme
  * - reducers        : (optional) The combined reducers of the module
- * - messagesDir     : (optional) The directory of the i18n messages files. Default src/i18n
+ * - messages        : (optional) The directory of the i18n messages files. Default src/i18n
+ * - ModuleIcon       : Default module icon (used when displaying a dynamic module)
  * @author Sébastien Binda
  */
 class LazyModuleComponent extends React.Component {
@@ -89,17 +90,13 @@ class LazyModuleComponent extends React.Component {
         // eslint-disable-next-line import/no-dynamic-require
         const loadedModule = require(`@regardsoss-modules/${module.type}/src/main.js`)
         if (this.props.admin && !loadedModule.adminContainer) {
-          console.error(`Module ${module.type} does not contain an administration component`)
+          console.info(`Module ${module.type} does not contain an administration component`)
           self.setState({
             isLoaded: false,
             module: null,
           })
         } else if (!this.props.admin && !loadedModule.moduleContainer) {
-          console.error(`Module ${module.type} does not contain a main component`)
-          self.setState({
-            isLoaded: false,
-            module: null,
-          })
+          throw new Error(`Module ${module.type} does not contain a main component`)
         } else {
           if (loadedModule.reducer) {
             const loadedModuleReducerName = `modules.${module.type}`
@@ -136,9 +133,8 @@ class LazyModuleComponent extends React.Component {
         return null
       }
 
-      // By default the i18n directory for a module is fixed to : src/i18n.
-      // Nevertheless, it possible for a module to override this property by setting messagesDir in his main.js exported props
-      const moduleMessageDir = module.messagesDir ? module.messagesDir : `modules/${this.props.module.type}/src/i18n`
+      // The module exposes its messages
+      const moduleMessages = get(module, 'messages', {})
 
       const defaultModuleProps = {
         appName: this.props.appName,
@@ -168,16 +164,15 @@ class LazyModuleComponent extends React.Component {
       }
 
       moduleElt = React.createElement(moduleContainer, moduleProps)
-
       return (
-        <I18nProvider messageDir={moduleMessageDir}>
-          <ModuleThemeProvider module={module}>
+        <I18nProvider messages={moduleMessages}>
+          <ModuleStyleProvider module={module}>
             <WithResourceDisplayControl
               resourceDependencies={moduleDependencies}
             >
               {moduleElt}
             </WithResourceDisplayControl>
-          </ModuleThemeProvider>
+          </ModuleStyleProvider>
         </I18nProvider>
       )
     }

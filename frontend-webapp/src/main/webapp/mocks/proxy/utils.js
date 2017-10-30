@@ -11,7 +11,13 @@ const loadFile = (file, charset) => fs.readFileSync(file, charset) || this.logMe
 
 const logMessage = (message, isError = false, subheader = '') => console.log(headerStyles, 'Facade mock server - ', subheaderStyles, subheader, isError ? messageStyles.errorStyle : messageStyles.defaultStyle, message)
 
+const addLinks = ((objects = []) => objects.map(o => ({
+  content: o,
+  links: ['a-test-link'],
+})))
+
 module.exports = {
+  addLinks,
   logMessage,
   loadFile,
   JSON_CONTENT_TYPE: 'application/json; charset=utf-8',

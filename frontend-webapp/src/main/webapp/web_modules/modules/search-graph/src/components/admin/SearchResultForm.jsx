@@ -1,9 +1,10 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { LazyModuleComponent } from '@regardsoss/modules'
-import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
+import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
+
 /**
 * Search result configuration form, using search result module
 */
@@ -23,11 +24,11 @@ class SearchResultFormComponent extends React.Component {
   render() {
     const { project, appName, adminForm } = this.props
     const module = {
-      type: 'search-results',
+      type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: this.props.appName,
       conf: {
-        resultType: SearchResultsTargetsEnum.DATAOBJECT_RESULTS,
+        resultType: ENTITY_TYPES_ENUM.DATA,
         hideDatasetsConfiguration: true,
       },
     }

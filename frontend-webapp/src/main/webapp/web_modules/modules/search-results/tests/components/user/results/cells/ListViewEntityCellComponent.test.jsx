@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { ShowableAtRender } from '@regardsoss/components'
 import ListViewEntityCellComponent from '../../../../../src/components/user/results/cells/ListViewEntityCellComponent'
 import styles from '../../../../../src/styles/styles'
 
@@ -41,7 +42,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           sipId: '1',
           label: 'O.D.I.L',
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          files: [],
+          files: {},
           geometry: null,
           properties: {},
           tags: [],
@@ -53,16 +54,16 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
       isTableSelected: false,
       selectTableEntityCallback: () => { },
       tableColumns: [],
+      displayAddToBasket: true,
       onSearchTag: () => { },
       onClick: () => { },
-      downloadTooltip: 'download.tooltip',
-      servicesTooltip: 'services.tooltip',
-      descriptionTooltip: 'description.tooltip',
-      styles: context.moduleTheme.user.listViewStyles,
+      enableServices: true,
       onShowDescription: () => { },
       onServiceStarted: () => { },
     }
-    // note: it is hard here to test any further, because there is easy no way to search wrappers attributs sub elements
-    shallow(<ListViewEntityCellComponent {...props} />, { context })
+    const renderWrapper = shallow(<ListViewEntityCellComponent {...props} />, { context })
+    // the cart button should not be rendered without the callback
+    renderWrapper.find(ShowableAtRender)
+    // cannot test further easily due to card title...
   })
 })

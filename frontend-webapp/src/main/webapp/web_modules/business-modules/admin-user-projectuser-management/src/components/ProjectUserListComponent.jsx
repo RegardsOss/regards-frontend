@@ -40,6 +40,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { addDependencies } from '../dependencies'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const actionsBreakpoints = [530, 1065, 1320, 1320, 1320, 1320]
 
 /**
  * User statuses constants, as returned by the server
@@ -251,7 +252,9 @@ export class ProjectUserListComponent extends React.Component {
                           />
                         </TableRowColumn>
                         <TableRowColumn>
-                          <ActionsMenuCell>
+                          <ActionsMenuCell
+                            breakpoints={actionsBreakpoints}
+                          >
                             <HateoasIconAction
                               className="selenium-editButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
@@ -259,7 +262,6 @@ export class ProjectUserListComponent extends React.Component {
                               disabled={isFetchingActions}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.UPDATE}
-                              breakpoint={530}
                             >
                               <Edit hoverColor={style.commonActionHoverColor} />
                             </HateoasIconAction>
@@ -270,7 +272,6 @@ export class ProjectUserListComponent extends React.Component {
                               disabled={isFetchingActions || !canAcceptUser(projectUser)}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.ACCEPT}
-                              breakpoint={1065}
                             >
                               <Done hoverColor={style.commonActionHoverColor} />
                             </HateoasIconAction>
@@ -281,7 +282,6 @@ export class ProjectUserListComponent extends React.Component {
                               disabled={isFetchingActions || !canDenyUser(projectUser)}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.DENY}
-                              breakpoint={1320}
                             >
                               <RemoveCircle hoverColor={style.deleteActionHoverColor} />
                             </HateoasIconAction>
@@ -292,7 +292,6 @@ export class ProjectUserListComponent extends React.Component {
                               disabled={isFetchingActions}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.ACTIVE}
-                              breakpoint={1320}
                             >
                               <Loop hoverColor={style.commonActionHoverColor} />
                             </HateoasIconAction>
@@ -303,7 +302,6 @@ export class ProjectUserListComponent extends React.Component {
                               disabled={isFetchingActions}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.INACTIVE}
-                              breakpoint={1320}
                             >
                               <Pause hoverColor={style.deleteActionHoverColor} />
                             </HateoasIconAction>
@@ -314,7 +312,6 @@ export class ProjectUserListComponent extends React.Component {
                               disabled={isFetchingActions}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.DELETE}
-                              breakpoint={1320}
                             >
                               <Delete hoverColor={style.deleteActionHoverColor} />
                             </HateoasIconAction>

@@ -22,6 +22,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import RoleListComponent from '../components/RoleListComponent'
+import messages from '../i18n'
 
 /**
  * React container to manage project role list.
@@ -65,14 +66,14 @@ export class RoleListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleDelete =(roleName) => {
+  handleDelete = (roleName) => {
     this.props.deleteRole(roleName)
   }
 
   render() {
     const { roleList } = this.props
     return (
-      <I18nProvider messageDir="business-modules/admin-user-role-management/src/i18n">
+      <I18nProvider messages={messages}>
         <RoleListComponent
           roleList={roleList}
           createUrl={this.getCreateUrl()}

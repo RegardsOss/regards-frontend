@@ -18,13 +18,12 @@
  **/
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
-import values from 'lodash/values'
 import remove from 'lodash/remove'
 import { connect } from '@regardsoss/redux'
-import { AccessDomain, CatalogDomain } from '@regardsoss/domain'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
-import { ModuleThemeProvider } from '@regardsoss/modules'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { TableSortOrders } from '@regardsoss/components'
 import { Tag } from '../../../models/navigation/Tag'
 import {
@@ -37,6 +36,8 @@ import navigationContextActions from '../../../models/navigation/NavigationConte
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
 import PluginServicesContainer from './PluginServicesContainer'
+import OrderCartContainer from './OrderCartContainer'
+import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 import styles from '../../../styles/styles'
 
 const moduleStyles = { styles }
@@ -59,7 +60,7 @@ export class SearchResultsContainer extends React.Component {
     // lets user select an entity and set it as a current search tag
     dispatchSetEntityAsTag: ({ content: { entityType, label, ipId } }) => {
       dispatch(navigationContextActions.addSearchTag(new Tag(entityType, label, ipId)))
-      dispatch(navigationContextActions.changeViewObjectType(CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS))
+      dispatch(navigationContextActions.changeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATA))
     },
   })
 
@@ -79,8 +80,9 @@ export class SearchResultsContainer extends React.Component {
     datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
     attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
     // From map state to props
-    viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired, // current view object type
+    viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
     displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired, // Display mode
+    // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
@@ -99,7 +101,6 @@ export class SearchResultsContainer extends React.Component {
     // Current sorting attributes array like {attributePath: String, type: (optional) one of 'ASC' / 'DESC'}
     sortingOn: [],
     filters: [],
-    searchTag: null,
     // runtime qearch query, generated from all query elements known
     fullSearchQuery: null,
     // request actioner depends on entities to search
@@ -111,10 +112,10 @@ export class SearchResultsContainer extends React.Component {
   componentWillReceiveProps = nextProps => this.updateState(this.props, nextProps)
 
   /** On show datasets */
-  onShowDatasets = () => this.props.dispatchChangeViewObjectType(CatalogDomain.SearchResultsTargetsEnum.DATASET_RESULTS)
+  onShowDatasets = () => this.props.dispatchChangeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATASET)
 
   /** On show dataobjects */
-  onShowDataobjects = () => this.props.dispatchChangeViewObjectType(CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS)
+  onShowDataobjects = () => this.props.dispatchChangeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATA)
 
   /** On show results as list view action */
   onShowListView = () => this.props.dispatchChangeDisplayMode(DisplayModeEnum.LIST)
@@ -136,7 +137,6 @@ export class SearchResultsContainer extends React.Component {
    */
   onSortChanged = (attributePath, type, clear) => {
     const newSortingOn = clear ? [] : [...this.state.sortingOn]
-    // XXX we want to reset selection or adapt it there
     if (attributePath) {
       if (type && (type === TableSortOrders.ASCENDING_ORDER || type === TableSortOrders.DESCENDING_ORDER)) {
         // add the attribute to sorting list
@@ -166,10 +166,10 @@ export class SearchResultsContainer extends React.Component {
    */
   buildSearchState = ({ viewObjectType, searchQuery, facettesQuery, levels },
     { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
-    const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
+    const showingDataobjects = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
     // check if facettes should be applied
-    const facettes = showingFacettes && viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
+    const facettes = showingFacettes && showingDataobjects ? filters : []
     const facettesQueryPart = showingFacettes ? facettesQuery : ''
 
     let searchActions
@@ -260,51 +260,56 @@ export class SearchResultsContainer extends React.Component {
 
   render() {
     const {
-      appName, project, enableFacettes, attributesConf, viewObjectType, facettesQuery, attributesRegroupementsConf, levels,
+      appName, project, enableFacettes, attributesConf, viewObjectType, facettesQuery, attributesRegroupementsConf,
       attributeModels, displayDatasets, dispatchSetEntityAsTag, displayMode, datasetAttributesConf,
+      searchQuery: initialSearchQuery,
     } = this.props
-    const { showingFacettes, filters, searchTag, openSearchQuery, fullSearchQuery, searchActions, sortingOn } = this.state
-
-    // compute view mode
-    const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
-
+    const { showingFacettes, filters, openSearchQuery, fullSearchQuery, searchActions, sortingOn } = this.state
     return (
-      <ModuleThemeProvider module={moduleStyles}>
+      <ModuleStyleProvider module={moduleStyles}>
+        {/* enable the services functionnalities */}
         <PluginServicesContainer
-          // plugin service exlusive properties
           viewObjectType={viewObjectType}
-          levels={levels}
+          initialDatasetIpId={initialSearchQuery}
           openSearchQuery={openSearchQuery}
+        >
+          {/* enable the order cart link functionnality */}
+          <OrderCartContainer
+            viewObjectType={viewObjectType}
+            initialSearchQuery={initialSearchQuery}
+            openSearchQuery={openSearchQuery}
+          >
+            {/** Render a default search results component with common properties (sub elements will clone it with added properties)*/}
+            <SearchResultsComponent
+              appName={appName}
+              project={project}
+              allowingFacettes={enableFacettes && !!facettesQuery}
+              displayDatasets={displayDatasets}
+              viewObjectType={viewObjectType}
+              viewMode={displayMode || DisplayModeEnum.LIST}
+              showingFacettes={showingFacettes}
+              sortingOn={sortingOn}
+              filters={filters}
+              searchQuery={fullSearchQuery}
+              attributesConf={attributesConf}
+              attributesRegroupementsConf={attributesRegroupementsConf}
+              datasetAttributesConf={datasetAttributesConf}
+              attributeModels={attributeModels}
+              resultPageActions={searchActions}
 
-          // search results display properties
-          appName={appName}
-          project={project}
-          allowingFacettes={enableFacettes && !!facettesQuery}
-          searchQuery={fullSearchQuery}
-          viewMode={displayMode || DisplayModeEnum.LIST}
-          showingFacettes={showingFacettes}
-          displayDatasets={displayDatasets}
-          sortingOn={sortingOn}
-          filters={filters}
-          searchTag={searchTag}
-          attributesConf={attributesConf}
-          attributesRegroupementsConf={attributesRegroupementsConf}
-          datasetAttributesConf={datasetAttributesConf}
-          attributeModels={attributeModels}
-          resultPageActions={searchActions}
-          showingDataobjects={showingDataobjects}
+              onFiltersChanged={this.onFiltersChanged}
+              onSetEntityAsTag={dispatchSetEntityAsTag}
+              onShowDatasets={this.onShowDatasets}
+              onShowDataobjects={this.onShowDataobjects}
+              onShowListView={this.onShowListView}
+              onShowTableView={this.onShowTableView}
+              onSortChanged={this.onSortChanged}
+              onToggleShowFacettes={this.onToggleShowFacettes}
 
-          onShowDatasets={this.onShowDatasets}
-          onShowDataobjects={this.onShowDataobjects}
-          onShowListView={this.onShowListView}
-          onShowTableView={this.onShowTableView}
-          onToggleShowFacettes={this.onToggleShowFacettes}
-          onSetEntityAsTag={dispatchSetEntityAsTag}
-          onFiltersChanged={this.onFiltersChanged}
-          onResetNavigationContext={this.onResetNavigationContext}
-          onSortChanged={this.onSortChanged}
-        />
-      </ModuleThemeProvider>
+            />
+          </OrderCartContainer>
+        </PluginServicesContainer>
+      </ModuleStyleProvider>
     )
   }
 }

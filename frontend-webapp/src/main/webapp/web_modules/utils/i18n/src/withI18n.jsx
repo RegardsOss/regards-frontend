@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import I18nProvider from './I18nProvider'
+import I18nProvider from './containers/I18nProvider'
 
 /**
  * Decorator adding the I18nProvider around a React Component
  *
  * @author Xavier-Alexandre Brochard
  */
-const withI18n = path => Component => class WithI18n extends React.Component {
+const withI18n = messages => Component => class WithI18n extends React.Component {
   render() {
     return (
-      <I18nProvider messageDir={path}>
+      <I18nProvider messages={messages}>
         <Component {...this.props} />
       </I18nProvider>
     )

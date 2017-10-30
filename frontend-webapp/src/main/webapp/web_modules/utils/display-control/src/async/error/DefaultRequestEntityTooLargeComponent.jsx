@@ -18,6 +18,7 @@
  **/
 import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
+import messages from '../../i18n'
 
 const style = {
   wrapper: {
@@ -42,7 +43,7 @@ class DefaultRequestEntityTooLargeComponent extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="utils/display-control/src/i18n">
+      <I18nProvider messages={messages}>
         <div style={style.wrapper}>
           <FormattedMessage id="request.entity.too.large" />
         </div>

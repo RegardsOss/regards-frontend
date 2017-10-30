@@ -16,13 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const path = require('path')
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'test',
-    projectContextPath: __dirname
+    projectContextPath: __dirname,
   })
   .get()
 

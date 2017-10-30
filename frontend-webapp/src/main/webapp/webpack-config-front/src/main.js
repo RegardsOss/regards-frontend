@@ -1,4 +1,3 @@
-const getWebpackCommonConf = require('./app/webpack.common.config')
 const getWebpackCoverageConf = require('./app/webpack.coverage.config')
 const getWebpackDevConf = require('./app/webpack.dev.config')
 const getWebpackProdConf = require('./app/webpack.prod.config')
@@ -36,7 +35,7 @@ const DEFAULT_UNKNOW_PATH_TO_DELETE = '/specify/the/directory/to/delete'
  * [PROD] Use the coreoss DLL
  */
 const DEFAULT_PATH_BETWEEN_PLUGIN_AND_WEBAPP = '../../..'
-const slugMessage = "@regardsoss/webpack-config-front | "
+const slugMessage = '@regardsoss/webpack-config-front | '
 
 class WebpackConfig {
   constructor() {
@@ -44,8 +43,8 @@ class WebpackConfig {
   }
 
   generateConfig({ mode = MODE.DEV, projectContextPath = DEFAULT_UNKNOW_DIR }) {
-    console.info(slugMessage, "Generate config with mode =", mode)
-    console.info(slugMessage, "Working directory =", projectContextPath)
+    console.info(slugMessage, 'Generate config with mode =', mode)
+    console.info(slugMessage, 'Working directory =', projectContextPath)
     switch (mode) {
       case MODE.COVERAGE:
         this.conf = getWebpackCoverageConf(projectContextPath)

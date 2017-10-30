@@ -21,9 +21,8 @@ import map from 'lodash/map'
 import reduce from 'lodash/reduce'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withResourceDisplayControl, someListMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { ShowableAtRender, withResourceDisplayControl, someListMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from '../dialogs/ConfirmDialogComponent'
-import ShowableAtRender from '../cards/ShowableAtRender'
 import BoardItemShape from './BoardItemShape'
 import styles from './styles/styles'
 import BaseBoardItemComponent from './BaseBoardItemComponent'
@@ -109,11 +108,9 @@ class BoardItemComponent extends React.Component {
     ))
 
     // Create list of all need endpoints for all board actions
-    const actionsHateoasRequiredEndpoints = reduce(item.actions,
-      (acc, action) => action.hateoasDependencies && action.hateoasDependencies.length > 0 ?
-        [...acc, action.hateoasDependencies]
-        : acc
-      , [])
+    const actionsHateoasRequiredEndpoints = reduce(item.actions, (acc, action) =>
+      action.hateoasDependencies && action.hateoasDependencies.length ?
+        [...acc, action.hateoasDependencies] : acc, [])
 
     return (
       <BaseBoardItemComponentWithResourceDisplayControl

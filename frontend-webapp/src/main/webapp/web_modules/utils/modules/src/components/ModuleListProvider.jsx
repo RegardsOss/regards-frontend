@@ -19,6 +19,7 @@
 import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
 import ModuleListButtonComponent from './ModuleListButtonComponent'
+import messages from '../i18n'
 
 /**
  * Component to display all available modules for a given container
@@ -38,7 +39,7 @@ class ModuleListProvider extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="utils/modules/src/i18n">
+      <I18nProvider messages={messages}>
         <ModuleListButtonComponent
           container={this.props.container}
           modules={this.props.modules}

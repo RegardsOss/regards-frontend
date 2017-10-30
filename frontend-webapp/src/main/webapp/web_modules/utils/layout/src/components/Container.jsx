@@ -36,6 +36,7 @@ import { themeContextType } from '@regardsoss/theme'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
 import { DELETE_ACTION, ADD_ACTION, EDIT_ACTION } from './LayoutConfigurationComponent'
+import messages from '../i18n'
 
 /**
  * Component to display a container into an application layout.
@@ -182,7 +183,7 @@ class Container extends React.Component {
         )
       }
       return (
-        <I18nProvider messageDir="utils/layout/src/i18n">
+        <I18nProvider messages={messages}>
           <div className="row">
             <Toolbar style={toolbarStyle}>
               <ToolbarGroup key="name">

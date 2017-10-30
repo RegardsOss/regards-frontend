@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import ShowableAtRender from './ShowableAtRender'
 import withResourceDisplayControl from './resources/withResourceDisplayControl'
 import withHateoasDisplayControl from './hateoas/withHateoasDisplayControl'
 import HateoasKeys from './model/HateoasKeys'
@@ -25,15 +26,18 @@ import someMatchHateoasDisplayLogic from './logics/someMatchHateoasDisplayLogic'
 import someListMatchHateoasDisplayLogic from './logics/someListMatchHateoasDisplayLogic'
 import LoadableContentDisplayDecorator from './async/LoadableContentDisplayDecorator'
 import LoadingComponent from './async/loading/LoadingComponent'
+import HOCUtils from './hoc/HOCUtils'
 
 export {
+  allMatchHateoasDisplayLogic,
   HateoasKeys,
   HateoasLinks,
-  allMatchHateoasDisplayLogic,
+  HOCUtils,
+  LoadingComponent,
+  LoadableContentDisplayDecorator,
+  ShowableAtRender,
   someMatchHateoasDisplayLogic,
   someListMatchHateoasDisplayLogic,
-  LoadableContentDisplayDecorator,
-  LoadingComponent,
   withHateoasDisplayControl,
   withResourceDisplayControl,
 }

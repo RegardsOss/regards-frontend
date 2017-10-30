@@ -20,7 +20,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
-import SampleComponent from '../components/SampleComponent'
 
 /**
  * React component to display module administration module.

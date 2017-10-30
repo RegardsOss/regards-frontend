@@ -1,10 +1,12 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
+import { DamDomain } from '@regardsoss/domain'
+import { HOCUtils } from '@regardsoss/display-control'
 import { Tag } from '../../models/navigation/Tag'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
@@ -17,8 +19,8 @@ import DisplayModeEnum from '../../models/navigation/DisplayModeEnum'
 export class URLManagementContainer extends React.Component {
 
   /**
- * module URL parameters
- */
+   * module URL parameters
+   */
   static ModuleURLParameters = {
     TARGET_PARAMETER: 't',
     SEARCH_TAGS_PARAMETER: 'tags',
@@ -40,7 +42,7 @@ export class URLManagementContainer extends React.Component {
 
   static propTypes = {
     // context initial view mode
-    initialViewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    initialViewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
     // context initial display mode
     initialDisplayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired,
     // current URL query information, used to detect browsing
@@ -51,7 +53,7 @@ export class URLManagementContainer extends React.Component {
     displayDatasets: PropTypes.bool.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    viewObjectType: PropTypes.oneOf([SearchResultsTargetsEnum.DATAOBJECT_RESULTS, SearchResultsTargetsEnum.DATASET_RESULTS]).isRequired,
+    viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
     // Display mode
     displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]),
     // eslint-disable-next-line react/no-unused-prop-types
@@ -60,33 +62,29 @@ export class URLManagementContainer extends React.Component {
     initialize: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchFetchEntity: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
   }
 
   /**
    * When component mounts: initialize redux state from URL parameters
    */
-  componentWillMount = () => this.update({}, this.props)
+  componentWillMount = () => {
+    // when mounting: not initialized
+    this.setInitialized(false)
+    this.onPropertiesUpdate({}, this.props)
+  }
 
   /**
    * When redux state changes: report new state values to URL parameters.
    * Note that it is never performed initially (what is cool here!)
    */
-  componentWillReceiveProps = nextProps => this.update(this.props, nextProps)
-
-  /**
-   * Returns a promise to resolve dataset for ipId as parameter
-   * @param ipId search dataset IP ID or null / undefined if none
-   * @param dispatchFetchDataset function to fectch the dataset (ipId: string) => Promise() => action like {payload: DatasetModel}
-   */
-  getDataset = (datasetIpId, dispatchFetchDataset) => {
-    if (!datasetIpId) {
-      return Promise.resolve({}) // return object where payload is undefined
-    }
-    return dispatchFetchDataset(datasetIpId)
-  }
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
 
   /** Generic update method to synchronize module state with URL */
-  update = (previousProps, nextProps) => {
+  onPropertiesUpdate = (previousProps, nextProps) => {
     if (!isEqual(previousProps.currentQuery, nextProps.currentQuery)) {
       // URL changed, remap the state
       this.updateStateFromURL(nextProps)
@@ -98,16 +96,39 @@ export class URLManagementContainer extends React.Component {
   }
 
   /**
-   * Update module redux state when URL changes
-   * @param nextProps next component properties
+   * Sets this initialized state
    */
+  setInitialized = (initialized) => {
+    if (get(this.state, 'initialized') !== initialized) { // avoid updating after init
+      this.setState({ initialized })
+    }
+  }
+
+  /**
+   * Dispatches initialization event and marks this container initialized if not performed before
+   * @param {function} initialize initialize dispatch method
+   * @param {*} viewObjectType initialization view object type
+   * @param {*} displayMode display mode
+   * @param {[string]} tags tags list (optional)
+   * @return dispatch promise
+   */
+  dispatchInitEvent(initialize, viewObjectType, displayMode, tags) {
+    // dispatch redux action
+    return initialize(viewObjectType, displayMode, tags).then(() => this.setInitialized(true))
+  }
+
+  /**
+    * Update module redux state when URL changes
+    * @param nextProps next component properties
+    */
   updateStateFromURL = (nextProps) => {
     // first load: parse tag and dataset from URL, then initialize the module store
-    const { initialViewObjectType, initialDisplayMode, initialize, currentQuery: query, displayDatasets } = nextProps
+    const { initialViewObjectType, initialDisplayMode, initialize, dispatchFetchEntity, currentQuery: query, displayDatasets } = nextProps
 
     // collect query parameters from URL
-    const viewObjectType = displayDatasets ? (query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType) :
-      SearchResultsTargetsEnum.DATAOBJECT_RESULTS // object type: forbid dataset when they cannot be displayed
+    const viewObjectType = displayDatasets ?
+      (query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType) :
+      DamDomain.ENTITY_TYPES_ENUM.DATA // object type: forbid dataset when they cannot be displayed
     const displayMode = query[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] || initialDisplayMode
     const searchTags = Tag.fromURLParameterValue(query[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER])
 
@@ -116,54 +137,66 @@ export class URLManagementContainer extends React.Component {
       searchTags.reduce((acc, tagFromURL, index) => acc && (tagFromURL === nextProps.levels[index].searchKey), true)
 
     // when not initialized or any change, re initialize
-    if (nextProps.viewObjectType !== viewObjectType || nextProps.displayMode !== displayMode || !hasAlreadySameTags) {
+    if (!get(this.state, 'initialize', null) || nextProps.viewObjectType !== viewObjectType || nextProps.displayMode !== displayMode || !hasAlreadySameTags) {
       // initialize: build a promise to resolve all entities tags, remove tags when it could be resolved
       // (in both case, make sure to restove view mode and object type)
-      Promise.all(searchTags.map(tag => Tag.getTagPromise(nextProps.dispatchFetchEntity, tag)))
+      Promise.all(searchTags.map(tag => Tag.getTagPromise(dispatchFetchEntity, tag)))
         // all entity tags (if any) were correctly resolved, initialize the store
-        .then(tags => initialize(viewObjectType, displayMode, tags))
+        .then(tags => this.dispatchInitEvent(initialize, viewObjectType, displayMode, tags))
         // there was error, remove guilty tags in the store
-        .catch(initialize(viewObjectType, displayMode))
+        .catch(() => this.dispatchInitEvent(initialize, viewObjectType, displayMode))
     }
   }
+
 
   /**
    * Update URL from module redux state when state change
    * @param nextProps next component properties
    */
   updateURLFromState = (nextProps) => {
-    const { viewObjectType, displayMode, levels, currentQuery, currentPath } = nextProps
+    const { initialViewObjectType, initialDisplayMode, viewObjectType, displayMode, levels, currentQuery, currentPath } = nextProps
 
     // Report new state properties in URL, if significant
     const nextBrowserQuery = { ...currentQuery }
 
-    // 1 - View object type (do not update default URL when in default mode, ie no update when the parameter is missing, while the
-    // mode is dataobject)
-    const urlObjectType = currentQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER]
-    if (viewObjectType !== SearchResultsTargetsEnum.DATAOBJECT_RESULTS || urlObjectType) {
+    // 1 - View object type: compare the current state URL with the current state props (take in account default)
+    const urlObjectType = currentQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType
+    const currentViewObjectType = viewObjectType || initialViewObjectType
+    if (urlObjectType !== currentViewObjectType) {
       nextBrowserQuery[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] = viewObjectType
     }
 
-    const urlDisplayMode = currentQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER]
-    if (displayMode !== urlDisplayMode || this.props.initialDisplayMode) {
+    // 2 - display mode
+    const urlDisplayMode = currentQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] || initialDisplayMode
+    const currentDisplayMode = displayMode || initialDisplayMode
+    if (urlDisplayMode !== currentDisplayMode) {
       nextBrowserQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] = displayMode
     }
 
-    // 2 - search tag
-    const searchTagParameterValue = Tag.toURLParameterValue(levels)
-    if (searchTagParameterValue) {
-      nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER] = searchTagParameterValue
-    } else {
-      delete nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]
+    // 3 - search tag
+    const urlTags = currentQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER] || ''
+    const searchTagParameterValue = Tag.toURLParameterValue(levels) || ''
+    if (searchTagParameterValue !== urlTags) {
+      if (searchTagParameterValue) {
+        nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER] = searchTagParameterValue
+      } else { // clear the parameter
+        delete nextBrowserQuery[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER]
+      }
     }
 
-    // 3 - Finally update the URL if any change was detected
+    // 4 - Finally update the URL if any change was detected
     if (!isEqual(currentQuery, nextBrowserQuery)) {
       browserHistory.push({ pathname: currentPath, query: nextBrowserQuery })
     }
   }
 
   render() {
+    const { children } = this.props
+    const { initialized } = this.state
+    // render only when initialized to block sub element requests
+    if (initialized) {
+      return HOCUtils.renderChildren(children)
+    }
     return null
   }
 }

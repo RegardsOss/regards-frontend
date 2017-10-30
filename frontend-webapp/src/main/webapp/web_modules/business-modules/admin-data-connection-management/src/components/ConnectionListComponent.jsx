@@ -33,6 +33,7 @@ import { connectionActions } from '../clients/ConnectionClient'
 import ConnectionTesterIconButton from './ConnectionTesterIconButton'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const actionsBreakpoints = [940, 995]
 
 /**
  * React component to list collections.
@@ -141,13 +142,15 @@ export class ConnectionListComponent extends React.Component {
                   <TableRowColumn>{this.printIsActive(connection.content.active)}</TableRowColumn>
                   <TableRowColumn><ConnectionTesterIconButton connection={connection} handleTestConnection={handleTestConnection} /></TableRowColumn>
                   <TableRowColumn>
-                    <ActionsMenuCell>
+                    <ActionsMenuCell
+                      breakpoints={actionsBreakpoints}
+                    >
                       <HateoasIconAction
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onTouchTap={() => handleEdit(connection.content.id)}
-                        breakpoint={940}
                         title={intl.formatMessage({ id: 'connection.list.action.edit' })}
+                        className="selenium-editButton"
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
@@ -155,8 +158,8 @@ export class ConnectionListComponent extends React.Component {
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onTouchTap={() => this.openDeleteDialog(connection)}
-                        breakpoint={995}
                         title={intl.formatMessage({ id: 'connection.list.action.delete' })}
+                        className="selenium-deleteButton"
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
                       </HateoasIconAction>

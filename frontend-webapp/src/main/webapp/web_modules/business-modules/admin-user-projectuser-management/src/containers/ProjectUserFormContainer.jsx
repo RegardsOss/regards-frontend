@@ -37,6 +37,7 @@ import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroup
 import { accountPasswordActions, accountPasswordSelectors } from '../clients/AccountPasswordClient'
 import { userGroupActions } from '../clients/UserGroupClient'
 import ProjectUserFormComponent from '../components/ProjectUserFormComponent'
+import messages from '../i18n'
 
 export class ProjectUserFormContainer extends React.Component {
   static propTypes = {
@@ -213,7 +214,7 @@ export class ProjectUserFormContainer extends React.Component {
   render() {
     const { isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-user-projectuser-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >

@@ -31,6 +31,7 @@ import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import PluginConfigurationContainer from './../../containers/plugin/PluginConfigurationContainer'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
 import moduleStyles from '../../styles/styles'
+import messages from '../../i18n'
 
 /**
  * Container connecting the plugin configuration list to the redux store and handling user interface actions.
@@ -94,7 +95,7 @@ export default class PluginConfigurationListComponent extends React.Component {
       />)))(pluginConfigurationList)
 
     return (
-      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
+      <I18nProvider messages={messages}>
         <Card>
           <CardTitle
             title={`${microserviceName} > Plugins > ${pluginMetaData && pluginMetaData.content.pluginId}`}

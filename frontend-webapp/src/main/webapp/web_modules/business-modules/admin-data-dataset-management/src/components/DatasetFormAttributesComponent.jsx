@@ -283,6 +283,7 @@ export class DatasetFormAttributesComponent extends React.Component {
             <EntitiesAttributesFormContainer
               isDisplayAttributeValue={this.state.isDisplayAttributeValue}
               modelAttributeList={modelAttributeList}
+              isEditing={this.props.isEditing}
             />
           </CardText>
           <CardActions>

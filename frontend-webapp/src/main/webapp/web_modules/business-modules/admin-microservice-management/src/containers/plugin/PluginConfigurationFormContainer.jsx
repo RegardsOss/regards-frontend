@@ -27,6 +27,7 @@ import PluginConfigurationActions from '../../model/plugin/PluginConfigurationAc
 import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
 import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
 import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
+import messages from '../../i18n'
 
 /**
  * Container connecting the plugin configuration from to the redux store and handling user actions.
@@ -148,7 +149,7 @@ export class PluginConfigurationFormContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
+      <I18nProvider messages={messages}>
         {this.getFormComponent()}
       </I18nProvider>
     )

@@ -21,6 +21,7 @@ import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import OptionsIcon from 'material-ui/svg-icons/action/settings'
 import { AccessShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DropDownButton } from '@regardsoss/components'
 
@@ -37,24 +38,21 @@ const IconButtonConstructorWrapper = props => (
 class OneElementServicesButton extends React.Component {
 
   static propTypes = {
-    tooltip: PropTypes.string.isRequired,
     services: AccessShapes.PluginServiceWithContentArray,
     onServiceStarted: PropTypes.func.isRequired,
     // other properties are reported to the drop down button
   }
 
-  static contextTypes = {
-    ...themeContextType,
-  }
+  static contextTypes = { ...i18nContextType, ...themeContextType }
 
   static NO_LABEL_FUNCTION = () => ''
 
   render() {
-    const { services, tooltip, onServiceStarted, ...otherButtonProperties } = this.props
-    const { muiTheme } = this.context
+    const { services, onServiceStarted, ...otherButtonProperties } = this.props
+    const { muiTheme, intl: { formatMessage } } = this.context
     return (
       <DropDownButton
-        title={tooltip}
+        title={formatMessage({ id: 'show.entity.services.tooltip' })}
         getLabel={OneElementServicesButton.NO_LABEL_FUNCTION}
         onChange={onServiceStarted}
         disabled={!services || !services.length}

@@ -23,8 +23,8 @@ import { Schema, arrayOf } from 'normalizr'
  * Storage plugin management for normalizer
  */
 export const StoragePluginConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'StorageMonitoringPlugin',
+  entityKey: 'confId',
+  normalizrKey: 'storageMonitoringPlugins',
 }
 
 const storagePluginSchema = new Schema(StoragePluginConfiguration.normalizrKey, {

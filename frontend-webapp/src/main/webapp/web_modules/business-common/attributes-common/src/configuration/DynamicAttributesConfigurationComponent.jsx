@@ -81,7 +81,7 @@ class DynamicAttributesConfigurationComponent extends React.Component {
             onChange={this.changeFilter}
           />
           <IconButton
-            tooltip="clear"
+            tooltip={this.context.intl.formatMessage({ id: 'form.attributes.section.clear.filters.tooltip' })}
             onTouchTap={() => this.changeFilter(null, '')}
           >
             <Close />

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
+import get from 'lodash/get'
 import GetApp from 'material-ui/svg-icons/action/get-app'
 import NotInterested from 'material-ui/svg-icons/av/not-interested'
 import { themeContextType } from '@regardsoss/theme'
@@ -32,7 +32,7 @@ class RawDataAttributesRender extends React.Component {
 
   static propTypes = {
     attributes: PropTypes.shape({
-      files: PropTypes.arrayOf(CatalogShapes.ObjectLinkedFile),
+      files: CatalogShapes.entityFiles,
     }),
     // eslint-disable-next-line react/no-unused-prop-types
     entity: CatalogShapes.Entity,
@@ -45,19 +45,17 @@ class RawDataAttributesRender extends React.Component {
   }
 
   render() {
-    if (this.props.attributes.files && this.props.attributes.files.length > 0) {
-      const thumbnail = find(this.props.attributes.files, file => file.dataType === CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA)
-      if (thumbnail) {
-        const styles = { cursor: 'pointer', marginTop: '5px' }
-        return (
-          <a href={thumbnail.fileRef} download title="download">
-            <GetApp
-              style={styles}
-              hoverColor={this.context.muiTheme.palette.accent1Color}
-            />
-          </a>
-        )
-      }
+    const rawDataURI = get(this.props.attributes, `files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}[0].uri`, null)
+    if (rawDataURI) {
+      const styles = { cursor: 'pointer', marginTop: '5px' }
+      return (
+        <a href={rawDataURI} download title="download">
+          <GetApp
+            style={styles}
+            hoverColor={this.context.muiTheme.palette.accent1Color}
+          />
+        </a>
+      )
     }
     return <NotInterested />
   }

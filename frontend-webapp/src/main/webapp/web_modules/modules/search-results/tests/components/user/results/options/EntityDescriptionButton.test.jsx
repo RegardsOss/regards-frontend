@@ -38,13 +38,12 @@ describe('[Search Results] Testing EntityDescriptionButton', () => {
   })
   it('should render correctly and start action on click', () => {
     const props = {
-      tooltip: 'a tooltip',
       onShowDescription: () => { },
     }
     const render = shallow(<EntityDescriptionButton {...props} />, { context })
     const innerButton = render.find(IconButton)
     assert.lengthOf(innerButton, 1, 'It should use button to render')
-    assert.equal(innerButton.props().title, props.tooltip, 'The tooltip should be visible')
+    assert.isOk(innerButton.props().title, 'The tooltip should be visible')
     assert.equal(innerButton.props().onTouchTap, props.onShowDescription, 'The button should invoke onShowDescription after on touch tap')
   })
 })

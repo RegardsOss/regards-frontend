@@ -149,6 +149,7 @@ export class ConnectionViewerComponent extends React.Component {
           <ListItem
             key={table.name}
             primaryText={table.name}
+            className={`selenium-pickSingleTable-${table.name}`}
             initiallyOpen={false}
             open={hasChild}
             primaryTogglesNestedList

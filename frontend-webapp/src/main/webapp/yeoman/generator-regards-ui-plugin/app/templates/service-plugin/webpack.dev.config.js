@@ -15,13 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- * */
+ **/
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
+const webpack = require('webpack')
+
+const PLUGIN_TYPE = 'service'
+const PLUGIN_NAME = 'example'
 
 const conf = webpackConfigurator
   .generateConfig({
-    mode: 'pkg_dev',
+    mode: 'pkg_build_dev',
     projectContextPath: __dirname,
+  })
+  // Save the plugin into the webpack dev server public folder (dist/dev)
+  .saveDevPlugin(PLUGIN_TYPE, PLUGIN_NAME)
+  .merge({
+    plugins: [
+      new webpack.DefinePlugin({
+        GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.107:9030'),
+      }),
+    ],
   })
   .get()
 

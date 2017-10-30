@@ -26,6 +26,7 @@ import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import MaintenanceModeSelectors from '../model/MaintenanceModeSelectors'
 import SetMaintenanceModeActions, { MAINTENANCES_ACTIONS } from '../model/SetMaintenanceModeActions'
 import MicroserviceInfoClient from '../clients/MicroserviceInfoClient'
+import messages from '../i18n'
 
 /**
  * Module container connecting {@link MicroserviceBoardComponent} to redux in order to display the list of microservices.
@@ -70,9 +71,9 @@ export class MicroserviceBoardContainer extends React.Component {
 
   componentWillReceiveProps() {
     const microservicesMaintenance = {}
-        // Only display active microservices.
+    // Only display active microservices.
     forEach(this.state.microservicesUp, (microservice) => {
-            // Build maintenance informations for the given microservice
+      // Build maintenance informations for the given microservice
       microservicesMaintenance[microservice] = {}
       microservicesMaintenance[microservice].isOn = (projectName) => {
         const maintenanceTenants = this.props.maintenanceList(microservice).content
@@ -82,7 +83,7 @@ export class MicroserviceBoardContainer extends React.Component {
         return false
       }
       microservicesMaintenance[microservice].set = (projectName, value) =>
-                this.handleSetMaintenance(microservice, projectName, value ? MAINTENANCES_ACTIONS.ACTIVATE : MAINTENANCES_ACTIONS.DISABLE)
+        this.handleSetMaintenance(microservice, projectName, value ? MAINTENANCES_ACTIONS.ACTIVATE : MAINTENANCES_ACTIONS.DISABLE)
     })
     this.setState({
       microservicesMaintenance,
@@ -90,11 +91,11 @@ export class MicroserviceBoardContainer extends React.Component {
   }
 
   handleSetMaintenance = (microserviceName, projectName, action) => Promise.resolve(this.props.setMaintenance(microserviceName, projectName, action))
-      .then(actionResult => this.props.fetchMaintenance(microserviceName))
+    .then(actionResult => this.props.fetchMaintenance(microserviceName))
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-microservice-management/src/i18n">
+      <I18nProvider messages={messages}>
         <MicroserviceBoardComponent
           project={this.props.params.project}
           maintenance={this.state.microservicesMaintenance}

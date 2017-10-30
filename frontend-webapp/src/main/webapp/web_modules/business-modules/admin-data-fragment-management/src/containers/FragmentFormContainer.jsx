@@ -23,6 +23,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import FragmentFormComponent from '../components/FragmentFormComponent'
 import { fragmentActions, fragmentSelectors } from '../clients/FragmentClient'
+import messages from '../i18n'
 
 /**
  * React container to manage the fragment form.
@@ -79,13 +80,13 @@ export class FragmentFormContainer extends React.Component {
       description: values.description,
     })
     Promise.resolve(this.props.updateFragment(previousFragment.id, updatedFragment))
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   /**
@@ -106,19 +107,19 @@ export class FragmentFormContainer extends React.Component {
       task = this.props.createFragment(newFragment)
     }
     Promise.resolve(task)
-    .then((actionResult) => {
-      // We receive here the action
-      if (!actionResult.error) {
-        const url = this.getBackUrl()
-        browserHistory.push(url)
-      }
-    })
+      .then((actionResult) => {
+        // We receive here the action
+        if (!actionResult.error) {
+          const url = this.getBackUrl()
+          browserHistory.push(url)
+        }
+      })
   }
 
   render() {
     const { isLoading, isEditing } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-data-fragment-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator isLoading={isLoading}>
           {() => (
             <FragmentFormComponent

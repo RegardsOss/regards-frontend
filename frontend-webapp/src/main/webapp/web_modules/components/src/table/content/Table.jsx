@@ -111,6 +111,14 @@ class Table extends React.Component {
   getEntity = rowIndex => this.props.entities[rowIndex]
 
   /**
+   * Is a row with entity? especially for cells that are not aware of their entities, like especially checkbox cells.
+   * Note: it happens that a row have no entity, because of the min row count being sometimes greater than the entities count
+   * @param {number} rowIndex row index
+   * @return {boolean} true if row has an entity
+   */
+  hasEntity = rowIndex => this.props.entities.length > rowIndex
+
+  /**
    * Computes graphics measures
    */
   computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight, width, columns = [] }) => {
@@ -180,6 +188,7 @@ class Table extends React.Component {
                   lineHeight={lineHeight}
                 />}
                 cell={<CheckBoxCell
+                  hasEntity={rowIndex => this.hasEntity(rowIndex)}
                   onToggleRowSelection={onToggleRowSelection}
                   toggledElements={toggledElements}
                   selectionMode={selectionMode}

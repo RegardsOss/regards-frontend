@@ -23,7 +23,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import AccessGroupFormComponent from '../components/AccessGroupFormComponent'
-
+import messages from '../i18n'
 
 /**
  * Show the group form
@@ -144,7 +144,7 @@ export class AccessGroupFormContainer extends React.Component {
   render() {
     const { isError, isLoading } = this.state
     return (
-      <I18nProvider messageDir="business-modules/admin-accessright-accessgroup-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
           isContentError={isError}

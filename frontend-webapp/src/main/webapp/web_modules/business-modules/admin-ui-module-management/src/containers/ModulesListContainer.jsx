@@ -22,6 +22,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ModuleListComponent from '../components/ModuleListComponent'
+import messages from '../i18n'
 
 /**
  * Module container to display list of configured modules for a given application id.
@@ -106,7 +107,7 @@ class ModulesListContainer extends React.Component {
 
   render() {
     return (
-      <I18nProvider messageDir="business-modules/admin-ui-module-management/src/i18n">
+      <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={this.state.isLoading}
         >

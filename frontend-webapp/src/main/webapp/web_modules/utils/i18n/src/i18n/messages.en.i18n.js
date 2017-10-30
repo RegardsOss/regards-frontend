@@ -18,9 +18,7 @@
  **/
 
 const messages = {
-  'language.selector.tooltip': 'Select a language',
-  'language.selector.option.fr': 'Français',
-  'language.selector.option.en': 'English',
+  // empty
 }
 
 export default messages

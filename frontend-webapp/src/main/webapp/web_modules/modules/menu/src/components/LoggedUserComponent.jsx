@@ -64,7 +64,6 @@ class LoggedUserComponent extends React.Component {
     const hasMoreOption = showProfileEdition || showBorrowableRoles
 
     const ActionExit = <ActionExitToApp />
-    // const iconButton = <IconButton><MoreVertIcon /></IconButton>
     const accountIcon = <AccountMenuIcon />
     const changeRoleIcon = <ChangeRole />
     const arrowIcon = <ArrowDropRight />

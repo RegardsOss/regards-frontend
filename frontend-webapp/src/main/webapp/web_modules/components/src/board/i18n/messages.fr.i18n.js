@@ -16,19 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Locales } from '@regardsoss/form-utils'
 
 /**
  * i18n messages French language
  * @type {*}
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+export default {
   hideAdvanced: 'Masquer les options avancées',
   showAdvanced: 'Options avancées',
   'confirm.dialog.cancel': 'Annuler',
   'confirm.dialog.confirm': 'Confirmer',
   'confirm.dialog.delete': 'Supprimer',
-}, Locales.fr)
-
-export default messages
+}

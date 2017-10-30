@@ -26,6 +26,10 @@ class AttributeModelTypeReducer extends BasicArrayReducers {
   }
 
   reduce(state, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
+
     const newState = super.reduce(state, action)
     switch (action.type) {
       case this.basicArrayActionInstance.ENTITY_LIST_SUCCESS:

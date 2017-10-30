@@ -22,7 +22,7 @@ class NotificationCountContainer extends React.Component {
 
   render() {
     const { notificationsCount, style } = this.props
-    /* XXX-workaround material UI MenuItem uses style directly on contained components,
+    /* workaround material UI MenuItem uses style directly on contained components,
     which is terribly wrong and forces this container to report it here */
     return notificationsCount ? <Badge className="selenium-notificationCount" badgeContent={notificationsCount} style={style} primary /> : null
   }
