@@ -129,19 +129,18 @@ pipeline {
                         archiveArtifacts artifacts: 'frontend.tar.gz', fingerprint: true
                     },
                     sonar: {
-                        sh 'docker run --rm --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
-                          -v $(WORKSPACE)/frontend-webapp/src/main/webapp:/data sebp/sonar-runner \
+                        sh 'docker run --rm \
+                          -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/data \
+                          sebp/sonar-runner \
                           -Dsonar.host.url=http://172.26.46.158:9000/'
                     },
                     maven: {
-                        dir('rs-cloud') {
-                            git branch: BRANCH_NAME, url: 'https://thor.si.c-s.fr/git/rs-cloud'
-                            sh 'docker run --rm -i \
-                                -v ${WORKSPACE}/:/app_to_build \
-                                -v /opt/maven-multibranch-repository:/localRepository \
-                                -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy \
-                                172.26.46.158/rs-maven'
-                        }
+                        git branch: ${BRANCH_NAME}, url: 'http://172.26.46.158:10080/regards/rs-cloud.git'
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/:/app_to_build \
+                            -v /opt/maven-multibranch-repository:/localRepository \
+                            -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy \
+                            172.26.46.158/rs-maven'
                     }
                 )
             }
