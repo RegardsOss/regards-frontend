@@ -84,6 +84,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
           <DatasourceStepperComponent stepIndex={0} />
           <CardText>
             <SelectField
+              className="selenium-pickConnection"
               floatingLabelText={this.context.intl.formatMessage({ id: 'datasource.form.create.datasource' })}
               onChange={this.handleChange}
               value={currentConnection}
@@ -91,6 +92,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
             >
               {map(connectionList, (connection, id) => connection.content.active ? (
                 <MenuItem
+                  className={`selenium-pickConnection-${connection.content.label}`}
                   value={connection.content.id}
                   key={id}
                   primaryText={connection.content.label}
