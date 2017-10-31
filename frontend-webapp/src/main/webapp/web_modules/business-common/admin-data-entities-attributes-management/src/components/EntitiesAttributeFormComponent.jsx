@@ -97,6 +97,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   getFieldTextField = (modelAttribute, type) => (
     <Field
+      className={`selenium-fill-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       fullWidth
       component={RenderTextField}
@@ -109,6 +110,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   getFieldCheckbox = modelAttribute => (
     <Field
+      className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderCheckbox}
       disabled={this.isDisabled()}
@@ -117,6 +119,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   getFieldDateTime = modelAttribute => (
     <Field
+      className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderDateTimeField}
       validate={this.getRestrictions(modelAttribute)}
@@ -125,6 +128,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
   )
   getFieldSelect = modelAttribute => (
     <Field
+      className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       fullWidth
       component={RenderSelectField}
@@ -134,6 +138,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     >
       {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
         <MenuItem
+          className={`selenium-value-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}-${acceptableValue}`}
           value={acceptableValue}
           key={acceptableValue}
           primaryText={acceptableValue}
@@ -156,6 +161,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
   getEnumTextArrayField = modelAttribute => (
     <div>
       <Field
+        className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
         name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
         fullWidth
         component={RenderSelectField}
@@ -164,6 +170,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       >
         {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
           <MenuItem
+            className={`selenium-value-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}-${acceptableValue}`}
             value={acceptableValue}
             key={acceptableValue}
             primaryText={acceptableValue}
@@ -242,13 +249,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
     return !modelAttribute.content.attribute.alterable && isEditing
   }
 
-  isRestrictedWithEnum = (modelAttribute) => {
-    if (has(modelAttribute, 'content.attribute.restriction.type')) {
-      return modelAttribute.content.attribute.restriction.type === 'ENUMERATION'
-    }
-    return false
-  }
-
   render() {
     const { modelAttribute } = this.props
     return (
@@ -260,7 +260,11 @@ export class EntitiesAttributeFormComponent extends React.Component {
           {this.showStarIfInputRequired(modelAttribute.content.attribute)}<br />
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
         </TableRowColumn>
-        <TableRowColumn>{modelAttribute.content.attribute.type}</TableRowColumn>
+        <TableRowColumn
+          className={`selenium-type-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
+        >
+          {modelAttribute.content.attribute.type}
+        </TableRowColumn>
         <TableRowColumn style={EntitiesAttributeFormComponent.styleTableRow}>
           <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>
             {this.getField(modelAttribute)}

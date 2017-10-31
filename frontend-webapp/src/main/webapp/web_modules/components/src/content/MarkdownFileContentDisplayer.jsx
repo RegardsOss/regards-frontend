@@ -24,6 +24,11 @@ export class MarkdownFileContentDisplayer extends React.Component {
     display: 'flex',
   }
 
+  static DEFAULT_MD_VIEWER_OPTIONS = {
+    html: true,
+    xhtmlOut: true,
+  }
+
   render() {
     const { source, heightToFit } = this.props
     const scrollAreaStyle = { height: heightToFit } // undefined if none
@@ -38,7 +43,10 @@ export class MarkdownFileContentDisplayer extends React.Component {
         vertical
       >
         <div className="markdown-body">
-          <ReactMarkdown source={source} />
+          <ReactMarkdown
+            source={source}
+            options={MarkdownFileContentDisplayer.DEFAULT_MD_VIEWER_OPTIONS}
+          />
         </div>
       </ScrollArea>
     )
