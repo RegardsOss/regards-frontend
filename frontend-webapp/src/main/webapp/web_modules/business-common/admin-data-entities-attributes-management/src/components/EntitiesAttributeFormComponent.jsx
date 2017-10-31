@@ -264,7 +264,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
           className={`selenium-type-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
         >
           {modelAttribute.content.attribute.type}
-          </TableRowColumn>
+        </TableRowColumn>
         <TableRowColumn style={EntitiesAttributeFormComponent.styleTableRow}>
           <ShowableAtRender show={!has(modelAttribute.content, 'computationConf')}>
             {this.getField(modelAttribute)}

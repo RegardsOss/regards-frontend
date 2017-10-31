@@ -264,7 +264,7 @@ export class DatasetFormAttributesComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'dataset.form.geometry' })}
             />
             <Field
-              className='selenium-pickModel'
+              className="selenium-pickModel"
               name="model"
               fullWidth
               onSelect={this.handleChange}
