@@ -7,7 +7,7 @@
  */
 export default {
   displayColumnsHeader: PropTypes.bool,
-  lineHeight: PropTypes.number.isRequired,
+  lineHeight: PropTypes.number, // defaults to theme when not provided
   cellsStyle: PropTypes.objectOf(PropTypes.string),
   displayCheckbox: PropTypes.bool,
   displaySelectAll: PropTypes.bool,

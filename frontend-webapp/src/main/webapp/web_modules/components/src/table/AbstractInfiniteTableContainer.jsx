@@ -18,13 +18,14 @@
  **/
 import flow from 'lodash/flow'
 import get from 'lodash/get'
+import isUndefined from 'lodash/isUndefined'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { withModuleStyle } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { withI18n } from '@regardsoss/i18n'
 import TablePane from './TablePane'
@@ -38,8 +39,6 @@ import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
 import messages from './i18n'
-
-const defaultLineHeight = 42
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -74,8 +73,8 @@ class InfiniteTableContainer extends React.Component {
     tablePaneConfiguration: PropTypes.shape(TablePaneConfigurationModel).isRequired,
     // [Optional] Size of a given table page. Default is 20 visible items in the table.
     pageSize: PropTypes.number,
-    // [Optional] Default 0, number of minimum lines to display in the table
-    minRowCounts: PropTypes.number,
+    // [Optional] Default to theme min row count, number of minimum lines to display in the table
+    minRowCount: PropTypes.number,
     // [Optional] Columns configurations. Default all attributes of entities are displayed as column.
     // An column configuration is an object with
     // - label : Displayed label of the column in the Header line
@@ -127,6 +126,10 @@ class InfiniteTableContainer extends React.Component {
     dispatchUnselectAll: PropTypes.func.isRequired,
     // Customize
     emptyComponent: PropTypes.element,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   static defaultProps = {
@@ -229,6 +232,7 @@ class InfiniteTableContainer extends React.Component {
    */
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
     // the scroll offset is the first element to fetch if it is missing
+    const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
     const { tableConfiguration: { lineHeight = defaultLineHeight } } = this.props
     const originalIndex = scrollEndOffset / lineHeight
     const index = Math.floor(originalIndex)
@@ -309,7 +313,6 @@ class InfiniteTableContainer extends React.Component {
     pageNumbers.forEach((pageIndex) => {
       if (!this.fetchedPages.includes(pageIndex)) {
         this.fetchedPages.push(pageIndex)
-        console.error('OMFG OMFG OMFG ', this.nbEntitiesByPage)
         fetchEntities(pageIndex, this.nbEntitiesByPage, requestParams)
       }
     })
@@ -352,6 +355,7 @@ class InfiniteTableContainer extends React.Component {
 
 
   render() {
+    const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
     const {
       entitiesFetching, pageSize, pageMetadata, tablePaneConfiguration,
       toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
@@ -367,13 +371,17 @@ class InfiniteTableContainer extends React.Component {
       ...tableConfiguration,
     }
 
+    const minRowCount = isUndefined(this.props.minRowCount) ?
+      this.context.muiTheme['components:infinite-table'].lineHeight :
+      this.props.minRowCount
+
     return (
       <TablePane
         tableData={tableData}
         columns={allColumns}
         entitiesFetching={entitiesFetching}
         maxRowCounts={this.maxRowCounts}
-        minRowCounts={this.props.minRowCounts}
+        minRowCount={minRowCount}
         resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
         allSelected={allSelected}
         toggledElements={toggledElements}

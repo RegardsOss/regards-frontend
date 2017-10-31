@@ -46,6 +46,6 @@ describe('[Order Cart] Testing SelectionDetailResultsTableComponent', () => {
     const renderWrapper = shallow(<SelectionDetailResultsTableComponent {...props} />, { context })
     const tableContainer = renderWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(tableContainer, 1, 'There should be an infinite table to show results')
-    assert.equal(tableContainer.props().pageSize, SelectionDetailResultsTableComponent.computePageSize(150), 'The page size should be provided using compute page size method')
+    assert.equal(tableContainer.props().pageSize, renderWrapper.instance().computePageSize(150), 'The page size should be provided using compute page size method')
   })
 })

@@ -119,7 +119,6 @@ class DocumentListComponent extends React.Component {
     const { createUrl, backUrl, handleEdit } = this.props
     const tableConfiguration = {
       displayColumnsHeader: true,
-      lineHeight: 47,
       displayCheckbox: false,
       displaySelectAll: false,
       onSortByColumn: () => {
@@ -200,7 +199,6 @@ class DocumentListComponent extends React.Component {
             pageSize={DocumentListComponent.PAGE_SIZE}
             columns={columns}
             emptyComponent={emptyComponent}
-            minRowCounts={1}
           />
 
           <CardActions>
