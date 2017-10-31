@@ -264,6 +264,7 @@ export class DatasetFormAttributesComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'dataset.form.geometry' })}
             />
             <Field
+              className="selenium-pickModel"
               name="model"
               fullWidth
               onSelect={this.handleChange}
@@ -274,6 +275,7 @@ export class DatasetFormAttributesComponent extends React.Component {
             >
               {map(modelList, (model, id) => (
                 <MenuItem
+                  className={`selenium-pickModel-${model.content.name}`}
                   value={model.content.id}
                   key={id}
                   primaryText={model.content.name}

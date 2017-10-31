@@ -80,7 +80,8 @@ import ModuleTitle from './module/ModuleTitle'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
-import TableContainer from './table/TableContainer'
+import PageableInfiniteTableContainer from './table/PageableInfiniteTableContainer'
+import AbstractInfiniteTableContainer from './table/AbstractInfiniteTableContainer'
 import TablePaneHeader from './table/header/TablePaneHeader'
 import TableOptionsSeparator from './table/header/TableOptionsSeparator'
 import ResultsCountComponent from './table/header/ResultsCountComponent'
@@ -152,7 +153,8 @@ export {
   HelpMessageComponent,
   NoContentComponent,
 
-  TableContainer,
+  AbstractInfiniteTableContainer,
+  PageableInfiniteTableContainer,
   TablePaneHeader,
   TableSelectionModes,
   TableActions,

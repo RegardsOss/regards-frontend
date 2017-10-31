@@ -65,6 +65,7 @@ class AccessRightsActionsTableCustomCell extends React.Component {
     const accessRightToEdit = accessRight && accessRight.content ? accessRight.content : null
     return (
       <IconButton
+        className={`selenium-edit-${this.props.entity.content.label}`}
         title={this.props.intl.formatMessage({ id: 'accessright.edit.tooltip' })}
         iconStyle={AccessRightsActionsTableCustomCell.iconStyle}
         style={AccessRightsActionsTableCustomCell.buttonStyle}

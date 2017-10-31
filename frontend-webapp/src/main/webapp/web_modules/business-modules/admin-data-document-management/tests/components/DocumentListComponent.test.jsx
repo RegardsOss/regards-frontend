@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { TableContainer } from '@regardsoss/components'
+import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import DocumentListComponent from '../../src/components/DocumentListComponent'
 
 describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentListComponent', () => {
@@ -33,13 +33,13 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentListComponent', () =>
 
   it('Render properly', () => {
     const props = {
-      handleDelete: () => {},
-      handleEdit: () => {},
+      handleDelete: () => { },
+      handleEdit: () => { },
       backUrl: '#',
       createUrl: '#',
     }
 
     const enzymeWrapper = shallow(<DocumentListComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TableContainer)).to.have.length(1)
+    expect(enzymeWrapper.find(PageableInfiniteTableContainer)).to.have.length(1)
   })
 })

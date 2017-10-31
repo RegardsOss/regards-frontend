@@ -18,14 +18,14 @@
  **/
 import flow from 'lodash/flow'
 import get from 'lodash/get'
+import isUndefined from 'lodash/isUndefined'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { withModuleStyle } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { withI18n } from '@regardsoss/i18n'
 import TablePane from './TablePane'
@@ -39,8 +39,6 @@ import { PAGE_SIZE_MULTIPLICATOR } from './model/TableConstant'
 import styles from './styles/styles'
 import './styles/fixed-data-table-mui.css'
 import messages from './i18n'
-
-const defaultLineHeight = 42
 
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -61,7 +59,7 @@ const defaultLineHeight = 42
  *
  * @author Sébastien Binda
  */
-class TableContainer extends React.Component {
+class InfiniteTableContainer extends React.Component {
 
   /**
    * PageActions : BasicPageableActions of the entities to manage
@@ -75,8 +73,8 @@ class TableContainer extends React.Component {
     tablePaneConfiguration: PropTypes.shape(TablePaneConfigurationModel).isRequired,
     // [Optional] Size of a given table page. Default is 20 visible items in the table.
     pageSize: PropTypes.number,
-    // [Optional] Default 0, number of minimum lines to display in the table
-    minRowCounts: PropTypes.number,
+    // [Optional] Default to theme min row count, number of minimum lines to display in the table
+    minRowCount: PropTypes.number,
     // [Optional] Columns configurations. Default all attributes of entities are displayed as column.
     // An column configuration is an object with
     // - label : Displayed label of the column in the Header line
@@ -84,22 +82,24 @@ class TableContainer extends React.Component {
     //                possible to define deep attributes like user.login
     // eslint-disable-next-line react/no-unused-prop-types
     columns: PropTypes.arrayOf(ColumnConfigurationModel),
+
+    // functions to fetch/flush entities and select them in redux store
+    // fetch entities: (pageIndex:{number}, pageSize:{number}, requestParams:{object, as provided to this component}) => ()
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchEntities: PropTypes.func.isRequired, // used in onPropertiesUpdate
+    // flush entities: () => ()
+    // eslint-disable-next-line react/no-unused-prop-types
+    flushEntities: PropTypes.func.isRequired, // used in onPropertiesUpdate
     // [Optional] server request parameters as query params or path params defined in the PageActions given.
-    // eslint-disable-next-line react/forbid-prop-types
-    requestParams: PropTypes.object,
+    // eslint-disable-next-line
+    requestParams: PropTypes.object, // used in onPropertiesUpdate, uknown shape, depends on consumer
 
-    // actions and selectors to share table state
     // eslint-disable-next-line react/no-unused-prop-types
-    pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
+    tableActions: PropTypes.instanceOf(TableActions), // Table actions instance, used in onPropertiesUpdate
     // eslint-disable-next-line react/no-unused-prop-types
-    pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
-    // eslint-disable-next-line react/no-unused-prop-types
-    tableActions: PropTypes.instanceOf(TableActions), // Table actions instance
-    // eslint-disable-next-line react/no-unused-prop-types
-    tableSelectors: PropTypes.instanceOf(TableSelectors), // Table selectors instance
+    tableSelectors: PropTypes.instanceOf(TableSelectors), // Table selectors instance, used in onPropertiesUpdate
 
-    // from map state to props
-    // page data
+    // abstracted properties: result of a parent selector
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     entitiesFetching: PropTypes.bool,
@@ -109,6 +109,8 @@ class TableContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+
+    // from map state to props
     // authentication data
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape,
@@ -117,12 +119,6 @@ class TableContainer extends React.Component {
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
 
     // from map dispatch to props
-    // page
-    fetchEntities: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    flushEntities: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    flushSelection: PropTypes.func.isRequired,
 
     // selection
     toggleRowSelection: PropTypes.func.isRequired,
@@ -130,6 +126,10 @@ class TableContainer extends React.Component {
     dispatchUnselectAll: PropTypes.func.isRequired,
     // Customize
     emptyComponent: PropTypes.element,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   static defaultProps = {
@@ -149,12 +149,13 @@ class TableContainer extends React.Component {
   constructor(props) {
     super(props)
     this.nbEntitiesByPage = this.props.pageSize * PAGE_SIZE_MULTIPLICATOR
-    this.state = TableContainer.DEFAULT_STATE
-    this.lastPageAvailable = Math.floor(TableContainer.MAX_NB_ENTITIES / this.nbEntitiesByPage)
-    if (((this.lastPageAvailable * this.nbEntitiesByPage) + this.nbEntitiesByPage) > TableContainer.MAX_NB_ENTITIES) {
+    this.state = InfiniteTableContainer.DEFAULT_STATE
+    this.lastPageAvailable = Math.floor(InfiniteTableContainer.MAX_NB_ENTITIES / this.nbEntitiesByPage)
+    if (((this.lastPageAvailable * this.nbEntitiesByPage) + this.nbEntitiesByPage) > InfiniteTableContainer.MAX_NB_ENTITIES) {
       this.lastPageAvailable = this.lastPageAvailable - 1
     }
     this.maxRowCounts = this.lastPageAvailable * this.nbEntitiesByPage
+    this.fetchedPages = []
   }
 
   componentDidMount = () => this.onPropertiesUpdate({}, this.props)
@@ -167,7 +168,7 @@ class TableContainer extends React.Component {
    */
   onPropertiesUpdate = (previousProps, nextProps) => {
     const previousState = this.state
-    const nextState = this.state ? { ...this.state } : { ...TableContainer.DEFAULT_STATE } // initialize to previous state or use default one
+    const nextState = this.state ? { ...this.state } : { ...InfiniteTableContainer.DEFAULT_STATE } // initialize to previous state or use default one
 
     // initialization or authentication update: fetch the first page
     if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
@@ -179,9 +180,9 @@ class TableContainer extends React.Component {
       // clear selection (if there is a selection model)
       nextProps.flushSelection()
       // Remove entities in store
-      nextProps.flushEntities()
-      // Fetch the first page results
-      nextProps.fetchEntities(0, this.nbEntitiesByPage, nextProps.requestParams)
+      this.flushEntityPages(nextProps)
+      // Fetch new ones
+      this.fetchEntityPages(nextProps)
     }
 
 
@@ -208,7 +209,7 @@ class TableContainer extends React.Component {
 
           // clear all following elements (suppression may shift next pages ) after the current page :
           // ==> these elements will be reloaded on scroll
-          ...fill(Array(numberOfResetElements), TableContainer.EMPTY_ENTITY_VALUE),
+          ...fill(Array(numberOfResetElements), InfiniteTableContainer.EMPTY_ENTITY_VALUE),
         ]
       }
       // 2 - build columns for state
@@ -231,6 +232,7 @@ class TableContainer extends React.Component {
    */
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
     // the scroll offset is the first element to fetch if it is missing
+    const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
     const { tableConfiguration: { lineHeight = defaultLineHeight } } = this.props
     const originalIndex = scrollEndOffset / lineHeight
     const index = Math.floor(originalIndex)
@@ -245,20 +247,23 @@ class TableContainer extends React.Component {
     const firstIndexFetched = pageNumber * this.nbEntitiesByPage
     const lastIndexFetched = firstIndexFetched + this.nbEntitiesByPage
 
-    // Check if it is the last accessible page
+    // Compute the pages to fetch
+    const pages = []
     if (pageNumber > this.lastPageAvailable) {
-      this.fetchEntities(this.lastPageAvailable)
+      pages.push(this.lastPageAvailable)
     } else {
-      this.fetchEntities(pageNumber)
+      pages.push(pageNumber)
       if ((index < firstIndexFetched || firstIndexFetched < firstIndexToRetrieve) && pageNumber > 0) {
-        this.fetchEntities(pageNumber - 1)
+        pages.push(pageNumber - 1)
       } else if ((index > lastIndexFetched) || (lastIndexToRetrieve > lastIndexFetched)) {
         if (pageNumber < this.lastPageAvailable) {
-          this.fetchEntities(pageNumber + 1)
+          pages.push(pageNumber + 1)
         }
       }
     }
+    this.fetchEntityPages(this.props, pages)
   }
+
 
   /**
    * On user row selection (switches selection state for row index)
@@ -287,22 +292,31 @@ class TableContainer extends React.Component {
 
   getTotalNumberOfResults = (props) => {
     const total = get(props || this.props, 'pageMetadata.totalElements') || 0
-    return total > TableContainer.MAX_NB_ENTITIES ? TableContainer.MAX_NB_ENTITIES : total
+    return total > InfiniteTableContainer.MAX_NB_ENTITIES ? InfiniteTableContainer.MAX_NB_ENTITIES : total
   }
-
-  fetchEntities = (pageNumber) => {
-    if (!this.fetchedPages.includes(pageNumber)) {
-      this.props.fetchEntities(pageNumber, this.nbEntitiesByPage, this.props.requestParams)
-      this.fetchedPages.push(pageNumber)
-    }
-  }
-
 
   /**
-   * Pages index already fetched
-   * @type {Array}
+   * Flushes entities using property method
+   * @param {flushEntities:{func}} props component props to use
    */
-  fetchedPages = []
+  flushEntityPages = ({ flushEntities }) => {
+    this.fetchedPages = []
+    flushEntities()
+  }
+
+  /**
+   * Fetches an entity page (prevents fetching multiple times the same entity)
+   * @param {fetchEntities:{func}, requestParams:{}} props component props to use
+   * @param {[number]} pageNumbers number of each page to fetch
+   */
+  fetchEntityPages = ({ fetchEntities, requestParams }, pageNumbers = [0]) => {
+    pageNumbers.forEach((pageIndex) => {
+      if (!this.fetchedPages.includes(pageIndex)) {
+        this.fetchedPages.push(pageIndex)
+        fetchEntities(pageIndex, this.nbEntitiesByPage, requestParams)
+      }
+    })
+  }
 
   /**
    * Return columns to use (cached in state)
@@ -341,6 +355,7 @@ class TableContainer extends React.Component {
 
 
   render() {
+    const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
     const {
       entitiesFetching, pageSize, pageMetadata, tablePaneConfiguration,
       toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
@@ -356,13 +371,17 @@ class TableContainer extends React.Component {
       ...tableConfiguration,
     }
 
+    const minRowCount = isUndefined(this.props.minRowCount) ?
+      this.context.muiTheme['components:infinite-table'].lineHeight :
+      this.props.minRowCount
+
     return (
       <TablePane
         tableData={tableData}
         columns={allColumns}
         entitiesFetching={entitiesFetching}
         maxRowCounts={this.maxRowCounts}
-        minRowCounts={this.props.minRowCounts}
+        minRowCount={minRowCount}
         resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
         allSelected={allSelected}
         toggledElements={toggledElements}
@@ -377,11 +396,7 @@ class TableContainer extends React.Component {
 }
 
 const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
-  // results entities
-  entities: pageSelectors.getOrderedList(state),
-  pageMetadata: pageSelectors.getMetaData(state),
-  entitiesFetching: pageSelectors.isFetching(state),
-  // authentication
+  // authentication, mapped to reload on changes
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
   // selection
   toggledElements: tableSelectors ? tableSelectors.getToggledElements(state) : {},
@@ -389,10 +404,8 @@ const mapStateToProps = (state, { pageSelectors, tableSelectors }) => ({
 })
 
 const mapDispatchToProps = (dispatch, { pageActions, tableActions }) => ({
-  flushEntities: () => dispatch(pageActions.flush()),
-  fetchEntities: (pageNumber, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, requestParams)),
-  toggleRowSelection: (rowIndex, entity) => dispatch(tableActions.toggleElement(rowIndex, entity)),
   // keep optional callbacks but stub them when the client is not provided
+  toggleRowSelection: (rowIndex, entity) => tableActions && dispatch(tableActions.toggleElement(rowIndex, entity)),
   dispatchSelectAll: () => tableActions && dispatch(tableActions.selectAll()),
   dispatchUnselectAll: () => tableActions && dispatch(tableActions.unselectAll()),
   flushSelection: () => tableActions && dispatch(tableActions.unselectAll()),
@@ -402,5 +415,5 @@ export default flow(
   withModuleStyle({ styles }),
   withI18n(messages),
   connect(mapStateToProps, mapDispatchToProps),
-)(TableContainer)
+)(InfiniteTableContainer)
 

@@ -29,6 +29,13 @@ export default {
   'ACE-editor': {
     theme: 'monokai',
   },
+  'components:infinite-table': {
+    lineHeight: 50,
+    fixedColumnsWidth: 50,
+    minRowCount: 8,
+    listLineHeight: 160,
+    listMinRowCount: 3,
+  },
   'forms-extension:jsonField': {
     marginTop: '8px',
     padding: '24px 0 12px 0',

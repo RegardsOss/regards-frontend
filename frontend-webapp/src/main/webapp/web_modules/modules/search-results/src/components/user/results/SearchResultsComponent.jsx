@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEqual from 'lodash/isEqual'
 import reduce from 'lodash/reduce'
 import values from 'lodash/values'
 import sortBy from 'lodash/sortBy'
@@ -30,7 +29,7 @@ import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders, NoContentComponent } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders, NoContentComponent } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { DamDomain, AccessDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
@@ -124,16 +123,9 @@ class SearchResultsComponent extends React.Component {
    */
   static hasServices = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
-  /** Preferred fixed column width */
-  static PREF_FIXED_COLUMN_WIDTH = 50
-
-  componentWillMount = () => this.updateState({}, this.props)
-
-  componentWillReceiveProps = nextProps => this.updateState(this.props, nextProps)
-
   /**
- * Sorting adaptation for parent container (to avoid runtime lambdas)
- */
+   * Sorting adaptation for parent container (to avoid runtime lambdas)
+   */
   onSortByColumn = (column, type, clear) => {
     this.props.onSortChanged(column ? column.attributes[0] : null, type, clear)
   }
@@ -165,7 +157,7 @@ class SearchResultsComponent extends React.Component {
     attributes: [],
     order: Number.MAX_VALUE,
     // reserve space for description, services if enabled and add to cart if is available
-    fixed: SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH * (1 + (onAddElementToCart ? 1 : 0) + (enableServices ? 1 : 0)),
+    fixed: this.context.muiTheme['components:infinite-table'].fixedColumnsWidth * (1 + (onAddElementToCart ? 1 : 0) + (enableServices ? 1 : 0)), // TODO
     sortable: false,
     hideLabel: true,
     // order: number.
@@ -202,7 +194,7 @@ class SearchResultsComponent extends React.Component {
             attributes: [attribute.content.jsonPath],
             sortable: !isSpecialAttr && enableSorting,
             hideLabel: isSpecialAttr,
-            fixed: isSpecialAttr ? SearchResultsComponent.PREF_FIXED_COLUMN_WIDTH : undefined,
+            fixed: isSpecialAttr ? this.context.muiTheme['components:infinite-table'].fixedColumnsWidth : undefined,
             customCell: customCell ? {
               component: customCell,
               props: {},
@@ -266,24 +258,6 @@ class SearchResultsComponent extends React.Component {
     },
   }]
 
-  /**
-  * Updates component state: stores in state the graphics variable computed from new properties, to avoid render time computing
-  * @param oldProperties old properties
-  * @param newProperties new properties
-  */
-  updateState = (oldProperties, newProperties) => {
-    const oldState = this.state
-    const newState = oldState || {}
-
-    newState.tableColumns = this.buildTableColumns(newProperties)
-    newState.listColumns = this.buildListColumns(newState.tableColumns, newProperties)
-
-    // update state when changed
-    if (!isEqual(oldState, newState)) {
-      this.setState(newState)
-    }
-  }
-
   /** @return {boolean} true if currently displaying dataobjects */
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
@@ -320,12 +294,12 @@ class SearchResultsComponent extends React.Component {
 
   /**
    * Renders table context options
+   * @param tableColumns table columns
    * @return rendered options list
    */
-  renderTableContextOptions = () => {
+  renderTableContextOptions = (tableColumns) => {
     const { allowingFacettes, showingFacettes, onToggleShowFacettes,
       selectionServices, onStartSelectionService, onAddSelectionToCart } = this.props
-    const { tableColumns } = this.state
     const { intl: { formatMessage } } = this.context
     return [
       //  Selection services
@@ -448,9 +422,13 @@ class SearchResultsComponent extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage } } = this.context
+    const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage }, muiTheme } = this.context
     const { searchQuery, viewObjectType, resultPageActions } = this.props
-    const { tableColumns, listColumns } = this.state
+    const tableTheme = muiTheme['components:infinite-table']
+
+    // build table columns
+    const tableColumns = this.buildTableColumns(this.props)
+
 
     const pageSize = 13
     let columns = []
@@ -459,18 +437,20 @@ class SearchResultsComponent extends React.Component {
     let displayColumnsHeader
     let displayCheckbox
     let showParameters
-    let minRowCounts = 0
+    let minRowCount
+
     if (this.isInTableView()) {
-      minRowCounts = pageSize
+      minRowCount = tableTheme.minRowCount
       columns = tableColumns
-      lineHeight = 50
+      lineHeight = tableTheme.lineHeight
       cellsStyle = null
       displayColumnsHeader = true
       showParameters = true
       displayCheckbox = this.isDisplayingDataobjects()
-    } else {
-      columns = listColumns
-      lineHeight = 160
+    } else { // use list columns
+      minRowCount = tableTheme.listMinRowCount
+      columns = this.buildListColumns(tableColumns, this.props)
+      lineHeight = tableTheme.listLineHeight
       cellsStyle = listViewStyles.cell
       displayColumnsHeader = false
       showParameters = false
@@ -491,7 +471,7 @@ class SearchResultsComponent extends React.Component {
     const tablePaneConfiguration = {
       resultsTabsButtons: this.renderTableTabs(),
       customTableOptions: this.renderTableRightSideOptions(),
-      contextOptions: this.renderTableContextOptions(),
+      contextOptions: this.renderTableContextOptions(tableColumns),
       customTableHeaderArea: this.renderTableHeaderArea(),
       displayTableHeader: true,
       displaySortFilter: true,
@@ -500,14 +480,14 @@ class SearchResultsComponent extends React.Component {
 
     const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
     return (
-      <TableContainer
+      <PageableInfiniteTableContainer
         key={viewObjectType} // unmount the table when change entity type (using key trick)
         pageActions={resultPageActions}
         pageSelectors={searchSelectors}
         tableActions={TableClient.tableActions}
         tableSelectors={TableClient.tableSelectors}
         pageSize={pageSize}
-        minRowCounts={minRowCounts}
+        minRowCount={minRowCount}
         columns={columns}
         requestParams={requestParams}
         tableConfiguration={tableConfiguration}
