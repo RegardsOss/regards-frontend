@@ -119,7 +119,7 @@ pipeline {
         stage('Deploy Maven artifact') {
             when {
                 anyOf {
-                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'; branch 'feature/front-artifact-and-sonar'
+                    branch 'master'; branch 'develop'
                 }
             }
             steps {
