@@ -183,6 +183,7 @@ export class AccessRightFormComponent extends React.Component {
     }
     return (
       <Field
+        className="selenium-pick-dataAccess"
         name="dataAccess"
         fullWidth
         component={RenderSelectField}
@@ -193,6 +194,7 @@ export class AccessRightFormComponent extends React.Component {
           const label = `accessright.form.data.accessLevel.${value}`
           return (
             <MenuItem
+              className={`selenium-pick-dataAccess-${value}`}
               value={value}
               key={key}
               primaryText={<FormattedMessage id={label} />}
@@ -205,6 +207,7 @@ export class AccessRightFormComponent extends React.Component {
 
   renderMetaDataAccessLevel = () => (
     <Field
+      className="selenium-pick-metaDataAccessLevel"
       name="access"
       fullWidth
       component={RenderSelectField}
@@ -215,6 +218,7 @@ export class AccessRightFormComponent extends React.Component {
         const label = `accessright.form.meta.accessLevel.${value}`
         return (
           <MenuItem
+            className={`selenium-pick-metaDataAccessLevel-${value}`}
             value={value}
             key={key}
             primaryText={<FormattedMessage id={label} />}
@@ -293,7 +297,7 @@ export class AccessRightFormComponent extends React.Component {
                 currentPluginConfiguration={get(this.props.currentAccessRight, 'dataAccessRight.pluginConfiguration', undefined)}
               />
             </ShowableAtRender>
-            {this.renderQualityFilter()}
+            {/**this.renderQualityFilter()*/}
             {/** this.renderShowAdvancedButton()*/}
           </CardText>
           <CardActions>
