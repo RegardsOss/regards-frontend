@@ -2,11 +2,12 @@ FROM node:7.10.1
 
 VOLUME /app_to_build
 
-COPY install.sh build_webapp.sh build_plugin.sh reset_rights.sh /
+COPY install.sh build_webapp.sh build_plugin.sh run_coverage.sh reset_rights.sh /
 
 	# Set rights on scripts
 RUN chmod +x /install.sh \
 			/build_webapp.sh \
+			/run_coverage.sh \
 			/build_plugin.sh \
 			/reset_rights.sh \
 	# Configure npm by allowing root to use npm

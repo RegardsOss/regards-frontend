@@ -119,15 +119,39 @@ pipeline {
         stage('Deploy Maven artifact') {
             when {
                 anyOf {
-                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'
+                    branch 'master'; branch 'develop'; branch 'develop_V1.1.0'; branch 'feature/front-artifact-and-sonar'
                 }
             }
             steps {
-                sh 'docker run --rm -i \
-                    -v ${WORKSPACE}/:/app_to_build \
-                    -v /opt/maven-multibranch-repository:/localRepository \
-                    -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins/java -e MODE=Deploy \
-                    172.26.46.158/rs-maven'
+                parallel(
+                    sonar: {
+                        sh 'docker run \
+                            --rm -i \
+                            -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss \
+                            -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules \
+                            -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build \
+                            rs_node ./run_coverage.sh'
+
+                        sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./frontend-webapp/src/main/webapp) && \
+                          docker run --rm \
+                          --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
+                          -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/data \
+                          sebp/sonar-runner \
+                          -Dsonar.projectVersion=${TAG} \
+                          -Dsonar.host.url=http://172.26.46.158:9000/'
+                    },
+                    maven: {
+                        dir('rs-cloud') {
+                            git branch: BRANCH_NAME, url: 'http://172.26.46.158:10080/regards/rs-cloud.git'
+                        }
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/rs-cloud/rs-frontend:/app_to_build \
+                            -v ${WORKSPACE}/frontend-webapp/src/main/webapp/dist:/app_to_build/frontend-webapp/src/main/webapp/dist \
+                            -v /opt/maven-multibranch-repository:/localRepository \
+                            -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins -e MODE=Deploy \
+                            172.26.46.158/rs-maven'
+                    }
+                )
             }
             post {
                 always {
