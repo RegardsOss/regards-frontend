@@ -83,6 +83,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
           />
           <CardText>
             <SelectField
+              className="selenium-pickDatasource"
               floatingLabelText={this.context.intl.formatMessage({ id: 'dataset.form.create.datasource' })}
               onChange={this.handleChange}
               value={currentDatasource}
@@ -90,6 +91,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
             >
               {map(datasourceList, (datasource, id) => (
                 <MenuItem
+                  className={`selenium-pickDatasource-${datasource.content.label}`}
                   value={datasource.content.pluginConfigurationId}
                   key={id}
                   primaryText={datasource.content.label}

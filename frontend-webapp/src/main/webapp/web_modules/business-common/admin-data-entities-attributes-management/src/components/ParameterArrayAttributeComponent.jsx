@@ -68,6 +68,7 @@ export class ParameterArrayAttributeComponent extends React.Component {
     return (
       <div key={index} style={ParameterArrayAttributeComponent.lineStyle}>
         <Field
+          className={`selenium-fill-${member}`}
           name={`${member}.value`}
           type={type}
           component={RenderTextField}
