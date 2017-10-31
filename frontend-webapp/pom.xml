@@ -18,18 +18,6 @@
 		<relativePath></relativePath>
 	</parent>
 
-	<properties>
-		<sonar.language>js</sonar.language>
-		<sonar.projectKey>RSFRONT</sonar.projectKey>
-		<sonar.projectName>rs-frontend</sonar.projectName>
-		<sonar.projectVersion>1.0.1-SNAPSHOT</sonar.projectVersion>
-		<sonar.sources>src/main/webapp/src,src/main/webapp/web_modules</sonar.sources>
-		<sonar.exclusions>src/main/webapp/node_modules,**/web_modules/vendors/**,**/node_modules/**</sonar.exclusions>
-		<sonar.coverage.exclusions>**/*.test.js,**/*.test.jsx,**/tests/**,**/tests-helpers/**,**/.storybook/**,**/web_modules/vendors/**,**/node_modules/**</sonar.coverage.exclusions>
-		<sonar.javascript.lcov.reportPath>src/main/webapp/reports/coverage/lcov.info</sonar.javascript.lcov.reportPath>
-		<sonar.javascript.jstestdriver.reportsPath>src/main/webapp/reports/coverage/TEST-xunit.xml</sonar.javascript.jstestdriver.reportsPath>
-	</properties>
-
 	<profiles>
 		<profile>
 			<!-- Standard build, the frontend webapp npm compilation is done with 

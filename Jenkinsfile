@@ -134,10 +134,10 @@ pipeline {
 
                         sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./frontend-webapp/src/main/webapp) && \
                           docker run --rm \
+                          --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
                           -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/data \
                           sebp/sonar-runner \
-                          /opt/sonar-runner-2.4/bin/sonar-runner \
-                          -Dsonar.projectVersion=${TAG}  \
+                          -Dsonar.projectVersion=${TAG} \
                           -Dsonar.host.url=http://172.26.46.158:9000/'
                     },
                     maven: {
