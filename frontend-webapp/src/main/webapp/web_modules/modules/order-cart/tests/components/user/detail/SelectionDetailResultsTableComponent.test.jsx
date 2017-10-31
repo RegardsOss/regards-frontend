@@ -21,7 +21,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableContainer } from '@regardsoss/components'
+import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import SelectionDetailResultsTableComponent from '../../../../src/components/user/detail/SelectionDetailResultsTableComponent'
 import styles from '../../../../src/styles/styles'
 
@@ -44,7 +44,7 @@ describe('[Order Cart] Testing SelectionDetailResultsTableComponent', () => {
       availableHeight: 150,
     }
     const renderWrapper = shallow(<SelectionDetailResultsTableComponent {...props} />, { context })
-    const tableContainer = renderWrapper.find(TableContainer)
+    const tableContainer = renderWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(tableContainer, 1, 'There should be an infinite table to show results')
     assert.equal(tableContainer.props().pageSize, SelectionDetailResultsTableComponent.computePageSize(150), 'The page size should be provided using compute page size method')
   })

@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { spy } from 'sinon'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import { ConfirmDialogComponent, TableContainer } from '@regardsoss/components'
+import { ConfirmDialogComponent, PageableInfiniteTableContainer } from '@regardsoss/components'
 import AccessRightListComponent from '../../src/components/AccessRightListComponent'
 import AccessRightFormComponent from '../../src/components/AccessRightFormComponent'
 
@@ -54,7 +54,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
     const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context, lifecycleExperimental: true })
     const form = enzymeWrapper.find(AccessRightFormComponent)
     const confirmDeleteDialog = enzymeWrapper.find(ConfirmDialogComponent)
-    const table = enzymeWrapper.find(TableContainer)
+    const table = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.isTrue(form.length === 1, 'There should a AccessRightFormComponent rendered')
     assert.isTrue(confirmDeleteDialog.length === 1, 'There should a confirmDeleteDialog rendered')
     assert.isTrue(table.length === 1, 'There should a TableContainer rendered')

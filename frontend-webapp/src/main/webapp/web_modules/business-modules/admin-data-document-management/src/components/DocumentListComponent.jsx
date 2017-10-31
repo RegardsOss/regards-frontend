@@ -20,7 +20,7 @@ import { CardActions, Card, CardTitle, CardText } from 'material-ui/Card'
 import get from 'lodash/get'
 import {
   CardActionsComponent,
-  TableContainer,
+  PageableInfiniteTableContainer,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
   ShowableAtRender,
@@ -189,7 +189,7 @@ class DocumentListComponent extends React.Component {
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
-          <TableContainer
+          <PageableInfiniteTableContainer
             name="documents-table"
             pageActions={documentActions}
             pageSelectors={documentSelectors}

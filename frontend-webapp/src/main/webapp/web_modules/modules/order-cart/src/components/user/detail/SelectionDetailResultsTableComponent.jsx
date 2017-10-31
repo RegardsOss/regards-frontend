@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { TableContainer, TableSortOrders } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableSortOrders } from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../client/SearchDataobjectsClient'
@@ -154,7 +154,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
     const { dataobjectsSearchParams, pageSize } = this.state
 
     return (
-      <TableContainer
+      <PageableInfiniteTableContainer
         pageActions={searchDataobjectsActions}
         pageSelectors={searchDataobjectsSelectors}
         pageSize={pageSize}

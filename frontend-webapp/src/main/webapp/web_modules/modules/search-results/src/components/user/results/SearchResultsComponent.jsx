@@ -30,7 +30,7 @@ import ShowFacetsSearch from 'material-ui/svg-icons/action/find-in-page'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { TableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders, NoContentComponent } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableOptionsSeparator, ShowableAtRender, TableSortOrders, NoContentComponent } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { DamDomain, AccessDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
@@ -500,7 +500,7 @@ class SearchResultsComponent extends React.Component {
 
     const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
     return (
-      <TableContainer
+      <PageableInfiniteTableContainer
         key={viewObjectType} // unmount the table when change entity type (using key trick)
         pageActions={resultPageActions}
         pageSelectors={searchSelectors}

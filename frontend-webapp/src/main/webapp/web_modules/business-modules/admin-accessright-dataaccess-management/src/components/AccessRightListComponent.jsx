@@ -24,7 +24,7 @@ import values from 'lodash/values'
 import get from 'lodash/get'
 import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import {
-  TableContainer,
+  PageableInfiniteTableContainer,
   MainActionButtonComponent,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
@@ -329,7 +329,7 @@ class AccessRightListComponent extends React.Component {
             label={intl.formatMessage({ id: 'accessright.edit.multiples.button.label' })}
             onTouchTap={() => this.openEditDialog()}
           />
-          <TableContainer
+          <PageableInfiniteTableContainer
             name="access-rights-datasets-table"
             pageActions={datasetActions}
             pageSelectors={datasetSelectors}
