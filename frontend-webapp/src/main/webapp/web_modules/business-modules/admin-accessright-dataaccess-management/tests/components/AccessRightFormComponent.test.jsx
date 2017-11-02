@@ -48,7 +48,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
       change: () => {},
     }
     const enzymeWrapper = shallow(<AccessRightFormComponent {...props} />, { context, lifecycleExperimental: true })
-    expect(enzymeWrapper.find(Field)).to.have.length(5)
+    expect(enzymeWrapper.find(Field)).to.have.length(2)
   })
 
   it('Render properly without data access rights if meta is NO_ACCESS', () => {
@@ -69,7 +69,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
     }
     const enzymeWrapper = shallow(<AccessRightFormComponent {...props} />, { context, lifecycleExperimental: true })
     const formFields = enzymeWrapper.find(Field)
-    const expectedFieldNumber = 4
+    const expectedFieldNumber = 1
     // Only 4 fields, in this case, the DATA_ACCESS is hidden
     assert.equal(formFields.length, expectedFieldNumber, 'The DATA_ACCESS field should not be rendered if the METADATA_ACCESS is not FULL_ACCESS')
   })
@@ -92,7 +92,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
     }
     const enzymeWrapper = shallow(<AccessRightFormComponent {...props} />, { context, lifecycleExperimental: true })
     const formFields = enzymeWrapper.find(Field)
-    const expectedFieldNumber = 4
+    const expectedFieldNumber = 1
     // Only 4 fields, in this case, the DATA_ACCESS is hidden
     assert.equal(formFields.length, expectedFieldNumber, 'The DATA_ACCESS field should not be rendered if the METADATA_ACCESS is not FULL_ACCESS')
   })
