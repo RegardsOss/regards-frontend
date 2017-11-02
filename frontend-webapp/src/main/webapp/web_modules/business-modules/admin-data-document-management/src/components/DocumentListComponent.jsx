@@ -20,7 +20,7 @@ import { CardActions, Card, CardTitle, CardText } from 'material-ui/Card'
 import get from 'lodash/get'
 import {
   CardActionsComponent,
-  TableContainer,
+  PageableInfiniteTableContainer,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
   ShowableAtRender,
@@ -119,7 +119,6 @@ class DocumentListComponent extends React.Component {
     const { createUrl, backUrl, handleEdit } = this.props
     const tableConfiguration = {
       displayColumnsHeader: true,
-      lineHeight: 47,
       displayCheckbox: false,
       displaySelectAll: false,
       onSortByColumn: () => {
@@ -189,7 +188,7 @@ class DocumentListComponent extends React.Component {
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
-          <TableContainer
+          <PageableInfiniteTableContainer
             name="documents-table"
             pageActions={documentActions}
             pageSelectors={documentSelectors}
@@ -200,7 +199,6 @@ class DocumentListComponent extends React.Component {
             pageSize={DocumentListComponent.PAGE_SIZE}
             columns={columns}
             emptyComponent={emptyComponent}
-            minRowCounts={1}
           />
 
           <CardActions>

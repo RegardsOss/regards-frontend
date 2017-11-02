@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableContainer, TableSortOrders } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableSortOrders } from '@regardsoss/components'
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { searchDataobjectsActions, searchDatasetsActions } from '../../../../src/clients/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
@@ -104,7 +104,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   testCases.forEach(({ caseLabel, caseProperties }) => it(caseLabel, () => {
     const props = { ...commonProperties, ...caseProperties }
     const wrapper = shallow(<SearchResultsComponent {...props} />, options)
-    assert.lengthOf(wrapper.find(TableContainer), 1, 'There should be a TableContainer rendered')
+    assert.lengthOf(wrapper.find(PageableInfiniteTableContainer), 1, 'There should be a TableContainer rendered')
   }))
 
   it('should render selection services, indepently of view modes and types', () => {

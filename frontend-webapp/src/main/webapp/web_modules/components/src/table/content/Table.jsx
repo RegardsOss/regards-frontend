@@ -57,7 +57,7 @@ class Table extends React.Component {
     columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
     width: PropTypes.number.isRequired,
     maxRowCounts: PropTypes.number,
-    minRowCounts: PropTypes.number,
+    minRowCount: PropTypes.number,
 
     // selection related
     allSelected: PropTypes.bool.isRequired, // are all elements selected?
@@ -105,6 +105,11 @@ class Table extends React.Component {
   }
 
   /**
+   * Returns default line height from theme
+   */
+  getDefaultLineHeight = () => this.context.muiTheme['components:infinite-table'].lineHeight
+
+  /**
    * Retrieve entity for the given rowIndex from the array containing all entities
    * @param rowIndex
    */
@@ -121,7 +126,7 @@ class Table extends React.Component {
   /**
    * Computes graphics measures
    */
-  computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight, width, columns = [] }) => {
+  computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight = this.getDefaultLineHeight(), width, columns = [] }) => {
     const { selectionColumn } = this.context.moduleTheme
     // 1 - compute height
     const nbEntitiesByPage = pageSize * PAGE_SIZE_MULTIPLICATOR
@@ -149,13 +154,13 @@ class Table extends React.Component {
       return null
     }
     const {
-      cellsStyle, columns, width, lineHeight, displayCheckbox, displaySelectAll, displayColumnsHeader,
+      cellsStyle, columns, width, lineHeight = this.getDefaultLineHeight(), displayCheckbox, displaySelectAll, displayColumnsHeader,
       allSelected, onToggleSelectAll, onToggleRowSelection, onScrollEnd, onSortByColumn,
       toggledElements, selectionMode, pageSize, maxRowCounts,
     } = this.props
     const { columnWidths, height } = this.state
     const { selectionColumn } = this.context.moduleTheme
-    const totalNumberOfEntities = this.props.entities.length > this.props.minRowCounts ? this.props.entities.length : this.props.minRowCounts
+    const totalNumberOfEntities = this.props.entities.length > this.props.minRowCount ? this.props.entities.length : this.props.minRowCount
 
     // If the total number of results is less than the number of elements by page, adjust height of the table
     // to fit the number of results. Else use the default fixed height.
@@ -236,7 +241,7 @@ class Table extends React.Component {
 }
 
 Table.defaultProps = {
-  minRowCounts: 0,
+  minRowCount: 0,
 }
 
 export default Table
