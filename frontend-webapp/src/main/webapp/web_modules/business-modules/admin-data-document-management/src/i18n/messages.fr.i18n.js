@@ -33,7 +33,7 @@ const messages = Object.assign({
   'document.list.table.actions': 'Actions',
   'document.list.table.model': 'Modèle',
 
-  'document.no.dataset.title': 'Aucun document',
+  'document.no.document.title': 'Aucun document',
 
   'document.form.links.component.subtitle': 'Lien de la document courante',
   'document.form.links.remainingcollection.subtitle': 'Collection disponibles',
@@ -43,6 +43,13 @@ const messages = Object.assign({
   'document.form.links.action.done': 'Terminer',
   'document.form.links.action.cancel': 'Retour',
   'document.form.links.remainingcollection.search': 'Filtrer les collections sur leur nom',
+  'document.form.links.remainingcollection.add.button': 'Lier la collection',
+  'document.form.links.collection.remove.button': 'Supprimer le lien',
+  'document.form.links.collection.none': 'Aucune collection liée',
+  'document.form.links.tag.add.button': 'Ajouter',
+  'document.form.links.tag.remove.button': 'Supprimer',
+  'document.form.links.tag.subtitle': 'Associer à des mots clés',
+  'document.form.links.tag.add': 'Nouveau mot clé',
 
 
   'document.form.files.title': 'Gestion des fichiers du document {name}',
@@ -62,14 +69,14 @@ const messages = Object.assign({
   'document.form.table.fragmentAndLabel': 'Fragment et Nom de l\'attribut du modèle',
   'document.form.table.type': 'Type',
   'document.form.table.input': 'Valeur de l\'attribut',
-  'document.form.subtitle': 'Gestion des attributs d\'une document',
+  'document.form.subtitle': 'Gestion des attributs d\'un document',
   'document.edit.title': 'Edition de la document {name}',
-  'document.create.title': 'Création d\'une document',
+  'document.create.title': 'Création d\'un document',
   'document.duplicate.title': 'Dupliquer la document {name}',
-  'invalid.max_128_carac': 'Le label d\'une document ne peut dépasser 128 caractères',
+  'invalid.max_128_carac': 'Le label d\'un document ne peut dépasser 128 caractères',
 
-  'document.stepper.links': 'Edition des liens avec les autres documents',
-  'document.stepper.attributes': 'Saisie des attributs d\'une document',
+  'document.stepper.links': 'Edition des liens avec les collections',
+  'document.stepper.attributes': 'Saisie des attributs d\'un document',
   'document.stepper.files': 'Fichiers associés',
 
 }, Locales.fr)

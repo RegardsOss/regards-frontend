@@ -24,9 +24,10 @@ import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Clear from 'material-ui/svg-icons/content/clear'
 import { DataManagementShapes } from '@regardsoss/shape'
 import TextField from 'material-ui/TextField'
+import Divider from 'material-ui/Divider'
 import Search from 'material-ui/svg-icons/action/search'
 import Subheader from 'material-ui/Subheader'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -41,6 +42,7 @@ export class DocumentEditLinksComponent extends React.Component {
     currentDocument: DataManagementShapes.Document,
     linkedCollections: DataManagementShapes.CollectionArray,
     remainingCollections: DataManagementShapes.CollectionArray,
+    documentStringTags: PropTypes.arrayOf(PropTypes.string),
     handleAdd: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired,
     handleSearch: PropTypes.func.isRequired,
@@ -53,9 +55,26 @@ export class DocumentEditLinksComponent extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    tagField: '',
+  }
+
+  handleCreateTag = () => {
+    this.setState({
+      tagField: '',
+    })
+    this.props.handleAdd(this.state.tagField, true)
+  }
+
+  handleCreateTagChange = (event, tagField) => {
+    this.setState({
+      tagField,
+    })
+  }
+
 
   render() {
-    const { currentDocument, remainingCollections, linkedCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl } = this.props
+    const { documentStringTags, currentDocument, remainingCollections, linkedCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl } = this.props
     return (
       <Card>
         <CardTitle
@@ -69,24 +88,7 @@ export class DocumentEditLinksComponent extends React.Component {
         />
         <CardText>
           <div className="row">
-            <div className="col-sm-50">
-              <List>
-                <Subheader><FormattedMessage id="document.form.links.collection.subtitle" /></Subheader>
-                {map(linkedCollections, collection => (
-                  <ListItem
-                    key={collection.content.ipId}
-                    primaryText={collection.content.label}
-                    rightIconButton={
-                      <IconButton onTouchTap={() => handleDelete(collection.content.ipId)}>
-                        <Clear />
-                      </IconButton>
-                    }
-                    disabled
-                  />
-                ))}
-              </List>
-            </div>
-            <div className="col-sm-50">
+            <div className="col-sm-48">
               <List>
                 <Subheader><FormattedMessage id="document.form.links.remainingcollection.subtitle" /></Subheader>
                 <ListItem
@@ -112,7 +114,10 @@ export class DocumentEditLinksComponent extends React.Component {
                     key={collection.content.ipId}
                     primaryText={collection.content.label}
                     rightIconButton={
-                      <IconButton onTouchTap={() => handleAdd(collection.content.ipId)}>
+                      <IconButton
+                        onTouchTap={() => handleAdd(collection.content.ipId, false)}
+                        tooltip={this.context.intl.formatMessage({ id: 'document.form.links.remainingcollection.add.button' })}
+                      >
                         <Add />
                       </IconButton>
                     }
@@ -121,6 +126,75 @@ export class DocumentEditLinksComponent extends React.Component {
                 ))}
               </List>
             </div>
+            <div className="col-sm-48 col-sm-offset-4 ">
+              <List>
+                <div><FormattedMessage id="document.form.links.collection.subtitle" /></div>
+                <br />
+                <Divider />
+                {map(linkedCollections, (collection, id) => (
+                  <ListItem
+                    key={collection.content.ipId}
+                    primaryText={collection.content.label}
+                    rightIconButton={
+                      <IconButton
+                        onTouchTap={() => handleDelete(collection.content.ipId, false)}
+                        tooltip={this.context.intl.formatMessage({ id: 'document.form.links.collection.remove.button' })}
+                      >
+                        <Clear />
+                      </IconButton>
+                    }
+                    disabled
+                  />
+                ))}
+                <ShowableAtRender show={linkedCollections.length === 0}>
+                  <ListItem
+                    primaryText={this.context.intl.formatMessage({ id: 'document.form.links.collection.none' })}
+                    disabled
+                  />
+                </ShowableAtRender>
+                <div><FormattedMessage id="document.form.links.tag.subtitle" /></div>
+                <br />
+                <Divider />
+                <ListItem
+                  primaryText={
+                    <TextField
+                      hintText={this.context.intl.formatMessage({ id: 'document.form.links.tag.add' })}
+                      onChange={this.handleCreateTagChange}
+                      value={this.state.tagField}
+                      fullWidth
+                    />
+                  }
+                  rightIconButton={
+                    <div>
+                      <br />
+                      <IconButton
+                        onTouchTap={this.handleCreateTag}
+                        tooltip={this.context.intl.formatMessage({ id: 'document.form.links.tag.add.button' })}
+                      >
+                        <Add />
+                      </IconButton>
+                    </div>
+                  }
+                  disabled
+                />
+                {map(documentStringTags, (tag, id) => (
+                  <ListItem
+                    key={`tag-${id}`}
+                    primaryText={tag}
+                    rightIconButton={
+                      <IconButton
+                        onTouchTap={() => handleDelete(tag, true)}
+                        tooltip={this.context.intl.formatMessage({ id: 'document.form.links.tag.remove.button' })}
+                      >
+                        <Clear />
+                      </IconButton>
+                    }
+                    disabled
+                  />
+                ))}
+              </List>
+            </div>
+
           </div>
         </CardText>
         <CardActions>

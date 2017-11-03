@@ -33,7 +33,7 @@ const messages = Object.assign({
   'document.list.table.actions': 'Actions',
   'document.list.table.model': 'Model',
 
-  'document.no.dataset.title': 'No document',
+  'document.no.document.title': 'No document',
 
   'document.form.links.component.subtitle': 'Current document links',
   'document.form.links.remainingcollection.subtitle': 'Available collections',
@@ -43,6 +43,13 @@ const messages = Object.assign({
   'document.form.links.action.done': 'Save',
   'document.form.links.action.cancel': 'Back',
   'document.form.links.remainingcollection.search': 'Filter collections with their names',
+  'document.form.links.remainingcollection.add.button': 'Link the collection',
+  'document.form.links.collection.remove.button': 'Remove the link',
+  'document.form.links.collection.none': 'No collection linked',
+  'document.form.links.tag.add.button': 'Add',
+  'document.form.links.tag.remove.button': 'Remove',
+  'document.form.links.tag.subtitle': 'Associate with tags',
+  'document.form.links.tag.add': 'New tag',
 
 
   'document.form.files.title': 'Gestion des fichiers du document {name}',
@@ -68,7 +75,7 @@ const messages = Object.assign({
   'document.duplicate.title': 'Duplicate the document {name}',
   'invalid.max_128_carac': 'Document label can\'t exceed 128 characters',
 
-  'document.stepper.links': 'Edit links with others documents',
+  'document.stepper.links': 'Edit links with collections',
   'document.stepper.attributes': 'Setup document attributes',
   'document.stepper.files': 'Associated files',
 

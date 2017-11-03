@@ -20,7 +20,10 @@ import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import partition from 'lodash/partition'
+import map from 'lodash/map'
+import remove from 'lodash/remove'
 import some from 'lodash/some'
+import find from 'lodash/find'
 import filter from 'lodash/filter'
 import startsWith from 'lodash/startsWith'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -49,6 +52,7 @@ export class DocumentEditLinksContainer extends React.Component {
     addTagToDocument: PropTypes.func,
     fetchDocument: PropTypes.func,
     fetchCollectionList: PropTypes.func,
+    updateDocument: PropTypes.func,
   }
 
   state = {
@@ -76,10 +80,16 @@ export class DocumentEditLinksContainer extends React.Component {
   getComponent = () => {
     const { currentDocument, collectionList } = this.props
     const collectionLinkedToCurrentDocument = this.getRemainingCollections(currentDocument, collectionList)
+    const documentTags = this.partitionDatasetLinkedTags(currentDocument)
+    const documentStringTags = documentTags[1]
+    const linkedCollection = this.getCollectionLinked(documentTags[0], collectionList)
+
+
     return (
       <DocumentEditLinksComponent
-        linkedCollections={collectionLinkedToCurrentDocument[0]}
-        remainingCollections={collectionLinkedToCurrentDocument[1]}
+        linkedCollections={linkedCollection}
+        documentStringTags={documentStringTags}
+        remainingCollections={collectionLinkedToCurrentDocument}
         currentDocument={currentDocument}
         handleAdd={this.handleAdd}
         handleDelete={this.handleDelete}
@@ -88,6 +98,13 @@ export class DocumentEditLinksContainer extends React.Component {
         doneUrl={this.getDoneUrl()}
       />)
   }
+
+  getCollectionLinked = (collectionIpIdList, collectionList) =>
+    map(collectionIpIdList, collectionIpId =>
+      find(collectionList, collection =>
+        collection.content.ipId === collectionIpId,
+      ),
+    )
 
   getDoneUrl = () => {
     const { params: { project } } = this.props
@@ -107,28 +124,52 @@ export class DocumentEditLinksContainer extends React.Component {
     const collectionLinkedToCurrentDocument = partition(collectionList, collection =>
       some(currentDocument.content.tags, tag => tag === collection.content.ipId,
     ))
-    return [
-      collectionLinkedToCurrentDocument[0],
-      // Remove the currentCollection from collectionList and use, if setup, the search input value
-      filter(collectionLinkedToCurrentDocument[1], collection =>
-        startsWith(collection.content.label.toLowerCase(), collectionName),
-      ),
-    ]
+    return filter(collectionLinkedToCurrentDocument[1], collection =>
+      startsWith(collection.content.label.toLowerCase(), collectionName),
+    )
+  }
+
+  partitionDatasetLinkedTags = (currentDocument) => {
+    const linkedTags = partition(currentDocument.content.tags, tag =>
+      tag.match(/URN:.*:COLLECTION.*/),
+    )
+    return linkedTags
   }
 
   /**
    * When the user add a new tag
    * @param tag
+   * @param usingUpdate
    */
-  handleAdd = tag => Promise.resolve(this.props.addTagToDocument(this.props.currentDocument.content.id, [tag]))
-    .then(actionResult => this.props.fetchDocument(this.props.params.documentId))
+  handleAdd = (tag, usingUpdate) => {
+    if (usingUpdate) {
+      this.props.currentDocument.content.tags.push(tag)
+      this.props.updateDocument(this.props.currentDocument.content.id, this.props.currentDocument.content)
+    } else {
+      Promise.resolve(this.props.addTagToDocument(this.props.currentDocument.content.id, [tag]))
+        .then((actionResult) => {
+          this.props.fetchDocument(this.props.params.documentId)
+        })
+    }
+  }
+
   /**
    * When the user remove a tag
    * @param tag
    */
-  handleDelete = tag => Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, [tag]))
-    .then(actionResult => this.props.fetchDocument(this.props.params.documentId))
-
+  handleDelete = (tag, usingUpdate) => {
+    if (usingUpdate) {
+      this.props.currentDocument.content.tags = remove(this.props.currentDocument.content.tags, existingTag =>
+        existingTag !== tag,
+      )
+      this.props.updateDocument(this.props.currentDocument.content.id, this.props.currentDocument.content)
+    } else {
+      Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, [tag]))
+        .then((actionResult) => {
+          this.props.fetchDocument(this.props.params.documentId)
+        })
+    }
+  }
   handleSearch = (event, collectionName) => {
     this.setState({
       collectionName: collectionName.toLowerCase(),
@@ -157,6 +198,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   fetchCollectionList: () => dispatch(collectionActions.fetchEntityList()),
   fetchDocument: id => dispatch(documentActions.fetchEntity(id)),
+  updateDocument: (id, doc) => dispatch(documentActions.updateEntity(id, doc)),
   addTagToDocument: (documentId, tags) => dispatch(documentLinkActions.sendSignal('PUT', tags, { document_id: documentId, operation: 'associate' })),
   removeTagFromDocument: (documentId, tags) => dispatch(documentLinkActions.sendSignal('PUT', tags, { document_id: documentId, operation: 'dissociate' })),
 })

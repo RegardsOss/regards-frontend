@@ -67,7 +67,7 @@ export class DocumentEditFilesContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project, documentId } } = this.props
-    return `/admin/${project}/data/document/${documentId}/links`
+    return `/admin/${project}/data/document/${documentId}/edit`
   }
 
   getComponent = () => {
@@ -112,7 +112,7 @@ export class DocumentEditFilesContainer extends React.Component {
    * When the user remove a file
    * @param tag
    */
-  handleDeleteDocFile = documentFileChecksum => console.error(documentFileChecksum) || Promise.resolve(this.props.removeFile(this.props.currentDocument.content.id, documentFileChecksum))
+  handleDeleteDocFile = documentFileChecksum => Promise.resolve(this.props.removeFile(this.props.currentDocument.content.id, documentFileChecksum))
     .then(actionResult => this.props.fetchDocument(this.props.currentDocument.content.id))
 
   render() {

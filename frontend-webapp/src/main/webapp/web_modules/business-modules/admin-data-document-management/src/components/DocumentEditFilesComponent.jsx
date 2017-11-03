@@ -21,6 +21,7 @@ import { List, ListItem } from 'material-ui/List'
 import { FormattedMessage } from 'react-intl'
 import times from 'lodash/times'
 import map from 'lodash/map'
+import get from 'lodash/get'
 import Remove from 'material-ui/svg-icons/action/highlight-off'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Download from 'material-ui/svg-icons/file/file-download'
@@ -113,6 +114,7 @@ export class DocumentEditFilesComponent extends React.Component {
 
   render() {
     const { document, handleDeleteDocFile, backUrl, submitting, invalid } = this.props
+    const fileList = get(document, 'content.files.DOCUMENT', [])
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -129,10 +131,10 @@ export class DocumentEditFilesComponent extends React.Component {
           />
           <CardText>
             <div className="row">
-              <div className="col-sm-50">
+              <div className="col-sm-48">
                 <List>
                   <Subheader><FormattedMessage id="document.form.files.docFiles.subtitle" /></Subheader>
-                  {map(document.content.files, file => (
+                  {map(fileList, file => (
                     <ListItem
                       key={file.checksum}
                       primaryText={file.name}
@@ -151,7 +153,7 @@ export class DocumentEditFilesComponent extends React.Component {
                   ))}
                 </List>
               </div>
-              <div className="col-sm-50">
+              <div className="col-sm-48 col-sm-offset-4 ">
                 <Subheader><FormattedMessage id="document.form.files.addFile.subtitle" /></Subheader>
                 {times(this.state.nbInputs, i => this.renderFileInput(i))}
               </div>
