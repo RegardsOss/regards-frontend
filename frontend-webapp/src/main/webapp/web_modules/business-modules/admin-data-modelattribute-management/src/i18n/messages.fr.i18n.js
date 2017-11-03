@@ -30,6 +30,7 @@ const messages = Object.assign({
   'modelattr.edit.computation.label': 'Calcul',
   'modelattr.edit.table.computationMethod': 'Méthode de calcul',
   'modelattr.edit.table.name': 'Nom (type)',
+  'modelattr.edit.noAttrLink': 'Aucun attribut n\'est lié au modèle',
 }, Locales.fr)
 
 export default messages
