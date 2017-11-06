@@ -35,6 +35,7 @@ export default {
     minRowCount: 8,
     listLineHeight: 160,
     listMinRowCount: 3,
+    minHeaderRowHeight: 40,
   },
   'forms-extension:jsonField': {
     marginTop: '8px',

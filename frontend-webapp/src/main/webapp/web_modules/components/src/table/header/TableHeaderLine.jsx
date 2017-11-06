@@ -15,25 +15,40 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+ **/
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from '../styles'
 
 /**
- * Actions to get storage plugins information
+ * A simple table header line: it layouts its children in a row.
  * @author Raphaël Mechali
  */
-class StoragePluginsActions extends BasicListActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/monitoring`,
-      schemaTypes: {
-        ENTITY: Schemas.STORAGE_PLUGIN,
-        ENTITY_ARRAY: Schemas.STORAGE_PLUGIN_ARRAY,
-      },
-    })
+export class TableHeaderLine extends React.Component {
+
+  static propTypes = {
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+  }
+
+  static defaultProps = {
+    show: true,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+  render() {
+    const { children } = this.props
+    const { moduleTheme: { header } } = this.context
+    return (
+      <div style={header.rowStyle} >
+        {children}
+      </div>
+    )
   }
 }
 
-export default StoragePluginsActions
+export default withModuleStyle(styles)(TableHeaderLine)

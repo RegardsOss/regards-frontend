@@ -16,8 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
+import { themeContextType } from '@regardsoss/theme'
 
+/**
+* A table header content box: unlike usual areas, such box is centered on the row (it cannot be used to display a lot)
+* @author Raphaël Mechali
+*/
+class TableHeaderContentBox extends React.Component {
+
+  static propTypes = {
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+  render() {
+    const { children } = this.props
+    const { moduleTheme: { header } } = this.context
+    return (
+      <div style={header.contentBox.style}>
+        {children || null}
+      </div>
+    )
+  }
 }
-
-export default messages
+export default TableHeaderContentBox

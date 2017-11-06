@@ -20,7 +20,6 @@ import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import concat from 'lodash/concat'
 import remove from 'lodash/remove'
-import transform from 'lodash/transform'
 import values from 'lodash/values'
 import Divider from 'material-ui/Divider'
 import { AccessDomain } from '@regardsoss/domain'
@@ -92,37 +91,29 @@ class MainAttributesConfigurationComponent extends React.Component {
    * @param attributeId
    * @param conf
    */
-  onChange = (attributeFullQualifiedName, conf) => {
-    let newConf = true
-    // If conf for the given attribute already exists, then update it
-    let newAttributesConf = []
-    const { attributesConf, changeField, attributesFieldName } = this.props
-    if (attributesConf) {
-      newAttributesConf = map(attributesConf, (attributeConf) => {
-        if (attributeConf.attributeFullQualifiedName === attributeFullQualifiedName) {
-          newConf = false
-          return conf
-        }
-        return attributeConf
-      })
+  onChange = (attributeFullQualifiedName, updatedAttrConfiguration) => {
+    const { attributesConf = [], changeField, attributesFieldName } = this.props
+    // update or add the attribute configuration, when missing
+    const foundIndex = attributesConf.findIndex(attrConf => attrConf.attributeFullQualifiedName === attributeFullQualifiedName)
+    let newAttributesConfigurations
+    if (foundIndex < 0) {
+      newAttributesConfigurations = [...attributesConf, updatedAttrConfiguration]
+    } else {
+      newAttributesConfigurations = [...attributesConf]
+      newAttributesConfigurations[foundIndex] = updatedAttrConfiguration
     }
 
-    // Check if there is more than one defaultSort configured
-    if (conf.initialSort) {
-      newAttributesConf = transform(newAttributesConf, (results, attributeConf) => {
-        const nextConf = {
-          ...attributeConf,
-          initialSort: attributeConf.initialSort && attributeConf.attributeFullQualifiedName === attributeFullQualifiedName,
-        }
-        results.push(nextConf)
-      }, [])
+    // If this configuration is initial sort, others should no longer be
+    if (updatedAttrConfiguration.initialSort) {
+      newAttributesConfigurations = newAttributesConfigurations.map(attributeConfiguration =>
+        attributeConfiguration.attributeFullQualifiedName === updatedAttrConfiguration.attributeFullQualifiedName ?
+          // don't change new conf
+          updatedAttrConfiguration : { // clear initial sort in other configuration
+            ...attributeConfiguration,
+            initialSort: false,
+          })
     }
-
-    // Else add the new attribute conf
-    if (newConf) {
-      newAttributesConf.push(conf)
-    }
-    changeField(attributesFieldName, newAttributesConf)
+    changeField(attributesFieldName, newAttributesConfigurations)
   }
 
   /**

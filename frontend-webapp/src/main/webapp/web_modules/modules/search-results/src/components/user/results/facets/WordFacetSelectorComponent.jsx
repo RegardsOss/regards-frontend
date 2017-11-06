@@ -1,19 +1,20 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { i18nContextType } from '@regardsoss/i18n'
-import { StringFacet } from '../model/FacetShape'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { StringFacet } from '../../../../models/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
+import messages from '../../../../i18n'
 
 /**
-* Word facet selector
-*/
+ * Word facet selector
+ */
 class WordFacetSelectorComponent extends React.Component {
 
   static propTypes = {
     facet: StringFacet.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
-    applyFilter: PropTypes.func.isRequired,
+    onSelectFacet: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -34,16 +35,16 @@ class WordFacetSelectorComponent extends React.Component {
   }
 
   render() {
-    const { facet, applyFilter } = this.props
+    const { facet, onSelectFacet } = this.props
     return (
       <FacetSelectorComponent
         facet={facet}
         facetValueFormatterForMenu={this.formatFacetValueForMenu}
         facetValueFormatterForFilter={this.formatFacetValueForFilter}
-        applyFilter={applyFilter}
+        onSelectFacet={onSelectFacet}
       />
     )
   }
 }
 
-export default WordFacetSelectorComponent
+export default withI18n(messages)(WordFacetSelectorComponent)

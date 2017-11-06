@@ -12,4 +12,5 @@ export default {
   displayCheckbox: PropTypes.bool,
   displaySelectAll: PropTypes.bool,
   onSortByColumn: PropTypes.func,
+  minRowCount: PropTypes.number,
 }

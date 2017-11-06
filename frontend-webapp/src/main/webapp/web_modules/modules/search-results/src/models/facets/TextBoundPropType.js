@@ -26,7 +26,13 @@ const parseInt = (intText) => {
   const n = Number.parseInt(intText, 10)
   return !isNaN(n) && Number.isInteger(n)
 }
-export const NumericTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBoundPropType(parseInt))
+
+const NumericTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBoundPropType(parseInt))
 
 const parseDate = dateText => !isNaN(Date.parse(dateText))
-export const DateTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBoundPropType(parseDate))
+const DateTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBoundPropType(parseDate))
+
+export default {
+  DateTextBoundPropType,
+  NumericTextBoundPropType,
+}

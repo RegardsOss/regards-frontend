@@ -1,9 +1,10 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { i18nContextType } from '@regardsoss/i18n'
-import { NumberRangeFacet } from '../model/FacetShape'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { NumberRangeFacet } from '../../../../models/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
+import messages from '../../../../i18n'
 
 /**
 * Range facet selector
@@ -14,7 +15,7 @@ class NumberRangeFacetSelectorComponent extends React.Component {
     // eslint-disable-next-line
     facet: NumberRangeFacet.isRequired, // seriously eslint sux on PropTypes...
     // applies a facet filter (key:string, label:string, searchQuery: string)
-    applyFilter: PropTypes.func.isRequired,
+    onSelectFacet: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -68,15 +69,15 @@ class NumberRangeFacetSelectorComponent extends React.Component {
   }
 
   render() {
-    const { facet, applyFilter } = this.props
+    const { facet, onSelectFacet } = this.props
     return (
       <FacetSelectorComponent
         facet={facet}
         facetValueFormatterForMenu={this.formatFacetValueForMenu}
         facetValueFormatterForFilter={this.formatFacetValueForFilter}
-        applyFilter={applyFilter}
+        onSelectFacet={onSelectFacet}
       />
     )
   }
 }
-export default NumberRangeFacetSelectorComponent
+export default withI18n(messages)(NumberRangeFacetSelectorComponent)

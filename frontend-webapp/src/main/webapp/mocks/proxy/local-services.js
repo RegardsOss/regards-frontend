@@ -288,7 +288,7 @@ function buildLocalServices(gatewayURL) {
       proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
       getBasket: { url: 'rs-order/order/basket', handler: getBasket },
       storageMonitoring: {
-        url: 'rs-storage/storage-plugins', handler: () => {
+        url: 'rs-storage/storages/monitoring', handler: () => {
           const content = addLinks(JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')))
           return { content }
         }

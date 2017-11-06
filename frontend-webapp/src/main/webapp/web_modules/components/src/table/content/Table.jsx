@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isUndefined from 'lodash/isUndefined'
 import map from 'lodash/map'
 import values from 'lodash/values'
 import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
@@ -132,19 +133,38 @@ class Table extends React.Component {
     const nbEntitiesByPage = pageSize * PAGE_SIZE_MULTIPLICATOR
     const height = lineHeight * (pageSize + 1) // +1 for header row
 
-    // 2 - compute resulting column width
-    // constant column width
+    // 2 - compute resulting column width (filter columns first)
+    const visibleColumns = columns.filter(c => c.visible)
+    // compute available column width without unvisible columns and fixed width columns
     const availableWidth = width - (displayCheckbox ? selectionColumn.width : 0)
-    let columnWidth = Math.round(availableWidth / columns.length)
+    const floatingWidth = availableWidth - visibleColumns.reduce((acc, column) =>
+      isUndefined(column.fixed) ? acc : acc + column.fixed, 0)
+    let columnWidth = Math.round(floatingWidth / visibleColumns.length)
+
     columnWidth = Math.max(columnWidth, MIN_COL_WIDTH)
     // consume remaining space or delete last pixels
-    let lastColumnWidth = availableWidth - (columnWidth * (columns.length - 1))
+    let lastColumnWidth = availableWidth - (columnWidth * (visibleColumns.length - 1))
     lastColumnWidth = Math.max(lastColumnWidth, MIN_COL_WIDTH)
     // Init labelled columns width
-    const columnWidths = columns.reduce((acc, { label }, index) => ({
-      [label]: index === columns.length - 1 ? lastColumnWidth : columnWidth,
-      ...acc,
-    }), {})
+    const columnWidths = columns.reduce((acc, { label, visible, fixed }, index) => {
+      let localColumnWidth
+      if (visible) {
+        if (!isUndefined(fixed)) {
+          localColumnWidth = fixed
+        } else if (index === visibleColumns.length - 1) {
+          // last column
+          localColumnWidth = lastColumnWidth
+        } else {
+          localColumnWidth = columnWidth
+        }
+      } else {
+        localColumnWidth = 0
+      }
+      return {
+        [label]: localColumnWidth,
+        ...acc,
+      }
+    }, {})
 
     return { nbEntitiesByPage, height, columnWidths }
   }
@@ -156,11 +176,14 @@ class Table extends React.Component {
     const {
       cellsStyle, columns, width, lineHeight = this.getDefaultLineHeight(), displayCheckbox, displaySelectAll, displayColumnsHeader,
       allSelected, onToggleSelectAll, onToggleRowSelection, onScrollEnd, onSortByColumn,
-      toggledElements, selectionMode, pageSize, maxRowCounts,
+      toggledElements, selectionMode, pageSize, minRowCount, maxRowCounts,
     } = this.props
     const { columnWidths, height } = this.state
-    const { selectionColumn } = this.context.moduleTheme
-    const totalNumberOfEntities = this.props.entities.length > this.props.minRowCount ? this.props.entities.length : this.props.minRowCount
+    const { moduleTheme: { selectionColumn }, muiTheme } = this.context
+
+    // compute visible lines (use min row count from theme if not defined)
+    const actualMinRowCount = minRowCount || muiTheme['components:infinite-table'].lineHeight
+    const totalNumberOfEntities = this.props.entities.length > actualMinRowCount ? this.props.entities.length : actualMinRowCount
 
     // If the total number of results is less than the number of elements by page, adjust height of the table
     // to fit the number of results. Else use the default fixed height.
@@ -204,8 +227,8 @@ class Table extends React.Component {
             ) : null
         }
         {map(columns, (column, index) => {
-          const columnWidth = column.fixed || columnWidths[column.label]
-          if (columnWidth) {
+          if (column.visible) {
+            const columnWidth = columnWidths[column.label]
             return (<Column
               key={column.label}
               columnKey={column.label}

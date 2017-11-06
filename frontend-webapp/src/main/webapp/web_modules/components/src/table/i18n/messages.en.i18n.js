@@ -18,6 +18,8 @@
  **/
 
 const messages = {
+  'table.results.no.data': 'No result',
+  'table.results.one.element': '1 result',
   'table.results.count': '{count} results',
   'table.filter.columns.label': 'Columns...',
   'table.select.all.label': 'All',
@@ -26,7 +28,10 @@ const messages = {
   'table.deselect.all.tooltip': 'Deselect all',
   'table.advanced.options.label': 'More...',
   'table.actions.more': 'More actions',
-  'table.column.visibility.filter': 'Visible columns',
+  'table.column.visibility.filter.option': 'Columns...',
+  'table.column.visibility.filter.dialog': 'Visible columns',
+  'table.column.visibility.filter.cancel': 'Cancel',
+  'table.column.visibility.filter.confirm': 'Confirm',
   'table.loading.message': 'Loading content',
 }
 

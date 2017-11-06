@@ -16,13 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import moduleContainer from './containers/ModuleContainer'
 import styles from './styles/styles'
 import dependencies from './dependencies'
 import messages from './i18n'
 
 export default {
-  moduleContainer,
   styles,
   messages,
   dependencies,

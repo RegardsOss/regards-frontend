@@ -18,7 +18,6 @@
  **/
 import flow from 'lodash/flow'
 import get from 'lodash/get'
-import isUndefined from 'lodash/isUndefined'
 import map from 'lodash/map'
 import fill from 'lodash/fill'
 import isEqual from 'lodash/isEqual'
@@ -28,9 +27,8 @@ import { connect } from '@regardsoss/redux'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { withI18n } from '@regardsoss/i18n'
-import TablePane from './TablePane'
+import TableResponsiveManager from './TableResponsiveManager'
 import TableSelectionModes from './model/TableSelectionModes'
-import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
 import TableConfigurationModel from './content/model/TableConfigurationModel'
 import ColumnConfigurationModel from './content/columns/model/ColumnConfiguration'
 import TableActions from './model/TableActions' // class for prop type
@@ -43,6 +41,7 @@ import messages from './i18n'
 /**
  * Fixed data table from facebook library integrated with material ui theme
  * and infinite scroll functionality.
+ * Should be integrated in a TableLayout component for UI uniformity
  *
  * The FixedDataTable from facebook library, use an array with all elements to display.
  * If X is the number of elements visible in the table, so 3*X elements are present in the DOM.
@@ -69,33 +68,15 @@ class InfiniteTableContainer extends React.Component {
   static propTypes = {
     // table configuration
     tableConfiguration: PropTypes.shape(TableConfigurationModel).isRequired,
-    // table pane configuration
-    tablePaneConfiguration: PropTypes.shape(TablePaneConfigurationModel).isRequired,
     // [Optional] Size of a given table page. Default is 20 visible items in the table.
     pageSize: PropTypes.number,
-    // [Optional] Default to theme min row count, number of minimum lines to display in the table
-    minRowCount: PropTypes.number,
-    // [Optional] Columns configurations. Default all attributes of entities are displayed as column.
-    // An column configuration is an object with
-    // - label : Displayed label of the column in the Header line
-    // - attributes : Array of String. Each element is an entity attribute to display in the column. It is also
-    //                possible to define deep attributes like user.login
+    // [Optional] Columns configurations. see ColumnConfigurationModel
     // eslint-disable-next-line react/no-unused-prop-types
-    columns: PropTypes.arrayOf(ColumnConfigurationModel),
+    columns: PropTypes.arrayOf(ColumnConfigurationModel), // used in states updates
 
-    // functions to fetch/flush entities and select them in redux store
-    // fetch entities: (pageIndex:{number}, pageSize:{number}, requestParams:{object, as provided to this component}) => ()
+    // Table selection connectors (optionals)
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchEntities: PropTypes.func.isRequired, // used in onPropertiesUpdate
-    // flush entities: () => ()
-    // eslint-disable-next-line react/no-unused-prop-types
-    flushEntities: PropTypes.func.isRequired, // used in onPropertiesUpdate
-    // [Optional] server request parameters as query params or path params defined in the PageActions given.
-    // eslint-disable-next-line
-    requestParams: PropTypes.object, // used in onPropertiesUpdate, uknown shape, depends on consumer
-
-    // eslint-disable-next-line react/no-unused-prop-types
-    tableActions: PropTypes.instanceOf(TableActions), // Table actions instance, used in onPropertiesUpdate
+    tableActions: PropTypes.instanceOf(TableActions), // Table actions instance, used in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     tableSelectors: PropTypes.instanceOf(TableSelectors), // Table selectors instance, used in onPropertiesUpdate
 
@@ -109,6 +90,17 @@ class InfiniteTableContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+
+    // functions to fetch/flush entities and select them in redux store
+    // fetch entities: (pageIndex:{number}, pageSize:{number}, requestParams:{object, as provided to this component}) => ()
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchEntities: PropTypes.func.isRequired, // used in onPropertiesUpdate
+    // flush entities: () => ()
+    // eslint-disable-next-line react/no-unused-prop-types
+    flushEntities: PropTypes.func.isRequired, // used in onPropertiesUpdate
+    // [Optional] server request parameters as query params or path params defined in the PageActions given.
+    // eslint-disable-next-line
+    requestParams: PropTypes.object, // used in onPropertiesUpdate, uknown shape, depends on consumer
 
     // from map state to props
     // authentication data
@@ -126,6 +118,7 @@ class InfiniteTableContainer extends React.Component {
     dispatchUnselectAll: PropTypes.func.isRequired,
     // Customize
     emptyComponent: PropTypes.element,
+
   }
 
   static contextTypes = {
@@ -150,6 +143,7 @@ class InfiniteTableContainer extends React.Component {
     super(props)
     this.nbEntitiesByPage = this.props.pageSize * PAGE_SIZE_MULTIPLICATOR
     this.state = InfiniteTableContainer.DEFAULT_STATE
+    // TODO-V2 update when 10 000 limit is removed
     this.lastPageAvailable = Math.floor(InfiniteTableContainer.MAX_NB_ENTITIES / this.nbEntitiesByPage)
     if (((this.lastPageAvailable * this.nbEntitiesByPage) + this.nbEntitiesByPage) > InfiniteTableContainer.MAX_NB_ENTITIES) {
       this.lastPageAvailable = this.lastPageAvailable - 1
@@ -161,7 +155,6 @@ class InfiniteTableContainer extends React.Component {
   componentDidMount = () => this.onPropertiesUpdate({}, this.props)
 
   componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
-
 
   /**
    * Updates state and runs fetches required on properties change
@@ -356,42 +349,38 @@ class InfiniteTableContainer extends React.Component {
 
   render() {
     const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
-    const {
-      entitiesFetching, pageSize, pageMetadata, tablePaneConfiguration,
-      toggledElements, selectionMode, tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
+    const { entitiesFetching, pageSize, pageMetadata, toggledElements, selectionMode,
+      tableConfiguration: { lineHeight = defaultLineHeight, ...tableConfiguration },
       emptyComponent,
     } = this.props
     const { entities, allSelected, allColumns } = this.state // cached render data
 
+    // pre render table data (the responsive manager doesn't need that knowledge)
     const tableData = {
+      allSelected,
       pageSize,
       onScrollEnd: this.onScrollEnd,
+      columns: allColumns,
       entities,
       lineHeight,
+      maxRowCounts: this.maxRowCounts,
+      selectionMode,
+      toggledElements,
+      // from user API
       ...tableConfiguration,
+      // callbacks
+      onToggleRowSelection: this.onToggleRowSelection,
+      onToggleSelectAll: this.onToggleSelectAll,
     }
 
-    const minRowCount = isUndefined(this.props.minRowCount) ?
-      this.context.muiTheme['components:infinite-table'].lineHeight :
-      this.props.minRowCount
 
     return (
-      <TablePane
-        tableData={tableData}
-        columns={allColumns}
+      <TableResponsiveManager
         entitiesFetching={entitiesFetching}
-        maxRowCounts={this.maxRowCounts}
-        minRowCount={minRowCount}
         resultsCount={pageMetadata ? pageMetadata.totalElements : 0}
-        allSelected={allSelected}
-        toggledElements={toggledElements}
-        selectionMode={selectionMode}
-        onToggleRowSelection={this.onToggleRowSelection}
-        onToggleSelectAll={this.onToggleSelectAll}
         emptyComponent={emptyComponent}
-        {...tablePaneConfiguration}
-      />
-    )
+        tableData={tableData}
+      />)
   }
 }
 

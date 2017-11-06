@@ -16,23 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { ShowableAtRender } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
-* Table loading component (a filler)
-* @author Raphaël Mechali
-*/
-class TableLoadingComponent extends React.Component {
+ * Contains a group of options (to be used in a table header options area)
+ * @author Raphaël Mechali
+ */
+class TableHeaderOptionsGroup extends React.Component {
+
+  static propTypes = {
+    // expected options as children
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+    show: PropTypes.bool.isRequired,
+  }
 
   static contextTypes = {
     ...themeContextType,
   }
 
+  static defaultProps = {
+    show: true,
+  }
+
   render() {
-    const { styles } = this.context.moduleTheme.loadingComponent
-    return (
-      <div style={styles} />
-    )
+    const { moduleTheme: { header: { optionsGroup: { groupStyle } } } } = this.context
+    const { show, children } = this.props
+    return show ? (<div style={groupStyle}>{children}</div>) : null
   }
 }
-export default TableLoadingComponent
+export default TableHeaderOptionsGroup
+

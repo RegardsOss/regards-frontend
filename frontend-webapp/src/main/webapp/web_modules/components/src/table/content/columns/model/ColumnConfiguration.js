@@ -41,6 +41,8 @@ const ColumnConfigurationModel = PropTypes.shape({
   sortable: PropTypes.bool,
   // sort order (it not provided, no sort order will be the default)
   sortingOrder: PropTypes.oneOf(values(TableSortOrders)),
+  // visible state management
+  visible: PropTypes.bool,
 })
 
 export default ColumnConfigurationModel

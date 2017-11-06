@@ -17,31 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { themeContextType } from '@regardsoss/theme'
-import { withI18n, i18nContextType } from '@regardsoss/i18n'
-import moduleStyles from '../styles/styles'
-import messages from '../i18n'
 
 /**
- * Displays the search results count
- *
- * @author Xavier-Alexandre Brochard
- */
-const ResultsCountComponent = ({ resultsCount }, { muiTheme, intl: { formatMessage } }) => {
-  const styles = moduleStyles(muiTheme)
-  return (
-    <div style={styles.header.text.styles}>
-      {formatMessage({ id: 'table.results.count' }, { count: resultsCount || '0' })}
-    </div>
-  )
-}
+* Table loading component (a filler)
+* @author Raphaël Mechali
+*/
+class TableContentLoadingComponent extends React.Component {
 
-ResultsCountComponent.propTypes = {
-  resultsCount: PropTypes.number,
-}
+  static contextTypes = {
+    ...themeContextType,
+  }
 
-ResultsCountComponent.contextTypes = {
-  ...themeContextType,
-  ...i18nContextType,
+  render() {
+    const { styles } = this.context.moduleTheme.loadingComponent
+    return (
+      <div style={styles} />
+    )
+  }
 }
-
-export default withI18n(messages)(ResultsCountComponent)
+export default TableContentLoadingComponent

@@ -72,6 +72,11 @@ const formStyles = theme => ({
         height: 24,
       },
     },
+    filters: {
+      style: {
+        margin: '0 5px',
+      },
+    },
     listViewStyles: {
       cell: {
         backgroundColor: theme.palette.canvasColor,

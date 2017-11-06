@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export const filterShape = PropTypes.shape({
+const FilterShape = PropTypes.shape({
   // unique in filters list: filter key
   filterKey: PropTypes.string.isRequired,
   // label for filter display
@@ -25,4 +25,9 @@ export const filterShape = PropTypes.shape({
   openSearchQuery: PropTypes.string.isRequired,
 })
 
-export const filterListShape = PropTypes.arrayOf(filterShape)
+const FilterListShape = PropTypes.arrayOf(FilterShape)
+
+export default {
+  FilterShape,
+  FilterListShape,
+}

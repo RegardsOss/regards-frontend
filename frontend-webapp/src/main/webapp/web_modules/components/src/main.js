@@ -81,10 +81,15 @@ import ModuleTitle from './module/ModuleTitle'
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
 import PageableInfiniteTableContainer from './table/PageableInfiniteTableContainer'
-import AbstractInfiniteTableContainer from './table/AbstractInfiniteTableContainer'
-import TablePaneHeader from './table/header/TablePaneHeader'
-import TableOptionsSeparator from './table/header/TableOptionsSeparator'
-import ResultsCountComponent from './table/header/ResultsCountComponent'
+import InfiniteTableContainer from './table/InfiniteTableContainer'
+import TableLayout from './table/TableLayout'
+import TableHeaderContentBox from './table/header/TableHeaderContentBox'
+import TableHeaderLine from './table/header/TableHeaderLine'
+import TableHeaderLineLoadingAndResults from './table/header/TableHeaderLineLoadingAndResults'
+import TableHeaderOptionsArea from './table/header/TableHeaderOptionsArea'
+import TableHeaderOptionGroup from './table/header/TableHeaderOptionGroup'
+import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSeparator'
+import TableHeaderText from './table/header/TableHeaderText'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import TableActions from './table/model/TableActions'
 import getTableReducer from './table/model/TableReducer'
@@ -92,6 +97,8 @@ import getTableSelectors from './table/model/TableSelectors'
 import { TableSortOrders } from './table/model/TableSortOrders'
 import TableStyles from './table/styles/styles'
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
+import TableSelectAllOption from './table/options/TableSelectAllOption'
+import TableColumnsVisibilityOption from './table/options/TableColumnsVisibilityOption'
 import TableColumnConfiguration from './table/content/columns/model/ColumnConfiguration'
 import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 
@@ -103,7 +110,6 @@ import TreeTableRow from './tree-table/TreeTableRow'
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
-  ActionsMenuCell,
   ApplicationErrorComponent,
   BaseBoardComponent,
   BaseBoardItemComponent,
@@ -153,15 +159,25 @@ export {
   HelpMessageComponent,
   NoContentComponent,
 
-  AbstractInfiniteTableContainer,
-  PageableInfiniteTableContainer,
-  TablePaneHeader,
-  TableSelectionModes,
+  // Table
   TableActions,
-  TableSortOrders,
+  ActionsMenuCell,
+  InfiniteTableContainer,
+  PageableInfiniteTableContainer,
   TableColumnConfiguration,
   TableColumnConfigurationController,
-  TableOptionsSeparator,
+  TableColumnsVisibilityOption,
+  TableLayout,
+  TableHeaderContentBox,
+  TableHeaderLine,
+  TableHeaderLineLoadingAndResults,
+  TableHeaderOptionsArea,
+  TableHeaderOptionGroup,
+  TableHeaderOptionsSeparator,
+  TableHeaderText,
+  TableSelectionModes,
+  TableSelectAllOption,
+  TableSortOrders,
   TableStyles,
 
   Title,
@@ -170,5 +186,4 @@ export {
   TreeTableRow,
 
   withConfirmDialog,
-  ResultsCountComponent,
 }

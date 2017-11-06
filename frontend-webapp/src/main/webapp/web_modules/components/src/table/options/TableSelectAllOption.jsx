@@ -19,14 +19,16 @@
 import FlatButton from 'material-ui/FlatButton'
 import CheckBoxOutLineIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
 import CheckBoxIcon from 'material-ui/svg-icons/toggle/check-box'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import messages from '../i18n'
 
 /**
  * Table select all component
  */
-export default class TableSelectAllComponent extends React.Component {
+export class TableSelectAllOption extends React.Component {
 
   static propTypes = {
+    disabled: PropTypes.bool,
     allSelected: PropTypes.bool.isRequired,
     onToggleSelectAll: PropTypes.func.isRequired,
   }
@@ -36,15 +38,15 @@ export default class TableSelectAllComponent extends React.Component {
   }
 
   render() {
-    const { allSelected, onToggleSelectAll } = this.props
+    const { allSelected, disabled, onToggleSelectAll } = this.props
     const [icon, labelKey, titleKey] = !allSelected ?
       // select all
       [<CheckBoxOutLineIcon key="0" />, 'table.select.all.label', 'table.select.all.tooltip'] :
       // deselect all
       [<CheckBoxIcon key="1" />, 'table.deselect.all.label', 'table.deselect.all.tooltip']
-
     return (
       <FlatButton
+        disabled={disabled}
         onTouchTap={onToggleSelectAll}
         icon={icon}
         title={this.context.intl.formatMessage({ id: titleKey })}
@@ -54,3 +56,5 @@ export default class TableSelectAllComponent extends React.Component {
   }
 
 }
+
+export default withI18n(messages)(TableSelectAllOption)

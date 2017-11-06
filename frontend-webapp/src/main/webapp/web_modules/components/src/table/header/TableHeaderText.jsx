@@ -16,8 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
+import { themeContextType } from '@regardsoss/theme'
 
+/**
+* Table header text box
+* @author Raphaël Mechali
+*/
+class TableHeaderText extends React.Component {
+
+
+  static propTypes = {
+    // text to show
+    text: PropTypes.string.isRequired,
+  }
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+  render() {
+    const { text } = this.props
+    const { moduleTheme: { header } } = this.context
+    return (
+      <div style={header.contentBox.textStyle}>
+        {
+          text
+        }
+      </div>
+    )
+  }
 }
-
-export default messages
+export default TableHeaderText

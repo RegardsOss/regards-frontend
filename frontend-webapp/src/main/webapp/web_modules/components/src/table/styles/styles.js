@@ -24,8 +24,9 @@
  */
 export default (theme) => {
   const cellBorder = `1px solid ${theme.tableRow.borderColor}`
+  const headerBottomBorder = cellBorder
 
-  const commonHeaderStyles = {
+  const commonHeaderCellStyles = {
     backgroundColor: theme.table.backgroundColor,
     color: theme.tableHeaderColumn.textColor,
     fontFamily: theme.fontFamily,
@@ -48,6 +49,84 @@ export default (theme) => {
 
   return ({
     header: {
+      rootStyle: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+      },
+      dividerStyle: {
+        width: '100%',
+      },
+      rowStyle: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+        minHeight: theme['components:infinite-table'].minHeaderRowHeight,
+        borderBottom: headerBottomBorder,
+      },
+      optionsGroup: {
+        fixedAreaStyle: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'stretch',
+          flexWrap: 'wrap',
+          flexShrink: 0,
+          flexGrow: 0,
+          margin: '0 0 3px 0',
+        },
+        reducibleAreaStyle: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'stretch',
+          flexWrap: 'wrap',
+          flexShrink: 1,
+          flexGrow: 0,
+          margin: '0 0 3px 0',
+        },
+        flexShrink: 0,
+        groupStyle: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+          flexShrink: 0,
+          flexGrow: 0,
+        },
+        separatorStyle: {
+          alignSelf: 'center',
+          width: '1px',
+          height: '24px',
+          margin: '0 10px 0 10px',
+          backgroundColor: theme.toolbar.separatorColor,
+        },
+      },
+      contentBox: {
+        style: {
+          alignSelf: 'center',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          wrap: 'wrap',
+        },
+        textStyle: {
+          margin: '0 10px', // TODO theme
+          color: theme.palette.textColor,
+        },
+      },
+      loading: {
+        thickness: 1.5, // TODO theme
+        size: 22, // TODO theme
+        color: theme.palette.primary1Color, // TODO theme
+      },
+
+      // TODO maybe delete xxx
       line: {
         classNames: 'row',
       },
@@ -79,34 +158,6 @@ export default (theme) => {
           flexWrap: 'wrap',
           flexShrink: 1,
           flexGrow: 1,
-        },
-      },
-      contextOptionsSeparator: {
-        styles: {
-          width: '1px',
-          height: '24px',
-          margin: '0 10px 0 10px',
-          backgroundColor: theme.toolbar.separatorColor,
-        },
-      },
-      text: {
-        styles: {
-          color: theme.palette.textColor,
-          margin: '1em 1em 1em 1em',
-        },
-      },
-      loading: {
-        styles: {
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: '0 0 0 1em',
-        },
-        progress: {
-          thickness: 1.5,
-          size: 22,
-          color: theme.palette.textColor,
         },
       },
     },
@@ -145,17 +196,17 @@ export default (theme) => {
       borderBottom: `1px solid ${theme.tableRow.borderColor}`,
     },
     cellHeader: {
-      ...commonHeaderStyles,
+      ...commonHeaderCellStyles,
       alignItems: 'center',
       textAlign: 'center',
       // borderRight: cellBorder,
     },
     lastCellHeader: {
-      ...commonHeaderStyles,
+      ...commonHeaderCellStyles,
       alignItems: 'center',
     },
     fixedCellHeader: {
-      ...commonHeaderStyles,
+      ...commonHeaderCellStyles,
     },
     sortButton: {
       iconStyle: {
