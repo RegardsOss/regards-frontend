@@ -17,12 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import EnumConnectivity from './EnumConnectivity'
-import EnumJavaPrimitiveType from './EnumJavaPrimitiveType'
-import ProjectConnectionStateEnum from './ProjectConnectionStateEnum'
-
 export default {
-  EnumConnectivity,
-  EnumJavaPrimitiveType,
-  ProjectConnectionStateEnum,
+  DISABLED: 'DISABLED',
+  CONNECTING: 'CONNECTING',
+  ERROR: 'ERROR',
+  ENABLED: 'ENABLED',
+  NOT_DEFINED: 'NOT_DEFINED',
 }

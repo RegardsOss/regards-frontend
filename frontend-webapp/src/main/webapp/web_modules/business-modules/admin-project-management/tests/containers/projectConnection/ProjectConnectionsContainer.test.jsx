@@ -61,8 +61,6 @@ describe(
         project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
         fetchProject: () => {},
         fetchProjectConnection: () => {},
-        projectIsFetching: false,
-        projectConnectionsIsFetching: false,
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(1)
@@ -97,7 +95,6 @@ describe(
               password: 'azerty',
               driverClassName: 'PostgreSQL',
               url: 'http://google.com',
-              connectivity: EnumConnectivity.ERROR,
             },
             links: [],
           },
@@ -110,7 +107,7 @@ describe(
               password: 'qsdfgh',
               driverClassName: 'PostgreSQL',
               url: 'http://google.com',
-              connectivity: EnumConnectivity.NOT_TESTED,
+              connectivity: EnumConnectivity.SUCCESS,
             },
             links: [],
           },
@@ -118,8 +115,6 @@ describe(
         project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
         fetchProject: () => {},
         fetchProjectConnection: () => {},
-        projectIsFetching: false,
-        projectConnectionsIsFetching: false,
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
@@ -149,8 +144,6 @@ describe(
         },
         fetchProject: () => {},
         fetchProjectConnection: () => {},
-        projectIsFetching: true,
-        projectConnectionsIsFetching: false,
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(LoadingComponent)).to.have.length(1)
@@ -164,8 +157,6 @@ describe(
         fetchProject: () => {},
         fetchProjectConnections: () => {},
         projectConnection: undefined,
-        projectIsFetching: false,
-        projectConnectionsIsFetching: false,
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(LoadingComponent)).to.have.length(0)

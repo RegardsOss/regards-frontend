@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { TableRow } from 'material-ui/Table'
-import { EnumConnectivity } from '@regardsoss/domain/admin'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { ProjectConnectionListComponent } from '../../../src/components/projectConnection/ProjectConnectionListComponent'
 
@@ -50,7 +49,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
             password: 'password',
             driverClassName: 'PostgreSQL',
             url: 'http://google.com',
-            connectivity: EnumConnectivity.SUCCESS,
+            state: 'ENABLED',
           },
           links: [],
         },
@@ -63,7 +62,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
             password: 'azerty',
             driverClassName: 'PostgreSQL',
             url: 'http://google.com',
-            connectivity: EnumConnectivity.ERROR,
+            state: 'ENABLED',
           },
           links: [],
         },
@@ -76,15 +75,17 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
             password: 'qsdfgh',
             driverClassName: 'PostgreSQL',
             url: 'http://google.com',
-            connectivity: EnumConnectivity.NOT_TESTED,
+            state: 'ENABLED',
           },
           links: [],
         },
       },
       onEdit: () => { },
+      onReCreateConnection: () => { },
       onCreate: () => { },
       onTestConnection: () => { },
       refreshConnection: () => { },
+      backUrl: '#',
     }
     const enzymeWrapper = shallow(<ProjectConnectionListComponent {...props} />, options)
     expect(enzymeWrapper.find(TableRow)).to.have.length(9)

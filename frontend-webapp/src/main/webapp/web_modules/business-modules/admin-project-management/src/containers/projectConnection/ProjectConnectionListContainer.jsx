@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -42,28 +41,55 @@ export class ProjectConnectionListContainer extends React.Component {
     }).isRequired,
     // from mapStateToProps
     project: AdminShapes.Project,
-    projectIsFetching: PropTypes.bool,
     projectConnections: AdminShapes.ProjectConnectionList,
-    projectConnectionsIsFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchProject: PropTypes.func.isRequired,
     fetchProjectConnections: PropTypes.func,
     fetchProjectConnection: PropTypes.func,
     testProjectConnection: PropTypes.func,
+    updateProjectConnection: PropTypes.func,
+  }
+
+  static backUrl = '/admin/projects/list'
+
+  static refreshTimerMS = 3000
+
+  state = {
+    isLoading: true,
   }
 
   componentDidMount() {
-    if (keys(this.props.fetchProjectConnections).length === 0) {
-      this.props.fetchProjectConnections(this.props.params.project_name)
-    }
-    if (!this.props.project) {
-      this.props.fetchProject(this.props.params.project_name)
-    }
+    Promise.all([
+      this.props.fetchProject(this.props.params.project_name),
+      this.props.fetchProjectConnections(this.props.params.project_name),
+    ]).then(() => {
+      this.setState({
+        isLoading: false,
+      })
+    })
+    this.startTimer()
   }
 
-  handleClose = () => {
-    const url = '/admin'
-    browserHistory.push(url)
+  componentWillUnmount = () => {
+    this.stopTimer()
+  }
+
+  getComponent = () => {
+    if (this.props.project) {
+      const { projectConnections } = this.props
+      return (<ProjectConnectionListComponent
+        key={`project-connections-${this.props.project}`}
+        project={this.props.project}
+        projectConnections={projectConnections}
+        onEdit={this.handleEdit}
+        onCreate={this.handleCreate}
+        onReCreateConnection={this.handleReCreateConnection}
+        onTestConnection={this.handleTestConnection}
+        refreshConnection={this.handleRefreshConnection}
+        backUrl={ProjectConnectionListContainer.backUrl}
+      />)
+    }
+    return null
   }
 
   handleEdit = (projectConnectionId) => {
@@ -89,25 +115,42 @@ export class ProjectConnectionListContainer extends React.Component {
     this.props.fetchProjectConnection(this.props.project.content.name, connectionId)
   }
 
-  render() {
-    const { projectConnections } = this.props
+  /**
+   * Used when you want to test again a DISABLED or ERROR connection
+   * @param projectConnection
+   */
+  handleReCreateConnection = (projectConnection) => {
+    // We just send the same entity, the server will retest that connection
+    Promise.resolve(this.props.updateProjectConnection(projectConnection.content.id, projectConnection.content))
+      .then((actionResult) => {
+        this.handleTestConnection(projectConnection)
+      })
+  }
 
+  startTimer = () => {
+    // A - refresh list
+    this.refresh()
+    // B - restart timer
+    this.refreshTimer = setTimeout(() => this.startTimer(), ProjectConnectionListContainer.refreshTimerMS)
+  }
+
+  stopTimer = () => {
+    clearTimeout(this.refreshTimer)
+  }
+
+  refresh = () => {
+    this.props.fetchProjectConnections(this.props.params.project_name)
+  }
+
+  render() {
+    const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
-          isLoading={this.props.projectIsFetching || this.props.projectConnectionsIsFetching}
+          isLoading={isLoading}
           isContentError={!this.props.project}
         >
-          {this.props.project ? <ProjectConnectionListComponent
-            key={`project-connections-${this.props.project}`}
-            project={this.props.project}
-            projectConnections={projectConnections}
-            onClose={this.handleClose}
-            onEdit={this.handleEdit}
-            onCreate={this.handleCreate}
-            onTestConnection={this.handleTestConnection}
-            refreshConnection={this.handleRefreshConnection}
-          /> : null}
+          {this.getComponent}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -117,9 +160,7 @@ export class ProjectConnectionListContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   project: projectSelectors.getById(state, ownProps.params.project_name),
-  projectIsFetching: projectSelectors.isFetching(state),
   projectConnections: projectConnectionSelectors.getList(state),
-  projectConnectionsIsFetching: projectConnectionSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -132,6 +173,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(projectConnectionActions.fetchSilentEntity(connectionId, { projectName })),
   testProjectConnection: (microservice, projectName) =>
     dispatch(projectConnectionTestActions.test(microservice, projectName)),
+  updateProjectConnection: (id, projectConnection) => dispatch(projectConnectionActions.updateEntity(id, projectConnection, {
+    projectName: projectConnection.project.name,
+  })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionListContainer)

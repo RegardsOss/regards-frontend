@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { ProjectConnectionStateEnum } from '@regardsoss/domain/admin'
+import values from 'lodash/values'
 import { ProjectContent } from './Project'
 
 /**
@@ -33,7 +35,8 @@ const ProjectConnection = PropTypes.shape({
     password: PropTypes.string,
     driverClassName: PropTypes.string,
     url: PropTypes.string,
-    connectivity: PropTypes.symbol,
+    status: PropTypes.oneOf(values(ProjectConnectionStateEnum)),
+    errorCause: PropTypes.string,
   }),
 })
 
