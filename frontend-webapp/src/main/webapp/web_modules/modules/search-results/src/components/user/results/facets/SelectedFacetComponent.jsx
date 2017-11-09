@@ -2,9 +2,8 @@
  * LICENSE_PLACEHOLDER
  **/
 import Chip from 'material-ui/Chip'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 import { FilterShape } from '../../../../models/facets/FilterShape'
-import styles from '../../../../styles'
 
 /**
 * Displays a selected facet with delete option (== filter)
@@ -22,8 +21,8 @@ class SelectedFacetComponent extends React.Component {
   }
 
   onDelete = () => {
-    const { onDeleteFilter, filter: { filterKey } } = this.props
-    onDeleteFilter(filterKey)
+    const { onDeleteFilter, filter } = this.props
+    onDeleteFilter(filter)
   }
 
   render() {
@@ -38,4 +37,4 @@ class SelectedFacetComponent extends React.Component {
 }
 
 
-export default withModuleStyle(styles)(SelectedFacetComponent)
+export default SelectedFacetComponent

@@ -36,8 +36,6 @@ class RawDataAttributesRender extends React.Component {
     }),
     // eslint-disable-next-line react/no-unused-prop-types
     entity: CatalogShapes.Entity,
-    // eslint-disable-next-line react/no-unused-prop-types
-    lineHeight: PropTypes.number.isRequired,
   }
 
   static contextTypes = {

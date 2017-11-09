@@ -16,15 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
+import sortBy from 'lodash/sortBy'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import Checkbox from 'material-ui/Checkbox'
 import ColumnsIcon from 'material-ui/svg-icons/action/view-column'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import ColumnConfiguration from '../content/columns/model/ColumnConfiguration'
-import messages from '../i18n'
+import { i18nContextType } from '@regardsoss/i18n'
+import TableColumnConfiguration from '../content/columns/model/TableColumnConfiguration'
 
 /**
  * Render a react component to display a panel to change visibility of table columns.
@@ -34,11 +33,8 @@ import messages from '../i18n'
 export class TableColumnsVisibilityOption extends React.Component {
 
   static propTypes = {
-    columns: PropTypes.arrayOf(ColumnConfiguration),
-    // hidden columns initial list
-    hiddenColumns: PropTypes.arrayOf(PropTypes.string).isRequired,
-    // callback for columns changes, next list of hidden columns label is provided as fist param.
-    // [string] => ()
+    // eslint-disable-next-line react/no-unused-prop-types
+    columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
     onChangeColumnsVisibility: PropTypes.func.isRequired,
   }
 
@@ -52,16 +48,14 @@ export class TableColumnsVisibilityOption extends React.Component {
   /** Lifecycle hook: component will receive props. Used here to keep the inner column model up to date
    * @param nextProps next properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(nextProps, this.props)
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(nextProps)
 
   /**
    * On properties updated callback. Updates inner columns model (and initializes dialog state)
-   * @param props properties to consider
+   * @param newProps properties to consider
    */
-  onPropertiesUpdated = (newProps, oldProps = {}) => {
-    if (!isEqual(newProps.columns, oldProps.columns) || !isEqual(newProps.hiddenColumns, oldProps.hiddenColumns)) {
-      this.onReInitialize(newProps)
-    }
+  onPropertiesUpdated = (newProps) => {
+    this.onReInitialize(newProps)
   }
 
 
@@ -69,7 +63,11 @@ export class TableColumnsVisibilityOption extends React.Component {
    * Re-initializes this state: hide dialog, clone current columns in state
    * @param props properties to consider when re-initializing
    */
-  onReInitialize = ({ hiddenColumns }) => this.setState({ dialogVisible: false, hiddenColumns: [...hiddenColumns] })
+  onReInitialize = ({ columns }) => this.setState({
+    dialogVisible: false,
+    // get local column buffer, sorted alphabetically
+    bufferedColumns: sortBy(columns.map(c => ({ ...c })), ['label']),
+  })
 
   /**
    * User callback: show dialog
@@ -86,10 +84,10 @@ export class TableColumnsVisibilityOption extends React.Component {
    */
   onConfirm = () => {
     const { onChangeColumnsVisibility } = this.props
-    const { hiddenColumns } = this.state
-    // notify of the nex columns state
-    onChangeColumnsVisibility(hiddenColumns)
-    // hide dialog is not required as hidden column list will change
+    const { bufferedColumns } = this.state
+    // notify of the next columns state
+    onChangeColumnsVisibility(bufferedColumns)
+    this.setState({ dialogVisible: false })
   }
 
   /**
@@ -97,28 +95,19 @@ export class TableColumnsVisibilityOption extends React.Component {
    * @param column column to toggle
    */
   onColumnVisibilityChanged = (column) => {
-    const previousHiddenColumns = this.state.hiddenColumns
-    let newHiddenColumns
-    const foundIndex = previousHiddenColumns.findIndex(label => label === column.label)
-    if (foundIndex < 0) {
-      // add column in hidden list
-      newHiddenColumns = [...previousHiddenColumns, column.label]
-    } else {
-      newHiddenColumns = [
-        ...previousHiddenColumns.slice(0, foundIndex),
-        ...previousHiddenColumns.slice(foundIndex + 1)]
-    }
-    this.setState({ hiddenColumns: newHiddenColumns })
+    this.setState({
+      bufferedColumns: this.state.bufferedColumns.map(bufferedColumn =>
+        // swap visibility of that column
+        column.key === bufferedColumn.key ? { ...bufferedColumn, visible: !bufferedColumn.visible } : bufferedColumn),
+    })
   }
 
   render() {
     const { intl } = this.context
-    const { hiddenColumns: initialHiddenColumns, columns = [] } = this.props
-    const { hiddenColumns, dialogVisible } = this.state
+    const { bufferedColumns, dialogVisible } = this.state
 
-    // disable confirm button when: there is no change OR there is no longer any visible column
-    const confirmDisabled = isEqual(initialHiddenColumns, hiddenColumns) || hiddenColumns.length >= columns.length
-
+    // are all columns hidde?
+    const allColumnsHidden = bufferedColumns.reduce((previousHidden, { visible }) => previousHidden && !visible, true)
     const actions = [
       <FlatButton
         key="Cancel"
@@ -131,7 +120,7 @@ export class TableColumnsVisibilityOption extends React.Component {
         key="OK"
         label={intl.formatMessage({ id: 'table.column.visibility.filter.confirm' })}
         onTouchTap={this.onConfirm}
-        disabled={confirmDisabled}
+        disabled={allColumnsHidden}
       />,
     ]
 
@@ -151,11 +140,11 @@ export class TableColumnsVisibilityOption extends React.Component {
           autoScrollBodyContent
         >
           <div className="row">
-            {map(columns, (column, idx) => (
+            {map(bufferedColumns, (column, index) => (
               <Checkbox
-                key={column.label}
+                key={column.key}
                 label={column.label}
-                checked={!hiddenColumns.includes(column.label)}
+                checked={column.visible}
                 onCheck={() => this.onColumnVisibilityChanged(column)}
               />
             ))}
@@ -166,4 +155,4 @@ export class TableColumnsVisibilityOption extends React.Component {
   }
 }
 
-export default withI18n(messages)(TableColumnsVisibilityOption)
+export default TableColumnsVisibilityOption

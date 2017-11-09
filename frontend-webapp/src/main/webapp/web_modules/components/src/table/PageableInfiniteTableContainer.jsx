@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEqual from 'lodash/isEqual'
 import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
+import TableActions from './model/TableActions'
 import InfiniteTableContainer from './InfiniteTableContainer'
 
 /**
@@ -51,21 +51,28 @@ export class PageableInfiniteTableContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { pageActions }) {
+  static mapDispatchToProps(dispatch, { pageActions, tableActions }) {
     return {
       flushEntities: () => dispatch(pageActions.flush()),
       fetchEntities: (pageNumber, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, requestParams)),
+      flushSelection: () => tableActions && dispatch(tableActions.unselectAll()),
     }
   }
 
   static propTypes = {
-    // expected table header as child (optional)
-    children: PropTypes.node,
     // eslint-disable-next-line react/no-unused-prop-types
     pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
     // eslint-disable-next-line react/no-unused-prop-types
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
+    // optional table selection actions: when provided, the table will be able to flush selection on entities re-fetch
+    // eslint-disable-next-line react/no-unused-prop-types
+    tableActions: PropTypes.instanceOf(TableActions), // Table actions instance, used in mapDispatchToProps
+
+    // see InfiniteTableContainer for the other properties required (note that the fetch / flush method are
+    // already provided by this component, just fill in the other ones =)
+
     // from map state to props
+
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     // eslint-disable-next-line react/no-unused-prop-types
@@ -76,15 +83,19 @@ export class PageableInfiniteTableContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+
     // from map dispatch to props
+
     // eslint-disable-next-line react/no-unused-prop-types
     flushEntities: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     fetchEntities: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    flushSelection: PropTypes.func.isRequired,
   }
 
   /** List of properties that should not be reported to children */
-  static PROPS_TO_OMIT = ['pageActions', 'pageSelectors', 'children']
+  static PROPS_TO_OMIT = ['pageActions', 'pageSelectors', 'tableActions']
 
   /**
    * Lifecycle method: component will mount. used here to initialize state for properties
@@ -106,21 +117,15 @@ export class PageableInfiniteTableContainer extends React.Component {
   onPropertiesChanged = (newProps, oldProps = {}) => {
     // for sub component, we report any non declared properties
     const tableProps = omit(newProps, PageableInfiniteTableContainer.PROPS_TO_OMIT)
-    const newState = { tableProps }
-    if (!isEqual(this.state, newState)) {
-      this.setState(newState)
-    }
+    this.setState({ tableProps })
   }
 
 
   render() {
     // except actions / selectors, we need all properties through
     const { tableProps } = this.state
-    const { children } = this.props
     return (
-      <InfiniteTableContainer {...tableProps} >
-        {children}
-      </InfiniteTableContainer>
+      <InfiniteTableContainer {...tableProps} />
     )
   }
 }

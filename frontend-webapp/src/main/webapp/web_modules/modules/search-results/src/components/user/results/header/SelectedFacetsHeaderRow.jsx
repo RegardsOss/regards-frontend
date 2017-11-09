@@ -7,7 +7,7 @@ import { ShowableAtRender } from '@regardsoss/display-control'
 import { TableHeaderLine, TableHeaderContentBox } from '@regardsoss/components'
 
 import { FilterListShape } from '../../../../models/facets/FilterShape'
-import SelectedFacetComponent from './SelectedFacetComponent'
+import SelectedFacetComponent from '../facets/SelectedFacetComponent'
 
 /**
  * Header line for facets and results count row
@@ -36,11 +36,12 @@ class SelectedFacetsHeaderRow extends React.Component {
         <TableHeaderLine>
           <TableHeaderContentBox>
             {
-              filters.map(filter => (<SelectedFacetComponent
-                key={filter.filterKey}
-                filter={filter}
-                onDeleteFilter={onDeleteFilter}
-              />))
+              filters.map(filter => (
+                <SelectedFacetComponent
+                  key={filter.filterKey}
+                  filter={filter}
+                  onDeleteFilter={onDeleteFilter}
+                />))
             }
           </TableHeaderContentBox>
         </TableHeaderLine>

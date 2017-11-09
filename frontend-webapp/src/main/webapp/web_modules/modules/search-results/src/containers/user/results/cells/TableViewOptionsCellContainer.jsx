@@ -1,18 +1,12 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
-import { withI18n } from '@regardsoss/i18n'
-import { withModuleStyle } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { descriptionLevelActions } from '../../../../models/description/DescriptionLevelModel'
 import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
 import TableViewOptionsCellComponent from '../../../../components/user/results/cells/TableViewOptionsCellComponent'
-import messages from '../../../../i18n'
-import styles from '../../../../styles'
-
 
 /**
  * Container for table view entity cell
@@ -82,7 +76,4 @@ export class TableViewOptionsCellContainer extends React.Component {
     )
   }
 }
-export default compose(
-  connect(null, TableViewOptionsCellContainer.mapDispatchToProps),
-  withI18n(messages),
-  withModuleStyle(styles))(TableViewOptionsCellContainer)
+export default connect(null, TableViewOptionsCellContainer.mapDispatchToProps)(TableViewOptionsCellContainer)

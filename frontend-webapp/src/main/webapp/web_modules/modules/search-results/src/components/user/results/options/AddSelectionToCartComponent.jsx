@@ -18,7 +18,7 @@
  **/
 import FlatButton from 'material-ui/FlatButton'
 import AddIcon from 'material-ui/svg-icons/action/add-shopping-cart'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import messages from '../../../../i18n'
 
 /**
@@ -50,4 +50,4 @@ export class AddSelectionToCartComponent extends React.Component {
     )
   }
 }
-export default withI18n(messages)(AddSelectionToCartComponent)
+export default AddSelectionToCartComponent

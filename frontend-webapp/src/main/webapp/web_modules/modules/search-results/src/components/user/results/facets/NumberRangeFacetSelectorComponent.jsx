@@ -1,10 +1,9 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import { NumberRangeFacet } from '../../../../models/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
-import messages from '../../../../i18n'
 
 /**
 * Range facet selector
@@ -80,4 +79,4 @@ class NumberRangeFacetSelectorComponent extends React.Component {
     )
   }
 }
-export default withI18n(messages)(NumberRangeFacetSelectorComponent)
+export default NumberRangeFacetSelectorComponent

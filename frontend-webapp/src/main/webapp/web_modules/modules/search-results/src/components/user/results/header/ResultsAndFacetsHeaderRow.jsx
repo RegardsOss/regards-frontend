@@ -1,22 +1,21 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
   TableHeaderContentBox, TableHeaderText,
 } from '@regardsoss/components'
 
 import { FacetArray, FacetTypes } from '../../../../models/facets/FacetShape'
-import DateRangeFacetSelectorComponent from './DateRangeFacetSelectorComponent'
-import NumberRangeFacetSelectorComponent from './NumberRangeFacetSelectorComponent'
-import WordFacetSelectorComponent from './WordFacetSelectorComponent'
-import messages from '../../../../i18n'
+import DateRangeFacetSelectorComponent from '../facets/DateRangeFacetSelectorComponent'
+import NumberRangeFacetSelectorComponent from '../facets/NumberRangeFacetSelectorComponent'
+import WordFacetSelectorComponent from '../facets/WordFacetSelectorComponent'
 
 /**
  * Header line for facets, results count and loading row
  */
-export class ResultsAndFacetsHeaderRow extends React.Component {
+class ResultsAndFacetsHeaderRow extends React.Component {
 
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
@@ -87,4 +86,4 @@ export class ResultsAndFacetsHeaderRow extends React.Component {
 
 }
 
-export default withI18n(messages)(ResultsAndFacetsHeaderRow)
+export default ResultsAndFacetsHeaderRow

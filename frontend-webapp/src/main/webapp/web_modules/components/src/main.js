@@ -80,9 +80,18 @@ import ModuleTitle from './module/ModuleTitle'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
-import PageableInfiniteTableContainer from './table/PageableInfiniteTableContainer'
+import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
+import CheckBoxCell from './table/content/cells/CheckBoxCell'
 import InfiniteTableContainer from './table/InfiniteTableContainer'
-import TableLayout from './table/TableLayout'
+import getTableReducer from './table/model/TableReducer'
+import getTableSelectors from './table/model/TableSelectors'
+import PageableInfiniteTableContainer from './table/PageableInfiniteTableContainer'
+import PropertiesRenderCell from './table/content/cells/PropertiesRenderCell'
+import TableActions from './table/model/TableActions'
+import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
+import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
+import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
+import TableColumnsVisibilityOption from './table/options/TableColumnsVisibilityOption'
 import TableHeaderContentBox from './table/header/TableHeaderContentBox'
 import TableHeaderLine from './table/header/TableHeaderLine'
 import TableHeaderLineLoadingAndResults from './table/header/TableHeaderLineLoadingAndResults'
@@ -90,17 +99,11 @@ import TableHeaderOptionsArea from './table/header/TableHeaderOptionsArea'
 import TableHeaderOptionGroup from './table/header/TableHeaderOptionGroup'
 import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSeparator'
 import TableHeaderText from './table/header/TableHeaderText'
+import TableLayout from './table/TableLayout'
+import TableSelectAllOption from './table/options/TableSelectAllOption'
 import TableSelectionModes from './table/model/TableSelectionModes'
-import TableActions from './table/model/TableActions'
-import getTableReducer from './table/model/TableReducer'
-import getTableSelectors from './table/model/TableSelectors'
 import { TableSortOrders } from './table/model/TableSortOrders'
 import TableStyles from './table/styles/styles'
-import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
-import TableSelectAllOption from './table/options/TableSelectAllOption'
-import TableColumnsVisibilityOption from './table/options/TableColumnsVisibilityOption'
-import TableColumnConfiguration from './table/content/columns/model/ColumnConfiguration'
-import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 
 import Title from './titles/Title'
 
@@ -129,8 +132,6 @@ export {
   ErrorDecoratorComponent,
   FormErrorMessage,
   FileContentDisplayer,
-  getTableReducer,
-  getTableSelectors,
   HorizontalAreasSeparator,
   IFrameURLContentDisplayer,
   ListContainer,
@@ -160,14 +161,18 @@ export {
   NoContentComponent,
 
   // Table
-  TableActions,
   ActionsMenuCell,
+  CheckBoxCell,
   InfiniteTableContainer,
+  getTableReducer,
+  getTableSelectors,
   PageableInfiniteTableContainer,
+  PropertiesRenderCell,
+  TableActions,
+  TableColumnBuilder,
   TableColumnConfiguration,
   TableColumnConfigurationController,
   TableColumnsVisibilityOption,
-  TableLayout,
   TableHeaderContentBox,
   TableHeaderLine,
   TableHeaderLineLoadingAndResults,
@@ -175,8 +180,9 @@ export {
   TableHeaderOptionGroup,
   TableHeaderOptionsSeparator,
   TableHeaderText,
-  TableSelectionModes,
+  TableLayout,
   TableSelectAllOption,
+  TableSelectionModes,
   TableSortOrders,
   TableStyles,
 

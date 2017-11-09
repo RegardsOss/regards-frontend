@@ -35,7 +35,6 @@ class ThumbnailAttributesRender extends React.Component {
     }),
     // eslint-disable-next-line react/no-unused-prop-types
     entity: CatalogShapes.Entity,
-    lineHeight: PropTypes.number.isRequired,
   }
 
   constructor(props) {
@@ -65,7 +64,7 @@ class ThumbnailAttributesRender extends React.Component {
   render() {
     const thumbnailURI = get(this.props.attributes, `files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL}[0].uri`, null)
     if (thumbnailURI) {
-      const style = { display: 'block', cursor: 'pointer', height: this.props.lineHeight - 18, margin: '0 auto' }
+      const style = { display: 'block', cursor: 'pointer', height: 25, margin: '0 auto' } // TODO: this is bullshit lineheiht, use theme?
       return (
         <div>
           <img

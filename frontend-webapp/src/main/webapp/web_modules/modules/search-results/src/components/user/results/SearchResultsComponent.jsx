@@ -16,23 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import reduce from 'lodash/reduce'
+import map from 'lodash/map'
 import values from 'lodash/values'
-import sortBy from 'lodash/sortBy'
-import find from 'lodash/find'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PageableInfiniteTableContainer, TableSortOrders, NoContentComponent } from '@regardsoss/components'
-import { DamDomain, AccessDomain } from '@regardsoss/domain'
+import {
+  PageableInfiniteTableContainer, NoContentComponent,
+  TableLayout, TableSortOrders, TableColumnBuilder,
+} from '@regardsoss/components'
+import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
-import { BasicFacetsPageableActions } from '@regardsoss/store-utils'
-import { getTypeRender } from '@regardsoss/attributes-common'
-import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
+import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
+import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
+import { FacetArray } from '../../../models/facets/FacetShape'
+import { FilterListShape } from '../../../models/facets/FilterShape'
 import TableClient from '../../../clients/TableClient'
 import ListViewEntityCellContainer from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import TableViewOptionsCellContainer from '../../../containers/user/results/cells/TableViewOptionsCellContainer'
-import SearchResultsTableLayoutContainer from '../../../containers/user/results/SearchResultsTableLayoutContainer'
+import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
+import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
+import SelectedFacetsHeaderRow from './header/SelectedFacetsHeaderRow'
 import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 
 /**
@@ -44,47 +48,59 @@ class SearchResultsComponent extends React.Component {
 
   static propTypes = {
     // static configuration
-    appName: PropTypes.string,
-    project: PropTypes.string,
     allowingFacettes: PropTypes.bool.isRequired,
     displayDatasets: PropTypes.bool.isRequired, // TODO directly down?
+
+    // results related
+    resultsCount: PropTypes.number.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    searchActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
+    searchSelectors: PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
 
     // dynamic display control
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
     viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
-    showingFacettes: PropTypes.bool.isRequired,
+
+    // sorting control
     // eslint-disable-next-line react/no-unused-prop-types
     sortingOn: PropTypes.arrayOf(PropTypes.shape({ // user sorting, showing only when user set, not the default one
       attributePath: PropTypes.string.isRequired,
       type: PropTypes.oneOf(values(TableSortOrders)).isRequired,
     })).isRequired,
-    filters: PropTypes.arrayOf(PropTypes.shape({
-      filterKey: PropTypes.string.isRequired,
-      filterLabel: PropTypes.string.isRequired,
-      openSearchQuery: PropTypes.string.isRequired,
-    })),
+
+    // facets control
+    showingFacettes: PropTypes.bool.isRequired,
+    facets: FacetArray.isRequired,
+    filters: FilterListShape.isRequired,
+
+    // request control
     searchQuery: PropTypes.string.isRequired,
-    // services
-    selectionServices: AccessShapes.PluginServiceWithContentArray,
+
     // Attributes configurations for results columns
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
     attributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent),
     datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
     attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
+    // key of each hidden column (as provided by this component)
+    hiddenColumnKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // services from PluginServicesContainer HOC
+    selectionServices: AccessShapes.PluginServiceWithContentArray,
     // control
-    resultPageActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
-    onFiltersChanged: PropTypes.func.isRequired,
+    // callback
     // eslint-disable-next-line react/no-unused-prop-types
+    onChangeColumnsVisibility: PropTypes.func.isRequired,
+    onDeleteFacet: PropTypes.func.isRequired,
     onSetEntityAsTag: PropTypes.func.isRequired,
+    onSelectFacet: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired, // TODO directly down?
     onShowDataobjects: PropTypes.func.isRequired, // TODO directly down?
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
     onSortChanged: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
-    // from PluginServicesContainer
+    // from PluginServicesContainer HOC
     onStartSelectionService: PropTypes.func, // callback to start a selection service
-    // from OrderCartContainer
+    // from OrderCartContainer HOC
     onAddSelectionToCart: PropTypes.func, // callback to add selection to cart, null when disabled
     // eslint-disable-next-line react/no-unused-prop-types
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
@@ -110,56 +126,59 @@ class SearchResultsComponent extends React.Component {
   static hasServices = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /**
-   * Lifecycle method component will mout, used here to initialize columns visibilty management
+   * Has selection for current view type
+   * @param {objectType} entity type
+   * @return true if selection should be available
    */
-  componentWillMount = () => this.onPropertiesUpdate(this.props)
-
-  /**
-   * component will receive props, used here to update columns visibility management
-   * @param {*} nextProps next properties
-   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdate(nextProps, this.props)
-
-  /**
-   * On properties changed: detect if hidden columns model should be reset
-   * @param newProps new component properties
-   * @param oldProps previous component properties (optional)
-   */
-  onPropertiesUpdate = (newProps, oldProps = {}) => {
-    if (newProps.viewMode !== oldProps.viewMode || newProps.viewObjectType !== oldProps.viewObjectType) {
-      // columns will change, reset columns model
-      this.setHiddenColumns([])
-    }
-  }
-
-  /**
-   * User updated columns visibilty, report it in state
-   */
-  onChangeColumnsVisibility = hiddenColumns => this.setHiddenColumns(hiddenColumns)
+  static hasSelection = objectType => objectType !== DamDomain.ENTITY_TYPES_ENUM.DATASET
 
   /**
    * Sorting adaptation for parent container (to avoid runtime lambdas)
+   * @param attributePath attribute path (as it is the column key / sort ID provided when building header)
+   * @param sortOrder new sort order
    */
-  onSortByColumn = (column, type, clear) => {
-    this.props.onSortChanged(column ? column.attributes[0] : null, type, clear)
+  onSortByColumn = (attributePath, sortOrder) => {
+    this.props.onSortChanged(attributePath, sortOrder)
   }
-
-  /**
-   * Sets hidden columns
-   * @param {[string]} hiddenColumns hidden columns label array
-   */
-  setHiddenColumns = hiddenColumns => this.setState({ hiddenColumns })
 
   /**
    * Builds table columns
    * @param props : props map, to retrieve current properties
    */
-  buildTableColumns = ({ attributesConf, attributeModels, attributesRegroupementsConf, sortingOn, onAddElementToCart, viewObjectType }) =>
-    sortBy([
-      ...this.buildAttributesColumns(attributesConf, attributeModels, sortingOn, SearchResultsComponent.hasSorting(viewObjectType)),
-      ...this.buildAttrRegroupementColumns(attributesRegroupementsConf, attributeModels),
-      this.buildTableOptionsColumn(onAddElementToCart, SearchResultsComponent.hasServices(viewObjectType))],
-      a => a.order ? a.order : 1000)
+  buildTableColumns = () => {
+    const { attributesConf, attributeModels, attributesRegroupementsConf, searchSelectors,
+      datasetAttributesConf, sortingOn, onAddElementToCart, viewObjectType } = this.props
+    const { intl: { formatMessage } } = this.context
+
+    const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
+    const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
+    const enableSorting = SearchResultsComponent.hasSorting(viewObjectType)
+    // what type of columns should the table show?
+    let columnAttributes
+    let columnAttributeGroup
+    if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET) {
+      columnAttributes = datasetAttributesConf// attributes are dataset ones
+      columnAttributeGroup = [] // no group
+    } else {
+      columnAttributes = attributesConf // data configuration
+      columnAttributeGroup = attributesRegroupementsConf // data attribute groups
+    }
+
+    return [
+      // selection column
+      enableSelection ? TableColumnBuilder.buildSelectionColumn(formatMessage({ id: 'results.selection.column.label' }),
+        true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors,
+        this.isColumnVisible(TableColumnBuilder.selectionColumnKey), fixedColumnWidth) : null,
+      // attributes
+      ...this.buildAttributesColumns(columnAttributes, attributeModels, sortingOn, enableSorting, fixedColumnWidth),
+      // attribute groups
+      ...this.buildAttributesGroupsColumns(columnAttributeGroup, attributeModels),
+    ].filter(column => !!column) // filter null elements
+    // TODO other columns
+    //   ...,
+    //   ,
+    //   this.buildTableOptionsColumn(onAddElementToCart, SearchResultsComponent.hasServices(viewObjectType))],
+  }
 
   /**
    * Builds options column
@@ -188,72 +207,44 @@ class SearchResultsComponent extends React.Component {
     }
   }
 
-  buildAttributesColumns = (attributesConf, attributeModels, sortingOn, enableSorting) =>
-    reduce(attributesConf, (allColumns, attributeConf) => {
+  /**
+   * Builds simple attributes table columns for each attribute from module configuration
+   * @param attributesConf simple attributes configuration from module configuration
+   * @param attributeModels runtime resolved attribute models
+   * @param sortingOn current sorting on attributes keys
+   * @param enableSorting should enable sorting?
+   * @param fixedColumnWidth width for non resizable columns
+   */
+  buildAttributesColumns = (attributesConf, attributeModels, sortingOn, enableSorting, fixedColumnWidth) =>
+    // map on attributes defined in configuration to build the required columns (then filter)
+    map(attributesConf, (attributeConf) => {
       // map to attributes models then to column
       if (attributeConf.visibility) {
-        let attribute
-        if (AccessDomain.AttributeConfigurationController.isStandardAttribute(attributeConf)) {
-          // standard attribute
-          attribute = AccessDomain.AttributeConfigurationController.getStandardAttributeConf(attributeConf.attributeFullQualifiedName)
-        } else {
-          // maybe dynamic attribute (if found)
-          attribute = find(attributeModels,
-            att => DamDomain.AttributeModelController.getAttributeAccessPath(att) === attributeConf.attributeFullQualifiedName)
-        }
-        // when found, add the corresponding column
-        if (attribute) {
-          const customCell = getTypeRender(attribute.content.type)
-          const isSpecialAttr =
-            attribute.content.type === DamDomain.AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL ||
-            attribute.content.type === DamDomain.AttributeModelController.ATTRIBUTE_TYPES.DOWNLOAD_LINK
-          const label = attribute.content.label
-          return [...allColumns, {
-            label,
-            attributes: [attribute.content.jsonPath],
-            sortable: !isSpecialAttr && enableSorting,
-            hideLabel: isSpecialAttr,
-            fixed: isSpecialAttr ? this.context.muiTheme['components:infinite-table'].fixedColumnsWidth : undefined,
-            customCell: customCell ? {
-              component: customCell,
-              props: {},
-            } : undefined,
-            order: attributeConf.order,
-            // retrieve column sorting in current state
-            sortingOrder: sortingOn.reduce((acc, { attributePath, type }) =>
-              attributePath === attribute.content.jsonPath ? type : acc, TableSortOrders.NO_SORT),
-            visible: this.isColumnVisible(label),
-          }]
-        }
+        // find column sorting order
+        const attributeFullQualifiedName = attributeConf.attributeFullQualifiedName
+        const columnSortingOrder = sortingOn.reduce((acc, { attributePath, type }) =>
+          attributePath === attributeFullQualifiedName ? type : acc, TableSortOrders.NO_SORT)
+        // build the column and order data
+        return AttributeColumnBuilder.buildAttributeColumn(attributeFullQualifiedName,
+          attributeModels, enableSorting, columnSortingOrder, this.onSortByColumn,
+          this.isColumnVisible(attributeFullQualifiedName), attributeConf.order, fixedColumnWidth)
       }
-      // ignored attribute
-      return allColumns
-    }, [])
+      return null
+    })
 
-  buildAttrRegroupementColumns = (attributesRegroupementsConf, attributeModels) => reduce(attributesRegroupementsConf, (allColumns, attrRegroupementConf) => {
-    if (attrRegroupementConf.visibility) {
-      // 1 -rebuild attributes
-      const attributes = reduce(attrRegroupementConf.attributes, (results, attributeId) => {
-        const attribute = find(attributeModels, att => att.content.id === attributeId)
-        return attribute ?
-          [...results, DamDomain.AttributeModelController.getAttributeAccessPath(attribute)] :
-          results
-      }, [])
-      // 2 - If attributes could be rebuilt, return corresponding columns
-      if (attributes && attributes.length) {
-        const label = attrRegroupementConf.label
-        return [...allColumns, {
-          label,
-          attributes,
-          sortable: false,
-          order: attrRegroupementConf.order,
-          visible: this.isColumnVisible(label),
-        }]
+  /**
+   * Builds attributes group table columns for each attributes group from module configuration
+   * @param attributesRegroupementsConf group attributes configuration from module configuration
+   */
+  buildAttributesGroupsColumns = (attributesRegroupementsConf, attributeModels) =>
+    map(attributesRegroupementsConf, (attrRegroupementConf) => {
+      if (attrRegroupementConf.visibility) {
+        const labelAndKey = attrRegroupementConf.label
+        return AttributeColumnBuilder.buildAttributesGroupColumn(attrRegroupementConf.attributes, attributeModels,
+          labelAndKey, this.isColumnVisible(labelAndKey), attrRegroupementConf.order)
       }
-    }
-    // ignored regroupement
-    return allColumns
-  }, [])
+      return null
+    })
 
   /**
   * Create columns configuration for table view
@@ -286,7 +277,7 @@ class SearchResultsComponent extends React.Component {
    * @param columnLabel column label
    * @return true if visible
    */
-  isColumnVisible = columnLabel => !this.state.hiddenColumns.includes(columnLabel)
+  isColumnVisible = columnKey => !this.props.hiddenColumnKeys.includes(columnKey)
 
   /** @return {boolean} true if currently displaying dataobjects */
   // TODO still required?
@@ -301,95 +292,95 @@ class SearchResultsComponent extends React.Component {
 
   render() {
     const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage }, muiTheme } = this.context
-    const { appName, project, attributeModels, displayDatasets, searchQuery, viewObjectType, viewMode, resultPageActions,
-      allowingFacettes, showingFacettes, filters, selectionServices, onAddSelectionToCart, onFiltersChanged,
-      onShowDatasets, onShowDataobjects, onShowTableView, onShowListView, onStartSelectionService, onToggleShowFacettes } = this.props
-    const { hiddenColumns } = this.state
     const tableTheme = muiTheme['components:infinite-table']
 
+    const { allowingFacettes, displayDatasets, resultsCount, isFetching, searchActions, searchSelectors, viewObjectType, viewMode, sortingOn,
+      showingFacettes, facets, filters, searchQuery, attributesConf, attributesRegroupementsConf, datasetAttributesConf, attributeModels, hiddenColumnKeys,
+      selectionServices, onChangeColumnsVisibility, onDeleteFacet, onSetEntityAsTag, onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView,
+      onShowTableView, onSortChanged, onToggleShowFacettes, onStartSelectionService, onAddSelectionToCart, onAddElementToCart } = this.props
+
     // build table columns
-    const tableColumns = this.buildTableColumns(this.props)
+    const tableColumns = this.buildTableColumns()
 
     const pageSize = 13 // TODO what?
     let columns = []
     let lineHeight
-    let cellsStyle
     let displayColumnsHeader
-    let displayCheckbox
     let minRowCount
+
+    // TODO this is the cell recovery style: cellsStyle = listViewStyles.cell
 
     if (this.isInTableView()) {
       minRowCount = tableTheme.minRowCount
-      columns = tableColumns
       lineHeight = tableTheme.lineHeight
-      cellsStyle = null
+      columns = tableColumns
       displayColumnsHeader = true
-      displayCheckbox = this.isDisplayingDataobjects()
     } else { // use list columns
       minRowCount = tableTheme.listMinRowCount
-      columns = this.buildListColumns(tableColumns, this.props)
       lineHeight = tableTheme.listLineHeight
-      cellsStyle = listViewStyles.cell
+      columns = this.buildListColumns(tableColumns, this.props)
       displayColumnsHeader = false
-      displayCheckbox = false
     }
 
     const requestParams = { queryParams: searchQuery }
+    const showFacets = this.isDisplayingDataobjects() && allowingFacettes && showingFacettes
 
-    const tableConfiguration = {
-      displayColumnsHeader,
-      cellsStyle,
-      lineHeight,
-      displayCheckbox,
-      minRowCount,
-      displaySelectAll: this.isDisplayingDataobjects(),
-      onSortByColumn: this.onSortByColumn,
-    }
-
+    // TODO maybe a static external compo! (better!)
     const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
+
     return (
-      // Table layout and header
-      <SearchResultsTableLayoutContainer
-        appName={appName} // TODO delete!
-        project={project}
-        attributeModels={attributeModels}
-        displayDatasets={displayDatasets}
-        viewObjectType={viewObjectType}
-        viewMode={viewMode}
-        searchSelectors={searchSelectors}
-        allowingFacettes={allowingFacettes}
-        showingFacettes={showingFacettes}
-        filters={filters}
-        tableColumns={tableColumns}
-        hiddenColumns={hiddenColumns}
-
-        selectionServices={selectionServices}
-
-        onAddSelectionToCart={onAddSelectionToCart}
-        onChangeColumnsVisibility={this.onChangeColumnsVisibility}
-        onFiltersChanged={onFiltersChanged}
-        onShowDatasets={onShowDatasets}
-        onShowDataobjects={onShowDataobjects}
-        onShowTableView={onShowTableView}
-        onShowListView={onShowListView}
-        onSortByColumn={this.onSortByColumn}
-        onStartSelectionService={onStartSelectionService}
-        onToggleShowFacettes={onToggleShowFacettes}
-      >
+      <TableLayout>
+        {/* First header row :Table tabs and options */}
+        <OptionsAndTabsHeaderLine
+          displayDatasets={displayDatasets}
+          viewObjectType={viewObjectType}
+          viewMode={viewMode}
+          searchSelectors={searchSelectors}
+          tableColumns={tableColumns}
+          allowingFacettes={allowingFacettes}
+          showingFacettes={showingFacettes}
+          selectionServices={selectionServices}
+          onAddSelectionToCart={onAddSelectionToCart}
+          onChangeColumnsVisibility={onChangeColumnsVisibility}
+          onShowDataobjects={onShowDataobjects}
+          onShowDatasets={onShowDatasets}
+          onShowListView={onShowListView}
+          onShowTableView={onShowTableView}
+          onSortByColumn={this.onSortByColumn}
+          onStartSelectionService={onStartSelectionService}
+          onToggleShowFacettes={onToggleShowFacettes}
+        />
+        {/* Second header row: results, loading, and optionally facets */}
+        <ResultsAndFacetsHeaderRow
+          showFacets={showFacets}
+          resultsCount={resultsCount}
+          facets={facets}
+          onSelectFacet={onSelectFacet}
+          isFetching={isFetching}
+        />
+        {/* Third header row (only with facets enabled):  */}
+        <SelectedFacetsHeaderRow
+          showingFacettes={showingFacettes}
+          filters={filters}
+          onDeleteFilter={onDeleteFacet}
+        />
         {/* Table content */}
         <PageableInfiniteTableContainer
           key={viewObjectType} // unmount the table when change entity type (using key trick)
-          tableConfiguration={tableConfiguration}
-          pageSize={pageSize}
-          pageActions={resultPageActions}
+          // infinite table configuration
+          pageActions={searchActions}
           pageSelectors={searchSelectors}
           tableActions={TableClient.tableActions}
-          tableSelectors={TableClient.tableSelectors}
+
+          displayColumnsHeader={displayColumnsHeader}
+          lineHeight={lineHeight}
+          minRowCount={minRowCount}
+          pageSize={pageSize}
           columns={columns}
           requestParams={requestParams}
           emptyComponent={emptyComponent}
         />
-      </SearchResultsTableLayoutContainer>
+      </TableLayout>
     )
   }
 }

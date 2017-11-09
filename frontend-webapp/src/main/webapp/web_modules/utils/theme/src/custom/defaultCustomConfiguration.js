@@ -31,7 +31,7 @@ export default {
   },
   'components:infinite-table': {
     lineHeight: 50,
-    fixedColumnsWidth: 50,
+    fixedColumnsWidth: 42,
     minRowCount: 8,
     listLineHeight: 160,
     listMinRowCount: 3,

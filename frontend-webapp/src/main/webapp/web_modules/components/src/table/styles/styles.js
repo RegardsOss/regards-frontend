@@ -35,16 +35,25 @@ export default (theme) => {
     borderBottom: cellBorder,
   }
 
-  const commonCellEven = {
-    backgroundColor: theme.tableRow.stripeColor,
-    borderBottom: cellBorder,
+  const commonCell = {
+    color: theme.tableRow.textColor,
+    fontFamily: theme.fontFamily,
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     textAlign: 'center',
   }
 
+  const commonCellEven = {
+    ...commonCell,
+    backgroundColor: theme.tableRow.stripeColor,
+    borderBottom: cellBorder,
+  }
+
   const commonCellOdd = {
+    ...commonCell,
     backgroundColor: theme.table.backgroundColor,
     borderBottom: cellBorder,
-    textAlign: 'center',
   }
 
   return ({
@@ -177,20 +186,6 @@ export default (theme) => {
       //borderRight: cellBorder,
     },
     lastCellEven: { ...commonCellEven },
-    cellOddContent: {
-      backgroundColor: theme.table.backgroundColor,
-      color: theme.tableRow.textColor,
-      fontFamily: theme.fontFamily,
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    cellEvenContent: {
-      backgroundColor: 'transparent',
-      color: theme.tableRow.textColor,
-      fontFamily: theme.fontFamily,
-      display: 'flex',
-      justifyContent: 'center',
-    },
     checkBoxCell: {
       backgroundColor: theme.table.backgroundColor,
       borderBottom: `1px solid ${theme.tableRow.borderColor}`,
@@ -208,21 +203,28 @@ export default (theme) => {
     fixedCellHeader: {
       ...commonHeaderCellStyles,
     },
-    sortButton: {
-      iconStyle: {
-        width: 20,
-        height: 20,
+    sortableHeader: {
+      style: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
       },
-      buttonStyle: {
-        width: 25,
-        height: 25,
-        padding: 0,
+      sortButtonStyle: {
+        width: 32,
+        height: 32,
+        padding: 4,
+      },
+      sortIconStyle: {
+        width: 24,
+        height: 24,
       },
     },
     checkButton: {
       styles: {
-        paddingRight: 0,
-        marginLeft: 11,
+        width: 32,
+        height: 32,
+        padding: 0,
       },
       checkedIcon: {
         color: theme.palette.primary1Color,
@@ -233,9 +235,6 @@ export default (theme) => {
         width: 24,
         height: 24,
       },
-    },
-    selectionColumn: {
-      width: 42,
     },
     loadingFilter: {
       backgroundColor: theme.palette.primary1Color,

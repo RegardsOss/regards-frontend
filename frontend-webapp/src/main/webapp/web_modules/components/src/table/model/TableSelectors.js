@@ -23,7 +23,6 @@ import TableSelectionModes from './TableSelectionModes'
 
 export class TableSelectors extends BasicSelector {
 
-
   /**
    * Is empty selection? Compute empty selection using external page results selectors and buffers it with reselect
    * @param state redux store
@@ -50,6 +49,35 @@ export class TableSelectors extends BasicSelector {
     }
     // select or reselect
     return this.reselectEmptySelection(state)
+  }
+
+  /**
+   * Are all selected?
+   * @param state redux store
+   * @param pageResultsSelectors page results selectors: selects metadata in table results
+   * @return {boolean} computed all selected state (note: returns false when there is no data)
+   */
+  areAllSelected = (state, pageResultsSelectors) => {
+    if (!this.reselectAllSelected) {
+      // init reselector instance
+      this.reselectAllSelected = createSelector([
+        // 1 - get page meta
+        localState => pageResultsSelectors.getMetaData(localState),
+        // 2 - get toggled elements
+        localState => this.getSelectionMode(localState),
+        // 3 - get selection mode
+        localState => this.getToggledElements(localState),
+      ], (pageMetadata, selectionMode, toggledElements) => {
+        const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
+        const selectionSize = keys(toggledElements).length
+        return totalElements > 0 && (
+          (selectionMode === TableSelectionModes.includeSelected && selectionSize === totalElements) ||
+          (selectionMode === TableSelectionModes.excludeSelected && !selectionSize))
+      },
+      )
+    }
+    // select or reselect
+    return this.reselectAllSelected(state)
   }
 
   /**

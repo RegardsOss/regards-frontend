@@ -18,36 +18,39 @@
  **/
 import { themeContextType } from '@regardsoss/theme'
 
+
 /**
- * A simple table header line: it layouts its children in a row.
- * @author Raphaël Mechali
+ * A column header cell wrapper rendering for FixedTable
+ * @author Sébastien Binda
  */
-export class TableHeaderLine extends React.Component {
+class ColumnHeaderWrapper extends React.Component {
 
   static propTypes = {
+    lineHeight: PropTypes.number.isRequired,
+    isLastColumn: PropTypes.bool.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
   }
 
-  static defaultProps = {
-    show: true,
-  }
-
   static contextTypes = {
     ...themeContextType,
   }
 
+
   render() {
-    const { children } = this.props
-    const { moduleTheme: { header } } = this.context
+    const { cellHeader, lastCellHeader } = this.context.moduleTheme
+    const { isLastColumn, lineHeight, children } = this.props
+    const cellStyle = isLastColumn ? lastCellHeader : cellHeader
+    const height = lineHeight - 1
+    const minHeight = height
     return (
-      <div style={header.rowStyle} >
+      <div style={{ ...cellStyle, height, minHeight }} >
         {children}
       </div>
     )
   }
 }
 
-export default TableHeaderLine
+export default ColumnHeaderWrapper

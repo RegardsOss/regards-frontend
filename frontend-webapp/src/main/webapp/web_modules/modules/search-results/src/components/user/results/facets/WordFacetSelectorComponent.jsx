@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import { StringFacet } from '../../../../models/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
 import messages from '../../../../i18n'
@@ -47,4 +47,4 @@ class WordFacetSelectorComponent extends React.Component {
   }
 }
 
-export default withI18n(messages)(WordFacetSelectorComponent)
+export default WordFacetSelectorComponent

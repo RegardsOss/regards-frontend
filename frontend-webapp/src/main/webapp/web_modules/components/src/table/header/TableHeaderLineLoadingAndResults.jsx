@@ -16,23 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
-import CircularProgress from 'material-ui/CircularProgress'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { ShowableAtRender } from '@regardsoss/display-control'
 import TableHeaderLine from './TableHeaderLine'
-import TableHeaderText from './TableHeaderText'
 import TableHeaderContentBox from './TableHeaderContentBox'
 import ResultsCountMessage from './ResultsCountMessage'
-import messages from '../i18n'
-import styles from '../styles'
+import TableHeaderLoadingComponent from './TableHeaderLoadingComponent'
 
 /**
  * Displays results, loading, and any custom child in the right area.
  * Note: custom children will lose their i18n context and styles context in this component
  */
-export class TableHeaderLineLoadingAndResults extends React.Component {
+class TableHeaderLineLoadingAndResults extends React.Component {
 
   static propTypes = {
     resultsCount: PropTypes.number.isRequired,
@@ -49,15 +42,11 @@ export class TableHeaderLineLoadingAndResults extends React.Component {
     children: null,
   }
 
-  static contextTypes = {
-    ...themeContextType,
-    ...i18nContextType,
-  }
+  static LOADING_COMPONENT = <TableHeaderLoadingComponent />
 
 
   render() {
     const { children = null, isFetching, resultsCount } = this.props
-    const { intl: { formatMessage }, moduleTheme: { header } } = this.context
     return (
       <TableHeaderLine>
         {/* results count group */}
@@ -65,17 +54,7 @@ export class TableHeaderLineLoadingAndResults extends React.Component {
           <ResultsCountMessage count={resultsCount} isFetching={isFetching} />
         </TableHeaderContentBox>
         { // loading or custom childrens groups
-          isFetching ? (
-            <TableHeaderContentBox>
-              <CircularProgress
-                size={header.loading.size}
-                thickness={header.loading.thickness}
-                color={header.loading.color}
-              />
-              <TableHeaderText
-                text={formatMessage({ id: 'table.loading.message' })}
-              />
-            </TableHeaderContentBox>) : children
+          isFetching ? TableHeaderLineLoadingAndResults.LOADING_COMPONENT : children
         }
         {/* On right: placeholder */}
         <div />
@@ -87,6 +66,4 @@ export class TableHeaderLineLoadingAndResults extends React.Component {
 }
 
 
-export default compose(
-  withI18n(messages),
-  withModuleStyle(styles))(TableHeaderLineLoadingAndResults)
+export default TableHeaderLineLoadingAndResults

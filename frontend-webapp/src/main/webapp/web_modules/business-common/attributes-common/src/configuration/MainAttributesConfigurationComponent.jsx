@@ -146,7 +146,7 @@ class MainAttributesConfigurationComponent extends React.Component {
    * Callback called to remove an existing regroupement
    */
   onDeleteRegroupement = (regroupementConf) => {
-    const newAttributesConf = concat([], this.props.attributesRegroupementsConf)
+    const newAttributesConf = [...this.props.attributesRegroupementsConf]
     remove(newAttributesConf, conf => conf.label === regroupementConf.label)
     this.props.changeField(this.props.regroupementsFieldName, newAttributesConf)
   }
@@ -157,7 +157,7 @@ class MainAttributesConfigurationComponent extends React.Component {
    */
   removeUnavailableAttributesConfiguration(attributesConf) {
     // Remove attribute configuration for unavailable attributes
-    const updatedAttributesConf = concat([], attributesConf)
+    const updatedAttributesConf = [...attributesConf]
     remove(updatedAttributesConf,
       attributeConf => !AccessDomain.AttributeConfigurationController.findAttributeConf(values(this.props.selectableAttributes), attributeConf),
     )

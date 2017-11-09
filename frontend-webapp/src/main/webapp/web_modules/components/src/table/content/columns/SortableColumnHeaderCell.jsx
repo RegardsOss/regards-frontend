@@ -25,18 +25,19 @@ import { themeContextType } from '@regardsoss/theme'
 import { getNextSortOrder, TableSortOrders } from '../../model/TableSortOrders'
 
 /**
- * Column header cell rendering for FixedTable
- * @author Sébastien Binda
+ * Default sortable column header
+ * @author Raphaël Mechali
  */
-class ColumnHeader extends React.Component {
+class SortableColumnHeaderCell extends React.Component {
 
   static propTypes = {
-    label: PropTypes.string,
-    lineHeight: PropTypes.number.isRequired,
-    sortable: PropTypes.bool,
+    // column ID for sort (how will it be retrieved by parent component)
+    sortId: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
     sortingOrder: PropTypes.oneOf(values(TableSortOrders)),
-    sortAction: PropTypes.func,
-    isLastColumn: PropTypes.bool.isRequired,
+    hideLabel: PropTypes.bool.isRequired,
+    sortable: PropTypes.bool.isRequired,
+    onSort: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -47,28 +48,27 @@ class ColumnHeader extends React.Component {
     ...themeContextType,
   }
 
-  runSort = () => {
-    const { sortable, sortingOrder, sortAction } = this.props
+  /**
+   * User callback: on sort
+   */
+  onSort = () => {
+    const { sortable, sortingOrder, sortId, onSort } = this.props
     if (sortable && sortingOrder) { // do change sort only when sortable with known sorting state
-      sortAction(getNextSortOrder(sortingOrder))
+      onSort(sortId, getNextSortOrder(sortingOrder))
     }
   }
 
   render() {
-    const { cellHeader, lastCellHeader, sortButton: { iconStyle, buttonStyle } } = this.context.moduleTheme
-    const { sortable, isLastColumn, lineHeight, label, sortingOrder } = this.props
-
-    const cellStyle = isLastColumn ? lastCellHeader : cellHeader
-    const height = `${lineHeight - 1}px`
-    const minHeight = height
+    const { label, hideLabel, sortable, sortingOrder } = this.props
+    const { sortableHeader: { style, sortButtonStyle, sortIconStyle } } = this.context.moduleTheme
     return (
-      <div style={{ ...cellStyle, height, minHeight }}>
+      <div style={style} >
         {
           sortable ? (
             <IconButton
-              iconStyle={iconStyle}
-              style={buttonStyle}
-              onTouchTap={this.runSort}
+              iconStyle={sortIconStyle}
+              style={sortButtonStyle}
+              onTouchTap={this.onSort}
             >
               {(() => {
                 switch (sortingOrder) {
@@ -83,17 +83,12 @@ class ColumnHeader extends React.Component {
                 }
               })()
               }
-            </IconButton>
+            </IconButton >
           ) : null
         }
-        <div>{label}</div>
-      </div>
-    )
+        {hideLabel ? null : label}
+      </div>)
   }
 }
 
-ColumnHeader.defaultProps = {
-  fixed: false,
-}
-
-export default ColumnHeader
+export default SortableColumnHeaderCell

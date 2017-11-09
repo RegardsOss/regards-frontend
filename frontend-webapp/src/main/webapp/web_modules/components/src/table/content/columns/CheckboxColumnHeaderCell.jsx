@@ -16,23 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import IconButton from 'material-ui/IconButton'
 import Checked from 'material-ui/svg-icons/toggle/check-box'
 import Unchecked from 'material-ui/svg-icons/toggle/check-box-outline-blank'
-import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import TableSelectionModes from '../../model/TableSelectionModes'
+import { i18nContextType } from '@regardsoss/i18n'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import TableActions from '../../model/TableActions' // class for prop type
 import { TableSelectors } from '../../model/TableSelectors' // class for prop type
 
 /**
- * A checkbox cell for infinite table.
- * Note: it acts as a container to bind the selection state of the row
- * @author Raphaël Mechali
- */
-export class CheckBoxCell extends React.Component {
+* Shows a checkbox column header cell, sitching selection modes and selected object as follow:
+* - Initially, or when AT LEAST one object is not selected: Show select all. Clicking that option will result
+* in listing the non selected objects
+* - When all objects are selected, in list non selected objects, shows unselect all. Clicking that option will result
+* It acts as a connected container (to embed selection state and interactors)
+*/
+class CheckboxColumnHeaderCell extends React.Component {
 
   /**
    * Redux: map state to props function
@@ -40,10 +41,9 @@ export class CheckBoxCell extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { tableSelectors }) {
+  static mapStateToProps(state, { pageSelectors, tableSelectors }) {
     return {
-      toggledElements: tableSelectors.getToggledElements(state),
-      selectionMode: tableSelectors.getSelectionMode(state),
+      allSelected: tableSelectors.areAllSelected(state, pageSelectors),
     }
   }
 
@@ -53,25 +53,26 @@ export class CheckBoxCell extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { rowIndex, tableActions }) {
+  static mapDispatchToProps(dispatch, { tableActions }) {
     return {
-      dispatchToggleRowSelection: entity => tableActions && dispatch(tableActions.toggleElement(rowIndex, entity)),
+      dispatchSelectAll: () => dispatch(tableActions.selectAll()),
+      dispatchUnselectAll: () => dispatch(tableActions.unselectAll()),
     }
   }
 
   static propTypes = {
-    // common cell content properties
-    rowIndex: PropTypes.number.isRequired,
-    getEntity: PropTypes.func.isRequired,
+    displaySelectAll: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
     // eslint-disable-next-line react/no-unused-prop-types
     tableActions: PropTypes.instanceOf(TableActions), // Table actions instance, used in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     tableSelectors: PropTypes.instanceOf(TableSelectors), // Table selectors instance, used in onPropertiesUpdate
     // from map state to props
-    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
-    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
+    allSelected: PropTypes.bool.isRequired,
     // from map dispatch to props
-    dispatchToggleRowSelection: PropTypes.func.isRequired,
+    dispatchSelectAll: PropTypes.func.isRequired,
+    dispatchUnselectAll: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -80,47 +81,39 @@ export class CheckBoxCell extends React.Component {
   }
 
   /**
-   * On user row selection (switches selection state for row index)
-   */
-  onToggleRowSelection = () => {
-    // retrieve entity by its index in state
-    const { dispatchToggleRowSelection, getEntity } = this.props
-    const entity = getEntity()
-    if (entity) {
-      dispatchToggleRowSelection(entity)
+ * On user toggled select all / unselect all
+ */
+  onToggleSelectAll = () => {
+    const { allSelected, dispatchSelectAll, dispatchUnselectAll } = this.props
+    if (allSelected) {
+      dispatchUnselectAll()
+    } else {
+      dispatchSelectAll()
     }
-  }
-
-  /**
-   * Is row as parameter selected?
-   * @param rowIndex row index
-   * @return true if row is selected
-   */
-  isSelectedRow = () => {
-    const { rowIndex, selectionMode, toggledElements } = this.props
-    return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[rowIndex]) ||
-      (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
   }
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { checkButton: { styles, checkedIcon, uncheckedIcon } } } = this.context
-    const [tooltipKey, iconStyle, Icon] = this.isSelectedRow() ?
-      ['table.unselect.row.tooltip', checkedIcon, Checked] :
-      ['table.select.row.tooltip', uncheckedIcon, Unchecked]
+    const { displaySelectAll, allSelected } = this.props
+
+    const [tooltipKey, iconStyle, Icon] = allSelected ?
+      ['table.deselect.all.tooltip', checkedIcon, Checked] :
+      ['table.select.all.tooltip', uncheckedIcon, Unchecked]
 
     return (
-      <IconButton
-        style={styles}
-        iconStyle={iconStyle}
-        onTouchTap={this.onToggleRowSelection}
-        title={formatMessage({ id: tooltipKey })}
-      >
-        <Icon />
-      </IconButton>)
+      displaySelectAll ?
+        <IconButton
+          style={styles}
+          title={formatMessage({ id: tooltipKey })}
+          iconStyle={iconStyle}
+          onTouchTap={this.onToggleSelectAll}
+        >
+          <Icon />
+        </IconButton> : null
+    )
   }
 }
 
 export default connect(
-  CheckBoxCell.mapStateToProps,
-  CheckBoxCell.mapDispatchToProps)(CheckBoxCell)
-
+  CheckboxColumnHeaderCell.mapStateToProps,
+  CheckboxColumnHeaderCell.mapDispatchToProps)(CheckboxColumnHeaderCell)

@@ -57,4 +57,4 @@ export class TableSelectAllOption extends React.Component {
 
 }
 
-export default withI18n(messages)(TableSelectAllOption)
+export default TableSelectAllOption

@@ -1,18 +1,13 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
-import { withI18n } from '@regardsoss/i18n'
-import { withModuleStyle } from '@regardsoss/theme'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { TableColumnConfiguration } from '@regardsoss/components'
 import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import { descriptionLevelActions } from '../../../../models/description/DescriptionLevelModel'
 import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
 import ListViewEntityCellComponent from '../../../../components/user/results/cells/ListViewEntityCellComponent'
-import messages from '../../../../i18n'
-import styles from '../../../../styles'
 
 /**
 * Container for list view entity cell
@@ -111,7 +106,4 @@ export class ListViewEntityCellContainer extends React.Component {
   }
 }
 
-export default compose(
-  connect(null, ListViewEntityCellContainer.mapDispatchToProps),
-  withI18n(messages),
-  withModuleStyle(styles))(ListViewEntityCellContainer)
+export default connect(null, ListViewEntityCellContainer.mapDispatchToProps)(ListViewEntityCellContainer)

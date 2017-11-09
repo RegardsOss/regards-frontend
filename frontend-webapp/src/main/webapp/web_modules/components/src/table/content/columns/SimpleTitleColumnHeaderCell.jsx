@@ -16,14 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AttributeColumnBuilder from './columns/AttributeColumnBuilder'
-import MainAttributesConfigurationComponent from './configuration/MainAttributesConfigurationComponent'
-import getTypeRender from './render/AttributesTypeToRender'
 
-export default {
-  // configuration component
-  MainAttributesConfigurationComponent,
-  // render get method for given type
-  getTypeRender,
-  AttributeColumnBuilder,
+/**
+ * A simple title column header
+ * @author Raphaël Mechali
+ */
+class SortableColumnHeaderCell extends React.Component {
+
+  static propTypes = {
+    label: PropTypes.string.isRequired,
+  }
+
+  render() {
+    return this.props.label || null
+  }
 }
+
+export default SortableColumnHeaderCell

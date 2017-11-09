@@ -416,7 +416,7 @@ body[dir="rtl"] .fixedDataTableColumnResizerLineLayout_main {
 }
 
 .public_fixedDataTableCell_cellContent {
-  padding: 8px;
+  /* padding: 8px; */
 }
 
 .public_fixedDataTableCell_columnResizerKnob {

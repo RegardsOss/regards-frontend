@@ -16,18 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isUndefined from 'lodash/isUndefined'
+import isNumber from 'lodash/isNumber'
 import map from 'lodash/map'
-import values from 'lodash/values'
 import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
-import FixedTableHeaderCell from './columns/ColumnHeader'
-import CheckboxColumnHeader from './columns/CheckboxColumnHeader'
-import Cell from './cells/Cell'
-import CheckBoxCell from './cells/CheckBoxCell'
-import ColumnConfiguration from './columns/model/ColumnConfiguration'
-import TableConfigurationModel from './model/TableConfigurationModel'
-import TableSelectionModes from '../model/TableSelectionModes'
+import ColumnHeaderWrapper from './columns/ColumnHeaderWrapper'
+import CellWrapper from './cells/CellWrapper'
+import TableColumnConfiguration from './columns/model/TableColumnConfiguration'
 import { PAGE_SIZE_MULTIPLICATOR } from '../model/TableConstant'
 
 const MIN_COL_WIDTH = 150
@@ -51,24 +46,20 @@ class Table extends React.Component {
    * lineHeight: Optional, default 40px
    */
   static propTypes = {
+    // table configuration properties
+    displayColumnsHeader: PropTypes.bool,
+    lineHeight: PropTypes.number.isRequired,
+    minRowCount: PropTypes.number,
+    maxRowCounts: PropTypes.number, // TODO v2: delete!
+
     // dynamic properties
     entities: PropTypes.arrayOf(PropTypes.object),
     pageSize: PropTypes.number.isRequired,
     onScrollEnd: PropTypes.func.isRequired,
-    columns: PropTypes.arrayOf(ColumnConfiguration).isRequired,
+    columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
+
+    // required runtime width for columns size adjustements
     width: PropTypes.number.isRequired,
-    maxRowCounts: PropTypes.number,
-    minRowCount: PropTypes.number,
-
-    // selection related
-    allSelected: PropTypes.bool.isRequired, // are all elements selected?
-    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
-    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
-    onToggleRowSelection: PropTypes.func.isRequired, // (int) => (void) dispatches row selection
-    onToggleSelectAll: PropTypes.func.isRequired, // (void) => (void) dispatches toggle selection mode
-
-    // table configuration properties
-    ...TableConfigurationModel,
   }
 
   static contextTypes = {
@@ -80,29 +71,33 @@ class Table extends React.Component {
     displaySelectAll: false,
   }
 
-  componentWillMount = () => {
-    this.setState({
-      columnsFilterPanelOpened: false,
-      ...this.computeGraphicsMeasures(this.props),
-    })
-  }
+  /**
+   * Lifecycle method component will mount. Used here to initialize runtime graphic data in state
+   */
+  componentWillMount = () => this.setState(this.computeGraphicsMeasures(this.props))
+  // initialize graphics and columns
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ ...this.computeGraphicsMeasures(nextProps) })
-  }
+
+  /**
+   * Lifecycle method component will receive props. Used here to (re-)initialize runtime data in state
+   * @param nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.setState(this.computeGraphicsMeasures(nextProps))
 
   /**
    * Resize column
-   * @param newColumnWidth
-   * @param columnKey
+   * @param newColumnWidth new column width
+   * @param columnKey column key
    */
   onColumnResizeEndCallback = (newColumnWidth, columnKey) => {
-    this.setState(({ columnWidths }) => ({
-      columnWidths: {
-        ...columnWidths,
-        [columnKey]: newColumnWidth,
-      },
-    }))
+    const { runtimeColumns } = this.state
+    // in state, replace the width of column that was resized
+    this.setState({
+      runtimeColumns: runtimeColumns.map(column => ({
+        ...column,
+        runtimeWidth: columnKey === column.key ? newColumnWidth : column.runtimeWidth,
+      })),
+    })
   }
 
   /**
@@ -111,62 +106,65 @@ class Table extends React.Component {
   getDefaultLineHeight = () => this.context.muiTheme['components:infinite-table'].lineHeight
 
   /**
-   * Retrieve entity for the given rowIndex from the array containing all entities
+   * Retrieve entity for the given rowIndex from the array containing all entities or null if it is outside bounds
    * @param rowIndex
+   * @return entity or null
    */
-  getEntity = rowIndex => this.props.entities[rowIndex]
+  getEntity = rowIndex => rowIndex < 0 || rowIndex >= this.props.entities.lenght ? null : this.props.entities[rowIndex]
 
   /**
-   * Is a row with entity? especially for cells that are not aware of their entities, like especially checkbox cells.
+   * Is there an entity on specified row index?
    * Note: it happens that a row have no entity, because of the min row count being sometimes greater than the entities count
    * @param {number} rowIndex row index
    * @return {boolean} true if row has an entity
    */
-  hasEntity = rowIndex => this.props.entities.length > rowIndex
+  hasEntity = rowIndex => rowIndex >= 0 && this.props.entities.length > rowIndex
 
   /**
-   * Computes graphics measures
+   * Computes graphics measures and provides a usable component state
+   * @return {nbEntitiesByPage:{number}, height:{number}, runtimeColumns:{RuntimeColumn}} usable state for component, with
+   * runtime columns (default table columns enriched with required runtime data and filtered on visible state)
    */
   computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight = this.getDefaultLineHeight(), width, columns = [] }) => {
-    const { selectionColumn } = this.context.moduleTheme
     // 1 - compute height
     const nbEntitiesByPage = pageSize * PAGE_SIZE_MULTIPLICATOR
     const height = lineHeight * (pageSize + 1) // +1 for header row
 
-    // 2 - compute resulting column width (filter columns first)
-    const visibleColumns = columns.filter(c => c.visible)
-    // compute available column width without unvisible columns and fixed width columns
-    const availableWidth = width - (displayCheckbox ? selectionColumn.width : 0)
-    const floatingWidth = availableWidth - visibleColumns.reduce((acc, column) =>
-      isUndefined(column.fixed) ? acc : acc + column.fixed, 0)
-    let columnWidth = Math.round(floatingWidth / visibleColumns.length)
+    // 2 - Update columns width related data
+    // 2.a - prepare columns (filter unvisible and sort on order)
+    const renderColumns = columns.filter(c => c.visible).sort((c1, c2) => c1.order - c2.order)
 
-    columnWidth = Math.max(columnWidth, MIN_COL_WIDTH)
-    // consume remaining space or delete last pixels
-    let lastColumnWidth = availableWidth - (columnWidth * (visibleColumns.length - 1))
-    lastColumnWidth = Math.max(lastColumnWidth, MIN_COL_WIDTH)
-    // Init labelled columns width
-    const columnWidths = columns.reduce((acc, { label, visible, fixed }, index) => {
-      let localColumnWidth
-      if (visible) {
-        if (!isUndefined(fixed)) {
-          localColumnWidth = fixed
-        } else if (index === visibleColumns.length - 1) {
-          // last column
-          localColumnWidth = lastColumnWidth
+    // 2.b - compute if there are floating columns (otherwise, next layout is useless)
+    const floatingColumnsCount = renderColumns.reduce((acc, c) => !isNumber(c.fixedWidth) ? acc + 1 : acc, 0)
+    let floatingColumnWidth = 0
+    let lastFloatingColumnWidth = 0
+    if (floatingColumnsCount > 0) {
+      // 2.c - There are floarting columns, compute how many space they have (refuse column width less than MIN_COL_WIDTH)
+      const availableWidth = width - (floatingColumnsCount - 1) // protects againts intempestive horizontal scrolling
+      const fixedColumnsWidth = renderColumns.reduce((acc, column) =>
+        isNumber(column.fixedWidth) ? acc + column.fixedWidth : acc, 0)
+      const floatingWidth = availableWidth - fixedColumnsWidth
+      floatingColumnWidth = Math.max(Math.ceil(floatingWidth / floatingColumnsCount), MIN_COL_WIDTH)
+      // 2.d - consume remaining pixels (avoid int imprecision there)
+      lastFloatingColumnWidth = Math.max(Math.ceil(floatingWidth - (floatingColumnWidth * (floatingColumnsCount - 1))), MIN_COL_WIDTH)
+    }
+
+    // 3 - duplicate locally the column models to hold their width
+    // Algo: we need here to count the floating rows to know when we are handling the last one
+    const { columnsAcc: runtimeColumns } = renderColumns.reduce(
+      ({ floatingCountAcc, columnsAcc }, column, index) => {
+        let nextFloatingCount
+        let runtimeWidth
+        if (isNumber(column.fixedWidth)) {
+          nextFloatingCount = floatingCountAcc
+          runtimeWidth = column.fixedWidth
         } else {
-          localColumnWidth = columnWidth
+          nextFloatingCount = floatingCountAcc + 1
+          runtimeWidth = floatingCountAcc === floatingColumnsCount ? lastFloatingColumnWidth : floatingColumnWidth
         }
-      } else {
-        localColumnWidth = 0
-      }
-      return {
-        [label]: localColumnWidth,
-        ...acc,
-      }
-    }, {})
-
-    return { nbEntitiesByPage, height, columnWidths }
+        return { floatingCount: nextFloatingCount, columnsAcc: [...columnsAcc, { ...column, runtimeWidth }] }
+      }, { floatingCountAcc: 0, columnsAcc: [] })
+    return { nbEntitiesByPage, height, runtimeColumns }
   }
 
   render() {
@@ -174,16 +172,12 @@ class Table extends React.Component {
       return null
     }
     const {
-      cellsStyle, columns, width, lineHeight = this.getDefaultLineHeight(), displayCheckbox, displaySelectAll, displayColumnsHeader,
-      allSelected, onToggleSelectAll, onToggleRowSelection, onScrollEnd, onSortByColumn,
-      toggledElements, selectionMode, pageSize, minRowCount, maxRowCounts,
-    } = this.props
-    const { columnWidths, height } = this.state
-    const { moduleTheme: { selectionColumn }, muiTheme } = this.context
+      columns, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader,
+      onScrollEnd, pageSize, minRowCount, maxRowCounts } = this.props
+    const { runtimeColumns, height } = this.state
 
     // compute visible lines (use min row count from theme if not defined)
-    const actualMinRowCount = minRowCount || muiTheme['components:infinite-table'].lineHeight
-    const totalNumberOfEntities = this.props.entities.length > actualMinRowCount ? this.props.entities.length : actualMinRowCount
+    const totalNumberOfEntities = this.props.entities.length > minRowCount ? this.props.entities.length : minRowCount
 
     // If the total number of results is less than the number of elements by page, adjust height of the table
     // to fit the number of results. Else use the default fixed height.
@@ -203,68 +197,34 @@ class Table extends React.Component {
         width={width}
         height={calculatedHeight}
       >
-        { // render selection column
-          displayCheckbox ?
-            (
-              <Column
-                key={'selection.column'}
-                columnKey={'checkbox'}
-                header={<CheckboxColumnHeader
-                  displaySelectAll={displaySelectAll}
-                  areAllSelected={allSelected}
-                  onToggleSelectAll={onToggleSelectAll}
-                  lineHeight={lineHeight}
-                />}
-                cell={<CheckBoxCell
-                  hasEntity={rowIndex => this.hasEntity(rowIndex)}
-                  onToggleRowSelection={onToggleRowSelection}
-                  toggledElements={toggledElements}
-                  selectionMode={selectionMode}
-                />}
-                fixed
-                width={selectionColumn.width}
-              />
-            ) : null
-        }
-        {map(columns, (column, index) => {
-          if (column.visible) {
-            const columnWidth = columnWidths[column.label]
-            return (<Column
-              key={column.label}
-              columnKey={column.label}
+        { // map runtime columns from state (they are enriched with width information)
+          map(runtimeColumns, (column, index) => (
+            <Column
+              key={column.key}
+              columnKey={column.key}
               header={
-                <FixedTableHeaderCell
-                  label={column.hideLabel ? '' : column.label}
-                  lineHeight={lineHeight}
-                  sortable={column.sortable}
-                  sortAction={type => onSortByColumn(column, type)}
-                  sortingOrder={column.sortingOrder}
+                <ColumnHeaderWrapper lineHeight={lineHeight} isLastColumn={index === columns.length - 1}>
+                  { // provide header cell as child
+                    column.headerCell
+                  }
+                </ColumnHeaderWrapper>
+              }
+              cell={
+                <CellWrapper
+                  lineHeight={this.props.lineHeight}
                   isLastColumn={index === columns.length - 1}
-                />}
-              cell={<Cell
-                getEntity={rowIndex => this.getEntity(rowIndex)}
-                toggledElements={toggledElements}
-                selectionMode={selectionMode}
-                lineHeight={this.props.lineHeight}
-                overridenCellsStyle={cellsStyle}
-                col={column}
-                isLastColumn={index === columns.length - 1}
-                onToggleRowSelection={onToggleRowSelection}
-              />}
-              width={columnWidth}
-              flexGrow={column.fixed ? undefined : 1}
-              isResizable={column.fixed === undefined}
-            />)
-          }
-          return null
-        })}
+                  getEntity={rowIndex => this.getEntity(rowIndex)}
+                  CellContentBuilder={column.rowCellDefinition.Constructor}
+                  cellContentBuilderProps={column.rowCellDefinition.props}
+                />
+              }
+              width={column.runtimeWidth}
+              isResizable={!column.fixedWidth}
+            />))
+        }
       </FixedDataTable>
     )
   }
-}
-
-Table.defaultProps = {
-  minRowCount: 0,
 }
 
 export default Table

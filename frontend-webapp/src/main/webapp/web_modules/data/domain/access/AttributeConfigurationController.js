@@ -26,16 +26,23 @@ import AttributeModelController from '../dam/AttributeModelController'
  */
 
 /**
+ * Is standard attribute qualified name
+ * @param attributeFullQualifiedName attribute fulle qualified name
+ * @return true if attribute is a standard attribute
+ */
+const isStandardAttributeQualifiedName = attributeFullQualifiedName => !!attributeFullQualifiedName && !attributeFullQualifiedName.includes('.')
+
+/**
  * Is the given AttributeConfiguration entity a standard attribute configuration ?
  *
  * @param attributeConf
  * @returns {boolean}
  */
-const isStandardAttribute = (attributeConf) => {
-  if (!attributeConf || !attributeConf.attributeFullQualifiedName) {
+const isStandardAttribute = (attributeConf) => { // TODO delete if unused!
+  if (!attributeConf) {
     return false
   }
-  return !attributeConf.attributeFullQualifiedName.includes('.')
+  return isStandardAttributeQualifiedName(attributeConf.attributeFullQualifiedName)
 }
 
 /**
@@ -85,6 +92,7 @@ const getInitialSortAttributes = (attributeConfigurations) => {
 }
 
 export default {
+  isStandardAttributeQualifiedName,
   isStandardAttribute,
   findAttributeConf,
   getInitialSortAttributes,

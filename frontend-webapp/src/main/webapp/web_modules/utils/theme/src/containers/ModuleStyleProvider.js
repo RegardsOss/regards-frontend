@@ -15,6 +15,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+
+ * Note: for APIs components, it is a good idea, when component needs an enriched styles context, to use the
+ * stackCallingContext true property. Indeed, when provided, if there is a calling moduleTheme context, it will get merged with new
+ * context but IT WILL KEEP HIGER PRIORITY. IE: the calling context can override the component context and thus redefine its
+ * styles
  **/
 import themeContextType from '../contextType'
 
@@ -42,6 +47,11 @@ class ModuleStyleProvider extends React.Component {
     module: PropTypes.shape({
       styles: PropTypes.func,
     }).isRequired,
+    stackCallingContext: PropTypes.bool.isRequired,
+  }
+
+  static defaultProps = {
+    stackCallingContext: false,
   }
 
   /**
@@ -57,9 +67,20 @@ class ModuleStyleProvider extends React.Component {
    * @returns {{moduleTheme: *}}
    */
   getChildContext() {
-    return {
-      moduleTheme: this.props.module.styles(this.context.muiTheme),
+    const { module: { styles: localStylesBuilder }, stackCallingContext } = this.props
+    const { muiTheme, moduleTheme: callingModuleTheme } = this.context
+    if (!localStylesBuilder) {
+      throw new Error('You must provide styles as a builder function in an object like { styles } messages when module styles provider ')
     }
+    if (stackCallingContext && !callingModuleTheme) {
+      throw new Error('You must provide calling styles (through context) when using modules styles provider with stackCallingContext=true')
+    }
+
+    const moduleTheme = {
+      ...localStylesBuilder(muiTheme),
+      ...(stackCallingContext ? callingModuleTheme : {}),
+    }
+    return { moduleTheme }
   }
 
   /**
