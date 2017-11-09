@@ -142,6 +142,7 @@ describe(
           },
           links: [],
         },
+        projectIsFetching: true,
         fetchProject: () => {},
         fetchProjectConnection: () => {},
       }
