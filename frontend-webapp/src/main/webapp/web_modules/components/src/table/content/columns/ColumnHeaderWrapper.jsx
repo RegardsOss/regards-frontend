@@ -26,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
 class ColumnHeaderWrapper extends React.Component {
 
   static propTypes = {
-    lineHeight: PropTypes.number.isRequired,
     isLastColumn: PropTypes.bool.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -40,13 +39,11 @@ class ColumnHeaderWrapper extends React.Component {
 
 
   render() {
-    const { cellHeader, lastCellHeader } = this.context.moduleTheme
-    const { isLastColumn, lineHeight, children } = this.props
+    const { header: { cellHeader, lastCellHeader } } = this.context.moduleTheme
+    const { isLastColumn, children } = this.props
     const cellStyle = isLastColumn ? lastCellHeader : cellHeader
-    const height = lineHeight - 1
-    const minHeight = height
     return (
-      <div style={{ ...cellStyle, height, minHeight }} >
+      <div style={cellStyle} >
         {children}
       </div>
     )

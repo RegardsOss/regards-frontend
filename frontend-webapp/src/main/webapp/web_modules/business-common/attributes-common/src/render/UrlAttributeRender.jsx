@@ -16,35 +16,36 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
+import { LinkComponent } from '@regardsoss/components'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import messages from '../i18n'
 
 /**
- * Component to render ranged attributes group value
+ * Component to display url link attributes group value
  *
  * @author Sébastien binda
  */
-class RangeAttributesRender extends React.Component {
+class UrlAttributeRender extends React.Component {
+
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    attributes: PropTypes.object,
+    value: PropTypes.string,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   render() {
-    try {
-      return (<span>
-        {map(this.props.attributes, (attribute, key) => {
-          if (attribute && attribute.lowerBound && attribute.upperBound) {
-            return (<span key={key}>{String(attribute.lowerBound)} - {String(attribute.upperBound)}</span>)
-          }
-          return null
-        })}
-      </span>)
-    } catch (e) {
-      console.log('Invalid attribute value', e)
-    }
-    return null
+    const { value } = this.props
+    return value ? (
+      <LinkComponent
+        target="_blank"
+        rel="noopener noreferrer"
+        link={value}
+      />) : null
   }
 
 }
 
-export default RangeAttributesRender
+export default withI18n(messages, true)(UrlAttributeRender)

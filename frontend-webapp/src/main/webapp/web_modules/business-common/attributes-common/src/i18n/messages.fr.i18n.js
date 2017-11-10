@@ -16,34 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
-import isBoolean from 'lodash/isBoolean'
 
 /**
- * Component to display Boolean attributes group value
- *
- * @author Sébastien binda
+ * Module message for FR local
+ * @author Raphaël Mechali
  */
-class BooleanAttributeRender extends React.Component {
-  static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    attributes: PropTypes.object,
-  }
-
-  render() {
-    return (
-      <span>
-        {map(this.props.attributes, (attribute, key) => {
-          if (isBoolean(attribute)) {
-            return (<span key={key}>{String(attribute)}</span>)
-          }
-          return null
-        })}
-      </span>
-    )
-  }
-
+const messages = {
+  'attribute.render.no.value.label': '-',
+  'attribute.render.date.value': '{date} {time}',
+  'attribute.render.array.values.separator': ', ',
+  'attribute.render.range.full.label': '[{lower}, {upper}]',
+  'attribute.render.range.upper.only.label': ']-∞, {upper}]',
+  'attribute.render.range.lower.only.label': '[{lower}, +∞[',
+  'attribute.render.download.title': 'Télécharger',
+  'attribute.thumbnail.alt': 'Aucune vignette',
 }
 
-
-export default BooleanAttributeRender
+export default messages

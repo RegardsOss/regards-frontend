@@ -38,6 +38,7 @@ import { FacetArray } from '../../../models/facets/FacetShape'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
+import AttributesPresentationHelper from '../../../definitions/AttributesPresentationHelper'
 import PluginServicesContainer from './PluginServicesContainer'
 import OrderCartContainer from './OrderCartContainer'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
@@ -101,20 +102,21 @@ export class SearchResultsContainer extends React.Component {
    * Default component state (describes all possible state elements)
    */
   static DEFAULT_STATE = {
+    // pre-resolved columns models for sub component
+    attributePresentationModels: [],
+    // Hidden columns management: this is kept separately of models as the presentation adds custom columns
+    hiddenColumnKeys: [],
     // is currently showing facettes
     showingFacettes: false,
     // initial sorting attributes array
     initialSortAttributesPath: [],
     // Current sorting attributes array like {attributePath: String, type: (optional) one of 'ASC' / 'DESC'}
-    sortingOn: [],
     filters: [],
     facets: [],
     // runtime qearch query, generated from all query elements known
     fullSearchQuery: null,
     // request actioner depends on entities to search
     searchActions: null,
-    // Hidden columns management
-    hiddenColumnKeys: [],
   }
 
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
@@ -165,12 +167,27 @@ export class SearchResultsContainer extends React.Component {
       }, []).sort((facet1, facet2) => StringComparison.compare(facet1.label, facet2.label))
     }
 
-    if (oldProps.viewObjectType !== newProps.viewObjectType) {
+    // prepare columns models for search results component, according with configuration, models and view object type
+    if (!isEqual(oldProps.attributeModels, newProps.attributeModels) || oldProps.viewObjectType !== newProps.viewObjectType) {
       // re initialize selected facets and hidden columns keys
       newState.filters = []
       newState.hiddenColumnKeys = []
+
+      // build column models that will hold both attribute and dialogs models (sort, visible....)
+      // note: we take here in account the fact that hidden columns and sorting orders could have been reset
+      switch (newProps.viewObjectType) {
+        case DamDomain.ENTITY_TYPES_ENUM.DATASET:
+          newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.datasetAttributesConf, [], false)
+          break
+        case DamDomain.ENTITY_TYPES_ENUM.DATA:
+          newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesConf, newProps.attributesRegroupementsConf, true)
+          break
+        // TODO-V2 @Leo: ici, tu as besoin de ton(tes) propre(s) attributs de config pour les documents (un nouvel onglet dans la configuration du module?)
+        default:
+          throw new Error('Unhandled object type ', newProps.viewObjectType)
+      }
     } else if (oldProps.viewMode !== newProps.viewMode) {
-      // facets unchanged, reset columns
+      // facets unchanged, re initialize hidden columns keys
       newState.hiddenColumnKeys = []
     }
 
@@ -219,6 +236,7 @@ export class SearchResultsContainer extends React.Component {
    * @param {TableColumnConfiguration} editedColumns table columns with visibility attribute edited
    */
   onChangeColumnsVisibility = (editedColumns) => {
+    console.error('edited columns', editedColumns)
     const previousHiddenKeys = this.state.hiddenColumnKeys
     const hiddenColumnKeys = editedColumns.reduce((acc, { key, visible }) => visible ? acc : [...acc, key], [])
     if (!isEqual(previousHiddenKeys, hiddenColumnKeys)) {
@@ -227,33 +245,23 @@ export class SearchResultsContainer extends React.Component {
   }
 
   /**
-   * User changed sorting
-   * @param attributePath attribute path
+   * User changed sorting : update attributes presentation models
+   * @param modelKey model key
    * @param type sorting type
-   * @param clear true to clear other sorting attributes, false otherwise
    */
-  onSortChanged = (attributePath, type) => {
-    let newSortingOn = [...this.state.sortingOn]
-    if (attributePath) {
-      if (type && (type === TableSortOrders.ASCENDING_ORDER || type === TableSortOrders.DESCENDING_ORDER)) {
-        // add the attribute to sorting list
-        let currentAttrSorting = find(newSortingOn, ({ attributePath: currPath }) => currPath === attributePath)
-        if (!currentAttrSorting) {
-          currentAttrSorting = { attributePath, type } // note, type is not mandatory
-          newSortingOn.push(currentAttrSorting)
-        } else {
-          currentAttrSorting.type = type
+  onSortByAttribute = (modelKey, type) => this.updateStateAndQuery({
+    // update presentation models to hold the new sorting
+    attributePresentationModels: this.state.attributePresentationModels.map((attrModel) => {
+      if (attrModel.key === modelKey) { // model identified by its key
+        console.error('New type for ', attrModel, type)
+        return {
+          ...attrModel,
+          sortOrder: type,
         }
-      } else {
-        // remove attribute from sorting list
-        newSortingOn = reject(newSortingOn, ({ attributePath: currPath }) => attributePath === currPath)
       }
-    }
-
-    this.updateStateAndQuery({
-      sortingOn: newSortingOn,
-    })
-  }
+      return attrModel
+    }),
+  })
 
   /**
    * Returns filters from state without key as parameter.
@@ -270,7 +278,7 @@ export class SearchResultsContainer extends React.Component {
    * @return { openSearchQuery, fullSearchQuery, searchActions }: new search state
    */
   buildSearchState = ({ viewObjectType, searchQuery, facettesQuery, levels },
-    { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
+    { showingFacettes, filters, attributePresentationModels, initialSortAttributesPath }) => { // TODO NO
     const showingDataobjects = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
     // check if facettes should be applied
@@ -292,6 +300,8 @@ export class SearchResultsContainer extends React.Component {
       searchActions = searchDataobjectsActions
       parameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
       // check if user specified or sorting or provide one (Only available for dataobjects)
+      const sortingOn = attributePresentationModels.reduce((acc, model) => // transform into key / value sorting elements
+        model.sortOrder !== TableSortOrders.NO_SORT ? [...acc, { attributePath: model.key, type: model.sortOrder }] : acc, [])
       sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
     } else {
       // 2 - Showing datasets: use specific dataset actions to cut down fetch time when possible
@@ -346,12 +356,11 @@ export class SearchResultsContainer extends React.Component {
   render() {
     const {
       displayDatasets, enableFacettes, isFetching, resultsCount, viewObjectType, displayMode,
-      attributesConf, facettesQuery, attributesRegroupementsConf,
-      attributeModels, dispatchSetEntityAsTag, datasetAttributesConf,
-      searchQuery: initialSearchQuery,
+      facettesQuery, dispatchSetEntityAsTag, searchQuery: initialSearchQuery,
     } = this.props
 
-    const { searchActions, sortingOn, showingFacettes, facets, filters, hiddenColumnKeys, openSearchQuery, fullSearchQuery } = this.state
+    const { attributePresentationModels, hiddenColumnKeys, searchActions, showingFacettes,
+      facets, filters, openSearchQuery, fullSearchQuery } = this.state
 
     return (
       <ModuleStyleProvider module={moduleStyles}>
@@ -380,19 +389,14 @@ export class SearchResultsContainer extends React.Component {
               viewObjectType={viewObjectType}
               viewMode={displayMode || DisplayModeEnum.LIST}
 
-              sortingOn={sortingOn}
-
               showingFacettes={showingFacettes}
               facets={facets}
               filters={filters}
 
               searchQuery={fullSearchQuery}
 
-              attributesConf={attributesConf}
-              attributesRegroupementsConf={attributesRegroupementsConf}
-              datasetAttributesConf={datasetAttributesConf}
-              attributeModels={attributeModels}
               hiddenColumnKeys={hiddenColumnKeys}
+              attributePresentationModels={attributePresentationModels}
 
               onChangeColumnsVisibility={this.onChangeColumnsVisibility}
               onDeleteFacet={this.onDeleteFacet}
@@ -402,7 +406,7 @@ export class SearchResultsContainer extends React.Component {
               onShowDataobjects={this.onShowDataobjects}
               onShowListView={this.onShowListView}
               onShowTableView={this.onShowTableView}
-              onSortChanged={this.onSortChanged}
+              onSortByAttribute={this.onSortByAttribute}
               onToggleShowFacettes={this.onToggleShowFacettes}
 
             />

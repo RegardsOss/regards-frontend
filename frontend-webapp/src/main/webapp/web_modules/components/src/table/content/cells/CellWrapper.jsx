@@ -82,12 +82,14 @@ class CellWrapper extends React.PureComponent {
 
     // render
     return (
-      <FixedDataTableCell style={completeCellStyle} {...cellProperties} >
-        { // render child cell content only when there is some entity and some constructor
-          this.hasEntity() && CellContentBuilder ?
-            <CellContentBuilder rowIndex={rowIndex} getEntity={this.getEntity} {...cellContentBuilderProps} /> :
-            null
-        }
+      <FixedDataTableCell {...cellProperties} >
+        <div style={completeCellStyle}>
+          { // render child cell content only when there is some entity and some constructor
+            this.hasEntity() && CellContentBuilder ?
+              <CellContentBuilder rowIndex={rowIndex} getEntity={this.getEntity} {...cellContentBuilderProps} /> :
+              null
+          }
+        </div>
       </FixedDataTableCell>
     )
   }

@@ -100,10 +100,11 @@ class Table extends React.Component {
     })
   }
 
-  /**
-   * Returns default line height from theme
-   */
+  /** @return default line height from theme */
   getDefaultLineHeight = () => this.context.muiTheme['components:infinite-table'].lineHeight
+
+  /** @return default header line height from theme */
+  getDefaultHeaderHeight = () => this.context.muiTheme['components:infinite-table'].minHeaderRowHeight
 
   /**
    * Retrieve entity for the given rowIndex from the array containing all entities or null if it is outside bounds
@@ -189,7 +190,7 @@ class Table extends React.Component {
     return (
       <FixedDataTable
         rowHeight={lineHeight}
-        headerHeight={displayColumnsHeader ? lineHeight : 0}
+        headerHeight={displayColumnsHeader ? this.getDefaultHeaderHeight() : 0}
         rowsCount={rowsCount}
         onColumnResizeEndCallback={this.onColumnResizeEndCallback}
         isColumnResizing={false}
@@ -203,7 +204,7 @@ class Table extends React.Component {
               key={column.key}
               columnKey={column.key}
               header={
-                <ColumnHeaderWrapper lineHeight={lineHeight} isLastColumn={index === columns.length - 1}>
+                <ColumnHeaderWrapper isLastColumn={index === columns.length - 1}>
                   { // provide header cell as child
                     column.headerCell
                   }

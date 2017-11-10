@@ -16,33 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import forEach from 'lodash/forEach'
 
 /**
- * Component to display integer attributes group value
- *
- * @author Sébastien binda
- */
-class IntegerAttributesRender extends React.Component {
-  static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    attributes: PropTypes.object,
-  }
-
-  render() {
-    const results = []
-    forEach(this.props.attributes, (attribute, key) => {
-      if (Number.isInteger(attribute)) {
-        results.push(<span key={key}>{attribute}</span>)
-      }
-    })
-    return (
-      <span>
-        {results}
-      </span>
-    )
-  }
-
+* Module message for EN local
+* @author Raphaël Mechali
+*/
+const messages = {
+  'attribute.render.no.value.label': '-',
+  'attribute.render.date.value': '{date} {time}',
+  'attribute.render.array.values.separator': ', ',
+  'attribute.render.range.full.label': '[{lower}, {upper}]',
+  'attribute.render.range.upper.only.label': ']-∞, {upper}]',
+  'attribute.render.range.lower.only.label': '[{lower}, +∞[',
+  'attribute.render.download.title': 'Download',
+  'attribute.thumbnail.alt': 'No thumbnail',
 }
 
-export default IntegerAttributesRender
+export default messages

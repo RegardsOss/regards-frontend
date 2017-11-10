@@ -33,8 +33,14 @@ import TableColumnConfiguration from '../content/columns/model/TableColumnConfig
 export class TableColumnsVisibilityOption extends React.Component {
 
   static propTypes = {
+    // Columns: describes a partial column shape (requires only key, label and visible state) to avoid
+    // strong coupling with tables
     // eslint-disable-next-line react/no-unused-prop-types
-    columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
+    columns: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      visible: PropTypes.bool.isRequired,
+    })).isRequired,
     onChangeColumnsVisibility: PropTypes.func.isRequired,
   }
 
@@ -65,8 +71,8 @@ export class TableColumnsVisibilityOption extends React.Component {
    */
   onReInitialize = ({ columns }) => this.setState({
     dialogVisible: false,
-    // get local column buffer, sorted alphabetically
-    bufferedColumns: sortBy(columns.map(c => ({ ...c })), ['label']),
+    // get local column buffer with partial columns models, sorted alphabetically
+    bufferedColumns: sortBy(columns.map(({ key, visible, label }) => ({ key, visible, label })), ['label']),
   })
 
   /**

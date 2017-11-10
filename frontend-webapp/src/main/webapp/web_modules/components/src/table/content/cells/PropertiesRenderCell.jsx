@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import keys from 'lodash/keys'
-import reduce from 'lodash/reduce'
+import flatMap from 'lodash/flatMap'
 import { themeContextType } from '@regardsoss/theme'
+import PropertiesValuesSeparator from './PropertiesValuesSeparator'
 
 
 /**
@@ -31,31 +31,27 @@ export default class PropertiesRenderCell extends React.Component {
 
   static propTypes = {
     // common cell content properties
-    rowIndex: PropTypes.number.isRequired,
+    // rowIndex: PropTypes.number.isRequired, unused
     getEntity: PropTypes.func.isRequired,
-    // values render delegate constructor
-    RenderDelegateConstructor: PropTypes.func.isRequired,
-    // Array of shown properties full path: will be used to compute values
-    properties: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // list of properties with render delegate constructor for that property
+    properties: PropTypes.arrayOf(PropTypes.shape({
+      path: PropTypes.string.isRequired, // a gettable path (in the lodash meaning) for property on row entity
+      RenderConstructor: PropTypes.func.isRequired,
+    })).isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
-  /**
-   * User callback: on toggle row selection
-   */
-  onToggleSelectRow = () => this.props.onToggleRowSelection(this.props.rowIndex)
-
   render() {
-    const { getEntity, properties, RenderDelegateConstructor } = this.props
+    const { getEntity, properties } = this.props
     const entity = getEntity()
-    const attributesWithValues = reduce(properties, (acc, attributeFullPath) => ({
-      ...acc,
-      [attributeFullPath]: get(entity, attributeFullPath),
-    }), {})
-    return <RenderDelegateConstructor attributes={attributesWithValues} />
+    return flatMap(properties, ({ path, RenderConstructor }, index) =>
+      [
+        index > 0 ? <PropertiesValuesSeparator key={`separator.${path}`} /> : null,
+        <RenderConstructor key={`value.${path}`} value={get(entity, path)} />,
+      ])
   }
 
 }

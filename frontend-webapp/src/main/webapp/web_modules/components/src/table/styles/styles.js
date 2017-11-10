@@ -33,6 +33,7 @@ export default (theme) => {
     display: 'flex',
     justifyContent: 'center',
     borderBottom: cellBorder,
+    minHeight: theme['components:infinite-table'].minHeaderRowHeight,
   }
 
   const commonCell = {
@@ -42,6 +43,8 @@ export default (theme) => {
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+    width: '100%',
+    height: '100%',
   }
 
   const commonCellEven = {
@@ -134,6 +137,33 @@ export default (theme) => {
         size: 22, // TODO theme
         color: theme.palette.primary1Color, // TODO theme
       },
+      cellHeader: {
+        ...commonHeaderCellStyles,
+        alignItems: 'center',
+        textAlign: 'center',
+        // borderRight: cellBorder,
+      },
+      lastCellHeader: {
+        ...commonHeaderCellStyles,
+        alignItems: 'center',
+      },
+      sortableHeader: {
+        style: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        },
+        sortButtonStyle: {
+          width: 32,
+          height: 32,
+          padding: 4,
+        },
+        sortIconStyle: {
+          width: 24,
+          height: 24,
+        },
+      },
 
       // TODO maybe delete xxx
       line: {
@@ -190,35 +220,12 @@ export default (theme) => {
       backgroundColor: theme.table.backgroundColor,
       borderBottom: `1px solid ${theme.tableRow.borderColor}`,
     },
-    cellHeader: {
-      ...commonHeaderCellStyles,
-      alignItems: 'center',
-      textAlign: 'center',
-      // borderRight: cellBorder,
-    },
-    lastCellHeader: {
-      ...commonHeaderCellStyles,
-      alignItems: 'center',
-    },
-    fixedCellHeader: {
-      ...commonHeaderCellStyles,
-    },
-    sortableHeader: {
-      style: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-      },
-      sortButtonStyle: {
-        width: 32,
-        height: 32,
-        padding: 4,
-      },
-      sortIconStyle: {
-        width: 24,
-        height: 24,
-      },
+    multipleCellValuesSeparator: {
+      borderLeft: `1px solid ${theme.tableRow.borderColor}`,
+      margin: theme['components:infinite-table'].multipleValuesSeparatorMargin,
+      flexGrow: 0,
+      flexShrink: 0,
+      height: theme['components:infinite-table'].multipleValuesSeparatorHeight,
     },
     checkButton: {
       styles: {

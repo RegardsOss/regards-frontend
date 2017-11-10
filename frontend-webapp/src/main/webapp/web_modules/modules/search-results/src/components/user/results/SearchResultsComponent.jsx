@@ -16,17 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import values from 'lodash/values'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import {
-  PageableInfiniteTableContainer, NoContentComponent,
-  TableLayout, TableSortOrders, TableColumnBuilder,
-} from '@regardsoss/components'
+import { PageableInfiniteTableContainer, NoContentComponent, TableSortOrders, TableLayout, TableColumnBuilder } from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
-import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { FacetArray } from '../../../models/facets/FacetShape'
@@ -57,16 +53,13 @@ class SearchResultsComponent extends React.Component {
     searchActions: PropTypes.instanceOf(BasicFacetsPageableActions).isRequired,
     searchSelectors: PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
 
+    // configuration related: attributes presentation model as converted by parent container
+    hiddenColumnKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
+
     // dynamic display control
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
     viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
-
-    // sorting control
-    // eslint-disable-next-line react/no-unused-prop-types
-    sortingOn: PropTypes.arrayOf(PropTypes.shape({ // user sorting, showing only when user set, not the default one
-      attributePath: PropTypes.string.isRequired,
-      type: PropTypes.oneOf(values(TableSortOrders)).isRequired,
-    })).isRequired,
 
     // facets control
     showingFacettes: PropTypes.bool.isRequired,
@@ -76,13 +69,6 @@ class SearchResultsComponent extends React.Component {
     // request control
     searchQuery: PropTypes.string.isRequired,
 
-    // Attributes configurations for results columns
-    attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
-    attributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent),
-    datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
-    attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
-    // key of each hidden column (as provided by this component)
-    hiddenColumnKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
     // services from PluginServicesContainer HOC
     selectionServices: AccessShapes.PluginServiceWithContentArray,
     // control
@@ -96,7 +82,7 @@ class SearchResultsComponent extends React.Component {
     onShowDataobjects: PropTypes.func.isRequired, // TODO directly down?
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
-    onSortChanged: PropTypes.func.isRequired,
+    onSortByAttribute: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
     // from PluginServicesContainer HOC
     onStartSelectionService: PropTypes.func, // callback to start a selection service
@@ -110,13 +96,6 @@ class SearchResultsComponent extends React.Component {
     ...i18nContextType,
     ...themeContextType,
   }
-
-  /**
-   * Has object type as parameter the sorting option
-   * @param {objectType} entity type
-   * @return true if sorting is available for that type, false otherwise
-   */
-  static hasSorting = objectType => objectType !== DamDomain.ENTITY_TYPES_ENUM.DATASET
 
   /**
    * Has object type as parameter the services option
@@ -133,46 +112,24 @@ class SearchResultsComponent extends React.Component {
   static hasSelection = objectType => objectType !== DamDomain.ENTITY_TYPES_ENUM.DATASET
 
   /**
-   * Sorting adaptation for parent container (to avoid runtime lambdas)
-   * @param attributePath attribute path (as it is the column key / sort ID provided when building header)
-   * @param sortOrder new sort order
-   */
-  onSortByColumn = (attributePath, sortOrder) => {
-    this.props.onSortChanged(attributePath, sortOrder)
-  }
-
-  /**
    * Builds table columns
    * @param props : props map, to retrieve current properties
    */
   buildTableColumns = () => {
-    const { attributesConf, attributeModels, attributesRegroupementsConf, searchSelectors,
-      datasetAttributesConf, sortingOn, onAddElementToCart, viewObjectType } = this.props
+    const { searchSelectors, attributePresentationModels, onSortByAttribute, onAddElementToCart, viewObjectType } = this.props
     const { intl: { formatMessage } } = this.context
 
     const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
-    const enableSorting = SearchResultsComponent.hasSorting(viewObjectType)
-    // what type of columns should the table show?
-    let columnAttributes
-    let columnAttributeGroup
-    if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET) {
-      columnAttributes = datasetAttributesConf// attributes are dataset ones
-      columnAttributeGroup = [] // no group
-    } else {
-      columnAttributes = attributesConf // data configuration
-      columnAttributeGroup = attributesRegroupementsConf // data attribute groups
-    }
 
     return [
       // selection column
       enableSelection ? TableColumnBuilder.buildSelectionColumn(formatMessage({ id: 'results.selection.column.label' }),
         true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors,
         this.isColumnVisible(TableColumnBuilder.selectionColumnKey), fixedColumnWidth) : null,
-      // attributes
-      ...this.buildAttributesColumns(columnAttributes, attributeModels, sortingOn, enableSorting, fixedColumnWidth),
-      // attribute groups
-      ...this.buildAttributesGroupsColumns(columnAttributeGroup, attributeModels),
+      // attributes and attributes groups as provided by parent
+      ...attributePresentationModels.map(presentationModel => AttributeColumnBuilder.buildAttributeColumn(
+        presentationModel, this.isColumnVisible(presentationModel.key), onSortByAttribute, fixedColumnWidth)),
     ].filter(column => !!column) // filter null elements
     // TODO other columns
     //   ...,
@@ -208,45 +165,6 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
-   * Builds simple attributes table columns for each attribute from module configuration
-   * @param attributesConf simple attributes configuration from module configuration
-   * @param attributeModels runtime resolved attribute models
-   * @param sortingOn current sorting on attributes keys
-   * @param enableSorting should enable sorting?
-   * @param fixedColumnWidth width for non resizable columns
-   */
-  buildAttributesColumns = (attributesConf, attributeModels, sortingOn, enableSorting, fixedColumnWidth) =>
-    // map on attributes defined in configuration to build the required columns (then filter)
-    map(attributesConf, (attributeConf) => {
-      // map to attributes models then to column
-      if (attributeConf.visibility) {
-        // find column sorting order
-        const attributeFullQualifiedName = attributeConf.attributeFullQualifiedName
-        const columnSortingOrder = sortingOn.reduce((acc, { attributePath, type }) =>
-          attributePath === attributeFullQualifiedName ? type : acc, TableSortOrders.NO_SORT)
-        // build the column and order data
-        return AttributeColumnBuilder.buildAttributeColumn(attributeFullQualifiedName,
-          attributeModels, enableSorting, columnSortingOrder, this.onSortByColumn,
-          this.isColumnVisible(attributeFullQualifiedName), attributeConf.order, fixedColumnWidth)
-      }
-      return null
-    })
-
-  /**
-   * Builds attributes group table columns for each attributes group from module configuration
-   * @param attributesRegroupementsConf group attributes configuration from module configuration
-   */
-  buildAttributesGroupsColumns = (attributesRegroupementsConf, attributeModels) =>
-    map(attributesRegroupementsConf, (attrRegroupementConf) => {
-      if (attrRegroupementConf.visibility) {
-        const labelAndKey = attrRegroupementConf.label
-        return AttributeColumnBuilder.buildAttributesGroupColumn(attrRegroupementConf.attributes, attributeModels,
-          labelAndKey, this.isColumnVisible(labelAndKey), attrRegroupementConf.order)
-      }
-      return null
-    })
-
-  /**
   * Create columns configuration for table view
   * @param tableColumns table columns
   * @param props component properties
@@ -280,7 +198,6 @@ class SearchResultsComponent extends React.Component {
   isColumnVisible = columnKey => !this.props.hiddenColumnKeys.includes(columnKey)
 
   /** @return {boolean} true if currently displaying dataobjects */
-  // TODO still required?
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /** @return {boolean} true if currently in list view */ // TODO remove?
@@ -294,10 +211,10 @@ class SearchResultsComponent extends React.Component {
     const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage }, muiTheme } = this.context
     const tableTheme = muiTheme['components:infinite-table']
 
-    const { allowingFacettes, displayDatasets, resultsCount, isFetching, searchActions, searchSelectors, viewObjectType, viewMode, sortingOn,
-      showingFacettes, facets, filters, searchQuery, attributesConf, attributesRegroupementsConf, datasetAttributesConf, attributeModels, hiddenColumnKeys,
+    const { allowingFacettes, displayDatasets, resultsCount, isFetching, searchActions, searchSelectors, viewObjectType, viewMode,
+      showingFacettes, facets, filters, searchQuery, hiddenColumnKeys,
       selectionServices, onChangeColumnsVisibility, onDeleteFacet, onSetEntityAsTag, onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView,
-      onShowTableView, onSortChanged, onToggleShowFacettes, onStartSelectionService, onAddSelectionToCart, onAddElementToCart } = this.props
+      onShowTableView, onSortByAttribute, onToggleShowFacettes, onStartSelectionService, onAddSelectionToCart, onAddElementToCart } = this.props
 
     // build table columns
     const tableColumns = this.buildTableColumns()
@@ -346,7 +263,7 @@ class SearchResultsComponent extends React.Component {
           onShowDatasets={onShowDatasets}
           onShowListView={onShowListView}
           onShowTableView={onShowTableView}
-          onSortByColumn={this.onSortByColumn}
+          onSortByAttribute={onSortByAttribute}
           onStartSelectionService={onStartSelectionService}
           onToggleShowFacettes={onToggleShowFacettes}
         />

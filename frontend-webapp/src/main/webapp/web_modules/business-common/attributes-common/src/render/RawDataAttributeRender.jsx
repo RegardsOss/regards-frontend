@@ -19,35 +19,37 @@
 import get from 'lodash/get'
 import GetApp from 'material-ui/svg-icons/action/get-app'
 import NotInterested from 'material-ui/svg-icons/av/not-interested'
-import { themeContextType } from '@regardsoss/theme'
 import { CatalogDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import messages from '../i18n'
 
 /**
- * Component to render rawdata download attributes group
+ * Component to render rawdata download attributes group.
+ * Note: unlike other render, this one is rendering only the first provided value
  *
  * @author Sébastien Binda
  */
-class RawDataAttributesRender extends React.Component {
+class RawDataAttributeRender extends React.Component {
 
   static propTypes = {
-    attributes: PropTypes.shape({
-      files: CatalogShapes.entityFiles,
-    }),
-    // eslint-disable-next-line react/no-unused-prop-types
-    entity: CatalogShapes.Entity,
+    value: CatalogShapes.entityFiles,
   }
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
-    const rawDataURI = get(this.props.attributes, `files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}[0].uri`, null)
+    // in resolved attributes, get the first data, if any
+    const { intl: { formatMessage } } = this.context
+    const rawDataURI = get(this.props.value, `${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}[0].uri`)
     if (rawDataURI) {
       const styles = { cursor: 'pointer', marginTop: '5px' }
       return (
-        <a href={rawDataURI} download title="download">
+        <a href={rawDataURI} download title={formatMessage({ id: 'attribute.render.download.title' })}>
           <GetApp
             style={styles}
             hoverColor={this.context.muiTheme.palette.accent1Color}
@@ -60,4 +62,4 @@ class RawDataAttributesRender extends React.Component {
 
 }
 
-export default RawDataAttributesRender
+export default withI18n(messages, true)(RawDataAttributeRender)

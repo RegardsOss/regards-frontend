@@ -36,6 +36,9 @@ export default {
     listLineHeight: 160,
     listMinRowCount: 3,
     minHeaderRowHeight: 40,
+    multipleValuesSeparatorMargin: '0 10px',
+    multipleValuesSeparatorHeight: 14,
+    thumbnailPadding: 5,
   },
   'forms-extension:jsonField': {
     marginTop: '8px',

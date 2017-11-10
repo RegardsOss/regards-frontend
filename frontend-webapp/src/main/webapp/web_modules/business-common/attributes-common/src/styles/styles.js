@@ -16,41 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 
-/**
- * Component to display string attributes group value
- *
- * @author Sébastien binda
- */
-class StringAttributesRender extends React.Component {
-  static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    attributes: PropTypes.object,
-  }
-
-  static SPAN_SINGLE_LINE_STYLES = {
+export default theme => ({
+  textRenderCell: {
     whiteSpace: 'nowrap',
-  }
-
-  render() {
-    const attributes = map(this.props.attributes, (attribute) => {
-      if (attribute) {
-        return String(attribute)
-      }
-      return null
-    })
-    const value = attributes.join(' ')
-    return (
-      <span
-        title={value}
-        style={StringAttributesRender.SPAN_SINGLE_LINE_STYLES}
-      >
-        {value}
-      </span>
-    )
-  }
-
-}
-
-export default StringAttributesRender
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  thumbnailCell: {
+    display: 'block',
+    cursor: 'pointer',
+    // both strecth in flexboxes and consume width in measured layouts
+    alignSelf: 'strecth',
+    width: '100%',
+    padding: theme['components:infinite-table'].thumbnailPadding,
+  },
+})

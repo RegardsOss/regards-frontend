@@ -16,34 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
+import compose from 'lodash/fp/compose'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Component to display string attributes group value
  *
  * @author Sébastien binda
  */
-class StringArrayAttributesRender extends React.Component {
-
+class StringAttributeRender extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    attributes: PropTypes.object,
+    value: PropTypes.string,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
-    const attributes = map(this.props.attributes, stringArrayAttributes => map(stringArrayAttributes, (stringArrayAttribute) => {
-      if (stringArrayAttribute) {
-        return String(stringArrayAttribute)
-      }
-      return null
-    }))
+    const { value } = this.props
+    const { intl, moduleTheme: { textRenderCell } } = this.context
+
+    const textValue = value || intl.formatMessage({ id: 'attribute.render.no.value.label' })
     return (
-      <span title={attributes.join(' ')}>
-        {map(attributes, (attribute, key) => <span key={key}>{attribute.join(', ')}</span>)}
-      </span>
-    )
+      <div style={textRenderCell} title={textValue}>
+        {textValue}
+      </div>)
   }
 
 }
 
-export default StringArrayAttributesRender
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(StringAttributeRender)

@@ -16,39 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
-import { FormattedDate, FormattedTime } from 'react-intl'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Component to display Date attributes group value
- *
- * @author Sébastien binda
+ * Properties values separator in multiple values render by cell
+ * @author Raphaël Mechali
  */
-class DateAttributesRender extends React.Component {
-  static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    attributes: PropTypes.object,
+class PropertiesValuesSeparator extends React.Component {
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   render() {
+    const { moduleTheme: { multipleCellValuesSeparator } } = this.context
     return (
-      <span>
-        {map(this.props.attributes, (attribute, key) => {
-          if (attribute && !isNaN((new Date(attribute)).getDate())) {
-            return (
-              <span key={key}>
-                <FormattedDate value={attribute} />
-                {' '}
-                <FormattedTime value={attribute} />
-              </span>
-            )
-          }
-          return null
-        })}
-      </span>
+      <div style={multipleCellValuesSeparator} />
     )
   }
-
 }
-
-export default DateAttributesRender
+export default PropertiesValuesSeparator

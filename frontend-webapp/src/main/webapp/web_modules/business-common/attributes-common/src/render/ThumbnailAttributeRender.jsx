@@ -16,25 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import Dialog from 'material-ui/Dialog'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { CatalogDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Component to render thumbnail attributes group
+ * Note: unlike other render, this one is rendering only the first provided value
  *
  * @author Sébastien Binda
  */
-class ThumbnailAttributesRender extends React.Component {
+class ThumbnailAttributeRender extends React.Component {
 
   static propTypes = {
-    attributes: PropTypes.shape({
-      files: CatalogShapes.entityFiles,
-    }),
-    // eslint-disable-next-line react/no-unused-prop-types
-    entity: CatalogShapes.Entity,
+    value: CatalogShapes.entityFiles,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
   }
 
   constructor(props) {
@@ -46,6 +53,7 @@ class ThumbnailAttributesRender extends React.Component {
 
   displayFullSize = (uri) => {
     if (this.state.displayFullSize) {
+      const { intl: { formatMessage } } = this.context
       return (
         <Dialog
           modal={false}
@@ -53,7 +61,11 @@ class ThumbnailAttributesRender extends React.Component {
           open
         >
           <div>
-            <img src={uri} alt="" style={{ maxWidth: 500 }} />
+            <img
+              src={uri}
+              alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
+              style={{ maxWidth: 500 }}
+            />
           </div>
         </Dialog>
       )
@@ -62,15 +74,16 @@ class ThumbnailAttributesRender extends React.Component {
   }
 
   render() {
-    const thumbnailURI = get(this.props.attributes, `files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL}[0].uri`, null)
+    // in resolved attributes, get the first data, if any
+    const { intl: { formatMessage }, moduleTheme: { thumbnailCell } } = this.context
+    const thumbnailURI = get(this.props.value, `${CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL}[0].uri`, null)
     if (thumbnailURI) {
-      const style = { display: 'block', cursor: 'pointer', height: 25, margin: '0 auto' } // TODO: this is bullshit lineheiht, use theme?
       return (
         <div>
           <img
             src={thumbnailURI}
-            style={style}
-            alt="no thumbnail"
+            style={thumbnailCell}
+            alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
             onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
           />
           {this.displayFullSize(thumbnailURI)}
@@ -82,4 +95,4 @@ class ThumbnailAttributesRender extends React.Component {
 
 }
 
-export default ThumbnailAttributesRender
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(ThumbnailAttributeRender)

@@ -64,7 +64,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
     onShowDatasets: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
-    onSortByColumn: PropTypes.func.isRequired,
+    onSortByAttribute: PropTypes.func.isRequired,
     onStartSelectionService: PropTypes.func, // callback to start a selection service
     onToggleShowFacettes: PropTypes.func.isRequired,
   }
@@ -88,7 +88,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
       allowingFacettes, showingFacettes, selectionServices,
       onAddSelectionToCart, onChangeColumnsVisibility,
       onShowListView, onShowTableView, onShowDatasets, onShowDataobjects,
-      onSortByColumn, onStartSelectionService, onToggleShowFacettes } = this.props
+      onSortByAttribute, onStartSelectionService, onToggleShowFacettes } = this.props
 
     // TODO-V2 externalize as styles
     const iconListStyle = { width: 33, height: 33 }
@@ -144,7 +144,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
           {/* 1.b.3 List view option select all and sort options */}
           <TableHeaderOptionGroup show={this.isInListView() && this.isDisplayingDataobjects()}>
             <TableSortFilterComponent
-              onSortByColumn={onSortByColumn}
+              onSortByAttribute={onSortByAttribute}
               tableColumns={tableColumns}
               prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
               noneLabel={formatMessage({ id: 'list.sort.none.label' })}
