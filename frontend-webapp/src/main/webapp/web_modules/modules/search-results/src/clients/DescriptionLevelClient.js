@@ -3,7 +3,7 @@
 **/
 import { descriptionLevelModel } from '@regardsoss/entities-common'
 
-/** The description level model works exactly the same than a client but it has no web connection */
+/** Description level client (no web connection) */
 
 export const REDUCER_PATH = 'descriptionLevel'
 

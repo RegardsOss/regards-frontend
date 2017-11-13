@@ -32,14 +32,14 @@ const IconButtonConstructorWrapper = props => (
   </IconButton>)
 
 /**
-* Shows one element services (shared between both list and table views)
-* @author Raphaël Mechali
-*/
-class OneElementServicesButton extends React.Component {
+ * Option to shows one element services (shared between both list and table views)
+ * @author Raphaël Mechali
+ */
+class OneElementServicesComponent extends React.Component {
 
   static propTypes = {
     services: AccessShapes.PluginServiceWithContentArray,
-    onServiceStarted: PropTypes.func.isRequired,
+    onServiceStarted: PropTypes.func.isRequired, // (service) => ()
     // other properties are reported to the drop down button
   }
 
@@ -53,7 +53,7 @@ class OneElementServicesButton extends React.Component {
     return (
       <DropDownButton
         title={formatMessage({ id: 'show.entity.services.tooltip' })}
-        getLabel={OneElementServicesButton.NO_LABEL_FUNCTION}
+        getLabel={OneElementServicesComponent.NO_LABEL_FUNCTION}
         onChange={onServiceStarted}
         disabled={!services || !services.length}
         ButtonConstructor={IconButtonConstructorWrapper}
@@ -76,4 +76,4 @@ class OneElementServicesButton extends React.Component {
     )
   }
 }
-export default OneElementServicesButton
+export default OneElementServicesComponent

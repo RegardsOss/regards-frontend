@@ -21,10 +21,10 @@ import InfoIcon from 'material-ui/svg-icons/action/info-outline'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Button to show description in results table
-* @author Raphaël Mechali
-*/
-class EntityDescriptionButton extends React.Component {
+ * Option to show description in results table
+ * @author Raphaël Mechali
+ */
+class EntityDescriptionComponent extends React.Component {
 
   static propTypes = {
     onShowDescription: PropTypes.func.isRequired,
@@ -49,4 +49,4 @@ class EntityDescriptionButton extends React.Component {
     )
   }
 }
-export default EntityDescriptionButton
+export default EntityDescriptionComponent

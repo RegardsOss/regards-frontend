@@ -19,12 +19,11 @@
 import FlatButton from 'material-ui/FlatButton'
 import AddIcon from 'material-ui/svg-icons/action/add-shopping-cart'
 import { i18nContextType } from '@regardsoss/i18n'
-import messages from '../../../../i18n'
 
 /**
-* Button to show description in results table
-* @author Raphaël Mechali
-*/
+ * Option to show description in results table
+ * @author Raphaël Mechali
+ */
 export class AddSelectionToCartComponent extends React.Component {
 
   static propTypes = {

@@ -31,7 +31,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { TableColumnConfiguration, TableColumnConfigurationController, DownloadButton, ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import AddElementToCartButton from '../options/AddElementToCartButton'
+import AddElementToCartComponent from '../options/AddElementToCartButton'
 import OneElementServicesButton from '../options/OneElementServicesButton'
 import EntityDescriptionButton from '../options/EntityDescriptionButton'
 
@@ -245,7 +245,7 @@ class ListViewEntityCellComponent extends React.Component {
             onShowDescription={onShowDescription}
           />
           <ShowableAtRender show={!!onAddToCart}>
-            <AddElementToCartButton // Add to cart, only when callback is available
+            <AddElementToCartComponent // Add to cart, only when callback is available
               onAddToCart={onAddToCart}
               style={option.buttonStyles}
               iconStyle={option.iconStyles}

@@ -19,6 +19,7 @@
 import SortableColumnHeaderCell from './SortableColumnHeaderCell'
 import SimpleTitleColumnHeaderCell from './SimpleTitleColumnHeaderCell'
 import CheckboxColumnHeaderCell from './CheckboxColumnHeaderCell'
+import OptionsCell from '../cells/OptionsCell'
 import CheckBoxCell from '../cells/CheckBoxCell'
 
 /**
@@ -28,11 +29,17 @@ import CheckBoxCell from '../cells/CheckBoxCell'
 
 const unorderedColumnIndex = 1000
 
+const lastColumnIndex = Number.MAX_SAFE_INTEGER
+
+const selectionColumnKey = 'column.table.selection'
+
+const optionsColumnKey = 'column.table.options'
+
 /**
  * Builds a table column, as expected by the table
  * @param {string} key column key
  * @param {React.Element} headerCell The instantiated header cell
- * @param {Constructor: {func}, props: {*}} rowCellDefinition row cell definition, with React
+ * @param {CellContentBuilder: {func}, cellContentBuilderProps: {*}} rowCellDefinition row cell definition, with React
  * constructor and static properties (others will be dynamic added).
  * Note: wrapperStyle property can be used to override the cell wrapper styles
  * @param {boolean} visible is column visible
@@ -51,8 +58,6 @@ function buildColumn(key, label, headerCell, rowCellDefinition, visible, order =
     visible,
   }
 }
-
-const selectionColumnKey = 'column.table.selection'
 
 /**
  * Builds a selection column, ie a column with standard column header renderer
@@ -113,9 +118,31 @@ function buildTitleColumnHeader(key, label) {
     />)
 }
 
+/**
+ * Builds an options table column. Note: column width is fixed using options count
+ * @param {string} label label
+ * @param {[{OptionConstructor: {func}, optionProps: {*}}]} optionCellsDefinition list of constructor and default properties to build the cells.
+ * Note: the cells will automatically receive entity and rowIndex as properties
+ * @param {boolean} visible is column visible
+ * @param {number} fixedWidth (REQUIRED) fixed width when column should not grow / shrink with width, undefined otherwise
+ * @param {string} key (option) column key - or default options key
+ * @param {number} order (optional) column order within columns array - or max column order
+ * @param {React.Element} headerCell The instantiated header cell (or null header by default)
+ * @return packed column model
+ */
+function buildOptionsColumn(label, optionsDefinitions, visible, fixedWidth, key = optionsColumnKey, order = lastColumnIndex, headerCell = null) {
+  const rowCellDefinition = {
+    Constructor: OptionsCell,
+    props: { optionsDefinitions },
+  }
+  return this.buildColumn(key, label, headerCell, rowCellDefinition, visible, order, fixedWidth * optionsDefinitions.length)
+}
+
 export default {
+  optionsColumnKey,
   selectionColumnKey,
   buildColumn,
+  buildOptionsColumn,
   buildSelectionColumn,
   buildSortableColumnHeader,
   buildTitleColumnHeader,

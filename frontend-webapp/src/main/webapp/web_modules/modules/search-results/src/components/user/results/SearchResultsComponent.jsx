@@ -20,7 +20,7 @@ import values from 'lodash/values'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PageableInfiniteTableContainer, NoContentComponent, TableSortOrders, TableLayout, TableColumnBuilder } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, NoContentComponent, TableLayout, TableColumnBuilder } from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
@@ -28,12 +28,14 @@ import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { FacetArray } from '../../../models/facets/FacetShape'
 import { FilterListShape } from '../../../models/facets/FilterShape'
 import TableClient from '../../../clients/TableClient'
-import ListViewEntityCellContainer from '../../../containers/user/results/cells/ListViewEntityCellContainer'
-import TableViewOptionsCellContainer from '../../../containers/user/results/cells/TableViewOptionsCellContainer'
+import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
 import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
 import SelectedFacetsHeaderRow from './header/SelectedFacetsHeaderRow'
-import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
+import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
+import EntityDescriptionContainer from '../../../containers/user/results/options/EntityDescriptionContainer'
+import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
+// TODO import ListViewEntityCellContainer from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 
 /**
  * React component to manage search requests and display results. It handles locally the columns visible state, considered
@@ -121,6 +123,7 @@ class SearchResultsComponent extends React.Component {
 
     const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
+    const enableServices = SearchResultsComponent.hasServices(viewObjectType)
 
     return [
       // selection column
@@ -130,39 +133,26 @@ class SearchResultsComponent extends React.Component {
       // attributes and attributes groups as provided by parent
       ...attributePresentationModels.map(presentationModel => AttributeColumnBuilder.buildAttributeColumn(
         presentationModel, this.isColumnVisible(presentationModel.key), onSortByAttribute, fixedColumnWidth)),
+      // Options in current context
+      TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'results.options.column.label' }),
+        this.buildTableOptions(enableServices, onAddElementToCart), this.isColumnVisible(TableColumnBuilder.optionsColumnKey), fixedColumnWidth),
     ].filter(column => !!column) // filter null elements
-    // TODO other columns
-    //   ...,
-    //   ,
-    //   this.buildTableOptionsColumn(onAddElementToCart, SearchResultsComponent.hasServices(viewObjectType))],
   }
 
   /**
-   * Builds options column
-   * @param enableServices enable services?
-   * @return table column to show table options (description button)
+   * Builds table options
+   * @param {boolean} enableServices are services enabled in current context?
+   * @param {function} onAddElementToCart callback to add element to cart (element) => (). Null if not available in context
    */
-  buildTableOptionsColumn = (onAddElementToCart, enableServices) => {
-    const label = this.context.intl.formatMessage({ id: 'results.options.column.label' })
-    return {
-      label,
-      attributes: [],
-      order: Number.MAX_VALUE,
-      // reserve space for description, services if enabled and add to cart if is available
-      fixed: this.context.muiTheme['components:infinite-table'].fixedColumnsWidth * (1 + (onAddElementToCart ? 1 : 0) + (enableServices ? 1 : 0)), // TODO
-      sortable: false,
-      hideLabel: true,
-      // order: number.
-      customCell: {
-        component: TableViewOptionsCellContainer,
-        props: {
-          enableServices,
-          onAddToCart: onAddElementToCart,
-        },
-      },
-      visible: this.isColumnVisible(label),
-    }
-  }
+  buildTableOptions = (enableServices, onAddToCart) => [
+    // Entity description
+    { OptionConstructor: EntityDescriptionContainer },
+    // Entity services, only when enabled
+    enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
+    // Add to cart, only when enabled
+    onAddToCart ? { OptionConstructor: AddElementToCartContainer, optionProps: { onAddToCart } } : null]
+    .filter(option => !!option) // filter null options
+
 
   /**
   * Create columns configuration for table view

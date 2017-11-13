@@ -21,10 +21,10 @@ import AddIcon from 'material-ui/svg-icons/action/add-shopping-cart'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Button to show description in results table
-* @author Raphaël Mechali
-*/
-class AddElementToCartButton extends React.Component {
+ * Option to show description in results table
+ * @author Raphaël Mechali
+ */
+class AddElementToCartComponent extends React.Component {
 
   static propTypes = {
     onAddToCart: PropTypes.func,
@@ -49,4 +49,4 @@ class AddElementToCartButton extends React.Component {
     )
   }
 }
-export default AddElementToCartButton
+export default AddElementToCartComponent
