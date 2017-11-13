@@ -115,11 +115,7 @@ export class ProjectConnectionFormComponent extends React.Component {
   }
 
   updateProjectConnection = (values) => {
-    if (!this.props.pristine) {
-      this.props.onUpdate(this.props.projectConnection.content.id, values)
-    } else if (this.props.isStep && this.props.onNext) {
-      this.props.onNext()
-    }
+    this.props.onUpdate(this.props.projectConnection.content.id, values)
   }
 
   createProjectConnection = (values) => {
