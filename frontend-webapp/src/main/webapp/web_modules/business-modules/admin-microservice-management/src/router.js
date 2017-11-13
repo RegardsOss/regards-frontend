@@ -39,6 +39,40 @@ export const microserviceBoardRoute = {
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
+export const sipSessionRoute = {
+  path: 'sip/session',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/SIPSessionContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+/**
+ * Route to the view listing all plugin meta data for a microservice.
+ *
+ * @type {{path: string, getComponents: ((nextState, cb))}}
+ */
+export const sipRoute = {
+  path: 'sip/list',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/SIPListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+/**
+ * Route to the view listing all plugin meta data for a microservice.
+ *
+ * @type {{path: string, getComponents: ((nextState, cb))}}
+ */
 export const microservicePluginMetaDataListRoute = {
   path: ':microserviceName/plugin/list',
   getComponents(nextState, cb) {
@@ -107,6 +141,8 @@ const microserviceManagementRouter = {
     microserviceBoardRoute,
     microservicePluginMetaDataListRoute,
     microservicePluginConfigurationsListRoute,
+    sipSessionRoute,
+    sipRoute,
     microservicePluginConfigurationCreateRoute,
     microservicePluginConfigurationEditOrCopyRoute,
   ],
