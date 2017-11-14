@@ -98,19 +98,18 @@ export class AttributesContainer extends React.Component {
       // retrieve value
       const value = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, entityPathName)
       // resolve attribute
-      return { id, label, renderer: getTypeRender(type), renderValue: value ? { main: value } : null }
+      return { id, label, Renderer: getTypeRender(type), renderValue: value }
     })
     // 2 - resolve dynamic attributes
     const dynamicAttributes = map(newModelAttributes, ({ content: { attribute: attributeModel } }) => {
       // resolve attribute value in entity (push attribute in content, as it is not normalized )
       const accessPath = DamDomain.AttributeModelController.getAttributeAccessPath({ content: attributeModel })
-      const value = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
+      const renderValue = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
       return {
         id: attributeModel.id,
         label: attributeModel.label,
-        renderer: getTypeRender(attributeModel.type),
-        // prepare value for render, as expected by the renderers API
-        renderValue: value ? { main: value } : null,
+        Renderer: getTypeRender(attributeModel.type),
+        renderValue,
       }
     })
     // 3 - make table and sort

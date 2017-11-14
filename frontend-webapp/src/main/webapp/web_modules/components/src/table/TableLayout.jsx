@@ -37,5 +37,6 @@ export class TableLayout extends React.Component {
     )
   }
 }
+
 // Compose styles and messages with calling context => any component below will have both
 export default compose(withI18n(messages, true), withModuleStyle(styles, true))(TableLayout)

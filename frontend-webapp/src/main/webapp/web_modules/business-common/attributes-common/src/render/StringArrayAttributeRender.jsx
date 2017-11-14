@@ -41,9 +41,9 @@ class StringArrayAttributeRender extends React.Component {
   render() {
     const { value = [] } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
-
-    const textValue = value.filter(text => !!text).join(intl.formatMessage({ id: 'attribute.render.array.values.separator' })) ||
-      intl.formatMessage({ id: 'attribute.render.no.value.label' })
+    const noValueText = intl.formatMessage({ id: 'attribute.render.no.value.label' })
+    const textValue = value.map(text => text || noValueText).join(intl.formatMessage({ id: 'attribute.render.array.values.separator' })) ||
+      noValueText
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}

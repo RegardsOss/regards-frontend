@@ -49,13 +49,13 @@ export default (theme) => {
 
   const commonCellEven = {
     ...commonCell,
-    backgroundColor: theme.tableRow.stripeColor,
+    backgroundColor: theme.table.backgroundColor,
     borderBottom: cellBorder,
   }
 
   const commonCellOdd = {
     ...commonCell,
-    backgroundColor: theme.table.backgroundColor,
+    backgroundColor: theme.tableRow.stripeColor,
     borderBottom: cellBorder,
   }
 
@@ -226,6 +226,12 @@ export default (theme) => {
       flexGrow: 0,
       flexShrink: 0,
       height: theme['components:infinite-table'].multipleValuesSeparatorHeight,
+    },
+    multipleCellValues: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: 0,
+      maxWidth: '100%',
     },
     checkButton: {
       styles: {

@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
+import omit from 'lodash/omit'
 import { AccessShapes } from '@regardsoss/shape'
 import AddElementToCartComponent from '../../../../components/user/results/options/AddElementToCartComponent'
 
@@ -26,10 +28,12 @@ import AddElementToCartComponent from '../../../../components/user/results/optio
 export class AddElementToCartContainer extends React.Component {
 
   static propTypes = {
+    rowIndex: PropTypes.number, // from cell API, to be excluded in sub component props
     // Entity. Note: when used in options column, this is provided by the table cell API
     entity: AccessShapes.EntityWithServices.isRequired,
     // optional callback: add element to cart (entity) => ()
     onAddToCart: PropTypes.func.isRequired,
+    //... other properties reported to sub-componentt
   }
 
   onAddToCart = () => {
@@ -38,8 +42,9 @@ export class AddElementToCartContainer extends React.Component {
   }
 
   render() {
+    const subComponentProperties = omit(this.props, keys(AddElementToCartContainer.propTypes))
     return (
-      <AddElementToCartComponent onAddToCart={this.onAddToCart} />
+      <AddElementToCartComponent onAddToCart={this.onAddToCart} {...subComponentProperties} />
     )
   }
 }

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -32,10 +31,11 @@ import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
 import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
 import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
 import SelectedFacetsHeaderRow from './header/SelectedFacetsHeaderRow'
+import ListViewEntityCellContainer, { hasDownloadAttribute, packThumbnailRenderData, packGridAttributesRenderData }
+  from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
 import EntityDescriptionContainer from '../../../containers/user/results/options/EntityDescriptionContainer'
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
-// TODO import ListViewEntityCellContainer from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 
 /**
  * React component to manage search requests and display results. It handles locally the columns visible state, considered
@@ -45,7 +45,7 @@ import OneElementServicesContainer from '../../../containers/user/results/option
 class SearchResultsComponent extends React.Component {
 
   static propTypes = {
-    // static configuration
+    // static module configuration
     allowingFacettes: PropTypes.bool.isRequired,
     displayDatasets: PropTypes.bool.isRequired, // TODO directly down?
 
@@ -74,14 +74,12 @@ class SearchResultsComponent extends React.Component {
     // services from PluginServicesContainer HOC
     selectionServices: AccessShapes.PluginServiceWithContentArray,
     // control
-    // callback
-    // eslint-disable-next-line react/no-unused-prop-types
     onChangeColumnsVisibility: PropTypes.func.isRequired,
     onDeleteFacet: PropTypes.func.isRequired,
     onSetEntityAsTag: PropTypes.func.isRequired,
     onSelectFacet: PropTypes.func.isRequired,
-    onShowDatasets: PropTypes.func.isRequired, // TODO directly down?
-    onShowDataobjects: PropTypes.func.isRequired, // TODO directly down?
+    onShowDatasets: PropTypes.func.isRequired,
+    onShowDataobjects: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
     onSortByAttribute: PropTypes.func.isRequired,
@@ -90,7 +88,6 @@ class SearchResultsComponent extends React.Component {
     onStartSelectionService: PropTypes.func, // callback to start a selection service
     // from OrderCartContainer HOC
     onAddSelectionToCart: PropTypes.func, // callback to add selection to cart, null when disabled
-    // eslint-disable-next-line react/no-unused-prop-types
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
   }
 
@@ -112,6 +109,13 @@ class SearchResultsComponent extends React.Component {
    * @return true if selection should be available
    */
   static hasSelection = objectType => objectType !== DamDomain.ENTITY_TYPES_ENUM.DATASET
+
+  /**
+   * Can search related elements in the given view object type ? (ie: set the element as tag)
+   * @param {objectType} entity type
+   * @return true if user can search related elements
+   */
+  static canSearchRelated = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATASET
 
   /**
    * Builds table columns
@@ -162,23 +166,27 @@ class SearchResultsComponent extends React.Component {
   * @param onAddElementToCart on add element to cart callback
   * @returns {Array}
   */
-  buildListColumns = (tableColumns, { attributeModels, viewObjectType, onAddElementToCart, onSetEntityAsTag }) => [{
-    label: 'ListviewCell',
-    attributes: [],
-    customCell: {
-      component: ListViewEntityCellContainer,
+  buildListColumn = () => {
+    const { attributePresentationModels, onAddElementToCart, onSetEntityAsTag, viewObjectType } = this.props
+    const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
+    const enableServices = SearchResultsComponent.hasServices(viewObjectType)
+    const enableSearchRelated = SearchResultsComponent.canSearchRelated(viewObjectType)
+
+    // build column. Note: label is ignored here as the columns button will get removed
+    return TableColumnBuilder.buildColumn('single.list.column', 'single.list.column', null, {
+      Constructor: ListViewEntityCellContainer,
       props: {
-        attributes: attributeModels,
-        tableColumns,
-        enableServices: SearchResultsComponent.hasServices(viewObjectType),
-        // click: select a dataset when in dataset mode
-        onSearchEntity: viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET ? onSetEntityAsTag : null,
+        // prefetch attributes from models to enhance render time
+        hasDownload: hasDownloadAttribute(attributePresentationModels),
+        thumbnailRenderData: packThumbnailRenderData(attributePresentationModels),
+        gridAttributesRenderData: packGridAttributesRenderData(attributePresentationModels),
+        selectionEnabled: enableSelection,
+        servicesEnabled: enableServices,
+        onSearchEntity: enableSearchRelated ? onSetEntityAsTag : null,
         onAddToCart: onAddElementToCart,
-        displayCheckbox: viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA,
       },
-    },
-    visible: true,
-  }]
+    })
+  }
 
   /**
    * Is column visible?
@@ -198,13 +206,13 @@ class SearchResultsComponent extends React.Component {
 
 
   render() {
-    const { moduleTheme: { user: { listViewStyles } }, intl: { formatMessage }, muiTheme } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
     const tableTheme = muiTheme['components:infinite-table']
 
     const { allowingFacettes, displayDatasets, resultsCount, isFetching, searchActions, searchSelectors, viewObjectType, viewMode,
-      showingFacettes, facets, filters, searchQuery, hiddenColumnKeys,
-      selectionServices, onChangeColumnsVisibility, onDeleteFacet, onSetEntityAsTag, onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView,
-      onShowTableView, onSortByAttribute, onToggleShowFacettes, onStartSelectionService, onAddSelectionToCart, onAddElementToCart } = this.props
+      showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
+      onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
+      onStartSelectionService, onAddSelectionToCart } = this.props
 
     // build table columns
     const tableColumns = this.buildTableColumns()
@@ -215,8 +223,6 @@ class SearchResultsComponent extends React.Component {
     let displayColumnsHeader
     let minRowCount
 
-    // TODO this is the cell recovery style: cellsStyle = listViewStyles.cell
-
     if (this.isInTableView()) {
       minRowCount = tableTheme.minRowCount
       lineHeight = tableTheme.lineHeight
@@ -225,14 +231,14 @@ class SearchResultsComponent extends React.Component {
     } else { // use list columns
       minRowCount = tableTheme.listMinRowCount
       lineHeight = tableTheme.listLineHeight
-      columns = this.buildListColumns(tableColumns, this.props)
+      columns = [this.buildListColumn()]
       displayColumnsHeader = false
     }
 
     const requestParams = { queryParams: searchQuery }
     const showFacets = this.isDisplayingDataobjects() && allowingFacettes && showingFacettes
 
-    // TODO maybe a static external compo! (better!)
+    // TODO a static external compo! (better!)
     const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
 
     return (

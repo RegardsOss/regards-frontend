@@ -58,11 +58,11 @@ export class AuthenticationFormContainer extends React.Component {
 
   componentDidMount = () => {
     if (process.env.NODE_ENV === 'development') {
-      // console.log('DEV', 'Auto connection')
-      // const that = this
-      // setTimeout(() => {
-      //   that.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
-      // }, 150)
+      console.log('DEV', 'Auto connection')
+      const that = this
+      setTimeout(() => {
+        that.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
+      }, 150)
     }
   }
 
@@ -96,7 +96,7 @@ export class AuthenticationFormContainer extends React.Component {
 
 const mapStateToProps = state => ({
   loginError: AuthenticationClient.authenticationSelectors.getError(state) &&
-  AuthenticationClient.authenticationSelectors.getError(state).loginError,
+    AuthenticationClient.authenticationSelectors.getError(state).loginError,
 })
 
 const mapDispatchToProps = dispatch => ({

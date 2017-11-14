@@ -72,13 +72,10 @@ class ModuleStyleProvider extends React.Component {
     if (!localStylesBuilder) {
       throw new Error('You must provide styles as a builder function in an object like { styles } messages when module styles provider ')
     }
-    if (stackCallingContext && !callingModuleTheme) {
-      throw new Error('You must provide calling styles (through context) when using modules styles provider with stackCallingContext=true')
-    }
 
     const moduleTheme = {
       ...localStylesBuilder(muiTheme),
-      ...(stackCallingContext ? callingModuleTheme : {}),
+      ...((stackCallingContext && callingModuleTheme) || {}),
     }
     return { moduleTheme }
   }

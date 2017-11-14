@@ -32,7 +32,7 @@ const messages = Object.assign({
   'form.configuration.result.enable.facettes.label': 'Enable facets : Results filtering with criterion depending on initial search results',
   'form.attributes.regroupement.form.title': 'Add new attributes clustering',
   'form.attributes.regroupement.description': 'A clustering of attributes allow you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
-  ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
+    ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
   'form.attributes.regroupement.form.label': 'Label',
   'form.attributes.regroupement.form.save': 'Add',
   'form.attributes.regroupement.form.update': 'Update',
@@ -75,6 +75,8 @@ const messages = Object.assign({
   'results.selection.column.label': 'Selection column',
   'results.options.column.label': 'Options and services',
   'results.download': 'Download',
+  'results.search.entity': 'Search for related data',
+  'results.cell.multiple.values.separator': ', ',
 
   'search.facets.no.facet.found': 'No facet for current result',
   'search.facets.filter.menu.date.before': 'Before {date} ({count})',

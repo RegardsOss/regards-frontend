@@ -17,42 +17,45 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import get from 'lodash/get'
+import Reset from 'material-ui/svg-icons/action/highlight-off'
+import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
-import AccessRightsEnum from './AccessRightsEnum'
 
-class AccessRightsDataAccessTableCustomCell extends React.Component {
+/**
+* Access rights table delete cell
+* @author Raphaël Mechali
+*/
+class AccessRightsTableDeleteAction extends React.Component {
+
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    attributes: PropTypes.shape({
-      label: PropTypes.string,
-      id: PropTypes.number,
-    }),
-    accessRights: DataManagementShapes.AccessRightList,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // from table cell API
     entity: DataManagementShapes.Dataset,
+    onDelete: PropTypes.func.isRequired,
+    accessRights: DataManagementShapes.AccessRightList,
   }
 
   static contextTypes = {
-    ...themeContextType,
     ...i18nContextType,
   }
 
-  static NOT_APPLICABLE = 'NOT_APPLICABLE'
+  static iconStyle = { height: 23, width: 23 }
+  static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   render() {
+    const { intl: { formatMessage } } = this.context
     const accessRight = find(this.props.accessRights, ar => ar.content.dataset.id === this.props.entity.content.id)
-    const metaAccessLevel = get(accessRight, 'content.accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
-    let accessLevel = AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE
-    if (metaAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS) {
-      accessLevel = get(accessRight, 'content.dataAccessRight.dataAccessLevel', AccessRightsEnum.DATA_ACCESS_ENUM.NO_ACCESS)
-    }
     return (
-      <span>{this.context.intl.formatMessage({ id: `accessright.form.data.accessLevel.${accessLevel}` })}</span>
+      <IconButton
+        title={formatMessage({ id: 'accessright.delete.tooltip' })}
+        iconStyle={AccessRightsTableDeleteAction.iconStyle}
+        style={AccessRightsTableDeleteAction.buttonStyle}
+        onTouchTap={() => this.props.onDelete(accessRight)}
+        disabled={!accessRight || !accessRight.content}
+      >
+        <Reset />
+      </IconButton>
     )
   }
 }
-
-export default AccessRightsDataAccessTableCustomCell
+export default AccessRightsTableDeleteAction

@@ -16,11 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import flatMap from 'lodash/flatMap'
 import { themeContextType } from '@regardsoss/theme'
-import PropertiesValuesSeparator from './PropertiesValuesSeparator'
-
 
 /**
  * A cell to render an options list: it uses an array of constructors and properties to build the cell content
@@ -31,7 +27,8 @@ export default class OptionsCell extends React.Component {
   static propTypes = {
     // common cell content properties
     rowIndex: PropTypes.number.isRequired,
-    getEntity: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    entity: PropTypes.object.isRequired,
     // list of properties with render delegate constructor for that property
     optionsDefinitions: PropTypes.arrayOf(PropTypes.shape({
       OptionConstructor: PropTypes.func.isRequired,
@@ -44,10 +41,10 @@ export default class OptionsCell extends React.Component {
   }
 
   render() {
-    const { optionsDefinitions, getEntity, rowIndex } = this.props
-    const entity = getEntity()
+    const { optionsDefinitions, entity, rowIndex } = this.props
     return optionsDefinitions.map(({ OptionConstructor, optionProps = {} }, optionIndex) => (
-      <OptionConstructor key={`option.${OptionConstructor.displayName}`} entity={entity} rowIndex={rowIndex} {...optionProps} />
+      // eslint-disable-next-line react/no-array-index-key
+      <OptionConstructor key={`option.${optionIndex}`} entity={entity} rowIndex={rowIndex} {...optionProps} />
     ))
   }
 

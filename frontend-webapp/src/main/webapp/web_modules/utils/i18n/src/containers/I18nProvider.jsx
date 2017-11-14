@@ -74,6 +74,7 @@ export class I18nProvider extends React.Component {
       throw new Error('You must provide calling messages (through context) when using I18N provider with stackCallingContext=true')
     }
 
+
     const subContextMessages = {
       ...(messages[locale] || messages[keys(messages)[0]]),
       ...(stackCallingContext ? callingContextMessages : {}),

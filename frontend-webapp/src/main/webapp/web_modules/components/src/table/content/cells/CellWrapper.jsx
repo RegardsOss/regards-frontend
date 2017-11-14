@@ -86,7 +86,7 @@ class CellWrapper extends React.PureComponent {
         <div style={completeCellStyle}>
           { // render child cell content only when there is some entity and some constructor
             this.hasEntity() && CellContentBuilder ?
-              <CellContentBuilder rowIndex={rowIndex} getEntity={this.getEntity} {...cellContentBuilderProps} /> :
+              <CellContentBuilder rowIndex={rowIndex} entity={this.getEntity()} {...cellContentBuilderProps} /> :
               null
           }
         </div>

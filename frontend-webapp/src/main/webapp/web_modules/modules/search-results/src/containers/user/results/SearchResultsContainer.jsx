@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import reject from 'lodash/reject'
 import { connect } from '@regardsoss/redux'
@@ -79,9 +78,13 @@ export class SearchResultsContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     facettesQuery: PropTypes.string, // facettes query to be added to search query in order to get the facettes
     // Attributes configurations for results columns
+    // eslint-disable-next-line react/no-unused-prop-types
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    // eslint-disable-next-line react/no-unused-prop-types
     attributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent),
+    // eslint-disable-next-line react/no-unused-prop-types
     datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
     // From map state to props
     // eslint-disable-next-line react/no-unused-prop-types
@@ -236,7 +239,6 @@ export class SearchResultsContainer extends React.Component {
    * @param {TableColumnConfiguration} editedColumns table columns with visibility attribute edited
    */
   onChangeColumnsVisibility = (editedColumns) => {
-    console.error('edited columns', editedColumns)
     const previousHiddenKeys = this.state.hiddenColumnKeys
     const hiddenColumnKeys = editedColumns.reduce((acc, { key, visible }) => visible ? acc : [...acc, key], [])
     if (!isEqual(previousHiddenKeys, hiddenColumnKeys)) {

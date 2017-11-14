@@ -19,8 +19,7 @@
 import FlatButton from 'material-ui/FlatButton'
 import CheckBoxOutLineIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
 import CheckBoxIcon from 'material-ui/svg-icons/toggle/check-box'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import messages from '../i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Table select all component

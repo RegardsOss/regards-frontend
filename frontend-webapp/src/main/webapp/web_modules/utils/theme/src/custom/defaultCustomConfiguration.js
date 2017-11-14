@@ -35,6 +35,7 @@ export default {
     minRowCount: 8,
     listLineHeight: 160,
     listMinRowCount: 3,
+    listRowsByColumnCount: 4,
     minHeaderRowHeight: 40,
     multipleValuesSeparatorMargin: '0 10px',
     multipleValuesSeparatorHeight: 14,

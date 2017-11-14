@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
+import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { descriptionLevelActions } from '../../../../clients/DescriptionLevelClient'
@@ -40,6 +42,7 @@ export class EntityDescriptionContainer extends React.Component {
   }
 
   static propTypes = {
+    rowIndex: PropTypes.number, // from cell API, to be excluded in sub component props
     // Entity. Note: when used in options column, this is provided by the table cell API
     entity: AccessShapes.EntityWithServices.isRequired,
     // from mapDispatchToProps
@@ -56,9 +59,8 @@ export class EntityDescriptionContainer extends React.Component {
   }
 
   render() {
-    return (
-      <EntityDescriptionComponent onShowDescription={this.onShowDescription} />
-    )
+    const subComponentProperties = omit(this.props, keys(EntityDescriptionContainer.propTypes))
+    return <EntityDescriptionComponent onShowDescription={this.onShowDescription} {...subComponentProperties} />
   }
 }
 

@@ -32,11 +32,12 @@ export default class PropertiesRenderCell extends React.Component {
   static propTypes = {
     // common cell content properties
     // rowIndex: PropTypes.number.isRequired, unused
-    getEntity: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    entity: PropTypes.object.isRequired,
     // list of properties with render delegate constructor for that property
     properties: PropTypes.arrayOf(PropTypes.shape({
       path: PropTypes.string.isRequired, // a gettable path (in the lodash meaning) for property on row entity
-      RenderConstructor: PropTypes.func.isRequired,
+      RenderConstructor: PropTypes.func, // a sub renderer by property (direct value otherwise)
     })).isRequired,
   }
 
@@ -45,13 +46,16 @@ export default class PropertiesRenderCell extends React.Component {
   }
 
   render() {
-    const { getEntity, properties } = this.props
-    const entity = getEntity()
-    return flatMap(properties, ({ path, RenderConstructor }, index) =>
-      [
-        index > 0 ? <PropertiesValuesSeparator key={`separator.${path}`} /> : null,
-        <RenderConstructor key={`value.${path}`} value={get(entity, path)} />,
-      ])
+    const { entity, properties } = this.props
+    const { multipleCellValues } = this.context.moduleTheme
+    return flatMap(properties, ({ path, RenderConstructor }, index) => [
+      index > 0 ? <PropertiesValuesSeparator key={`separator.${path}`} /> : null,
+      <div key={`value.${path}`} style={multipleCellValues}>
+        { // render using delegate if provided
+          RenderConstructor ? <RenderConstructor value={get(entity, path)} /> : get(entity, path)
+        }
+      </div>,
+    ])
   }
 
 }

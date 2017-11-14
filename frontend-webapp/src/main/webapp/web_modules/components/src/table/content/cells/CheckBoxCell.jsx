@@ -55,14 +55,15 @@ export class CheckBoxCell extends React.Component {
    */
   static mapDispatchToProps(dispatch, { rowIndex, tableActions }) {
     return {
-      dispatchToggleRowSelection: entity => tableActions && dispatch(tableActions.toggleElement(rowIndex, entity)),
+      dispatchToggleRowSelection: entity => dispatch(tableActions.toggleElement(rowIndex, entity)),
     }
   }
 
   static propTypes = {
     // common cell content properties
     rowIndex: PropTypes.number.isRequired,
-    getEntity: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    entity: PropTypes.object.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     tableActions: PropTypes.instanceOf(TableActions), // Table actions instance, used in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -84,8 +85,7 @@ export class CheckBoxCell extends React.Component {
    */
   onToggleRowSelection = () => {
     // retrieve entity by its index in state
-    const { dispatchToggleRowSelection, getEntity } = this.props
-    const entity = getEntity()
+    const { dispatchToggleRowSelection, entity } = this.props
     if (entity) {
       dispatchToggleRowSelection(entity)
     }

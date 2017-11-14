@@ -24,12 +24,14 @@ import values from 'lodash/values'
 import get from 'lodash/get'
 import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import {
-  PageableInfiniteTableContainer,
-  MainActionButtonComponent,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
-  ShowableAtRender,
+  MainActionButtonComponent,
   NoContentComponent,
+  PageableInfiniteTableContainer,
+  ShowableAtRender,
+  TableColumnBuilder,
+  TableLayout,
 } from '@regardsoss/components'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -39,7 +41,8 @@ import { tableActions, tableSelectors } from '../clients/TableClient'
 import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
 import AccessRightsMetadataAccessTableCustomCell from './AccessRightsMetadataAccessTableCustomCell'
 import AccessRightsDataAccessTableCustomCell from './AccessRightsDataAccessTableCustomCell'
-import AccessRightsActionsTableCustomCell from './AccessRightsActionsTableCustomCell'
+import AccessRightsTableEditAction from './AccessRightsTableEditAction'
+import AccessRightsTableDeleteAction from './AccessRightsTableDeleteAction'
 import AccessRightFormComponent from './AccessRightFormComponent'
 
 const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
@@ -221,95 +224,47 @@ class AccessRightListComponent extends React.Component {
   }
 
   render() {
-    const { intl } = this.context
     const { accessRights, accessGroup, navigateToCreateDataset, selectedDatasets } = this.props
-    const tableConfiguration = {
-      displayColumnsHeader: true,
-      lineHeight: 47,
-      displayCheckbox: true,
-      displaySelectAll: false,
-      onSortByColumn: () => {
-      },
-    }
-
-    // TableConfiguration
-    const tablePaneConfiguration = {
-      // adds tabs buttons to results table
-      resultsTabsButtons: [],
-      // shows a custom table header area instand of results count, just above columns
-      customTableHeaderArea: undefined,
-      // should show parameters button?
-      showParameters: false,
-      // Display table header toolbar ?
-      displayTableHeader: false,
-      // adds custom table options on tabs bar right side
-      customTableOptions: [],
-      // adds table context actions on tabs bar center
-      contextOptions: [],
-      // Table advanced options, displayed as children in 'Plus' Menu
-      advancedOptions: [],
-    }
+    const { intl: { formatMessage }, muiTheme } = this.context
+    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
     // Table columns to display
     const columns = [
-      {
-        // Label of the column
-        label: intl.formatMessage({ id: 'accessright.table.dataset.label' }),
-        // Entity attributes to display as cell in the column
-        attributes: ['label'],
-        // True to hide the column label in the header line of the table
-        hideLabel: false,
-        // Does the column is sortable
-        sortable: false,
-      },
-      {
-        label: intl.formatMessage({ id: 'accessright.form.meta.accessLevel' }),
-        attributes: ['label', 'id'],
-        customCell: {
-          component: AccessRightsMetadataAccessTableCustomCell,
-          props: {
-            intl,
-            accessRights,
-          },
-        },
-      },
-      {
-        label: intl.formatMessage({ id: 'accessright.form.data.accessLevel' }),
-        attributes: ['label', 'id'],
-        customCell: {
-          component: AccessRightsDataAccessTableCustomCell,
-          props: {
-            intl,
-            accessRights,
-          },
-        },
-      },
-      {
-        label: intl.formatMessage({ id: 'accessright.table.actions' }),
-        attributes: ['label', 'id'],
-        customCell: {
-          component: AccessRightsActionsTableCustomCell,
-          props: {
-            accessRights,
-            onDelete: this.openDeleteDialog,
-            onEdit: this.openEditDialog,
-            intl,
-          },
-        },
-      },
+      // 1 - selection column
+      TableColumnBuilder.buildSelectionColumn('', false, datasetSelectors, tableActions, tableSelectors, true, fixedColumnWidth),
+      // 2 - label column
+      TableColumnBuilder.buildSimplePropertyColumn('column.label', formatMessage({ id: 'accessright.table.dataset.label' }), 'content.label'),
+      // 3 - Meta access level column
+      TableColumnBuilder.buildSimpleColumnWithCell('column.meta.access.level', formatMessage({ id: 'accessright.form.meta.accessLevel' }), {
+        Constructor: AccessRightsMetadataAccessTableCustomCell, // custom cell
+        props: { accessRights },
+      }),
+      // 4 - Data access level
+      TableColumnBuilder.buildSimpleColumnWithCell('column.data.access.level', formatMessage({ id: 'accessright.form.data.accessLevel' }), {
+        Constructor: AccessRightsDataAccessTableCustomCell, // custom cell
+        props: { accessRights },
+      }),
+      // 5 - Options
+      TableColumnBuilder.buildOptionsColumn('', [{
+        OptionConstructor: AccessRightsTableEditAction,
+        optionProps: { accessRights, onEdit: this.openEditDialog },
+      }, {
+        OptionConstructor: AccessRightsTableDeleteAction,
+        optionProps: { accessRights, onDelete: this.openDeleteDialog },
+      }], true, fixedColumnWidth),
     ]
 
     const emptyContentAction = (
       <FlatButtonWithResourceDisplayControl
         resourceDependencies={datasetDependencies.addDependencies}
-        label={intl.formatMessage({ id: 'accessright.no.dataset.subtitle' })}
+        label={formatMessage({ id: 'accessright.no.dataset.subtitle' })}
         onTouchTap={navigateToCreateDataset}
         primary
       />
     )
     const emptyComponent = (
       <NoContentComponent
-        title={intl.formatMessage({ id: 'accessright.no.dataset.title' })}
+        title={formatMessage({ id: 'accessright.no.dataset.title' })}
         Icon={AddToPhotos}
         action={emptyContentAction}
       />
@@ -318,32 +273,31 @@ class AccessRightListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={intl.formatMessage({ id: 'accessright.title' }, { name: accessGroup.content.name })}
-          subtitle={intl.formatMessage({ id: 'accessright.subtitle' }, { name: accessGroup.content.name })}
+          title={formatMessage({ id: 'accessright.title' }, { name: accessGroup.content.name })}
+          subtitle={formatMessage({ id: 'accessright.subtitle' }, { name: accessGroup.content.name })}
         />
         <CardText>
           {this.renderAccessRightFormDialog()}
           {this.renderDeleteConfirmDialog()}
           <MainActionButtonComponent
             disabled={values(selectedDatasets).length === 0}
-            label={intl.formatMessage({ id: 'accessright.edit.multiples.button.label' })}
+            label={formatMessage({ id: 'accessright.edit.multiples.button.label' })}
             onTouchTap={() => this.openEditDialog()}
           />
-          <PageableInfiniteTableContainer
-            name="access-rights-datasets-table"
-            pageActions={datasetActions}
-            pageSelectors={datasetSelectors}
-            tableActions={tableActions}
-            tableSelectors={tableSelectors}
-            tableConfiguration={tableConfiguration}
-            tablePaneConfiguration={tablePaneConfiguration}
-            pageSize={10}
-            columns={columns}
-            emptyComponent={emptyComponent}
-          />
+          <TableLayout>
+            <PageableInfiniteTableContainer
+              name="access-rights-datasets-table"
+              pageActions={datasetActions}
+              pageSelectors={datasetSelectors}
+              tableActions={tableActions}
+              pageSize={10}
+              columns={columns}
+              emptyComponent={emptyComponent}
+              displayColumnsHeader
+            />
+          </TableLayout>
         </CardText>
       </Card>
-
     )
   }
 

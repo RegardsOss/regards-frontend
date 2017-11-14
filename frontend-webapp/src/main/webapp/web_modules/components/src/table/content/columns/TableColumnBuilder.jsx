@@ -19,6 +19,7 @@
 import SortableColumnHeaderCell from './SortableColumnHeaderCell'
 import SimpleTitleColumnHeaderCell from './SimpleTitleColumnHeaderCell'
 import CheckboxColumnHeaderCell from './CheckboxColumnHeaderCell'
+import PropertiesRenderCell from '../cells/PropertiesRenderCell'
 import OptionsCell from '../cells/OptionsCell'
 import CheckBoxCell from '../cells/CheckBoxCell'
 
@@ -39,15 +40,15 @@ const optionsColumnKey = 'column.table.options'
  * Builds a table column, as expected by the table
  * @param {string} key column key
  * @param {React.Element} headerCell The instantiated header cell
- * @param {CellContentBuilder: {func}, cellContentBuilderProps: {*}} rowCellDefinition row cell definition, with React
+ * @param {Constructor: {func}, props: {*}} rowCellDefinition row cell definition, with React
  * constructor and static properties (others will be dynamic added).
  * Note: wrapperStyle property can be used to override the cell wrapper styles
- * @param {boolean} visible is column visible
+ * @param {boolean} visible (optional) is column visible
  * @param {number} order (optional) column order within columns array (column without order go at index 1000)
  * @param {number} fixedWidth (optional) fixed width when column should not grow / shrink with width, undefined otherwise
  * @return packed column model
  */
-function buildColumn(key, label, headerCell, rowCellDefinition, visible, order = unorderedColumnIndex, fixedWidth) {
+function buildColumn(key, label, headerCell, rowCellDefinition, visible = true, order = unorderedColumnIndex, fixedWidth) {
   return {
     key,
     label,
@@ -110,12 +111,32 @@ function buildSortableColumnHeader(key, label, hideLabel, sortable, sortingOrder
     />)
 }
 
+/**
+ * Builds a simple titled column header
+ * @param {*} key column key
+ * @param {*} label column label
+ * @return titled column header cell
+ */
 function buildTitleColumnHeader(key, label) {
   return (
     <SimpleTitleColumnHeaderCell
       key={key}
       label={label}
     />)
+}
+
+/**
+ * Build properties render
+ * @param [{path: {string}, RenderConstructor: {function}}] propertyDefinitions: list of properties path and corresponding render (optional,
+ * default to simple string property when not provided)
+ */
+function buildPropertiesRenderCell(properties) {
+  return {
+    Constructor: PropertiesRenderCell, // cell for attribute paths
+    props: {
+      properties,
+    },
+  }
 }
 
 /**
@@ -138,12 +159,46 @@ function buildOptionsColumn(label, optionsDefinitions, visible, fixedWidth, key 
   return this.buildColumn(key, label, headerCell, rowCellDefinition, visible, order, fixedWidth * optionsDefinitions.length)
 }
 
+/**
+ * Shortcut for the very common use case: simple title column with custom cell
+ * @param {string} key key
+ * @param {string} label label
+ * @param {Constructor: {func}, props: {*}} rowCellDefinition row cell definition, with React
+ * constructor and static properties (others will be dynamic added).
+ * Note: wrapperStyle property can be used to override the cell wrapper styles
+ * @param {number} order (optional) column order (column without order go at index 1000)
+ * @param {boolean} visible (optional) is column visible
+ * @param {number} fixedWidth (required) fixed width when column should not grow / shrink with width, undefined otherwise
+ * @return packed column model
+ */
+function buildSimpleColumnWithCell(key, label, rowCellDefinition, order, visible, fixedWidth) {
+  return buildColumn(key, label, buildTitleColumnHeader(key, label), rowCellDefinition, order, visible, fixedWidth)
+}
+
+/**
+ * Shortcut for the very common use case: simple sortable column with title and single property in cells
+ * @param {string} key key
+ * @param {string} label label
+ * @param {string} propertyPath property path in row entity
+ * @param {number} order (optional) column order (column without order go at index 1000)
+ * @param {boolean} visible (optional) is column visible
+ * @param {number} fixedWidth (required) fixed width when column should not grow / shrink with width, undefined otherwise
+ * @return packed column model
+ */
+function buildSimplePropertyColumn(key, label, propertyPath, order, visible, fixedWidth) {
+  return buildSimpleColumnWithCell(key, label, buildPropertiesRenderCell([{ path: propertyPath }]),
+    order, visible, fixedWidth)
+}
+
 export default {
   optionsColumnKey,
   selectionColumnKey,
   buildColumn,
   buildOptionsColumn,
+  buildPropertiesRenderCell,
   buildSelectionColumn,
+  buildSimpleColumnWithCell,
+  buildSimplePropertyColumn,
   buildSortableColumnHeader,
   buildTitleColumnHeader,
 }

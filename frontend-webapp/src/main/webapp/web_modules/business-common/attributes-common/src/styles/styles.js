@@ -26,8 +26,6 @@ export default theme => ({
   thumbnailCell: {
     display: 'block',
     cursor: 'pointer',
-    // both strecth in flexboxes and consume width in measured layouts
-    alignSelf: 'strecth',
     width: '100%',
     padding: theme['components:infinite-table'].thumbnailPadding,
   },

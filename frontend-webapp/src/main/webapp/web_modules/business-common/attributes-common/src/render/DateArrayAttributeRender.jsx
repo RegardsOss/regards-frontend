@@ -44,9 +44,11 @@ class DateArrayAttributeRender extends React.Component {
   render() {
     const { value } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
-    const textValue = (value || []).map(dateText => getFormattedDate(intl, dateText)).filter(text => !!text)
+    const noValueText = intl.formatMessage({ id: 'attribute.render.no.value.label' })
+    const textValue = (value || []).map(dateText => getFormattedDate(intl, dateText) || noValueText)
       .join(intl.formatMessage({ id: 'attribute.render.array.values.separator' })) ||
       intl.formatMessage({ id: 'attribute.render.no.value.label' })
+
 
     return (
       <div style={textRenderCell} title={textValue}>

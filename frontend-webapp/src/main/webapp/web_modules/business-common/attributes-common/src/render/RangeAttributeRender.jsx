@@ -38,7 +38,7 @@ export const getFormattedRange = (intl, lower, upper) => {
     return intl.formatMessage({ id: 'attribute.render.range.lower.only.label' }, { lower })
   }
   // undefined range
-  return null
+  return intl.formatMessage({ id: 'attribute.render.no.value.label' })
 }
 
 /**

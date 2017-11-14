@@ -30,7 +30,7 @@ const messages = Object.assign({
   'form.configuration.result.enable.facettes.label': 'Activer les facettes : Critères de filtrage dépendant des résultats de la recherche initiale',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',
   'form.attributes.regroupement.description': 'Un regroupement d\'attributs permet de regrouper l\'affichage de plusieurs attributs d\'un même objet résultat d\'une recherche dans une seule colonne du tableau des résultats de recherche.<br/>' +
-  ' Veuillez saisir le label de la colonne voulue (ce label doit être unique) puis sélectionner les attributs à regrouper.',
+    ' Veuillez saisir le label de la colonne voulue (ce label doit être unique) puis sélectionner les attributs à regrouper.',
   'form.attributes.regroupement.form.label': 'Label',
   'form.attributes.regroupement.form.save': 'Ajouter',
   'form.attributes.regroupement.form.update': 'Mise à jour',
@@ -73,6 +73,8 @@ const messages = Object.assign({
   'results.selection.column.label': 'Colonne de sélection',
   'results.options.column.label': 'Options et services',
   'results.download': 'Télécharger',
+  'results.search.entity': 'Rechercher les données liées',
+  'results.cell.multiple.values.separator': ', ',
 
   'search.facets.no.facet.found': 'Pas de facette pour le résultat courant',
   'search.facets.filter.menu.date.before': 'Avant le {date} ({count})',

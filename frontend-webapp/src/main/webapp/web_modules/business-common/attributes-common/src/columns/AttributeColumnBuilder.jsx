@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain } from '@regardsoss/domain'
-import { TableColumnBuilder, PropertiesRenderCell } from '@regardsoss/components'
+import { TableColumnBuilder } from '@regardsoss/components'
 import getTypeRender from '../render/AttributesTypeToRender'
 
 /**
@@ -25,6 +25,18 @@ import getTypeRender from '../render/AttributesTypeToRender'
  * @author Raphaël Mechali
  */
 
+
+/**
+ * Returns render delegates for attributes
+ * @param {*} attributes attributes
+ * @return {path:{string}, RenderConstructor:{function}} delegate builder with props
+ */
+function buildRenderDelegates(attributes) {
+  return attributes.map(attrModel => ({
+    path: `content.${attrModel.content.jsonPath}`,
+    RenderConstructor: getTypeRender(attrModel.content.type),
+  }))
+}
 
 /**
  * Builds an attribute column
@@ -58,15 +70,9 @@ function buildAttributeColumn({ key, label, attributes, order, enableSorting, so
   }
 
   // 2 - detemines cell rendeer
-  return TableColumnBuilder.buildColumn(key, label, columnHeader, {
-    Constructor: PropertiesRenderCell, // cell for attribute paths
-    props: {
-      properties: attributes.map(attrModel => ({
-        path: `content.${attrModel.content.jsonPath}`,
-        RenderConstructor: getTypeRender(attrModel.content.type),
-      })), // properties to access entity value
-    },
-  }, visible, order, columnWidth)
+  return TableColumnBuilder.buildColumn(key, label, columnHeader,
+    TableColumnBuilder.buildPropertiesRenderCell(buildRenderDelegates(attributes)), visible, order, columnWidth)
 }
 
-export default { buildAttributeColumn }
+
+export default { buildRenderDelegates, buildAttributeColumn }
