@@ -64,17 +64,17 @@ export class AttributeModelListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/attribute/model/create`
+    return `/admin/${project}/data/models/attribute/model/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board`
+    return `/admin/${project}/data/models/board`
   }
 
   handleEdit = (attrModelId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/attribute/model/${attrModelId}/edit`
+    const url = `/admin/${project}/data/models/attribute/model/${attrModelId}/edit`
     browserHistory.push(url)
   }
 

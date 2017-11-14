@@ -59,16 +59,16 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/dataset/list`
+    return `/admin/${project}/data/collections/dataset/list`
   }
   getCreateDatasourceUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/datasource/create/connection`
+    return `/admin/${project}/data/acquisition/datasource/create/connection`
   }
 
   redirectToForm = (datasourceId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/dataset/create/${datasourceId}`
+    const url = `/admin/${project}/data/collections/dataset/create/${datasourceId}`
     browserHistory.push(url)
   }
 

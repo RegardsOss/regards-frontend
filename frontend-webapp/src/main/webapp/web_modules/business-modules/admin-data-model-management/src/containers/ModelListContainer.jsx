@@ -61,12 +61,12 @@ export class ModelListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/model/create`
+    return `/admin/${project}/data/models/model/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board`
+    return `/admin/${project}/data/models/board`
   }
 
   getSubComponent = () => {
@@ -85,19 +85,19 @@ export class ModelListContainer extends React.Component {
 
   handleEdit = (modelId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/model/${modelId}/edit`
+    const url = `/admin/${project}/data/models/model/${modelId}/edit`
     browserHistory.push(url)
   }
 
   handleDuplicate = (modelId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/model/${modelId}/duplicate`
+    const url = `/admin/${project}/data/models/model/${modelId}/duplicate`
     browserHistory.push(url)
   }
 
   handleBindAttributes = (modelId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/model-attribute/${modelId}/edit`
+    const url = `/admin/${project}/data/models/model-attribute/${modelId}/edit`
     browserHistory.push(url)
   }
 

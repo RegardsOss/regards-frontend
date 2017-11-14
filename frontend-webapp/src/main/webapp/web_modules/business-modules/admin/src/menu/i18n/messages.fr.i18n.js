@@ -25,8 +25,10 @@ const messages = {
   'menu.instance.ui.configuration': 'Portail',
   'menu.microservices': 'Microservices',
   'menu.plugins': 'Plugins',
-  'menu.datamanagement': 'Gestion des données',
-  'menu.dataaccessrights': 'Accès aux données',
+  'menu.collections': 'Collections & Jeux',
+  'menu.datamodels': 'Modèles de données',
+  'menu.dataaccessrights': 'Droits d\'accès',
+  'menu.dataacquisition': 'Ajout de données',
   'menu.instance': 'Administration instance',
   'menu.back': 'Retour',
 }

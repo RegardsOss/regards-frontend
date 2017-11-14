@@ -102,22 +102,22 @@ export class DatasetStepperContainer extends React.Component {
   }
 
   handlePluginsClick = () => {
-    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/plugins`
+    const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/plugins`
     browserHistory.push(url)
   }
 
   handleAttributesClick = () => {
-    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/edit`
+    const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/edit`
     browserHistory.push(url)
   }
 
   handleLinksClick = () => {
-    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/links`
+    const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/links`
     browserHistory.push(url)
   }
 
   handleUIServicesClick = () => {
-    const url = `/admin/${this.props.projectName}/data/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/ui-services`
+    const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/ui-services`
     browserHistory.push(url)
   }
 

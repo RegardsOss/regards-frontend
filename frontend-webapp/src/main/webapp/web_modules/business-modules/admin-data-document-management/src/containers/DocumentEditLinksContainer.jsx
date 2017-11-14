@@ -74,7 +74,7 @@ export class DocumentEditLinksContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project, documentId } } = this.props
-    return `/admin/${project}/data/document/${documentId}/files`
+    return `/admin/${project}/data/acquisition/document/${documentId}/files`
   }
 
   getComponent = () => {
@@ -108,7 +108,7 @@ export class DocumentEditLinksContainer extends React.Component {
 
   getDoneUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/document/list`
+    return `/admin/${project}/data/acquisition/document/list`
   }
 
   /**

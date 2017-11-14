@@ -79,7 +79,7 @@ export class DatasetEditPluginContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project, datasetId } } = this.props
-    return `/admin/${project}/data/dataset/${datasetId}/links`
+    return `/admin/${project}/data/collections/dataset/${datasetId}/links`
   }
 
   getForm = () => {
@@ -101,7 +101,7 @@ export class DatasetEditPluginContainer extends React.Component {
 
   redirectToUIServices = () => {
     const { params: { project, datasetId, datasetIpId } } = this.props
-    const url = `/admin/${project}/data/dataset/${datasetId}/${datasetIpId}/ui-services`
+    const url = `/admin/${project}/data/collections/dataset/${datasetId}/${datasetIpId}/ui-services`
     browserHistory.push(url)
   }
 

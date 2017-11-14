@@ -23,7 +23,7 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'document', 'model-attribute']
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'document', 'model-attribute']
 const REDUX_ACTION_NAMESPACE = 'admin-data-modelattribute-management/model-attribute'
 
 

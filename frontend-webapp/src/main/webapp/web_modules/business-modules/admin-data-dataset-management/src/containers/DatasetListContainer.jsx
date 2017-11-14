@@ -57,17 +57,17 @@ export class DatasetListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/dataset/create/datasource`
+    return `/admin/${project}/data/collections/dataset/create/datasource`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board`
+    return `/admin/${project}/data/collections/board`
   }
 
   handleEdit = (datasetId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/dataset/${datasetId}/edit`
+    const url = `/admin/${project}/data/collections/dataset/${datasetId}/edit`
     browserHistory.push(url)
   }
 

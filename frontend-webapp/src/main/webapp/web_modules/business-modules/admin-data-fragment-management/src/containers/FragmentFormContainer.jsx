@@ -67,7 +67,7 @@ export class FragmentFormContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/fragment/list`
+    return `/admin/${project}/data/models/fragment/list`
   }
 
   /**

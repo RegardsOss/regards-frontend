@@ -67,7 +67,7 @@ export class ProjectFormContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/model/list`
+    return `/admin/${project}/data/models/model/list`
   }
 
   handleUpdate = (values) => {
