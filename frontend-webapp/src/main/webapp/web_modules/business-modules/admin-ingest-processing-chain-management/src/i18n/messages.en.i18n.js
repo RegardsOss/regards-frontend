@@ -24,7 +24,12 @@ const messages = Object.assign({
   'processing-chain.table.description': 'Description',
 
   'processinghain.list.title': 'List of processing chains',
-  'processinghain.list.subtitle': 'Processing chains are ...',
+  'processinghain.list.subtitle': 'Processing chains are used to customize the way data are archived into catalog.',
+  'processinghain.info.message' : 'A processing chain consist of executing here under step for data submission : ',
+  'processinghain.info.message.step1' : '1 - [Optional] Preprocessing',
+  'processinghain.info.message.step2' : '2 - Submitted data validation',
+  'processinghain.info.message.step3' : '3 - Generation of archived data or AIPs(archival information package)',
+  'processinghain.info.message.step4' : '4 - [Optional] Tag data with keywords, collections, documents, ...',
   'processing-chain.empty.title': 'No processing chain defined',
 
 }, Locales.en)

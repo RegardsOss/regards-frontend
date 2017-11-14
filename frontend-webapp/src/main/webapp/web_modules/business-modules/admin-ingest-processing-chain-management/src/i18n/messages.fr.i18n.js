@@ -22,8 +22,13 @@ const messages = Object.assign({
   'processing-chain.table.name': 'Nom',
   'processing-chain.table.description': 'Description',
 
-  'processinghain.list.title': 'Liste des chaînes de traitement',
-  'processinghain.list.subtitle': 'Les chaînes de traitement peremettent de ... ',
+  'processinghain.list.title': 'Chaînes de traitements',
+  'processinghain.list.subtitle': 'Les chaînes de traitement peremettent de personaliser les traitements réalisés sur les données soumises ou SIP (submission information package).',
+  'processinghain.info.message' : 'Une chaîne de traitement est consitutée des étapes configuragles suivantes : ',
+  'processinghain.info.message.step1' : '1 - [Optionel] Prétraitement',
+  'processinghain.info.message.step2' : '2 - Validation de la données soumise',
+  'processinghain.info.message.step3' : '3 - Génération de la donnée archivée ou AIP(archival information package)',
+  'processinghain.info.message.step4' : '4 - [Optionel] Tag de la donée générée avec divers mots clés, collections, documents, ...',
   'processing-chain.empty.title': 'Aucune chaîne de traitement définie.',
 }, Locales.fr)
 
