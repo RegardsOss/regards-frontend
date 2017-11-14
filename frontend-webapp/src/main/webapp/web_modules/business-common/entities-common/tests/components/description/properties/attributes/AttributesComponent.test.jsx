@@ -57,21 +57,18 @@ describe('[Entities Common] Testing AttributesComponent', () => {
       attributes: [{
         id: 0,
         label: 'un tout',
-        renderer: () => <div id="renderer1" />,
+        Renderer: () => <div id="Renderer1" />,
         renderValue: { main: 'a Value' },
       }, {
         id: 1,
         label: 'petit bikini',
-        renderer: () => <div id="renderer2" />,
+        Renderer: () => <div id="Renderer2" />,
         renderValue: null,
       }],
 
     }
     const enzymeWrapper = shallow(<AttributesComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(props.attributes[0].renderer), 1, 'The first renderer should be used as value is not null')
-    assert.lengthOf(enzymeWrapper.find(props.attributes[1].renderer), 0, 'The second renderer should not be used as value is null')
-    // should render the second attribute using a no data message
-    const noValueMessageWrapper = enzymeWrapper.findWhere(n => n.props().id === 'entities.common.properties.attribute.cell.no.value')
-    assert.lengthOf(noValueMessageWrapper, 1, 'There should be a no value message')
+    assert.lengthOf(enzymeWrapper.find(props.attributes[0].Renderer), 1, 'The first Renderer should be used as value is not null')
+    assert.lengthOf(enzymeWrapper.find(props.attributes[1].Renderer), 1, 'The second Renderer should also be used for null valuve')
   })
 })

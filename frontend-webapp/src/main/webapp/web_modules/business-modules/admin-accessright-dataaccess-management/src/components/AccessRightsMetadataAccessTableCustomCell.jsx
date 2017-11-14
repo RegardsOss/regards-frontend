@@ -19,31 +19,30 @@
 import find from 'lodash/find'
 import get from 'lodash/get'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import AccessRightsEnum from './AccessRightsEnum'
 
-class AccessRightsTableCustomCell extends React.Component {
+class AccessRightsMetadataAcccessTableCustomCell extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    attributes: PropTypes.shape({
-      label: PropTypes.string,
-      id: PropTypes.number,
-    }),
-    accessRights: DataManagementShapes.AccessRightList,
-    // eslint-disable-next-line react/forbid-prop-types
-    intl: PropTypes.object,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // from table cell API
     entity: DataManagementShapes.Dataset,
-    // eslint-disable-next-line react/no-unused-prop-types
-    lineHeight: PropTypes.number.isRequired,
+    // This configuration properties
+    accessRights: DataManagementShapes.AccessRightList,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
     const accessRight = find(this.props.accessRights, ar => ar.content.dataset.id === this.props.entity.content.id)
     const accessLevel = get(accessRight, 'content.accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
     return (
-      <span>{this.props.intl.formatMessage({ id: `accessright.form.meta.accessLevel.${accessLevel}` })}</span>
+      <span>{this.context.intl.formatMessage({ id: `accessright.form.meta.accessLevel.${accessLevel}` })}</span>
     )
   }
 }
 
-export default AccessRightsTableCustomCell
+export default AccessRightsMetadataAcccessTableCustomCell

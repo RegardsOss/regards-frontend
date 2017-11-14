@@ -17,74 +17,110 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-import omit from 'lodash/omit'
-import Checkbox from 'material-ui/Checkbox'
-import { Cell } from 'fixed-data-table-2'
+import { connect } from '@regardsoss/redux'
+import IconButton from 'material-ui/IconButton'
+import Checked from 'material-ui/svg-icons/toggle/check-box'
+import Unchecked from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import TableSelectionModes from '../../model/TableSelectionModes'
-
+import TableActions from '../../model/TableActions' // class for prop type
+import { TableSelectors } from '../../model/TableSelectors' // class for prop type
 
 /**
- * A checkbox cell for infinite table
+ * A checkbox cell for infinite table.
+ * Note: it acts as a container to bind the selection state of the row
+ * @author Raphaël Mechali
  */
-export default class CheckBoxCell extends React.Component {
+export class CheckBoxCell extends React.Component {
 
-  static propTypes = {
-    hasEntity: PropTypes.func,
-    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
-    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
-    rowIndex: PropTypes.number,
-    onToggleRowSelection: PropTypes.func.isRequired,
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { tableSelectors }) {
+    return {
+      toggledElements: tableSelectors.getToggledElements(state),
+      selectionMode: tableSelectors.getSelectionMode(state),
+    }
   }
 
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch, { rowIndex, tableActions }) {
+    return {
+      dispatchToggleRowSelection: entity => dispatch(tableActions.toggleElement(rowIndex, entity)),
+    }
+  }
+
+  static propTypes = {
+    // common cell content properties
+    rowIndex: PropTypes.number.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    entity: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    tableActions: PropTypes.instanceOf(TableActions), // Table actions instance, used in mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    tableSelectors: PropTypes.instanceOf(TableSelectors), // Table selectors instance, used in onPropertiesUpdate
+    // from map state to props
+    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
+    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
+    // from map dispatch to props
+    dispatchToggleRowSelection: PropTypes.func.isRequired,
+  }
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
-  onToggleRowSelection = rowIndex => this.props.onToggleRowSelection(rowIndex)
+  /**
+   * On user row selection (switches selection state for row index)
+   */
+  onToggleRowSelection = () => {
+    // retrieve entity by its index in state
+    const { dispatchToggleRowSelection, entity } = this.props
+    if (entity) {
+      dispatchToggleRowSelection(entity)
+    }
+  }
 
   /**
    * Is row as parameter selected?
    * @param rowIndex row index
    * @return true if row is selected
    */
-  isSelectedRow = (rowIndex) => {
-    const { selectionMode, toggledElements } = this.props
+  isSelectedRow = () => {
+    const { rowIndex, selectionMode, toggledElements } = this.props
     return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[rowIndex]) ||
       (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
   }
 
   render() {
-    const { onToggleRowSelection, rowIndex, hasEntity, ...otherProps } = this.props
-    const styles = this.context.moduleTheme
-
-    let cellStyle = styles.cellOdd
-    let cellContentStyle = styles.cellOddContent
-    if (rowIndex % 2) {
-      cellStyle = styles.cellEven
-      cellContentStyle = styles.cellEvenContent
-    }
-
-    const childrenProps = omit(otherProps, 'toggledElements', 'selectionMode')
+    const { intl: { formatMessage }, moduleTheme: { checkButton: { styles, checkedIcon, uncheckedIcon } } } = this.context
+    const [tooltipKey, iconStyle, Icon] = this.isSelectedRow() ?
+      ['table.unselect.row.tooltip', checkedIcon, Checked] :
+      ['table.select.row.tooltip', uncheckedIcon, Unchecked]
 
     return (
-      <Cell
-        {...childrenProps}
-        style={cellStyle}
+      <IconButton
+        style={styles}
+        iconStyle={iconStyle}
+        onTouchTap={this.onToggleRowSelection}
+        title={formatMessage({ id: tooltipKey })}
       >
-        <div style={cellContentStyle}>
-          {
-            hasEntity(rowIndex) ?
-              <Checkbox
-                onCheck={() => onToggleRowSelection(rowIndex)}
-                defaultChecked={this.isSelectedRow(rowIndex)}
-              /> : null
-          }
-        </div>
-      </Cell>
-    )
+        <Icon />
+      </IconButton>)
   }
-
 }
+
+export default connect(
+  CheckBoxCell.mapStateToProps,
+  CheckBoxCell.mapDispatchToProps)(CheckBoxCell)
 

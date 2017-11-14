@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Avatar from 'material-ui/Avatar'
 import Lock from 'material-ui/svg-icons/action/lock-outline'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
-import { Link } from 'react-router'
 /*
 interface ProjectProps {
   project: any
@@ -46,7 +46,7 @@ class ProjectComponent extends React.Component {
   }
 
   getProjectUrl = () => (
-     `/user/${this.props.project.content.name}/`
+    `/user/${this.props.project.content.name}/`
   )
 
   renderProject = () => {
@@ -93,7 +93,7 @@ class ProjectComponent extends React.Component {
               />
               <CardText>
                 <div style={moduleTheme.text}>
-                  { project.content.description }
+                  {project.content.description}
                 </div>
               </CardText>
             </div>

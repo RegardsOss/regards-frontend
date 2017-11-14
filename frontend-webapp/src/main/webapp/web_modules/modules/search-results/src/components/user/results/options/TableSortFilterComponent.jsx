@@ -32,7 +32,7 @@ class TableSortFilterComponent extends React.Component {
     // List of displayable columns. A column is a configuration for an attribute or attributeRegroupement.
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
     // Callback to run sort function
-    onSortByColumn: PropTypes.func.isRequired,
+    onSortByAttribute: PropTypes.func.isRequired,
     // Label for the column sort field
     prefixLabel: PropTypes.string.isRequired,
     // Label for the "None" attribute selected.
@@ -71,9 +71,9 @@ class TableSortFilterComponent extends React.Component {
    */
   handleSort = (column) => {
     if (!column) {
-      this.props.onSortByColumn(null, null, true)
+      this.props.onSortByAttribute(null, null, true)
     } else {
-      this.props.onSortByColumn(column, TableSortOrders.ASCENDING_ORDER, true)
+      this.props.onSortByAttribute(column, TableSortOrders.ASCENDING_ORDER, true)
     }
   }
 

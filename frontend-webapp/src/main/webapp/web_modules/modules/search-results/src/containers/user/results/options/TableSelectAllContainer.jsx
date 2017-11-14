@@ -1,14 +1,14 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
-import { TableSelectionModes } from '@regardsoss/components'
+import { TableSelectionModes, TableSelectAllOption } from '@regardsoss/components'
 import TableClient from '../../../../clients/TableClient'
-import TableSelectAllComponent from '../../../../components/user/results/options/TableSelectAllComponent'
 
 /**
  * Container for table select all component (used by list to select all elements)
@@ -80,7 +80,7 @@ export class TableSelectAllContainer extends React.Component {
   * @return true if all rows are selected
   */
   areAllSelected = ({ pageMetadata, toggledElements, selectionMode }) => {
-    const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
+    const totalElements = get(pageMetadata, 'totalElements', 0)
     const selectionSize = keys(toggledElements).length
     // selectionSize > 0 avoid showing 'unselect all' when table is empty
     return (selectionMode === TableSelectionModes.includeSelected && selectionSize === totalElements && selectionSize > 0) ||
@@ -90,18 +90,16 @@ export class TableSelectAllContainer extends React.Component {
   render() {
     const { allSelected } = this.state
     const { pageMetadata } = this.props
-    if (!pageMetadata || !pageMetadata.totalElements) {
-      // hide select all
-      return null
-    }
     return (
-      <TableSelectAllComponent
+      <TableSelectAllOption
+        disabled={!pageMetadata || !pageMetadata.totalElements}
         allSelected={allSelected}
         onToggleSelectAll={this.onToggleSelectAll}
       />
     )
   }
 }
+
 export default connect(
   TableSelectAllContainer.mapStateToProps,
   TableSelectAllContainer.mapDispatchToProps)(TableSelectAllContainer)

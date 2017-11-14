@@ -48,7 +48,6 @@ const HiddenModuleTypes = {
   AIP_STATUS: 'aip-status', // XXX-V3 visible
   AUTHENTICATION: 'authentication',
   NEWS: 'news', // XXX-V3 visible
-  SEARCH_FACETS: 'search-facets',
 }
 
 /** All dynamic module types (mainly for REGARDS programmers use) */

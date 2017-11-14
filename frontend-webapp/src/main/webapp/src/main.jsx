@@ -56,7 +56,6 @@ try {
     console.log('Failed to inject injectTapEventPlugin. Are you in watch mode?')
   }
 }
-
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory} routes={rootRouter} />

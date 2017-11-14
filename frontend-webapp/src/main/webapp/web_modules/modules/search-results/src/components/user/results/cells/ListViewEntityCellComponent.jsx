@@ -16,24 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import React from 'react'
+import flatMap from 'lodash/flatMap'
 import get from 'lodash/get'
-import map from 'lodash/map'
-import merge from 'lodash/merge'
 import IconButton from 'material-ui/IconButton'
-import Divider from 'material-ui/Divider'
+import FlatButton from 'material-ui/FlatButton'
 import DownloadIcon from 'material-ui/svg-icons/action/get-app'
 import Checkbox from 'material-ui/Checkbox'
-import { Card, CardHeader, CardText } from 'material-ui/Card'
-import { DamDomain, CatalogDomain } from '@regardsoss/domain'
-import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { CatalogDomain } from '@regardsoss/domain'
+import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { getTypeRender } from '@regardsoss/attributes-common'
-import { TableColumnConfiguration, TableColumnConfigurationController, DownloadButton, ShowableAtRender } from '@regardsoss/components'
+import { DownloadButton, ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import AddElementToCartButton from '../options/AddElementToCartButton'
-import OneElementServicesButton from '../options/OneElementServicesButton'
-import EntityDescriptionButton from '../options/EntityDescriptionButton'
+import AddElementToCartContainer from '../../../../containers/user/results/options/AddElementToCartContainer'
+import EntityDescriptionContainer from '../../../../containers/user/results/options/EntityDescriptionContainer'
+import OneElementServicesContainer from '../../../../containers/user/results/options/OneElementServicesContainer'
+
+/**
+ * Shape for render data properties (packed to be efficient at render time)
+ */
+export const AttributeRenderData = PropTypes.shape({
+  key: PropTypes.string.isRequired,
+  label: PropTypes.string, // optional as it is not provided for thumbnail
+  renderers: PropTypes.arrayOf(PropTypes.shape({
+    path: PropTypes.string.isRequired,
+    RenderConstructor: PropTypes.func.isRequired,
+  })).isRequired,
+})
 
 /**
  * Component to display datasets in search results.
@@ -43,28 +51,18 @@ import EntityDescriptionButton from '../options/EntityDescriptionButton'
 class ListViewEntityCellComponent extends React.Component {
 
   static propTypes = {
-
     // Entity to display
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
-    attributes: PropTypes.objectOf(DataManagementShapes.AttributeModel),
-    lineHeight: PropTypes.number.isRequired,
-    // Parameters to handle row selection
-    isTableSelected: PropTypes.bool,
-    selectTableEntityCallback: PropTypes.func,
-    // Columns configuration to display
-    tableColumns: PropTypes.arrayOf(TableColumnConfiguration),
-    // Display checbox for entities selection ?
-    displayCheckbox: PropTypes.bool,
-    // Show services for entity?
-    enableServices: PropTypes.bool.isRequired,
-    // optional callback: add element to cart (entity) => ()
+    hasDownload: PropTypes.bool.isRequired,
+    thumbnailRenderData: AttributeRenderData, // no thumbnail when not provided
+    gridAttributesRenderData: PropTypes.arrayOf(AttributeRenderData).isRequired,
+    selectionEnabled: PropTypes.bool,
+    servicesEnabled: PropTypes.bool.isRequired,
+    entitySelected: PropTypes.bool.isRequired,
+    // Callback
+    onSelectEntity: PropTypes.func.isRequired,
+    onSearchEntity: PropTypes.func,
     onAddToCart: PropTypes.func,
-    // callback: on entity selection (or null when not clickable)
-    onEntitySelection: PropTypes.func,
-    // callback: on show description
-    onShowDescription: PropTypes.func.isRequired,
-    // callback: parent service starting handler
-    onServiceStarted: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -72,229 +70,156 @@ class ListViewEntityCellComponent extends React.Component {
     ...i18nContextType,
   }
 
-
-  /** Life cycle hook, component will mount. Initializes state */
-  componentWillMount = () => this.setStandardStyle()
-
   /**
-   * Set the css styles when the cursor is hover the dataset cell
-   * @param cursor
+   * Renders title area of the list cell (title, with checkbox if selection enabled, empty space and options)
    */
-  setHoverStyle = () => {
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
-    this.setState({
-      style: merge({}, listViewStyles.lineHover),
-    })
-  }
+  renderTitle = () => {
+    const { entity, selectionEnabled, servicesEnabled, entitySelected, onSelectEntity, onSearchEntity, onAddToCart } = this.props
+    const { intl: { formatMessage }, moduleTheme } = this.context
+    const { rootStyles, labelGroup, checkboxStyles, labelStyles, optionsBarStyles, option } = moduleTheme.user.listViewStyles.title
 
-  setHoverClickableStyle = () => {
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
-    this.setState({
-      style: merge({}, listViewStyles.lineHover, { cursor: 'pointer' }),
-    })
-  }
+    const services = get(entity, 'content.services', [])
+    const downloadURL = get(this.props.entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}[0].uri`, null)
 
-  /**
-   * Set the css styles when the cursor is out the dataset cell
-   */
-  setStandardStyle = () => {
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
-    this.setState({
-      style: listViewStyles.lineOut,
-    })
-  }
-
-  /**
-   * Display the value of an attribute. An attribute is one AttribureModel of a framgent.
-   * Fragments are avaialables in the "properties" property of the dataset entity.
-   *
-   * @param attribute
-   * @param attributeValue
-   * @returns {XML}
-   */
-  displayAttribute(attribute, attributeValue) {
-    const attributes = {}
-    attributes[`${attribute.content.fragment.name}.${attribute.content.name}`] = attributeValue
-
-    const valueCellRenderer = getTypeRender(attribute.content.type)
-    const element = React.createElement(valueCellRenderer, {
-      attributes,
-    })
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
-    return (
-      <div
-        key={`${attribute.content.fragment.name}.${attribute.content.name}`}
-        style={listViewStyles.attribute}
-      >
-        <span
-          style={listViewStyles.attributeLabel}
-        >{attribute.content.label}</span>
-        <span
-          style={{
-            marginRight: 5,
-            marginLeft: 5,
-          }}
-        >:</span>
-        <span
-          style={listViewStyles.attributeValue}
-        >
-          {element}
-        </span>
-      </div>
-    )
-  }
-
-  /**
-   * Display all the attributes of the given fragment. A fragment is a collection of ModelAttribute
-   *
-   * @param fragmentName
-   * @param values
-   * @returns {*}
-   */
-  displayFragment = (fragmentName, values) => {
-    // Does the fragment is an attibute of default fragment ?
-    const defaultAttribute = DamDomain.AttributeModelController.findAttribute(fragmentName, DamDomain.AttributeModelController.DEFAULT_FRAGMENT, this.props.attributes)
-    if (defaultAttribute) {
-      return this.displayAttribute(defaultAttribute, values)
-    }
-    // If it is a fragment
-    const elements = map(values, (attrValue, key) => {
-      const attribute = DamDomain.AttributeModelController.findAttribute(key, fragmentName, this.props.attributes)
-      if (attribute) {
-        return this.displayAttribute(attribute, attrValue)
-      }
-      return null
-    })
-    return elements
-  }
-
-  displayEntityProperty = (key, column) => {
-    // Do not display special files attributes like thumbmail or rawdata
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
-    if (column.attributes && column.attributes.length > 0 && column.attributes[0] === 'files') {
-      return null
-    }
-    if (TableColumnConfigurationController.doesEntityValuesNotEmptyForColumnConfiguration(column, this.props.entity)) {
-      return (
-        <div
-          key={key}
-          style={listViewStyles.attribute}
-        >
-          <span
-            style={listViewStyles.attributeLabel}
-          >{column.label}</span>
-          <span
-            style={{
-              marginRight: 5,
-              marginLeft: 5,
-            }}
-          >:</span>
-          <span
-            style={listViewStyles.attributeValue}
-          >
-            {TableColumnConfigurationController.getConfiguredColumnValueForEntity(column, this.props.entity)}
-          </span>
-        </div>
-      )
-    }
-    return null
-  }
-
-  /**
-   * Display the thumbmail of the current dataset if any is defined in the "FILES" property of the entity.
-   * @returns {XML}
-   */
-  displayThumbnail = () => {
-    const thumbnailURI = get(this.props.entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL}[0].uri`, null)
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
-    if (thumbnailURI) {
-      return (
-        <div style={listViewStyles.thumbnail}>
-          <img height="80" width="80" src={thumbnailURI} alt="" />
-        </div>
-      )
-    }
-    return null
-  }
-
-  displayTitle = () => {
-    const { onShowDescription, onAddToCart } = this.props
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
-    const { rootStyles, checkboxStyles, titleLabelStyles, optionsBarStyles, option } = listViewStyles.title
     return (
       <div style={rootStyles}>
-        {this.props.displayCheckbox ? <Checkbox
-          onCheck={this.props.selectTableEntityCallback}
-          defaultChecked={this.props.isTableSelected}
-          style={checkboxStyles}
-        /> : null}
-        <span
-          onMouseEnter={this.props.onEntitySelection ? this.setHoverClickableStyle : undefined}
-          onMouseLeave={this.props.onEntitySelection ? this.setStandardStyle : undefined}
-          onTouchTap={this.props.onEntitySelection ? this.props.onEntitySelection : undefined}
-          style={titleLabelStyles}
-        >{this.props.entity.content.label}</span>
+        {/* A. clickable title area, with checkbox when it can be selected */}
+        <div style={labelGroup} >
+          {selectionEnabled ? (
+            <Checkbox
+              onCheck={onSelectEntity}
+              checked={entitySelected}
+              style={checkboxStyles}
+            />) : null}
+          <FlatButton
+            label={entity.content.label}
+            title={onSearchEntity ? formatMessage({ id: 'results.search.entity' }) : null}
+            labelStyle={labelStyles}
+            onTouchTap={onSearchEntity}
+            disabled={!onSearchEntity}
+          />
+        </div>
+        {/* B. Options bar */}
         <div style={optionsBarStyles}>
-          {this.displayDownload() // Download if available
+          {/* B-1. Download, when available. Like below, due to props, we can't use a showable at render */}
+          {this.props.hasDownload && !!downloadURL ? (
+            <DownloadButton
+              style={option.buttonStyles}
+              tooltip={formatMessage({ id: 'download.tooltip' })}
+              iconStyle={option.iconStyles}
+              downloadURL={downloadURL}
+              ButtonIcon={null} // remove default icon, use children instead for an Icon button
+              ButtonConstructor={IconButton}
+            >
+              <DownloadIcon />
+            </DownloadButton>
+          ) : null
           }
-          {this.displayServices() // Services if any
-          }
-          <EntityDescriptionButton // Description
+          {/* B-2. Description  */}
+          <EntityDescriptionContainer
+            entity={entity}
             style={option.buttonStyles}
             iconStyle={option.iconStyles}
-            onShowDescription={onShowDescription}
           />
-          <ShowableAtRender show={!!onAddToCart}>
-            <AddElementToCartButton // Add to cart, only when callback is available
-              onAddToCart={onAddToCart}
+          {/* B-3. services, when enabled */}
+          <ShowableAtRender show={servicesEnabled && !!services.length}>
+            <OneElementServicesContainer
+              entity={entity}
               style={option.buttonStyles}
               iconStyle={option.iconStyles}
             />
           </ShowableAtRender>
+          {/* B-4. add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
+          {onAddToCart ? (
+            <AddElementToCartContainer
+              entity={entity}
+              onAddToCart={onAddToCart}
+              style={option.buttonStyles}
+              iconStyle={option.iconStyles}
+            />) : null
+          }
         </div>
       </div>
     )
   }
 
-  displayDownload = () => {
-    const { intl: { formatMessage }, moduleTheme: { user: { listViewStyles } } } = this.context
-    const rawdataURI = get(this.props.entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}[0].uri`, null)
-    if (rawdataURI) {
-      return (
-        <DownloadButton
-          style={listViewStyles.title.option.buttonStyles}
-          tooltip={formatMessage({ id: 'download.tooltip' })}
-          iconStyle={listViewStyles.title.option.iconStyles}
-          downloadURL={rawdataURI}
-          ButtonIcon={null} // remove default icon, use children instead for an Icon button
-          ButtonConstructor={IconButton}
-        >
-          <DownloadIcon />
-        </DownloadButton>)
-    }
-    return null
+  /**
+   * Renders a single attribute through dedicated values renderer (using common entities render)
+   * @param {AttributeRenderData} renderData render data for attribute
+   * @return {[React.Element]} built components array for value
+   */
+  renderAttributeValue = ({ key, renderers }) => {
+    const { entity } = this.props
+    const { intl: { formatMessage } } = this.context
+    return flatMap(renderers, ({ path, RenderConstructor }, index) => [
+      // insert separator if mutilple values
+      index > 0 ? (<div key={`separator.${path}`} >{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
+      <RenderConstructor key={path} value={get(entity, path)} />])
   }
 
-  displayServices = () => {
-    const { entity: { content: { services = [] } }, enableServices, onServiceStarted } = this.props
-    const { moduleTheme: { user: { listViewStyles } } } = this.context
-    const { option } = listViewStyles.title
-    return enableServices && services.length ? (
-      <OneElementServicesButton
-        style={option.buttonStyles}
-        iconStyle={option.iconStyles}
-        services={services}
-        onServiceStarted={onServiceStarted}
-      />) : null
+  /**
+   * Renders attributes to show in grid into a matrix as follow:
+   * Element at 0, 2, ... are labels
+   * Elements at 1, 3, ... are values
+   * @param gridAttributeModels attribute models to show in grid
+   * @return built columns matrix
+   */
+  renderAsColumns = (gridAttributeModels) => {
+    const { muiTheme, moduleTheme } = this.context
+    const { labelCellStyle, valueCellStyle } = moduleTheme.user.listViewStyles
+    const { listRowsByColumnCount } = muiTheme['components:infinite-table']
+    return gridAttributeModels.reduce((columnsAcc, model, index) => {
+      // 1 - Render label and value
+      const labelCell = <div key={model.key} style={labelCellStyle}>{model.label}</div>
+      const valueCell = <div key={model.key} style={valueCellStyle}>{this.renderAttributeValue(model)}</div>
+      // 2 assign them to the current columns (or new columns if required), knowing we build two columns for one attribute
+      const columnIndex = (index / listRowsByColumnCount) * 2
+      if (columnIndex >= columnsAcc.length) {
+        // 2.a - Add new columns
+        return [...columnsAcc, [labelCell], [valueCell]]
+      }
+      // 2.b - push in previously built columns
+      columnsAcc[columnsAcc.length - 2].push(labelCell)
+      columnsAcc[columnsAcc.length - 1].push(valueCell)
+      return columnsAcc
+    }, [])
   }
 
-  displayEntityAttributes = () => {
-    const { properties } = this.props.entity.content
-    const { tableColumns } = this.props
-    if (tableColumns) {
-      return map(tableColumns, (column, key) => this.displayEntityProperty(key, column))
-    }
-    return map(properties, (property, key) => this.displayFragment(key, property))
+  /**
+   * Renders this cell attributes
+   * @return {React.Element} render data
+   */
+  renderAttributes = () => {
+    const { thumbnailRenderData, gridAttributesRenderData } = this.props
+    const { moduleTheme } = this.context
+
+    const { attributesStyles, thumbnailColumnStyle, labelColumnStyles, valueColumnStyles } = moduleTheme.user.listViewStyles
+
+    // 2 - prepare label columns and value columns
+    const asColumns = this.renderAsColumns(gridAttributesRenderData)
+
+    return (
+      <div style={attributesStyles} >
+        {/* 1. show thumbnail column if configured */
+          thumbnailRenderData ? (
+            <div style={thumbnailColumnStyle} >
+              {
+                this.renderAttributeValue(thumbnailRenderData, false)
+              }
+            </div>) : null
+        }
+        {/* 2. show label/values alternated columns */}
+        {asColumns.map((column, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <div key={`column.index.${index}`} style={index % 2 === 0 ? labelColumnStyles : valueColumnStyles}>
+            { // render the column cells
+              column.map(cell => cell)
+            }
+          </div>
+        ))
+        }
+      </div>
+    )
   }
 
   /**
@@ -303,38 +228,16 @@ class ListViewEntityCellComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const titleStyle = { fontSize: '1.3em' }
-    const headerStyle = { paddingBottom: 0 }
-    const textStyle = { overflow: 'hidden' }
-    const contentStyle = { display: 'inline-block' }
-
-    const title = this.displayTitle()
-    const attributes = this.displayEntityAttributes()
-    const thumbnail = this.displayThumbnail()
-
-    const cardStyles = Object.assign({}, this.state.style, { height: this.props.lineHeight })
-
     const { moduleTheme: { user: { listViewStyles } } } = this.context
-
     return (
-      <Card
-        style={cardStyles}
-      >
-        <CardHeader
-          title={title}
-          titleStyle={titleStyle}
-          style={headerStyle}
-        />
-        <CardText style={textStyle}>
-          <Divider />
-          {thumbnail}
-          <div style={contentStyle}>
-            <div style={listViewStyles.line}>
-              {attributes}
-            </div>
-          </div>
-        </CardText>
-      </Card>
+      <div style={listViewStyles.rootStyles} >
+        {/* 1. title */
+          this.renderTitle()
+        }
+        {/* 2 . Attribute */
+          this.renderAttributes()
+        }
+      </div>
     )
   }
 }

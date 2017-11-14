@@ -19,6 +19,8 @@
 import find from 'lodash/find'
 import get from 'lodash/get'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import AccessRightsEnum from './AccessRightsEnum'
 
 class AccessRightsDataAccessTableCustomCell extends React.Component {
@@ -29,12 +31,13 @@ class AccessRightsDataAccessTableCustomCell extends React.Component {
       id: PropTypes.number,
     }),
     accessRights: DataManagementShapes.AccessRightList,
-    // eslint-disable-next-line react/forbid-prop-types
-    intl: PropTypes.object,
     // eslint-disable-next-line react/no-unused-prop-types
     entity: DataManagementShapes.Dataset,
-    // eslint-disable-next-line react/no-unused-prop-types
-    lineHeight: PropTypes.number.isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   static NOT_APPLICABLE = 'NOT_APPLICABLE'
@@ -47,7 +50,7 @@ class AccessRightsDataAccessTableCustomCell extends React.Component {
       accessLevel = get(accessRight, 'content.dataAccessRight.dataAccessLevel', AccessRightsEnum.DATA_ACCESS_ENUM.NO_ACCESS)
     }
     return (
-      <span>{this.props.intl.formatMessage({ id: `accessright.form.data.accessLevel.${accessLevel}` })}</span>
+      <span>{this.context.intl.formatMessage({ id: `accessright.form.data.accessLevel.${accessLevel}` })}</span>
     )
   }
 }

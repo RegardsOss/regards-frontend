@@ -154,12 +154,15 @@ export class OrderCartContainer extends React.Component {
     const newState = { ...(oldState || OrderCartContainer.DEFAULT_STATE) }
     if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated) ||
       !isEqual(oldProps.modules, newProps.modules) ||
+      !isEqual(oldProps.toggledElements, newProps.toggledElements) ||
       !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       // recompute if basket should be displayed
       newState.basketAvailaible = this.isBasketAvailable(newProps)
     }
     // update callbacks when basket available state changes or view object type changes
-    if (oldProps.viewObjectType !== newProps.viewObjectType || oldState.basketAvailaible !== newState.basketAvailaible) {
+    if (oldProps.viewObjectType !== newProps.viewObjectType ||
+      oldProps.emptySelection !== newProps.emptySelection ||
+      oldState.basketAvailaible !== newState.basketAvailaible) {
       if (newState.basketAvailaible) {
         // set up the right callbacks for current state
         if (newProps.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {

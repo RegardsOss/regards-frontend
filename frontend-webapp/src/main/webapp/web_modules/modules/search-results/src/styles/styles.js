@@ -72,44 +72,50 @@ const formStyles = theme => ({
         height: 24,
       },
     },
+    filters: {
+      style: {
+        margin: '0 5px',
+      },
+    },
     listViewStyles: {
-      cell: {
-        backgroundColor: theme.palette.canvasColor,
-        textAlign: 'left',
-      },
-      line: {
-        marginTop: 10,
+      rootStyles: {
         display: 'flex',
-        flexFlow: 'column wrap',
-        alignContent: 'stretch',
-        alignItems: 'flex-start',
-        maxHeight: 90,
-      },
-      lineHover: {
-        height: '100%',
+        flexDirection: 'column',
+        alignItems: 'stretch',
         width: '100%',
-        margin: 'auto',
-        cursor: 'auto',
-        backgroundColor: theme.tableRow.hoverColor,
-      },
-      lineOut: {
         height: '100%',
-        width: '100%',
-        margin: 'auto',
-        cursor: 'auto',
-        backgroundColor: theme.tableRow.stripeColor,
       },
       title: {
-        rootStyles: { display: 'flex', alignItems: 'center' },
-        checkboxStyles: { margin: '0 0 0 6px', width: 'auto' },
-        labelStyles: { margin: '0 10px 0 6px' },
-        optionsBarStyles: { display: 'flex', right: 16, position: 'absolute' },
+        rootStyles: {
+          padding: '5px 5px 5px 0px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        },
+        labelGroup: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'left',
+        },
+        checkboxStyles: {
+          margin: '2px 0 0 0',
+          width: 'auto',
+        },
+        labelStyles: {
+          fontSize: '1.3em',
+          textTransform: 'none',
+          paddingLeft: 8,
+          paddingRight: 10,
+          color: theme.palette.textColor,
+        },
+        optionsBarStyles: {
+          display: 'flex',
+        },
         option: {
           buttonStyles: {
-            width: 24,
-            height: 24,
-            padding: 0,
-            marginLeft: 12,
+            width: 32,
+            height: 32,
+            padding: 4,
           },
           iconStyles: {
             width: 24,
@@ -117,9 +123,48 @@ const formStyles = theme => ({
           },
         },
       },
-      thumbnail: {
-        display: 'inline-block',
-        marginTop: 5,
+      attributesStyles: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexGrow: 1,
+        flexShrink: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+      },
+      labelColumnStyles: {
+        margin: '10px 0 5px 20px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        flexGrow: 0,
+        flexShrink: 0,
+      },
+      labelCellStyle: {
+        color: theme.palette.accent1Color,
+        margin: '5px 0 0 0',
+      },
+      valueColumnStyles: {
+        margin: '10px 0 5px 10px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        width: 0, // required to get same columns sizes (as well as valueCellStyle maxWidth)
+        flexBasis: 0, // required to get same columns sizes (as well as valueCellStyle maxWidth)
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+      valueCellStyle: { // for groups
+        margin: '5px 0 0 0',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        maxWidth: '100%', // required to diminish contained cells width (text 'pushes' column width otherwise)
+      },
+      thumbnailColumnStyle: {
+        width: '110px',
+        display: 'block',
+        padding: '5px 0px 10px 10px',
       },
       attribute: {
         marginLeft: 10,

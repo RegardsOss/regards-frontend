@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import StringAttributesRender from './StringAttributesRender'
-import IntegerAttributesRender from './IntegerAttributesRender'
-import RangeAttributesRender from './RangeAttributesRender'
-import DateAttributesRender from './DateAttributesRender'
-import DateRangeAttributesRender from './DateRangeAttributesRender'
-import DateArrayAttributesRender from './DateArrayAttributesRender'
-import UrlAttributesRender from './UrlAttributesRender'
-import BooleanAttributesRender from './BooleanAttributesRender'
-import ThumbnailAttributesRender from './ThumbnailAttributesRender'
-import RawDataAttributesRender from './RawDataAttributesRender'
-import StringArrayAttributesRender from './StringArrayAttributesRender'
+import BooleanAttributeRender from './BooleanAttributeRender'
+import DateArrayAttributeRender from './DateArrayAttributeRender'
+import DateAttributeRender from './DateAttributeRender'
+import DateRangeAttributeRender from './DateRangeAttributeRender'
+import NumberAttributeRender from './NumberAttributeRender'
+import RangeAttributeRender from './RangeAttributeRender'
+import RawDataAttributeRender from './RawDataAttributeRender'
+import StringArrayAttributeRender from './StringArrayAttributeRender'
+import StringAttributeRender from './StringAttributeRender'
+import ThumbnailAttributeRender from './ThumbnailAttributeRender'
+import UrlAttributeRender from './UrlAttributeRender'
 
 /**
  * Enum to associate attribute types to sRender renderer component.
@@ -34,21 +34,23 @@ import StringArrayAttributesRender from './StringArrayAttributesRender'
  */
 const typeToRenderMap = {
   // Default render
-  DEFAULT: StringAttributesRender,
+  DEFAULT: StringAttributeRender,
   // Render by type
-  BOOLEAN: BooleanAttributesRender,
-  DATE_ISO8601: DateAttributesRender,
-  DATE_INTERVAL: DateRangeAttributesRender,
-  DATE_ARRAY: DateArrayAttributesRender,
-  DOUBLE_INTERVAL: RangeAttributesRender,
-  INTEGER: IntegerAttributesRender,
-  INTEGER_INTERVAL: RangeAttributesRender,
-  LONG_INTERVAL: RangeAttributesRender,
-  STRING: StringAttributesRender,
-  STRING_ARRAY: StringArrayAttributesRender,
-  THUMBNAIL: ThumbnailAttributesRender,
-  URL: UrlAttributesRender,
-  DOWNLOAD_LINK: RawDataAttributesRender,
+  BOOLEAN: BooleanAttributeRender,
+  DATE_ISO8601: DateAttributeRender,
+  DATE_INTERVAL: DateRangeAttributeRender,
+  DATE_ARRAY: DateArrayAttributeRender,
+  DOUBLE: NumberAttributeRender,
+  DOUBLE_INTERVAL: RangeAttributeRender,
+  DOWNLOAD_LINK: RawDataAttributeRender,
+  INTEGER: NumberAttributeRender,
+  INTEGER_INTERVAL: NumberAttributeRender,
+  LONG: NumberAttributeRender,
+  LONG_INTERVAL: NumberAttributeRender,
+  STRING: StringAttributeRender,
+  STRING_ARRAY: StringArrayAttributeRender,
+  THUMBNAIL: ThumbnailAttributeRender,
+  URL: UrlAttributeRender,
 }
 
 /**
