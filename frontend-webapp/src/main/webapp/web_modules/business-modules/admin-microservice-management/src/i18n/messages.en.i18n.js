@@ -80,6 +80,8 @@ const messages = Object.assign({
   'microservice-management.plugin.parameter.plugin.empty.menu.item': 'None',
 
   'microservice-management.sips.title': 'SIPs',
+  'microservice-management.sips.button.filter': 'Filter',
+  'microservice-management.sips.button.back': 'Back',
   'microservice-management.sips.list.subtitle': 'List of SIPs for selected session',
   'microservice-management.sips.list.filters.chain.label': 'Processing chain',
   'microservice-management.sips.list.filters.chain.all': 'All chains',

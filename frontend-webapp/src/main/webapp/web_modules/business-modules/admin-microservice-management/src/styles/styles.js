@@ -160,6 +160,9 @@ const microserviceManagementStyles = theme => ({
         height: 300,
         width: '100%',
       },
+      aipDialog: {
+        marginBottom: 15,
+      },
     },
     session: {
       bars: {
@@ -200,7 +203,6 @@ const microserviceManagementStyles = theme => ({
           alignItems: 'center',
         },
         iconStyle: {
-          marginLeft: 5,
           color: '#f44336',
         },
       },

@@ -20,6 +20,7 @@
 import { Card, CardTitle, CardMedia, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import DatePicker from 'material-ui/DatePicker'
@@ -37,12 +38,13 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import Code from 'material-ui/svg-icons/action/code'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import List from 'material-ui/svg-icons/action/list'
-import File from 'material-ui/svg-icons/editor/insert-drive-file'
+import Error from 'material-ui/svg-icons/alert/error'
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { AceEditorAdapter } from '@regardsoss/adapters'
+import AIPDialog from './AIPDialog'
 
 /**
 * SIP list
@@ -64,7 +66,6 @@ class SIPListComponent extends React.Component {
     super(props)
     this.state = {
       AIPdialog: false,
-      AIPfiles: false,
       SIPDetails: false,
     }
   }
@@ -72,12 +73,6 @@ class SIPListComponent extends React.Component {
   handleAIPDialog = () => {
     this.setState({
       AIPdialog: !this.state.AIPdialog,
-    })
-  }
-
-  handleAIPfiles = () => {
-    this.setState({
-      AIPfiles: !this.state.AIPfiles,
     })
   }
 
@@ -178,6 +173,10 @@ class SIPListComponent extends React.Component {
                 })}
                 labelPosition="right"
               />
+              <RaisedButton
+                label={intl.formatMessage({ id: 'microservice-management.sips.button.filter' })}
+                primary
+              />
             </div>
           </CardText>
           <CardMedia>
@@ -210,7 +209,14 @@ class SIPListComponent extends React.Component {
                   <TableRow key={item}>
                     <TableRowColumn>{item}</TableRowColumn>
                     <TableRowColumn>{types[item % types.length]}</TableRowColumn>
-                    <TableRowColumn>{status[item % status.length]}</TableRowColumn>
+                    <TableRowColumn style={sip.session.error.rowColumnStyle}>
+                      {status[item % status.length]}
+                      <ShowableAtRender show={status[item % status.length].includes('Error')}>
+                        <IconButton iconStyle={sip.session.error.iconStyle}>
+                          <Error />
+                        </IconButton>
+                      </ShowableAtRender>
+                    </TableRowColumn>
                     <TableRowColumn>{(item * 3) + 1}/10/2017</TableRowColumn>
                     <TableRowColumn>
                       <IconButton
@@ -252,172 +258,7 @@ class SIPListComponent extends React.Component {
             </Table>
           </CardMedia>
         </Card>
-        <Dialog
-          title={intl.formatMessage({ id: 'microservice-management.sips.list.aip-details.title' })}
-          modal={false}
-          open={this.state.AIPdialog}
-          onRequestClose={this.handleAIPDialog}
-          autoScrollBodyContent
-        >
-          <Table selectable={false}>
-            <TableHeader enableSelectAll={false} adjustForCheckbox={false} displaySelectAll={false}>
-              <TableRow>
-                <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.list.aip-details.table.headers.aip-id" />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.list.aip-details.table.headers.state" />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.list.aip-details.table.headers.actions" />
-                </TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              <TableRow>
-                <TableRowColumn>45123</TableRowColumn>
-                <TableRowColumn>Done</TableRowColumn>
-                <TableRowColumn>
-                  <IconButton
-                    title={intl.formatMessage({
-                      id: 'microservice-management.sips.list.aip-details.table.actions.retry',
-                    })}
-                  >
-                    <Refresh />
-                  </IconButton>
-                  <IconButton
-                    title={intl.formatMessage({
-                      id: 'microservice-management.sips.list.aip-details.table.actions.files',
-                    })}
-                  >
-                    <File />
-                  </IconButton>
-                </TableRowColumn>
-              </TableRow>
-              <TableRow>
-                <TableRowColumn>45134</TableRowColumn>
-                <TableRowColumn>Done</TableRowColumn>
-                <TableRowColumn>
-                  <IconButton
-                    title={intl.formatMessage({
-                      id: 'microservice-management.sips.list.aip-details.table.actions.retry',
-                    })}
-                  >
-                    <Refresh />
-                  </IconButton>
-                  <IconButton
-                    title={intl.formatMessage({
-                      id: 'microservice-management.sips.list.aip-details.table.actions.files',
-                    })}
-                    onClick={this.handleAIPfiles}
-                  >
-                    <File />
-                  </IconButton>
-                </TableRowColumn>
-              </TableRow>
-              {/* Si on utilise ShowableAtRender, le colSpan ne s'applique pas */}
-              {this.state.AIPfiles ? (
-                <TableRow>
-                  <TableRowColumn colSpan="3">
-                    <Card>
-                      <CardTitle
-                        title={intl.formatMessage({
-                          id: 'microservice-management.sips.list.aip-details.table.files.title',
-                        })}
-                      />
-                      <Table>
-                        <TableHeader
-                          adjustForCheckbox={false}
-                          displaySelectAll={false}
-                          enableSelectAll={false}
-                        >
-                          <TableHeaderColumn>
-                            <FormattedMessage id="microservice-management.sips.list.aip-details.table.files.headers.name" />
-                          </TableHeaderColumn>
-                          <TableHeaderColumn>
-                            <FormattedMessage id="microservice-management.sips.list.aip-details.table.files.headers.size" />
-                          </TableHeaderColumn>
-                          <TableHeaderColumn>
-                            <FormattedMessage id="microservice-management.sips.list.aip-details.table.files.headers.actions" />
-                          </TableHeaderColumn>
-                        </TableHeader>
-                        <TableBody displayRowCheckbox={false}>
-                          <TableRow>
-                            <TableRowColumn>machintrucchouette.pdf</TableRowColumn>
-                            <TableRowColumn>45kb</TableRowColumn>
-                            <TableRowColumn>
-                              <IconButton title="View things and stuff">
-                                <List />
-                              </IconButton>
-                            </TableRowColumn>
-                          </TableRow>
-                          <TableRow>
-                            <TableRowColumn>machintrucchouette.pdf</TableRowColumn>
-                            <TableRowColumn>45kb</TableRowColumn>
-                            <TableRowColumn>
-                              <IconButton title="View things and stuff">
-                                <List />
-                              </IconButton>
-                            </TableRowColumn>
-                          </TableRow>
-                          <TableRow>
-                            <TableRowColumn>machintrucchouette.pdf</TableRowColumn>
-                            <TableRowColumn>45kb</TableRowColumn>
-                            <TableRowColumn>
-                              <IconButton title="View things and stuff">
-                                <List />
-                              </IconButton>
-                            </TableRowColumn>
-                          </TableRow>
-                          <TableRow>
-                            <TableRowColumn>machintrucchouette.pdf</TableRowColumn>
-                            <TableRowColumn>45kb</TableRowColumn>
-                            <TableRowColumn>
-                              <IconButton title="View things and stuff">
-                                <List />
-                              </IconButton>
-                            </TableRowColumn>
-                          </TableRow>
-                          <TableRow>
-                            <TableRowColumn>machintrucchouette.pdf</TableRowColumn>
-                            <TableRowColumn>45kb</TableRowColumn>
-                            <TableRowColumn>
-                              <IconButton title="View things and stuff">
-                                <List />
-                              </IconButton>
-                            </TableRowColumn>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </Card>
-                  </TableRowColumn>
-                </TableRow>
-              ) : (
-                ''
-              )}
-              <TableRow>
-                <TableRowColumn>45123</TableRowColumn>
-                <TableRowColumn>Done</TableRowColumn>
-                <TableRowColumn>
-                  <IconButton
-                    title={intl.formatMessage({
-                      id: 'microservice-management.sips.list.aip-details.table.actions.retry',
-                    })}
-                  >
-                    <Refresh />
-                  </IconButton>
-                  <IconButton
-                    title={intl.formatMessage({
-                      id: 'microservice-management.sips.list.aip-details.table.actions.files',
-                    })}
-                  >
-                    <File />
-                  </IconButton>
-                </TableRowColumn>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </Dialog>
+        <AIPDialog open={this.state.AIPdialog} onRequestClose={this.handleAIPDialog} />
         <Dialog
           title={intl.formatMessage({ id: 'microservice-management.sips.list.sip-details.title' })}
           modal={false}

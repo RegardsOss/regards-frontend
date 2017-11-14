@@ -21,6 +21,7 @@ import { Card, CardTitle, CardMedia, CardText } from 'material-ui/Card'
 import SelectField from 'material-ui/SelectField'
 import TextField from 'material-ui/TextField'
 import MenuItem from 'material-ui/MenuItem'
+import RaisedButton from 'material-ui/RaisedButton'
 import {
   Table,
   TableBody,
@@ -156,6 +157,10 @@ class SIPSessionComponent extends React.Component {
                 )}
               />
             </SelectField>
+            <RaisedButton
+              label={intl.formatMessage({ id: 'microservice-management.sips.button.filter' })}
+              primary
+            />
           </div>
         </CardText>
         <CardMedia>
@@ -195,7 +200,9 @@ class SIPSessionComponent extends React.Component {
                   <TableRowColumn style={sip.session.error.rowColumnStyle}>
                     {item % 3} / 50
                     <ShowableAtRender show={item % 3 > 0}>
-                      <Error style={sip.session.error.iconStyle} />
+                      <IconButton iconStyle={sip.session.error.iconStyle}>
+                        <Error />
+                      </IconButton>
                     </ShowableAtRender>
                   </TableRowColumn>
                   <TableRowColumn>12/10/2017</TableRowColumn>
