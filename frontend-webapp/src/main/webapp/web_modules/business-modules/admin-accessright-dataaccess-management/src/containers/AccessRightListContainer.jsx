@@ -47,7 +47,7 @@ class AccessRightListContainer extends React.Component {
 
   navigateToCreateDataset = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/dataset/create/datasource`
+    const url = `/admin/${project}/data/collections/dataset/create/datasource`
     browserHistory.push(url)
   }
 

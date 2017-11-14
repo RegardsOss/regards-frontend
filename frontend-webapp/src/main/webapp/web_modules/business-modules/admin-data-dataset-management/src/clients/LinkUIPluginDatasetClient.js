@@ -23,7 +23,7 @@ import { AccessProjectClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'dataset', 'link-ui-plugin-definition']
+const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'link-ui-plugin-definition']
 const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/link-ui-plugin-dataset'
 
 const linkUIPluginDatasetReducer = AccessProjectClient.getLinkUIPluginDatasetReducer(REDUX_ACTION_NAMESPACE)

@@ -49,17 +49,17 @@ export class DatasourceListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/datasource/create/connection`
+    return `/admin/${project}/data/acquisition/datasource/create/connection`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board`
+    return `/admin/${project}/data/acquisition/board`
   }
 
   handleEdit = (datasourceId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/datasource/${datasourceId}/edit`
+    const url = `/admin/${project}/data/acquisition/datasource/${datasourceId}/edit`
     browserHistory.push(url)
   }
 

@@ -59,17 +59,17 @@ export class DatasourceCreateOrPickConnectionContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/datasource/list`
+    return `/admin/${project}/data/acquisition/datasource/list`
   }
 
   getCreateConnectionUrl= () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/connection/create`
+    return `/admin/${project}/data/acquisition/connection/create`
   }
 
   redirectToForm = (connectionId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/datasource/create/${connectionId}`
+    const url = `/admin/${project}/data/acquisition/datasource/create/${connectionId}`
     browserHistory.push(url)
   }
 

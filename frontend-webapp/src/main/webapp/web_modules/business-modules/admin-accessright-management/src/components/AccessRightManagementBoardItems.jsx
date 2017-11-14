@@ -31,13 +31,13 @@ export default (project, intl) => [
     description: intl.formatMessage({ id: 'accessright.board.accessgroup.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/access-right/access-group/list`,
+      path: `/admin/${project}/data/access-right/access-group/list`,
       icon: <ViewLinesIcon />,
       className: 'selenium-accessgroupList',
       tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.list' }),
       hateoasDependencies: GroupEditDep,
     }, {
-      path: `/admin/${project}/access-right/access-group/create`,
+      path: `/admin/${project}/data/access-right/access-group/create`,
       icon: <AddIcon />,
       className: 'selenium-accessgroupCreate',
       tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.add' }),

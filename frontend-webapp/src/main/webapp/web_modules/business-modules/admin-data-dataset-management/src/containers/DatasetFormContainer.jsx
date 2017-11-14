@@ -89,14 +89,14 @@ export class DatasetFormContainer extends React.Component {
     const { params: { project } } = this.props
     const { isEditing } = this.state
     if (isEditing) {
-      return `/admin/${project}/data/dataset/list`
+      return `/admin/${project}/data/collections/dataset/list`
     }
-    return `/admin/${project}/data/dataset/create/datasource`
+    return `/admin/${project}/data/collections/dataset/create/datasource`
   }
 
   redirectToLink = (datasetId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/dataset/${datasetId}/links`
+    const url = `/admin/${project}/data/collections/dataset/${datasetId}/links`
     browserHistory.push(url)
   }
 

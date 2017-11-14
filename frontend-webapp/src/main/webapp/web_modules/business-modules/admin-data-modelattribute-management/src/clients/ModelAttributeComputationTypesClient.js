@@ -23,7 +23,7 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'model-attribute-management', 'model-attribute-computation-types']
+const ENTITIES_STORE_PATH = ['admin', 'models', 'model-attribute-management', 'model-attribute-computation-types']
 const REDUX_ACTION_NAMESPACE = 'admin-data-modelattribute-management/model-attribute-computation-types'
 
 const modelAttributeComputationTypesReducer = DataManagementClient.getModelAttributeComputationTypesReducer(REDUX_ACTION_NAMESPACE)

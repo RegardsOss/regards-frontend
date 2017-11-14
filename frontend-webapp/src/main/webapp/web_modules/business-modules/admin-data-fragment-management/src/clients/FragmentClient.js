@@ -23,7 +23,7 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'fragment-management', 'fragment']
+const ENTITIES_STORE_PATH = ['admin', 'models', 'fragment-management', 'fragment']
 const REDUX_ACTION_NAMESPACE = 'admin-data-fragment-management/fragment'
 
 const fragmentReducer = DataManagementClient.FragmentReducer(REDUX_ACTION_NAMESPACE)

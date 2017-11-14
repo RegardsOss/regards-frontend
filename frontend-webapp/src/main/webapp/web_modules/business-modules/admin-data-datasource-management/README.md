@@ -24,7 +24,7 @@ This module display REGARDS datasources management panels.
 
 ## Route
 
-This module is routed to the application by the @regardsoss/admin-data-management module
+This module is routed to the application by the @regardsoss/admin-board-add-datas module
 
 ## Exposed functions
 

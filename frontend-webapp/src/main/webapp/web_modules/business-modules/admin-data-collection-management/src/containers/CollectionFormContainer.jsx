@@ -87,12 +87,12 @@ export class CollectionFormContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/collection/list`
+    return `/admin/${project}/data/collections/collection/list`
   }
 
   redirectToLinksPage = (collectionId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/collection/${collectionId}/links`
+    const url = `/admin/${project}/data/collections/collection/${collectionId}/links`
     browserHistory.push(url)
   }
 

@@ -19,7 +19,7 @@
 import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
 const NAMESPACE = 'admin-data-document-management/document-table'
-const STORE_PATH = ['admin', 'data-management', 'document', 'document-table']
+const STORE_PATH = ['admin', 'acquisition', 'document', 'document-table']
 
 export default {
   tableActions: new TableActions(NAMESPACE),

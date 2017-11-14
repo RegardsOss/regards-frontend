@@ -62,17 +62,17 @@ export class ConnectionListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/connection/create`
+    return `/admin/${project}/data/acquisition/connection/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board?advanced=true`
+    return `/admin/${project}/data/acquisition/board`
   }
 
   handleEdit = (connectionId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/connection/${connectionId}/edit`
+    const url = `/admin/${project}/data/acquisition/connection/${connectionId}/edit`
     browserHistory.push(url)
   }
 
