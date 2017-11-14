@@ -49,12 +49,12 @@ export class CollectionListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/collection/create`
+    return `/admin/${project}/data/collections/collection/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board`
+    return `/admin/${project}/data/collections/board`
   }
 
   handleDuplicate = (collectionId) => {
@@ -65,7 +65,7 @@ export class CollectionListContainer extends React.Component {
 
   handleEdit = (collectionId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/collection/${collectionId}/edit`
+    const url = `/admin/${project}/data/collections/collection/${collectionId}/edit`
     browserHistory.push(url)
   }
 

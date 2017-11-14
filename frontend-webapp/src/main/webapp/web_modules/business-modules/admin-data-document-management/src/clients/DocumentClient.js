@@ -23,7 +23,7 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'document', 'document']
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'document', 'document']
 const REDUX_ACTION_NAMESPACE = 'admin-data-document-management/document'
 
 const documentReducer = DataManagementClient.getDocumentReducer(REDUX_ACTION_NAMESPACE)

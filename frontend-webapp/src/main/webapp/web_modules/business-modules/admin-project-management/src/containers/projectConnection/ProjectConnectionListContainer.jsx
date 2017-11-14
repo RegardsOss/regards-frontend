@@ -121,10 +121,7 @@ export class ProjectConnectionListContainer extends React.Component {
    */
   handleReCreateConnection = (projectConnection) => {
     // We just send the same entity, the server will retest that connection
-    Promise.resolve(this.props.updateProjectConnection(projectConnection.content.id, projectConnection.content))
-      .then((actionResult) => {
-        this.handleTestConnection(projectConnection)
-      })
+    this.props.updateProjectConnection(projectConnection.content.id, projectConnection.content)
   }
 
   startTimer = () => {

@@ -23,7 +23,7 @@ import { CommonClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'connection', 'plugin-meta-data']
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'connection', 'plugin-meta-data']
 const REDUX_ACTION_NAMESPACE = 'admin-data-connection-management/pluginMetaData'
 
 const pluginMetaDataReducer = CommonClient.PluginMetaDataReducer(REDUX_ACTION_NAMESPACE)

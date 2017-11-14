@@ -90,17 +90,17 @@ export class DocumentStepperContainer extends React.Component {
   }
 
   handleFilesClick = () => {
-    const url = `/admin/${this.props.projectName}/data/document/${this.props.currentDocumentId}/files`
+    const url = `/admin/${this.props.projectName}/data/acquisition/document/${this.props.currentDocumentId}/files`
     browserHistory.push(url)
   }
 
   handleAttributesClick = () => {
-    const url = `/admin/${this.props.projectName}/data/document/${this.props.currentDocumentId}/edit`
+    const url = `/admin/${this.props.projectName}/data/acquisition/document/${this.props.currentDocumentId}/edit`
     browserHistory.push(url)
   }
 
   handleLinksClick = () => {
-    const url = `/admin/${this.props.projectName}/data/document/${this.props.currentDocumentId}/links`
+    const url = `/admin/${this.props.projectName}/data/acquisition/document/${this.props.currentDocumentId}/links`
     browserHistory.push(url)
   }
 

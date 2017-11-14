@@ -87,7 +87,7 @@ export class AttributeModelFormContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/attribute/model/list`
+    return `/admin/${project}/data/models/attribute/model/list`
   }
 
   getFormComponent = () => {

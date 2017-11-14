@@ -41,7 +41,9 @@ The routed modules are :
  
   - @regardsoss/admin-accessright-management : Accessible from Project layout
   - @regardsoss/admin-account-management : Accessible from Instance layout
-  - @regardsoss/admin-data-management : Accessible from Project layout
+  - @regardsoss/admin-board-models : Accessible from Project layout
+  - @regardsoss/admin-board-collections : Accessible from Project layout
+  - @regardsoss/admin-board-add-datas : Accessible from Project layout
   - @regardsoss/admin-microservice-management : Accessible from Project layout
   - @regardsoss/admin-project-management : Accessible from Instance layout
   - @regardsoss/admin-ui-management : Accessible from Instance and Project layout 

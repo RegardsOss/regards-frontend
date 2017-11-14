@@ -24,7 +24,7 @@ This module display REGARDS fragments management panels.
 
 ## Route
 
-This module is routed to the application by the @regardsoss/admin-data-management module
+This module is routed to the application by the @regardsoss/admin-board-models module
 
 ## Exposed functions
 

@@ -67,7 +67,7 @@ export class DocumentEditFilesContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project, documentId } } = this.props
-    return `/admin/${project}/data/document/${documentId}/edit`
+    return `/admin/${project}/data/acquisition/document/${documentId}/edit`
   }
 
   getComponent = () => {
@@ -85,7 +85,7 @@ export class DocumentEditFilesContainer extends React.Component {
 
   redirectToLinksPage = () => {
     const { params: { project, documentId } } = this.props
-    const url = `/admin/${project}/data/document/${documentId}/links`
+    const url = `/admin/${project}/data/acquisition/document/${documentId}/links`
     browserHistory.push(url)
   }
 

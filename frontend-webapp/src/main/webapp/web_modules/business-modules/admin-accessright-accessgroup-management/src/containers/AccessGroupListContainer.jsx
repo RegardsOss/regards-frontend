@@ -49,29 +49,29 @@ export class AccessGroupListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/access-right/access-group/create`
+    return `/admin/${project}/data/access-right/access-group/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/access-right/board`
+    return `/admin/${project}/data/access-right/board`
   }
 
   handleDuplicate = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/access-right/access-group/${accessgroupName}/duplicate`
+    const url = `/admin/${project}/data/access-right/access-group/${accessgroupName}/duplicate`
     browserHistory.push(url)
   }
 
   handleEdit = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/access-right/access-group/${accessgroupName}/edit`
+    const url = `/admin/${project}/data/access-right/access-group/${accessgroupName}/edit`
     browserHistory.push(url)
   }
 
   handleEditAccessRights = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/access-right/access-rights/${accessgroupName}`
+    const url = `/admin/${project}/data/access-right/access-rights/${accessgroupName}`
     browserHistory.push(url)
   }
 

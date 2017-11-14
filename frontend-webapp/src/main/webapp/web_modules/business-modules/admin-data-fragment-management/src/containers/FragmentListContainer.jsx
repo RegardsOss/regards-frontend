@@ -60,12 +60,12 @@ export class FragmentListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/fragment/create`
+    return `/admin/${project}/data/models/fragment/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board`
+    return `/admin/${project}/data/models/board`
   }
 
   handleEdit = (fragmentId) => {
