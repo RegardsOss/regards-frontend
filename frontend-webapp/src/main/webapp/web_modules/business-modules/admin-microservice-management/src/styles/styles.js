@@ -24,7 +24,115 @@ const microserviceManagementStyles = theme => ({
     checkbox: {
       marginBottom: 16,
     },
-  }
+  },
+  plugins: {
+    root: {
+      position: 'relative',
+      paddingBottom: 20,
+    },
+    grid: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    tile: {
+      classes: ['col-xs-50', 'col-sm-50', 'col-lg-33'].join(' '),
+      styles: {
+        margin: 20,
+      },
+      actionsStyles: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+      },
+    },
+    gridList: {
+      margin: 0,
+    },
+    icon: {
+      color: theme.palette.alternateTextColor,
+    },
+  },
+  pluginConfiguration: {
+    root: {
+      position: 'relative',
+    },
+    card: {
+      margin: '0px 20px',
+    },
+    cardExpanded: {
+      margin: '30px 20px',
+    },
+    cardExpandedText: {
+      borderTop: `solid 1px ${theme.palette.borderColor}`,
+    },
+    subheader: {
+      padding: 0,
+    },
+    lineWrapper: {
+      display: 'flex',
+      flexWrap: 'nowrap',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginRight: 50,
+    },
+    buttonsGroupWrapper: {
+      display: 'flex',
+      flexWrap: 'nowrap',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    toggle: {
+      width: 'auto',
+      height: 'auto',
+    },
+    version: {
+      color: theme.palette.secondaryTextColor,
+      marginLeft: 7,
+    },
+    form: {
+      section: {
+        marginTop: 20,
+      },
+      toggle: {
+        width: 'auto',
+        marginTop: 14,
+      },
+    },
+  },
+  pluginParameter: {
+    pluginButton: {
+      marginLeft: 10,
+    },
+    iconMenu: {
+      visibility: 'hidden',
+    },
+    field: {
+      display: 'none',
+    },
+    label: {
+      paddingLeft: 0,
+      fontSize: 12,
+      color: theme.textField.hintColor,
+      width: 'initial',
+      marginRight: 10,
+    },
+    wrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
+  },
+  dynamicValue: {
+    createdialogbuttons: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+    chip: {
+      marginRight: 5,
+    },
+  },
 })
 
 export default microserviceManagementStyles
