@@ -1,9 +1,10 @@
+import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { withI18n } from '@regardsoss/i18n'
 import { IngestShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { ProcessingChainActions, ProcessingChainSelectors } from '../clients/ProcessingChainClient'
+import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import messages from '../i18n'
 import IngestProcessingChainFormComponent from '../components/IngestProcessingChainFormComponent'
 
@@ -13,8 +14,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-      chain_id: PropTypes.string,
-      mode: PropTypes.string,
+      chain_name: PropTypes.string,
     }),
     // from mapStateToProps
     processingChain: IngestShapes.IngestProcessingChain,
@@ -26,17 +26,16 @@ export class IngestProcessingChainFormContainer extends React.Component {
 
   constructor(props) {
     super(props)
-    const isCreating = props.params.chain_id === undefined
+    const isCreating = props.params.chain_name === undefined
     this.state = {
       isCreating,
       isLoading: !isCreating,
-      isEditing: props.params.mode === 'edit',
     }
   }
 
   componentDidMount() {
     if (!this.state.isCreating) {
-      this.props.fetchModel(this.props.params.chain_id)
+      this.props.fetchChain(this.props.params.chain_name)
         .then(() => {
           this.setState({
             isLoading: false,
@@ -51,7 +50,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    Promise.resolve(this.props.updateChain(this.props.model.processingChain.id, values))
+    Promise.resolve(this.props.updateChain(this.props.processingChain.name, values))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -82,15 +81,15 @@ export class IngestProcessingChainFormContainer extends React.Component {
   }
 
   render() {
-    const { isCreating, isEditing, isLoading } = this.state
+    const { isCreating, isLoading } = this.state
     const onSubmit = isCreating ? this.props.createChain : this.props.updateChain
+    const chain = isCreating ? undefined : get(this.props, 'processingChain.content', undefined)
     return (
       <LoadableContentDisplayDecorator isLoading={isLoading}>
         <IngestProcessingChainFormComponent
-          processingChain={isCreating ? undefined : this.props.processingChain}
+          processingChain={chain}
           onSubmit={onSubmit}
           isCreating={isCreating}
-          isEditing={isEditing}
           backUrl={this.getBackUrl()}
         />
       </LoadableContentDisplayDecorator>
@@ -99,13 +98,13 @@ export class IngestProcessingChainFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  processingChain: ownProps.params.chain_id ? ProcessingChainSelectors.getById(state, ownProps.params.chain_id) : null,
+  processingChain: ownProps.params.chain_name ? processingChainSelectors.getById(state, ownProps.params.chain_name) : null,
 })
 
 const mapDispatchToProps = dispatch => ({
-  createChain: values => dispatch(ProcessingChainActions.createEntity(values)),
-  updateChain: (id, values) => dispatch(ProcessingChainActions.updateEntity(id, values)),
-  fetchChain: id => dispatch(ProcessingChainActions.fetchEntity(id)),
+  createChain: values => dispatch(processingChainActions.createEntity(values)),
+  updateChain: (name, values) => dispatch(processingChainActions.updateEntity(name, values)),
+  fetchChain: name => dispatch(processingChainActions.fetchEntity(name)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withI18n(messages)(IngestProcessingChainFormContainer))

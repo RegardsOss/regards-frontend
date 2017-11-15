@@ -34,7 +34,6 @@ export class IngestProcessingChainFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isCreating: PropTypes.bool.isRequired,
-    isEditing: PropTypes.bool.isRequired,
     // from reduxForm
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -61,9 +60,12 @@ export class IngestProcessingChainFormComponent extends React.Component {
     this.handleInitialize()
   }
 
+  handleInitialize = () => {
+    this.props.initialize(this.props.processingChain)
+  }
 
   render() {
-    const { invalid, submitting } = this.props
+    const { invalid, submitting, processingChain} = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <form
@@ -72,11 +74,10 @@ export class IngestProcessingChainFormComponent extends React.Component {
         <Card>
           {this.state.isCreating ?
             <CardTitle
-              title={formatMessage({ id: 'ingest.processing.chain.form.create.title' })}
-              subtitle={formatMessage({ id: 'ingest.processing.chain.form.create.message' })}
+              title={formatMessage({ id: 'processing-chain.form.create.title' })}
             /> :
             <CardTitle
-              title={formatMessage({ id: 'ingest.processing.chain.form.edit.title' })}
+              title={formatMessage({ id: 'processing-chain.form.edit.title' }, {name : processingChain.name})}
             />
           }
           <CardText>
@@ -86,7 +87,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
               disabled={!this.state.isCreating}
               component={RenderTextField}
               type="text"
-              label={formatMessage({ id: 'ingest.processing.chain.form.create.input.name' })}
+              label={formatMessage({ id: 'processing-chain.form.create.input.name' })}
               normalize={trim}
             />
             <Field
@@ -94,7 +95,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={formatMessage({ id: 'ingest.processing.chain.form.create.input.description' })}
+              label={formatMessage({ id: 'processing-chain.form.create.input.description' })}
               normalize={trim}
             />
           </CardText>
@@ -102,12 +103,12 @@ export class IngestProcessingChainFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={
                 this.state.isCreating ?
-                  formatMessage({ id: 'ingest.processing.chain.form.create.action.create' }) :
-                  formatMessage({ id: 'ingest.processing.chain.form.edit.action.save' })
+                  formatMessage({ id: 'processing-chain.form.create.action.create' }) :
+                  formatMessage({ id: 'processing-chain.form.edit.action.save' })
               }
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={formatMessage({ id: 'ingest.processing.chain.form.create.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'processing-chain.form.create.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

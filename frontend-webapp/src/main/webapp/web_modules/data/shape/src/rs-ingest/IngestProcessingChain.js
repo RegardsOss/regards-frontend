@@ -27,7 +27,7 @@ import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfigurat
 const IngestProcessingChain = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   preProcessingPlugin: PluginConfigurationContent,
   validationPlugin: PluginConfigurationContent.isRequired,
   generationPlugin: PluginConfigurationContent.isRequired,
