@@ -15,16 +15,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-const microserviceManagementStyles = theme => ({
-  board: {
-    block: {
-      maxWidth: 250,
-    },
-    checkbox: {
-      marginBottom: 16,
-    },
-  }
-})
+ **/
+import pluginReducers from './reducer'
 
-export default microserviceManagementStyles
+export default {
+  pluginReducers,
+}

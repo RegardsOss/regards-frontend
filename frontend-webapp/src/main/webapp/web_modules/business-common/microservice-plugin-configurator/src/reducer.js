@@ -15,16 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-const microserviceManagementStyles = theme => ({
-  board: {
-    block: {
-      maxWidth: 250,
-    },
-    checkbox: {
-      marginBottom: 16,
-    },
-  }
+ **/
+import { combineReducers } from 'redux'
+import pluginType from './model/plugin/PluginTypeReducers'
+import pluginMetaData from './model/plugin/PluginMetaDataReducers'
+import pluginConfiguration from './model/plugin/PluginConfigurationReducers'
+import { REDUCER_PATH, pluginConfigurationReducer } from './clients/PluginConfigurationClient'
+
+const pluginReducers = combineReducers({
+  pluginType,
+  pluginMetaData,
+  pluginConfiguration,
+  [REDUCER_PATH]: pluginConfigurationReducer,
 })
 
-export default microserviceManagementStyles
+export default pluginReducers
