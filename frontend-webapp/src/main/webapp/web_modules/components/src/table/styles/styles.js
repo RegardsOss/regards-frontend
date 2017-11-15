@@ -165,20 +165,12 @@ export default (theme) => {
         },
       },
     },
-    table: {
-      position: 'relative',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
     cellOdd: {
       ...commonCellOdd,
-      //borderRight: cellBorder,
     },
     lastCellOdd: { ...commonCellOdd },
     cellEven: {
       ...commonCellEven,
-      //borderRight: cellBorder,
     },
     lastCellEven: { ...commonCellEven },
     checkBoxCell: {
@@ -213,14 +205,6 @@ export default (theme) => {
         width: 24,
         height: 24,
       },
-    },
-    loadingFilter: {
-      backgroundColor: theme.palette.primary1Color,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      opacity: '0.5',
-      zIndex: '1000',
     },
     actionsMenuCellWrapper: {
       display: 'flex',

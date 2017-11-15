@@ -127,48 +127,6 @@ const styles = theme => ({
         display: 'block',
         padding: '5px 0px 10px 10px',
       },
-      attribute: {
-        marginLeft: 10,
-        textOverflow: 'ellipsis',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        display: 'flex',
-        alignItems: 'flex-end',
-      },
-      attributeLabel: {
-        color: theme.palette.accent1Color,
-        maxWidth: 150,
-        minWidth: 50,
-      },
-      attributeValue: {
-        maxWidth: 250,
-      },
-    },
-    options: {
-      selection: {
-        service: {
-          iconSize: 24,
-        },
-      },
-      more: {
-        service: {
-          iconSize: 24,
-        },
-      },
-    },
-  },
-  resultsButtonsType: {
-    buttonsGroup: {
-      top: 0,
-      position: 'fixed',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      zIndex: 1000,
-    },
-    buttons: {
-      display: 'flex',
-      flexDirection: 'column',
     },
   },
 })
