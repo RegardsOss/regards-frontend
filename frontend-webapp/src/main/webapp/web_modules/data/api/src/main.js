@@ -51,6 +51,7 @@ import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
 import PluginParameter from './admin/PluginParameter'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
 import ProcessingChain from './ingest/ProcessingChain'
+import SIP from './ingest/SIP'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -163,4 +164,5 @@ export default {
   ...LinkUIPluginDataset,
 
   ...ProcessingChain,
+  ...SIP,
 }

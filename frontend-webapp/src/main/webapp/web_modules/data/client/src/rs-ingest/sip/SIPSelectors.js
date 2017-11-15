@@ -16,19 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ProcessingChainActions from './processingChain/ProcessingChainActions'
-import ProcessingChainReducer from './processingChain/ProcessingChainReducer'
-import ProcessingChainSelectors from './processingChain/ProcessingChainSelectors'
-import SIPActions from './sip/SIPActions'
-import SIPReducer from './sip/SIPReducer'
-import SIPSelectors from './sip/SIPSelectors'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-
-export default {
-  ProcessingChainActions,
-  ProcessingChainReducer,
-  ProcessingChainSelectors,
-  SIPActions,
-  SIPReducer,
-  SIPSelectors,
-}
+/**
+ * Store selector to ProcessingChain entities.
+ * @author Maxime Bouveron
+ */
+export default storePath => new BasicPageableSelectors(storePath)

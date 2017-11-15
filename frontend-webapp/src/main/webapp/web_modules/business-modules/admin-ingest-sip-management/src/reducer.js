@@ -17,12 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
-import { processingChainReducer } from './clients/ProcessingChainClient'
-import { tableReducer } from './clients/TableClient'
+import { sipReducer } from './clients/SIPClient'
 
-const ingestManagementReducer = combineReducers({
-  chain: processingChainReducer,
-  'processing-chain-table': tableReducer,
+const sipManagementReducer = combineReducers({
+  sip: sipReducer,
 })
 
-export default ingestManagementReducer
+export default sipManagementReducer

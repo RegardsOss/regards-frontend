@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,20 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import ProcessingChainActions from './processingChain/ProcessingChainActions'
-import ProcessingChainReducer from './processingChain/ProcessingChainReducer'
-import ProcessingChainSelectors from './processingChain/ProcessingChainSelectors'
-import SIPActions from './sip/SIPActions'
-import SIPReducer from './sip/SIPReducer'
-import SIPSelectors from './sip/SIPSelectors'
+ */
+import { IngestClient } from '@regardsoss/client'
 
+/**
+ * Model attributes entities client.
+ *
+ * @author Maxime Bouveron
+ */
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip-management', 'sip']
+const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management'
+
+const sipActions = new IngestClient.SIPActions(REDUX_ACTION_NAMESPACE)
+const sipReducer = IngestClient.SIPReducer(REDUX_ACTION_NAMESPACE)
+const sipSelectors = IngestClient.SIPSelectors(ENTITIES_STORE_PATH)
 
 export default {
-  ProcessingChainActions,
-  ProcessingChainReducer,
-  ProcessingChainSelectors,
-  SIPActions,
-  SIPReducer,
-  SIPSelectors,
+  sipActions,
+  sipReducer,
+  sipSelectors,
 }

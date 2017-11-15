@@ -16,19 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ProcessingChainActions from './processingChain/ProcessingChainActions'
-import ProcessingChainReducer from './processingChain/ProcessingChainReducer'
-import ProcessingChainSelectors from './processingChain/ProcessingChainSelectors'
-import SIPActions from './sip/SIPActions'
-import SIPReducer from './sip/SIPReducer'
-import SIPSelectors from './sip/SIPSelectors'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { SIPConfiguration } from '@regardsoss/api'
+import SIPActions from './SIPActions'
+/**
+ * Redux store reducer for
+ */
+/**
+ * Redux Reducer for SIP entities
+ * @author Maxime Bouveron
+ */
+class SIPReducer extends BasicPageableReducers {
+  constructor(namespace) {
+    super(SIPConfiguration, new SIPActions(namespace))
+  }
+}
 
-
-export default {
-  ProcessingChainActions,
-  ProcessingChainReducer,
-  ProcessingChainSelectors,
-  SIPActions,
-  SIPReducer,
-  SIPSelectors,
+export default (namespace) => {
+  const instance = new SIPReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

@@ -16,22 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { IngestClient } from '@regardsoss/client'
+import Schemas from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Model attributes entities client.
- *
- * @author Sébastien Binda
+ * Redux actions to handle SIP entities from backend server.
+ * @author Maxime Bouveron
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'processing-chain-management', 'chain']
-const REDUX_ACTION_NAMESPACE = 'admin-ingest-processing-chain-management'
+export default class SIPActions extends BasicPageableActions {
 
-const processingChainActions = new IngestClient.ProcessingChainActions(REDUX_ACTION_NAMESPACE)
-const processingChainReducer = IngestClient.ProcessingChainReducer(REDUX_ACTION_NAMESPACE)
-const processingChainSelectors = IngestClient.ProcessingChainSelectors(ENTITIES_STORE_PATH)
-
-export default {
-  processingChainActions,
-  processingChainReducer,
-  processingChainSelectors,
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips`,
+      schemaTypes: {
+        ENTITY: Schemas.ACCESS_RIGHT,
+        ENTITY_ARRAY: Schemas.ACCESS_RIGHT_ARRAY,
+      },
+    })
+  }
 }

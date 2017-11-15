@@ -16,13 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-const NAMESPACE = 'admin-ingest-management/processing-chain-table'
-const STORE_PATH = ['admin', 'acquisition', 'processing-chain-management', 'processing-chain-table']
 
+import { Schema, arrayOf } from 'normalizr'
+
+const SIPConfiguration = {
+  entityKey: 'name',
+  normalizrKey: 'sip',
+}
+
+const sip = new Schema(SIPConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[SIPConfiguration.entityKey]
+  ,
+})
+
+// Schemas for API responses.
 export default {
-  tableActions: new TableActions(NAMESPACE),
-  tableReducer: getTableReducer(NAMESPACE),
-  tableSelectors: getTableSelectors(STORE_PATH),
+  SIP: sip,
+  SIP_ARRAY: arrayOf(sip),
+  SIPConfiguration,
 }
