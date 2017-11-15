@@ -16,9 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { i18nContextType } from '@regardsoss/i18n'
+import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import { NoContentComponent } from '@regardsoss/components'
+/**
+* Shows empty component
+* @author Raphaël Mechali
+*/
+class EmptyTableComponent extends React.Component {
 
-const PAGE_SIZE_MULTIPLICATOR = 11
+  static propTypes = {
+    // no props
+  }
 
-export default {
-  PAGE_SIZE_MULTIPLICATOR,
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+
+  render() {
+    const { intl: { formatMessage } } = this.context
+    return (
+      <NoContentComponent
+        title={formatMessage({ id: 'results.no.content.title' })}
+        message={formatMessage({ id: 'results.no.content.subtitle' })}
+        Icon={Disatisfied}
+      />)
+  }
 }
+export default EmptyTableComponent

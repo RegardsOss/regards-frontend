@@ -21,7 +21,6 @@ export class ProcessingChainListComponent extends React.Component {
 
     const tableConfiguration = {
       displayColumnsHeader: true,
-      lineHeight: 47,
       displayCheckbox: true,
       displaySelectAll: false,
       onSortByColumn: () => {

@@ -128,14 +128,14 @@ export default (theme) => {
           wrap: 'wrap',
         },
         textStyle: {
-          margin: '0 10px', // TODO theme
+          margin: '0 10px',
           color: theme.palette.textColor,
         },
       },
       loading: {
-        thickness: 1.5, // TODO theme
-        size: 22, // TODO theme
-        color: theme.palette.primary1Color, // TODO theme
+        thickness: 1.5,
+        size: 22,
+        color: theme.palette.primary1Color,
       },
       cellHeader: {
         ...commonHeaderCellStyles,
@@ -162,41 +162,6 @@ export default (theme) => {
         sortIconStyle: {
           width: 24,
           height: 24,
-        },
-      },
-
-      // TODO maybe delete xxx
-      line: {
-        classNames: 'row',
-      },
-      tabsLine: {
-        classNames: 'col-xs-100',
-        styles: {
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        },
-      },
-      tabs: {
-        styles: {
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-end',
-          flexWrap: 'noWrap',
-          flexShrink: 0,
-          flexGrow: 0,
-        },
-      },
-      customOptions: {
-        styles: {
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          flexShrink: 1,
-          flexGrow: 1,
         },
       },
     },

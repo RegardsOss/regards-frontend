@@ -23,7 +23,6 @@ import { themeContextType } from '@regardsoss/theme'
 import ColumnHeaderWrapper from './columns/ColumnHeaderWrapper'
 import CellWrapper from './cells/CellWrapper'
 import TableColumnConfiguration from './columns/model/TableColumnConfiguration'
-import { PAGE_SIZE_MULTIPLICATOR } from '../model/TableConstant'
 
 const MIN_COL_WIDTH = 150
 /**
@@ -49,12 +48,11 @@ class Table extends React.Component {
     // table configuration properties
     displayColumnsHeader: PropTypes.bool,
     lineHeight: PropTypes.number.isRequired,
-    minRowCount: PropTypes.number,
-    maxRowCounts: PropTypes.number, // TODO v2: delete!
+    // eslint-disable-next-line react/no-unused-prop-types
+    displayedRowsCount: PropTypes.number.isRequired, // use in graphics computing
 
     // dynamic properties
     entities: PropTypes.arrayOf(PropTypes.object),
-    pageSize: PropTypes.number.isRequired,
     onScrollEnd: PropTypes.func.isRequired,
     columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
 
@@ -100,9 +98,6 @@ class Table extends React.Component {
     })
   }
 
-  /** @return default line height from theme */
-  getDefaultLineHeight = () => this.context.muiTheme['components:infinite-table'].lineHeight
-
   /** @return default header line height from theme */
   getDefaultHeaderHeight = () => this.context.muiTheme['components:infinite-table'].minHeaderRowHeight
 
@@ -126,10 +121,9 @@ class Table extends React.Component {
    * @return {nbEntitiesByPage:{number}, height:{number}, runtimeColumns:{RuntimeColumn}} usable state for component, with
    * runtime columns (default table columns enriched with required runtime data and filtered on visible state)
    */
-  computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight = this.getDefaultLineHeight(), width, columns = [] }) => {
+  computeGraphicsMeasures = ({ displayCheckbox, displayedRowsCount, displayColumnsHeader, lineHeight = this.getDefaultLineHeight(), width, columns = [] }) => {
     // 1 - compute height
-    const nbEntitiesByPage = pageSize * PAGE_SIZE_MULTIPLICATOR
-    const height = lineHeight * (pageSize + 1) // +1 for header row
+    const height = (lineHeight * displayedRowsCount) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
 
     // 2 - Update columns width related data
     // 2.a - prepare columns (filter unvisible and sort on order)
@@ -165,7 +159,7 @@ class Table extends React.Component {
         }
         return { floatingCount: nextFloatingCount, columnsAcc: [...columnsAcc, { ...column, runtimeWidth }] }
       }, { floatingCountAcc: 0, columnsAcc: [] })
-    return { nbEntitiesByPage, height, runtimeColumns }
+    return { height, runtimeColumns }
   }
 
   render() {
@@ -173,30 +167,19 @@ class Table extends React.Component {
       return null
     }
     const {
-      columns, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader,
-      onScrollEnd, pageSize, minRowCount, maxRowCounts } = this.props
+      entities, columns, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader,
+      onScrollEnd } = this.props
     const { runtimeColumns, height } = this.state
-
-    // compute visible lines (use min row count from theme if not defined)
-    const totalNumberOfEntities = this.props.entities.length > minRowCount ? this.props.entities.length : minRowCount
-
-    // If the total number of results is less than the number of elements by page, adjust height of the table
-    // to fit the number of results. Else use the default fixed height.
-    const totalHeight = displayColumnsHeader ? (totalNumberOfEntities + 1) * lineHeight : totalNumberOfEntities * lineHeight
-    const calculatedHeight = totalNumberOfEntities > pageSize ? height : totalHeight + 5
-
-    const rowsCount = maxRowCounts && totalNumberOfEntities > maxRowCounts ? maxRowCounts : totalNumberOfEntities
-
     return (
       <FixedDataTable
         rowHeight={lineHeight}
         headerHeight={displayColumnsHeader ? this.getDefaultHeaderHeight() : 0}
-        rowsCount={rowsCount}
+        rowsCount={entities.length}
         onColumnResizeEndCallback={this.onColumnResizeEndCallback}
         isColumnResizing={false}
         onScrollEnd={onScrollEnd}
         width={width}
-        height={calculatedHeight}
+        height={height}
       >
         { // map runtime columns from state (they are enriched with width information)
           map(runtimeColumns, (column, index) => (

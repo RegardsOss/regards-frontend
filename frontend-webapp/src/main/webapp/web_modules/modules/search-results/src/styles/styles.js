@@ -18,10 +18,10 @@
  **/
 
 /**
- * Styles for form module
+ * Styles for module
  * @author Sébastien binda
  */
-const formStyles = theme => ({
+const styles = theme => ({
   configuration: {
     topOptions: {
       styles: {
@@ -29,48 +29,9 @@ const formStyles = theme => ({
       },
     },
   },
-  criteria: {
-    label: {
-      marginRight: 20,
-    },
-  },
   user: {
-    cardTitle: {
-      padding: '0',
-    },
-    searchButtonContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-    },
-    searchButton: {
-      marginTop: 10,
-      width: 200,
-    },
-    selectionService: {
-      iconStyles: {
-        height: '24px',
-        width: '24px',
-      },
-    },
-    optionsStyles: {
-      rootStyles: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-        flexGrow: 1,
-        flexShrink: 1,
-      },
-      buttonStyles: {
-        width: 34,
-        height: 24,
-        padding: 0,
-      },
-      iconStyles: {
-        width: 24,
-        height: 24,
-      },
+    viewModeButton: {
+      minWidth: theme.button.iconButtonSize,
     },
     filters: {
       style: {
@@ -212,4 +173,4 @@ const formStyles = theme => ({
   },
 })
 
-export default formStyles
+export default styles
