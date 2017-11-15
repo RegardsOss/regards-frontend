@@ -57,7 +57,7 @@ class AIPDialog extends React.Component {
     const { intl, moduleTheme: { sip } } = this.context
     return (
       <Dialog
-        title={intl.formatMessage({ id: 'microservice-management.sips.list.aip-details.title' })}
+        title={intl.formatMessage({ id: 'sips.list.aip-details.title' })}
         modal={false}
         open={this.props.open}
         onRequestClose={this.props.onRequestClose}
@@ -75,13 +75,13 @@ class AIPDialog extends React.Component {
                   enableSelectAll={false}
                 >
                   <TableHeaderColumn>
-                    <FormattedMessage id="microservice-management.sips.list.aip-details.table.files.headers.name" />
+                    <FormattedMessage id="sips.list.aip-details.table.files.headers.name" />
                   </TableHeaderColumn>
                   <TableHeaderColumn>
-                    <FormattedMessage id="microservice-management.sips.list.aip-details.table.files.headers.size" />
+                    <FormattedMessage id="sips.list.aip-details.table.files.headers.size" />
                   </TableHeaderColumn>
                   <TableHeaderColumn>
-                    <FormattedMessage id="microservice-management.sips.list.aip-details.table.files.headers.actions" />
+                    <FormattedMessage id="sips.list.aip-details.table.files.headers.actions" />
                   </TableHeaderColumn>
                 </TableHeader>
                 <TableBody displayRowCheckbox={false}>

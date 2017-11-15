@@ -84,6 +84,7 @@ npm link web_modules/business-modules/admin-data-datasource-management
 npm link web_modules/business-modules/admin-data-document-management
 npm link web_modules/business-modules/admin-data-fragment-management
 npm link web_modules/business-modules/admin-ingest-processing-chain-management
+npm link web_modules/business-modules/admin-ingest-sip-management
 npm link web_modules/business-modules/admin-microservice-management
 npm link web_modules/business-modules/admin-project-management
 npm link web_modules/business-modules/admin-ui-management

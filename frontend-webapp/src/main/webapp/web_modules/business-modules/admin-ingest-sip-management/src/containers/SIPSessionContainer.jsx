@@ -20,15 +20,15 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import SIPListComponent from '../components/SIPListComponent'
+import SIPSessionComponent from '../components/SIPSessionComponent'
 import messages from '../i18n'
 import styles from '../styles/styles'
 
 /**
-* Displays the list of SIPs
+* Displays the selection of session in order to list SIPs
 * @author Maxime Bouveron
 */
-export class SIPListContainer extends React.Component {
+export class SIPSessionContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -58,9 +58,9 @@ export class SIPListContainer extends React.Component {
     // from mapDispatchToProps
   }
 
-  handleGoBack = () => {
+  handleOpen = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/microservice/sip/session`
+    const url = `/admin/${project}/data/acquisition/sip/list`
     browserHistory.push(url)
   }
 
@@ -69,13 +69,13 @@ export class SIPListContainer extends React.Component {
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={stylesObj}>
-          <SIPListComponent handleGoBack={this.handleGoBack} />
+          <SIPSessionComponent handleOpen={this.handleOpen} />
         </ModuleStyleProvider>
       </I18nProvider>
     )
   }
 }
 
-export default connect(SIPListContainer.mapStateToProps, SIPListContainer.mapDispatchToProps)(
-  SIPListContainer,
+export default connect(SIPSessionContainer.mapStateToProps, SIPSessionContainer.mapDispatchToProps)(
+  SIPSessionContainer,
 )

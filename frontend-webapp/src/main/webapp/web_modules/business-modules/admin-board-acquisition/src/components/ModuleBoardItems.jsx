@@ -27,6 +27,7 @@ import { connectionDependencies } from '@regardsoss/admin-data-connection-manage
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
 import { documentDependencies } from '@regardsoss/admin-data-document-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
+import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
 
 /**
  * BoardItems configuration for ingest module
@@ -46,10 +47,10 @@ const items = (projectName, intl) => [
         hateoasDependencies: processingChainDependencies.listDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/chain/create`,
+        path: `/admin/${projectName}/data/acquisition/sip/session`,
         icon: <PageView />,
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.monitor.tooltip' }),
-        hateoasDependencies: processingChainDependencies.addDependencies,
+        hateoasDependencies: sipDependencies.listDependencies,
       },
     ],
   },

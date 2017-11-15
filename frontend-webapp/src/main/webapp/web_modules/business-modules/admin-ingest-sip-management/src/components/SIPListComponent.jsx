@@ -91,18 +91,18 @@ class SIPListComponent extends React.Component {
       <div>
         <Card>
           <CardTitle
-            title={intl.formatMessage({ id: 'microservice-management.sips.title' })}
-            subtitle={intl.formatMessage({ id: 'microservice-management.sips.list.subtitle' })}
+            title={intl.formatMessage({ id: 'sips.title' })}
+            subtitle={intl.formatMessage({ id: 'sips.list.subtitle' })}
           />
           <Stepper style={sip.stepperStyle}>
             <Step>
               <StepButton onClick={this.props.handleGoBack}>
-                <FormattedMessage id="microservice-management.sips.stepper.session" />
+                <FormattedMessage id="sips.stepper.session" />
               </StepButton>
             </Step>
             <Step active>
               <StepButton>
-                <FormattedMessage id="microservice-management.sips.stepper.list" />
+                <FormattedMessage id="sips.stepper.list" />
               </StepButton>
             </Step>
           </Stepper>
@@ -111,14 +111,14 @@ class SIPListComponent extends React.Component {
               <SelectField
                 style={sip.filter.textFieldStyle}
                 floatingLabelText={intl.formatMessage({
-                  id: 'microservice-management.sips.list.filters.chain.label',
+                  id: 'sips.list.filters.chain.label',
                 })}
                 value={0}
               >
                 <MenuItem
                   value={0}
                   primaryText={intl.formatMessage({
-                    id: 'microservice-management.sips.list.filters.chain.label',
+                    id: 'sips.list.filters.chain.label',
                   })}
                 />
                 <MenuItem value={1} primaryText="Chaine 1" />
@@ -129,39 +129,39 @@ class SIPListComponent extends React.Component {
               <SelectField
                 style={sip.filter.textFieldStyle}
                 floatingLabelText={intl.formatMessage({
-                  id: 'microservice-management.sips.list.filters.status.label',
+                  id: 'sips.list.filters.status.label',
                 })}
                 value={0}
               >
                 <MenuItem
                   value={0}
                   primaryText={intl.formatMessage({
-                    id: 'microservice-management.sips.list.filters.status.errors',
+                    id: 'sips.list.filters.status.errors',
                   })}
                 />
                 <MenuItem
                   value={1}
                   primaryText={intl.formatMessage({
-                    id: 'microservice-management.sips.list.filters.status.errors.rsingest',
+                    id: 'sips.list.filters.status.errors.rsingest',
                   })}
                 />
                 <MenuItem
                   value={2}
                   primaryText={intl.formatMessage({
-                    id: 'microservice-management.sips.list.filters.status.errors.rsstorage',
+                    id: 'sips.list.filters.status.errors.rsstorage',
                   })}
                 />
                 <MenuItem
                   value={3}
                   primaryText={intl.formatMessage({
-                    id: 'microservice-management.sips.list.filters.status.done',
+                    id: 'sips.list.filters.status.done',
                   })}
                 />
               </SelectField>
               <DatePicker
                 textFieldStyle={sip.filter.textFieldStyle}
                 floatingLabelText={intl.formatMessage({
-                  id: 'microservice-management.sips.list.filters.date.label',
+                  id: 'sips.list.filters.date.label',
                 })}
                 container="inline"
                 autoOk
@@ -169,12 +169,12 @@ class SIPListComponent extends React.Component {
               <Checkbox
                 style={sip.filter.checkboxStyle}
                 label={intl.formatMessage({
-                  id: 'microservice-management.sips.list.filters.my-sips.label',
+                  id: 'sips.list.filters.my-sips.label',
                 })}
                 labelPosition="right"
               />
               <RaisedButton
-                label={intl.formatMessage({ id: 'microservice-management.sips.button.filter' })}
+                label={intl.formatMessage({ id: 'sips.button.filter' })}
                 primary
               />
             </div>
@@ -188,19 +188,19 @@ class SIPListComponent extends React.Component {
               >
                 <TableRow>
                   <TableHeaderColumn>
-                    <FormattedMessage id="microservice-management.sips.list.table.headers.sip-id" />
+                    <FormattedMessage id="sips.list.table.headers.sip-id" />
                   </TableHeaderColumn>
                   <TableHeaderColumn>
-                    <FormattedMessage id="microservice-management.sips.list.table.headers.type" />
+                    <FormattedMessage id="sips.list.table.headers.type" />
                   </TableHeaderColumn>
                   <TableHeaderColumn>
-                    <FormattedMessage id="microservice-management.sips.list.table.headers.state" />
+                    <FormattedMessage id="sips.list.table.headers.state" />
                   </TableHeaderColumn>
                   <TableHeaderColumn>
-                    <FormattedMessage id="microservice-management.sips.list.table.headers.date" />
+                    <FormattedMessage id="sips.list.table.headers.date" />
                   </TableHeaderColumn>
                   <TableHeaderColumn>
-                    <FormattedMessage id="microservice-management.sips.list.table.headers.actions" />
+                    <FormattedMessage id="sips.list.table.headers.actions" />
                   </TableHeaderColumn>
                 </TableRow>
               </TableHeader>
@@ -221,7 +221,7 @@ class SIPListComponent extends React.Component {
                     <TableRowColumn>
                       <IconButton
                         title={intl.formatMessage({
-                          id: 'microservice-management.sips.list.table.actions.delete',
+                          id: 'sips.list.table.actions.delete',
                         })}
                       >
                         <Delete />
@@ -229,7 +229,7 @@ class SIPListComponent extends React.Component {
                       <IconButton
                         onClick={this.handleSIPDetails}
                         title={intl.formatMessage({
-                          id: 'microservice-management.sips.list.table.actions.original-sip',
+                          id: 'sips.list.table.actions.original-sip',
                         })}
                       >
                         <Code />
@@ -237,7 +237,7 @@ class SIPListComponent extends React.Component {
                       <IconButton
                         onClick={this.handleAIPDialog}
                         title={intl.formatMessage({
-                          id: 'microservice-management.sips.list.table.actions.original-aip',
+                          id: 'sips.list.table.actions.original-aip',
                         })}
                       >
                         <List />
@@ -245,7 +245,7 @@ class SIPListComponent extends React.Component {
                       <ShowableAtRender show={status[item % status.length].includes('Error')}>
                         <IconButton
                           title={intl.formatMessage({
-                            id: 'microservice-management.sips.list.table.actions.retry',
+                            id: 'sips.list.table.actions.retry',
                           })}
                         >
                           <Refresh />
@@ -260,7 +260,7 @@ class SIPListComponent extends React.Component {
         </Card>
         <AIPDialog open={this.state.AIPdialog} onRequestClose={this.handleAIPDialog} />
         <Dialog
-          title={intl.formatMessage({ id: 'microservice-management.sips.list.sip-details.title' })}
+          title={intl.formatMessage({ id: 'sips.list.sip-details.title' })}
           modal={false}
           open={this.state.SIPdetails}
           onRequestClose={this.handleSIPDetails}

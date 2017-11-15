@@ -78,6 +78,7 @@
     "@regardsoss/admin-data-model-management": "0.0.1",
     "@regardsoss/admin-data-modelattribute-management": "0.0.1",
     "@regardsoss/admin-ingest-processing-chain-management": "1.0.0",
+    "@regardsoss/admin-ingest-sip-management": "1.0.0",
     "@regardsoss/admin-microservice-management": "0.0.1",
     "@regardsoss/admin-project-management": "0.0.1",
     "@regardsoss/admin-ui-layout-management": "0.0.1",
@@ -161,7 +162,7 @@
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {
-    "@regardsoss/eslint-config-es6-rules": "0.0.1",
+    "@regardsoss/eslint-config-es6-rules": "file:eslint-config-es6-rules",
     "@regardsoss/tests-helpers": "0.0.1",
     "@regardsoss/webpack-config-front": "file:webpack-config-front",
     "@storybook/addon-actions": "^3.1.8",

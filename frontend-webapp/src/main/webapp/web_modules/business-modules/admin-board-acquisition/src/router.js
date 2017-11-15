@@ -38,6 +38,16 @@ export const processingChainManagementRouter = {
   },
 }
 
+export const sipManagementRouter = {
+  path: 'sip',
+  getChildRoutes(nextState, cb) {
+    const sipManagement = require('@regardsoss/admin-ingest-sip-management')
+    require.ensure([], (require) => {
+      cb(null, [sipManagement.sipManagementRouter])
+    })
+  },
+}
+
 export const documentManagementRouter = {
   path: 'document',
   getChildRoutes(nextState, cb) {
@@ -72,6 +82,7 @@ const acquisitionRouter = {
   childRoutes: [
     boardRoute,
     processingChainManagementRouter,
+    sipManagementRouter,
     documentManagementRouter,
     datasourceManagementRouter,
     connectionManagementRouter,

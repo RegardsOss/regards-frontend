@@ -81,18 +81,18 @@ class SIPSessionComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={intl.formatMessage({ id: 'microservice-management.sips.title' })}
-          subtitle={intl.formatMessage({ id: 'microservice-management.sips.session.subtitle' })}
+          title={intl.formatMessage({ id: 'sips.title' })}
+          subtitle={intl.formatMessage({ id: 'sips.session.subtitle' })}
         />
         <Stepper style={sip.stepperStyle}>
           <Step active>
             <StepButton>
-              <FormattedMessage id="microservice-management.sips.stepper.session" />
+              <FormattedMessage id="sips.stepper.session" />
             </StepButton>
           </Step>
           <Step disabled>
             <StepButton>
-              <FormattedMessage id="microservice-management.sips.stepper.list" />
+              <FormattedMessage id="sips.stepper.list" />
             </StepButton>
           </Step>
         </Stepper>
@@ -101,13 +101,13 @@ class SIPSessionComponent extends React.Component {
             <TextField
               style={sip.filter.textFieldStyle}
               floatingLabelText={intl.formatMessage({
-                id: 'microservice-management.sips.session.filter.name.label',
+                id: 'sips.session.filter.name.label',
               })}
             />
             <SelectField
               style={sip.filter.textFieldStyle}
               floatingLabelText={intl.formatMessage({
-                id: 'microservice-management.sips.session.filter.date.label',
+                id: 'sips.session.filter.date.label',
               })}
               value={0}
             >
@@ -115,7 +115,7 @@ class SIPSessionComponent extends React.Component {
                 value={0}
                 primaryText={intl.formatMessage(
                   {
-                    id: 'microservice-management.sips.session.filter.date.value',
+                    id: 'sips.session.filter.date.value',
                   },
                   { numDays: 1 },
                 )}
@@ -124,7 +124,7 @@ class SIPSessionComponent extends React.Component {
                 value={1}
                 primaryText={intl.formatMessage(
                   {
-                    id: 'microservice-management.sips.session.filter.date.value',
+                    id: 'sips.session.filter.date.value',
                   },
                   { numDays: 2 },
                 )}
@@ -133,7 +133,7 @@ class SIPSessionComponent extends React.Component {
                 value={2}
                 primaryText={intl.formatMessage(
                   {
-                    id: 'microservice-management.sips.session.filter.date.value',
+                    id: 'sips.session.filter.date.value',
                   },
                   { numDays: 3 },
                 )}
@@ -142,7 +142,7 @@ class SIPSessionComponent extends React.Component {
                 value={3}
                 primaryText={intl.formatMessage(
                   {
-                    id: 'microservice-management.sips.session.filter.date.value',
+                    id: 'sips.session.filter.date.value',
                   },
                   { numDays: 4 },
                 )}
@@ -151,14 +151,14 @@ class SIPSessionComponent extends React.Component {
                 value={4}
                 primaryText={intl.formatMessage(
                   {
-                    id: 'microservice-management.sips.session.filter.date.value',
+                    id: 'sips.session.filter.date.value',
                   },
                   { numDays: 5 },
                 )}
               />
             </SelectField>
             <RaisedButton
-              label={intl.formatMessage({ id: 'microservice-management.sips.button.filter' })}
+              label={intl.formatMessage({ id: 'sips.button.filter' })}
               primary
             />
           </div>
@@ -168,25 +168,25 @@ class SIPSessionComponent extends React.Component {
             <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
               <TableRow>
                 <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.session.table.headers.id" />
+                  <FormattedMessage id="sips.session.table.headers.id" />
                 </TableHeaderColumn>
                 <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.session.table.headers.generated" />
+                  <FormattedMessage id="sips.session.table.headers.generated" />
                 </TableHeaderColumn>
                 <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.session.table.headers.stored" />
+                  <FormattedMessage id="sips.session.table.headers.stored" />
                 </TableHeaderColumn>
                 <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.session.table.headers.indexed" />
+                  <FormattedMessage id="sips.session.table.headers.indexed" />
                 </TableHeaderColumn>
                 <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.session.table.headers.errors" />
+                  <FormattedMessage id="sips.session.table.headers.errors" />
                 </TableHeaderColumn>
                 <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.session.table.headers.date" />
+                  <FormattedMessage id="sips.session.table.headers.date" />
                 </TableHeaderColumn>
                 <TableHeaderColumn>
-                  <FormattedMessage id="microservice-management.sips.session.table.headers.actions" />
+                  <FormattedMessage id="sips.session.table.headers.actions" />
                 </TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -209,14 +209,14 @@ class SIPSessionComponent extends React.Component {
                   <TableRowColumn>
                     <IconButton
                       title={intl.formatMessage({
-                        id: 'microservice-management.sips.session.table.actions.delete',
+                        id: 'sips.session.table.actions.delete',
                       })}
                     >
                       <Delete />
                     </IconButton>
                     <IconButton
                       title={intl.formatMessage({
-                        id: 'microservice-management.sips.session.table.actions.list',
+                        id: 'sips.session.table.actions.list',
                       })}
                       onTouchTap={this.props.handleOpen}
                     >
