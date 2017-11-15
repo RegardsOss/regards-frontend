@@ -30,7 +30,7 @@ export const createIngestProcessingChainRoute = {
 
 
 export const editIngestProcessingChainRoute = {
-  path: ':chain_id/edit',
+  path: ':chain_name/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const formContainer = require('./containers/IngestProcessingChainFormContainer')
