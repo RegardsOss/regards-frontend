@@ -24,30 +24,148 @@
  */
 export default (theme) => {
   const cellBorder = `1px solid ${theme.tableRow.borderColor}`
+  const headerBottomBorder = cellBorder
 
-  const commonHeaderStyles = {
+  const commonHeaderCellStyles = {
     backgroundColor: theme.table.backgroundColor,
     color: theme.tableHeaderColumn.textColor,
     fontFamily: theme.fontFamily,
     display: 'flex',
     justifyContent: 'center',
     borderBottom: cellBorder,
+    minHeight: theme['components:infinite-table'].minHeaderRowHeight,
+  }
+
+  const commonCell = {
+    color: theme.tableRow.textColor,
+    fontFamily: theme.fontFamily,
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    width: '100%',
+    height: '100%',
   }
 
   const commonCellEven = {
-    backgroundColor: theme.tableRow.stripeColor,
+    ...commonCell,
+    backgroundColor: theme.table.backgroundColor,
     borderBottom: cellBorder,
-    textAlign: 'center',
   }
 
   const commonCellOdd = {
-    backgroundColor: theme.table.backgroundColor,
+    ...commonCell,
+    backgroundColor: theme.tableRow.stripeColor,
     borderBottom: cellBorder,
-    textAlign: 'center',
   }
 
   return ({
     header: {
+      rootStyle: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+      },
+      dividerStyle: {
+        width: '100%',
+      },
+      rowStyle: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+        minHeight: theme['components:infinite-table'].minHeaderRowHeight,
+        borderBottom: headerBottomBorder,
+      },
+      optionsGroup: {
+        fixedAreaStyle: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'stretch',
+          flexWrap: 'wrap',
+          flexShrink: 0,
+          flexGrow: 0,
+          margin: '0 0 3px 0',
+        },
+        reducibleAreaStyle: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'stretch',
+          flexWrap: 'wrap',
+          flexShrink: 1,
+          flexGrow: 0,
+          margin: '0 0 3px 0',
+        },
+        flexShrink: 0,
+        groupStyle: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+          flexShrink: 0,
+          flexGrow: 0,
+        },
+        separatorStyle: {
+          alignSelf: 'center',
+          width: '1px',
+          height: '24px',
+          margin: '0 10px 0 10px',
+          backgroundColor: theme.toolbar.separatorColor,
+        },
+      },
+      contentBox: {
+        style: {
+          alignSelf: 'center',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          wrap: 'wrap',
+        },
+        textStyle: {
+          margin: '0 10px', // TODO theme
+          color: theme.palette.textColor,
+        },
+      },
+      loading: {
+        thickness: 1.5, // TODO theme
+        size: 22, // TODO theme
+        color: theme.palette.primary1Color, // TODO theme
+      },
+      cellHeader: {
+        ...commonHeaderCellStyles,
+        alignItems: 'center',
+        textAlign: 'center',
+        // borderRight: cellBorder,
+      },
+      lastCellHeader: {
+        ...commonHeaderCellStyles,
+        alignItems: 'center',
+      },
+      sortableHeader: {
+        style: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        },
+        sortButtonStyle: {
+          width: 32,
+          height: 32,
+          padding: 4,
+        },
+        sortIconStyle: {
+          width: 24,
+          height: 24,
+        },
+      },
+
+      // TODO maybe delete xxx
       line: {
         classNames: 'row',
       },
@@ -81,34 +199,6 @@ export default (theme) => {
           flexGrow: 1,
         },
       },
-      contextOptionsSeparator: {
-        styles: {
-          width: '1px',
-          height: '24px',
-          margin: '0 10px 0 10px',
-          backgroundColor: theme.toolbar.separatorColor,
-        },
-      },
-      text: {
-        styles: {
-          color: theme.palette.textColor,
-          margin: '1em 1em 1em 1em',
-        },
-      },
-      loading: {
-        styles: {
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: '0 0 0 1em',
-        },
-        progress: {
-          thickness: 1.5,
-          size: 22,
-          color: theme.palette.textColor,
-        },
-      },
     },
     table: {
       position: 'relative',
@@ -126,52 +216,28 @@ export default (theme) => {
       //borderRight: cellBorder,
     },
     lastCellEven: { ...commonCellEven },
-    cellOddContent: {
-      backgroundColor: theme.table.backgroundColor,
-      color: theme.tableRow.textColor,
-      fontFamily: theme.fontFamily,
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    cellEvenContent: {
-      backgroundColor: 'transparent',
-      color: theme.tableRow.textColor,
-      fontFamily: theme.fontFamily,
-      display: 'flex',
-      justifyContent: 'center',
-    },
     checkBoxCell: {
       backgroundColor: theme.table.backgroundColor,
       borderBottom: `1px solid ${theme.tableRow.borderColor}`,
     },
-    cellHeader: {
-      ...commonHeaderStyles,
-      alignItems: 'center',
-      textAlign: 'center',
-      // borderRight: cellBorder,
+    multipleCellValuesSeparator: {
+      borderLeft: `1px solid ${theme.tableRow.borderColor}`,
+      margin: theme['components:infinite-table'].multipleValuesSeparatorMargin,
+      flexGrow: 0,
+      flexShrink: 0,
+      height: theme['components:infinite-table'].multipleValuesSeparatorHeight,
     },
-    lastCellHeader: {
-      ...commonHeaderStyles,
-      alignItems: 'center',
-    },
-    fixedCellHeader: {
-      ...commonHeaderStyles,
-    },
-    sortButton: {
-      iconStyle: {
-        width: 20,
-        height: 20,
-      },
-      buttonStyle: {
-        width: 25,
-        height: 25,
-        padding: 0,
-      },
+    multipleCellValues: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: 0,
+      maxWidth: '100%',
     },
     checkButton: {
       styles: {
-        paddingRight: 0,
-        marginLeft: 11,
+        width: 32,
+        height: 32,
+        padding: 0,
       },
       checkedIcon: {
         color: theme.palette.primary1Color,
@@ -182,9 +248,6 @@ export default (theme) => {
         width: 24,
         height: 24,
       },
-    },
-    selectionColumn: {
-      width: 42,
     },
     loadingFilter: {
       backgroundColor: theme.palette.primary1Color,

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import AttributeColumnBuilder from './columns/AttributeColumnBuilder'
 import MainAttributesConfigurationComponent from './configuration/MainAttributesConfigurationComponent'
 import getTypeRender from './render/AttributesTypeToRender'
 
@@ -24,4 +25,5 @@ export default {
   MainAttributesConfigurationComponent,
   // render get method for given type
   getTypeRender,
+  AttributeColumnBuilder,
 }

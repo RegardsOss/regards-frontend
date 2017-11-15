@@ -23,10 +23,10 @@ import I18nProvider from './containers/I18nProvider'
  *
  * @author Xavier-Alexandre Brochard
  */
-const withI18n = messages => Component => class WithI18n extends React.Component {
+const withI18n = (messages, stackCallingContext = false) => Component => class WithI18n extends React.Component {
   render() {
     return (
-      <I18nProvider messages={messages}>
+      <I18nProvider messages={messages} stackCallingContext={stackCallingContext}>
         <Component {...this.props} />
       </I18nProvider>
     )

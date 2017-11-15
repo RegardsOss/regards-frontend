@@ -18,15 +18,22 @@
  **/
 
 const messages = {
+  'table.results.no.data': 'No result',
+  'table.results.one.element': '1 result',
   'table.results.count': '{count} results',
   'table.filter.columns.label': 'Columns...',
-  'table.select.all.label': 'All',
+  'table.select.all.label': 'None',
   'table.select.all.tooltip': 'Select all',
-  'table.deselect.all.label': 'None',
+  'table.deselect.all.label': 'All',
   'table.deselect.all.tooltip': 'Deselect all',
+  'table.select.row.tooltip': 'Select',
+  'table.unselect.row.tooltip': 'Unselect',
   'table.advanced.options.label': 'More...',
   'table.actions.more': 'More actions',
-  'table.column.visibility.filter': 'Visible columns',
+  'table.column.visibility.filter.option': 'Columns...',
+  'table.column.visibility.filter.dialog': 'Visible columns',
+  'table.column.visibility.filter.cancel': 'Cancel',
+  'table.column.visibility.filter.confirm': 'Confirm',
   'table.loading.message': 'Loading content',
 }
 

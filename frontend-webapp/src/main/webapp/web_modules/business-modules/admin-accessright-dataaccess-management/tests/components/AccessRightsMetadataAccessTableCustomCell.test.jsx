@@ -49,11 +49,10 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsMetadataAccessTabl
         id: 1,
         label: 'test',
       },
-      onDelete: () => {},
-      onEdit: () => {},
+      onDelete: () => { },
+      onEdit: () => { },
       accessGroup,
       accessRights: { accessRight },
-      intl: context.intl,
       entity: dataset,
       lineHeight: 47,
     }

@@ -31,7 +31,6 @@ const messages = {
   'entities.common.properties.attributes': 'Attributs',
   'entities.common.properties.loading.attributes': 'Chargement des attributs',
   'entities.common.properties.no.attribute': 'Cette entité n\'a pas d\'attribut',
-  'entities.common.properties.attribute.cell.no.value': '-',
   'entities.common.properties.tags.entities': 'Mot-clefs liés',
   'entities.common.properties.loading.tags': 'Chargement des mot-clefs',
   'entities.common.properties.no.tag': 'Cette entité n\'a pas de mot-clef',

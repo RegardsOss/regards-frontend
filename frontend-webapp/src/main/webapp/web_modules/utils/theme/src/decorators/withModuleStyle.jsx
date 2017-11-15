@@ -23,10 +23,10 @@ import ModuleStyleProvider from '../containers/ModuleStyleProvider'
  *
  * @author Xavier-Alexandre Brochard
  */
-const withModuleStyle = moduleStyles => Component => class WithModuleStyle extends React.Component {
+const withModuleStyle = (moduleStyles, stackCallingContext = false) => Component => class WithModuleStyle extends React.Component {
   render() {
     return (
-      <ModuleStyleProvider module={moduleStyles}>
+      <ModuleStyleProvider module={moduleStyles} stackCallingContext={stackCallingContext}>
         <Component {...this.props} />
       </ModuleStyleProvider>
     )

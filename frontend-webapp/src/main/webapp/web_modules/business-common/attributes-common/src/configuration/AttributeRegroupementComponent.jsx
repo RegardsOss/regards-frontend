@@ -94,7 +94,8 @@ class AttributeConfigurationComponent extends React.Component {
       display: 'inline-block',
       width: '80%',
       paddingTop: 0,
-      paddingBottom: 0 }
+      paddingBottom: 0,
+    }
     const cardContentStyle = { paddingTop: 0 }
     const searchFieldStyle = { maxWidth: 150 }
     const anchorOrigin = { horizontal: 'left', vertical: 'top' }

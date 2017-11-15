@@ -27,7 +27,7 @@ class StoragePluginsActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-storage/storage-plugins`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/monitoring`,
       schemaTypes: {
         ENTITY: Schemas.STORAGE_PLUGIN,
         ENTITY_ARRAY: Schemas.STORAGE_PLUGIN_ARRAY,

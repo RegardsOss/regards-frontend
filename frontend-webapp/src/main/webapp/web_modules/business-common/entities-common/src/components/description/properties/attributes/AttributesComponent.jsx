@@ -34,7 +34,7 @@ class AttributesComponent extends React.Component {
     attributes: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
       label: PropTypes.string.isRequired,
-      renderer: PropTypes.func.isRequired,
+      Renderer: PropTypes.func.isRequired,
       renderValue: PropTypes.any,
     })).isRequired,
   }
@@ -77,15 +77,11 @@ class AttributesComponent extends React.Component {
               return (
                 <div style={attributesContainer.rootStyle} >
                   { // map every attribute to a table row layout
-                    attributes.map(({ id, label, renderer: Renderer, renderValue }) => (
+                    attributes.map(({ id, label, Renderer, renderValue }) => (
                       <div key={id} style={attributesContainer.rowStyle}>
                         <div style={attributesContainer.labelStyle}>{label}</div>
                         <div style={attributesContainer.valueStyle}>
-                          {
-                            renderValue ?
-                              (<Renderer attributes={renderValue} />) :
-                              (<FormattedMessage id="entities.common.properties.attribute.cell.no.value" />)
-                          }
+                          <Renderer value={renderValue} />
                         </div>
                       </div>))
                   }

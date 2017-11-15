@@ -27,7 +27,7 @@ class AIPStatusConfiguration extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/rs-storage/aip-status`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/aip-status`,
       schemaTypes: {
         ENTITY: Schemas.AIP_STATUS,
         ENTITY_ARRAY: Schemas.AIP_STATUS_ARRAY,
