@@ -15,29 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import AccessRightsMetadataAccessTableCustomCell from '../../src/components/AccessRightsMetadataAccessTableCustomCell'
+import { buildTestContext, DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import AccessRightsTableDeleteAction from '../../src/components/AccessRightsTableDeleteAction'
+import styles from '../../src/styles/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 /**
- * Tests for component AccessRightsActionsTableCustomCell
- *
- * @author Sébastien Binda
- */
-describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsMetadataAccessTableCustomCell', () => {
+* Test AccessRightsTableDeleteAction
+* @author Raphaël Mechali
+*/
+describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessRightsTableDeleteAction', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AccessRightsMetadataAccessTableCustomCell)
+    assert.isDefined(AccessRightsTableDeleteAction)
   })
-
-  it('Render properly', () => {
-    const accessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
+  it('should render correctly', () => {
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
@@ -45,19 +43,10 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsMetadataAccessTabl
     accessRight.content.dataset.id = dataset.content.id
 
     const props = {
-      attributes: {
-        id: 1,
-        label: 'test',
-      },
-      onDelete: () => { },
-      onEdit: () => { },
-      accessGroup,
-      accessRights: { accessRight },
       entity: dataset,
-      lineHeight: 47,
+      onDelete: () => { },
+      accessRights: { accessRight },
     }
-
-    const enzymeWrapper = shallow(<AccessRightsMetadataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })
-    assert.equal(enzymeWrapper.children().text(), `accessright.form.meta.accessLevel.${accessRight.content.accessLevel}`, 'Invalid displayed value for accessRight')
+    shallow(<AccessRightsTableDeleteAction {...props} />, { context })
   })
 })

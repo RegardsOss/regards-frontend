@@ -18,62 +18,55 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import RangeAttributesRender from '../../src/render/RangeAttributesRender'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import BooleanAttributeRender from '../../src/render/BooleanAttributeRender'
+import styles from '../../src/styles'
 
+const context = buildTestContext(styles)
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing RangeAttributesRender', () => {
+describe('[ATTRIBUTES COMMON] Testing BooleanAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should render a range value', () => {
+  it('should exists', () => {
+    assert.isDefined(BooleanAttributeRender)
+  })
+  it('Should render a boolean values', () => {
     const props = {
-      attributes: {
-        'test.attribute': {
-          lowerBound: 156,
-          upperBound: 'test',
-        },
-      },
+      value: true,
     }
-    const wrapper = shallow(<RangeAttributesRender {...props} />)
-
+    const wrapper = shallow(<BooleanAttributeRender {...props} />, { context })
+    wrapper.setProps({ value: false })
     const value = wrapper.text()
-    assert.equal(value, '156 - test', 'There should be an integer value renderedee')
+    assert.equal(value, 'true', 'There should be a boolean value renderedee')
   })
 
-  it('Should render an empty value', () => {
+  it('Should render an empty value for a string', () => {
     const props = {
       attributes: {
         'test.attribute': 'plop',
       },
     }
-    const wrapper = shallow(<RangeAttributesRender {...props} />)
+    const wrapper = shallow(<BooleanAttributeRender {...props} />, { context })
 
     const value = wrapper.text()
     assert.equal(value, '', 'There should be an empty value rendered')
   })
 
-  it('Should render two ranged values', () => {
+  it('Should render two boolean values', () => {
     const props = {
       attributes: {
-        'test.attribute': {
-          lowerBound: 156,
-          upperBound: 'test',
-        },
-        'test.attribute2': {
-          lowerBound: 222,
-          upperBound: 'other',
-        },
+        'test.attribute': true,
+        'test.attribute2': false,
       },
     }
-
-    const wrapper = shallow(<RangeAttributesRender {...props} />)
+    const wrapper = shallow(<BooleanAttributeRender {...props} />, { context })
 
     const value = wrapper.text()
-    assert.equal(value, '156 - test222 - other', 'There should be two range value rendered')
+    assert.equal(value, 'truefalse', 'There should be two boolean value rendered')
   })
 })

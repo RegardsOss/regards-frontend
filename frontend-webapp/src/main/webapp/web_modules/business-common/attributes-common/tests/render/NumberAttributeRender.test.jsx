@@ -18,14 +18,17 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import IntegerAttributesRender from '../../src/render/IntegerAttributesRender'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import NumberAttributeRender from '../../src/render/NumberAttributeRender'
+import styles from '../../src/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing IntegerAttributesRender', () => {
+describe('[ATTRIBUTES COMMON] Testing NumberAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -35,7 +38,7 @@ describe('[ATTRIBUTES COMMON] Testing IntegerAttributesRender', () => {
         'test.attribute': 156,
       },
     }
-    const wrapper = shallow(<IntegerAttributesRender {...props} />)
+    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
 
     const value = wrapper.text()
     assert.equal(value, '156', 'There should be an integer value rendered')
@@ -47,7 +50,7 @@ describe('[ATTRIBUTES COMMON] Testing IntegerAttributesRender', () => {
         'test.attribute': 'plop',
       },
     }
-    const wrapper = shallow(<IntegerAttributesRender {...props} />)
+    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
 
     const value = wrapper.text()
     assert.equal(value, '', 'There should be an empty value rendered')
@@ -61,7 +64,7 @@ describe('[ATTRIBUTES COMMON] Testing IntegerAttributesRender', () => {
       },
     }
 
-    const wrapper = shallow(<IntegerAttributesRender {...props} />)
+    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
 
     const value = wrapper.text()
     assert.equal(value, '156568', 'There should be two integer value rendered')

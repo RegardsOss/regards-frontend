@@ -18,7 +18,6 @@
  **/
 import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
-import concat from 'lodash/concat'
 import remove from 'lodash/remove'
 import values from 'lodash/values'
 import Divider from 'material-ui/Divider'

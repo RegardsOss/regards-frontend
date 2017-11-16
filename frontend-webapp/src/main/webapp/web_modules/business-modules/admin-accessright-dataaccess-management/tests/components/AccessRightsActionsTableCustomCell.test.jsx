@@ -46,16 +46,11 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
     accessRight.content.dataset.id = dataset.content.id
 
     const props = {
-      attributes: {
-        id: 1,
-        label: 'test',
-      },
       onDelete: () => { },
       onEdit: () => { },
       accessGroup,
       accessRights: { accessRight },
       entity: dataset,
-      lineHeight: 47,
     }
 
     const enzymeWrapper = shallow(<AccessRightsActionsTableCustomCell {...props} />, { context, lifecycleExperimental: true })
@@ -82,7 +77,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       accessGroup,
       accessRights: { accessRight },
       entity: dataset,
-      lineHeight: 47,
     }
 
     const enzymeWrapper = shallow(<AccessRightsActionsTableCustomCell {...props} />, { context, lifecycleExperimental: true })

@@ -2,7 +2,13 @@
 * LICENSE_PLACEHOLDER
 **/
 import forEach from 'lodash/forEach'
+import Enzyme from 'enzyme'
 import { assert } from 'chai'
+import Adapter from 'enzyme-adapter-react-16'
+
+// Initialize enzyme: it will be run only once (when initially loading this file)
+Enzyme.configure({ adapter: new Adapter() })
+
 
 // Store real console.error method in order to reuse it later
 const originalConsoleError = console.error

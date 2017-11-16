@@ -18,16 +18,19 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import Avatar from 'material-ui/Avatar'
 import { CatalogDomain } from '@regardsoss/domain'
-import ThumbnailAttributesRender from '../../src/render/ThumbnailAttributesRender'
+import ThumbnailAttributeRender from '../../src/render/ThumbnailAttributeRender'
+import styles from '../../src/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
+describe('[ATTRIBUTES COMMON] Testing ThumbnailAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -41,7 +44,7 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
       },
       lineHeight: 150,
     }
-    const wrapper = shallow(<ThumbnailAttributesRender {...props} />)
+    const wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
 
     const value = wrapper.find('img')
     assert.lengthOf(value, 1, 'There should be one image rendered')
@@ -57,7 +60,7 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
       },
       lineHeight: 150,
     }
-    const wrapper = shallow(<ThumbnailAttributesRender {...props} />)
+    const wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
 
     const value = wrapper.find(Avatar)
     assert.lengthOf(value, 0, 'Avatar should not be rendered')

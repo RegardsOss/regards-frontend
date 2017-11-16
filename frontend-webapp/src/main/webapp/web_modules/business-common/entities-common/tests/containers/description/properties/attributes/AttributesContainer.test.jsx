@@ -134,26 +134,24 @@ describe('[Entities Common] Testing AttributesContainer', () => {
       },
       fetchedModelAttributes: {
         0: {
-          content:
-            {
-              model:
-                {
-                  id: 0,
-                  name: 'Missions',
-                  type: 'COLLECTION',
-                  description: 'Describes a mission collection',
-                },
+          content: {
+            model: {
               id: 0,
-              mode: 'idc',
-              attribute: {
-                id: 0,
-                name: 'aproperty',
-                label: 'A Property Label',
-                jsonPath: 'properties.aproperty',
-                type: 'string',
-                fragment: { id: 0, name: 'DEFAULT' },
-              },
+              name: 'Missions',
+              type: 'COLLECTION',
+              description: 'Describes a mission collection',
             },
+            id: 0,
+            mode: 'idc',
+            attribute: {
+              id: 0,
+              name: 'aproperty',
+              label: 'A Property Label',
+              jsonPath: 'properties.aproperty',
+              type: 'string',
+              fragment: { id: 0, name: 'DEFAULT' },
+            },
+          },
         },
       },
       fetchedDatasetDescriptionResult: null,

@@ -18,54 +18,41 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import BooleanAttributesRender from '../../src/render/BooleanAttributesRender'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import StringAttributeRender from '../../src/render/StringAttributeRender'
+import styles from '../../src/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing BooleanAttributesRender', () => {
+describe('[ATTRIBUTES COMMON] Testing StringAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should exists', () => {
-    assert.isDefined(BooleanAttributesRender)
+  it('Should render a string value', () => {
+    const props = {
+      attributes: {
+        'test.attribute': 'render test string',
+      },
+    }
+    const wrapper = shallow(<StringAttributeRender {...props} />, { context })
+
+    const value = wrapper.text()
+    assert.equal(value, 'render test string', 'There should be a string value rendered')
   })
-  it('Should render a boolean value', () => {
+
+  it('Should render a string value for boolean value', () => {
     const props = {
       attributes: {
         'test.attribute': true,
       },
     }
-    const wrapper = shallow(<BooleanAttributesRender {...props} />)
+    const wrapper = shallow(<StringAttributeRender {...props} />, { context })
 
     const value = wrapper.text()
-    assert.equal(value, 'true', 'There should be a boolean value renderedee')
-  })
-
-  it('Should render an empty value for a string', () => {
-    const props = {
-      attributes: {
-        'test.attribute': 'plop',
-      },
-    }
-    const wrapper = shallow(<BooleanAttributesRender {...props} />)
-
-    const value = wrapper.text()
-    assert.equal(value, '', 'There should be an empty value rendered')
-  })
-
-  it('Should render two boolean values', () => {
-    const props = {
-      attributes: {
-        'test.attribute': true,
-        'test.attribute2': false,
-      },
-    }
-    const wrapper = shallow(<BooleanAttributesRender {...props} />)
-
-    const value = wrapper.text()
-    assert.equal(value, 'truefalse', 'There should be two boolean value rendered')
+    assert.equal(value, 'true', 'There should be a string value rendered')
   })
 })

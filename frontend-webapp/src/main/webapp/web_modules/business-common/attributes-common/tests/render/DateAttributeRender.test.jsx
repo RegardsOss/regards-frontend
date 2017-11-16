@@ -18,14 +18,18 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { FormattedDate, FormattedTime } from 'react-intl'
-import DateAttributesRender from '../../src/render/DateAttributesRender'
+import DateAttributeRender from '../../src/render/DateAttributeRender'
+import styles from '../../src/styles'
+
+const context = buildTestContext(styles)
+
 /**
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing DateAttributesRender', () => {
+describe('[ATTRIBUTES COMMON] Testing DateAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('Should render a date value', () => {
@@ -34,7 +38,7 @@ describe('[ATTRIBUTES COMMON] Testing DateAttributesRender', () => {
         'test.attribute': '2017-01-07T12:00:00',
       },
     }
-    const wrapper = shallow(<DateAttributesRender {...props} />)
+    const wrapper = shallow(<DateAttributeRender {...props} />, { context })
 
     const dates = wrapper.find(FormattedDate)
     const times = wrapper.find(FormattedTime)
@@ -48,7 +52,7 @@ describe('[ATTRIBUTES COMMON] Testing DateAttributesRender', () => {
         'test.attribute': 'error',
       },
     }
-    const wrapper = shallow(<DateAttributesRender {...props} />)
+    const wrapper = shallow(<DateAttributeRender {...props} />, { context })
 
     const value = wrapper.text()
     assert.equal(value, '', 'There should be an empty value rendered')
@@ -61,7 +65,7 @@ describe('[ATTRIBUTES COMMON] Testing DateAttributesRender', () => {
         'test.attribute2': '2017-01-07T12:00:00',
       },
     }
-    const wrapper = shallow(<DateAttributesRender {...props} />)
+    const wrapper = shallow(<DateAttributeRender {...props} />, { context })
 
     const dates = wrapper.find(FormattedDate)
     const times = wrapper.find(FormattedTime)
