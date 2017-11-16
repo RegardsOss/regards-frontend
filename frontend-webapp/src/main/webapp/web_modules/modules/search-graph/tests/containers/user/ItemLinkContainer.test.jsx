@@ -77,6 +77,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
 
     // check mouse enter
     enzymeWrapper.instance().onMouseOver()
+    enzymeWrapper.update() // wait for setState
     assert.equal(enzymeWrapper.state('displayState'), ItemLink.States.HOVER, 'The component should be in hover state')
     assert.equal(lastNotifiedState, ItemLink.States.HOVER, 'listener should be called with hover state')
     itemLink = enzymeWrapper.find(ItemLink)
@@ -84,6 +85,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
 
     // check mouse exit
     enzymeWrapper.instance().onMouseOut()
+    enzymeWrapper.update() // wait for setState
     assert.equal(enzymeWrapper.state('displayState'), ItemLink.States.DEFAULT, 'The component should be in back in default state')
     assert.equal(lastNotifiedState, ItemLink.States.DEFAULT, 'listener should be called back with default state')
     itemLink = enzymeWrapper.find(ItemLink)
@@ -113,6 +115,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
 
     // check mouse enter
     enzymeWrapper.instance().onMouseOver()
+    enzymeWrapper.update() // wait for setState
     assert.equal(enzymeWrapper.state('displayState'), ItemLink.States.SELECTED_HOVER, 'The component should be in selected_hover state')
     assert.equal(lastNotifiedState, ItemLink.States.SELECTED_HOVER, 'listener should be called with selected_hover state')
     itemLink = enzymeWrapper.find(ItemLink)
@@ -120,6 +123,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
 
     // check mouse exit
     enzymeWrapper.instance().onMouseOut()
+    enzymeWrapper.update() // wait for setState
     assert.equal(enzymeWrapper.state('displayState'), ItemLink.States.SELECTED, 'The component should be in back in selected state')
     assert.equal(lastNotifiedState, ItemLink.States.SELECTED, 'listener should be called back with selected state')
     itemLink = enzymeWrapper.find(ItemLink)
@@ -149,11 +153,13 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
 
     // check mouse enter
     enzymeWrapper.instance().onMouseOver()
+    enzymeWrapper.update() // wait for setState
     assert.equal(enzymeWrapper.state('displayState'), ItemLink.States.LOCKED, 'Event should be ignored (1)')
     assert.equal(lastNotifiedState, ItemLink.States.LOCKED, 'listener should not have get a new event (1)')
 
     // check mouse exit
     enzymeWrapper.instance().onMouseOut()
+    enzymeWrapper.update() // wait for setState
     assert.equal(enzymeWrapper.state('displayState'), ItemLink.States.LOCKED, 'Event should be ignored (2)')
     assert.equal(lastNotifiedState, ItemLink.States.LOCKED, 'listener should not have get a new event (2)')
   })
