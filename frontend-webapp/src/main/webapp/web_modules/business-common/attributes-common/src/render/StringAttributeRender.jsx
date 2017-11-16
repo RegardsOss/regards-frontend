@@ -27,7 +27,7 @@ import styles from '../styles'
  *
  * @author Sébastien binda
  */
-class StringAttributeRender extends React.Component {
+export class StringAttributeRender extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.string,

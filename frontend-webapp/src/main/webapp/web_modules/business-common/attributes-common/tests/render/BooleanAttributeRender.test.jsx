@@ -18,9 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { LinkComponent } from '@regardsoss/components'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { UrlAttributeRender } from '../../src/render/UrlAttributeRender'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { BooleanAttributeRender } from '../../src/render/BooleanAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -29,23 +28,25 @@ const context = buildTestContext(styles)
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing UrlAttributeRender', () => {
+describe('[ATTRIBUTES COMMON] Testing BooleanAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(UrlAttributeRender)
+    assert.isDefined(BooleanAttributeRender)
   })
 
-  it('Should render no data', () => {
-    const wrapper = shallow(<UrlAttributeRender />, { context })
-    assert.lengthOf(wrapper.find(LinkComponent), 0, 'Link should not be rendered when no data')
+  it('Should render a boolean values', () => {
+    // render true
+    const wrapper = shallow(<BooleanAttributeRender value />, { context })
+    assert.include(wrapper.text(), String(true), 'True value should be rendered')
+    // render false
+    wrapper.setProps({ value: false })
+    assert.include(wrapper.text(), String(false), 'False value should be rendered')
   })
 
-  it('Should render link to URL when available', () => {
-    const wrapper = shallow(<UrlAttributeRender value="http://www.google.com/bill" />, { context })
-    const linkWrapper = wrapper.find(LinkComponent)
-    assert.lengthOf(linkWrapper, 1, 'Link should be rendered')
-    assert.equal(linkWrapper.props().link, 'http://www.google.com/bill', 'Link should be rendered')
+  it('Should render an empty value', () => {
+    const wrapper = shallow(<BooleanAttributeRender />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'No data should be internationalized')
   })
 })

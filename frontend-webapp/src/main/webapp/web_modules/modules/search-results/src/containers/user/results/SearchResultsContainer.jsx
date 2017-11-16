@@ -255,7 +255,6 @@ export class SearchResultsContainer extends React.Component {
     // update presentation models to hold the new sorting
     attributePresentationModels: this.state.attributePresentationModels.map((attrModel) => {
       if (attrModel.key === modelKey) { // model identified by its key
-        console.error('New type for ', attrModel, type)
         return {
           ...attrModel,
           sortOrder: type,

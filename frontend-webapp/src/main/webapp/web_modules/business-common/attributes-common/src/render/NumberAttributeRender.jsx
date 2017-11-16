@@ -17,8 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import isNumber from 'lodash/isNumber'
-import isString from 'lodash/isString'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import messages from '../i18n'
@@ -29,7 +27,7 @@ import styles from '../styles'
  *
  * @author Sébastien binda
  */
-class NumberAttributeRender extends React.Component {
+export class NumberAttributeRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

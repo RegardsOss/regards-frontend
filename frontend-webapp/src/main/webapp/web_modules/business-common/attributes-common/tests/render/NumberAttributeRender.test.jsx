@@ -18,9 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { LinkComponent } from '@regardsoss/components'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { UrlAttributeRender } from '../../src/render/UrlAttributeRender'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { NumberAttributeRender } from '../../src/render/NumberAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -29,23 +28,28 @@ const context = buildTestContext(styles)
  * Tests for AttributeConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing UrlAttributeRender', () => {
+describe('[ATTRIBUTES COMMON] Testing NumberAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(UrlAttributeRender)
+    assert.isDefined(NumberAttributeRender)
   })
 
   it('Should render no data', () => {
-    const wrapper = shallow(<UrlAttributeRender />, { context })
-    assert.lengthOf(wrapper.find(LinkComponent), 0, 'Link should not be rendered when no data')
+    const wrapper = shallow(<NumberAttributeRender />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'shoud show no data text')
   })
 
-  it('Should render link to URL when available', () => {
-    const wrapper = shallow(<UrlAttributeRender value="http://www.google.com/bill" />, { context })
-    const linkWrapper = wrapper.find(LinkComponent)
-    assert.lengthOf(linkWrapper, 1, 'Link should be rendered')
-    assert.equal(linkWrapper.props().link, 'http://www.google.com/bill', 'Link should be rendered')
+  it('Should render string data directly (avoids useless parsing)', () => {
+    const props = { value: '156' }
+    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), '156', 'There should be an integer value rendered')
+  })
+
+  it('Should render number data', () => {
+    const props = { value: 156 }
+    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), '156', 'There should be an integer value rendered')
   })
 })

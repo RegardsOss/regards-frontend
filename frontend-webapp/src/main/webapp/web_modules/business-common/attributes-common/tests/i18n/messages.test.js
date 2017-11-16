@@ -15,10 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-const PAGE_SIZE_MULTIPLICATOR = 11
+describe('[Entities Common] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-export default {
-  PAGE_SIZE_MULTIPLICATOR,
-}
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

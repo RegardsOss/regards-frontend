@@ -30,7 +30,7 @@ class AccessRightsTableEditAction extends React.Component {
 
   static propTypes = {
     // from table cell API
-    entity: DataManagementShapes.Dataset,
+    entity: DataManagementShapes.Dataset.isRequired,
     // props
     onEdit: PropTypes.func.isRequired,
     accessRights: DataManagementShapes.AccessRightList,

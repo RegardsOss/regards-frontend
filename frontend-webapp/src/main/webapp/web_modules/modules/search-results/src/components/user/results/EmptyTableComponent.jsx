@@ -16,36 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { LinkComponent } from '@regardsoss/components'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import messages from '../i18n'
-
+import { i18nContextType } from '@regardsoss/i18n'
+import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import { NoContentComponent } from '@regardsoss/components'
 /**
- * Component to display url link attributes group value
- *
- * @author Sébastien binda
- */
-export class UrlAttributeRender extends React.Component {
+* Shows empty component
+* @author Raphaël Mechali
+*/
+class EmptyTableComponent extends React.Component {
 
   static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    value: PropTypes.string,
+    // no props
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
+
   render() {
-    const { value } = this.props
-    return value ? (
-      <LinkComponent
-        target="_blank"
-        rel="noopener noreferrer"
-        link={value}
-      />) : null
+    const { intl: { formatMessage } } = this.context
+    return (
+      <NoContentComponent
+        title={formatMessage({ id: 'results.no.content.title' })}
+        message={formatMessage({ id: 'results.no.content.subtitle' })}
+        Icon={Disatisfied}
+      />)
   }
-
 }
-
-export default withI18n(messages, true)(UrlAttributeRender)
+export default EmptyTableComponent

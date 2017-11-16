@@ -30,6 +30,9 @@ import styles from '../styles'
  * @return formatted date text if valid or null if invalid
  */
 export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, dateText) => {
+  if (!dateText) {
+    return null
+  }
   const dateWrapper = new Date(dateText)
   if (!isNaN(dateWrapper.getDate())) {
     return formatMessage({ id: 'attribute.render.date.value' }, {
@@ -45,7 +48,7 @@ export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, date
  *
  * @author Sébastien binda
  */
-class DateAttributeRender extends React.Component {
+export class DateAttributeRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.string,
