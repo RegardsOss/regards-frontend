@@ -35,17 +35,17 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
 
   it('Render properly', () => {
     const props = {
-      onSubmit: () => {},
-      onCancel: () => {},
+      onSubmit: () => { },
+      onCancel: () => { },
       currentAccessRight: DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight').content,
       pluginConfigurationList: {},
       pluginMetaDataList: {},
       // from reduxForm
       submitting: false,
       invalid: false,
-      handleSubmit: () => {},
-      initialize: () => {},
-      change: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
+      change: () => { },
     }
     const enzymeWrapper = shallow(<AccessRightFormComponent {...props} />, { context, lifecycleExperimental: true })
     expect(enzymeWrapper.find(Field)).to.have.length(2)
@@ -55,17 +55,17 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight').content
     accessRight.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
     const props = {
-      onSubmit: () => {},
-      onCancel: () => {},
+      onSubmit: () => { },
+      onCancel: () => { },
       currentAccessRight: accessRight,
       pluginConfigurationList: {},
       pluginMetaDataList: {},
       // from reduxForm
       submitting: false,
       invalid: false,
-      handleSubmit: () => {},
-      initialize: () => {},
-      change: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
+      change: () => { },
     }
     const enzymeWrapper = shallow(<AccessRightFormComponent {...props} />, { context, lifecycleExperimental: true })
     const formFields = enzymeWrapper.find(Field)
@@ -78,17 +78,17 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight').content
     accessRight.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_ACCESS
     const props = {
-      onSubmit: () => {},
-      onCancel: () => {},
+      onSubmit: () => { },
+      onCancel: () => { },
       currentAccessRight: accessRight,
       pluginConfigurationList: {},
       pluginMetaDataList: {},
       // from reduxForm
       submitting: false,
       invalid: false,
-      handleSubmit: () => {},
-      initialize: () => {},
-      change: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
+      change: () => { },
     }
     const enzymeWrapper = shallow(<AccessRightFormComponent {...props} />, { context, lifecycleExperimental: true })
     const formFields = enzymeWrapper.find(Field)
