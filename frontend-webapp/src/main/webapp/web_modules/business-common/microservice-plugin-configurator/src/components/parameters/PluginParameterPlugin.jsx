@@ -36,13 +36,13 @@ import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
-import PluginMetaDataSelectors from '../../../model/plugin/PluginMetaDataSelectors'
-import { buildMenuItemPrimaryText, getFieldName } from './utils'
-import moduleStyles from '../../../styles/styles'
+import { pluginMetaDataSelectors } from '../../clients/PluginMetadataClient'
+import { buildMenuItemPrimaryText, getFieldName } from './util'
+import moduleStyles from '../../styles/styles'
 import {
   pluginConfigurationActions,
   pluginConfigurationSelectors,
-} from '../../../clients/PluginConfigurationClient'
+} from '../../clients/PluginConfigurationClient'
 
 const { required, string } = ValidationHelpers
 
@@ -207,8 +207,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = (state, ownProps) => ({
-  pluginMetaDataList: PluginMetaDataSelectors.getList(state),
-  pluginConfigurationList: pluginConfigurationSelectors.getListActiveAndSorted(state),
+  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
+  pluginConfigurationList: pluginMetaDataSelectors.getListActiveAndSorted(state),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginParameterPlugin)

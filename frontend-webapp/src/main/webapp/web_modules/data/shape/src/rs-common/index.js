@@ -19,7 +19,7 @@
 
 import PluginParameterContent from './Plugin/PluginParameter'
 import { PluginMetaDataContent, PluginMetaData, PluginMetaDataList, PluginMetaDataArray } from './Plugin/PluginMetaData'
-import { PluginConfiguration, PluginConfigurationList, PluginConfigurationArray } from './Plugin/PluginConfiguration'
+import { PluginConfiguration, PluginConfigurationContent, PluginConfigurationList, PluginConfigurationArray } from './Plugin/PluginConfiguration'
 import PluginParameterType from './Plugin/PluginParameterType'
 
 import getChainableTypeChecker from './ChainableTypeChecker'
@@ -35,6 +35,7 @@ export default {
   PluginMetaDataList,
   PluginMetaDataArray,
   PluginConfiguration,
+  PluginConfigurationContent,
   PluginConfigurationList,
   PluginConfigurationArray,
 

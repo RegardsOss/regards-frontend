@@ -31,14 +31,16 @@ function createComponent(MaterialUIComponent, mapProps) {
     getRenderedComponent() {
       // legacy from material-ui
       // eslint-disable-next-line react/no-string-refs
-      return this.refs.component
+      return this.childRef
     }
 
     render() {
-      return createElement(MaterialUIComponent, {
-        ...mapProps(this.props),
-        ref: 'component',
-      })
+      return (
+      <MaterialUIComponent
+        ref={(ref) => { this.childRef=ref }}
+                           {...mapProps(this.props)}
+      />
+      )
     }
   }
   InputComponent.displayName = `ReduxFormMaterialUI${MaterialUIComponent.name}`

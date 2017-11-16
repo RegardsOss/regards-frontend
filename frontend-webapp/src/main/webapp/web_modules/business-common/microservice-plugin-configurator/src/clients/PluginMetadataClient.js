@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,16 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { processingChainReducer } from './clients/ProcessingChainClient'
-import { tableReducer } from './clients/TableClient'
-import { PluginConfiguratorReducer } from '@regardsoss/microservice-plugin-configurator'
+ */
+import concat from 'lodash/concat'
+import { CommonClient } from '@regardsoss/client'
 
-const ingestManagementReducer = combineReducers({
-  chain: processingChainReducer,
-  'processing-chain-table': tableReducer,
-  'pluginConfigurator' : PluginConfiguratorReducer,
-})
+/**
+ * Plugin Metadata entities client.
+ *
+ * @author Sébastien Binda
+ */
+const ENTITIES_STORE_PATH = ['plugin-metadata']
+const REDUX_ACTION_NAMESPACE = 'common/pluginMetadata'
 
-export default ingestManagementReducer
+const pluginMetadataReducer = CommonClient.PluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
+const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
+const pluginMetadataSelectorBuilder = (paths) => {
+  return CommonClient.PluginMetaDataSelectors(concat(paths,ENTITIES_STORE_PATH))
+}
+
+
+export default {
+  pluginMetadataReducer,
+  pluginMetadataActions,
+  pluginMetadataSelectorBuilder,
+}

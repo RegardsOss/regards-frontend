@@ -66,7 +66,7 @@ const buildParameterList = (pluginParameterList, pluginParameterTypeList) => {
 const mapPluginParameterTypeToPluginParameter = (pluginParameterType, pluginConfiguration) => {
   let pluginParameter
   if (pluginConfiguration) {
-    pluginParameter = find(pluginConfiguration.content.parameters, el => el.name === pluginParameterType.name)
+    pluginParameter = find(pluginConfiguration.parameters, el => el.name === pluginParameterType.name)
     if (isUndefined(pluginParameter) && !pluginParameterType.optional) {
       throw new Error("The plugin configuration the server returned is in an invalid state: the plugin conf doesn't contain the parameter expected")
     } else if (isUndefined(pluginParameter)) {
@@ -78,7 +78,7 @@ const mapPluginParameterTypeToPluginParameter = (pluginParameterType, pluginConf
   return pluginParameter
 }
 
-export {
+export default {
   parameterTypeToDefaultParameter,
   buildDefaultParameterList,
   buildParameterList,

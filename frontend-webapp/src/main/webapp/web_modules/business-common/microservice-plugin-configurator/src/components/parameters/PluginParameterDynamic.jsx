@@ -26,8 +26,8 @@ import { ValidationHelpers } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import DynamicValueCreateComponent from './DynamicValueCreateComponent'
-import { pluginParameterComponentPropTypes, getFieldName } from './utils'
-import moduleStyles from '../../../styles/styles'
+import { pluginParameterComponentPropTypes, getFieldName } from './util'
+import moduleStyles from '../../styles/styles'
 
 const { required, string } = ValidationHelpers
 

@@ -17,21 +17,27 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import trim from 'lodash/trim'
 import Subheader from 'material-ui/Subheader'
-import Checkbox from 'material-ui/Checkbox'
 import { ShowableAtRender } from '@regardsoss/components'
-import { Field, RenderCheckbox } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { pluginParameterComponentPropTypes, getFieldName } from './utils'
-import moduleStyles from '../../../styles/styles'
+import { pluginParameterComponentPropTypes, getFieldName } from './util'
+import moduleStyles from '../../styles/styles'
+
+const { required, string } = ValidationHelpers
 
 /**
- * Renders a form field in view or edit mode for a plugin parameter of types
- * java.lang.Boolean
+ * Renders plugin parameter which is
+ * - static
+ * - in edit/crete/copy mode
+ * - of types
+ * java.lang.String
+ * java.lang.Character
  *
  * @author Xavier-Alexandre Brochard
  */
-export class PluginParameterBoolean extends React.Component {
+export class PluginParameterString extends React.Component {
 
   static propTypes = pluginParameterComponentPropTypes
 
@@ -39,50 +45,43 @@ export class PluginParameterBoolean extends React.Component {
     ...themeContextType,
   }
 
-  static defaultProps = {
-    mode: 'view',
-  }
-
-  format = val => val === 'true'
-
-  parse = val => val.toString()
-
   render() {
-    const { pluginParameter, pluginParameterType, pluginMetaData, mode } = this.props
+    const { pluginParameter, pluginParameterType, mode, pluginMetaData } = this.props
+    const { muiTheme } = this.context
     const isView = mode === 'view'
-    const styles = moduleStyles(this.context.muiTheme)
+    const validators = [string]
+    const styles = moduleStyles(muiTheme)
+
     let label = pluginParameterType.name
     if (pluginParameterType && !pluginParameterType.optional) {
+      validators.push(required)
       label += '*'
     }
 
     const value = pluginParameter ? pluginParameter.value : get(pluginParameterType, 'defaultValue')
 
     return (
-      <div style={styles.pluginParameter.wrapper}>
-        <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
-        <ShowableAtRender show={isView} >
-          <Checkbox
-            checked={this.format(value)}
-            disabled
-          />
+      <div>
+        <ShowableAtRender show={isView}>
+          <div style={styles.pluginParameter.wrapper}>
+            <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
+            {value}
+          </div>
         </ShowableAtRender>
-        <ShowableAtRender show={!isView} >
+        <ShowableAtRender show={!isView}>
           <Field
             name={getFieldName(pluginParameterType.name, pluginMetaData, '.value')}
-            format={this.format}
-            parse={this.parse}
-            component={RenderCheckbox}
-            type={'boolean'}
-            style={styles.pluginConfiguration.form.toggle}
-            defaultChecked={this.format(value)}
+            fullWidth
+            component={RenderTextField}
+            type={'text'}
+            label={label}
+            validate={validators}
+            normalize={trim}
           />
         </ShowableAtRender>
-
       </div>
     )
   }
 }
 
-
-export default PluginParameterBoolean
+export default PluginParameterString

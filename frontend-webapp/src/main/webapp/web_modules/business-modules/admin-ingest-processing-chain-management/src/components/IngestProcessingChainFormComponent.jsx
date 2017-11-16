@@ -17,12 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import trim from 'lodash/trim'
+import get from 'lodash/get'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm } from '@regardsoss/form-utils'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { PluginFormComponent } from './PluginFormComponent'
+import IngestProcessingPluginTypes from './IngestProcessingPluginType'
 
 /**
  * Display edit and create project form
@@ -67,6 +70,13 @@ export class IngestProcessingChainFormComponent extends React.Component {
   render() {
     const { invalid, submitting, processingChain} = this.props
     const { intl: { formatMessage } } = this.context
+    const preprocessingPlugin = get(processingChain,"preprocessingPlugin",null)
+    const validationPlugin = get(processingChain,"validationPlugin",null)
+    const generationPlugin = get(processingChain,"generationPlugin",null)
+    const tagPlugin = get(processingChain,"tagPlugin",null)
+    const postprocessingPlugin = get(processingChain,"postprocessingPlugin",null)
+
+
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -97,6 +107,51 @@ export class IngestProcessingChainFormComponent extends React.Component {
               type="text"
               label={formatMessage({ id: 'processing-chain.form.create.input.description' })}
               normalize={trim}
+            />
+            <PluginFormComponent
+              key={"preprocessing"}
+              title={"Choose a pre-processing plugin : "}
+              ingestPluginType={IngestProcessingPluginTypes.PRE_PROCESSING}
+              pluginConf={preprocessingPlugin}
+              fieldNamePrefix={"preprocessingPlugin"}
+              reduxFormChange={this.props.change}
+              reduxFormInitialize={this.props.initialize}
+            />
+            <PluginFormComponent
+              key={"validation"}
+              title={"Choose a validation plugin : "}
+              ingestPluginType={IngestProcessingPluginTypes.VALIDATION}
+              pluginConf={validationPlugin}
+              fieldNamePrefix={"validationPlugin"}
+              reduxFormChange={this.props.change}
+              reduxFormInitialize={this.props.initialize}
+              />
+            <PluginFormComponent
+              key={"generation"}
+              title={"Choose a generation plugin : "}
+              ingestPluginType={IngestProcessingPluginTypes.GENERATION}
+              pluginConf={generationPlugin}
+              fieldNamePrefix={"generationPlugin"}
+              reduxFormChange={this.props.change}
+              reduxFormInitialize={this.props.initialize}
+            />
+            <PluginFormComponent
+              key={"tag"}
+              title={"Choose a tag plugin : "}
+              ingestPluginType={IngestProcessingPluginTypes.POST_PROCESSING}
+              pluginConf={tagPlugin}
+              fieldNamePrefix={"generationPlugin"}
+              reduxFormChange={this.props.change}
+              reduxFormInitialize={this.props.initialize}
+            />
+            <PluginFormComponent
+              key={"postprocessing"}
+              title={"Choose a post-processing plugin : "}
+              ingestPluginType={"fr.cnes.regards.modules.ingest.domain.plugin.ISipPreprocessing"}
+              pluginConf={postprocessingPlugin}
+              fieldNamePrefix={"postprocessingPlugin"}
+              reduxFormChange={this.props.change}
+              reduxFormInitialize={this.props.initialize}
             />
           </CardText>
           <CardActions>

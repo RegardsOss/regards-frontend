@@ -22,7 +22,7 @@ import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsos
 import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import moduleStyles from '../../../styles/styles'
+import moduleStyles from '../../styles/styles'
 
 const { validRequiredString } = ValidationHelpers
 

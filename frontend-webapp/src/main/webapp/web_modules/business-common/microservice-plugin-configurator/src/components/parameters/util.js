@@ -18,7 +18,6 @@
  **/
 import findIndex from 'lodash/findIndex'
 import { CommonShapes } from '@regardsoss/shape'
-
 /**
  * Builds a node allowing to display a left & a right text in the {@code primaryText} of a {@link MenuItem}.
  *
@@ -32,12 +31,10 @@ const buildMenuItemPrimaryText = (leftContent, rightContent) => (
     </span>
   </div>
 )
-
 const getFieldName = (name, pluginMetaData, suffix) => {
-  const index = findIndex(pluginMetaData.content.parameters, ['name', name])
+  const index = findIndex(pluginMetaData.parameters, ['name', name])
   return `parameters.${index}${suffix}`
 }
-
 /**
  * Shared prop
  */
@@ -52,11 +49,9 @@ const pluginParameterComponentPropTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
 }
-
 export {
   buildMenuItemPrimaryText,
   pluginParameterComponentPropTypes,
   getFieldName,
 }
-
 export default buildMenuItemPrimaryText

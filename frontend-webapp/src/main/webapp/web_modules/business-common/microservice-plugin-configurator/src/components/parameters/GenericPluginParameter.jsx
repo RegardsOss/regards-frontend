@@ -21,7 +21,7 @@ import PluginParameterNumber from './PluginParameterNumber'
 import PluginParameterBoolean from './PluginParameterBoolean'
 import PluginParameterPlugin from './PluginParameterPlugin'
 import PluginParameterDynamic from './PluginParameterDynamic'
-import { pluginParameterComponentPropTypes } from './utils'
+import { pluginParameterComponentPropTypes } from './util'
 
 /**
  * Adapter for generic use of {@link PluginParameter[Category]} components

@@ -16,31 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Subheader from 'material-ui/Subheader'
 import get from 'lodash/get'
+import Subheader from 'material-ui/Subheader'
+import Checkbox from 'material-ui/Checkbox'
 import { ShowableAtRender } from '@regardsoss/components'
-import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
-import { pluginParameterComponentPropTypes, getFieldName } from './utils'
-import moduleStyles from '../../../styles/styles'
-
-const { required, string } = ValidationHelpers
+import { pluginParameterComponentPropTypes, getFieldName } from './util'
+import moduleStyles from '../../styles/styles'
 
 /**
- * Renders a plugin parameter which is
- * - static
- * - in edit/create/copy mode
- * - of types
- * 'java.lang.Byte'
- * 'java.lang.Integer'
- * 'java.lang.Long'
- * 'java.lang.Float'
- * 'java.lang.Double'
- * 'java.lang.Short'
+ * Renders a form field in view or edit mode for a plugin parameter of types
+ * java.lang.Boolean
  *
  * @author Xavier-Alexandre Brochard
  */
-export class PluginParameterNumber extends React.Component {
+export class PluginParameterBoolean extends React.Component {
 
   static propTypes = pluginParameterComponentPropTypes
 
@@ -48,45 +39,50 @@ export class PluginParameterNumber extends React.Component {
     ...themeContextType,
   }
 
-  format = val => parseFloat(val)
+  static defaultProps = {
+    mode: 'view',
+  }
+
+  format = val => val === 'true'
+
+  parse = val => val.toString()
 
   render() {
-    const { pluginParameter, pluginParameterType, mode, pluginMetaData } = this.props
-    const { muiTheme } = this.context
+    const { pluginParameter, pluginParameterType, pluginMetaData, mode } = this.props
     const isView = mode === 'view'
-    const validators = [string] // Yes a String, because we store the number in string in the model.
-    const styles = moduleStyles(muiTheme)
-
+    const styles = moduleStyles(this.context.muiTheme)
     let label = pluginParameterType.name
     if (pluginParameterType && !pluginParameterType.optional) {
-      validators.push(required)
       label += '*'
     }
 
     const value = pluginParameter ? pluginParameter.value : get(pluginParameterType, 'defaultValue')
 
     return (
-      <div>
-        <ShowableAtRender show={isView}>
-          <div style={styles.pluginParameter.wrapper}>
-            <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
-            {value}
-          </div>
+      <div style={styles.pluginParameter.wrapper}>
+        <Subheader style={styles.pluginParameter.label}>{label}</Subheader>
+        <ShowableAtRender show={isView} >
+          <Checkbox
+            checked={this.format(value)}
+            disabled
+          />
         </ShowableAtRender>
-        <ShowableAtRender show={!isView}>
+        <ShowableAtRender show={!isView} >
           <Field
             name={getFieldName(pluginParameterType.name, pluginMetaData, '.value')}
             format={this.format}
-            fullWidth
-            component={RenderTextField}
-            type={'number'}
-            label={label}
-            validate={validators}
+            parse={this.parse}
+            component={RenderCheckbox}
+            type={'boolean'}
+            style={styles.pluginConfiguration.form.toggle}
+            defaultChecked={this.format(value)}
           />
         </ShowableAtRender>
+
       </div>
     )
   }
 }
 
-export default PluginParameterNumber
+
+export default PluginParameterBoolean
