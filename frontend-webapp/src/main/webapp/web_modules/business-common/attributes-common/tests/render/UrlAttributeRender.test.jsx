@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { LinkComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import UrlAttributeRender from '../../src/render/UrlAttributeRender'
+import { UrlAttributeRender } from '../../src/render/UrlAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -33,21 +33,19 @@ describe('[ATTRIBUTES COMMON] Testing UrlAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should render an url html link', () => {
-    const props = {
-      attributes: {
-        'test.attribute': 'http://plop.test',
-      },
-    }
-    const wrapper = shallow(<UrlAttributeRender {...props} />, { context })
+  it('should exists', () => {
+    assert.isDefined(UrlAttributeRender)
+  })
 
-    const link = wrapper.find(LinkComponent)
-    assert.lengthOf(link, 1, 'There should be a LinkComponent rendered')
+  it('Should render no data', () => {
+    const wrapper = shallow(<UrlAttributeRender />, { context })
+    assert.lengthOf(wrapper.find(LinkComponent), 0, 'Link should not be rendered when no data')
+  })
 
-    const linkWrapper = link.dive({ context })
-    const linkHref = linkWrapper.find('a')
-    const value = linkHref.text()
-    assert.equal(value, 'http://plop.test', 'Error rendering href link')
-    assert.lengthOf(linkHref, 1, 'There should be an html link rendered')
+  it('Should render link to URL when available', () => {
+    const wrapper = shallow(<UrlAttributeRender value="http://www.google.com/bill" />, { context })
+    const linkWrapper = wrapper.find(LinkComponent)
+    assert.lengthOf(linkWrapper, 1, 'Link should be rendered')
+    assert.equal(linkWrapper.props().link, 'http://www.google.com/bill', 'Link should be rendered')
   })
 })

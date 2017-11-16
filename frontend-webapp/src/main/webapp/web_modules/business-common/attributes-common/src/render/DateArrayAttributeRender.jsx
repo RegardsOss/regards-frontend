@@ -29,7 +29,7 @@ import styles from '../styles'
  *
  * @author Sébastien binda
  */
-class DateArrayAttributeRender extends React.Component {
+export class DateArrayAttributeRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),
@@ -46,9 +46,7 @@ class DateArrayAttributeRender extends React.Component {
     const { intl, moduleTheme: { textRenderCell } } = this.context
     const noValueText = intl.formatMessage({ id: 'attribute.render.no.value.label' })
     const textValue = (value || []).map(dateText => getFormattedDate(intl, dateText) || noValueText)
-      .join(intl.formatMessage({ id: 'attribute.render.array.values.separator' })) ||
-      intl.formatMessage({ id: 'attribute.render.no.value.label' })
-
+      .join(intl.formatMessage({ id: 'attribute.render.array.values.separator' })) || noValueText
 
     return (
       <div style={textRenderCell} title={textValue}>

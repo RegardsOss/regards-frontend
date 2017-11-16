@@ -19,9 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { FormattedDate, FormattedTime } from 'react-intl'
-import DateAttributeRender from '../../src/render/DateAttributeRender'
+import { DateAttributeRender } from '../../src/render/DateAttributeRender'
 import styles from '../../src/styles'
+import { DateArrayAttributeRender } from '../../src/render/DateArrayAttributeRender'
 
 const context = buildTestContext(styles)
 
@@ -32,44 +32,25 @@ const context = buildTestContext(styles)
 describe('[ATTRIBUTES COMMON] Testing DateAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
-  it('Should render a date value', () => {
-    const props = {
-      attributes: {
-        'test.attribute': '2017-01-07T12:00:00',
-      },
-    }
-    const wrapper = shallow(<DateAttributeRender {...props} />, { context })
 
-    const dates = wrapper.find(FormattedDate)
-    const times = wrapper.find(FormattedTime)
-    assert.lengthOf(dates, 1, 'There should be 3 formatted date elements rendered')
-    assert.lengthOf(times, 1, 'There should be 3 formatted times elements rendered')
+  it('should exists', () => {
+    assert.isDefined(DateArrayAttributeRender)
   })
 
-  it('Should render an empty value', () => {
-    const props = {
-      attributes: {
-        'test.attribute': 'error',
-      },
-    }
-    const wrapper = shallow(<DateAttributeRender {...props} />, { context })
-
-    const value = wrapper.text()
-    assert.equal(value, '', 'There should be an empty value rendered')
+  it('Should render a no data / unparsable correctly', () => {
+    // undefined
+    let wrapper = shallow(<DateAttributeRender />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined date should display no data text')
+    // not parsable
+    wrapper = shallow(<DateAttributeRender value="DDD" />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined date should display no data text')
   })
 
-  it('Should render multiples dates', () => {
+  it('Should internationalize a valid date', () => {
     const props = {
-      attributes: {
-        'test.attribute': '2017-01-07T12:00:00',
-        'test.attribute2': '2017-01-07T12:00:00',
-      },
+      value: '2017-01-07T12:00:00',
     }
     const wrapper = shallow(<DateAttributeRender {...props} />, { context })
-
-    const dates = wrapper.find(FormattedDate)
-    const times = wrapper.find(FormattedTime)
-    assert.lengthOf(dates, 2, 'There should be 2 formatted date elements rendered')
-    assert.lengthOf(times, 2, 'There should be 2 formatted times elements rendered')
+    assert.include(wrapper.text(), 'attribute.render.date.value', 'There should be an empty value rendered')
   })
 })

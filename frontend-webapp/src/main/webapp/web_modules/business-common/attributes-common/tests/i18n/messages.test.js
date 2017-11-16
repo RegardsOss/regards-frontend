@@ -15,37 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { LinkComponent } from '@regardsoss/components'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import messages from '../i18n'
-
-/**
- * Component to display url link attributes group value
- *
- * @author Sébastien binda
  */
-export class UrlAttributeRender extends React.Component {
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-  static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    value: PropTypes.string,
-  }
+describe('[Entities Common] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
-  render() {
-    const { value } = this.props
-    return value ? (
-      <LinkComponent
-        target="_blank"
-        rel="noopener noreferrer"
-        link={value}
-      />) : null
-  }
-
-}
-
-export default withI18n(messages, true)(UrlAttributeRender)
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import StringAttributeRender from '../../src/render/StringAttributeRender'
+import { StringAttributeRender } from '../../src/render/StringAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -32,27 +32,27 @@ describe('[ATTRIBUTES COMMON] Testing StringAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should render a string value', () => {
-    const props = {
-      attributes: {
-        'test.attribute': 'render test string',
-      },
-    }
-    const wrapper = shallow(<StringAttributeRender {...props} />, { context })
-
-    const value = wrapper.text()
-    assert.equal(value, 'render test string', 'There should be a string value rendered')
+  it('should exists', () => {
+    assert.isDefined(StringAttributeRender)
   })
 
-  it('Should render a string value for boolean value', () => {
-    const props = {
-      attributes: {
-        'test.attribute': true,
-      },
-    }
-    const wrapper = shallow(<StringAttributeRender {...props} />, { context })
+  it('Should render a no data value', () => {
+    // undefined
+    let wrapper = shallow(<StringAttributeRender />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined value => no data text')
+    // null
+    const props = { value: null }
+    wrapper = shallow(<StringAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Null value => no data text')
+    // empty
+    const props2 = { value: '' }
+    wrapper = shallow(<StringAttributeRender {...props2} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Null value => no data text')
+  })
 
-    const value = wrapper.text()
-    assert.equal(value, 'true', 'There should be a string value rendered')
+  it('Should render a string value', () => {
+    const props = { value: 'Any value' }
+    const wrapper = shallow(<StringAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), props.value)
   })
 })

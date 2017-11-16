@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import BooleanAttributeRender from '../../src/render/BooleanAttributeRender'
+import { BooleanAttributeRender } from '../../src/render/BooleanAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -35,38 +35,18 @@ describe('[ATTRIBUTES COMMON] Testing BooleanAttributeRender', () => {
   it('should exists', () => {
     assert.isDefined(BooleanAttributeRender)
   })
+
   it('Should render a boolean values', () => {
-    const props = {
-      value: true,
-    }
-    const wrapper = shallow(<BooleanAttributeRender {...props} />, { context })
+    // render true
+    const wrapper = shallow(<BooleanAttributeRender value />, { context })
+    assert.include(wrapper.text(), String(true), 'True value should be rendered')
+    // render false
     wrapper.setProps({ value: false })
-    const value = wrapper.text()
-    assert.equal(value, 'true', 'There should be a boolean value renderedee')
+    assert.include(wrapper.text(), String(false), 'False value should be rendered')
   })
 
-  it('Should render an empty value for a string', () => {
-    const props = {
-      attributes: {
-        'test.attribute': 'plop',
-      },
-    }
-    const wrapper = shallow(<BooleanAttributeRender {...props} />, { context })
-
-    const value = wrapper.text()
-    assert.equal(value, '', 'There should be an empty value rendered')
-  })
-
-  it('Should render two boolean values', () => {
-    const props = {
-      attributes: {
-        'test.attribute': true,
-        'test.attribute2': false,
-      },
-    }
-    const wrapper = shallow(<BooleanAttributeRender {...props} />, { context })
-
-    const value = wrapper.text()
-    assert.equal(value, 'truefalse', 'There should be two boolean value rendered')
+  it('Should render an empty value', () => {
+    const wrapper = shallow(<BooleanAttributeRender />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'No data should be internationalized')
   })
 })

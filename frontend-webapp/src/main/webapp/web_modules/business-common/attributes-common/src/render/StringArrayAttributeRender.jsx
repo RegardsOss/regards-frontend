@@ -27,7 +27,7 @@ import styles from '../styles'
  *
  * @author Sébastien binda
  */
-class StringArrayAttributeRender extends React.Component {
+export class StringArrayAttributeRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),

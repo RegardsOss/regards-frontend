@@ -27,7 +27,7 @@ import styles from '../styles'
  *
  * @author Sébastien binda
  */
-class NumberAttributeRender extends React.Component {
+export class NumberAttributeRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

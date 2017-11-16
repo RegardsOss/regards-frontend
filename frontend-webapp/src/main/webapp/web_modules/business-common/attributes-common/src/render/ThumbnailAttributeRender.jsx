@@ -33,7 +33,7 @@ import styles from '../styles'
  *
  * @author Sébastien Binda
  */
-class ThumbnailAttributeRender extends React.Component {
+export class ThumbnailAttributeRender extends React.Component {
 
   static propTypes = {
     value: CatalogShapes.entityFiles,

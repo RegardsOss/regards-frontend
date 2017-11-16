@@ -18,9 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { FormattedDate, FormattedTime } from 'react-intl'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import DateRangeAttributeRender from '../../src/render/DateRangeAttributeRender'
+import { DateRangeAttributeRender } from '../../src/render/DateRangeAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -34,54 +33,86 @@ describe('[ATTRIBUTES COMMON] Testing DateRangeAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should render an array of date', () => {
+  it('should exists', () => {
+    assert.isDefined(DateRangeAttributeRender)
+  })
+
+  it('Should render correctly a no data range', () => {
+    // undefined
+    let wrapper = shallow(<DateRangeAttributeRender />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined range should display no data text')
+
+    // null bounds
     const props = {
-      attributes: {
-        'test.attribute': {
-          lowerBound: '2017-01-07T12:00:00',
-          upperBound: '2017-01-07T15:00:00',
-        },
+      value: {
+        lowerBound: null,
+        upperBound: null,
+      },
+    }
+    wrapper = shallow(<DateRangeAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Null range should display no data text')
+
+    const props2 = {
+      value: {
+        lowerBound: 'DDD',
+        upperBound: 'CCC',
+      },
+    }
+    wrapper = shallow(<DateRangeAttributeRender {...props2} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Non parsable range should display no data text')
+  })
+
+  it('Should render correctly a lower bound range (when upper is undefined or not parsable', () => {
+    // undefined upper
+    const props = {
+      value: {
+        lowerBound: '2017-01-07T12:00:00',
+      },
+    }
+    let wrapper = shallow(<DateRangeAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.range.lower.only.label', 'Undefined upper bound should show a lower range text')
+
+    // non parsable  upper
+    const props2 = {
+      value: {
+        lowerBound: '2017-01-07T12:00:00',
+        upperBound: 'CCC',
+      },
+    }
+    wrapper = shallow(<DateRangeAttributeRender {...props2} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.range.lower.only.label', 'Non parsable upper bound should show a lower range text')
+  })
+
+  it('Should render correctly an upper bound range (when lower is undefined or not parsable', () => {
+    // undefined upper
+    const props = {
+      value: {
+        upperBound: '2017-01-07T12:00:00',
+      },
+    }
+    let wrapper = shallow(<DateRangeAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.range.upper.only.label', 'Undefined lower bound should show a lower range text')
+
+    // non parsable  upper
+    const props2 = {
+      value: {
+        lowerBound: 'CCC',
+        upperBound: '2017-01-07T12:00:00',
+      },
+    }
+    wrapper = shallow(<DateRangeAttributeRender {...props2} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.range.upper.only.label', 'Non parsable lower bound should show a lower range text')
+  })
+
+  it('Should render correctly a complete range when both bounds can be parsed', () => {
+    // undefined upper
+    const props = {
+      value: {
+        lowerBound: '2017-01-07T06:00:00',
+        upperBound: '2017-01-07T12:00:00',
       },
     }
     const wrapper = shallow(<DateRangeAttributeRender {...props} />, { context })
-
-    const dates = wrapper.find(FormattedDate)
-    const times = wrapper.find(FormattedTime)
-    assert.lengthOf(dates, 2, 'There should be 3 formatted date elements rendered')
-    assert.lengthOf(times, 2, 'There should be 3 formatted times elements rendered')
-  })
-
-  it('Should render an empty value', () => {
-    const props = {
-      attributes: {
-        'test.attribute': 'error',
-      },
-    }
-    const wrapper = shallow(<DateRangeAttributeRender {...props} />, { context })
-
-    const value = wrapper.text()
-    assert.equal(value, '', 'There should be an empty value rendered')
-  })
-
-  it('Should render multiples attributes dates arrays', () => {
-    const props = {
-      attributes: {
-        'test.attribute': {
-          lowerBound: '2017-01-07T12:00:00',
-          upperBound: '2017-01-07T15:00:00',
-        },
-        'test.attribute2': {
-          lowerBound: '2017-01-07T12:00:00',
-          upperBound: '2017-01-07T15:00:00',
-        },
-      },
-    }
-    const wrapper = shallow(
-      <DateRangeAttributeRender {...props} />, { context })
-
-    const dates = wrapper.find(FormattedDate)
-    const times = wrapper.find(FormattedTime)
-    assert.lengthOf(dates, 4, 'There should be 3 formatted date elements rendered')
-    assert.lengthOf(times, 4, 'There should be 3 formatted times elements rendered')
+    assert.include(wrapper.text(), 'attribute.render.range.full.label', 'Undefined lower bound should show a lower range text')
   })
 })

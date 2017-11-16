@@ -18,10 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import Avatar from 'material-ui/Avatar'
+import { OBJECT_LINKED_FILE_ENUM } from '@regardsoss/domain/catalog'
 import { CatalogDomain } from '@regardsoss/domain'
-import ThumbnailAttributeRender from '../../src/render/ThumbnailAttributeRender'
+import { ThumbnailAttributeRender } from '../../src/render/ThumbnailAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -34,35 +35,32 @@ describe('[ATTRIBUTES COMMON] Testing ThumbnailAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should render a Thumbmail value', () => {
-    const props = {
-      attributes: {
-        files: {
-          [CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL]: [{ uri: 'http://test.fr' }],
-          [CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA]: [{ uri: 'http://error.fr' }],
-        },
-      },
-      lineHeight: 150,
-    }
-    const wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
-
-    const value = wrapper.find('img')
-    assert.lengthOf(value, 1, 'There should be one image rendered')
+  it('should exists', () => {
+    assert.isDefined(ThumbnailAttributeRender)
   })
 
-  it('Should render an empty value', () => {
-    const props = {
-      attributes: {
-        files: {
-          [CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA]: [{ uri: 'http://test.fr' }],
-          [CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA]: [{ uri: 'http://error.fr' }],
-        },
-      },
-      lineHeight: 150,
+  it('Should render a no data', () => {
+    // undefined value
+    let wrapper = shallow(<ThumbnailAttributeRender />, { context })
+    assert.lengthOf(wrapper.find(NoDataIcon), 1, 'undefined files ==>  no data icon')
+    // null value
+    wrapper = shallow(<ThumbnailAttributeRender value={null} />, { context })
+    assert.lengthOf(wrapper.find(NoDataIcon), 1, 'no file ==>  no data icon')
+    // No thumbnail file in files array
+    const files = {
+      [OBJECT_LINKED_FILE_ENUM.RAWDATA]: [{ uri: 'http://idk.com' }],
     }
-    const wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
+    wrapper = shallow(<ThumbnailAttributeRender value={files} />, { context })
+    assert.lengthOf(wrapper.find(NoDataIcon), 1, 'no thumbnail file ==>  no data icon')
+  })
 
-    const value = wrapper.find(Avatar)
-    assert.lengthOf(value, 0, 'Avatar should not be rendered')
+  it('Should render the first available Thumbmail file', () => {
+    // No thumbnail file in files array
+    const files = {
+      [OBJECT_LINKED_FILE_ENUM.THUMBNAIL]: [{ uri: 'http://rd1.com' }],
+      [OBJECT_LINKED_FILE_ENUM.THUMBNAIL]: [{ uri: 'http://th1.com' }, { uri: 'http://th2.com' }],
+    }
+    const wrapper = shallow(<ThumbnailAttributeRender value={files} />, { context })
+    assert.lengthOf(wrapper.findWhere(n => n.props().src === 'http://th1.com'), 1, 'There should be an image with first thubnail as source')
   })
 })

@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import NumberAttributeRender from '../../src/render/NumberAttributeRender'
+import { NumberAttributeRender } from '../../src/render/NumberAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -32,41 +32,24 @@ describe('[ATTRIBUTES COMMON] Testing NumberAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should render an integer value', () => {
-    const props = {
-      attributes: {
-        'test.attribute': 156,
-      },
-    }
-    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
-
-    const value = wrapper.text()
-    assert.equal(value, '156', 'There should be an integer value rendered')
+  it('should exists', () => {
+    assert.isDefined(NumberAttributeRender)
   })
 
-  it('Should render an empty value', () => {
-    const props = {
-      attributes: {
-        'test.attribute': 'plop',
-      },
-    }
-    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
-
-    const value = wrapper.text()
-    assert.equal(value, '', 'There should be an empty value rendered')
+  it('Should render no data', () => {
+    const wrapper = shallow(<NumberAttributeRender />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'shoud show no data text')
   })
 
-  it('Should render two integer values', () => {
-    const props = {
-      attributes: {
-        'test.attribute': 156,
-        'test.attribute2': 568,
-      },
-    }
-
+  it('Should render string data directly (avoids useless parsing)', () => {
+    const props = { value: '156' }
     const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), '156', 'There should be an integer value rendered')
+  })
 
-    const value = wrapper.text()
-    assert.equal(value, '156568', 'There should be two integer value rendered')
+  it('Should render number data', () => {
+    const props = { value: 156 }
+    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), '156', 'There should be an integer value rendered')
   })
 })

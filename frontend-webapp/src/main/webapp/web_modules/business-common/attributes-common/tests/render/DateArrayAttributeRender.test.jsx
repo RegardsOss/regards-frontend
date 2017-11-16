@@ -18,9 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { FormattedDate, FormattedTime } from 'react-intl'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import DateArrayAttributeRender from '../../src/render/DateArrayAttributeRender'
+import { DateArrayAttributeRender } from '../../src/render/DateArrayAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -37,55 +36,58 @@ describe('[ATTRIBUTES COMMON] Testing DateArrayAttributeRender', () => {
     assert.isDefined(DateArrayAttributeRender)
   })
 
+  it('Should render no data from undefined or empty arrays', () => {
+    // empty array
+    const props = { value: [] }
+    let wrapper = shallow(<DateArrayAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Empty array should be rendered as no data')
+    // undefined
+    wrapper = shallow(<DateArrayAttributeRender />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined/null should be rendered as no data')
+  })
+
   it('Should render an array of date', () => {
     const props = {
-      attributes: {
-        'test.attribute': [
-          '2017-01-07T12:00:00',
-          '2017-01-08T12:00:00',
-          '2017-01-09T12:00:00',
-        ],
-      },
+      value: [
+        '2017-01-07T12:00:00',
+        '2017-01-08T12:00:00',
+        '2017-01-09T12:00:00',
+      ],
     }
     const wrapper = shallow(<DateArrayAttributeRender {...props} />, { context })
+    // when three dates are correctly rendered, there must be two separators and 0 no data text
+    const asText = wrapper.text()
+    assert.notInclude(asText, 'attribute.render.no.value.label', 'There should be 0 no data text')
 
-    const dates = wrapper.find(FormattedDate)
-    const times = wrapper.find(FormattedTime)
-    assert.lengthOf(dates, 3, 'There should be 3 formatted date elements rendered')
-    assert.lengthOf(times, 3, 'There should be 3 formatted times elements rendered')
+    const datesText = asText.split('attribute.render.array.values.separator')
+    assert.lengthOf(datesText, 3, 'There should be 3 dates')
+    datesText.forEach((t, index) => {
+      assert.include(t, 'attribute.render.date.value', `Date at ${index} should be internationalized`)
+    })
   })
 
-  it('Should render an empty value', () => {
+  it('Should render an array with empty and invalid values', () => {
     const props = {
-      attributes: {
-        'test.attribute': 'error',
-      },
+      value: [
+        '2017-01-07T12:00:00', // OK
+        'DDD', // No data
+        '2017-01-09T12:00:00', // OK
+        '65TF', // No data
+        null, // No data
+      ],
     }
     const wrapper = shallow(<DateArrayAttributeRender {...props} />, { context })
 
-    const value = wrapper.text()
-    assert.equal(value, '', 'There should be an empty value rendered')
-  })
-
-  it('Should render multiples attributes dates arrays', () => {
-    const props = {
-      attributes: {
-        'test.attribute': [
-          '2017-01-07T12:00:00',
-          '2017-01-08T12:00:00',
-          '2017-01-09T12:00:00',
-        ],
-        'test.attribute2': [
-          '2017-01-07T12:00:00',
-          '2017-01-08T12:00:00',
-        ],
-      },
-    }
-    const wrapper = shallow(<DateArrayAttributeRender {...props} />, { context })
-
-    const dates = wrapper.find(FormattedDate)
-    const times = wrapper.find(FormattedTime)
-    assert.lengthOf(dates, 5, 'There should be 3 formatted date elements rendered')
-    assert.lengthOf(times, 5, 'There should be 3 formatted times elements rendered')
+    // when three dates are correctly rendered, there must be two separators and 0 no data text
+    const asText = wrapper.text()
+    const datesText = asText.split('attribute.render.array.values.separator')
+    assert.lengthOf(datesText, 5, 'There should be 5 dates')
+    datesText.forEach((t, index) => {
+      if ([0, 2].includes(index)) { // OK date
+        assert.include(t, 'attribute.render.date.value', `Date at ${index} should be internationalized`)
+      } else { // No data
+        assert.include(t, 'attribute.render.no.value.label', `Date at ${index} should be no data`)
+      }
+    })
   })
 })

@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import RangeAttributeRender from '../../src/render/RangeAttributeRender'
+import { RangeAttributeRender } from '../../src/render/RangeAttributeRender'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -33,50 +33,57 @@ describe('[ATTRIBUTES COMMON] Testing RangeAttributeRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should render a range value', () => {
-    const props = {
-      attributes: {
-        'test.attribute': {
-          lowerBound: 156,
-          upperBound: 'test',
-        },
-      },
-    }
-    const wrapper = shallow(<RangeAttributeRender {...props} />, { context })
-
-    const value = wrapper.text()
-    assert.equal(value, '156 - test', 'There should be an integer value renderedee')
+  it('should exists', () => {
+    assert.isDefined(RangeAttributeRender)
   })
 
-  it('Should render an empty value', () => {
+  it('Should render correctly a no data range', () => {
+    // undefined
+    let wrapper = shallow(<RangeAttributeRender />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined range should display no data text')
+
+    // null bounds
     const props = {
-      attributes: {
-        'test.attribute': 'plop',
+      value: {
+        lowerBound: null,
+        upperBound: null,
       },
     }
-    const wrapper = shallow(<RangeAttributeRender {...props} />, { context })
-
-    const value = wrapper.text()
-    assert.equal(value, '', 'There should be an empty value rendered')
+    wrapper = shallow(<RangeAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Null range should display no data text')
   })
 
-  it('Should render two ranged values', () => {
+  it('Should render correctly a lower bound range', () => {
+    // undefined upper
     const props = {
-      attributes: {
-        'test.attribute': {
-          lowerBound: 156,
-          upperBound: 'test',
-        },
-        'test.attribute2': {
-          lowerBound: 222,
-          upperBound: 'other',
-        },
+      value: {
+        lowerBound: 2,
       },
     }
-
     const wrapper = shallow(<RangeAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.range.lower.only.label', 'Undefined upper bound should show a lower range text')
+  })
 
-    const value = wrapper.text()
-    assert.equal(value, '156 - test222 - other', 'There should be two range value rendered')
+  it('Should render correctly an upper bound range (when lower is undefined or not parsable', () => {
+    // undefined upper
+    const props = {
+      value: {
+        upperBound: 'Top',
+      },
+    }
+    const wrapper = shallow(<RangeAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.range.upper.only.label', 'Undefined lower bound should show a lower range text')
+  })
+
+  it('Should render correctly a complete range when both bounds can be parsed', () => {
+    // undefined upper
+    const props = {
+      value: {
+        lowerBound: 'A',
+        upperBound: 36,
+      },
+    }
+    const wrapper = shallow(<RangeAttributeRender {...props} />, { context })
+    assert.include(wrapper.text(), 'attribute.render.range.full.label', 'Undefined lower bound should show a lower range text')
   })
 })
