@@ -23,7 +23,7 @@ import { RoleFormContainer } from '../../src/containers/RoleFormContainer'
 import RoleFormComponent from '../../src/components/RoleFormComponent'
 
 // Test a component rendering
-describe('[ADMIN USER ROLE MANAGEMENT] Testing form container', () => {
+describe('[ADMIN USER ROLE MANAGEMENT] Testing RoleFormContainer container', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -49,9 +49,9 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing form container', () => {
       },
       isFetching: false,
       // from mapDispatchToProps
-      createProject: () => {},
-      fetchProject: () => {},
-      updateProject: () => {},
+      createRole: () => { },
+      updateRole: () => { },
+      fetchRoleList: () => { },
     }
 
     const enzymeWrapper = shallow(<RoleFormContainer {...props} />)

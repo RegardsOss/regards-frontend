@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import reject from 'lodash/reject'
 import { connect } from '@regardsoss/redux'
@@ -254,13 +255,13 @@ export class SearchResultsContainer extends React.Component {
   onSortByAttribute = (modelKey, type) => this.updateStateAndQuery({
     // update presentation models to hold the new sorting
     attributePresentationModels: this.state.attributePresentationModels.map((attrModel) => {
-      if (attrModel.key === modelKey) { // model identified by its key
-        return {
-          ...attrModel,
-          sortOrder: type,
-        }
+      let sortOrder = attrModel.sortOrder
+      if (attrModel.key === modelKey) {
+        sortOrder = type // update the modified column
+      } else if (this.props.displayMode === DisplayModeEnum.LIST) {
+        sortOrder = TableSortOrders.NO_SORT// in list mode, clear other columns sorting orders
       }
-      return attrModel
+      return { ...attrModel, sortOrder }
     }),
   })
 
@@ -279,7 +280,7 @@ export class SearchResultsContainer extends React.Component {
    * @return { openSearchQuery, fullSearchQuery, searchActions }: new search state
    */
   buildSearchState = ({ viewObjectType, searchQuery, facettesQuery, levels },
-    { showingFacettes, filters, attributePresentationModels, initialSortAttributesPath }) => { // TODO NO
+    { showingFacettes, filters, attributePresentationModels, initialSortAttributesPath }) => {
     const showingDataobjects = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
     // check if facettes should be applied
@@ -340,7 +341,7 @@ export class SearchResultsContainer extends React.Component {
    * @param properties properties to consider (this current properties by default)
    */
   updateStateAndQuery = (newState, properties = this.props) => {
-    const currentState = this.state || SearchResultsContainer.DEFAULT_STATE
+    const currentState = isEmpty(this.state) ? SearchResultsContainer.DEFAULT_STATE : this.state
     const completedNewState = {
       // recover current state in case of partial update (to not make equal method wrong)
       ...currentState,

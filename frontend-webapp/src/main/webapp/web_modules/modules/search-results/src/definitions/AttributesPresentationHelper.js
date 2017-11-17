@@ -17,27 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
-
-/**
- * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
- *
- * This file is part of REGARDS.
- *
- * REGARDS is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * REGARDS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
 import find from 'lodash/find'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { TableSortOrders } from '../../../../components/src/table/model/TableSortOrders'
 
 /**
@@ -72,6 +53,21 @@ function getAttributeConfigurationById(id, attributeModels) {
 }
 
 /**
+ * List of attributes the server cannot sort on
+ */
+const nonSortableAttributes = [
+  DamDomain.AttributeModelController.standardAttributesKeys.thumbnail,
+  DamDomain.AttributeModelController.standardAttributesKeys.download,
+]
+/**
+ * Is attribute as parameter (by its name) sortable
+ * @param {*} attributeFullQualifiedName attributeFullQualifiedName
+ */
+function isSortableAttribute(attributeFullQualifiedName) {
+  return !nonSortableAttributes.includes(attributeFullQualifiedName)
+}
+
+/**
  * Builds an attribute presentation model
  * @param {*} configuration  attributes configuration
  * @param {*} attributeModels attributes models (previsouly retrieved from server)
@@ -91,7 +87,7 @@ function buildSimplePresentationModel(configuration, attributesModel, enableSort
     key: attributeFullQualifiedName, // key can also be used to retrieve the attribute (helps for sorting / controlling visibility)
     label: attributeModel.content.label,
     attributes: attributeModel ? [attributeModel] : [], // single attribute
-    enableSorting, // yes if available in context
+    enableSorting: enableSorting && isSortableAttribute(attributeFullQualifiedName), // yes if available in context and sortable
     sortOrder: TableSortOrders.NO_SORT,
     order: configuration.order,
   }

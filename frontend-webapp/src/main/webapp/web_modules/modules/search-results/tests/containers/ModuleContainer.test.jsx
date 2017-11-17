@@ -68,6 +68,7 @@ describe('[Search Results] Testing ModuleContainer', () => {
 
     // When loading, no components / containers
     enzymeWrapper.instance().setState({ attributesFetching: false })
+    enzymeWrapper.update() // wait for update
 
     assert.lengthOf(enzymeWrapper.find(ModuleComponent), 1, 'After loading, the view should be rendered')
     assert.lengthOf(enzymeWrapper.find(URLManagementContainer), 1, 'After loading, URL management container should be installed')

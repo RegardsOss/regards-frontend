@@ -61,11 +61,10 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT]Testing form container', () => 
       fetchAttributeModelList: () => { },
       fetchModelAttributeList: () => { },
       deleteModelAttribute: () => { },
-      fetchPluginConfiguration: () => { },
-      fetchPluginMetaData: () => { },
       fetchModel: () => { },
       bindFragment: () => { },
       unbindFragment: () => { },
+      fetchModelAttributeComputationTypesList: () => { },
     }
 
     const enzymeWrapper = shallow(<ModelAttributeFormContainer {...props} />)

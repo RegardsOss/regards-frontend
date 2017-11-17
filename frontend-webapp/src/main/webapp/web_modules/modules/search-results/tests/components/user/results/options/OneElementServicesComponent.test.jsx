@@ -22,28 +22,28 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MenuItem from 'material-ui/MenuItem'
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { DropDownButton } from '@regardsoss/components'
-import OneElementServicesButton from '../../../../../src/components/user/results/options/OneElementServicesButton'
+import OneElementServicesComponent from '../../../../../src/components/user/results/options/OneElementServicesComponent'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test OneElementServicesButton
+* Test OneElementServicesComponent
 * @author Raphaël Mechali
 */
-describe('[Search Results] Testing OneElementServicesButton', () => {
+describe('[Search Results] Testing OneElementServicesComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(OneElementServicesButton)
+    assert.isDefined(OneElementServicesComponent)
   })
   it('should render correctly when empty', () => {
     const props = {
       services: null,
       onServiceStarted: () => { },
     }
-    const enzymeWrapper = shallow(<OneElementServicesButton {...props} />, { context })
+    const enzymeWrapper = shallow(<OneElementServicesComponent {...props} />, { context })
     const innerButton = enzymeWrapper.find(DropDownButton)
     assert.lengthOf(innerButton, 1, 'It should use a drop down button to render')
     assert.isOk(innerButton.props().title, 'The tooltip should be defined')
@@ -74,7 +74,7 @@ describe('[Search Results] Testing OneElementServicesButton', () => {
       }],
       onServiceStarted: () => { },
     }
-    const enzymeWrapper = shallow(<OneElementServicesButton {...props} />, { context })
+    const enzymeWrapper = shallow(<OneElementServicesComponent {...props} />, { context })
     assert.isFalse(enzymeWrapper.props().disabled, 'The button should be enabled when there are service')
     const innerButton = enzymeWrapper.find(DropDownButton)
     assert.lengthOf(innerButton, 1, 'It should use a drop down button to render')

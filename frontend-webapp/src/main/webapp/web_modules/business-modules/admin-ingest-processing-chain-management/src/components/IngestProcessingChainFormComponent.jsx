@@ -40,8 +40,6 @@ export class IngestProcessingChainFormComponent extends React.Component {
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
-    initialize: PropTypes.func.isRequired,
-    change: PropTypes.func,
   }
 
   static contextTypes = {

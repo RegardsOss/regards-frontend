@@ -35,9 +35,9 @@ import {
 } from '@regardsoss/components'
 import DisplayModeEnum from '../../../../models/navigation/DisplayModeEnum'
 import TableSelectAllContainer from '../../../../containers/user/results/options/TableSelectAllContainer'
+import ListSortingContainer from '../../../../containers/user/results/options/ListSortingContainer'
 import SelectionServiceComponent from '../options/SelectionServiceComponent'
 import AddSelectionToCartComponent from '../options/AddSelectionToCartComponent'
-import TableSortFilterComponent from '../options/TableSortFilterComponent'
 
 /**
 * Options and tabs header line for search results table
@@ -47,6 +47,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
 
   static propTypes = {
     // state
+    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
     displayDatasets: PropTypes.bool.isRequired,
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
     viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
@@ -88,11 +89,10 @@ class OptionsAndTabsHeaderLine extends React.Component {
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
-    const { displayDatasets, searchSelectors, tableColumns,
-      allowingFacettes, showingFacettes, selectionServices,
-      onAddSelectionToCart, onChangeColumnsVisibility,
-      onShowListView, onShowTableView, onShowDatasets, onShowDataobjects,
-      onSortByAttribute, onStartSelectionService, onToggleShowFacettes } = this.props
+    const { attributePresentationModels, displayDatasets, searchSelectors, tableColumns,
+      allowingFacettes, showingFacettes, selectionServices, onAddSelectionToCart,
+      onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets,
+      onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes } = this.props
 
     return (
       <TableHeaderLine key="table.options">
@@ -141,14 +141,9 @@ class OptionsAndTabsHeaderLine extends React.Component {
               />
             </ShowableAtRender>
           </TableHeaderOptionGroup>
-          {/* 1.b.3 List view option select all and sort options */}
+          {/* 1.b.3 List view select all and sort options */}
           <TableHeaderOptionGroup show={this.isInListView() && this.isDisplayingDataobjects()}>
-            <TableSortFilterComponent
-              onSortByAttribute={onSortByAttribute}
-              tableColumns={tableColumns}
-              prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
-              noneLabel={formatMessage({ id: 'list.sort.none.label' })}
-            />
+            <ListSortingContainer onSortByAttribute={onSortByAttribute} attributePresentationModels={attributePresentationModels} />
             <TableSelectAllContainer pageSelectors={searchSelectors} />
           </TableHeaderOptionGroup>
           {/* 1.b.4 - Show / hide table columns */}

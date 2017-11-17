@@ -19,9 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { PageableInfiniteTableContainer, TableSortOrders } from '@regardsoss/components'
+import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
-import { searchDataobjectsActions, searchDatasetsActions } from '../../../../src/clients/SearchEntitiesClient'
+import { searchDataobjectsActions, searchDatasetsActions, selectors as searchSelectors } from '../../../../src/clients/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import Styles from '../../../../src/styles/styles'
 import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
@@ -37,66 +37,76 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   const options = { context: buildTestContext(Styles) }
 
   const commonProperties = {
-    appName: 'test',
-    project: 'project',
+    isFetching: false,
     allowingFacettes: true,
-    showingFacettes: true,
     displayDatasets: true,
+
+    showingFacettes: true,
     filters: [],
+    resultsCount: 45,
+    searchSelectors,
 
+    hiddenColumnKeys: [],
+    attributePresentationModels: [],
+    facets: [],
     searchQuery: '',
-    facettesQuery: '',
-    attributesConf: [],
-    attributesRegroupementsConf: [],
-    attributeModels: {},
-    selectionServices: [],
 
-    onFiltersChanged: () => { },
+    selectionServices: [],
+    // control
+    onChangeColumnsVisibility: () => { },
+    onDeleteFacet: () => { },
     onSetEntityAsTag: () => { },
-    onSelectSearchTag: () => { },
+    onSelectFacet: () => { },
     onShowDatasets: () => { },
     onShowDataobjects: () => { },
     onShowListView: () => { },
     onShowTableView: () => { },
-    onSortChanged: () => { },
+    onSortByAttribute: () => { },
     onToggleShowFacettes: () => { },
-    onStartSelectionService: () => { },
+    // from PluginServicesContainer HOC
+    onStartSelectionService: null,
+    // from OrderCartContainer HOC
+    onAddSelectionToCart: null, // callback to add selection to cart, null when disabled
+    onAddElementToCart: null, // callback to add element
 
   }
 
   // define the test cases
   const testCases = [{
+    caseLabel: 'Should render correctly',
+    caseProperties: {
+      isFetching: true,
+      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+      searchActions: searchDataobjectsActions,
+      viewMode: DisplayModeEnum.LIST,
+    },
+  }, {
     caseLabel: 'Should render dataobjects in list mode',
     caseProperties: {
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      resultPageActions: searchDataobjectsActions,
+      searchActions: searchDataobjectsActions,
       viewMode: DisplayModeEnum.LIST,
-      sortingOn: [],
     },
   }, {
     caseLabel: 'Should render dataobjects in table mode',
     caseProperties: {
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      resultPageActions: searchDataobjectsActions,
+      searchActions: searchDataobjectsActions,
       viewMode: DisplayModeEnum.TABLE,
-      sortingOn: [],
     },
   }, {
     caseLabel: 'Should render datasets in list mode',
     caseProperties: {
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-      resultPageActions: searchDatasetsActions,
+      searchActions: searchDatasetsActions,
       viewMode: DisplayModeEnum.LIST,
-      sortingOn: [],
     },
-    // no dataset table
   }, {
-    caseLabel: 'Should render with sorting',
+    caseLabel: 'Should render datasets in list mode',
     caseProperties: {
-      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      resultPageActions: searchDataobjectsActions,
+      viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+      searchActions: searchDatasetsActions,
       viewMode: DisplayModeEnum.TABLE,
-      sortingOn: [{ attributePath: 'label', type: TableSortOrders.ASCENDING_ORDER }],
     },
   }]
 
@@ -110,7 +120,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   it('should render selection services, indepently of view modes and types', () => {
     const props = {
       ...commonProperties,
-      ...testCases[0].caseProperties,
+      ...testCases[1].caseProperties,
       selectionServices: [{
         content: {
           configId: 0,

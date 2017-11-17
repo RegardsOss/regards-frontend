@@ -4,7 +4,6 @@
 import { i18nContextType } from '@regardsoss/i18n'
 import { StringFacet } from '../../../../models/facets/FacetShape'
 import FacetSelectorComponent from './FacetSelectorComponent'
-import messages from '../../../../i18n'
 
 /**
  * Word facet selector

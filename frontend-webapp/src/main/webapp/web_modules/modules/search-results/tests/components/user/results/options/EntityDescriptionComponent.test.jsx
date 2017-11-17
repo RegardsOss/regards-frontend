@@ -18,29 +18,32 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AddElementToCartComponent from '../../../../../src/components/user/results/options/AddElementToCartComponent'
+import IconButton from 'material-ui/IconButton'
+import EntityDescriptionComponent from '../../../../../src/components/user/results/options/EntityDescriptionComponent'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test AddElementToCartComponent
+* Test EntityDescriptionComponent
 * @author Raphaël Mechali
 */
-describe('[Search Results] Testing AddElementToCartComponent', () => {
+describe('[Search Results] Testing EntityDescriptionComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AddElementToCartComponent)
+    assert.isDefined(EntityDescriptionComponent)
   })
-  it('should render correctly', () => {
-    const props = { onAddToCart: () => { } }
-    const enzymeWrapper = shallow(<AddElementToCartComponent {...props} />, { context })
-    const iconButtonWrapper = enzymeWrapper.find(IconButton)
-    assert.lengthOf(iconButtonWrapper, 1, 'There should be a button')
-    assert.equal(iconButtonWrapper.props().onTouchTap, props.onAddToCart, 'The callback should be correctly reported')
+  it('should render correctly and start action on click', () => {
+    const props = {
+      onShowDescription: () => { },
+    }
+    const render = shallow(<EntityDescriptionComponent {...props} />, { context })
+    const innerButton = render.find(IconButton)
+    assert.lengthOf(innerButton, 1, 'It should use button to render')
+    assert.isOk(innerButton.props().title, 'The tooltip should be visible')
+    assert.equal(innerButton.props().onTouchTap, props.onShowDescription, 'The button should invoke onShowDescription after on touch tap')
   })
 })

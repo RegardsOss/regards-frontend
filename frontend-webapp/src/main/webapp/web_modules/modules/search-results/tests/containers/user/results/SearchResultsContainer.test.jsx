@@ -38,24 +38,23 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
   })
   it('should render properly', () => {
     const props = {
-      // sub modules rendering
-      appName: 'Zapas Tapas',
-      project: 'eat spanish',
       searchQuery: 'spacy=abit',
       enableFacettes: true,
       displayDatasets: true,
-      facettesQuery: 'facettes=codiments',
+      facettesQuery: 'facettes=condiments',
       attributesConf: [],
       attributesRegroupementsConf: [],
+      datasetAttributesConf: [],
       attributeModels: {},
+      facets: [],
+      isFetching: false,
+      resultsCount: 22,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      levels: [],
       displayMode: DisplayModeEnum.LIST,
-
+      levels: [],
       dispatchChangeViewObjectType: () => { },
-      dispatchSetEntityAsTag: () => { },
-      dispatchTagSelected: () => { },
       dispatchChangeDisplayMode: () => { },
+      dispatchSetEntityAsTag: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(PluginServicesContainer), 1, 'It should render the service container')

@@ -46,8 +46,8 @@ export class PluginMetaDataListContainer extends React.Component {
     })),
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
-    fetchPluginTypeList: PropTypes.func,
-    fetchPluginMetaDataList: PropTypes.func,
+    fetchPluginTypeList: PropTypes.func.isRequired,
+    fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

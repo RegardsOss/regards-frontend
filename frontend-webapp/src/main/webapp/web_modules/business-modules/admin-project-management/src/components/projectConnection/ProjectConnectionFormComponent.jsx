@@ -51,7 +51,6 @@ export class ProjectConnectionFormComponent extends React.Component {
     // This props allow to define if the current form is displayed in a stepper
     // or as a single form
     isStep: PropTypes.bool,
-    onNext: PropTypes.func,
     // from reduxForm
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func,
@@ -216,7 +215,7 @@ export class ProjectConnectionFormComponent extends React.Component {
           {this.renderCancelButton()}
           <MainActionButtonComponent
             label={label}
-            disabled={this.props.invalid || (this.props.isStep && this.props.submitting)}
+            disabled={this.props.invalid || this.props.pristine || (this.props.isStep && this.props.submitting)}
             type="submit"
           />
         </div>

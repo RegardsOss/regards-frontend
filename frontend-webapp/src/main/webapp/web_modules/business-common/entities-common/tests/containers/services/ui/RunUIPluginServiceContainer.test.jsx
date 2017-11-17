@@ -167,6 +167,7 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
     ]
     errorsCallbacks.forEach((enterError) => {
       enterError()
+      enzymeWrapper.update() // wait for update
       assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR,
         'The container should be in fetch configuration error state')
       // that step should be reported as error message into the displayer
@@ -186,6 +187,7 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
       payload: getPayloadWithParameters(UIPluginConfConfiguration.normalizrKey,
         serviceConfiguration.configId, basicConfiguration),
     }, 1)
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.LOAD_PLUGIN_INSTANCE,
       'The container should be fetching plugin instance')
     // that step should be reported as loading into the displayer
@@ -203,6 +205,7 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
       pluginInstance: basicPluginInstance, // basic instance has no parameter, therefore, no parameter will be resolved
       pluginConfiguration: { content: basicConfiguration },
     })
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.RUNNING_SERVICE,
       'The container should be fetching the service results now (skipped configuration as there is no parameter)')
     // that step should be reported as result into the displayer
@@ -229,6 +232,7 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
         },
       },
     })
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR,
       'The container should be in parameters resolution error state)')
     // that step should be reported as error message into the displayer
@@ -262,6 +266,7 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
       }, // basic instance has no parameter, therefore, no parameter will be resolved
       pluginConfiguration: { content: basicConfiguration },
     })
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
       'The container should be in parameters configuration state)')
     // that step should be reported as configuration into the displayer
@@ -276,6 +281,7 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
     // (B) Enter showing plugin service state (simulare user entered form values)
     const testFormValues = { pBool: false }
     enzymeWrapper.instance().onConfigurationDone(testFormValues)
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.RUNNING_SERVICE,
       'The container should be fetching the service results now (skipped configuration as there is no parameter)')
     // that step should be reported as result into the displayer
@@ -287,6 +293,7 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
 
     // (C) re-enter configuration, on previous, with previously entered values
     enzymeWrapper.instance().onPrevious()
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
       'The container should display configuration again after onPrevious()')
     // that step should be reported as loading into the displayer

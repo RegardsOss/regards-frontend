@@ -16,8 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import EmptyTableComponent from '../../../../src/components/user/results/EmptyTableComponent'
+import styles from '../../../../src/styles/styles'
 
-}
+const context = buildTestContext(styles)
 
-export default messages
+/**
+* Test EmptyTableComponent
+* @author Raphaël Mechali
+*/
+describe('[Search Results] Testing EmptyTableComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exists', () => {
+    assert.isDefined(EmptyTableComponent)
+  })
+  it('should render correctly', () => {
+    shallow(<EmptyTableComponent />, { context })
+  })
+})

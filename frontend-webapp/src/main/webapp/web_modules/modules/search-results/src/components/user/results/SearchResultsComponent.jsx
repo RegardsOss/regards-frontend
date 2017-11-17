@@ -216,19 +216,17 @@ class SearchResultsComponent extends React.Component {
     const { muiTheme } = this.context
     const tableTheme = muiTheme['components:infinite-table']
 
-    const { allowingFacettes, displayDatasets, resultsCount, isFetching, searchActions, searchSelectors, viewObjectType, viewMode,
+    const { allowingFacettes, attributePresentationModels, displayDatasets, resultsCount, isFetching, searchActions, searchSelectors, viewObjectType, viewMode,
       showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
       onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
       onStartSelectionService, onAddSelectionToCart } = this.props
 
-    // build table columns
-    const tableColumns = this.buildTableColumns()
-
-    let columns = []
+    let columns
     let lineHeight
     let displayColumnsHeader
     let displayedRowsCount
 
+    const tableColumns = this.buildTableColumns()
     if (this.isInTableView()) {
       displayedRowsCount = tableTheme.rowCount
       lineHeight = tableTheme.lineHeight
@@ -252,6 +250,7 @@ class SearchResultsComponent extends React.Component {
           viewObjectType={viewObjectType}
           viewMode={viewMode}
           searchSelectors={searchSelectors}
+          attributePresentationModels={attributePresentationModels}
           tableColumns={tableColumns}
           allowingFacettes={allowingFacettes}
           showingFacettes={showingFacettes}

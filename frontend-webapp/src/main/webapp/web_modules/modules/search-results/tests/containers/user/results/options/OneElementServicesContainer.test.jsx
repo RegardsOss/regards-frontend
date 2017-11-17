@@ -19,31 +19,45 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import IconButton from 'material-ui/IconButton'
-import EntityDescriptionButton from '../../../../../src/components/user/results/options/EntityDescriptionButton'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import OneElementServicesComponent from '../../../../../src/components/user/results/options/OneElementServicesComponent'
+import { OneElementServicesContainer } from '../../../../../src/containers/user/results/options/OneElementServicesContainer'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test EntityDescriptionButton
+* Test OneElementServicesContainer
 * @author Raphaël Mechali
 */
-describe('[Search Results] Testing EntityDescriptionButton', () => {
+describe('[Search Results] Testing OneElementServicesContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(EntityDescriptionButton)
+    assert.isDefined(OneElementServicesContainer)
   })
-  it('should render correctly and start action on click', () => {
+  it('should render correctly', () => {
     const props = {
-      onShowDescription: () => { },
+      entity: {
+        content: {
+          id: 1,
+          ipId: 'coucou',
+          sipId: '1',
+          label: 'O.D.I.L',
+          entityType: ENTITY_TYPES_ENUM.DATA,
+          files: {},
+          geometry: null,
+          properties: {},
+          tags: [],
+          services: [],
+        },
+      },
+      // from mapDispatchToProps
+      dispatchRunService: () => { },
     }
-    const render = shallow(<EntityDescriptionButton {...props} />, { context })
-    const innerButton = render.find(IconButton)
-    assert.lengthOf(innerButton, 1, 'It should use button to render')
-    assert.isOk(innerButton.props().title, 'The tooltip should be visible')
-    assert.equal(innerButton.props().onTouchTap, props.onShowDescription, 'The button should invoke onShowDescription after on touch tap')
+    const enzymeWrapper = shallow(<OneElementServicesContainer {...props} />, { context })
+    const component = enzymeWrapper.find(OneElementServicesComponent)
+    assert.lengthOf(component, 1, 'There should be the rendered component')
   })
 })

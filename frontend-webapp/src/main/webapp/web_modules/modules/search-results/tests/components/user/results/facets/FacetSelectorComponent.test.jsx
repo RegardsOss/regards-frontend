@@ -16,33 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import size from 'lodash/size'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import WordFacetSelectorComponent from '../../src/components/WordFacetSelectorComponent'
-import FacetSelectorComponent from '../../src/components/FacetSelectorComponent'
+import MenuItem from 'material-ui/MenuItem'
+import FacetSelectorComponent from '../../../../../src/components/user/results/facets/FacetSelectorComponent'
 
-import styles from '../../src/styles/styles'
-import facetsNetworkDump from '../network-dump/search-results-dump'
+import styles from '../../../../../src/styles/styles'
+import facetsNetworkDump from '../../../../dumps/results.dump'
 
-const aFacetModel = facetsNetworkDump.facets[0]
+const aFacetModel = facetsNetworkDump.facets[2]
 
-describe('[SEARCH FACETS] Testing WordFacetSelectorComponent', () => {
+describe('[SEARCH FACETS] Testing FacetSelectorComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(WordFacetSelectorComponent)
+    assert.isDefined(FacetSelectorComponent)
   })
   const context = buildTestContext(styles)
 
   it('should render properly', () => {
     const props = {
       facet: aFacetModel,
-      applyFilter: () => { },
+      facetValueFormatterForMenu: () => '',
+      facetValueFormatterForFilter: () => '',
+      onSelectFacet: () => { },
     }
-    const enzymeWrapper = shallow(<WordFacetSelectorComponent {...props} />, { context })
-    // We assert here that the rendering is correctly delegated to FacetSelectorComponent
-    assert.equal(enzymeWrapper.find(FacetSelectorComponent).length, 1, 'Rendering should be delegated to RangeFacetSelectorComponent')
+
+    const enzymeWrapper = shallow(<FacetSelectorComponent {...props} />, { context })
+    // verify there is one item per facet value
+    assert.equal(enzymeWrapper.find(MenuItem).length, size(aFacetModel.values), 'There should be one item for each facet value')
   })
 })

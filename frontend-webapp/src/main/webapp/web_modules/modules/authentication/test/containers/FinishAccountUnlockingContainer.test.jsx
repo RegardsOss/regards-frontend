@@ -38,6 +38,7 @@ describe('[AUTHENTICATION] Testing FinishAccountUnlockingContainer', () => {
       token: '1',
       onDone: () => { },
       onTokenExpired: () => { },
+      fetchRequestAction: () => { },
     }
     // very small tests for component rendering
     const enzymeWrapper = shallow(<FinishAccountUnlockingContainer {...props} />, options)
