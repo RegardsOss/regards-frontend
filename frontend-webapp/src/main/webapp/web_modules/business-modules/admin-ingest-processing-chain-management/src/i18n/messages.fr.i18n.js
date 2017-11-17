@@ -31,6 +31,8 @@ const messages = Object.assign({
   'processing-chain.info.message.step4' : '4 - [Optionel] Tag de la donée générée avec divers mots clés, collections, documents, ...',
   'processing-chain.info.message.step5' : '5 - [Optional] Post traitement. Dernière étape avant stockage du fichier',
   'processing-chain.empty.title': 'Aucune chaîne de traitement définie.',
+  'processing-chain.addnew.button' : 'Créer une chaîne de traitement',
+  'processing-chain.back.button' : 'Retour',
 
   'processing-chain.delete.tooltip' : 'Supprimer',
   'processing-chain.edit.tooltip' : 'Editer',

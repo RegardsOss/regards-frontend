@@ -16,18 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicArrayActions } from '@regardsoss/store-utils'
 
 /**
- * Redux selector for retrieving the array of plugin types from the store.
- *
- * @author Xavier-Alexandre Brochard
+ * API actions for plugin types
  */
-class PluginTypeSelectors extends BasicListSelectors {
-  constructor() {
-    super(['admin', 'microservice-management', 'pluginType'])
+export default class PluginTypeActions extends BasicArrayActions {
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugintypes`,
+    })
   }
 }
-
-const instance = new PluginTypeSelectors()
-export default instance

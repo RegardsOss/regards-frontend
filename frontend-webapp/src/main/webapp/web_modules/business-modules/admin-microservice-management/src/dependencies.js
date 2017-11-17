@@ -20,7 +20,7 @@ import reduce from 'lodash/reduce'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import MaintenanceModeActions from './model/MaintenanceModeActions'
 import SetMaintenanceModeActions from './model/SetMaintenanceModeActions'
-import PluginMetaDataActions from './model/plugin/PluginMetaDataActions'
+import { PluginMetaDataActions } from './clients/PluginMetadataClient'
 /**
  * Module hateoas depencies
  * @author Sébastien binda

@@ -32,6 +32,8 @@ const messages = Object.assign({
   'processing-chain.info.message.step4' : '4 - [Optional] Tag data with keywords, collections, documents, ...',
   'processing-chain.info.message.step5' : '5 - [Optional] Post processing',
   'processing-chain.empty.title': 'No processing chain defined',
+  'processing-chain.addnew.button' : 'Create new chain',
+  'processing-chain.back.button' : 'Back',
 
   'processing-chain.delete.tooltip' : 'Delete',
   'processing-chain.edit.tooltip' : 'Edit',

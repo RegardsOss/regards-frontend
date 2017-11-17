@@ -20,7 +20,7 @@ import trim from 'lodash/trim'
 import get from 'lodash/get'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, reduxForm } from '@regardsoss/form-utils'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -35,8 +35,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
   static propTypes = {
     processingChain: IngestShapes.IngestProcessingChain,
     onSubmit: PropTypes.func.isRequired,
-    backUrl: PropTypes.string.isRequired,
-    isCreating: PropTypes.bool.isRequired,
+    onBack: PropTypes.string.isRequired,
     // from reduxForm
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -68,13 +67,13 @@ export class IngestProcessingChainFormComponent extends React.Component {
   }
 
   render() {
-    const { invalid, submitting, processingChain} = this.props
+    const { invalid, submitting, processingChain } = this.props
     const { intl: { formatMessage } } = this.context
-    const preprocessingPlugin = get(processingChain,"preprocessingPlugin",null)
-    const validationPlugin = get(processingChain,"validationPlugin",null)
-    const generationPlugin = get(processingChain,"generationPlugin",null)
-    const tagPlugin = get(processingChain,"tagPlugin",null)
-    const postprocessingPlugin = get(processingChain,"postprocessingPlugin",null)
+    const preprocessingPlugin = get(processingChain, 'preprocessingPlugin', null)
+    const validationPlugin = get(processingChain, 'validationPlugin', null)
+    const generationPlugin = get(processingChain, 'generationPlugin', null)
+    const tagPlugin = get(processingChain, 'tagPlugin', null)
+    const postprocessingPlugin = get(processingChain, 'postprocessingPlugin', null)
 
 
     return (
@@ -87,7 +86,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
               title={formatMessage({ id: 'processing-chain.form.create.title' })}
             /> :
             <CardTitle
-              title={formatMessage({ id: 'processing-chain.form.edit.title' }, {name : processingChain.name})}
+              title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
             />
           }
           <CardText>
@@ -109,49 +108,54 @@ export class IngestProcessingChainFormComponent extends React.Component {
               normalize={trim}
             />
             <PluginFormComponent
-              key={"preprocessing"}
-              title={"Choose a pre-processing plugin : "}
+              key={'preprocessing'}
+              title={'Choose a pre-processing plugin : '}
               ingestPluginType={IngestProcessingPluginTypes.PRE_PROCESSING}
               pluginConf={preprocessingPlugin}
-              fieldNamePrefix={"preprocessingPlugin"}
+              fieldNamePrefix={'preprocessingPlugin'}
               reduxFormChange={this.props.change}
               reduxFormInitialize={this.props.initialize}
+              hideGlobalParameterConf
             />
             <PluginFormComponent
-              key={"validation"}
-              title={"Choose a validation plugin : "}
+              key={'validation'}
+              title={'Choose a validation plugin : '}
               ingestPluginType={IngestProcessingPluginTypes.VALIDATION}
               pluginConf={validationPlugin}
-              fieldNamePrefix={"validationPlugin"}
+              fieldNamePrefix={'validationPlugin'}
               reduxFormChange={this.props.change}
               reduxFormInitialize={this.props.initialize}
-              />
+              hideGlobalParameterConf
+            />
             <PluginFormComponent
-              key={"generation"}
-              title={"Choose a generation plugin : "}
+              key={'generation'}
+              title={'Choose a generation plugin : '}
               ingestPluginType={IngestProcessingPluginTypes.GENERATION}
               pluginConf={generationPlugin}
-              fieldNamePrefix={"generationPlugin"}
+              fieldNamePrefix={'generationPlugin'}
               reduxFormChange={this.props.change}
               reduxFormInitialize={this.props.initialize}
+              hideGlobalParameterConf
             />
             <PluginFormComponent
-              key={"tag"}
-              title={"Choose a tag plugin : "}
+              key={'tag'}
+              title={'Choose a tag plugin : '}
               ingestPluginType={IngestProcessingPluginTypes.POST_PROCESSING}
               pluginConf={tagPlugin}
-              fieldNamePrefix={"generationPlugin"}
+              fieldNamePrefix={'generationPlugin'}
               reduxFormChange={this.props.change}
               reduxFormInitialize={this.props.initialize}
+              hideGlobalParameterConf
             />
             <PluginFormComponent
-              key={"postprocessing"}
-              title={"Choose a post-processing plugin : "}
-              ingestPluginType={"fr.cnes.regards.modules.ingest.domain.plugin.ISipPreprocessing"}
+              key={'postprocessing'}
+              title={'Choose a post-processing plugin : '}
+              ingestPluginType={'fr.cnes.regards.modules.ingest.domain.plugin.ISipPreprocessing'}
               pluginConf={postprocessingPlugin}
-              fieldNamePrefix={"postprocessingPlugin"}
+              fieldNamePrefix={'postprocessingPlugin'}
               reduxFormChange={this.props.change}
               reduxFormInitialize={this.props.initialize}
+              hideGlobalParameterConf
             />
           </CardText>
           <CardActions>
@@ -164,7 +168,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={formatMessage({ id: 'processing-chain.form.create.action.cancel' })}
-              secondaryButtonUrl={this.props.backUrl}
+              secondaryButtonTouchTap={this.props.onBack}
             />
           </CardActions>
         </Card>

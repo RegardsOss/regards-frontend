@@ -41,7 +41,6 @@ import { buildMenuItemPrimaryText, getFieldName } from './util'
 import moduleStyles from '../../styles/styles'
 import {
   pluginConfigurationActions,
-  pluginConfigurationSelectors,
 } from '../../clients/PluginConfigurationClient'
 
 const { required, string } = ValidationHelpers

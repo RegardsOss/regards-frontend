@@ -34,5 +34,5 @@ export default {
   GenericPluginParameter,
   PluginUtils,
   PluginConfiguratorReducer,
-  PluginListContainer
+  PluginListContainer,
 }

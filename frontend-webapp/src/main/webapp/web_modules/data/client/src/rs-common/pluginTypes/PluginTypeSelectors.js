@@ -16,24 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import replace from 'lodash/replace'
-import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicArraySelectors } from '@regardsoss/store-utils'
 
-class PluginMetaDataActions extends BasicListActions {
-  constructor() {
-    super({
-      namespace: 'admin-microservice-management/pluginMetaData',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugins`,
-      schemaTypes: {
-        ENTITY: Schemas.PLUGIN_META_DATA,
-        ENTITY_ARRAY: Schemas.PLUGIN_META_DATA_ARRAY,
-      },
-    })
-  }
+const getPluginTypeSelectors = storePath => new BasicArraySelectors(storePath)
 
-  getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
-}
-
-const instance = new PluginMetaDataActions()
-export default instance
+export default getPluginTypeSelectors

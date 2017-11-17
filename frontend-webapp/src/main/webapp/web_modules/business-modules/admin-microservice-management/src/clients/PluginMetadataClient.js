@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,27 +15,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicListReducers } from '@regardsoss/store-utils'
-import { AdminPluginConfigurationSchemaConfiguration } from '@regardsoss/api'
-import PluginConfigurationActions from './PluginConfigurationActions'
-
-class PluginConfigurationReducers extends BasicListReducers {
-  constructor() {
-    super(AdminPluginConfigurationSchemaConfiguration, PluginConfigurationActions)
-  }
-
-}
-
-const instance = new PluginConfigurationReducers()
+ */
+import { CommonClient } from '@regardsoss/client'
 
 /**
- * Return an function where the reducer instance exists
+ * Plugin Metadata entities client.
  *
- * @param state redux previous state
- * @param action redux action received
- * @return new state
+ * @author Sébastien Binda
  */
-const getPluginConfigurationReducer = (state, action) => instance.reduce(state, action)
+const ENTITIES_STORE_PATH = ['admin', 'microservice-management', 'pluginMetadata']
+const REDUX_ACTION_NAMESPACE = 'common/pluginMetadata'
 
-export default getPluginConfigurationReducer
+const pluginMetadataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
+const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
+const pluginMetadataSelectors = CommonClient.getPluginMetaDataSelectors(ENTITIES_STORE_PATH)
+
+
+export default {
+  pluginMetadataReducer,
+  pluginMetadataActions,
+  pluginMetadataSelectors,
+}

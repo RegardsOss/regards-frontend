@@ -44,9 +44,10 @@ export class IngestProcessingChainFormContainer extends React.Component {
     }
   }
 
-  getBackUrl = () => {
+  onBack = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/acquisition/chain/list`
+    const url = `/admin/${project}/data/acquisition/chain/list`
+    browserHistory.push(url)
   }
 
   handleUpdate = (values) => {
@@ -66,8 +67,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          const url = this.getBackUrl()
-          browserHistory.push(url)
+          this.onBack()
         }
       })
   }
@@ -89,7 +89,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
           processingChain={chain}
           onSubmit={this.handleSubmit}
           isCreating={isCreating}
-          backUrl={this.getBackUrl()}
+          onBack={this.onBack}
         />
       </LoadableContentDisplayDecorator>
     )

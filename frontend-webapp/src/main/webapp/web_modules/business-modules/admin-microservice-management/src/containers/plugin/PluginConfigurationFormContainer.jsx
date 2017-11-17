@@ -17,13 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import {PluginFormConfigurator} from '@regardsoss/microservice-plugin-configurator'
+import { PluginFormConfigurator } from '@regardsoss/microservice-plugin-configurator'
 /**
  * Container connecting the plugin configuration from to the redux store and handling user actions.
  *
  * @author Xavier-Alexandre Brochard
  */
 export class PluginConfigurationFormContainer extends React.Component {
+
+  static storePath = ['admin', 'microservice-management', 'pluginConfigurator']
 
   static propTypes = {
     // from router
@@ -48,16 +50,16 @@ export class PluginConfigurationFormContainer extends React.Component {
   }
 
   render() {
-    const { params } =  this.props
+    const { params } = this.props
     return (
-        <PluginFormConfigurator
-          microserviceName={params.microserviceName}
-          pluginId={params.pluginId}
-          pluginConfigurationId={params.pluginConfigurationId}
-          formMode={params.formMode}
-          backUrl={this.getBackUrl()}
-          storePath={['admin', 'microservice-management','pluginConfigurator']}
-        />
+      <PluginFormConfigurator
+        microserviceName={params.microserviceName}
+        pluginId={params.pluginId}
+        pluginConfigurationId={params.pluginConfigurationId}
+        formMode={params.formMode}
+        backUrl={this.getBackUrl()}
+        storePath={PluginConfigurationFormContainer.storePath}
+      />
     )
   }
 }

@@ -68,7 +68,7 @@ const mapPluginParameterTypeToPluginParameter = (pluginParameterType, pluginConf
   if (pluginConfiguration) {
     pluginParameter = find(pluginConfiguration.parameters, el => el.name === pluginParameterType.name)
     if (isUndefined(pluginParameter) && !pluginParameterType.optional) {
-      throw new Error("The plugin configuration the server returned is in an invalid state: the plugin conf doesn't contain the parameter expected")
+      throw new Error(`The plugin configuration the server returned is in an invalid state: the plugin conf doesn't contain the parameter expected ${pluginParameterType.name}`)
     } else if (isUndefined(pluginParameter)) {
       pluginParameter = parameterTypeToDefaultParameter(pluginParameterType)
     }

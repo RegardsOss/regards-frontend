@@ -16,19 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicArrayActions } from '@regardsoss/store-utils'
+import { BasicArrayReducers } from '@regardsoss/store-utils'
+import PluginTypeActions from './PluginTypeActions'
 
 /**
- * API actions for plugin types
+ * Reducers for plugin types
+ *
+ * @author Xavier-Alexandre Brochard
  */
-class PluginTypeActions extends BasicArrayActions {
-  constructor() {
-    super({
-      namespace: 'admin-microservice-management/pluginType',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugintypes`,
-    })
+class PluginTypeReducer extends BasicArrayReducers {
+  constructor(namespace) {
+    super(null, new PluginTypeActions(namespace))
   }
 }
 
-const instance = new PluginTypeActions()
-export default instance
+/**
+ * Return an function where the reducer instance exists
+ *
+ * @param state redux previous state
+ * @param action redux action received
+ * @return new state
+ */
+const getPluginTypeReducer = (namespace) => {
+  const instance = new PluginTypeReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}
+
+export default getPluginTypeReducer
+

@@ -24,8 +24,8 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginConfigurationFormComponent from '../components/PluginConfigurationFormComponent'
-import {pluginConfigurationActions, pluginConfigurationSelectorBuilder} from '../clients/PluginConfigurationClient'
-import {pluginMetadataActions, pluginMetadataSelectorBuilder} from '../clients/PluginMetadataClient'
+import { pluginConfigurationActions, pluginConfigurationSelectorBuilder } from '../clients/PluginConfigurationClient'
+import { pluginMetadataActions, pluginMetadataSelectorBuilder } from '../clients/PluginMetadataClient'
 import messages from '../i18n'
 
 /**
@@ -37,11 +37,12 @@ export class PluginConfigurationFormContainer extends React.Component {
 
   static propTypes = {
     microserviceName: PropTypes.string,
-    pluginId: PropTypes.string,
+    pluginId: PropTypes.string.isRequired,
     pluginConfigurationId: PropTypes.string,
     formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
     backUrl: PropTypes.string,
-    storePath : PropTypes.array.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    storePath: PropTypes.arrayOf(PropTypes.string).isRequired,
     displayTitle: PropTypes.bool,
     // from mapStateToProps
     currentPluginMetaData: CommonShapes.PluginMetaData,
@@ -56,7 +57,7 @@ export class PluginConfigurationFormContainer extends React.Component {
   }
 
   static defaultProps = {
-      formMode: 'create',
+    formMode: 'create',
   }
 
   constructor(props) {
@@ -69,7 +70,7 @@ export class PluginConfigurationFormContainer extends React.Component {
   }
 
   componentDidMount() {
-    const {  pluginId, pluginConfigurationId, microserviceName } = this.props
+    const { pluginId, pluginConfigurationId, microserviceName } = this.props
 
     this.props.fetchPluginMetaDataList(microserviceName)
     if (pluginConfigurationId && pluginId) {
@@ -82,18 +83,18 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @returns {XML}
    */
   getFormComponent = () => {
-    const { displayTitle, formMode, microserviceName , currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching } = this.props
+    const { displayTitle, formMode, microserviceName, currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching } = this.props
     const isEmpty = this.state.isEditing && isUndefined(currentPluginConfiguration)
     return (
       <LoadableContentDisplayDecorator
-        isLoading={isPluginConfigurationFetching || isPluginMetaDataFetching || get(currentPluginMetaData,'content',null) === null}
+        isLoading={isPluginConfigurationFetching || isPluginMetaDataFetching || get(currentPluginMetaData, 'content', null) === null}
         isEmpty={isEmpty}
       >
         <PluginConfigurationFormComponent
           onSubmit={this.state.isEditing ? this.handleUpdate : this.handleCreate}
           backUrl={this.props.backUrl}
-          pluginMetaData={get(currentPluginMetaData,'content',null)}
-          pluginConfiguration={get(currentPluginConfiguration,'content',null)}
+          pluginMetaData={get(currentPluginMetaData, 'content', null)}
+          pluginConfiguration={get(currentPluginConfiguration, 'content', null)}
           formMode={formMode}
           microserviceName={microserviceName}
           displayTitle={displayTitle}
@@ -127,6 +128,7 @@ export class PluginConfigurationFormContainer extends React.Component {
   handleCreate = (vals) => {
     const { microserviceName, pluginId } = this.props
 
+    console.error('props', this.props)
     return Promise.resolve(this.props.createPluginConfiguration(vals, microserviceName, pluginId))
       .then((actionResult) => {
         // We receive here the action
@@ -160,6 +162,7 @@ const mapDispatchToProps = dispatch => ({
     microserviceName,
     pluginId,
   })),
+  // TODO : C'est pas le bon client mon garcon !!!
   createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(pluginConfigurationActions.createEntity(vals, {
     microserviceName,
     pluginId,

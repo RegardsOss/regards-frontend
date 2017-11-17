@@ -30,9 +30,9 @@ class IngestProcessingChainTableEditAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array
+      links: PropTypes.array,
     }),
-    onEdit : PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -44,7 +44,7 @@ class IngestProcessingChainTableEditAction extends React.Component {
 
   isEditable = () => {
     const { links } = this.props.entity
-    return find(links, l => l.rel === 'update',false) !== false
+    return find(links, l => l.rel === 'update', false) !== false
   }
 
   render() {

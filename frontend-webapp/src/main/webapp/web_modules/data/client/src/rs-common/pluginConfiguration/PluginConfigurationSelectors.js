@@ -37,7 +37,7 @@ class PluginConfigurationSelectors extends BasicListSelectors {
     return flow(
       fpfilter(pluginConfiguration => pluginConfiguration.content.active),
       fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
-  )(this.getList(state))
+    )(this.getList(state))
   }
 
   getListInactiveAndSorted(state) {
@@ -48,4 +48,5 @@ class PluginConfigurationSelectors extends BasicListSelectors {
   }
 }
 
-export default storePath => new PluginConfigurationSelectors(storePath)
+const getPluginConfigurationSelectors = storePath => new PluginConfigurationSelectors(storePath)
+export default getPluginConfigurationSelectors

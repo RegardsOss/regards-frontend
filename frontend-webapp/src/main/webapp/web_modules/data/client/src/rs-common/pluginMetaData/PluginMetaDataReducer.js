@@ -30,7 +30,9 @@ class PluginMetaDataReducer extends BasicListReducers {
   }
 }
 
-export default (namespace) => {
+const getPluginMedataDataReducer = (namespace) => {
   const instance = new PluginMetaDataReducer(namespace)
   return (state, action) => instance.reduce(state, action)
 }
+
+export default getPluginMedataDataReducer

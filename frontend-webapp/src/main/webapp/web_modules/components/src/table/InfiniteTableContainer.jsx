@@ -176,8 +176,9 @@ class InfiniteTableContainer extends React.Component {
         const oldTotalCountOfElements = previousProps ? this.getTotalNumberOfResults(previousProps) : 0
         let entitiesElementsAfterPage
         if (totalCountOfElements !== oldTotalCountOfElements) {
-          // rebuilt to erase old fetch
-          entitiesElementsAfterPage = fill(Array(totalCountOfElements - lastPageElementIndex), InfiniteTableContainer.EMPTY_OBJECT)
+          // rebuilt to erase old fetch (check total elements are not less than one page)
+          const missingCount = Math.max(totalCountOfElements - lastPageElementIndex, 0)
+          entitiesElementsAfterPage = fill(Array(missingCount), InfiniteTableContainer.EMPTY_OBJECT)
         } else {
           // extracted (as much as possible).
           entitiesElementsAfterPage = oldEntities.slice(lastPageElementIndex, totalCountOfElements)
@@ -227,7 +228,7 @@ class InfiniteTableContainer extends React.Component {
     // compute missing index in entities
     let firstMissingIndex = null
     let lastMissingIndex = null
-    for (let index = firstVisibleIndex; index < lastVisibleIndex; index += 1) {
+    for (let index = firstVisibleIndex; index <= lastVisibleIndex; index += 1) {
       const isMissing = isEmpty(entities[index])
       if (isMissing) {
         firstMissingIndex = firstMissingIndex || index // min index: change only on first time

@@ -19,7 +19,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { withI18n } from '@regardsoss/i18n'
-import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
+import { processingChainActions } from '../clients/ProcessingChainClient'
 import ProcessingChainListComponent from '../components/IngestProcessingChainListComponent'
 import messages from '../i18n'
 
@@ -28,12 +28,15 @@ import messages from '../i18n'
  */
 export class IngestProcessingChainListContainer extends React.Component {
 
+  static queryPageSize = 100
+
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
     // from mapDispatchToProps
     deleteChain: PropTypes.func,
+    fetchPage: PropTypes.func,
   }
 
   onEdit = (chainNameToEdit) => {
@@ -42,11 +45,35 @@ export class IngestProcessingChainListContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  onCreate = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/chain/create`
+    browserHistory.push(url)
+  }
+
+  onBack = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/board`
+    browserHistory.push(url)
+  }
+
+  onDelete = (name, rowIndex) => {
+    this.props.deleteChain(name).then((actionResult) => {
+      if (!actionResult.error) {
+        this.props.fetchPage(Math.floor(rowIndex / IngestProcessingChainListContainer.queryPageSize),
+          IngestProcessingChainListContainer.queryPageSize)
+      }
+    })
+  }
+
   render() {
-    return <ProcessingChainListComponent
-      onDelete={this.props.deleteChain}
+    return (<ProcessingChainListComponent
+      onDelete={this.onDelete}
       onEdit={this.onEdit}
-    />
+      onCreate={this.onCreate}
+      onBack={this.onBack}
+      queryPageSize={IngestProcessingChainListContainer.queryPageSize}
+    />)
   }
 }
 
@@ -54,7 +81,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  deleteChain : name => dispatch(processingChainActions.deleteEntity(name))
+  deleteChain: name => dispatch(processingChainActions.deleteEntity(name)),
+  fetchPage: (pageIndex, pageSize) => dispatch(processingChainActions.fetchPagedEntityList(pageIndex, pageSize)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withI18n(messages)(IngestProcessingChainListContainer))

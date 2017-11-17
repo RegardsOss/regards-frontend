@@ -16,15 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import cloneDeep from 'lodash/cloneDeep'
+import forEach from 'lodash/forEach'
 import get from 'lodash/get'
-import {Card, CardActions} from 'material-ui/Card'
-import {formValueSelector} from 'redux-form'
-import {connect} from '@regardsoss/redux'
-import {CardActionsComponent} from '@regardsoss/components'
-import {RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers, reduxForm} from '@regardsoss/form-utils'
-import {CommonShapes} from '@regardsoss/shape'
-import {themeContextType} from '@regardsoss/theme'
-import {i18nContextType} from '@regardsoss/i18n'
+import { Card, CardActions } from 'material-ui/Card'
+import { formValueSelector } from 'redux-form'
+import { connect } from '@regardsoss/redux'
+import { CardActionsComponent } from '@regardsoss/components'
+import { reduxForm } from '@regardsoss/form-utils'
+import { CommonShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import moduleStyles from '../styles/styles'
 import PluginConfigurationComponent from './PluginConfigurationComponent'
 import PluginUtils from './utils'
@@ -81,7 +83,7 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @param path
    */
   loadIcon = (path) => {
-    const {iconField} = this.props
+    const { iconField } = this.props
     if (iconField) {
       this.setState({
         loadedIcon: iconField,
@@ -97,7 +99,7 @@ export class PluginConfigurationFormComponent extends React.Component {
    * Initialize form fields
    */
   handleInitialize = () => {
-    const {formMode, pluginMetaData, pluginConfiguration} = this.props
+    const { formMode, pluginMetaData, pluginConfiguration } = this.props
     let initialValues
 
     switch (formMode) {
@@ -115,7 +117,7 @@ export class PluginConfigurationFormComponent extends React.Component {
         break
       case 'copy':
         // Deep copy pluginConfiguration
-        initialValues = cloneDeep(pluginConfigurationt)
+        initialValues = cloneDeep(pluginConfiguration)
         // In copy mode remove id of the duplicated pluginConfiguration
         delete initialValues.id
         // In copy mode remove id of each pluginParameters
@@ -141,7 +143,7 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const {microserviceName, displayTitle, pluginMetaData, pluginConfiguration, handleSubmit, submitting, invalid, backUrl, change, formMode} = this.props
+    const { microserviceName, displayTitle, pluginMetaData, pluginConfiguration, handleSubmit, submitting, invalid, backUrl, change, formMode } = this.props
 
     const styles = moduleStyles(this.context.muiTheme)
 
@@ -162,11 +164,11 @@ export class PluginConfigurationFormComponent extends React.Component {
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={this.state.isEditing ?
-                this.context.intl.formatMessage({id: 'microservice-management.plugin.configuration.form.action.submit.save'}) :
-                this.context.intl.formatMessage({id: 'microservice-management.plugin.configuration.form.action.submit.add'})}
+                this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.action.submit.save' }) :
+                this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.action.submit.add' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({id: 'microservice-management.plugin.configuration.form.action.cancel'})}
+              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

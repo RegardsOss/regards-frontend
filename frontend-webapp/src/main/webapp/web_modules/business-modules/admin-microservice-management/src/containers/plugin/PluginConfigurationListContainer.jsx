@@ -21,10 +21,8 @@ import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
-import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
-import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
-import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
+import { pluginMetadataActions, pluginMetadataSelectors } from '../../clients/PluginMetadataClient'
+import { PluginConfigurationActions, PluginConfigurationSelectors } from '../../clients/PluginConfigurationClient'
 import PluginConfigurationListComponent from '../../components/plugin/PluginConfigurationListComponent'
 import messages from '../../i18n'
 
@@ -111,12 +109,12 @@ export class PluginConfigurationListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  pluginMetaData: PluginMetaDataSelectors.getById(state, ownProps.params.pluginId),
+  pluginMetaData: pluginMetadataSelectors.getById(state, ownProps.params.pluginId),
   pluginConfigurationList: PluginConfigurationSelectors.getListByPluginId(state, ownProps.params.pluginId),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginMetaData: (pluginId, microserviceName) => dispatch(PluginMetaDataActions.fetchEntity(pluginId, { microserviceName })),
+  fetchPluginMetaData: (pluginId, microserviceName) => dispatch(pluginMetadataActions.fetchEntity(pluginId, { microserviceName })),
   fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchEntityList({
     microserviceName,
     pluginId,

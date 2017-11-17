@@ -30,9 +30,10 @@ class IngestProcessingChainTableDeleteAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array
+      links: PropTypes.array,
     }),
-    onDelete : PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    rowIndex: PropTypes.number.isRequired,
   }
 
   static contextTypes = {
@@ -42,21 +43,25 @@ class IngestProcessingChainTableDeleteAction extends React.Component {
   static iconStyle = { height: 23, width: 23 }
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
+  onDelete = () => {
+    const chain = this.props.entity.content
+    this.props.onDelete(chain.name, this.props.rowIndex)
+  }
+
   isDeletable = () => {
     const { links } = this.props.entity
-    return find(links, l => l.rel === 'delete',false) !== false
+    return find(links, l => l.rel === 'delete', false) !== false
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const chain = this.props.entity.content
 
     return (
       <IconButton
         title={formatMessage({ id: 'processing-chain.delete.tooltip' })}
         iconStyle={IngestProcessingChainTableDeleteAction.iconStyle}
         style={IngestProcessingChainTableDeleteAction.buttonStyle}
-        onTouchTap={() => this.props.onDelete(chain.name)}
+        onTouchTap={this.onDelete}
         disabled={this.isDeletable()}
       >
         <Reset />

@@ -27,11 +27,9 @@ import { CommonClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['plugin-metadata']
 const REDUX_ACTION_NAMESPACE = 'common/pluginMetadata'
 
-const pluginMetadataReducer = CommonClient.PluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
+const pluginMetadataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
 const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
-const pluginMetadataSelectorBuilder = (paths) => {
-  return CommonClient.PluginMetaDataSelectors(concat(paths,ENTITIES_STORE_PATH))
-}
+const pluginMetadataSelectorBuilder = paths => CommonClient.getPluginMetaDataSelectors(concat(paths, ENTITIES_STORE_PATH))
 
 
 export default {

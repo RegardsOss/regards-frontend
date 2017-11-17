@@ -27,11 +27,9 @@ import { CommonClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['plugin-configuration']
 const REDUX_ACTION_NAMESPACE = 'common/pluginConfiguration'
 
-const pluginConfigurationReducer = CommonClient.PluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
+const pluginConfigurationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
 const pluginConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
-const pluginConfigurationSelectorBuilder = (paths) => {
-  return CommonClient.PluginConfigurationSelectors(concat(paths,ENTITIES_STORE_PATH))
-}
+const pluginConfigurationSelectorBuilder = paths => CommonClient.getPluginConfigurationSelectors(concat(paths, ENTITIES_STORE_PATH))
 
 export default {
   pluginConfigurationReducer,
