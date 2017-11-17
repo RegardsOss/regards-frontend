@@ -51,10 +51,10 @@ export class DatasourceFormContainer extends React.Component {
     currentDatasource: DataManagementShapes.Datasource,
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
-    createDatasource: PropTypes.func,
-    updateDatasource: PropTypes.func,
-    fetchDatasource: PropTypes.func,
-    fetchPluginMetaDataList: PropTypes.func,
+    createDatasource: PropTypes.func.isRequired,
+    updateDatasource: PropTypes.func.isRequired,
+    fetchDatasource: PropTypes.func.isRequired,
+    fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
 
   constructor(props) {

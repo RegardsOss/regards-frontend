@@ -110,6 +110,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
     )
     // give some modules (otherwise the component should lock the rendering)
     wrapper.instance().setState({ availableModuleTypes: ['aModule'] })
+    wrapper.update() // wait for state update
 
     assert.isTrue(wrapper.find(ModuleFormComponent).length === 0, 'There should not be a ModuleFormComponent displayed')
     assert.isTrue(wrapper.find(NoContainerAvailables).length === 1, 'There should be a NoContainerAvailables displayed')
@@ -154,6 +155,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
     )
     // give some modules (otherwise the component should lock the rendering)
     wrapper.instance().setState({ availableModuleTypes: ['aModule'] })
+    wrapper.update() // wait for state update
 
     assert.isTrue(wrapper.find(ModuleFormComponent).length === 1, 'There should be a ModuleFormComponent displayed')
     assert.isFalse(fetchModuleCallback.called, 'The module should not fetch the module as it is already fetched')

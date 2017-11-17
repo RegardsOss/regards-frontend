@@ -36,9 +36,9 @@ export class RoleFormContainer extends React.Component {
     roleList: AdminShapes.RoleList,
     isFetching: PropTypes.bool,
     // from mapDispatchToProps
-    createRole: PropTypes.func,
-    fetchRoleList: PropTypes.func,
-    updateRole: PropTypes.func,
+    createRole: PropTypes.func.isRequired,
+    fetchRoleList: PropTypes.func.isRequired,
+    updateRole: PropTypes.func.isRequired,
   }
 
   constructor(props) {

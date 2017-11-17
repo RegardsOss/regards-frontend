@@ -70,8 +70,8 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin metata data list contai
       ],
       isPluginMetaDataListFetching: false,
       // from mapDispatchToProps
-      fetchPluginMetaDataList: () => {
-      },
+      fetchPluginTypeList: () => { },
+      fetchPluginMetaDataList: () => { },
     }
 
     const enzymeWrapper = shallow(<PluginMetaDataListContainer {...props} />, { context })

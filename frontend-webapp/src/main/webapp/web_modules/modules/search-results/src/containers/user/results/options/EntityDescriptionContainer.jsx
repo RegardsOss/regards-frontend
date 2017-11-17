@@ -42,6 +42,8 @@ export class EntityDescriptionContainer extends React.Component {
   }
 
   static propTypes = {
+    // from table cell API, mentionned here only to be excluded from children properties
+    rowIndex: PropTypes.number,
     // Entity. Note: when used in options column, this is provided by the table cell API
     entity: AccessShapes.EntityWithServices.isRequired,
     // from mapDispatchToProps

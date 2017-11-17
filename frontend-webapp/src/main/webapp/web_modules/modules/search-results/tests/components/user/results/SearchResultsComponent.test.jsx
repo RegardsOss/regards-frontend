@@ -37,6 +37,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   const options = { context: buildTestContext(Styles) }
 
   const commonProperties = {
+    isFetching: false,
     allowingFacettes: true,
     displayDatasets: true,
 
@@ -82,7 +83,6 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   }, {
     caseLabel: 'Should render dataobjects in list mode',
     caseProperties: {
-      isFetching: false,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       searchActions: searchDataobjectsActions,
       viewMode: DisplayModeEnum.LIST,
@@ -90,7 +90,6 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   }, {
     caseLabel: 'Should render dataobjects in table mode',
     caseProperties: {
-      isFetching: false,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       searchActions: searchDataobjectsActions,
       viewMode: DisplayModeEnum.TABLE,
@@ -98,7 +97,6 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   }, {
     caseLabel: 'Should render datasets in list mode',
     caseProperties: {
-      isFetching: false,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       searchActions: searchDatasetsActions,
       viewMode: DisplayModeEnum.LIST,
@@ -106,7 +104,6 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   }, {
     caseLabel: 'Should render datasets in list mode',
     caseProperties: {
-      isFetching: false,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       searchActions: searchDatasetsActions,
       viewMode: DisplayModeEnum.TABLE,
@@ -123,7 +120,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   it('should render selection services, indepently of view modes and types', () => {
     const props = {
       ...commonProperties,
-      ...testCases[0].caseProperties,
+      ...testCases[1].caseProperties,
       selectionServices: [{
         content: {
           configId: 0,

@@ -74,6 +74,6 @@ describe('[Search Results] Testing SelectedFacetsHeaderRow', () => {
     const enzymeWrapper = shallow(<SelectedFacetsHeaderRow {...props} />, { context })
     const showableWrapper = enzymeWrapper.find(ShowableAtRender)
     assert.isTrue(showableWrapper.props().show, 'selected facets should be displayed')
-    assert.lengthOf(enzymeWrapper.find(SelectedFacetComponent), 1, 'There should be the rendered component')
+    assert.lengthOf(enzymeWrapper.find(SelectedFacetComponent), 2, 'There should be the rendered components')
   })
 })

@@ -1,6 +1,5 @@
 import { connect } from '@regardsoss/redux'
 import { withI18n } from '@regardsoss/i18n'
-import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import ProcessingChainListComponent from '../components/IngestProcessingChainListComponent'
 import messages from '../i18n'
 

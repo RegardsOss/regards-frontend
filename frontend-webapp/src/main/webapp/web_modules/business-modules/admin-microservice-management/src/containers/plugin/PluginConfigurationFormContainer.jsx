@@ -51,10 +51,10 @@ export class PluginConfigurationFormContainer extends React.Component {
     currentPluginConfiguration: CommonShapes.PluginConfiguration,
     isPluginConfigurationFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchPluginConfiguration: PropTypes.func,
-    createPluginConfiguration: PropTypes.func,
-    updatePluginConfiguration: PropTypes.func,
-    fetchPluginMetaDataList: PropTypes.func,
+    fetchPluginConfiguration: PropTypes.func.isRequired,
+    createPluginConfiguration: PropTypes.func.isRequired,
+    updatePluginConfiguration: PropTypes.func.isRequired,
+    fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
