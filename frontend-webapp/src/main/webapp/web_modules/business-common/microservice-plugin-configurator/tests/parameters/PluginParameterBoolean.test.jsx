@@ -16,58 +16,47 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { expect, assert } from 'chai'
 import { shallow } from 'enzyme'
-import values from 'lodash/values'
+import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { ListItem } from 'material-ui/List'
-import RaisedButton from 'material-ui/RaisedButton'
-import IconMenu from 'material-ui/IconMenu'
 import { Field } from '@regardsoss/form-utils'
-import { PluginParameterPlugin } from '../../../../src/components/plugin/parameter/PluginParameterPlugin'
-
-const options = {
-  context: buildTestContext(),
-}
+import PluginParameterBoolean from '../../src/components/parameters/PluginParameterBoolean'
 
 /**
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter plugin component', () => {
+const context = buildTestContext()
+
+describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter boolean component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(PluginParameterPlugin)
-    assert.isDefined(ListItem)
+    assert.isDefined(PluginParameterBoolean)
     assert.isDefined(Field)
-    assert.isDefined(IconMenu)
-    assert.isDefined(RaisedButton)
+    assert.isDefined(ListItem)
   })
 
-  it('should render a Raised Button and an IconMenu and Field', () => {
+  it('should render a Field', () => {
     const props = {
       microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
-      pluginConfigurationList: values(DumpProvider.get('CommonClient', 'PluginConfiguration')),
-      pluginMetaDataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
-        name: 'plgInterface',
-        value: '40',
+        name: 'isActive',
+        value: 'false',
         dynamic: false,
       },
       pluginParameterType: {
-        name: 'plgInterface',
-        type: 'IPluginInterfacer',
-        paramType: 'PLUGIN',
+        name: 'isActive',
+        type: 'java.lang.Boolean',
+        paramType: 'PRIMITIVE',
       },
-      fetchPluginConfigurationList: () => { },
     }
-    const enzymeWrapper = shallow(<PluginParameterPlugin {...props} />, options)
-    expect(enzymeWrapper.find(Field)).to.have.length(1)
-    expect(enzymeWrapper.find(IconMenu)).to.have.length(1)
-    expect(enzymeWrapper.find(RaisedButton)).to.have.length(1)
+    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />, { context })
+    const subComponent = enzymeWrapper.find(Field)
+    expect(subComponent).to.have.length(1)
   })
 })

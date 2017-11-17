@@ -18,9 +18,7 @@
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { CommonShapes } from '@regardsoss/shape'
-import PluginConfigurationActions from '../../../src/model/plugin/PluginConfigurationActions'
-import PluginConfigurationReducers from '../../../src/model/plugin/PluginConfigurationReducers'
-import PluginConfigurationSelectors from '../../../src/model/plugin/PluginConfigurationSelectors'
+import { pluginConfigurationActions, pluginConfigurationReducer, pluginConfigurationSelectors } from '../../../src/clients/PluginConfigurationClient'
 import PluginConfigurationNetworkDump from './dump/PluginConfigurationNetworkDump'
 
 const backendServerResultList = PluginConfigurationNetworkDump
@@ -28,7 +26,7 @@ const options = {
   urlParams: { microserviceName: 'rs-dam', pluginId: '0' },
 }
 
-const entityTester = new ReduxEntityTester(PluginConfigurationActions, PluginConfigurationReducers, PluginConfigurationSelectors, CommonShapes.PluginConfigurationList.isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(pluginConfigurationActions, pluginConfigurationReducer, pluginConfigurationSelectors, CommonShapes.PluginConfigurationList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing model PluginConfiguration', () => {
   before(() => {

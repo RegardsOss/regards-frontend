@@ -18,26 +18,28 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { Card } from 'material-ui/Card'
-import { PluginConfigurationFormComponent } from '../../../src/components/plugin/PluginConfigurationFormComponent'
-import styles from '../../../src/styles/styles'
+import Chip from 'material-ui/Chip'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import PluginParameterDynamic from '../../src/components/parameters/PluginParameterDynamic'
 
-const context = buildTestContext(styles)
+const options = {
+  context: buildTestContext(),
+}
+
 /**
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component', () => {
+describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter dynamic component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(PluginConfigurationFormComponent)
-    assert.isDefined(Card)
+    assert.isDefined(PluginParameterDynamic)
+    assert.isDefined(Chip)
   })
 
-  it('should render sub-components', () => {
+  it('should render a Chip', () => {
     const props = {
       microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginConfiguration: {
@@ -50,29 +52,30 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component
           pluginClassName: 'Kerberos',
         },
       },
-      pluginMetaData: {
-        content: {
-          id: 0,
-          pluginType: 'Authentication',
-          pluginClassName: 'Kerberos',
-          author: 'Jules Verne',
-          version: '0.0.5',
-          description: 'Allows the users to log in with their usual email and password.',
-        },
+      pluginParameter: {
+        id: 0,
+        name: 'suffix',
+        value: 'dynavalue0',
+        dynamic: true,
+        dynamicsValues: [
+          {
+            value: 'dynavalue0',
+          },
+          {
+            value: 'dynavalue1',
+          },
+        ],
       },
-      onSubmit: () => { },
-      backUrl: 'back/url',
-      formMode: 'create',
-      // from reduxForm
-      submitting: false,
-      pristine: false,
-      invalid: false,
-      handleSubmit: () => { },
-      initialize: () => { },
-      change: () => { },
+      pluginParameterType: {
+        name: 'suffix',
+        type: 'java.lang.String',
+        paramType: 'PRIMITIVE',
+        optional: true,
+        defaultValue: 'default',
+      },
     }
-    const enzymeWrapper = shallow(<PluginConfigurationFormComponent {...props} />, { context })
-    const subComponent = enzymeWrapper.find(Card)
-    expect(subComponent).to.have.length(3)
+    const enzymeWrapper = shallow(<PluginParameterDynamic {...props} />, options)
+    const subComponent = enzymeWrapper.find(Chip)
+    expect(subComponent).to.have.length(2)
   })
 })

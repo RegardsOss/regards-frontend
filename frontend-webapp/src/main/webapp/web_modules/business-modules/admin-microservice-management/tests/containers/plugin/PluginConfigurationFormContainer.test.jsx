@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { PluginFormConfigurator } from '@regardsoss/microservice-plugin-configurator'
 import { PluginConfigurationFormContainer } from '../../../src/containers/plugin/PluginConfigurationFormContainer'
-import PluginConfigurationFormComponent from '../../../src/components/plugin/PluginConfigurationFormComponent'
 
 /**
  * Plugin tests
@@ -32,7 +32,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form cont
 
   it('should exists', () => {
     assert.isDefined(PluginConfigurationFormContainer)
-    assert.isDefined(PluginConfigurationFormComponent)
+    assert.isDefined(PluginFormConfigurator)
   })
 
   it('should render self and subcomponents in create mode', () => {
@@ -70,6 +70,6 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form cont
       fetchPluginMetaDataList: () => { },
     }
     const enzymeWrapper = shallow(<PluginConfigurationFormContainer {...props} />)
-    expect(enzymeWrapper.find(PluginConfigurationFormComponent)).to.have.length(1)
+    expect(enzymeWrapper.find(PluginFormConfigurator)).to.have.length(1)
   })
 })
