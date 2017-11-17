@@ -95,7 +95,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
     // 2 - update table rows count to adjust available size
     if (oldProperties.availableHeight !== newProperties.availableHeight) {
       // compute the number of elements that should be visible at same timerow count
-      newState.pageSize = this.computePageSize(newProperties.availableHeight)
+      newState.visibleRowsCount = this.computeVisibleRowsCount(newProperties.availableHeight)
     }
 
     if (!isEqual(oldState, newState)) {
@@ -103,10 +103,11 @@ class SelectionDetailResultsTableComponent extends React.Component {
     }
   }
 
-  computePageSize(availableHeight) {
+  computeVisibleRowsCount(availableHeight) {
     const lineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
+    const remainingRowsHeight = availableHeight - this.context.muiTheme['components:infinite-table'].minHeaderRowHeight
     return Math.max(SelectionDetailResultsTableComponent.MIN_TABLE_PAGE_SIZE,
-      Math.floor((availableHeight / lineHeight) - 1)) // note: remove one row to take headers line in account
+      Math.floor((remainingRowsHeight / lineHeight) - 1)) // note: remove one row to take headers line in account
   }
 
   /**
@@ -120,15 +121,13 @@ class SelectionDetailResultsTableComponent extends React.Component {
   }
 
   render() {
-    const { dataobjectsSearchParams, pageSize } = this.state
-    const minRowCount = this.context.muiTheme['components:infinite-table'].minRowCount
+    const { dataobjectsSearchParams, visibleRowsCount } = this.state
     return (
       <TableLayout>
         <PageableInfiniteTableContainer
           pageActions={searchDataobjectsActions}
           pageSelectors={searchDataobjectsSelectors}
-          pageSize={pageSize}
-          minRowCount={minRowCount}
+          displayedRowsCount={visibleRowsCount}
           columns={this.renderColumns()}
           requestParams={dataobjectsSearchParams}
           emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}

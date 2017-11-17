@@ -19,10 +19,12 @@
 import { combineReducers } from 'redux'
 import { processingChainReducer } from './clients/ProcessingChainClient'
 import { tableReducer } from './clients/TableClient'
+import { PluginConfiguratorReducer } from '@regardsoss/microservice-plugin-configurator'
 
 const ingestManagementReducer = combineReducers({
   chain: processingChainReducer,
   'processing-chain-table': tableReducer,
+  'pluginConfigurator' : PluginConfiguratorReducer,
 })
 
 export default ingestManagementReducer

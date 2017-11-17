@@ -66,7 +66,7 @@ export class AttributesContainer extends React.Component {
       dispatchFetchModelAttributes,
   }) => {
     const oldState = this.state
-    const newState = oldState || AttributesContainer.DEFAULT_STATE
+    const newState = { ...(oldState || AttributesContainer.DEFAULT_STATE) }
 
     // 1 - detect entity model change to fetch attributes
     const oldModelId = get(oldEntity, 'content.model.id')

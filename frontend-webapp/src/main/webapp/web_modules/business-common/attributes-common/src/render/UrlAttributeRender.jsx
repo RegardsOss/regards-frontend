@@ -25,7 +25,7 @@ import messages from '../i18n'
  *
  * @author Sébastien binda
  */
-class UrlAttributeRender extends React.Component {
+export class UrlAttributeRender extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types

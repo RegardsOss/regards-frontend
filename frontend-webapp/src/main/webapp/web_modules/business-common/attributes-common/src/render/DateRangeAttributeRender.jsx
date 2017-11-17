@@ -29,7 +29,7 @@ import styles from '../styles'
  *
  * @author Sébastien binda
  */
-class DateRangeAttributeRender extends React.Component {
+export class DateRangeAttributeRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.shape({

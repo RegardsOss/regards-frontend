@@ -31,9 +31,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
-import GenericPluginParameter from './parameter/GenericPluginParameter'
+import { GenericPluginParameter, PluginUtils } from '@regardsoss/microservice-plugin-configurator'
 import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
-import { mapPluginParameterTypeToPluginParameter } from '../../model/plugin/utils'
 import moduleStyles from '../../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
@@ -94,7 +93,7 @@ class PluginConfigurationComponent extends React.Component {
         key={pluginParameterType.name}
         microserviceName={microserviceName}
         pluginParameterType={pluginParameterType}
-        pluginParameter={mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration)}
+        pluginParameter={PluginUtils.mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration)}
         pluginMetaData={pluginMetaData}
         mode={'view'}
       />))

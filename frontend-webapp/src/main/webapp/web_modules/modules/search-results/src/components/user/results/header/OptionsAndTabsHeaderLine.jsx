@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ListViewIcon from 'material-ui/svg-icons/action/list'
-import TableViewIcon from 'material-ui/svg-icons/action/view-module'
+import ListViewIcon from 'mdi-material-ui/ViewSequential'
+import TableViewIcon from 'mdi-material-ui/TableLarge'
+// TODO-V2 for quicklook
+// import TableViewIcon from 'mdi-material-ui/Apps'
 import ShowFacetsSearchIcon from 'material-ui/svg-icons/action/find-in-page'
 import DatasetLibraryIcon from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibraryIcon from 'material-ui/svg-icons/av/library-books'
@@ -25,6 +27,7 @@ import FlatButton from 'material-ui/FlatButton'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import {
   ShowableAtRender, TableColumnConfiguration, TableHeaderLine,
@@ -71,6 +74,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   /** @return {boolean} true if currently displaying data objects */
@@ -83,17 +87,13 @@ class OptionsAndTabsHeaderLine extends React.Component {
   isInTableView = () => this.props.viewMode === DisplayModeEnum.TABLE
 
   render() {
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
     const { displayDatasets, searchSelectors, tableColumns,
       allowingFacettes, showingFacettes, selectionServices,
       onAddSelectionToCart, onChangeColumnsVisibility,
       onShowListView, onShowTableView, onShowDatasets, onShowDataobjects,
       onSortByAttribute, onStartSelectionService, onToggleShowFacettes } = this.props
 
-    // TODO-V2 externalize as styles
-    const iconListStyle = { width: 33, height: 33 }
-    const iconTableStyle = { width: 30, height: 30 }
-    const buttonStyle = { minWidth: 45 }
     return (
       <TableHeaderLine key="table.options">
         {/* 1.a - Tabs (left group) */}
@@ -163,21 +163,17 @@ class OptionsAndTabsHeaderLine extends React.Component {
             <FlatButton
               key="view.type.list"
               onTouchTap={onShowListView}
-              icon={<ListViewIcon
-                style={iconListStyle}
-              />}
+              icon={<ListViewIcon />}
               secondary={this.isInListView()}
-              style={buttonStyle}
+              style={viewModeButton}
               title={formatMessage({ id: 'view.type.list.button.label' })}
             />
             <FlatButton
               key="view.type.table"
               onTouchTap={onShowTableView}
-              icon={<TableViewIcon
-                style={iconTableStyle}
-              />}
+              icon={<TableViewIcon />}
               secondary={this.isInTableView()}
-              style={buttonStyle}
+              style={viewModeButton}
               title={formatMessage({ id: 'view.type.table.button.label' })}
             />
           </TableHeaderOptionGroup>

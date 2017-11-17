@@ -82,13 +82,12 @@ export class IngestProcessingChainFormContainer extends React.Component {
 
   render() {
     const { isCreating, isLoading } = this.state
-    const onSubmit = isCreating ? this.props.createChain : this.props.updateChain
     const chain = isCreating ? undefined : get(this.props, 'processingChain.content', undefined)
     return (
       <LoadableContentDisplayDecorator isLoading={isLoading}>
         <IngestProcessingChainFormComponent
           processingChain={chain}
-          onSubmit={onSubmit}
+          onSubmit={this.handleSubmit}
           isCreating={isCreating}
           backUrl={this.getBackUrl()}
         />

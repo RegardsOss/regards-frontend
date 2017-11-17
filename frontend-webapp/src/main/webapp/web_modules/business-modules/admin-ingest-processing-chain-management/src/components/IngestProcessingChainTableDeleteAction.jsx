@@ -57,7 +57,7 @@ class IngestProcessingChainTableDeleteAction extends React.Component {
         iconStyle={IngestProcessingChainTableDeleteAction.iconStyle}
         style={IngestProcessingChainTableDeleteAction.buttonStyle}
         onTouchTap={() => this.props.onDelete(chain.name)}
-        disabled={true}
+        disabled={this.isDeletable()}
       >
         <Reset />
       </IconButton>
