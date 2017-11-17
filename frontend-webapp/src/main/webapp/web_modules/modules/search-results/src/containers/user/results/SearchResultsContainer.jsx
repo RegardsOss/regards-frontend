@@ -254,13 +254,13 @@ export class SearchResultsContainer extends React.Component {
   onSortByAttribute = (modelKey, type) => this.updateStateAndQuery({
     // update presentation models to hold the new sorting
     attributePresentationModels: this.state.attributePresentationModels.map((attrModel) => {
-      if (attrModel.key === modelKey) { // model identified by its key
-        return {
-          ...attrModel,
-          sortOrder: type,
-        }
+      let sortOrder = attrModel.sortOrder
+      if (attrModel.key === modelKey) {
+        sortOrder = type // update the modified column
+      } else if (this.props.displayMode === DisplayModeEnum.LIST) {
+        sortOrder = TableSortOrders.NO_SORT// in list mode, clear other columns sorting orders
       }
-      return attrModel
+      return { ...attrModel, sortOrder }
     }),
   })
 

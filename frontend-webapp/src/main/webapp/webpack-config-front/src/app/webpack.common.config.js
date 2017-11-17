@@ -108,7 +108,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-theme-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-module-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-modelattribute-management/src/main.js'),
-      new webpack.PrefetchPlugin('./web_modules/modules/search-facets/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/search-results/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-data-attributemodel-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-microservice-management/src/main.js'),

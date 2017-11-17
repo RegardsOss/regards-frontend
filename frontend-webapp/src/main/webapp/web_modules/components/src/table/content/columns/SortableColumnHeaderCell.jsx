@@ -60,7 +60,7 @@ class SortableColumnHeaderCell extends React.Component {
 
   render() {
     const { label, hideLabel, sortable, sortingOrder } = this.props
-    const { header: { sortableHeader: { style, sortButtonStyle, sortIconStyle, resizeIconStyle } } } = this.context.moduleTheme
+    const { header: { sortableHeader: { style, sortButtonStyle, sortIconStyle } } } = this.context.moduleTheme
     return (
       <div style={style} >
         {

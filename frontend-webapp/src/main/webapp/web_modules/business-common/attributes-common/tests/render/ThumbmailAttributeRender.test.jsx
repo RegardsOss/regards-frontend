@@ -21,7 +21,6 @@ import { assert } from 'chai'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { OBJECT_LINKED_FILE_ENUM } from '@regardsoss/domain/catalog'
-import { CatalogDomain } from '@regardsoss/domain'
 import { ThumbnailAttributeRender } from '../../src/render/ThumbnailAttributeRender'
 import styles from '../../src/styles'
 

@@ -58,13 +58,13 @@ describe('[ADMIN BOARD Acquisition] Testing acquisition board router', () => {
       done()
     })
   })
-  it('should return documentDataManagementRouter', (done) => {
+  it('should return datasourceDataManagementRouter', (done) => {
     Routes.childRoutes[3].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(datasourceDataManagementRouter)
       done()
     })
   })
-  it('should return datasourceDataManagementRouter', (done) => {
+  it('should return connectionDataManagementRouter', (done) => {
     Routes.childRoutes[4].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(connectionDataManagementRouter)
       done()

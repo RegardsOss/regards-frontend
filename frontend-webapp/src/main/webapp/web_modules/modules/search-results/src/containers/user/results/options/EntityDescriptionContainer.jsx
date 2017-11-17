@@ -42,7 +42,6 @@ export class EntityDescriptionContainer extends React.Component {
   }
 
   static propTypes = {
-    rowIndex: PropTypes.number, // from cell API, to be excluded in sub component props
     // Entity. Note: when used in options column, this is provided by the table cell API
     entity: AccessShapes.EntityWithServices.isRequired,
     // from mapDispatchToProps

@@ -15,31 +15,44 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import TableSelectAllComponent from '../../../../../src/components/user/results/options/TableSelectAllComponent'
+import ResultsAndFacetsHeaderRow from '../../../../../src/components/user/results/header/ResultsAndFacetsHeaderRow'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Results] Testing TableSelectAllComponent', () => {
+/**
+* Test ResultsAndFacetsHeaderRow
+* @author Raphaël Mechali
+*/
+describe('[Search Results] Testing ResultsAndFacetsHeaderRow', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(TableSelectAllComponent)
+    assert.isDefined(ResultsAndFacetsHeaderRow)
   })
-  it('should render properly', () => {
-    shallow(<TableSelectAllComponent
-      allSelected={false}
-      onToggleSelectAll={() => { }}
-    />, { context })
-
-    shallow(<TableSelectAllComponent
-      allSelected
-      onToggleSelectAll={() => { }}
-    />, { context })
+  it('should render correctly loading', () => {
+    const props = {
+      isFetching: true,
+      showFacets: true,
+      onSelectFacet: () => { },
+      facets: [],
+      resultsCount: 22,
+    }
+    shallow(<ResultsAndFacetsHeaderRow {...props} />, { context })
+  })
+  it('should render correctly facets', () => {
+    const props = {
+      isFetching: false,
+      showFacets: true,
+      onSelectFacet: () => { },
+      facets: [],
+      resultsCount: 22,
+    }
+    shallow(<ResultsAndFacetsHeaderRow {...props} />, { context })
   })
 })

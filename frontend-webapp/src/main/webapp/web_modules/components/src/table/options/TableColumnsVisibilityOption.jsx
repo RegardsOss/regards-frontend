@@ -23,7 +23,6 @@ import Dialog from 'material-ui/Dialog'
 import Checkbox from 'material-ui/Checkbox'
 import ColumnsIcon from 'material-ui/svg-icons/action/view-column'
 import { i18nContextType } from '@regardsoss/i18n'
-import TableColumnConfiguration from '../content/columns/model/TableColumnConfiguration'
 
 /**
  * Render a react component to display a panel to change visibility of table columns.

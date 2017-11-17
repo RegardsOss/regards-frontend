@@ -28,7 +28,6 @@ import AddElementToCartComponent from '../../../../components/user/results/optio
 export class AddElementToCartContainer extends React.Component {
 
   static propTypes = {
-    rowIndex: PropTypes.number, // from cell API, to be excluded in sub component props
     // Entity. Note: when used in options column, this is provided by the table cell API
     entity: AccessShapes.EntityWithServices.isRequired,
     // optional callback: add element to cart (entity) => ()

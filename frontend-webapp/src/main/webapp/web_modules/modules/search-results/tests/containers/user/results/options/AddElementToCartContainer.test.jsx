@@ -15,24 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import ListViewEntityCellComponent from '../../../../../src/components/user/results/cells/ListViewEntityCellComponent'
+import AddElementToCartComponent from '../../../../../src/components/user/results/options/AddElementToCartComponent'
+import { AddElementToCartContainer } from '../../../../../src/containers/user/results/options/AddElementToCartContainer'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-const TestRender = () => <div />
-
-describe('[Search Results] Testing ListViewEntityCellComponent', () => {
+/**
+* Test AddElementToCartContainer
+* @author Raphaël Mechali
+*/
+describe('[Search Results] Testing AddElementToCartContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ListViewEntityCellComponent)
+    assert.isDefined(AddElementToCartContainer)
   })
   it('should render correctly', () => {
     const props = {
@@ -42,7 +45,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           ipId: 'coucou',
           sipId: '1',
           label: 'O.D.I.L',
-          entityType: ENTITY_TYPES_ENUM.DATASET,
+          entityType: ENTITY_TYPES_ENUM.DATA,
           files: {},
           geometry: null,
           properties: {},
@@ -50,29 +53,9 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           services: [],
         },
       },
-
-      hasDownload: true,
-      thumbnailRenderData: {
-        key: 'thumbnail.test',
-        renderers: [{
-          path: 'content.files', // stub for test
-          RenderConstructor: TestRender,
-        }],
-      },
-      gridAttributesRenderData: [{
-        key: 'some.prop',
-        label: 'Some prop',
-        renderers: [{
-          path: 'content.tags',
-          RenderConstructor: TestRender,
-        }],
-      }],
-      servicesEnabled: true,
-      entitySelected: true,
-      onSelectEntity: () => { },
-      onSearchEntity: () => { },
       onAddToCart: () => { },
     }
-    shallow(<ListViewEntityCellComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<AddElementToCartContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(AddElementToCartComponent), 1, 'Sub component should be rendered')
   })
 })

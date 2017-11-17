@@ -19,29 +19,29 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import FilterDisplayComponent from '../../src/components/FilterDisplayComponent'
+import NumberRangeFacetSelectorComponent from '../../../../../src/components/user/results/facets/NumberRangeFacetSelectorComponent'
+import FacetSelectorComponent from '../../../../../src/components/user/results/facets/FacetSelectorComponent'
+import styles from '../../../../../src/styles/styles'
+import facetsNetworkDump from '../../../../dumps/results.dump'
 
-import styles from '../../src/styles/styles'
+const aFacetModel = facetsNetworkDump.facets[2]
 
-describe('[SEARCH FACETS] Testing FilterDisplayComponent', () => {
+describe('[SEARCH FACETS] Testing NumberRangeFacetSelectorComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(FilterDisplayComponent)
+    assert.isDefined(NumberRangeFacetSelectorComponent)
   })
   const context = buildTestContext(styles)
 
   it('should render properly', () => {
     const props = {
-      filter: {
-        filterLabel: 'any',
-        filterKey: 'any',
-        openSearchQuery: ' any',
-      },
-      deleteFilter: () => { },
+      facet: aFacetModel,
+      onSelectFacet: () => { },
     }
-    // simple render test (nothing static to test here)
-    shallow(<FilterDisplayComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<NumberRangeFacetSelectorComponent {...props} />, { context })
+    // We assert here that the rendering is correctly delegated to FacetSelectorComponent
+    assert.equal(enzymeWrapper.find(FacetSelectorComponent).length, 1, 'Rendering should be delegated to RangeFacetSelectorComponent')
   })
 })
