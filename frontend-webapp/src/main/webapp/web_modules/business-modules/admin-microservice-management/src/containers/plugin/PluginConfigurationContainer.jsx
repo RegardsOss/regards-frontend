@@ -135,7 +135,6 @@ export class PluginConfigurationContainer extends React.Component {
         onTouchTap={this.handleDeleteClick}
       />,
     ]
-    console.error('plu', pluginMetaData)
     return (
       <div>
         <PluginConfigurationComponent

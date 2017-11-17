@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,24 +15,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { CommonClient } from '@regardsoss/client'
+ **/
+import replace from 'lodash/replace'
+import Schemas from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
-/**
- * Plugin MetaData entities client.
- *
- * @author Léo Mieulet
- */
-const ENTITIES_STORE_PATH = ['admin', 'models', 'model-attribute-management', 'plugin-meta-data']
-const REDUX_ACTION_NAMESPACE = 'admin-data-modelattribute-management/pluginMetaData'
-
-const pluginMetaDataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
-const pluginMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
-const pluginMetaDataSelectors = CommonClient.getPluginMetaDataSelectors(ENTITIES_STORE_PATH)
-
-
-export default {
-  pluginMetaDataReducer,
-  pluginMetaDataActions,
-  pluginMetaDataSelectors,
+export default class PluginConfigurationByTypeActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugins/{pluginId}/config`,
+      schemaTypes: {
+        ENTITY: Schemas.PLUGIN_CONFIGURATION,
+        ENTITY_ARRAY: Schemas.PLUGIN_CONFIGURATION_ARRAY,
+      },
+    })
+  }
+  getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
 }

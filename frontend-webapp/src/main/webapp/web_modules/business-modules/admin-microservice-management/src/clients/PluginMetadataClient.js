@@ -26,13 +26,13 @@ import { CommonClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'microservice-management', 'pluginMetadata']
 const REDUX_ACTION_NAMESPACE = 'common/pluginMetadata'
 
-const pluginMetadataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
-const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
-const pluginMetadataSelectors = CommonClient.getPluginMetaDataSelectors(ENTITIES_STORE_PATH)
+const pluginMetaDataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
+const pluginMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
+const pluginMetaDataSelectors = CommonClient.getPluginMetaDataSelectors(ENTITIES_STORE_PATH)
 
 
 export default {
-  pluginMetadataReducer,
-  pluginMetadataActions,
-  pluginMetadataSelectors,
+  pluginMetaDataReducer,
+  pluginMetaDataActions,
+  pluginMetaDataSelectors,
 }

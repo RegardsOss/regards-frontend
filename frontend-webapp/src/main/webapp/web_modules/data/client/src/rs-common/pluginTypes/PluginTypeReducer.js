@@ -19,6 +19,7 @@
 import { BasicArrayReducers } from '@regardsoss/store-utils'
 import PluginTypeActions from './PluginTypeActions'
 
+
 /**
  * Reducers for plugin types
  *
@@ -26,7 +27,7 @@ import PluginTypeActions from './PluginTypeActions'
  */
 class PluginTypeReducer extends BasicArrayReducers {
   constructor(namespace) {
-    super(null, new PluginTypeActions(namespace))
+    super(new PluginTypeActions(namespace))
   }
 }
 

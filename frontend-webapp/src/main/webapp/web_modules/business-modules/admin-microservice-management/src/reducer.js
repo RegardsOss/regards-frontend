@@ -21,7 +21,7 @@ import { combineReducers } from 'redux'
 import { PluginConfiguratorReducer } from '@regardsoss/microservice-plugin-configurator'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 import { pluginTypeReducer } from './clients/PluginTypeClient'
-import { pluginMetadataReducer } from './clients/PluginMetadataClient'
+import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 import MaintenanceModeReducers from './model/MaintenanceModeReducers'
 import SetMaintenanceReducers from './model/SetMaintenanceModeReducers'
 import MicroserviceInfoClient from './clients/MicroserviceInfoClient'
@@ -33,9 +33,9 @@ forEach(STATIC_CONF.MSERVICES, (microservice) => {
 })
 
 const microserviceManagementReducer = combineReducers({
-  pluginMetadatas: pluginMetadataReducer,
+  pluginMetadata: pluginMetaDataReducer,
   pluginType: pluginTypeReducer,
-  pluginConfigurations: pluginConfigurationReducer,
+  pluginConfiguration: pluginConfigurationReducer,
   pluginConfigurator: PluginConfiguratorReducer,
   microserviceInfo: MicroserviceInfoClient.microserviceInfoActions,
   ...maintenanceReducers,

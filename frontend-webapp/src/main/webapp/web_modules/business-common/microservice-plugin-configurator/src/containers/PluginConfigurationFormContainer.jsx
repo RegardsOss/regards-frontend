@@ -24,7 +24,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginConfigurationFormComponent from '../components/PluginConfigurationFormComponent'
-import { pluginConfigurationActions, pluginConfigurationSelectorBuilder } from '../clients/PluginConfigurationClient'
+import { pluginConfigurationByTypeActions, pluginConfigurationSelectorBuilder } from '../clients/PluginConfigurationClient'
 import { pluginMetadataActions, pluginMetadataSelectorBuilder } from '../clients/PluginMetadataClient'
 import messages from '../i18n'
 
@@ -158,16 +158,15 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginMetaDataList: microserviceName => dispatch(pluginMetadataActions.fetchEntityList({
     microserviceName,
   })),
-  fetchPluginConfiguration: (pluginConfId, pluginId, microserviceName) => dispatch(pluginConfigurationActions.fetchEntity(pluginConfId, {
+  fetchPluginConfiguration: (pluginConfId, pluginId, microserviceName) => dispatch(pluginConfigurationByTypeActions.fetchEntity(pluginConfId, {
     microserviceName,
     pluginId,
   })),
-  // TODO : C'est pas le bon client mon garcon !!!
-  createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(pluginConfigurationActions.createEntity(vals, {
+  createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.createEntity(vals, {
     microserviceName,
     pluginId,
   })),
-  updatePluginConfiguration: (id, vals, microserviceName, pluginId) => dispatch(pluginConfigurationActions.updateEntity(id, vals, {
+  updatePluginConfiguration: (id, vals, microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.updateEntity(id, vals, {
     microserviceName,
     pluginId,
   })),

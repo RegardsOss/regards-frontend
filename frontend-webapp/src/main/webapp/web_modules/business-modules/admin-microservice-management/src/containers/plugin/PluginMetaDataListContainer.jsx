@@ -22,6 +22,8 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import PluginMetaDataListComponent from '../../components/plugin/PluginMetaDataListComponent'
+import { pluginTypeSelectors, pluginTypeActions } from '../../clients/PluginTypeClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetadataClient'
 import messages from '../../i18n'
 
 /**
@@ -124,13 +126,13 @@ export class PluginMetaDataListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  pluginTypes: PluginTypeSelectors.getList(state),
-  pluginMetaDataList: PluginMetaDataSelectors.getList(state),
+  pluginTypes: pluginTypeSelectors.getList(state),
+  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginTypeList: microserviceName => dispatch(PluginTypeActions.fetchEntityList({ microserviceName })),
-  fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchEntityList({ microserviceName })),
+  fetchPluginTypeList: microserviceName => dispatch(pluginTypeActions.fetchEntityList({ microserviceName })),
+  fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginMetaDataListContainer)

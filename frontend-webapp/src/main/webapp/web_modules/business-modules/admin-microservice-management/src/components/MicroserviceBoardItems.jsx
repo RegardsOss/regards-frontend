@@ -25,7 +25,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import styles from '../styles/styles'
 import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import SetMaintenanceModeActions from '../model/SetMaintenanceModeActions'
-import { PluginMetaDataActions } from '../clients/PluginMetadataClient'
+import { pluginMetaDataActions } from '../clients/PluginMetadataClient'
 
 
 /**
@@ -55,7 +55,7 @@ const items = (project, maintenances, intl, theme, initialize) => {
       icon: <ExtensionIcon />,
       tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
       hateoasDependencies: [
-        PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice),
+        pluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice),
       ],
     },
     {

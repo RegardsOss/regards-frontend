@@ -21,8 +21,8 @@ import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import { pluginMetadataActions, pluginMetadataSelectors } from '../../clients/PluginMetadataClient'
-import { PluginConfigurationActions, PluginConfigurationSelectors } from '../../clients/PluginConfigurationClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetadataClient'
+import { pluginConfigurationByTypeActions, pluginConfigurationSelectors } from '../../clients/PluginConfigurationClient'
 import PluginConfigurationListComponent from '../../components/plugin/PluginConfigurationListComponent'
 import messages from '../../i18n'
 
@@ -109,17 +109,17 @@ export class PluginConfigurationListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  pluginMetaData: pluginMetadataSelectors.getById(state, ownProps.params.pluginId),
-  pluginConfigurationList: PluginConfigurationSelectors.getListByPluginId(state, ownProps.params.pluginId),
+  pluginMetaData: pluginMetaDataSelectors.getById(state, ownProps.params.pluginId),
+  pluginConfigurationList: pluginConfigurationSelectors.getListByPluginId(state, ownProps.params.pluginId),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginMetaData: (pluginId, microserviceName) => dispatch(pluginMetadataActions.fetchEntity(pluginId, { microserviceName })),
-  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(PluginConfigurationActions.fetchEntityList({
+  fetchPluginMetaData: (pluginId, microserviceName) => dispatch(pluginMetaDataActions.fetchEntity(pluginId, { microserviceName })),
+  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.fetchEntityList({
     microserviceName,
     pluginId,
   })),
-  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, {
+  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.deleteEntity(pluginConfigurationId, {
     microserviceName,
     pluginId,
   })),

@@ -32,7 +32,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { GenericPluginParameter, PluginUtils } from '@regardsoss/microservice-plugin-configurator'
-import { pluginConfigurationActions } from '../../clients/PluginConfigurationClient'
+import { pluginConfigurationByTypeActions } from '../../clients/PluginConfigurationClient'
 import moduleStyles from '../../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
@@ -138,7 +138,7 @@ class PluginConfigurationComponent extends React.Component {
                 <ModeEdit />
               </HateoasIconAction>
               <ResourceIconAction
-                resourceDependencies={pluginConfigurationActions.getMsDependency('POST', this.props.microserviceName)}
+                resourceDependencies={pluginConfigurationByTypeActions.getMsDependency('POST', this.props.microserviceName)}
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.copy' })}
                 onTouchTap={onCopyClick}
               >

@@ -21,6 +21,7 @@ import getPluginMetaDataReducer from './pluginMetaData/PluginMetaDataReducer'
 import getPluginMetaDataSelectors from './pluginMetaData/PluginMetaDataSelectors'
 
 import PluginConfigurationActions from './pluginConfiguration/PluginConfigurationActions'
+import PluginConfigurationByTypeActions from './pluginConfiguration/PluginConfigurationByTypeActions'
 import getPluginConfigurationReducer from './pluginConfiguration/PluginConfigurationReducer'
 import getPluginConfigurationSelectors from './pluginConfiguration/PluginConfigurationSelectors'
 
@@ -39,6 +40,7 @@ export default {
   getPluginMetaDataSelectors,
 
   PluginConfigurationActions,
+  PluginConfigurationByTypeActions,
   getPluginConfigurationReducer,
   getPluginConfigurationSelectors,
 
