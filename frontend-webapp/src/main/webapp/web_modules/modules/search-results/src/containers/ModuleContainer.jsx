@@ -37,9 +37,6 @@ import DisplayModeEnum from '../models/navigation/DisplayModeEnum'
 export class ModuleContainer extends React.Component {
 
   static propTypes = {
-    // Props supplied by LazyModuleComponent
-    appName: PropTypes.string,
-    project: PropTypes.string,
     // Default props given to the form
     moduleConf: ModuleConfiguration.isRequired,
 
@@ -68,7 +65,6 @@ export class ModuleContainer extends React.Component {
   onExpandChange = () => this.setState({ expanded: !this.state.expanded })
 
   render() {
-    const { appName, project } = this.props
     const {
       attributeModels,
       moduleConf: {
@@ -99,8 +95,6 @@ export class ModuleContainer extends React.Component {
           >
             { /* View : module */}
             <ModuleComponent
-              appName={appName}
-              project={project}
               expanded={expanded}
               onExpandChange={this.onExpandChange}
               resultsTitle={breadcrumbInitialContextLabel}

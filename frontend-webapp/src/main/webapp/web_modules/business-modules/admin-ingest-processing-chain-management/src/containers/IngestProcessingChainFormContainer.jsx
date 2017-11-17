@@ -19,9 +19,9 @@ export class IngestProcessingChainFormContainer extends React.Component {
     // from mapStateToProps
     processingChain: IngestShapes.IngestProcessingChain,
     // from mapDispatchToProps
-    createChain: PropTypes.func,
-    fetchChain: PropTypes.func,
-    updateChain: PropTypes.func,
+    createChain: PropTypes.func.isRequired,
+    fetchModel: PropTypes.func.isRequired,
+    updateChain: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -51,7 +51,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    Promise.resolve(this.props.updateChain(this.props.model.processingChain.id, values))
+    Promise.resolve(this.props.updateChain(this.props.processingChain.id, values))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {

@@ -20,11 +20,12 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { ShowableAtRender } from '@regardsoss/components'
 import ListViewEntityCellComponent from '../../../../../src/components/user/results/cells/ListViewEntityCellComponent'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
+
+const TestRender = () => <div />
 
 describe('[Search Results] Testing ListViewEntityCellComponent', () => {
   before(testSuiteHelpers.before)
@@ -49,21 +50,29 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           services: [],
         },
       },
-      attributes: {},
-      lineHeight: 20,
-      isTableSelected: false,
-      selectTableEntityCallback: () => { },
-      tableColumns: [],
-      displayAddToBasket: true,
-      onSearchTag: () => { },
-      onClick: () => { },
-      enableServices: true,
-      onShowDescription: () => { },
-      onServiceStarted: () => { },
+
+      hasDownload: true,
+      thumbnailRenderData: {
+        key: 'thumbnail.test',
+        renderers: [{
+          path: 'content.files', // stub for test
+          RenderConstructor: TestRender,
+        }],
+      },
+      gridAttributesRenderData: [{
+        key: 'some.prop',
+        label: 'Some prop',
+        renderers: [{
+          path: 'content.tags',
+          RenderConstructor: TestRender,
+        }],
+      }],
+      servicesEnabled: true,
+      entitySelected: true,
+      onSelectEntity: () => { },
+      onSearchEntity: () => { },
+      onAddToCart: () => { },
     }
-    const renderWrapper = shallow(<ListViewEntityCellComponent {...props} />, { context })
-    // the cart button should not be rendered without the callback
-    renderWrapper.find(ShowableAtRender)
-    // cannot test further easily due to card title...
+    shallow(<ListViewEntityCellComponent {...props} />, { context })
   })
 })

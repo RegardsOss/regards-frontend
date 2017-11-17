@@ -112,4 +112,4 @@ ActionsMenuCell.contextTypes = {
   ...themeContextType,
 }
 
-export default withI18n(messages)(ActionsMenuCell)
+export default withI18n(messages, true)(ActionsMenuCell)

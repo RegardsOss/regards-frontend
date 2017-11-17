@@ -46,14 +46,14 @@ export class ModelAttributeFormContainer extends React.Component {
     attributeModelList: DataManagementShapes.AttributeModelList,
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     // from mapDispatchToProps
-    createModelAttribute: PropTypes.func,
-    fetchAttributeModelList: PropTypes.func,
-    fetchModelAttributeList: PropTypes.func,
-    deleteModelAttribute: PropTypes.func,
-    fetchModel: PropTypes.func,
-    bindFragment: PropTypes.func,
-    unbindFragment: PropTypes.func,
-    fetchModelAttributeComputationTypesList: PropTypes.func,
+    createModelAttribute: PropTypes.func.isRequired,
+    fetchAttributeModelList: PropTypes.func.isRequired,
+    fetchModelAttributeList: PropTypes.func.isRequired,
+    deleteModelAttribute: PropTypes.func.isRequired,
+    fetchModel: PropTypes.func.isRequired,
+    bindFragment: PropTypes.func.isRequired,
+    unbindFragment: PropTypes.func.isRequired,
+    fetchModelAttributeComputationTypesList: PropTypes.func.isRequired,
   }
 
   state = {

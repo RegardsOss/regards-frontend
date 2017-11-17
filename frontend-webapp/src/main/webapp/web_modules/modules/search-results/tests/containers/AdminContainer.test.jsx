@@ -52,6 +52,7 @@ describe('[Search Results] Testing AdminContainer', () => {
         attributesFetching: false,
         datasetAttributesFetching: false,
       })
+    enzymeWrapper.update() // wait for state update
     assert.lengthOf(enzymeWrapper.find(SearchResultsConfigurationComponent), 1, 'After loading, the corresponding component should be rendered')
   })
 })

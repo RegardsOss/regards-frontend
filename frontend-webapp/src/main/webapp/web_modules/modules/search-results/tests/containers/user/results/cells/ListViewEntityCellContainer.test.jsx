@@ -16,16 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import omit from 'lodash/omit'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { ListViewEntityCellContainer } from '../../../../../src/containers/user/results/cells/ListViewEntityCellContainer'
+import { TableSelectionModes } from '@regardsoss/components'
+import { ListViewEntityCellContainer, packGridAttributesRenderData } from '../../../../../src/containers/user/results/cells/ListViewEntityCellContainer'
 import ListViewEntityCellComponent from '../../../../../src/components/user/results/cells/ListViewEntityCellComponent'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
+
+const someModels = [
+  { key: '1', label: 'L1', attributes: [], enableSorting: true, sortOrder: '' },
+  { key: '2', label: 'L2', attributes: [], enableSorting: true, sortOrder: '' },
+  { key: '3', label: 'L3', attributes: [], enableSorting: true, sortOrder: '' },
+  { key: '4', label: 'L4', attributes: [], enableSorting: true, sortOrder: '' },
+]
 
 /**
  * Test ListViewEntityCellContainer
@@ -40,6 +47,8 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
   })
   it('should render properly', () => {
     const props = {
+      // table cell API
+      rowIndex: 1,
       entity: {
         content: {
           id: 1,
@@ -55,31 +64,22 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
         },
       },
 
-      attributes: {},
-      lineHeight: 20,
-      isTableSelected: false,
-      selectTableEntityCallback: () => { },
-      tableColumns: [],
+      // cell props
+      hasDownload: true,
+      thumbnailRenderData: null,
+      gridAttributesRenderData: packGridAttributesRenderData(someModels),
+      selectionEnabled: true,
+      servicesEnabled: true,
       onSearchEntity: () => { },
       onAddToCart: () => { },
-      displayCheckbox: true,
-      enableServices: true,
 
-      // from map dispatch to props
-      dispatchShowDescription: () => { },
-      dispatchRunService: () => { },
+      // from map state to props
+      toggledElements: {},
+      selectionMode: TableSelectionModes.includeSelected,
+      onSelectEntity: () => { },
     }
     const render = shallow(<ListViewEntityCellContainer {...props} />, { context })
     const component = render.find(ListViewEntityCellComponent)
-    assert.lengthOf(render, 1, 'There should be a render component')
-    testSuiteHelpers.assertWrapperProperties(component, {
-      // all previous props are reported, expected dispatchers and onSearchEntity callback (locally wrapped callbacks)
-      ...(omit(props, ['dispatchShowDescription', 'dispatchRunService', 'onSearchEntity', 'onAddToCart'])),
-      // also check local callbacks
-      onEntitySelection: render.instance().onEntitySelection, // should be provided as there is an onClick handler
-      onShowDescription: render.instance().onShowDescription,
-      onServiceStarted: render.instance().onServiceStarted,
-      onAddToCart: render.instance().onAddToCart,
-    }, 'The container should report corretly properties to its component')
+    assert.lengthOf(component, 1, 'There should be a render component')
   })
 })

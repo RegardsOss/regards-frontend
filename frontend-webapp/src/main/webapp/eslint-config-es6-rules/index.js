@@ -33,6 +33,8 @@ const allRules = {
   'no-unused-vars': [2, { args: 'none' }],
   'no-confusing-arrow': 0,
   'no-warning-comments': [1, { terms: ['todo', 'fixme'], location: 'anywhere' }],
+  // eslint reconfiguration for operators + and -
+  'no-mixed-operators': ['error', { allowSamePrecedence: true }],
   semi: [
     'error',
     'never',

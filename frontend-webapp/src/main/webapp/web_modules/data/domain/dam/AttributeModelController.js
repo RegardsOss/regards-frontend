@@ -47,48 +47,65 @@ const ATTRIBUTE_TYPES = {
 
 const SPECIAL_FILES_ATTRIBUTE_NAME = 'files'
 
+const standardAttributesKeys = {
+  ipId: 'ipId',
+  sipId: 'sipId',
+  label: 'label',
+  creationDate: 'creationDate',
+  lastUpdate: 'lastUpdate',
+  thumbnail: 'thumbnail',
+  download: 'download',
+}
+
 /**
  * Constant to define where to find dynamic attributes in the data objects returned by the search endpoint
  * @type {string}
  */
 const standardAttributes = {
-  ipId: {
+  [standardAttributesKeys.ipId]: {
+    key: standardAttributesKeys.ipId,
     id: -1, // use negative index to not conflict with DB attribute models
     label: 'IP Identifier',
     type: ATTRIBUTE_TYPES.STRING,
     entityPathName: 'ipId',
   },
-  sipId: {
+  [standardAttributesKeys.sipId]: {
+    key: standardAttributesKeys.sipId,
     id: -2,
     label: 'SIP identifier',
     type: ATTRIBUTE_TYPES.STRING,
     entityPathName: 'sipId',
   },
-  label: {
+  [standardAttributesKeys.label]: {
+    key: standardAttributesKeys.label,
     id: -3,
     label: 'Label',
     type: ATTRIBUTE_TYPES.STRING,
     entityPathName: 'label',
   },
-  creationDate: {
+  [standardAttributesKeys.creationDate]: {
+    key: standardAttributesKeys.creationDate,
     id: -4,
     label: 'Creation date',
     type: ATTRIBUTE_TYPES.DATE_ISO8601,
     entityPathName: 'creationDate',
   },
-  lastUpdate: {
+  [standardAttributesKeys.lastUpdate]: {
+    key: standardAttributesKeys.lastUpdate,
     id: -5,
     label: 'Last update',
     type: ATTRIBUTE_TYPES.DATE_ISO8601,
     entityPathName: 'lastUpdate',
   },
-  thumbnail: {
+  [standardAttributesKeys.thumbnail]: {
+    key: standardAttributesKeys.thumbnail,
     id: -6,
     label: 'Thumbnail',
     type: ATTRIBUTE_TYPES.THUMBNAIL,
     entityPathName: SPECIAL_FILES_ATTRIBUTE_NAME,
   },
-  download: {
+  [standardAttributesKeys.download]: {
+    key: standardAttributesKeys.download,
     id: -7,
     label: 'Download',
     type: ATTRIBUTE_TYPES.DOWNLOAD_LINK,
@@ -180,6 +197,7 @@ export default {
   findAttribute,
   getAttributeModelFullLabel,
   standardAttributes,
+  standardAttributesKeys,
   searchableStandardAttributes,
   descriptionStandardAttributes,
   ATTRIBUTE_TYPES,

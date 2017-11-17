@@ -29,7 +29,7 @@ import {
 } from './clients/DataobjectAttributeModelClient'
 import { tableReducer } from './clients/TableClient'
 import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './clients/DownloadDescriptionClient'
-import { descriptionLevelReducer } from './models/description/DescriptionLevelModel'
+import { descriptionLevelReducer } from './clients/DescriptionLevelClient'
 import modelAttributeClient from './clients/ModelAttributeClient'
 import pluginServiceClient from './clients/PluginServiceClient'
 import runPluginServiceReducer from './models/services/RunPluginServiceReducer'

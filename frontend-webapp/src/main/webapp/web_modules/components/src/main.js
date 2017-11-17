@@ -80,20 +80,30 @@ import ModuleTitle from './module/ModuleTitle'
 
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
-import PageableInfiniteTableContainer from './table/PageableInfiniteTableContainer'
-import AbstractInfiniteTableContainer from './table/AbstractInfiniteTableContainer'
-import TablePaneHeader from './table/header/TablePaneHeader'
-import TableOptionsSeparator from './table/header/TableOptionsSeparator'
-import ResultsCountComponent from './table/header/ResultsCountComponent'
-import TableSelectionModes from './table/model/TableSelectionModes'
-import TableActions from './table/model/TableActions'
+import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
+import CheckBoxCell from './table/content/cells/CheckBoxCell'
+import InfiniteTableContainer from './table/InfiniteTableContainer'
 import getTableReducer from './table/model/TableReducer'
 import getTableSelectors from './table/model/TableSelectors'
+import PageableInfiniteTableContainer from './table/PageableInfiniteTableContainer'
+import PropertiesRenderCell from './table/content/cells/PropertiesRenderCell'
+import TableActions from './table/model/TableActions'
+import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
+import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
+import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
+import TableColumnsVisibilityOption from './table/options/TableColumnsVisibilityOption'
+import TableHeaderContentBox from './table/header/TableHeaderContentBox'
+import TableHeaderLine from './table/header/TableHeaderLine'
+import TableHeaderLineLoadingAndResults from './table/header/TableHeaderLineLoadingAndResults'
+import TableHeaderOptionsArea from './table/header/TableHeaderOptionsArea'
+import TableHeaderOptionGroup from './table/header/TableHeaderOptionGroup'
+import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSeparator'
+import TableHeaderText from './table/header/TableHeaderText'
+import TableLayout from './table/TableLayout'
+import TableSelectAllOption from './table/options/TableSelectAllOption'
+import TableSelectionModes from './table/model/TableSelectionModes'
 import { TableSortOrders } from './table/model/TableSortOrders'
 import TableStyles from './table/styles/styles'
-import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
-import TableColumnConfiguration from './table/content/columns/model/ColumnConfiguration'
-import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 
 import Title from './titles/Title'
 
@@ -103,7 +113,6 @@ import TreeTableRow from './tree-table/TreeTableRow'
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
-  ActionsMenuCell,
   ApplicationErrorComponent,
   BaseBoardComponent,
   BaseBoardItemComponent,
@@ -123,8 +132,6 @@ export {
   ErrorDecoratorComponent,
   FormErrorMessage,
   FileContentDisplayer,
-  getTableReducer,
-  getTableSelectors,
   HorizontalAreasSeparator,
   IFrameURLContentDisplayer,
   ListContainer,
@@ -153,15 +160,30 @@ export {
   HelpMessageComponent,
   NoContentComponent,
 
-  AbstractInfiniteTableContainer,
+  // Table
+  ActionsMenuCell,
+  CheckBoxCell,
+  InfiniteTableContainer,
+  getTableReducer,
+  getTableSelectors,
   PageableInfiniteTableContainer,
-  TablePaneHeader,
-  TableSelectionModes,
+  PropertiesRenderCell,
   TableActions,
-  TableSortOrders,
+  TableColumnBuilder,
   TableColumnConfiguration,
   TableColumnConfigurationController,
-  TableOptionsSeparator,
+  TableColumnsVisibilityOption,
+  TableHeaderContentBox,
+  TableHeaderLine,
+  TableHeaderLineLoadingAndResults,
+  TableHeaderOptionsArea,
+  TableHeaderOptionGroup,
+  TableHeaderOptionsSeparator,
+  TableHeaderText,
+  TableLayout,
+  TableSelectAllOption,
+  TableSelectionModes,
+  TableSortOrders,
   TableStyles,
 
   Title,
@@ -170,5 +192,4 @@ export {
   TreeTableRow,
 
   withConfirmDialog,
-  ResultsCountComponent,
 }

@@ -17,10 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { PageableInfiniteTableContainer, TableSortOrders } from '@regardsoss/components'
-import { DamDomain } from '@regardsoss/domain'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
-import { getTypeRender } from '@regardsoss/attributes-common'
+import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
+import { PageableInfiniteTableContainer, TableLayout } from '@regardsoss/components'
 import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../client/SearchDataobjectsClient'
 import SelectionDetailNoDataComponent from './SelectionDetailNoDataComponent'
 
@@ -43,25 +43,19 @@ class SelectionDetailResultsTableComponent extends React.Component {
     ...themeContextType,
   }
 
-  /** Table configuration (not dynamic in this component) */
-  static TABLE_CONFIGURATION = {
-    displayColumnsHeader: true,
-    displayCheckbox: false,
-    displaySelectAll: false,
-    // line height: by default
-  }
-
-  /** Table pane configuration (not dynamic in this component) */
-  static TABLE_PANE_CONFIGURATION = {
-    displayTableHeader: false,
-    displaySortFilter: true,
-    showParameters: true,
-  }
-
-  /**
-   * Defines behavior for fixed size coumns (spare some table width)
-   */
-  static FIXED_COLUMNS_TYPES = [DamDomain.AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL]
+  /** List of attributes presentation models (easier to use with table) */
+  static DISPLAYED_ATTRIBUTES_MODELS = [
+    DamDomain.AttributeModelController.standardAttributes.thumbnail,
+    DamDomain.AttributeModelController.standardAttributes.label,
+    DamDomain.AttributeModelController.standardAttributes.ipId,
+    DamDomain.AttributeModelController.standardAttributes.creationDate,
+    DamDomain.AttributeModelController.standardAttributes.lastUpdate,
+  ].map(({ key, label, entityPathName, type }) => ({
+    key,
+    label,
+    attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(key)],
+    enableSorting: false,
+  }))
 
   /** static rendering component (it will update itself with context changes) */
   static NO_DATA_COMPONENT = <SelectionDetailNoDataComponent />
@@ -101,7 +95,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
     // 2 - update table rows count to adjust available size
     if (oldProperties.availableHeight !== newProperties.availableHeight) {
       // compute the number of elements that should be visible at same timerow count
-      newState.pageSize = this.computePageSize(newProperties.availableHeight)
+      newState.visibleRowsCount = this.computeVisibleRowsCount(newProperties.availableHeight)
     }
 
     if (!isEqual(oldState, newState)) {
@@ -109,56 +103,36 @@ class SelectionDetailResultsTableComponent extends React.Component {
     }
   }
 
-  computePageSize(availableHeight) {
+  computeVisibleRowsCount(availableHeight) {
     const lineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
+    const remainingRowsHeight = availableHeight - this.context.muiTheme['components:infinite-table'].minHeaderRowHeight
     return Math.max(SelectionDetailResultsTableComponent.MIN_TABLE_PAGE_SIZE,
-      Math.floor((availableHeight / lineHeight) - 1)) // note: remove one row to take headers line in account
+      Math.floor((remainingRowsHeight / lineHeight) - 1)) // note: remove one row to take headers line in account
   }
 
   /**
    * Renders columns
    * @return [*] columns
    */
-  renderColumns = () => [
-    DamDomain.AttributeModelController.standardAttributes.thumbnail,
-    DamDomain.AttributeModelController.standardAttributes.label,
-    DamDomain.AttributeModelController.standardAttributes.ipId,
-    DamDomain.AttributeModelController.standardAttributes.creationDate,
-    DamDomain.AttributeModelController.standardAttributes.lastUpdate,
-  ].map(({ label, entityPathName, type }) => { // transform into a column models
-    const typeSpecifics = SelectionDetailResultsTableComponent.FIXED_COLUMNS_TYPES.includes(type) ? { // fixed column
-      fixed: this.context.muiTheme['components:infinite-table'].fixedColumnsWidth,
-      hideLabel: true,
-    } : { hideLabel: false } // default column
-    // compute renderer
-    const customCell = getTypeRender(type)
-    // return column model
-    return {
-      label,
-      attributes: [entityPathName],
-      sortable: false,
-      customCell: customCell ? { component: customCell, props: {} } : undefined,
-      // retrieve column sorting in current state
-      sortingOrder: TableSortOrders.NO_SORT,
-      ...typeSpecifics,
-    }
-  })
+  renderColumns = () => {
+    const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
+    return SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
+      model => AttributeColumnBuilder.buildAttributeColumn(model, true, null, fixedColumnWidth))
+  }
 
   render() {
-    const { dataobjectsSearchParams, pageSize } = this.state
-    const minRowCount = this.context.muiTheme['components:infinite-table'].minRowCount
+    const { dataobjectsSearchParams, visibleRowsCount } = this.state
     return (
-      <PageableInfiniteTableContainer
-        pageActions={searchDataobjectsActions}
-        pageSelectors={searchDataobjectsSelectors}
-        pageSize={pageSize}
-        minRowCount={minRowCount}
-        columns={this.renderColumns()}
-        requestParams={dataobjectsSearchParams}
-        tableConfiguration={SelectionDetailResultsTableComponent.TABLE_CONFIGURATION}
-        tablePaneConfiguration={SelectionDetailResultsTableComponent.TABLE_PANE_CONFIGURATION}
-        emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}
-      />
+      <TableLayout>
+        <PageableInfiniteTableContainer
+          pageActions={searchDataobjectsActions}
+          pageSelectors={searchDataobjectsSelectors}
+          displayedRowsCount={visibleRowsCount}
+          columns={this.renderColumns()}
+          requestParams={dataobjectsSearchParams}
+          emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}
+        />
+      </TableLayout>
     )
   }
 }

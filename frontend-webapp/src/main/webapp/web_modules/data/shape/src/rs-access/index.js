@@ -26,6 +26,7 @@ import RuntimeTarget from './UIPlugin/RuntimeTarget'
 
 import { AttributeConfigurationContent, AttributeConfigurationArray } from './AttributeConfigurationContent'
 import { AttributesGroupConfigurationContent, AttributesGroupConfigurationArray } from './AttributesGroupConfigurationContent'
+import { AttributePresentationModel, AttributePresentationModelArray } from './AttributePresentationModelShape'
 import ContainerContent from './ContainerContent'
 import { Layout, LayoutContent, LayoutList } from './Layout'
 import { Module, ModuleList, ModuleArray } from './Module'
@@ -52,6 +53,9 @@ export default {
   AttributeConfigurationContent,
   AttributesGroupConfigurationContent,
   AttributesGroupConfigurationArray,
+
+  AttributePresentationModel,
+  AttributePresentationModelArray,
 
   ContainerContent,
 

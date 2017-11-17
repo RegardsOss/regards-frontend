@@ -28,7 +28,7 @@ import GuidedProjectConfigurationComponent from '../../../src/components/project
 
 // Test a component rendering
 describe(
-  '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionFormContainer', () => {
+  '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionsContainer', () => {
     before(testSuiteHelpers.before)
     after(testSuiteHelpers.after)
 
@@ -59,8 +59,10 @@ describe(
           links: [],
         },
         project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
-        fetchProject: () => {},
-        fetchProjectConnection: () => {},
+        fetchProject: () => { },
+        fetchProjectConnections: () => { },
+        updateProjectConnection: () => { },
+        createProjectConnection: () => { },
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(1)
@@ -113,8 +115,10 @@ describe(
           },
         },
         project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
-        fetchProject: () => {},
-        fetchProjectConnection: () => {},
+        fetchProject: () => { },
+        fetchProjectConnections: () => { },
+        updateProjectConnection: () => { },
+        createProjectConnection: () => { },
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
@@ -143,8 +147,10 @@ describe(
           links: [],
         },
         projectIsFetching: true,
-        fetchProject: () => {},
-        fetchProjectConnection: () => {},
+        fetchProject: () => { },
+        fetchProjectConnections: () => { },
+        updateProjectConnection: () => { },
+        createProjectConnection: () => { },
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(LoadingComponent)).to.have.length(1)
@@ -155,8 +161,10 @@ describe(
         params: {
           project_connection_id: '0',
         },
-        fetchProject: () => {},
-        fetchProjectConnections: () => {},
+        fetchProject: () => { },
+        fetchProjectConnections: () => { },
+        updateProjectConnection: () => { },
+        createProjectConnection: () => { },
         projectConnection: undefined,
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })

@@ -43,7 +43,7 @@ export class FinishAccountUnlockingContainer extends React.Component {
     // eslint-disable-next-line
     hasError: PropTypes.bool,
     // from dispatch state to props
-    fetchRequestAction: PropTypes.func,
+    fetchRequestAction: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

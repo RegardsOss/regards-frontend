@@ -109,7 +109,6 @@ npm link web_modules/modules/order-cart
 npm link web_modules/modules/order-history
 npm link web_modules/modules/project-about-page
 npm link web_modules/modules/projects-list
-npm link web_modules/modules/search-facets
 npm link web_modules/modules/search-form
 npm link web_modules/modules/search-graph
 npm link web_modules/modules/search-results

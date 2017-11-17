@@ -18,7 +18,6 @@
  **/
 import Build from 'material-ui/svg-icons/action/build'
 import PageView from 'material-ui/svg-icons/action/pageview'
-import Storage from 'material-ui/svg-icons/device/storage'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import Database from 'mdi-material-ui/Database'

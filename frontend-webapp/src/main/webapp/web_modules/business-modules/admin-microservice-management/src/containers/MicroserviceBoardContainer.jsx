@@ -39,10 +39,10 @@ export class MicroserviceBoardContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
-    fetchMaintenance: PropTypes.func,
-    checkMicroserviceStatus: PropTypes.func,
-    setMaintenance: PropTypes.func,
-    maintenanceList: PropTypes.func,
+    fetchMaintenance: PropTypes.func.isRequired,
+    checkMicroserviceStatus: PropTypes.func.isRequired,
+    setMaintenance: PropTypes.func.isRequired,
+    maintenanceList: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

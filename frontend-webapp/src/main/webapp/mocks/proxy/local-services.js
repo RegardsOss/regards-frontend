@@ -319,7 +319,7 @@ function buildLocalServices(gatewayURL) {
         return result
       }},
       storageMonitoring: {
-        url: 'rs-storage/storage-plugins', handler: () => {
+        url: 'rs-storage/storages/monitoring', handler: () => {
           const content = addLinks(JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')))
           return { content }
         }

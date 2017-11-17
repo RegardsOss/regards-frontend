@@ -43,15 +43,16 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditFilesContainer', 
       // from mapStateToProps
       currentDocument: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
       // from mapDispatchToProps
-      addFiles: () => {},
-      removeFile: () => {},
-      unregisterField: () => {},
-      fetchDocument: () => {},
+      addFiles: () => { },
+      removeFile: () => { },
+      unregisterField: () => { },
+      fetchDocument: () => { },
     }
 
     const enzymeWrapper = shallow(<DocumentEditFilesContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     enzymeWrapper.instance().setState({ isLoading: false })
+    enzymeWrapper.update() // wait for update
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
   })
 })

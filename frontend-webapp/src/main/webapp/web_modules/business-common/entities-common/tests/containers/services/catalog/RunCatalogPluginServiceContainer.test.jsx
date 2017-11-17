@@ -154,6 +154,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     ]
     errorsCallbacks.forEach((enterError) => {
       enterError()
+      enzymeWrapper.update() // wait for update
       assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR,
         'The container should be in fetch configuration error state')
       // that step should be reported as error message into the displayer
@@ -182,6 +183,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
       payload: getPayloadWithParameters(AdminPluginConfigurationSchemaConfiguration.normalizrKey,
         serviceConfiguration.configId, basicConfiguration),
     }, 1)
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.FETCH_PLUGIN_METADATA,
       'The container should be fetching plugin metadata')
     // that step should be reported as loading into the displayer
@@ -201,6 +203,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     ]
     errorsCallbacks.forEach((enterError) => {
       enterError()
+      enzymeWrapper.update() // wait for update
       assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.PLUGIN_METADATA_ERROR,
         'The container should be in fetch metadata error state')
       // that step should be reported as error message into the displayer
@@ -218,6 +221,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.instance().onFetchMetaDataDone({
       payload: getPayloadWithParameters(PluginMetaDataConfiguration.normalizrKey, basicConfiguration.pluginId, basicMetadata),
     }, getContentObjectWithParameters(basicConfiguration))
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.FETCH_APPLY_SERVICE,
       'The container should be fetching the service results now (skipped configuration as there is no parameter)')
     // that step should be reported as loading into the displayer
@@ -236,6 +240,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
       // this parameter will trigger an error, as it cannot be found in metadata
       { id: 8, name: 'A bool', value: '', dynamic: true },
     ]))
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR,
       'The container should be in parameters resolution error state)')
     // that step should be reported as error message into the displayer
@@ -258,6 +263,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
       // this parameter will be resolved
       { id: 8, name: 'test.field', value: '', dynamic: true },
     ]))
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
       'The container should be in parameters configuration state)')
     // that step should be reported as configuration into the displayer
@@ -274,6 +280,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.instance().onConfigurationDone(testFormValues)
     assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.FETCH_APPLY_SERVICE,
       'The container should be fetching service results')
+    enzymeWrapper.update() // wait for update
     // that step should be reported as loading into the displayer
     serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
     assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')
@@ -285,6 +292,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.instance().onServiceResult({ payload: { content: { text: 'fake.blob' }, contentType: 'text/xml' } })
     assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT,
       'The container should be displaying service results')
+    enzymeWrapper.update() // wait for update
     // that step should be reported as loading into the displayer
     serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
     assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')
@@ -295,6 +303,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
 
     // (D) re-enter configuration, on previous, with previously entered values
     enzymeWrapper.instance().onPrevious()
+    enzymeWrapper.update() // wait for update
     assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
       'The container should display configuration again after onPrevious()')
     // that step should be reported as loading into the displayer
@@ -312,6 +321,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     const enzymeWrapper = shallow(<RunCatalogPluginServiceContainer {...commonProps} />, { context })
     // simulate the configuration loading done event WITH the configuration
     enzymeWrapper.instance().onServiceResult({ error: true })
+    enzymeWrapper.update() // wait for update
 
     assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_ERROR,
       'The container should be in apply service error state)')
@@ -336,6 +346,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     const enzymeWrapper = shallow(<RunCatalogPluginServiceContainer {...props} />, { context })
     // simulate the configuration loading done event WITH the configuration
     enzymeWrapper.instance().onServiceResult({ error: false, payload: { content: null } })
+    enzymeWrapper.update() // wait for update
 
     assert.equal(enzymeWrapper.state('step'), RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT,
       'The container should be in apply service error state)')
@@ -372,6 +383,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     // simulate the configuration loading done event WITH the configuration
     const params1 = { p1: 'v1', p2: 'v2' }
     enzymeWrapper.instance().onConfigurationDone(params1)
+    enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'One element target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params1, 'One element target - parameters should be corretly sent')
     assert.deepEqual(lastFetchParams.targetParameter, { entityId: 'x' }, 'One element target - target should be corretly sent')
@@ -385,6 +397,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     // simulate the configuration loading done event WITH the configuration
     const params2 = { p1: 'v1-2', p2: true }
     enzymeWrapper.instance().onConfigurationDone(params2)
+    enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Many elements target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params2, 'Many elements target - parameters should be corretly sent')
     assert.deepEqual(lastFetchParams.targetParameter, { entitiesId: ['x', 'y'] }, 'Many elements target - target should be corretly sent')
@@ -398,6 +411,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     // simulate the configuration loading done event WITH the configuration
     const params3 = { p1: null }
     enzymeWrapper.instance().onConfigurationDone(params3)
+    enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Query target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params3, 'Query target - parameters should be corretly sent')
     assert.deepEqual(lastFetchParams.targetParameter, { q: 'model.age=22', entityType: DamDomain.ENTITY_TYPES_ENUM.DATA },

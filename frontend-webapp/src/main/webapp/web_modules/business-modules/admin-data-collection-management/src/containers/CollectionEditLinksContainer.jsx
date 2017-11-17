@@ -44,10 +44,10 @@ export class CollectionEditLinksContainer extends React.Component {
     currentCollection: DataManagementShapes.Collection,
     collectionList: DataManagementShapes.CollectionList,
     // from mapDispatchToProps
-    removeTagFromCollection: PropTypes.func,
-    addTagToCollection: PropTypes.func,
-    fetchCollection: PropTypes.func,
-    fetchCollectionList: PropTypes.func,
+    removeTagFromCollection: PropTypes.func.isRequired,
+    addTagToCollection: PropTypes.func.isRequired,
+    fetchCollection: PropTypes.func.isRequired,
+    fetchCollectionList: PropTypes.func.isRequired,
   }
 
   state = {

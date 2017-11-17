@@ -43,9 +43,10 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormContainer', (
       // from mapStateToProps
       currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
       // from mapDispatchToProps
-      createDatasource: () => {},
-      updateDatasource: () => {},
-      fetchDatasource: () => {},
+      createDatasource: () => { },
+      updateDatasource: () => { },
+      fetchDatasource: () => { },
+      fetchPluginMetaDataList: () => { },
     }
 
 

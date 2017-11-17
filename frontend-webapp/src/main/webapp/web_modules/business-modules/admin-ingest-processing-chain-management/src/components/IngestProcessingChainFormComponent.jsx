@@ -19,7 +19,7 @@
 import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, reduxForm } from '@regardsoss/form-utils'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -33,14 +33,10 @@ export class IngestProcessingChainFormComponent extends React.Component {
     processingChain: IngestShapes.IngestProcessingChain,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
-    isCreating: PropTypes.bool.isRequired,
-    isEditing: PropTypes.bool.isRequired,
     // from reduxForm
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
-    initialize: PropTypes.func.isRequired,
-    change: PropTypes.func,
   }
 
   static contextTypes = {

@@ -38,6 +38,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing microservice board container',
   it('should render self and subcomponents', () => {
     const props = {
       fetchMaintenance: () => { },
+      checkMicroserviceStatus: () => { },
       setMaintenance: () => { },
       maintenanceList: () => { },
       // from router

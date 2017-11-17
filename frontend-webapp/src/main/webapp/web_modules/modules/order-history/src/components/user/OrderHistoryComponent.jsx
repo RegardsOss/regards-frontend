@@ -20,9 +20,9 @@ import ModuleIcon from 'material-ui/svg-icons/notification/folder-special'
 import { DynamicModule, ModuleTitle } from '@regardsoss/components'
 
 /**
-* Order history - main module component
-* @author Raphaël Mechali
-*/
+ * Order history - main module component
+ * @author Raphaël Mechali
+ */
 class OrderHistoryComponent extends React.Component {
 
   static propTypes = {

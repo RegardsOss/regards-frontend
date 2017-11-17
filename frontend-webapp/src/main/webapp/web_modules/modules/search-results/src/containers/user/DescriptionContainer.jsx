@@ -6,7 +6,7 @@ import { EntityDescriptionContainer } from '@regardsoss/entities-common'
 import { Tag } from '../../models/navigation/Tag'
 import downloadDescriptionClient from '../../clients/DownloadDescriptionClient'
 import { ModelAttributesActions, ModelAttributesSelectors } from '../../clients/ModelAttributeClient'
-import { descriptionLevelActions, descriptionLevelSelectors } from '../../models/description/DescriptionLevelModel'
+import { descriptionLevelActions, descriptionLevelSelectors } from '../../clients/DescriptionLevelClient'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 
 /**

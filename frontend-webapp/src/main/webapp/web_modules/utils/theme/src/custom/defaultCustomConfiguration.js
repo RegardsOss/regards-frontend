@@ -31,10 +31,15 @@ export default {
   },
   'components:infinite-table': {
     lineHeight: 50,
-    fixedColumnsWidth: 50,
-    minRowCount: 8,
+    fixedColumnsWidth: 42,
+    rowCount: 13,
     listLineHeight: 160,
-    listMinRowCount: 3,
+    listRowCount: 4,
+    listRowsByColumnCount: 4,
+    minHeaderRowHeight: 40,
+    multipleValuesSeparatorMargin: '0 10px',
+    multipleValuesSeparatorHeight: 14,
+    thumbnailPadding: 5,
   },
   'forms-extension:jsonField': {
     marginTop: '8px',

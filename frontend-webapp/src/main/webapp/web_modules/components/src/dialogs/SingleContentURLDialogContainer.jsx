@@ -8,7 +8,7 @@ import LoadableContentDialogContainer from './LoadableContentDialogContainer'
 /**
 * Loadable content dialog showing only one content with its URL
 */
-class SingleContentURLDaialogContainer extends React.Component {
+class SingleContentURLDialogContainer extends React.Component {
 
   static propTypes = {
     contentURL: CommonShapes.URL.isRequired,
@@ -52,4 +52,4 @@ class SingleContentURLDaialogContainer extends React.Component {
     )
   }
 }
-export default SingleContentURLDaialogContainer
+export default SingleContentURLDialogContainer

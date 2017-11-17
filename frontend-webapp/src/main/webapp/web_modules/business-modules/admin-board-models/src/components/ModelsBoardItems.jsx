@@ -20,13 +20,7 @@ import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import { modelDependencies } from '@regardsoss/admin-data-model-management'
 import { attributeModelDependencies } from '@regardsoss/admin-data-attributemodel-management'
-import { collectionDependencies } from '@regardsoss/admin-data-collection-management'
 import { fragmentDependencies } from '@regardsoss/admin-data-fragment-management'
-import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
-import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
-import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
-import { documentDependencies } from '@regardsoss/admin-data-document-management'
-
 
 /**
  * BoardItems configuration for Datamanagement module

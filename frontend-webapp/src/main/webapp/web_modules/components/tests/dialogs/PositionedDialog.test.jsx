@@ -24,8 +24,10 @@ import PositionedDailogComponent from '../../src/dialogs/PositionedDialog'
 
 const context = buildTestContext()
 
-describe('[Components] Testing PositionedDailogComponent', () => {
+describe('[Components] Testing PositionedDialog', () => {
   before(() => {
+    root.addEventListener = () => { }
+    root.removeEventListener = () => { }
     root.document = {
       body: { clientWidth: '1200', clientHeight: '600' },
     }
@@ -33,6 +35,8 @@ describe('[Components] Testing PositionedDailogComponent', () => {
   })
   after(() => {
     delete root.document
+    delete root.addEventListener
+    delete root.removeEventListener
     testSuiteHelpers.after()
   })
 

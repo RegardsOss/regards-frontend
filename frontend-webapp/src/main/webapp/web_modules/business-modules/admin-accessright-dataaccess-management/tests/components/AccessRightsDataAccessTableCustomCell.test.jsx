@@ -46,17 +46,11 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     accessRight.content.dataset.id = dataset.content.id
 
     const props = {
-      attributes: {
-        id: 1,
-        label: 'test',
-      },
-      onDelete: () => {},
-      onEdit: () => {},
+      onDelete: () => { },
+      onEdit: () => { },
       accessGroup,
       accessRights: { accessRight },
-      intl: context.intl,
       entity: dataset,
-      lineHeight: 47,
     }
 
     const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })
@@ -73,17 +67,11 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     accessRight.content.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
 
     const props = {
-      attributes: {
-        id: 1,
-        label: 'test',
-      },
-      onDelete: () => {},
-      onEdit: () => {},
+      onDelete: () => { },
+      onEdit: () => { },
       accessGroup,
       accessRights: { accessRight },
-      intl: context.intl,
       entity: dataset,
-      lineHeight: 47,
     }
 
     const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })
@@ -100,17 +88,11 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     accessRight.content.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_ACCESS
 
     const props = {
-      attributes: {
-        id: 1,
-        label: 'test',
-      },
-      onDelete: () => {},
-      onEdit: () => {},
+      onDelete: () => { },
+      onEdit: () => { },
       accessGroup,
       accessRights: { accessRight },
-      intl: context.intl,
       entity: dataset,
-      lineHeight: 47,
     }
 
     const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })
