@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,28 +15,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+ **/
 
 /**
- * Redux actions to handle SIP entities from backend server.
- * @author Maxime Bouveron
+ * Describes a basket shape and related sub objects
+ * @author Raphaël Mechali
  */
-export default class SIPActions extends BasicPageableActions {
 
-  /**
-   * Construtor
-   * @param namespace
-   */
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips`,
-      schemaTypes: {
-        ENTITY: Schemas.SIP,
-        ENTITY_ARRAY: Schemas.SIP_ARRAY,
-      },
-    })
-  }
+/** A dated selection item shape */
+const IngestSIP = PropTypes.shape({
+  content: {
+    id: PropTypes.number.isRequired,
+    test: PropTypes.string.isRequired,
+  },
+})
+
+export default {
+  IngestSIP,
 }

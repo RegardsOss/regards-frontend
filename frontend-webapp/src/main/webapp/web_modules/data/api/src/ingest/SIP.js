@@ -17,18 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { Schema, arrayOf } from 'normalizr'
 
 const SIPConfiguration = {
-  entityKey: 'name',
+  entityKey: 'id',
   normalizrKey: 'sip',
 }
 
 const sip = new Schema(SIPConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[SIPConfiguration.entityKey]
-  ,
+  idAttribute: entity => entity.content[SIPConfiguration.entityKey],
 })
 
 // Schemas for API responses.

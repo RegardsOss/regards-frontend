@@ -27,8 +27,8 @@ const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip-management', 'sip']
 const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management'
 
 const sipActions = new IngestClient.SIPActions(REDUX_ACTION_NAMESPACE)
-const sipReducer = IngestClient.SIPReducer(REDUX_ACTION_NAMESPACE)
-const sipSelectors = IngestClient.SIPSelectors(ENTITIES_STORE_PATH)
+const sipReducer = IngestClient.getSIPReducer(REDUX_ACTION_NAMESPACE)
+const sipSelectors = IngestClient.getSIPSelectors(ENTITIES_STORE_PATH)
 
 export default {
   sipActions,

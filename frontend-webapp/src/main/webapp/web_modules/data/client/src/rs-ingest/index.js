@@ -20,8 +20,8 @@ import ProcessingChainActions from './processingChain/ProcessingChainActions'
 import ProcessingChainReducer from './processingChain/ProcessingChainReducer'
 import ProcessingChainSelectors from './processingChain/ProcessingChainSelectors'
 import SIPActions from './sip/SIPActions'
-import SIPReducer from './sip/SIPReducer'
-import SIPSelectors from './sip/SIPSelectors'
+import getSIPReducer from './sip/SIPReducer'
+import getSIPSelectors from './sip/SIPSelectors'
 
 
 export default {
@@ -29,6 +29,6 @@ export default {
   ProcessingChainReducer,
   ProcessingChainSelectors,
   SIPActions,
-  SIPReducer,
-  SIPSelectors,
+  getSIPReducer,
+  getSIPSelectors,
 }

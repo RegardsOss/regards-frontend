@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IngestProcessingChain from './IngestProcessingChain'
+import IngestSIP from './IngestSIP'
 
 export default {
   ...IngestProcessingChain,
+  ...IngestSIP,
 }

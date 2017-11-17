@@ -287,6 +287,37 @@ function buildLocalServices(gatewayURL) {
       // Mock: add missing dependencies
       proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
       getBasket: { url: 'rs-order/order/basket', handler: getBasket },
+      getSIPS: { url: 'rs-ingest/sips', handler: () => {
+        const content = addLinks([
+          {
+            id: 1,
+            test: "maisbiensurqueçamarche",
+          },
+          {
+            id: 2,
+            test: "çamarchepas",
+          },
+          {
+            id: 3,
+            test: "enfaitsi",
+          },
+          {
+            id: 4,
+            test: "nonenfaitvraimentpas",
+          },
+        ])
+        const result = {
+          metadata: {
+            size: 100,
+            totalElements: 4,
+            totalPages: 1,
+            number: 0,
+          },
+          content
+        }
+        console.log(result)
+        return result
+      }},
       storageMonitoring: {
         url: 'rs-storage/storage-plugins', handler: () => {
           const content = addLinks(JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')))

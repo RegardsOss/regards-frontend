@@ -44,6 +44,11 @@ class AIPDialog extends React.Component {
     onRequestClose: PropTypes.func,
   }
 
+  static defaultProps = {
+    open: false,
+    onRequestClose: () => {},
+  }
+
   static contextTypes = {
     // enable plugin theme access through this.context
     ...themeContextType,

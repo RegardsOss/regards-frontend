@@ -23,6 +23,7 @@ import { ModuleStyleProvider } from '@regardsoss/theme'
 import SIPListComponent from '../components/SIPListComponent'
 import messages from '../i18n'
 import styles from '../styles/styles'
+import { sipActions, sipSelectors } from '../clients/SIPClient'
 
 /**
 * Displays the list of SIPs
@@ -36,7 +37,9 @@ export class SIPListContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state) {
-    return {}
+    return {
+      // sips: sipSelectors.getResults(state),
+    }
   }
 
   /**
@@ -46,7 +49,9 @@ export class SIPListContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapDispatchToProps(dispatch) {
-    return {}
+    return {
+      fetchSips: () => dispatch(sipActions.fetchPagedEntityList()),
+    }
   }
 
   static propTypes = {
@@ -55,7 +60,18 @@ export class SIPListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
+    sips: PropTypes.arrayOf(Object),
     // from mapDispatchToProps
+    fetchSips: PropTypes.func,
+  }
+
+
+  componentWillMount() {
+    this.props.fetchSips()
+  }
+
+  componentDidMount() {
+    // console.log(this.props.sips)
   }
 
   handleGoBack = () => {
