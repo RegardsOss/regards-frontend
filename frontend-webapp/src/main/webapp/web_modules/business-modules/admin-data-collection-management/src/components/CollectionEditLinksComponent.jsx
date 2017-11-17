@@ -64,24 +64,7 @@ export class CollectionEditLinksComponent extends React.Component {
         <CollectionStepperComponent stepIndex={1} />
         <CardText>
           <div className="row">
-            <div className="col-sm-50">
-              <List>
-                <Subheader><FormattedMessage id="collection.form.links.collection.subtitle" /></Subheader>
-                {map(linkedCollections, (collection, id) => (
-                  <ListItem
-                    key={id}
-                    primaryText={collection.content.label}
-                    rightIconButton={
-                      <IconButton onTouchTap={() => handleDelete(collection.content.ipId)}>
-                        <Clear />
-                      </IconButton>
-                    }
-                    disabled
-                  />
-                ))}
-              </List>
-            </div>
-            <div className="col-sm-50">
+            <div className="col-sm-48">
               <List>
                 <Subheader><FormattedMessage id="collection.form.links.remainingcollection.subtitle" /></Subheader>
                 <ListItem
@@ -109,6 +92,23 @@ export class CollectionEditLinksComponent extends React.Component {
                     rightIconButton={
                       <IconButton onTouchTap={() => handleAdd(collection.content.ipId)}>
                         <Add />
+                      </IconButton>
+                    }
+                    disabled
+                  />
+                ))}
+              </List>
+            </div>
+            <div className="col-sm-48 col-sm-offset-4 ">
+              <List>
+                <Subheader><FormattedMessage id="collection.form.links.collection.subtitle" /></Subheader>
+                {map(linkedCollections, (collection, id) => (
+                  <ListItem
+                    key={id}
+                    primaryText={collection.content.label}
+                    rightIconButton={
+                      <IconButton onTouchTap={() => handleDelete(collection.content.ipId)}>
+                        <Clear />
                       </IconButton>
                     }
                     disabled

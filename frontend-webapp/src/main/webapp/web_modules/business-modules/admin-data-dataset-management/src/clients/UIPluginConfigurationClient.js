@@ -23,7 +23,7 @@ import { AccessProjectClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'dataset', 'ui-plugin-configuration']
+const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'ui-plugin-configuration']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-service-management/ui-plugin-configuration'
 const isRequestingByUIPlugin = false
 

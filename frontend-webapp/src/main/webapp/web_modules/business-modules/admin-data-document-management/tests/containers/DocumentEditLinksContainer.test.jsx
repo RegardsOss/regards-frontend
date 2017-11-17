@@ -43,14 +43,15 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentEditLinksContainer', 
       currentDocument: DumpProvider.getFirstEntity('DataManagementClient', 'Document'),
       collectionList: DumpProvider.get('DataManagementClient', 'Collection'),
       // from mapDispatchToProps
-      removeTagFromDocument: () => {},
-      addTagToDocument: () => {},
-      fetchDocument: () => {},
-      fetchCollectionList: () => {},
+      removeTagFromDocument: () => { },
+      addTagToDocument: () => { },
+      fetchDocument: () => { },
+      fetchCollectionList: () => { },
     }
     const enzymeWrapper = shallow(<DocumentEditLinksContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     enzymeWrapper.instance().setState({ isLoading: false })
+    enzymeWrapper.update()
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
   })
 })

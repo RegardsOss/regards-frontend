@@ -40,8 +40,8 @@ export class DatasetEditLinksComponent extends React.Component {
 
   static propTypes = {
     currentDataset: DataManagementShapes.Dataset,
-    linkedCollections: PropTypes.arrayOf(DataManagementShapes.Collection),
-    remainingCollections: PropTypes.arrayOf(DataManagementShapes.Collection),
+    linkedCollections: DataManagementShapes.CollectionArray,
+    remainingCollections: DataManagementShapes.CollectionArray,
     datasetStringTags: PropTypes.arrayOf(PropTypes.string),
     handleAdd: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired,
@@ -113,7 +113,7 @@ export class DatasetEditLinksComponent extends React.Component {
                 />
                 {map(remainingCollections, (collection, id) => (
                   <ListItem
-                    key={id}
+                    key={collection.content.ipId}
                     primaryText={collection.content.label}
                     rightIconButton={
                       <IconButton

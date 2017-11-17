@@ -67,11 +67,13 @@ npm link web_modules/business-common/global-system-error
 npm link web_modules/business-common/project-handler
 
 # Administration modules
+npm link web_modules/business-modules/admin-board-acquisition
+npm link web_modules/business-modules/admin-board-collections
+npm link web_modules/business-modules/admin-board-models
 npm link web_modules/business-modules/admin-accessright-management
 npm link web_modules/business-modules/admin-accessright-accessgroup-management
 npm link web_modules/business-modules/admin-accessright-dataaccess-management
 npm link web_modules/business-modules/admin-account-management
-npm link web_modules/business-modules/admin-data-management
 npm link web_modules/business-modules/admin-data-model-management
 npm link web_modules/business-modules/admin-data-attributemodel-management
 npm link web_modules/business-modules/admin-data-modelattribute-management
@@ -81,6 +83,7 @@ npm link web_modules/business-modules/admin-data-dataset-management
 npm link web_modules/business-modules/admin-data-datasource-management
 npm link web_modules/business-modules/admin-data-document-management
 npm link web_modules/business-modules/admin-data-fragment-management
+npm link web_modules/business-modules/admin-ingest-processing-chain-management
 npm link web_modules/business-modules/admin-microservice-management
 npm link web_modules/business-modules/admin-project-management
 npm link web_modules/business-modules/admin-ui-management

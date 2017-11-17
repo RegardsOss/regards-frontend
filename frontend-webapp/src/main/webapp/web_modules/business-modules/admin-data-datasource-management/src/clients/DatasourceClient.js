@@ -23,7 +23,7 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'datasource', 'datasource']
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'datasource', 'datasource']
 const REDUX_ACTION_NAMESPACE = 'admin-data-datasource-management/datasource'
 
 const datasourceReducer = DataManagementClient.DatasourceReducer(REDUX_ACTION_NAMESPACE)

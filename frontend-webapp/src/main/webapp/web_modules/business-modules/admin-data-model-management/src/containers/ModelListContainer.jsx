@@ -19,6 +19,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { modelActions, modelSelectors } from '../clients/ModelClient'
 import ModelListComponent from '../components/ModelListComponent'
@@ -43,35 +44,60 @@ export class ModelListContainer extends React.Component {
     deleteModel: PropTypes.func,
   }
 
+  state = {
+    isLoading: true,
+  }
+
   componentWillMount() {
-    this.props.fetchModelList()
+    Promise.resolve(this.props.fetchModelList())
+      .then((actionResult) => {
+        if (!actionResult.error) {
+          this.setState({
+            isLoading: false,
+          })
+        }
+      })
   }
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/model/create`
+    return `/admin/${project}/data/models/model/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board`
+    return `/admin/${project}/data/models/board`
+  }
+
+  getSubComponent = () => {
+    const { modelList, accessToken } = this.props
+    return (<ModelListComponent
+      modelList={modelList}
+      accessToken={accessToken}
+      createUrl={this.getCreateUrl()}
+      backUrl={this.getBackUrl()}
+      handleDelete={this.handleDelete}
+      handleEdit={this.handleEdit}
+      handleDuplicate={this.handleDuplicate}
+      handleBindAttributes={this.handleBindAttributes}
+    />)
   }
 
   handleEdit = (modelId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/model/${modelId}/edit`
+    const url = `/admin/${project}/data/models/model/${modelId}/edit`
     browserHistory.push(url)
   }
 
   handleDuplicate = (modelId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/model/${modelId}/duplicate`
+    const url = `/admin/${project}/data/models/model/${modelId}/duplicate`
     browserHistory.push(url)
   }
 
   handleBindAttributes = (modelId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/model-attribute/${modelId}/edit`
+    const url = `/admin/${project}/data/models/model-attribute/${modelId}/edit`
     browserHistory.push(url)
   }
 
@@ -80,19 +106,14 @@ export class ModelListContainer extends React.Component {
   }
 
   render() {
-    const { modelList, accessToken } = this.props
+    const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
-        <ModelListComponent
-          modelList={modelList}
-          accessToken={accessToken}
-          createUrl={this.getCreateUrl()}
-          backUrl={this.getBackUrl()}
-          handleDelete={this.handleDelete}
-          handleEdit={this.handleEdit}
-          handleDuplicate={this.handleDuplicate}
-          handleBindAttributes={this.handleBindAttributes}
-        />
+        <LoadableContentDisplayDecorator
+          isLoading={isLoading}
+        >
+          {this.getSubComponent}
+        </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
   }

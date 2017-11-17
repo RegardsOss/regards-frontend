@@ -73,7 +73,7 @@ export class ConnectionFormContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/connection/list`
+    return `/admin/${project}/data/acquisition/connection/list`
   }
 
 

@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardActions, CardTitle } from 'material-ui/Card'
-import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { CardActionsComponent, HelpMessageComponent, ShowableAtRender } from '@regardsoss/components'
 import map from 'lodash/map'
 import keys from 'lodash/keys'
+import size from 'lodash/size'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table'
 import { DataManagementShapes } from '@regardsoss/shape'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -94,9 +96,11 @@ export class ModelAttributeFormComponent extends React.Component {
           <CardTitle
             title={this.context.intl.formatMessage({ id: 'modelattr.edit.title' }, { name: this.props.currentModel.content.name })}
           />
-          <HelpMessageComponent
-            message={this.context.intl.formatMessage({ id: 'modelattr.edit.description' })}
-          />
+          <CardText>
+            <HelpMessageComponent
+              message={this.context.intl.formatMessage({ id: 'modelattr.edit.description' })}
+            />
+          </CardText>
         </Card>
 
         <div style={style.twoColumnsSameHeight}>
@@ -133,6 +137,26 @@ export class ModelAttributeFormComponent extends React.Component {
                   />
                 </DraggableCard>
               ))}
+
+              <ShowableAtRender
+                show={size(distributedAttrModels.ATTR_ASSOCIATED.fragments) === 0 && size(distributedAttrModels.ATTR_ASSOCIATED.attrs) === 0}
+              >
+                <Table
+                  selectable={false}
+                >
+                  <TableBody
+                    displayRowCheckbox={false}
+                    preScanRows={false}
+                    showRowHover={false}
+                  >
+                    <TableRow>
+                      <TableRowColumn>
+                        {this.context.intl.formatMessage({ id: 'modelattr.edit.noAttrLink' })}
+                      </TableRowColumn>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </ShowableAtRender>
             </ContainerCard>
           </div>
           <div>

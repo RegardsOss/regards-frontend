@@ -19,9 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableSelectionModes } from '@regardsoss/components'
+import { TableSelectionModes, TableSelectAllOption } from '@regardsoss/components'
 import { selectors as searchEntitiesSelectors } from '../../../../../src/clients/SearchEntitiesClient'
-import TableSelectAllComponent from '../../../../../src/components/user/results/options/TableSelectAllComponent'
 import { TableSelectAllContainer } from '../../../../../src/containers/user/results/options/TableSelectAllContainer'
 import styles from '../../../../../src/styles/styles'
 
@@ -49,7 +48,7 @@ describe('[Search results] Testing TableSelectAllContainer', () => {
     }
     // 1 - render with none selected
     const enzymeWrapper = shallow(<TableSelectAllContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(TableSelectAllComponent), 1, 'The corresponding component should be rendered')
+    assert.lengthOf(enzymeWrapper.find(TableSelectAllOption), 1, 'The corresponding component should be rendered')
 
     // 2 - render with all selected
     const nextProps = {

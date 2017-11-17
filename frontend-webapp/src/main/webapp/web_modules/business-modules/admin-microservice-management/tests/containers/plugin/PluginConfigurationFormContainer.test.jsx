@@ -64,14 +64,10 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form cont
       },
       isPluginConfigurationFetching: false,
       // from mapDispatchToProps
-      createPluginConfiguration: () => {
-      },
-      fetchPluginConfiguration: () => {
-      },
-      updatePluginConfiguration: () => {
-      },
-      fetchPluginMetaData: () => {
-      },
+      fetchPluginConfiguration: () => { },
+      createPluginConfiguration: () => { },
+      updatePluginConfiguration: () => { },
+      fetchPluginMetaDataList: () => { },
     }
     const enzymeWrapper = shallow(<PluginConfigurationFormContainer {...props} />)
     expect(enzymeWrapper.find(PluginConfigurationFormComponent)).to.have.length(1)

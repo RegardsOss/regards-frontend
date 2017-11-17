@@ -23,7 +23,7 @@ import { CatalogClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'dataset', 'link-plugin-dataset']
+const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'link-plugin-dataset']
 const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/link-plugin-dataset'
 
 const linkPluginDatasetReducer = CatalogClient.getLinkPluginDatasetReducer(REDUX_ACTION_NAMESPACE)

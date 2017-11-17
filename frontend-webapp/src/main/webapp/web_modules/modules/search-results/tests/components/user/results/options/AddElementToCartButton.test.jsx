@@ -20,25 +20,25 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AddElementToCartButton from '../../../../../src/components/user/results/options/AddElementToCartButton'
+import AddElementToCartComponent from '../../../../../src/components/user/results/options/AddElementToCartComponent'
 import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test AddElementToCartButton
+* Test AddElementToCartComponent
 * @author Raphaël Mechali
 */
-describe('[Search Results] Testing AddElementToCartButton', () => {
+describe('[Search Results] Testing AddElementToCartComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AddElementToCartButton)
+    assert.isDefined(AddElementToCartComponent)
   })
   it('should render correctly', () => {
     const props = { onAddToCart: () => { } }
-    const enzymeWrapper = shallow(<AddElementToCartButton {...props} />, { context })
+    const enzymeWrapper = shallow(<AddElementToCartComponent {...props} />, { context })
     const iconButtonWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(iconButtonWrapper, 1, 'There should be a button')
     assert.equal(iconButtonWrapper.props().onTouchTap, props.onAddToCart, 'The callback should be correctly reported')

@@ -49,6 +49,7 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
         onLoadAction={
           () => {
             try {
+              wrapper.update()
               expect(wrapper.find(moduleContainer)).to.have.length(1)
               expect(wrapper.find(ModuleStyleProvider)).to.have.length(1)
               expect(wrapper.find(I18nProvider)).to.have.length(1)
@@ -74,6 +75,7 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
         onLoadAction={
           () => {
             try {
+              wrapper.update()
               expect(wrapper.find(moduleContainer)).to.have.length(0)
               expect(wrapper.find(ModuleStyleProvider)).to.have.length(0)
               expect(wrapper.find(I18nProvider)).to.have.length(0)

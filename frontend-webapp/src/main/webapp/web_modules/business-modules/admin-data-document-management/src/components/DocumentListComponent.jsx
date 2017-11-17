@@ -78,7 +78,7 @@ class DocumentListComponent extends React.Component {
 
   /**
    * Callback to open the delete confirmation dialog.
-   * @param entity Dataset to delete.
+   * @param entity Document to delete.
    */
   openDeleteDialog = (entity, rowIndex, pageSize) => {
     this.setState({
@@ -176,7 +176,7 @@ class DocumentListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={intl.formatMessage({ id: 'document.no.dataset.title' })}
+        title={intl.formatMessage({ id: 'document.no.document.title' })}
       />
     )
 

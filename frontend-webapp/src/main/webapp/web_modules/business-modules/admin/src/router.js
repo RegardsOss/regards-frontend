@@ -20,19 +20,6 @@
 /**
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
-export const projectAdminDataRouter = {
-  path: ':project/data',
-  getChildRoutes(nextState, cb) {
-    const adminDataManagement = require('@regardsoss/admin-data-management')
-    require.ensure([], (require) => {
-      cb(null, [adminDataManagement.dataManagementRouter])
-    })
-  },
-}
-
-/**
- * @type {{path: string, getChildRoutes: ((nextState, cb))}}
- */
 export const projectAdminUserProjectRouter = {
   path: ':project/user',
   getChildRoutes(nextState, cb) {
@@ -126,11 +113,54 @@ export const adminMicroserviceManagementRouter = {
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
  */
 export const adminAccessRightManagementRouter = {
-  path: ':project/access-right',
+  path: ':project/data/access-right',
   getChildRoutes(nextState, cb) {
     const adminAccessRightManagement = require('@regardsoss/admin-accessright-management')
     require.ensure([], (require) => {
       cb(null, [adminAccessRightManagement.accessRightManagementRouter])
+    })
+  },
+}
+
+/**
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
+export const modelsRouter = {
+  path: ':project/data/models',
+  getChildRoutes(nextState, cb) {
+    const board = require('@regardsoss/admin-board-models')
+    require.ensure([], (require) => {
+      cb(null, [board.modelsRouter])
+    })
+  },
+}
+
+/**
+ * Main route to manage ingest processes
+ *
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
+export const acquisitionRouter = {
+  path: ':project/data/acquisition',
+  getChildRoutes(nextState, cb) {
+    const board = require('@regardsoss/admin-board-acquisition')
+    require.ensure([], (require) => {
+      cb(null, [board.acquisitionRouter])
+    })
+  },
+}
+
+/**
+ * Main route to manage ingest processes
+ *
+ * @type {{path: string, getChildRoutes: ((nextState, cb))}}
+ */
+export const collectionsRouter = {
+  path: ':project/data/collections',
+  getChildRoutes(nextState, cb) {
+    const board = require('@regardsoss/admin-board-collections')
+    require.ensure([], (require) => {
+      cb(null, [board.collectionsRouter])
     })
   },
 }
@@ -145,12 +175,14 @@ export default {
     projectRouter,
     accountRouter,
     uiConfigurationRouter,
-    projectAdminDataRouter,
     projectAdminUserProjectRouter,
     projectAdminUiConfigurationRouter,
     projectAdminRouter,
     adminMicroserviceManagementRouter,
     adminAccessRightManagementRouter,
+    acquisitionRouter,
+    collectionsRouter,
+    modelsRouter,
   ],
   getComponent(nextState, cb) {
     const AdminApp = require('./containers/AdminApp')

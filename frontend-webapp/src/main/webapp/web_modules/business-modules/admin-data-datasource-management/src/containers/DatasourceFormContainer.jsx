@@ -51,10 +51,10 @@ export class DatasourceFormContainer extends React.Component {
     currentDatasource: DataManagementShapes.Datasource,
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
-    createDatasource: PropTypes.func,
-    updateDatasource: PropTypes.func,
-    fetchDatasource: PropTypes.func,
-    fetchPluginMetaDataList: PropTypes.func,
+    createDatasource: PropTypes.func.isRequired,
+    updateDatasource: PropTypes.func.isRequired,
+    fetchDatasource: PropTypes.func.isRequired,
+    fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -104,9 +104,9 @@ export class DatasourceFormContainer extends React.Component {
     const { params: { project } } = this.props
     const { isEditing } = this.state
     if (isEditing) {
-      return `/admin/${project}/data/datasource/list`
+      return `/admin/${project}/data/acquisition/datasource/list`
     }
-    return `/admin/${project}/data/datasource/create/connection`
+    return `/admin/${project}/data/acquisition/datasource/create/connection`
   }
 
   /**
@@ -121,7 +121,7 @@ export class DatasourceFormContainer extends React.Component {
 
   redirectToList = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/datasource/list`
+    const url = `/admin/${project}/data/acquisition/datasource/list`
     browserHistory.push(url)
   }
 

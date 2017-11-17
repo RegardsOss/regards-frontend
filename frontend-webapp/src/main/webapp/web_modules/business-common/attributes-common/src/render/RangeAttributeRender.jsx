@@ -46,7 +46,7 @@ export const getFormattedRange = (intl, lower, upper) => {
  *
  * @author Sébastien binda
  */
-class RangeAttributeRender extends React.Component {
+export class RangeAttributeRender extends React.Component {
   static propTypes = {
     value: PropTypes.shape({
       lowerBound: PropTypes.any,

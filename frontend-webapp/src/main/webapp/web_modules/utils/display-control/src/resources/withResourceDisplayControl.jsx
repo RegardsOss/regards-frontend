@@ -62,7 +62,7 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       const { displayLogic, resourceDependencies, availableDependencies, isInstance, theme, i18n, dispatch, ...otherProps } = this.props
       const decoratedComponentElement = React.createElement(DecoratedComponent, otherProps)
       const requiredDependencies = isString(resourceDependencies) ? [resourceDependencies] : resourceDependencies
-      const isDisplayed = displayLogic(requiredDependencies, availableDependencies)
+      const isDisplayed = requiredDependencies.length === 0 || displayLogic(requiredDependencies, availableDependencies)
 
       return (
         <ShowableAtRender show={isDisplayed || isInstance}>

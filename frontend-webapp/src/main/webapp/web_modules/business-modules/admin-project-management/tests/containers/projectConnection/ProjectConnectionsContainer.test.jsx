@@ -28,7 +28,7 @@ import GuidedProjectConfigurationComponent from '../../../src/components/project
 
 // Test a component rendering
 describe(
-  '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionFormContainer', () => {
+  '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionsContainer', () => {
     before(testSuiteHelpers.before)
     after(testSuiteHelpers.after)
 
@@ -59,10 +59,10 @@ describe(
           links: [],
         },
         project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
-        fetchProject: () => {},
-        fetchProjectConnection: () => {},
-        projectIsFetching: false,
-        projectConnectionsIsFetching: false,
+        fetchProject: () => { },
+        fetchProjectConnections: () => { },
+        updateProjectConnection: () => { },
+        createProjectConnection: () => { },
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(1)
@@ -97,7 +97,6 @@ describe(
               password: 'azerty',
               driverClassName: 'PostgreSQL',
               url: 'http://google.com',
-              connectivity: EnumConnectivity.ERROR,
             },
             links: [],
           },
@@ -110,16 +109,16 @@ describe(
               password: 'qsdfgh',
               driverClassName: 'PostgreSQL',
               url: 'http://google.com',
-              connectivity: EnumConnectivity.NOT_TESTED,
+              connectivity: EnumConnectivity.SUCCESS,
             },
             links: [],
           },
         },
         project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
-        fetchProject: () => {},
-        fetchProjectConnection: () => {},
-        projectIsFetching: false,
-        projectConnectionsIsFetching: false,
+        fetchProject: () => { },
+        fetchProjectConnections: () => { },
+        updateProjectConnection: () => { },
+        createProjectConnection: () => { },
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
@@ -147,10 +146,11 @@ describe(
           },
           links: [],
         },
-        fetchProject: () => {},
-        fetchProjectConnection: () => {},
         projectIsFetching: true,
-        projectConnectionsIsFetching: false,
+        fetchProject: () => { },
+        fetchProjectConnections: () => { },
+        updateProjectConnection: () => { },
+        createProjectConnection: () => { },
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(LoadingComponent)).to.have.length(1)
@@ -161,11 +161,11 @@ describe(
         params: {
           project_connection_id: '0',
         },
-        fetchProject: () => {},
-        fetchProjectConnections: () => {},
+        fetchProject: () => { },
+        fetchProjectConnections: () => { },
+        updateProjectConnection: () => { },
+        createProjectConnection: () => { },
         projectConnection: undefined,
-        projectIsFetching: false,
-        projectConnectionsIsFetching: false,
       }
       const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
       expect(enzymeWrapper.find(LoadingComponent)).to.have.length(0)

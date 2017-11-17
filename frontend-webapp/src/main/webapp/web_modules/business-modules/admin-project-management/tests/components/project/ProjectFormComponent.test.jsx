@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import root from 'window-or-global'
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { Field } from '@regardsoss/form-utils'
@@ -28,8 +29,15 @@ const options = {
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing form container', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
+  before(() => {
+    testSuiteHelpers.before()
+    // mock root location object
+    root.location = { protocol: '', host: '' }
+  })
+  after(() => {
+    testSuiteHelpers.after()
+    delete root.location
+  })
   it('should exists', () => {
     assert.isDefined(ProjectFormComponent)
   })

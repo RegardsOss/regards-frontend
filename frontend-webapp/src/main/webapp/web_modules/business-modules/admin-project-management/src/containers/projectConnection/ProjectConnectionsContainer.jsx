@@ -61,10 +61,10 @@ export class ProjectConnectionsContainer extends React.Component {
     projectConnections: AdminShapes.ProjectConnectionList,
     projectConnectionsIsFetching: PropTypes.bool,
     // from mapDispatchToProps
-    fetchProject: PropTypes.func,
-    fetchProjectConnections: PropTypes.func,
-    updateProjectConnection: PropTypes.func,
-    createProjectConnection: PropTypes.func,
+    fetchProject: PropTypes.func.isRequired,
+    fetchProjectConnections: PropTypes.func.isRequired,
+    updateProjectConnection: PropTypes.func.isRequired,
+    createProjectConnection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

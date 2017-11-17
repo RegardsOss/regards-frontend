@@ -31,7 +31,7 @@ import messages from '../i18n'
  *
  * @author Sébastien Binda
  */
-class RawDataAttributeRender extends React.Component {
+export class RawDataAttributeRender extends React.Component {
 
   static propTypes = {
     value: CatalogShapes.entityFiles,

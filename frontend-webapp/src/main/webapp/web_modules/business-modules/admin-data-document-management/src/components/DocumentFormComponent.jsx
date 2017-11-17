@@ -87,8 +87,8 @@ export class DocumentFormComponent extends React.Component {
    */
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentDocument } = this.props
-      const properties = getInitialFormValues(currentDocument)
+      const { modelAttributeList, currentDocument } = this.props
+      const properties = getInitialFormValues(modelAttributeList, currentDocument)
       const initialValues = {
         label: currentDocument.content.label,
         geometry: currentDocument.content.geometry,

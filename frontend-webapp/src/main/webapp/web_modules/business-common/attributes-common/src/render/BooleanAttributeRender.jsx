@@ -28,7 +28,7 @@ import styles from '../styles'
  *
  * @author Sébastien binda
  */
-class BooleanAttributeRender extends React.Component {
+export class BooleanAttributeRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -43,15 +43,13 @@ class BooleanAttributeRender extends React.Component {
     const { value } = this.props
     const { intl: { formatMessage }, moduleTheme: { textRenderCell } } = this.context
     let textValue
-    if (!value) {
-      textValue = formatMessage({ id: 'attribute.render.no.value.label' })
-    } else if (isBoolean(value)) {
+    if (isBoolean(value)) {
       textValue = String(value)
     } else {
-      textValue = value
+      textValue = value || formatMessage({ id: 'attribute.render.no.value.label' })
     }
     return (
-      <div style={textRenderCell} title={textValue}>
+      <div style={textRenderCell} title={textValue} >
         {textValue}
       </div>)
   }

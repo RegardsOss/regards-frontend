@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ListViewIcon from 'material-ui/svg-icons/action/list'
-import TableViewIcon from 'material-ui/svg-icons/action/view-module'
+import ListViewIcon from 'mdi-material-ui/ViewSequential'
+import TableViewIcon from 'mdi-material-ui/TableLarge'
+// TODO-V2 for quicklook
+// import TableViewIcon from 'mdi-material-ui/Apps'
 import ShowFacetsSearchIcon from 'material-ui/svg-icons/action/find-in-page'
 import DatasetLibraryIcon from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibraryIcon from 'material-ui/svg-icons/av/library-books'
@@ -25,6 +27,7 @@ import FlatButton from 'material-ui/FlatButton'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import {
   ShowableAtRender, TableColumnConfiguration, TableHeaderLine,
@@ -32,9 +35,9 @@ import {
 } from '@regardsoss/components'
 import DisplayModeEnum from '../../../../models/navigation/DisplayModeEnum'
 import TableSelectAllContainer from '../../../../containers/user/results/options/TableSelectAllContainer'
+import ListSortingContainer from '../../../../containers/user/results/options/ListSortingContainer'
 import SelectionServiceComponent from '../options/SelectionServiceComponent'
 import AddSelectionToCartComponent from '../options/AddSelectionToCartComponent'
-import TableSortFilterComponent from '../options/TableSortFilterComponent'
 
 /**
 * Options and tabs header line for search results table
@@ -44,6 +47,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
 
   static propTypes = {
     // state
+    attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
     displayDatasets: PropTypes.bool.isRequired,
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
     viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
@@ -71,6 +75,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   /** @return {boolean} true if currently displaying data objects */
@@ -83,17 +88,12 @@ class OptionsAndTabsHeaderLine extends React.Component {
   isInTableView = () => this.props.viewMode === DisplayModeEnum.TABLE
 
   render() {
-    const { intl: { formatMessage } } = this.context
-    const { displayDatasets, searchSelectors, tableColumns,
-      allowingFacettes, showingFacettes, selectionServices,
-      onAddSelectionToCart, onChangeColumnsVisibility,
-      onShowListView, onShowTableView, onShowDatasets, onShowDataobjects,
-      onSortByAttribute, onStartSelectionService, onToggleShowFacettes } = this.props
+    const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
+    const { attributePresentationModels, displayDatasets, searchSelectors, tableColumns,
+      allowingFacettes, showingFacettes, selectionServices, onAddSelectionToCart,
+      onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets,
+      onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes } = this.props
 
-    // TODO-V2 externalize as styles
-    const iconListStyle = { width: 33, height: 33 }
-    const iconTableStyle = { width: 30, height: 30 }
-    const buttonStyle = { minWidth: 45 }
     return (
       <TableHeaderLine key="table.options">
         {/* 1.a - Tabs (left group) */}
@@ -141,14 +141,9 @@ class OptionsAndTabsHeaderLine extends React.Component {
               />
             </ShowableAtRender>
           </TableHeaderOptionGroup>
-          {/* 1.b.3 List view option select all and sort options */}
+          {/* 1.b.3 List view select all and sort options */}
           <TableHeaderOptionGroup show={this.isInListView() && this.isDisplayingDataobjects()}>
-            <TableSortFilterComponent
-              onSortByAttribute={onSortByAttribute}
-              tableColumns={tableColumns}
-              prefixLabel={formatMessage({ id: 'list.sort.prefix.label' })}
-              noneLabel={formatMessage({ id: 'list.sort.none.label' })}
-            />
+            <ListSortingContainer onSortByAttribute={onSortByAttribute} attributePresentationModels={attributePresentationModels} />
             <TableSelectAllContainer pageSelectors={searchSelectors} />
           </TableHeaderOptionGroup>
           {/* 1.b.4 - Show / hide table columns */}
@@ -163,21 +158,17 @@ class OptionsAndTabsHeaderLine extends React.Component {
             <FlatButton
               key="view.type.list"
               onTouchTap={onShowListView}
-              icon={<ListViewIcon
-                style={iconListStyle}
-              />}
+              icon={<ListViewIcon />}
               secondary={this.isInListView()}
-              style={buttonStyle}
+              style={viewModeButton}
               title={formatMessage({ id: 'view.type.list.button.label' })}
             />
             <FlatButton
               key="view.type.table"
               onTouchTap={onShowTableView}
-              icon={<TableViewIcon
-                style={iconTableStyle}
-              />}
+              icon={<TableViewIcon />}
               secondary={this.isInTableView()}
-              style={buttonStyle}
+              style={viewModeButton}
               title={formatMessage({ id: 'view.type.table.button.label' })}
             />
           </TableHeaderOptionGroup>

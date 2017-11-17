@@ -40,17 +40,17 @@ export class DocumentListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/document/create`
+    return `/admin/${project}/data/acquisition/document/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/board`
+    return `/admin/${project}/data/acquisition/board`
   }
 
   handleEdit = (documentId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/document/${documentId}/edit`
+    const url = `/admin/${project}/data/acquisition/document/${documentId}/edit`
     browserHistory.push(url)
   }
 

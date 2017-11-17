@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
 import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { EnumConnectivity } from '@regardsoss/domain/admin'
 import { ProjectConnectionListContainer } from '../../../src/containers/projectConnection/ProjectConnectionListContainer'
-import ProjectConnectionListComponent from '../../../src/components/projectConnection/ProjectConnectionListComponent'
 
 // Test a component rendering
 describe(
@@ -95,7 +95,9 @@ describe(
         },
       }
       const enzymeWrapper = shallow(<ProjectConnectionListContainer {...props} />, options)
-      expect(enzymeWrapper.find(ProjectConnectionListComponent)).to.have.length(1)
+      const subComponent = enzymeWrapper.find(LoadableContentDisplayDecorator)
+      assert.isFunction(subComponent.prop('children'))
+      assert.deepEqual(subComponent.prop('children'), enzymeWrapper.instance().getComponent)
     })
   },
 )

@@ -23,7 +23,7 @@ import { DataManagementClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'data-management', 'dataset', 'model-attributes']
+const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'model-attributes']
 const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/model-attributes'
 
 const modelAttributesReducer = DataManagementClient.ModelAttributesReducer(REDUX_ACTION_NAMESPACE)

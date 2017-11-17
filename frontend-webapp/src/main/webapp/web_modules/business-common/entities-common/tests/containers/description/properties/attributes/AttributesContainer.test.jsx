@@ -33,7 +33,7 @@ function buildExpectedStandardAttributes(entity) {
   return AttributeModelController.descriptionStandardAttributes.map((key) => {
     const { id, label, type, entityPathName } = AttributeModelController.standardAttributes[key]
     const renderValue = AttributeModelController.getEntityAttributeValue(entity, entityPathName)
-    return { id, label, Renderer: getTypeRender(type), renderValue: renderValue ? { main: renderValue } : null }
+    return { id, label, Renderer: getTypeRender(type), renderValue }
   }).sort((attr1, attr2) => StringComparison.compare(attr1.label, attr2.label))
 }
 
@@ -134,26 +134,24 @@ describe('[Entities Common] Testing AttributesContainer', () => {
       },
       fetchedModelAttributes: {
         0: {
-          content:
-            {
-              model:
-                {
-                  id: 0,
-                  name: 'Missions',
-                  type: 'COLLECTION',
-                  description: 'Describes a mission collection',
-                },
+          content: {
+            model: {
               id: 0,
-              mode: 'idc',
-              attribute: {
-                id: 0,
-                name: 'aproperty',
-                label: 'A Property Label',
-                jsonPath: 'properties.aproperty',
-                type: 'string',
-                fragment: { id: 0, name: 'DEFAULT' },
-              },
+              name: 'Missions',
+              type: 'COLLECTION',
+              description: 'Describes a mission collection',
             },
+            id: 0,
+            mode: 'idc',
+            attribute: {
+              id: 0,
+              name: 'aproperty',
+              label: 'A Property Label',
+              jsonPath: 'properties.aproperty',
+              type: 'string',
+              fragment: { id: 0, name: 'DEFAULT' },
+            },
+          },
         },
       },
       fetchedDatasetDescriptionResult: null,
@@ -167,7 +165,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
 
     let expectedStandardAttributes = buildExpectedStandardAttributes(props.entity)
     assert.deepEqual(componentWrapper.props().attributes, [
-      { id: 0, label: 'A Property Label', Renderer: getTypeRender('string'), renderValue: { main: 'entityPropertyValue' } },
+      { id: 0, label: 'A Property Label', Renderer: getTypeRender('string'), renderValue: 'entityPropertyValue' },
       ...expectedStandardAttributes,
     ], 'Attributes, when received, should be resolved as expected by child component, sorted alphabetically')
 

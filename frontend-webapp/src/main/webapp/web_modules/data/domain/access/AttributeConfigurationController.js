@@ -38,7 +38,7 @@ const isStandardAttributeQualifiedName = attributeFullQualifiedName => !!attribu
  * @param attributeConf
  * @returns {boolean}
  */
-const isStandardAttribute = (attributeConf) => { // TODO delete if unused!
+const isStandardAttribute = (attributeConf) => {
   if (!attributeConf) {
     return false
   }

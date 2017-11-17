@@ -30,6 +30,7 @@ const messages = Object.assign({
   'modelattr.edit.computation.label': 'Computation',
   'modelattr.edit.table.computationMethod': 'Computation method',
   'modelattr.edit.table.name': 'Name (type)',
+  'modelattr.edit.noAttrLink': 'There is no attribute linked to the model',
 }, Locales.en)
 
 export default messages

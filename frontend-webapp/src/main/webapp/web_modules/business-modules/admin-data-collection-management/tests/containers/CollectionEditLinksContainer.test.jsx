@@ -43,14 +43,15 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksContaine
       currentCollection: DumpProvider.getFirstEntity('DataManagementClient', 'Collection'),
       collectionList: DumpProvider.get('DataManagementClient', 'Collection'),
       // from mapDispatchToProps
-      removeTagFromCollection: () => {},
-      addTagToCollection: () => {},
-      fetchCollection: () => {},
-      fetchCollectionList: () => {},
+      removeTagFromCollection: () => { },
+      addTagToCollection: () => { },
+      fetchCollection: () => { },
+      fetchCollectionList: () => new Promise(() => { }),
     }
     const enzymeWrapper = shallow(<CollectionEditLinksContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     enzymeWrapper.instance().setState({ isLoading: false })
+    enzymeWrapper.update()
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
   })
 })

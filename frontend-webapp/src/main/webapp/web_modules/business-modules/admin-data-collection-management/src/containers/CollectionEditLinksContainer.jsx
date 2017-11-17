@@ -44,10 +44,10 @@ export class CollectionEditLinksContainer extends React.Component {
     currentCollection: DataManagementShapes.Collection,
     collectionList: DataManagementShapes.CollectionList,
     // from mapDispatchToProps
-    removeTagFromCollection: PropTypes.func,
-    addTagToCollection: PropTypes.func,
-    fetchCollection: PropTypes.func,
-    fetchCollectionList: PropTypes.func,
+    removeTagFromCollection: PropTypes.func.isRequired,
+    addTagToCollection: PropTypes.func.isRequired,
+    fetchCollection: PropTypes.func.isRequired,
+    fetchCollectionList: PropTypes.func.isRequired,
   }
 
   state = {
@@ -66,7 +66,7 @@ export class CollectionEditLinksContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project, collectionId } } = this.props
-    return `/admin/${project}/data/collection/${collectionId}/edit`
+    return `/admin/${project}/data/collections/collection/${collectionId}/edit`
   }
 
   getComponent = collectionLinkedToCurrentCollection => (
@@ -82,7 +82,7 @@ export class CollectionEditLinksContainer extends React.Component {
 
   getDoneUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/collection/list`
+    return `/admin/${project}/data/collections/collection/list`
   }
 
   /**

@@ -48,8 +48,8 @@ describe('[Search Graph] Testing GraphLevelDisplayerContainer', () => {
       parentIpId: null,
 
       // from mapDispatchToProps
-      dispatchFetchLevelCollections: PropTypes.func.isRequired,
-      dispatchFetchLevelDatasets: PropTypes.func.isRequired,
+      dispatchFetchLevelCollections: () => { },
+      dispatchFetchLevelDatasets: () => { },
     }
     const enzymeWrapper = shallow(<GraphLevelDisplayerContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(GraphLevelDisplayer), 1, 'The corresponding component should be rendered')

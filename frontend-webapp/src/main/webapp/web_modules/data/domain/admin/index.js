@@ -19,8 +19,10 @@
 
 import EnumConnectivity from './EnumConnectivity'
 import EnumJavaPrimitiveType from './EnumJavaPrimitiveType'
+import ProjectConnectionStateEnum from './ProjectConnectionStateEnum'
 
 export default {
   EnumConnectivity,
   EnumJavaPrimitiveType,
+  ProjectConnectionStateEnum,
 }

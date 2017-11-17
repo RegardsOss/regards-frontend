@@ -16,10 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Disatisfied from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PageableInfiniteTableContainer, NoContentComponent, TableLayout, TableColumnBuilder } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableLayout, TableColumnBuilder } from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
@@ -36,6 +35,9 @@ import ListViewEntityCellContainer, { hasDownloadAttribute, packThumbnailRenderD
 import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
 import EntityDescriptionContainer from '../../../containers/user/results/options/EntityDescriptionContainer'
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
+import EmptyTableComponent from './EmptyTableComponent'
+
+const RESULTS_PAGE_SIZE = 150
 
 /**
  * React component to manage search requests and display results. It handles locally the columns visible state, considered
@@ -47,7 +49,7 @@ class SearchResultsComponent extends React.Component {
   static propTypes = {
     // static module configuration
     allowingFacettes: PropTypes.bool.isRequired,
-    displayDatasets: PropTypes.bool.isRequired, // TODO directly down?
+    displayDatasets: PropTypes.bool.isRequired,
 
     // results related
     resultsCount: PropTypes.number.isRequired,
@@ -116,6 +118,11 @@ class SearchResultsComponent extends React.Component {
    * @return true if user can search related elements
    */
   static canSearchRelated = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATASET
+
+  /**
+   * Stores reference on the static empty component
+   */
+  static EMPTY_COMPONENT = <EmptyTableComponent />
 
   /**
    * Builds table columns
@@ -198,7 +205,7 @@ class SearchResultsComponent extends React.Component {
   /** @return {boolean} true if currently displaying dataobjects */
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
-  /** @return {boolean} true if currently in list view */ // TODO remove?
+  /** @return {boolean} true if currently in list view */
   isInListView = () => this.props.viewMode === DisplayModeEnum.LIST
 
   /** @return {boolean} true if currently in table view */
@@ -206,30 +213,27 @@ class SearchResultsComponent extends React.Component {
 
 
   render() {
-    const { intl: { formatMessage }, muiTheme } = this.context
+    const { muiTheme } = this.context
     const tableTheme = muiTheme['components:infinite-table']
 
-    const { allowingFacettes, displayDatasets, resultsCount, isFetching, searchActions, searchSelectors, viewObjectType, viewMode,
+    const { allowingFacettes, attributePresentationModels, displayDatasets, resultsCount, isFetching, searchActions, searchSelectors, viewObjectType, viewMode,
       showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
       onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
       onStartSelectionService, onAddSelectionToCart } = this.props
 
-    // build table columns
-    const tableColumns = this.buildTableColumns()
-
-    const pageSize = 13 // TODO what?
-    let columns = []
+    let columns
     let lineHeight
     let displayColumnsHeader
-    let minRowCount
+    let displayedRowsCount
 
+    const tableColumns = this.buildTableColumns()
     if (this.isInTableView()) {
-      minRowCount = tableTheme.minRowCount
+      displayedRowsCount = tableTheme.rowCount
       lineHeight = tableTheme.lineHeight
       columns = tableColumns
       displayColumnsHeader = true
     } else { // use list columns
-      minRowCount = tableTheme.listMinRowCount
+      displayedRowsCount = tableTheme.listRowCount
       lineHeight = tableTheme.listLineHeight
       columns = [this.buildListColumn()]
       displayColumnsHeader = false
@@ -237,9 +241,6 @@ class SearchResultsComponent extends React.Component {
 
     const requestParams = { queryParams: searchQuery }
     const showFacets = this.isDisplayingDataobjects() && allowingFacettes && showingFacettes
-
-    // TODO a static external compo! (better!)
-    const emptyComponent = <NoContentComponent title={formatMessage({ id: 'results.no.content.title' })} message={formatMessage({ id: 'results.no.content.subtitle' })} Icon={Disatisfied} />
 
     return (
       <TableLayout>
@@ -249,6 +250,7 @@ class SearchResultsComponent extends React.Component {
           viewObjectType={viewObjectType}
           viewMode={viewMode}
           searchSelectors={searchSelectors}
+          attributePresentationModels={attributePresentationModels}
           tableColumns={tableColumns}
           allowingFacettes={allowingFacettes}
           showingFacettes={showingFacettes}
@@ -287,11 +289,11 @@ class SearchResultsComponent extends React.Component {
 
           displayColumnsHeader={displayColumnsHeader}
           lineHeight={lineHeight}
-          minRowCount={minRowCount}
-          pageSize={pageSize}
+          displayedRowsCount={displayedRowsCount}
           columns={columns}
+          queryPageSize={RESULTS_PAGE_SIZE}
           requestParams={requestParams}
-          emptyComponent={emptyComponent}
+          emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
         />
       </TableLayout>
     )

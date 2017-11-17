@@ -50,6 +50,7 @@ describe('[COMPONENTS] Testing SingleContentURLDialogContainer', () => {
 
     // 2 - move into loaded state
     enzymeWrapper.instance().onContentLoaded()
+    enzymeWrapper.update()
     // check: the wrapper is no longer loading
     assert.isTrue(enzymeWrapper.state('loaded'), 'The component should be in loading state')
     contentDisplayer = enzymeWrapper.find(LoadableContentDialogContainer).at(0)

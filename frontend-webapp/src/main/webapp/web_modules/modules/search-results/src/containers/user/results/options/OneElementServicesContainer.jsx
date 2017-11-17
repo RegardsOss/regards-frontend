@@ -43,7 +43,8 @@ export class OneElementServicesContainer extends React.Component {
   }
 
   static propTypes = {
-    rowIndex: PropTypes.number, // from cell API, to be excluded in sub component props
+    // from table cell API, mentionned here only to be excluded from children properties
+    rowIndex: PropTypes.number,
     // Entity. Note: when used in options column, this is provided by the table cell API
     entity: AccessShapes.EntityWithServices.isRequired,
     // from mapDispatchToProps

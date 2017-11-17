@@ -152,10 +152,8 @@ class GuidedProjectConfigurationComponent extends React.Component {
         errorMessage={this.props.errorMessage}
         onCreate={this.props.onCreate}
         onUpdate={this.props.onUpdate}
-        onNext={this.handleNext}
         onCancel={this.handleBackClick}
         onChangeConfigurationMode={this.props.onChangeConfigurationMode}
-        isStep
       />
     )
   }
