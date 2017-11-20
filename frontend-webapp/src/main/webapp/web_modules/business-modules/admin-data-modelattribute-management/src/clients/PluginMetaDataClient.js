@@ -26,9 +26,9 @@ import { CommonClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'models', 'model-attribute-management', 'plugin-meta-data']
 const REDUX_ACTION_NAMESPACE = 'admin-data-modelattribute-management/pluginMetaData'
 
-const pluginMetaDataReducer = CommonClient.PluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
+const pluginMetaDataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
 const pluginMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
-const pluginMetaDataSelectors = CommonClient.PluginMetaDataSelectors(ENTITIES_STORE_PATH)
+const pluginMetaDataSelectors = CommonClient.getPluginMetaDataSelectors(ENTITIES_STORE_PATH)
 
 
 export default {

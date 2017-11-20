@@ -16,25 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import isUndefined from 'lodash/isUndefined'
-import { I18nProvider } from '@regardsoss/i18n'
-import { CommonShapes } from '@regardsoss/shape'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import PluginConfigurationFormComponent from '../../components/plugin/PluginConfigurationFormComponent'
-import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
-import PluginConfigurationSelectors from '../../model/plugin/PluginConfigurationSelectors'
-import PluginMetaDataSelectors from '../../model/plugin/PluginMetaDataSelectors'
-import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
-import messages from '../../i18n'
-
+import { PluginFormConfigurator } from '@regardsoss/microservice-plugin-configurator'
 /**
  * Container connecting the plugin configuration from to the redux store and handling user actions.
  *
  * @author Xavier-Alexandre Brochard
  */
 export class PluginConfigurationFormContainer extends React.Component {
+
+  static storePath = ['admin', 'microservice-management', 'pluginConfigurator']
 
   static propTypes = {
     // from router
@@ -45,16 +36,6 @@ export class PluginConfigurationFormContainer extends React.Component {
       pluginConfigurationId: PropTypes.string,
       formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
     }),
-    // from mapStateToProps
-    currentPluginMetaData: CommonShapes.PluginMetaData,
-    isPluginMetaDataFetching: PropTypes.bool,
-    currentPluginConfiguration: CommonShapes.PluginConfiguration,
-    isPluginConfigurationFetching: PropTypes.bool,
-    // from mapDispatchToProps
-    fetchPluginConfiguration: PropTypes.func.isRequired,
-    createPluginConfiguration: PropTypes.func.isRequired,
-    updatePluginConfiguration: PropTypes.func.isRequired,
-    fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -63,121 +44,29 @@ export class PluginConfigurationFormContainer extends React.Component {
     },
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.params.formMode === 'create',
-      isEditing: props.params.formMode === 'edit',
-      isCopying: props.params.formMode === 'copy',
-    }
-  }
-
-  componentDidMount() {
-    const { params: { pluginId, pluginConfigurationId, microserviceName } } = this.props
-
-    this.props.fetchPluginMetaDataList(microserviceName)
-    if (pluginConfigurationId && pluginId) {
-      this.props.fetchPluginConfiguration(pluginConfigurationId, pluginId, microserviceName)
-    }
-  }
-
   getBackUrl = () => {
     const { params: { project, microserviceName, pluginId } } = this.props
     return `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/list`
   }
 
-  /**
-   * Return React form component
-   * @returns {XML}
-   */
-  getFormComponent = () => {
-    const { params: { formMode, microserviceName }, currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching } = this.props
-    const isEmpty = this.state.isEditing && isUndefined(currentPluginConfiguration)
-    return (
-      <LoadableContentDisplayDecorator
-        isLoading={isPluginConfigurationFetching || isPluginMetaDataFetching}
-        isEmpty={isEmpty}
-      >
-        <PluginConfigurationFormComponent
-          onSubmit={this.state.isEditing ? this.handleUpdate : this.handleCreate}
-          backUrl={this.getBackUrl()}
-          currentPluginMetaData={currentPluginMetaData}
-          currentPluginConfiguration={currentPluginConfiguration}
-          formMode={formMode}
-          microserviceName={microserviceName}
-        />
-      </LoadableContentDisplayDecorator>
-    )
-  }
-
-  /**
-   * Handle form submission when updating fragment
-   * @param vals form updated values
-   */
-  handleUpdate = (vals) => {
-    const { params: { microserviceName, pluginId, pluginConfigurationId } } = this.props
-
-    return Promise.resolve(this.props.updatePluginConfiguration(pluginConfigurationId, vals, microserviceName, pluginId))
-      .then((actionResult) => {
-        // We receive here the actions
-        if (!actionResult.error) {
-          const url = this.getBackUrl()
-          browserHistory.push(url)
-        }
-        return actionResult
-      })
-  }
-
-  /**
-   * Handle form submission when creating fragment
-   *
-   * @param vals form values
-   */
-  handleCreate = (vals) => {
-    const { params: { microserviceName, pluginId } } = this.props
-
-    return Promise.resolve(this.props.createPluginConfiguration(vals, microserviceName, pluginId))
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error) {
-          const url = this.getBackUrl()
-          return browserHistory.push(url)
-        }
-        return actionResult
-      })
-  }
-
   render() {
+    const { params } = this.props
     return (
-      <I18nProvider messages={messages}>
-        {this.getFormComponent()}
-      </I18nProvider>
+      <PluginFormConfigurator
+        microserviceName={params.microserviceName}
+        pluginId={params.pluginId}
+        pluginConfigurationId={params.pluginConfigurationId}
+        formMode={params.formMode}
+        backUrl={this.getBackUrl()}
+        storePath={PluginConfigurationFormContainer.storePath}
+      />
     )
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  currentPluginMetaData: ownProps.params.pluginId ? PluginMetaDataSelectors.getById(state, ownProps.params.pluginId) : null,
-  isPluginMetaDataFetching: PluginMetaDataSelectors.isFetching(state),
-  currentPluginConfiguration: ownProps.params.pluginConfigurationId ? PluginConfigurationSelectors.getById(state, ownProps.params.pluginConfigurationId) : null,
-  isPluginConfigurationFetching: PluginConfigurationSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginMetaDataList: microserviceName => dispatch(PluginMetaDataActions.fetchEntityList({
-    microserviceName,
-  })),
-  fetchPluginConfiguration: (pluginConfId, pluginId, microserviceName) => dispatch(PluginConfigurationActions.fetchEntity(pluginConfId, {
-    microserviceName,
-    pluginId,
-  })),
-  createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(PluginConfigurationActions.createEntity(vals, {
-    microserviceName,
-    pluginId,
-  })),
-  updatePluginConfiguration: (id, vals, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, vals, {
-    microserviceName,
-    pluginId,
-  })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginConfigurationFormContainer)

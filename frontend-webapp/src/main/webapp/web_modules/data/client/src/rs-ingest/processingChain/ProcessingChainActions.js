@@ -34,8 +34,8 @@ export default class ProcessingChainActions extends BasicPageableActions {
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/processingchains`,
       schemaTypes: {
-        ENTITY: Schemas.ACCESS_RIGHT,
-        ENTITY_ARRAY: Schemas.ACCESS_RIGHT_ARRAY,
+        ENTITY: Schemas.PROCESSING_CHAIN,
+        ENTITY_ARRAY: Schemas.PROCESSING_CHAIN_ARRAY,
       },
     })
   }

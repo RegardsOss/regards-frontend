@@ -18,27 +18,27 @@
  **/
 import forEach from 'lodash/forEach'
 import { combineReducers } from 'redux'
-import pluginType from './model/plugin/PluginTypeReducers'
-import pluginMetaData from './model/plugin/PluginMetaDataReducers'
-import pluginConfiguration from './model/plugin/PluginConfigurationReducers'
+import { PluginConfiguratorReducer } from '@regardsoss/microservice-plugin-configurator'
+import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
+import { pluginTypeReducer } from './clients/PluginTypeClient'
+import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 import MaintenanceModeReducers from './model/MaintenanceModeReducers'
 import SetMaintenanceReducers from './model/SetMaintenanceModeReducers'
 import MicroserviceInfoClient from './clients/MicroserviceInfoClient'
-import { REDUCER_PATH, pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 
-const reducers = {}
+const maintenanceReducers = {}
 forEach(STATIC_CONF.MSERVICES, (microservice) => {
-  reducers[`maintenance-${microservice}`] = MaintenanceModeReducers(microservice)
-  reducers[`set-maintenance-${microservice}`] = SetMaintenanceReducers(microservice)
+  maintenanceReducers[`maintenance-${microservice}`] = MaintenanceModeReducers(microservice)
+  maintenanceReducers[`set-maintenance-${microservice}`] = SetMaintenanceReducers(microservice)
 })
 
 const microserviceManagementReducer = combineReducers({
-  pluginType,
-  pluginMetaData,
-  pluginConfiguration,
-  ...reducers,
-  'microservice-info': MicroserviceInfoClient.microserviceInfoActions,
-  [REDUCER_PATH]: pluginConfigurationReducer,
+  pluginMetadata: pluginMetaDataReducer,
+  pluginType: pluginTypeReducer,
+  pluginConfiguration: pluginConfigurationReducer,
+  pluginConfigurator: PluginConfiguratorReducer,
+  microserviceInfo: MicroserviceInfoClient.microserviceInfoActions,
+  ...maintenanceReducers,
 })
 
 export default microserviceManagementReducer

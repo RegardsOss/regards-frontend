@@ -24,7 +24,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import PluginConfigurationComponent from '../../components/plugin/PluginConfigurationComponent'
-import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
+import { pluginConfigurationActions } from '../../clients/PluginConfigurationClient'
 
 /**
  * Container connecting a {@link PluginConfigurationComponent} to the redux store.
@@ -141,6 +141,7 @@ export class PluginConfigurationContainer extends React.Component {
           microserviceName={microserviceName}
           pluginConfiguration={pluginConfiguration}
           pluginMetaData={pluginMetaData}
+          pluginId={pluginMetaData.pluginId}
           onActiveToggle={this.handleActiveToggle}
           onCopyClick={this.handleCopy}
           onDeleteClick={this.openDeleteDialog}
@@ -165,8 +166,8 @@ export class PluginConfigurationContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = dispatch => ({
-  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(PluginConfigurationActions.updateEntity(id, values, { microserviceName, pluginId })),
-  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(PluginConfigurationActions.deleteEntity(pluginConfigurationId, { microserviceName, pluginId })),
+  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(pluginConfigurationActions.updateEntity(id, values, { microserviceName, pluginId })),
+  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(pluginConfigurationActions.deleteEntity(pluginConfigurationId, { microserviceName, pluginId })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginConfigurationContainer)

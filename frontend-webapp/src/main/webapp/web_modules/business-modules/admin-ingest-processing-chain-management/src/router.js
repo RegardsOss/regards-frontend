@@ -16,6 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
+/**
+ * Routers for ingest processing chain management module
+ * @author Sébastien Binda
+ */
 export const createIngestProcessingChainRoute = {
   path: 'create',
   getComponents(nextState, cb) {
@@ -30,7 +35,7 @@ export const createIngestProcessingChainRoute = {
 
 
 export const editIngestProcessingChainRoute = {
-  path: ':chain_id/edit',
+  path: ':chain_name/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const formContainer = require('./containers/IngestProcessingChainFormContainer')

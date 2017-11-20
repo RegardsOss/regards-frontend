@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Component, createElement } from 'react'
+import { Component } from 'react'
 import DoubleLabelToggle from '../DoubleLabelToggle'
 
 /**
@@ -31,14 +31,16 @@ function createComponent(MaterialUIComponent, mapProps) {
     getRenderedComponent() {
       // legacy from material-ui
       // eslint-disable-next-line react/no-string-refs
-      return this.refs.component
+      return this.childRef
     }
 
     render() {
-      return createElement(MaterialUIComponent, {
-        ...mapProps(this.props),
-        ref: 'component',
-      })
+      return (
+        <MaterialUIComponent
+          ref={(ref) => { this.childRef = ref }}
+          {...mapProps(this.props)}
+        />
+      )
     }
   }
   InputComponent.displayName = `ReduxFormMaterialUI${MaterialUIComponent.name}`

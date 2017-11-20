@@ -18,9 +18,7 @@
  **/
 
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import PluginTypeActions from '../../../src/model/plugin/PluginTypeActions'
-import PluginTypeReducers from '../../../src/model/plugin/PluginTypeReducers'
-import PluginTypeSelectors from '../../../src/model/plugin/PluginTypeSelectors'
+import { pluginTypeSelectors, pluginTypeActions, pluginTypeReducer } from '../../../src/clients/PluginTypeClient'
 import PluginTypeNetworkDump from './dump/PluginTypeNetworkDump'
 
 const backendServerResultList = PluginTypeNetworkDump
@@ -28,7 +26,7 @@ const options = {
   urlParams: { microserviceName: 'rs-dam' },
 }
 
-const entityTester = new ReduxEntityTester(PluginTypeActions, PluginTypeReducers, PluginTypeSelectors, PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(pluginTypeActions, pluginTypeReducer, pluginTypeSelectors, PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired, backendServerResultList, options)
 
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing model PluginType', () => {
   before(() => {

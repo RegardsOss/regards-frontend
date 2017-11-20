@@ -28,7 +28,7 @@ const messages = {
   'menu.collections': 'Collections & Datasets',
   'menu.datamodels': 'Data models',
   'menu.dataaccessrights': 'Access Rights',
-  'menu.dataacquisition': 'Add datas',
+  'menu.dataacquisition': 'Add data',
   'menu.instance': 'Instance administration',
   'menu.back': 'Back',
 }

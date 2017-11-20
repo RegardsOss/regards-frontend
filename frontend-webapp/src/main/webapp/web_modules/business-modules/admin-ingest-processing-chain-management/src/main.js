@@ -20,6 +20,10 @@ import processingChainManagementRouter from './router'
 import processingChainManagementReducer from './reducer'
 import processingChainDependencies from './dependencies'
 
+/**
+ * Index file for ingest processing chain management module
+ * @author Sébastien Binda
+ */
 export default {
   processingChainManagementReducer,
   processingChainManagementRouter,
