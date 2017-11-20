@@ -22,7 +22,7 @@ import ResultsCountMessage from './ResultsCountMessage'
 import TableHeaderLoadingComponent from './TableHeaderLoadingComponent'
 
 /**
- * Displays results, loading, and any custom child in the right area.
+ * Displays results on left. Alternates children or loading display at center
  * Note: custom children will lose their i18n context and styles context in this component
  */
 class TableHeaderLineLoadingAndResults extends React.Component {

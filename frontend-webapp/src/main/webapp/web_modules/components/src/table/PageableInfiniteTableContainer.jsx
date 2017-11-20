@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
@@ -95,7 +96,7 @@ export class PageableInfiniteTableContainer extends React.Component {
   }
 
   /** List of properties that should not be reported to children */
-  static PROPS_TO_OMIT = ['pageActions', 'pageSelectors', 'tableActions']
+  static PROPS_TO_OMIT = ['pageActions', 'pageSelectors', 'tableActions', 'pageMetadata']
 
   /**
    * Lifecycle method: component will mount. used here to initialize state for properties
@@ -116,7 +117,10 @@ export class PageableInfiniteTableContainer extends React.Component {
    */
   onPropertiesChanged = (newProps, oldProps = {}) => {
     // for sub component, we report any non declared properties
-    const tableProps = omit(newProps, PageableInfiniteTableContainer.PROPS_TO_OMIT)
+    const tableProps = {
+      ...omit(newProps, PageableInfiniteTableContainer.PROPS_TO_OMIT),
+      entitiesCount: get(newProps.pageMetadata, 'totalElements', 0),
+    }
     this.setState({ tableProps })
   }
 

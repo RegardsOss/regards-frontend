@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import fill from 'lodash/fill'
-import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import Measure from 'react-measure'
 import { connect } from '@regardsoss/redux'
@@ -68,7 +65,9 @@ class InfiniteTableContainer extends React.Component {
     lineHeight: PropTypes.number, // defaults to theme when not provided
     displayedRowsCount: PropTypes.number, // default to theme when not provided
     columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
-
+    // configures when the loading should start when user scrolls in page: this is a number in ]0; 1[ standing for
+    // "after half", "after 2/3" (default), ... Adapt it to your queryPageSize
+    loadAtPagePoint: PropTypes.number.isRequired,
     // Customize state display
     emptyComponent: PropTypes.element,
     loadingComponent: PropTypes.element,
@@ -80,12 +79,8 @@ class InfiniteTableContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     entitiesFetching: PropTypes.bool,
-    // eslint-disable-next-line react/no-unused-prop-types
-    pageMetadata: PropTypes.shape({ // use only in onPropertiesUpdate
-      number: PropTypes.number,
-      size: PropTypes.number,
-      totalElements: PropTypes.number,
-    }),
+    // total entities count, including those not yet fetched. When no provided, the table won't auto fetch next pages
+    entitiesCount: PropTypes.number,
 
     // [Optional] server request parameters as query params or path params defined in the PageActions given.
     // eslint-disable-next-line
@@ -113,6 +108,7 @@ class InfiniteTableContainer extends React.Component {
   }
 
   static defaultProps = {
+    loadAtPagePoint: 0.5,
     queryPageSize: 20,
     loadingComponent: <TableContentLoadingComponent />,
   }
@@ -122,8 +118,6 @@ class InfiniteTableContainer extends React.Component {
     allColumns: [],
     tableWidth: 0,
   }
-
-  static MAX_NB_ENTITIES = 10000 //TODO-V2 remove when catalog limit gets removed
 
   /** Initialize state */
   componentWillMount = () => this.setState(InfiniteTableContainer.DEFAULT_STATE)
@@ -150,52 +144,10 @@ class InfiniteTableContainer extends React.Component {
       this.flushEntities(nextProps)
       // Fetch new ones
       this.fetchEntityPage(nextProps)
-    }
-
-
-    // New entities retrieved
-    if (!isEqual(previousProps.entities, nextProps.entities) || !isEqual(previousProps.pageMetadata, nextProps.pageMetadata)) {
-      // 1 - update row entities
-      if (nextProps.pageMetadata) {
-        const totalCountOfElements = this.getTotalNumberOfResults(nextProps)
-        // 1.A - build page index in entities
-        const firstPageElementIndex = nextProps.pageMetadata.number * nextProps.pageMetadata.size
-        const lastPageElementIndex = firstPageElementIndex + nextProps.entities.length
-        // 1.B - rebuild elements before page, saving all defined elements
-        let entitiesElementsBeforePage = []
-        const oldEntities = (previousState.entities || [])
-        if (firstPageElementIndex > 0) {
-          const restoredCount = Math.min(oldEntities.length, firstPageElementIndex)
-          const unexistingCount = firstPageElementIndex - restoredCount
-          entitiesElementsBeforePage = [
-            ...(restoredCount ? oldEntities.slice(0, restoredCount) : []),
-            ...fill(Array(unexistingCount), InfiniteTableContainer.EMPTY_OBJECT),
-          ]
-        }
-        // 1.C - rebuild elements after page, except when page total count changed (that marks some items were deleted)
-        const oldTotalCountOfElements = previousProps ? this.getTotalNumberOfResults(previousProps) : 0
-        let entitiesElementsAfterPage
-        if (totalCountOfElements !== oldTotalCountOfElements) {
-          // rebuilt to erase old fetch (check total elements are not less than one page)
-          const missingCount = Math.max(totalCountOfElements - lastPageElementIndex, 0)
-          entitiesElementsAfterPage = fill(Array(missingCount), InfiniteTableContainer.EMPTY_OBJECT)
-        } else {
-          // extracted (as much as possible).
-          entitiesElementsAfterPage = oldEntities.slice(lastPageElementIndex, totalCountOfElements)
-        }
-
-        // 1.D - build new entities buffer from previous elements. Always clear following elements to handle the suppression cases
-        // Invariant: those elements must always have a length of totalCountOfElements
-        nextState.entities = [
-          ...entitiesElementsBeforePage,
-          // page
-          ...nextProps.entities,
-          ...entitiesElementsAfterPage,
-        ]
-
-        // 1.E - clear transient pages loading states
-        this.onReceivePageFetch(nextProps.pageMetadata.number, nextProps.pageMetadata.size)
-      }
+    } else if (!isEqual(previousProps.entities, nextProps.entities)) {
+      // update row entities (add new one to previously known ones)
+      const oldEntities = (previousState.entities || [])
+      nextState.entities = [...oldEntities, ...nextProps.entities]
     }
 
     if (!isEqual(previousState, nextState)) {
@@ -210,37 +162,27 @@ class InfiniteTableContainer extends React.Component {
    * @param scrollEndOffset
    */
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
-    // the scroll offset is the first element to fetch if it is missing
-    const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
-    const { lineHeight = defaultLineHeight, queryPageSize, displayedRowsCount } = this.props
     const { entities } = this.state
-    // create or extract the loading state transient value on instance: this is used to avoid fetching multiple times
-    // entities that are  currently fetched
-    const firstVisibleIndex = Math.floor(scrollEndOffset / lineHeight)
-    // cut any request that could be outside the entities range
-    if (firstVisibleIndex >= entities.length) {
-      return
-    }
-    // build last page / visible page index, ensure it will still be in results range
-    const consideredPageSize = Math.max(displayedRowsCount || this.context.muiTheme['components:infinite-table'].rowCount, queryPageSize)
-    const lastVisibleIndex = Math.min(firstVisibleIndex + consideredPageSize, entities.length - 1)
+    // entities count: when not provided, block fetching
+    const entitiesCount = (this.props.entitiesCount || 0)
 
-    // compute missing index in entities
-    let firstMissingIndex = null
-    let lastMissingIndex = null
-    for (let index = firstVisibleIndex; index <= lastVisibleIndex; index += 1) {
-      const isMissing = isEmpty(entities[index])
-      if (isMissing) {
-        firstMissingIndex = firstMissingIndex || index // min index: change only on first time
-        lastMissingIndex = index // max: use max undefined found
+    // Is table incomplete? (prevent fetching when already in progress)
+    if (entities.length < entitiesCount && !this.props.entitiesFetching) {
+      // The table is not yet complete, check if we should fetch
+      // the scroll offset is the first element to fetch if it is missing
+      const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
+      const { lineHeight = defaultLineHeight, queryPageSize } = this.props
+
+      // when the first visible index is at 1/2 of the last loaded page, start loading next page
+      const firstVisibleIndex = Math.floor(scrollEndOffset / lineHeight)
+      const totalPages = Math.floor(entities.length / queryPageSize)
+      // consider only the ratio on the last page
+      const inPageIndex = firstVisibleIndex - ((totalPages - 1) * queryPageSize)
+      const inPageRatio = inPageIndex / queryPageSize
+      if (inPageRatio > this.props.loadAtPagePoint) {
+        const nextPage = Math.ceil(firstVisibleIndex / queryPageSize)
+        this.fetchEntityPage(this.props, nextPage)
       }
-    }
-    if (firstMissingIndex) {
-      // there are missing elements, prepare custom fetch data (fetch a right page size here)
-      const firstPageNumber = Math.floor(firstMissingIndex / consideredPageSize)
-      const lastPageNumber = Math.floor(lastMissingIndex / consideredPageSize)
-      const pageSize = (lastPageNumber - firstPageNumber + 1) * consideredPageSize
-      this.fetchEntityPage(this.props, firstPageNumber, pageSize)
     }
   }
 
@@ -252,44 +194,10 @@ class InfiniteTableContainer extends React.Component {
   }
 
   /**
-   * Returns true if page fetch can be startstarts a page fetch or retu
-   * @param pageNumber page number
-   * @param pageSize  page size
-   * @return true if page can be fetched
-   */
-  onStartPageFetch = (pageNumber, pageSize) => {
-    const previousFetchingPages = this.fetchingPages || []
-    this.fetchingPages = [...previousFetchingPages]
-    const realPagesCount = pageSize / this.props.queryPageSize
-
-    // mark pages as fetching
-    for (let page = pageNumber; page < pageNumber + realPagesCount; page += 1) {
-      if (!this.fetchingPages.includes(page)) {
-        this.fetchingPages.push(page)
-      }
-    }
-    // if the pages were modified, then we can update it and let fetch be performed (we added new pages)
-    return !isEqual(this.fetchingPages, previousFetchingPages)
-  }
-
-  /**
-   * Marks a page was fetched (removes loading state)
-   * @param pageNumber page number
-   * @param pageSize  page size
-   */
-  onReceivePageFetch = (pageNumber, pageSize) => {
-    const realPagesCount = pageSize / this.props.queryPageSize
-    this.fetchingPages = (this.fetchingPages || []).filter(n => n < pageNumber || n > pageNumber + realPagesCount)
-  }
-
-  /**
    * Returns total number of results from page metadata as props
    * @param props component properties
    */
-  getTotalNumberOfResults = (props) => {
-    const total = get(props || this.props, 'pageMetadata.totalElements') || 0
-    return Math.min(InfiniteTableContainer.MAX_NB_ENTITIES, total)
-  }
+  getTotalNumberOfResults = props => this.state.entities.length
 
   /**
    selection if any data)
@@ -305,30 +213,25 @@ class InfiniteTableContainer extends React.Component {
    * Fetches an entity page (prevents fetching multiple times the same entity)
    * @param {fetchEntities:{func}, requestParams:{}} props component props to use
    * @param {number} pageNumber number of page to fetch (optional, defaults to 0)
-   * @param {number} customPageSize custom page size or undefined (optional, defaults to queryPageSize)
    */
-  fetchEntityPage = ({ fetchEntities, requestParams, queryPageSize }, pageNumber = 0, customPageSize) => {
-    const actualPageSize = customPageSize || queryPageSize
-    if (this.onStartPageFetch(pageNumber, actualPageSize)) {
-      fetchEntities(pageNumber, actualPageSize, requestParams)
-    }
+  fetchEntityPage = ({ fetchEntities, requestParams, queryPageSize }, pageNumber = 0) => {
+    fetchEntities(pageNumber, queryPageSize, requestParams)
   }
 
   render() {
-    const { displayColumnsHeader, lineHeight, displayedRowsCount, columns, entitiesFetching,
+    const { entitiesCount, displayColumnsHeader, lineHeight, displayedRowsCount, columns, entitiesFetching,
       loadingComponent, emptyComponent } = this.props
     const { tableWidth, entities } = this.state // cached render entities
     const actualLineHeight = lineHeight || this.context.muiTheme['components:infinite-table'].lineHeight
     const actualRowCount = displayedRowsCount || this.context.muiTheme['components:infinite-table'].rowCount
-    const totalElements = this.getTotalNumberOfResults()
 
     return (
       <Measure onMeasure={this.onComponentResized}>
         <div style={allWidthStyles}>
           <LoadableContentDisplayDecorator
-            isLoading={!totalElements && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
+            isLoading={!entitiesCount && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
             loadingComponent={loadingComponent}
-            isEmpty={!totalElements}
+            isEmpty={!entitiesCount}
             emptyComponent={emptyComponent}
           >
             <Table
