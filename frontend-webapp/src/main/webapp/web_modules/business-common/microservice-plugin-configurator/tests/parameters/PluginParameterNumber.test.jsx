@@ -30,7 +30,7 @@ const options = {
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[ADMIN PROJECT MANAGEMENT] Testing plugin parameter number component', () => {
+describe('[COMMON PLUGIN CONFIGURATOR] Testing plugin parameter number component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

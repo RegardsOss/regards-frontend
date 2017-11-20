@@ -24,7 +24,8 @@ import ProcessingChainListComponent from '../components/IngestProcessingChainLis
 import messages from '../i18n'
 
 /**
- * TODO ...
+ * Container to display all existing ingest processing chains
+ * @author Sébastien Binda
  */
 export class IngestProcessingChainListContainer extends React.Component {
 

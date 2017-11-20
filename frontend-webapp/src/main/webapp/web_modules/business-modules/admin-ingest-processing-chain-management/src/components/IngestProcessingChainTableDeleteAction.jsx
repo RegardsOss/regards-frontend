@@ -22,8 +22,8 @@ import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Access rights table delete cell
-* @author Raphaël Mechali
+* Delete button action cell for the infinite table used to display ingest processing chains
+* @author Sébastien Binda
 */
 class IngestProcessingChainTableDeleteAction extends React.Component {
 

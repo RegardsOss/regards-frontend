@@ -36,6 +36,7 @@ import { addDependencies } from '../dependencies'
 
 /**
  * Displays the list of configurable IngestProcessingChains.
+ * @author Sébastien Binda
  */
 export class ProcessingChainListComponent extends React.Component {
 

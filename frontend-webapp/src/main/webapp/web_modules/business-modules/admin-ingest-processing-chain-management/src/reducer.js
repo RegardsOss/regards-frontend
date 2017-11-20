@@ -21,6 +21,10 @@ import { PluginConfiguratorReducer } from '@regardsoss/microservice-plugin-confi
 import { processingChainReducer } from './clients/ProcessingChainClient'
 import { tableReducer } from './clients/TableClient'
 
+/**
+ * Redux reducers for ingest processing chain management module
+ * @author Sébastien Binda
+ */
 const ingestManagementReducer = combineReducers({
   chain: processingChainReducer,
   'processing-chain-table': tableReducer,

@@ -18,6 +18,10 @@
  **/
 import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
+/**
+ * Infinite table actions client.
+ * @author Sébastien Binda
+ */
 const NAMESPACE = 'admin-ingest-management/processing-chain-table'
 const STORE_PATH = ['admin', 'acquisition', 'processing-chain-management', 'processing-chain-table']
 

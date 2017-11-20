@@ -21,6 +21,7 @@ import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
 import { PluginConfigurationFormComponent } from '../src/components/PluginConfigurationFormComponent'
+import PluginConfigurationComponent from '../src/components/PluginConfigurationComponent'
 import styles from '../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -28,7 +29,7 @@ const context = buildTestContext(styles)
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component', () => {
+describe('[COMMON PLUGIN CONFIGURATOR] Testing plugin configuration form component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -53,6 +54,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component
       pluginMetaData: {
         content: {
           id: 0,
+          pluginId: 'plugin',
           pluginType: 'Authentication',
           pluginClassName: 'Kerberos',
           author: 'Jules Verne',
@@ -73,6 +75,8 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing plugin configuration form component
     }
     const enzymeWrapper = shallow(<PluginConfigurationFormComponent {...props} />, { context })
     const subComponent = enzymeWrapper.find(Card)
-    expect(subComponent).to.have.length(3)
+    expect(subComponent).to.have.length(1)
+    const pluginConfComponent = enzymeWrapper.find(PluginConfigurationComponent)
+    expect(pluginConfComponent).to.have.length(1)
   })
 })

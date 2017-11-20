@@ -29,7 +29,7 @@ import PluginParameterPlugin from '../../src/components/parameters/PluginParamet
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[ADMIN PROJECT MANAGEMENT] Testing generic plugin parameter component', () => {
+describe('[COMMON PLUGIN CONFIGURATOR] Testing generic plugin parameter component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

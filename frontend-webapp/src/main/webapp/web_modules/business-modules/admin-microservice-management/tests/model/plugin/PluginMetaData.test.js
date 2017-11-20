@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { pluginMedaDataActions, pluginMedaDataReducer, pluginMedaDataSelectors } from '../../../src/clients/PluginMetadataClient'
+import { pluginMetaDataActions, pluginMetaDataReducer, pluginMetaDataSelectors } from '../../../src/clients/PluginMetadataClient'
 import PluginMetaDataNetworkDump from './dump/PluginMetaDataNetworkDump'
 
 const backendServerResultList = PluginMetaDataNetworkDump
@@ -25,7 +25,7 @@ const options = {
   urlParams: { microserviceName: 'rs-dam' },
 }
 
-const entityTester = new ReduxEntityTester(pluginMedaDataActions, pluginMedaDataReducer, pluginMedaDataSelectors, PropTypes.objectOf(PropTypes.object).isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(pluginMetaDataActions, pluginMetaDataReducer, pluginMetaDataSelectors, PropTypes.objectOf(PropTypes.object).isRequired, backendServerResultList, options)
 
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing model PluginMetaData', () => {
   before(() => {

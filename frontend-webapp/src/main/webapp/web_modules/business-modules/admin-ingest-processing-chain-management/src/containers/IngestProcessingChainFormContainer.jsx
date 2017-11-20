@@ -8,6 +8,10 @@ import { processingChainActions, processingChainSelectors } from '../clients/Pro
 import messages from '../i18n'
 import IngestProcessingChainFormComponent from '../components/IngestProcessingChainFormComponent'
 
+/**
+ * Container to display a form to create/edit an ingest processing chain
+ * @author Sébastien Binda
+ */
 export class IngestProcessingChainFormContainer extends React.Component {
 
   static propTypes = {
@@ -17,11 +21,11 @@ export class IngestProcessingChainFormContainer extends React.Component {
       chain_name: PropTypes.string,
     }),
     // from mapStateToProps
-    processingChain: IngestShapes.IngestProcessingChain,
+    processingChain: IngestShapes.IngestProcessingChain.isRequired,
     // from mapDispatchToProps
-    createChain: PropTypes.func.isRequired,
-    fetchModel: PropTypes.func.isRequired,
-    updateChain: PropTypes.func.isRequired,
+    createChain: PropTypes.func.isRequired.isRequired,
+    fetchChain: PropTypes.func.isRequired.isRequired,
+    updateChain: PropTypes.func.isRequired.isRequired,
   }
 
   constructor(props) {

@@ -4,8 +4,8 @@ import { pluginMetadataReducer } from './clients/PluginMetadataClient'
 
 
 const microservicePluginConfiguratorReducers = combineReducers({
-  'plugin-configuration' : pluginConfigurationReducer,
-  'plugin-metadata' : pluginMetadataReducer
+  'plugin-configuration': pluginConfigurationReducer,
+  'plugin-metadata': pluginMetadataReducer,
 })
 
 export default microservicePluginConfiguratorReducers

@@ -28,7 +28,8 @@ import { PluginFormComponent } from './PluginFormComponent'
 import IngestProcessingPluginTypes from './IngestProcessingPluginType'
 
 /**
- * Display edit and create project form
+ * Display edit and create ingest processing chain form
+ * @author Sébastien Binda
  */
 export class IngestProcessingChainFormComponent extends React.Component {
 
@@ -37,9 +38,11 @@ export class IngestProcessingChainFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.string.isRequired,
     // from reduxForm
-    invalid: PropTypes.bool,
-    submitting: PropTypes.bool,
-    handleSubmit: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired.isRequired,
   }
 
   static contextTypes = {

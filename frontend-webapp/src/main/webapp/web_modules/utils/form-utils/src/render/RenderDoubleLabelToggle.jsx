@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Component, createElement } from 'react'
+import { Component } from 'react'
 import DoubleLabelToggle from '../DoubleLabelToggle'
 
 /**
@@ -36,10 +36,10 @@ function createComponent(MaterialUIComponent, mapProps) {
 
     render() {
       return (
-      <MaterialUIComponent
-        ref={(ref) => { this.childRef=ref }}
-                           {...mapProps(this.props)}
-      />
+        <MaterialUIComponent
+          ref={(ref) => { this.childRef = ref }}
+          {...mapProps(this.props)}
+        />
       )
     }
   }
