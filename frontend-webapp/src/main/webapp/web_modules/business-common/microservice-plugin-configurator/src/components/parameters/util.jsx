@@ -31,8 +31,11 @@ const buildMenuItemPrimaryText = (leftContent, rightContent) => (
     </span>
   </div>
 )
-const getFieldName = (name, pluginMetaData, suffix) => {
+const getFieldName = (prefix, name, pluginMetaData, suffix) => {
   const index = findIndex(pluginMetaData.parameters, ['name', name])
+  if (prefix && prefix !== '') {
+    return `${prefix}.parameters.${index}${suffix}`
+  }
   return `parameters.${index}${suffix}`
 }
 /**
@@ -41,6 +44,7 @@ const getFieldName = (name, pluginMetaData, suffix) => {
 const pluginParameterComponentPropTypes = {
   microserviceName: PropTypes.string.isRequired,
   pluginMetaData: CommonShapes.PluginMetaData,
+  reduxFormfieldNamePrefix: PropTypes.string, //Optional prefix for redux form field name before the parameter name
   // eslint-disable-next-line react/no-unused-prop-types
   pluginParameter: CommonShapes.PluginParameterContent,
   pluginParameterType: CommonShapes.PluginParameterType,

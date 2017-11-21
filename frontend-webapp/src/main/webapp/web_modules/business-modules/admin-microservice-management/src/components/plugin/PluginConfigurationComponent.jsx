@@ -88,15 +88,22 @@ class PluginConfigurationComponent extends React.Component {
 
     const styles = moduleStyles(this.context.muiTheme).pluginConfiguration
 
-    const parameters = map(pluginMetaData.content.parameters, (pluginParameterType, index) => (
-      <GenericPluginParameter
-        key={pluginParameterType.name}
-        microserviceName={microserviceName}
-        pluginParameterType={pluginParameterType}
-        pluginParameter={PluginUtils.mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration.content)}
-        pluginMetaData={pluginMetaData}
-        mode={'view'}
-      />))
+    const parameters = map(pluginMetaData.content.parameters, (pluginParameterType, index) => {
+      try {
+        const pluginParam = PluginUtils.mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration.content)
+        return (
+          <GenericPluginParameter
+            key={pluginParameterType.name}
+            microserviceName={microserviceName}
+            pluginParameterType={pluginParameterType}
+            pluginParameter={pluginParam}
+            pluginMetaData={pluginMetaData}
+            mode={'view'}
+          />)
+      } catch (e) {
+        return null
+      }
+    })
 
     return (
       <Card

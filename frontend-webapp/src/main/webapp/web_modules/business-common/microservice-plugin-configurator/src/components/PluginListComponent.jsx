@@ -9,9 +9,16 @@ import messages from '../i18n'
 export class PluginListComponent extends React.Component {
 
   static propTypes = {
+    title: PropTypes.string,
+    selectLabel: PropTypes.string,
     pluginList: CommonShapes.PluginMetaDataList,
     defaultSelectedPluginId: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+  }
+
+  static styles = {
+    display: 'flex',
+    alignItems: 'baseline',
   }
 
   constructor(props) {
@@ -33,10 +40,13 @@ export class PluginListComponent extends React.Component {
 
   render() {
     return (
-      <DropDownMenu value={this.state.selectedPluginId} onChange={this.handleSelect}>
-        <MenuItem value={null} primaryText="None" />
-        {map(this.props.pluginList, this.renderItem)}
-      </DropDownMenu>
+      <div style={PluginListComponent.styles}>
+        <span>{this.props.title ? this.props.title : null}</span>
+        <DropDownMenu value={this.state.selectedPluginId} onChange={this.handleSelect}>
+          <MenuItem value={null} primaryText={this.props.selectLabel || 'none'} />
+          {map(this.props.pluginList, this.renderItem)}
+        </DropDownMenu>
+      </div>
     )
   }
 }

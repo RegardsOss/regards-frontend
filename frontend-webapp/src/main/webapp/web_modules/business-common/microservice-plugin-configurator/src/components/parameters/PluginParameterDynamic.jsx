@@ -60,24 +60,24 @@ export class PluginParameterDynamicField extends React.Component {
   }
 
   onRequestDelete = (dynamicvalueIndex) => {
-    const { change, pluginMetaData, pluginParameterType: { name } } = this.props
+    const { reduxFormfieldNamePrefix, change, pluginMetaData, pluginParameterType: { name } } = this.props
     const { selectedValue, dynamicsValues } = this.state
     const removedValue = dynamicsValues.splice(dynamicvalueIndex, 1)[0]
     this.setState({ // Update the state for re-render
       dynamicsValues,
     })
-    change(getFieldName(name, pluginMetaData, '.dynamicsValues'), dynamicsValues)
+    change(getFieldName(reduxFormfieldNamePrefix, name, pluginMetaData, '.dynamicsValues'), dynamicsValues)
 
     if (removedValue.value === selectedValue) { // If the removed dynamic value was the one selected, empty the current value
       this.setState({
         selectedValue: '',
       })
-      change(getFieldName(name, pluginMetaData, '.value'), '')
+      change(getFieldName(reduxFormfieldNamePrefix, name, pluginMetaData, '.value'), '')
     }
   }
 
   onTouchTap = (dynamicvalueIndex) => {
-    const { change, pluginMetaData, pluginParameterType: { name } } = this.props
+    const { reduxFormfieldNamePrefix, change, pluginMetaData, pluginParameterType: { name } } = this.props
     const { dynamicsValues, selectedValue } = this.state
     const newValue = dynamicsValues[dynamicvalueIndex].value
     // We clicked on currently selected value -> deselect it
@@ -85,12 +85,12 @@ export class PluginParameterDynamicField extends React.Component {
       this.setState({
         selectedValue: '',
       })
-      change(getFieldName(name, pluginMetaData, '.value'), '') // Update the value
+      change(getFieldName(reduxFormfieldNamePrefix, name, pluginMetaData, '.value'), '') // Update the value
     } else {
       this.setState({
         selectedValue: newValue,
       })
-      change(getFieldName(name, pluginMetaData, '.value'), newValue) // Update the value
+      change(getFieldName(reduxFormfieldNamePrefix, name, pluginMetaData, '.value'), newValue) // Update the value
     }
   }
 
@@ -99,19 +99,19 @@ export class PluginParameterDynamicField extends React.Component {
   onClose = () => this.setState({ open: false })
 
   onCreate = (value) => {
-    const { change, pluginMetaData, pluginParameterType: { name } } = this.props
+    const { reduxFormfieldNamePrefix, change, pluginMetaData, pluginParameterType: { name } } = this.props
     const { dynamicsValues, selectedValue } = this.state
     const newDynamicValues = dynamicsValues.concat([value]) // concat returns the result array
     this.setState({ // Update state for re-render
       dynamicsValues: newDynamicValues,
     })
-    change(getFieldName(name, pluginMetaData, '.dynamicsValues'), newDynamicValues) // Update the list of dynamic values
+    change(getFieldName(reduxFormfieldNamePrefix, name, pluginMetaData, '.dynamicsValues'), newDynamicValues) // Update the list of dynamic values
 
     if (selectedValue === '') { // If first value to add, auto-select it
       this.setState({
         selectedValue: value.value,
       })
-      change(getFieldName(name, pluginMetaData, '.value'), value)
+      change(getFieldName(reduxFormfieldNamePrefix, name, pluginMetaData, '.value'), value)
     }
   }
 

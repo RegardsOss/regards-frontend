@@ -21,11 +21,11 @@ export class IngestProcessingChainFormContainer extends React.Component {
       chain_name: PropTypes.string,
     }),
     // from mapStateToProps
-    processingChain: IngestShapes.IngestProcessingChain.isRequired,
+    processingChain: IngestShapes.IngestProcessingChain,
     // from mapDispatchToProps
-    createChain: PropTypes.func.isRequired.isRequired,
-    fetchChain: PropTypes.func.isRequired.isRequired,
-    updateChain: PropTypes.func.isRequired.isRequired,
+    createChain: PropTypes.func.isRequired,
+    fetchChain: PropTypes.func.isRequired,
+    updateChain: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -55,12 +55,11 @@ export class IngestProcessingChainFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    Promise.resolve(this.props.updateChain(this.props.processingChain.name, values))
+    Promise.resolve(this.props.updateChain(this.props.processingChain.content.name, values))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          const url = this.getBackUrl()
-          browserHistory.push(url)
+          this.onBack()
         }
       })
   }
@@ -103,6 +102,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   processingChain: ownProps.params.chain_name ? processingChainSelectors.getById(state, ownProps.params.chain_name) : null,
 })
+
 
 const mapDispatchToProps = dispatch => ({
   createChain: values => dispatch(processingChainActions.createEntity(values)),

@@ -59,6 +59,7 @@ export class PluginParameterPlugin extends React.Component {
     pluginMetaData: CommonShapes.PluginMetaData,
     change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
     mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
+    reduxFormfieldNamePrefix: PropTypes.string,
     // form mapStateToProps
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
     pluginConfigurationList: CommonShapes.PluginConfigurationArray,
@@ -114,16 +115,16 @@ export class PluginParameterPlugin extends React.Component {
   }
 
   handleChange = (value) => {
-    const { pluginConfigurationList, change, pluginMetaData, pluginParameter: { name } } = this.props
+    const { reduxFormfieldNamePrefix, pluginConfigurationList, change, pluginMetaData, pluginParameter: { name } } = this.props
     this.setState({
       value,
       selectedPluginConfiguration: find(pluginConfigurationList, el => el.content.id === value),
     })
-    change(getFieldName(name, pluginMetaData, '.value'), value ? value.toString() : null)
+    change(getFieldName(reduxFormfieldNamePrefix, name, pluginMetaData, '.value'), value ? value.toString() : null)
   }
 
   render() {
-    const { pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList, mode, pluginMetaData } = this.props
+    const { reduxFormfieldNamePrefix, pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList, mode, pluginMetaData } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
     const { muiTheme, intl } = this.context
     const isView = mode === 'view'
@@ -186,7 +187,7 @@ export class PluginParameterPlugin extends React.Component {
             </IconMenu>
             <Field
               style={styles.pluginParameter.field}
-              name={getFieldName(name, pluginMetaData, '.value')}
+              name={getFieldName(reduxFormfieldNamePrefix, name, pluginMetaData, '.value')}
               component={RenderTextField}
               type={'text'}
               label={label}

@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import cloneDeep from 'lodash/cloneDeep'
-import forEach from 'lodash/forEach'
-import get from 'lodash/get'
 import { Card, CardActions } from 'material-ui/Card'
 import { formValueSelector } from 'redux-form'
 import { connect } from '@regardsoss/redux'
@@ -29,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import moduleStyles from '../styles/styles'
 import PluginConfigurationComponent from './PluginConfigurationComponent'
-import PluginUtils from './utils'
 
 /**
  * Display edit and create fragment form
@@ -52,7 +48,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
-    iconField: PropTypes.string,
+    getField: PropTypes.func,
   }
 
   static defaultProps = {
@@ -72,69 +68,6 @@ export class PluginConfigurationFormComponent extends React.Component {
       isEditing: props.formMode === 'edit',
       isCopying: props.formMode === 'copy',
     }
-  }
-
-  componentDidMount() {
-    this.handleInitialize()
-  }
-
-  /**
-   * Load icon from the form field iconUrl.
-   * @param path
-   */
-  loadIcon = (path) => {
-    const { iconField } = this.props
-    if (iconField) {
-      this.setState({
-        loadedIcon: iconField,
-      })
-    } else if (path) {
-      this.setState({
-        loadedIcon: path,
-      })
-    }
-  }
-
-  /**
-   * Initialize form fields
-   */
-  handleInitialize = () => {
-    const { formMode, pluginMetaData, pluginConfiguration } = this.props
-    let initialValues
-
-    switch (formMode) {
-      case 'edit':
-        initialValues = Object.assign({}, pluginConfiguration)
-        initialValues.parameters = PluginUtils.buildParameterList(initialValues.parameters, pluginMetaData.parameters)
-        break
-      case 'create':
-        initialValues = {
-          active: false,
-          pluginId: pluginMetaData.pluginId,
-          pluginClassName: pluginMetaData.pluginClassName,
-          parameters: PluginUtils.buildDefaultParameterList(pluginMetaData.parameters),
-        }
-        break
-      case 'copy':
-        // Deep copy pluginConfiguration
-        initialValues = cloneDeep(pluginConfiguration)
-        // In copy mode remove id of the duplicated pluginConfiguration
-        delete initialValues.id
-        // In copy mode remove id of each pluginParameters
-        if (initialValues.parameters && initialValues.parameters.length > 0) {
-          forEach(initialValues.parameters, (parameter, key) => {
-            initialValues.parameters[key].id = undefined
-          })
-        }
-        break
-      default:
-        break
-    }
-
-    // Load icon if any
-    this.loadIcon(get(pluginConfiguration, 'iconUrl'), null)
-
-    this.props.initialize(initialValues)
   }
 
   /**
@@ -158,6 +91,8 @@ export class PluginConfigurationFormComponent extends React.Component {
           pluginMetaData={pluginMetaData}
           formMode={formMode}
           reduxFormChange={change}
+          reduxFormInitialize={this.props.initialize}
+          reduxFormGetField={this.props.getField}
         />
 
         <Card style={styles.pluginConfiguration.form.section}>
@@ -180,7 +115,7 @@ export class PluginConfigurationFormComponent extends React.Component {
 
 const selector = formValueSelector('plugin-configuration-form')
 const mapStateToProps = state => ({
-  iconField: selector(state, 'iconUrl'),
+  getField: field => selector(state, field),
 })
 const ConnectedComponent = connect(mapStateToProps)(PluginConfigurationFormComponent)
 
