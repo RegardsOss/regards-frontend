@@ -58,7 +58,7 @@ describe('[Service Example] Testing ExampleContainer', () => {
       // user is optional, let's not provide it here
       // We also need to mock the methods provided by map dispatch to props, as we import component disconnected from redux
       getReducePromise: () => new Promise(() => { }),
-      fetchSelectionThroughAction: new Promise(() => { }),
+      fetchSelectionThroughAction: () => new Promise(() => { }),
     }
     const enzymeWrapper = shallow(<ExampleContainer {...props} />, { context })
     // A. In initial state...
