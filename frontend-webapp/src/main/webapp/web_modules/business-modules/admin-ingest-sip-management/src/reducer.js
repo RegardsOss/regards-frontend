@@ -18,9 +18,11 @@
  **/
 import { combineReducers } from 'redux'
 import { sipReducer } from './clients/SIPClient'
+import { sessionReducer } from './clients/SessionClient'
 
 const sipManagementReducer = combineReducers({
   sip: sipReducer,
+  session: sessionReducer,
 })
 
 export default sipManagementReducer

@@ -18,8 +18,8 @@
  **/
 
 /**
- * Describes a basket shape and related sub objects
- * @author Raphaël Mechali
+ * Describes a SIP shape and related sub objects
+ * @author Maxime Bouveron
  */
 
 /** A dated selection item shape */

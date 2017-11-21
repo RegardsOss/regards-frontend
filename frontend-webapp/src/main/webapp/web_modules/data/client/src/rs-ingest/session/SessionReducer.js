@@ -16,10 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
-
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { SessionConfiguration } from '@regardsoss/api'
+import SessionActions from './SessionActions'
 /**
- * Store selector to SIP entities.
+ * Redux store reducer for
+ */
+/**
+ * Redux Reducer for Session entities
  * @author Maxime Bouveron
  */
-export default storePath => new BasicPageableSelectors(storePath)
+class SessionReducer extends BasicPageableReducers {
+  constructor(namespace) {
+    super(SessionConfiguration, new SessionActions(namespace))
+  }
+}
+
+export default (namespace) => {
+  const instance = new SessionReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

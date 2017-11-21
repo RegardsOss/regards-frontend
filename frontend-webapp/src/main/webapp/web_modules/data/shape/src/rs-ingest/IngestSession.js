@@ -16,10 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
- * Store selector to SIP entities.
+ * Describes a SIP shape and related sub objects
  * @author Maxime Bouveron
  */
-export default storePath => new BasicPageableSelectors(storePath)
+
+/** A dated selection item shape */
+const IngestSession = PropTypes.shape({
+  content: {
+    id: PropTypes.string.isRequired,
+    lastActivationDate: PropTypes.string.isRequired,
+    sipsCount: PropTypes.number.isRequired,
+    indexedSipsCount: PropTypes.number.isRequired,
+    storedSipsCount: PropTypes.number.isRequired,
+    generatedSipsCount: PropTypes.number.isRequired,
+    errorSipsCount: PropTypes.number.isRequired,
+  },
+})
+
+export default {
+  IngestSession,
+}

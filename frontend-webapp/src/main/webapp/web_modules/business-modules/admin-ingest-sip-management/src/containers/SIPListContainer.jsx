@@ -38,7 +38,7 @@ export class SIPListContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      // sips: sipSelectors.getResults(state),
+      sips: sipSelectors.getResults(state),
     }
   }
 
@@ -71,7 +71,7 @@ export class SIPListContainer extends React.Component {
   }
 
   componentDidMount() {
-    // console.log(this.props.sips)
+    console.log(this.props.sips)
   }
 
   handleGoBack = () => {

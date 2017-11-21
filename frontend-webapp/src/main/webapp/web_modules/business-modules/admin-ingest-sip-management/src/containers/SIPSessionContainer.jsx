@@ -23,6 +23,7 @@ import { ModuleStyleProvider } from '@regardsoss/theme'
 import SIPSessionComponent from '../components/SIPSessionComponent'
 import messages from '../i18n'
 import styles from '../styles/styles'
+import { sessionActions, sessionSelectors } from '../clients/SessionClient'
 
 /**
 * Displays the selection of session in order to list SIPs
@@ -36,7 +37,9 @@ export class SIPSessionContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state) {
-    return {}
+    return {
+      sessions: sessionSelectors.getResults(state),
+    }
   }
 
   /**
@@ -46,7 +49,9 @@ export class SIPSessionContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapDispatchToProps(dispatch) {
-    return {}
+    return {
+      fetchSessions: () => dispatch(sessionActions.fetchPagedEntityList()),
+    }
   }
 
   static propTypes = {
@@ -55,8 +60,19 @@ export class SIPSessionContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
+    sessions: PropTypes.arrayOf(Object),
     // from mapDispatchToProps
+    fetchSessions: PropTypes.func,
   }
+
+  componentWillMount() {
+    this.props.fetchSessions()
+  }
+
+  componentDidMount() {
+    console.log(this.props.sessions)
+  }
+
 
   handleOpen = () => {
     const { params: { project } } = this.props

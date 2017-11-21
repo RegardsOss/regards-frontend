@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,11 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+ */
+import { IngestClient } from '@regardsoss/client'
 
 /**
- * Store selector to SIP entities.
+ * Model attributes entities client.
+ *
  * @author Maxime Bouveron
  */
-export default storePath => new BasicPageableSelectors(storePath)
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip-management', 'session']
+const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/sessions'
+
+const sessionActions = new IngestClient.SessionActions(REDUX_ACTION_NAMESPACE)
+const sessionReducer = IngestClient.getSessionReducer(REDUX_ACTION_NAMESPACE)
+const sessionSelectors = IngestClient.getSessionSelectors(ENTITIES_STORE_PATH)
+
+export default {
+  sessionActions,
+  sessionReducer,
+  sessionSelectors,
+}

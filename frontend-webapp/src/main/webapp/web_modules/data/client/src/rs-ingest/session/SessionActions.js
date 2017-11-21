@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,11 +15,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+ */
+import Schemas from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Store selector to SIP entities.
+ * Redux actions to handle Session entities from backend server.
  * @author Maxime Bouveron
  */
-export default storePath => new BasicPageableSelectors(storePath)
+export default class SessionActions extends BasicPageableActions {
+
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sessions`,
+      schemaTypes: {
+        ENTITY: Schemas.SESSION,
+        ENTITY_ARRAY: Schemas.SESSION_ARRAY,
+      },
+    })
+  }
+}

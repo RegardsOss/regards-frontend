@@ -16,10 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-/**
- * Store selector to SIP entities.
- * @author Maxime Bouveron
- */
-export default storePath => new BasicPageableSelectors(storePath)
+import { Schema, arrayOf } from 'normalizr'
+
+const SessionConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'sip',
+}
+
+const session = new Schema(SessionConfiguration.normalizrKey, {
+  idAttribute: entity => entity.content[SessionConfiguration.entityKey],
+})
+
+// Schemas for API responses.
+export default {
+  SESSION: session,
+  SESSION_ARRAY: arrayOf(session),
+  SessionConfiguration,
+}
