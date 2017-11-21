@@ -41,7 +41,7 @@ class BasicSignalActions extends BasicActions {
    * @param verb
    * @param bodyParam
    * @param pathParams
-   * @param callApi method,
+   * @param queryParams method,
    * @returns {{}}
    */
   sendSignal(verb, bodyParam, pathParams, queryParams) {

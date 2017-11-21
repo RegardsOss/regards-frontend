@@ -22,7 +22,7 @@ import values from 'lodash/values'
 
 /**
  * List of possible types for entities
- * @type {{COLLECTION: string, DATASET: string, DOCUMENT: string, DATAOBJECT: string}}
+ * @type {{COLLECTION: string, DATASET: string, DOCUMENT: string, DATA: string}}
  */
 const ENTITY_TYPES_ENUM = {
   COLLECTION: 'COLLECTION',
