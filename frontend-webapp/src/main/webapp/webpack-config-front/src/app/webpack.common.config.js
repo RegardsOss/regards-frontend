@@ -117,6 +117,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/modules/search-graph/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-service-management/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/data/shape/src/main.js'),
+      new webpack.PrefetchPlugin('./web_modules/utils/layout/src/main.js'),
     ],
   }
 }
