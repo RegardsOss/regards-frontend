@@ -48,7 +48,7 @@ export class PluginParameterBoolean extends React.Component {
   parse = val => val.toString()
 
   render() {
-    const { pluginParameter, pluginParameterType, pluginMetaData, mode } = this.props
+    const { reduxFormfieldNamePrefix, pluginParameter, pluginParameterType, pluginMetaData, mode } = this.props
     const isView = mode === 'view'
     const styles = moduleStyles(this.context.muiTheme)
     let label = pluginParameterType.name
@@ -69,7 +69,7 @@ export class PluginParameterBoolean extends React.Component {
         </ShowableAtRender>
         <ShowableAtRender show={!isView} >
           <Field
-            name={getFieldName(pluginParameterType.name, pluginMetaData, '.value')}
+            name={getFieldName(reduxFormfieldNamePrefix, pluginParameterType.name, pluginMetaData, '.value')}
             format={this.format}
             parse={this.parse}
             component={RenderCheckbox}

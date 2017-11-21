@@ -8,6 +8,8 @@ import PluginListComponent from '../components/PluginListComponent'
 class PluginListContainer extends React.Component {
 
   static propTypes = {
+    title: PropTypes.string,
+    selectLabel: PropTypes.string,
     microserviceName: PropTypes.string.isRequired,
     pluginType: PropTypes.string.isRequired,
     selectedPluginId: PropTypes.string,
@@ -42,6 +44,8 @@ class PluginListContainer extends React.Component {
   render() {
     return (
       <PluginListComponent
+        title={this.props.title}
+        selectLabel={this.props.selectLabel}
         onChange={this.props.handleSelect}
         pluginList={this.state.pluginList}
         defaultSelectedPluginId={this.props.selectedPluginId}

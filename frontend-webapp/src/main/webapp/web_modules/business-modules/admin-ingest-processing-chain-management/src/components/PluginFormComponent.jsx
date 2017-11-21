@@ -27,10 +27,13 @@ export class PluginFormComponent extends React.Component {
 
   static propTypes = {
     title: PropTypes.string,
+    selectLabel: PropTypes.string,
     ingestPluginType: PropTypes.string.isRequired,
     pluginConf: CommonShapes.PluginConfigurationContent,
     fieldNamePrefix: PropTypes.string,
     reduxFormChange: PropTypes.func.isRequired,
+    reduxFormGetField: PropTypes.func.isRequired,
+    reduxFormInitialize: PropTypes.func.isRequired,
   }
 
   state = {
@@ -41,10 +44,14 @@ export class PluginFormComponent extends React.Component {
     this.setState({
       selectedPluginMetaData,
     })
+    // Plugin configuration removed from chain
+    if (selectedPluginMetaData === null) {
+      this.props.reduxFormChange(this.props.fieldNamePrefix, null)
+    }
   }
 
   render() {
-    const { reduxFormChange, fieldNamePrefix, ingestPluginType, pluginConf, title } = this.props
+    const { reduxFormInitialize, reduxFormGetField, reduxFormChange, fieldNamePrefix, ingestPluginType, pluginConf, selectLabel, title } = this.props
     const styles = {
       display: 'flex',
       alignItems: 'baseline',
@@ -53,15 +60,15 @@ export class PluginFormComponent extends React.Component {
     return (
       <div>
         <div style={styles}>
-          <span>{title}</span>
           <PluginListContainer
+            title={title}
+            selectLabel={selectLabel}
             microserviceName={'rs-ingest'}
             pluginType={ingestPluginType}
             storePath={storePath}
             selectedPluginId={pluginConf ? pluginConf.pluginId : null}
             handleSelect={this.handleSelectPluginMetaData}
             displayTitle={false}
-            fieldNamePrefix={fieldNamePrefix}
           />
         </div>
         {this.state.selectedPluginMetaData ?
@@ -69,9 +76,11 @@ export class PluginFormComponent extends React.Component {
             microserviceName={'rs-ingest'}
             pluginMetaData={this.state.selectedPluginMetaData}
             pluginConfiguration={pluginConf}
-            formMode={this.props.pluginConf ? 'edit' : 'create'}
+            formMode={this.props.pluginConf && this.props.pluginConf.pluginId === this.state.selectedPluginMetaData.pluginId ? 'edit' : 'create'}
             reduxFormChange={reduxFormChange}
-            fieldNamePrefix={fieldNamePrefix}
+            reduxFormGetField={reduxFormGetField}
+            reduxFormfieldNamePrefix={fieldNamePrefix}
+            reduxFormInitialize={reduxFormInitialize}
             newPluginConfLabel={`chain-${fieldNamePrefix}`}
             hideGlobalParameterConf
           /> : null}
