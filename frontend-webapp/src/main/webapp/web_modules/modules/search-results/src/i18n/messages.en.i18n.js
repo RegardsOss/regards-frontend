@@ -59,6 +59,7 @@ const messages = Object.assign({
   'navigation.home.label': 'Catalog',
   'navigation.dataobjects.label': 'Dataobjects',
   'navigation.datasets.label': 'Datasets',
+  'navigation.documents.label': 'Documents',
   'navigation.filter.by.facets': 'Filters',
   'list.sort.prefix.label': 'Sort :',
   'list.sort.none.label': 'None',

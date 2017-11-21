@@ -64,8 +64,8 @@ const messages = {
   'form.datasets.tab.title': 'Associer le formulaire de recherche aux jeux de données du catalogue',
   'form.datasets.all.label': 'Associer à tous les jeux de données du catalogue',
   'form.datasets.reset.all': 'Enlever toute association à ce formulaire',
-  'form.datasets.selected.label': 'Associer aux jeux de données sélectionnés',
-  'form.datasets.model.selected.label': 'Associer aux jeux de données des models selectionnés',
+  'form.datasets.selected.label': 'Associer à des jeux de données',
+  'form.datasets.model.selected.label': 'Associer à des modèles de jeu de données',
   'form.datasets.select.dataset.list.title': 'Jeux de données associés',
   'form.datasets.select.dataset.models.list.title': 'Modèles de jeu de données associés',
   // Layout tab

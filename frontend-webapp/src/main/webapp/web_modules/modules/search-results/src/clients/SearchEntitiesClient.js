@@ -12,6 +12,7 @@ const REDUX_ACTION_NAMESPACE = 'search-results/search-catalog'
 export const searchDataobjectsActions = new AccessProjectClient.SearchDataobjectsActions(REDUX_ACTION_NAMESPACE)
 export const searchDatasetsFromDataObjectsActions = new AccessProjectClient.SearchDatasetsFromDataObjectsActions(REDUX_ACTION_NAMESPACE)
 export const searchDatasetsActions = new AccessProjectClient.SearchDatasetsActions(REDUX_ACTION_NAMESPACE)
+export const searchDocumentsActions = new AccessProjectClient.SearchDocumentsActions(REDUX_ACTION_NAMESPACE)
 export const searchEntitiesActions = new AccessProjectClient.SearchEntitiesActions(REDUX_ACTION_NAMESPACE)
 export const reducer = AccessProjectClient.getSearchEntitiesReducer(REDUX_ACTION_NAMESPACE)
 export const selectors = AccessProjectClient.getSearchEntitiesSelectors(ENTITIES_STORE_PATH)
@@ -24,6 +25,7 @@ export default {
   searchDataobjectsActions,
   searchDatasetsFromDataObjectsActions,
   searchDatasetsActions,
+  searchDocumentsActions,
   searchEntitiesActions,
   reducer,
   selectors,
