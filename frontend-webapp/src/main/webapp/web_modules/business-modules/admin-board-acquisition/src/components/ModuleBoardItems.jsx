@@ -51,6 +51,12 @@ const items = (projectName, intl) => [
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.monitor.tooltip' }),
         hateoasDependencies: sipDependencies.listDependencies,
       },
+      {
+        path: `/admin/${projectName}/data/acquisition/sip/submition`,
+        icon: <AddIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.sumition.tooltip' }),
+        hateoasDependencies: sipDependencies.addDependencies,
+      },
     ],
   },
   {

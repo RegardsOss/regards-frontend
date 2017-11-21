@@ -41,11 +41,24 @@ export const sipListRoute = {
   },
 }
 
+export const sipSumitionRoute = {
+  path: 'submition',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/SIPSubmitionFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 
 const sipManagementRouter = {
   childRoutes: [
     sipSessionRoute,
     sipListRoute,
+    sipSumitionRoute,
   ],
 }
 

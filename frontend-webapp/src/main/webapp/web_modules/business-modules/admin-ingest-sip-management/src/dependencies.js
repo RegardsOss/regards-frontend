@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { sipActions } from './clients/SIPClient'
 /**
  * Module hateoas depencies
  * @author Maxime Bouveron
@@ -26,13 +27,17 @@
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const listDependencies = []
+const listDependencies = [
+  sipActions.getDependency(RequestVerbEnum.GET_LIST),
+]
 
 /**
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const addDependencies = []
+const addDependencies = [
+  sipActions.getDependency(RequestVerbEnum.POST),
+]
 
 export default {
   listDependencies,

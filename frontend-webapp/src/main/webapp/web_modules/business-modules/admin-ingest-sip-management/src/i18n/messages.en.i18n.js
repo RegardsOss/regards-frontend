@@ -71,6 +71,12 @@ const messages = Object.assign({
   'sips.session.table.actions.delete': 'Delete associated SIPs',
   'sips.session.table.actions.list': 'List associated SIPs',
 
+  'sips.submit.title': 'Data submition',
+  'sips.submit.subtitle': 'This section allows you to run a datas sumition thought a local file (geoson format) containing entities to submit',
+  'sips.submit.error.message': 'An error occured during submition of your datas. Please check the format of your provided entities.',
+  'sips.submit.back.button': 'Back',
+  'sips.submit.submit.button': 'Submit',
+
 }, Locales.en)
 
 export default messages

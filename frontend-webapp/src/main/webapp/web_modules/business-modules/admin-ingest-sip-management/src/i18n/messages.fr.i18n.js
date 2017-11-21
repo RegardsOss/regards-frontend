@@ -69,6 +69,12 @@ const messages = Object.assign({
   'sips.session.table.headers.actions': 'Actions',
   'sips.session.table.actions.delete': 'Supprimer les SIPs associés',
   'sips.session.table.actions.list': 'Lister les SIPs associés',
+
+  'sips.submit.title': 'Soumission de données',
+  'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format geoson contenant le ou les entités',
+  'sips.submit.error.message': 'Une erreur est survenue durant la soumission de vos données. Merci de vérifier le format des entités.',
+  'sips.submit.back.button': 'Retour',
+  'sips.submit.submit.button': 'Soumettre',
 }, Locales.fr)
 
 export default messages
