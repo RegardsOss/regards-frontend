@@ -26,8 +26,8 @@ const messages = {
   'ingest.board.action.monitor.tooltip': 'Monitor submissions',
   'ingest.board.action.sumition.tooltip': 'Submit datas',
 
-  'ingest.board.external.datasources.title': 'External datas',
-  'ingest.board.external.datasources.description': 'The external datas allow you to add datas from an external existing database.',
+  'ingest.board.external.datasources.title': 'External datasources',
+  'ingest.board.external.datasources.description': 'The external datasources allow you to add data from an external existing database.',
   'ingest.board.action.external.datasources.list.tooltip': 'Map databases to models',
   'ingest.board.action.connection.list.tooltip': 'Configure databases',
 

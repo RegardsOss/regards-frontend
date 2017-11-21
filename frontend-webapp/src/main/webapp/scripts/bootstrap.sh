@@ -65,6 +65,7 @@ npm link web_modules/business-common/user-metadata-common
 npm link web_modules/business-common/endpoints-common
 npm link web_modules/business-common/global-system-error
 npm link web_modules/business-common/project-handler
+npm link web_modules/business-common/microservice-plugin-configurator
 
 # Administration modules
 npm link web_modules/business-modules/admin-board-acquisition

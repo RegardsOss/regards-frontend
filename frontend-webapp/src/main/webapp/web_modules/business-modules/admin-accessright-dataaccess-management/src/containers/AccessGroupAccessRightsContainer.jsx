@@ -27,7 +27,7 @@ import AccessRightListContainer from './AccessRightListContainer'
 import { accessRightActions, accessRightSelectors } from '../clients/AccessRightClient'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
-import { pluginMetadataActions, pluginMetadataSelectors } from '../clients/PluginMetadataClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetadataClient'
 import messages from '../i18n'
 
 export class AccessGroupAccessRightsContainer extends React.Component {
@@ -160,7 +160,7 @@ const mapStateToProps = (state, ownProps) => ({
   accessGroup: accessGroupSelectors.getById(state, ownProps.params.accessgroup),
   accessRights: accessRightSelectors.getList(state),
   pluginConfigurationList: pluginConfigurationSelectors.getList(state),
-  pluginMetaDataList: pluginMetadataSelectors.getList(state),
+  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -170,7 +170,7 @@ const mapDispatchToProps = dispatch => ({
     pluginId: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',
   })),
   fetchAccessGroup: accessGroupName => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
-  fetchPluginMetaDataList: microserviceName => dispatch(pluginMetadataActions.fetchEntityList({
+  fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList({
     microserviceName: 'rs-dam',
   }, {
     pluginType: 'fr.cnes.regards.modules.dataaccess.domain.accessright.ICheckDataAccess',

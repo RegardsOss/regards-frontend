@@ -43,7 +43,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import moduleStyles from '../../styles/styles'
-import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
+import { pluginConfigurationActions, pluginConfigurationByTypeActions } from '../../clients/PluginConfigurationClient'
 
 const ResourceLink = withResourceDisplayControl(Link)
 
@@ -137,7 +137,7 @@ export default class PluginMetaDataListComponent extends React.Component {
         </CardText>
         <CardActions style={this.styles.tile.actionsStyles}>
           <ResourceLink
-            resourceDependencies={PluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.microserviceName)}
+            resourceDependencies={pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.microserviceName)}
             title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.configurations' })}
             to={this.props.getProjectConfigurationListURL(plugin.content.pluginId)}
           >
@@ -146,7 +146,7 @@ export default class PluginMetaDataListComponent extends React.Component {
             </IconButton>
           </ResourceLink>
           <ResourceLink
-            resourceDependencies={PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, this.props.microserviceName)}
+            resourceDependencies={pluginConfigurationByTypeActions.getMsDependency(RequestVerbEnum.POST, this.props.microserviceName)}
             title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.list.add' })}
             to={this.props.getAddURL(plugin.content.pluginId)}
           >

@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { processingChainActions } from './clients/ProcessingChainClient'
 /**
- * Module hateoas depencies
+ * Module hateoas dependencies
  * @author Sébastien binda
  */
 
@@ -26,13 +27,17 @@
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const listDependencies = []
+const listDependencies = [
+  processingChainActions.getDependency(RequestVerbEnum.GET_LIST),
+]
 
 /**
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
-const addDependencies = []
+const addDependencies = [
+  processingChainActions.getDependency(RequestVerbEnum.POST),
+]
 
 export default {
   listDependencies,

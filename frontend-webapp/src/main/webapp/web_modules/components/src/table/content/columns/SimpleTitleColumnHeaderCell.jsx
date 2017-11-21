@@ -21,7 +21,7 @@
  * A simple title column header
  * @author Raphaël Mechali
  */
-class SortableColumnHeaderCell extends React.Component {
+class SimpleTitleColumnHeaderCell extends React.Component {
 
   static propTypes = {
     label: PropTypes.string.isRequired,
@@ -32,4 +32,4 @@ class SortableColumnHeaderCell extends React.Component {
   }
 }
 
-export default SortableColumnHeaderCell
+export default SimpleTitleColumnHeaderCell

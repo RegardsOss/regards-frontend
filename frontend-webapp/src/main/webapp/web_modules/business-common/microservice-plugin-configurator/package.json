@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/microservice-plugin-configurator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Common tool to configure a REGARDS backend microservice plugin",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPL-3.0"
+}

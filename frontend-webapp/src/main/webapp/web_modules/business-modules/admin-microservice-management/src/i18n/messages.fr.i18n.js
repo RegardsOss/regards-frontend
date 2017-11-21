@@ -27,6 +27,9 @@ const messages = Object.assign({
   'microservice-management.rs-gateway.description': 'Configuration de la passerelle',
   'microservice-management.rs-catalog.description': 'Configuration du service de catalogage des donées',
   'microservice-management.rs-authentication.description': 'Configuration du service d\'authentification au système',
+  'microservice-management.rs-storage.description': 'Configuration du service de stockage des données physiques.',
+  'microservice-management.rs-ingest.description': 'Configuration du service de gestion d\'ajouts de données aux travers des SIPs',
+  'microservice-management.rs-order.description': 'Configuration du service de gestion des commandes utilisateur',
 
   'microservice-management.configuration.tooltip': 'Configurer',
   'microservice-management.plugins.tooltip': 'Plugins',

@@ -25,7 +25,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import styles from '../styles/styles'
 import MaintenanceModeActions from '../model/MaintenanceModeActions'
 import SetMaintenanceModeActions from '../model/SetMaintenanceModeActions'
-import PluginMetaDataActions from '../model/plugin/PluginMetaDataActions'
+import { pluginMetaDataActions } from '../clients/PluginMetadataClient'
 
 
 /**
@@ -50,38 +50,38 @@ const items = (project, maintenances, intl, theme, initialize) => {
     const confirmMessage = maintenanceOn ?
       intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.on.confirm' }, { name: microservice }) :
       intl.formatMessage({ id: 'microservice-management.maintenance.switch.mode.off.confirm' }, { name: microservice })
-    return (
+    const actions = [{
+      path: `/admin/${project}/microservice/${microservice}/plugin/list`,
+      icon: <ExtensionIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
+      hateoasDependencies: [
+        pluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice),
+      ],
+    },
     {
+      initialize: maintenance.fetch,
+      icon: getMaintenanceIcon(maintenance.isOn(project), computedStyles),
+      tooltipMsg: intl.formatMessage({
+        id: maintenance.isOn(project) ?
+          'microservice-management.maintenance.tooltip.on' :
+          'microservice-management.maintenance.tooltip.off',
+      }),
+      confirmMessage,
+      touchTapAction: () => {
+        maintenance.set(project, maintenanceOn)
+      },
+      hateoasDependencies: [
+        MaintenanceModeActions(microservice).getDependency(RequestVerbEnum.GET),
+        SetMaintenanceModeActions(microservice).getActivateDependency(),
+        SetMaintenanceModeActions(microservice).getDesactivateDependency(),
+      ],
+    }]
+    return ({
       title: microservice,
       description: intl.formatMessage({ id: `microservice-management.${microservice}.description` }),
       advanced: false,
-      actions: [{
-        path: `/admin/${project}/microservice/${microservice}/plugin/list`,
-        icon: <ExtensionIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'microservice-management.plugins.tooltip' }),
-        hateoasDependencies: [
-          PluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice),
-        ],
-      }, {
-        initialize: maintenance.fetch,
-        icon: getMaintenanceIcon(maintenance.isOn(project), computedStyles),
-        tooltipMsg: intl.formatMessage({
-          id: maintenance.isOn(project) ?
-              'microservice-management.maintenance.tooltip.on' :
-              'microservice-management.maintenance.tooltip.off',
-        }),
-        confirmMessage,
-        touchTapAction: () => {
-          maintenance.set(project, maintenanceOn)
-        },
-        hateoasDependencies: [
-          MaintenanceModeActions(microservice).getDependency(RequestVerbEnum.GET),
-          SetMaintenanceModeActions(microservice).getActivateDependency(),
-          SetMaintenanceModeActions(microservice).getDesactivateDependency(),
-        ],
-      }],
-    }
-    )
+      actions,
+    })
   })
 }
 
