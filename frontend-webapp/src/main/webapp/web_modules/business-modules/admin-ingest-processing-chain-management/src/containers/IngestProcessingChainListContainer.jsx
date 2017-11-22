@@ -58,17 +58,13 @@ export class IngestProcessingChainListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  onDelete = (name, rowIndex) => {
-    this.props.deleteChain(name).then((actionResult) => {
-      if (!actionResult.error) {
-        this.props.fetchPage(Math.floor(rowIndex / IngestProcessingChainListContainer.queryPageSize),
-          IngestProcessingChainListContainer.queryPageSize)
-      }
-    })
+  onDelete = ({ content: { name } }, callback) => {
+    this.props.deleteChain(name).then(callback)
   }
 
   render() {
     return (<ProcessingChainListComponent
+      fetchPage={this.props.fetchPage}
       onDelete={this.onDelete}
       onEdit={this.onEdit}
       onCreate={this.onCreate}

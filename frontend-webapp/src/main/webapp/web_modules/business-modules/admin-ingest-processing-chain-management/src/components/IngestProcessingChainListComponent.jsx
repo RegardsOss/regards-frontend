@@ -19,6 +19,7 @@
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import {
+  TableDeleteOption,
   TableColumnBuilder,
   TableLayout,
   NoContentComponent,
@@ -31,7 +32,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { tableActions } from '../clients/TableClient'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import IngestProcessingChainTableEditAction from './IngestProcessingChainTableEditAction'
-import IngestProcessingChainTableDeleteAction from './IngestProcessingChainTableDeleteAction'
+//import IngestProcessingChainTableDeleteAction from './IngestProcessingChainTableDeleteAction'
 import { addDependencies } from '../dependencies'
 
 /**
@@ -41,6 +42,7 @@ import { addDependencies } from '../dependencies'
 export class ProcessingChainListComponent extends React.Component {
 
   static propTypes = {
+    fetchPage: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
@@ -65,8 +67,12 @@ export class ProcessingChainListComponent extends React.Component {
         OptionConstructor: IngestProcessingChainTableEditAction,
         optionProps: { onEdit: this.props.onEdit },
       }, {
-        OptionConstructor: IngestProcessingChainTableDeleteAction,
-        optionProps: { onDelete: this.props.onDelete },
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          fetchPage: this.props.fetchPage,
+          onDelete: this.props.onDelete,
+          queryPageSize: this.props.queryPageSize,
+        },
       }], true, fixedColumnWidth),
     ]
 

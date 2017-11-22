@@ -35,7 +35,6 @@ const messages = Object.assign({
   'processing-chain.addnew.button': 'Create new chain',
   'processing-chain.back.button': 'Back',
 
-  'processing-chain.delete.tooltip': 'Delete',
   'processing-chain.edit.tooltip': 'Edit',
 
   'processing-chain.form.create.title': 'Create a new processing chain',
