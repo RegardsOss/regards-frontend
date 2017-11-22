@@ -24,10 +24,11 @@ class PluginConfigurationReducers extends BasicListReducers {
   constructor(namespace) {
     super(AdminPluginConfigurationSchemaConfiguration, new PluginConfigurationActions(namespace))
   }
-
 }
 
-export default (namespace) => {
+const getConfigurationReducer = (namespace) => {
   const instance = new PluginConfigurationReducers(namespace)
   return (state, action) => instance.reduce(state, action)
 }
+
+export default getConfigurationReducer

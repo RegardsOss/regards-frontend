@@ -23,9 +23,9 @@ import { CommonClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const REDUX_ACTION_NAMESPACE = 'microservice-info'
+const REDUX_ACTION_NAMESPACE = 'microserviceInfo'
 
-const microserviceInfoReducer = CommonClient.MicroserviceInfosReducer(REDUX_ACTION_NAMESPACE)
+const microserviceInfoReducer = CommonClient.getMicroserviceInfosReducer(REDUX_ACTION_NAMESPACE)
 const microserviceInfoActions = new CommonClient.MicroserviceInfosActions(REDUX_ACTION_NAMESPACE)
 
 

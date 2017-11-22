@@ -31,9 +31,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
-import GenericPluginParameter from './parameter/GenericPluginParameter'
-import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
-import { mapPluginParameterTypeToPluginParameter } from '../../model/plugin/utils'
+import { GenericPluginParameter, PluginUtils } from '@regardsoss/microservice-plugin-configurator'
+import { pluginConfigurationByTypeActions } from '../../clients/PluginConfigurationClient'
 import moduleStyles from '../../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
@@ -89,15 +88,22 @@ class PluginConfigurationComponent extends React.Component {
 
     const styles = moduleStyles(this.context.muiTheme).pluginConfiguration
 
-    const parameters = map(pluginMetaData.content.parameters, (pluginParameterType, index) => (
-      <GenericPluginParameter
-        key={pluginParameterType.name}
-        microserviceName={microserviceName}
-        pluginParameterType={pluginParameterType}
-        pluginParameter={mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration)}
-        pluginMetaData={pluginMetaData}
-        mode={'view'}
-      />))
+    const parameters = map(pluginMetaData.content.parameters, (pluginParameterType, index) => {
+      try {
+        const pluginParam = PluginUtils.mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration.content)
+        return (
+          <GenericPluginParameter
+            key={pluginParameterType.name}
+            microserviceName={microserviceName}
+            pluginParameterType={pluginParameterType}
+            pluginParameter={pluginParam}
+            pluginMetaData={pluginMetaData}
+            mode={'view'}
+          />)
+      } catch (e) {
+        return null
+      }
+    })
 
     return (
       <Card
@@ -139,7 +145,7 @@ class PluginConfigurationComponent extends React.Component {
                 <ModeEdit />
               </HateoasIconAction>
               <ResourceIconAction
-                resourceDependencies={PluginConfigurationActions.getMsDependency('POST', this.props.microserviceName)}
+                resourceDependencies={pluginConfigurationByTypeActions.getMsDependency('POST', this.props.microserviceName)}
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.copy' })}
                 onTouchTap={onCopyClick}
               >

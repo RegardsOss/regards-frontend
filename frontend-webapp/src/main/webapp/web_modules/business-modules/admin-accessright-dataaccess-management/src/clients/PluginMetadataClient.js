@@ -23,16 +23,16 @@ import { CommonClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'access-right-management', 'access-rights-management', 'plugin-meta-data']
+const ENTITIES_STORE_PATH = ['admin', 'access-right-management', 'access-rights-management', 'pluginMetadata']
 const REDUX_ACTION_NAMESPACE = 'admin-accessright-management/pluginMetaData'
 
-const pluginMetadataReducer = CommonClient.PluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
-const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
-const pluginMetadataSelectors = CommonClient.PluginMetaDataSelectors(ENTITIES_STORE_PATH)
+const pluginMetaDataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
+const pluginMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
+const pluginMetaDataSelectors = CommonClient.getPluginMetaDataSelectors(ENTITIES_STORE_PATH)
 
 
 export default {
-  pluginMetadataReducer,
-  pluginMetadataActions,
-  pluginMetadataSelectors,
+  pluginMetaDataReducer,
+  pluginMetaDataActions,
+  pluginMetaDataSelectors,
 }

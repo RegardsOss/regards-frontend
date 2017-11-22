@@ -29,7 +29,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
 import PluginConfigurationContainer from './../../containers/plugin/PluginConfigurationContainer'
-import PluginConfigurationActions from '../../model/plugin/PluginConfigurationActions'
+import { pluginConfigurationActions } from '../../clients/PluginConfigurationClient'
 import moduleStyles from '../../styles/styles'
 import messages from '../../i18n'
 
@@ -58,7 +58,7 @@ export default class PluginConfigurationListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static getCreateDependencies = microserviceName => [PluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)]
+  static getCreateDependencies = microserviceName => [pluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)]
 
   constructor(props, context) {
     super(props)

@@ -17,29 +17,38 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import PluginMetaDataActions from './pluginMetaData/PluginMetaDataActions'
-import PluginMetaDataReducer from './pluginMetaData/PluginMetaDataReducer'
-import PluginMetaDataSelectors from './pluginMetaData/PluginMetaDataSelectors'
+import getPluginMetaDataReducer from './pluginMetaData/PluginMetaDataReducer'
+import getPluginMetaDataSelectors from './pluginMetaData/PluginMetaDataSelectors'
 
 import PluginConfigurationActions from './pluginConfiguration/PluginConfigurationActions'
-import PluginConfigurationReducer from './pluginConfiguration/PluginConfigurationReducer'
-import PluginConfigurationSelectors from './pluginConfiguration/PluginConfigurationSelectors'
+import PluginConfigurationByTypeActions from './pluginConfiguration/PluginConfigurationByTypeActions'
+import getPluginConfigurationReducer from './pluginConfiguration/PluginConfigurationReducer'
+import getPluginConfigurationSelectors from './pluginConfiguration/PluginConfigurationSelectors'
 
 import MicroserviceInfosActions from './info/MicroserviceInfosActions'
-import MicroserviceInfosReducer from './info/MicroserviceInfosReducer'
-import MicroserviceInfosSelectors from './info/MicroserviceInfosSelectors'
+import getMicroserviceInfosReducer from './info/MicroserviceInfosReducer'
+import getMicroserviceInfosSelectors from './info/MicroserviceInfosSelectors'
+
+import PluginTypeActions from './pluginTypes/PluginTypeActions'
+import getPluginTypeReducer from './pluginTypes/PluginTypeReducer'
+import getPluginTypeSelectors from './pluginTypes/PluginTypeSelectors'
 
 
 export default {
   PluginMetaDataActions,
-  PluginMetaDataReducer,
-  PluginMetaDataSelectors,
-
+  getPluginMetaDataReducer,
+  getPluginMetaDataSelectors,
 
   PluginConfigurationActions,
-  PluginConfigurationReducer,
-  PluginConfigurationSelectors,
+  PluginConfigurationByTypeActions,
+  getPluginConfigurationReducer,
+  getPluginConfigurationSelectors,
 
   MicroserviceInfosActions,
-  MicroserviceInfosReducer,
-  MicroserviceInfosSelectors,
+  getMicroserviceInfosReducer,
+  getMicroserviceInfosSelectors,
+
+  PluginTypeActions,
+  getPluginTypeReducer,
+  getPluginTypeSelectors,
 }

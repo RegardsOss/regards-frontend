@@ -19,8 +19,7 @@
 import { IngestClient } from '@regardsoss/client'
 
 /**
- * Model attributes entities client.
- *
+ * Ingest processing chain entities client.
  * @author Sébastien Binda
  */
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'processing-chain-management', 'chain']
