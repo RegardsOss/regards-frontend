@@ -75,4 +75,4 @@ function buildAttributeColumn({ key, label, attributes, order, enableSorting, so
 }
 
 
-export default { buildRenderDelegates, buildAttributeColumn }
+module.exports = { buildRenderDelegates, buildAttributeColumn }

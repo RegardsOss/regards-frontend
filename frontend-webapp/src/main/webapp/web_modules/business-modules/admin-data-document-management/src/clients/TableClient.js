@@ -21,7 +21,7 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
 const NAMESPACE = 'admin-data-document-management/document-table'
 const STORE_PATH = ['admin', 'acquisition', 'document', 'document-table']
 
-export default {
+module.exports = {
   tableActions: new TableActions(NAMESPACE),
   tableReducer: getTableReducer(NAMESPACE),
   tableSelectors: getTableSelectors(STORE_PATH),

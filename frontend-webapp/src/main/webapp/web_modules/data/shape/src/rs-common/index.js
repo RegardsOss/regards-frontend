@@ -28,7 +28,7 @@ import URL from './URL'
 import RangedNumber from './RangedNumber'
 import LocationShape from './LocationShape'
 
-export default {
+module.exports = {
   PluginParameterContent,
   PluginMetaDataContent,
   PluginMetaData,

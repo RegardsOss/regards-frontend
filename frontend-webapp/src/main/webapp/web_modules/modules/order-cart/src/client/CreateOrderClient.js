@@ -23,7 +23,7 @@ const createOrderActions = new OrderClient.CreateOrderActions(namespace)
 const createOrderReducer = OrderClient.getCreateOrderReducer(namespace)
 const createOrderSelectors = OrderClient.getCreateOrderSelectors(['modules.order-cart', 'createOrder'])
 
-export default {
+module.exports = {
   createOrderActions,
   createOrderReducer,
   createOrderSelectors,

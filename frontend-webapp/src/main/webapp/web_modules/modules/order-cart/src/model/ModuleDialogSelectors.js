@@ -39,7 +39,7 @@ class ModuleDialogSelectors extends BasicSelector {
 
 }
 
-export default {
+module.exports = {
   // default instance
   moduleDialogSelectors: new ModuleDialogSelectors(),
 }

@@ -18,7 +18,7 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-export const FragmentConfiguration = {
+const FragmentConfiguration = {
   entityKey: 'id',
   normalizrKey: 'fragment',
 }
@@ -30,7 +30,8 @@ const fragmentModel = new Schema(FragmentConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   FRAGMENT: fragmentModel,
   FRAGMENT_ARRAY: arrayOf(fragmentModel),
+  FragmentConfiguration,
 }

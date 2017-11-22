@@ -34,4 +34,4 @@ const StoragePlugin = PropTypes.shape({
 })
 
 const StoragePluginList = PropTypes.objectOf(StoragePlugin)
-export default { StoragePlugin, StoragePluginContent, StoragePluginList }
+module.exports = { StoragePlugin, StoragePluginContent, StoragePluginList }

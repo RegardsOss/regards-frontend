@@ -24,6 +24,6 @@ const listAccessGroupAccessRightsDeps = [
   accessRightActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
-export default {
+module.exports = {
   listAccessGroupAccessRightsDeps,
 }

@@ -29,7 +29,7 @@ const modelAttributesFragmentReducer = DataManagementClient.ModelAttributesFragm
 const modelAttributesFragmentActions = new DataManagementClient.ModelAttributesFragmentActions(REDUX_ACTION_NAMESPACE)
 
 
-export default {
+module.exports = {
   modelAttributesFragmentReducer,
   modelAttributesFragmentActions,
 }

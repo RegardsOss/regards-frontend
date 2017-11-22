@@ -128,7 +128,7 @@ StorageUnitScale.bytesSIPrefixScale = new StorageUnitScale('bytes.si.prefix', BY
 // all units, ordered by less specific to more specific
 StorageUnitScale.all = [StorageUnitScale.bitsScale, StorageUnitScale.bytesScale, StorageUnitScale.bitsSIPrefixScale, StorageUnitScale.bytesSIPrefixScale]
 
-export default {
+module.exports = {
   StorageUnitScale,
   StorageUnits: { BIT, BYTE },
   StorageUnitScaleShape: PropTypes.instanceOf(StorageUnitScale),

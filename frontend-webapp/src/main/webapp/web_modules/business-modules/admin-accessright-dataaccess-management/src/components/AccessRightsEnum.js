@@ -35,7 +35,7 @@ const QUALITY_LEVEL_ENUM = {
   REJECTED: 'REJECTED',
 }
 
-export default {
+module.exports = {
   QUALITY_LEVEL_ENUM,
   METADATA_ACCESS_ENUM,
   DATA_ACCESS_ENUM,

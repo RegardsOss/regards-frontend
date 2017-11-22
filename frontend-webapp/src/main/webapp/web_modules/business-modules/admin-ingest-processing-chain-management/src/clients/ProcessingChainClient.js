@@ -29,7 +29,7 @@ const processingChainActions = new IngestClient.ProcessingChainActions(REDUX_ACT
 const processingChainReducer = IngestClient.ProcessingChainReducer(REDUX_ACTION_NAMESPACE)
 const processingChainSelectors = IngestClient.ProcessingChainSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   processingChainActions,
   processingChainReducer,
   processingChainSelectors,

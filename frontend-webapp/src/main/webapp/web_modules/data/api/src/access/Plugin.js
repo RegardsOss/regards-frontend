@@ -18,7 +18,7 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-export const PluginConfiguration = {
+const PluginConfiguration = {
   entityKey: 'id',
   normalizrKey: 'plugins',
 }
@@ -32,7 +32,8 @@ const pluginSchema = new Schema(PluginConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   PLUGIN: pluginSchema,
   PLUGIN_ARRAY: arrayOf(pluginSchema),
+  PluginConfiguration,
 }

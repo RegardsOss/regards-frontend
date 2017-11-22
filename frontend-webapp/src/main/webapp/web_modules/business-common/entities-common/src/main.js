@@ -31,7 +31,7 @@ import ChoiceParameterField from './components/services/parameters/ChoiceParamet
 import DateParameterField from './components/services/parameters/DateParameterField'
 import TextParameterField from './components/services/parameters/TextParameterField'
 
-export default {
+module.exports = {
   DownloadDescriptionClient,
   EntityDescriptionContainer,
   descriptionLevelModel: {

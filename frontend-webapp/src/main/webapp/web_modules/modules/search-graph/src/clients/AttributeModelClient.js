@@ -15,7 +15,7 @@ export const AttributeModelActions = new DataManagementClient.AttributeModelForM
 export const AttributeModelReducer = DataManagementClient.AttributeModelForModelTypeReducer(REDUX_ACTION_NAMESPACE)
 export const AttributeModelSelectors = DataManagementClient.AttributeModelForModelTypeSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   REDUCER_PATH,
   AttributeModelActions,
   AttributeModelReducer,

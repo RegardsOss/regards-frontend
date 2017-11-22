@@ -24,7 +24,7 @@ const pluginTypeActions = new CommonClient.PluginTypeActions(namespace)
 const pluginTypeReducer = CommonClient.getPluginTypeReducer(namespace)
 const pluginTypeSelectors = CommonClient.getPluginTypeSelectors(['admin', 'microservice-management', 'pluginType'])
 
-export default {
+module.exports = {
   pluginTypeActions,
   pluginTypeReducer,
   pluginTypeSelectors,

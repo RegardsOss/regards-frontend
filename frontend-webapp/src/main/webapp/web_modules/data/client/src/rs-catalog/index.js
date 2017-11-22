@@ -33,7 +33,7 @@ import SearchEntityActions from './search/SearchEntityActions'
 
 import CatalogPluginServiceResultActions from './services/CatalogPluginServiceResultActions'
 
-export default {
+module.exports = {
   LinkPluginDatasetActions,
   getLinkPluginDatasetReducer,
   getLinkPluginDatasetSelectors,

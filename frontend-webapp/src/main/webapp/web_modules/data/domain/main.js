@@ -23,7 +23,7 @@ import CommonDomain from './common/index'
 import DamDomain from './dam/index'
 import ArchivalStorageDomain from './archival-storage/index'
 
-export default {
+module.exports = {
   AccessDomain,
   AdminDomain,
   CatalogDomain,

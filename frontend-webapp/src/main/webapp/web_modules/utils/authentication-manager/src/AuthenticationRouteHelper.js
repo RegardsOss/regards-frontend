@@ -42,7 +42,7 @@ const getOriginUrlWithoutQueryParams = () => `${root.location.protocol}//${root.
  */
 const getRequestLinkURL = mailAuthenticationActionValue => `${root.location.protocol}//${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${mailAuthenticationActionValue}`
 
-export default {
+module.exports = {
   getSelectorPath,
   getOriginURL,
   getRequestLinkURL,

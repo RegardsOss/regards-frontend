@@ -21,7 +21,7 @@ import ProcessingChainReducer from './processingChain/ProcessingChainReducer'
 import ProcessingChainSelectors from './processingChain/ProcessingChainSelectors'
 
 
-export default {
+module.exports = {
   ProcessingChainActions,
   ProcessingChainReducer,
   ProcessingChainSelectors,

@@ -34,7 +34,7 @@ import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PAT
 import modelAttributeClient from './clients/ModelAttributeClient'
 
 
-export default {
+module.exports = {
   // Admin
   [COLLECTION_MODEL_PATH]: CollectionModelReducers,
   [attributeModelClient.REDUCER_PATH]: attributeModelClient.AttributeModelReducer,

@@ -18,6 +18,6 @@
  **/
 import Basket from './Basket'
 
-export default {
+module.exports = {
   ...Basket,
 }

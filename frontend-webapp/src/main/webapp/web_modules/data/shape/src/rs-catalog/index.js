@@ -24,7 +24,7 @@ import Tag from './Entity/Tag'
 import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
 
 
-export default {
+module.exports = {
   entityFiles,
   Entity,
   EntityList,

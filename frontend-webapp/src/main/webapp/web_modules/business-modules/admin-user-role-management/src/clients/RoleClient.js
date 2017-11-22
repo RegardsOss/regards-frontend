@@ -13,7 +13,7 @@ const roleActions = new AdminClient.RoleActions(namespace)
 const roleReducer = AdminClient.getRoleReducer(namespace)
 const roleSelectors = AdminClient.getRoleSelectors(['admin', 'user-management', 'role-management', 'role'])
 
-export default {
+module.exports = {
   roleActions,
   roleReducer,
   roleSelectors,

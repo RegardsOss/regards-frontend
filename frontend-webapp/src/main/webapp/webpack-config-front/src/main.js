@@ -59,6 +59,8 @@ class WebpackConfig {
         this.conf = getWebpackTestConf(projectContextPath)
         break
       case MODE.DLL:
+        // Ensure babel environment variable is correctly setup to development - will be rewrite if production is called
+        process.env.NODE_ENV = 'development'
         this.conf = webpackDllConf
         break
       case MODE.PKG_TEST:

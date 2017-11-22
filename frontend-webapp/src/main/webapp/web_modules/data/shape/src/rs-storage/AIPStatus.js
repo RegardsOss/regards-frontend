@@ -37,7 +37,7 @@ const AIPStatus = PropTypes.shape({
 
 const AIPStatusList = PropTypes.objectOf(AIPStatus)
 
-export default {
+module.exports = {
   AIPStatusContent,
   AIPStatus,
   AIPStatusList,

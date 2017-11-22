@@ -10,6 +10,6 @@ export const actions = new CatalogClient.SearchEntityActions(REDUX_ACTION_NAMESP
 /**
  * Client to find a dataset. Reducer and selectors are undefined as they are unused
  */
-export default {
+module.exports = {
   actions,
 }

@@ -118,6 +118,6 @@ class Tag {
 
 }
 
-export default {
+module.exports = {
   Tag,
 }

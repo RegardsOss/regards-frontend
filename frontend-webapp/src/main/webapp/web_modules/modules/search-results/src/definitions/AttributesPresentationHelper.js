@@ -137,6 +137,6 @@ function buildAttributesPresentationModels(attributeModels, simpleAttributesConf
   ].filter(model => !!model && model.attributes.length)
 }
 
-export default {
+module.exports = {
   buildAttributesPresentationModels,
 }

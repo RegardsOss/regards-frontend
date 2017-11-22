@@ -29,7 +29,7 @@ const documentFileReducer = DataManagementClient.getDocumentFileReducer(REDUX_AC
 const documentFileActions = new DataManagementClient.DocumentFileActions(REDUX_ACTION_NAMESPACE)
 
 
-export default {
+module.exports = {
   documentFileReducer,
   documentFileActions,
 }

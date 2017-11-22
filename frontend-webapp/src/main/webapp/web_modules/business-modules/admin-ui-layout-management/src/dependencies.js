@@ -28,6 +28,6 @@ const boardSeeRequiredDependencies = [
   LayoutActions.getDependency(RequestVerbEnum.GET),
 ]
 
-export default {
+module.exports = {
   boardSeeRequiredDependencies,
 }

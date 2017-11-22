@@ -35,4 +35,4 @@ const ProjectUser = PropTypes.shape({
 const ProjectUserList = PropTypes.objectOf(ProjectUser)
 
 
-export default { ProjectUser, ProjectUserList }
+module.exports = { ProjectUser, ProjectUserList }

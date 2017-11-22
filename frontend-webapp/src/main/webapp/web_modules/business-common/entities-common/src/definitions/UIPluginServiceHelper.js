@@ -162,7 +162,7 @@ function packRuntimeConfiguration(uiPluginConf, pluginInstance, configuredDynami
   }
 }
 
-export default {
+module.exports = {
   resolveParameter,
   resolveParameters,
   packRuntimeTarget,

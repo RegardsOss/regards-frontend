@@ -19,7 +19,7 @@
 import { Schema, arrayOf } from 'normalizr'
 import { PLUGIN_PARAMETER_ARRAY } from './PluginParameter'
 
-export const AdminPluginConfigurationSchemaConfiguration = {
+const AdminPluginConfigurationSchemaConfiguration = {
   entityKey: 'id',
   normalizrKey: 'pluginConfiguration',
 }
@@ -35,7 +35,8 @@ schema.define({
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   PLUGIN_CONFIGURATION: schema,
   PLUGIN_CONFIGURATION_ARRAY: arrayOf(schema),
+  AdminPluginConfigurationSchemaConfiguration,
 }

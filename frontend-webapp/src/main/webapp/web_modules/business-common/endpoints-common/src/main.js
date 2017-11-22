@@ -21,6 +21,6 @@ import CommonEndpointClient from './clients/CommonEndpointClient'
 /**
  * Module main file to expose public interface
  */
-export default {
+module.exports = {
   CommonEndpointClient,
 }

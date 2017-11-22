@@ -41,7 +41,7 @@ const AttributePresentationModel = PropTypes.shape({
 
 const AttributePresentationModelArray = PropTypes.arrayOf(AttributePresentationModel)
 
-export default {
+module.exports = {
   AttributePresentationModel,
   AttributePresentationModelArray,
 }

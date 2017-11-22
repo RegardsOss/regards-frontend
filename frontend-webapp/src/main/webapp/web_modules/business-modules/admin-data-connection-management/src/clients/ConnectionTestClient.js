@@ -29,7 +29,7 @@ const connectionTestReducer = DataManagementClient.ConnectionTestReducer(REDUX_A
 const connectionTestActions = new DataManagementClient.ConnectionTestActions(REDUX_ACTION_NAMESPACE)
 
 
-export default {
+module.exports = {
   connectionTestReducer,
   connectionTestActions,
 }

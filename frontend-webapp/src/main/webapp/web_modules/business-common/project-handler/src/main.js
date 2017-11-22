@@ -24,7 +24,7 @@ import projectClient from './clients/ProjectClient'
  * To use this module just add <ProjectHandler projectName={} /> into your application DOM.
  *
  */
-export default {
+module.exports = {
   ProjectHandler,
   projectClient,
 }

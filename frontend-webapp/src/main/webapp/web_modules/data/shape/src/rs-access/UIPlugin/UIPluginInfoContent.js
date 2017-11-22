@@ -39,6 +39,6 @@ const UIPluginInfoContent = PropTypes.shape({
 })
 
 
-export default {
+module.exports = {
   UIPluginInfoContent,
 }

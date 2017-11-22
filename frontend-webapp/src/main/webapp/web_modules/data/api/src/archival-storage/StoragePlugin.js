@@ -34,7 +34,7 @@ const storagePluginSchema = new Schema(StoragePluginConfiguration.normalizrKey, 
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   STORAGE_PLUGIN: storagePluginSchema,
   STORAGE_PLUGIN_ARRAY: arrayOf(storagePluginSchema),
   StoragePluginConfiguration,

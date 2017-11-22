@@ -31,7 +31,7 @@ const accessRightActions = new DataManagementClient.AccessRightActions(REDUX_ACT
 const accessRightSelectors = DataManagementClient.getAccessRightSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   accessRightReducer,
   accessRightActions,
   accessRightSelectors,

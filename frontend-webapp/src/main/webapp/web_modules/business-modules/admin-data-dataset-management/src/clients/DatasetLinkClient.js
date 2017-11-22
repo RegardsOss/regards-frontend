@@ -29,7 +29,7 @@ const datasetLinkReducer = DataManagementClient.DatasetLinkReducer(REDUX_ACTION_
 const datasetLinkActions = new DataManagementClient.DatasetLinkActions(REDUX_ACTION_NAMESPACE)
 
 
-export default {
+module.exports = {
   datasetLinkReducer,
   datasetLinkActions,
 }

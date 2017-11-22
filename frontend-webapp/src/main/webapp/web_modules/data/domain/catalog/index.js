@@ -26,7 +26,7 @@ import OpenSearchQueryParameter from './query/opensearch/OpenSearchQueryParamete
 import URLSearchQuery from './query/url/URLSearchQuery'
 import URLSearchQueryParameter from './query/url/URLSearchQueryParameter'
 
-export default {
+module.exports = {
   Geometry,
   isURNTag,
   TagTypes,

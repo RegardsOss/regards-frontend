@@ -34,7 +34,8 @@ const schema = new Schema(EndpointConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   ENDPOINT: schema,
   ENDPOINT_ARRAY: arrayOf(schema),
+  EndpointConfiguration
 }

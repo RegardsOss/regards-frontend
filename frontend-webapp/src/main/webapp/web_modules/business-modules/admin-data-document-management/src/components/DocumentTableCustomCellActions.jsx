@@ -33,11 +33,8 @@ class DocumentTableCustomCellActions extends React.Component {
     onEdit: PropTypes.func.isRequired,
     entity: DataManagementShapes.Document,
     rowIndex: PropTypes.number.isRequired,
-    pageSize: PropTypes.number.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     intl: PropTypes.object,
-    // eslint-disable-next-line react/no-unused-prop-types
-    lineHeight: PropTypes.number.isRequired,
   }
 
   // Static css inline styles

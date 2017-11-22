@@ -32,7 +32,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class ProjectConnectionActions extends BasicSignalActions {
+export default class ProjectConnectionActions extends BasicSignalActions {
 
   /**
    * Constructor
@@ -49,5 +49,3 @@ class ProjectConnectionActions extends BasicSignalActions {
     return this.sendSignal('GET', null, { microservice, tenant }, null)
   }
 }
-
-export default namespace => new ProjectConnectionActions(namespace)

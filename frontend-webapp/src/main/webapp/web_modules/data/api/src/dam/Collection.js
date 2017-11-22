@@ -39,7 +39,7 @@ const collection = new Schema(CollectionConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   COLLECTION: collection,
   COLLECTION_ARRAY: arrayOf(collection),
   CollectionConfiguration,

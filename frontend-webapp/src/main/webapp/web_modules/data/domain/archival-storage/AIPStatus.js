@@ -27,6 +27,6 @@ const AIP_STATES = [
   'DELETED', // deleted
 ]
 
-export default {
+module.exports = {
   AIP_STATES,
 }

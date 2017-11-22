@@ -18,6 +18,6 @@
  **/
 import IngestProcessingChain from './IngestProcessingChain'
 
-export default {
+module.exports = {
   ...IngestProcessingChain,
 }

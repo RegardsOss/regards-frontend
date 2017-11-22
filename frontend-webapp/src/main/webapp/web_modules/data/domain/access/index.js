@@ -24,7 +24,8 @@ import PluginServiceConstants from './PluginServiceConstants'
 import RuntimeTargetTypes from './RuntimeTargetTypes'
 import defaultTheme from './defaultTheme'
 
-export default {
+
+module.exports = {
   ...UIPluginInfoTypes,
   ...UIPluginConfParameterTypes,
   ...RuntimeTargetTypes,

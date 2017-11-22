@@ -8,7 +8,7 @@ const ProjectUserSignalActions = new AdminClient.ProjectUserSignalActions(namesp
 const ProjectUserSignalReducer = AdminClient.getProjectUserSignalReducer(namespace)
 const ProjectUserSignalSelectors = AdminClient.getProjectUserSignalSelectors(['admin', 'user-management', 'project-user-management', 'projectUserSignals'])
 
-export default {
+module.exports = {
   ProjectUserSignalActions,
   ProjectUserSignalReducer,
   ProjectUserSignalSelectors,

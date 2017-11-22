@@ -26,7 +26,7 @@ import dependencies from './dependencies'
  * Module main file to expose public interface
  * @author Raphaël Mechali
  */
-export default {
+module.exports = {
   moduleContainer,
   styles,
   messages,

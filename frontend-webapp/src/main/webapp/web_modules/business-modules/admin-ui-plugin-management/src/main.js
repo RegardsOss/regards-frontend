@@ -23,7 +23,7 @@ import pluginUIDependencies from './dependencies'
  * Module main file to expose public interface
  * @author Sébastien Binda
  */
-export default {
+module.exports = {
   pluginUIRouter,
   pluginUIReducer,
   pluginUIDependencies,

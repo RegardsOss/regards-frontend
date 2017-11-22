@@ -3,4 +3,4 @@
  **/
 import styles from './styles'
 
-export default { styles }
+module.exports = { styles }

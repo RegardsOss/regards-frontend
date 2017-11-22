@@ -31,4 +31,4 @@ const StandartAttributeModel = PropTypes.shape({
   content: StandartAttributeModelContent,
 })
 
-export default { StandartAttributeModelContent, StandartAttributeModel }
+module.exports = { StandartAttributeModelContent, StandartAttributeModel }

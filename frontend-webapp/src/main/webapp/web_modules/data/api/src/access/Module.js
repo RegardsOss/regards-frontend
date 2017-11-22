@@ -18,7 +18,7 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-export const ModuleConfiguration = {
+const ModuleConfiguration = {
   entityKey: 'id',
   normalizrKey: 'modules',
 }
@@ -42,7 +42,8 @@ const moduleSchema = new Schema(ModuleConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   MODULE: moduleSchema,
   MODULE_ARRAY: arrayOf(moduleSchema),
+  ModuleConfiguration,
 }

@@ -64,7 +64,7 @@ const convertedNonParsableDevice = {
   unusedPercent: null,
 }
 
-export default {
+module.exports = {
   dump,
   convertedParsableDevice,
   convertedPartiallyParsableDevice,

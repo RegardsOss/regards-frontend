@@ -30,6 +30,6 @@ const RuntimeTargetTypes = {
   QUERY: 'QUERY',
 }
 
-export default {
+module.exports = {
   RuntimeTargetTypes,
 }

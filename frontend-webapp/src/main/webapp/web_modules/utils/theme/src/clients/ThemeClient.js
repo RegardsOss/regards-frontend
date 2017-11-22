@@ -27,10 +27,10 @@ const ENTITIES_STORE_PATH = ['common', 'theme', 'list']
 const REDUX_ACTION_NAMESPACE = 'common/themes'
 
 const themeReducers = AccessProjectClient.ThemeReducers(REDUX_ACTION_NAMESPACE)
-const themeActions = AccessProjectClient.ThemeActions(REDUX_ACTION_NAMESPACE)
+const themeActions = new AccessProjectClient.ThemeActions(REDUX_ACTION_NAMESPACE)
 const themeSelectors = AccessProjectClient.ThemeSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   themeReducers,
   themeActions,
   themeSelectors,

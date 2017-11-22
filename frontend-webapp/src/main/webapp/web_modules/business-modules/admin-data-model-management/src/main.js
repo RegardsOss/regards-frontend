@@ -20,7 +20,7 @@ import modelDataManagementReducer from './reducer'
 import modelDataManagementRouter from './router'
 import modelDependencies from './dependencies'
 
-export default {
+module.exports = {
   modelDataManagementReducer,
   modelDataManagementRouter,
   modelDependencies,

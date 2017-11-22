@@ -38,4 +38,4 @@ const AccessGroup = PropTypes.shape({
 const AccessGroupList = PropTypes.objectOf(AccessGroup)
 
 
-export default { AccessGroup, AccessGroupList }
+module.exports = { AccessGroup, AccessGroupList }

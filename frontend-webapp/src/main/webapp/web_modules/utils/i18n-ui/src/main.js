@@ -18,6 +18,6 @@
  **/
 import SelectLocaleContainer from './containers/SelectLocaleContainer'
 
-export default {
+module.exports = {
   SelectLocaleContainer,
 }

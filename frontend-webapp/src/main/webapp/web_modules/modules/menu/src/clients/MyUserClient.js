@@ -11,7 +11,7 @@ export const myUserActions = new AdminClient.MyUserActions(namespace)
 export const myUserReducer = AdminClient.getMyUserReducer(namespace)
 export const myUserSelectors = AdminClient.getMyUserSelectors(['modules.menu', 'myUser'])
 
-export default {
+module.exports = {
   myUserActions,
   myUserReducer,
   myUserSelectors,

@@ -31,7 +31,7 @@ const datasourceActions = new DataManagementClient.DatasourceActions(REDUX_ACTIO
 const datasourceSelectors = DataManagementClient.DatasourceSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   datasourceReducer,
   datasourceActions,
   datasourceSelectors,

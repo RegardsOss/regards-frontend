@@ -102,6 +102,6 @@ class Parameter {
 
 }
 
-export default {
+module.exports = {
   Parameter,
 }

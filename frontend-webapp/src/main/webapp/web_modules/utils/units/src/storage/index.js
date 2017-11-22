@@ -21,7 +21,7 @@ import messages from './i18n'
 import StorageCapacity from './StorageCapacity'
 import StorageUnit from './StorageUnit'
 
-export default {
+module.exports = {
   FormattedStorageCapacity,
   ...StorageCapacity,
   ...StorageUnit,

@@ -22,7 +22,7 @@
  * @type {*}
  * @author Sébastien Binda
  */
-export default {
+module.exports = {
   hideAdvanced: 'Hide advanced options',
   showAdvanced: 'Advanced options',
   'confirm.dialog.cancel': 'Cancel',

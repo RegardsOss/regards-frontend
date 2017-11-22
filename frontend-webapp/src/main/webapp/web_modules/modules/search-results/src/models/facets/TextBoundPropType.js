@@ -32,7 +32,7 @@ const NumericTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBou
 const parseDate = dateText => !isNaN(Date.parse(dateText))
 const DateTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBoundPropType(parseDate))
 
-export default {
+module.exports = {
   DateTextBoundPropType,
   NumericTextBoundPropType,
 }

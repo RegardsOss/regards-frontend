@@ -30,7 +30,7 @@ const OBJECT_LINKED_FILE_ENUM = {
 
 const OBJECT_LINKED_FILE_TYPES = values(OBJECT_LINKED_FILE_ENUM)
 
-export default {
+module.exports = {
   OBJECT_LINKED_FILE_ENUM,
   OBJECT_LINKED_FILE_TYPES,
 }

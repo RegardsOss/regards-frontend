@@ -86,6 +86,6 @@ class ManyEntitiesRuntimeHelpersBuilder {
 
 }
 
-export default {
+module.exports = {
   ManyEntitiesRuntimeHelpersBuilder,
 }

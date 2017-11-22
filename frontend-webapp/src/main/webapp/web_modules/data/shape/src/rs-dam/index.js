@@ -31,7 +31,7 @@ import { StandartAttributeModelContent, StandartAttributeModel } from './Standar
 import { ModelAttributeComputationTypes, ModelAttributeComputationTypesList } from './ModelAttributeComputationTypes'
 import { Document, DocumentContent, DocumentList } from './Document'
 
-export default {
+module.exports = {
   AccessGroup,
   AccessGroupList,
 

@@ -18,7 +18,7 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-export const LayoutConfiguration = {
+const LayoutConfiguration = {
   entityKey: 'applicationId',
   normalizrKey: 'layout',
 }
@@ -41,7 +41,8 @@ const layoutSchema = new Schema(LayoutConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   LAYOUT: layoutSchema,
   LAYOUT_ARRAY: arrayOf(layoutSchema),
+  LayoutConfiguration,
 }

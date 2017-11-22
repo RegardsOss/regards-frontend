@@ -31,7 +31,7 @@ import {
 
 import DATASOURCE_REFRESH_RATE from './DatasourceRefreshRate'
 
-export default {
+module.exports = {
   getAbstractEntityDescription,
   getFullQualifiedAttributeName,
 

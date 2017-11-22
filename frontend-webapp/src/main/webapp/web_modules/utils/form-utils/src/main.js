@@ -37,7 +37,7 @@ import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
 import StringComparison from './StringComparison'
 import reduxForm from './reduxForm'
 
-export default {
+module.exports = {
   RenderTextField,
   RenderToggle,
   RenderDoubleLabelToggle,

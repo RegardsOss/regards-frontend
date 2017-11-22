@@ -190,7 +190,7 @@ function buildSimplePropertyColumn(key, label, propertyPath, order, visible, fix
     order, visible, fixedWidth)
 }
 
-export default {
+module.exports = {
   optionsColumnKey,
   selectionColumnKey,
   buildColumn,

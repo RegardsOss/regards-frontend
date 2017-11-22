@@ -29,7 +29,7 @@ const schema = new Schema(PluginParameterConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   PLUGIN_PARAMETER: schema,
   PLUGIN_PARAMETER_ARRAY: arrayOf(schema),
   PluginParameterConfiguration,

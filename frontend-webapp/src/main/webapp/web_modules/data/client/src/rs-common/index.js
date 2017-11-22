@@ -34,7 +34,7 @@ import getPluginTypeReducer from './pluginTypes/PluginTypeReducer'
 import getPluginTypeSelectors from './pluginTypes/PluginTypeSelectors'
 
 
-export default {
+module.exports = {
   PluginMetaDataActions,
   getPluginMetaDataReducer,
   getPluginMetaDataSelectors,

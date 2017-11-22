@@ -26,7 +26,7 @@ import AuthenticateSelectors from './AuthenticateSelectors'
  * for the autentication middleware to know that this endpoint don't need a public token scope. All other endpoints are
  * avaiable without token by passing the scope in query param or into the request header.
  */
-export default {
+module.exports = {
   AuthenticateActions,
   AuthenticateReducers,
   AuthenticateSelectors,

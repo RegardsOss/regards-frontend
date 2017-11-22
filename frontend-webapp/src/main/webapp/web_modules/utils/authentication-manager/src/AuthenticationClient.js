@@ -27,11 +27,11 @@ const ENTITIES_STORE_PATH = ['common', 'authentication']
 const REDUX_ACTION_NAMESPACE = 'common/authentication-manager'
 
 const authenticationReducers = AuthenticationClient.AuthenticateReducers(REDUX_ACTION_NAMESPACE)
-const authenticationActions = AuthenticationClient.AuthenticateActions(REDUX_ACTION_NAMESPACE)
+const authenticationActions = new AuthenticationClient.AuthenticateActions(REDUX_ACTION_NAMESPACE)
 const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)
 
 const SPECIFIC_ENDPOINT_MARKER = AuthenticationClient.SPECIFIC_ENDPOINT_MARKER
-export default {
+module.exports = {
   authenticationReducers,
   authenticationActions,
   authenticationSelectors,

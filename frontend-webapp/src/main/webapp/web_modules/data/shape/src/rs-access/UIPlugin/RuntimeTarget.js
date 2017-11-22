@@ -57,4 +57,4 @@ const queryTarget = PropTypes.shape({
 
 const RuntimeTarget = PropTypes.oneOfType([oneEntityTarget, manyEntitiesTarget, queryTarget])
 
-export default { RuntimeTarget }
+module.exports = { RuntimeTarget }

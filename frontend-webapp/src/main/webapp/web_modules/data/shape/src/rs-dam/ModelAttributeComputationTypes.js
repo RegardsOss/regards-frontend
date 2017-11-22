@@ -28,7 +28,7 @@ const ModelAttributeComputationTypes = PropTypes.shape({
 })
 const ModelAttributeComputationTypesList = PropTypes.objectOf(ModelAttributeComputationTypes)
 
-export default {
+module.exports = {
   ModelAttributeComputationTypes,
   ModelAttributeComputationTypesList,
 }
