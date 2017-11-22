@@ -23,6 +23,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { Container } from '@regardsoss/layout'
 import { themeContextType } from '@regardsoss/theme'
 import { DynamicModule, ModuleTitle } from '@regardsoss/components'
+import { dependencies } from '../../user-dependencies'
 
 /**
  * Component to display a configured Search form module
@@ -111,6 +112,7 @@ class FormComponent extends React.Component {
         onExpandChange={this.handleExpand}
         expanded={this.state.expanded}
         onKeyPress={this.onKeyPress}
+        requiredDependencies={dependencies}
       >
         <Container
           appName="user"

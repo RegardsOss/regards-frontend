@@ -4,6 +4,7 @@
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { DynamicModule } from '@regardsoss/components'
+import { dependencies } from '../../user-dependencies'
 import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
 
@@ -58,6 +59,7 @@ class ModuleComponent extends React.Component {
         }
         onExpandChange={onExpandChange}
         expanded={expanded}
+        requiredDependencies={dependencies}
       >
         <SearchResultsContainer
           appName={appName}

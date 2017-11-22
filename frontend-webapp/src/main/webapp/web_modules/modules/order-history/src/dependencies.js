@@ -18,14 +18,16 @@
  **/
 
 /**
- * Module hateoas depencies
+ * Module hateoas dependencies
  * @author Raphaël Mechali
  */
 /**
  * Mandatory Dependencies to display module in user interface
  * @type {Array}
  */
-const user = []
+const user = [
+  // none: displayed directly by the module to show appropriate messages
+]
 
 /**
  * Mandatory Dependencies to display module in admin interface
