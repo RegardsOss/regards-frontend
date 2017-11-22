@@ -41,11 +41,13 @@ describe('[Components] Testing DynamicModule', () => {
       options: [<div key="an.option">An option </div>],
       onExpandChange: () => { },
       expanded: true,
+      isAuthenticated: true,
     }
     shallow((
       <DynamicModule {...props} >
         <div>Some content</div>
       </DynamicModule>
     ), { context })
+    // TODO-V2 please add LOADS OF TESTS (when time)
   })
 })
