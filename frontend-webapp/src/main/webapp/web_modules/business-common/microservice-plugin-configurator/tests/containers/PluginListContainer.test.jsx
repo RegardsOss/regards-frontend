@@ -30,7 +30,7 @@ const context = buildTestContext(styles)
 * Test  PluginListContainer
 * @author Sébastien Binda
 */
-describe('[ Module name] Testing  PluginListContainer', () => {
+describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing  PluginListContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

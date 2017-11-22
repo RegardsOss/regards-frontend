@@ -29,7 +29,7 @@ import PluginParameterPlugin from '../../../src/components/parameters/PluginPara
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[COMMON PLUGIN CONFIGURATOR] Testing generic plugin parameter component', () => {
+describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing generic plugin parameter component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

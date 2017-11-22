@@ -34,7 +34,7 @@ const options = {
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[COMMON PLUGIN CONFIGURATOR] Testing plugin parameter plugin component', () => {
+describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing plugin parameter plugin component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

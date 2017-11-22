@@ -29,7 +29,7 @@ import PluginParameterBoolean from '../../../src/components/parameters/PluginPar
  */
 const context = buildTestContext()
 
-describe('[COMMON PLUGIN CONFIGURATOR] Testing plugin parameter boolean component', () => {
+describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing plugin parameter boolean component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

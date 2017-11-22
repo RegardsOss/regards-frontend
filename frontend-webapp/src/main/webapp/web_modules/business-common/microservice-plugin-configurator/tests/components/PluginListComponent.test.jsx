@@ -30,7 +30,7 @@ const context = buildTestContext(styles)
 * Test PluginListComponent
 * @author Sébastien Binda
 */
-describe('[ Module name] Testing PluginListComponent', () => {
+describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing PluginListComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -41,7 +41,6 @@ describe('[ Module name] Testing PluginListComponent', () => {
     const props = {
       title: 'title',
       selectLabel: 'select ...',
-      pluginList: [],
       defaultSelectedPluginId: null,
       onChange: () => { },
     }
@@ -53,17 +52,19 @@ describe('[ Module name] Testing PluginListComponent', () => {
     const props = {
       title: 'title',
       selectLabel: 'select ...',
-      pluginList: [{
-        content: {
-          pluginId: 'pluginId',
-          pluginClassName: 'className',
-          interfaceNames: ['IClass'],
-          author: 'author',
-          description: 'description',
-          version: '1.0.0',
-          parameters: [],
+      pluginList: {
+        0: {
+          content: {
+            pluginId: 'pluginId',
+            pluginClassName: 'className',
+            interfaceNames: ['IClass'],
+            author: 'author',
+            description: 'description',
+            version: '1.0.0',
+            parameters: [],
+          },
         },
-      }],
+      },
       defaultSelectedPluginId: 'pluginId',
       onChange: () => { },
     }
