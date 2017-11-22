@@ -26,6 +26,8 @@ import {
   PageableInfiniteTableContainer,
   HelpMessageComponent,
   CardActionsComponent,
+  ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -53,6 +55,46 @@ export class ProcessingChainListComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      chainToDelete: null,
+    }
+  }
+
+  onDelete = (chain) => {
+    this.setState({
+      chainToDelete: chain,
+    })
+  }
+
+  onConfirmDelete = () => {
+    this.closeDeleteDialog()
+    if (this.state.chainToDelete) {
+      this.props.onDelete(this.state.chainToDelete)
+    }
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      chainToDelete: null,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    if (this.state.chainToDelete) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          title={this.context.intl.formatMessage({ id: 'processing-chain.delete.confirm.title' }, { name: this.state.chainToDelete.content.name })}
+          onConfirm={this.onConfirmDelete}
+          onClose={this.closeDeleteDialog}
+        />
+      )
+    }
+    return null
   }
 
   render() {
@@ -126,6 +168,7 @@ export class ProcessingChainListComponent extends React.Component {
             secondaryButtonTouchTap={this.props.onBack}
           />
         </CardActions>
+        {this.renderDeleteConfirmDialog()}
       </Card>
     )
   }

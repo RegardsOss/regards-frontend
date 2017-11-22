@@ -19,35 +19,32 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DynamicModule } from '../../src/module/DynamicModule'
-import styles from '../../src/module/styles/styles'
+import IngestProcessingChainListComponent from '../../src/components/IngestProcessingChainListComponent'
+import { IngestProcessingChainListContainer } from '../../src/containers/IngestProcessingChainListContainer'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test DynamicModule
-* @author Raphaël Mechali
+* Test  IngestProcessingChainListContainer
+* @author Sébastien Binda
 */
-describe('[Components] Testing DynamicModule', () => {
+describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing  IngestProcessingChainListContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DynamicModule)
+    assert.isDefined(IngestProcessingChainListContainer)
   })
   it('should render correctly', () => {
     const props = {
-      title: <div>The title</div>,
-      options: [<div key="an.option">An option </div>],
-      onExpandChange: () => { },
-      expanded: true,
-      isAuthenticated: true,
+      params: {
+        project: 'project',
+      },
+      deleteChain: () => new Promise(() => { }),
+      fetchPage: () => new Promise(() => { }),
     }
-    shallow((
-      <DynamicModule {...props} >
-        <div>Some content</div>
-      </DynamicModule>
-    ), { context })
-    // TODO-V2 please add LOADS OF TESTS (when time)
+    const enzymeWrapper = shallow(<IngestProcessingChainListContainer {...props} />, { context })
+    assert.equal(enzymeWrapper.find(IngestProcessingChainListComponent).length, 1, 'The IngestProcessingChainListComponent should be rendered')
   })
 })

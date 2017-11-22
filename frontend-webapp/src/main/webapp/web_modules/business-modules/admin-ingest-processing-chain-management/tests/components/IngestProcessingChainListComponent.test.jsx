@@ -19,35 +19,35 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DynamicModule } from '../../src/module/DynamicModule'
-import styles from '../../src/module/styles/styles'
+import {
+  PageableInfiniteTableContainer,
+} from '@regardsoss/components'
+import IngestProcessingChainListComponent from '../../src/components/IngestProcessingChainListComponent'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test DynamicModule
-* @author Raphaël Mechali
+* Test IngestProcessingChainListComponent
+* @author Sébastien Binda
 */
-describe('[Components] Testing DynamicModule', () => {
+describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingChainListComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DynamicModule)
+    assert.isDefined(IngestProcessingChainListComponent)
   })
   it('should render correctly', () => {
     const props = {
-      title: <div>The title</div>,
-      options: [<div key="an.option">An option </div>],
-      onExpandChange: () => { },
-      expanded: true,
-      isAuthenticated: true,
+      fetchPage: () => new Promise(() => { }),
+      onDelete: () => new Promise(() => { }),
+      onEdit: () => new Promise(() => { }),
+      onCreate: () => new Promise(() => { }),
+      onBack: () => new Promise(() => { }),
+      queryPageSize: 100,
     }
-    shallow((
-      <DynamicModule {...props} >
-        <div>Some content</div>
-      </DynamicModule>
-    ), { context })
-    // TODO-V2 please add LOADS OF TESTS (when time)
+    const enzymeWrapper = shallow(<IngestProcessingChainListComponent {...props} />, { context })
+    assert.equal(enzymeWrapper.find(PageableInfiniteTableContainer).length, 1, 'There should be an infinite table rendered')
   })
 })

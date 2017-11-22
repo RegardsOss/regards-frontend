@@ -15,21 +15,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import Info from 'material-ui/svg-icons/action/lightbulb-outline'
+ */
+const styles = theme => ({
+})
 
-
-export default class HelpMessageComponent extends React.Component {
-  static propTypes = {
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
-  }
-  static styleContainer = { display: 'flex', alignItems: 'center' }
-  static styleIcon = { width: '24px', height: '24px', marginRight: '10px' }
-
-  render() {
-    return (<span style={HelpMessageComponent.styleContainer}>
-      <Info style={HelpMessageComponent.styleIcon} />
-      {this.props.message}
-    </span>)
-  }
-}
+export default styles
