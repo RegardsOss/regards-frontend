@@ -100,6 +100,7 @@ import TableHeaderOptionGroup from './table/header/TableHeaderOptionGroup'
 import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSeparator'
 import TableHeaderText from './table/header/TableHeaderText'
 import TableLayout from './table/TableLayout'
+import TableDeleteOption from './table/content/cells/options/TableDeleteOption'
 import TableSelectAllOption from './table/options/TableSelectAllOption'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import { TableSortOrders } from './table/model/TableSortOrders'
@@ -181,6 +182,7 @@ export {
   TableHeaderOptionsSeparator,
   TableHeaderText,
   TableLayout,
+  TableDeleteOption,
   TableSelectAllOption,
   TableSelectionModes,
   TableSortOrders,

@@ -34,7 +34,6 @@ const messages = Object.assign({
   'processing-chain.addnew.button': 'Créer une chaîne de traitement',
   'processing-chain.back.button': 'Retour',
 
-  'processing-chain.delete.tooltip': 'Supprimer',
   'processing-chain.edit.tooltip': 'Editer',
 
   'processing-chain.form.create.title': 'Création d\'une nouvelle chaîne de traitement',
