@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import DynamicModule from '../../src/module/DynamicModule'
+import { DynamicModule } from '../../src/module/DynamicModule'
 import styles from '../../src/module/styles/styles'
 
 const context = buildTestContext(styles)

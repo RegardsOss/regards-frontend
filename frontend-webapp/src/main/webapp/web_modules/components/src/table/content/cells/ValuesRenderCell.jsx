@@ -16,28 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import flatMap from 'lodash/flatMap'
 import { themeContextType } from '@regardsoss/theme'
-import PropertiesValuesSeparator from './PropertiesValuesSeparator'
+import ValuesSeparator from './ValuesSeparator'
 
 
 /**
- * A cell to render entity properties: it uses an array or properties with lodash notation like 'a.b.c[0]' and a RenderValueDelegate
- * to display entity properties values
+ * A cell to render entity values: it uses an array of values extractors to produce the visible values and an
+ * optional RenderConstructor by value producer (allows to format specific values, when required)
  * @author Raphaël Mechali
  */
-export default class PropertiesRenderCell extends React.Component {
+export default class ValuesRenderCell extends React.Component {
 
   static propTypes = {
     // common cell content properties
     // rowIndex: PropTypes.number.isRequired, unused
     // eslint-disable-next-line react/forbid-prop-types
     entity: PropTypes.object.isRequired,
-    // list of properties with render delegate constructor for that property
-    properties: PropTypes.arrayOf(PropTypes.shape({
-      path: PropTypes.string.isRequired, // a gettable path (in the lodash meaning) for property on row entity
-      RenderConstructor: PropTypes.func, // a sub renderer by property (direct value otherwise)
+    // list of values extractors
+    values: PropTypes.arrayOf(PropTypes.shape({
+      // vallue producer from entity
+      getValue: PropTypes.func.isRequired,
+      // value renderer, opional
+      RenderConstructor: PropTypes.func,
     })).isRequired,
   }
 
@@ -46,13 +47,13 @@ export default class PropertiesRenderCell extends React.Component {
   }
 
   render() {
-    const { entity, properties } = this.props
+    const { entity, values } = this.props
     const { multipleCellValues } = this.context.moduleTheme
-    return flatMap(properties, ({ path, RenderConstructor }, index) => [
-      index > 0 ? <PropertiesValuesSeparator key={`separator.${path}`} /> : null,
-      <div key={`value.${path}`} style={multipleCellValues}>
+    return flatMap(values, ({ getValue, RenderConstructor }, index) => [
+      index > 0 ? <ValuesSeparator key={`separator.${index}`} /> : null,
+      <div key={`value.${index}`} style={multipleCellValues}>
         { // render using delegate if provided
-          RenderConstructor ? <RenderConstructor value={get(entity, path)} /> : get(entity, path)
+          RenderConstructor ? <RenderConstructor value={getValue(entity)} /> : getValue(entity)
         }
       </div>,
     ])

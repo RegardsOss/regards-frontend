@@ -86,7 +86,6 @@ import InfiniteTableContainer from './table/InfiniteTableContainer'
 import getTableReducer from './table/model/TableReducer'
 import getTableSelectors from './table/model/TableSelectors'
 import PageableInfiniteTableContainer from './table/PageableInfiniteTableContainer'
-import PropertiesRenderCell from './table/content/cells/PropertiesRenderCell'
 import TableActions from './table/model/TableActions'
 import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
 import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
@@ -168,7 +167,6 @@ export {
   getTableReducer,
   getTableSelectors,
   PageableInfiniteTableContainer,
-  PropertiesRenderCell,
   TableActions,
   TableColumnBuilder,
   TableColumnConfiguration,
