@@ -91,7 +91,7 @@ describe('[Service Example] Testing ExampleContainer', () => {
     assert.deepEqual(enzymeWrapper.state('results'), { beforeDateCount: 1, afterDateCount: 2, unknown: 3 }, 'Results should be correctly reported in state')
     // A.4 - Finally, verify that there is chart and it has the right properties
     /**
-     * TODO : FIX TESTS .
+     * TODO : FIX TESTS ..
     const chartWrappers = enzymeWrapper.find(ExampleChartDisplayer)
     assert.lengthOf(chartWrappers, 1, 'The chart should be shown after loading')
     // note about enzyme: when find returns only one component, the wrappers list behave exactly the same way
