@@ -16,15 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
-import { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
+import OrderListContainer from './containers/OrderListContainer'
 
 export default {
-  BasketDatedItemsSelection,
-  BasketDatasetSelection,
-  Basket,
-  DatasetTask,
-  Order,
-  OrderWithContent,
-  OrderList,
+  OrderListContainer,
 }

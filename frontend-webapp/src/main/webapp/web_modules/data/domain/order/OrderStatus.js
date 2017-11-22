@@ -16,15 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
-import { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
+import values from 'lodash/values'
+
+/**
+ * order status related constants
+ * @author Raphaël Mechali
+ */
+
+/**
+ * Possible values for order status
+ */
+const ORDER_STATUS_ENUM = {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  PAUSED: 'PAUSED',
+  EXPIRED: 'EXPIRED',
+  FAILED: 'FAILED',
+  DONE_WITH_WARNING: 'DONE_WITH_WARNING',
+  DONE: 'DONE',
+  DELETED: 'DELETED',
+  REMOVED: 'REMOVED',
+}
+
+/**
+ * Order status as list
+ */
+const ORDER_STATUS = values(ORDER_STATUS_ENUM)
 
 export default {
-  BasketDatedItemsSelection,
-  BasketDatasetSelection,
-  Basket,
-  DatasetTask,
-  Order,
-  OrderWithContent,
-  OrderList,
+  ORDER_STATUS_ENUM,
+  ORDER_STATUS,
 }

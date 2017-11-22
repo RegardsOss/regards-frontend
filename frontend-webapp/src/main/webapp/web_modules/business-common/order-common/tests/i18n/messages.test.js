@@ -15,16 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
-import { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
+ */
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-export default {
-  BasketDatedItemsSelection,
-  BasketDatasetSelection,
-  Basket,
-  DatasetTask,
-  Order,
-  OrderWithContent,
-  OrderList,
-}
+describe('[Entities Common] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

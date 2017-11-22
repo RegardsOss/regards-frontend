@@ -16,15 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
-import { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
+import OrderListClient from './client/OrderListClient'
 
+/**
+ * Module reducer (configures there combined path at module level)
+ */
 export default {
-  BasketDatedItemsSelection,
-  BasketDatasetSelection,
-  Basket,
-  DatasetTask,
-  Order,
-  OrderWithContent,
-  OrderList,
+  orderList: OrderListClient.orderListReducer,
 }

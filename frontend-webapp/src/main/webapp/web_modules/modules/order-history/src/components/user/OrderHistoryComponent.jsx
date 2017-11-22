@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ModuleIcon from 'material-ui/svg-icons/notification/folder-special'
+import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { DynamicModule, ModuleTitle } from '@regardsoss/components'
+import { OrderListContainer } from '@regardsoss/order-common'
 
 /**
  * Order history - main module component
@@ -26,21 +28,26 @@ import { DynamicModule, ModuleTitle } from '@regardsoss/components'
 class OrderHistoryComponent extends React.Component {
 
   static propTypes = {
+    commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
+    commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    title: PropTypes.string.isRequired,
     // expanded state management
     expanded: PropTypes.bool.isRequired,
     onExpandChange: PropTypes.func.isRequired,
   }
 
   render() {
-    const { onExpandChange, expanded } = this.props
+    const { commandsActions, commandsSelectors, title, onExpandChange, expanded } = this.props
     return (
       <DynamicModule
-        title={<ModuleTitle IconConstructor={ModuleIcon} text={'TODO TITLE'} />} // TODO
+        title={<ModuleTitle IconConstructor={ModuleIcon} text={title} />}
         onExpandChange={onExpandChange}
         expanded={expanded}
       >
-        {/* TODO implement me */}
-        <div />
+        <OrderListContainer
+          commandsActions={commandsActions}
+          commandsSelectors={commandsSelectors}
+        />
       </DynamicModule>
     )
   }

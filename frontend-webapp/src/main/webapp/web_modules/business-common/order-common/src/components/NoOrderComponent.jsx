@@ -16,15 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
-import { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
+import { NoContentComponent } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
 
-export default {
-  BasketDatedItemsSelection,
-  BasketDatasetSelection,
-  Basket,
-  DatasetTask,
-  Order,
-  OrderWithContent,
-  OrderList,
+/**
+ * Simple no data component (to be statically rendered by OrderListComponent)
+ * @author Raphaël Mechali
+ */
+class NoOrderComponent extends React.Component {
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { intl: { formatMessage } } = this.context
+    return (
+      <NoContentComponent
+        title={formatMessage({ id: 'no.order.information.title' })}
+        message={formatMessage({ id: 'no.order.information.message' })}
+      />
+    )
+  }
 }
+export default NoOrderComponent

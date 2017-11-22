@@ -16,15 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
-import { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
 
+import { Schema, arrayOf } from 'normalizr'
+
+const OrderConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'orders',
+}
+
+const order = new Schema(OrderConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[OrderConfiguration.entityKey]
+  ,
+})
+
+// Schemas for API responses.
 export default {
-  BasketDatedItemsSelection,
-  BasketDatasetSelection,
-  Basket,
-  DatasetTask,
-  Order,
-  OrderWithContent,
-  OrderList,
+  ORDER: order,
+  ORDER_ARRAY: arrayOf(order),
+  OrderConfiguration,
 }
