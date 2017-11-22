@@ -18,7 +18,7 @@
  **/
 import { DamDomain } from '@regardsoss/domain'
 import { TableColumnBuilder } from '@regardsoss/components'
-import getTypeRender from '../render/AttributesTypeToRender'
+import { buildRenderDelegate } from '../render/AttributesTypeToRender'
 
 /**
  * Helper to build data model attribute table columns
@@ -32,10 +32,7 @@ import getTypeRender from '../render/AttributesTypeToRender'
  * @return {path:{string}, RenderConstructor:{function}} delegate builder with props
  */
 function buildRenderDelegates(attributes) {
-  return attributes.map(attrModel => ({
-    path: `content.${attrModel.content.jsonPath}`,
-    RenderConstructor: getTypeRender(attrModel.content.type),
-  }))
+  return attributes.map(attrModel => buildRenderDelegate(`content.${attrModel.content.jsonPath}`, attrModel.content.type))
 }
 
 /**
