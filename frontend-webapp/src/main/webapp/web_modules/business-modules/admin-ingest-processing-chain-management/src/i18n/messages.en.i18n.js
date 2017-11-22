@@ -34,6 +34,7 @@ const messages = Object.assign({
   'processing-chain.empty.title': 'No processing chain defined',
   'processing-chain.addnew.button': 'Create new chain',
   'processing-chain.back.button': 'Back',
+  'processing-chain.delete.confirm.title': 'Are you sure you want to delete the processing chain : {name} ?',
 
   'processing-chain.edit.tooltip': 'Edit',
 

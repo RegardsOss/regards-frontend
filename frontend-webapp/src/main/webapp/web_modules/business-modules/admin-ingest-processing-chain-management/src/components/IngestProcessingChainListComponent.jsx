@@ -26,6 +26,8 @@ import {
   PageableInfiniteTableContainer,
   HelpMessageComponent,
   CardActionsComponent,
+  ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -55,6 +57,46 @@ export class ProcessingChainListComponent extends React.Component {
     ...themeContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      chainToDelete: null,
+    }
+  }
+
+  onDelete = (chain) => {
+    this.setState({
+      chainToDelete: chain,
+    })
+  }
+
+  onConfirmDelete = () => {
+    this.closeDeleteDialog()
+    if (this.state.chainToDelete) {
+      this.props.onDelete(this.state.chainToDelete)
+    }
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      chainToDelete: null,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    if (this.state.chainToDelete) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          title={this.context.intl.formatMessage({ id: 'processing-chain.delete.confirm.title' }, { name: this.state.chainToDelete.content.name })}
+          onConfirm={this.onConfirmDelete}
+          onClose={this.closeDeleteDialog}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
     const { intl, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
@@ -70,7 +112,7 @@ export class ProcessingChainListComponent extends React.Component {
         OptionConstructor: TableDeleteOption,
         optionProps: {
           fetchPage: this.props.fetchPage,
-          onDelete: this.props.onDelete,
+          onDelete: this.onDelete,
           queryPageSize: this.props.queryPageSize,
         },
       }], true, fixedColumnWidth),
@@ -126,6 +168,7 @@ export class ProcessingChainListComponent extends React.Component {
             secondaryButtonTouchTap={this.props.onBack}
           />
         </CardActions>
+        {this.renderDeleteConfirmDialog()}
       </Card>
     )
   }
