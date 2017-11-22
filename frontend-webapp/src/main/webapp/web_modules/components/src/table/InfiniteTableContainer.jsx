@@ -78,6 +78,9 @@ class InfiniteTableContainer extends React.Component {
     // abstracted properties: result of a parent selector
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
+    // page index of entities in results (change it to handle next/previous pages)
+    // eslint-disable-next-line react/no-unused-prop-types
+    entitiesPageIndex: PropTypes.number.isRequired,
     entitiesFetching: PropTypes.bool,
     // total entities count, including those not yet fetched. When no provided, the table won't auto fetch next pages
     entitiesCount: PropTypes.number,
@@ -108,9 +111,11 @@ class InfiniteTableContainer extends React.Component {
   }
 
   static defaultProps = {
-    loadAtPagePoint: 0.5,
+    loadAtPagePoint: 2 / 3,
     queryPageSize: 20,
     loadingComponent: <TableContentLoadingComponent />,
+    // by default we consider here that provided entities starts at 0
+    entitiesFirstIndex: 0,
   }
 
   static DEFAULT_STATE = {
@@ -146,8 +151,10 @@ class InfiniteTableContainer extends React.Component {
       this.fetchEntityPage(nextProps)
     } else if (!isEqual(previousProps.entities, nextProps.entities)) {
       // update row entities (add new one to previously known ones)
-      const oldEntities = (previousState.entities || [])
-      nextState.entities = [...oldEntities, ...nextProps.entities]
+      const firstReloadingIndex = nextProps.entitiesPageIndex * nextProps.queryPageSize
+      const oldEntities = (previousState.entities || []).slice()
+      const restoredEntities = oldEntities.slice(0, Math.min(oldEntities.length, firstReloadingIndex))
+      nextState.entities = [...restoredEntities, ...nextProps.entities]
     }
 
     if (!isEqual(previousState, nextState)) {
@@ -173,14 +180,17 @@ class InfiniteTableContainer extends React.Component {
       const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
       const { lineHeight = defaultLineHeight, queryPageSize } = this.props
 
-      // when the first visible index is at 1/2 of the last loaded page, start loading next page
+      // when the last visible index is at 2/3 of the last loaded page, start loading next page
       const firstVisibleIndex = Math.floor(scrollEndOffset / lineHeight)
+      const actualRowCount = this.props.displayedRowsCount || this.context.muiTheme['components:infinite-table'].rowCount
+      const lastVisibleIndex = firstVisibleIndex + actualRowCount
       const totalPages = Math.floor(entities.length / queryPageSize)
+
       // consider only the ratio on the last page
-      const inPageIndex = firstVisibleIndex - ((totalPages - 1) * queryPageSize)
+      const inPageIndex = lastVisibleIndex - ((totalPages - 1) * queryPageSize)
       const inPageRatio = inPageIndex / queryPageSize
       if (inPageRatio > this.props.loadAtPagePoint) {
-        const nextPage = Math.ceil(firstVisibleIndex / queryPageSize)
+        const nextPage = Math.ceil(lastVisibleIndex / queryPageSize)
         this.fetchEntityPage(this.props, nextPage)
       }
     }

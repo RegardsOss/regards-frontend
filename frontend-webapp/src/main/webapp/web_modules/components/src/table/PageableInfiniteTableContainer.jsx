@@ -120,6 +120,7 @@ export class PageableInfiniteTableContainer extends React.Component {
     const tableProps = {
       ...omit(newProps, PageableInfiniteTableContainer.PROPS_TO_OMIT),
       entitiesCount: get(newProps.pageMetadata, 'totalElements', 0),
+      entitiesPageIndex: get(newProps.pageMetadata, 'number', 0),
     }
     this.setState({ tableProps })
   }
