@@ -16,28 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { OrderClient } from '@regardsoss/client'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { createOrderActions } from './client/CreateOrderClient'
-
-/**
- * Module hateoas depencies
- * @author Raphaël Mechali
- */
-
-const orderBasketActions = new OrderClient.OrderBasketActions()
 
 /**
  * Mandatory Dependencies to display module in user interface
  * @type {Array}
  */
 const user = [
-  // dependencies to show and manage basket
-  ...orderBasketActions.getDependencies(RequestVerbEnum.GET),
-  ...orderBasketActions.getDependencies(RequestVerbEnum.POST),
-  ...orderBasketActions.getDependencies(RequestVerbEnum.DELETE),
-  // dependency to handle start order
-  createOrderActions.getDependency(RequestVerbEnum.POST),
+  // do not export module dependencies (they will be controlled internally to show appropriate messages)
 ]
 
 /**

@@ -58,8 +58,6 @@ export class IngestProcessingChainFormComponent extends React.Component {
     super(props)
     this.state = {
       isCreating: props.processingChain === undefined,
-      popoverOpen: false,
-      tempGroups: [],
     }
   }
 
@@ -68,7 +66,9 @@ export class IngestProcessingChainFormComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    this.props.initialize(this.props.processingChain)
+    if (this.props.processingChain) {
+      this.props.initialize(this.props.processingChain)
+    }
   }
 
   render() {

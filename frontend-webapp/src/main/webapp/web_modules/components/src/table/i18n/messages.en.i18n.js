@@ -35,6 +35,7 @@ const messages = {
   'table.column.visibility.filter.cancel': 'Cancel',
   'table.column.visibility.filter.confirm': 'Confirm',
   'table.loading.message': 'Loading content',
+  'table.delete.option.tooltip': 'Delete this element',
 }
 
 export default messages

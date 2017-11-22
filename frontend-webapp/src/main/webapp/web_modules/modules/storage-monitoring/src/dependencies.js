@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { storagePluginsActions } from './clients/StoragePluginsClient'
 
 /**
  * Module hateoas depencies
@@ -28,7 +26,7 @@ import { storagePluginsActions } from './clients/StoragePluginsClient'
  * @type {Array}
  */
 const user = [
-  storagePluginsActions.getDependency(RequestVerbEnum.GET_LIST),
+  // none: displayed directly by the module to show appropriate messages
 ]
 
 /**

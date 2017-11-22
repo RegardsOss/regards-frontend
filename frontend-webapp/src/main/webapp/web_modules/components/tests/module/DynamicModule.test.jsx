@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import DynamicModule from '../../src/module/DynamicModule'
+import { DynamicModule } from '../../src/module/DynamicModule'
 import styles from '../../src/module/styles/styles'
 
 const context = buildTestContext(styles)
@@ -41,11 +41,13 @@ describe('[Components] Testing DynamicModule', () => {
       options: [<div key="an.option">An option </div>],
       onExpandChange: () => { },
       expanded: true,
+      isAuthenticated: true,
     }
     shallow((
       <DynamicModule {...props} >
         <div>Some content</div>
       </DynamicModule>
     ), { context })
+    // TODO-V2 please add LOADS OF TESTS (when time)
   })
 })

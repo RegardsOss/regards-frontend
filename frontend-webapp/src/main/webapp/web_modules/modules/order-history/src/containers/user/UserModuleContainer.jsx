@@ -17,18 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import OrderHistoryComponent from '../../components/user/OrderHistoryComponent'
+import orderClient from '../../client/OrderListClient'
+
 
 /**
-* User module container
-* @author Raphaël Mechali
-*/
+ * User module container
+ * @author Raphaël Mechali
+ */
 export default class UserModuleContainer extends React.Component {
 
   static propTypes = {
-    // TODO client to pull history for user or all users
-    showUserName: PropTypes.bool.isRequired,
-    // from mapStateToProps
-    // from mapDispatchToProps
+    description: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -55,8 +54,12 @@ export default class UserModuleContainer extends React.Component {
 
   render() {
     const { expanded } = this.state
+    const { description } = this.props
     return (
       <OrderHistoryComponent
+        commandsActions={orderClient.orderListActions}
+        commandsSelectors={orderClient.orderListSelectors}
+        title={description}
         expanded={expanded}
         onExpandChange={this.onExpandChange}
       />

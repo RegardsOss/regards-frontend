@@ -82,6 +82,9 @@ function buildSimplePresentationModel(configuration, attributesModel, enableSort
   // 1 - retrieve the attribute model
   const attributeFullQualifiedName = configuration.attributeFullQualifiedName
   const attributeModel = getAttributeConfigurationByName(attributeFullQualifiedName, attributesModel)
+  if (!attributeModel) {
+    return null
+  }
   // 2 - bundle as presentation model
   return {
     key: attributeFullQualifiedName, // key can also be used to retrieve the attribute (helps for sorting / controlling visibility)

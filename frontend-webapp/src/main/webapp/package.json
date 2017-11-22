@@ -50,6 +50,7 @@
     "@regardsoss-modules/menu": "0.0.1",
     "@regardsoss-modules/news": "0.0.1",
     "@regardsoss-modules/order-cart": "0.0.1",
+    "@regardsoss/order-common": "0.0.1",
     "@regardsoss-modules/order-history": "0.0.1",
     "@regardsoss-modules/project-about-page": "0.0.1",
     "@regardsoss-modules/projects-list": "0.0.1",

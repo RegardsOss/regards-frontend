@@ -18,6 +18,7 @@
  **/
 import ModuleIcon from 'material-ui/svg-icons/notification/folder-special'
 import moduleContainer from './containers/user/UserModuleContainer'
+import reducer from './reducer'
 import styles from './styles/styles'
 import messages from './i18n'
 import dependencies from './dependencies'
@@ -28,6 +29,7 @@ import dependencies from './dependencies'
  */
 module.exports = {
   moduleContainer,
+  reducer,
   styles,
   messages,
   ModuleIcon,

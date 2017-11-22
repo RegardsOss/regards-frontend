@@ -37,7 +37,7 @@ import EntityDescriptionContainer from '../../../containers/user/results/options
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
 import EmptyTableComponent from './EmptyTableComponent'
 
-const RESULTS_PAGE_SIZE = 150
+const RESULTS_PAGE_SIZE = 500
 
 /**
  * React component to manage search requests and display results. It handles locally the columns visible state, considered

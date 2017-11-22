@@ -24,6 +24,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DynamicModule, ModuleTitle, NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { dependencies } from '../../user-dependencies'
 import OrderComponent from './options/OrderComponent'
 import ClearCartComponent from './options/ClearCartComponent'
 import OrderCartTableComponent from './OrderCartTableComponent'
@@ -81,6 +82,8 @@ class OrderCartComponent extends React.Component {
         onExpandChange={onExpandChange}
         expanded={expanded}
         options={this.renderOptions(isNoContent)}
+        requiresAuthentication
+        requiredDependencies={dependencies}
       >
         <div>
           {/* 2.a - Empty basket display */}

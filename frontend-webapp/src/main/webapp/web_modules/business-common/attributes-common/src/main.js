@@ -18,12 +18,17 @@
  **/
 import AttributeColumnBuilder from './columns/AttributeColumnBuilder'
 import MainAttributesConfigurationComponent from './configuration/MainAttributesConfigurationComponent'
-import getTypeRender from './render/AttributesTypeToRender'
+import { buildPropertyCellRender, buildRenderDelegate, buildSinglePropertyCellRender, getTypeRender, TYPES_ENUM } from './render/AttributesTypeToRender'
 
 module.exports = {
   // configuration component
   MainAttributesConfigurationComponent,
   // render get method for given type
+  buildPropertyCellRender,
+  buildRenderDelegate,
+  buildSinglePropertyCellRender,
   getTypeRender,
+  TYPES_ENUM,
+
   AttributeColumnBuilder,
 }

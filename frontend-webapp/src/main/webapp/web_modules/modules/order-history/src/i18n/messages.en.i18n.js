@@ -24,7 +24,6 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   ...Locales.en,
-  // empty so far
 }
 
 export default messages

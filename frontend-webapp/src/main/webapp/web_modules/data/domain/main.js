@@ -16,18 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessDomain from './access/index'
-import AdminDomain from './admin/index'
-import CatalogDomain from './catalog/index'
-import CommonDomain from './common/index'
-import DamDomain from './dam/index'
-import ArchivalStorageDomain from './archival-storage/index'
+import AccessDomain from './access'
+import AdminDomain from './admin'
+import ArchivalStorageDomain from './archival-storage'
+import CatalogDomain from './catalog'
+import CommonDomain from './common'
+import DamDomain from './dam'
+import OrderDomain from './order'
 
 module.exports = {
   AccessDomain,
   AdminDomain,
+  ArchivalStorageDomain,
   CatalogDomain,
   CommonDomain,
   DamDomain,
-  ArchivalStorageDomain,
+  OrderDomain,
 }

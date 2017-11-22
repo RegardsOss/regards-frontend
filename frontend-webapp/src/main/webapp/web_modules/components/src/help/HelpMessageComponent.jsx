@@ -21,7 +21,7 @@ import Info from 'material-ui/svg-icons/action/lightbulb-outline'
 
 export default class HelpMessageComponent extends React.Component {
   static propTypes = {
-    message: PropTypes.string.isRequired,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   }
   static styleContainer = { display: 'flex', alignItems: 'center' }
   static styleIcon = { width: '24px', height: '24px', marginRight: '10px' }

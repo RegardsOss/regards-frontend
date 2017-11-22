@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { searchDatasetsActions, searchDataobjectsActions } from './clients/SearchEntitiesClient'
 import { AttributeModelActions } from './clients/AttributeModelClient'
 
 /**
@@ -25,8 +24,7 @@ import { AttributeModelActions } from './clients/AttributeModelClient'
  * @author Sébastien binda
  */
 const user = [
-  searchDatasetsActions.getDependency(RequestVerbEnum.GET_LIST),
-  searchDataobjectsActions.getDependency(RequestVerbEnum.GET_LIST),
+  // none: displayed directly by the module to show appropriate messages
 ]
 
 /**

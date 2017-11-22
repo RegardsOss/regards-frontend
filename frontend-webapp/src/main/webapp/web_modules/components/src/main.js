@@ -86,7 +86,6 @@ import InfiniteTableContainer from './table/InfiniteTableContainer'
 import getTableReducer from './table/model/TableReducer'
 import getTableSelectors from './table/model/TableSelectors'
 import PageableInfiniteTableContainer from './table/PageableInfiniteTableContainer'
-import PropertiesRenderCell from './table/content/cells/PropertiesRenderCell'
 import TableActions from './table/model/TableActions'
 import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
 import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
@@ -100,6 +99,7 @@ import TableHeaderOptionGroup from './table/header/TableHeaderOptionGroup'
 import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSeparator'
 import TableHeaderText from './table/header/TableHeaderText'
 import TableLayout from './table/TableLayout'
+import TableDeleteOption from './table/content/cells/options/TableDeleteOption'
 import TableSelectAllOption from './table/options/TableSelectAllOption'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import { TableSortOrders } from './table/model/TableSortOrders'
@@ -167,7 +167,6 @@ export {
   getTableReducer,
   getTableSelectors,
   PageableInfiniteTableContainer,
-  PropertiesRenderCell,
   TableActions,
   TableColumnBuilder,
   TableColumnConfiguration,
@@ -181,6 +180,7 @@ export {
   TableHeaderOptionsSeparator,
   TableHeaderText,
   TableLayout,
+  TableDeleteOption,
   TableSelectAllOption,
   TableSelectionModes,
   TableSortOrders,

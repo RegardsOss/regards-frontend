@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import SortableColumnHeaderCell from './SortableColumnHeaderCell'
 import SimpleTitleColumnHeaderCell from './SimpleTitleColumnHeaderCell'
 import CheckboxColumnHeaderCell from './CheckboxColumnHeaderCell'
-import PropertiesRenderCell from '../cells/PropertiesRenderCell'
+import ValuesRenderCell from '../cells/ValuesRenderCell'
 import OptionsCell from '../cells/OptionsCell'
 import CheckBoxCell from '../cells/CheckBoxCell'
 
@@ -126,17 +127,36 @@ function buildTitleColumnHeader(key, label) {
 }
 
 /**
- * Build properties render
+ * Closure constructor for get property at path on entity
+ * @param {*} path path
+ * @return {function} closure like entity => value
+ */
+function extractPropertyClosure(path) {
+  return entity => get(entity, path)
+}
+
+/**
+ * Builds a values render cell
+ * @param {[getValue, RenderConstructor]} values list of values extractators and (optional) matching render
+ * @return cell definition for values render cell
+ */
+function buildValuesRenderCell(values) {
+  return {
+    Constructor: ValuesRenderCell, // cell for attribute paths
+    props: { values },
+  }
+}
+
+/**
+ * Build properties render (a specifc case of values render)
  * @param [{path: {string}, RenderConstructor: {function}}] propertyDefinitions: list of properties path and corresponding render (optional,
  * default to simple string property when not provided)
  */
 function buildPropertiesRenderCell(properties) {
-  return {
-    Constructor: PropertiesRenderCell, // cell for attribute paths
-    props: {
-      properties,
-    },
-  }
+  return buildValuesRenderCell(properties.map(({ path, RenderConstructor }) => ({
+    getValue: extractPropertyClosure(path),
+    RenderConstructor,
+  })))
 }
 
 /**
@@ -201,5 +221,6 @@ module.exports = {
   buildSimplePropertyColumn,
   buildSortableColumnHeader,
   buildTitleColumnHeader,
+  buildValuesRenderCell,
 }
 

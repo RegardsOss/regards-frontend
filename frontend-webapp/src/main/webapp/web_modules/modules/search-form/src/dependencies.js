@@ -27,8 +27,7 @@ import AttributeModelClient from './clients/AttributeModelClient'
  * @author Sébastien binda
  */
 const user = [
-  AttributeModelClient.AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  uiPluginDefinitionActions.getDependency(RequestVerbEnum.GET_LIST),
+  // none: displayed directly by the module to show appropriate messages
 ]
 /**
  * Dependencies needed to display admin page of the module
