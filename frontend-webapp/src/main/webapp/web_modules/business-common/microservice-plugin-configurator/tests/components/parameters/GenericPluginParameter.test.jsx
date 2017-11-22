@@ -19,11 +19,11 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import GenericPluginParameter from '../../src/components/parameters/GenericPluginParameter'
-import PluginParameterString from '../../src/components/parameters/PluginParameterString'
-import PluginParameterNumber from '../../src/components/parameters/PluginParameterNumber'
-import PluginParameterBoolean from '../../src/components/parameters/PluginParameterBoolean'
-import PluginParameterPlugin from '../../src/components/parameters/PluginParameterPlugin'
+import GenericPluginParameter from '../../../src/components/parameters/GenericPluginParameter'
+import PluginParameterString from '../../../src/components/parameters/PluginParameterString'
+import PluginParameterNumber from '../../../src/components/parameters/PluginParameterNumber'
+import PluginParameterBoolean from '../../../src/components/parameters/PluginParameterBoolean'
+import PluginParameterPlugin from '../../../src/components/parameters/PluginParameterPlugin'
 
 /**
  * Plugin tests

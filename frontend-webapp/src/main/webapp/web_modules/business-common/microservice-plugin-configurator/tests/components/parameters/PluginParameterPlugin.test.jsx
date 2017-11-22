@@ -24,7 +24,7 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconMenu from 'material-ui/IconMenu'
 import { Field } from '@regardsoss/form-utils'
-import { PluginParameterPlugin } from '../../src/components/parameters/PluginParameterPlugin'
+import { PluginParameterPlugin } from '../../../src/components/parameters/PluginParameterPlugin'
 
 const options = {
   context: buildTestContext(),

@@ -140,7 +140,7 @@ export class PluginConfigurationComponent extends React.Component {
         // In copy mode remove id of each pluginParameters
         if (initialValues.parameters && initialValues.parameters.length > 0) {
           forEach(initialValues.parameters, (parameter, key) => {
-            initialValues.parameters[key].id = undefined
+            delete initialValues.parameters[key].id
           })
         }
         break
@@ -211,7 +211,7 @@ export class PluginConfigurationComponent extends React.Component {
   }
 
   renderGlobalConf = (styles) => {
-    const { hideGlobalParameterConf, pluginConfiguration, displayTitle } = this.props
+    const { hideGlobalParameterConf, pluginConfiguration } = this.props
 
     if (hideGlobalParameterConf) {
       return null
@@ -222,9 +222,7 @@ export class PluginConfigurationComponent extends React.Component {
       this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.create.title' })
     return (
       <Card>
-        {displayTitle ?
-          <CardTitle title={title} /> : null
-        }
+        <CardTitle title={title} />
         <CardText>
           <div>
             {this.renderIcon()}
@@ -297,43 +295,52 @@ export class PluginConfigurationComponent extends React.Component {
     )
   }
 
-  render() {
-    const { displayTitle, pluginMetaData, pluginConfiguration, reduxFormChange, formMode } = this.props
-
-    const styles = moduleStyles(this.context.muiTheme)
-
+  renderParameters = () => {
+    const { pluginMetaData, pluginConfiguration, reduxFormChange, formMode } = this.props
     const parameters = get(pluginMetaData, 'parameters', [])
-
     if (parameters.length === 0) {
       return null
     }
+    return (<CardText>
+      {parameters.map((pluginParameterType, index) => (
+        <GenericPluginParameter
+          key={pluginParameterType.name}
+          fieldKey={this.getFormFieldName(`parameters.${index}`)}
+          microserviceName={this.props.microserviceName}
+          reduxFormfieldNamePrefix={this.props.reduxFormfieldNamePrefix}
+          pluginParameterType={pluginParameterType}
+          pluginParameter={!this.isCreating() ?
+            PluginUtils.mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration)
+            : PluginUtils.mapPluginParameterTypeToPluginParameter(pluginParameterType, null)
+          }
+          pluginMetaData={pluginMetaData}
+          change={reduxFormChange}
+          mode={formMode}
+        />))}
+    </CardText>
+    )
+  }
+
+  renderTitle = () => {
+    if (!this.props.displayTitle) {
+      return null
+    }
+    return (
+      <CardTitle
+        title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.list.title' })}
+      />
+    )
+  }
+
+  render() {
+    const styles = moduleStyles(this.context.muiTheme)
 
     return (
       <div>
         {this.renderGlobalConf(styles)}
         <Card style={styles.pluginConfiguration.form.section}>
-          {displayTitle ?
-            <CardTitle
-              title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.parameter.list.title' })}
-            /> : null
-          }
-          <CardText>
-            {parameters.map((pluginParameterType, index) => (
-              <GenericPluginParameter
-                key={pluginParameterType.name}
-                fieldKey={this.getFormFieldName(`parameters.${index}`)}
-                microserviceName={this.props.microserviceName}
-                reduxFormfieldNamePrefix={this.props.reduxFormfieldNamePrefix}
-                pluginParameterType={pluginParameterType}
-                pluginParameter={!this.isCreating() ?
-                  PluginUtils.mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration)
-                  : PluginUtils.mapPluginParameterTypeToPluginParameter(pluginParameterType, null)
-                }
-                pluginMetaData={pluginMetaData}
-                change={reduxFormChange}
-                mode={formMode}
-              />))}
-          </CardText>
+          {this.renderTitle()}
+          {this.renderParameters()}
         </Card>
       </div>
     )

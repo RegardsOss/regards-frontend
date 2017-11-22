@@ -19,43 +19,43 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
+import { ListItem } from 'material-ui/List'
 import { Field } from '@regardsoss/form-utils'
-import PluginParameterNumber from '../../src/components/parameters/PluginParameterNumber'
-
-const options = {
-  context: buildTestContext(),
-}
+import PluginParameterBoolean from '../../../src/components/parameters/PluginParameterBoolean'
 
 /**
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[COMMON PLUGIN CONFIGURATOR] Testing plugin parameter number component', () => {
+const context = buildTestContext()
+
+describe('[COMMON PLUGIN CONFIGURATOR] Testing plugin parameter boolean component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(PluginParameterNumber)
+    assert.isDefined(PluginParameterBoolean)
     assert.isDefined(Field)
+    assert.isDefined(ListItem)
   })
 
-  it('should render a Field ', () => {
+  it('should render a Field', () => {
     const props = {
       microserviceName: STATIC_CONF.MSERVICES.DAM,
       pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
-        name: 'height',
-        value: '179',
+        name: 'isActive',
+        value: 'false',
         dynamic: false,
       },
       pluginParameterType: {
-        name: 'height',
-        type: 'java.lang.Integer',
+        name: 'isActive',
+        type: 'java.lang.Boolean',
         paramType: 'PRIMITIVE',
       },
     }
-    const enzymeWrapper = shallow(<PluginParameterNumber {...props} />, options)
+    const enzymeWrapper = shallow(<PluginParameterBoolean {...props} />, { context })
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(1)
   })

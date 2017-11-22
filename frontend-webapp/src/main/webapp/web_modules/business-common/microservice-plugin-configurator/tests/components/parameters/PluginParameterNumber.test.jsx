@@ -18,9 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
-import Chip from 'material-ui/Chip'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import PluginParameterDynamic from '../../src/components/parameters/PluginParameterDynamic'
+import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
+import { Field } from '@regardsoss/form-utils'
+import PluginParameterNumber from '../../../src/components/parameters/PluginParameterNumber'
 
 const options = {
   context: buildTestContext(),
@@ -30,52 +30,33 @@ const options = {
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
-describe('[COMMON PLUGIN CONFIGURATOR] Testing plugin parameter dynamic component', () => {
+describe('[COMMON PLUGIN CONFIGURATOR] Testing plugin parameter number component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(PluginParameterDynamic)
-    assert.isDefined(Chip)
+    assert.isDefined(PluginParameterNumber)
+    assert.isDefined(Field)
   })
 
-  it('should render a Chip', () => {
+  it('should render a Field ', () => {
     const props = {
       microserviceName: STATIC_CONF.MSERVICES.DAM,
-      pluginConfiguration: {
-        content: {
-          id: 2,
-          label: 'Random configuration',
-          version: '0.0.1',
-          priorityOrder: 1,
-          active: false,
-          pluginClassName: 'Kerberos',
-        },
-      },
+      pluginMetaData: DumpProvider.getFirstEntity('CommonClient', 'PluginMetaData'),
       pluginParameter: {
         id: 0,
-        name: 'suffix',
-        value: 'dynavalue0',
-        dynamic: true,
-        dynamicsValues: [
-          {
-            value: 'dynavalue0',
-          },
-          {
-            value: 'dynavalue1',
-          },
-        ],
+        name: 'height',
+        value: '179',
+        dynamic: false,
       },
       pluginParameterType: {
-        name: 'suffix',
-        type: 'java.lang.String',
+        name: 'height',
+        type: 'java.lang.Integer',
         paramType: 'PRIMITIVE',
-        optional: true,
-        defaultValue: 'default',
       },
     }
-    const enzymeWrapper = shallow(<PluginParameterDynamic {...props} />, options)
-    const subComponent = enzymeWrapper.find(Chip)
-    expect(subComponent).to.have.length(2)
+    const enzymeWrapper = shallow(<PluginParameterNumber {...props} />, options)
+    const subComponent = enzymeWrapper.find(Field)
+    expect(subComponent).to.have.length(1)
   })
 })

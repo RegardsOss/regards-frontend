@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
-import PluginParameterString from '../../src/components/parameters/PluginParameterString'
+import PluginParameterString from '../../../src/components/parameters/PluginParameterString'
 
 const options = {
   context: buildTestContext(),
