@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
+import get from 'lodash/get'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { PageableInfiniteTableContainer, NoContentMessageInfo, TableColumnBuilder, TableLayout } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableColumnBuilder, TableLayout } from '@regardsoss/components'
 import { buildSinglePropertyCellRender, TYPES_ENUM } from '@regardsoss/attributes-common'
 import NoOrderComponent from './NoOrderComponent'
 
@@ -31,7 +31,6 @@ import NoOrderComponent from './NoOrderComponent'
 class OrderListComponent extends React.Component {
 
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
     commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // from mapStateToProps
@@ -46,6 +45,15 @@ class OrderListComponent extends React.Component {
   /** No data component (avoids re-rendering it) */
   static EMPTY_COMPONENT = <NoOrderComponent />
 
+  /**
+   * Counts an order command
+   * @param {*} order order
+   * @return count for order
+   */
+  static getObjectsCount(order) {
+    return get(order, 'content.datasetTasks', []).reduce((sum, task) => sum + get(task, 'objectsCount'), 0)
+  }
+
   buildColumns = () => {
     const { } = this.props // TODO use later
     const { intl: { formatMessage } } = this.context
@@ -56,8 +64,10 @@ class OrderListComponent extends React.Component {
       // expiration date
       TableColumnBuilder.buildSimpleColumnWithCell('expiration.date', formatMessage({ id: 'order.list.column.expiration.date' }),
         buildSinglePropertyCellRender('content.expirationDate', TYPES_ENUM.DATE_ISO8601)),
-      // TODO demain ===> cellule sur mesure pour le compte d'objets des datasets
-      TableColumnBuilder.buildSimplePropertyColumn('objects.count', formatMessage({ id: 'order.list.column.object.count' }), 'content.objectsCount'),
+      // objects count (as extracted, using getObjectCount)
+      // TODO
+      // TableColumnBuilder.buildSimpleColumnWithCell('objects.count', formatMessage({ id: 'order.list.column.object.count' }),
+      //   TableColumnBuilder.buildValuesRenderCell([OrderListComponent.getObjectsCount])),
       // order.list.column.files.count
       // order.list.column.errors.count
       // order.list.column.files.size
@@ -68,29 +78,19 @@ class OrderListComponent extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, commandsActions, commandsSelectors, totalOrderCount } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { commandsActions, commandsSelectors, totalOrderCount } = this.props
     const columns = this.buildColumns()
     return (
-      // Show non authentified pane if user is not authentified
-      <NoContentMessageInfo
-        noContent={!isAuthenticated}
-        title={formatMessage({ id: 'not.logged.information.title' })}
-        message={formatMessage({ id: 'not.logged.information.message' })}
-        Icon={NotLoggedIcon}
-      >
-        {/* Table with commands */}
-        <TableLayout >
-          {/* Table header - TODO */}
-          <PageableInfiniteTableContainer
-            // infinite table configuration
-            pageActions={commandsActions}
-            pageSelectors={commandsSelectors}
-            columns={columns}
-            emptyComponent={OrderListComponent.EMPTY_COMPONENT}
-          />
-        </TableLayout>
-      </NoContentMessageInfo>
+      <TableLayout>
+        {/* Table header - TODO */}
+        <PageableInfiniteTableContainer
+          // infinite table configuration
+          pageActions={commandsActions}
+          pageSelectors={commandsSelectors}
+          columns={columns}
+          emptyComponent={OrderListComponent.EMPTY_COMPONENT}
+        />
+      </TableLayout>
     )
   }
 }

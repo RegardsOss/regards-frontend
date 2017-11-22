@@ -19,7 +19,6 @@
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import OrderListComponent from '../components/OrderListComponent'
@@ -42,7 +41,6 @@ export class OrderListContainer extends React.Component {
    */
   static mapStateToProps(state, { commandsSelectors }) {
     return {
-      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
       totalOrderCount: commandsSelectors.getResultsCount(state),
     }
   }
@@ -63,18 +61,17 @@ export class OrderListContainer extends React.Component {
     commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // from mapStateToProps
-    isAuthenticated: PropTypes.bool.isRequired,
+
     totalOrderCount: PropTypes.number.isRequired,
     // from mapDispatchToProps
     // TODO
   }
 
   render() {
-    const { isAuthenticated, commandsActions, commandsSelectors, totalOrderCount } = this.props
+    const { commandsActions, commandsSelectors, totalOrderCount } = this.props
     // TODO swap component according with context!
     return (
       <OrderListComponent
-        isAuthenticated={isAuthenticated}
         totalOrderCount={totalOrderCount}
         commandsActions={commandsActions}
         commandsSelectors={commandsSelectors}

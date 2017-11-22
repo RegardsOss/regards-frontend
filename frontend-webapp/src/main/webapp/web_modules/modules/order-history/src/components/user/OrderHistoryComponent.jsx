@@ -20,6 +20,7 @@ import ModuleIcon from 'material-ui/svg-icons/notification/folder-special'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { DynamicModule, ModuleTitle } from '@regardsoss/components'
 import { OrderListContainer } from '@regardsoss/order-common'
+import { dependencies } from '../../user-dependencies'
 
 /**
  * Order history - main module component
@@ -37,12 +38,15 @@ class OrderHistoryComponent extends React.Component {
   }
 
   render() {
+    //OrderListClient.orderListActions.getDependency(RequestVerbEnum.GET_LIST)
     const { commandsActions, commandsSelectors, title, onExpandChange, expanded } = this.props
     return (
       <DynamicModule
         title={<ModuleTitle IconConstructor={ModuleIcon} text={title} />}
         onExpandChange={onExpandChange}
         expanded={expanded}
+        requiresAuthentication
+        requiredDependencies={dependencies}
       >
         <OrderListContainer
           commandsActions={commandsActions}

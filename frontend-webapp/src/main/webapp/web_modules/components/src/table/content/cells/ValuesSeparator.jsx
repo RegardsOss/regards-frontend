@@ -16,25 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { dependencies as resultsDependencies } from '@regardsoss-modules/search-results'
-import CollectionModelActions from './model/CollectionModelActions'
-import { AttributeModelActions } from './clients/AttributeModelClient'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Module hateoas depencies
+ * Properties values separator in multiple values render by cell
+ * @author Raphaël Mechali
  */
-const user = [
-  // none: displayed directly by the module to show appropriate messages
-]
+class ValuesSeparator extends React.Component {
 
-const admin = [
-  CollectionModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  ...resultsDependencies.admin,
-]
+  static contextTypes = {
+    ...themeContextType,
+  }
 
-export default {
-  user,
-  admin,
+  render() {
+    const { moduleTheme: { multipleCellValuesSeparator } } = this.context
+    return (
+      <div style={multipleCellValuesSeparator} />
+    )
+  }
 }
+export default ValuesSeparator

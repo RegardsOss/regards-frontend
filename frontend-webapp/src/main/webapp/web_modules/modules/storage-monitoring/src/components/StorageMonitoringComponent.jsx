@@ -26,6 +26,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DynamicModule, ModuleTitle } from '@regardsoss/components'
+import { dependencies } from '../user-dependencies'
 import StoragePluginContainer from '../containers/StoragePluginContainer'
 import ScaleSelectorComponent from './ScaleSelectorComponent'
 
@@ -76,6 +77,7 @@ class StorageMonitoringComponent extends React.Component {
         onExpandChange={onExpandChange}
         expanded={expanded}
         options={this.renderOptions()}
+        requiredDependencies={dependencies}
       >
         <LoadableContentDisplayDecorator
           isLoading={isFetching}

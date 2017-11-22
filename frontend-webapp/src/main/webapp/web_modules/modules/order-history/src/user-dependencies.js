@@ -16,23 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import OrderListClient from './client/OrderListClient'
+
 
 /**
- * Properties values separator in multiple values render by cell
+ * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
  * @author Raphaël Mechali
  */
-class PropertiesValuesSeparator extends React.Component {
-
-  static contextTypes = {
-    ...themeContextType,
-  }
-
-  render() {
-    const { moduleTheme: { multipleCellValuesSeparator } } = this.context
-    return (
-      <div style={multipleCellValuesSeparator} />
-    )
-  }
-}
-export default PropertiesValuesSeparator
+export const dependencies = [
+  OrderListClient.orderListActions.getDependency(RequestVerbEnum.GET_LIST),
+]

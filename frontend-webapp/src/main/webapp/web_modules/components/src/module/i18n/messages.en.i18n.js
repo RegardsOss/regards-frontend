@@ -16,25 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { dependencies as resultsDependencies } from '@regardsoss-modules/search-results'
-import CollectionModelActions from './model/CollectionModelActions'
-import { AttributeModelActions } from './clients/AttributeModelClient'
 
-/**
- * Module hateoas depencies
- */
-const user = [
-  // none: displayed directly by the module to show appropriate messages
-]
-
-const admin = [
-  CollectionModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  ...resultsDependencies.admin,
-]
-
-export default {
-  user,
-  admin,
+const messages = {
+  'dynamic.module.not.authenticated.title': 'Unknown user',
+  'dynamic.module.not.authenticated.message': 'Please log in to access this page',
+  'dynamic.module.unsufficient.rights.title': 'Unsufficient rights',
+  'dynamic.module.unsufficient.rights.message': 'Your user account has not enough rights to access this page',
 }
+
+export default messages
