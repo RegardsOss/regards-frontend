@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import StringValueRender from '../../../values/StringValueRender'
 import SortableColumnHeaderCell from './SortableColumnHeaderCell'
 import SimpleTitleColumnHeaderCell from './SimpleTitleColumnHeaderCell'
 import CheckboxColumnHeaderCell from './CheckboxColumnHeaderCell'
@@ -143,7 +144,10 @@ function extractPropertyClosure(path) {
 function buildValuesRenderCell(values) {
   return {
     Constructor: ValuesRenderCell, // cell for attribute paths
-    props: { values },
+    props: {
+      // ensure default renderer
+      values: values.map(({ getValue, RenderConstructor = StringValueRender }) => ({ getValue, RenderConstructor })),
+    },
   }
 }
 
@@ -192,21 +196,23 @@ function buildOptionsColumn(label, optionsDefinitions, visible, fixedWidth, key 
  * @return packed column model
  */
 function buildSimpleColumnWithCell(key, label, rowCellDefinition, order, visible, fixedWidth) {
-  return buildColumn(key, label, buildTitleColumnHeader(key, label), rowCellDefinition, order, visible, fixedWidth)
+  return buildColumn(key, label, buildTitleColumnHeader(key, label), rowCellDefinition, visible, order, fixedWidth)
 }
 
 /**
- * Shortcut for the very common use case: simple sortable column with title and single property in cells
+ * Shortcut for the very common use case: simple sortable column with title and single property in cells (every
+ * parameter after propertyPath is optional)
  * @param {string} key key
  * @param {string} label label
  * @param {string} propertyPath property path in row entity
  * @param {number} order (optional) column order (column without order go at index 1000)
  * @param {boolean} visible (optional) is column visible
+ * @param {class} RenderConstructor render construtor (optional, defaults to string render)
  * @param {number} fixedWidth (required) fixed width when column should not grow / shrink with width, undefined otherwise
  * @return packed column model
  */
-function buildSimplePropertyColumn(key, label, propertyPath, order, visible, fixedWidth) {
-  return buildSimpleColumnWithCell(key, label, buildPropertiesRenderCell([{ path: propertyPath }]),
+function buildSimplePropertyColumn(key, label, propertyPath, order, visible, RenderConstructor, fixedWidth) {
+  return buildSimpleColumnWithCell(key, label, buildPropertiesRenderCell([{ path: propertyPath, RenderConstructor }]),
     order, visible, fixedWidth)
 }
 

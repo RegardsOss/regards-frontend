@@ -19,31 +19,31 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { DateArrayAttributeRender } from '../../src/render/DateArrayAttributeRender'
-import styles from '../../src/styles'
+import { DateArrayValueRender } from '../../src/values/DateArrayValueRender'
+import styles from '../../src/values/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Tests for AttributeConfigurationComponent
+ * Tests for ValueConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing DateArrayAttributeRender', () => {
+describe('[COMPONENTS] Testing DateArrayValueRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DateArrayAttributeRender)
+    assert.isDefined(DateArrayValueRender)
   })
 
   it('Should render no data from undefined or empty arrays', () => {
     // empty array
     const props = { value: [] }
-    let wrapper = shallow(<DateArrayAttributeRender {...props} />, { context })
-    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Empty array should be rendered as no data')
+    let wrapper = shallow(<DateArrayValueRender {...props} />, { context })
+    assert.include(wrapper.text(), 'value.render.no.value.label', 'Empty array should be rendered as no data')
     // undefined
-    wrapper = shallow(<DateArrayAttributeRender />, { context })
-    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined/null should be rendered as no data')
+    wrapper = shallow(<DateArrayValueRender />, { context })
+    assert.include(wrapper.text(), 'value.render.no.value.label', 'Undefined/null should be rendered as no data')
   })
 
   it('Should render an array of date', () => {
@@ -54,15 +54,15 @@ describe('[ATTRIBUTES COMMON] Testing DateArrayAttributeRender', () => {
         '2017-01-09T12:00:00',
       ],
     }
-    const wrapper = shallow(<DateArrayAttributeRender {...props} />, { context })
+    const wrapper = shallow(<DateArrayValueRender {...props} />, { context })
     // when three dates are correctly rendered, there must be two separators and 0 no data text
     const asText = wrapper.text()
-    assert.notInclude(asText, 'attribute.render.no.value.label', 'There should be 0 no data text')
+    assert.notInclude(asText, 'value.render.no.value.label', 'There should be 0 no data text')
 
-    const datesText = asText.split('attribute.render.array.values.separator')
+    const datesText = asText.split('value.render.array.values.separator')
     assert.lengthOf(datesText, 3, 'There should be 3 dates')
     datesText.forEach((t, index) => {
-      assert.include(t, 'attribute.render.date.value', `Date at ${index} should be internationalized`)
+      assert.include(t, 'value.render.date.value', `Date at ${index} should be internationalized`)
     })
   })
 
@@ -76,17 +76,17 @@ describe('[ATTRIBUTES COMMON] Testing DateArrayAttributeRender', () => {
         null, // No data
       ],
     }
-    const wrapper = shallow(<DateArrayAttributeRender {...props} />, { context })
+    const wrapper = shallow(<DateArrayValueRender {...props} />, { context })
 
     // when three dates are correctly rendered, there must be two separators and 0 no data text
     const asText = wrapper.text()
-    const datesText = asText.split('attribute.render.array.values.separator')
+    const datesText = asText.split('value.render.array.values.separator')
     assert.lengthOf(datesText, 5, 'There should be 5 dates')
     datesText.forEach((t, index) => {
       if ([0, 2].includes(index)) { // OK date
-        assert.include(t, 'attribute.render.date.value', `Date at ${index} should be internationalized`)
+        assert.include(t, 'value.render.date.value', `Date at ${index} should be internationalized`)
       } else { // No data
-        assert.include(t, 'attribute.render.no.value.label', `Date at ${index} should be no data`)
+        assert.include(t, 'value.render.no.value.label', `Date at ${index} should be no data`)
       }
     })
   })

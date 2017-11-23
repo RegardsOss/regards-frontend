@@ -19,8 +19,8 @@
 import compose from 'lodash/fp/compose'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import styles from '../styles'
+import messages from './i18n'
+import styles from './styles'
 
 
 /**
@@ -31,22 +31,23 @@ import styles from '../styles'
  */
 export const getFormattedRange = (intl, lower, upper) => {
   if (upper && lower) {
-    return intl.formatMessage({ id: 'attribute.render.range.full.label' }, { lower, upper })
+    return intl.formatMessage({ id: 'value.render.range.full.label' }, { lower, upper })
   } else if (upper) {
-    return intl.formatMessage({ id: 'attribute.render.range.upper.only.label' }, { upper })
+    return intl.formatMessage({ id: 'value.render.range.upper.only.label' }, { upper })
   } else if (lower) {
-    return intl.formatMessage({ id: 'attribute.render.range.lower.only.label' }, { lower })
+    return intl.formatMessage({ id: 'value.render.range.lower.only.label' }, { lower })
   }
   // undefined range
-  return intl.formatMessage({ id: 'attribute.render.no.value.label' })
+  return intl.formatMessage({ id: 'value.render.no.value.label' })
 }
 
 /**
- * Component to render ranged attributes group value
+ * Component to render ranged values group value
+ * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
-export class RangeAttributeRender extends React.Component {
+export class RangeValueRender extends React.Component {
   static propTypes = {
     value: PropTypes.shape({
       lowerBound: PropTypes.any,
@@ -63,7 +64,7 @@ export class RangeAttributeRender extends React.Component {
     const { value = {} } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
     const textValue = getFormattedRange(intl, value.lowerBound, value.upperBound) ||
-      intl.formatMessage({ id: 'attribute.render.no.value.label' })
+      intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}
@@ -72,5 +73,5 @@ export class RangeAttributeRender extends React.Component {
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(RangeAttributeRender)
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(RangeValueRender)
 

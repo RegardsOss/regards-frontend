@@ -17,20 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
+import isBoolean from 'lodash/isBoolean'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import styles from '../styles'
+import messages from './i18n'
+import styles from './styles'
 
 /**
- * Component to display string attributes group value
+ * Component to display Boolean values group value.
+ * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
-export class StringAttributeRender extends React.Component {
+export class BooleanValueRender extends React.Component {
+
   static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }
 
   static contextTypes = {
@@ -40,15 +42,19 @@ export class StringAttributeRender extends React.Component {
 
   render() {
     const { value } = this.props
-    const { intl, moduleTheme: { textRenderCell } } = this.context
-
-    const textValue = value || intl.formatMessage({ id: 'attribute.render.no.value.label' })
+    const { intl: { formatMessage }, moduleTheme: { textRenderCell } } = this.context
+    let textValue
+    if (isBoolean(value)) {
+      textValue = String(value)
+    } else {
+      textValue = value || formatMessage({ id: 'value.render.no.value.label' })
+    }
     return (
-      <div style={textRenderCell} title={textValue}>
+      <div style={textRenderCell} title={textValue} >
         {textValue}
       </div>)
   }
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(StringAttributeRender)
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(BooleanValueRender)

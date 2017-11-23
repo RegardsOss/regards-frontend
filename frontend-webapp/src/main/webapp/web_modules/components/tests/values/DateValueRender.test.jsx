@@ -19,38 +19,38 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { DateAttributeRender } from '../../src/render/DateAttributeRender'
-import styles from '../../src/styles'
-import { DateArrayAttributeRender } from '../../src/render/DateArrayAttributeRender'
+import { DateValueRender } from '../../src/values/DateValueRender'
+import styles from '../../src/values/styles'
+import { DateArrayValueRender } from '../../src/values/DateArrayValueRender'
 
 const context = buildTestContext(styles)
 
 /**
- * Tests for AttributeConfigurationComponent
+ * Tests for ValueConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing DateAttributeRender', () => {
+describe('[COMPONENTS] Testing DateValueRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DateArrayAttributeRender)
+    assert.isDefined(DateArrayValueRender)
   })
 
   it('Should render a no data / unparsable correctly', () => {
     // undefined
-    let wrapper = shallow(<DateAttributeRender />, { context })
-    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined date should display no data text')
+    let wrapper = shallow(<DateValueRender />, { context })
+    assert.include(wrapper.text(), 'value.render.no.value.label', 'Undefined date should display no data text')
     // not parsable
-    wrapper = shallow(<DateAttributeRender value="DDD" />, { context })
-    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined date should display no data text')
+    wrapper = shallow(<DateValueRender value="DDD" />, { context })
+    assert.include(wrapper.text(), 'value.render.no.value.label', 'Undefined date should display no data text')
   })
 
   it('Should internationalize a valid date', () => {
     const props = {
       value: '2017-01-07T12:00:00',
     }
-    const wrapper = shallow(<DateAttributeRender {...props} />, { context })
-    assert.include(wrapper.text(), 'attribute.render.date.value', 'There should be an empty value rendered')
+    const wrapper = shallow(<DateValueRender {...props} />, { context })
+    assert.include(wrapper.text(), 'value.render.date.value', 'There should be an empty value rendered')
   })
 })

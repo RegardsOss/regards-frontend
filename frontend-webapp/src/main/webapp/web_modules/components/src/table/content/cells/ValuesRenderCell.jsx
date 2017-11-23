@@ -23,7 +23,8 @@ import ValuesSeparator from './ValuesSeparator'
 
 /**
  * A cell to render entity values: it uses an array of values extractors to produce the visible values and an
- * optional RenderConstructor by value producer (allows to format specific values, when required)
+ * optional RenderConstructor by value producer (allows to format specific values, when required, defaults to string
+ * formatter)
  * @author Raphaël Mechali
  */
 export default class ValuesRenderCell extends React.Component {
@@ -53,7 +54,7 @@ export default class ValuesRenderCell extends React.Component {
       index > 0 ? <ValuesSeparator key={`separator.${index}`} /> : null,
       <div key={`value.${index}`} style={multipleCellValues}>
         { // render using delegate if provided
-          RenderConstructor ? <RenderConstructor value={getValue(entity)} /> : getValue(entity)
+          <RenderConstructor value={getValue(entity)} />
         }
       </div>,
     ])

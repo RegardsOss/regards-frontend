@@ -17,25 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
+import isString from 'lodash/isString'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { getFormattedDate } from './DateAttributeRender'
-import { getFormattedRange } from './RangeAttributeRender'
-import messages from '../i18n'
-import styles from '../styles'
+import messages from './i18n'
+import styles from './styles'
 
 /**
- * Component to display Date range attributes group value
+ * Component to display string values group value
+ * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
-export class DateRangeAttributeRender extends React.Component {
-
+export class StringValueRender extends React.Component {
   static propTypes = {
-    value: PropTypes.shape({
-      lowerBound: PropTypes.string,
-      upperBound: PropTypes.string,
-    }),
+    // eslint-disable-next-line react/forbid-prop-types
+    value: PropTypes.any,
   }
 
   static contextTypes = {
@@ -44,17 +41,23 @@ export class DateRangeAttributeRender extends React.Component {
   }
 
   render() {
-    const { value = {} } = this.props
+    const { value } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
 
-    const textValue = getFormattedRange(intl, getFormattedDate(intl, value.lowerBound), getFormattedDate(intl, value.upperBound)) ||
-      intl.formatMessage({ id: 'attribute.render.no.value.label' })
+    let textValue
+    if (isString(value)) { // string value
+      textValue = value
+    } else if (value) { // value to convert (defined)
+      textValue = String(value)
+    } else { // no value
+      textValue = intl.formatMessage({ id: 'value.render.no.value.label' })
+    }
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }
+
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateRangeAttributeRender)
-
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(StringValueRender)

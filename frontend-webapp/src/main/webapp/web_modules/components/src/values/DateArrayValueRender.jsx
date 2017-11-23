@@ -19,39 +19,21 @@
 import compose from 'lodash/fp/compose'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import styles from '../styles'
+import { getFormattedDate } from './DateValueRender'
+import messages from './i18n'
+import styles from './styles'
+
 
 /**
- * Formats a date using intl and date text
- * @param {formatMessage: function, formatDate: function, formatTime: function} intl intl context, with formatMessage,
- * formatDate and formatTime
- * @param dateText date text
- * @return formatted date text if valid or null if invalid
- */
-export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, dateText) => {
-  if (!dateText) {
-    return null
-  }
-  const dateWrapper = new Date(dateText)
-  if (!isNaN(dateWrapper.getDate())) {
-    return formatMessage({ id: 'attribute.render.date.value' }, {
-      date: formatDate(dateWrapper),
-      time: formatTime(dateWrapper),
-    })
-  }
-  return null
-}
-
-/**
- * Component to display Date attributes group value
+ * Component to display Date Array values group value
+ * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
-export class DateAttributeRender extends React.Component {
+export class DateArrayValueRender extends React.Component {
 
   static propTypes = {
-    value: PropTypes.string,
+    value: PropTypes.arrayOf(PropTypes.string),
   }
 
   static contextTypes = {
@@ -59,10 +41,14 @@ export class DateAttributeRender extends React.Component {
     ...themeContextType,
   }
 
+
   render() {
     const { value } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
-    const textValue = getFormattedDate(intl, value) || intl.formatMessage({ id: 'attribute.render.no.value.label' })
+    const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
+    const textValue = (value || []).map(dateText => getFormattedDate(intl, dateText) || noValueText)
+      .join(intl.formatMessage({ id: 'value.render.array.values.separator' })) || noValueText
+
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}
@@ -71,4 +57,4 @@ export class DateAttributeRender extends React.Component {
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateAttributeRender)
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateArrayValueRender)

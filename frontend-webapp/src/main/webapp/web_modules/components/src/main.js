@@ -110,6 +110,16 @@ import Title from './titles/Title'
 import TreeTableComponent from './tree-table/TreeTableComponent'
 import TreeTableRow from './tree-table/TreeTableRow'
 
+import BooleanValueRender from './values/BooleanValueRender'
+import DateArrayValueRender from './values/DateArrayValueRender'
+import DateRangeValueRender from './values/DateRangeValueRender'
+import DateValueRender from './values/DateValueRender'
+import NumberValueRender from './values/NumberValueRender'
+import RangeValueRender from './values/RangeValueRender'
+import StringArrayValueRender from './values/StringArrayValueRender'
+import StringValueRender from './values/StringValueRender'
+import URLValueRender from './values/URLValueRender'
+
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
@@ -192,4 +202,16 @@ export {
   TreeTableRow,
 
   withConfirmDialog,
+
+  // values render
+  BooleanValueRender,
+  DateArrayValueRender,
+  DateRangeValueRender,
+  DateValueRender,
+  NumberValueRender,
+  RangeValueRender,
+  StringArrayValueRender,
+  StringValueRender,
+  URLValueRender,
+
 }
