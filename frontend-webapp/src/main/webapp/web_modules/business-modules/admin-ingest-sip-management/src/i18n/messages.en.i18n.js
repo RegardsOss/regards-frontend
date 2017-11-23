@@ -68,6 +68,7 @@ const messages = Object.assign({
   'sips.session.table.headers.errors': 'Number of errors',
   'sips.session.table.headers.date': 'Date',
   'sips.session.table.headers.actions': 'Actions',
+  'sips.session.table.actions.errors': 'List associated SIPs in error',
   'sips.session.table.actions.delete': 'Delete associated SIPs',
   'sips.session.table.actions.list': 'List associated SIPs',
 

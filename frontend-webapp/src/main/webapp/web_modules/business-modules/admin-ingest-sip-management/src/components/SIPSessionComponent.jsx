@@ -22,14 +22,6 @@ import SelectField from 'material-ui/SelectField'
 import TextField from 'material-ui/TextField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table'
 import { Step, Stepper, StepButton } from 'material-ui/Stepper'
 import IconButton from 'material-ui/IconButton'
 import Delete from 'material-ui/svg-icons/action/delete'
@@ -40,6 +32,7 @@ import {
   PageableInfiniteTableContainer,
   TableLayout,
   TableColumnBuilder,
+  DateValueRender,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -110,6 +103,9 @@ class SIPSessionComponent extends React.Component {
               >
                 <IconButton
                   iconStyle={sip.session.error.iconStyle}
+                  title={intl.formatMessage({
+                    id: 'sips.session.table.actions.errors',
+                  })}
                   onTouchTap={() => this.props.handleOpen(props.entity.content.id, true)}
                 >
                   <Error />
@@ -123,6 +119,9 @@ class SIPSessionComponent extends React.Component {
         'column.date',
         intl.formatMessage({ id: 'sips.session.table.headers.date' }),
         'content.lastActivationDate',
+        undefined,
+        undefined,
+        DateValueRender,
       ),
       TableColumnBuilder.buildOptionsColumn(
         '',
