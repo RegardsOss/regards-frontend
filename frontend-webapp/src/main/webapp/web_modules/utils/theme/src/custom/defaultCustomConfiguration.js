@@ -41,6 +41,11 @@ export default {
     multipleValuesSeparatorHeight: 14,
     thumbnailPadding: 5,
   },
+  'forms-extension:validation': {
+    validColor: '#4CAF50',
+    warningColor: '#FF9800',
+    errorColor: '#f44336',
+  },
   'forms-extension:jsonField': {
     marginTop: '8px',
     padding: '24px 0 12px 0',
