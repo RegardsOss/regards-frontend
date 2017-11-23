@@ -37,7 +37,7 @@ describe('[Order History] Testing UserModuleContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
-      // TODO props
+      description: 'Some module name',
     }
     // TODO tests
     shallow(<UserModuleContainer name {...props} />, { context })

@@ -86,7 +86,6 @@ import InfiniteTableContainer from './table/InfiniteTableContainer'
 import getTableReducer from './table/model/TableReducer'
 import getTableSelectors from './table/model/TableSelectors'
 import PageableInfiniteTableContainer from './table/PageableInfiniteTableContainer'
-import PropertiesRenderCell from './table/content/cells/PropertiesRenderCell'
 import TableActions from './table/model/TableActions'
 import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
 import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
@@ -100,6 +99,7 @@ import TableHeaderOptionGroup from './table/header/TableHeaderOptionGroup'
 import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSeparator'
 import TableHeaderText from './table/header/TableHeaderText'
 import TableLayout from './table/TableLayout'
+import TableDeleteOption from './table/content/cells/options/TableDeleteOption'
 import TableSelectAllOption from './table/options/TableSelectAllOption'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import { TableSortOrders } from './table/model/TableSortOrders'
@@ -109,6 +109,16 @@ import Title from './titles/Title'
 
 import TreeTableComponent from './tree-table/TreeTableComponent'
 import TreeTableRow from './tree-table/TreeTableRow'
+
+import BooleanValueRender from './values/BooleanValueRender'
+import DateArrayValueRender from './values/DateArrayValueRender'
+import DateRangeValueRender from './values/DateRangeValueRender'
+import DateValueRender from './values/DateValueRender'
+import NumberValueRender from './values/NumberValueRender'
+import RangeValueRender from './values/RangeValueRender'
+import StringArrayValueRender from './values/StringArrayValueRender'
+import StringValueRender from './values/StringValueRender'
+import URLValueRender from './values/URLValueRender'
 
 export {
   ActionButtonComponent,
@@ -167,7 +177,6 @@ export {
   getTableReducer,
   getTableSelectors,
   PageableInfiniteTableContainer,
-  PropertiesRenderCell,
   TableActions,
   TableColumnBuilder,
   TableColumnConfiguration,
@@ -181,6 +190,7 @@ export {
   TableHeaderOptionsSeparator,
   TableHeaderText,
   TableLayout,
+  TableDeleteOption,
   TableSelectAllOption,
   TableSelectionModes,
   TableSortOrders,
@@ -192,4 +202,16 @@ export {
   TreeTableRow,
 
   withConfirmDialog,
+
+  // values render
+  BooleanValueRender,
+  DateArrayValueRender,
+  DateRangeValueRender,
+  DateValueRender,
+  NumberValueRender,
+  RangeValueRender,
+  StringArrayValueRender,
+  StringValueRender,
+  URLValueRender,
+
 }

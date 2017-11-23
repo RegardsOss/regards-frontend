@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import StringValueRender from '../../../values/StringValueRender'
 import SortableColumnHeaderCell from './SortableColumnHeaderCell'
 import SimpleTitleColumnHeaderCell from './SimpleTitleColumnHeaderCell'
 import CheckboxColumnHeaderCell from './CheckboxColumnHeaderCell'
-import PropertiesRenderCell from '../cells/PropertiesRenderCell'
+import ValuesRenderCell from '../cells/ValuesRenderCell'
 import OptionsCell from '../cells/OptionsCell'
 import CheckBoxCell from '../cells/CheckBoxCell'
+import ProgressRenderCell from '../cells/ProgressRenderCell'
 
 /**
  * Provides tools to build table columns
@@ -126,16 +129,51 @@ function buildTitleColumnHeader(key, label) {
 }
 
 /**
- * Build properties render
+ * Closure constructor for get property at path on entity
+ * @param {*} path path
+ * @return {function} closure like entity => value
+ */
+function extractPropertyClosure(path) {
+  return entity => get(entity, path)
+}
+
+/**
+ * Builds a values render cell
+ * @param {[getValue, RenderConstructor]} values list of values extractators and (optional) matching render
+ * @return cell definition for values render cell
+ */
+function buildValuesRenderCell(values) {
+  return {
+    Constructor: ValuesRenderCell, // cell for attribute paths
+    props: {
+      // ensure default renderer
+      values: values.map(({ getValue, RenderConstructor = StringValueRender }) => ({ getValue, RenderConstructor })),
+    },
+  }
+}
+
+/**
+ * Build properties render (a specifc case of values render)
  * @param [{path: {string}, RenderConstructor: {function}}] propertyDefinitions: list of properties path and corresponding render (optional,
  * default to simple string property when not provided)
  */
 function buildPropertiesRenderCell(properties) {
+  return buildValuesRenderCell(properties.map(({ path, RenderConstructor }) => ({
+    getValue: extractPropertyClosure(path),
+    RenderConstructor,
+  })))
+}
+
+/**
+ * Build a progress render cell
+ * @param {function} getProgressPercent 
+ * @param {function} getProgressLabel 
+ * @return cell definition
+ */
+function buildProgressRenderCell(getProgressPercent, getProgressLabel) {
   return {
-    Constructor: PropertiesRenderCell, // cell for attribute paths
-    props: {
-      properties,
-    },
+    Constructor: ProgressRenderCell,
+    props: { getProgressPercent, getProgressLabel },
   }
 }
 
@@ -172,21 +210,23 @@ function buildOptionsColumn(label, optionsDefinitions, visible, fixedWidth, key 
  * @return packed column model
  */
 function buildSimpleColumnWithCell(key, label, rowCellDefinition, order, visible, fixedWidth) {
-  return buildColumn(key, label, buildTitleColumnHeader(key, label), rowCellDefinition, order, visible, fixedWidth)
+  return buildColumn(key, label, buildTitleColumnHeader(key, label), rowCellDefinition, visible, order, fixedWidth)
 }
 
 /**
- * Shortcut for the very common use case: simple sortable column with title and single property in cells
+ * Shortcut for the very common use case: simple sortable column with title and single property in cells (every
+ * parameter after propertyPath is optional)
  * @param {string} key key
  * @param {string} label label
  * @param {string} propertyPath property path in row entity
  * @param {number} order (optional) column order (column without order go at index 1000)
  * @param {boolean} visible (optional) is column visible
+ * @param {class} RenderConstructor render construtor (optional, defaults to string render)
  * @param {number} fixedWidth (required) fixed width when column should not grow / shrink with width, undefined otherwise
  * @return packed column model
  */
-function buildSimplePropertyColumn(key, label, propertyPath, order, visible, fixedWidth) {
-  return buildSimpleColumnWithCell(key, label, buildPropertiesRenderCell([{ path: propertyPath }]),
+function buildSimplePropertyColumn(key, label, propertyPath, order, visible, RenderConstructor, fixedWidth) {
+  return buildSimpleColumnWithCell(key, label, buildPropertiesRenderCell([{ path: propertyPath, RenderConstructor }]),
     order, visible, fixedWidth)
 }
 
@@ -195,11 +235,13 @@ export default {
   selectionColumnKey,
   buildColumn,
   buildOptionsColumn,
+  buildProgressRenderCell,
   buildPropertiesRenderCell,
   buildSelectionColumn,
   buildSimpleColumnWithCell,
   buildSimplePropertyColumn,
   buildSortableColumnHeader,
   buildTitleColumnHeader,
+  buildValuesRenderCell,
 }
 
