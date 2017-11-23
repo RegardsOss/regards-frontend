@@ -47,6 +47,7 @@ const conf = webpackConfigurator
         '@regardsoss/store',
         '@regardsoss/theme',
         '@regardsoss/theme-ui',
+        '@regardsoss/plugins-api',
       ],
     },
     plugins: [
