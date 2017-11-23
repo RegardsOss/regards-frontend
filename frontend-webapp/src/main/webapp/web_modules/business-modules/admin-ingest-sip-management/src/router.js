@@ -53,12 +53,25 @@ export const sipSumitionRoute = {
   },
 }
 
+export const sipSumitionSummaryRoute = {
+  path: 'submition-summary',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/SIPSubmitionSummaryContainer.jsx')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 
 const sipManagementRouter = {
   childRoutes: [
     sipSessionRoute,
     sipListRoute,
     sipSumitionRoute,
+    sipSumitionSummaryRoute,
   ],
 }
 

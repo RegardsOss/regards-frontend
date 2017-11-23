@@ -73,8 +73,14 @@ const messages = Object.assign({
   'sips.submit.title': 'Soumission de données',
   'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format geoson contenant le ou les entités',
   'sips.submit.error.message': 'Une erreur est survenue durant la soumission de vos données. Merci de vérifier le format des entités.',
+  'sips.submit.select.file.button': 'Sélectionner le fichier contenant les données (SIPs)',
+  'sips.submit.change.file.button': 'Changer le fichier sélectionné',
   'sips.submit.back.button': 'Retour',
   'sips.submit.submit.button': 'Soumettre',
+
+  'sips.submition-summary.title': 'Compte rendu de soumition de vos données',
+  'sips.submition-summary.subtitle': 'Ce compte rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alos elles seront prisent en compte prochainement pour être stockées',
+  'sips.submition-summary.back.button': 'Retour',
 }, Locales.fr)
 
 export default messages

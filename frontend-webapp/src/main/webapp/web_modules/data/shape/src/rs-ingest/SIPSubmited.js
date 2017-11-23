@@ -16,15 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { sipReducer } from './clients/SIPClient'
-import { sipImportReducer } from './clients/SIPImportClient'
-import { sessionReducer } from './clients/SessionClient'
 
-const sipManagementReducer = combineReducers({
-  sip: sipReducer,
-  sipImport: sipImportReducer,
-  session: sessionReducer,
+/**
+ * Describes a Submited SIP returned by server after a SIP submition process
+ * @author Sébastien Binda
+ */
+
+/** A dated selection item shape */
+const SIPSubmited = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  version: PropTypes.number,
+  rejectionCauses: PropTypes.arrayOf(PropTypes.string),
+  state: PropTypes.string.isRequired,
 })
 
-export default sipManagementReducer
+export default {
+  SIPSubmited,
+}

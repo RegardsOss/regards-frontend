@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,16 +15,29 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { sipReducer } from './clients/SIPClient'
-import { sipImportReducer } from './clients/SIPImportClient'
-import { sessionReducer } from './clients/SessionClient'
+ */
+import Schemas from '@regardsoss/api'
+import { BasicArrayActions } from '@regardsoss/store-utils'
 
-const sipManagementReducer = combineReducers({
-  sip: sipReducer,
-  sipImport: sipImportReducer,
-  session: sessionReducer,
-})
+/**
+ * Redux actions to handle SIP entities from backend server.
+ * @author Sébastien Binda
+ */
+export default class SIPImportActions extends BasicArrayActions {
 
-export default sipManagementReducer
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      bypassErrorMiddleware: true,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips/import`,
+      schemaTypes: {
+        ENTITY: Schemas.SIPSUBMITTED,
+        ENTITY_ARRAY: Schemas.SIPSUBMITTED_ARRAY,
+      },
+    })
+  }
+}

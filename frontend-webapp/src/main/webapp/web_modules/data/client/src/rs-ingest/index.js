@@ -22,6 +22,9 @@ import ProcessingChainSelectors from './processingChain/ProcessingChainSelectors
 import SIPActions from './sip/SIPActions'
 import getSIPReducer from './sip/SIPReducer'
 import getSIPSelectors from './sip/SIPSelectors'
+import SIPImportActions from './sipImport/SIPImportActions'
+import getSIPImportReducer from './sipImport/SIPImportReducer'
+import getSIPImportSelectors from './sipImport/SIPImportSelectors'
 import SessionActions from './session/SessionActions'
 import getSessionReducer from './session/SessionReducer'
 import getSessionSelectors from './session/SessionSelectors'
@@ -33,6 +36,9 @@ export default {
   SIPActions,
   getSIPReducer,
   getSIPSelectors,
+  SIPImportActions,
+  getSIPImportReducer,
+  getSIPImportSelectors,
   SessionActions,
   getSessionReducer,
   getSessionSelectors,

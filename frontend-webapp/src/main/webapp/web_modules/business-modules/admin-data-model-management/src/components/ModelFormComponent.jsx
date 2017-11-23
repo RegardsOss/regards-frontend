@@ -20,7 +20,7 @@ import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderFileField, Field, RenderSelectField, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, RenderFileFieldWithMui, Field, RenderSelectField, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
@@ -124,8 +124,7 @@ export class ModelFormComponent extends React.Component {
                 <FormattedMessage id="model.form.file" />
                 <Field
                   name="file"
-                  fullWidth
-                  component={RenderFileField}
+                  component={RenderFileFieldWithMui}
                   accept=".xml"
                 />
               </div>

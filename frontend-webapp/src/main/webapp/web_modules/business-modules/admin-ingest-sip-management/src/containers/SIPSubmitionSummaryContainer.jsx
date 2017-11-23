@@ -18,18 +18,18 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { I18nProvider } from '@regardsoss/i18n'
-import { ModuleStyleProvider } from '@regardsoss/theme'
+import { IngestShapes } from '@regardsoss/shape'
+import { withI18n } from '@regardsoss/i18n'
+import SIPImportClient from '../clients/SIPImportClient'
+import SIPSubmitionSummaryComponent from '../components/SIPSubmitionSummaryComponent'
 import messages from '../i18n'
-import styles from '../styles/styles'
-import { sipImportActions } from '../clients/SIPImportClient'
-import SIPSubmitionFormComponent from '../components/SIPSubmitionFormComponent'
 
 /**
-* Displays the SIPSubmitionForm
+* Container to display sip submition synchrone results from server. May contain rejected or handled SIP.
 * @author Sébastien Binda
 */
-export class SIPSubmitionFormContainer extends React.Component {
+export class SIPSubmitionSummaryContainer extends React.Component {
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -38,6 +38,7 @@ export class SIPSubmitionFormContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
+      submitedSips: SIPImportClient.sipImportSelectors.getArray(state),
     }
   }
 
@@ -47,63 +48,35 @@ export class SIPSubmitionFormContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps = dispatch => ({
-    submitSips: file => dispatch(sipImportActions.createEntityUsingMultiPart({}, { file })),
-  })
+  static mapDispatchToProps(dispatch) {
+    return {}
+  }
 
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
     }).isRequired,
+    // from mapStateToProps
+    submitedSips: PropTypes.arrayOf(IngestShapes.SIPSubmited).isRequired,
     // from mapDispatchToProps
-    submitSips: PropTypes.func.isRequired,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      isError: false,
-    }
   }
 
   onBack = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/submition-summary`
+    const url = `/admin/${project}/data/acquisition/board`
     browserHistory.push(url)
   }
 
-  onSubmit = (values) => {
-    this.props.submitSips(values.sips)
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error || actionResult.meta.status === 422) {
-          this.onBack()
-          this.setState({
-            isError: false,
-          })
-        } else {
-          this.setState({
-            isError: true,
-          })
-        }
-      })
-  }
-
   render() {
-    const stylesObj = { styles }
     return (
-      <I18nProvider messages={messages}>
-        <ModuleStyleProvider module={stylesObj}>
-          <SIPSubmitionFormComponent
-            isError={this.state.isError}
-            submitSips={this.onSubmit}
-            onBack={this.onBack}
-          />
-        </ModuleStyleProvider>
-      </I18nProvider>
+      <SIPSubmitionSummaryComponent
+        submitedSips={this.props.submitedSips}
+        onBack={this.onBack}
+      />
     )
   }
 }
-
-export default connect(SIPSubmitionFormContainer.mapStateToProps, SIPSubmitionFormContainer.mapDispatchToProps)(SIPSubmitionFormContainer)
+export default connect(
+  SIPSubmitionSummaryContainer.mapStateToProps,
+  SIPSubmitionSummaryContainer.mapDispatchToProps)(withI18n(messages)(SIPSubmitionSummaryContainer))

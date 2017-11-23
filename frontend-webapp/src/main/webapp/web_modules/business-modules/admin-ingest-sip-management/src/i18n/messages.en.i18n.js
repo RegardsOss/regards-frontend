@@ -74,8 +74,14 @@ const messages = Object.assign({
   'sips.submit.title': 'Data submition',
   'sips.submit.subtitle': 'This section allows you to run a datas sumition thought a local file (geoson format) containing entities to submit',
   'sips.submit.error.message': 'An error occured during submition of your datas. Please check the format of your provided entities.',
+  'sips.submit.select.file.button': 'Select file containing data to submit (SIPs)',
+  'sips.submit.change.file.button': 'Change selected file',
   'sips.submit.back.button': 'Back',
   'sips.submit.submit.button': 'Submit',
+
+  'sips.submition-summary.title': 'Datas submition summary',
+  'sips.submition-summary.subtitle': 'This summary let you know accepted entities by the system. If youts datas are accepted, so they will be handle for storage soon.',
+  'sips.submition-summary.back.button': 'Ok',
 
 }, Locales.en)
 
