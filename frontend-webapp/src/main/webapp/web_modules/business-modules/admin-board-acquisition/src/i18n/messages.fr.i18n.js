@@ -24,6 +24,7 @@ const messages = {
   'ingest.board.ois.description': 'Cette fonctionnalité vous permet d\'ajouter des données par soumission de paquets. Un paquet de soumission ou SIP (Submission information package) contient toutes les informations nécessaires pour à la fois décrire les données et définir comment accéder aux fichiers physiques associés',
   'ingest.board.action.chain.list.tooltip': 'Configurer les chaînes de traitements',
   'ingest.board.action.monitor.tooltip': 'Visualiser les soumissions',
+  'ingest.board.action.sumition.tooltip': 'Soumettre des données',
 
   'ingest.board.external.datasources.title': 'Aspiration de données',
   'ingest.board.external.datasources.description': 'Cette fonctionnalité vous permet d\'aspirer des données depuis une base de données déjà existante en associant les champs de la base aux modèles de données.',

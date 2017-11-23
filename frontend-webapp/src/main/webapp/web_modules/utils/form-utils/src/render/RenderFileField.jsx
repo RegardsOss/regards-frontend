@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 
 const adaptFileEventToValue = delegate =>
-  e => delegate(e.target.files[0])
+  e => delegate(e.target.files[0]) || console.error(e.target.files[0])
 
 const RenderFileField = ({
   input: {
     value: omitValue,
-    onChange,
-    onBlur,
-    ...inputProps
+  onChange,
+  onBlur,
+  ...inputProps
   },
   meta: omitMeta,
   fullWidth,
@@ -37,21 +37,23 @@ const RenderFileField = ({
   ...props
 }) => (
   <div>
-    <br />
-    <br />
-
-    <TextField
-      onChange={adaptFileEventToValue(onChange)}
-      onBlur={adaptFileEventToValue(onBlur)}
-      type="file"
-      fullWidth={fullWidth}
-      accept={accept}
-      underlineShow={false}
-      {...inputProps}
+    <span />
+    <RaisedButton
       {...props}
-    />
+      containerElement="label"
+      fullWidth={fullWidth}
+    >
+      <input
+        onChange={adaptFileEventToValue(onChange)}
+        onBlur={adaptFileEventToValue(onBlur)}
+        type="file"
+        accept={accept}
+        {...inputProps}
+        style={{ display: 'none' }}
+      />
+    </RaisedButton>
   </div>
-)
+  )
 RenderFileField.contextTypes = {
   ...themeContextType,
 }

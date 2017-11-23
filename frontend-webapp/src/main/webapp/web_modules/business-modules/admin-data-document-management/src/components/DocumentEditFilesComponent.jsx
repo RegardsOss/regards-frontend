@@ -25,7 +25,7 @@ import get from 'lodash/get'
 import Remove from 'material-ui/svg-icons/action/highlight-off'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Download from 'material-ui/svg-icons/file/file-download'
-import { Field, RenderFileField, reduxForm } from '@regardsoss/form-utils'
+import { Field, RenderFileFieldWithMui, reduxForm } from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import Subheader from 'material-ui/Subheader'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
@@ -93,7 +93,7 @@ export class DocumentEditFilesComponent extends React.Component {
     >
       <Field
         name={`files_${inputId}`}
-        component={RenderFileField}
+        component={RenderFileFieldWithMui}
         fullWidth
       />
       <ShowableAtRender show={(inputId === this.state.nbInputs - 1)}>
