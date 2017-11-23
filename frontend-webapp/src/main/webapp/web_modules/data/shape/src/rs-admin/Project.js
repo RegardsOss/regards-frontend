@@ -27,7 +27,7 @@ const ProjectContent = PropTypes.shape({
   isDeleted: PropTypes.bool.isRequired,
   isPublic: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  host: PropTypes.string.isRequired,
+  host: PropTypes.string,
 })
 
 const Project = PropTypes.shape({
