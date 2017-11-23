@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
+import isEqual from 'lodash/isEqual'
 import { Card, CardMedia, CardHeader } from 'material-ui/Card'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { connect } from '@regardsoss/redux'
@@ -118,16 +119,12 @@ export class DynamicModule extends React.Component {
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
 
   onPropertiesChanged = (oldProps, newProps) => {
-    if (newProps.fetching) {
-      // limits 'blinking effects'
-      return
-    }
-
+    const oldState = this.state
+    let newState
     const hasAllDependencies = newProps.requiredDependencies.reduce(
       (acc, dependency) => acc && newProps.availableDependencies.includes(dependency), true)
-    let newState
-    if (!newProps.isAuthenticated && (newProps.requiresAuthentication || !hasAllDependencies)) {
-      // we consider here the user should log in when:
+    if (!newProps.fetching && !newProps.isAuthenticated && (newProps.requiresAuthentication || !hasAllDependencies)) {
+      // 1 - we consider here the user should log in when:
       // A - authentication is required
       // B - he misses some dependencies
       newState = {
@@ -135,17 +132,20 @@ export class DynamicModule extends React.Component {
         noDataTitleKey: 'dynamic.module.not.authenticated.title',
         noDataMessageKey: 'dynamic.module.not.authenticated.message',
       }
-    } else if (!hasAllDependencies) {
-      // missing some dependencies
+    } else if (!newProps.fetching && !hasAllDependencies) {
+      // 2 -missing some dependencies
       newState = {
         noData: true,
         noDataTitleKey: 'dynamic.module.unsufficient.rights.title',
         noDataMessageKey: 'dynamic.module.unsufficient.rights.message',
       }
     } else {
+      // 3 - module can be shown
       newState = DynamicModule.DEFAULT_STATE
     }
-    this.setState(newState)
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
   }
 
 

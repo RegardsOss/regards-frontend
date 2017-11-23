@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
+import isString from 'lodash/isString'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import messages from './i18n'
@@ -31,7 +32,7 @@ import styles from './styles'
 export class StringValueRender extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    value: PropTypes.string,
+    value: PropTypes.any,
   }
 
   static contextTypes = {
@@ -43,7 +44,14 @@ export class StringValueRender extends React.Component {
     const { value } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
 
-    const textValue = value || intl.formatMessage({ id: 'value.render.no.value.label' })
+    let textValue
+    if (isString(value)) { // string value
+      textValue = value
+    } else if (value) { // value to convert (defined)
+      textValue = String(value)
+    } else { // no value
+      textValue = intl.formatMessage({ id: 'value.render.no.value.label' })
+    }
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}
