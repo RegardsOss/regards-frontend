@@ -18,7 +18,7 @@
  **/
 import AttributeColumnBuilder from './columns/AttributeColumnBuilder'
 import MainAttributesConfigurationComponent from './configuration/MainAttributesConfigurationComponent'
-import { buildPropertyCellRender, buildRenderDelegate, buildSinglePropertyCellRender, getTypeRender, TYPES_ENUM } from './render/AttributesTypeToRender'
+import { buildPropertyCellRender, buildRenderDelegate, buildSinglePropertyCellRender, getTypeRender } from './render/AttributesTypeToRender'
 
 export default {
   // configuration component
@@ -28,7 +28,6 @@ export default {
   buildRenderDelegate,
   buildSinglePropertyCellRender,
   getTypeRender,
-  TYPES_ENUM,
 
   AttributeColumnBuilder,
 }

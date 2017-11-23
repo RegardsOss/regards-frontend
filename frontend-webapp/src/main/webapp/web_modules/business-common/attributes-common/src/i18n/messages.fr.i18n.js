@@ -22,12 +22,6 @@
  * @author Raphaël Mechali
  */
 const messages = {
-  'attribute.render.no.value.label': '-',
-  'attribute.render.date.value': '{date} {time}',
-  'attribute.render.array.values.separator': ', ',
-  'attribute.render.range.full.label': '[{lower}, {upper}]',
-  'attribute.render.range.upper.only.label': ']-∞, {upper}]',
-  'attribute.render.range.lower.only.label': '[{lower}, +∞[',
   'attribute.render.download.title': 'Télécharger',
   'attribute.thumbnail.alt': 'Aucune vignette',
 }

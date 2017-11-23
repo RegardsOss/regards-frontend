@@ -19,18 +19,24 @@
 import compose from 'lodash/fp/compose'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import styles from '../styles'
+import { getFormattedDate } from './DateValueRender'
+import { getFormattedRange } from './RangeValueRender'
+import messages from './i18n'
+import styles from './styles'
 
 /**
- * Component to display number attribute values
+ * Component to display Date range values group value
+ * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
-export class NumberAttributeRender extends React.Component {
+export class DateRangeValueRender extends React.Component {
 
   static propTypes = {
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.shape({
+      lowerBound: PropTypes.string,
+      upperBound: PropTypes.string,
+    }),
   }
 
   static contextTypes = {
@@ -39,16 +45,17 @@ export class NumberAttributeRender extends React.Component {
   }
 
   render() {
-    const { value } = this.props
-    const { intl: { formatMessage }, moduleTheme: { textRenderCell } } = this.context
+    const { value = {} } = this.props
+    const { intl, moduleTheme: { textRenderCell } } = this.context
 
-    const textValue = value || formatMessage({ id: 'attribute.render.no.value.label' })
+    const textValue = getFormattedRange(intl, getFormattedDate(intl, value.lowerBound), getFormattedDate(intl, value.upperBound)) ||
+      intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }
-
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(NumberAttributeRender)
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateRangeValueRender)
+

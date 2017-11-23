@@ -16,40 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
+import { LinkComponent } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import styles from '../styles'
+import messages from './i18n'
 
 /**
- * Component to display string attributes group value
+ * Component to display url link values group value
+ * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
-export class StringArrayAttributeRender extends React.Component {
+export class URLValueRender extends React.Component {
 
   static propTypes = {
-    value: PropTypes.arrayOf(PropTypes.string),
+    // eslint-disable-next-line react/forbid-prop-types
+    value: PropTypes.string,
   }
 
   static contextTypes = {
     ...i18nContextType,
-    ...themeContextType,
   }
 
   render() {
-    const { value = [] } = this.props
-    const { intl, moduleTheme: { textRenderCell } } = this.context
-    const noValueText = intl.formatMessage({ id: 'attribute.render.no.value.label' })
-    const textValue = value.map(text => text || noValueText).join(intl.formatMessage({ id: 'attribute.render.array.values.separator' })) ||
-      noValueText
-    return (
-      <div style={textRenderCell} title={textValue}>
-        {textValue}
-      </div>)
+    const { value } = this.props
+    return value ? (
+      <LinkComponent
+        target="_blank"
+        rel="noopener noreferrer"
+        link={value}
+      />) : null
   }
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(StringArrayAttributeRender)
+export default withI18n(messages, true)(URLValueRender)

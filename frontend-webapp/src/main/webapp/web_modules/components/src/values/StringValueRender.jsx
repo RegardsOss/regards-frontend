@@ -19,20 +19,19 @@
 import compose from 'lodash/fp/compose'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { getFormattedDate } from './DateAttributeRender'
-import messages from '../i18n'
-import styles from '../styles'
-
+import messages from './i18n'
+import styles from './styles'
 
 /**
- * Component to display Date Array attributes group value
+ * Component to display string values group value
+ * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
-export class DateArrayAttributeRender extends React.Component {
-
+export class StringValueRender extends React.Component {
   static propTypes = {
-    value: PropTypes.arrayOf(PropTypes.string),
+    // eslint-disable-next-line react/forbid-prop-types
+    value: PropTypes.string,
   }
 
   static contextTypes = {
@@ -40,14 +39,11 @@ export class DateArrayAttributeRender extends React.Component {
     ...themeContextType,
   }
 
-
   render() {
     const { value } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
-    const noValueText = intl.formatMessage({ id: 'attribute.render.no.value.label' })
-    const textValue = (value || []).map(dateText => getFormattedDate(intl, dateText) || noValueText)
-      .join(intl.formatMessage({ id: 'attribute.render.array.values.separator' })) || noValueText
 
+    const textValue = value || intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}
@@ -56,4 +52,4 @@ export class DateArrayAttributeRender extends React.Component {
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateArrayAttributeRender)
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(StringValueRender)

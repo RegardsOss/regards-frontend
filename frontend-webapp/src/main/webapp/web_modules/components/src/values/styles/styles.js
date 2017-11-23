@@ -17,13 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-/**
-* Module message for EN local
-* @author Raphaël Mechali
-*/
-const messages = {
-  'attribute.render.download.title': 'Download',
-  'attribute.thumbnail.alt': 'No thumbnail',
-}
-
-export default messages
+export default theme => ({
+  textRenderCell: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+})

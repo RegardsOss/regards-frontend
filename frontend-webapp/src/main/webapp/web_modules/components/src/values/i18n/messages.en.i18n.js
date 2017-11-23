@@ -22,8 +22,12 @@
 * @author Raphaël Mechali
 */
 const messages = {
-  'attribute.render.download.title': 'Download',
-  'attribute.thumbnail.alt': 'No thumbnail',
+  'value.render.no.value.label': '-',
+  'value.render.date.value': '{date} {time}',
+  'value.render.array.values.separator': ', ',
+  'value.render.range.full.label': '[{lower}, {upper}]',
+  'value.render.range.upper.only.label': ']-∞, {upper}]',
+  'value.render.range.lower.only.label': '[{lower}, +∞[',
 }
 
 export default messages

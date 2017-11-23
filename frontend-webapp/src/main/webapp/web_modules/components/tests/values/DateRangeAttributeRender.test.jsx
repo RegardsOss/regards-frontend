@@ -19,28 +19,28 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { DateRangeAttributeRender } from '../../src/render/DateRangeAttributeRender'
-import styles from '../../src/styles'
+import { DateRangeValueRender } from '../../src/values/DateRangeValueRender'
+import styles from '../../src/values/styles'
 
 const context = buildTestContext(styles)
 
 
 /**
- * Tests for AttributeConfigurationComponent
+ * Tests for ValueConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing DateRangeAttributeRender', () => {
+describe('[COMPONENTS] Testing DateRangeValueRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DateRangeAttributeRender)
+    assert.isDefined(DateRangeValueRender)
   })
 
   it('Should render correctly a no data range', () => {
     // undefined
-    let wrapper = shallow(<DateRangeAttributeRender />, { context })
-    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Undefined range should display no data text')
+    let wrapper = shallow(<DateRangeValueRender />, { context })
+    assert.include(wrapper.text(), 'value.render.no.value.label', 'Undefined range should display no data text')
 
     // null bounds
     const props = {
@@ -49,8 +49,8 @@ describe('[ATTRIBUTES COMMON] Testing DateRangeAttributeRender', () => {
         upperBound: null,
       },
     }
-    wrapper = shallow(<DateRangeAttributeRender {...props} />, { context })
-    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Null range should display no data text')
+    wrapper = shallow(<DateRangeValueRender {...props} />, { context })
+    assert.include(wrapper.text(), 'value.render.no.value.label', 'Null range should display no data text')
 
     const props2 = {
       value: {
@@ -58,8 +58,8 @@ describe('[ATTRIBUTES COMMON] Testing DateRangeAttributeRender', () => {
         upperBound: 'CCC',
       },
     }
-    wrapper = shallow(<DateRangeAttributeRender {...props2} />, { context })
-    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'Non parsable range should display no data text')
+    wrapper = shallow(<DateRangeValueRender {...props2} />, { context })
+    assert.include(wrapper.text(), 'value.render.no.value.label', 'Non parsable range should display no data text')
   })
 
   it('Should render correctly a lower bound range (when upper is undefined or not parsable', () => {
@@ -69,8 +69,8 @@ describe('[ATTRIBUTES COMMON] Testing DateRangeAttributeRender', () => {
         lowerBound: '2017-01-07T12:00:00',
       },
     }
-    let wrapper = shallow(<DateRangeAttributeRender {...props} />, { context })
-    assert.include(wrapper.text(), 'attribute.render.range.lower.only.label', 'Undefined upper bound should show a lower range text')
+    let wrapper = shallow(<DateRangeValueRender {...props} />, { context })
+    assert.include(wrapper.text(), 'value.render.range.lower.only.label', 'Undefined upper bound should show a lower range text')
 
     // non parsable  upper
     const props2 = {
@@ -79,8 +79,8 @@ describe('[ATTRIBUTES COMMON] Testing DateRangeAttributeRender', () => {
         upperBound: 'CCC',
       },
     }
-    wrapper = shallow(<DateRangeAttributeRender {...props2} />, { context })
-    assert.include(wrapper.text(), 'attribute.render.range.lower.only.label', 'Non parsable upper bound should show a lower range text')
+    wrapper = shallow(<DateRangeValueRender {...props2} />, { context })
+    assert.include(wrapper.text(), 'value.render.range.lower.only.label', 'Non parsable upper bound should show a lower range text')
   })
 
   it('Should render correctly an upper bound range (when lower is undefined or not parsable', () => {
@@ -90,8 +90,8 @@ describe('[ATTRIBUTES COMMON] Testing DateRangeAttributeRender', () => {
         upperBound: '2017-01-07T12:00:00',
       },
     }
-    let wrapper = shallow(<DateRangeAttributeRender {...props} />, { context })
-    assert.include(wrapper.text(), 'attribute.render.range.upper.only.label', 'Undefined lower bound should show a lower range text')
+    let wrapper = shallow(<DateRangeValueRender {...props} />, { context })
+    assert.include(wrapper.text(), 'value.render.range.upper.only.label', 'Undefined lower bound should show a lower range text')
 
     // non parsable  upper
     const props2 = {
@@ -100,8 +100,8 @@ describe('[ATTRIBUTES COMMON] Testing DateRangeAttributeRender', () => {
         upperBound: '2017-01-07T12:00:00',
       },
     }
-    wrapper = shallow(<DateRangeAttributeRender {...props2} />, { context })
-    assert.include(wrapper.text(), 'attribute.render.range.upper.only.label', 'Non parsable lower bound should show a lower range text')
+    wrapper = shallow(<DateRangeValueRender {...props2} />, { context })
+    assert.include(wrapper.text(), 'value.render.range.upper.only.label', 'Non parsable lower bound should show a lower range text')
   })
 
   it('Should render correctly a complete range when both bounds can be parsed', () => {
@@ -112,7 +112,7 @@ describe('[ATTRIBUTES COMMON] Testing DateRangeAttributeRender', () => {
         upperBound: '2017-01-07T12:00:00',
       },
     }
-    const wrapper = shallow(<DateRangeAttributeRender {...props} />, { context })
-    assert.include(wrapper.text(), 'attribute.render.range.full.label', 'Undefined lower bound should show a lower range text')
+    const wrapper = shallow(<DateRangeValueRender {...props} />, { context })
+    assert.include(wrapper.text(), 'value.render.range.full.label', 'Undefined lower bound should show a lower range text')
   })
 })

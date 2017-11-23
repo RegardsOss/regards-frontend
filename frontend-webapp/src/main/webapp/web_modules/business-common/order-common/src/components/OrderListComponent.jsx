@@ -46,12 +46,31 @@ class OrderListComponent extends React.Component {
   static EMPTY_COMPONENT = <NoOrderComponent />
 
   /**
-   * Counts an order command
+   * Sums up all properties from datasets tasks in order (must be a path to a numeric property)
+   * @param {order} order order as described in OrderWithContent
+   * @param {string} numericTaskProperty numeric dataset task property path
+   * @return {number} sumed up properties values if found, 0 otherwise
+   */
+  static sumOnDatasets(order, numericTaskProperty) {
+    return get(order, 'content.datasetTasks', []).reduce((sum, task) => sum + get(task, numericTaskProperty), 0)
+  }
+
+  /**
+   * Counts an order objects (in dataset tasks)
    * @param {*} order order
-   * @return count for order
+   * @return objects count for order, from dataset tasks
    */
   static getObjectsCount(order) {
-    return get(order, 'content.datasetTasks', []).reduce((sum, task) => sum + get(task, 'objectsCount'), 0)
+    return OrderListComponent.sumOnDatasets(order, 'objectsCount')
+  }
+
+  /**
+   * Counts an order files size (in dataset tasks)
+   * @param {*} order order
+   * @return files size, from dataset tasks
+   */
+  static getFilesSize(order) {
+    return OrderListComponent.sumOnDatasets(order, 'filesSize')
   }
 
   buildColumns = () => {
@@ -65,11 +84,15 @@ class OrderListComponent extends React.Component {
       TableColumnBuilder.buildSimpleColumnWithCell('expiration.date', formatMessage({ id: 'order.list.column.expiration.date' }),
         buildSinglePropertyCellRender('content.expirationDate', TYPES_ENUM.DATE_ISO8601)),
       // objects count (as extracted, using getObjectCount)
-      // TODO
-      // TableColumnBuilder.buildSimpleColumnWithCell('objects.count', formatMessage({ id: 'order.list.column.object.count' }),
-      //   TableColumnBuilder.buildValuesRenderCell([OrderListComponent.getObjectsCount])),
-      // order.list.column.files.count
-      // order.list.column.errors.count
+      TableColumnBuilder.buildSimpleColumnWithCell('objects.count', formatMessage({ id: 'order.list.column.object.count' }),
+        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }])),
+      // error files count
+      TableColumnBuilder.buildSimpleColumnWithCell('errors.count', formatMessage({ id: 'order.list.column.errors.count' }),
+        buildSinglePropertyCellRender('content.filesInErrorCount')),
+      // total files size  (as extracted, using getFilesSize)
+      TableColumnBuilder.buildSimpleColumnWithCell('objects.count', formatMessage({ id: 'order.list.column.object.count' }),
+        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getFilesSize }])),
+
       // order.list.column.files.size
       // order.list.column.progress
       // order.list.column.status
