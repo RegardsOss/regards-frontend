@@ -10,7 +10,7 @@ module.exports = function (projectContextPath) {
   
   // Ensure babel environment variable is correctly setup to test
   process.env.NODE_ENV = 'test'
-  
+
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [nodeExternals({
@@ -18,7 +18,7 @@ module.exports = function (projectContextPath) {
       whitelist: [/regardsoss/, /react-material-color-picker/],
     })], // in order to ignore all modules in node_modules folder
     // Enable sourcemaps for debugging webpack's output.
-    devtool: 'inline-source-map',
+    devtool: 'nosources-source-map',
     stats: {
       chunks: false,
       colors: true,

@@ -120,7 +120,7 @@ function buildSinglePropertyCellRender(path, type) {
 }
 
 
-export default {
+module.exports = {
   buildPropertyCellRender,
   buildRenderDelegate,
   buildSinglePropertyCellRender,

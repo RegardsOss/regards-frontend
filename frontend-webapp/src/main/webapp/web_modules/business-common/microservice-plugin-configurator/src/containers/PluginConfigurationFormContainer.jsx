@@ -127,8 +127,6 @@ export class PluginConfigurationFormContainer extends React.Component {
    */
   handleCreate = (vals) => {
     const { microserviceName, pluginId } = this.props
-
-    console.error('props', this.props)
     return Promise.resolve(this.props.createPluginConfiguration(vals, microserviceName, pluginId))
       .then((actionResult) => {
         // We receive here the action

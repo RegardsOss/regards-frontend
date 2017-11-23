@@ -24,7 +24,7 @@ import LayoutListDump from './LayoutList.dump'
 const backendServerResultList = LayoutListDump
 const options = {}
 
-const LayoutActions = AccessProjectClient.LayoutActions('test/action')
+const LayoutActions = new AccessProjectClient.LayoutActions('test/action')
 const LayoutReducer = AccessProjectClient.LayoutReducers('test/action')
 const LayoutSelector = AccessProjectClient.LayoutSelectors(['test', 'modules'])
 
