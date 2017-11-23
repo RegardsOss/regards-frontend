@@ -17,21 +17,21 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import isBoolean from 'lodash/isBoolean'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import styles from '../styles'
+import messages from './i18n'
+import styles from './styles'
 
 /**
- * Component to display Boolean attributes group value
+ * Component to display string values group value
+ * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
-export class BooleanAttributeRender extends React.Component {
+export class StringArrayValueRender extends React.Component {
 
   static propTypes = {
-    value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    value: PropTypes.arrayOf(PropTypes.string),
   }
 
   static contextTypes = {
@@ -40,20 +40,17 @@ export class BooleanAttributeRender extends React.Component {
   }
 
   render() {
-    const { value } = this.props
-    const { intl: { formatMessage }, moduleTheme: { textRenderCell } } = this.context
-    let textValue
-    if (isBoolean(value)) {
-      textValue = String(value)
-    } else {
-      textValue = value || formatMessage({ id: 'attribute.render.no.value.label' })
-    }
+    const { value = [] } = this.props
+    const { intl, moduleTheme: { textRenderCell } } = this.context
+    const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
+    const textValue = value.map(text => text || noValueText).join(intl.formatMessage({ id: 'value.render.array.values.separator' })) ||
+      noValueText
     return (
-      <div style={textRenderCell} title={textValue} >
+      <div style={textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(BooleanAttributeRender)
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(StringArrayValueRender)

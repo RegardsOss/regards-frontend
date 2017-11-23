@@ -15,15 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesFr from '../../../src/values/i18n/messages.fr.i18n'
+import MessagesEn from '../../../src/values/i18n/messages.en.i18n'
 
-/**
-* Module message for EN local
-* @author Raphaël Mechali
-*/
-const messages = {
-  'attribute.render.download.title': 'Download',
-  'attribute.thumbnail.alt': 'No thumbnail',
-}
+describe('[Entities Common] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-export default messages
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

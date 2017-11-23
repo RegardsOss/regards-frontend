@@ -16,19 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { TableColumnBuilder } from '@regardsoss/components'
-
-import BooleanAttributeRender from './BooleanAttributeRender'
-import DateArrayAttributeRender from './DateArrayAttributeRender'
-import DateAttributeRender from './DateAttributeRender'
-import DateRangeAttributeRender from './DateRangeAttributeRender'
-import NumberAttributeRender from './NumberAttributeRender'
-import RangeAttributeRender from './RangeAttributeRender'
+import {
+  BooleanValueRender, DateArrayValueRender, DateRangeValueRender, DateValueRender,
+  NumberValueRender, RangeValueRender, StringArrayValueRender, StringValueRender,
+  URLValueRender, TableColumnBuilder,
+} from '@regardsoss/components'
 import RawDataAttributeRender from './RawDataAttributeRender'
-import StringArrayAttributeRender from './StringArrayAttributeRender'
-import StringAttributeRender from './StringAttributeRender'
 import ThumbnailAttributeRender from './ThumbnailAttributeRender'
-import UrlAttributeRender from './UrlAttributeRender'
 
 /**
  * Provides tools to render an attribute directly or in an infinite table (providing a path and an optional type)
@@ -60,23 +54,23 @@ const TYPES_ENUM = {
  */
 const typeToRenderMap = {
   // Default render
-  [TYPES_ENUM.DEFAULT]: StringAttributeRender,
+  [TYPES_ENUM.DEFAULT]: StringValueRender,
   // Render by type
-  [TYPES_ENUM.BOOLEAN]: BooleanAttributeRender,
-  [TYPES_ENUM.DATE_ISO8601]: DateAttributeRender,
-  [TYPES_ENUM.DATE_INTERVAL]: DateRangeAttributeRender,
-  [TYPES_ENUM.DATE_ARRAY]: DateArrayAttributeRender,
-  [TYPES_ENUM.DOUBLE]: NumberAttributeRender,
-  [TYPES_ENUM.DOUBLE_INTERVAL]: RangeAttributeRender,
+  [TYPES_ENUM.BOOLEAN]: BooleanValueRender,
+  [TYPES_ENUM.DATE_ISO8601]: DateValueRender,
+  [TYPES_ENUM.DATE_INTERVAL]: DateRangeValueRender,
+  [TYPES_ENUM.DATE_ARRAY]: DateArrayValueRender,
+  [TYPES_ENUM.DOUBLE]: NumberValueRender,
+  [TYPES_ENUM.DOUBLE_INTERVAL]: RangeValueRender,
   [TYPES_ENUM.DOWNLOAD_LINK]: RawDataAttributeRender,
-  [TYPES_ENUM.INTEGER]: NumberAttributeRender,
-  [TYPES_ENUM.INTEGER_INTERVAL]: NumberAttributeRender,
-  [TYPES_ENUM.LONG]: NumberAttributeRender,
-  [TYPES_ENUM.LONG_INTERVAL]: NumberAttributeRender,
-  [TYPES_ENUM.STRING]: StringAttributeRender,
-  [TYPES_ENUM.STRING_ARRAY]: StringArrayAttributeRender,
+  [TYPES_ENUM.INTEGER]: NumberValueRender,
+  [TYPES_ENUM.INTEGER_INTERVAL]: RangeValueRender,
+  [TYPES_ENUM.LONG]: NumberValueRender,
+  [TYPES_ENUM.LONG_INTERVAL]: RangeValueRender,
+  [TYPES_ENUM.STRING]: StringValueRender,
+  [TYPES_ENUM.STRING_ARRAY]: StringArrayValueRender,
   [TYPES_ENUM.THUMBNAIL]: ThumbnailAttributeRender,
-  [TYPES_ENUM.URL]: UrlAttributeRender,
+  [TYPES_ENUM.URL]: URLValueRender,
 }
 
 /**
@@ -125,5 +119,4 @@ export default {
   buildRenderDelegate,
   buildSinglePropertyCellRender,
   getTypeRender,
-  TYPES_ENUM,
 }

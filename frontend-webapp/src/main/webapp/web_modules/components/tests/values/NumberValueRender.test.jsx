@@ -19,37 +19,37 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { NumberAttributeRender } from '../../src/render/NumberAttributeRender'
-import styles from '../../src/styles'
+import { NumberValueRender } from '../../src/values/NumberValueRender'
+import styles from '../../src/values/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Tests for AttributeConfigurationComponent
+ * Tests for ValueConfigurationComponent
  * @author Sébastien binda
  */
-describe('[ATTRIBUTES COMMON] Testing NumberAttributeRender', () => {
+describe('[COMPONENTS] Testing NumberValueRender', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(NumberAttributeRender)
+    assert.isDefined(NumberValueRender)
   })
 
   it('Should render no data', () => {
-    const wrapper = shallow(<NumberAttributeRender />, { context })
-    assert.include(wrapper.text(), 'attribute.render.no.value.label', 'shoud show no data text')
+    const wrapper = shallow(<NumberValueRender />, { context })
+    assert.include(wrapper.text(), 'value.render.no.value.label', 'shoud show no data text')
   })
 
   it('Should render string data directly (avoids useless parsing)', () => {
     const props = { value: '156' }
-    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
+    const wrapper = shallow(<NumberValueRender {...props} />, { context })
     assert.include(wrapper.text(), '156', 'There should be an integer value rendered')
   })
 
   it('Should render number data', () => {
     const props = { value: 156 }
-    const wrapper = shallow(<NumberAttributeRender {...props} />, { context })
+    const wrapper = shallow(<NumberValueRender {...props} />, { context })
     assert.include(wrapper.text(), '156', 'There should be an integer value rendered')
   })
 })

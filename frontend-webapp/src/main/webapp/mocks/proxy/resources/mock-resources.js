@@ -3,7 +3,6 @@
  * List of mocked dependencies
  */
 const MOCK_RESOURCES = [
-  // mock backet deps
   {
     content: {
       controllerSimpleName: 'StoragePluginsController',

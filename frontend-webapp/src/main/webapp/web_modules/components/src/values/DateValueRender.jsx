@@ -19,8 +19,8 @@
 import compose from 'lodash/fp/compose'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import styles from '../styles'
+import messages from './i18n'
+import styles from './styles'
 
 /**
  * Formats a date using intl and date text
@@ -35,7 +35,7 @@ export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, date
   }
   const dateWrapper = new Date(dateText)
   if (!isNaN(dateWrapper.getDate())) {
-    return formatMessage({ id: 'attribute.render.date.value' }, {
+    return formatMessage({ id: 'value.render.date.value' }, {
       date: formatDate(dateWrapper),
       time: formatTime(dateWrapper),
     })
@@ -44,11 +44,12 @@ export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, date
 }
 
 /**
- * Component to display Date attributes group value
+ * Component to display Date values group value
+ * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
-export class DateAttributeRender extends React.Component {
+export class DateValueRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.string,
@@ -62,7 +63,7 @@ export class DateAttributeRender extends React.Component {
   render() {
     const { value } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
-    const textValue = getFormattedDate(intl, value) || intl.formatMessage({ id: 'attribute.render.no.value.label' })
+    const textValue = getFormattedDate(intl, value) || intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}
@@ -71,4 +72,4 @@ export class DateAttributeRender extends React.Component {
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateAttributeRender)
+export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateValueRender)
