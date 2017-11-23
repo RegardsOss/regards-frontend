@@ -44,19 +44,17 @@ import {
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { FormattedMessage } from 'react-intl'
-import { IngestShapes } from '@regardsoss/shape'
 import { sessionActions, sessionSelectors } from '../clients/SessionClient'
 import { tableActions } from '../clients/TableClient'
 import SIPSessionProgressCustomCell from './SIPSessionProgressCustomCell'
 
 /**
-* SIP list test
-* @author Maxime Bouveron
-*/
+ * SIP list test
+ * @author Maxime Bouveron
+ */
 class SIPSessionComponent extends React.Component {
   static propTypes = {
     handleOpen: PropTypes.func,
-    sessions: PropTypes.objectOf(IngestShapes.IngestSession),
   }
 
   static contextTypes = {
@@ -66,105 +64,9 @@ class SIPSessionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      trucmuche: false,
-    }
-  }
-
-  renderBar = (step, progress, total) => {
-    const { moduleTheme: { sip: { session: { bars } } } } = this.context
-    return (
-      <div style={bars[step].borderStyle}>
-        <div
-          style={{
-            ...bars.barStyle,
-            ...bars[step].backgroundStyle,
-            ...{ width: `${progress / total * 100}%` },
-          }}
-        >
-          <div style={bars.interiorStyle}>
-            {progress} / {total}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   renderTable = () => {
-    const { intl, moduleTheme: { sip } } = this.context
-    return (
-      <Table selectable={false}>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-          <TableRow>
-            <TableHeaderColumn>
-              <FormattedMessage id="sips.session.table.headers.id" />
-            </TableHeaderColumn>
-            <TableHeaderColumn>
-              <FormattedMessage id="sips.session.table.headers.generated" />
-            </TableHeaderColumn>
-            <TableHeaderColumn>
-              <FormattedMessage id="sips.session.table.headers.stored" />
-            </TableHeaderColumn>
-            <TableHeaderColumn>
-              <FormattedMessage id="sips.session.table.headers.indexed" />
-            </TableHeaderColumn>
-            <TableHeaderColumn>
-              <FormattedMessage id="sips.session.table.headers.errors" />
-            </TableHeaderColumn>
-            <TableHeaderColumn>
-              <FormattedMessage id="sips.session.table.headers.date" />
-            </TableHeaderColumn>
-            <TableHeaderColumn>
-              <FormattedMessage id="sips.session.table.headers.actions" />
-            </TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody displayRowCheckbox={false} preScanRows={false}>
-          {[...Array(10).keys()].map(item => (
-            <TableRow key={item}>
-              <TableRowColumn>{item}</TableRowColumn>
-              <TableRowColumn>{this.renderBar('generated', item * 5, 50)}</TableRowColumn>
-              <TableRowColumn>{this.renderBar('stored', item * 5, 50)}</TableRowColumn>
-              <TableRowColumn>{this.renderBar('indexed', item * 5, 50)}</TableRowColumn>
-              <TableRowColumn style={sip.session.error.rowColumnStyle}>
-                {item % 3} / 50
-                <ShowableAtRender show={item % 3 > 0}>
-                  <IconButton iconStyle={sip.session.error.iconStyle}>
-                    <Error />
-                  </IconButton>
-                </ShowableAtRender>
-              </TableRowColumn>
-              <TableRowColumn>12/10/2017</TableRowColumn>
-              <TableRowColumn>
-                <IconButton
-                  title={intl.formatMessage({
-                    id: 'sips.session.table.actions.delete',
-                  })}
-                >
-                  <Delete />
-                </IconButton>
-                <IconButton
-                  title={intl.formatMessage({
-                    id: 'sips.session.table.actions.list',
-                  })}
-                  onTouchTap={this.props.handleOpen}
-                >
-                  <Arrow />
-                </IconButton>
-              </TableRowColumn>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    )
-  }
-
-  renderInfiniteTable = () => {
     const { intl, muiTheme, moduleTheme: { sip } } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
-    const { sessions } = this.props
 
     const columns = [
       // id column
@@ -179,7 +81,7 @@ class SIPSessionComponent extends React.Component {
           intl.formatMessage({ id: `sips.session.table.headers.${step}` }),
           {
             Constructor: SIPSessionProgressCustomCell,
-            props: { sessions, step },
+            props: { step },
           },
         ),
       ),
@@ -187,24 +89,24 @@ class SIPSessionComponent extends React.Component {
         'column.errors',
         intl.formatMessage({ id: 'sips.session.table.headers.errors' }),
         {
-          Constructor: (props) => {
-            const session = this.props.sessions[props.entity.content.id]
-            return (
-              <div style={sip.session.error.rowColumnStyle}>
-                <div style={sip.session.error.textStyle}>
-                  {session.content.errorSipsCount} / {session.content.sipsCount}
-                </div>
-                <ShowableAtRender
-                  style={sip.session.error.iconContainerStyle}
-                  show={session.content.errorSipsCount > 0}
-                >
-                  <IconButton iconStyle={sip.session.error.iconStyle}>
-                    <Error />
-                  </IconButton>
-                </ShowableAtRender>
+          Constructor: props => (
+            <div style={sip.session.error.rowColumnStyle}>
+              <div style={sip.session.error.textStyle}>
+                {props.entity.content.errorSipsCount} / {props.entity.content.sipsCount}
               </div>
-            )
-          },
+              <ShowableAtRender
+                style={sip.session.error.iconContainerStyle}
+                show={props.entity.content.errorSipsCount > 0}
+              >
+                <IconButton
+                  iconStyle={sip.session.error.iconStyle}
+                  onTouchTap={() => this.props.handleOpen(props.entity.content.id, true)}
+                >
+                  <Error />
+                </IconButton>
+              </ShowableAtRender>
+            </div>
+          ),
         },
       ),
       TableColumnBuilder.buildSimplePropertyColumn(
@@ -228,12 +130,12 @@ class SIPSessionComponent extends React.Component {
             optionProps: {},
           },
           {
-            OptionConstructor: () => (
+            OptionConstructor: props => (
               <IconButton
                 title={intl.formatMessage({
                   id: 'sips.session.table.actions.list',
                 })}
-                onTouchTap={this.props.handleOpen}
+                onTouchTap={() => this.props.handleOpen(props.entity.content.id)}
               >
                 <Arrow />
               </IconButton>
@@ -255,7 +157,6 @@ class SIPSessionComponent extends React.Component {
           tableActions={tableActions}
           pageSize={10}
           columns={columns}
-          displayColumnsHeader
         />
       </TableLayout>
     )
@@ -346,7 +247,7 @@ class SIPSessionComponent extends React.Component {
             <RaisedButton label={intl.formatMessage({ id: 'sips.button.filter' })} primary />
           </div>
         </CardText>
-        <CardMedia>{this.state.trucmuche ? this.renderTable() : this.renderInfiniteTable()}</CardMedia>
+        <CardMedia>{this.renderTable()}</CardMedia>
       </Card>
     )
   }

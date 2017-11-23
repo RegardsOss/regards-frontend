@@ -25,17 +25,15 @@ class SIPSessionProgressCustomCell extends React.Component {
   }
 
   static propTypes = {
-    sessions: PropTypes.objectOf(IngestShapes.IngestSession),
     entity: IngestShapes.IngestSession,
     step: PropTypes.string,
   }
 
   render() {
     const { moduleTheme: { sip: { session: { bars } } } } = this.context
-    const session = this.props.sessions[this.props.entity.content.id]
     const { step } = this.props
-    const progress = session.content[`${step}SipsCount`]
-    const total = session.content.sipsCount
+    const progress = this.props.entity.content[`${step}SipsCount`]
+    const total = this.props.entity.content.sipsCount
 
     return (
       <div style={{ ...bars.borderStyle, ...bars[step].borderStyle }}>

@@ -30,7 +30,7 @@ export const sipSessionRoute = {
 }
 
 export const sipListRoute = {
-  path: 'list',
+  path: ':session/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const container = require('./containers/SIPListContainer')
