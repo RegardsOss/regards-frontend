@@ -5,7 +5,7 @@ import { PluginMetaDataConfiguration } from '@regardsoss/api'
 import { pluginMetadataActions } from '../clients/PluginMetadataClient'
 import PluginListComponent from '../components/PluginListComponent'
 
-class PluginListContainer extends React.Component {
+export class PluginListContainer extends React.Component {
 
   static propTypes = {
     title: PropTypes.string,

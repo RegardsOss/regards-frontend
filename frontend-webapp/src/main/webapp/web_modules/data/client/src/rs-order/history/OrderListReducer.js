@@ -32,7 +32,6 @@ import OrderListActions from './OrderListActions'
  * @return {function} reduce function
  */
 export default (namespace, isAllUser = false) => {
-  // TODO valid configuration
   const instance = new BasicPageableReducers(OrderConfiguration, new OrderListActions(namespace, isAllUser))
   return (state, action) => instance.reduce(state, action)
 }

@@ -18,11 +18,6 @@
  **/
 
 export default theme => ({
-  textRenderCell: {
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
   thumbnailCell: {
     display: 'block',
     cursor: 'pointer',
