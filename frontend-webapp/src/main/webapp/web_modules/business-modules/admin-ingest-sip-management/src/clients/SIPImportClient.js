@@ -30,7 +30,7 @@ const sipImportActions = new IngestClient.SIPImportActions(REDUX_ACTION_NAMESPAC
 const sipImportReducer = IngestClient.getSIPImportReducer(REDUX_ACTION_NAMESPACE)
 const sipImportSelectors = IngestClient.getSIPImportSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   sipImportActions,
   sipImportReducer,
   sipImportSelectors,

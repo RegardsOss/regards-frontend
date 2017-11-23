@@ -39,7 +39,7 @@ const addDependencies = [
   sipActions.getDependency(RequestVerbEnum.POST),
 ]
 
-export default {
+module.exports = {
   listDependencies,
   addDependencies,
 }
