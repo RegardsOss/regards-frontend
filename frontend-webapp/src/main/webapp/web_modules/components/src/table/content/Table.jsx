@@ -65,6 +65,7 @@ class Table extends React.Component {
   }
 
   static defaultProps = {
+    displayColumnsHeader: true,
     displayCheckbox: false,
     displaySelectAll: false,
   }

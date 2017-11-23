@@ -51,6 +51,7 @@ import AIPStatus from './archival-storage/AIPStatus'
 import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
 import ProcessingChain from './ingest/ProcessingChain'
+import Order from './order/Order'
 import Sip from './ingest/SIP'
 import Session from './ingest/Session'
 
@@ -163,6 +164,8 @@ export default {
   ...UIPluginConf,
 
   ...LinkUIPluginDataset,
+
+  ...Order,
 
   ...ProcessingChain,
   ...Sip,

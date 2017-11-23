@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/order-common",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Common tools to display orders in Regards",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPL-3.0"
+}

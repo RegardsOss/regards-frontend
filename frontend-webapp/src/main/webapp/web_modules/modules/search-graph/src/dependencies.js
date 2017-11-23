@@ -25,7 +25,7 @@ import { AttributeModelActions } from './clients/AttributeModelClient'
  * Module hateoas depencies
  */
 const user = [
-  ...resultsDependencies.user,
+  // none: displayed directly by the module to show appropriate messages
 ]
 
 const admin = [

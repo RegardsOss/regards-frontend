@@ -60,12 +60,13 @@ npm link web_modules/components
 # Common business components
 npm link web_modules/business-common/admin-data-entities-attributes-management
 npm link web_modules/business-common/attributes-common
-npm link web_modules/business-common/entities-common
-npm link web_modules/business-common/user-metadata-common
 npm link web_modules/business-common/endpoints-common
+npm link web_modules/business-common/entities-common
 npm link web_modules/business-common/global-system-error
-npm link web_modules/business-common/project-handler
 npm link web_modules/business-common/microservice-plugin-configurator
+npm link web_modules/business-common/order-common
+npm link web_modules/business-common/project-handler
+npm link web_modules/business-common/user-metadata-common
 
 # Administration modules
 npm link web_modules/business-modules/admin-board-acquisition

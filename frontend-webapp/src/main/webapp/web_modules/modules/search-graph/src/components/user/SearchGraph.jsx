@@ -7,6 +7,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DynamicModule, ModuleTitle } from '@regardsoss/components'
 import { ScrollArea } from '@regardsoss/adapters'
+import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
 import GraphLevelDisplayerContainer from '../../containers/user/GraphLevelDisplayerContainer'
@@ -81,6 +82,7 @@ class SearchGraph extends React.Component {
         options={headerOptionsComponents}
         onExpandChange={onExpandChange}
         expanded={expanded}
+        requiredDependencies={dependencies}
       >
         <div>
           { /* Graph horizontal scroll area, holding columns */}
