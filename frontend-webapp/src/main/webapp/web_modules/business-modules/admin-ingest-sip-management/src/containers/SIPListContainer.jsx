@@ -70,10 +70,6 @@ export class SIPListContainer extends React.Component {
     this.props.fetchSips()
   }
 
-  componentDidMount() {
-    console.log(this.props.sips)
-  }
-
   handleGoBack = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/sip/session`

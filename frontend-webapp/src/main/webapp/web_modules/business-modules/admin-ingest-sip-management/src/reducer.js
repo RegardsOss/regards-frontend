@@ -19,10 +19,12 @@
 import { combineReducers } from 'redux'
 import { sipReducer } from './clients/SIPClient'
 import { sessionReducer } from './clients/SessionClient'
+import { tableReducer } from './clients/TableClient'
 
 const sipManagementReducer = combineReducers({
   sip: sipReducer,
   session: sessionReducer,
+  'session-table': tableReducer,
 })
 
 export default sipManagementReducer

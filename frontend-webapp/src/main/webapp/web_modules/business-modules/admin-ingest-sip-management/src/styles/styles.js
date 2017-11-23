@@ -51,12 +51,19 @@ const sipManagementStyles = theme => ({
     session: {
       bars: {
         interiorStyle: {
-          width: 200,
+          textAlign: 'left',
+          fontSize: '0.9em',
+          width: 100,
         },
         barStyle: {
           padding: 3,
         },
-        indexation: {
+        borderStyle: {
+          width: '100%',
+          marginLeft: 4,
+          marginRight: 4,
+        },
+        indexed: {
           borderStyle: {
             border: '2px solid #4CAF50',
           },
@@ -64,7 +71,7 @@ const sipManagementStyles = theme => ({
             backgroundColor: '#4CAF50',
           },
         },
-        storage: {
+        stored: {
           borderStyle: {
             border: '2px solid #00BCD4',
           },
@@ -72,7 +79,7 @@ const sipManagementStyles = theme => ({
             backgroundColor: '#00BCD4',
           },
         },
-        generation: {
+        generated: {
           borderStyle: {
             border: '2px solid #2196F3',
           },
@@ -85,6 +92,14 @@ const sipManagementStyles = theme => ({
         rowColumnStyle: {
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'flex-start',
+          width: '80%',
+        },
+        iconContainerStyle: {
+          width: '25%',
+        },
+        textStyle: {
+          width: '75%',
         },
         iconStyle: {
           color: '#f44336',

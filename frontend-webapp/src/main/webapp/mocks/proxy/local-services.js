@@ -318,48 +318,7 @@ function buildLocalServices(gatewayURL) {
         return result
       }},
       getSessions: { url: 'rs-ingest/sessions', handler: () => {
-        const content = {
-          "metadata" : {
-            "size" : 20,
-            "totalElements" : 1,
-            "totalPages" : 1,
-            "number" : 0
-          },
-          "content" : [ {
-            "content" : {
-              "id" : "sessionId",
-              "lastActivationDate" : "2017-11-17T17:05:41.524Z",
-              "sipsCount" : 2,
-              "indexedSipsCount" : 0,
-              "storedSipsCount" : 0,
-              "generatedSipsCount" : 0,
-              "errorSipsCount" : 0
-            },
-            "links" : [ ]
-          },
-          {
-            "content" : {
-              "id" : "sessionId2",
-              "lastActivationDate" : "2017-11-17T17:05:41.524Z",
-              "sipsCount" : 2,
-              "indexedSipsCount" : 0,
-              "storedSipsCount" : 0,
-              "generatedSipsCount" : 0,
-              "errorSipsCount" : 0
-            },
-            "links" : [ ]
-          } ],
-          "links" : [ {
-            "rel" : "self",
-            "href" : "http://localhost:8080/sessions?page=0&size=20",
-            "template" : {
-              "variables" : {
-                "variables" : [ ]
-              },
-              "baseUri" : "http://localhost:8080/sessions?page=0&size=20"
-            }
-          } ]
-        }
+        const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
         return { content }
       }},
       storageMonitoring: {

@@ -20,6 +20,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
+import { IngestShapes } from '@regardsoss/shape'
 import SIPSessionComponent from '../components/SIPSessionComponent'
 import messages from '../i18n'
 import styles from '../styles/styles'
@@ -38,7 +39,7 @@ export class SIPSessionContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      sessions: sessionSelectors.getResults(state),
+      sessions: sessionSelectors.getList(state),
     }
   }
 
@@ -60,7 +61,7 @@ export class SIPSessionContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    sessions: PropTypes.arrayOf(Object),
+    sessions: PropTypes.objectOf(IngestShapes.IngestSession),
     // from mapDispatchToProps
     fetchSessions: PropTypes.func,
   }
@@ -68,11 +69,6 @@ export class SIPSessionContainer extends React.Component {
   componentWillMount() {
     this.props.fetchSessions()
   }
-
-  componentDidMount() {
-    console.log(this.props.sessions)
-  }
-
 
   handleOpen = () => {
     const { params: { project } } = this.props
@@ -85,7 +81,7 @@ export class SIPSessionContainer extends React.Component {
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={stylesObj}>
-          <SIPSessionComponent handleOpen={this.handleOpen} />
+          <SIPSessionComponent sessions={this.props.sessions} handleOpen={this.handleOpen} />
         </ModuleStyleProvider>
       </I18nProvider>
     )

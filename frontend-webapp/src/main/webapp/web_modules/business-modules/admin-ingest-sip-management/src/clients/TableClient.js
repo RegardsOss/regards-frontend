@@ -16,25 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-/**
- * Describes a SIP shape and related sub objects
- * @author Maxime Bouveron
- */
-
-/** A dated selection item shape */
-const IngestSession = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    lastActivationDate: PropTypes.string.isRequired,
-    sipsCount: PropTypes.number.isRequired,
-    indexedSipsCount: PropTypes.number.isRequired,
-    storedSipsCount: PropTypes.number.isRequired,
-    generatedSipsCount: PropTypes.number.isRequired,
-    errorSipsCount: PropTypes.number.isRequired,
-  }),
-})
+const NAMESPACE = 'admin-ingest-sip-management/table'
+const STORE_PATH = ['admin', 'acquisition', 'sip-management', 'session-table']
 
 export default {
-  IngestSession,
+  tableActions: new TableActions(NAMESPACE),
+  tableReducer: getTableReducer(NAMESPACE),
+  tableSelectors: getTableSelectors(STORE_PATH),
 }
