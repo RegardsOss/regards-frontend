@@ -18,7 +18,6 @@
  **/
 import flatMap from 'lodash/flatMap'
 import { themeContextType } from '@regardsoss/theme'
-import StringValueRender from '../../../values/StringValueRender'
 import ValuesSeparator from './ValuesSeparator'
 
 
@@ -40,12 +39,8 @@ export default class ValuesRenderCell extends React.Component {
       // vallue producer from entity
       getValue: PropTypes.func.isRequired,
       // value renderer, opional
-      RenderConstructor: PropTypes.func.isRequired,
+      RenderConstructor: PropTypes.func,
     })).isRequired,
-  }
-
-  static defaultProps = {
-    RenderConstructor: StringValueRender,
   }
 
   static contextTypes = {
