@@ -44,6 +44,13 @@ const messages = {
   'form.datetimepicker.date.label': '{label} / date',
   'form.datetimepicker.time.label': '{label} / time',
   'form.datetimepicker.clear': 'Reset',
+
+  'renderer.fileField.file.name': 'Name',
+  'renderer.fileField.file.type': 'Type',
+  'renderer.fileField.file.size': 'Size (bits)',
+  'renderer.fileField.button.select.label': 'Select a file',
+  'renderer.fileField.button.change.label': 'Change selected file',
+  'renderer.fileField.no.file.selected': 'No file selected',
 }
 
 export default messages

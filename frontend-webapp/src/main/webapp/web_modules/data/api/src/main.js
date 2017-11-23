@@ -169,5 +169,6 @@ export default {
 
   ...ProcessingChain,
   ...Sip,
+
   ...Session,
 }

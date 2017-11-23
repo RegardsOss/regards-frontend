@@ -18,10 +18,12 @@
  **/
 import IngestProcessingChain from './IngestProcessingChain'
 import IngestSIP from './IngestSIP'
+import SIPSubmited from './SIPSubmited'
 import IngestSession from './IngestSession'
 
 export default {
   ...IngestProcessingChain,
   ...IngestSIP,
   ...IngestSession,
+  ...SIPSubmited,
 }

@@ -16,17 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { sipReducer } from './clients/SIPClient'
-import { sipImportReducer } from './clients/SIPImportClient'
-import { sessionReducer } from './clients/SessionClient'
-import { tableReducer } from './clients/TableClient'
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-const sipManagementReducer = combineReducers({
-  sip: sipReducer,
-  sipImport: sipImportReducer,
-  session: sessionReducer,
-  'session-table': tableReducer,
+/**
+ * @author Sébastien Binda
+ */
+describe('[ADMIN INGEST SIP MANAGEMENT] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
 })
-
-export default sipManagementReducer

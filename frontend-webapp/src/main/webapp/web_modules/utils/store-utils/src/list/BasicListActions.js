@@ -17,8 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { normalize } from 'normalizr'
-import forEach from 'lodash/forEach'
-import isObject from 'lodash/isObject'
 import BasicActions from '../BasicActions'
 
 const { CALL_API, getJSON } = require('redux-api-middleware')
@@ -239,8 +237,8 @@ class BasicListActions extends BasicActions {
   createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicListActions.createFormDataWithFilesMap(objectValues, files)
+    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
+    const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
     return {
       [CALL_API]: {
         types: [
@@ -270,8 +268,8 @@ class BasicListActions extends BasicActions {
     let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
     endpoint = `${endpoint}/${keyValue}`
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
-    endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicListActions.createFormDataWithFilesMap(objectValues, files)
+    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
+    const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
     return {
       [CALL_API]: {
         types: [
@@ -301,8 +299,8 @@ class BasicListActions extends BasicActions {
   sendMultipleFiles(objectValues, files, fileKey, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = BasicListActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicListActions.createFormDataWithFilesList(objectValues, files, fileKey)
+    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
+    const formData = BasicActions.createFormDataWithFilesList(objectValues, files, fileKey)
     return {
       [CALL_API]: {
         types: [
@@ -349,82 +347,6 @@ class BasicListActions extends BasicActions {
     return normalize(json, this.schemaTypes.ENTITY)
   }
 
-  static useZuulSlugForMultiPartRoutes(endpoint) {
-    return endpoint.replace(`/${API_URL}/`, `/zuul/${API_URL}/`)
-  }
-
-  static createFormDataWithFilesMap(objectValues, filesMap) {
-    const formData = new FormData()
-    // Handle object values
-    BasicListActions.addObjectValuesToFormData(formData, objectValues)
-    // Handle files
-    BasicListActions.addFilesMapToFormData(formData, filesMap)
-    return formData
-  }
-
-
-  static createFormDataWithFilesList(objectValues, filesList, filesKey) {
-    const formData = new FormData()
-    // Handle object values
-    BasicListActions.addObjectValuesToFormData(formData, objectValues)
-    // Handle files
-    BasicListActions.addFilesListToFormData(formData, filesList, filesKey)
-    return formData
-  }
-
-  /**
-   * Handle object values
-   * @param formData
-   * @param objectValues
-   */
-  static addObjectValuesToFormData(formData, objectValues) {
-    forEach(objectValues, (value, key) => {
-      if (isObject(value)) {
-        // This is an object that we need to stringify
-        formData.append(key,
-          new Blob(
-            [JSON.stringify(value)],
-            {
-              type: 'application/json',
-            },
-          ),
-        )
-      } else {
-        formData.append(key, value)
-      }
-    })
-  }
-
-  /**
-   * Add a map of files<key, File> to FormData
-   * Uses the map key on the payload foreach file
-   * @param formData a FormData instance
-   * @param filesMap a map of files
-   */
-  static addFilesMapToFormData(formData, filesMap) {
-    forEach(filesMap, (value, key) => {
-      if (isObject(value)) {
-        // This is an image
-        formData.append(key, value)
-      }
-    })
-  }
-
-
-  /**
-   * Add a list of files to FormData
-   * @param formData a FormData instance
-   * @param filesList a list of files
-   * @param fileKey the key used on the payload
-   */
-  static addFilesListToFormData(formData, filesList, fileKey) {
-    forEach(filesList, (value) => {
-      if (isObject(value)) {
-        // This is an image
-        formData.append(fileKey, value)
-      }
-    })
-  }
 }
 
 export default BasicListActions

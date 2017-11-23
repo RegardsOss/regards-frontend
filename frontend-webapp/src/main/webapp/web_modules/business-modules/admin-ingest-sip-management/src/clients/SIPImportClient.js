@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,18 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { sipReducer } from './clients/SIPClient'
-import { sipImportReducer } from './clients/SIPImportClient'
-import { sessionReducer } from './clients/SessionClient'
-import { tableReducer } from './clients/TableClient'
+ */
+import { IngestClient } from '@regardsoss/client'
 
-const sipManagementReducer = combineReducers({
-  sip: sipReducer,
-  sipImport: sipImportReducer,
-  session: sessionReducer,
-  'session-table': tableReducer,
-})
+/**
+ * SIP submitted during importation entities client.
+ *
+ * @author Sébastien Binda
+ */
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip-management', 'sipImport']
+const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/sipsimport'
 
-export default sipManagementReducer
+const sipImportActions = new IngestClient.SIPImportActions(REDUX_ACTION_NAMESPACE)
+const sipImportReducer = IngestClient.getSIPImportReducer(REDUX_ACTION_NAMESPACE)
+const sipImportSelectors = IngestClient.getSIPImportSelectors(ENTITIES_STORE_PATH)
+
+export default {
+  sipImportActions,
+  sipImportReducer,
+  sipImportSelectors,
+}

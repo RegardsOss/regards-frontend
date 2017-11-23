@@ -44,15 +44,15 @@ describe('[COMPONENTS] Testing StringValueRender', () => {
     const props = { value: null }
     wrapper = shallow(<StringValueRender {...props} />, { context })
     assert.include(wrapper.text(), 'value.render.no.value.label', 'Null value => no data text')
-    // empty
-    const props2 = { value: '' }
-    wrapper = shallow(<StringValueRender {...props2} />, { context })
-    assert.include(wrapper.text(), 'value.render.no.value.label', 'Null value => no data text')
   })
 
   it('Should render a string value', () => {
     const props = { value: 'Any value' }
-    const wrapper = shallow(<StringValueRender {...props} />, { context })
+    let wrapper = shallow(<StringValueRender {...props} />, { context })
     assert.include(wrapper.text(), props.value)
+    // empty
+    const props2 = { value: '' }
+    wrapper = shallow(<StringValueRender {...props2} />, { context })
+    assert.include(wrapper.text(), '', 'Null value => no data text')
   })
 })

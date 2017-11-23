@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
-import { Field, RenderFileField, reduxForm } from '@regardsoss/form-utils'
+import { Field, RenderFileFieldWithMui, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -25,7 +25,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  * Component to start an ingest process
  * @author Sébastien Binda
  */
-class SIPSubmitionForm extends React.Component {
+export class SIPSubmitionFormComponent extends React.Component {
 
   static propTypes = {
     submitSips: PropTypes.func.isRequired,
@@ -56,8 +56,10 @@ class SIPSubmitionForm extends React.Component {
             }
             <Field
               name={'sips'}
-              component={RenderFileField}
-              fullWidth
+              component={RenderFileFieldWithMui}
+              label={intl.formatMessage({ id: 'sips.submit.select.file.button' })}
+              changeLabel={intl.formatMessage({ id: 'sips.submit.change.file.button' })}
+              accept={'.json'}
             />
           </CardText>
           <CardActions>
@@ -77,6 +79,6 @@ class SIPSubmitionForm extends React.Component {
 
 const connectedReduxForm = reduxForm({
   form: 'suip-submit-form',
-})(SIPSubmitionForm)
+})(SIPSubmitionFormComponent)
 
 export default connectedReduxForm

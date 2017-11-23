@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isObject from 'lodash/isObject'
 import forEach from 'lodash/forEach'
 import replace from 'lodash/replace'
 import split from 'lodash/split'
@@ -174,6 +175,82 @@ class BasicActions {
     }
 
     return `${microservice}@/${endpoint}@${requestHttpVerb}`
+  }
+
+  static createFormDataWithFilesMap(objectValues, filesMap) {
+    const formData = new FormData()
+    // Handle object values
+    BasicActions.addObjectValuesToFormData(formData, objectValues)
+    // Handle files
+    BasicActions.addFilesMapToFormData(formData, filesMap)
+    return formData
+  }
+
+  static useZuulSlugForMultiPartRoutes(endpoint) {
+    return endpoint.replace(`/${API_URL}/`, `/zuul/${API_URL}/`)
+  }
+
+  static createFormDataWithFilesList(objectValues, filesList, filesKey) {
+    const formData = new FormData()
+    // Handle object values
+    BasicActions.addObjectValuesToFormData(formData, objectValues)
+    // Handle files
+    BasicActions.addFilesListToFormData(formData, filesList, filesKey)
+    return formData
+  }
+
+  /**
+   * Handle object values
+   * @param formData
+   * @param objectValues
+   */
+  static addObjectValuesToFormData(formData, objectValues) {
+    forEach(objectValues, (value, key) => {
+      if (isObject(value)) {
+        // This is an object that we need to stringify
+        formData.append(key,
+          new Blob(
+            [JSON.stringify(value)],
+            {
+              type: 'application/json',
+            },
+          ),
+        )
+      } else {
+        formData.append(key, value)
+      }
+    })
+  }
+
+  /**
+   * Add a map of files<key, File> to FormData
+   * Uses the map key on the payload foreach file
+   * @param formData a FormData instance
+   * @param filesMap a map of files
+   */
+  static addFilesMapToFormData(formData, filesMap) {
+    forEach(filesMap, (value, key) => {
+      if (isObject(value)) {
+        // This is an image
+        formData.append(key, value)
+      }
+    })
+  }
+
+
+  /**
+   * Add a list of files to FormData
+   * @param formData a FormData instance
+   * @param filesList a list of files
+   * @param fileKey the key used on the payload
+   */
+  static addFilesListToFormData(formData, filesList, fileKey) {
+    forEach(filesList, (value) => {
+      if (isObject(value)) {
+        // This is an image
+        formData.append(fileKey, value)
+      }
+    })
   }
 }
 
