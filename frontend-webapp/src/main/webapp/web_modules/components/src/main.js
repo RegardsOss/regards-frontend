@@ -116,6 +116,7 @@ import DateRangeValueRender from './values/DateRangeValueRender'
 import DateValueRender from './values/DateValueRender'
 import NumberValueRender from './values/NumberValueRender'
 import RangeValueRender from './values/RangeValueRender'
+import StorageCapacityRender from './values/StorageCapacityRender'
 import StringArrayValueRender from './values/StringArrayValueRender'
 import StringValueRender from './values/StringValueRender'
 import URLValueRender from './values/URLValueRender'
@@ -210,6 +211,7 @@ export {
   DateValueRender,
   NumberValueRender,
   RangeValueRender,
+  StorageCapacityRender,
   StringArrayValueRender,
   StringValueRender,
   URLValueRender,

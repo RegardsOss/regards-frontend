@@ -18,6 +18,7 @@
  **/
 import compose from 'lodash/fp/compose'
 import isString from 'lodash/isString'
+import isUndefined from 'lodash/isUndefined'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import messages from './i18n'
@@ -47,7 +48,7 @@ export class StringValueRender extends React.Component {
     let textValue
     if (isString(value)) { // string value
       textValue = value
-    } else if (value) { // value to convert (defined)
+    } else if (!isUndefined(value)) { // value to convert (defined)
       textValue = String(value)
     } else { // no value
       textValue = intl.formatMessage({ id: 'value.render.no.value.label' })
