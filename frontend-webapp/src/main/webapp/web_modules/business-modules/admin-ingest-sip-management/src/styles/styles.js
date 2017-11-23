@@ -17,6 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 const sipManagementStyles = theme => ({
+  import: {
+    errorColor: theme['forms-extension:validation'].errorColor,
+    validColor: theme['forms-extension:validation'].validColor,
+  },
   sip: {
     stepperStyle: {
       width: 600,

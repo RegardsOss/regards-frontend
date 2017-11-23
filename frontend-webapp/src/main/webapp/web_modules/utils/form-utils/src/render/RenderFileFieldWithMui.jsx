@@ -87,7 +87,6 @@ class RenderFileFieldWithMui extends React.Component {
     // eslint-disable-next-line
     const { input: { value, onChange, onBlur, ...inputProps }, meta: { omitMeta }, fullWidth, accept, intl, label, changeLabel, ...otherProps } = this.props
     const buttonLabel = value ? changeLabel || label || intl.formatMessage({ id: 'renderer.fileField.button.change.label' }) : label || intl.formatMessage({ id: 'renderer.fileField.button.select.label' })
-    console.error('JSON', accept)
     return (
       <div>
         {this.renderFilePreview(value)}
