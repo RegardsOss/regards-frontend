@@ -99,6 +99,63 @@ function buildLocalServices(gatewayURL) {
             }
           }
         }
+      },
+      getSIPS: { url: 'rs-ingest/sips', handler: () => {
+        const content = addLinks([
+          {
+            id: 1,
+            test: "maisbiensurqueçamarche",
+          },
+          {
+            id: 2,
+            test: "çamarchepas",
+          },
+          {
+            id: 3,
+            test: "enfaitsi",
+          },
+          {
+            id: 4,
+            test: "nonenfaitvraimentpas",
+          },
+        ])
+        const result = {
+          metadata: {
+            size: 4,
+            totalElements: 4,
+            totalPages: 1,
+            number: 0,
+          },
+          content
+        }
+        return result
+      }},
+      getSessions: { url: 'rs-ingest/sessions', handler: () => {
+        const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
+        return { content }
+      }},
+      userOrders: {
+        url: 'user/orders', handler: (req, resp, pathParameters, { page, size }) => {
+          const pageIndex = parseInt(page, 10)
+          const ordersList = MOCKED_ORDERS_LIST.slice(pageIndex * size, Math.min((pageIndex + 1) * size, MOCKED_ORDERS_LIST.length))
+          return {
+            content: {
+              content: ordersList,
+              metadata: {
+                number: pageIndex,
+                size: ordersList.length,
+                totalElements: MOCKED_ORDERS_LIST.length,
+              },
+            }
+          }
+          return { content }
+        },
+      },
+      storageMonitoring: {
+        url: 'rs-storage/storages/monitoring', handler: () => {
+          const content = addLinks(JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')))
+          return { content }
+        }
       }
     },
     PUT: {

@@ -19,8 +19,8 @@
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
 import AccountOperationActions from './AccountOperationActions'
 
-export const ResetPasswordActions = new AccountOperationActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
-export default {
+module.exports = {
+  ResetPasswordActions: new AccountOperationActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword),
   sendAskResetPassword: mail => ResetPasswordActions.sendAskRequest(mail),
   sendFinishResetPassword: (token, mail, newPassword) => ResetPasswordActions.sendFinishRequest(token, mail, { newPassword }),
 }

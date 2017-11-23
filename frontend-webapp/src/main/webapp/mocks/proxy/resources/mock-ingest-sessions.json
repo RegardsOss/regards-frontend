@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "size": 21,
+    "totalElements": 3,
+    "totalPages": 1,
+    "number": 0
+  },
+  "content": [
+    {
+      "content": {
+        "id": "sessionId",
+        "lastActivationDate": "2017-11-17T17:05:41.524Z",
+        "sipsCount": 12,
+        "generatedSipsCount": 8,
+        "storedSipsCount": 5,
+        "indexedSipsCount": 2,
+        "errorSipsCount": 0
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id": "sessionId2",
+        "lastActivationDate": "2017-11-25T17:05:41.524Z",
+        "sipsCount": 54,
+        "generatedSipsCount": 53,
+        "storedSipsCount": 53,
+        "indexedSipsCount": 53,
+        "errorSipsCount": 1
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id": "sessionId3",
+        "lastActivationDate": "2017-11-10T17:05:41.524Z",
+        "sipsCount": 10,
+        "generatedSipsCount": 10,
+        "storedSipsCount": 0,
+        "indexedSipsCount": 0,
+        "errorSipsCount": 10
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id": "sessionId4",
+        "lastActivationDate": "2017-11-10T17:05:41.524Z",
+        "sipsCount": 100,
+        "generatedSipsCount": 50,
+        "storedSipsCount": 30,
+        "indexedSipsCount": 20,
+        "errorSipsCount": 5
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id": "sessionId5",
+        "lastActivationDate": "2017-11-10T17:05:41.524Z",
+        "sipsCount": 150,
+        "generatedSipsCount": 150,
+        "storedSipsCount": 143,
+        "indexedSipsCount": 140,
+        "errorSipsCount": 10
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id": "sessionId6",
+        "lastActivationDate": "2017-11-10T17:05:41.524Z",
+        "sipsCount": 150,
+        "generatedSipsCount": 150,
+        "storedSipsCount": 10,
+        "indexedSipsCount": 10,
+        "errorSipsCount": 140
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id": "sessionId7",
+        "lastActivationDate": "2017-11-10T17:05:41.524Z",
+        "sipsCount": 3,
+        "generatedSipsCount": 3,
+        "storedSipsCount": 3,
+        "indexedSipsCount": 3,
+        "errorSipsCount": 0
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id": "sessionId8",
+        "lastActivationDate": "2017-11-10T17:05:41.524Z",
+        "sipsCount": 10,
+        "generatedSipsCount": 3,
+        "storedSipsCount": 3,
+        "indexedSipsCount": 2,
+        "errorSipsCount": 1
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id": "sessionId9",
+        "lastActivationDate": "2017-11-10T17:05:41.524Z",
+        "sipsCount": 560,
+        "generatedSipsCount": 302,
+        "storedSipsCount": 254,
+        "indexedSipsCount": 123,
+        "errorSipsCount": 437
+      },
+      "links": []
+    },
+    {
+      "content": {
+        "id": "sessionId10",
+        "lastActivationDate": "2017-11-10T17:05:41.524Z",
+        "sipsCount": 1,
+        "generatedSipsCount": 1,
+        "storedSipsCount": 0,
+        "indexedSipsCount": 0,
+        "errorSipsCount": 0
+      },
+      "links": []
+    }
+  ],
+  "links": [
+    {
+      "rel": "self",
+      "href": "http://localhost:8080/sessions?page=0&size=20",
+      "template": {
+        "variables": {
+          "variables": []
+        },
+        "baseUri": "http://localhost:8080/sessions?page=0&size=20"
+      }
+    }
+  ]
+}

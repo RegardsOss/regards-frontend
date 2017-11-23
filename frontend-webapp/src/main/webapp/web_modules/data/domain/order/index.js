@@ -19,7 +19,7 @@
 
 import { ORDER_STATUS_ENUM, ORDER_STATUS } from './OrderStatus'
 
-export default {
+module.exports = {
   ORDER_STATUS,
   ORDER_STATUS_ENUM,
 }

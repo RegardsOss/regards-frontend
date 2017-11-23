@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export default {
+module.exports = {
   DISABLED: 'DISABLED',
   CONNECTING: 'CONNECTING',
   ERROR: 'ERROR',

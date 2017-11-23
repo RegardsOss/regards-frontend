@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/admin-ingest-sip-management",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPL-3.0"
+}

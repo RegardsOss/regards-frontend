@@ -21,7 +21,7 @@
  * Mock server response for UIPluginDefinition entities
  * @author Léo Mieulet
  */
-export default {
+module.exports = {
   content: [
     {
       content: {

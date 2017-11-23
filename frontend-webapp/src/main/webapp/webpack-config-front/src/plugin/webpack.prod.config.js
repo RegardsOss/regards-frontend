@@ -6,6 +6,10 @@ const getCommonConfig = require('./webpack.common.config')
 
 module.exports = function (projectContextPath, frontendWebappPath) {
   const config = getCommonConfig(projectContextPath, 'prod')
+  
+  // Ensure babel environment variable is correctly setup to production
+  process.env.NODE_ENV = 'production'
+
   return merge(config, {
     plugins: [
       new webpack.DllReferencePlugin({

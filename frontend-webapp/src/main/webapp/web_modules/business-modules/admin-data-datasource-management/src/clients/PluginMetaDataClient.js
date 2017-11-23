@@ -31,7 +31,7 @@ const pluginMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTIO
 const pluginMetaDataSelectors = CommonClient.getPluginMetaDataSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   pluginMetaDataReducer,
   pluginMetaDataActions,
   pluginMetaDataSelectors,

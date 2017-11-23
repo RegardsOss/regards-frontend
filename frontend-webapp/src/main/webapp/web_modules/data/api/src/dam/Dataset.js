@@ -18,7 +18,7 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-export const DatasetConfiguration = {
+const DatasetConfiguration = {
   entityKey: 'id',
   normalizrKey: 'datasets',
 }
@@ -41,7 +41,8 @@ const datasetSchema = new Schema(DatasetConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   DATASET: datasetSchema,
   DATASET_ARRAY: arrayOf(datasetSchema),
+  DatasetConfiguration,
 }

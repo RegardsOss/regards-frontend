@@ -230,7 +230,7 @@ const javaFloatValidator = parsableNumberValidator(parseFloat, ErrorTypes.INVALI
 /** Character validator */
 const characterValidator = value => value && value.length && value.length !== 1 ? ErrorTypes.INVALID_CHARACTER : undefined
 
-export default {
+module.exports = {
   isValidEmail,
   isValidUrl,
   isValidAlphaNumericUnderscore,

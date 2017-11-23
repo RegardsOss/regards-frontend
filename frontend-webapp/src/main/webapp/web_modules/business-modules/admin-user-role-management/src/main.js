@@ -20,7 +20,7 @@ import roleManagementReducer from './reducer'
 import roleManagementRouter from './router'
 import roleDependencies from './dependencies'
 
-export default {
+module.exports = {
   roleManagementReducer,
   roleManagementRouter,
   roleDependencies,

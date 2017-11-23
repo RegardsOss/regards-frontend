@@ -15,7 +15,7 @@ export const accountPasswordActions = new AdminClient.AccountPasswordActions(RED
 export const accountPasswordReducer = AdminClient.getAccountPasswordReducer(REDUX_ACTION_NAMESPACE)
 export const accountPasswordSelectors = AdminClient.getAccountPasswordSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   accountPasswordActions,
   accountPasswordReducer,
   accountPasswordSelectors,

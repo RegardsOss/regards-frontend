@@ -23,7 +23,7 @@ const storagePluginsActions = new StorageClient.StoragePluginsActions(namespace)
 const storagePluginsReducer = StorageClient.getStoragePluginsReducer(namespace)
 const storagePluginsSelectors = StorageClient.getStoragePluginsSelectors(['modules.storage-monitoring', 'storagePlugins'])
 
-export default {
+module.exports = {
   storagePluginsActions,
   storagePluginsReducer,
   storagePluginsSelectors,

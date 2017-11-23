@@ -34,7 +34,7 @@ const entitySchema = new Schema(LinkPluginDatasetConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   LINK_PLUGIN_DATASET: entitySchema,
   LINK_PLUGIN_DATASET_ARRAY: arrayOf(entitySchema),
   LinkPluginDatasetConfiguration,

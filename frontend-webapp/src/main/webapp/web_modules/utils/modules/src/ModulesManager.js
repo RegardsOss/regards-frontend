@@ -107,7 +107,7 @@ function getModuleURL(project, moduleId) {
   return `/user/${project}/modules/${moduleId}`
 }
 
-export default {
+module.exports = {
   VisibleModuleTypes,
   HiddenModuleTypes,
   AllDynamicModuleTypes,

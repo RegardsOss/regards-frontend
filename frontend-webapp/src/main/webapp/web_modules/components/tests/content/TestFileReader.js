@@ -32,4 +32,4 @@ class TestFileReader {
   }
 }
 
-export default { TestFileReader }
+module.exports = { TestFileReader }

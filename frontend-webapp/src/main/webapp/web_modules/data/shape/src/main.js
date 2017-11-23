@@ -25,7 +25,7 @@ import DataManagementShapes from './rs-dam/index'
 import IngestShapes from './rs-ingest/index'
 import OrderShapes from './rs-order/index'
 
-export default {
+module.exports = {
   AccessShapes,
   AdminShapes,
   StorageShapes,

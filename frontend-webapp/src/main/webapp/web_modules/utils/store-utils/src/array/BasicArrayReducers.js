@@ -48,12 +48,14 @@ class BasicArrayReducer extends BasicReducer {
     const newState = super.reduce(state, action)
     switch (action.type) {
       case this.basicArrayActionInstance.ENTITY_LIST_REQUEST:
+      case this.basicArrayActionInstance.CREATE_ENTITIES_REQUEST:
         return {
           ...newState,
           isFetching: true,
           error: defaultState.error,
         }
       case this.basicArrayActionInstance.ENTITY_LIST_FAILURE:
+      case this.basicArrayActionInstance.CREATE_ENTITIES_FAILURE:
         return {
           ...newState,
           error: {
@@ -69,6 +71,16 @@ class BasicArrayReducer extends BasicReducer {
           isFetching: false,
           error: defaultState.error,
           items: action.payload,
+        }
+      case this.basicArrayActionInstance.CREATE_ENTITIES_SUCCESS:
+        return {
+          ...newState,
+          isFetching: false,
+          error: defaultState.error,
+          items: {
+            ...newState.items,
+            ...action.payload,
+          },
         }
       default:
         return newState

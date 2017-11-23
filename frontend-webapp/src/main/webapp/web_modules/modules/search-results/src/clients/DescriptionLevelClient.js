@@ -5,7 +5,7 @@ import { descriptionLevelModel } from '@regardsoss/entities-common'
 
 /** Description level client (no web connection) */
 
-export const REDUCER_PATH = 'descriptionLevel'
+const REDUCER_PATH = 'descriptionLevel'
 
 /**
  * Server AttributeModel entities client.
@@ -13,12 +13,13 @@ export const REDUCER_PATH = 'descriptionLevel'
 const ENTITIES_STORE_PATH = ['modules.search-results', REDUCER_PATH]
 const REDUX_ACTION_NAMESPACE = 'search-results/description-level'
 
-export const descriptionLevelActions = new descriptionLevelModel.DescriptionLevelActions(REDUX_ACTION_NAMESPACE)
-export const descriptionLevelReducer = descriptionLevelModel.getDescriptionLevelReducer(REDUX_ACTION_NAMESPACE)
-export const descriptionLevelSelectors = descriptionLevelModel.getDescriptionLevelSelectors(ENTITIES_STORE_PATH)
+const descriptionLevelActions = new descriptionLevelModel.DescriptionLevelActions(REDUX_ACTION_NAMESPACE)
+const descriptionLevelReducer = descriptionLevelModel.getDescriptionLevelReducer(REDUX_ACTION_NAMESPACE)
+const descriptionLevelSelectors = descriptionLevelModel.getDescriptionLevelSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   descriptionLevelActions,
   descriptionLevelReducer,
   descriptionLevelSelectors,
+  REDUCER_PATH,
 }

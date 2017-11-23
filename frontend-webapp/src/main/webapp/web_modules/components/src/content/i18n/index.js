@@ -20,7 +20,7 @@ import en from './messages.en.i18n'
 import fr from './messages.fr.i18n'
 
 /** Content components messages */
-export default {
+module.exports = {
   en,
   fr,
 }

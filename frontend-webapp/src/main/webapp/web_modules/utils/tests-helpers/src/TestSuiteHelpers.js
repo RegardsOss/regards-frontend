@@ -16,7 +16,7 @@ const originalConsoleError = console.error
 /**
  * Test suite helpers : initialize test suite and clears after run. Provides tools for tests
  */
-export default {
+module.exports = {
   /**
    * Initialize before tests
    */

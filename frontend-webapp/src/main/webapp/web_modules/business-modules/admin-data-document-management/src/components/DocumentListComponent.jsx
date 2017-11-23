@@ -25,6 +25,8 @@ import {
   ConfirmDialogComponentTypes,
   ShowableAtRender,
   NoContentComponent,
+  TableLayout,
+  TableColumnBuilder,
 } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -124,54 +126,24 @@ class DocumentListComponent extends React.Component {
       onSortByColumn: () => {
       },
     }
-
-    // TableConfiguration
-    const tablePaneConfiguration = {
-      // adds tabs buttons to results table
-      resultsTabsButtons: [],
-      // shows a custom table header area instand of results count, just above columns
-      customTableHeaderArea: undefined,
-      // should show parameters button?
-      showParameters: false,
-      // Display table header toolbar ?
-      displayTableHeader: false,
-      // adds custom table options on tabs bar right side
-      customTableOptions: [],
-      // adds table context actions on tabs bar center
-      contextOptions: [],
-      // Table advanced options, displayed as children in 'Plus' Menu
-      advancedOptions: [],
-    }
+    const { intl: { formatMessage } } = this.context
 
     // Table columns to display
     const columns = [
-      {
-        // Label of the column
-        label: intl.formatMessage({ id: 'document.list.table.label' }),
-        // Entity attributes to display as cell in the column
-        attributes: ['label'],
-        // True to hide the column label in the header line of the table
-        hideLabel: false,
-        // Does the column is sortable
-        sortable: false,
-      },
-      {
-        label: intl.formatMessage({ id: 'document.list.table.model' }),
-        attributes: ['model.name'],
-      },
-      {
-        label: intl.formatMessage({ id: 'document.list.table.actions' }),
-        attributes: [],
-        customCell: {
-          component: DocumentTableCustomCellActions,
-          props: {
-            pageSize: DocumentListComponent.PAGE_SIZE,
-            onDelete: this.openDeleteDialog,
-            onEdit: handleEdit,
-            intl,
-          },
+      // 2 - label column
+      TableColumnBuilder.buildSimplePropertyColumn('label', formatMessage({ id: 'document.list.table.label' }), 'content.label'),
+      // 2 - model column
+      TableColumnBuilder.buildSimplePropertyColumn('model', formatMessage({ id: 'document.list.table.model' }), 'content.model.name'),
+      // 3 - Actions column
+      TableColumnBuilder.buildSimpleColumnWithCell('actions', formatMessage({ id: 'document.list.table.actions' }), {
+        Constructor: DocumentTableCustomCellActions, // custom cell
+        props: {
+          pageSize: DocumentListComponent.PAGE_SIZE,
+          onDelete: this.openDeleteDialog,
+          onEdit: handleEdit,
+          intl,
         },
-      },
+      }),
     ]
 
     const emptyComponent = (
@@ -188,18 +160,17 @@ class DocumentListComponent extends React.Component {
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
-          <PageableInfiniteTableContainer
-            name="documents-table"
-            pageActions={documentActions}
-            pageSelectors={documentSelectors}
-            tableActions={tableActions}
-            tableSelectors={tableSelectors}
-            tableConfiguration={tableConfiguration}
-            tablePaneConfiguration={tablePaneConfiguration}
-            pageSize={DocumentListComponent.PAGE_SIZE}
-            columns={columns}
-            emptyComponent={emptyComponent}
-          />
+          <TableLayout>
+            <PageableInfiniteTableContainer
+              name="documents-table"
+              pageActions={documentActions}
+              pageSelectors={documentSelectors}
+              tableActions={tableActions}
+              columns={columns}
+              emptyComponent={emptyComponent}
+              displayColumnsHeader
+            />
+          </TableLayout>
 
           <CardActions>
             <CardActionsComponent

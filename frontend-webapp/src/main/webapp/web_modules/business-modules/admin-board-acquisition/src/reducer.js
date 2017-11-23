@@ -21,12 +21,14 @@ import { connectionDataManagementReducer } from '@regardsoss/admin-data-connecti
 import { datasourceDataManagementReducer } from '@regardsoss/admin-data-datasource-management'
 import { documentDataManagementReducer } from '@regardsoss/admin-data-document-management'
 import { processingChainManagementReducer } from '@regardsoss/admin-ingest-processing-chain-management'
+import { sipManagementReducer } from '@regardsoss/admin-ingest-sip-management'
 
 const acquisitionReducers = combineReducers({
   connection: connectionDataManagementReducer,
   datasource: datasourceDataManagementReducer,
   document: documentDataManagementReducer,
   'processing-chain-management': processingChainManagementReducer,
+  'sip-management': sipManagementReducer,
 })
 
 

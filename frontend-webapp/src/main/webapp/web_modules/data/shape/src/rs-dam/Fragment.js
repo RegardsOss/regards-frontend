@@ -28,7 +28,7 @@ const Fragment = PropTypes.shape({
 
 const FragmentList = PropTypes.objectOf(Fragment)
 
-export default {
+module.exports = {
   Fragment,
   FragmentContent,
   FragmentList,

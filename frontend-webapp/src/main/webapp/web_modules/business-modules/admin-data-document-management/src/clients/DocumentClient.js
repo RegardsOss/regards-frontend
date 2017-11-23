@@ -31,7 +31,7 @@ const documentActions = new DataManagementClient.DocumentActions(REDUX_ACTION_NA
 const documentSelectors = DataManagementClient.getDocumentSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   documentReducer,
   documentActions,
   documentSelectors,

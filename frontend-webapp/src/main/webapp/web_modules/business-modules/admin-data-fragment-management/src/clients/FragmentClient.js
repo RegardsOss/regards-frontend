@@ -31,7 +31,7 @@ const fragmentActions = new DataManagementClient.FragmentActions(REDUX_ACTION_NA
 const fragmentSelectors = DataManagementClient.FragmentSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   fragmentReducer,
   fragmentActions,
   fragmentSelectors,

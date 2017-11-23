@@ -20,7 +20,7 @@ import AttributeColumnBuilder from './columns/AttributeColumnBuilder'
 import MainAttributesConfigurationComponent from './configuration/MainAttributesConfigurationComponent'
 import { buildPropertyCellRender, buildRenderDelegate, buildSinglePropertyCellRender, getTypeRender } from './render/AttributesTypeToRender'
 
-export default {
+module.exports = {
   // configuration component
   MainAttributesConfigurationComponent,
   // render get method for given type

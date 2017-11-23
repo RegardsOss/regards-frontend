@@ -3,7 +3,7 @@
 **/
 import { DataManagementClient } from '@regardsoss/client'
 
-export const REDUCER_PATH = 'dataobjects-attributes'
+const REDUCER_PATH = 'dataobjects-attributes'
 
 /**
  * Server AttributeModel entities client.
@@ -11,12 +11,13 @@ export const REDUCER_PATH = 'dataobjects-attributes'
 const ENTITIES_STORE_PATH = ['modules.search-results', REDUCER_PATH]
 const REDUX_ACTION_NAMESPACE = 'search-results/dataobjects-attributes'
 
-export const AttributeModelActions = new DataManagementClient.AttributeModelForModelTypeActions(REDUX_ACTION_NAMESPACE)
-export const AttributeModelReducer = DataManagementClient.AttributeModelForModelTypeReducer(REDUX_ACTION_NAMESPACE, AttributeModelActions)
-export const AttributeModelSelectors = DataManagementClient.AttributeModelForModelTypeSelectors(ENTITIES_STORE_PATH)
+const AttributeModelActions = new DataManagementClient.AttributeModelForModelTypeActions(REDUX_ACTION_NAMESPACE)
+const AttributeModelReducer = DataManagementClient.AttributeModelForModelTypeReducer(REDUX_ACTION_NAMESPACE, AttributeModelActions)
+const AttributeModelSelectors = DataManagementClient.AttributeModelForModelTypeSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   AttributeModelActions,
   AttributeModelReducer,
   AttributeModelSelectors,
+  REDUCER_PATH,
 }

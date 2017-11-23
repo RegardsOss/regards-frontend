@@ -41,7 +41,7 @@ const IngestProcessingChain = PropTypes.shape({
 const IngestProcessingChainList = PropTypes.objectOf(IngestProcessingChain)
 const IngestProcessingChainArray = PropTypes.arrayOf(IngestProcessingChain)
 
-export default {
+module.exports = {
   IngestProcessingChainList,
   IngestProcessingChainArray,
   IngestProcessingChainContent,

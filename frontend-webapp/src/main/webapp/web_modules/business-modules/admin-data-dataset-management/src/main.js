@@ -20,7 +20,7 @@ import datasetDataManagementReducer from './reducer'
 import datasetDataManagementRouter from './router'
 import datasetDependencies from './dependencies'
 
-export default {
+module.exports = {
   datasetDataManagementReducer,
   datasetDataManagementRouter,
   datasetDependencies,

@@ -18,4 +18,4 @@
  **/
 import { muiTheme } from './storybook-addon-material-ui-custom/src'
 
-export default { muiTheme }
+module.exports = { muiTheme }

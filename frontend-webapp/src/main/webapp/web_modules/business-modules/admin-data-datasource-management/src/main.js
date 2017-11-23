@@ -20,7 +20,7 @@ import datasourceDataManagementReducer from './reducer'
 import datasourceDataManagementRouter from './router'
 import datasourceDependencies from './dependencies'
 
-export default {
+module.exports = {
   datasourceDataManagementReducer,
   datasourceDataManagementRouter,
   datasourceDependencies,

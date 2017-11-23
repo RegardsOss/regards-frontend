@@ -32,7 +32,7 @@ const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTIO
 const pluginMetadataSelectorBuilder = paths => CommonClient.getPluginMetaDataSelectors(concat(paths, ENTITIES_STORE_PATH))
 
 
-export default {
+module.exports = {
   pluginMetadataReducer,
   pluginMetadataActions,
   pluginMetadataSelectorBuilder,

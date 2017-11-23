@@ -25,7 +25,7 @@ import uiPluginServiceTestHelpers from './UIPluginServiceTestHelpers'
 import ReduxEntityTester from './store/ReduxEntityTester'
 import DumpProvider from './clientDump/DumpProvider'
 
-export default {
+module.exports = {
   defaultFluxStandardError,
   IntlStub,
   muiThemeStub,

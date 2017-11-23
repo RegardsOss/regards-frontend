@@ -43,7 +43,7 @@ const UIPluginConf = PropTypes.shape({
 const UIPluginConfList = PropTypes.objectOf(UIPluginConf)
 const UIPluginConfArray = PropTypes.arrayOf(UIPluginConf)
 
-export default {
+module.exports = {
   UIPluginConfContent,
   UIPluginConf,
   UIPluginConfList,

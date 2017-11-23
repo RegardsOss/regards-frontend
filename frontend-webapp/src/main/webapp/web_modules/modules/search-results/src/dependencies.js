@@ -35,7 +35,7 @@ const admin = [
   AttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
-export default {
+module.exports = {
   user,
   admin,
 }

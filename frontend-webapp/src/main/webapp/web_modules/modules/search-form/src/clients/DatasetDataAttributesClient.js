@@ -31,7 +31,7 @@ const datasetDataAttributesActions = new DataManagementClient.DatasetDataAttribu
 const datasetDataAttributesSelectors = DataManagementClient.DatasetDataAttributesSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   datasetDataAttributesReducer,
   datasetDataAttributesActions,
   datasetDataAttributesSelectors,

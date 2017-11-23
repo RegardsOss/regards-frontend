@@ -18,6 +18,6 @@
  **/
 import OrderListContainer from './containers/OrderListContainer'
 
-export default {
+module.exports = {
   OrderListContainer,
 }

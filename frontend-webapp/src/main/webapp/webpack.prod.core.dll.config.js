@@ -35,7 +35,6 @@ const conf = webpackConfigurator
     },
     entry: {
       core: [
-        'flux-standard-action',
         'immutable',
         'isomorphic-fetch',
         'material-ui',

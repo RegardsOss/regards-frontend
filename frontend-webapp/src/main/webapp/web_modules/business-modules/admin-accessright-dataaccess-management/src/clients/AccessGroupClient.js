@@ -31,7 +31,7 @@ const accessGroupActions = new DataManagementClient.AccessGroupActions(REDUX_ACT
 const accessGroupSelectors = DataManagementClient.getAccessGroupSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   accessGroupReducer,
   accessGroupActions,
   accessGroupSelectors,

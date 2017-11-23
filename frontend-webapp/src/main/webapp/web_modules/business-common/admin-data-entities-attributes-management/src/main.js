@@ -21,7 +21,7 @@ import EntitiesAttributesFormContainer from './containers/EntitiesAttributesForm
 import getInitialFormValues from './utils/getInitialFormValues'
 import extractParametersFromFormValues from './utils/extractParametersFromFormValues'
 
-export default {
+module.exports = {
   EntitiesAttributesFormContainer,
   getInitialFormValues,
   extractParametersFromFormValues,

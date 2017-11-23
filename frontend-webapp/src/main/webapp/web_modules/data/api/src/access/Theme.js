@@ -40,7 +40,7 @@ const themeSchema = new Schema(ThemeConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   THEME: themeSchema,
   THEME_ARRAY: arrayOf(themeSchema),
   ThemeConfiguration,

@@ -28,7 +28,7 @@ import messages from './i18n'
  * Module main file to expose public interface
  * @author Sébastien binda
  */
-export default {
+module.exports = {
   moduleContainer,
   adminContainer,
   styles,

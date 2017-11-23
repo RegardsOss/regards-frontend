@@ -40,7 +40,7 @@ const messages = Object.assign({
   'document.form.links.collection.subtitle': 'Collections links',
   'document.form.links.subtitle': 'Documents are linked with collections to ease search',
   'document.form.links.title': 'Update document links',
-  'document.form.links.action.done': 'Save',
+  'document.form.links.action.done': 'Finish',
   'document.form.links.action.cancel': 'Back',
   'document.form.links.remainingcollection.search': 'Filter collections with their names',
   'document.form.links.remainingcollection.add.button': 'Link the collection',
@@ -52,10 +52,10 @@ const messages = Object.assign({
   'document.form.links.tag.add': 'New tag',
 
 
-  'document.form.files.title': 'Gestion des fichiers du document {name}',
-  'document.form.files.subtitle': 'Vous pouvez ajouter de nouveaux fichiers à votre document, ou supprimer ceux déjà présent',
-  'document.form.files.action.next': 'Suite',
-  'document.form.files.action.cancel': 'Annuler',
+  'document.form.files.title': 'Document {name} files management',
+  'document.form.files.subtitle': 'You can add new files to your document, or remove those already there',
+  'document.form.files.action.next': 'Next',
+  'document.form.files.action.cancel': 'Cancel',
   'document.form.files.docFiles.subtitle': 'Associated files list',
   'document.form.files.addFile.subtitle': 'Add files',
 

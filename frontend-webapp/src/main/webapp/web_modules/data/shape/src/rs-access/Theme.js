@@ -30,7 +30,7 @@ const Theme = PropTypes.shape({
 
 const ThemeList = PropTypes.objectOf(Theme)
 
-export default {
+module.exports = {
   ThemeContent,
   Theme,
   ThemeList,

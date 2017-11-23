@@ -24,6 +24,7 @@ const messages = {
   'ingest.board.ois.description': 'The data submission functionallity allow you to ...',
   'ingest.board.action.chain.list.tooltip': 'Processing chains',
   'ingest.board.action.monitor.tooltip': 'Monitor submissions',
+  'ingest.board.action.sumition.tooltip': 'Submit datas',
 
   'ingest.board.external.datasources.title': 'External datasources',
   'ingest.board.external.datasources.description': 'The external datasources allow you to add data from an external existing database.',

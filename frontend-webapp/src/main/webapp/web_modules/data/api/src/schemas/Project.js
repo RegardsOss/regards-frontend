@@ -18,7 +18,7 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-export const ProjectConfiguration = {
+const ProjectConfiguration = {
   entityKey: 'name',
   normalizrKey: 'projects',
 }
@@ -32,7 +32,8 @@ const projectSchema = new Schema(ProjectConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   PROJECT: projectSchema,
   PROJECT_ARRAY: arrayOf(projectSchema),
+  ProjectConfiguration,
 }

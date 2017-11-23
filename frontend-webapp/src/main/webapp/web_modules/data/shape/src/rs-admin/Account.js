@@ -29,4 +29,4 @@ const Account = PropTypes.shape({
 const AccountList = PropTypes.objectOf(Account)
 
 
-export default { Account, AccountList }
+module.exports = { Account, AccountList }

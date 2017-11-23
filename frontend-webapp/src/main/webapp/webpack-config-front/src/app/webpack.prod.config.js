@@ -7,6 +7,9 @@ const path = require('path')
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'prod')
 
+  // Ensure babel environment variable is correctly setup to production
+  process.env.NODE_ENV = 'production'
+
   config = merge(config, {
     output: {
       // Webpack compilation directory

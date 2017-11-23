@@ -32,7 +32,7 @@ const ModelAttribute = PropTypes.shape({
 
 const ModelAttributeList = PropTypes.objectOf(ModelAttribute)
 
-export default {
+module.exports = {
   ModelAttribute,
   ModelAttributeList,
 }

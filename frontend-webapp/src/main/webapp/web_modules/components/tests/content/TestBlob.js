@@ -27,4 +27,4 @@ class TestBlob {
   }
 }
 
-export default { TestBlob }
+module.exports = { TestBlob }

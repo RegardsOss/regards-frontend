@@ -20,7 +20,7 @@ import connectionDataManagementReducer from './reducer'
 import connectionDataManagementRouter from './router'
 import connectionDependencies from './dependencies'
 
-export default {
+module.exports = {
   connectionDataManagementReducer,
   connectionDataManagementRouter,
   connectionDependencies,

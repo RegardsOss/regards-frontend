@@ -23,7 +23,7 @@ import themeUIDependencies from './dependencies'
  * Module main file to expose public interface
  * @author Sébastien binda
  */
-export default {
+module.exports = {
   themeUIRouter,
   themeUIDependencies,
 }

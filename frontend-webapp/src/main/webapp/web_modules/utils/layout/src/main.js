@@ -27,7 +27,7 @@ import LayoutConfigurationComponent from './components/LayoutConfigurationCompon
 /**
  * Main interface to expose Layout utils
  */
-export default {
+module.exports = {
   Container,
   ContainerShape,
   ContainerTypes,

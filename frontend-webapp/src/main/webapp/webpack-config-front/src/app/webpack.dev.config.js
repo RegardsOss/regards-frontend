@@ -7,6 +7,9 @@ const path = require('path')
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'dev')
 
+  // Ensure babel environment variable is correctly setup to development
+  process.env.NODE_ENV = 'development'
+
   config = merge(config, {
     // Enable sourcemaps for debugging webpack's output.
     devtool: 'source-map',

@@ -32,7 +32,8 @@ const entitySchema = new Schema(EntityConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   ENTITY: entitySchema,
   ENTITY_ARRAY: arrayOf(entitySchema),
+  EntityConfiguration,
 }

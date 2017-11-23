@@ -20,7 +20,7 @@ import layoutUIRouter from './router'
 import layoutUIReducer from './model/LayoutReducer'
 import layoutUIDependencies from './dependencies'
 
-export default {
+module.exports = {
   layoutUIRouter,
   layoutUIReducer,
   layoutUIDependencies,

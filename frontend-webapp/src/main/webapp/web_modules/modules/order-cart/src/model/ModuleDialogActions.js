@@ -58,7 +58,7 @@ class ModuleDialogActions {
 
 }
 
-export default {
+module.exports = {
   ModuleDialogActions,
   moduleDialogActions: new ModuleDialogActions(),
 }

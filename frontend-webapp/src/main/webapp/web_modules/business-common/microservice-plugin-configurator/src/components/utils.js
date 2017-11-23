@@ -78,7 +78,7 @@ const mapPluginParameterTypeToPluginParameter = (pluginParameterType, pluginConf
   return pluginParameter
 }
 
-export default {
+module.exports = {
   parameterTypeToDefaultParameter,
   buildDefaultParameterList,
   buildParameterList,

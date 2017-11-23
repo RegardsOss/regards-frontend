@@ -7,11 +7,11 @@ import {
   URLSearchQueryParameter, StaticQueryParameter,
 } from '@regardsoss/domain/catalog'
 
-export function getSearchTagParameter(searchTag) {
+function getSearchTagParameter(searchTag) {
   return new OpenSearchQueryParameter(OpenSearchQuery.TAGS_PARAM_NAME, searchTag)
 }
 
-export function getDatasetIpIdParameter(datasetIpId) {
+function getDatasetIpIdParameter(datasetIpId) {
   return new OpenSearchQueryParameter(OpenSearchQuery.TAGS_PARAM_NAME, datasetIpId)
 }
 
@@ -22,7 +22,7 @@ export function getDatasetIpIdParameter(datasetIpId) {
  * @param otherParameters other query parameters (optional)
  * @returns open search query
  */
-export function getOpenSearchQuery(rootSearchQuery, facettesFilters = [], otherParameters = []) {
+function getOpenSearchQuery(rootSearchQuery, facettesFilters = [], otherParameters = []) {
   // compute all query parameters
   const openSearchParameters = [
     ...facettesFilters.map(({ openSearchQuery }) => new StaticQueryParameter(openSearchQuery)),
@@ -45,7 +45,7 @@ const tableToOpenSearchSort = {
  * @param facettesQuery facettes query, facettes to be provided on results (optional)
  * @return URL query
  */
-export function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '') {
+function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '') {
   // specific query format: put parameter value in parenthesis (when available)
   const queryParamValue = openSearchQuery && `(${openSearchQuery})`
   const urlParameters = [
@@ -69,5 +69,7 @@ export function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = 
 export default {
   getOpenSearchQuery,
   getURLQuery,
+  getSearchTagParameter,
+  getDatasetIpIdParameter,
 }
 

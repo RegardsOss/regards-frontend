@@ -56,7 +56,7 @@ const admin = [
   attributeModelActions.getDependency(RequestVerbEnum.DELETE),
 ]
 
-export default {
+module.exports = {
   user,
   admin,
 }

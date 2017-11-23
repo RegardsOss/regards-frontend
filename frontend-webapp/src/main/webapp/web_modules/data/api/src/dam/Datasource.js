@@ -30,7 +30,7 @@ const datasource = new Schema(DatasourceConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   DATASOURCE: datasource,
   DATASOURCE_ARRAY: arrayOf(datasource),
   DatasourceConfiguration,

@@ -31,7 +31,7 @@ const connectionTableActions = new DataManagementClient.ConnectionTableActions(R
 const connectionTableSelectors = DataManagementClient.ConnectionTableSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   connectionTableReducer,
   connectionTableActions,
   connectionTableSelectors,

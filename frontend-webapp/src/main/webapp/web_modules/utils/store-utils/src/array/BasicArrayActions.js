@@ -29,9 +29,13 @@ class BasicArrayActions extends BasicActions {
 
   constructor(options) {
     super(options)
+    this.namespace = options.namespace
     this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
+    this.CREATE_ENTITIES_SUCCESS = `${options.namespace}/CREATE_ENTITIES_SUCCESS`
+    this.CREATE_ENTITIES_REQUEST = `${options.namespace}/CREATE_ENTITIES_REQUEST`
+    this.CREATE_ENTITIES_FAILURE = `${options.namespace}/CREATE_ENTITIES_FAILURE`
   }
 
   fetchEntityList(pathParams, queryParams) {
@@ -46,6 +50,34 @@ class BasicArrayActions extends BasicActions {
         ],
         endpoint,
         method: 'GET',
+      },
+    }
+  }
+
+  /**
+  * Allows to send multiple objects on the same time
+  * Requires that the API send back a new entity
+  * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
+  * @param files Object containing key - values with key expected by the API and value a file
+  * @param pathParams
+  * @param queryParams
+  * @returns {{}}
+  */
+  createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
+    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
+    const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
+    return {
+      [CALL_API]: {
+        types: [
+          this.CREATE_ENTITIES_REQUEST,
+          this.buildSuccessAction(this.CREATE_ENTITIES_SUCCESS, (action, state, res) => getJSON(res)),
+          this.buildFailureAction(this.CREATE_ENTITIES_FAILURE),
+        ],
+        endpoint,
+        method: 'POST',
+        body: formData,
       },
     }
   }

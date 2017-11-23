@@ -29,7 +29,7 @@ const microserviceInfoReducer = CommonClient.getMicroserviceInfosReducer(REDUX_A
 const microserviceInfoActions = new CommonClient.MicroserviceInfosActions(REDUX_ACTION_NAMESPACE)
 
 
-export default {
+module.exports = {
   microserviceInfoReducer,
   microserviceInfoActions,
 }

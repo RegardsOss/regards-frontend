@@ -21,7 +21,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 /**
  * My user actions, user interface: fetches authenticated project user and updates it (GET / PUT on the same URL)
  */
-class MyUserActions extends BasicSignalActions {
+export default class MyUserActions extends BasicSignalActions {
 
   /**
    * Constructor
@@ -46,5 +46,3 @@ class MyUserActions extends BasicSignalActions {
   }
 
 }
-
-export default MyUserActions

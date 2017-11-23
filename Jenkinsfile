@@ -28,7 +28,7 @@ pipeline {
             }
             post {
                 always {
-                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u)'
+                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
                 }
             }
         }
@@ -104,7 +104,7 @@ pipeline {
             }
             post {
                 always {
-                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u)'
+                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
                 }
             }
         }
@@ -155,7 +155,7 @@ pipeline {
             }
             post {
                 always {
-                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u)'
+                    sh 'docker run --rm -i -v ${WORKSPACE}:/app_to_build rs_node ./reset_rights.sh $(id -u) $(id -g)'
                 }
             }
         }

@@ -21,7 +21,7 @@ import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
 import { myUserReducer } from './clients/MyUserClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
 
-export default {
+module.exports = {
   // web consuming clients (redux API actions / reducers)
   borrowRole: borrowRoleReducer,
   borrowableRoles: borrowableRolesReducer,

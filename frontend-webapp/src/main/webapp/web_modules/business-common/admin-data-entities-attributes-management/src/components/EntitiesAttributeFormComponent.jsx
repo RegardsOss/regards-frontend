@@ -149,13 +149,17 @@ export class EntitiesAttributeFormComponent extends React.Component {
   )
 
   getFieldTextFieldWithValuesArray = (modelAttribute, type) => (
-    <FieldArray
-      name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
-      component={ParameterArrayAttributeComponent}
-      modelAttribute={modelAttribute}
-      type={type}
-      constraints={this.getRestrictions(modelAttribute)}
-    />)
+    <div
+      className={`selenium-array-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
+    >
+      <FieldArray
+        name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
+        component={ParameterArrayAttributeComponent}
+        modelAttribute={modelAttribute}
+        type={type}
+        constraints={this.getRestrictions(modelAttribute)}
+      />
+    </div>)
 
 
   getEnumTextArrayField = modelAttribute => (

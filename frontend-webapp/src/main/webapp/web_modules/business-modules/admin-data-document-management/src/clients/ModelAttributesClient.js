@@ -31,7 +31,7 @@ const modelAttributesReducer = DataManagementClient.ModelAttributesReducer(REDUX
 const modelAttributesActions = new DataManagementClient.ModelAttributesActions(REDUX_ACTION_NAMESPACE)
 const modelAttributesSelectors = DataManagementClient.ModelAttributesSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   modelAttributesReducer,
   modelAttributesActions,
   modelAttributesSelectors,

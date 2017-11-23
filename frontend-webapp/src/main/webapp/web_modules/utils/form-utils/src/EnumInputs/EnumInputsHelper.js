@@ -51,6 +51,6 @@ function formValuesIntoApiData(values, inputKey) {
   return enumValues
 }
 
-export default {
+module.exports = {
   formValuesIntoApiData, apiResultIntoFormValues,
 }

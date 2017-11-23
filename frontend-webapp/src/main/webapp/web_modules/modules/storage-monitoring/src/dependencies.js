@@ -35,7 +35,7 @@ const user = [
  */
 const admin = []
 
-export default {
+module.exports = {
   user,
   admin,
 }

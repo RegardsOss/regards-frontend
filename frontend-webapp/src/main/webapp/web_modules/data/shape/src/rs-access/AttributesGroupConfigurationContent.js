@@ -35,7 +35,7 @@ const AttributesGroupConfigurationContent = PropTypes.shape({
 const AttributesGroupConfigurationArray = PropTypes.arrayOf(AttributesGroupConfigurationContent)
 
 
-export default {
+module.exports = {
   AttributesGroupConfigurationContent,
   AttributesGroupConfigurationArray,
 }

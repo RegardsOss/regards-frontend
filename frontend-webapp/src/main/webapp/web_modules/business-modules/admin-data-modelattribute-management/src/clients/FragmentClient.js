@@ -28,6 +28,6 @@ const ENTITIES_STORE_PATH = ['not', 'used']
 const fragmentSelectors = DataManagementClient.FragmentSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   fragmentSelectors,
 }

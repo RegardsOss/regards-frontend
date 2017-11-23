@@ -8,7 +8,7 @@ const waitingAccessUsersEntitiesActions = new AdminClient.WaitingAccessUsersEnti
 const waitingAccessUsersEntitiesReducer = AdminClient.getWaitingAccessUsersEntitiesReducer(namespace)
 const waitingAccessUsersEntitiesSelectors = AdminClient.getWaitingAccessUsersEntitiesSelectors(['admin', 'notifications-waiting-users'])
 
-export default {
+module.exports = {
   waitingAccessUsersEntitiesActions,
   waitingAccessUsersEntitiesReducer,
   waitingAccessUsersEntitiesSelectors,

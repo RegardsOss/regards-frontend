@@ -23,7 +23,7 @@ const searchDataobjectsActions = new CatalogClient.SearchDataobjectsActions(name
 const searchDataobjectsReducer = CatalogClient.getSearchEntitiesReducer(namespace)
 const searchDataobjectsSelectors = CatalogClient.getSearchEntitiesSelectors(['modules.order-cart', 'searchDataobjects'])
 
-export default {
+module.exports = {
   searchDataobjectsActions,
   searchDataobjectsReducer,
   searchDataobjectsSelectors,

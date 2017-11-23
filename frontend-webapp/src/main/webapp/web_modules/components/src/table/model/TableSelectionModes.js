@@ -5,7 +5,7 @@
 /**
  * Table selection modes
  */
-export default {
+module.exports = {
   includeSelected: 'include.selected',
   excludeSelected: 'exclude.selected',
 }

@@ -33,7 +33,7 @@ const pluginTypes = {
   CATALOG: 'CATALOG',
 }
 
-export default {
+module.exports = {
   applicationModes,
   pluginTypes,
 }

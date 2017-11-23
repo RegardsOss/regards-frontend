@@ -28,10 +28,10 @@ const REDUX_ACTION_NAMESPACE = 'admin-ui-module-management-new/modules-instance'
 
 
 const moduleInstanceReducers = AccessInstanceClient.ModuleReducers(REDUX_ACTION_NAMESPACE)
-const moduleInstanceActions = AccessInstanceClient.ModuleActions(REDUX_ACTION_NAMESPACE)
+const moduleInstanceActions = new AccessInstanceClient.ModuleActions(REDUX_ACTION_NAMESPACE)
 const moduleInstanceSelectors = AccessInstanceClient.ModuleSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   moduleInstanceReducers,
   moduleInstanceActions,
   moduleInstanceSelectors,

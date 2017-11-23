@@ -24,6 +24,7 @@ import CheckboxColumnHeaderCell from './CheckboxColumnHeaderCell'
 import ValuesRenderCell from '../cells/ValuesRenderCell'
 import OptionsCell from '../cells/OptionsCell'
 import CheckBoxCell from '../cells/CheckBoxCell'
+import ProgressRenderCell from '../cells/ProgressRenderCell'
 
 /**
  * Provides tools to build table columns
@@ -164,6 +165,19 @@ function buildPropertiesRenderCell(properties) {
 }
 
 /**
+ * Build a progress render cell
+ * @param {function} getProgressPercent 
+ * @param {function} getProgressLabel 
+ * @return cell definition
+ */
+function buildProgressRenderCell(getProgressPercent, getProgressLabel) {
+  return {
+    Constructor: ProgressRenderCell,
+    props: { getProgressPercent, getProgressLabel },
+  }
+}
+
+/**
  * Builds an options table column. Note: column width is fixed using options count
  * @param {string} label label
  * @param {[{OptionConstructor: {func}, optionProps: {*}}]} optionCellsDefinition list of constructor and default properties to build the cells.
@@ -216,11 +230,12 @@ function buildSimplePropertyColumn(key, label, propertyPath, order, visible, Ren
     order, visible, fixedWidth)
 }
 
-export default {
+module.exports = {
   optionsColumnKey,
   selectionColumnKey,
   buildColumn,
   buildOptionsColumn,
+  buildProgressRenderCell,
   buildPropertiesRenderCell,
   buildSelectionColumn,
   buildSimpleColumnWithCell,

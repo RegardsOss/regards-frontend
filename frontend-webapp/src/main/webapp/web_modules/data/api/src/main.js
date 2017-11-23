@@ -16,42 +16,44 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Account, { AccountConfiguration } from './schemas/Account'
-import Project, { ProjectConfiguration } from './schemas/Project'
-import ProjectConnection, { ProjectConnectionConfiguration } from './schemas/ProjectConnection'
-import ProjectUser, { ProjectUserConfiguration } from './schemas/ProjectUser'
-import Role, { RoleConfiguration } from './schemas/Role'
-import Model, { ModelConfiguration } from './schemas/Model'
-import Accesses, { AccessesConfiguration } from './schemas/Accesses'
-import AttributeModel, { AttributeModelConfiguration } from './dam/AttributeModel'
-import AttributeModelRestriction, { AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
-import Module, { ModuleConfiguration } from './access/Module'
-import Layout, { LayoutConfiguration } from './access/Layout'
+import Account from './schemas/Account'
+import Project from './schemas/Project'
+import ProjectConnection from './schemas/ProjectConnection'
+import ProjectUser from './schemas/ProjectUser'
+import Role from './schemas/Role'
+import Model from './schemas/Model'
+import Accesses from './schemas/Accesses'
+import AttributeModel from './dam/AttributeModel'
+import AttributeModelRestriction from './dam/AttributeModelRestriction'
+import Module from './access/Module'
+import Layout from './access/Layout'
 import LinkUIPluginDataset from './access/LinkUIPluginDataset'
 import Theme from './access/Theme'
-import Plugin, { PluginConfiguration } from './access/Plugin'
+import Plugin from './access/Plugin'
 import UIPluginConf from './access/UIPluginConf'
-import Fragment, { FragmentConfiguration } from './dam/Fragment'
-import Dataset, { DatasetConfiguration } from './dam/Dataset'
+import Fragment from './dam/Fragment'
+import Dataset from './dam/Dataset'
 import AccessRight from './dam/AccessRight'
 import AccessGroup from './dam/AccessGroup'
 import Datasource from './dam/Datasource'
 import Document from './dam/Document'
-import Entity, { EntityConfiguration } from './catalog/Entity'
-import ResourceAccess, { ResourceAccessConfiguration } from './admin/ResourceAccess'
-import ModelAttribute, { ModelAttributeConfiguration } from './dam/ModelAttribute'
-import PluginMetaData, { PluginMetaDataConfiguration } from './common/PluginMetaData'
-import AdminPluginConfiguration, { AdminPluginConfigurationSchemaConfiguration } from './common/PluginConfiguration'
+import Entity from './catalog/Entity'
+import ResourceAccess from './admin/ResourceAccess'
+import ModelAttribute from './dam/ModelAttribute'
+import PluginMetaData from './common/PluginMetaData'
+import AdminPluginConfiguration from './common/PluginConfiguration'
 import PluginParameter from './common/PluginParameter'
 import StoragePlugin from './archival-storage/StoragePlugin'
 import Collection from './dam/Collection'
 import Connection from './dam/Connection'
 import ModelAttributeComputationTypes from './dam/ModelAttributeComputationTypes'
 import AIPStatus from './archival-storage/AIPStatus'
-import Endpoint, { EndpointConfiguration } from './admin/Endpoint'
+import Endpoint from './admin/Endpoint'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
 import ProcessingChain from './ingest/ProcessingChain'
 import Order from './order/Order'
+import Sip from './ingest/SIP'
+import Session from './ingest/Session'
 
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
@@ -60,94 +62,55 @@ import Order from './order/Order'
 // and keep it updated as we fetch more data.
 
 // Schemas for API responses.
-export default {
-  ACCOUNT: Account.ACCOUNT,
-  ACCOUNT_ARRAY: Account.ACCOUNT_ARRAY,
-  AccountConfiguration,
+module.exports = {
+  ...Account,
 
-  PROJECT: Project.PROJECT,
-  PROJECT_ARRAY: Project.PROJECT_ARRAY,
-  ProjectConfiguration,
+  ...Project,
 
-  PROJECT_USER: ProjectUser.PROJECT_USER,
-  PROJECT_USER_ARRAY: ProjectUser.PROJECT_USER_ARRAY,
-  ProjectUserConfiguration,
+  ...ProjectUser,
 
-  ROLE: Role.ROLE,
-  ROLE_ARRAY: Role.ROLE_ARRAY,
-  RoleConfiguration,
+  ...Role,
 
-  STORAGE_PLUGIN: Model.STORAGE_PLUGIN,
+  //TODO WHAT ?
+  //STORAGE_PLUGIN: Model.STORAGE_PLUGIN,
 
-  MODEL: Model.MODEL,
-  MODEL_ARRAY: Model.MODEL_ARRAY,
-  ModelConfiguration,
+  ...Model,
 
-  PROJECT_CONNECTION: ProjectConnection.PROJECT_CONNECTION,
-  PROJECT_CONNECTION_ARRAY: ProjectConnection.PROJECT_CONNECTION_ARRAY,
-  ProjectConnectionConfiguration,
+  ...ProjectConnection,
 
-  ACCESSES: Accesses.ACCESSES,
-  ACCESSES_ARRAY: Accesses.ACCESSES_ARRAY,
-  AccessesConfiguration,
+  ...Accesses,
 
-  ATTRIBUTE_MODEL: AttributeModel.ATTRIBUTE_MODEL,
-  ATTRIBUTE_MODEL_ARRAY: AttributeModel.ATTRIBUTE_MODEL_ARRAY,
-  AttributeModelConfiguration,
+  ...AttributeModel,
 
-  MODEL_ATTRIBUTE: ModelAttribute.MODEL_ATTRIBUTE,
-  MODEL_ATTRIBUTE_ARRAY: ModelAttribute.MODEL_ATTRIBUTE_ARRAY,
-  ModelAttributeConfiguration,
+  ...ModelAttribute,
 
-  ATTRIBUTE_MODEL_RESTRICTION: AttributeModelRestriction.ATTRIBUTE_MODEL_RESTRICTION,
-  ATTRIBUTE_MODEL_RESTRICTION_ARRAY: AttributeModelRestriction.ATTRIBUTE_MODEL_RESTRICTION_ARRAY,
-  AttributeModelRestrictionConfiguration,
+  ...AttributeModelRestriction,
 
-  MODULE: Module.MODULE,
-  MODULE_ARRAY: Module.MODULE_ARRAY,
-  ModuleConfiguration,
+  ...Module,
 
-  FRAGMENT: Fragment.FRAGMENT,
-  FRAGMENT_ARRAY: Fragment.FRAGMENT_ARRAY,
-  FragmentConfiguration,
+  ...Fragment,
 
-  LAYOUT: Layout.LAYOUT,
-  LAYOUT_ARRAY: Layout.LAYOUT_ARRAY,
-  LayoutConfiguration,
+  ...Layout,
 
   ...Theme,
 
-  PLUGIN: Plugin.PLUGIN,
-  PLUGIN_ARRAY: Plugin.PLUGIN_ARRAY,
-  PluginConfiguration,
+  ...Plugin,
 
-  ENTITY: Entity.ENTITY,
-  ENTITY_ARRAY: Entity.ENTITY_ARRAY,
-  EntityConfiguration,
+  ...Entity,
 
-  DATASET: Dataset.DATASET,
-  DATASET_ARRAY: Dataset.DATASET_ARRAY,
-  DatasetConfiguration,
+  ...Dataset,
 
-  RESOURCE_ACCESS: ResourceAccess.RESOURCE_ACCESS,
-  RESOURCE_ACCESS_ARRAY: ResourceAccess.RESOURCE_ACCESS_ARRAY,
-  ResourceAccessConfiguration,
+  ...ResourceAccess,
 
-  PLUGIN_META_DATA: PluginMetaData.PLUGIN_META_DATA,
-  PLUGIN_META_DATA_ARRAY: PluginMetaData.PLUGIN_META_DATA_ARRAY,
-  PluginMetaDataConfiguration,
+  ...PluginMetaData,
 
-  PLUGIN_CONFIGURATION: AdminPluginConfiguration.PLUGIN_CONFIGURATION,
-  PLUGIN_CONFIGURATION_ARRAY: AdminPluginConfiguration.PLUGIN_CONFIGURATION_ARRAY,
-  AdminPluginConfigurationSchemaConfiguration,
+  ...AdminPluginConfiguration,
 
   ...Collection,
   ...StoragePlugin,
   ...AIPStatus,
 
-  ENDPOINT: Endpoint.ENDPOINT,
-  ENDPOINT_ARRAY: Endpoint.ENDPOINT_ARRAY,
-  EndpointConfiguration,
+  ...Endpoint,
 
   ...PluginParameter,
 
@@ -166,4 +129,7 @@ export default {
   ...Order,
 
   ...ProcessingChain,
+  ...Sip,
+
+  ...Session,
 }

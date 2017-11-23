@@ -32,7 +32,7 @@ const LinkUIPluginDataset = PropTypes.shape({
 
 const LinkUIPluginDatasetList = PropTypes.objectOf(LinkUIPluginDataset)
 
-export default {
+module.exports = {
   LinkUIPluginDataset,
   LinkUIPluginDatasetList,
 }

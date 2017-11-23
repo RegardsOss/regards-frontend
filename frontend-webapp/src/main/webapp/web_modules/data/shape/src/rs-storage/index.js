@@ -19,7 +19,7 @@
 import { AIPStatusContent, AIPStatus, AIPStatusList } from './AIPStatus'
 import { StoragePlugin, StoragePluginContent, StoragePluginList } from './StoragePlugin'
 
-export default {
+module.exports = {
   AIPStatusContent,
   AIPStatus,
   AIPStatusList,

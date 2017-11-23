@@ -31,7 +31,7 @@ const uiPluginDefinitionActions = new AccessProjectClient.UIPluginDefinitionActi
 const uiPluginDefinitionSelectors = AccessProjectClient.UIPluginDefinitionSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   uiPluginDefinitionReducers,
   uiPluginDefinitionActions,
   uiPluginDefinitionSelectors,

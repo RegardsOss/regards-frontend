@@ -42,4 +42,4 @@ const ProjectConnection = PropTypes.shape({
 
 const ProjectConnectionList = PropTypes.objectOf(ProjectConnection)
 
-export default { ProjectConnection, ProjectConnectionList }
+module.exports = { ProjectConnection, ProjectConnectionList }

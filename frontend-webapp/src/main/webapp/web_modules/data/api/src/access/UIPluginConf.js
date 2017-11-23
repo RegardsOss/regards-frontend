@@ -41,7 +41,7 @@ const UIPluginConfSchema = new Schema(UIPluginConfConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   UI_PLUGIN_CONFIGURATION: UIPluginConfSchema,
   UI_PLUGIN_CONFIGURATION_ARRAY: arrayOf(UIPluginConfSchema),
   UIPluginConfConfiguration,

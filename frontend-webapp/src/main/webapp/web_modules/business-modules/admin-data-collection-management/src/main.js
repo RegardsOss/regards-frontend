@@ -20,7 +20,7 @@ import collectionDataManagementReducer from './reducer'
 import collectionDataManagementRouter from './router'
 import collectionDependencies from './dependencies'
 
-export default {
+module.exports = {
   collectionDataManagementReducer,
   collectionDataManagementRouter,
   collectionDependencies,

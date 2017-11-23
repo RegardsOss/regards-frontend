@@ -18,6 +18,6 @@
  **/
 import SelectThemeContainer from './containers/SelectThemeContainer'
 
-export default {
+module.exports = {
   SelectThemeContainer,
 }

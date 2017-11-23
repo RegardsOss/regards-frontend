@@ -33,7 +33,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class EndpointActions extends BasicPageableActions {
+export default class EndpointActions extends BasicPageableActions {
 
   /**
    * Construtor
@@ -50,5 +50,3 @@ class EndpointActions extends BasicPageableActions {
     })
   }
 }
-
-export default namespace => new EndpointActions(namespace)

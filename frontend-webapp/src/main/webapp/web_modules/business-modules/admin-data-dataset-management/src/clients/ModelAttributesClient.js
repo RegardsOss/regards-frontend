@@ -31,7 +31,7 @@ const modelAttributesActions = new DataManagementClient.ModelAttributesActions(R
 const modelAttributesSelectors = DataManagementClient.ModelAttributesSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   modelAttributesReducer,
   modelAttributesActions,
   modelAttributesSelectors,

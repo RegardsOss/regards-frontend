@@ -21,6 +21,7 @@ import RenderSelectField from './render/RenderSelectField'
 import RenderCheckbox from './render/RenderCheckbox'
 import RenderRadio from './render/RenderRadio'
 import RenderFileField from './render/RenderFileField'
+import RenderFileFieldWithMui from './render/RenderFileFieldWithMui'
 import RenderToggle from './render/RenderToggle'
 import RenderDoubleLabelToggle from './render/RenderDoubleLabelToggle'
 import RenderDateTimeField from './render/RenderDateTimeField'
@@ -37,7 +38,7 @@ import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
 import StringComparison from './StringComparison'
 import reduxForm from './reduxForm'
 
-export default {
+module.exports = {
   RenderTextField,
   RenderToggle,
   RenderDoubleLabelToggle,
@@ -45,6 +46,7 @@ export default {
   RenderCheckbox,
   RenderRadio,
   RenderFileField,
+  RenderFileFieldWithMui,
   RenderDateTimeField,
   ErrorTypes,
   Locales,

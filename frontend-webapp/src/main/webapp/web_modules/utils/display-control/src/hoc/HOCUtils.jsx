@@ -80,7 +80,7 @@ function renderChildren(children = []) {
   }
 }
 
-export default {
+module.exports = {
   getOnlyNonDeclaredProps,
   cloneChildrenWith,
   shouldCloneChildren,

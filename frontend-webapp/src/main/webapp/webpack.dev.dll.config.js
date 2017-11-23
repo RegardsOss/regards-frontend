@@ -35,7 +35,6 @@ const conf = webpackConfigurator
     entry: {
       core: [
         'chart.js',
-        'flux-standard-action',
         'gsap',
         'immutable',
         'isomorphic-fetch',

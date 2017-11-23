@@ -36,4 +36,4 @@ const ProjectList = PropTypes.objectOf(Project)
 
 const ProjectArray = PropTypes.arrayOf(Project)
 
-export default { Project, ProjectList, ProjectArray }
+module.exports = { Project, ProjectList, ProjectArray }

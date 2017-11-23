@@ -30,6 +30,6 @@ const boardListRequiredDependencies = [
   uiPluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
-export default {
+module.exports = {
   boardListRequiredDependencies,
 }
