@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import IngestProcessingChain from './IngestProcessingChain'
-import IngestSIP from './IngestSIP'
-import IngestSession from './IngestSession'
-import SIPSubmited from './SIPSubmited'
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
+
+const NAMESPACE = 'admin-ingest-sip-management/table'
+const STORE_PATH = ['admin', 'acquisition', 'sip-management', 'session-table']
 
 export default {
-  ...IngestProcessingChain,
-  ...IngestSIP,
-  ...IngestSession,
-  ...SIPSubmited,
+  tableActions: new TableActions(NAMESPACE),
+  tableReducer: getTableReducer(NAMESPACE),
+  tableSelectors: getTableSelectors(STORE_PATH),
 }

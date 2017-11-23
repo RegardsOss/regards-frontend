@@ -17,66 +17,27 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { browserHistory } from 'react-router'
-import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import SIPSessionComponent from '../components/SIPSessionComponent'
 import messages from '../i18n'
 import styles from '../styles/styles'
-import { sessionActions, sessionSelectors } from '../clients/SessionClient'
 
 /**
 * Displays the selection of session in order to list SIPs
 * @author Maxime Bouveron
 */
 export class SIPSessionContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      sessions: sessionSelectors.getResults(state),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch) {
-    return {
-      fetchSessions: () => dispatch(sessionActions.fetchPagedEntityList()),
-    }
-  }
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
-    // from mapStateToProps
-    sessions: PropTypes.arrayOf(Object),
-    // from mapDispatchToProps
-    fetchSessions: PropTypes.func,
   }
 
-  componentWillMount() {
-    this.props.fetchSessions()
-  }
-
-  componentDidMount() {
-    console.log(this.props.sessions)
-  }
-
-
-  handleOpen = () => {
+  handleOpen = (session, isError = false) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/list`
+    const url = `/admin/${project}/data/acquisition/sip/${session}/list${isError ? '?errors' : ''}`
     browserHistory.push(url)
   }
 
@@ -92,6 +53,4 @@ export class SIPSessionContainer extends React.Component {
   }
 }
 
-export default connect(SIPSessionContainer.mapStateToProps, SIPSessionContainer.mapDispatchToProps)(
-  SIPSessionContainer,
-)
+export default SIPSessionContainer

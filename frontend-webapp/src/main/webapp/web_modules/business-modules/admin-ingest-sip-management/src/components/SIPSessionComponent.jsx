@@ -35,15 +35,22 @@ import IconButton from 'material-ui/IconButton'
 import Delete from 'material-ui/svg-icons/action/delete'
 import Error from 'material-ui/svg-icons/alert/error'
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
-import { ShowableAtRender } from '@regardsoss/components'
+import {
+  ShowableAtRender,
+  PageableInfiniteTableContainer,
+  TableLayout,
+  TableColumnBuilder,
+} from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { FormattedMessage } from 'react-intl'
+import { sessionActions, sessionSelectors } from '../clients/SessionClient'
+import { tableActions } from '../clients/TableClient'
 
 /**
-* SIP list test
-* @author Maxime Bouveron
-*/
+ * SIP list test
+ * @author Maxime Bouveron
+ */
 class SIPSessionComponent extends React.Component {
   static propTypes = {
     handleOpen: PropTypes.func,
@@ -56,22 +63,112 @@ class SIPSessionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  renderBar = (step, progress, total) => {
-    const { moduleTheme: { sip: { session: { bars } } } } = this.context
+  getProgressLabel = step => (entity) => {
+    const progress = entity.content[`${step}SipsCount`]
+    const total = entity.content.sipsCount
+
+    return `${progress} / ${total}`
+  }
+
+  getProgressPercent = step => (entity) => {
+    const progress = entity.content[`${step}SipsCount`]
+    const total = entity.content.sipsCount
+
+    return progress / total * 100
+  }
+
+  renderTable = () => {
+    const { intl, muiTheme, moduleTheme: { sip } } = this.context
+    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+
+    const columns = [
+      // id column
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.id',
+        intl.formatMessage({ id: 'sips.session.table.headers.id' }),
+        'content.id',
+      ),
+      ...['generated', 'stored', 'indexed'].map(step =>
+        TableColumnBuilder.buildSimpleColumnWithCell(
+          `column.${step}`,
+          intl.formatMessage({ id: `sips.session.table.headers.${step}` }),
+          TableColumnBuilder.buildProgressRenderCell(this.getProgressPercent(step), this.getProgressLabel(step)),
+        ),
+      ),
+      TableColumnBuilder.buildSimpleColumnWithCell(
+        'column.errors',
+        intl.formatMessage({ id: 'sips.session.table.headers.errors' }),
+        {
+          Constructor: props => (
+            <div style={sip.session.error.rowColumnStyle}>
+              <div style={sip.session.error.textStyle}>
+                {props.entity.content.errorSipsCount} / {props.entity.content.sipsCount}
+              </div>
+              <ShowableAtRender
+                style={sip.session.error.iconContainerStyle}
+                show={props.entity.content.errorSipsCount > 0}
+              >
+                <IconButton
+                  iconStyle={sip.session.error.iconStyle}
+                  onTouchTap={() => this.props.handleOpen(props.entity.content.id, true)}
+                >
+                  <Error />
+                </IconButton>
+              </ShowableAtRender>
+            </div>
+          ),
+        },
+      ),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.date',
+        intl.formatMessage({ id: 'sips.session.table.headers.date' }),
+        'content.lastActivationDate',
+      ),
+      TableColumnBuilder.buildOptionsColumn(
+        '',
+        [
+          {
+            OptionConstructor: () => (
+              <IconButton
+                title={intl.formatMessage({
+                  id: 'sips.session.table.actions.delete',
+                })}
+              >
+                <Delete />
+              </IconButton>
+            ),
+            optionProps: {},
+          },
+          {
+            OptionConstructor: props => (
+              <IconButton
+                title={intl.formatMessage({
+                  id: 'sips.session.table.actions.list',
+                })}
+                onTouchTap={() => this.props.handleOpen(props.entity.content.id)}
+              >
+                <Arrow />
+              </IconButton>
+            ),
+            optionProps: {},
+          },
+        ],
+        true,
+        fixedColumnWidth,
+      ),
+    ]
+
     return (
-      <div style={bars[step].borderStyle}>
-        <div
-          style={{
-            ...bars.barStyle,
-            ...bars[step].backgroundStyle,
-            ...{ width: `${(progress / total) * 100}%` },
-          }}
-        >
-          <div style={bars.interiorStyle}>
-            {progress} / {total}
-          </div>
-        </div>
-      </div>
+      <TableLayout>
+        <PageableInfiniteTableContainer
+          name="sip-management-session-table"
+          pageActions={sessionActions}
+          pageSelectors={sessionSelectors}
+          tableActions={tableActions}
+          pageSize={10}
+          columns={columns}
+        />
+      </TableLayout>
     )
   }
 
@@ -157,77 +254,10 @@ class SIPSessionComponent extends React.Component {
                 )}
               />
             </SelectField>
-            <RaisedButton
-              label={intl.formatMessage({ id: 'sips.button.filter' })}
-              primary
-            />
+            <RaisedButton label={intl.formatMessage({ id: 'sips.button.filter' })} primary />
           </div>
         </CardText>
-        <CardMedia>
-          <Table selectable={false}>
-            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-              <TableRow>
-                <TableHeaderColumn>
-                  <FormattedMessage id="sips.session.table.headers.id" />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage id="sips.session.table.headers.generated" />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage id="sips.session.table.headers.stored" />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage id="sips.session.table.headers.indexed" />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage id="sips.session.table.headers.errors" />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage id="sips.session.table.headers.date" />
-                </TableHeaderColumn>
-                <TableHeaderColumn>
-                  <FormattedMessage id="sips.session.table.headers.actions" />
-                </TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false} preScanRows={false}>
-              {[...Array(10).keys()].map(item => (
-                <TableRow key={item}>
-                  <TableRowColumn>{item}</TableRowColumn>
-                  <TableRowColumn>{this.renderBar('generation', item * 5, 50)}</TableRowColumn>
-                  <TableRowColumn>{this.renderBar('storage', item * 5, 50)}</TableRowColumn>
-                  <TableRowColumn>{this.renderBar('indexation', item * 5, 50)}</TableRowColumn>
-                  <TableRowColumn style={sip.session.error.rowColumnStyle}>
-                    {item % 3} / 50
-                    <ShowableAtRender show={item % 3 > 0}>
-                      <IconButton iconStyle={sip.session.error.iconStyle}>
-                        <Error />
-                      </IconButton>
-                    </ShowableAtRender>
-                  </TableRowColumn>
-                  <TableRowColumn>12/10/2017</TableRowColumn>
-                  <TableRowColumn>
-                    <IconButton
-                      title={intl.formatMessage({
-                        id: 'sips.session.table.actions.delete',
-                      })}
-                    >
-                      <Delete />
-                    </IconButton>
-                    <IconButton
-                      title={intl.formatMessage({
-                        id: 'sips.session.table.actions.list',
-                      })}
-                      onTouchTap={this.props.handleOpen}
-                    >
-                      <Arrow />
-                    </IconButton>
-                  </TableRowColumn>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardMedia>
+        <CardMedia>{this.renderTable()}</CardMedia>
       </Card>
     )
   }

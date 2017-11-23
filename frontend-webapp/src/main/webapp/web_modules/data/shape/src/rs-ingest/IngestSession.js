@@ -24,7 +24,7 @@
 
 /** A dated selection item shape */
 const IngestSession = PropTypes.shape({
-  content: {
+  content: PropTypes.shape({
     id: PropTypes.string.isRequired,
     lastActivationDate: PropTypes.string.isRequired,
     sipsCount: PropTypes.number.isRequired,
@@ -32,7 +32,7 @@ const IngestSession = PropTypes.shape({
     storedSipsCount: PropTypes.number.isRequired,
     generatedSipsCount: PropTypes.number.isRequired,
     errorSipsCount: PropTypes.number.isRequired,
-  },
+  }),
 })
 
 export default {
