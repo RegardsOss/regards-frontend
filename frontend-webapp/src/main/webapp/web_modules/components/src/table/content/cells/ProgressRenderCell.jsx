@@ -19,38 +19,41 @@
 import { themeContextType } from '@regardsoss/theme'
 import { IngestShapes } from '@regardsoss/shape'
 
-class SIPSessionProgressCustomCell extends React.Component {
+class ProgressRenderCell extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }
 
   static propTypes = {
     entity: IngestShapes.IngestSession,
-    step: PropTypes.string,
+    // Returns progress in 0 - 100. (entity) => number
+    getProgressPercent: PropTypes.func.isRequired,
+    // Returns progress formatted label (optionnal). (entity) => string
+    getProgressLabel: PropTypes.func,
   }
 
   render() {
-    const { moduleTheme: { sip: { session: { bars } } } } = this.context
-    const { step } = this.props
-    const progress = this.props.entity.content[`${step}SipsCount`]
-    const total = this.props.entity.content.sipsCount
+    const { moduleTheme: { progressBar } } = this.context
+    // const progress = this.props.entity.content[`${step}SipsCount`]
+    // const total = this.props.entity.content.sipsCount
+    const { entity, getProgressPercent, getProgressLabel } = this.props
+    const label = getProgressLabel ? getProgressLabel(entity) : null
+    const progress = getProgressPercent(entity) || 0
 
     return (
-      <div style={{ ...bars.borderStyle, ...bars[step].borderStyle }}>
+      <div style={progressBar.borderStyle}>
         <div
           style={{
-            ...bars.barStyle,
-            ...bars[step].backgroundStyle,
-            ...{ width: `${progress / total * 100}%` },
+            ...progressBar.barStyle,
+            ...progressBar.backgroundStyle,
+            ...{ width: `${progress}%` },
           }}
         >
-          <div style={bars.interiorStyle}>
-            {progress} / {total}
-          </div>
+          <div style={progressBar.interiorStyle}>{label}</div>
         </div>
       </div>
     )
   }
 }
 
-export default SIPSessionProgressCustomCell
+export default ProgressRenderCell

@@ -46,7 +46,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { FormattedMessage } from 'react-intl'
 import { sessionActions, sessionSelectors } from '../clients/SessionClient'
 import { tableActions } from '../clients/TableClient'
-import SIPSessionProgressCustomCell from './SIPSessionProgressCustomCell'
 
 /**
  * SIP list test
@@ -64,6 +63,20 @@ class SIPSessionComponent extends React.Component {
     ...i18nContextType,
   }
 
+  getProgressLabel = step => (entity) => {
+    const progress = entity.content[`${step}SipsCount`]
+    const total = entity.content.sipsCount
+
+    return `${progress} / ${total}`
+  }
+
+  getProgressPercent = step => (entity) => {
+    const progress = entity.content[`${step}SipsCount`]
+    const total = entity.content.sipsCount
+
+    return progress / total * 100
+  }
+
   renderTable = () => {
     const { intl, muiTheme, moduleTheme: { sip } } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
@@ -79,10 +92,7 @@ class SIPSessionComponent extends React.Component {
         TableColumnBuilder.buildSimpleColumnWithCell(
           `column.${step}`,
           intl.formatMessage({ id: `sips.session.table.headers.${step}` }),
-          {
-            Constructor: SIPSessionProgressCustomCell,
-            props: { step },
-          },
+          TableColumnBuilder.buildProgressRenderCell(this.getProgressPercent(step), this.getProgressLabel(step)),
         ),
       ),
       TableColumnBuilder.buildSimpleColumnWithCell(

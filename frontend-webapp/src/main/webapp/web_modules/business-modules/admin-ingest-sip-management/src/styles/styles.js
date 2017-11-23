@@ -49,45 +49,6 @@ const sipManagementStyles = theme => ({
       },
     },
     session: {
-      bars: {
-        interiorStyle: {
-          textAlign: 'left',
-          fontSize: '0.9em',
-          width: 100,
-        },
-        barStyle: {
-          padding: 3,
-        },
-        borderStyle: {
-          width: '100%',
-          marginLeft: 4,
-          marginRight: 4,
-        },
-        indexed: {
-          borderStyle: {
-            border: '2px solid #4CAF50',
-          },
-          backgroundStyle: {
-            backgroundColor: '#4CAF50',
-          },
-        },
-        stored: {
-          borderStyle: {
-            border: '2px solid #00BCD4',
-          },
-          backgroundStyle: {
-            backgroundColor: '#00BCD4',
-          },
-        },
-        generated: {
-          borderStyle: {
-            border: '2px solid #2196F3',
-          },
-          backgroundStyle: {
-            backgroundColor: '#2196F3',
-          },
-        },
-      },
       error: {
         rowColumnStyle: {
           display: 'flex',

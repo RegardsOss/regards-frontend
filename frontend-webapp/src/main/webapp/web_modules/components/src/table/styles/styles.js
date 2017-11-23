@@ -206,6 +206,27 @@ export default (theme) => {
         height: 24,
       },
     },
+    progressBar: {
+      interiorStyle: {
+        textAlign: 'left',
+        fontSize: '0.8em',
+        fontWeight: 'bold',
+        paddingLeft: 5,
+        width: 100,
+      },
+      barStyle: {
+        padding: '1px 3px',
+      },
+      borderStyle: {
+        width: '100%',
+        marginLeft: 10,
+        marginRight: 10,
+        border: '2px solid #2196F3',
+      },
+      backgroundStyle: {
+        backgroundColor: '#2196F3',
+      },
+    },
     actionsMenuCellWrapper: {
       display: 'flex',
       justifyContent: 'flex-start',
