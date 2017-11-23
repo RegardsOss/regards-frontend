@@ -21,7 +21,7 @@
  * Mock server response for Modules entities
  * @author Sébastien binda
  */
-export default {
+module.exports = {
   content: [
     {
       content: {

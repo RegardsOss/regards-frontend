@@ -32,7 +32,7 @@ import { BasicArrayActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class ControllerActions extends BasicArrayActions {
+export default class ControllerActions extends BasicArrayActions {
   constructor(namespace) {
     super({
       namespace,
@@ -41,5 +41,3 @@ class ControllerActions extends BasicArrayActions {
     })
   }
 }
-
-export default namespace => new ControllerActions(namespace)

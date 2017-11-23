@@ -8,7 +8,7 @@ const accessGroupActions = new DataManagementClient.AccessGroupActions(namespace
 const accessGroupReducer = DataManagementClient.getAccessGroupReducer(namespace)
 const accessGroupSelectors = DataManagementClient.getAccessGroupSelectors(['admin', 'user-management', 'project-user-management', 'accessGroup'])
 
-export default {
+module.exports = {
   accessGroupActions,
   accessGroupReducer,
   accessGroupSelectors,

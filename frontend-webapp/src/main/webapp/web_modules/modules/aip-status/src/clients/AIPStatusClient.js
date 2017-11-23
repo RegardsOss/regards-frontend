@@ -23,7 +23,7 @@ const aipStatusActions = new StorageClient.AIPStatusActions(namespace)
 const aipStatusReducer = StorageClient.getAIPStatusReducer(namespace)
 const aipStatusSelectors = StorageClient.getAIPStatusSelectors(['modules.aip-status', 'aipPages'])
 
-export default {
+module.exports = {
   aipStatusActions,
   aipStatusReducer,
   aipStatusSelectors,

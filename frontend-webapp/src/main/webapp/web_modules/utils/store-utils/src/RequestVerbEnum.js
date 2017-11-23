@@ -20,7 +20,7 @@
 /**
  * Enum for HTTP Request Verbs
  */
-export default {
+module.exports = {
   GET_LIST: 'GET_LIST',
   GET: 'GET',
   POST: 'POST',

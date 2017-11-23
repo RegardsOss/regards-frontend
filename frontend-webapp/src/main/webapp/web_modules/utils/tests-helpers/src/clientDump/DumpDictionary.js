@@ -128,7 +128,7 @@ import {
  *      a client dump and everything required to normalize that dump
  * @author Léo Mieulet
  */
-export default {
+module.exports = {
   AccessProjectClient: {
     UIPluginConfiguration: {
       isPageable: true,

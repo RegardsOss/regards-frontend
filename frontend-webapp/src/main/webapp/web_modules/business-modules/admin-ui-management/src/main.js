@@ -25,7 +25,7 @@ import uiManagementDependencies from './dependencies'
  * @author Sébastien binda
  */
 
-export default {
+module.exports = {
   uiManagementRouter,
   uiManagementReducer,
   uiManagementDependencies,

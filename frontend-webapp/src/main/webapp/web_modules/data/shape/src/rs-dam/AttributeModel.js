@@ -44,7 +44,7 @@ const AttributeModelList = PropTypes.objectOf(AttributeModel)
 
 const AttributeModelArray = PropTypes.arrayOf(AttributeModel)
 
-export default {
+module.exports = {
   AttributeModelContent,
   AttributeModel,
   AttributeModelList,

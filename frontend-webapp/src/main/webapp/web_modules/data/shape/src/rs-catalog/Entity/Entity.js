@@ -63,7 +63,7 @@ const Entity = PropTypes.shape({
 
 const EntityList = PropTypes.objectOf(Entity)
 
-export default {
+module.exports = {
   entityFields,
   entityFiles,
   Entity,

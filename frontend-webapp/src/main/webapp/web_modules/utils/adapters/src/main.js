@@ -20,7 +20,7 @@ import AceEditorAdapter from './components/AceEditorAdapter'
 import ChartAdapter from './components/ChartAdapter'
 import ScrollArea from './components/ScrollAreaAdapter'
 
-export default {
+module.exports = {
   AceEditorAdapter,
   ChartAdapter,
   ScrollArea,

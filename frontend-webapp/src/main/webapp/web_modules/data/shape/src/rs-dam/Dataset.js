@@ -48,7 +48,7 @@ const Dataset = PropTypes.shape({
 const DatasetList = PropTypes.objectOf(Dataset)
 
 
-export default {
+module.exports = {
   Dataset,
   DatasetContent,
   DatasetList,

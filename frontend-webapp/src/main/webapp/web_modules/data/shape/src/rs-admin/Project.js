@@ -27,7 +27,7 @@ const ProjectContent = PropTypes.shape({
   isDeleted: PropTypes.bool.isRequired,
   isPublic: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  host: PropTypes.string.isRequired,
+  host: PropTypes.string,
 })
 
 const Project = PropTypes.shape({
@@ -36,7 +36,7 @@ const Project = PropTypes.shape({
 
 const ProjectList = PropTypes.objectOf(Project)
 
-export default {
+module.exports = {
   ProjectContent,
   Project,
   ProjectList,

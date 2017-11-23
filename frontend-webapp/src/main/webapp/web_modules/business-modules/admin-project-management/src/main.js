@@ -19,7 +19,7 @@
 import projectManagementReducer from './reducer'
 import projectManagementRouter from './router'
 
-export default {
+module.exports = {
   projectManagementReducer,
   projectManagementRouter,
 }

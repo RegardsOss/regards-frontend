@@ -70,7 +70,7 @@ export class FragmentListContainer extends React.Component {
 
   handleEdit = (fragmentId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/fragment/${fragmentId}/edit`
+    const url = `/admin/${project}/data/models/fragment/${fragmentId}/edit`
     browserHistory.push(url)
   }
 

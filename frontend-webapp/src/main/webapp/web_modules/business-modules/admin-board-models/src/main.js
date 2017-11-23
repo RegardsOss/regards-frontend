@@ -20,7 +20,7 @@ import modelsRouter from './router'
 import modelsReducers from './reducer'
 import modelsDependencies from './dependencies'
 
-export default {
+module.exports = {
   modelsReducers,
   modelsRouter,
   modelsDependencies,

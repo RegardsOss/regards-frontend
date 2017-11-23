@@ -30,7 +30,7 @@ const Model = PropTypes.shape({
 
 const ModelList = PropTypes.objectOf(Model)
 
-export default {
+module.exports = {
   ModelContent,
   Model,
   ModelList,

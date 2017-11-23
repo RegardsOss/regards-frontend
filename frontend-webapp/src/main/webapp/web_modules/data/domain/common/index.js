@@ -20,7 +20,7 @@
 import { relativeURLRegexp, validURLRegexp } from './URLRegex'
 import PluginParamType from './PluginParamType'
 
-export default {
+module.exports = {
   // Plugin
   ...PluginParamType,
 

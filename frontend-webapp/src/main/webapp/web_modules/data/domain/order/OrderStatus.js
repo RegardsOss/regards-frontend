@@ -26,7 +26,7 @@ import values from 'lodash/values'
 /**
  * Possible values for order status
  */
-const ORDER_STATUS_ENUM = {
+export const ORDER_STATUS_ENUM = {
   PENDING: 'PENDING',
   RUNNING: 'RUNNING',
   PAUSED: 'PAUSED',
@@ -41,9 +41,5 @@ const ORDER_STATUS_ENUM = {
 /**
  * Order status as list
  */
-const ORDER_STATUS = values(ORDER_STATUS_ENUM)
+export const ORDER_STATUS = values(ORDER_STATUS_ENUM)
 
-export default {
-  ORDER_STATUS_ENUM,
-  ORDER_STATUS,
-}

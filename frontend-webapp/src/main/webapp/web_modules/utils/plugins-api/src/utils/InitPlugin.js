@@ -49,4 +49,4 @@ const initPlugin = (pluginClass, pluginInfo, reducer, messages = EMPTY_MESSAGES,
   document.dispatchEvent(event)
 }
 
-export default { initPlugin }
+module.exports = { initPlugin }

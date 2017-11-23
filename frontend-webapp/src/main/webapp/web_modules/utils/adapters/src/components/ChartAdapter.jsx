@@ -63,7 +63,7 @@ export default class ChartAdapter extends React.Component {
       return null // loading
     }
     return (
-      <WrappedComponent {...this.props} />
+      <RenderComponent {...this.props} />
     )
   }
 

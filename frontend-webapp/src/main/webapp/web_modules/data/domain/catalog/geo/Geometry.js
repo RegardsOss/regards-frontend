@@ -12,6 +12,6 @@ const GEOMETRY_TYPES = {
   GeometryCollection: 'GeometryCollection',
 }
 
-export default {
+module.exports = {
   GEOMETRY_TYPES,
 }

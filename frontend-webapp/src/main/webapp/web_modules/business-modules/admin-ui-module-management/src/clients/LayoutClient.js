@@ -27,10 +27,10 @@ const ENTITIES_STORE_PATH = ['admin', 'ui', 'module', 'layouts']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-module-management/layouts'
 
 const layoutReducers = AccessProjectClient.LayoutReducers(REDUX_ACTION_NAMESPACE)
-const layoutActions = AccessProjectClient.LayoutActions(REDUX_ACTION_NAMESPACE)
+const layoutActions = new AccessProjectClient.LayoutActions(REDUX_ACTION_NAMESPACE)
 const layoutSelectors = AccessProjectClient.LayoutSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   layoutReducers,
   layoutActions,
   layoutSelectors,

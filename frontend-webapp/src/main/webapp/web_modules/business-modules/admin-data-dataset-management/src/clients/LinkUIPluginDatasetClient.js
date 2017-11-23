@@ -30,7 +30,7 @@ const linkUIPluginDatasetReducer = AccessProjectClient.getLinkUIPluginDatasetRed
 const linkUIPluginDatasetActions = new AccessProjectClient.LinkUIPluginDatasetActions(REDUX_ACTION_NAMESPACE)
 const linkUIPluginDatasetSelectors = AccessProjectClient.getLinkUIPluginDatasetSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   linkUIPluginDatasetReducer,
   linkUIPluginDatasetActions,
   linkUIPluginDatasetSelectors,

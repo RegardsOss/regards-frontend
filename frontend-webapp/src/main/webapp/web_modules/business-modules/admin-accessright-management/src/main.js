@@ -20,7 +20,7 @@ import accessRightManagementRouter from './router'
 import accessRightManagementReducer from './reducer'
 import accessRightDependencies from './dependencies'
 
-export default {
+module.exports = {
   accessRightManagementRouter,
   accessRightManagementReducer,
   accessRightDependencies,

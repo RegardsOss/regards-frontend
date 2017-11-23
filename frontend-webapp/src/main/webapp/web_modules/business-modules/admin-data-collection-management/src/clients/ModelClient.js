@@ -31,7 +31,7 @@ const modelActions = new DataManagementClient.ModelActions(REDUX_ACTION_NAMESPAC
 const modelSelectors = DataManagementClient.ModelSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   modelReducer,
   modelActions,
   modelSelectors,

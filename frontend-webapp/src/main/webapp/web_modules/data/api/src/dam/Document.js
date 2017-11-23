@@ -39,7 +39,7 @@ const document = new Schema(DocumentConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   DOCUMENT: document,
   DOCUMENT_ARRAY: arrayOf(document),
   DocumentConfiguration,

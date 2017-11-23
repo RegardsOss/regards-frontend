@@ -27,7 +27,7 @@ import { Resource, ResourceList, ResourceArray } from './Resource'
 import { Role, RoleList, RoleArray } from './Role'
 
 
-export default {
+module.exports = {
   Account,
   AccountList,
 

@@ -32,7 +32,7 @@ const accessGroup = new Schema(AccessGroupConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   ACCESS_GROUP: accessGroup,
   ACCESS_GROUP_ARRAY: arrayOf(accessGroup),
   AccessGroupConfiguration,

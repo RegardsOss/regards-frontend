@@ -21,7 +21,7 @@
  * Table possible display modes
  * @author Sébastien Binda
  */
-export default {
+module.exports = {
   TABLE: 'table',
   LIST: 'list',
 }

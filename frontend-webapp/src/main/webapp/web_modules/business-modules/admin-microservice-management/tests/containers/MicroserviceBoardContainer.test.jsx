@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
+import sinon from 'sinon'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { MicroserviceBoardContainer } from '../../src/containers/MicroserviceBoardContainer'
@@ -36,9 +37,11 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing microservice board container',
   })
 
   it('should render self and subcomponents', () => {
+    const checkMicroserviceStatusStub = sinon.stub()
+    checkMicroserviceStatusStub.returns(new Promise(() => { }))
     const props = {
+      checkMicroserviceStatus: checkMicroserviceStatusStub,
       fetchMaintenance: () => { },
-      checkMicroserviceStatus: () => { },
       setMaintenance: () => { },
       maintenanceList: () => { },
       // from router

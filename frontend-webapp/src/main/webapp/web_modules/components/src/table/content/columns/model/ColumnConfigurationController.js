@@ -104,7 +104,7 @@ const getConfiguredColumnValueForEntity = (column, entity, lineHeight, isTableSe
   return null
 }
 
-export default {
+module.exports = {
   doesEntityValuesNotEmptyForColumnConfiguration,
   getConfiguredColumnValueForEntity,
 }

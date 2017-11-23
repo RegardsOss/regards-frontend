@@ -32,7 +32,7 @@ const uiPluginConfigurationActions = new AccessProjectClient.UIPluginConfigurati
 const uiPluginConfigurationSelectors = AccessProjectClient.UIPluginConfigurationSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   uiPluginConfigurationReducer,
   uiPluginConfigurationActions,
   uiPluginConfigurationSelectors,

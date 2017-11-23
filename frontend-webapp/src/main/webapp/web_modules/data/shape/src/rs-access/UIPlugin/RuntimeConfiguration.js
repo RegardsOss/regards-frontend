@@ -24,6 +24,6 @@ const RuntimeConfiguration = PropTypes.shape({
   dynamic: PropTypes.objectOf(PropTypes.any),
 })
 
-export default {
+module.exports = {
   RuntimeConfiguration,
 }

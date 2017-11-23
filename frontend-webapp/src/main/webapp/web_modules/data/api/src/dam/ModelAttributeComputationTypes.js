@@ -30,7 +30,7 @@ const modelAttributeComputationTypes = new Schema(ModelAttributeComputationTypes
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   MODEL_ATTRIBUTE_COMPUTATION_TYPES: modelAttributeComputationTypes,
   MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY: arrayOf(modelAttributeComputationTypes),
   ModelAttributeComputationTypesConfiguration,

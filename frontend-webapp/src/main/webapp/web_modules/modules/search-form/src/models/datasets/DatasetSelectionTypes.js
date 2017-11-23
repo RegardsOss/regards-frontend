@@ -25,7 +25,7 @@ const DATASET_TYPE = 'selectedDatasets'
 const DATASET_MODEL_TYPE = 'seletedDatasetModels'
 const ALL_CATALOG_TYPE = 'all'
 
-export default {
+module.exports = {
   DATASET_TYPE,
   DATASET_MODEL_TYPE,
   ALL_CATALOG_TYPE,

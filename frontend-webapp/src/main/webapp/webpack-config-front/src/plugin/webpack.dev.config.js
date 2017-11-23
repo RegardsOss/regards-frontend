@@ -5,6 +5,10 @@ const getCommonConfig = require('./webpack.common.config')
 
 module.exports = function (projectContextPath) {
   const config = getCommonConfig(projectContextPath, 'dev')
+  
+  // Ensure babel environment variable is correctly setup to development
+  process.env.NODE_ENV = 'development'
+
   return merge(config, {
     plugins: [
       new webpack.DefinePlugin({

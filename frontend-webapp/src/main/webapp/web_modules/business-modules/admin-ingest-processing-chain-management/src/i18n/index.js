@@ -8,7 +8,7 @@ import fr from './messages.fr.i18n'
  * Index for I18n messages of ingest processing chain management module.
  * @author Sébastien Binda
  */
-export default {
+module.exports = {
   en,
   fr,
 }

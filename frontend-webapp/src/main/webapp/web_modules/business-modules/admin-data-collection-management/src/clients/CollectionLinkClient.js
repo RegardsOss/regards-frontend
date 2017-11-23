@@ -29,7 +29,7 @@ const collectionLinkReducer = DataManagementClient.CollectionLinkReducer(REDUX_A
 const collectionLinkActions = new DataManagementClient.CollectionLinkActions(REDUX_ACTION_NAMESPACE)
 
 
-export default {
+module.exports = {
   collectionLinkReducer,
   collectionLinkActions,
 }

@@ -20,7 +20,7 @@ import projectUserManagementRouter from './router'
 import projectUserManagementReducer from './reducer'
 import projectUserDependencies from './dependencies'
 
-export default {
+module.exports = {
   projectUserManagementReducer,
   projectUserManagementRouter,
   projectUserDependencies,

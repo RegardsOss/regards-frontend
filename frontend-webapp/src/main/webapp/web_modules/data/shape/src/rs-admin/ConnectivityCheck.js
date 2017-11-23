@@ -26,7 +26,7 @@ const ConnectivityCheck = PropTypes.shape({
 })
 const ConnectivityCheckList = PropTypes.objectOf(ConnectivityCheck)
 
-export default {
+module.exports = {
   ConnectivityCheck,
   ConnectivityCheckList,
 }

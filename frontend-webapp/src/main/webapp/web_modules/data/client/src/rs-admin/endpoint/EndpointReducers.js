@@ -20,7 +20,6 @@ import map from 'lodash/map'
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { EndpointConfiguration } from '@regardsoss/api'
 import EndpointActions from './EndpointActions'
-
 /**
  * Redux Reducer for endpoint actions.
  *

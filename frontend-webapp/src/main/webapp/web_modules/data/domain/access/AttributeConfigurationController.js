@@ -91,7 +91,7 @@ const getInitialSortAttributes = (attributeConfigurations) => {
   return results
 }
 
-export default {
+module.exports = {
   isStandardAttributeQualifiedName,
   isStandardAttribute,
   findAttributeConf,

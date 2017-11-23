@@ -31,7 +31,7 @@ const aipStatusSchemaSchema = new Schema(AIPStatusConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   AIP_STATUS: aipStatusSchemaSchema,
   AIP_STATUS_ARRAY: arrayOf(aipStatusSchemaSchema),
   AIPStatusConfiguration,

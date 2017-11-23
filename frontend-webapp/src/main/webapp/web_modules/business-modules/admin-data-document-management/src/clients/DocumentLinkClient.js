@@ -29,7 +29,7 @@ const documentLinkReducer = DataManagementClient.getDocumentLinkReducer(REDUX_AC
 const documentLinkActions = new DataManagementClient.DocumentLinkActions(REDUX_ACTION_NAMESPACE)
 
 
-export default {
+module.exports = {
   documentLinkReducer,
   documentLinkActions,
 }

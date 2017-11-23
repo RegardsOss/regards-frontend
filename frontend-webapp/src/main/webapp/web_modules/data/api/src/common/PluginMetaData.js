@@ -18,7 +18,7 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-export const PluginMetaDataConfiguration = {
+const PluginMetaDataConfiguration = {
   entityKey: 'pluginId',
   normalizrKey: 'pluginMetaData',
 }
@@ -31,7 +31,8 @@ const schema = new Schema(PluginMetaDataConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   PLUGIN_META_DATA: schema,
   PLUGIN_META_DATA_ARRAY: arrayOf(schema),
+  PluginMetaDataConfiguration,
 }

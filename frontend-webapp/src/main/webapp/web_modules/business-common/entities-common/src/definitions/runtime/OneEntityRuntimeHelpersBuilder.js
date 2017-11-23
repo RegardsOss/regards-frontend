@@ -84,6 +84,6 @@ class OneEntityRuntimeHelpersBuilder {
 
 }
 
-export default {
+module.exports = {
   OneEntityRuntimeHelpersBuilder,
 }

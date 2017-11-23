@@ -31,7 +31,7 @@ const datasetValidSubsettingTestReducer = DataManagementClient.getDatasetValidSu
 const datasetValidSubsettingTestActions = new DataManagementClient.DatasetValidSubsettingTestActions(REDUX_ACTION_NAMESPACE)
 
 
-export default {
+module.exports = {
   datasetValidSubsettingTestReducer,
   datasetValidSubsettingTestActions,
 }

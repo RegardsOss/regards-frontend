@@ -24,4 +24,4 @@ const PluginDynamicValue = PropTypes.shape({
 })
 const PluginDynamicValueList = PropTypes.objectOf(PluginDynamicValue)
 
-export default { PluginDynamicValue, PluginDynamicValueList }
+module.exports = { PluginDynamicValue, PluginDynamicValueList }

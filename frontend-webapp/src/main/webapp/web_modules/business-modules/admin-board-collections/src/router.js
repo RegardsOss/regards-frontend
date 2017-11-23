@@ -22,7 +22,7 @@ export const boardRoute = {
     require.ensure([], (require) => {
       const moduleContainer = require('./components/ModuleContainer')
       cb(null, {
-        content: moduleContainer,
+        content: moduleContainer.default,
       })
     })
   },
@@ -31,8 +31,8 @@ export const boardRoute = {
 export const collectionManagementRouter = {
   path: 'collection',
   getChildRoutes(nextState, cb) {
-    const adminDataCollectionManagement = require('@regardsoss/admin-data-collection-management')
     require.ensure([], (require) => {
+      const adminDataCollectionManagement = require('@regardsoss/admin-data-collection-management')
       cb(null, [adminDataCollectionManagement.collectionDataManagementRouter])
     })
   },
@@ -41,8 +41,8 @@ export const collectionManagementRouter = {
 export const datasetManagementRouter = {
   path: 'dataset',
   getChildRoutes(nextState, cb) {
-    const adminDataDatasetManagement = require('@regardsoss/admin-data-dataset-management')
     require.ensure([], (require) => {
+      const adminDataDatasetManagement = require('@regardsoss/admin-data-dataset-management')
       cb(null, [adminDataDatasetManagement.datasetDataManagementRouter])
     })
   },

@@ -25,7 +25,7 @@ import StoragePluginsActions from './plugins/StoragePluginsActions'
 import getStoragePluginsReducer from './plugins/StoragePluginsReducer'
 import getStoragePluginsSelectors from './plugins/StoragePluginsSelectors'
 
-export default {
+module.exports = {
   AIPStatusActions,
   getAIPStatusReducer,
   getAIPStatusSelectors,

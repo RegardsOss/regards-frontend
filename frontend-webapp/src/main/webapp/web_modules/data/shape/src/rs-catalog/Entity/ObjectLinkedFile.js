@@ -25,6 +25,6 @@ const ObjectLinkedFile = PropTypes.shape({
   uri: PropTypes.string.isRequired,
 })
 
-export default {
+module.exports = {
   ObjectLinkedFile,
 }

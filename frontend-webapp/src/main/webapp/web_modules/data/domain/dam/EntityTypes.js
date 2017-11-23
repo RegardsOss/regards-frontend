@@ -37,7 +37,7 @@ const ENTITY_TYPES_ENUM = {
 const ENTITY_TYPES = values(ENTITY_TYPES_ENUM)
 
 
-export default {
+module.exports = {
   ENTITY_TYPES,
   ENTITY_TYPES_ENUM,
 }

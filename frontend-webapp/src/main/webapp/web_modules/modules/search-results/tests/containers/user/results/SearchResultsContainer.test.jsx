@@ -27,13 +27,17 @@ import SearchResultsComponent from '../../../../src/components/user/results/Sear
 import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
 import styles from '../../../../src/styles/styles'
 
+
+console.log("LEOOO WTF 1")
 const context = buildTestContext(styles)
+console.log("LEOOO WTF 2")
 
 describe('[Search Results] Testing SearchResultsContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
+    console.log("LEOOO WTF 3")
     assert.isDefined(SearchResultsContainer)
   })
   it('should render properly', () => {

@@ -30,7 +30,7 @@ const datasetReducer = DataManagementClient.DatasetReducer(REDUX_ACTION_NAMESPAC
 const datasetActions = new DataManagementClient.DatasetActions(REDUX_ACTION_NAMESPACE)
 const datasetSelectors = DataManagementClient.DatasetSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   datasetReducer,
   datasetActions,
   datasetSelectors,

@@ -20,7 +20,7 @@ import microserviceManagementReducer from './reducer'
 import microserviceManagementRouter from './router'
 import microserviceDependencies from './dependencies'
 
-export default {
+module.exports = {
   microserviceManagementReducer,
   microserviceManagementRouter,
   microserviceDependencies,

@@ -129,7 +129,7 @@ import getUserGroupSelectors from './userGroup/UserGroupSelectors'
  *
  * @author Sébastien Binda
  */
-export default {
+module.exports = {
   AccessRightActions,
   getAccessRightReducer,
   getAccessRightSelectors,

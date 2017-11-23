@@ -20,7 +20,7 @@ import documentDataManagementReducer from './reducer'
 import documentDataManagementRouter from './router'
 import documentDependencies from './dependencies'
 
-export default {
+module.exports = {
   documentDataManagementReducer,
   documentDataManagementRouter,
   documentDependencies,

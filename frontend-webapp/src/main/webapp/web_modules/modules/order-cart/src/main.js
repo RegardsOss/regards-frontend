@@ -27,7 +27,7 @@ import messages from './i18n'
  * Module main file to expose public interface
  * @author Raphaël Mechali
  */
-export default {
+module.exports = {
   moduleContainer,
   reducer,
   styles,

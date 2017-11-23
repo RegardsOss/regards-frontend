@@ -27,4 +27,4 @@ const LinkPluginDataset = PropTypes.shape({
 })
 const LinkPluginDatasetList = PropTypes.objectOf(LinkPluginDataset)
 
-export default { LinkPluginDataset, LinkPluginDatasetList }
+module.exports = { LinkPluginDataset, LinkPluginDatasetList }

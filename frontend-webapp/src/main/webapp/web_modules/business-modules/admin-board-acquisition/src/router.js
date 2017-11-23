@@ -21,9 +21,7 @@ export const boardRoute = {
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const moduleContainer = require('./components/ModuleContainer')
-      cb(null, {
-        content: moduleContainer,
-      })
+      cb(null,{ content: moduleContainer.default })
     })
   },
 }
@@ -31,8 +29,8 @@ export const boardRoute = {
 export const processingChainManagementRouter = {
   path: 'chain',
   getChildRoutes(nextState, cb) {
-    const processingChainManagement = require('@regardsoss/admin-ingest-processing-chain-management')
     require.ensure([], (require) => {
+      const processingChainManagement = require('@regardsoss/admin-ingest-processing-chain-management')
       cb(null, [processingChainManagement.processingChainManagementRouter])
     })
   },
@@ -51,8 +49,8 @@ export const sipManagementRouter = {
 export const documentManagementRouter = {
   path: 'document',
   getChildRoutes(nextState, cb) {
-    const adminDataDocumentManagement = require('@regardsoss/admin-data-document-management')
     require.ensure([], (require) => {
+      const adminDataDocumentManagement = require('@regardsoss/admin-data-document-management')
       cb(null, [adminDataDocumentManagement.documentDataManagementRouter])
     })
   },
@@ -61,8 +59,8 @@ export const documentManagementRouter = {
 export const datasourceManagementRouter = {
   path: 'datasource',
   getChildRoutes(nextState, cb) {
-    const adminDataDatasourceManagement = require('@regardsoss/admin-data-datasource-management')
     require.ensure([], (require) => {
+      const adminDataDatasourceManagement = require('@regardsoss/admin-data-datasource-management')
       cb(null, [adminDataDatasourceManagement.datasourceDataManagementRouter])
     })
   },
@@ -71,8 +69,8 @@ export const datasourceManagementRouter = {
 export const connectionManagementRouter = {
   path: 'connection',
   getChildRoutes(nextState, cb) {
-    const adminDataConnectionManagement = require('@regardsoss/admin-data-connection-management')
     require.ensure([], (require) => {
+      const adminDataConnectionManagement = require('@regardsoss/admin-data-connection-management')
       cb(null, [adminDataConnectionManagement.connectionDataManagementRouter])
     })
   },

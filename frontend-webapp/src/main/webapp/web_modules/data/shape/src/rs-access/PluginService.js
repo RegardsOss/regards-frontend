@@ -52,7 +52,7 @@ const PluginServiceWithContent = PropTypes.shape({
 /** Plugin services as array */
 const PluginServiceWithContentArray = PropTypes.arrayOf(PluginServiceWithContent)
 
-export default {
+module.exports = {
   PluginService,
   PluginServiceWithContent,
   PluginServiceWithContentArray,

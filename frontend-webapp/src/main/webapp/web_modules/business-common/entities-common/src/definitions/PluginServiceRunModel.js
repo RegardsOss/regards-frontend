@@ -40,6 +40,6 @@ class PluginServiceRunModel {
 
 }
 
-export default {
+module.exports = {
   PluginServiceRunModel,
 }

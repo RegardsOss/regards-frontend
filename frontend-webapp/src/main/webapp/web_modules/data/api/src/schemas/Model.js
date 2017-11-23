@@ -22,7 +22,7 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-export const ModelConfiguration = {
+const ModelConfiguration = {
   entityKey: 'id',
   normalizrKey: 'model',
 }
@@ -34,7 +34,8 @@ const modelSchema = new Schema(ModelConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   MODEL: modelSchema,
   MODEL_ARRAY: arrayOf(modelSchema),
+  ModelConfiguration,
 }

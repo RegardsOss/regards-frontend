@@ -32,7 +32,7 @@ const accessRight = new Schema(AccessRightConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   ACCESS_RIGHT: accessRight,
   ACCESS_RIGHT_ARRAY: arrayOf(accessRight),
   AccessRightConfiguration,

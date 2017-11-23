@@ -26,4 +26,4 @@ const Collection = PropTypes.shape({
 const CollectionList = PropTypes.objectOf(Collection)
 const CollectionArray = PropTypes.arrayOf(Collection)
 
-export default { Collection, CollectionList, CollectionArray }
+module.exports = { Collection, CollectionList, CollectionArray }

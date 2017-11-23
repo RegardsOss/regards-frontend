@@ -71,7 +71,7 @@ const Facet = PropTypes.oneOfType([DateRangeFacet, NumberRangeFacet, StringFacet
 /** A facet array */
 const FacetArray = PropTypes.arrayOf(Facet)
 
-export default {
+module.exports = {
   DateRangeFacetValue,
   DateRangeFacet,
   Facet,

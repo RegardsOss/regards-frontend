@@ -33,7 +33,7 @@ import getCreateOrderSelectors from './order/CreateOrderSelectors'
  * Index for all order microservice clients.
  * @author Raphaël Mechali
  */
-export default {
+module.exports = {
   // current basket content actions
   OrderBasketActions,
   getOrderBasketReducer,

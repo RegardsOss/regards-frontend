@@ -40,7 +40,7 @@ import IngestClient from './rs-ingest'
  * From the other modules of this application ou should only use Actions and Selectors.
  *
  */
-export default {
+module.exports = {
   AccessInstanceClient,
   AccessProjectClient,
   AuthenticationClient,

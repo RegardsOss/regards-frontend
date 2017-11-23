@@ -19,7 +19,6 @@
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { ThemeConfiguration } from '@regardsoss/api'
 import ThemeActions from './ThemeActions'
-
 /**
  * Redux Reducer for ProjectActions actions.
  *

@@ -21,7 +21,7 @@ import IngestSIP from './IngestSIP'
 import IngestSession from './IngestSession'
 import SIPSubmited from './SIPSubmited'
 
-export default {
+module.exports = {
   ...IngestProcessingChain,
   ...IngestSIP,
   ...IngestSession,

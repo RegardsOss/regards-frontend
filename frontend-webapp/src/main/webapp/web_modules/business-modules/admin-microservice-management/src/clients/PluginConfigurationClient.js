@@ -32,7 +32,7 @@ const pluginConfigurationByTypeActions = new CommonClient.PluginConfigurationByT
 const pluginConfigurationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   pluginConfigurationActions,
   pluginConfigurationByTypeActions,
   pluginConfigurationReducer,

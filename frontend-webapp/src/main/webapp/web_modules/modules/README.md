@@ -35,7 +35,7 @@ Here is the list of available modules :
 To be plugged with the application, each `@regardsoss-modules` has to export in its `main.js` file an object containing :
 
 ```javascript
-export default {
+module.exports = {
   // A React.Component rendering the module functionalities
   ModuleContainer,
   // A React.Component renderig the module administration form
@@ -292,7 +292,7 @@ const admin = [
   'rs-dam@/models/attributes@POST',
 ]
 
-export default {
+module.exports = {
   user,
   admin,
 }

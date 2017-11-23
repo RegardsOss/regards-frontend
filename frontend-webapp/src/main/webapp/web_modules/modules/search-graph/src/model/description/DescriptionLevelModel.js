@@ -17,7 +17,7 @@ export const descriptionLevelActions = new descriptionLevelModel.DescriptionLeve
 export const descriptionLevelReducer = descriptionLevelModel.getDescriptionLevelReducer(REDUX_ACTION_NAMESPACE)
 export const descriptionLevelSelectors = descriptionLevelModel.getDescriptionLevelSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   descriptionLevelActions,
   descriptionLevelReducer,
   descriptionLevelSelectors,

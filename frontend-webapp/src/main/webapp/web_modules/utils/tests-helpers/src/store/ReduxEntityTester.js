@@ -22,6 +22,8 @@ import thunk from 'redux-thunk'
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 
 const { apiMiddleware } = require('redux-api-middleware')
+// Since redux-api-middleware v2, we need to add the polyfill ourself
+require('isomorphic-fetch')
 
 const originalConsoleError = console.error
 

@@ -27,7 +27,7 @@ const FilterShape = PropTypes.shape({
 
 const FilterListShape = PropTypes.arrayOf(FilterShape)
 
-export default {
+module.exports = {
   FilterShape,
   FilterListShape,
 }

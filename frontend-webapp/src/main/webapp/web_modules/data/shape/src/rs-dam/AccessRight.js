@@ -38,7 +38,7 @@ const AccessRight = PropTypes.shape({
 })
 const AccessRightList = PropTypes.objectOf(AccessRight)
 
-export default {
+module.exports = {
   AccessRight,
   AccessRightContent,
   AccessRightList,

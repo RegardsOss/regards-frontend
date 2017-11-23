@@ -31,6 +31,6 @@ const EntityWithServices = PropTypes.shape({
   }).isRequired,
 })
 
-export default {
+module.exports = {
   EntityWithServices,
 }

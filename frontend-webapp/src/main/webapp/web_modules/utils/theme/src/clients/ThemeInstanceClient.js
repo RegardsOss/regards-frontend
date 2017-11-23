@@ -25,8 +25,8 @@ import { AccessInstanceClient } from '@regardsoss/client'
  */
 const REDUX_ACTION_NAMESPACE = 'common/themes'
 
-const themeInstanceActions = AccessInstanceClient.ThemeActions(REDUX_ACTION_NAMESPACE)
+const themeInstanceActions = new AccessInstanceClient.ThemeActions(REDUX_ACTION_NAMESPACE)
 
-export default {
+module.exports = {
   themeInstanceActions,
 }

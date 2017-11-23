@@ -20,7 +20,7 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-export const AttributeModelConfiguration = {
+const AttributeModelConfiguration = {
   entityKey: 'id',
   normalizrKey: 'attributemodel',
 }
@@ -30,7 +30,8 @@ const attributeModel = new Schema(AttributeModelConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   ATTRIBUTE_MODEL: attributeModel,
   ATTRIBUTE_MODEL_ARRAY: arrayOf(attributeModel),
+  AttributeModelConfiguration,
 }

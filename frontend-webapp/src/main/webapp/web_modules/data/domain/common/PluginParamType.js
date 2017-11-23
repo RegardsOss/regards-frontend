@@ -41,7 +41,7 @@ const JavaPrimitiveTypes = {
   STRING: 'java.lang.String',
 }
 
-export default {
+module.exports = {
   PluginParameterTypes,
   JavaPrimitiveTypes,
   PluginParamType: values(PluginParameterTypes),

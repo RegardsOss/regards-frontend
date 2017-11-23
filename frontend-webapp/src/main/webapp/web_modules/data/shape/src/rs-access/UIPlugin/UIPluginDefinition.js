@@ -38,7 +38,7 @@ const UIPluginDefinition = PropTypes.shape({
 
 const UIPluginDefinitionList = PropTypes.objectOf(UIPluginDefinition)
 
-export default {
+module.exports = {
   UIPluginDefinitionContent,
   UIPluginDefinition,
   UIPluginDefinitionList,

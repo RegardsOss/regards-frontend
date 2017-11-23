@@ -32,7 +32,7 @@ const pluginConfigurationActions = new CommonClient.PluginConfigurationActions(R
 const pluginConfigurationByTypeActions = new CommonClient.PluginConfigurationByTypeActions(REDUX_ACTION_NAMESPACE)
 const pluginConfigurationSelectorBuilder = paths => CommonClient.getPluginConfigurationSelectors(concat(paths, ENTITIES_STORE_PATH))
 
-export default {
+module.exports = {
   pluginConfigurationActions,
   pluginConfigurationByTypeActions,
   pluginConfigurationReducer,
