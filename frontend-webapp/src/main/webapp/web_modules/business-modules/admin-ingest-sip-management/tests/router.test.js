@@ -35,7 +35,7 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing router', () => {
     assert.isNotNull(Routes)
     expect(Routes.childRoutes).to.have.length(4)
     expect(Routes.childRoutes[0].path).to.eq('session')
-    expect(Routes.childRoutes[1].path).to.eq('list')
+    expect(Routes.childRoutes[1].path).to.eq(':session/list')
     expect(Routes.childRoutes[2].path).to.eq('submition')
     expect(Routes.childRoutes[3].path).to.eq('submition-summary')
   })
@@ -45,7 +45,7 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('list should return SIPListContainer', (done) => {
+  it(':session/list should return SIPListContainer', (done) => {
     Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(SIPListContainer)
       done()

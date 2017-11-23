@@ -21,7 +21,7 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
 const NAMESPACE = 'admin-ingest-sip-management/table'
 const STORE_PATH = ['admin', 'acquisition', 'sip-management', 'session-table']
 
-export default {
+module.exports = {
   tableActions: new TableActions(NAMESPACE),
   tableReducer: getTableReducer(NAMESPACE),
   tableSelectors: getTableSelectors(STORE_PATH),
