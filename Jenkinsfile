@@ -139,6 +139,7 @@ pipeline {
                           sebp/sonar-runner \
                           -Dsonar.projectVersion=${TAG} \
                           -Dsonar.host.url=http://172.26.47.129:9000/'
+                        sh 'rm -rf frontend-webapp/src/main/webapp/.sonar'
                     },
                     maven: {
                         dir('rs-cloud') {
