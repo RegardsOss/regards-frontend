@@ -138,7 +138,7 @@ pipeline {
                           -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/data \
                           sebp/sonar-runner \
                           -Dsonar.projectVersion=${TAG} \
-                          -Dsonar.host.url=http://172.26.46.158:9000/'
+                          -Dsonar.host.url=http://172.26.47.129:9000/'
                     },
                     maven: {
                         dir('rs-cloud') {
