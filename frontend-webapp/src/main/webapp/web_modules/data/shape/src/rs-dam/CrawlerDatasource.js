@@ -16,26 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Schema, arrayOf } from 'normalizr'
-
-const EndpointConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'endpoint',
-}
-
-const schema = new Schema(EndpointConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[EndpointConfiguration.entityKey],
-  assignEntity: (output, key, value, input) => {
-    if (key === 'content') {
-      // eslint-disable-next-line no-param-reassign
-      output = `${output.content.resource}@${output.content.verb}`
-    }
-  },
+const CrawlerDatasourceContent = PropTypes.shape({
+  id: PropTypes.number,
+  label: PropTypes.string,
 })
 
-// Schemas for API responses.
+const CrawlerDatasource = PropTypes.shape({
+  content: CrawlerDatasourceContent.isRequired,
+})
+
+const CrawlerDatasourceList = PropTypes.objectOf(CrawlerDatasource)
+
+const CrawlerDatasourceArray = PropTypes.arrayOf(CrawlerDatasource)
+
 module.exports = {
-  ENDPOINT: schema,
-  ENDPOINT_ARRAY: arrayOf(schema),
-  EndpointConfiguration,
+  CrawlerDatasource,
+  CrawlerDatasourceContent,
+  CrawlerDatasourceList,
+  CrawlerDatasourceArray,
 }

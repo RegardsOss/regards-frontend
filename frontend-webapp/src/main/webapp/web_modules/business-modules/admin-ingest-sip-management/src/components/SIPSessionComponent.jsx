@@ -22,14 +22,6 @@ import SelectField from 'material-ui/SelectField'
 import TextField from 'material-ui/TextField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table'
 import { Step, Stepper, StepButton } from 'material-ui/Stepper'
 import IconButton from 'material-ui/IconButton'
 import Delete from 'material-ui/svg-icons/action/delete'

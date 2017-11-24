@@ -18,6 +18,7 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasourceActions } from './clients/DatasourceClient'
+import { crawlerDatasourceActions } from './clients/CrawlerDatasourceClient'
 
 
 /**
@@ -27,6 +28,11 @@ import { datasourceActions } from './clients/DatasourceClient'
 const listDependencies = [
   datasourceActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
+
+const crawlerDependencies = [
+  crawlerDatasourceActions.getDependency(RequestVerbEnum.GET_LIST),
+]
+
 const addDependencies = [
   datasourceActions.getDependency(RequestVerbEnum.POST),
 ]
@@ -34,4 +40,5 @@ const addDependencies = [
 module.exports = {
   listDependencies,
   addDependencies,
+  crawlerDependencies,
 }

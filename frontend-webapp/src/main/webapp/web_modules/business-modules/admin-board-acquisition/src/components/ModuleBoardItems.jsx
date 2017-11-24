@@ -76,6 +76,12 @@ const items = (projectName, intl) => [
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.connection.list.tooltip' }),
         hateoasDependencies: connectionDependencies.listDependencies,
       },
+      {
+        path: `/admin/${projectName}/data/acquisition/datasource/monitor`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.datasource.monitor.tooltip' }),
+        hateoasDependencies: datasourceDependencies.crawlerDependencies,
+      },
     ],
   },
   {

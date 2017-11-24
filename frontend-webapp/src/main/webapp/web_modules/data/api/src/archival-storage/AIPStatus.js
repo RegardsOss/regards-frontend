@@ -21,7 +21,7 @@ import { Schema, arrayOf } from 'normalizr'
 /**
  * AIP status management for normalizr
  */
-export const AIPStatusConfiguration = {
+const AIPStatusConfiguration = {
   entityKey: 'id',
   normalizrKey: 'aips',
 }
