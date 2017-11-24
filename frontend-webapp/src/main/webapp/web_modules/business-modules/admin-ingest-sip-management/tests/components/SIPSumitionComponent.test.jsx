@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { CardHeader, CardText } from 'material-ui/Card'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SIPSubmitionComponent from '../../src/components/SIPSubmitionComponent'
+import { SIPSubmitionComponent } from '../../src/components/SIPSubmitionComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)

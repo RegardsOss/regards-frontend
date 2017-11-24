@@ -39,6 +39,11 @@
             "browsers": "last 2 versions"
           }
         }]
+      ],
+      "plugins": [
+        "transform-class-properties",
+        "add-module-exports",
+        "syntax-dynamic-import"
       ]
     },
     "test": { // test environment transforms
