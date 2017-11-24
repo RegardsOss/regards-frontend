@@ -136,6 +136,7 @@ pipeline {
                           docker run --rm \
                           --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
                           -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/data \
+                          -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build \
                           sebp/sonar-runner \
                           -Dsonar.projectVersion=${TAG} \
                           -Dsonar.host.url=http://172.26.47.129:9000/'
