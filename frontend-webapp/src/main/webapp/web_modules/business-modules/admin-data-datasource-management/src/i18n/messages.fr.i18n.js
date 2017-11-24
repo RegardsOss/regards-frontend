@@ -22,11 +22,11 @@ const messages = Object.assign({
   'crawler.list.title': 'Liste des aspirations de données en cours ou terminées',
   'crawler.list.back.button': 'Retour',
   'crawler.list.label.column.header': 'Libellé',
-  'crawler.list.lastIngestDate.column.header': 'Date de dernière aspiration',
+  'crawler.list.lastIngestDate.column.header': 'Date de l\'aspiration',
   'crawler.list.nextPlannedIngestDate.column.header': 'Prochaine aspiration',
   'crawler.list.savedObjectsCount.column.header': 'Nombres d\'entités aspirées',
   'crawler.list.status.column.header': 'Etat',
-  'crawler.list.duration.column.header': 'Durée de la dernière asipration',
+  'crawler.list.duration.column.header': 'Durée',
   'crawler.list.refresh.button': 'Rafraîchir',
 
   'datasource.list.action.add': 'Ajouter',
