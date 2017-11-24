@@ -156,6 +156,7 @@ class SIPListComponent extends React.Component {
                   id: 'sips.list.table.actions.original-aip',
                 })}
               >
+                { /* TODO: Voir si la fenêtre correspond aux attentes et : l'implémenter */ }
                 <List />
               </IconButton>
             ),
@@ -164,6 +165,7 @@ class SIPListComponent extends React.Component {
           {
             OptionConstructor: props => (
               <ShowableAtRender show={props.entity.content.state.includes('Error')}>
+                {/* TODO: remplacer par le vrai state d'error*/}
                 <IconButton
                   title={intl.formatMessage({
                     id: 'sips.list.table.actions.retry',
@@ -306,7 +308,7 @@ class SIPListComponent extends React.Component {
           <AceEditorAdapter
             mode="json"
             theme="monokai"
-            value={'{ lol: "truc" }'}
+            value={'{ lol: "truc" }'} // TODO: Mettre la vraie donnée...
             showPrintMargin={false}
             style={sip.list.sipDetailsStyle}
             showGutter
