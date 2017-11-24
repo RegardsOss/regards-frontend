@@ -131,12 +131,11 @@ pipeline {
                             -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules \
                             -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build \
                             rs_node ./run_coverage.sh'
-                    
+                        sh 'sed -i s/app_to_build/data/g frontend-webapp/src/main/webapp/reports/coverage/lcov.info'
                         sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./frontend-webapp/src/main/webapp) && \
                           docker run --rm \
                           --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
                           -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/data \
-                          -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build \
                           sebp/sonar-runner \
                           -Dsonar.projectVersion=${TAG} \
                           -Dsonar.host.url=http://172.26.47.129:9000/'
