@@ -21,7 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
-import OrderListComponent from '../components/OrderListComponent'
+import OrderListComponent from '../components/orders/OrderListComponent'
 import messages from '../i18n'
 import styles from '../styles'
 

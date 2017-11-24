@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { themeContextType } from '@regardsoss/theme'
-import { IngestShapes } from '@regardsoss/shape'
 
 class ProgressRenderCell extends React.Component {
   static contextTypes = {
@@ -25,7 +24,8 @@ class ProgressRenderCell extends React.Component {
   }
 
   static propTypes = {
-    entity: IngestShapes.IngestSession,
+    // eslint-disable-next-line react/forbid-prop-types
+    entity: PropTypes.any.isRequired,
     // Returns progress in 0 - 100. (entity) => number
     getProgressPercent: PropTypes.func.isRequired,
     // Returns progress formatted label (optionnal). (entity) => string
@@ -41,7 +41,7 @@ class ProgressRenderCell extends React.Component {
     const progress = getProgressPercent(entity) || 0
 
     return (
-      <div style={progressBar.borderStyle}>
+      <div style={progressBar.borderStyle} title={label}>
         <div
           style={{
             ...progressBar.barStyle,

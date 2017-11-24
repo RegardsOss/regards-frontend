@@ -16,43 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isBoolean from 'lodash/isBoolean'
-import { i18nContextType } from '@regardsoss/i18n'
+import get from 'lodash/get'
+import { OrderShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 
+
 /**
- * Component to display Boolean values group value.
- * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
- * Note 2: when using this render outside table, provide context using withValueRenderContext method
- *
- * @author Sébastien binda
- */
-class BooleanValueRender extends React.Component {
+* Cell to show errors count in table (formats any error count greater than 0 as a warning)
+* @author Raphaël Mechali
+*/
+class ErrorsCountRender extends React.Component {
 
   static propTypes = {
-    value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    // the error count
+    value: PropTypes.number,
   }
 
   static contextTypes = {
-    ...i18nContextType,
     ...themeContextType,
   }
 
   render() {
     const { value } = this.props
-    const { intl: { formatMessage }, moduleTheme: { textRenderCell } } = this.context
-    let textValue
-    if (isBoolean(value)) {
-      textValue = String(value)
-    } else {
-      textValue = value || formatMessage({ id: 'value.render.no.value.label' })
-    }
+    const { moduleTheme: { inErrorCell, validCell } } = this.context
+    const errorCount = value || 0
     return (
-      <div style={textRenderCell} title={textValue} >
-        {textValue}
-      </div>)
+      <div style={errorCount ? inErrorCell : validCell}>
+        {errorCount}
+      </div>
+    )
   }
-
 }
-
-export default BooleanValueRender
+export default ErrorsCountRender

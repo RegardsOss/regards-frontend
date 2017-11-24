@@ -16,12 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
 import isString from 'lodash/isString'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from './i18n'
-import styles from './styles'
+import isUndefined from 'lodash/isUndefined'
+import isNull from 'lodash/isNull'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Component to display string values group value
@@ -29,7 +28,7 @@ import styles from './styles'
  *
  * @author Sébastien binda
  */
-export class StringValueRender extends React.Component {
+class StringValueRender extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any,
@@ -47,7 +46,7 @@ export class StringValueRender extends React.Component {
     let textValue
     if (isString(value)) { // string value
       textValue = value
-    } else if (value) { // value to convert (defined)
+    } else if (!isUndefined(value) && !isNull(value)) { // value to convert (defined)
       textValue = String(value)
     } else { // no value
       textValue = intl.formatMessage({ id: 'value.render.no.value.label' })
@@ -60,4 +59,4 @@ export class StringValueRender extends React.Component {
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(StringValueRender)
+export default StringValueRender

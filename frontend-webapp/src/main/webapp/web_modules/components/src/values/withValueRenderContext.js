@@ -16,14 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
+import { withI18n } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 
-export default theme => ({
-  inErrorCell: {
-    color: theme['forms-extension:validation'].errorColor,
-    fontWeight: 'bolder',
-  },
-  validCell: {
-    color: theme.palette.textColor,
-    fontWeight: 'normal',
-  },
-})
+import messages from './i18n'
+import styles from './styles'
+
+/**
+ * Exports a function without parameter to connect a component with values render context (as values render are not exported
+ * with their context for performances issues in table)
+ * @return function like Component => DecoratedComponent
+ * @author Raphaël Mechali
+ */
+export default function withValuesRenderContext(Component) {
+  return compose(withI18n(messages, true), withModuleStyle(styles, true))(Component)
+}
+

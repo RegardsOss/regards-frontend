@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { BooleanValueRender } from '../../src/values/BooleanValueRender'
+import BooleanValueRender from '../../src/values/BooleanValueRender'
 import styles from '../../src/values/styles'
 
 const context = buildTestContext(styles)

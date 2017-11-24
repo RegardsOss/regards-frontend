@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { DateArrayValueRender } from '../../src/values/DateArrayValueRender'
+import DateArrayValueRender from '../../src/values/DateArrayValueRender'
 import styles from '../../src/values/styles'
 
 const context = buildTestContext(styles)

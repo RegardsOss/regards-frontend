@@ -19,9 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { DateValueRender } from '../../src/values/DateValueRender'
+import DateValueRender from '../../src/values/DateValueRender'
 import styles from '../../src/values/styles'
-import { DateArrayValueRender } from '../../src/values/DateArrayValueRender'
 
 const context = buildTestContext(styles)
 
@@ -34,7 +33,7 @@ describe('[COMPONENTS] Testing DateValueRender', () => {
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DateArrayValueRender)
+    assert.isDefined(DateValueRender)
   })
 
   it('Should render a no data / unparsable correctly', () => {

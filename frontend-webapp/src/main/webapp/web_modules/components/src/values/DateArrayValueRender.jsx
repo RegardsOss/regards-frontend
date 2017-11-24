@@ -16,21 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { getFormattedDate } from './DateValueRender'
-import messages from './i18n'
-import styles from './styles'
-
 
 /**
  * Component to display Date Array values group value
  * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
+ * Note 2: when using this render outside table, provide context using withValueRenderContext method
  *
  * @author Sébastien binda
  */
-export class DateArrayValueRender extends React.Component {
+class DateArrayValueRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),
@@ -57,4 +54,4 @@ export class DateArrayValueRender extends React.Component {
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateArrayValueRender)
+export default DateArrayValueRender

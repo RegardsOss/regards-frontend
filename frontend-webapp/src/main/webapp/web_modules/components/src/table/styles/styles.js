@@ -221,10 +221,12 @@ export default (theme) => {
         width: '100%',
         marginLeft: 10,
         marginRight: 10,
-        border: '2px solid #2196F3',
+        borderWidth: '2px',
+        borderStyle: 'solid',
+        borderColor: theme.palette.primary1Color,
       },
       backgroundStyle: {
-        backgroundColor: '#2196F3',
+        backgroundColor: theme.palette.primary1Color,
       },
     },
     actionsMenuCellWrapper: {
