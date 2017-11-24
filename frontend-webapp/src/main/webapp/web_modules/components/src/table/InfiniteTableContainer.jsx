@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import Measure from 'react-measure'
 import { connect } from '@regardsoss/redux'
@@ -149,7 +150,7 @@ class InfiniteTableContainer extends React.Component {
       this.flushEntities(nextProps)
       // Fetch new ones
       this.fetchEntityPage(nextProps)
-    } else if (!isEqual(previousProps.entities, nextProps.entities)) {
+    } else if (!isEqual(previousProps.entities, nextProps.entities) || nextState.entities.length < get(nextProps, 'entities.length', 0)) {
       // update row entities (add new one to previously known ones)
       const firstReloadingIndex = nextProps.entitiesPageIndex * nextProps.queryPageSize
       const oldEntities = (previousState.entities || []).slice()
