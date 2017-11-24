@@ -52,9 +52,9 @@ import DownloadFileReducers from './download/DownloadFileReducers'
 import RequestVerbEnum from './RequestVerbEnum'
 import RequestErrorShape from './RequestErrorShape'
 
-export default {
-  BasicActions,
+module.exports = {
   BasicSelector,
+  BasicActions,
   BasicListSelectors,
   BasicListActions,
   BasicListReducers,

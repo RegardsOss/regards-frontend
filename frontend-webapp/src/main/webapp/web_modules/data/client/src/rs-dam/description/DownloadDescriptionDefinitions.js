@@ -24,7 +24,7 @@ const getDownloadURL = (entityType, id = '{id}') =>
 /**
  * This module provides common variables to access file description downloads
  */
-export default {
+module.exports = {
   MARKDOWN_MIMETYPE: 'text/markdown', // warn: no mime type standard, most commonly accepted type
   /**
    * Returns the relative path to download file for entity type as parameter, or undefined if the entity type as parameter

@@ -51,6 +51,6 @@ const ServiceTargetShape = PropTypes.oneOfType([
 ])
 
 
-export default {
+module.exports = {
   ServiceTargetShape,
 }

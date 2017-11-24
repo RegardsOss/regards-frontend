@@ -147,6 +147,6 @@ class QueryRuntimeHelpersBuilder {
 
 }
 
-export default {
+module.exports = {
   QueryRuntimeHelpersBuilder,
 }

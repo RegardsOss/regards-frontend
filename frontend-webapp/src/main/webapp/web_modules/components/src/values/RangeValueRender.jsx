@@ -16,11 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from './i18n'
-import styles from './styles'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 
 /**
@@ -47,7 +44,7 @@ export const getFormattedRange = (intl, lower, upper) => {
  *
  * @author Sébastien binda
  */
-export class RangeValueRender extends React.Component {
+class RangeValueRender extends React.Component {
   static propTypes = {
     value: PropTypes.shape({
       lowerBound: PropTypes.any,
@@ -73,5 +70,5 @@ export class RangeValueRender extends React.Component {
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(RangeValueRender)
+export default RangeValueRender
 

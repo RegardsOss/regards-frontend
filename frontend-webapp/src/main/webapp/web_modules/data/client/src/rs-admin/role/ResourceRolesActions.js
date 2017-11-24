@@ -33,7 +33,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class ResourceRolesActions extends BasicListActions {
+export default class ResourceRolesActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
@@ -45,5 +45,3 @@ class ResourceRolesActions extends BasicListActions {
     })
   }
 }
-
-export default namespace => new ResourceRolesActions(namespace)

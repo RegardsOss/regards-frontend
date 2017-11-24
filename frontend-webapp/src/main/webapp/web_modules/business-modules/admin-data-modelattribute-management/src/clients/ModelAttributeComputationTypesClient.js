@@ -31,7 +31,7 @@ const modelAttributeComputationTypesActions = new DataManagementClient.ModelAttr
 const modelAttributeComputationTypesSelectors = DataManagementClient.getModelAttributeComputationTypesSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   modelAttributeComputationTypesReducer,
   modelAttributeComputationTypesActions,
   modelAttributeComputationTypesSelectors,

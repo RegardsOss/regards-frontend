@@ -18,10 +18,10 @@
  **/
 import IngestProcessingChain from './IngestProcessingChain'
 import IngestSIP from './IngestSIP'
-import SIPSubmited from './SIPSubmited'
 import IngestSession from './IngestSession'
+import SIPSubmited from './SIPSubmited'
 
-export default {
+module.exports = {
   ...IngestProcessingChain,
   ...IngestSIP,
   ...IngestSession,

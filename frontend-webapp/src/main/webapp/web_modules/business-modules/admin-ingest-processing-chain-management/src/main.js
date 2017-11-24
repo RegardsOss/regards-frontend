@@ -24,7 +24,7 @@ import processingChainDependencies from './dependencies'
  * Index file for ingest processing chain management module
  * @author Sébastien Binda
  */
-export default {
+module.exports = {
   processingChainManagementReducer,
   processingChainManagementRouter,
   processingChainDependencies,

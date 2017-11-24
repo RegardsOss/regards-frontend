@@ -55,7 +55,7 @@ import SearchEntitiesActions from './search/SearchEntitiesActions'
 import getSearchEntitiesReducer from './search/SearchEntitiesReducer'
 import getSearchEntitiesSelectors from './search/SearchEntitiesSelectors'
 
-export default {
+module.exports = {
 
   ModuleActions,
   ModuleReducers,

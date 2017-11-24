@@ -21,7 +21,7 @@
  * Default available types of container for layout configuration
  * @author Sébastien Binda
  */
-export default {
+module.exports = {
   /**
    * Default application main container.
    */

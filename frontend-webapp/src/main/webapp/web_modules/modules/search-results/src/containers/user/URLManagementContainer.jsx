@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import has from 'lodash/has'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
@@ -124,7 +125,6 @@ export class URLManagementContainer extends React.Component {
   updateStateFromURL = (nextProps) => {
     // first load: parse tag and dataset from URL, then initialize the module store
     const { initialViewObjectType, initialDisplayMode, initialize, dispatchFetchEntity, currentQuery: query, displayDatasets } = nextProps
-
     // collect query parameters from URL
     const viewObjectType = displayDatasets ?
       (query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType) :
@@ -137,7 +137,7 @@ export class URLManagementContainer extends React.Component {
       searchTags.reduce((acc, tagFromURL, index) => acc && (tagFromURL === nextProps.levels[index].searchKey), true)
 
     // when not initialized or any change, re initialize
-    if (!get(this.state, 'initialize', null) || nextProps.viewObjectType !== viewObjectType || nextProps.displayMode !== displayMode || !hasAlreadySameTags) {
+    if (!has(this.state, 'initialize') || nextProps.viewObjectType !== viewObjectType || nextProps.displayMode !== displayMode || !hasAlreadySameTags) {
       // initialize: build a promise to resolve all entities tags, remove tags when it could be resolved
       // (in both case, make sure to restove view mode and object type)
       Promise.all(searchTags.map(tag => Tag.getTagPromise(dispatchFetchEntity, tag)))

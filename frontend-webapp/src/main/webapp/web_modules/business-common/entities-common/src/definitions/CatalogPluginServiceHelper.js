@@ -123,7 +123,7 @@ function packTargetParameters(target) {
 }
 
 
-export default {
+module.exports = {
   convertParameter, // exported at least for tests
   packTargetParameters,
   resolveParametersWithTypes,

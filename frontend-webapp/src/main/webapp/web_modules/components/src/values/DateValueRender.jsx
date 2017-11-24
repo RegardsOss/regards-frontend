@@ -16,11 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from './i18n'
-import styles from './styles'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Formats a date using intl and date text
@@ -49,7 +46,7 @@ export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, date
  *
  * @author Sébastien binda
  */
-export class DateValueRender extends React.Component {
+class DateValueRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.string,
@@ -72,4 +69,4 @@ export class DateValueRender extends React.Component {
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateValueRender)
+export default DateValueRender

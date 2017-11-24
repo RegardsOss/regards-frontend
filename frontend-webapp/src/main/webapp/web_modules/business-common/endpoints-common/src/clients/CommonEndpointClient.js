@@ -24,7 +24,7 @@ const endpointActions = new AdminClient.EndpointActions(namespace)
 const endpointReducers = AdminClient.getEndpointReducers(namespace)
 const endpointSelectors = AdminClient.getEndpointSelectors(REDUX_PATH)
 
-export default {
+module.exports = {
   endpointActions,
   endpointReducers,
   endpointSelectors,

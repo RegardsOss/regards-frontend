@@ -29,7 +29,7 @@ import ThemeReducers from './theme/ThemeReducers'
 import ThemeSelectors from './theme/ThemeSelectors'
 
 
-export default {
+module.exports = {
 
   ModuleActions,
   ModuleReducers,

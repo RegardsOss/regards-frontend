@@ -21,7 +21,7 @@ import attributeModelDataManagementRouter from './router'
 import attributeModelDependencies from './dependencies'
 
 
-export default {
+module.exports = {
   attributeModelDataManagementReducer,
   attributeModelDataManagementRouter,
   attributeModelDependencies,

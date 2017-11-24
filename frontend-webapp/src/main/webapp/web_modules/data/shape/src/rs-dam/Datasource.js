@@ -40,4 +40,4 @@ const Datasource = PropTypes.shape({
 const DatasourceList = PropTypes.objectOf(Datasource)
 
 
-export default { Datasource, DatasourceList }
+module.exports = { Datasource, DatasourceList }

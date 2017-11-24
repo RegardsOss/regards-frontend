@@ -24,7 +24,7 @@ import CommonDomain from './common'
 import DamDomain from './dam'
 import OrderDomain from './order'
 
-export default {
+module.exports = {
   AccessDomain,
   AdminDomain,
   ArchivalStorageDomain,

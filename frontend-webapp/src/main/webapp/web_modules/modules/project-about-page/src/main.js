@@ -26,7 +26,7 @@ import dependencies from './dependencies'
 /**
  * Module main file to expose public interface
  */
-export default {
+module.exports = {
   moduleContainer: ProjectAboutPageContainer,
   adminContainer,
   styles,

@@ -18,6 +18,7 @@
  **/
 import { AIP_STATES } from './AIPStatus'
 
-export default {
+
+module.exports = {
   AIP_STATES,
 }

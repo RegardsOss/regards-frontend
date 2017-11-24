@@ -23,7 +23,7 @@ import styles from './styles/styles'
 import dependencies from './dependencies'
 import messages from './i18n'
 
-export default {
+module.exports = {
   reducer,
   moduleContainer,
   styles,

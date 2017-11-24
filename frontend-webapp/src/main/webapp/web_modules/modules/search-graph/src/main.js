@@ -27,7 +27,7 @@ import messages from './i18n'
 /**
  * Expose module
  */
-export default {
+module.exports = {
   adminContainer,
   moduleContainer,
   reducer,

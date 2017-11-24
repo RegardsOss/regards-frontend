@@ -84,7 +84,7 @@ import EndpointActions from './endpoint/EndpointActions'
 import getEndpointReducers from './endpoint/EndpointReducers'
 import getEndpointSelectors from './endpoint/EndpointSelectors'
 
-export default {
+module.exports = {
 
   AccountPasswordActions,
   getAccountPasswordReducer,

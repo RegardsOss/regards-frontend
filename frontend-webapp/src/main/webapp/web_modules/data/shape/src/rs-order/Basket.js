@@ -50,7 +50,7 @@ const Basket = PropTypes.shape({
   datasetSelections: PropTypes.arrayOf(BasketDatasetSelection),
 })
 
-export default {
+module.exports = {
   BasketDatedItemsSelection,
   BasketDatasetSelection,
   Basket,

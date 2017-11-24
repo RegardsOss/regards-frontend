@@ -20,7 +20,7 @@ import acquisitionRouter from './router'
 import acquisitionReducers from './reducer'
 import acquisitionDependencies from './dependencies'
 
-export default {
+module.exports = {
   acquisitionReducers,
   acquisitionRouter,
   acquisitionDependencies,

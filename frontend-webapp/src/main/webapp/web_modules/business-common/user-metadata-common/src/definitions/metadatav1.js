@@ -100,7 +100,7 @@ function packMetadataField(user, formValues = {}) {
   })
 }
 
-export default {
+module.exports = {
   editorTypes,
   editors,
   getMetadataArray,

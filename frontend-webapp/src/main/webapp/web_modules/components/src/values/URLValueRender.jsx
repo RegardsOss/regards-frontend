@@ -17,8 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { LinkComponent } from '@regardsoss/components'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import messages from './i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Component to display url link values group value
@@ -26,7 +25,7 @@ import messages from './i18n'
  *
  * @author Sébastien binda
  */
-export class URLValueRender extends React.Component {
+class URLValueRender extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
@@ -49,4 +48,4 @@ export class URLValueRender extends React.Component {
 
 }
 
-export default withI18n(messages, true)(URLValueRender)
+export default URLValueRender

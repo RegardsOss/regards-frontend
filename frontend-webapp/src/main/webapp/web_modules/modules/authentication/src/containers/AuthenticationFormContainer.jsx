@@ -61,8 +61,8 @@ export class AuthenticationFormContainer extends React.Component {
       console.log('DEV', 'Auto connection')
       const that = this
       setTimeout(() => {
-        //that.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
-        that.onLoginRequest({ username: 'hello@hello.com', password: 'hello' })
+        that.onLoginRequest({ username: 'regards-admin@c-s.fr', password: 'root_admin' })
+        //that.onLoginRequest({ username: 'hello@hello.com', password: 'hello' })
       }, 150)
     }
   }

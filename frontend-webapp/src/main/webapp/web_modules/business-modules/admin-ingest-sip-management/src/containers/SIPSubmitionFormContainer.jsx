@@ -67,9 +67,15 @@ export class SIPSubmitionFormContainer extends React.Component {
     }
   }
 
-  onBack = () => {
+  onSucceed = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/sip/submition-summary`
+    browserHistory.push(url)
+  }
+
+  onBack = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/board`
     browserHistory.push(url)
   }
 
@@ -78,7 +84,7 @@ export class SIPSubmitionFormContainer extends React.Component {
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error || actionResult.meta.status === 422) {
-          this.onBack()
+          this.onSucceed()
           this.setState({
             isError: false,
           })

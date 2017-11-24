@@ -20,9 +20,12 @@ import get from 'lodash/get'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { PageableInfiniteTableContainer, TableColumnBuilder, TableLayout } from '@regardsoss/components'
-import { buildSinglePropertyCellRender, TYPES_ENUM } from '@regardsoss/attributes-common'
+import {
+  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout,
+  DateValueRender, StorageCapacityRender,
+} from '@regardsoss/components'
 import NoOrderComponent from './NoOrderComponent'
+import ErrorsCountRender from './ErrorsCountRender'
 
 /**
 * Order list component - displays user order list
@@ -74,26 +77,28 @@ class OrderListComponent extends React.Component {
   }
 
   buildColumns = () => {
-    const { } = this.props // TODO use later
     const { intl: { formatMessage } } = this.context
     return [
       // creation date
-      TableColumnBuilder.buildSimpleColumnWithCell('creation.date', formatMessage({ id: 'order.list.column.creation.date' }),
-        buildSinglePropertyCellRender('content.creationDate', TYPES_ENUM.DATE_ISO8601)),
+      TableColumnBuilder.buildSimplePropertyColumn('creation.date', formatMessage({ id: 'order.list.column.creation.date' }),
+        'content.creationDate', 0, true, DateValueRender),
       // expiration date
-      TableColumnBuilder.buildSimpleColumnWithCell('expiration.date', formatMessage({ id: 'order.list.column.expiration.date' }),
-        buildSinglePropertyCellRender('content.expirationDate', TYPES_ENUM.DATE_ISO8601)),
-      // objects count (as extracted, using getObjectCount)
+      TableColumnBuilder.buildSimplePropertyColumn('expiration.date', formatMessage({ id: 'order.list.column.expiration.date' }),
+        'content.expirationDate', 1, true, DateValueRender),
+      // // objects count (as extracted, using getObjectCount)
       TableColumnBuilder.buildSimpleColumnWithCell('objects.count', formatMessage({ id: 'order.list.column.object.count' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }])),
-      // error files count
-      TableColumnBuilder.buildSimpleColumnWithCell('errors.count', formatMessage({ id: 'order.list.column.errors.count' }),
-        buildSinglePropertyCellRender('content.filesInErrorCount')),
+        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 2, true),
+      // // error files count
+      TableColumnBuilder.buildSimplePropertyColumn('errors.count', formatMessage({ id: 'order.list.column.errors.count' }),
+        'content.filesInErrorCount', 3, true, ErrorsCountRender),
       // total files size  (as extracted, using getFilesSize)
-      TableColumnBuilder.buildSimpleColumnWithCell('objects.count', formatMessage({ id: 'order.list.column.object.count' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getFilesSize }])),
+      TableColumnBuilder.buildSimpleColumnWithCell('files.size', formatMessage({ id: 'order.list.column.files.size' }),
+        TableColumnBuilder.buildValuesRenderCell([{
+          getValue: OrderListComponent.getFilesSize,
+          RenderConstructor: StorageCapacityRender,
+        }]), 4),
 
-      // order.list.column.files.size
+      //
       // order.list.column.progress
       // order.list.column.status
       // order.list.column.options

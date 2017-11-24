@@ -33,7 +33,7 @@ const PluginMetaData = PropTypes.shape({
 })
 const PluginMetaDataList = PropTypes.objectOf(PluginMetaData)
 const PluginMetaDataArray = PropTypes.arrayOf(PluginMetaData)
-export default {
+module.exports = {
   PluginMetaDataContent,
   PluginMetaData,
   PluginMetaDataList,

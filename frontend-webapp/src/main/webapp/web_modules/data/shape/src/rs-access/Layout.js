@@ -40,7 +40,7 @@ const Layout = PropTypes.shape({
 
 const LayoutList = PropTypes.objectOf(Layout)
 
-export default {
+module.exports = {
   LayoutContent,
   Layout,
   LayoutList,

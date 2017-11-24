@@ -94,29 +94,7 @@ function buildRenderDelegate(path, type) {
   }
 }
 
-/**
- * Builds a property cell for properties with types (from TYPES_ENUM, optional) as parameter
- * @param {[{path: string, type: string}]} properties properties list (type is optional)
- */
-function buildPropertyCellRender(properties) {
-  return TableColumnBuilder.buildPropertiesRenderCell(
-    properties.map(({ path, type }) => buildRenderDelegate(path, type)))
-}
-
-/**
- * Builds an infinite table cell render (opened for external consumers)
- * @param {*} type type to render
- * @param {path: string}: path render
- * @param {type: string}: type, from TYPES_ENUM, optional
- */
-function buildSinglePropertyCellRender(path, type) {
-  return buildPropertyCellRender([{ path, type }])
-}
-
-
-export default {
-  buildPropertyCellRender,
+module.exports = {
   buildRenderDelegate,
-  buildSinglePropertyCellRender,
   getTypeRender,
 }

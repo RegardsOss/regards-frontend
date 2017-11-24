@@ -30,7 +30,7 @@ const linkPluginDatasetReducer = CatalogClient.getLinkPluginDatasetReducer(REDUX
 const linkPluginDatasetActions = new CatalogClient.LinkPluginDatasetActions(REDUX_ACTION_NAMESPACE)
 const linkPluginDatasetSelectors = CatalogClient.getLinkPluginDatasetSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   linkPluginDatasetReducer,
   linkPluginDatasetActions,
   linkPluginDatasetSelectors,

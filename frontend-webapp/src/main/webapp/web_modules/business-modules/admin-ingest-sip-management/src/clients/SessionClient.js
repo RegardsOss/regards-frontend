@@ -30,7 +30,7 @@ const sessionActions = new IngestClient.SessionActions(REDUX_ACTION_NAMESPACE)
 const sessionReducer = IngestClient.getSessionReducer(REDUX_ACTION_NAMESPACE)
 const sessionSelectors = IngestClient.getSessionSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   sessionActions,
   sessionReducer,
   sessionSelectors,

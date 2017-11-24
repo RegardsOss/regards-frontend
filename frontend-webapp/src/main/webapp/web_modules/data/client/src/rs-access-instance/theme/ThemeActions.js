@@ -33,7 +33,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class ThemeActions extends BasicPageableActions {
+export default class ThemeActions extends BasicPageableActions {
 
   /**
    * Construtor
@@ -50,5 +50,3 @@ class ThemeActions extends BasicPageableActions {
     })
   }
 }
-
-export default namespace => new ThemeActions(namespace)

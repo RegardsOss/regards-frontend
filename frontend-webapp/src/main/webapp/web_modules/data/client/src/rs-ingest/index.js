@@ -29,7 +29,7 @@ import SessionActions from './session/SessionActions'
 import getSessionReducer from './session/SessionReducer'
 import getSessionSelectors from './session/SessionSelectors'
 
-export default {
+module.exports = {
   ProcessingChainActions,
   ProcessingChainReducer,
   ProcessingChainSelectors,

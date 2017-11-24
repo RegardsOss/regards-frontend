@@ -37,7 +37,7 @@ const PluginConfigurationList = PropTypes.objectOf(PluginConfiguration)
 const PluginConfigurationArray = PropTypes.arrayOf(PluginConfiguration)
 
 
-export default {
+module.exports = {
   PluginConfigurationContent,
   PluginConfiguration,
   PluginConfigurationList,

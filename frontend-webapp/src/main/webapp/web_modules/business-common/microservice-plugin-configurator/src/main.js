@@ -28,7 +28,7 @@ import PluginConfigurator from './components/PluginConfigurationComponent'
  * To use this module just add <ProjectHandler projectName={} /> into your application DOM.
  *
  */
-export default {
+module.exports = {
   PluginFormConfigurator,
   PluginConfigurator,
   GenericPluginParameter,

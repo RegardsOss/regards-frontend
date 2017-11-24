@@ -165,7 +165,7 @@ const MakesFade = fades(Div)
 const MakesStandardCurveToRight = standardCurveToRight(Div)
 const MakesStandardCurveToLeft = standardCurveToLeft(Div)
 
-export default {
+module.exports = {
   fades,
   standardCurveToLeft,
   standardCurveToRight,

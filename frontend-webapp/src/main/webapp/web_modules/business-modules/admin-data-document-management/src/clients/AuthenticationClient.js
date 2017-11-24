@@ -27,6 +27,6 @@ const ENTITIES_STORE_PATH = ['common', 'authentication']
 
 const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)
 
-export default {
+module.exports = {
   authenticationSelectors,
 }

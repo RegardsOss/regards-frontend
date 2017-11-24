@@ -18,7 +18,7 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-export const ResourceAccessConfiguration = {
+const ResourceAccessConfiguration = {
   entityKey: 'id',
   normalizrKey: 'resourceaccess',
 }
@@ -29,7 +29,8 @@ const resourceAccessSchema = new Schema(ResourceAccessConfiguration.normalizrKey
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   RESOURCE_ACCESS: resourceAccessSchema,
   RESOURCE_ACCESS_ARRAY: arrayOf(resourceAccessSchema),
+  ResourceAccessConfiguration,
 }

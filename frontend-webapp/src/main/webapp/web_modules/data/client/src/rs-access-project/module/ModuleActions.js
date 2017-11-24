@@ -33,7 +33,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class ModuleActions extends BasicPageableActions {
+export default class ModuleActions extends BasicPageableActions {
 
   /**
    * Construtor
@@ -50,9 +50,3 @@ class ModuleActions extends BasicPageableActions {
     })
   }
 }
-
-/**
- * Builds actions instance
- * @param {string} namespace namespace, leave empty for default client actions
- */
-export default namespace => new ModuleActions(namespace)

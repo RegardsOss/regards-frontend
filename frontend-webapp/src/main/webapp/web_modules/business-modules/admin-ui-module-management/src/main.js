@@ -23,7 +23,7 @@ import moduleUIDependencies from './dependencies'
  * Module main file to expose public interface
  * @author Sébastien binda
  */
-export default {
+module.exports = {
   moduleUIRouter,
   moduleUIReducer,
   moduleUIDependencies,

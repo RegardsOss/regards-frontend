@@ -4,7 +4,7 @@
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { defaultCustomConfiguration } from '@regardsoss/theme'
 
-export default {
+module.exports = {
   ...getMuiTheme(),
   ...defaultCustomConfiguration,
 }

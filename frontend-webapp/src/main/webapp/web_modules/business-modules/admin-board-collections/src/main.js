@@ -20,7 +20,7 @@ import collectionsRouter from './router'
 import collectionsReducers from './reducer'
 import collectionsDependencies from './dependencies'
 
-export default {
+module.exports = {
   collectionsReducers,
   collectionsRouter,
   collectionsDependencies,

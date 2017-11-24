@@ -31,7 +31,7 @@ const connectionActions = new DataManagementClient.ConnectionActions(REDUX_ACTIO
 const connectionSelectors = DataManagementClient.ConnectionSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   connectionReducer,
   connectionActions,
   connectionSelectors,

@@ -31,7 +31,7 @@ const attributeModelRestrictionActions = new DataManagementClient.AttributeModel
 const attributeModelRestrictionSelectors = DataManagementClient.AttributeModelRestrictionSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   attributeModelRestrictionReducer,
   attributeModelRestrictionActions,
   attributeModelRestrictionSelectors,

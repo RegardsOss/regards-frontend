@@ -25,6 +25,7 @@ import ValuesRenderCell from '../cells/ValuesRenderCell'
 import OptionsCell from '../cells/OptionsCell'
 import CheckBoxCell from '../cells/CheckBoxCell'
 import ProgressRenderCell from '../cells/ProgressRenderCell'
+import PercentProgressRenderCell from '../cells/PercentProgressRenderCell'
 
 /**
  * Provides tools to build table columns
@@ -166,14 +167,27 @@ function buildPropertiesRenderCell(properties) {
 
 /**
  * Build a progress render cell
- * @param {function} getProgressPercent 
- * @param {function} getProgressLabel 
+ * @param {function} getProgressPercent returns progress percent from entity
+ * @param {function} getProgressLabel returns progress label (option)
  * @return cell definition
  */
 function buildProgressRenderCell(getProgressPercent, getProgressLabel) {
   return {
     Constructor: ProgressRenderCell,
     props: { getProgressPercent, getProgressLabel },
+  }
+}
+
+/**
+ * Build a progress render cell based on percent
+ * @param {function} getProgressPercent returns progress percent from entity
+ * @param {function} showLabel should show label? true by default
+ * @return cell definition
+ */
+function buildProgressPercentRenderCell(getProgressPercent, showLabel = true) {
+  return {
+    Constructor: PercentProgressRenderCell,
+    props: { getProgressPercent, showLabel },
   }
 }
 
@@ -230,11 +244,12 @@ function buildSimplePropertyColumn(key, label, propertyPath, order, visible, Ren
     order, visible, fixedWidth)
 }
 
-export default {
+module.exports = {
   optionsColumnKey,
   selectionColumnKey,
   buildColumn,
   buildOptionsColumn,
+  buildProgressPercentRenderCell,
   buildProgressRenderCell,
   buildPropertiesRenderCell,
   buildSelectionColumn,

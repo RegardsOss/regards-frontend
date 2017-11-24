@@ -31,7 +31,7 @@ const UI_PLUGIN_INFO_TYPES = values(UI_PLUGIN_INFO_TYPES_ENUM)
  * @author Sébastien Binda
  */
 
-export default {
+module.exports = {
   UI_PLUGIN_INFO_TYPES_ENUM,
   UI_PLUGIN_INFO_TYPES,
 }

@@ -23,6 +23,6 @@
  */
 import storage from './storage'
 
-export default {
+module.exports = {
   storage,
 }

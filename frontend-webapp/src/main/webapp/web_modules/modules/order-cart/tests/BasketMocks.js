@@ -139,7 +139,7 @@ const emptyBasket = {
   datasetSelections: [],
 }
 
-export default {
+module.exports = {
   mockBasket1,
   mockBasket2,
   emptyBasket,

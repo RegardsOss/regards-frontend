@@ -39,7 +39,7 @@ const addDependencies = [
   processingChainActions.getDependency(RequestVerbEnum.POST),
 ]
 
-export default {
+module.exports = {
   listDependencies,
   addDependencies,
 }

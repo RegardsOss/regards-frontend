@@ -69,7 +69,7 @@ function buildQueryTarget(q, entityType, entitiesCount, ipIdArray) {
   }
 }
 
-export default {
+module.exports = {
   buildOneElementTarget,
   buildManyElementsTarget,
   buildQueryTarget,

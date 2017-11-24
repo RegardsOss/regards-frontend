@@ -30,7 +30,7 @@ const connection = new Schema(ConnectionConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   CONNECTION: connection,
   CONNECTION_ARRAY: arrayOf(connection),
   ConnectionConfiguration,

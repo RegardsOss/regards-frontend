@@ -20,7 +20,7 @@ import sipManagementRouter from './router'
 import sipManagementReducer from './reducer'
 import sipDependencies from './dependencies'
 
-export default {
+module.exports = {
   sipManagementReducer,
   sipManagementRouter,
   sipDependencies,

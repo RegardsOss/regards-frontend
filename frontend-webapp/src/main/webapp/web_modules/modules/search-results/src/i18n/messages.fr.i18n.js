@@ -57,6 +57,7 @@ const messages = Object.assign({
   'navigation.home.label': 'Catalogue',
   'navigation.dataobjects.label': 'Objets de données',
   'navigation.datasets.label': 'Jeux de données',
+  'navigation.documents.label': 'Documents',
   'navigation.filter.by.facets': 'Filtres',
   'list.sort.prefix.label': 'Tri :',
   'list.sort.none.label': 'Aucun',

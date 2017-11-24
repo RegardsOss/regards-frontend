@@ -1,6 +1,5 @@
 {
   "presets": [
-    "es2015",
     "react",
     "stage-3"
   ],
@@ -10,9 +9,50 @@
     "syntax-dynamic-import"
   ],
   "env": {
-    "coverage": {
+    "coverage": { // coverage environment transforms
+      "presets": [
+        ["env", {
+          "targets": {
+            "node": "current"
+          }
+        }]
+      ],
       "plugins": [
         "istanbul"
+      ]
+    }, 
+    "development": { // development environment transforms
+      "presets": [
+        ["env", {
+          "targets": {
+            "node": "current",
+            "browsers": "last 1 chrome version"
+          }
+        }]
+      ]
+    },
+    "production": { // production environment transforms
+      "presets": [
+        ["env", {
+          "targets": {
+            "node": "4",
+            "browsers": "last 2 versions"
+          }
+        }]
+      ],
+      "plugins": [
+        "transform-class-properties",
+        "add-module-exports",
+        "syntax-dynamic-import"
+      ]
+    },
+    "test": { // test environment transforms
+      "presets": [
+        ["env", {
+          "targets": {
+            "node": "current"
+          }
+        }]
       ]
     }
   }

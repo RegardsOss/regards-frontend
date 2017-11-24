@@ -8,7 +8,7 @@ const borrowableRolesActions = new AdminClient.BorrowableRolesActions(namespace)
 const borrowableRolesReducer = AdminClient.getBorrowableRolesReducer(namespace)
 const borrowableRolesSelectors = AdminClient.getBorrowableRolesSelectors(['modules.menu', 'borrowableRoles'])
 
-export default {
+module.exports = {
   borrowableRolesActions,
   borrowableRolesReducer,
   borrowableRolesSelectors,

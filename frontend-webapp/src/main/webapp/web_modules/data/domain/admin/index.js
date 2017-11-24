@@ -21,7 +21,8 @@ import EnumConnectivity from './EnumConnectivity'
 import EnumJavaPrimitiveType from './EnumJavaPrimitiveType'
 import ProjectConnectionStateEnum from './ProjectConnectionStateEnum'
 
-export default {
+
+module.exports = {
   EnumConnectivity,
   EnumJavaPrimitiveType,
   ProjectConnectionStateEnum,

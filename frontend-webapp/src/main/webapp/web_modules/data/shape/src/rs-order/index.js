@@ -19,12 +19,12 @@
 import { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
 import { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
 
-export default {
+module.exports = {
   BasketDatedItemsSelection,
   BasketDatasetSelection,
-  Basket,
   DatasetTask,
   Order,
   OrderWithContent,
   OrderList,
+  Basket,
 }

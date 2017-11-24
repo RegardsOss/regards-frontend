@@ -41,7 +41,7 @@ const Document = PropTypes.shape({
 const DocumentList = PropTypes.objectOf(Document)
 
 
-export default {
+module.exports = {
   Document,
   DocumentContent,
   DocumentList,

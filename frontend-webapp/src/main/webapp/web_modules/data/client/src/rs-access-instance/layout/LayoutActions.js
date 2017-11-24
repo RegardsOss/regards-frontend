@@ -33,7 +33,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-class LayoutActions extends BasicPageableActions {
+export default class LayoutActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
@@ -46,5 +46,3 @@ class LayoutActions extends BasicPageableActions {
     })
   }
 }
-
-export default namespace => new LayoutActions(namespace)

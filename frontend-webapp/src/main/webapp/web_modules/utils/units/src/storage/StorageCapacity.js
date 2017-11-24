@@ -135,7 +135,7 @@ class StorageCapacity {
 
 }
 
-export default {
+module.exports = {
   StorageCapacity,
   StorageCapacityShape: PropTypes.instanceOf(StorageCapacity),
 }

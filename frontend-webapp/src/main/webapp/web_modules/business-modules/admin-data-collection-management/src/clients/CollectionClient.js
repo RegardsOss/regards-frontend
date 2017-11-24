@@ -31,7 +31,7 @@ const collectionActions = new DataManagementClient.CollectionActions(REDUX_ACTIO
 const collectionSelectors = DataManagementClient.CollectionSelectors(ENTITIES_STORE_PATH)
 
 
-export default {
+module.exports = {
   collectionReducer,
   collectionActions,
   collectionSelectors,

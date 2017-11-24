@@ -26,7 +26,7 @@ const Connection = PropTypes.shape({
 const ConnectionList = PropTypes.objectOf(Connection)
 
 
-export default {
+module.exports = {
   Connection,
   ConnectionList,
 }

@@ -39,4 +39,4 @@ const ModuleList = PropTypes.objectOf(Module)
 const ModuleArray = PropTypes.arrayOf(Module)
 
 
-export default { ModuleList, Module, ModuleArray }
+module.exports = { ModuleList, Module, ModuleArray }

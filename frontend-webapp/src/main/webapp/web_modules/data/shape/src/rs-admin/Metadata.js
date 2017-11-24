@@ -25,7 +25,7 @@ const MetadataContent = PropTypes.shape({
 const MetadataContentArray = PropTypes.arrayOf(MetadataContent)
 
 
-export default {
+module.exports = {
   MetadataContent,
   MetadataContentArray,
 }

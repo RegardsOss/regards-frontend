@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-export default {
+module.exports = {
   content: [
     {
       content: {

@@ -18,12 +18,12 @@
  **/
 import AccountCreationActions from './AccountCreationActions'
 
-/**
- * Actions to create a REGARDS account (linked with the global instance)
- * @type {CreateAccountActions}
- */
-export const CreateAccountActions = new AccountCreationActions('createAccount')
-export default {
+module.exports = {
+  /**
+   * Actions to create a REGARDS account (linked with the global instance)
+   * @type {CreateAccountActions}
+   */
+  CreateAccountActions: new AccountCreationActions('createAccount'),
   /**
    * Sends create account request
    * @param email account mail

@@ -36,7 +36,7 @@ import { ThemeContent, Theme, ThemeList } from './Theme'
 import PluginServiceDefinitions from './PluginService'
 import { EntityWithServices } from './EntityWithServices'
 
-export default {
+module.exports = {
   LinkUIPluginDataset,
   LinkUIPluginDatasetList,
   UIPluginInstanceContent,

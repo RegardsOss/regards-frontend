@@ -31,11 +31,11 @@ import { ProjectHandler } from '@regardsoss/project-handler'
 import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-manager'
 
 // get default layout client actions and reducers instances
-const layoutActions = AccessProjectClient.LayoutActions()
+const layoutActions = new AccessProjectClient.LayoutActions()
 const layoutSelectors = AccessProjectClient.LayoutSelectors()
 
 // get default modules client actions and reducers instances
-const modulesActions = AccessProjectClient.ModuleActions()
+const modulesActions = new AccessProjectClient.ModuleActions()
 const modulesSelectors = AccessProjectClient.ModuleSelectors()
 
 /**

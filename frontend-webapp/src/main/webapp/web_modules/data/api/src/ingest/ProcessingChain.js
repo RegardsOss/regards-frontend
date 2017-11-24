@@ -30,7 +30,7 @@ const processingChain = new Schema(ProcessingChainConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   PROCESSING_CHAIN: processingChain,
   PROCESSING_CHAIN_ARRAY: arrayOf(processingChain),
   ProcessingChainConfiguration,

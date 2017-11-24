@@ -18,5 +18,12 @@
  **/
 
 export default theme => ({
-  // empty theme
+  inErrorCell: {
+    color: theme['forms-extension:validation'].errorColor,
+    fontWeight: 'bolder',
+  },
+  validCell: {
+    color: theme.palette.textColor,
+    fontWeight: 'normal',
+  },
 })
