@@ -51,6 +51,8 @@ import { sipActions, sipSelectors } from '../clients/SIPClient'
 class SIPListComponent extends React.Component {
   static propTypes = {
     handleGoBack: PropTypes.func,
+    getParams: PropTypes.func,
+    handleFilters: PropTypes.func,
   }
 
   static contextTypes = {
@@ -63,9 +65,18 @@ class SIPListComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      filters: {},
       AIPdialog: false,
       SIPDetails: false,
     }
+  }
+
+  handleFilter = (filter, value) => {
+    const filters = this.state.filters
+    filters[filter] = value
+    this.setState({
+      filters,
+    })
   }
 
   handleAIPDialog = () => {
@@ -178,6 +189,7 @@ class SIPListComponent extends React.Component {
           pageSelectors={sipSelectors}
           pageSize={10}
           columns={columns}
+          requestParams={this.props.getParams()}
         />
       </TableLayout>
     )
@@ -262,6 +274,9 @@ class SIPListComponent extends React.Component {
                 floatingLabelText={intl.formatMessage({
                   id: 'sips.list.filters.date.label',
                 })}
+                onChange={(nothing, date) => {
+                  this.handleFilter('from', date.toISOString())
+                }}
                 container="inline"
                 autoOk
               />
@@ -272,7 +287,11 @@ class SIPListComponent extends React.Component {
                 })}
                 labelPosition="right"
               />
-              <RaisedButton label={intl.formatMessage({ id: 'sips.button.filter' })} primary />
+              <RaisedButton
+                label={intl.formatMessage({ id: 'sips.button.filter' })}
+                onClick={() => this.props.handleFilters(this.state.filters)}
+                primary
+              />
             </div>
           </CardText>
           <CardMedia>{this.renderTable()}</CardMedia>

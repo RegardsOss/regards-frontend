@@ -32,7 +32,7 @@ export default class SIPActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips?{queryParams}`,
       schemaTypes: {
         ENTITY: Schemas.SIP,
         ENTITY_ARRAY: Schemas.SIP_ARRAY,

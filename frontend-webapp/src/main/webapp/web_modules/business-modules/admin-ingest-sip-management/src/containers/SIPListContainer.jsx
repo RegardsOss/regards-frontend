@@ -28,12 +28,36 @@ import styles from '../styles/styles'
  * @author Maxime Bouveron
  */
 export class SIPListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
+      session: PropTypes.string,
     }),
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      filters: {},
+    }
+  }
+
+  getParams = () => {
+    let queryParams = `sessionId=${this.props.params.session}`
+    const { filters } = this.state
+
+    Object.keys(filters).forEach((filter) => {
+      if (filters[filter]) queryParams += `&${filter}=${filters[filter]}`
+    })
+
+    return { queryParams }
+  }
+
+  handleFilters = (filters) => {
+    this.setState({
+      filters,
+    })
   }
 
   handleGoBack = () => {
@@ -47,7 +71,11 @@ export class SIPListContainer extends React.Component {
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={stylesObj}>
-          <SIPListComponent handleGoBack={this.handleGoBack} />
+          <SIPListComponent
+            getParams={this.getParams}
+            handleFilters={this.handleFilters}
+            handleGoBack={this.handleGoBack}
+          />
         </ModuleStyleProvider>
       </I18nProvider>
     )
