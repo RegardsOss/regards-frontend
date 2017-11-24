@@ -100,36 +100,6 @@ function buildLocalServices(gatewayURL) {
           }
         }
       },
-      getSIPS: { url: 'rs-ingest/sips', handler: () => {
-        const content = addLinks([
-          {
-            id: 1,
-            test: "maisbiensurqueçamarche",
-          },
-          {
-            id: 2,
-            test: "çamarchepas",
-          },
-          {
-            id: 3,
-            test: "enfaitsi",
-          },
-          {
-            id: 4,
-            test: "nonenfaitvraimentpas",
-          },
-        ])
-        const result = {
-          metadata: {
-            size: 4,
-            totalElements: 4,
-            totalPages: 1,
-            number: 0,
-          },
-          content
-        }
-        return result
-      }},
       getSessions: { url: 'rs-ingest/sessions', handler: () => {
         const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
         return { content }

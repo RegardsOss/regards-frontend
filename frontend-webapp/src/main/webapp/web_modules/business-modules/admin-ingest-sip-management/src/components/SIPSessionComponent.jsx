@@ -38,7 +38,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { FormattedMessage } from 'react-intl'
 import { sessionActions, sessionSelectors } from '../clients/SessionClient'
-import { tableActions } from '../clients/TableClient'
 
 /**
  * SIP list test
@@ -163,7 +162,6 @@ class SIPSessionComponent extends React.Component {
           name="sip-management-session-table"
           pageActions={sessionActions}
           pageSelectors={sessionSelectors}
-          tableActions={tableActions}
           pageSize={10}
           columns={columns}
         />

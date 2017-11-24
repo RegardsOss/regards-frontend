@@ -17,57 +17,23 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { browserHistory } from 'react-router'
-import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import SIPListComponent from '../components/SIPListComponent'
 import messages from '../i18n'
 import styles from '../styles/styles'
-import { sipActions, sipSelectors } from '../clients/SIPClient'
 
 /**
-* Displays the list of SIPs
-* @author Maxime Bouveron
-*/
+ * Displays the list of SIPs
+ * @author Maxime Bouveron
+ */
 export class SIPListContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      sips: sipSelectors.getResults(state),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch) {
-    return {
-      fetchSips: () => dispatch(sipActions.fetchPagedEntityList()),
-    }
-  }
 
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
-    // from mapStateToProps
-    sips: PropTypes.arrayOf(Object),
-    // from mapDispatchToProps
-    fetchSips: PropTypes.func,
-  }
-
-
-  componentWillMount() {
-    this.props.fetchSips()
   }
 
   handleGoBack = () => {
@@ -88,6 +54,4 @@ export class SIPListContainer extends React.Component {
   }
 }
 
-export default connect(SIPListContainer.mapStateToProps, SIPListContainer.mapDispatchToProps)(
-  SIPListContainer,
-)
+export default SIPListContainer
