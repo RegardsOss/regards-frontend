@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import isNumber from 'lodash/isNumber'
 import map from 'lodash/map'
 import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
@@ -25,6 +27,7 @@ import CellWrapper from './cells/CellWrapper'
 import TableColumnConfiguration from './columns/model/TableColumnConfiguration'
 
 const MIN_COL_WIDTH = 150
+const SCROLLBAR_SIZE = 15
 /**
  * Fixed data table from facebook library integrated with material ui theme
  * and infinite scroll functionality.
@@ -73,7 +76,7 @@ class Table extends React.Component {
   /**
    * Lifecycle method component will mount. Used here to initialize runtime graphic data in state
    */
-  componentWillMount = () => this.setState(this.computeGraphicsMeasures(this.props))
+  componentWillMount = () => this.onPropertiesChanged({}, this.props)
   // initialize graphics and columns
 
 
@@ -81,7 +84,34 @@ class Table extends React.Component {
    * Lifecycle method component will receive props. Used here to (re-)initialize runtime data in state
    * @param nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.setState(this.computeGraphicsMeasures(nextProps))
+  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+
+  /**
+   * On properties changed
+   * @param oldProps old properties
+   * @param newProps new properties
+   */
+  onPropertiesChanged = (oldProps, newProps) => {
+    const oldState = this.state
+    const newState = oldState ? { ...oldState } : {}
+
+    // compute height
+    newState.height = this.computeHeight(newProps)
+
+    // compute columns with width, BUT AVOID updating it when entities change (do update only
+    // when the scroll is visible and wasnt before)
+    const wasShowingScroll = (oldProps.entities || []).length > oldProps.displayedRowsCount || 0
+    const willShowScroll = (newProps.entities || []).length > oldProps.displayedRowsCount || 0
+
+    // update columns when: scroll state changed, width changed or columns list changed
+    if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width || !isEqual(oldProps.columns, newProps.columns)) {
+      newState.runtimeColumns = this.computeColumnsModelsWithWidth(newProps)
+    }
+
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
+  }
 
   /**
    * Resize column
@@ -107,7 +137,7 @@ class Table extends React.Component {
    * @param rowIndex
    * @return entity or null
    */
-  getEntity = rowIndex => rowIndex < 0 || rowIndex >= this.props.entities.lenght ? null : this.props.entities[rowIndex]
+  getEntity = rowIndex => rowIndex < 0 || rowIndex >= this.props.entities.length ? null : this.props.entities[rowIndex]
 
   /**
    * Is there an entity on specified row index?
@@ -118,14 +148,19 @@ class Table extends React.Component {
   hasEntity = rowIndex => rowIndex >= 0 && this.props.entities.length > rowIndex
 
   /**
+   * Computes current component height
+   * @param props component properties to consider
+   * @return component height
+   */
+  computeHeight = ({ lineHeight, displayedRowsCount, displayColumnsHeader }) =>
+    (lineHeight * displayedRowsCount) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
+
+  /**
    * Computes graphics measures and provides a usable component state
    * @return {nbEntitiesByPage:{number}, height:{number}, runtimeColumns:{RuntimeColumn}} usable state for component, with
    * runtime columns (default table columns enriched with required runtime data and filtered on visible state)
    */
-  computeGraphicsMeasures = ({ displayCheckbox, displayedRowsCount, displayColumnsHeader, lineHeight = this.getDefaultLineHeight(), width, columns = [] }) => {
-    // 1 - compute height
-    const height = (lineHeight * displayedRowsCount) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
-
+  computeColumnsModelsWithWidth = ({ displayedRowsCount, entities, width, columns = [] }) => {
     // 2 - Update columns width related data
     // 2.a - prepare columns (filter unvisible and sort on order)
     const renderColumns = columns.filter(c => c.visible).sort((c1, c2) => c1.order - c2.order)
@@ -136,11 +171,13 @@ class Table extends React.Component {
     let lastFloatingColumnWidth = 0
     if (floatingColumnsCount > 0) {
       // 2.c - There are floarting columns, compute how many space they have (refuse column width less than MIN_COL_WIDTH)
-      const availableWidth = width - (floatingColumnsCount - 1) // protects againts intempestive horizontal scrolling
+      const rowsCount = get(entities, 'length', 0)
+      // consider total width, but remove right scrollbar size if shown
+      const availableWidth = width - (rowsCount > displayedRowsCount ? SCROLLBAR_SIZE : 0)
       const fixedColumnsWidth = renderColumns.reduce((acc, column) =>
         isNumber(column.fixedWidth) ? acc + column.fixedWidth : acc, 0)
       const floatingWidth = availableWidth - fixedColumnsWidth
-      floatingColumnWidth = Math.max(Math.ceil(floatingWidth / floatingColumnsCount), MIN_COL_WIDTH)
+      floatingColumnWidth = Math.max(Math.floor(floatingWidth / floatingColumnsCount), MIN_COL_WIDTH)
       // 2.d - consume remaining pixels (avoid int imprecision there)
       lastFloatingColumnWidth = Math.max(Math.ceil(floatingWidth - (floatingColumnWidth * (floatingColumnsCount - 1))), MIN_COL_WIDTH)
     }
@@ -160,16 +197,14 @@ class Table extends React.Component {
         }
         return { floatingCount: nextFloatingCount, columnsAcc: [...columnsAcc, { ...column, runtimeWidth }] }
       }, { floatingCountAcc: 0, columnsAcc: [] })
-    return { height, runtimeColumns }
+    return runtimeColumns
   }
 
   render() {
     if (!this.props.entities) {
       return null
     }
-    const {
-      entities, columns, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader,
-      onScrollEnd } = this.props
+    const { entities, columns, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader, onScrollEnd } = this.props
     const { runtimeColumns, height } = this.state
     return (
       <FixedDataTable
