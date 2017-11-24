@@ -16,36 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { LinkComponent } from '@regardsoss/components'
-import { i18nContextType } from '@regardsoss/i18n'
+import compose from 'lodash/fp/compose'
+import { withI18n } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
+
+import messages from './i18n'
+import styles from './styles'
 
 /**
- * Component to display url link values group value
- * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
- *
- * @author Sébastien binda
+ * Exports a function without parameter to connect a component with values render context (as values render are not exported
+ * with their context for performances issues in table)
+ * @return function like Component => DecoratedComponent
+ * @author Raphaël Mechali
  */
-class URLValueRender extends React.Component {
-
-  static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    value: PropTypes.string,
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
-  render() {
-    const { value } = this.props
-    return value ? (
-      <LinkComponent
-        target="_blank"
-        rel="noopener noreferrer"
-        link={value}
-      />) : null
-  }
-
+export default function withValuesRenderContext(Component) {
+  return compose(withI18n(messages, true), withModuleStyle(styles, true))(Component)
 }
 
-export default URLValueRender

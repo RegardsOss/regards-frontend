@@ -36,7 +36,7 @@ class StorageCapacityRender extends React.Component {
       PropTypes.string,
       PropTypes.number,
       PropTypes.instanceOf(storage.StorageCapacity).isRequired,
-    ]).isRequired,
+    ]),
     presentationScale: PropTypes.oneOf(storage.StorageUnitScale.all).isRequired,
     numberUnit: PropTypes.oneOf([storage.StorageUnits.BIT, storage.StorageUnits.BYTE]).isRequired,
   }

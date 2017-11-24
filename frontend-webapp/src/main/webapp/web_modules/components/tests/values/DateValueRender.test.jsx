@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { DateValueRender } from '../../src/values/DateValueRender'
+import DateValueRender from '../../src/values/DateValueRender'
 import styles from '../../src/values/styles'
 import { DateArrayValueRender } from '../../src/values/DateArrayValueRender'
 

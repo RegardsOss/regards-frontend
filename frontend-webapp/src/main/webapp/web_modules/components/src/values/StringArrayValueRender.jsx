@@ -16,11 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import messages from './i18n'
-import styles from './styles'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Component to display string values group value
@@ -28,7 +25,7 @@ import styles from './styles'
  *
  * @author Sébastien binda
  */
-export class StringArrayValueRender extends React.Component {
+class StringArrayValueRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),
@@ -53,4 +50,4 @@ export class StringArrayValueRender extends React.Component {
 
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(StringArrayValueRender)
+export default StringArrayValueRender

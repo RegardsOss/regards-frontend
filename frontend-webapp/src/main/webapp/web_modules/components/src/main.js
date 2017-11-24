@@ -120,6 +120,7 @@ import StorageCapacityRender from './values/StorageCapacityRender'
 import StringArrayValueRender from './values/StringArrayValueRender'
 import StringValueRender from './values/StringValueRender'
 import URLValueRender from './values/URLValueRender'
+import withValueRenderContext from './values/withValueRenderContext'
 
 export {
   ActionButtonComponent,
@@ -215,5 +216,5 @@ export {
   StringArrayValueRender,
   StringValueRender,
   URLValueRender,
-
+  withValueRenderContext, // use it in values render parent to connect with their context (stacking)
 }

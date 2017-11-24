@@ -16,13 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { getFormattedDate } from './DateValueRender'
 import { getFormattedRange } from './RangeValueRender'
-import messages from './i18n'
-import styles from './styles'
 
 /**
  * Component to display Date range values group value
@@ -30,7 +27,7 @@ import styles from './styles'
  *
  * @author Sébastien binda
  */
-export class DateRangeValueRender extends React.Component {
+class DateRangeValueRender extends React.Component {
 
   static propTypes = {
     value: PropTypes.shape({
@@ -57,5 +54,5 @@ export class DateRangeValueRender extends React.Component {
   }
 }
 
-export default compose(withModuleStyle(styles, true), withI18n(messages, true))(DateRangeValueRender)
+export default DateRangeValueRender
 
