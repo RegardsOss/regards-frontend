@@ -18,6 +18,7 @@
  **/
 import isString from 'lodash/isString'
 import isUndefined from 'lodash/isUndefined'
+import isNull from 'lodash/isNull'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -45,7 +46,7 @@ class StringValueRender extends React.Component {
     let textValue
     if (isString(value)) { // string value
       textValue = value
-    } else if (!isUndefined(value)) { // value to convert (defined)
+    } else if (!isUndefined(value) && !isNull(value)) { // value to convert (defined)
       textValue = String(value)
     } else { // no value
       textValue = intl.formatMessage({ id: 'value.render.no.value.label' })
