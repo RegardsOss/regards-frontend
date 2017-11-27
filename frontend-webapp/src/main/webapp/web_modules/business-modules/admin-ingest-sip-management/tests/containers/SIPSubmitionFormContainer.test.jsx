@@ -42,6 +42,7 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing  SIPSubmitionFormContainer', () 
         project: 'project',
       },
       submitSips: () => new Promise(() => { }),
+      flushSips: () => new Promise(() => { }),
     }
     const enzymeWrapper = shallow(<SIPSubmitionFormContainer {...props} />, { context })
     assert.equal(enzymeWrapper.find(SIPSubmitionFormComponent).length, 1, 'The SIPSubmitionFormComponent should be rendered')
