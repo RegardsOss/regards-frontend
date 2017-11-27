@@ -30,6 +30,7 @@ import styles from '../styles/styles'
 /**
  * Displays the list of SIPs
  * @author Maxime Bouveron
+ * @author Sébastien Binda
  */
 export class SIPListContainer extends React.Component {
 
@@ -53,7 +54,11 @@ export class SIPListContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
-    deleteSIP: sip => dispatch(sipActions.deleteEntity(sip.id)),
+    deleteSIPByIpId: sip => dispatch(sipActions.deleteEntity(sip.ipId)),
+    deleteSIPBySipId: (sip) => {
+      console.error('PLOP', sip)
+      dispatch(sipActions.deleteEntity(undefined, {}, { sipId: sip.sipId }))
+    },
     fetchPage: (pageIndex, pageSize) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize)),
   })
 
@@ -65,7 +70,8 @@ export class SIPListContainer extends React.Component {
     }),
     // from mapDistpathToProps
     fetchProcessingChains: PropTypes.func.isRequired,
-    deleteSIP: PropTypes.func.isRequired,
+    deleteSIPByIpId: PropTypes.func.isRequired,
+    deleteSIPBySipId: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     // from mapStateToProps
     chains: IngestShapes.IngestProcessingChainList.isRequired,
@@ -101,7 +107,8 @@ export class SIPListContainer extends React.Component {
             chains={this.props.chains}
             getParams={this.getParams}
             onBack={this.handleGoBack}
-            onDelete={this.props.deleteSIP}
+            onDeleteByIpId={this.props.deleteSIPByIpId}
+            onDeleteBySipId={this.props.deleteSIPBySipId}
             fetchPage={this.props.fetchPage}
           />
         </ModuleStyleProvider>

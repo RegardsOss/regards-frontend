@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { Card, CardTitle, CardMedia, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card'
 import DatePicker from 'material-ui/DatePicker'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -26,8 +26,13 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import Error from 'material-ui/svg-icons/alert/error'
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import {
+  CardActionsComponent,
+  ClearFieldButton,
+  ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
   ShowableAtRender,
   PageableInfiniteTableContainer,
+  TableDeleteOption,
   TableLayout,
   TableColumnBuilder,
   DateValueRender,
@@ -44,6 +49,9 @@ import { sessionActions, sessionSelectors } from '../clients/SessionClient'
 class SIPSessionComponent extends React.Component {
   static propTypes = {
     handleOpen: PropTypes.func,
+    onBack: PropTypes.func.isRequired,
+    fetchPage: PropTypes.func.isRequired,
+    deleteSession: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -64,7 +72,21 @@ class SIPSessionComponent extends React.Component {
       fromFilter: from,
       toFilter: to,
       nameFilter: null,
+      sessionToDelete: null,
     }
+  }
+
+  onConfirmDelete = () => {
+    this.closeDeleteDialog()
+    if (this.state.sessionToDelete) {
+      this.props.deleteSession(this.state.sessionToDelete.content)
+    }
+  }
+
+  onDelete = (sessionToDelete) => {
+    this.setState({
+      sessionToDelete,
+    })
   }
 
   getProgressLabel = step => (entity) => {
@@ -80,6 +102,8 @@ class SIPSessionComponent extends React.Component {
 
     return progress / total * 100
   }
+
+  handleClearDate = () => this.setState({ fromFilter: undefined, toFilter: undefined })
 
   handleFilter = () => {
     const filters = {}
@@ -117,6 +141,12 @@ class SIPSessionComponent extends React.Component {
     })
   }
 
+  closeDeleteDialog = () => {
+    this.setState({
+      sessionToDelete: null,
+    })
+  }
+
   renderFilters = () => {
     const { intl, moduleTheme: { sip } } = this.context
     return (
@@ -134,17 +164,20 @@ class SIPSessionComponent extends React.Component {
         <div style={sip.filter.lineStyle}>
           <div>{intl.formatMessage({ id: 'sips.session.filter.date' })}</div>
           <DatePicker
+            value={this.state.fromFilter}
             textFieldStyle={sip.filter.dateStyle}
             floatingLabelText={intl.formatMessage({ id: 'sips.session.filter.from.label' })}
             defaultDate={this.state.fromFilter}
             onChange={this.changeFromFilter}
           />
           <DatePicker
+            value={this.state.toFilter}
             textFieldStyle={sip.filter.dateStyle}
             floatingLabelText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
             defaultDate={this.state.toFilter}
             onChange={this.changeToFilter}
           />
+          <ClearFieldButton onTouchTap={this.handleClearDate} displayed={!!this.state.toFilter || !!this.state.fromFilter} />
         </div>
         <RaisedButton
           label={intl.formatMessage({ id: 'sips.button.filter' })}
@@ -212,16 +245,12 @@ class SIPSessionComponent extends React.Component {
         '',
         [
           {
-            OptionConstructor: () => (
-              <IconButton
-                title={intl.formatMessage({
-                  id: 'sips.session.table.actions.delete',
-                })}
-              >
-                <Delete />
-              </IconButton>
-            ),
-            optionProps: {},
+            OptionConstructor: TableDeleteOption,
+            optionProps: {
+              fetchPage: this.props.fetchPage,
+              onDelete: this.onDelete,
+              queryPageSize: 20,
+            },
           },
           {
             OptionConstructor: props => (
@@ -258,6 +287,20 @@ class SIPSessionComponent extends React.Component {
     )
   }
 
+  renderDeleteConfirmDialog = () => {
+    if (this.state.sessionToDelete) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          title={this.context.intl.formatMessage({ id: 'sip.session.delete.confirm.title' }, { id: this.state.sessionToDelete.content.id })}
+          onConfirm={this.onConfirmDelete}
+          onClose={this.closeDeleteDialog}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
     const { intl } = this.context
 
@@ -269,6 +312,13 @@ class SIPSessionComponent extends React.Component {
         />
         {this.renderFilters()}
         {this.renderTable()}
+        <CardActions>
+          <CardActionsComponent
+            mainButtonLabel={intl.formatMessage({ id: 'sips.session.button.back' })}
+            mainButtonTouchTap={this.props.onBack}
+          />
+        </CardActions>
+        {this.renderDeleteConfirmDialog()}
       </Card>
     )
   }

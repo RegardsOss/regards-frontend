@@ -210,7 +210,9 @@ class BasicListActions extends BasicActions {
 
   deleteEntity(keyValue, pathParams, queryParams) {
     let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
-    endpoint = `${endpoint}/${keyValue}`
+    if (keyValue) {
+      endpoint = `${endpoint}/${keyValue}`
+    }
     endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
       [CALL_API]: {

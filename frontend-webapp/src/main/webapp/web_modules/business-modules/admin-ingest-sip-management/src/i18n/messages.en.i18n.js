@@ -58,6 +58,7 @@ const messages = Object.assign({
   'sips.stepper.list': 'View SIPs',
   'sips.stepper.session': 'Select session',
 
+  'sip.delete.confirm.title': 'Are you sure you want to delete SIP {id}',
   'sip.details.button.close': 'Close',
 
   'sips.session.subtitle': 'Select the session associated to the SIPs you want to view',
@@ -76,6 +77,7 @@ const messages = Object.assign({
   'sips.session.table.actions.errors': 'List associated SIPs in error',
   'sips.session.table.actions.delete': 'Delete associated SIPs',
   'sips.session.table.actions.list': 'List associated SIPs',
+  'sips.session.button.back': 'Back',
 
   'sips.submit.title': 'Data submition',
   'sips.submit.subtitle': 'This section allows you to run a datas sumition thought a local file (geoson format) containing entities to submit',
@@ -89,6 +91,17 @@ const messages = Object.assign({
   'sips.submition-summary.subtitle': 'This summary let you know accepted entities by the system. If youts datas are accepted, so they will be handle for storage soon.',
   'sips.submition-summary.back.button': 'Ok',
 
+  CREATED: 'CREATED',
+  REJECTED: 'REJECTED',
+  QUEUED: 'QUEUED',
+  VALID: 'VALID',
+  INVALID: 'INVALID',
+  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
+  AIP_CREATED: 'AIP_CREATED',
+  STORED: 'STORED',
+  STORE_ERROR: 'STORE_ERROR',
+  INDEXED: 'INDEXED',
+  INCOMPLETE: 'INCOMPLETE',
 }, Locales.en)
 
 export default messages

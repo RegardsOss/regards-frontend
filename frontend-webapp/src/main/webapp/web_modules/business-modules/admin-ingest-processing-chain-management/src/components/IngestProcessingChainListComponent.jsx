@@ -112,7 +112,7 @@ export class ProcessingChainListComponent extends React.Component {
         OptionConstructor: TableDeleteOption,
         optionProps: {
           fetchPage: this.props.fetchPage,
-          onDelete: this.props.onDelete,
+          onDelete: this.onDelete,
           queryPageSize: this.props.queryPageSize,
         },
       }], true, fixedColumnWidth),

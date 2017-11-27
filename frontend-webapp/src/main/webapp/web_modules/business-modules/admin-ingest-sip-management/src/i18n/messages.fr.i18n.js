@@ -57,6 +57,7 @@ const messages = Object.assign({
   'sips.stepper.list': 'Afficher SIPs',
   'sips.stepper.session': 'Selectionner session',
 
+  'sip.delete.confirm.title': 'Etes-vous sûr de vouloir supprimer le SIP {id}',
   'sip.details.button.close': 'Fermer',
 
   'sips.session.subtitle': 'Visualisation des sessions d\'acquisitions. Une session est un regroupement de paquets de d\'information de données (SIP).',
@@ -75,6 +76,7 @@ const messages = Object.assign({
   'sips.session.table.actions.errors': 'Lister les SIPS associés en erreur',
   'sips.session.table.actions.delete': 'Supprimer les SIPs associés',
   'sips.session.table.actions.list': 'Lister les SIPs associés',
+  'sips.session.button.back': 'Retour',
 
   'sips.submit.title': 'Soumission de données',
   'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format geoson contenant le ou les entités',
@@ -87,6 +89,18 @@ const messages = Object.assign({
   'sips.submition-summary.title': 'Compte rendu de soumition de vos données',
   'sips.submition-summary.subtitle': 'Ce compte rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alos elles seront prisent en compte prochainement pour être stockées',
   'sips.submition-summary.back.button': 'Retour',
+
+  CREATED: 'CREATED',
+  REJECTED: 'REJECTED',
+  QUEUED: 'QUEUED',
+  VALID: 'VALID',
+  INVALID: 'INVALID',
+  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
+  AIP_CREATED: 'AIP_CREATED',
+  STORED: 'STORED',
+  STORE_ERROR: 'STORE_ERROR',
+  INDEXED: 'INDEXED',
+  INCOMPLETE: 'INCOMPLETE',
 }, Locales.fr)
 
 export default messages
