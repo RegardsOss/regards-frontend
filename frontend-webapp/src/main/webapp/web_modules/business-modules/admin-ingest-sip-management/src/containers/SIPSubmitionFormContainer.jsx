@@ -48,6 +48,7 @@ export class SIPSubmitionFormContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapDispatchToProps = dispatch => ({
+    flushSips: () => dispatch(sipImportActions.flush()),
     submitSips: file => dispatch(sipImportActions.createEntityUsingMultiPart({}, { file })),
   })
 
@@ -58,6 +59,7 @@ export class SIPSubmitionFormContainer extends React.Component {
     }).isRequired,
     // from mapDispatchToProps
     submitSips: PropTypes.func.isRequired,
+    flushSips: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -80,7 +82,7 @@ export class SIPSubmitionFormContainer extends React.Component {
   }
 
   onSubmit = (values) => {
-    this.props.submitSips(values.sips)
+    this.props.flushSips().then(() => this.props.submitSips(values.sips)
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error || actionResult.meta.status === 422) {
@@ -93,7 +95,7 @@ export class SIPSubmitionFormContainer extends React.Component {
             isError: true,
           })
         }
-      })
+      }))
   }
 
   render() {

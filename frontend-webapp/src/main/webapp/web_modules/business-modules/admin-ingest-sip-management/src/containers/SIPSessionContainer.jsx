@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import SIPSessionComponent from '../components/SIPSessionComponent'
+import { sessionActions } from '../clients/SessionClient'
 import messages from '../i18n'
 import styles from '../styles/styles'
 
@@ -28,11 +30,41 @@ import styles from '../styles/styles'
 * @author Maxime Bouveron
 */
 export class SIPSessionContainer extends React.Component {
+
+  /**
+  * Redux: map state to props function
+  * @param {*} state: current redux state
+  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+  * @return {*} list of component properties extracted from redux state
+  */
+  static mapStateToProps(state) {
+    return {}
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps = dispatch => ({
+    deleteSession: session => dispatch(sessionActions.deleteEntity(session.id)),
+    fetchPage: (pageIndex, pageSize) => dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize)),
+  })
+
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
+    deleteSession: PropTypes.func.isRequired,
+    fetchPage: PropTypes.func.isRequired,
+  }
+
+  onBack = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/board`
+    browserHistory.push(url)
   }
 
   handleOpen = (session, isError = false) => {
@@ -46,11 +78,16 @@ export class SIPSessionContainer extends React.Component {
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={stylesObj}>
-          <SIPSessionComponent handleOpen={this.handleOpen} />
+          <SIPSessionComponent
+            handleOpen={this.handleOpen}
+            onBack={this.onBack}
+            deleteSession={this.props.deleteSession}
+            fetchPage={this.props.fetchPage}
+          />
         </ModuleStyleProvider>
       </I18nProvider>
     )
   }
 }
 
-export default SIPSessionContainer
+export default connect(SIPSessionContainer.mapStateToProps, SIPSessionContainer.mapDispatchToProps)(SIPSessionContainer)

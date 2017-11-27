@@ -16,13 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-const NAMESPACE = 'admin-ingest-sip-management/table'
-const STORE_PATH = ['admin', 'acquisition', 'sip-management', 'session-table']
-
-module.exports = {
-  tableActions: new TableActions(NAMESPACE),
-  tableReducer: getTableReducer(NAMESPACE),
-  tableSelectors: getTableSelectors(STORE_PATH),
+/**
+ * @author Sébastien Binda
+ */
+const sipStatus = {
+  CREATED: 'CREATED',
+  REJECTED: 'REJECTED',
+  QUEUED: 'QUEUED',
+  VALID: 'VALID',
+  INVALID: 'INVALID',
+  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
+  AIP_CREATED: 'AIP_CREATED',
+  STORED: 'STORED',
+  STORE_ERROR: 'STORE_ERROR',
+  INDEXED: 'INDEXED',
+  INCOMPLETE: 'INCOMPLETE',
 }
+
+export default sipStatus

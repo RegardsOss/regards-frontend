@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,18 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { sipReducer } from './clients/SIPClient'
-import { sipImportReducer } from './clients/SIPImportClient'
-import { sessionReducer } from './clients/SessionClient'
-import { processingChainReducer } from './clients/ProcessingChainClient'
+ */
+import { IngestClient } from '@regardsoss/client'
 
-const sipManagementReducer = combineReducers({
-  sip: sipReducer,
-  sipImport: sipImportReducer,
-  session: sessionReducer,
-  chain: processingChainReducer,
-})
+/**
+ * Ingest processing chain entities client.
+ * @author Sébastien Binda
+ */
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip-management', 'chain']
+const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/chains'
 
-export default sipManagementReducer
+const processingChainActions = new IngestClient.ProcessingChainActions(REDUX_ACTION_NAMESPACE)
+const processingChainReducer = IngestClient.ProcessingChainReducer(REDUX_ACTION_NAMESPACE)
+const processingChainSelectors = IngestClient.ProcessingChainSelectors(ENTITIES_STORE_PATH)
+
+module.exports = {
+  processingChainActions,
+  processingChainReducer,
+  processingChainSelectors,
+}

@@ -85,9 +85,11 @@ class InfiniteTableContainer extends React.Component {
     // total entities count, including those not yet fetched. When no provided, the table won't auto fetch next pages
     entitiesCount: PropTypes.number,
 
-    // [Optional] server request parameters as query params or path params defined in the PageActions given.
+    // [Optional] server request end path parameters (sends undefined if not provided)
     // eslint-disable-next-line
     requestParams: PropTypes.object, // used in onPropertiesUpdate, uknown shape, depends on consumer
+    // eslint-disable-next-line
+    pathParams: PropTypes.object, // used in onPropertiesUpdate, uknown shape, depends on consumer
 
     // INNER TABLE API (will be provided by adequate parents)
 
@@ -143,6 +145,7 @@ class InfiniteTableContainer extends React.Component {
 
     // initialization or authentication update: fetch the first page
     if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
+      !isEqual(nextProps.pathParams, previousProps.pathParams) ||
       !isEqual(nextProps.authentication, previousProps.authentication)) {
       // remove any previously fetched data
       nextState.entities = []
@@ -221,8 +224,8 @@ class InfiniteTableContainer extends React.Component {
    * @param {fetchEntities:{func}, requestParams:{}} props component props to use
    * @param {number} pageNumber number of page to fetch (optional, defaults to 0)
    */
-  fetchEntityPage = ({ fetchEntities, requestParams, queryPageSize }, pageNumber = 0) => {
-    fetchEntities(pageNumber, queryPageSize, requestParams)
+  fetchEntityPage = ({ fetchEntities, pathParams, requestParams, queryPageSize }, pageNumber = 0) => {
+    fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
   }
 
   render() {

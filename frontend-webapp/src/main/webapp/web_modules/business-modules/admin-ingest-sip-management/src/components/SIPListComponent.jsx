@@ -16,43 +16,45 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-import { Card, CardTitle, CardMedia, CardText } from 'material-ui/Card'
+import map from 'lodash/map'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
-import IconButton from 'material-ui/IconButton'
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import RaisedButton from 'material-ui/RaisedButton'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import DatePicker from 'material-ui/DatePicker'
-import Checkbox from 'material-ui/Checkbox'
 import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table'
-import { Step, Stepper, StepButton } from 'material-ui/Stepper'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Code from 'material-ui/svg-icons/action/code'
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import List from 'material-ui/svg-icons/action/list'
-import Error from 'material-ui/svg-icons/alert/error'
-import { ShowableAtRender } from '@regardsoss/components'
+  CardActionsComponent,
+  ClearFieldButton,
+  DateValueRender,
+  NoContentComponent,
+  TableColumnBuilder,
+  TableDeleteOption,
+  TableLayout,
+  PageableInfiniteTableContainer,
+} from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
-import { AceEditorAdapter } from '@regardsoss/adapters'
-import AIPDialog from './AIPDialog'
+import { IngestShapes } from '@regardsoss/shape'
+import { sipActions, sipSelectors } from '../clients/SIPClient'
+import SIPDetailComponent from './SIPDetailComponent'
+import SIPDetailTableAction from './SIPDetailTableAction'
+import SIPStatusEnum from './SIPStatusEnum'
+import SIPConfirmDeleteDialog from './SIPConfirmDeleteDialog'
 
 /**
-* SIP list
-* @author Maxime Bouveron
-*/
+ * SIP list
+ * @author Maxime Bouveron
+ * @author Sébastien Binda
+ */
 class SIPListComponent extends React.Component {
   static propTypes = {
-    handleGoBack: PropTypes.func,
+    onBack: PropTypes.func.isRequired,
+    chains: IngestShapes.IngestProcessingChainList.isRequired,
+    fetchPage: PropTypes.func.isRequired,
+    onDeleteByIpId: PropTypes.func.isRequired,
+    onDeleteBySipId: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -65,26 +67,252 @@ class SIPListComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      AIPdialog: false,
-      SIPDetails: false,
+      filters: {},
+      chainFilter: null,
+      dateFilter: undefined,
+      stateFilter: null,
+      sipToView: null,
+      sipToDelete: null,
     }
   }
 
-  handleAIPDialog = () => {
+  onCloseDetails = () => {
     this.setState({
-      AIPdialog: !this.state.AIPdialog,
+      sipToView: null,
     })
   }
 
-  handleSIPDetails = () => {
+  onViewSIPDetail = (sipToView) => {
     this.setState({
-      SIPdetails: !this.state.SIPdetails,
+      sipToView: sipToView || null,
     })
+  }
+
+  onConfirmDeleteSIP = () => {
+    this.closeDeleteDialog()
+    if (this.state.sipToDelete) {
+      this.props.onDeleteByIpId(this.state.sipToDelete.content).then(this.state.onDeleteDone)
+    }
+  }
+
+  onConfirmDeleteSIPs = () => {
+    this.closeDeleteDialog()
+    if (this.state.sipToDelete) {
+      this.props.onDeleteBySipId(this.state.sipToDelete.content).then(this.state.onDeleteDone)
+    }
+  }
+
+  onDelete = (sipToDelete, onDone) => {
+    this.setState({
+      sipToDelete,
+      onDeleteDone: onDone,
+    })
+  }
+
+  changeChainFilter = (event, key, newValue) => {
+    this.setState({
+      chainFilter: newValue,
+    })
+  }
+
+  changeDateFilter = (event, newValue) => {
+    this.setState({
+      dateFilter: newValue,
+    })
+  }
+
+  changeStateFilter = (event, key, newValue) => {
+    this.setState({
+      stateFilter: newValue,
+    })
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      sipToDelete: null,
+    })
+  }
+
+  handleClearDate = () => this.setState({ dateFilter: undefined })
+
+  handleFilters = () => {
+    const { chainFilter, dateFilter, stateFilter } = this.state
+    const filters = {}
+    if (chainFilter) {
+      filters.processing = chainFilter
+    }
+    if (dateFilter) {
+      filters.from = dateFilter.toISOString()
+    }
+    if (stateFilter) {
+      filters.state = stateFilter
+    }
+    this.setState({
+      filters,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    const { sipToDelete } = this.state
+    if (sipToDelete) {
+      return (
+        <SIPConfirmDeleteDialog
+          sipId={sipToDelete.content.sipId}
+          onDeleteSip={this.onConfirmDeleteSIP}
+          onDeleteSips={this.onConfirmDeleteSIPs}
+          onClose={this.closeDeleteDialog}
+        />
+      )
+    }
+    return null
+  }
+
+  renderTable = () => {
+    const { intl, muiTheme } = this.context
+    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+
+    const emptyComponent = (
+      <NoContentComponent
+        title={intl.formatMessage({ id: 'sips.list.empty.title' })}
+        Icon={AddToPhotos}
+      />
+    )
+
+    const tableOptions = TableColumnBuilder.buildOptionsColumn('', [{
+      OptionConstructor: SIPDetailTableAction,
+      optionProps: { onViewDetail: this.onViewSIPDetail },
+    }, {
+      OptionConstructor: TableDeleteOption,
+      optionProps: {
+        fetchPage: this.props.fetchPage,
+        onDelete: this.onDelete,
+        queryPageSize: 20,
+      },
+    }], true, fixedColumnWidth)
+
+    const columns = [
+      // id column
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.sipId',
+        intl.formatMessage({ id: 'sips.list.table.headers.sip-id' }),
+        'content.sipId',
+      ),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.type',
+        intl.formatMessage({ id: 'sips.list.table.headers.type' }),
+        'content.sip.ipType',
+      ),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.state',
+        intl.formatMessage({ id: 'sips.list.table.headers.state' }),
+        'content.state',
+      ),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.date',
+        intl.formatMessage({ id: 'sips.list.table.headers.date' }),
+        'content.ingestDate',
+        undefined,
+        undefined,
+        DateValueRender,
+      ),
+      tableOptions,
+    ]
+
+    return (
+      <CardText>
+        <TableLayout>
+          <PageableInfiniteTableContainer
+            name="sip-management-session-table"
+            pageActions={sipActions}
+            pageSelectors={sipSelectors}
+            pageSize={10}
+            columns={columns}
+            requestParams={this.state.filters}
+            emptyComponent={emptyComponent}
+          />
+        </TableLayout>
+      </CardText>
+    )
+  }
+
+  renderDateFilter = () => {
+    const { intl, moduleTheme: { sip } } = this.context
+    return (
+      <div style={sip.filter.lineStyle}>
+        <DatePicker
+          value={this.state.dateFilter}
+          textFieldStyle={sip.filter.fieldStyle}
+          floatingLabelText={intl.formatMessage({
+            id: 'sips.list.filters.date.label',
+          })}
+          onChange={this.changeDateFilter}
+        />
+        <ClearFieldButton onTouchTap={this.handleClearDate} displayed={!!this.state.dateFilter} />
+      </div>
+    )
+  }
+
+  renderErrorFilter = () => {
+    const { intl, moduleTheme: { sip } } = this.context
+    return (
+      <SelectField
+        style={sip.filter.fieldStyle}
+        floatingLabelText={intl.formatMessage({
+          id: 'sips.list.filters.status.label',
+        })}
+        value={this.state.stateFilter}
+        onChange={this.changeStateFilter}
+      >
+        <MenuItem value={null} primaryText="" />
+        {map(SIPStatusEnum, status => (<MenuItem
+          key={status}
+          value={status}
+          primaryText={intl.formatMessage({
+            id: status,
+          })}
+        />))}
+      </SelectField>
+    )
+  }
+
+  renderSelectChainsFiler = () => {
+    const { chains } = this.props
+    const { intl, moduleTheme: { sip } } = this.context
+    return (
+      <SelectField
+        style={sip.filter.fieldStyle}
+        floatingLabelText={intl.formatMessage({
+          id: 'sips.list.filters.chain.label',
+        })}
+        value={this.state.chainFilter}
+        onChange={this.changeChainFilter}
+      >
+        <MenuItem value={null} primaryText="" />
+        {map(chains, chain => <MenuItem key={chain.content.name} value={chain.content.name} primaryText={chain.content.name} />)}
+      </SelectField>
+    )
+  }
+
+  renderSIPDetail = () => {
+    const { intl } = this.context
+    if (!this.state.sipToView) {
+      return null
+    }
+    return (
+      <Dialog
+        title={intl.formatMessage({ id: 'sips.list.sip-details.title' })}
+        open
+        onRequestClose={this.handlesipToView}
+      >
+        <SIPDetailComponent
+          sip={this.state.sipToView}
+          onClose={this.onCloseDetails}
+        />
+      </Dialog>
+    )
   }
 
   render() {
-    const types = ['DOCUMENT', 'DATAOBJECT', 'COLLECTION', 'DATASET']
-    const status = ['Queuing', 'Done', 'Error (rs-ingest)', 'Error (rs-storage)']
     const { intl, moduleTheme: { sip } } = this.context
 
     return (
@@ -94,189 +322,28 @@ class SIPListComponent extends React.Component {
             title={intl.formatMessage({ id: 'sips.title' })}
             subtitle={intl.formatMessage({ id: 'sips.list.subtitle' })}
           />
-          <Stepper style={sip.stepperStyle}>
-            <Step>
-              <StepButton onClick={this.props.handleGoBack}>
-                <FormattedMessage id="sips.stepper.session" />
-              </StepButton>
-            </Step>
-            <Step active>
-              <StepButton>
-                <FormattedMessage id="sips.stepper.list" />
-              </StepButton>
-            </Step>
-          </Stepper>
           <CardText>
             <div style={sip.filter.toolbarStyle}>
-              <SelectField
-                style={sip.filter.textFieldStyle}
-                floatingLabelText={intl.formatMessage({
-                  id: 'sips.list.filters.chain.label',
-                })}
-                value={0}
-              >
-                <MenuItem
-                  value={0}
-                  primaryText={intl.formatMessage({
-                    id: 'sips.list.filters.chain.label',
-                  })}
-                />
-                <MenuItem value={1} primaryText="Chaine 1" />
-                <MenuItem value={2} primaryText="Chaine 2" />
-                <MenuItem value={3} primaryText="Chaine 3" />
-                <MenuItem value={4} primaryText="Chaine 4" />
-              </SelectField>
-              <SelectField
-                style={sip.filter.textFieldStyle}
-                floatingLabelText={intl.formatMessage({
-                  id: 'sips.list.filters.status.label',
-                })}
-                value={0}
-              >
-                <MenuItem
-                  value={0}
-                  primaryText={intl.formatMessage({
-                    id: 'sips.list.filters.status.errors',
-                  })}
-                />
-                <MenuItem
-                  value={1}
-                  primaryText={intl.formatMessage({
-                    id: 'sips.list.filters.status.errors.rsingest',
-                  })}
-                />
-                <MenuItem
-                  value={2}
-                  primaryText={intl.formatMessage({
-                    id: 'sips.list.filters.status.errors.rsstorage',
-                  })}
-                />
-                <MenuItem
-                  value={3}
-                  primaryText={intl.formatMessage({
-                    id: 'sips.list.filters.status.done',
-                  })}
-                />
-              </SelectField>
-              <DatePicker
-                textFieldStyle={sip.filter.textFieldStyle}
-                floatingLabelText={intl.formatMessage({
-                  id: 'sips.list.filters.date.label',
-                })}
-                container="inline"
-                autoOk
-              />
-              <Checkbox
-                style={sip.filter.checkboxStyle}
-                label={intl.formatMessage({
-                  id: 'sips.list.filters.my-sips.label',
-                })}
-                labelPosition="right"
-              />
+              {this.renderSelectChainsFiler()}
+              {this.renderErrorFilter()}
+              {this.renderDateFilter()}
               <RaisedButton
                 label={intl.formatMessage({ id: 'sips.button.filter' })}
+                onClick={this.handleFilters}
                 primary
               />
             </div>
           </CardText>
-          <CardMedia>
-            <Table selectable={false}>
-              <TableHeader
-                enableSelectAll={false}
-                adjustForCheckbox={false}
-                displaySelectAll={false}
-              >
-                <TableRow>
-                  <TableHeaderColumn>
-                    <FormattedMessage id="sips.list.table.headers.sip-id" />
-                  </TableHeaderColumn>
-                  <TableHeaderColumn>
-                    <FormattedMessage id="sips.list.table.headers.type" />
-                  </TableHeaderColumn>
-                  <TableHeaderColumn>
-                    <FormattedMessage id="sips.list.table.headers.state" />
-                  </TableHeaderColumn>
-                  <TableHeaderColumn>
-                    <FormattedMessage id="sips.list.table.headers.date" />
-                  </TableHeaderColumn>
-                  <TableHeaderColumn>
-                    <FormattedMessage id="sips.list.table.headers.actions" />
-                  </TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {[...Array(10).keys()].map(item => (
-                  <TableRow key={item}>
-                    <TableRowColumn>{item}</TableRowColumn>
-                    <TableRowColumn>{types[item % types.length]}</TableRowColumn>
-                    <TableRowColumn style={sip.session.error.rowColumnStyle}>
-                      {status[item % status.length]}
-                      <ShowableAtRender show={status[item % status.length].includes('Error')}>
-                        <IconButton iconStyle={sip.session.error.iconStyle}>
-                          <Error />
-                        </IconButton>
-                      </ShowableAtRender>
-                    </TableRowColumn>
-                    <TableRowColumn>{(item * 3) + 1}/10/2017</TableRowColumn>
-                    <TableRowColumn>
-                      <IconButton
-                        title={intl.formatMessage({
-                          id: 'sips.list.table.actions.delete',
-                        })}
-                      >
-                        <Delete />
-                      </IconButton>
-                      <IconButton
-                        onClick={this.handleSIPDetails}
-                        title={intl.formatMessage({
-                          id: 'sips.list.table.actions.original-sip',
-                        })}
-                      >
-                        <Code />
-                      </IconButton>
-                      <IconButton
-                        onClick={this.handleAIPDialog}
-                        title={intl.formatMessage({
-                          id: 'sips.list.table.actions.original-aip',
-                        })}
-                      >
-                        <List />
-                      </IconButton>
-                      <ShowableAtRender show={status[item % status.length].includes('Error')}>
-                        <IconButton
-                          title={intl.formatMessage({
-                            id: 'sips.list.table.actions.retry',
-                          })}
-                        >
-                          <Refresh />
-                        </IconButton>
-                      </ShowableAtRender>
-                    </TableRowColumn>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardMedia>
+          {this.renderTable()}
+          <CardActions>
+            <CardActionsComponent
+              mainButtonLabel={intl.formatMessage({ id: 'sips.list.button.back' })}
+              mainButtonTouchTap={this.props.onBack}
+            />
+          </CardActions>
         </Card>
-        <AIPDialog open={this.state.AIPdialog} onRequestClose={this.handleAIPDialog} />
-        <Dialog
-          title={intl.formatMessage({ id: 'sips.list.sip-details.title' })}
-          modal={false}
-          open={this.state.SIPdetails}
-          onRequestClose={this.handleSIPDetails}
-        >
-          <AceEditorAdapter
-            mode="json"
-            theme="monokai"
-            value={'{ lol: "truc" }'}
-            showPrintMargin={false}
-            style={sip.list.sipDetailsStyle}
-            showGutter
-            showLineNumbers
-            readOnly
-            highlightActiveLine
-          />
-        </Dialog>
+        {this.renderSIPDetail()}
+        {this.renderDeleteConfirmDialog()}
       </div>
     )
   }
