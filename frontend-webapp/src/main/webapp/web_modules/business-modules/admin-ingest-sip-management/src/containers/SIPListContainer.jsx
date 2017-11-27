@@ -16,10 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
+import { IngestShapes } from '@regardsoss/shape'
 import SIPListComponent from '../components/SIPListComponent'
+import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
+import { sipActions } from '../clients/SIPClient'
 import messages from '../i18n'
 import styles from '../styles/styles'
 
@@ -28,19 +32,47 @@ import styles from '../styles/styles'
  * @author Maxime Bouveron
  */
 export class SIPListContainer extends React.Component {
+
+  /**
+  * Redux: map state to props function
+  * @param {*} state: current redux state
+  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+  * @return {*} list of component properties extracted from redux state
+  */
+  static mapStateToProps(state) {
+    return {
+      chains: processingChainSelectors.getList(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps = dispatch => ({
+    fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
+    deleteSIP: sip => dispatch(sipActions.deleteEntity(sip.id)),
+    fetchPage: (pageIndex, pageSize) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize)),
+  })
+
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
       session: PropTypes.string,
     }),
+    // from mapDistpathToProps
+    fetchProcessingChains: PropTypes.func.isRequired,
+    deleteSIP: PropTypes.func.isRequired,
+    fetchPage: PropTypes.func.isRequired,
+    // from mapStateToProps
+    chains: IngestShapes.IngestProcessingChainList.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      filters: {},
-    }
+  componentDidMount() {
+    this.props.fetchProcessingChains()
   }
 
   getParams = () => {
@@ -52,12 +84,6 @@ export class SIPListContainer extends React.Component {
     })
 
     return { queryParams }
-  }
-
-  handleFilters = (filters) => {
-    this.setState({
-      filters,
-    })
   }
 
   handleGoBack = () => {
@@ -72,9 +98,11 @@ export class SIPListContainer extends React.Component {
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={stylesObj}>
           <SIPListComponent
+            chains={this.props.chains}
             getParams={this.getParams}
-            handleFilters={this.handleFilters}
-            handleGoBack={this.handleGoBack}
+            onBack={this.handleGoBack}
+            onDelete={this.props.deleteSIP}
+            fetchPage={this.props.fetchPage}
           />
         </ModuleStyleProvider>
       </I18nProvider>
@@ -82,4 +110,4 @@ export class SIPListContainer extends React.Component {
   }
 }
 
-export default SIPListContainer
+export default connect(SIPListContainer.mapStateToProps, SIPListContainer.mapDispatchToProps)(SIPListContainer)

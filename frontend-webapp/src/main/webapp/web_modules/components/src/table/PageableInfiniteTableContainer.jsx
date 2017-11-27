@@ -55,7 +55,7 @@ export class PageableInfiniteTableContainer extends React.Component {
   static mapDispatchToProps(dispatch, { pageActions, tableActions }) {
     return {
       flushEntities: () => dispatch(pageActions.flush()),
-      fetchEntities: (pageNumber, nbEntitiesByPage, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, requestParams)),
+      fetchEntities: (pageNumber, nbEntitiesByPage, pathParam, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, pathParam, requestParams)),
       flushSelection: () => tableActions && dispatch(tableActions.unselectAll()),
     }
   }

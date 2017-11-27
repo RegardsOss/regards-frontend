@@ -239,7 +239,8 @@ class SearchResultsComponent extends React.Component {
       displayColumnsHeader = false
     }
 
-    const requestParams = { queryParams: searchQuery }
+    // TODO-V3 do refactor that please
+    const pathParams = { parameters: searchQuery }
     const showFacets = this.isDisplayingDataobjects() && allowingFacettes && showingFacettes
 
     return (
@@ -292,7 +293,7 @@ class SearchResultsComponent extends React.Component {
           displayedRowsCount={displayedRowsCount}
           columns={columns}
           queryPageSize={RESULTS_PAGE_SIZE}
-          requestParams={requestParams}
+          pathParams={pathParams}
           emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
         />
       </TableLayout>

@@ -22,21 +22,18 @@ const sipManagementStyles = theme => ({
     validColor: theme['forms-extension:validation'].validColor,
   },
   sip: {
-    stepperStyle: {
-      width: 600,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
     filter: {
-      toolbarStyle: {
+      lineStyle: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        flexWrap: 'wrap',
       },
-      textFieldStyle: {
+      fieldStyle: {
         top: -18,
         width: 190,
+        margin: '0px 10px',
+      },
+      dateStyle: {
+        width: '120px',
         margin: '0px 10px',
       },
       checkboxStyle: {
