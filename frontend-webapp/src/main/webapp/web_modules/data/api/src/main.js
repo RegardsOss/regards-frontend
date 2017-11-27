@@ -35,6 +35,7 @@ import Fragment from './dam/Fragment'
 import Dataset from './dam/Dataset'
 import AccessRight from './dam/AccessRight'
 import AccessGroup from './dam/AccessGroup'
+import CrawlerDatasource from './dam/CrawlerDatasource'
 import Datasource from './dam/Datasource'
 import Document from './dam/Document'
 import Entity from './catalog/Entity'
@@ -114,6 +115,7 @@ module.exports = {
 
   ...PluginParameter,
 
+  ...CrawlerDatasource,
   ...Datasource,
   ...Document,
   ...AccessRight,

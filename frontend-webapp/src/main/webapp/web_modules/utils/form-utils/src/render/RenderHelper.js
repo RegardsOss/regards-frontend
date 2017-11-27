@@ -28,7 +28,7 @@ import isString from 'lodash/isString'
  * @param intl
  * @returns {*}
  */
-export const getErrorMessage = (touched, error, intl) => {
+const getErrorMessage = (touched, error, intl) => {
   let errorMessage = null
   if (touched && error) {
     if (isString(error)) {

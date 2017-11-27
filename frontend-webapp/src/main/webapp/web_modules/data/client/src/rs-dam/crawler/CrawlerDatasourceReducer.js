@@ -16,26 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Schema, arrayOf } from 'normalizr'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { CrawlerDatasourceConfiguration } from '@regardsoss/api'
+import CrawlerDatasourceActions from './CrawlerDatasourceActions'
 
-const EndpointConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'endpoint',
+/**
+ * Redux store reducer for Crawler DatasourceIngestion entities
+ * @author Sébastien Binda
+ */
+class CrawlerDatasourceReducer extends BasicListReducers {
+  constructor(namespace) {
+    super(CrawlerDatasourceConfiguration, new CrawlerDatasourceActions(namespace))
+  }
 }
 
-const schema = new Schema(EndpointConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[EndpointConfiguration.entityKey],
-  assignEntity: (output, key, value, input) => {
-    if (key === 'content') {
-      // eslint-disable-next-line no-param-reassign
-      output = `${output.content.resource}@${output.content.verb}`
-    }
-  },
-})
-
-// Schemas for API responses.
-module.exports = {
-  ENDPOINT: schema,
-  ENDPOINT_ARRAY: arrayOf(schema),
-  EndpointConfiguration,
+export default (namespace) => {
+  const instance = new CrawlerDatasourceReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }
+

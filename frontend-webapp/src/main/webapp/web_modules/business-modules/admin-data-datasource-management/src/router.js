@@ -64,6 +64,18 @@ export const editDatasourceRoute = {
   },
 }
 
+export const manitorDatasourcesRoute = {
+  path: 'monitor',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const DatasourceMonitorContainer = require('./containers/DataSourceMonitoringContainer')
+      cb(null, {
+        content: DatasourceMonitorContainer.default,
+      })
+    })
+  },
+}
+
 
 const datasourceDataManagementRouter = {
   childRoutes: [
@@ -71,6 +83,7 @@ const datasourceDataManagementRouter = {
     createDatasourceRoute,
     pickConnectionDatasourceRoute,
     editDatasourceRoute,
+    manitorDatasourcesRoute,
   ],
 }
 

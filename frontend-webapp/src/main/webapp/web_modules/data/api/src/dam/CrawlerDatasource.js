@@ -18,24 +18,20 @@
  **/
 import { Schema, arrayOf } from 'normalizr'
 
-const EndpointConfiguration = {
+const CrawlerDatasourceConfiguration = {
   entityKey: 'id',
-  normalizrKey: 'endpoint',
+  normalizrKey: 'crawlerDatasource',
 }
 
-const schema = new Schema(EndpointConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[EndpointConfiguration.entityKey],
-  assignEntity: (output, key, value, input) => {
-    if (key === 'content') {
-      // eslint-disable-next-line no-param-reassign
-      output = `${output.content.resource}@${output.content.verb}`
-    }
-  },
+const crawlerDatasource = new Schema(CrawlerDatasourceConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[CrawlerDatasourceConfiguration.entityKey]
+  ,
 })
 
 // Schemas for API responses.
 module.exports = {
-  ENDPOINT: schema,
-  ENDPOINT_ARRAY: arrayOf(schema),
-  EndpointConfiguration,
+  CRAWLER_DATASOURCE: crawlerDatasource,
+  CRAWLER_DATASOURCE_ARRAY: arrayOf(crawlerDatasource),
+  CrawlerDatasourceConfiguration,
 }

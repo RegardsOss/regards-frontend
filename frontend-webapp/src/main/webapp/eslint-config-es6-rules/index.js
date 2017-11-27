@@ -44,6 +44,7 @@ const allRules = {
   'import/no-extraneous-dependencies': 0,
   'import/no-named-as-default': 0,
   'import/no-named-as-default-member': 0,
+  'import/prefer-default-export': 0,
 
   // React rules configuration
   'react/jsx-uses-react': 2,

@@ -16,26 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Schema, arrayOf } from 'normalizr'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
-const EndpointConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'endpoint',
-}
-
-const schema = new Schema(EndpointConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[EndpointConfiguration.entityKey],
-  assignEntity: (output, key, value, input) => {
-    if (key === 'content') {
-      // eslint-disable-next-line no-param-reassign
-      output = `${output.content.resource}@${output.content.verb}`
-    }
-  },
-})
-
-// Schemas for API responses.
-module.exports = {
-  ENDPOINT: schema,
-  ENDPOINT_ARRAY: arrayOf(schema),
-  EndpointConfiguration,
-}
+export default storePath => new BasicListSelectors(storePath)

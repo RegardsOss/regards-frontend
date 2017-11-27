@@ -21,7 +21,7 @@ export const boardRoute = {
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const moduleContainer = require('./components/ModuleContainer')
-      cb(null,{ content: moduleContainer.default })
+      cb(null, { content: moduleContainer.default })
     })
   },
 }

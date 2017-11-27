@@ -20,7 +20,7 @@
 
 import { Schema, arrayOf } from 'normalizr'
 
-export const LinkPluginDatasetConfiguration = {
+const LinkPluginDatasetConfiguration = {
   entityKey: 'datasetId',
   normalizrKey: 'linkplugindataset',
 }

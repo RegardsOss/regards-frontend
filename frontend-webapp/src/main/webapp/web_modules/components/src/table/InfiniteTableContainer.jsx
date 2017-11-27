@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import Measure from 'react-measure'
 import { connect } from '@regardsoss/redux'
@@ -76,7 +77,6 @@ class InfiniteTableContainer extends React.Component {
     queryPageSize: PropTypes.number,
 
     // abstracted properties: result of a parent selector
-    // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     // page index of entities in results (change it to handle next/previous pages)
     // eslint-disable-next-line react/no-unused-prop-types
@@ -117,11 +117,12 @@ class InfiniteTableContainer extends React.Component {
     queryPageSize: 20,
     loadingComponent: <TableContentLoadingComponent />,
     // by default we consider here that provided entities starts at 0
-    entitiesFirstIndex: 0,
+    entitiesPageIndex: 0,
   }
 
   static DEFAULT_STATE = {
     entities: [],
+    entitiesCount: 0, // inhibits he pageable behavior
     allColumns: [],
     tableWidth: 0,
   }
@@ -152,7 +153,7 @@ class InfiniteTableContainer extends React.Component {
       this.flushEntities(nextProps)
       // Fetch new ones
       this.fetchEntityPage(nextProps)
-    } else if (!isEqual(previousProps.entities, nextProps.entities)) {
+    } else if (!isEqual(previousProps.entities, nextProps.entities) || nextState.entities.length < get(nextProps, 'entities.length', 0)) {
       // update row entities (add new one to previously known ones)
       const firstReloadingIndex = nextProps.entitiesPageIndex * nextProps.queryPageSize
       const oldEntities = (previousState.entities || []).slice()
@@ -165,7 +166,6 @@ class InfiniteTableContainer extends React.Component {
     }
   }
 
-
   /**
    * After each scroll end retrieve missing entities
    * @param scrollStartOffset
@@ -173,11 +173,9 @@ class InfiniteTableContainer extends React.Component {
    */
   onScrollEnd = (scrollStartOffset, scrollEndOffset) => {
     const { entities } = this.state
-    // entities count: when not provided, block fetching
-    const entitiesCount = (this.props.entitiesCount || 0)
 
     // Is table incomplete? (prevent fetching when already in progress)
-    if (entities.length < entitiesCount && !this.props.entitiesFetching) {
+    if (entities.length < this.getCurrentTotalEntities() && !this.props.entitiesFetching) {
       // The table is not yet complete, check if we should fetch
       // the scroll offset is the first element to fetch if it is missing
       const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
@@ -207,10 +205,9 @@ class InfiniteTableContainer extends React.Component {
   }
 
   /**
-   * Returns total number of results from page metadata as props
-   * @param props component properties
+   * @return the number of entities to consider (subset of total or total itself)
    */
-  getTotalNumberOfResults = props => this.state.entities.length
+  getCurrentTotalEntities = () => Math.max(this.props.entitiesCount || 0, (this.props.entities || []).length)
 
   /**
    selection if any data)
@@ -232,19 +229,21 @@ class InfiniteTableContainer extends React.Component {
   }
 
   render() {
-    const { entitiesCount, displayColumnsHeader, lineHeight, displayedRowsCount, columns, entitiesFetching,
+    const { displayColumnsHeader, lineHeight, displayedRowsCount, columns, entitiesFetching,
       loadingComponent, emptyComponent } = this.props
     const { tableWidth, entities } = this.state // cached render entities
     const actualLineHeight = lineHeight || this.context.muiTheme['components:infinite-table'].lineHeight
     const actualRowCount = displayedRowsCount || this.context.muiTheme['components:infinite-table'].rowCount
 
+    const currentTotalEntities = this.getCurrentTotalEntities()
+
     return (
       <Measure onMeasure={this.onComponentResized}>
         <div style={allWidthStyles}>
           <LoadableContentDisplayDecorator
-            isLoading={!entitiesCount && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
+            isLoading={!currentTotalEntities && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
             loadingComponent={loadingComponent}
-            isEmpty={!entitiesCount}
+            isEmpty={!currentTotalEntities}
             emptyComponent={emptyComponent}
           >
             <Table

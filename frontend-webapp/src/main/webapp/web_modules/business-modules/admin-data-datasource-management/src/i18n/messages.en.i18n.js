@@ -19,6 +19,16 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
+  'crawler.list.title': 'Data crawling list',
+  'crawler.list.back.button': 'Back',
+  'crawler.list.label.column.header': 'Label',
+  'crawler.list.lastIngestDate.column.header': 'Last ingest date',
+  'crawler.list.nextPlannedIngestDate.column.header': 'Next ingest date',
+  'crawler.list.savedObjectsCount.column.header': 'Number of entites',
+  'crawler.list.status.column.header': 'Status',
+  'crawler.list.duration.column.header': 'Duration',
+  'crawler.list.refresh.button': 'Refresh',
+
   'datasource.list.action.add': 'Add',
   'datasource.list.action.cancel': 'Cancel',
   'datasource.list.title': 'Datasources',

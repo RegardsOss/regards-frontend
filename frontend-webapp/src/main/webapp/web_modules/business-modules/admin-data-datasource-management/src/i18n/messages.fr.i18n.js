@@ -19,10 +19,20 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
+  'crawler.list.title': 'Liste des aspirations de données en cours ou terminées',
+  'crawler.list.back.button': 'Retour',
+  'crawler.list.label.column.header': 'Libellé',
+  'crawler.list.lastIngestDate.column.header': 'Date de l\'aspiration',
+  'crawler.list.nextPlannedIngestDate.column.header': 'Prochaine aspiration',
+  'crawler.list.savedObjectsCount.column.header': 'Nombres d\'entités aspirées',
+  'crawler.list.status.column.header': 'Etat',
+  'crawler.list.duration.column.header': 'Durée',
+  'crawler.list.refresh.button': 'Rafraîchir',
+
   'datasource.list.action.add': 'Ajouter',
   'datasource.list.action.cancel': 'Annuler',
-  'datasource.list.title': 'Sources de données',
-  'datasource.list.subtitle': 'Les datasources retournent les données que vous souhaitez apporter à vos jeux de données',
+  'datasource.list.title': 'Configurer les aspirations de données depuis des bases de données externes.',
+  'datasource.list.subtitle': 'Une aspiration de données doit être configurée afin de determiner comment faire correspondre les informations provenant de la base à aspirer avec les modèles de données définis précédement.',
   'datasource.list.table.label': 'Label',
   'datasource.list.table.actions': 'Actions',
   'datasource.list.table.model': 'Modèle',
