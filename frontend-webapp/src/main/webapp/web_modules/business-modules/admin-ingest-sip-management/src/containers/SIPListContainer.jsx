@@ -55,10 +55,7 @@ export class SIPListContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
     deleteSIPByIpId: sip => dispatch(sipActions.deleteEntity(sip.ipId)),
-    deleteSIPBySipId: (sip) => {
-      console.error('PLOP', sip)
-      dispatch(sipActions.deleteEntity(undefined, {}, { sipId: sip.sipId }))
-    },
+    deleteSIPBySipId: sip => dispatch(sipActions.deleteEntity(undefined, {}, { sipId: sip.sipId })),
     fetchPage: (pageIndex, pageSize) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize)),
   })
 

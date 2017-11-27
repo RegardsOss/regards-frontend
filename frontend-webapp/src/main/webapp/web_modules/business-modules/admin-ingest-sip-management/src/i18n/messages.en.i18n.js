@@ -54,6 +54,7 @@ const messages = Object.assign({
   'sips.list.aip-details.table.files.headers.size': 'Size',
   'sips.list.aip-details.table.files.headers.actions': 'Actions',
   'sips.list.sip-details.title': 'SIP details',
+  'sips.list.empty.title': 'No entities found',
   'sips.list.button.back': 'Back to sessions',
   'sips.stepper.list': 'View SIPs',
   'sips.stepper.session': 'Select session',

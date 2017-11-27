@@ -19,7 +19,7 @@
 import map from 'lodash/map'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
-
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import RaisedButton from 'material-ui/RaisedButton'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
@@ -27,8 +27,8 @@ import DatePicker from 'material-ui/DatePicker'
 import {
   CardActionsComponent,
   ClearFieldButton,
-  ConfirmDialogComponentTypes,
   DateValueRender,
+  NoContentComponent,
   TableColumnBuilder,
   TableDeleteOption,
   TableLayout,
@@ -91,20 +91,21 @@ class SIPListComponent extends React.Component {
   onConfirmDeleteSIP = () => {
     this.closeDeleteDialog()
     if (this.state.sipToDelete) {
-      this.props.onDeleteByIpId(this.state.sipToDelete.content)
+      this.props.onDeleteByIpId(this.state.sipToDelete.content).then(this.state.onDeleteDone)
     }
   }
 
   onConfirmDeleteSIPs = () => {
     this.closeDeleteDialog()
     if (this.state.sipToDelete) {
-      this.props.onDeleteBySipId(this.state.sipToDelete.content)
+      this.props.onDeleteBySipId(this.state.sipToDelete.content).then(this.state.onDeleteDone)
     }
   }
 
-  onDelete = (sipToDelete) => {
+  onDelete = (sipToDelete, onDone) => {
     this.setState({
       sipToDelete,
+      onDeleteDone: onDone,
     })
   }
 
@@ -169,6 +170,13 @@ class SIPListComponent extends React.Component {
     const { intl, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
+    const emptyComponent = (
+      <NoContentComponent
+        title={intl.formatMessage({ id: 'sips.list.empty.title' })}
+        Icon={AddToPhotos}
+      />
+    )
+
     const tableOptions = TableColumnBuilder.buildOptionsColumn('', [{
       OptionConstructor: SIPDetailTableAction,
       optionProps: { onViewDetail: this.onViewSIPDetail },
@@ -219,6 +227,7 @@ class SIPListComponent extends React.Component {
             pageSize={10}
             columns={columns}
             requestParams={this.state.filters}
+            emptyComponent={emptyComponent}
           />
         </TableLayout>
       </CardText>
