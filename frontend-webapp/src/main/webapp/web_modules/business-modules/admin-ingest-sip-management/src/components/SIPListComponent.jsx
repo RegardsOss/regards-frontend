@@ -157,6 +157,7 @@ class SIPListComponent extends React.Component {
     if (sipToDelete) {
       return (
         <SIPConfirmDeleteDialog
+          sipId={sipToDelete.content.sipId}
           onDeleteSip={this.onConfirmDeleteSIP}
           onDeleteSips={this.onConfirmDeleteSIPs}
           onClose={this.closeDeleteDialog}

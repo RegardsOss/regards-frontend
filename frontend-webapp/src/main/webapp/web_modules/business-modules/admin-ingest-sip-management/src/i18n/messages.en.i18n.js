@@ -59,7 +59,12 @@ const messages = Object.assign({
   'sips.stepper.list': 'View SIPs',
   'sips.stepper.session': 'Select session',
 
-  'sip.delete.confirm.title': 'Are you sure you want to delete SIP {id}',
+  'sip.confirm.delete.title': 'Deletion of datas (Provider identifier : {id})',
+  'sip.confirm.delete.message': 'Do you want to delete the selected data only or all the datas with the same provider identifier (SIP ID) ?',
+  'sip.confirm.delete.sips': 'Delete all',
+  'sip.confirm.delete.sip': 'Delete only selected one',
+  'sip.cancel.delete': 'Cancel',
+
   'sip.details.button.close': 'Close',
 
   'sips.session.subtitle': 'Select the session associated to the SIPs you want to view',

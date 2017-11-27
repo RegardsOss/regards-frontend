@@ -27,6 +27,7 @@ import messages from '../i18n'
 class SIPConfirmDeleteDialog extends React.Component {
 
   static propTypes = {
+    sipId: PropTypes.string.isRequired,
     onDeleteSip: PropTypes.func.isRequired,
     onDeleteSips: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -42,12 +43,12 @@ class SIPConfirmDeleteDialog extends React.Component {
 
   renderActions = () => {
     const { onClose } = this.props
-    const { intl, intl: { formatMessage } } = this.context
+    const { intl: { formatMessage } } = this.context
     return [
       <FlatButton
         key="cancel"
         id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'confirm.dialog.cancel' })}
+        label={formatMessage({ id: 'sip.cancel.delete' })}
         primary
         keyboardFocused
         onTouchTap={onClose}
@@ -55,29 +56,29 @@ class SIPConfirmDeleteDialog extends React.Component {
       <FlatButton
         key={'deleteSIP'}
         className="selenium-confirmDialogButton"
-        label={'deleteSIP'}
+        label={formatMessage({ id: 'sip.confirm.delete.sip' })}
         onTouchTap={() => this.handleDelete(this.props.onDeleteSip)}
       />,
       <FlatButton
         key={'deleteSIPS'}
         className="selenium-confirmDialogButton"
-        label={'deleteSIPS'}
+        label={formatMessage({ id: 'sip.confirm.delete.sips' })}
         onTouchTap={() => this.handleDelete(this.props.onDeleteSips)}
       />,
     ]
   }
 
   render() {
-    const { onClose } = this.props
+    const { sipId } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
       <Dialog
-        title={'Suppression de SIPs'}
+        title={formatMessage({ id: 'sip.confirm.delete.title' }, { id: sipId })}
         actions={this.renderActions()}
         modal={false}
         open
-        onRequestClose={onClose}
       >
-        {'PLOP'}
+        {formatMessage({ id: 'sip.confirm.delete.message' })}
       </Dialog>
 
     )

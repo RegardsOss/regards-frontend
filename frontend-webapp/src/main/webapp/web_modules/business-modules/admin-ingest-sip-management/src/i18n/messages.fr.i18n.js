@@ -58,7 +58,12 @@ const messages = Object.assign({
   'sips.stepper.list': 'Afficher SIPs',
   'sips.stepper.session': 'Selectionner session',
 
-  'sip.delete.confirm.title': 'Etes-vous sûr de vouloir supprimer le SIP {id}',
+  'sip.confirm.delete.title': 'Supression de données (identifiant producteur : {id})',
+  'sip.confirm.delete.message': 'Voulez vous supprimer uniquement la donnée sélectionée ou toutes les données de même identifiant producteur (SIP ID) ?',
+  'sip.confirm.delete.sips': 'Tous supprimer',
+  'sip.confirm.delete.sip': 'Suprrimer',
+  'sip.cancel.delete': 'Annuler',
+
   'sip.details.button.close': 'Fermer',
 
   'sips.session.subtitle': 'Visualisation des sessions d\'acquisitions. Une session est un regroupement de paquets de d\'information de données (SIP).',
