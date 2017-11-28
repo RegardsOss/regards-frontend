@@ -18,6 +18,7 @@
  **/
 import isEqual from 'lodash/isEqual'
 import Measure from 'react-measure'
+import noop from 'lodash/noop'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
@@ -116,6 +117,10 @@ class InfiniteTableContainer extends React.Component {
     loadingComponent: <TableContentLoadingComponent />,
     // by default we consider here that provided entities starts at 0
     entitiesFirstIndex: 0,
+    // by default, fetch and flush are stubs
+    fetchEntities: noop,
+    flushEntities: noop,
+    flushSelection: noop,
   }
 
   static DEFAULT_STATE = {
