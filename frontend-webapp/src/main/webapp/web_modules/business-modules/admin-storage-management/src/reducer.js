@@ -16,10 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import en from './messages.en.i18n'
-import fr from './messages.fr.i18n'
+import { combineReducers } from 'redux'
+import { PluginConfiguratorReducer } from '@regardsoss/microservice-plugin-configurator'
+import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
+import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 
-module.exports = {
-  en,
-  fr,
-}
+/**
+ * @author Sébastien Binda
+ */
+const microserviceManagementReducer = combineReducers({
+  pluginMetadata: pluginMetaDataReducer,
+  pluginConfigurator: PluginConfiguratorReducer,
+  pluginConfiguration: pluginConfigurationReducer,
+})
+
+export default microserviceManagementReducer

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,11 +15,30 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import en from './messages.en.i18n'
-import fr from './messages.fr.i18n'
+ */
 
-module.exports = {
-  en,
-  fr,
+/**
+ * Route to the view listing all plugin meta data for a microservice.
+ * @author Sébastien Binda
+ *
+ * @type {{path: string, getComponents: ((nextState, cb))}}
+ */
+export const storagePluginConfRoute = {
+  path: ':pluginType',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/PluginMetaDataListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
 }
+
+const storageManagementRouter = {
+  childRoutes: [
+    storagePluginConfRoute,
+  ],
+}
+
+export default storageManagementRouter

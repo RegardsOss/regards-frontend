@@ -21,6 +21,8 @@ import PageView from 'material-ui/svg-icons/action/pageview'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import Database from 'mdi-material-ui/Database'
+import Archive from 'mdi-material-ui/Archive'
+import CallSplit from 'mdi-material-ui/CallSplit'
 
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
@@ -99,6 +101,25 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/document/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
+        hateoasDependencies: documentDependencies.addDependencies,
+      },
+    ],
+  },
+  {
+    title: intl.formatMessage({ id: 'data.board.storage.title' }),
+    description: intl.formatMessage({ id: 'data.board.storage.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/storages`,
+        icon: <Archive />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
+        hateoasDependencies: documentDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/allocations`,
+        icon: <CallSplit />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.allocations.tooltip' }),
         hateoasDependencies: documentDependencies.addDependencies,
       },
     ],

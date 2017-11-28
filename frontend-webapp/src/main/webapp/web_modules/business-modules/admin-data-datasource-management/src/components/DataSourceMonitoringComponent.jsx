@@ -78,9 +78,6 @@ class DataSourceMonitoringComponent extends React.Component {
               columns={columns}
               entities={crawlerDatasources}
               displayedRowsCount={10}
-              fetchEntities={() => { }}
-              flushEntities={() => { }}
-              flushSelection={() => { }}
             />
           </TableLayout>
         </CardText>

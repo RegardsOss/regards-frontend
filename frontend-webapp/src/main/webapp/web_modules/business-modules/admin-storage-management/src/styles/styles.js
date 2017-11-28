@@ -15,11 +15,32 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import en from './messages.en.i18n'
-import fr from './messages.fr.i18n'
+ */
 
-module.exports = {
-  en,
-  fr,
-}
+/**
+ * @author Sébastien Binda
+ */
+const storageManagementStyles = theme => ({
+  root: {
+    position: 'relative',
+    paddingBottom: 20,
+  },
+  grid: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  tile: {
+    classes: ['col-xs-50', 'col-sm-50', 'col-lg-33'].join(' '),
+    styles: {
+      margin: 20,
+    },
+    actionsStyles: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+    },
+  },
+})
+
+export default storageManagementStyles

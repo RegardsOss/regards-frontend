@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { PluginFormConfigurator } from '@regardsoss/microservice-plugin-configurator'
 /**
@@ -46,6 +47,10 @@ export class PluginConfigurationFormContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project, microserviceName, pluginId } } = this.props
+    const query = browserHistory.getCurrentLocation().query
+    if (query.backUrl && query.backUrl !== '') {
+      return `/admin/${project}/${query.backUrl}`
+    }
     return `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/list`
   }
 

@@ -16,10 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import en from './messages.en.i18n'
-import fr from './messages.fr.i18n'
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-module.exports = {
-  en,
-  fr,
-}
+/**
+ * @author Sébastien Binda
+ */
+describe('[ADMIN STORAGE MANAGEMENT] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

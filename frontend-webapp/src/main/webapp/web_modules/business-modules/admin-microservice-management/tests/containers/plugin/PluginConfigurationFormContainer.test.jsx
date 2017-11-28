@@ -22,12 +22,21 @@ import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PluginFormConfigurator } from '@regardsoss/microservice-plugin-configurator'
 import { PluginConfigurationFormContainer } from '../../../src/containers/plugin/PluginConfigurationFormContainer'
 
+// mock router
+const router = require('react-router')
+
 /**
  * Plugin tests
  * @author Xavier-Alexandre Brochard
  */
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form container', () => {
-  before(testSuiteHelpers.before)
+  before(() => {
+    // mocking router browser history
+    router.browserHistory = {
+      getCurrentLocation: () => ({ query: {}, pathname: 'hello/world' }),
+    }
+    testSuiteHelpers.before()
+  })
   after(testSuiteHelpers.after)
 
   it('should exists', () => {

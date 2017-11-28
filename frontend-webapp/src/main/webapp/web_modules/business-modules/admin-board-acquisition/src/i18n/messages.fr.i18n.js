@@ -34,6 +34,11 @@ const messages = {
 
   'data.board.document.title': 'Documents',
   'data.board.document.description': 'Vous pouvez ici counsulter/ajouter des données de type documents. Les documents sont des données consultables par prévisualisation ou par téléchargement depuis l\'interface utilisateur.',
+
+  'data.board.storage.title': 'Stockage des données',
+  'data.board.storage.description': 'Cette section vous permet de configurer un ou plusieurs espaces de stockage des données ainsi que la stratégie de répartition que le système utilisera.',
+  'data.board.action.storages.tooltip': 'Espaces de sockages',
+  'data.board.action.allocations.tooltip': 'Stratégies de répartition',
 }
 
 export default messages
