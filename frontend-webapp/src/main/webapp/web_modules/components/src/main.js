@@ -94,6 +94,7 @@ import TableColumnsVisibilityOption from './table/options/TableColumnsVisibility
 import TableHeaderContentBox from './table/header/TableHeaderContentBox'
 import TableHeaderLine from './table/header/TableHeaderLine'
 import TableHeaderLineLoadingAndResults from './table/header/TableHeaderLineLoadingAndResults'
+import TableHeaderLoadingComponent from './table/header/TableHeaderLoadingComponent'
 import TableHeaderOptionsArea from './table/header/TableHeaderOptionsArea'
 import TableHeaderOptionGroup from './table/header/TableHeaderOptionGroup'
 import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSeparator'
@@ -187,6 +188,7 @@ export {
   TableHeaderContentBox,
   TableHeaderLine,
   TableHeaderLineLoadingAndResults,
+  TableHeaderLoadingComponent,
   TableHeaderOptionsArea,
   TableHeaderOptionGroup,
   TableHeaderOptionsSeparator,
