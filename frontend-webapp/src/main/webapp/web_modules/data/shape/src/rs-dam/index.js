@@ -30,6 +30,7 @@ import { ModelAttribute, ModelAttributeList } from './ModelAttribute'
 import { StandartAttributeModelContent, StandartAttributeModel } from './StandartAttributeModel'
 import { ModelAttributeComputationTypes, ModelAttributeComputationTypesList } from './ModelAttributeComputationTypes'
 import { Document, DocumentContent, DocumentList } from './Document'
+import { CrawlerDatasource, CrawlerDatasourceContent, CrawlerDatasourceList, CrawlerDatasourceArray } from './CrawlerDatasource'
 
 module.exports = {
   AccessGroup,
@@ -58,6 +59,11 @@ module.exports = {
   Document,
   DocumentContent,
   DocumentList,
+
+  CrawlerDatasource,
+  CrawlerDatasourceContent,
+  CrawlerDatasourceList,
+  CrawlerDatasourceArray,
 
   Datasource,
   DatasourceList,

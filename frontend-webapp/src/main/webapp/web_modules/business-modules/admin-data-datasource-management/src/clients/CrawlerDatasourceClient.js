@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,27 +15,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { Schema, arrayOf } from 'normalizr'
+ */
+import { DataManagementClient } from '@regardsoss/client'
 
-const EndpointConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'endpoint',
-}
+/**
+ * CrawlerDatasource entities client.
+ *
+ * @author Sébastien Binda
+ */
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'datasource', 'crawler']
+const REDUX_ACTION_NAMESPACE = 'admin-data-datasource-management/datasource-crawler'
 
-const schema = new Schema(EndpointConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[EndpointConfiguration.entityKey],
-  assignEntity: (output, key, value, input) => {
-    if (key === 'content') {
-      // eslint-disable-next-line no-param-reassign
-      output = `${output.content.resource}@${output.content.verb}`
-    }
-  },
-})
+const crawlerDatasourceReducer = DataManagementClient.CrawlerDatasourceReducer(REDUX_ACTION_NAMESPACE)
+const crawlerDatasourceActions = new DataManagementClient.CrawlerDatasourceActions(REDUX_ACTION_NAMESPACE)
+const crawlerDatasourceSelectors = DataManagementClient.CrawlerDatasourceSelectors(ENTITIES_STORE_PATH)
 
-// Schemas for API responses.
+
 module.exports = {
-  ENDPOINT: schema,
-  ENDPOINT_ARRAY: arrayOf(schema),
-  EndpointConfiguration,
+  crawlerDatasourceReducer,
+  crawlerDatasourceActions,
+  crawlerDatasourceSelectors,
 }

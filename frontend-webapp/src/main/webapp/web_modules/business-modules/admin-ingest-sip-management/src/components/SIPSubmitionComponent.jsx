@@ -60,6 +60,12 @@ export class SIPSubmitionComponent extends React.Component {
           </ul>
         </CardText>
       )
+    } else if (!sip.state) {
+      return (
+        <ul>
+          {map(sip, message => <li>{message}</li>)}
+        </ul>
+      )
     }
     return null
   }
@@ -79,6 +85,7 @@ export class SIPSubmitionComponent extends React.Component {
         backgroundColor={moduleTheme.import.errorColor}
       />)
     }
+
     return (
       <Card style={SIPSubmitionComponent.cardStyles}>
         <CardHeader

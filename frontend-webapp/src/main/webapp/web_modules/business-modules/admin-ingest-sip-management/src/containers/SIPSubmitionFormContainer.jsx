@@ -48,6 +48,7 @@ export class SIPSubmitionFormContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapDispatchToProps = dispatch => ({
+    flushSips: () => dispatch(sipImportActions.flush()),
     submitSips: file => dispatch(sipImportActions.createEntityUsingMultiPart({}, { file })),
   })
 
@@ -58,12 +59,14 @@ export class SIPSubmitionFormContainer extends React.Component {
     }).isRequired,
     // from mapDispatchToProps
     submitSips: PropTypes.func.isRequired,
+    flushSips: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       isError: false,
+      isLoading: false,
     }
   }
 
@@ -80,20 +83,25 @@ export class SIPSubmitionFormContainer extends React.Component {
   }
 
   onSubmit = (values) => {
-    this.props.submitSips(values.sips)
+    this.setState({
+      isLoading: true,
+    })
+    this.props.flushSips().then(() => this.props.submitSips(values.sips)
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error || actionResult.meta.status === 422) {
           this.onSucceed()
           this.setState({
             isError: false,
+            isLoading: false,
           })
         } else {
           this.setState({
             isError: true,
+            isLoading: false,
           })
         }
-      })
+      }))
   }
 
   render() {
@@ -103,6 +111,7 @@ export class SIPSubmitionFormContainer extends React.Component {
         <ModuleStyleProvider module={stylesObj}>
           <SIPSubmitionFormComponent
             isError={this.state.isError}
+            isLoading={this.state.isLoading}
             submitSips={this.onSubmit}
             onBack={this.onBack}
           />

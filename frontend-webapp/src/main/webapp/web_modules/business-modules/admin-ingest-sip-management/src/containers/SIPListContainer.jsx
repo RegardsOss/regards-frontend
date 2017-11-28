@@ -16,29 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
+import { IngestShapes } from '@regardsoss/shape'
 import SIPListComponent from '../components/SIPListComponent'
+import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
+import { sipActions } from '../clients/SIPClient'
 import messages from '../i18n'
 import styles from '../styles/styles'
-import { sipActions, sipSelectors } from '../clients/SIPClient'
 
 /**
-* Displays the list of SIPs
-* @author Maxime Bouveron
-*/
+ * Displays the list of SIPs
+ * @author Maxime Bouveron
+ * @author Sébastien Binda
+ */
 export class SIPListContainer extends React.Component {
+
   /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
+  * Redux: map state to props function
+  * @param {*} state: current redux state
+  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+  * @return {*} list of component properties extracted from redux state
+  */
   static mapStateToProps(state) {
     return {
-      sips: sipSelectors.getResults(state),
+      chains: processingChainSelectors.getList(state),
     }
   }
 
@@ -48,26 +52,41 @@ export class SIPListContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch) {
-    return {
-      fetchSips: () => dispatch(sipActions.fetchPagedEntityList()),
-    }
-  }
+  static mapDispatchToProps = dispatch => ({
+    fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
+    deleteSIPByIpId: sip => dispatch(sipActions.deleteEntity(sip.ipId)),
+    deleteSIPBySipId: sip => dispatch(sipActions.deleteEntity(undefined, {}, { sipId: sip.sipId })),
+    fetchPage: (pageIndex, pageSize) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize)),
+  })
 
   static propTypes = {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
+      session: PropTypes.string,
     }),
+    // from mapDistpathToProps
+    fetchProcessingChains: PropTypes.func.isRequired,
+    deleteSIPByIpId: PropTypes.func.isRequired,
+    deleteSIPBySipId: PropTypes.func.isRequired,
+    fetchPage: PropTypes.func.isRequired,
     // from mapStateToProps
-    sips: PropTypes.arrayOf(Object),
-    // from mapDispatchToProps
-    fetchSips: PropTypes.func,
+    chains: IngestShapes.IngestProcessingChainList.isRequired,
   }
 
+  componentDidMount() {
+    this.props.fetchProcessingChains()
+  }
 
-  componentWillMount() {
-    this.props.fetchSips()
+  getParams = () => {
+    let queryParams = `sessionId=${this.props.params.session}`
+    const { filters } = this.state
+
+    Object.keys(filters).forEach((filter) => {
+      if (filters[filter]) queryParams += `&${filter}=${filters[filter]}`
+    })
+
+    return { queryParams }
   }
 
   handleGoBack = () => {
@@ -81,13 +100,18 @@ export class SIPListContainer extends React.Component {
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={stylesObj}>
-          <SIPListComponent handleGoBack={this.handleGoBack} />
+          <SIPListComponent
+            chains={this.props.chains}
+            getParams={this.getParams}
+            onBack={this.handleGoBack}
+            onDeleteByIpId={this.props.deleteSIPByIpId}
+            onDeleteBySipId={this.props.deleteSIPBySipId}
+            fetchPage={this.props.fetchPage}
+          />
         </ModuleStyleProvider>
       </I18nProvider>
     )
   }
 }
 
-export default connect(SIPListContainer.mapStateToProps, SIPListContainer.mapDispatchToProps)(
-  SIPListContainer,
-)
+export default connect(SIPListContainer.mapStateToProps, SIPListContainer.mapDispatchToProps)(SIPListContainer)

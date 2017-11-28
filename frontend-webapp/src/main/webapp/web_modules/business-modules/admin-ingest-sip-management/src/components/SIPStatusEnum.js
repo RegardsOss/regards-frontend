@@ -16,26 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Schema, arrayOf } from 'normalizr'
 
-const EndpointConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'endpoint',
+/**
+ * @author Sébastien Binda
+ */
+const sipStatus = {
+  CREATED: 'CREATED',
+  REJECTED: 'REJECTED',
+  QUEUED: 'QUEUED',
+  VALID: 'VALID',
+  INVALID: 'INVALID',
+  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
+  AIP_CREATED: 'AIP_CREATED',
+  STORED: 'STORED',
+  STORE_ERROR: 'STORE_ERROR',
+  INDEXED: 'INDEXED',
+  INCOMPLETE: 'INCOMPLETE',
 }
 
-const schema = new Schema(EndpointConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[EndpointConfiguration.entityKey],
-  assignEntity: (output, key, value, input) => {
-    if (key === 'content') {
-      // eslint-disable-next-line no-param-reassign
-      output = `${output.content.resource}@${output.content.verb}`
-    }
-  },
-})
-
-// Schemas for API responses.
-module.exports = {
-  ENDPOINT: schema,
-  ENDPOINT_ARRAY: arrayOf(schema),
-  EndpointConfiguration,
-}
+export default sipStatus

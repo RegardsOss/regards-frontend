@@ -11,48 +11,57 @@
   "env": {
     "coverage": { // coverage environment transforms
       "presets": [
-        ["env", {
-          "targets": {
-            "node": "current"
+        [
+          "env",
+          {
+            "targets": {
+              "node": "current"
+            }
           }
-        }]
+        ]
       ],
       "plugins": [
         "istanbul"
       ]
-    }, 
+    },
     "development": { // development environment transforms
       "presets": [
-        ["env", {
-          "targets": {
-            "node": "current",
-            "browsers": "last 1 chrome version"
+        [
+          "env",
+          {
+            "targets": {
+              "node": "current",
+              "browsers": "last 1 chrome version"
+            }
           }
-        }]
+        ]
       ]
     },
     "production": { // production environment transforms
       "presets": [
-        ["env", {
-          "targets": {
-            "node": "4",
-            "browsers": "last 2 versions"
+        [
+          "env",
+          {
+            "targets": {
+              "browsers": [
+                "chrome >= 50",
+                "firefox >= 45"
+              ]
+            }
           }
-        }]
-      ],
-      "plugins": [
-        "transform-class-properties",
-        "add-module-exports",
-        "syntax-dynamic-import"
+        ]
       ]
     },
     "test": { // test environment transforms
       "presets": [
-        ["env", {
-          "targets": {
-            "node": "current"
+        [
+          "env",
+          {
+            "targets": {
+              "node": "current"
+            }
           }
-        }]
+        ]
       ]
     }
   }

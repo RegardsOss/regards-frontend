@@ -16,26 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Schema, arrayOf } from 'normalizr'
+import Schemas from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
-const EndpointConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'endpoint',
-}
-
-const schema = new Schema(EndpointConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[EndpointConfiguration.entityKey],
-  assignEntity: (output, key, value, input) => {
-    if (key === 'content') {
-      // eslint-disable-next-line no-param-reassign
-      output = `${output.content.resource}@${output.content.verb}`
-    }
-  },
-})
-
-// Schemas for API responses.
-module.exports = {
-  ENDPOINT: schema,
-  ENDPOINT_ARRAY: arrayOf(schema),
-  EndpointConfiguration,
+/**
+ * Redux actions to manage DataSourceIngestion entities from rs-dam microservice
+ * @author Sébastien Binda
+ */
+export default class CrawlerDatasourceActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/crawler/datasourceIngestions`,
+      schemaTypes: {
+        ENTITY: Schemas.CRAWLER_DATASOURCE,
+        ENTITY_ARRAY: Schemas.CRAWLER_DATASOURCE_ARRAY,
+      },
+    })
+  }
 }

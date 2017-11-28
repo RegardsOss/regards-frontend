@@ -57,6 +57,21 @@ const conf = webpackConfigurator
       ],
     },
     plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          screw_ie8: true, // React doesn't support IE8
+          warnings: false,
+        },
+        mangle: {
+          screw_ie8: true,
+        },
+        output: {
+          comments: false,
+          screw_ie8: true,
+        },
+        // Do not generate source map files (this is usefull during developpment)
+        sourceMap: false,
+      }),
       new webpack.DllPlugin({
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs

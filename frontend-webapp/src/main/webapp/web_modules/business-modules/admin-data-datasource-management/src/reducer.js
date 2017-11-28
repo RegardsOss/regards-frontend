@@ -24,9 +24,11 @@ import { connectionTableReducer } from './clients/ConnectionTableClient'
 import { connectionTableAttributesReducer } from './clients/ConnectionTableAttributesClient'
 import { modelAttributesReducer } from './clients/ModelAttributesClient'
 import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
+import { crawlerDatasourceReducer } from './clients/CrawlerDatasourceClient'
 
 const datasourceDataManagementReducer = combineReducers({
   datasource: datasourceReducer,
+  crawler: crawlerDatasourceReducer,
   connection: connectionReducer,
   model: modelReducer,
   'model-attributes': modelAttributesReducer,

@@ -74,6 +74,10 @@ import ConnectionActions from './connection/ConnectionActions'
 import ConnectionReducer from './connection/ConnectionReducer'
 
 
+import CrawlerDatasourceActions from './crawler/CrawlerDatasourceActions'
+import CrawlerDatasourceReducer from './crawler/CrawlerDatasourceReducer'
+import CrawlerDatasourceSelectors from './crawler/CrawlerDatasourceSelectors'
+
 import DatasourceSelectors from './datasource/DatasourceSelectors'
 import DatasourceActions from './datasource/DatasourceActions'
 import DatasourceReducer from './datasource/DatasourceReducer'
@@ -161,6 +165,10 @@ module.exports = {
   ConnectionSelectors,
   ConnectionActions,
   ConnectionReducer,
+
+  CrawlerDatasourceSelectors,
+  CrawlerDatasourceActions,
+  CrawlerDatasourceReducer,
 
   DatasourceSelectors,
   DatasourceActions,

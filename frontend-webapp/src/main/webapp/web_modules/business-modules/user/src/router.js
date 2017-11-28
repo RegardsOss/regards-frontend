@@ -27,8 +27,8 @@ export const dynamicModuleRoot = {
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       const DynamicContentContainer = require('./containers/DynamicContentContainer')
-      cb(null, { 
-        content: DynamicContentContainer.default, 
+      cb(null, {
+        content: DynamicContentContainer.default,
       })
     })
   },

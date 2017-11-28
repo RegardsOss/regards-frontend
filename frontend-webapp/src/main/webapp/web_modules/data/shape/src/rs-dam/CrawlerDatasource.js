@@ -16,13 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
+const CrawlerDatasourceContent = PropTypes.shape({
+  id: PropTypes.number,
+  label: PropTypes.string,
+})
 
-const NAMESPACE = 'admin-ingest-sip-management/table'
-const STORE_PATH = ['admin', 'acquisition', 'sip-management', 'session-table']
+const CrawlerDatasource = PropTypes.shape({
+  content: CrawlerDatasourceContent.isRequired,
+})
+
+const CrawlerDatasourceList = PropTypes.objectOf(CrawlerDatasource)
+
+const CrawlerDatasourceArray = PropTypes.arrayOf(CrawlerDatasource)
 
 module.exports = {
-  tableActions: new TableActions(NAMESPACE),
-  tableReducer: getTableReducer(NAMESPACE),
-  tableSelectors: getTableSelectors(STORE_PATH),
+  CrawlerDatasource,
+  CrawlerDatasourceContent,
+  CrawlerDatasourceList,
+  CrawlerDatasourceArray,
 }
