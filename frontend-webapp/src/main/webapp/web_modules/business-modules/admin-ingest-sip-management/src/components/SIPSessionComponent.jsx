@@ -18,11 +18,11 @@
  **/
 
 import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card'
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import DatePicker from 'material-ui/DatePicker'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconButton from 'material-ui/IconButton'
-import Delete from 'material-ui/svg-icons/action/delete'
 import Error from 'material-ui/svg-icons/alert/error'
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import {
@@ -36,6 +36,7 @@ import {
   TableLayout,
   TableColumnBuilder,
   DateValueRender,
+  NoContentComponent,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -192,6 +193,13 @@ class SIPSessionComponent extends React.Component {
     const { intl, muiTheme, moduleTheme: { sip } } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
+    const emptyComponent = (
+      <NoContentComponent
+        title={intl.formatMessage({ id: 'sips.list.empty.title' })}
+        Icon={AddToPhotos}
+      />
+    )
+
     const columns = [
       // id column
       TableColumnBuilder.buildSimplePropertyColumn(
@@ -281,6 +289,7 @@ class SIPSessionComponent extends React.Component {
             pageSize={10}
             columns={columns}
             requestParams={this.state.filters}
+            emptyComponent={emptyComponent}
           />
         </TableLayout>
       </CardText>

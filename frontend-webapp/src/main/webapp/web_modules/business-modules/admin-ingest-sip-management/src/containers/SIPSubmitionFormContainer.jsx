@@ -66,6 +66,7 @@ export class SIPSubmitionFormContainer extends React.Component {
     super(props)
     this.state = {
       isError: false,
+      isLoading: false,
     }
   }
 
@@ -82,6 +83,9 @@ export class SIPSubmitionFormContainer extends React.Component {
   }
 
   onSubmit = (values) => {
+    this.setState({
+      isLoading: true,
+    })
     this.props.flushSips().then(() => this.props.submitSips(values.sips)
       .then((actionResult) => {
         // We receive here the action
@@ -89,10 +93,12 @@ export class SIPSubmitionFormContainer extends React.Component {
           this.onSucceed()
           this.setState({
             isError: false,
+            isLoading: false,
           })
         } else {
           this.setState({
             isError: true,
+            isLoading: false,
           })
         }
       }))
@@ -105,6 +111,7 @@ export class SIPSubmitionFormContainer extends React.Component {
         <ModuleStyleProvider module={stylesObj}>
           <SIPSubmitionFormComponent
             isError={this.state.isError}
+            isLoading={this.state.isLoading}
             submitSips={this.onSubmit}
             onBack={this.onBack}
           />

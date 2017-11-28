@@ -18,7 +18,11 @@
  **/
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import { Field, RenderFileFieldWithMui, reduxForm } from '@regardsoss/form-utils'
-import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
+import {
+  CardActionsComponent,
+  FormErrorMessage,
+} from '@regardsoss/components'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -29,6 +33,7 @@ export class SIPSubmitionFormComponent extends React.Component {
 
   static propTypes = {
     submitSips: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     onBack: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
     // from reduxForm
@@ -42,35 +47,42 @@ export class SIPSubmitionFormComponent extends React.Component {
 
   render() {
     const { intl } = this.context
+    const { isLoading, handleSubmit, submitSips, isError, onBack } = this.props
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.submitSips)}>
-        <Card>
-          <CardTitle
-            title={intl.formatMessage({ id: 'sips.submit.title' })}
-            subtitle={intl.formatMessage({ id: 'sips.submit.subtitle' })}
-          />
-          <CardText>
-            {this.props.isError ?
-              <FormErrorMessage>{intl.formatMessage({ id: 'sips.submit.error.message' })}</FormErrorMessage>
-              : null
-            }
-            <Field
-              name={'sips'}
-              component={RenderFileFieldWithMui}
-              label={intl.formatMessage({ id: 'sips.submit.select.file.button' })}
-              changeLabel={intl.formatMessage({ id: 'sips.submit.change.file.button' })}
-              accept={'.json'}
+      <form onSubmit={handleSubmit(submitSips)}>
+        <LoadableContentDisplayDecorator
+          isLoading={isLoading}
+        >
+          <Card>
+            <CardTitle
+              title={intl.formatMessage({ id: 'sips.submit.title' })}
+              subtitle={intl.formatMessage({ id: 'sips.submit.subtitle' })}
             />
-          </CardText>
-          <CardActions>
-            <CardActionsComponent
-              mainButtonLabel={intl.formatMessage({ id: 'sips.submit.submit.button' })}
-              mainButtonType="submit"
-              secondaryButtonLabel={intl.formatMessage({ id: 'sips.submit.back.button' })}
-              secondaryButtonTouchTap={this.props.onBack}
-            />
-          </CardActions>
-        </Card>
+            <CardText>
+              {isError ?
+                <FormErrorMessage>{intl.formatMessage({ id: 'sips.submit.error.message' })}</FormErrorMessage>
+                : null
+              }
+              <Field
+                name={'sips'}
+                component={RenderFileFieldWithMui}
+                label={intl.formatMessage({ id: 'sips.submit.select.file.button' })}
+                changeLabel={intl.formatMessage({ id: 'sips.submit.change.file.button' })}
+                accept={'.json'}
+              />
+            </CardText>
+            <CardActions>
+              <CardActionsComponent
+                mainButtonLabel={intl.formatMessage({ id: 'sips.submit.submit.button' })}
+                mainButtonType="submit"
+                isMainButtonDisabled={isLoading}
+                secondaryButtonLabel={intl.formatMessage({ id: 'sips.submit.back.button' })}
+                secondaryButtonTouchTap={onBack}
+                isSecondaryButtonDisabled={isLoading}
+              />
+            </CardActions>
+          </Card>
+        </LoadableContentDisplayDecorator>
       </form>
     )
   }
