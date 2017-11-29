@@ -29,7 +29,7 @@ class SearchResultFormComponent extends React.Component {
       applicationId: this.props.appName,
       conf: {
         resultType: ENTITY_TYPES_ENUM.DATA,
-        hideDatasetsConfiguration: true,
+        onlyAllowDataConfiguration: true,
       },
     }
 

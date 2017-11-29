@@ -12,7 +12,7 @@ import { Tag } from '../../models/navigation/Tag'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
 import { actions as searchEntityActions } from '../../clients/SearchEntityClient'
-import DisplayModeEnum from '../../models/navigation/DisplayModeEnum'
+import TableDisplayModeEnum from '../../models/navigation/TableDisplayModeEnum'
 
 /**
 * URL management container: reflects the current module state into URL, intialize module from URL (no graphics view)
@@ -25,38 +25,36 @@ export class URLManagementContainer extends React.Component {
   static ModuleURLParameters = {
     TARGET_PARAMETER: 't',
     SEARCH_TAGS_PARAMETER: 'tags',
-    DISPLAY_MODE_PARAMETER: 'd',
+    TABLE_DISPLAY_MODE_PARAMETER: 'd',
   }
 
 
   static mapStateToProps = state => ({
     levels: navigationContextSelectors.getLevels(state),
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
-    displayMode: navigationContextSelectors.getDisplayMode(state),
+    tableDisplayMode: navigationContextSelectors.getDisplayMode(state),
   })
 
   static mapDispatchToProps = dispatch => ({
     dispatchFetchEntity: datasetIpId => dispatch(searchEntityActions.getEntity(datasetIpId)),
-    initialize: ((viewObjectType, displayMode, rootContextLabel, searchTag, dataset) =>
-      dispatch(navigationContextActions.initialize(viewObjectType, displayMode, rootContextLabel, searchTag, dataset))),
+    initialize: ((viewObjectType, tableDisplayMode, rootContextLabel, searchTag, dataset) =>
+      dispatch(navigationContextActions.initialize(viewObjectType, tableDisplayMode, rootContextLabel, searchTag, dataset))),
   })
 
   static propTypes = {
     // context initial view mode
     initialViewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
     // context initial display mode
-    initialDisplayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired,
+    initialTableDisplayMode: PropTypes.oneOf([TableDisplayModeEnum.LIST, TableDisplayModeEnum.TABLE]).isRequired,
     // current URL query information, used to detect browsing
     currentPath: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     currentQuery: PropTypes.object.isRequired,
-    // Is displaying dataset allowed?
-    displayDatasets: PropTypes.bool.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
     // Display mode
-    displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]),
+    tableDisplayMode: PropTypes.oneOf([TableDisplayModeEnum.LIST, TableDisplayModeEnum.TABLE]),
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired,
     // from mapDispatchToProps
@@ -91,7 +89,7 @@ export class URLManagementContainer extends React.Component {
       this.updateStateFromURL(nextProps)
     } else if (!isEqual(previousProps.levels, nextProps.levels) ||
       !isEqual(previousProps.viewObjectType, nextProps.viewObjectType) ||
-      !isEqual(previousProps.displayMode, nextProps.displayMode)) {
+      !isEqual(previousProps.tableDisplayMode, nextProps.tableDisplayMode)) {
       this.updateURLFromState(nextProps)
     }
   }
@@ -109,13 +107,13 @@ export class URLManagementContainer extends React.Component {
    * Dispatches initialization event and marks this container initialized if not performed before
    * @param {function} initialize initialize dispatch method
    * @param {*} viewObjectType initialization view object type
-   * @param {*} displayMode display mode
+   * @param {*} tableDisplayMode display mode
    * @param {[string]} tags tags list (optional)
    * @return dispatch promise
    */
-  dispatchInitEvent(initialize, viewObjectType, displayMode, tags) {
+  dispatchInitEvent(initialize, viewObjectType, tableDisplayMode, tags) {
     // dispatch redux action
-    return initialize(viewObjectType, displayMode, tags).then(() => this.setInitialized(true))
+    return initialize(viewObjectType, tableDisplayMode, tags).then(() => this.setInitialized(true))
   }
 
   /**
@@ -124,12 +122,10 @@ export class URLManagementContainer extends React.Component {
     */
   updateStateFromURL = (nextProps) => {
     // first load: parse tag and dataset from URL, then initialize the module store
-    const { initialViewObjectType, initialDisplayMode, initialize, dispatchFetchEntity, currentQuery: query, displayDatasets } = nextProps
+    const { initialViewObjectType, initialTableDisplayMode, initialize, dispatchFetchEntity, currentQuery: query } = nextProps
     // collect query parameters from URL
-    const viewObjectType = displayDatasets ?
-      (query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType) :
-      DamDomain.ENTITY_TYPES_ENUM.DATA // object type: forbid dataset when they cannot be displayed
-    const displayMode = query[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] || initialDisplayMode
+    const viewObjectType = query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType
+    const tableDisplayMode = query[URLManagementContainer.ModuleURLParameters.TABLE_DISPLAY_MODE_PARAMETER] || initialTableDisplayMode
     const searchTags = Tag.fromURLParameterValue(query[URLManagementContainer.ModuleURLParameters.SEARCH_TAGS_PARAMETER])
 
     // compare previous and current tags values
@@ -137,14 +133,14 @@ export class URLManagementContainer extends React.Component {
       searchTags.reduce((acc, tagFromURL, index) => acc && (tagFromURL === nextProps.levels[index].searchKey), true)
 
     // when not initialized or any change, re initialize
-    if (!has(this.state, 'initialize') || nextProps.viewObjectType !== viewObjectType || nextProps.displayMode !== displayMode || !hasAlreadySameTags) {
+    if (!has(this.state, 'initialize') || nextProps.viewObjectType !== viewObjectType || nextProps.tableDisplayMode !== tableDisplayMode || !hasAlreadySameTags) {
       // initialize: build a promise to resolve all entities tags, remove tags when it could be resolved
       // (in both case, make sure to restove view mode and object type)
       Promise.all(searchTags.map(tag => Tag.getTagPromise(dispatchFetchEntity, tag)))
         // all entity tags (if any) were correctly resolved, initialize the store
-        .then(tags => this.dispatchInitEvent(initialize, viewObjectType, displayMode, tags))
+        .then(tags => this.dispatchInitEvent(initialize, viewObjectType, tableDisplayMode, tags))
         // there was error, remove guilty tags in the store
-        .catch(() => this.dispatchInitEvent(initialize, viewObjectType, displayMode))
+        .catch(() => this.dispatchInitEvent(initialize, viewObjectType, tableDisplayMode))
     }
   }
 
@@ -154,7 +150,7 @@ export class URLManagementContainer extends React.Component {
    * @param nextProps next component properties
    */
   updateURLFromState = (nextProps) => {
-    const { initialViewObjectType, initialDisplayMode, viewObjectType, displayMode, levels, currentQuery, currentPath } = nextProps
+    const { initialViewObjectType, initialTableDisplayMode, viewObjectType, tableDisplayMode, levels, currentQuery, currentPath } = nextProps
 
     // Report new state properties in URL, if significant
     const nextBrowserQuery = { ...currentQuery }
@@ -167,10 +163,10 @@ export class URLManagementContainer extends React.Component {
     }
 
     // 2 - display mode
-    const urlDisplayMode = currentQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] || initialDisplayMode
-    const currentDisplayMode = displayMode || initialDisplayMode
-    if (urlDisplayMode !== currentDisplayMode) {
-      nextBrowserQuery[URLManagementContainer.ModuleURLParameters.DISPLAY_MODE_PARAMETER] = displayMode
+    const urlTableDisplayMode = currentQuery[URLManagementContainer.ModuleURLParameters.TABLE_DISPLAY_MODE_PARAMETER] || initialTableDisplayMode
+    const currentTableDisplayMode = tableDisplayMode || initialTableDisplayMode
+    if (urlTableDisplayMode !== currentTableDisplayMode) {
+      nextBrowserQuery[URLManagementContainer.ModuleURLParameters.TABLE_DISPLAY_MODE_PARAMETER] = tableDisplayMode
     }
 
     // 3 - search tag

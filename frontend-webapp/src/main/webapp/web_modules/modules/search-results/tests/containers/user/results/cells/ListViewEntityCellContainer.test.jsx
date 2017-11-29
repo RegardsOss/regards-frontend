@@ -65,7 +65,7 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
       },
 
       // cell props
-      hasDownload: true,
+      enableDownload: true,
       thumbnailRenderData: null,
       gridAttributesRenderData: packGridAttributesRenderData(someModels),
       selectionEnabled: true,

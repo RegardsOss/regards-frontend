@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
+import { DISPLAY_MODE_VALUES } from '../definitions/DisplayModeEnum'
 /**
  * Form entity description
  * @author Sébastien binda
@@ -30,20 +31,25 @@ const Form = PropTypes.shape({
   attributesRegroupements: AccessShapes.AttributesGroupConfigurationArray,
   // Search results dataset attributes configuration
   datasetAttributes: AccessShapes.AttributeConfigurationArray,
+  // Search results documents attributes configuration
+  documentAttributes: AccessShapes.AttributeConfigurationArray,
   // Special configuration given if the module is not load as a independent module
   selectableAttributes: DataManagementShapes.AttributeModelList,
-  // should enable facettes?
-  enableFacettes: PropTypes.bool,
-  // For modules using the single dataset capacity (hide the datasets configuration in admin)
-  hideDatasetsConfiguration: PropTypes.bool,
-  // display datasets?
-  displayDatasets: PropTypes.bool,
+
   // Initial single dataset ipId
   singleDatasetIpId: PropTypes.string,
   // Initial search query
   searchQuery: PropTypes.string,
   // Fixed breadcrumb depending on search current context.
   breadcrumbInitialContextLabel: PropTypes.string,
+
+  // should enable facettes?
+  enableFacettes: PropTypes.bool,
+  // Display mode
+  displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
+
+  // For modules that only displays DataObjects (never Dataset or Documents) - used by AdminForm
+  onlyAllowDataConfiguration: PropTypes.bool,
 })
 
 export default Form

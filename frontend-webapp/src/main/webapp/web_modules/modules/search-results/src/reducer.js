@@ -18,15 +18,10 @@
  **/
 import navigationContextReducer from './models/navigation/NavigationContextReducer'
 import { reducer as SearchCatalogReducer } from './clients/SearchEntitiesClient'
-import { AttributeModelReducer, REDUCER_PATH as ATTRIBUTE_MODEL_REDUCER_PATH } from './clients/AttributeModelClient'
-import {
-  AttributeModelReducer as DatasetAttributeModelReducer,
-  REDUCER_PATH as DATASET_ATTRIBUTE_MODEL_REDUCER_PATH,
-} from './clients/DatasetAttributeModelClient'
-import {
-  AttributeModelReducer as DataobjectAttributeModelReducer,
-  REDUCER_PATH as DATAOBJECT_ATTRIBUTE_MODEL_REDUCER_PATH,
-} from './clients/DataobjectAttributeModelClient'
+import { AttributeModelReducer } from './clients/AttributeModelClient'
+import { DatasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
+import { DocumentAttributeModelReducer } from './clients/DocumentAttributeModelClient'
+import { DataAttributeModelReducer } from './clients/DataobjectAttributeModelClient'
 import { tableReducer } from './clients/TableClient'
 import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PATH } from './clients/DownloadDescriptionClient'
 import { descriptionLevelReducer } from './clients/DescriptionLevelClient'
@@ -39,9 +34,10 @@ import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
  * @author Sébastien binda
  */
 const searchResultsReducers = {
-  [ATTRIBUTE_MODEL_REDUCER_PATH]: AttributeModelReducer,
-  [DATASET_ATTRIBUTE_MODEL_REDUCER_PATH]: DatasetAttributeModelReducer,
-  [DATAOBJECT_ATTRIBUTE_MODEL_REDUCER_PATH]: DataobjectAttributeModelReducer,
+  attributes: AttributeModelReducer,
+  'datasets-attributes': DatasetAttributeModelReducer,
+  'documents-attributes': DocumentAttributeModelReducer,
+  'dataobjects-attributes': DataAttributeModelReducer,
   searchCatalog: SearchCatalogReducer,
   resultsTable: tableReducer,
   // context
@@ -50,7 +46,7 @@ const searchResultsReducers = {
   descriptionLevel: descriptionLevelReducer,
   [DATASET_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadDatasetDescription,
   [COLLECTION_REDUCER_PATH]: DownloadDescriptionClient.reduceDownloadCollectionDescription,
-  [modelAttributeClient.REDUCER_PATH]: modelAttributeClient.ModelAttributesReducer,
+  'model-attributes': modelAttributeClient.ModelAttributesReducer,
   // services
   runPluginService: runPluginServiceReducer,
   pluginServices: pluginServiceClient.pluginServiceReducer,

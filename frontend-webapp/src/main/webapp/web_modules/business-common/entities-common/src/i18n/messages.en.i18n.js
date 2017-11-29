@@ -27,6 +27,8 @@ const messages = {
   'description.breadcrumb.root': 'Description: {entityLabel}',
   'entities.common.properties.tabs': 'Properties',
   'entities.common.description.tabs': 'Description',
+  'entities.common.files.tabs': 'Files',
+  'entities.common.file.subheader': 'Click on a file to download it',
   'entities.common.close.button': 'Close',
   'entities.common.properties.attributes': 'Attributes',
   'entities.common.properties.loading.attributes': 'Loading attributes information',
@@ -40,6 +42,8 @@ const messages = {
   'entities.common.description.loading': 'Loading description information',
   'entities.common.description.no.value.title': 'No description',
   'entities.common.description.no.value.message': 'This entity has no description',
+  'entities.common.document.files.no.value.title': 'No files',
+  'entities.common.document.files.no.value.message': 'This document has no files',
 
   // services
   'entities.common.services.error.title': 'Service error',

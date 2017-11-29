@@ -6,9 +6,7 @@ import { AccessProjectClient } from '@regardsoss/client'
 /**
  * Defines plugin services client for results context
  */
-const REDUCER_PATH = 'pluginServices'
-
-const ENTITIES_STORE_PATH = ['modules.search-results', REDUCER_PATH]
+const ENTITIES_STORE_PATH = ['modules.search-results', 'pluginServices']
 const REDUX_ACTION_NAMESPACE = 'search-results/plugin-services'
 
 const pluginServiceActions = new AccessProjectClient.PluginServiceActions(REDUX_ACTION_NAMESPACE)
@@ -19,5 +17,4 @@ module.exports = {
   pluginServiceActions,
   pluginServiceReducer,
   pluginServiceSelectors,
-  REDUCER_PATH,
 }

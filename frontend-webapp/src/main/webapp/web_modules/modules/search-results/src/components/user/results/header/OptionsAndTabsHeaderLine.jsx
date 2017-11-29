@@ -33,11 +33,12 @@ import {
   ShowableAtRender, TableColumnConfiguration, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableColumnsVisibilityOption,
 } from '@regardsoss/components'
-import DisplayModeEnum from '../../../../models/navigation/DisplayModeEnum'
+import TableDisplayModeEnum from '../../../../models/navigation/TableDisplayModeEnum'
 import TableSelectAllContainer from '../../../../containers/user/results/options/TableSelectAllContainer'
 import ListSortingContainer from '../../../../containers/user/results/options/ListSortingContainer'
 import SelectionServiceComponent from '../options/SelectionServiceComponent'
 import AddSelectionToCartComponent from '../options/AddSelectionToCartComponent'
+import { DISPLAY_MODE_VALUES, DISPLAY_MODE_ENUM } from '../../../../definitions/DisplayModeEnum'
 
 /**
 * Options and tabs header line for search results table
@@ -48,9 +49,9 @@ class OptionsAndTabsHeaderLine extends React.Component {
   static propTypes = {
     // state
     attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
-    displayDatasets: PropTypes.bool.isRequired,
+    displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES).isRequired,
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
-    viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
+    tableViewMode: PropTypes.oneOf([TableDisplayModeEnum.LIST, TableDisplayModeEnum.TABLE]), // current mode
     searchSelectors: PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
 
@@ -82,14 +83,14 @@ class OptionsAndTabsHeaderLine extends React.Component {
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /** @return {boolean} true if currently in list view */
-  isInListView = () => this.props.viewMode === DisplayModeEnum.LIST
+  isInListView = () => this.props.tableViewMode === TableDisplayModeEnum.LIST
 
   /** @return {boolean} true if currently in table view */
-  isInTableView = () => this.props.viewMode === DisplayModeEnum.TABLE
+  isInTableView = () => this.props.tableViewMode === TableDisplayModeEnum.TABLE
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
-    const { attributePresentationModels, displayDatasets, searchSelectors, tableColumns,
+    const { attributePresentationModels, displayMode, searchSelectors, tableColumns,
       allowingFacettes, showingFacettes, selectionServices, onAddSelectionToCart,
       onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets,
       onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes } = this.props
@@ -98,7 +99,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
       <TableHeaderLine key="table.options">
         {/* 1.a - Tabs (left group) */}
         <TableHeaderOptionsArea>
-          <TableHeaderOptionGroup show={displayDatasets}>
+          <TableHeaderOptionGroup show={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}>
             <FlatButton
               key="datasets.tab"
               label={formatMessage({ id: 'navigation.datasets.label' })}

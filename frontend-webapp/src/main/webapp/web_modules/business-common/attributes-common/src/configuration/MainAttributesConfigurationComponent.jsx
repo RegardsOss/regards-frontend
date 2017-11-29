@@ -56,6 +56,8 @@ class MainAttributesConfigurationComponent extends React.Component {
     changeField: PropTypes.func.isRequired,
   }
 
+  static styles = { marginTop: 20 }
+
   /**
    * At mount, check that the configuration is valid with the available attributes.
    */
@@ -165,7 +167,6 @@ class MainAttributesConfigurationComponent extends React.Component {
 
   render() {
     const { attributesConf = [], attributesRegroupementsConf = [], allowAttributesRegroupements, allowFacettes } = this.props
-    const styles = { marginTop: 20 }
     return (
       <div>
         <StandardAttributesConfigurationComponent
@@ -173,7 +174,7 @@ class MainAttributesConfigurationComponent extends React.Component {
           allowFacettes={allowFacettes}
           onChangeAttributeConfiguration={this.onChange}
         />
-        <Divider style={styles} />
+        <Divider style={MainAttributesConfigurationComponent.styles} />
         <DynamicAttributesConfigurationComponent
           selectableAttributes={this.props.selectableAttributes}
           attributesConf={attributesConf}
@@ -187,7 +188,7 @@ class MainAttributesConfigurationComponent extends React.Component {
             onChangeRegroupenentConfiguration={this.onChangeRegroupement}
             onDeleteRegroupement={this.onDeleteRegroupement}
           />
-          <Divider style={styles} />
+          <Divider style={MainAttributesConfigurationComponent.styles} />
         </ShowableAtRender>
       </div>
     )

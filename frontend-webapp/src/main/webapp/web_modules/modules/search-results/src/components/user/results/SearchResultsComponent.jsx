@@ -26,16 +26,17 @@ import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { FacetArray } from '../../../models/facets/FacetShape'
 import { FilterListShape } from '../../../models/facets/FilterShape'
 import TableClient from '../../../clients/TableClient'
-import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
+import TableDisplayModeEnum from '../../../models/navigation/TableDisplayModeEnum'
 import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
 import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
 import SelectedFacetsHeaderRow from './header/SelectedFacetsHeaderRow'
-import ListViewEntityCellContainer, { hasDownloadAttribute, packThumbnailRenderData, packGridAttributesRenderData }
-  from '../../../containers/user/results/cells/ListViewEntityCellContainer'
+import ListViewEntityCellContainer, { packThumbnailRenderData, packGridAttributesRenderData } from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
 import EntityDescriptionContainer from '../../../containers/user/results/options/EntityDescriptionContainer'
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
+import DownloadEntityFileContainer from '../../../containers/user/results/options/DownloadEntityFileContainer'
 import EmptyTableComponent from './EmptyTableComponent'
+import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
 
 const RESULTS_PAGE_SIZE = 500
 
@@ -49,7 +50,8 @@ class SearchResultsComponent extends React.Component {
   static propTypes = {
     // static module configuration
     allowingFacettes: PropTypes.bool.isRequired,
-    displayDatasets: PropTypes.bool.isRequired,
+    enableDownload: PropTypes.bool.isRequired,
+    displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
 
     // results related
     resultsCount: PropTypes.number.isRequired,
@@ -63,7 +65,7 @@ class SearchResultsComponent extends React.Component {
 
     // dynamic display control
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
-    viewMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]), // current mode
+    tableViewMode: PropTypes.oneOf([TableDisplayModeEnum.LIST, TableDisplayModeEnum.TABLE]), // current mode
 
     // facets control
     showingFacettes: PropTypes.bool.isRequired,
@@ -110,7 +112,7 @@ class SearchResultsComponent extends React.Component {
    * @param {objectType} entity type
    * @return true if selection should be available
    */
-  static hasSelection = objectType => objectType !== DamDomain.ENTITY_TYPES_ENUM.DATASET
+  static hasSelection = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /**
    * Can search related elements in the given view object type ? (ie: set the element as tag)
@@ -129,7 +131,7 @@ class SearchResultsComponent extends React.Component {
    * @param props : props map, to retrieve current properties
    */
   buildTableColumns = () => {
-    const { searchSelectors, attributePresentationModels, onSortByAttribute, onAddElementToCart, viewObjectType } = this.props
+    const { searchSelectors, attributePresentationModels, onSortByAttribute, onAddElementToCart, viewObjectType, enableDownload } = this.props
     const { intl: { formatMessage } } = this.context
 
     const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
@@ -142,11 +144,21 @@ class SearchResultsComponent extends React.Component {
         true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors,
         this.isColumnVisible(TableColumnBuilder.selectionColumnKey), fixedColumnWidth) : null,
       // attributes and attributes groups as provided by parent
-      ...attributePresentationModels.map(presentationModel => AttributeColumnBuilder.buildAttributeColumn(
-        presentationModel, this.isColumnVisible(presentationModel.key), onSortByAttribute, fixedColumnWidth)),
+      ...attributePresentationModels.map(presentationModel =>
+        AttributeColumnBuilder.buildAttributeColumn(
+          presentationModel,
+          this.isColumnVisible(presentationModel.key),
+          onSortByAttribute,
+          fixedColumnWidth,
+        ),
+      ),
       // Options in current context
-      TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'results.options.column.label' }),
-        this.buildTableOptions(enableServices, onAddElementToCart), this.isColumnVisible(TableColumnBuilder.optionsColumnKey), fixedColumnWidth),
+      TableColumnBuilder.buildOptionsColumn(
+        formatMessage({ id: 'results.options.column.label' }),
+        this.buildTableOptions(enableServices, onAddElementToCart, enableDownload),
+        this.isColumnVisible(TableColumnBuilder.optionsColumnKey),
+        fixedColumnWidth,
+      ),
     ].filter(column => !!column) // filter null elements
   }
 
@@ -154,8 +166,11 @@ class SearchResultsComponent extends React.Component {
    * Builds table options
    * @param {boolean} enableServices are services enabled in current context?
    * @param {function} onAddElementToCart callback to add element to cart (element) => (). Null if not available in context
+   * @param {boolean} enableDownload is download available in the table ?
    */
-  buildTableOptions = (enableServices, onAddToCart) => [
+  buildTableOptions = (enableServices, onAddToCart, enableDownload) => [
+    // Download file description
+    enableDownload ? { OptionConstructor: DownloadEntityFileContainer } : null,
     // Entity description
     { OptionConstructor: EntityDescriptionContainer },
     // Entity services, only when enabled
@@ -174,7 +189,7 @@ class SearchResultsComponent extends React.Component {
   * @returns {Array}
   */
   buildListColumn = () => {
-    const { attributePresentationModels, onAddElementToCart, onSetEntityAsTag, viewObjectType } = this.props
+    const { attributePresentationModels, onAddElementToCart, onSetEntityAsTag, enableDownload, viewObjectType } = this.props
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableSearchRelated = SearchResultsComponent.canSearchRelated(viewObjectType)
@@ -184,13 +199,13 @@ class SearchResultsComponent extends React.Component {
       Constructor: ListViewEntityCellContainer,
       props: {
         // prefetch attributes from models to enhance render time
-        hasDownload: hasDownloadAttribute(attributePresentationModels),
         thumbnailRenderData: packThumbnailRenderData(attributePresentationModels),
         gridAttributesRenderData: packGridAttributesRenderData(attributePresentationModels),
         selectionEnabled: enableSelection,
         servicesEnabled: enableServices,
         onSearchEntity: enableSearchRelated ? onSetEntityAsTag : null,
         onAddToCart: onAddElementToCart,
+        enableDownload,
       },
     })
   }
@@ -206,18 +221,18 @@ class SearchResultsComponent extends React.Component {
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /** @return {boolean} true if currently in list view */
-  isInListView = () => this.props.viewMode === DisplayModeEnum.LIST
+  isInListView = () => this.props.tableViewMode === TableDisplayModeEnum.LIST
 
   /** @return {boolean} true if currently in table view */
-  isInTableView = () => this.props.viewMode === DisplayModeEnum.TABLE
+  isInTableView = () => this.props.tableViewMode === TableDisplayModeEnum.TABLE
 
 
   render() {
     const { muiTheme } = this.context
     const tableTheme = muiTheme['components:infinite-table']
 
-    const { allowingFacettes, attributePresentationModels, displayDatasets, resultsCount, isFetching, searchActions, searchSelectors, viewObjectType, viewMode,
-      showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
+    const { allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
+      viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
       onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
       onStartSelectionService, onAddSelectionToCart } = this.props
 
@@ -247,9 +262,9 @@ class SearchResultsComponent extends React.Component {
       <TableLayout>
         {/* First header row :Table tabs and options */}
         <OptionsAndTabsHeaderLine
-          displayDatasets={displayDatasets}
+          displayMode={displayMode}
           viewObjectType={viewObjectType}
-          viewMode={viewMode}
+          tableViewMode={tableViewMode}
           searchSelectors={searchSelectors}
           attributePresentationModels={attributePresentationModels}
           tableColumns={tableColumns}

@@ -24,6 +24,7 @@ import ModuleComponent from '../../src/components/user/ModuleComponent'
 import URLManagementContainer from '../../src/containers/user/URLManagementContainer'
 import { ModuleContainer } from '../../src/containers/ModuleContainer'
 import styles from '../../src/styles/styles'
+import { DISPLAY_MODE_ENUM } from '../../src/definitions/DisplayModeEnum'
 
 const context = buildTestContext(styles)
 
@@ -54,6 +55,8 @@ describe('[Search Results] Testing ModuleContainer', () => {
       attributeModels: {},
       moduleConf: {
         enableFacettes: true,
+        enableDownload: true,
+        displayMode: DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT,
         searchQuery: '',
         attributes: [],
         attributesRegroupements: [],

@@ -16,13 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
-/**
- * Module message for FR local
- * @author Raphaël Mechali
- */
-const messages = {
-  'attribute.thumbnail.alt': 'Aucune vignette',
+export const DISPLAY_MODE_ENUM = {
+  DISPLAY_DATA: 'data',
+  DISPLAY_DATA_DATASET: 'data_dataset',
+  DISPLAY_DOCUMENT: 'document',
 }
 
-export default messages
+export const DISPLAY_MODE_VALUES = values(DISPLAY_MODE_ENUM)

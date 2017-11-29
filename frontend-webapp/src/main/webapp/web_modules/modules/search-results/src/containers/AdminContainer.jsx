@@ -20,22 +20,26 @@ import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
 import {
-  AttributeModelActions as DataobjectAttributeModelActions,
-  AttributeModelSelectors as DataobjectAttributeModelSelectors,
+  DataAttributeModelActions,
+  DataAttributeModelSelectors,
 } from '../clients/DataobjectAttributeModelClient'
 import {
-  AttributeModelActions as DatasetAttributeModelActions,
-  AttributeModelSelectors as DatasetAttributeModelSelectors,
+  DatasetAttributeModelActions,
+  DatasetAttributeModelSelectors,
 } from '../clients/DatasetAttributeModelClient'
+import {
+  DocumentAttributeModelActions,
+  DocumentAttributeModelSelectors,
+} from '../clients/DocumentAttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 
 
 /**
  * Main container to display administration view of the module form.
  * @author Sébastien binda
+ * @author Léo Mieulet
  */
 export class AdminContainer extends React.Component {
-
 
   static propTypes = {
     // Props supplied by LazyModuleComponent
@@ -44,69 +48,50 @@ export class AdminContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     project: PropTypes.string,
     adminForm: PropTypes.shape({
-      changeField: PropTypes.func,
-      form: ModuleConfiguration,
+      changeField: PropTypes.func.isRequired,
+      form: PropTypes.shape({
+        // Specific current module configuration for the current AdminContainer
+        conf: ModuleConfiguration,
+      }),
     }).isRequired,
     // Default props given to the form
     moduleConf: ModuleConfiguration.isRequired,
-
-    // Set by mapStateToProps and mapDispatchToProps
-    attributeModels: DataManagementShapes.AttributeModelList,
+    // Set by mapStateToProps
+    dataAttributeModels: DataManagementShapes.AttributeModelList,
     datasetAttributeModels: DataManagementShapes.AttributeModelList,
-    fetchAllDataobjectsAttributes: PropTypes.func,
+    documentAttributeModels: DataManagementShapes.AttributeModelList,
+    // Set by mapDispatchToProps
+    fetchAllDataAttributes: PropTypes.func,
     fetchAllDatasetModelsAttributes: PropTypes.func,
+    fetchAllDocumentModelsAttributes: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      attributesFetching: !this.props.moduleConf.selectableAttributes,
-      datasetAttributesFetching: true,
-    }
+  state = {
+    isLoading: true,
   }
 
-  componentWillMount() {
-    if (this.state.attributesFetching) {
-      Promise.resolve(this.props.fetchAllDataobjectsAttributes()).then(() => this.setState({ attributesFetching: false }))
-    }
-    Promise.resolve(this.props.fetchAllDatasetModelsAttributes()).then(() => this.setState({ datasetAttributesFetching: false }))
+  componentDidMount() {
+    const tasks = [
+      this.props.fetchAllDatasetModelsAttributes(),
+      this.props.fetchAllDocumentModelsAttributes(),
+      this.props.fetchAllDataAttributes(),
+    ]
+    Promise.all(tasks)
+      .then(() =>
+        this.setState({ isLoading: false }),
+    )
   }
 
   render() {
-    const {
-      moduleConf: {
-        displayDatasets,
-      attributes,
-      attributesRegroupements,
-      datasetAttributes,
-      selectableAttributes,
-      hideDatasetsConfiguration = false,
-      enableFacettes,
-      },
-    } = this.props
-
-
-    if (this.props.adminForm.form && !this.state.attributesFetching && !this.state.datasetAttributesFetching) {
-      const formConf = this.props.adminForm.form.conf
-      const attributesConf = formConf && formConf.attributes ? formConf.attributes : []
-      const defaultDatasetAttributesConf = formConf && formConf.datasetAttributes ? formConf.datasetAttributes : []
-      const displayDataset = formConf && formConf.displayDatasets
-      const attributesRegroupementsConf = formConf && formConf.attributesRegroupements ? formConf.attributesRegroupements : []
+    if (this.props.adminForm.form && !this.state.isLoading) {
       return (
         <SearchResultsConfigurationComponent
-          selectableAttributes={selectableAttributes || this.props.attributeModels}
-          datasetSelectableAttributes={this.props.datasetAttributeModels}
-          attributesConf={attributesConf}
-          attributesRegroupementsConf={attributesRegroupementsConf}
-          datasetAttributes={defaultDatasetAttributesConf}
-          displayDataset={displayDataset}
+          dataAttributeModels={this.props.dataAttributeModels}
+          datasetAttributeModels={this.props.datasetAttributeModels}
+          documentAttributeModels={this.props.documentAttributeModels}
+          currentFormValues={this.props.adminForm.form.conf}
+          initialFormValues={this.props.moduleConf}
           changeField={this.props.adminForm.changeField}
-          defaultAttributesConf={attributes}
-          defaultDatasetAttributesConf={datasetAttributes}
-          defaultAttributesRegroupementsConf={attributesRegroupements}
-          defaultEnableFacettes={enableFacettes}
-          defaultDisplayDatasets={!!displayDatasets}
-          hideDatasetsConfiguration={hideDatasetsConfiguration}
         />
       )
     }
@@ -114,14 +99,17 @@ export class AdminContainer extends React.Component {
   }
 }
 
+
 const mapStateToProps = (state, ownProps) => ({
-  attributeModels: DataobjectAttributeModelSelectors.getList(state),
+  dataAttributeModels: DataAttributeModelSelectors.getList(state),
   datasetAttributeModels: DatasetAttributeModelSelectors.getList(state),
+  documentAttributeModels: DocumentAttributeModelSelectors.getList(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAllDataobjectsAttributes: () => dispatch(DataobjectAttributeModelActions.fetchEntityList({ pModelType: 'DATA' })),
+  fetchAllDataAttributes: () => dispatch(DataAttributeModelActions.fetchEntityList({ pModelType: 'DATA' })),
   fetchAllDatasetModelsAttributes: () => dispatch(DatasetAttributeModelActions.fetchEntityList({ pModelType: 'DATASET' })),
+  fetchAllDocumentModelsAttributes: () => dispatch(DocumentAttributeModelActions.fetchEntityList({ pModelType: 'DOCUMENT' })),
 })
 
 const UnconnectedAdminContainer = AdminContainer

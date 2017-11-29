@@ -31,9 +31,10 @@ import {
   searchDataobjectsActions,
   searchDatasetsFromDataObjectsActions,
   searchDatasetsActions,
+  searchDocumentsActions,
   selectors as searchSelectors,
 } from '../../../clients/SearchEntitiesClient'
-import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
+import TableDisplayModeEnum from '../../../models/navigation/TableDisplayModeEnum'
 import { FacetArray } from '../../../models/facets/FacetShape'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
@@ -43,6 +44,7 @@ import PluginServicesContainer from './PluginServicesContainer'
 import OrderCartContainer from './OrderCartContainer'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 import styles from '../../../styles/styles'
+import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
 
 const moduleStyles = { styles }
 
@@ -58,12 +60,12 @@ export class SearchResultsContainer extends React.Component {
     facets: searchSelectors.getFacets(state),
     levels: navigationContextSelectors.getLevels(state),
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
-    displayMode: navigationContextSelectors.getDisplayMode(state),
+    tableDisplayMode: navigationContextSelectors.getDisplayMode(state),
   })
 
   static mapDispatchToProps = dispatch => ({
     dispatchChangeViewObjectType: viewObjectType => dispatch(navigationContextActions.changeViewObjectType(viewObjectType)),
-    dispatchChangeDisplayMode: displayMode => dispatch(navigationContextActions.changeDisplayMode(displayMode)),
+    dispatchChangeTableDisplayMode: tableDisplayMode => dispatch(navigationContextActions.changeTableDisplayMode(tableDisplayMode)),
     // lets user select an entity and set it as a current search tag
     dispatchSetEntityAsTag: ({ content: { entityType, label, ipId } }) => {
       dispatch(navigationContextActions.addSearchTag(new Tag(entityType, label, ipId)))
@@ -75,7 +77,8 @@ export class SearchResultsContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     searchQuery: PropTypes.string, // initial search query, as provided by module configuration
     enableFacettes: PropTypes.bool.isRequired, // are facettes enabled
-    displayDatasets: PropTypes.bool.isRequired, // should display datasets
+    enableDownload: PropTypes.bool.isRequired, // is download enable directly from the table
+    displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
     // eslint-disable-next-line react/no-unused-prop-types
     facettesQuery: PropTypes.string, // facettes query to be added to search query in order to get the facettes
     // Attributes configurations for results columns
@@ -86,6 +89,8 @@ export class SearchResultsContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
     // eslint-disable-next-line react/no-unused-prop-types
+    documentAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
     // From map state to props
     // eslint-disable-next-line react/no-unused-prop-types
@@ -93,12 +98,12 @@ export class SearchResultsContainer extends React.Component {
     isFetching: PropTypes.bool.isRequired,
     resultsCount: PropTypes.number.isRequired,
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
-    displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired, // Display mode
+    tableDisplayMode: PropTypes.oneOf([TableDisplayModeEnum.LIST, TableDisplayModeEnum.TABLE]).isRequired, // Display mode
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
-    dispatchChangeDisplayMode: PropTypes.func.isRequired,
+    dispatchChangeTableDisplayMode: PropTypes.func.isRequired,
     dispatchSetEntityAsTag: PropTypes.func.isRequired,
   }
 
@@ -161,7 +166,7 @@ export class SearchResultsContainer extends React.Component {
           // there is no meaning in a facet with zero or one element (it doesn't facet anything)
           return acc
         }
-        // Return resuting facet with label and filtered values
+        // Return resulting facet with label and filtered values
         return [...acc, {
           attributeName,
           label: DamDomain.AttributeModelController.findLabelFromAttributeFullyQualifiedName(attributeName, attributeModels),
@@ -186,7 +191,9 @@ export class SearchResultsContainer extends React.Component {
         case DamDomain.ENTITY_TYPES_ENUM.DATA:
           newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesConf, newProps.attributesRegroupementsConf, true)
           break
-        // TODO-V2 @Leo: ici, tu as besoin de ton(tes) propre(s) attributs de config pour les documents (un nouvel onglet dans la configuration du module?)
+        case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
+          newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.documentAttributesConf, [], false)
+          break
         default:
           throw new Error('Unhandled object type ', newProps.viewObjectType)
       }
@@ -206,10 +213,10 @@ export class SearchResultsContainer extends React.Component {
   onShowDataobjects = () => this.props.dispatchChangeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATA)
 
   /** On show results as list view action */
-  onShowListView = () => this.props.dispatchChangeDisplayMode(DisplayModeEnum.LIST)
+  onShowListView = () => this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.LIST)
 
   /**  On show results as table view action  */
-  onShowTableView = () => this.props.dispatchChangeDisplayMode(DisplayModeEnum.TABLE)
+  onShowTableView = () => this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.TABLE)
 
   /** User toggled facettes search */
   onToggleShowFacettes = () => this.updateStateAndQuery({ showingFacettes: !this.state.showingFacettes })
@@ -258,7 +265,7 @@ export class SearchResultsContainer extends React.Component {
       let sortOrder = attrModel.sortOrder
       if (attrModel.key === modelKey) {
         sortOrder = type // update the modified column
-      } else if (this.props.displayMode === DisplayModeEnum.LIST) {
+      } else if (this.props.tableDisplayMode === TableDisplayModeEnum.LIST) {
         sortOrder = TableSortOrders.NO_SORT// in list mode, clear other columns sorting orders
       }
       return { ...attrModel, sortOrder }
@@ -295,8 +302,7 @@ export class SearchResultsContainer extends React.Component {
     // extract search parameters from level tags (every parameter except the datasets, that may be used specifically into the datasets search)
     const parameters = levels.reduce(
       (acc, levelTag) => levelTag.isDataset() ? acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
-
-    if (showingDataobjects) {
+    if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
       // 1 - Data object search : use data object actions, search query and dataset as a Tag on dataobjects
       initialSearchQuery = searchQuery
       searchActions = searchDataobjectsActions
@@ -305,7 +311,7 @@ export class SearchResultsContainer extends React.Component {
       const sortingOn = attributePresentationModels.reduce((acc, model) => // transform into key / value sorting elements
         model.sortOrder !== TableSortOrders.NO_SORT ? [...acc, { attributePath: model.key, type: model.sortOrder }] : acc, [])
       sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
-    } else {
+    } else if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATASET) {
       // 2 - Showing datasets: use specific dataset actions to cut down fetch time when possible
       const datasetLevel = Tag.getSearchedDatasetTag(levels)
       if (datasetLevel || parameters.length || !searchQuery) {
@@ -317,6 +323,9 @@ export class SearchResultsContainer extends React.Component {
         searchActions = searchDatasetsFromDataObjectsActions
       }
       parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.searchKey : ''))
+    } else {
+      // 3 - Showing documents
+      searchActions = searchDocumentsActions
     }
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters).toQueryString()
 
@@ -357,7 +366,7 @@ export class SearchResultsContainer extends React.Component {
 
   render() {
     const {
-      displayDatasets, enableFacettes, isFetching, resultsCount, viewObjectType, displayMode,
+      displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode, enableDownload,
       facettesQuery, dispatchSetEntityAsTag, searchQuery: initialSearchQuery,
     } = this.props
 
@@ -380,8 +389,9 @@ export class SearchResultsContainer extends React.Component {
           >
             {/** Render a default search results component with common properties (sub elements will clone it with added properties)*/}
             <SearchResultsComponent
+              enableDownload={enableDownload}
               allowingFacettes={enableFacettes && !!facettesQuery}
-              displayDatasets={displayDatasets}
+              displayMode={displayMode}
 
               resultsCount={resultsCount}
               isFetching={isFetching}
@@ -389,7 +399,7 @@ export class SearchResultsContainer extends React.Component {
               searchSelectors={searchSelectors}
 
               viewObjectType={viewObjectType}
-              viewMode={displayMode || DisplayModeEnum.LIST}
+              tableViewMode={tableDisplayMode || TableDisplayModeEnum.LIST}
 
               showingFacettes={showingFacettes}
               facets={facets}

@@ -54,7 +54,6 @@ const standardAttributesKeys = {
   creationDate: 'creationDate',
   lastUpdate: 'lastUpdate',
   thumbnail: 'thumbnail',
-  download: 'download',
 }
 
 /**
@@ -102,13 +101,6 @@ const standardAttributes = {
     id: -6,
     label: 'Thumbnail',
     type: ATTRIBUTE_TYPES.THUMBNAIL,
-    entityPathName: SPECIAL_FILES_ATTRIBUTE_NAME,
-  },
-  [standardAttributesKeys.download]: {
-    key: standardAttributesKeys.download,
-    id: -7,
-    label: 'Download',
-    type: ATTRIBUTE_TYPES.DOWNLOAD_LINK,
     entityPathName: SPECIAL_FILES_ATTRIBUTE_NAME,
   },
 }

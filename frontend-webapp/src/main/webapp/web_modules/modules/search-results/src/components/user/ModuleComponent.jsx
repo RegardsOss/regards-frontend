@@ -7,7 +7,7 @@ import { DynamicModule } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import SearchResultsContainer from '../../containers/user/results/SearchResultsContainer'
 import NavigationContainer from '../../containers/user/navigation/NavigationContainer'
-
+import { DISPLAY_MODE_VALUES } from '../../definitions/DisplayModeEnum'
 /**
  * Search results module view
  */
@@ -29,7 +29,8 @@ class ModuleComponent extends React.Component {
 
     // configuration
     enableFacettes: PropTypes.bool.isRequired,
-    displayDatasets: PropTypes.bool.isRequired,
+    enableDownload: PropTypes.bool.isRequired,
+    displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
     // eslint-disable-next-line react/no-unused-prop-types
     facettesQuery: PropTypes.string,
 
@@ -37,6 +38,7 @@ class ModuleComponent extends React.Component {
     attributesConf: AccessShapes.AttributeConfigurationArray,
     attributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
     datasetAttributesConf: AccessShapes.AttributeConfigurationArray,
+    documentAttributesConf: AccessShapes.AttributeConfigurationArray,
     attributeModels: DataManagementShapes.AttributeModelList,
   }
 
@@ -46,15 +48,14 @@ class ModuleComponent extends React.Component {
 
   render() {
     const {
-      appName, project, resultsTitle, searchQuery, enableFacettes, expanded, onExpandChange, facettesQuery,
-      displayDatasets, attributesConf, attributesRegroupementsConf, datasetAttributesConf, attributeModels } = this.props
+      appName, project, resultsTitle, searchQuery, enableFacettes, expanded, onExpandChange, facettesQuery, enableDownload,
+      displayMode, attributesConf, attributesRegroupementsConf, datasetAttributesConf, documentAttributesConf, attributeModels } = this.props
 
     return (
       <DynamicModule
         title={
           <NavigationContainer
             resultsTitle={resultsTitle}
-            displayDatasets={displayDatasets}
           />
         }
         onExpandChange={onExpandChange}
@@ -65,12 +66,14 @@ class ModuleComponent extends React.Component {
           appName={appName}
           project={project}
           enableFacettes={enableFacettes}
-          displayDatasets={displayDatasets}
+          enableDownload={enableDownload}
+          displayMode={displayMode}
           searchQuery={searchQuery}
           facettesQuery={facettesQuery}
           attributesConf={attributesConf}
           attributesRegroupementsConf={attributesRegroupementsConf}
           datasetAttributesConf={datasetAttributesConf}
+          documentAttributesConf={documentAttributesConf}
           attributeModels={attributeModels}
         />
       </DynamicModule >

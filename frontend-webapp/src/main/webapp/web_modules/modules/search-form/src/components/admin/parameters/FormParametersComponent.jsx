@@ -44,7 +44,7 @@ class FormParametersComponent extends React.Component {
       attributesRegroupementsConf: this.props.attributesRegroupements,
       selectableAttributes: this.props.selectableAttributes,
       resultType: this.props.resultType,
-      hideDatasetsConfiguration: false,
+      onlyAllowDataConfiguration: false,
     }
 
     const module = {

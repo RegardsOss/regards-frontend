@@ -46,7 +46,7 @@ function buildAttributeColumn({ key, label, attributes, order, enableSorting, so
   }
 
   const isSpecialAttr = attributes.length === 1 && [
-    DamDomain.AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL, DamDomain.AttributeModelController.ATTRIBUTE_TYPES.DOWNLOAD_LINK,
+    DamDomain.AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL,
   ].includes(attributes[0].content.type)
   const isSortable = attributes.length === 1 && enableSorting
 

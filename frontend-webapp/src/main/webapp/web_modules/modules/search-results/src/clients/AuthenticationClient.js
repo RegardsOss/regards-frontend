@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,14 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { AuthenticationClient } from '@regardsoss/client'
 
 /**
- * Module message for FR local
- * @author Raphaël Mechali
+ * Current user login information client.
+ *
+ * @author Léo Mieulet
  */
-const messages = {
-  'attribute.thumbnail.alt': 'Aucune vignette',
-}
+const ENTITIES_STORE_PATH = ['common', 'authentication']
 
-export default messages
+const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)
+
+module.exports = {
+  authenticationSelectors,
+}

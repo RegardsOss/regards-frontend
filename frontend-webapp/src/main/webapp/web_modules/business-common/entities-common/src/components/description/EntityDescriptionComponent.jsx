@@ -18,6 +18,7 @@
  **/
 import { Tab, Tabs } from 'material-ui/Tabs'
 import FlatButton from 'material-ui/FlatButton'
+import get from 'lodash/get'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -25,12 +26,14 @@ import { PositionedDialog } from '@regardsoss/components'
 import { CatalogShapes } from '@regardsoss/shape'
 import { DataManagementClient } from '@regardsoss/client'
 import { BasicListSelectors } from '@regardsoss/store-utils'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import DownloadDescriptionClient from '../../clients/DownloadDescriptionClient'
 import DescriptionLevelActions from '../../model/description/DescriptionLevelActions'
 import { DescriptionLevelSelectors } from '../../model/description/DescriptionLevelSelectors'
 import DescriptionBreadcrumbContainer from '../../containers/description/breadcrumb/DescriptionBreadcrumbContainer'
 import PropertiesTabComponent from './properties/PropertiesTabComponent'
 import DescriptionFileContainer from '../../containers/description/file/DescriptionFileContainer'
+import DocumentFilesContainer from '../../containers/description/file/DocumentFilesContainer'
 
 /**
  * Shows entity description view.
@@ -66,17 +69,48 @@ class EntityDescriptionComponent extends React.Component {
     })
   }
 
-
   /**
    * Overrides MUI tab rendering: forbig showing the tab if not selected (by default MUI use display:hidden,
    * but it breaks with flex layout, as flex ignores hidden parameter)
    */
   renderTab = props => props.selected ? props.children : null
 
+  renderTabs = () => {
+    const { entity, onSearchTag, downloadDescriptionClient, fetchModelAttributesActions,
+      fetchModelAttributesSelectors, levelActions, levelSelectors } = this.props
+    const result = [(
+      <Tab key="properties" label={this.context.intl.formatMessage({ id: 'entities.common.properties.tabs' })}>
+        <PropertiesTabComponent
+          entity={entity}
+          onSearchTag={onSearchTag}
+          fetchModelAttributesActions={fetchModelAttributesActions}
+          fetchModelAttributesSelectors={fetchModelAttributesSelectors}
+          levelActions={levelActions}
+          levelSelectors={levelSelectors}
+        />
+      </Tab>)]
+    if (get(entity, 'content.entityType') !== ENTITY_TYPES_ENUM.DOCUMENT) {
+      result.push(
+        <Tab key="description" label={this.context.intl.formatMessage({ id: 'entities.common.description.tabs' })}>
+          <DescriptionFileContainer
+            entity={entity}
+            downloadDescriptionClient={downloadDescriptionClient}
+          />
+        </Tab>)
+    } else {
+      result.push(
+        <Tab key="files" label={this.context.intl.formatMessage({ id: 'entities.common.files.tabs' })}>
+          <DocumentFilesContainer
+            entity={entity}
+          />
+        </Tab>)
+    }
+    return result
+  }
+
+
   render() {
-    const { open, entity, onSearchTag, onClose,
-      downloadDescriptionClient, fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors,
-      ...otherDialogProperties } = this.props
+    const { open, onClose, levelActions, levelSelectors, ...otherDialogProperties } = this.props
     const { moduleTheme: { descriptionDialog } } = this.context
     const breadcrumb = <DescriptionBreadcrumbContainer levelActions={levelActions} levelSelectors={levelSelectors} />
     const actions = [<FlatButton
@@ -104,22 +138,7 @@ class EntityDescriptionComponent extends React.Component {
               tabTemplate={this.renderTab}
               tabTemplateStyle={descriptionDialog.card.media.tabs.tabTemplateStyle}
             >
-              <Tab label={this.context.intl.formatMessage({ id: 'entities.common.properties.tabs' })}>
-                <PropertiesTabComponent
-                  entity={entity}
-                  onSearchTag={onSearchTag}
-                  fetchModelAttributesActions={fetchModelAttributesActions}
-                  fetchModelAttributesSelectors={fetchModelAttributesSelectors}
-                  levelActions={levelActions}
-                  levelSelectors={levelSelectors}
-                />
-              </Tab>
-              <Tab label={this.context.intl.formatMessage({ id: 'entities.common.description.tabs' })}>
-                <DescriptionFileContainer
-                  entity={entity}
-                  downloadDescriptionClient={downloadDescriptionClient}
-                />
-              </Tab>
+              {this.renderTabs()}
             </Tabs>
           </CardMedia>
         </Card>

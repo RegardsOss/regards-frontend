@@ -15,39 +15,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ModuleComponent from '../../../src/components/user/ModuleComponent'
-import styles from '../../../src/styles/styles'
-import { DISPLAY_MODE_VALUES } from '../../../src/definitions/DisplayModeEnum'
+import DownloadEntityFileComponent from '../../../../../src/components/user/results/options/DownloadEntityFileComponent'
+import { DownloadEntityFileContainer } from '../../../../../src/containers/user/results/options/DownloadEntityFileContainer'
+import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Search Results] Testing ModuleComponent', () => {
+/**
+* Test DownloadEntityContainer
+* @author Léo Mieulet
+*/
+describe('[Search Results] Testing DownloadEntityContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModuleComponent)
+    assert.isDefined(DownloadEntityFileContainer)
   })
-  it('should render properly', () => {
+  it('should render correctly', () => {
     const props = {
-      appName: 'hello.app',
-      project: 'say-hello',
-      searchQuery: 'kikikisonlessnorki?',
-      enableFacettes: true,
-      enableDownload: true,
-      displayMode: DISPLAY_MODE_VALUES.DISPLAY_DATA_DATASET,
-      facettesQuery: '',
-      initialDatasetIpId: 'URN:DATASET:8',
-      attributesConf: [],
-      attributesRegroupementsConf: [],
-      attributeModels: {},
-      expanded: true,
-      onExpandChange: () => { },
+      accessToken: 'token user',
+      isAuthenticated: true,
+      scope: 'project1',
     }
-    shallow(<ModuleComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<DownloadEntityFileContainer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(DownloadEntityFileComponent), 1)
   })
 })

@@ -28,8 +28,11 @@ const messages = Object.assign({
 
   // Configuration tab
   'form.configuration.tab.title': 'Configure options of visualization of your search results.',
-  'form.configuration.result.type.datasets': 'Display "dataset" view in results',
+  'form.configuration.result.type.data': 'Display "data" results',
+  'form.configuration.result.type.data_datasets': 'Display "data" and "dataset" view in results',
+  'form.configuration.result.type.documents': 'Display "document" view in results',
   'form.configuration.result.enable.facettes.label': 'Enable facets : Results filtering with criterion depending on initial search results',
+  'form.configuration.result.enable.download.label': 'Enable download associated files',
   'form.attributes.regroupement.form.title': 'Add new attributes clustering',
   'form.attributes.regroupement.description': 'A clustering of attributes allow you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
     ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
@@ -66,6 +69,7 @@ const messages = Object.assign({
   'view.type.table.button.label': 'Display results with table format',
   'view.type.list.button.label': 'Display results with list format',
   'download.tooltip': 'Download',
+  'no.download.tooltip': 'No download available',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
   'add.to.cart.tooltip': 'Add element to my cart',

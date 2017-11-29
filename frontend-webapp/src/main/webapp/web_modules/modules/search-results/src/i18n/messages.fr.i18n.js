@@ -26,8 +26,11 @@ const messages = Object.assign({
 
   // Administration messages
   'form.configuration.tab.title': 'Configurez les options d\'affichage des résultats de recherche. ',
-  'form.configuration.result.type.datasets': 'Afficher la vue "jeux de données" dans les résultats',
+  'form.configuration.result.type.data': 'Afficher la vue "données"',
+  'form.configuration.result.type.data_datasets': 'Afficher les vues "données" et "jeux de données"',
+  'form.configuration.result.type.documents': 'Afficher la vue "documents"',
   'form.configuration.result.enable.facettes.label': 'Activer les facettes : Critères de filtrage dépendant des résultats de la recherche initiale',
+  'form.configuration.result.enable.download.label': 'Activer le téléchargement des fichiers associés à l\'entité',
   'form.attributes.regroupement.form.title': 'Ajout d\'un nouveau regroupement',
   'form.attributes.regroupement.description': 'Un regroupement d\'attributs permet de regrouper l\'affichage de plusieurs attributs d\'un même objet résultat d\'une recherche dans une seule colonne du tableau des résultats de recherche.<br/>' +
     ' Veuillez saisir le label de la colonne voulue (ce label doit être unique) puis sélectionner les attributs à regrouper.',
@@ -64,6 +67,7 @@ const messages = Object.assign({
   'view.type.table.button.label': 'Afficher les résultats dans un tableau',
   'view.type.list.button.label': 'Afficher les résultats en liste',
   'download.tooltip': 'Télécharger',
+  'no.download.tooltip': 'Aucun téléchargement disponible',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Détail',
   'add.to.cart.tooltip': 'Ajouter l\'élément à mon panier',

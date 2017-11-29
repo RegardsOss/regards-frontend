@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import get from 'lodash/get'
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
 class AuthenticateSelectors extends BasicSignalSelectors {
@@ -47,7 +48,7 @@ class AuthenticateSelectors extends BasicSignalSelectors {
   }
 
   getAccessToken(state) {
-    return this.getAuthentication(state).result.access_token
+    return get(this.getAuthentication(state), 'result.access_token')
   }
 
 }

@@ -243,7 +243,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   }
 }
 
-// static: actions instance to fetch locally (we avoid store here as data is volatile)
+// static: actions instance to fetch locally (we avoid store here as data are volatiles)
 const pluginConfigurationActions = new CommonClient.PluginConfigurationActions('entities-common/fetch-catalog-service-configuration')
 const pluginMetaDataActions = new CommonClient.PluginMetaDataActions('entities-common/fetch-catalog-service-metadata')
 const catalogPluginServiceResultActions = new CatalogClient.CatalogPluginServiceResultActions('entities-common/apply-catalog-service')

@@ -48,7 +48,7 @@ class NavigationContextActions {
    * @param viewObjectType new view object type (dataobjects or datasets)
    * @return {type: string, ...} dispatchable redux action
    */
-  changeDisplayMode(displayMode) {
+  changeTableDisplayMode(displayMode) {
     return {
       type: this.CHANGE_DISPLAY_MODE,
       displayMode,
