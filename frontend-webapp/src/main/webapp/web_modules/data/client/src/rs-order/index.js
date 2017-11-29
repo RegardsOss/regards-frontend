@@ -19,9 +19,10 @@
 import OrderBasketActions from './basket/OrderBasketActions'
 import getOrderBasketReducer from './basket/OrderBasketReducer'
 import getOrderBasketSelectors from './basket/OrderBasketSelectors'
-import OrderDatasetDetailActions from './history/OrderDatasetDetailActions'
-import getOrderDatasetDetailReducer from './history/OrderDatasetDetailReducer'
-import getOrderDatasetDetailSelectors from './history/OrderDatasetDetailSelectors'
+import OrderDatasetFilesActions from './history/OrderDatasetFilesActions'
+import getOrderDatasetFilesReducer from './history/OrderDatasetFilesReducer'
+import getOrderDatasetFilesSelectors from './history/OrderDatasetFilesSelectors'
+import DownloadOrderFileActions from './history/DownloadOrderFileActions'
 import OrderListActions from './history/OrderListActions'
 import getOrderListReducer from './history/OrderListReducer'
 import getOrderListSelectors from './history/OrderListSelectors'
@@ -39,9 +40,11 @@ module.exports = {
   getOrderBasketReducer,
   getOrderBasketSelectors,
   // get a dataset order detail (history)
-  OrderDatasetDetailActions,
-  getOrderDatasetDetailReducer,
-  getOrderDatasetDetailSelectors,
+  OrderDatasetFilesActions,
+  getOrderDatasetFilesReducer,
+  getOrderDatasetFilesSelectors,
+  // download file 'pseudo' actions (used to get the dependencies and the path)
+  DownloadOrderFileActions,
   // get orders list (history) for current or all users
   OrderListActions,
   getOrderListReducer,

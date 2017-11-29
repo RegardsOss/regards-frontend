@@ -78,12 +78,19 @@ function getResourcesDependencies({ content, links, metadata }, pathParams, quer
 }
 
 const MOCKED_ORDERS_LIST = JSON.parse(loadFile('mocks/proxy/resources/mock-orders.json'))
+const MOCKED_ORDER_DS_FILES_LIST = JSON.parse(loadFile('mocks/proxy/resources/mock-order-ds-files.json'))
 
 function buildLocalServices(gatewayURL) {
   return {
     GET: {
       // Mock: add missing dependencies
       proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
+      getSessions: {
+        url: 'rs-ingest/sessions', handler: () => {
+          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
+          return { content }
+        }
+      },
       userOrders: {
         url: 'user/orders', handler: (req, resp, pathParameters, { page, size }) => {
           const pageIndex = parseInt(page, 10)
@@ -100,21 +107,18 @@ function buildLocalServices(gatewayURL) {
           }
         }
       },
-      getSessions: { url: 'rs-ingest/sessions', handler: () => {
-        const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
-        return { content }
-      }},
-      userOrders: {
-        url: 'user/orders', handler: (req, resp, pathParameters, { page, size }) => {
+      userOderFiles: {
+        url: 'rs-order/orders/{orderId}/dataset/{datasetId}/files',
+        handler: (req, resp, { orderId, datasetId }, { page, size }) => {
           const pageIndex = parseInt(page, 10)
-          const ordersList = MOCKED_ORDERS_LIST.slice(pageIndex * size, Math.min((pageIndex + 1) * size, MOCKED_ORDERS_LIST.length))
+          const filesList = MOCKED_ORDER_DS_FILES_LIST.slice(pageIndex * size, Math.min((pageIndex + 1) * size, MOCKED_ORDER_DS_FILES_LIST.length))
           return {
             content: {
-              content: ordersList,
+              content: filesList,
               metadata: {
                 number: pageIndex,
-                size: ordersList.length,
-                totalElements: MOCKED_ORDERS_LIST.length,
+                size: filesList.length,
+                totalElements: MOCKED_ORDER_DS_FILES_LIST.length,
               },
             }
           }

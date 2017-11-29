@@ -18,13 +18,17 @@
  **/
 import { BasketDatedItemsSelection, BasketDatasetSelection, Basket } from './Basket'
 import { DatasetTask, Order, OrderWithContent, OrderList } from './Order'
+import { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
 
 module.exports = {
+  Basket,
   BasketDatedItemsSelection,
   BasketDatasetSelection,
   DatasetTask,
   Order,
-  OrderWithContent,
+  OrderFile,
+  OrderFileWithContent,
+  OrderFilesList,
   OrderList,
-  Basket,
+  OrderWithContent,
 }

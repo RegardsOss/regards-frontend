@@ -23,7 +23,7 @@ const orderListActions = new OrderClient.OrderListActions(namespace)
 const orderListReducer = OrderClient.getOrderListReducer(namespace)
 const orderListSelectors = OrderClient.getOrderListSelectors(['modules.order-history', 'orderList'])
 
-export default {
+module.exports = {
   orderListActions,
   orderListReducer,
   orderListSelectors,

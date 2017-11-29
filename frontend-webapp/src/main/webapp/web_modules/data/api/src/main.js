@@ -53,6 +53,7 @@ import Endpoint from './admin/Endpoint'
 import LinkPluginDataset from './catalog/LinkPluginDataset'
 import ProcessingChain from './ingest/ProcessingChain'
 import Order from './order/Order'
+import OrderFile from './order/OrderFile'
 import Sip from './ingest/SIP'
 import Session from './ingest/Session'
 
@@ -129,6 +130,7 @@ module.exports = {
   ...LinkUIPluginDataset,
 
   ...Order,
+  ...OrderFile,
 
   ...ProcessingChain,
   ...Sip,

@@ -26,4 +26,24 @@ export default theme => ({
     color: theme.palette.textColor,
     fontWeight: 'normal',
   },
+  statusCell: {
+    style: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+    },
+    iconStyle: {
+      margin: theme['module:order-history'].statusIconMargin,
+      flexGrow: 0,
+      flexShrink: 0,
+    },
+    textStyle: {
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      textAlign: 'left',
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+  },
 })

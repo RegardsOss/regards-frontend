@@ -18,8 +18,11 @@
  **/
 
 import { ORDER_STATUS_ENUM, ORDER_STATUS } from './OrderStatus'
+import { ORDER_FILE_STATUS_ENUM, ORDER_FILE_STATUS } from './OrderFileStatus'
 
 module.exports = {
   ORDER_STATUS,
   ORDER_STATUS_ENUM,
+  ORDER_FILE_STATUS_ENUM,
+  ORDER_FILE_STATUS,
 }

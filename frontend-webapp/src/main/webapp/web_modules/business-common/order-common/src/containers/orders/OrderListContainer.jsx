@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import compose from 'lodash/fp/compose'
+import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { withI18n } from '@regardsoss/i18n'
-import { withModuleStyle } from '@regardsoss/theme'
-import OrderListComponent from '../components/orders/OrderListComponent'
-import messages from '../i18n'
-import styles from '../styles'
+import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
+import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
+import OrderListComponent from '../../components/orders/OrderListComponent'
 
 /**
  * Order list container: It shows all orders in given context (configured using actions and selectors)
@@ -41,46 +39,62 @@ export class OrderListContainer extends React.Component {
    */
   static mapStateToProps(state, { commandsSelectors }) {
     return {
+      isFetching: commandsSelectors.isFetching(state),
       totalOrderCount: commandsSelectors.getResultsCount(state),
     }
   }
 
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { commandsActions }) {
-    return {
-      // TODO dispatch navigation events
-    }
-  }
-
   static propTypes = {
+    displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired, // used in mapDispatchToProps
     // from mapStateToProps
-
+    isFetching: PropTypes.bool,
     totalOrderCount: PropTypes.number.isRequired,
-    // from mapDispatchToProps
-    // TODO
+  }
+
+  static DEFAULT_STATE = {
+    /** columns visibility map (no assertion on child columns keys) */
+    columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to initialize the state
+   */
+  componentWillMount = () => this.setState(OrderListContainer.DEFAULT_STATE)
+
+  /**
+   * User callbacker: user updated columns visibility (this container considers only columns keys)
+   * @param {[{key, visible}]} updatedColumns updated columns
+   */
+  onChangeColumnsVisibility = (updatedColumns) => {
+    this.setState({
+      // map: associate each column key with its visible stae
+      columnsVisibility: updatedColumns.reduce((acc, { key, visible }) => ({
+        ...acc,
+        [key]: visible,
+      }), {}),
+    })
   }
 
   render() {
-    const { commandsActions, commandsSelectors, totalOrderCount } = this.props
-    // TODO swap component according with context!
+    const { displayMode, commandsActions, commandsSelectors, navigationActions, isFetching, totalOrderCount } = this.props
+    const { columnsVisibility } = this.state
     return (
       <OrderListComponent
+        displayMode={displayMode}
+        isFetching={isFetching}
         totalOrderCount={totalOrderCount}
+        columnsVisibility={columnsVisibility}
+        onChangeColumnsVisibility={this.onChangeColumnsVisibility}
         commandsActions={commandsActions}
         commandsSelectors={commandsSelectors}
+        navigationActions={navigationActions}
       />
     )
   }
 }
 
 // export connected to module styles (but allow overriding)
-export default compose(
-  connect(OrderListContainer.mapStateToProps, OrderListContainer.mapDispatchToProps),
-  withI18n(messages, true), withModuleStyle(styles, true))(OrderListContainer)
+export default connect(OrderListContainer.mapStateToProps)(OrderListContainer)

@@ -27,7 +27,7 @@ import CellWrapper from './cells/CellWrapper'
 import TableColumnConfiguration from './columns/model/TableColumnConfiguration'
 
 const MIN_COL_WIDTH = 150
-const SCROLLBAR_SIZE = 15
+const SCROLLBAR_SIZE = 17
 /**
  * Fixed data table from facebook library integrated with material ui theme
  * and infinite scroll functionality.
@@ -57,7 +57,8 @@ class Table extends React.Component {
     // dynamic properties
     entities: PropTypes.arrayOf(PropTypes.object),
     onScrollEnd: PropTypes.func.isRequired,
-    columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired, // used in state update
 
     // required runtime width for columns size adjustements
     width: PropTypes.number.isRequired,
@@ -69,8 +70,6 @@ class Table extends React.Component {
 
   static defaultProps = {
     displayColumnsHeader: true,
-    displayCheckbox: false,
-    displaySelectAll: false,
   }
 
   /**
@@ -100,8 +99,8 @@ class Table extends React.Component {
 
     // compute columns with width, BUT AVOID updating it when entities change (do update only
     // when the scroll is visible and wasnt before)
-    const wasShowingScroll = (oldProps.entities || []).length > oldProps.displayedRowsCount || 0
-    const willShowScroll = (newProps.entities || []).length > oldProps.displayedRowsCount || 0
+    const wasShowingScroll = (oldProps.entities || []).length > (oldProps.displayedRowsCount || 0)
+    const willShowScroll = (newProps.entities || []).length > (oldProps.displayedRowsCount || 0)
 
     // update columns when: scroll state changed, width changed or columns list changed
     if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width || !isEqual(oldProps.columns, newProps.columns)) {
@@ -204,7 +203,7 @@ class Table extends React.Component {
     if (!this.props.entities) {
       return null
     }
-    const { entities, columns, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader, onScrollEnd } = this.props
+    const { entities, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader, onScrollEnd } = this.props
     const { runtimeColumns, height } = this.state
     return (
       <FixedDataTable
@@ -223,7 +222,7 @@ class Table extends React.Component {
               key={column.key}
               columnKey={column.key}
               header={
-                <ColumnHeaderWrapper isLastColumn={index === columns.length - 1}>
+                <ColumnHeaderWrapper isLastColumn={index === runtimeColumns.length - 1}>
                   { // provide header cell as child
                     column.headerCell
                   }
@@ -232,7 +231,7 @@ class Table extends React.Component {
               cell={
                 <CellWrapper
                   lineHeight={this.props.lineHeight}
-                  isLastColumn={index === columns.length - 1}
+                  isLastColumn={index === runtimeColumns.length - 1}
                   getEntity={rowIndex => this.getEntity(rowIndex)}
                   CellContentBuilder={column.rowCellDefinition.Constructor}
                   cellContentBuilderProps={column.rowCellDefinition.props}

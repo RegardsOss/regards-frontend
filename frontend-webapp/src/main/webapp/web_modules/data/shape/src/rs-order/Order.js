@@ -25,6 +25,7 @@ import { OrderDomain } from '@regardsoss/domain'
 
 /** An order dataset */
 const DatasetTask = PropTypes.shape({
+  id: PropTypes.number.isRequired,
   datasetLabel: PropTypes.string.isRequired,
   objectsCount: PropTypes.number.isRequired,
   filesCount: PropTypes.number.isRequired,
@@ -51,7 +52,7 @@ const OrderWithContent = PropTypes.shape({
 
 const OrderList = PropTypes.objectOf(OrderWithContent).isRequired
 
-export default {
+module.exports = {
   DatasetTask,
   Order,
   OrderWithContent,

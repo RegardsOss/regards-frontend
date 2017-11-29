@@ -104,11 +104,11 @@ class BasicActions {
 
   handleRequestQueryParams = (entityEndpoint, queryParams) => {
     let endpoint = entityEndpoint
+    if (endsWith(endpoint, '?')) {
+      endpoint = trimEnd(endpoint, '?')
+    }
     if (queryParams) {
       forEach(queryParams, (param, key) => {
-        if (endsWith(endpoint, '?')) {
-          endpoint = trimEnd(endpoint, '?')
-        }
         if (endpoint.includes('?')) {
           endpoint = `${endpoint}&${key}=${param}`
         } else {

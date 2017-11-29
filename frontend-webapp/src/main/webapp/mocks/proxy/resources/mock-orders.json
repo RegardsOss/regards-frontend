@@ -11,12 +11,14 @@
       "statusDate": "2017-09-08T12:02:33.664Z",
       "datasetTasks": [
         {
+          "id": 0,
           "datasetLabel": "d1",
           "objectsCount": 25,
           "filesCount": 33,
           "filesSize": 5556123
         },
         {
+          "id": 1,
           "datasetLabel": "d2",
           "objectsCount": 12,
           "filesCount": 250,
@@ -38,6 +40,7 @@
       "statusDate": "2017-09-08T12:02:33.664Z",
       "datasetTasks": [
         {
+          "id": 2,
           "datasetLabel": "d3",
           "objectsCount": 25,
           "filesCount": 33,

@@ -16,19 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-/**
- * Order dataset detail selectors
- * @author Raphaël Mechali
- */
+import { Schema, arrayOf } from 'normalizr'
 
-/**
- * Selectors instance builders
- * @param {[string]} storePath path to access state in redux store
- * @return selectors instance
- */
-const getOrderDatasetDetailSelectors = storePath => new BasicSignalSelectors(storePath)
+const OrderFileConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'orderFiles',
+}
 
-export default getOrderDatasetDetailSelectors
+const order = new Schema(OrderFileConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[OrderFileConfiguration.entityKey]
+  ,
+})
 
+// Schemas for API responses.
+export default {
+  ORDER_FILE: order,
+  ORDER_FILE_ARRAY: arrayOf(order),
+  OrderFileConfiguration,
+}

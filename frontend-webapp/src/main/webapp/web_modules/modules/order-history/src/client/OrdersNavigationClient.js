@@ -16,23 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalReducers } from '@regardsoss/store-utils'
-import OrderDatasetDetailActions from './OrderDatasetDetailActions'
+import { OrdersNavigationActions, getOrdersNavigationReducer, getOrdersNavigationSelectors } from '@regardsoss/order-common'
 
-/**
- * Order dataset detail reducer
- * @author Raphaël Mechali
- */
+const namespace = 'order-history'
+const ordersNavigationActions = new OrdersNavigationActions(namespace)
+const ordersNavigationReducer = getOrdersNavigationReducer(namespace)
+const ordersNavigationSelectors = getOrdersNavigationSelectors(['modules.order-history', 'navigation'])
 
-/**
- * Builds reduce closure on actions namespace
- * @param {*} namespace namespace
- * @return reduce function (state, action) => state
- */
-const getOrderDatasetDetailReducer = (namespace) => {
-  const reducerInstance = new BasicSignalReducers(new OrderDatasetDetailActions(namespace))
-  // reduce function
-  return (state, action) => reducerInstance.reduce(state, action)
+module.exports = {
+  ordersNavigationActions,
+  ordersNavigationReducer,
+  ordersNavigationSelectors,
 }
-
-export default getOrderDatasetDetailReducer

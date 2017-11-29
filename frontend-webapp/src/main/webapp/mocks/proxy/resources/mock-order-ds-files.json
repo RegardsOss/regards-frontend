@@ -1,0 +1,81 @@
+[
+  {
+    "content": {
+      "id": 0,
+      "orderId": 0,
+      "state": "PENDING",
+      "name": "pending_file.png",
+      "size": 25654,
+      "checksum": "ABC10D1",
+      "online": true,
+      "uri": "http://menthealeau.com/pending_file.png",
+      "mimeType": "image/png"
+    },
+    "links": []
+  },
+  {
+    "content": {
+      "id": 1,
+      "orderId": 0,
+      "state": "AVAILABLE",
+      "name": "available_file.tif",
+      "size": 2565401,
+      "checksum": "ABC10D2",
+      "online": false,
+      "uri": "http://menthealeau.com/available_file.tif",
+      "mimeType": "image/tiff"
+    },
+    "links": []
+  },
+  {
+    "content": {
+      "id": 2,
+      "orderId": 0,
+      "state": "ONLINE",
+      "name": "online_file.json",
+      "size": 256,
+      "checksum": "ABC10D3",
+      "online": true,
+      "uri": "http://menthealeau.com/online_file.json",
+      "mimeType": "application/json"
+    },
+    "links": []
+  },
+  {
+    "content": {
+      "id": 3,
+      "orderId": 0,
+      "state": "DOWNLOADED",
+      "name": "downloaded_file.txt",
+      "size": 25,
+      "checksum": "ABC10D4",
+      "online": true,
+      "uri": "http://menthealeau.com/downloaded_file.txt",
+      "mimeType": "application/text"
+    },
+    "links": []
+  },
+  {
+    "content": {
+      "id": 4,
+      "orderId": 0,
+      "state": "ERROR",
+      "name": "error_file.pdf",
+      "size": 5460002560,
+      "checksum": "ABC10D5",
+      "online": true,
+      "uri": "http://menthealeau.com/error_file.pdf",
+      "mimeType": "application/pdf"
+    },
+    "links": []
+  },
+  {
+    "content": {
+      "id": 5,
+      "orderId": 0,
+      "online": true,
+      "uri": "http://menthealeau.com/unknown_devil_file.ppt"
+    },
+    "links": []
+  }
+]

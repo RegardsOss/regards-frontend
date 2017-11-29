@@ -109,7 +109,10 @@ class OrderBasketActions {
    * a given date - from  dataset, in basket
    */
   removeItemsSelectionFromBasket(datasetSelectionId, itemsSelectionDate) {
-    return this.datasetItemDelegate.sendSignal('DELETE', null, { datasetSelectionId, itemsSelectionDate })
+    return this.datasetItemDelegate.sendSignal('DELETE', null, {
+      datasetSelectionId,
+      itemsSelectionDate: encodeURIComponent(itemsSelectionDate),
+    })
   }
 
   getDependency = (verb) => {

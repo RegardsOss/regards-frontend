@@ -16,15 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { BasicSelector } from '@regardsoss/store-utils'
 
 /**
- * File entity definition for files associated to each dataobject returned by cataog microservice.
- * @author Sébastien Binda
+ * Orders navigation selectors: provides selected order and dataset in current context
+ * @author Raphaël Mechali
  */
-const ObjectLinkedFile = PropTypes.shape({
-  uri: PropTypes.string.isRequired,
-})
+export class OrdersNavigationSelectors extends BasicSelector {
 
-module.exports = {
-  ObjectLinkedFile,
+  /**
+   * Returns selected navigation path
+   * @param {*} state application redux state
+   * @return [{*}] path elements (at 0: necessary and order. at 1: necessary a dataset)
+   */
+  getNavigationPath(state) {
+    return super.uncombineStore(state).navigationPath
+  }
+
+}
+
+/**
+ * Builds orders navigation selectors instance
+ * @param {[string]} storePath path in store to access reducer data
+ */
+export function getOrdersNavigationSelectors(storePath) {
+  return new OrdersNavigationSelectors(storePath)
 }

@@ -16,8 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import OrderListContainer from './containers/OrderListContainer'
+import { ORDER_DISPLAY_MODES } from './model/OrderDisplayModes'
+import { OrdersNavigationActions } from './model/OrdersNavigationActions'
+import { getOrdersNavigationReducer } from './model/OrdersNavigationReducer'
+import { getOrdersNavigationSelectors } from './model/OrdersNavigationSelectors'
+import OrderDisplayContainer from './containers/OrderDisplayContainer'
+import OrdersNavigationContainer from './containers/OrdersNavigationContainer'
 
 module.exports = {
-  OrderListContainer,
+  // model and actions
+  ORDER_DISPLAY_MODES,
+  OrdersNavigationActions,
+  getOrdersNavigationReducer,
+  getOrdersNavigationSelectors,
+
+  // graphic containers
+  OrderDisplayContainer,
+  OrdersNavigationContainer,
 }

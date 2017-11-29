@@ -29,12 +29,12 @@ export default PropTypes.shape({
   sessionLocked: PropTypes.bool,
   result: PropTypes.shape({
     project: PropTypes.string,
-    scope: PropTypes.string,
-    sub: PropTypes.string,
-    role: PropTypes.string,
-    access_token: PropTypes.string,
+    scope: PropTypes.string.isRequired,
+    sub: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    access_token: PropTypes.string.isRequired,
     token_type: PropTypes.string,
-    expires_in: PropTypes.number,
+    expires_in: PropTypes.number.isRequired,
     jti: PropTypes.string,
   }),
 })

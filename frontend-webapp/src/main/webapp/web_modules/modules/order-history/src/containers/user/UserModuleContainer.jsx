@@ -18,6 +18,7 @@
  **/
 import OrderHistoryComponent from '../../components/user/OrderHistoryComponent'
 import orderClient from '../../client/OrderListClient'
+import orderFilesClient from '../../client/OrderFilesClient'
 
 
 /**
@@ -59,6 +60,8 @@ export default class UserModuleContainer extends React.Component {
       <OrderHistoryComponent
         commandsActions={orderClient.orderListActions}
         commandsSelectors={orderClient.orderListSelectors}
+        orderFilesActions={orderFilesClient.orderFilesActions}
+        orderFilesSelectors={orderFilesClient.orderFilesSelectors}
         title={description}
         expanded={expanded}
         onExpandChange={this.onExpandChange}

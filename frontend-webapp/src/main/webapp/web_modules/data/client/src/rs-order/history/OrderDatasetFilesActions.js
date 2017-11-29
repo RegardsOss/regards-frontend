@@ -16,13 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { BasicPageableActions } from '@regardsoss/store-utils'
+import { ORDER_FILE, ORDER_FILE_ARRAY } from '@regardsoss/api'
 
 /**
- * Action to retrieve an order dataset details (corresponds to the list of files produced in an order for a given dataset)
+ * Action to retrieve an order dataset files
+ * Note: It also provides path to file download
  * @author Raphaël Mechali
  */
-class OrderDatasetDetailActions extends BasicSignalActions {
+class OrderDatasetFilesActions extends BasicPageableActions {
 
   /**
    * Constructor
@@ -30,22 +32,15 @@ class OrderDatasetDetailActions extends BasicSignalActions {
    */
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/{order_id}/dataset/{dataset_id}`,
       namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/{order_id}/dataset/{dataset_id}/files`,
+      schemaTypes: {
+        ENTITY: ORDER_FILE,
+        ENTITY_ARRAY: ORDER_FILE_ARRAY,
+      },
     })
   }
-
-  /**
-   * Returns action to dispatch to fetch order dataset detail
-   * @param {*} orderId order ID
-   * @param {*} datasetId dataset ID
-   * @return {type: string, ...} redux action to dispatch to fetch order dataset detail
-   */
-  getOrderDatasetDetail(orderId, datasetId) {
-    return this.sendSignal('GET', null, { order_id: orderId, dataset_id: datasetId })
-  }
-
 }
 
-export default OrderDatasetDetailActions
+export default OrderDatasetFilesActions
 
