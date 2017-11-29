@@ -55,6 +55,7 @@ class SIPListComponent extends React.Component {
     fetchPage: PropTypes.func.isRequired,
     onDeleteByIpId: PropTypes.func.isRequired,
     onDeleteBySipId: PropTypes.func.isRequired,
+    getInitialFilters: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -67,7 +68,7 @@ class SIPListComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      filters: {},
+      filters: props.getInitialFilters(),
       chainFilter: null,
       dateFilter: undefined,
       stateFilter: null,
@@ -137,18 +138,21 @@ class SIPListComponent extends React.Component {
 
   handleFilters = () => {
     const { chainFilter, dateFilter, stateFilter } = this.state
-    const filters = {}
+    const newFilters = {}
     if (chainFilter) {
-      filters.processing = chainFilter
+      newFilters.processing = chainFilter
     }
     if (dateFilter) {
-      filters.from = dateFilter.toISOString()
+      newFilters.from = dateFilter.toISOString()
     }
     if (stateFilter) {
-      filters.state = stateFilter
+      newFilters.state = stateFilter
     }
     this.setState({
-      filters,
+      filters: {
+        ...this.props.getInitialFilters(),
+        ...newFilters,
+      },
     })
   }
 

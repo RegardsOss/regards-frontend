@@ -22,13 +22,14 @@ import Cancel from 'mdi-material-ui/Cancel'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { storage } from '@regardsoss/units'
 import messages from '../i18n/Locales'
 import styles from '../styles'
 /**
 * RenderFileFieldWithMui
 * @author Sébastien Binda
 */
-class RenderFileFieldWithMui extends React.Component {
+export class RenderFileFieldWithMui extends React.Component {
 
   static propTypes = {
     input: PropTypes.shape({
@@ -59,6 +60,14 @@ class RenderFileFieldWithMui extends React.Component {
 
   adaptFileEventToValue = delegate => e => delegate(e.target.files[0])
 
+  transformSize = (size) => {
+    const capacity = new storage.StorageCapacity(size, storage.StorageUnits.BYTE)
+    const scale = capacity.scaleAndConvert(storage.StorageUnitScale.bytesScale)
+    return (<storage.FormattedStorageCapacity
+      capacity={scale}
+    />)
+  }
+
   renderFilePreview = (file) => {
     const { intl } = this.context
     if (!file || !file.name) {
@@ -77,7 +86,10 @@ class RenderFileFieldWithMui extends React.Component {
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div style={RenderFileFieldWithMui.propStyles}>{intl.formatMessage({ id: 'renderer.fileField.file.name' })} : {file.name}</div>
           <div style={RenderFileFieldWithMui.propStyles}>{intl.formatMessage({ id: 'renderer.fileField.file.type' })} : {file.type}</div>
-          <div style={RenderFileFieldWithMui.propStyles}>{intl.formatMessage({ id: 'renderer.fileField.file.size' })} : {file.size}</div>
+          <div style={RenderFileFieldWithMui.propStyles}>
+            {intl.formatMessage({ id: 'renderer.fileField.file.size' })} :
+          {this.transformSize(file.size)}
+          </div>
         </div>
       </div>
     )

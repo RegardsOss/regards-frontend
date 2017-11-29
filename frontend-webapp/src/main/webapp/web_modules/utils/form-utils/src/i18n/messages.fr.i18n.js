@@ -47,7 +47,7 @@ const messages = {
 
   'renderer.fileField.file.name': 'Nom',
   'renderer.fileField.file.type': 'Type',
-  'renderer.fileField.file.size': 'Taille (octets)',
+  'renderer.fileField.file.size': 'Taille',
   'renderer.fileField.button.select.label': 'Sélectionner un fichier',
   'renderer.fileField.button.change.label': 'Changer le fichier sélectionné',
   'renderer.fileField.no.file.selected': 'Aucun fichier sélectionné',

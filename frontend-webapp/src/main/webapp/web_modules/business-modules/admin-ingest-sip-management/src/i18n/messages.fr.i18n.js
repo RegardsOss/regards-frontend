@@ -96,6 +96,13 @@ const messages = Object.assign({
   'sips.submition-summary.subtitle': 'Ce compte rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alos elles seront prisent en compte prochainement pour être stockées',
   'sips.submition-summary.back.button': 'Retour',
 
+  'sips.submission.not.ready.title': 'Configuration manquante pour la soumission de données',
+  'sips.submission.not.ready.information.message': 'Votre configuration du système est incomplète et vous interdit de soumettre de nouvelles données. Merci de vous assurer que vous avez bien configurer votre ou vos sysstèmes de stockage des données. Le système nécessite au moins un espace de stockage et une stratégie de répartition pour pouvoir stocker les données soumises.',
+  'sips.submission.not.ready.server.message': 'Le service de stockage indique : ',
+  'sips.submission.not.ready.config.allocations.link.button': 'Configurer la répartition',
+  'sips.submission.not.ready.config.storages.link.button': 'Configurer les espaces de stockage',
+  'sips.submission.not.ready.back.button': 'Retour',
+
   CREATED: 'CREATED',
   REJECTED: 'REJECTED',
   QUEUED: 'QUEUED',

@@ -33,6 +33,8 @@ import PluginTypeActions from './pluginTypes/PluginTypeActions'
 import getPluginTypeReducer from './pluginTypes/PluginTypeReducer'
 import getPluginTypeSelectors from './pluginTypes/PluginTypeSelectors'
 
+import MicroserviceReadyActions from './ready/MicroserviceReadyActions'
+
 
 module.exports = {
   PluginMetaDataActions,
@@ -47,6 +49,8 @@ module.exports = {
   MicroserviceInfosActions,
   getMicroserviceInfosReducer,
   getMicroserviceInfosSelectors,
+
+  MicroserviceReadyActions,
 
   PluginTypeActions,
   getPluginTypeReducer,

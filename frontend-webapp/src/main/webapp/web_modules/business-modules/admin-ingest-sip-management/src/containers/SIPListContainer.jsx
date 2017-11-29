@@ -78,16 +78,9 @@ export class SIPListContainer extends React.Component {
     this.props.fetchProcessingChains()
   }
 
-  getParams = () => {
-    let queryParams = `sessionId=${this.props.params.session}`
-    const { filters } = this.state
-
-    Object.keys(filters).forEach((filter) => {
-      if (filters[filter]) queryParams += `&${filter}=${filters[filter]}`
-    })
-
-    return { queryParams }
-  }
+  getInitialFilters = () => ({
+    sessionId: this.props.params.session,
+  })
 
   handleGoBack = () => {
     const { params: { project } } = this.props
@@ -102,7 +95,7 @@ export class SIPListContainer extends React.Component {
         <ModuleStyleProvider module={stylesObj}>
           <SIPListComponent
             chains={this.props.chains}
-            getParams={this.getParams}
+            getInitialFilters={this.getInitialFilters}
             onBack={this.handleGoBack}
             onDeleteByIpId={this.props.deleteSIPByIpId}
             onDeleteBySipId={this.props.deleteSIPBySipId}

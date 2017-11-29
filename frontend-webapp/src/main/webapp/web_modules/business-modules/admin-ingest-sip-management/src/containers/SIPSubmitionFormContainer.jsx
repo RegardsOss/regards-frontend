@@ -16,14 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import reduce from 'lodash/reduce'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import messages from '../i18n'
 import styles from '../styles/styles'
 import { sipImportActions } from '../clients/SIPImportClient'
+import { storageReadyActions } from '../clients/StorageReadyClient'
 import SIPSubmitionFormComponent from '../components/SIPSubmitionFormComponent'
+import SIPSubmissionNotReadyComponent from '../components/SIPSubmissionNotReadyComponent'
 
 /**
 * Displays the SIPSubmitionForm
@@ -50,6 +55,7 @@ export class SIPSubmitionFormContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     flushSips: () => dispatch(sipImportActions.flush()),
     submitSips: file => dispatch(sipImportActions.createEntityUsingMultiPart({}, { file })),
+    isStorageReady: () => dispatch(storageReadyActions.sendSignal('GET', null, { microserviceName: 'rs-storage' })),
   })
 
   static propTypes = {
@@ -60,14 +66,36 @@ export class SIPSubmitionFormContainer extends React.Component {
     // from mapDispatchToProps
     submitSips: PropTypes.func.isRequired,
     flushSips: PropTypes.func.isRequired,
+    isStorageReady: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       isError: false,
-      isLoading: false,
+      isLoading: true,
+      storageReady: false,
+      serverMessage: undefined,
     }
+  }
+
+  componentDidMount() {
+    this.props.isStorageReady().then((actionResults) => {
+      const result = get(actionResults, 'payload.ready')
+      if (!result) {
+        const reasons = get(actionResults, 'payload.reasons', [get(actionResults, 'payload.message', '')])
+        this.setState({
+          storageReady: false,
+          isLoading: false,
+          serverMessage: reduce(reasons, (serverMessage, r) => `${serverMessage} ${r}`, ''),
+        })
+      } else {
+        this.setState({
+          storageReady: true,
+          isLoading: false,
+        })
+      }
+    })
   }
 
   onSucceed = () => {
@@ -79,6 +107,18 @@ export class SIPSubmitionFormContainer extends React.Component {
   onBack = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/board`
+    browserHistory.push(url)
+  }
+
+  onConfigureDataStorages = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/storage/storages`
+    browserHistory.push(url)
+  }
+
+  onConfigureAllocationStrategies = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/storage/allocations`
     browserHistory.push(url)
   }
 
@@ -104,19 +144,40 @@ export class SIPSubmitionFormContainer extends React.Component {
       }))
   }
 
+  renderSIPSubmissionForm = () => {
+    if (this.state.storageReady) {
+      return (
+        <SIPSubmitionFormComponent
+          isError={this.state.isError}
+          isLoading={this.state.isLoading}
+          submitSips={this.onSubmit}
+          onBack={this.onBack}
+        />
+      )
+    }
+    return (
+      <SIPSubmissionNotReadyComponent
+        serverMessage={this.state.serverMessage}
+        onConfigureDataStorages={this.onConfigureDataStorages}
+        onConfigureAllocationStrategies={this.onConfigureAllocationStrategies}
+        onBack={this.onBack}
+      />
+    )
+  }
+
   render() {
     const stylesObj = { styles }
+
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={stylesObj}>
-          <SIPSubmitionFormComponent
-            isError={this.state.isError}
+          <LoadableContentDisplayDecorator
             isLoading={this.state.isLoading}
-            submitSips={this.onSubmit}
-            onBack={this.onBack}
-          />
+          >
+            {this.renderSIPSubmissionForm()}
+          </LoadableContentDisplayDecorator>
         </ModuleStyleProvider>
-      </I18nProvider>
+      </I18nProvider >
     )
   }
 }
