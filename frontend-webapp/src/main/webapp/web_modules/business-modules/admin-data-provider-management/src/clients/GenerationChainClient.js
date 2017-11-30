@@ -16,22 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { IngestClient } from '@regardsoss/client'
+import { DataProviderClient } from '@regardsoss/client'
 
 /**
- * Model attributes entities client.
- *
- * @author Maxime Bouveron
+ * Dataprovider generation chain entities client.
+ * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip', 'sip']
-const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/sips'
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'chain']
+const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/chains'
 
-const sipActions = new IngestClient.SIPActions(REDUX_ACTION_NAMESPACE)
-const sipReducer = IngestClient.getSIPReducer(REDUX_ACTION_NAMESPACE)
-const sipSelectors = IngestClient.getSIPSelectors(ENTITIES_STORE_PATH)
+const generationChainActions = new DataProviderClient.GenerationChainActions(REDUX_ACTION_NAMESPACE)
+const generationChainReducer = DataProviderClient.getGenerationChainReducer(REDUX_ACTION_NAMESPACE)
+const generationChainSelectors = DataProviderClient.getGenerationChainSelectors(ENTITIES_STORE_PATH)
 
 module.exports = {
-  sipActions,
-  sipReducer,
-  sipSelectors,
+  generationChainActions,
+  generationChainReducer,
+  generationChainSelectors,
 }

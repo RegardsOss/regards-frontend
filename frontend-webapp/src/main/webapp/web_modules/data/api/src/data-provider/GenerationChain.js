@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,23 +15,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { IngestClient } from '@regardsoss/client'
+ **/
 
-/**
- * Model attributes entities client.
- *
- * @author Maxime Bouveron
- */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip', 'sip']
-const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/sips'
 
-const sipActions = new IngestClient.SIPActions(REDUX_ACTION_NAMESPACE)
-const sipReducer = IngestClient.getSIPReducer(REDUX_ACTION_NAMESPACE)
-const sipSelectors = IngestClient.getSIPSelectors(ENTITIES_STORE_PATH)
+import { Schema, arrayOf } from 'normalizr'
 
+const GenerationChainConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'generationChain',
+}
+
+const generationChain = new Schema(GenerationChainConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[GenerationChainConfiguration.entityKey]
+  ,
+})
+
+// Schemas for API responses.
 module.exports = {
-  sipActions,
-  sipReducer,
-  sipSelectors,
+  GENERATION_CHAIN: generationChain,
+  GENERATION_CHAIN_ARRAY: arrayOf(generationChain),
+  GenerationChainConfiguration,
 }

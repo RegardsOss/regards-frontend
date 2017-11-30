@@ -23,7 +23,7 @@ import { IngestClient } from '@regardsoss/client'
  *
  * @author Maxime Bouveron
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip-management', 'session']
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip', 'session']
 const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/sessions'
 
 const sessionActions = new IngestClient.SessionActions(REDUX_ACTION_NAMESPACE)

@@ -77,6 +77,7 @@
     "@regardsoss/admin-data-fragment-management": "0.0.1",
     "@regardsoss/admin-data-model-management": "0.0.1",
     "@regardsoss/admin-data-modelattribute-management": "0.0.1",
+    "@regardsoss/admin-data-provider-management": "1.0.0",
     "@regardsoss/admin-ingest-processing-chain-management": "1.0.0",
     "@regardsoss/admin-ingest-sip-management": "1.0.0",
     "@regardsoss/admin-microservice-management": "0.0.1",

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,23 +15,31 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { generationChainActions } from './clients/GenerationChainClient'
+/**
+ * Module hateoas dependencies
+ * @author Sébastien Binda
  */
-import { IngestClient } from '@regardsoss/client'
 
 /**
- * Model attributes entities client.
- *
- * @author Maxime Bouveron
+ * Mandatory Dependencies to display module in parent board
+ * @type {Array}
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'sip', 'sip']
-const REDUX_ACTION_NAMESPACE = 'admin-ingest-sip-management/sips'
+const listDependencies = [
+  generationChainActions.getDependency(RequestVerbEnum.GET_LIST),
+]
 
-const sipActions = new IngestClient.SIPActions(REDUX_ACTION_NAMESPACE)
-const sipReducer = IngestClient.getSIPReducer(REDUX_ACTION_NAMESPACE)
-const sipSelectors = IngestClient.getSIPSelectors(ENTITIES_STORE_PATH)
+/**
+ * Mandatory Dependencies to display module in parent board
+ * @type {Array}
+ */
+const addDependencies = [
+  generationChainActions.getDependency(RequestVerbEnum.POST),
+]
 
 module.exports = {
-  sipActions,
-  sipReducer,
-  sipSelectors,
+  listDependencies,
+  addDependencies,
 }
