@@ -28,7 +28,6 @@ import ProfileEditionDialogComponent from '../components/ProfileEditionDialogCom
  * Profile edition container
  */
 export class ProfileEditionContainer extends React.Component {
-
   static mapStateToProps = state => ({
     visible: profileDialogSelectors.isProfileEditionVisible(state),
     myUser: myUserSelectors.getMyUser(state),

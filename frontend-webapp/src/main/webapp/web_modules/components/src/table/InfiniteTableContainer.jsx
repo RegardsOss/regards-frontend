@@ -53,7 +53,6 @@ const allWidthStyles = { width: '100%' }
  * @author Sébastien Binda
  */
 class InfiniteTableContainer extends React.Component {
-
   /**
    * PageActions : BasicPageableActions of the entities to manage
    * PageSelector : BasicPageableSelectors of the entities to manage
@@ -229,13 +228,17 @@ class InfiniteTableContainer extends React.Component {
    * @param {fetchEntities:{func}, requestParams:{}} props component props to use
    * @param {number} pageNumber number of page to fetch (optional, defaults to 0)
    */
-  fetchEntityPage = ({ fetchEntities, pathParams, requestParams, queryPageSize }, pageNumber = 0) => {
+  fetchEntityPage = ({
+    fetchEntities, pathParams, requestParams, queryPageSize,
+  }, pageNumber = 0) => {
     fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
   }
 
   render() {
-    const { displayColumnsHeader, lineHeight, displayedRowsCount, columns, entitiesFetching,
-      loadingComponent, emptyComponent } = this.props
+    const {
+      displayColumnsHeader, lineHeight, displayedRowsCount, columns, entitiesFetching,
+      loadingComponent, emptyComponent,
+    } = this.props
     const { tableWidth, entities } = this.state // cached render entities
     const actualLineHeight = lineHeight || this.context.muiTheme['components:infinite-table'].lineHeight
     const actualRowCount = displayedRowsCount || this.context.muiTheme['components:infinite-table'].rowCount

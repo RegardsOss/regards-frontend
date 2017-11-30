@@ -24,7 +24,6 @@ import collectionsItems from './CollectionsBoardItems'
  * Board to display datamangement module foncionalities.
  */
 class CollectionsBoardComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
   }

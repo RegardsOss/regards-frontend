@@ -25,7 +25,6 @@
  *  Store the location of the selector in the redux tree, and provides a function to only retrieve the subset of the redux tree
  */
 class BasicSelector {
-
   /**
    * @param {string[]} rootStore an array of key of the redux tree
    */

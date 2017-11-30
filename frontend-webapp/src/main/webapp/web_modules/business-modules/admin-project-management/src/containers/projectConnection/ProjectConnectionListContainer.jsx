@@ -34,7 +34,6 @@ import messages from '../../i18n'
  * @author Sébastien Binda
  */
 export class ProjectConnectionListContainer extends React.Component {
-
   static propTypes = {
     params: PropTypes.shape({
       project_name: PropTypes.string.isRequired,

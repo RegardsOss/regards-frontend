@@ -40,7 +40,6 @@ import ListHeaderComponent from './ListHeaderComponent'
  * @author Léo Mieulet
  */
 class ListContainer extends React.Component {
-
   static propTypes = {
     title: PropTypes.string,
     entityIdentifier: PropTypes.string.isRequired,

@@ -28,7 +28,6 @@ const { CALL_API, getJSON } = require('redux-api-middleware')
  *  @Return dispatcheable redux actions
  */
 class BasicSignalActions extends BasicActions {
-
   constructor(options) {
     super(options)
     this.SIGNAL_REQUEST = `${options.namespace}/REQUEST`
@@ -58,8 +57,10 @@ class BasicSignalActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.SIGNAL_REQUEST,
-          this.buildSuccessAction(this.SIGNAL_SUCCESS,
-            (action, state, res) => res.status === 204 ? null : this.buildResults(res)),
+          this.buildSuccessAction(
+            this.SIGNAL_SUCCESS,
+            (action, state, res) => res.status === 204 ? null : this.buildResults(res),
+          ),
           this.buildFailureAction(this.SIGNAL_FAILURE),
         ],
         headers: this.headers,
@@ -76,7 +77,6 @@ class BasicSignalActions extends BasicActions {
    * @return result
    */
   buildResults = res => getJSON(res).then(json => json)
-
 }
 
 

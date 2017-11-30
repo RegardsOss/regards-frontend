@@ -12,7 +12,6 @@ import { DISPLAY_MODE_VALUES } from '../../definitions/DisplayModeEnum'
  * Search results module view
  */
 class ModuleComponent extends React.Component {
-
   static propTypes = {
     // sub modules rendering
     appName: PropTypes.string,
@@ -49,7 +48,8 @@ class ModuleComponent extends React.Component {
   render() {
     const {
       appName, project, resultsTitle, searchQuery, enableFacettes, expanded, onExpandChange, facettesQuery, enableDownload,
-      displayMode, attributesConf, attributesRegroupementsConf, datasetAttributesConf, documentAttributesConf, attributeModels } = this.props
+      displayMode, attributesConf, attributesRegroupementsConf, datasetAttributesConf, documentAttributesConf, attributeModels,
+    } = this.props
 
     return (
       <DynamicModule

@@ -38,7 +38,6 @@ const HateoasIconAction = withHateoasDisplayControl(IconButton)
  * React components to list project.
  */
 export class AttributeModelListComponent extends React.Component {
-
   static propTypes = {
     attrModelArray: DataManagementShapes.AttributeModelArray,
     handleDelete: PropTypes.func.isRequired,
@@ -100,7 +99,9 @@ export class AttributeModelListComponent extends React.Component {
   }
 
   render() {
-    const { attrModelArray, handleEdit, createUrl, backUrl } = this.props
+    const {
+      attrModelArray, handleEdit, createUrl, backUrl,
+    } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

@@ -24,7 +24,6 @@ import pickBy from 'lodash/pickBy'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 
 class PluginConfigurationSelectors extends BasicListSelectors {
-
   getListByPluginClassName(state, pluginClassName) {
     return filter(this.getList(state), item => item.content.pluginClassName === pluginClassName)
   }

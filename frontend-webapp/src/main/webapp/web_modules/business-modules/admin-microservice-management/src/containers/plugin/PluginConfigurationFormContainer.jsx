@@ -25,7 +25,6 @@ import { PluginFormConfigurator } from '@regardsoss/microservice-plugin-configur
  * @author Xavier-Alexandre Brochard
  */
 export class PluginConfigurationFormContainer extends React.Component {
-
   static storePath = ['admin', 'microservice-management', 'pluginConfigurator']
 
   static propTypes = {

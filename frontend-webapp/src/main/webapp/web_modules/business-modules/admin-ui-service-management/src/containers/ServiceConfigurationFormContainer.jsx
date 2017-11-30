@@ -32,7 +32,6 @@ import messages from '../i18n'
  * @author Léo Mieulet
  */
 export class ServiceConfigurationFormContainer extends React.Component {
-
   static mapStateToProps = (state, ownProps) => ({
     uiPluginConfiguration: ownProps.params.uiPluginConfId ? uiPluginConfigurationSelectors.getById(state, ownProps.params.uiPluginConfId) : null,
   })
@@ -139,7 +138,9 @@ export class ServiceConfigurationFormContainer extends React.Component {
 
   render() {
     const { uiPluginConfiguration, params: { uiPluginId } } = this.props
-    const { isCreating, isEditing, isDuplicating, isLoading } = this.state
+    const {
+      isCreating, isEditing, isDuplicating, isLoading,
+    } = this.state
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator

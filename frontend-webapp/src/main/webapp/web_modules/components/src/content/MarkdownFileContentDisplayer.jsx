@@ -9,7 +9,6 @@ import './styles/github-markdown-styles.css'
 import styles from './styles'
 
 export class MarkdownFileContentDisplayer extends React.Component {
-
   static propTypes = {
     source: PropTypes.string.isRequired,
     // optionals, specifies the viewport height

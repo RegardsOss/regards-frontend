@@ -12,7 +12,6 @@ import { CommonShapes } from '@regardsoss/shape'
 * property to material UI dialog instance
 */
 class PositionedDialog extends React.Component {
-
   static DEFAULT_MIN_WIDTH = 600
   static DEFAULT_MIN_HEIGHT = 320
 
@@ -72,8 +71,10 @@ class PositionedDialog extends React.Component {
   }
 
   getDialogDimensions = () => {
-    const { dialogWidthPercent, minWidth, maxWidth,
-      dialogHeightPercent, minHeight, maxHeight } = this.props
+    const {
+      dialogWidthPercent, minWidth, maxWidth,
+      dialogHeightPercent, minHeight, maxHeight,
+    } = this.props
     const screenDim = this.getScreenDimensions()
     return {
       width: this.getDimension(screenDim.width, dialogWidthPercent, minWidth, maxWidth),

@@ -10,7 +10,6 @@ import ItemLink from '../../components/user/ItemLink'
 * Item link container (provides links to store)
 */
 export class ItemLinkContainer extends React.Component {
-
   static mapDispatchToProps = dispatch => ({
     dispatchShowDescription: entity => dispatch(descriptionLevelActions.show(entity)),
   })

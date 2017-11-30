@@ -27,25 +27,54 @@ import ProjectConnectionFormComponent from '../../../src/components/projectConne
 import GuidedProjectConfigurationComponent from '../../../src/components/projectConnection/GuidedProjectConfigurationComponent'
 
 // Test a component rendering
-describe(
-  '[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionsContainer', () => {
-    before(testSuiteHelpers.before)
-    after(testSuiteHelpers.after)
+describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionsContainer', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-    const context = buildTestContext()
+  const context = buildTestContext()
 
-    it('should exists', () => {
-      assert.isDefined(ProjectConnectionsContainer)
-    })
+  it('should exists', () => {
+    assert.isDefined(ProjectConnectionsContainer)
+  })
 
-    it('should render the subcomponents when the project connection is defined', () => {
-      const props = {
-        params: {
-          project_connection_id: '0',
-          microservice_name: 'test',
-          project_name: 'cdpp',
+  it('should render the subcomponents when the project connection is defined', () => {
+    const props = {
+      params: {
+        project_connection_id: '0',
+        microservice_name: 'test',
+        project_name: 'cdpp',
+      },
+      projectConnection: {
+        content: {
+          id: 0,
+          project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
+          microservice: 'rs-admin',
+          userName: 'Alice',
+          password: 'password',
+          driverClassName: 'PostgreSQL',
+          url: 'http://google.com',
+          connectivity: EnumConnectivity.SUCCESS,
         },
-        projectConnection: {
+        links: [],
+      },
+      project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+      fetchProject: () => { },
+      fetchProjectConnections: () => { },
+      updateProjectConnection: () => { },
+      createProjectConnection: () => { },
+    }
+    const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
+    expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(1)
+  })
+
+
+  it('should render the guided view', () => {
+    const props = {
+      params: {
+        project_name: 'cdpp',
+      },
+      projectConnections: {
+        0: {
           content: {
             id: 0,
             project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
@@ -58,119 +87,88 @@ describe(
           },
           links: [],
         },
-        project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
-        fetchProject: () => { },
-        fetchProjectConnections: () => { },
-        updateProjectConnection: () => { },
-        createProjectConnection: () => { },
-      }
-      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
-      expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(1)
-    })
-
-
-    it('should render the guided view', () => {
-      const props = {
-        params: {
-          project_name: 'cdpp',
-        },
-        projectConnections: {
-          0: {
-            content: {
-              id: 0,
-              project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
-              microservice: 'rs-admin',
-              userName: 'Alice',
-              password: 'password',
-              driverClassName: 'PostgreSQL',
-              url: 'http://google.com',
-              connectivity: EnumConnectivity.SUCCESS,
-            },
-            links: [],
-          },
-          1: {
-            content: {
-              id: 1,
-              project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
-              microservice: 'rs-cloud',
-              userName: 'Bob',
-              password: 'azerty',
-              driverClassName: 'PostgreSQL',
-              url: 'http://google.com',
-            },
-            links: [],
-          },
-          2: {
-            content: {
-              id: 2,
-              project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
-              microservice: 'rs-dam',
-              userName: 'Charlie',
-              password: 'qsdfgh',
-              driverClassName: 'PostgreSQL',
-              url: 'http://google.com',
-              connectivity: EnumConnectivity.SUCCESS,
-            },
-            links: [],
-          },
-        },
-        project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
-        fetchProject: () => { },
-        fetchProjectConnections: () => { },
-        updateProjectConnection: () => { },
-        createProjectConnection: () => { },
-      }
-      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
-      expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
-      expect(enzymeWrapper.find(GuidedProjectConfigurationComponent)).to.have.length(1)
-    })
-
-    it('should render a loading component when fetching data', () => {
-      const props = {
-        params: {
-          project_name: 'cdpp',
-          microservice_name: 'test',
-          project_connection_id: '0',
-        },
-        project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
-        projectConnection: {
+        1: {
           content: {
-            id: 0,
-            projectName: 'cdpp',
-            microservice: 'rs-admin',
-            userName: 'Alice',
-            password: 'password',
+            id: 1,
+            project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
+            microservice: 'rs-cloud',
+            userName: 'Bob',
+            password: 'azerty',
+            driverClassName: 'PostgreSQL',
+            url: 'http://google.com',
+          },
+          links: [],
+        },
+        2: {
+          content: {
+            id: 2,
+            project: DumpProvider.getFirstEntityContent('AdminClient', 'Project'),
+            microservice: 'rs-dam',
+            userName: 'Charlie',
+            password: 'qsdfgh',
             driverClassName: 'PostgreSQL',
             url: 'http://google.com',
             connectivity: EnumConnectivity.SUCCESS,
           },
           links: [],
         },
-        projectIsFetching: true,
-        fetchProject: () => { },
-        fetchProjectConnections: () => { },
-        updateProjectConnection: () => { },
-        createProjectConnection: () => { },
-      }
-      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
-      expect(enzymeWrapper.find(LoadingComponent)).to.have.length(1)
-    })
+      },
+      project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+      fetchProject: () => { },
+      fetchProjectConnections: () => { },
+      updateProjectConnection: () => { },
+      createProjectConnection: () => { },
+    }
+    const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
+    expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
+    expect(enzymeWrapper.find(GuidedProjectConfigurationComponent)).to.have.length(1)
+  })
 
-    it('should render an entity-not-found component when the connection is undefined', () => {
-      const props = {
-        params: {
-          project_connection_id: '0',
+  it('should render a loading component when fetching data', () => {
+    const props = {
+      params: {
+        project_name: 'cdpp',
+        microservice_name: 'test',
+        project_connection_id: '0',
+      },
+      project: DumpProvider.getFirstEntity('AdminClient', 'Project'),
+      projectConnection: {
+        content: {
+          id: 0,
+          projectName: 'cdpp',
+          microservice: 'rs-admin',
+          userName: 'Alice',
+          password: 'password',
+          driverClassName: 'PostgreSQL',
+          url: 'http://google.com',
+          connectivity: EnumConnectivity.SUCCESS,
         },
-        fetchProject: () => { },
-        fetchProjectConnections: () => { },
-        updateProjectConnection: () => { },
-        createProjectConnection: () => { },
-        projectConnection: undefined,
-      }
-      const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
-      expect(enzymeWrapper.find(LoadingComponent)).to.have.length(0)
-      expect(enzymeWrapper.find(FormEntityNotFoundComponent)).to.have.length(1)
-      expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
-    })
-  },
-)
+        links: [],
+      },
+      projectIsFetching: true,
+      fetchProject: () => { },
+      fetchProjectConnections: () => { },
+      updateProjectConnection: () => { },
+      createProjectConnection: () => { },
+    }
+    const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
+    expect(enzymeWrapper.find(LoadingComponent)).to.have.length(1)
+  })
+
+  it('should render an entity-not-found component when the connection is undefined', () => {
+    const props = {
+      params: {
+        project_connection_id: '0',
+      },
+      fetchProject: () => { },
+      fetchProjectConnections: () => { },
+      updateProjectConnection: () => { },
+      createProjectConnection: () => { },
+      projectConnection: undefined,
+    }
+    const enzymeWrapper = shallow(<ProjectConnectionsContainer {...props} />, { context })
+    expect(enzymeWrapper.find(LoadingComponent)).to.have.length(0)
+    expect(enzymeWrapper.find(FormEntityNotFoundComponent)).to.have.length(1)
+    expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(0)
+  })
+})

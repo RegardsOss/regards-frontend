@@ -23,7 +23,6 @@ import OrderCartContainer from './OrderCartContainer'
  * @author Raphaël Mechali
  */
 class UserModuleContainer extends React.Component {
-
   render() {
     return <OrderCartContainer />
   }

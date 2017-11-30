@@ -28,7 +28,6 @@ import SIPSubmitionComponent from './SIPSubmitionComponent'
 * @author Sébastien Binda
 */
 class SIPSubmitionSummaryComponent extends React.Component {
-
   static propTypes = {
     submitedSips: PropTypes.arrayOf(IngestShapes.SIPSubmited),
     onBack: PropTypes.func.isRequired,

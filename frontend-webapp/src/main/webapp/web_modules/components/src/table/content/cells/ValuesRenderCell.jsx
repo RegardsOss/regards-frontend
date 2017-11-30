@@ -28,7 +28,6 @@ import ValuesSeparator from './ValuesSeparator'
  * @author Raphaël Mechali
  */
 export default class ValuesRenderCell extends React.Component {
-
   static propTypes = {
     // common cell content properties
     // rowIndex: PropTypes.number.isRequired, unused
@@ -59,6 +58,5 @@ export default class ValuesRenderCell extends React.Component {
       </div>,
     ])
   }
-
 }
 

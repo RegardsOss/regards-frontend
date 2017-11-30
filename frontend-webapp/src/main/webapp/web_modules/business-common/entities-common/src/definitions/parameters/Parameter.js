@@ -22,7 +22,6 @@
  * @author Raphaël Mechali
  */
 class Parameter {
-
   static EditorTypes = {
     // Boolean editor
     CHECKBOX: 'CHECKBOX',
@@ -99,7 +98,6 @@ class Parameter {
     this.required = required
     this.label = label || name
   }
-
 }
 
 module.exports = {

@@ -42,7 +42,6 @@ const defaultState = {
  *  Handle reduction for lists
  */
 class BasicListReducers extends BasicReducer {
-
   constructor(options, basicListActionInstance) {
     super(basicListActionInstance, defaultState)
     this.entityKey = options.entityKey
@@ -157,7 +156,6 @@ class BasicListReducers extends BasicReducer {
         return newState
     }
   }
-
 }
 
 export default BasicListReducers

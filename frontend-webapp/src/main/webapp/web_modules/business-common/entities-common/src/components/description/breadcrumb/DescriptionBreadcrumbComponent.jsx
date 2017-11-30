@@ -9,7 +9,6 @@ import { Breadcrumb } from '@regardsoss/components'
 * Description breadcrumb view component
 */
 class NavigationComponent extends React.Component {
-
   static propTypes = {
     // all entities in current description path
     descriptionPath: PropTypes.arrayOf(CatalogShapes.Entity),

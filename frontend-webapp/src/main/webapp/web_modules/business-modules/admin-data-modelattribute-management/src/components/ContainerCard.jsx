@@ -22,7 +22,6 @@ import { themeContextType } from '@regardsoss/theme'
 import moduleStyles from '../styles/styles'
 
 export class ContainerCard extends React.Component {
-
   static propTypes = {
     title: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -42,7 +41,9 @@ export class ContainerCard extends React.Component {
   }
 
   render() {
-    const { title, children, canDrop, isOver, connectDropTarget } = this.props
+    const {
+      title, children, canDrop, isOver, connectDropTarget,
+    } = this.props
     const isActive = canDrop && isOver
     const style = moduleStyles(this.context.muiTheme)
     const styles = {}
@@ -53,16 +54,14 @@ export class ContainerCard extends React.Component {
       styles.border = '1px solid gray'
     }
     const allStyles = { ...style.cardEspaced, ...style.cardFullHeight, ...styles }
-    return connectDropTarget(
-      <div style={style.cardFullHeight}>
-        <Card style={allStyles}>
-          <CardTitle title={title} />
-          <CardText>
-            {children}
-          </CardText>
-        </Card>
-      </div>,
-    )
+    return connectDropTarget(<div style={style.cardFullHeight}>
+      <Card style={allStyles}>
+        <CardTitle title={title} />
+        <CardText>
+          {children}
+        </CardText>
+      </Card>
+                             </div>)
   }
 }
 

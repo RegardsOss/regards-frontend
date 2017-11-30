@@ -16,12 +16,10 @@ import graphLevelCollectionsSelectors from './GraphLevelCollectionSelectors'
  * Selector for level datasets in partitions
  */
 class GraphLevelDatasetSelectors extends BasicPartitionSelectors {
-
   getDatasets(state, partitionKey) {
     const data = this.getData(state, partitionKey)
     return data && data.items ? data.items : {}
   }
-
 }
 
 const instance = new GraphLevelDatasetSelectors(['modules.search-graph', REDUCER_PATH])

@@ -30,7 +30,6 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
  * Module container for admin interface (module instance configuration)
  */
 export class AdminModuleContainer extends React.Component {
-
   static propTypes = {
     // from module loader
     project: PropTypes.string.isRequired,
@@ -58,7 +57,9 @@ export class AdminModuleContainer extends React.Component {
 
 
   render() {
-    const { collectionModels, project, appName, adminForm, selectableAttributes, hasError } = this.props
+    const {
+      collectionModels, project, appName, adminForm, selectableAttributes, hasError,
+    } = this.props
     const { loading } = this.state
     return (
       <LoadableContentDisplayDecorator
@@ -76,7 +77,6 @@ export class AdminModuleContainer extends React.Component {
       </LoadableContentDisplayDecorator>
     )
   }
-
 }
 
 const mapStateToProps = state => ({

@@ -27,7 +27,6 @@ import SelectionItemDetailComponent from '../../../components/user/detail/Select
 * @author Raphaël Mechali
 */
 export class SelectionItemDetailContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -66,7 +65,11 @@ export class SelectionItemDetailContainer extends React.Component {
   }
 
   render() {
-    const { detail: { visible, datasetLabel, date, openSearchRequest }, dispatchHideDetail } = this.props
+    const {
+      detail: {
+        visible, datasetLabel, date, openSearchRequest,
+      }, dispatchHideDetail,
+    } = this.props
     return (
       <SelectionItemDetailComponent
         visible={visible}
@@ -80,4 +83,5 @@ export class SelectionItemDetailContainer extends React.Component {
 }
 export default connect(
   SelectionItemDetailContainer.mapStateToProps,
-  SelectionItemDetailContainer.mapDispatchToProps)(SelectionItemDetailContainer)
+  SelectionItemDetailContainer.mapDispatchToProps,
+)(SelectionItemDetailContainer)

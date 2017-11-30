@@ -32,7 +32,6 @@ import states from './FormMappingStates'
 import { fragmentSelectors } from '../clients/FragmentClient'
 
 export class DatasourceFormMappingLineComponent extends React.Component {
-
   static propTypes = {
     tableAttributeList: PropTypes.objectOf(PropTypes.shape({
       name: PropTypes.string,
@@ -109,7 +108,8 @@ export class DatasourceFormMappingLineComponent extends React.Component {
             key={tableAttribute.name}
             primaryText={`${tableAttribute.name}: ${tableAttribute.javaSqlType}`}
           />
-      )))(tableAttributeList),
+        )),
+      )(tableAttributeList),
     ]
     return (<div>
       <Checkbox

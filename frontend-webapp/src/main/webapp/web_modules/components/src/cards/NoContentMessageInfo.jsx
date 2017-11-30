@@ -10,7 +10,6 @@ import NoContentComponent from '../content/NoContentComponent'
 * Shows icon and messages for a no content area, shows area otherwise
 */
 class NoContentMessageInfo extends React.Component {
-
   static propTypes = {
     noContent: PropTypes.bool.isRequired,
     title: PropTypes.node.isRequired,
@@ -30,7 +29,9 @@ class NoContentMessageInfo extends React.Component {
   }
 
   render() {
-    const { title, message, noContent, Icon, children, rootStyles } = this.props
+    const {
+      title, message, noContent, Icon, children, rootStyles,
+    } = this.props
     return (
       <div style={rootStyles}>
         <ShowableAtRender show={noContent}>

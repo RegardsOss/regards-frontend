@@ -56,7 +56,9 @@ export default class RenderCheckbox extends React.Component {
   }
 
   render() {
-    const { alwaysShowError, input, className, label, disabled, meta: { touched, error }, intl } = this.props
+    const {
+      alwaysShowError, input, className, label, disabled, meta: { touched, error }, intl,
+    } = this.props
     const { muiTheme } = this.context
     const checked = !!input.value
     return (

@@ -9,7 +9,6 @@ import QueryParameter from '../common/QueryParameter'
  * could conflict
  */
 export default class OpenSearchQueryParameter extends QueryParameter {
-
   /** Tag to value separator */
   static VALUE_SEPARATOR = ':'
 
@@ -20,7 +19,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   /** Choice separator */
   static CHOICE_SEPARATOR = ' OR '
 
-   /**
+  /**
    * Escape string when its value cannot be parsed
    * @see {documentation server}/microservice-catalog/search/
    * @param value parameter value string
@@ -41,8 +40,8 @@ export default class OpenSearchQueryParameter extends QueryParameter {
     if (isArray(value)) {
       const paramValue = value.map(OpenSearchQueryParameter.escape).join(OpenSearchQueryParameter.CHOICE_SEPARATOR)
       return value.length > 1 ?
-    `(${paramValue})` : // make sure choice values are enclose in parenthesis
-    paramValue
+        `(${paramValue})` : // make sure choice values are enclose in parenthesis
+        paramValue
     }
     return OpenSearchQueryParameter.escape(value)
   }
@@ -62,5 +61,4 @@ export default class OpenSearchQueryParameter extends QueryParameter {
     const queryString = super.toQueryString()
     return this.negate && !!queryString ? `!(${queryString})` : queryString
   }
-
 }

@@ -29,7 +29,6 @@ const ROOT_PLACEHOLDER = {}
  * @author Sébastien binda
  */
 class NavigationComponent extends React.Component {
-
   static propTypes = {
     resultsTitle: PropTypes.string,
     navigationLevels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired,
@@ -65,7 +64,6 @@ class NavigationComponent extends React.Component {
       />
     )
   }
-
 }
 
 export default NavigationComponent

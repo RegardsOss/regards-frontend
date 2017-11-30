@@ -25,7 +25,6 @@ import messages from '../i18n'
  * @author Sébastien binda
  */
 export class BoardUIContainer extends React.Component {
-
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string,

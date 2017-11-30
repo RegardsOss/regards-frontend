@@ -67,9 +67,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       allowFacettes: true,
     }
 
-    const wrapper = shallow(
-      <AttributeConfigurationComponent {...props} />, options,
-    )
+    const wrapper = shallow(<AttributeConfigurationComponent {...props} />, options)
 
     const attributeName = wrapper.find(CardHeader).find({ title: AttributeConfigurationComponent.getTitle(props.attribute.content) })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
@@ -122,9 +120,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       allowFacettes: true,
     }
 
-    const wrapper = shallow(
-      <AttributeConfigurationComponent {...props} />, options,
-    )
+    const wrapper = shallow(<AttributeConfigurationComponent {...props} />, options)
 
     const attributeName = wrapper.find(CardHeader).find({ title: AttributeConfigurationComponent.getTitle(props.attribute.content) })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')
@@ -162,9 +158,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeConfigurationComponent', () => {
       allowFacettes: true,
     }
 
-    const wrapper = shallow(
-      <AttributeConfigurationComponent {...props} />, options,
-    )
+    const wrapper = shallow(<AttributeConfigurationComponent {...props} />, options)
 
     const attributeName = wrapper.find(CardHeader).find({ title: AttributeConfigurationComponent.getTitle(props.attribute.content) })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')

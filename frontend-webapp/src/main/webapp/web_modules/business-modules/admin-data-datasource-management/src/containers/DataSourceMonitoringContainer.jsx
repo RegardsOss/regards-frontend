@@ -27,7 +27,6 @@ import DataSourceMonitoringComponent from '../components/DataSourceMonitoringCom
 * @author Sébastien Binda
 */
 export class DataSourceMonitoringContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -86,4 +85,5 @@ export class DataSourceMonitoringContainer extends React.Component {
 }
 export default connect(
   DataSourceMonitoringContainer.mapStateToProps,
-  DataSourceMonitoringContainer.mapDispatchToProps)(DataSourceMonitoringContainer)
+  DataSourceMonitoringContainer.mapDispatchToProps,
+)(DataSourceMonitoringContainer)

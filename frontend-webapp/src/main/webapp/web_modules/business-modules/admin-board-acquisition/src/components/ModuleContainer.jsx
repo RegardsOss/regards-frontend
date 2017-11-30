@@ -24,7 +24,6 @@ import messages from '../i18n'
  * Main container to render for the ingest management module
  */
 class ModuleContainer extends React.Component {
-
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string,

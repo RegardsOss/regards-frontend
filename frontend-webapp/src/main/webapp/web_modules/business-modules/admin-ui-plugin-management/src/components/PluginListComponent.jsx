@@ -38,7 +38,6 @@ const HateoasIconAction = withHateoasDisplayControl(IconButton)
  * @author Sébastien Binda
  */
 class PluginListComponent extends React.Component {
-
   static propTypes = {
     plugins: AccessShapes.UIPluginDefinitionList,
     onCreate: PropTypes.func.isRequired,

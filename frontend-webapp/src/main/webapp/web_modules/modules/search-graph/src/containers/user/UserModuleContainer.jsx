@@ -45,7 +45,6 @@ import DescriptionContainer from './DescriptionContainer'
  * Module container for user interface
  **/
 export class UserModuleContainer extends React.Component {
-
   static mapStateToProps = (state, { moduleConf }) => ({
     selectionPath: graphContextSelectors.getSelectionPath(state),
     attributeModels: AttributeModelSelectors.getList(state),
@@ -109,8 +108,10 @@ export class UserModuleContainer extends React.Component {
 
   onPropertiesChanged = (oldProps, nextProps) => {
     const { moduleConf: { graphDatasetAttributes }, attributeModels, authentication } = (oldProps || { moduleConf: { attributeModels: [], graphLevels: [] } })
-    const { moduleConf: { graphDatasetAttributes: nextGraphDatasetAttributes },
-      attributeModels: nextAttributesModels, authentication: nextAuthentication } = nextProps
+    const {
+      moduleConf: { graphDatasetAttributes: nextGraphDatasetAttributes },
+      attributeModels: nextAttributesModels, authentication: nextAuthentication,
+    } = nextProps
     // update graph attributes if required (store it in state)
     if (!isEqual(graphDatasetAttributes, nextGraphDatasetAttributes) || !isEqual(attributeModels, nextAttributesModels)) {
       const attributesConfiguration = nextGraphDatasetAttributes || []
@@ -168,8 +169,10 @@ export class UserModuleContainer extends React.Component {
    * selection and content or reset selection at the level where selected element is no longer available
    * @param props component properties, providing data to reset content
    */
-  refreshCompleteGraph = ({ selectionPath, moduleConf: { graphLevels }, fetchCollections,
-    fetchDatasets, dispatchClearLevelSelection, dispatchLevelDataLoaded }) => {
+  refreshCompleteGraph = ({
+    selectionPath, moduleConf: { graphLevels }, fetchCollections,
+    fetchDatasets, dispatchClearLevelSelection, dispatchLevelDataLoaded,
+  }) => {
     // recursive handler builder: it returns a callback for Promise.all like (collections, datasets) => void
     function getRecursiveUpdater(selection, level) {
       // promise callback, receives parent collections and datasets
@@ -205,7 +208,9 @@ export class UserModuleContainer extends React.Component {
   }
 
   render() {
-    const { appName, project, moduleCollapsed, moduleConf } = this.props
+    const {
+      appName, project, moduleCollapsed, moduleConf,
+    } = this.props
     const { graphDatasetAttributes } = this.state
 
     return (
@@ -229,5 +234,6 @@ export class UserModuleContainer extends React.Component {
 
 export default connect(
   UserModuleContainer.mapStateToProps,
-  UserModuleContainer.mapDispatchToProps)(UserModuleContainer)
+  UserModuleContainer.mapDispatchToProps,
+)(UserModuleContainer)
 

@@ -30,7 +30,6 @@ import LayoutActions from './LayoutActions'
  * @author Sébastien Binda
  */
 class LayoutReducers extends BasicPageableReducers {
-
   /**
    * Constructor
    * @param {string} namespace namespace, leave empty for default client reducer

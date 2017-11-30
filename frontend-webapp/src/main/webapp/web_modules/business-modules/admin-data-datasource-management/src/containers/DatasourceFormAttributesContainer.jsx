@@ -29,7 +29,6 @@ import messages from '../i18n'
  * Show the datasource form
  */
 export class DatasourceFormAttributesContainer extends React.Component {
-
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     handleSave: PropTypes.func.isRequired,
@@ -65,7 +64,9 @@ export class DatasourceFormAttributesContainer extends React.Component {
   }
 
   render() {
-    const { currentDatasource, currentConnection, pluginMetaDataList, modelList, handleSave, backUrl } = this.props
+    const {
+      currentDatasource, currentConnection, pluginMetaDataList, modelList, handleSave, backUrl,
+    } = this.props
     const { isLoading } = this.state
 
     return (

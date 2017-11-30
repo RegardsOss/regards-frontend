@@ -25,7 +25,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * Table select all component
  */
 export class TableSelectAllOption extends React.Component {
-
   static propTypes = {
     disabled: PropTypes.bool,
     allSelected: PropTypes.bool.isRequired,
@@ -53,7 +52,6 @@ export class TableSelectAllOption extends React.Component {
       />
     )
   }
-
 }
 
 export default TableSelectAllOption

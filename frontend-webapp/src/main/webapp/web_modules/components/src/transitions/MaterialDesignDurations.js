@@ -65,7 +65,9 @@ const desktopDurations = {
   extra: 0.200,
 }
 
-module.exports = { mobileDurations, tabletDurations, weareableDurations, desktopDurations }
+module.exports = {
+  mobileDurations, tabletDurations, weareableDurations, desktopDurations,
+}
 export { mobileDurations }
 export { tabletDurations }
 export { weareableDurations }

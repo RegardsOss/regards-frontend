@@ -8,7 +8,6 @@ import { themeContextType } from '@regardsoss/theme'
 * Level loading displayer
 */
 class GraphLevelLoadingDisplayer extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
   }

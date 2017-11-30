@@ -21,7 +21,6 @@ import ReactTransitionGroup from 'react-transition-group'
 import { MakesFade } from './transitions/MaterialDesignMotions'
 
 class ShowableAtLoad extends React.Component {
-
   static propTypes = {
     children: PropTypes.element,
     isLoading: PropTypes.bool.isRequired,

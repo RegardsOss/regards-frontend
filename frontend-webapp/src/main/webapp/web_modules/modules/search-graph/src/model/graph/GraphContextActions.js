@@ -3,7 +3,6 @@
 **/
 
 class GraphContextActions {
-
   constructor() {
     this.ENTITY_SELECTED = 'search-graph/ENTITY_SELECTED'
     this.SET_DATASET_ATTRIBUTES_VISIBLE = 'search-graph/SET_DATASET_VISIBLE'

@@ -26,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien binda
  */
 class StringArrayValueRender extends React.Component {
-
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),
   }
@@ -47,7 +46,6 @@ class StringArrayValueRender extends React.Component {
         {textValue}
       </div>)
   }
-
 }
 
 export default StringArrayValueRender

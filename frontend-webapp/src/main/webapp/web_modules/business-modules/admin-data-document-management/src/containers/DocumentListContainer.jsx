@@ -27,7 +27,6 @@ import messages from '../i18n'
  * Show the document list
  */
 export class DocumentListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

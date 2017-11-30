@@ -33,7 +33,6 @@ import styles from '../styles/styles'
  * @author Sébastien Binda
  */
 export class SIPListContainer extends React.Component {
-
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state

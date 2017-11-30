@@ -30,7 +30,6 @@ import themeContextType from '../contextType'
  * @author Sébastien Binda
  */
 class ModuleStyleProvider extends React.Component {
-
   /**
    * Retrieve mui theme from context provide by upper MuiThemeProvider
    * @type {{}}

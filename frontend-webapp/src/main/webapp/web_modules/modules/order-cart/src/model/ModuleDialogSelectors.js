@@ -23,7 +23,6 @@ import { BasicSelector } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 class ModuleDialogSelectors extends BasicSelector {
-
   constructor(selectionPath = ['modules.order-cart', 'dialog']) {
     super(selectionPath)
   }
@@ -36,7 +35,6 @@ class ModuleDialogSelectors extends BasicSelector {
   getDetail(state) {
     return this.uncombineStore(state).detail
   }
-
 }
 
 module.exports = {

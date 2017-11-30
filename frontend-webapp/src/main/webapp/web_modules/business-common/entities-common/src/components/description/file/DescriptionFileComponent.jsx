@@ -12,7 +12,6 @@ import LoadingDisplayerComponent from '../LoadingDisplayerComponent'
 * Description file component
 */
 class DescriptionFileComponent extends React.Component {
-
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     // description file URL, when it should be accessed through URL
@@ -40,7 +39,9 @@ class DescriptionFileComponent extends React.Component {
   updateDisplayAreaStyle = (width, height) => this.setState({ displayAreaStyle: { width, height } })
 
   render() {
-    const { loading, descriptionFileURL, descriptionFile, noContentTitle, noContentMessage } = this.props
+    const {
+      loading, descriptionFileURL, descriptionFile, noContentTitle, noContentMessage,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     const { rootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.descriptionTab
 

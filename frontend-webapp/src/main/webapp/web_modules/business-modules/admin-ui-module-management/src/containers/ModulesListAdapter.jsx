@@ -28,7 +28,6 @@ import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
  * @author Léo Mieulet
  */
 export class ModulesListAdapter extends React.Component {
-
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string,

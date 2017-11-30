@@ -26,7 +26,6 @@ import StorageMonitoringComponent from '../components/StorageMonitoringComponent
  * Fetches storage plugins monitoring information, then display the corresponding component with fetched data
  */
 export class StorageMonitoringContainer extends React.Component {
-
   static propTypes = {
     // from mapStateToProps
     storagePlugins: StorageShapes.StoragePluginList.isRequired,

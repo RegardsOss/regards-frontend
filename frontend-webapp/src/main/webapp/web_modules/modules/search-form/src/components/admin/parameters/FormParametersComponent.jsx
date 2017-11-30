@@ -24,7 +24,6 @@ import ModuleConfiguration from '../../../models/ModuleConfiguration'
  * @author Sébastien binda
  */
 class FormParametersComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,
@@ -64,7 +63,6 @@ class FormParametersComponent extends React.Component {
       />
     )
   }
-
 }
 
 export default FormParametersComponent

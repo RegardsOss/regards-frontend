@@ -22,7 +22,6 @@
  * @author Raphaël Mechali
  */
 class StorageUnit {
-
   /**
    * constructor
    * @param symbol unit symbol, like b, B, mb, MB
@@ -42,7 +41,6 @@ class StorageUnit {
   get messageKey() {
     return `storage.capacity.monitoring.unit.${this.symbol}`
   }
-
 }
 
 const BIT = new StorageUnit('b', 1)
@@ -52,7 +50,6 @@ const BYTE = new StorageUnit('B', 8)
  * Possible unit scales
  */
 class StorageUnitScale {
-
   /**
    * constructor
    * @param id scale ID, as used for internationalization
@@ -115,7 +112,6 @@ class StorageUnitScale {
   get messageKey() {
     return `storage.capacity.monitoring.units.scale.${this.id}`
   }
-
 }
 
 /** Scale steps (inner use only, to generate all units) **/

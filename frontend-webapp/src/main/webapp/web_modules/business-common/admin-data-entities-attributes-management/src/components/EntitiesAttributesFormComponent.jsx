@@ -28,7 +28,6 @@ import EntitiesAttributeFormComponent from './EntitiesAttributeFormComponent'
  * Form component to edit datasets/collection attributes that the admin has to define.
  */
 export class EntitiesAttributesFormComponent extends React.Component {
-
   static propTypes = {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     isEditing: PropTypes.bool.isRequired,

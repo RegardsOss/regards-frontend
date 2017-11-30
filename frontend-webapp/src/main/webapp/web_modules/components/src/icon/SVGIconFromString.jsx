@@ -22,7 +22,6 @@ import SvgIcon from 'material-ui/SvgIcon'
  * A React component to display a SVG element
  */
 class SVGIconFromString extends React.Component {
-
   static propTypes = {
     icon: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types

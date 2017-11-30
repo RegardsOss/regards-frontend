@@ -28,7 +28,6 @@ export const HeadlessPlaceholder = props => (
  chart JS adapter: prevents chart JS loading to explode mocha tests due to headless environment
  */
 export default class ChartAdapter extends React.Component {
-
   static propTypes = {
     ChartComponent: PropTypes.string.isRequired,
   }
@@ -66,5 +65,4 @@ export default class ChartAdapter extends React.Component {
       <RenderComponent {...this.props} />
     )
   }
-
 }

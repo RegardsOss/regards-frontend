@@ -26,7 +26,6 @@ import UnlockAccountSelectors from '../model/operation/UnlockAccountSelectors'
  * Completes unlock account when back from mail or fails if token is now invalid
  */
 export class FinishAccountUnlockingContainer extends React.Component {
-
   static propTypes = {
     // user email
     mail: PropTypes.string.isRequired,

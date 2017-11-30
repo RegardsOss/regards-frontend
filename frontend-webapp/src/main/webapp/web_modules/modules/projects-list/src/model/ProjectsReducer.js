@@ -27,7 +27,6 @@ class ProjectsReducer extends BasicPageableReducers {
   constructor() {
     super(ProjectConfiguration, ProjectsAction)
   }
-
 }
 
 const instance = new ProjectsReducer()

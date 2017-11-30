@@ -31,7 +31,6 @@ import styles from './styles'
  * @author Raphaël Mechali
 */
 class FileContentDisplayer extends React.Component {
-
   static buildLocalAccessURL(blob) {
     return root.URL.createObjectURL(blob)
   }

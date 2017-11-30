@@ -25,7 +25,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Raphaël Mechali
  */
 class EntityDescriptionComponent extends React.Component {
-
   static propTypes = {
     onShowDescription: PropTypes.func.isRequired,
     // other properties are reported to the button

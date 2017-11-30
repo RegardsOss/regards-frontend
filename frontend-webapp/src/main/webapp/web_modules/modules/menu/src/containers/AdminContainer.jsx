@@ -25,7 +25,6 @@ import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@rega
  * @author Sébastien binda
  */
 class AdminContainer extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,

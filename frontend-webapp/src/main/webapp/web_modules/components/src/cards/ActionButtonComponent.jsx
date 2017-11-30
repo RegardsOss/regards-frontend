@@ -73,7 +73,9 @@ class ActionButtonComponent extends React.Component {
   )
 
   render() {
-    const { className, button, isVisible, disabled, url, style, label, primary, secondary, onTouchTap, type, title } = this.props
+    const {
+      className, button, isVisible, disabled, url, style, label, primary, secondary, onTouchTap, type, title,
+    } = this.props
     return (
       <ShowableAtRender show={isVisible}>
         {(() => {

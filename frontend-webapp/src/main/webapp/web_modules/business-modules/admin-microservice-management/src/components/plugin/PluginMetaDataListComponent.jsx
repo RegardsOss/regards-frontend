@@ -55,7 +55,6 @@ const ResourceLink = withResourceDisplayControl(Link)
  * @author Léo Mieulet
  */
 export default class PluginMetaDataListComponent extends React.Component {
-
   static propTypes = {
     microserviceName: PropTypes.string,
     pluginTypes: PropTypes.arrayOf(PropTypes.shape({

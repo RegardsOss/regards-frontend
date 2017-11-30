@@ -21,13 +21,11 @@
  * Specific configuration for an UI criterion plugin information (shapes expected plugin-info "conf" field)
  */
 const UICriterionInstanceConfContent = PropTypes.shape({
-  attributes: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      type: PropTypes.oneOf(['string', 'numerical', 'temporal']),
-    }),
-  ),
+  attributes: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    type: PropTypes.oneOf(['string', 'numerical', 'temporal']),
+  })),
 })
 
 export default UICriterionInstanceConfContent

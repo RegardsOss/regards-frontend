@@ -9,7 +9,6 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
 * Search result configuration form, using search result module
 */
 class SearchResultFormComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,

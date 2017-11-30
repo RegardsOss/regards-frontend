@@ -22,7 +22,6 @@ import { DataManagementShapes } from '@regardsoss/shape'
  * @author Sébastien binda
  */
 class DatasetModelLineComponent extends React.Component {
-
   static propTypes = {
     entity: DataManagementShapes.Model.isRequired,
   }

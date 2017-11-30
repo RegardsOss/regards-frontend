@@ -42,7 +42,6 @@ import DocumentTableCustomCellActions from './DocumentTableCustomCellActions'
  * @author Léo Mieulet
  */
 class DocumentListComponent extends React.Component {
-
   static propTypes = {
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
@@ -182,7 +181,6 @@ class DocumentListComponent extends React.Component {
       </Card>
     )
   }
-
 }
 
 export default DocumentListComponent

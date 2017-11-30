@@ -45,7 +45,6 @@ import ListHeaderComponent from './ListHeaderComponent'
  * @author Léo Mieulet
  */
 class PageableListContainer extends React.Component {
-
   static propTypes = {
     title: PropTypes.string,
     entityIdentifier: PropTypes.string.isRequired,
@@ -224,7 +223,8 @@ class PageableListContainer extends React.Component {
           isInfiniteLoading={this.props.entitiesFetching}
         >
           {map(this.state.loadedEntities, (entity) => {
-            const selected = some(this.props.selectedEntities,
+            const selected = some(
+this.props.selectedEntities,
               selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
             )
             return (

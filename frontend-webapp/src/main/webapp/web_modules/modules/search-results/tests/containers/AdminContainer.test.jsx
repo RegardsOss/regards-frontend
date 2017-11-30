@@ -48,10 +48,9 @@ describe('[Search Results] Testing AdminContainer', () => {
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SearchResultsConfigurationComponent), 0, 'While loading the component should not be rendered')
-    enzymeWrapper.instance().setState(
-      {
-        isLoading: false,
-      })
+    enzymeWrapper.instance().setState({
+      isLoading: false,
+    })
     enzymeWrapper.update() // wait for state update
     assert.lengthOf(enzymeWrapper.find(SearchResultsConfigurationComponent), 1, 'After loading, the corresponding component should be rendered')
   })

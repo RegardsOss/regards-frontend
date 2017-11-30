@@ -24,7 +24,6 @@ import { intlShape } from 'react-intl'
  * and injects it as a prop to its child
  */
 class I18nInjector extends React.Component {
-
   static contextTypes= {
     intl: intlShape,
   }

@@ -20,7 +20,6 @@ import { Card, CardText } from 'material-ui/Card'
 import Icon from 'material-ui/svg-icons/content/report'
 
 class ErrorCardComponent extends React.Component {
-
   static propTypes = {
     message: PropTypes.node,
   }
@@ -62,7 +61,6 @@ class ErrorCardComponent extends React.Component {
       </div>
     )
   }
-
 }
 
 export default ErrorCardComponent

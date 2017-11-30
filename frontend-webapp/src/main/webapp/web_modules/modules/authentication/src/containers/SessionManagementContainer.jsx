@@ -12,7 +12,6 @@ import SessionLockedFormComponent from '../components/SessionLockedFormComponent
 * otherwise renders below authentication panes
 */
 export class SessionManagementContainer extends React.Component {
-
   static propTypes = {
     showLoginWindow: PropTypes.bool.isRequired,
     onRequestClose: PropTypes.func,
@@ -65,7 +64,9 @@ export class SessionManagementContainer extends React.Component {
   }
 
   render() {
-    const { hasUnlockingError, authentication, onRequestClose, showLoginWindow, children } = this.props
+    const {
+      hasUnlockingError, authentication, onRequestClose, showLoginWindow, children,
+    } = this.props
     const sessionLocked = !!authentication.sessionLocked
     return (
       <AuthenticationDialogComponent

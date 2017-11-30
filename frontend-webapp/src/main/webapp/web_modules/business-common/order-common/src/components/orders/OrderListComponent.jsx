@@ -32,7 +32,6 @@ import ErrorsCountRender from './ErrorsCountRender'
 * @author Raphaël Mechali
 */
 class OrderListComponent extends React.Component {
-
   static propTypes = {
     commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
@@ -80,23 +79,33 @@ class OrderListComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return [
       // creation date
-      TableColumnBuilder.buildSimplePropertyColumn('creation.date', formatMessage({ id: 'order.list.column.creation.date' }),
-        'content.creationDate', 0, true, DateValueRender),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'creation.date', formatMessage({ id: 'order.list.column.creation.date' }),
+        'content.creationDate', 0, true, DateValueRender,
+      ),
       // expiration date
-      TableColumnBuilder.buildSimplePropertyColumn('expiration.date', formatMessage({ id: 'order.list.column.expiration.date' }),
-        'content.expirationDate', 1, true, DateValueRender),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'expiration.date', formatMessage({ id: 'order.list.column.expiration.date' }),
+        'content.expirationDate', 1, true, DateValueRender,
+      ),
       // // objects count (as extracted, using getObjectCount)
-      TableColumnBuilder.buildSimpleColumnWithCell('objects.count', formatMessage({ id: 'order.list.column.object.count' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 2, true),
+      TableColumnBuilder.buildSimpleColumnWithCell(
+        'objects.count', formatMessage({ id: 'order.list.column.object.count' }),
+        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 2, true,
+      ),
       // // error files count
-      TableColumnBuilder.buildSimplePropertyColumn('errors.count', formatMessage({ id: 'order.list.column.errors.count' }),
-        'content.filesInErrorCount', 3, true, ErrorsCountRender),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'errors.count', formatMessage({ id: 'order.list.column.errors.count' }),
+        'content.filesInErrorCount', 3, true, ErrorsCountRender,
+      ),
       // total files size  (as extracted, using getFilesSize)
-      TableColumnBuilder.buildSimpleColumnWithCell('files.size', formatMessage({ id: 'order.list.column.files.size' }),
+      TableColumnBuilder.buildSimpleColumnWithCell(
+        'files.size', formatMessage({ id: 'order.list.column.files.size' }),
         TableColumnBuilder.buildValuesRenderCell([{
           getValue: OrderListComponent.getFilesSize,
           RenderConstructor: StorageCapacityRender,
-        }]), 4),
+        }]), 4,
+      ),
 
       //
       // order.list.column.progress

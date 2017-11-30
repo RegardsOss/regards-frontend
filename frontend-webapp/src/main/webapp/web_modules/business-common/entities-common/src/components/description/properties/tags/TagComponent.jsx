@@ -13,7 +13,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * A single tag component
  */
 class TagComponent extends React.Component {
-
   static propTypes = {
     tagLabel: PropTypes.string.isRequired,
     isEntity: PropTypes.bool.isRequired,
@@ -53,7 +52,9 @@ class TagComponent extends React.Component {
 
   render() {
     const { tagLabel, isEntity, onShowDescription } = this.props
-    const { rowStyle, iconCellStyle, iconStyle, infoIconStyle, labelStyle, actionStyle, buttonStyle } =
+    const {
+      rowStyle, iconCellStyle, iconStyle, infoIconStyle, labelStyle, actionStyle, buttonStyle,
+    } =
       this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags.tagsContainer
     const { intl: { formatMessage } } = this.context
     return (

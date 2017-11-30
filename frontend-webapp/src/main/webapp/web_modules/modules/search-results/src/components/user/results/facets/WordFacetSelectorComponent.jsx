@@ -9,7 +9,6 @@ import FacetSelectorComponent from './FacetSelectorComponent'
  * Word facet selector
  */
 class WordFacetSelectorComponent extends React.Component {
-
   static propTypes = {
     facet: StringFacet.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)

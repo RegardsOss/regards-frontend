@@ -39,7 +39,6 @@ const states = {
  * Show the datasource form
  */
 export class DatasourceFormContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -237,7 +236,9 @@ export class DatasourceFormContainer extends React.Component {
 
   renderSubContainer = () => {
     const { params: { connectionId }, pluginMetaDataList } = this.props
-    const { isEditing, isCreating, state, currentDatasource } = this.state
+    const {
+      isEditing, isCreating, state, currentDatasource,
+    } = this.state
     switch (state) {
       case states.FORM_ATTRIBUTE:
         return (<DatasourceFormAttributesContainer

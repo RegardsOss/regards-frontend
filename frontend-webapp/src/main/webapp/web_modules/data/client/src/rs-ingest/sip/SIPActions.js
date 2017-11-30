@@ -24,7 +24,6 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  * @author Maxime Bouveron
  */
 export default class SIPActions extends BasicPageableActions {
-
   /**
    * Construtor
    * @param namespace

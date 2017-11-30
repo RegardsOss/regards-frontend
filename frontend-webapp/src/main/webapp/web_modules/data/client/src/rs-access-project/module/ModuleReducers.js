@@ -30,7 +30,6 @@ import ModuleActions from './ModuleActions'
  * @author Sébastien Binda
  */
 class ModuleReducers extends BasicPageableReducers {
-
   /**
   * Constructor
   * @param {string} namespace namespace, leave empty for default client reducer

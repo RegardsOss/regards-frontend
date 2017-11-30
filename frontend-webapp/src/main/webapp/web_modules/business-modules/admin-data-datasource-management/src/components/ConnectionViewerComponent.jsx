@@ -31,7 +31,6 @@ import { CardTitle } from 'material-ui/Card'
 * React component to list tables and attributes from a piece of connection.
 */
 export class ConnectionViewerComponent extends React.Component {
-
   static propTypes = {
     tableList: PropTypes.shape({
       name: PropTypes.string,
@@ -158,7 +157,8 @@ export class ConnectionViewerComponent extends React.Component {
             nestedItems={items}
           />
         )
-      }))(tableList)
+      }),
+    )(tableList)
     return (
       <div style={style}>
         <CardTitle

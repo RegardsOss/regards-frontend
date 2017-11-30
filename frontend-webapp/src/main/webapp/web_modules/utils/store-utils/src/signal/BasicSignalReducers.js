@@ -26,7 +26,6 @@ import BasicReducer from '../BasicReducer'
  *  Handle reduction for lists
  */
 class BasicSignalReducers extends BasicReducer {
-
   static DEFAULT_STATE = {
     isFetching: false,
     error: {
@@ -86,7 +85,6 @@ class BasicSignalReducers extends BasicReducer {
         return newState
     }
   }
-
 }
 
 export default BasicSignalReducers

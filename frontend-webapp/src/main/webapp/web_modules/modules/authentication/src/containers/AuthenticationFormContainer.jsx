@@ -27,7 +27,6 @@ import AuthenticationFormComponent from '../components/AuthenticationFormCompone
  * Authentication form container
  */
 export class AuthenticationFormContainer extends React.Component {
-
   static propTypes = {
     // initial mail value
     initialMail: PropTypes.string,
@@ -106,7 +105,8 @@ const mapDispatchToProps = dispatch => ({
     password,
     scope,
     AuthenticationRouteHelper.getOriginUrlWithoutQueryParams(),
-    AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail))),
+    AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail),
+  )),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationFormContainer)

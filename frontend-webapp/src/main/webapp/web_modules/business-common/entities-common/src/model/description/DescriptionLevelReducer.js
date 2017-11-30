@@ -9,7 +9,6 @@ import DescriptionLevelActions from './DescriptionLevelActions'
  * Elements are stored by their ipId to be loaded on need
  */
 export class DescriptionLevelReducer {
-
   static DEFAULT_STATE = {
     currentDescriptionPath: null,
   }
@@ -56,7 +55,6 @@ export class DescriptionLevelReducer {
         return state
     }
   }
-
 }
 
 /**

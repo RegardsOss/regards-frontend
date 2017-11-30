@@ -27,7 +27,6 @@ import { AccessShapes } from '@regardsoss/shape'
  * @author Sébastien binda
  */
 class FormPreviewComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     module: AccessShapes.Module,
@@ -55,7 +54,7 @@ class FormPreviewComponent extends React.Component {
           <LazyModuleComponent
             module={previewModule}
             project={this.props.project}
-            appName={'admin'}
+            appName="admin"
           />
         </CardText>
       )

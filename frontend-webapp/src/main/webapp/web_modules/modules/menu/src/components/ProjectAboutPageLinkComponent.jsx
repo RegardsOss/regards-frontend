@@ -28,7 +28,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 * @author Raphaël Mechali
 */
 class ProjectAboutPageLinkComponent extends React.Component {
-
   static propTypes = {
     // CONTEXT: app name
     appName: PropTypes.string.isRequired,

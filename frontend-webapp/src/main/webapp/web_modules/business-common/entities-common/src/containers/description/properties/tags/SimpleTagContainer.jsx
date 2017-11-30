@@ -8,7 +8,6 @@ import TagComponent from '../../../../components/description/properties/tags/Tag
 * A simple tag container
 */
 class SimpleTagContainer extends React.Component {
-
   static propTypes = {
     tag: PropTypes.string.isRequired,
     // callback: on search tag (or null)

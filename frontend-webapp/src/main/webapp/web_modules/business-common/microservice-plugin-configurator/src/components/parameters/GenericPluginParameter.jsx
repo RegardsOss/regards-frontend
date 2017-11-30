@@ -29,7 +29,6 @@ import { pluginParameterComponentPropTypes } from './util'
  * @author Xavier-Alexandre Brochard
  */
 export class GenericPluginParameter extends React.Component {
-
   static propTypes = pluginParameterComponentPropTypes
 
   render() {

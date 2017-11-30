@@ -10,7 +10,6 @@ import { OpenSearchQuery } from '@regardsoss/domain/catalog'
  * Parent actions to fetch graph entities at a given graph level
  */
 class FetchGraphEntitiesActions extends BasicPageableActions {
-
   /**
    * Constructor
    * @param objectTypePath object type path (collections / datasets)
@@ -75,7 +74,6 @@ class FetchGraphEntitiesActions extends BasicPageableActions {
       levelIndex: this.levelIndex,
     }
   }
-
 }
 
 export default FetchGraphEntitiesActions

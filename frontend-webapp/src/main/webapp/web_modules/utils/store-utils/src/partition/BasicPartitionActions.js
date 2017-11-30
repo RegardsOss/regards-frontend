@@ -11,7 +11,6 @@
  * Note: You can add in the reducer a callback to transform action data before it gets in store (optional)
  */
 class BasicPartitionActions {
-
   constructor(options) {
     this.DATA_LOADING_START = `${options.namespace}/PARTITION_LOADING_START`
     this.DATA_LOADING_DONE = `${options.namespace}/PARTITION_LOADING_DONE`
@@ -54,7 +53,6 @@ class BasicPartitionActions {
       reason,
     }
   }
-
 }
 
 export default BasicPartitionActions

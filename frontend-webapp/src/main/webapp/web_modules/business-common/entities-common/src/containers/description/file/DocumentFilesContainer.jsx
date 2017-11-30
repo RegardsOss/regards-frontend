@@ -11,7 +11,6 @@ import DocumentFilesComponent from '../../../components/description/file/Documen
 * Document files container
 */
 export class DocumentFilesContainer extends React.Component {
-
   static mapStateToProps = state => ({
     accessToken: authenticationSelectors.getAccessToken(state), // map the token for direct download
     scope: AuthenticationParametersSelectors.getProject(state),

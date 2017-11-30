@@ -28,7 +28,6 @@ import SelectionDetailResultsTableComponent from './SelectionDetailResultsTableC
 * @author Raphaël Mechali
 */
 class SelectionItemDetailComponent extends React.Component {
-
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     datasetLabel: PropTypes.string,
@@ -68,7 +67,9 @@ class SelectionItemDetailComponent extends React.Component {
   onComponentResized = ({ height }) => this.setState({ availableHeight: height })
 
   render() {
-    const { visible, date, datasetLabel, openSearchRequest, onClose } = this.props
+    const {
+      visible, date, datasetLabel, openSearchRequest, onClose,
+    } = this.props
     const { availableHeight } = this.state
     const { intl: { formatDate, formatMessage } } = this.context
     const { moduleTheme: { user: { content: { detail } } } } = this.context

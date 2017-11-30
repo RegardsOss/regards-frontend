@@ -10,7 +10,6 @@ import LicenseDisplayContainer from './LicenseDisplayContainer'
 * License module container: only mounts / unmounts the display container when license state changes (lets the sub container )
 */
 class LicenseModuleContainer extends React.Component {
-
   static propTypes = {
     // from module system
     project: PropTypes.string.isRequired,

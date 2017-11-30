@@ -31,7 +31,6 @@ const orderBasketActions = new OrderClient.OrderBasketActions()
 * @author Raphaël Mechali
 */
 export class DeleteDatasetSelectionContainer extends React.Component {
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -62,5 +61,6 @@ export class DeleteDatasetSelectionContainer extends React.Component {
 
 export default compose(
   connect(null, DeleteDatasetSelectionContainer.mapDispatchToProps),
-  withI18n(messages))(DeleteDatasetSelectionContainer)
+  withI18n(messages),
+)(DeleteDatasetSelectionContainer)
 

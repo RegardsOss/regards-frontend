@@ -30,7 +30,6 @@ import InfiniteTableContainer from './InfiniteTableContainer'
  * @author Raphaël Mechali
  */
 export class PageableInfiniteTableContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -136,4 +135,5 @@ export class PageableInfiniteTableContainer extends React.Component {
 }
 export default connect(
   PageableInfiniteTableContainer.mapStateToProps,
-  PageableInfiniteTableContainer.mapDispatchToProps)(PageableInfiniteTableContainer)
+  PageableInfiniteTableContainer.mapDispatchToProps,
+)(PageableInfiniteTableContainer)

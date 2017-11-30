@@ -35,7 +35,6 @@ import messages from '../i18n'
  */
 // @withI18n(messages)
 class InstanceSidebarComponent extends React.Component {
-
   /**
    * @type {{muiTheme: *}}
    */
@@ -63,14 +62,14 @@ class InstanceSidebarComponent extends React.Component {
       >
         <SidebarElement
           key="0"
-          to={'/admin/projects/list'}
+          to="/admin/projects/list"
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.projects' })}
           leftIcon={<Settings />}
         />
         <SidebarElement
           key="1"
-          to={'/admin/account/list'}
+          to="/admin/account/list"
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.accounts' })}
           leftIcon={<SupervisorAccount />}
@@ -78,7 +77,7 @@ class InstanceSidebarComponent extends React.Component {
         />
         <SidebarElement
           key="3"
-          to={'/admin/ui/board'}
+          to="/admin/ui/board"
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.instance.ui.configuration' })}
           leftIcon={<Brush />}

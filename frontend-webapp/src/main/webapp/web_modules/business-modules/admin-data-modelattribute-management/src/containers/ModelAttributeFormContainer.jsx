@@ -34,7 +34,6 @@ import { modelAttributeComputationTypesActions } from '../clients/ModelAttribute
 import messages from '../i18n'
 
 export class ModelAttributeFormContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

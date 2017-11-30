@@ -25,7 +25,6 @@ import BoardActionShape from './BoardActionShape'
  * @author Sébastien Binda
  */
 class BoardItemAction extends React.Component {
-
   static propTypes = {
     action: BoardActionShape.isRequired,
     openConfirmDialog: PropTypes.func,
@@ -49,7 +48,6 @@ class BoardItemAction extends React.Component {
       {action.icon}
     </IconButton>)
   }
-
 }
 
 export default BoardItemAction

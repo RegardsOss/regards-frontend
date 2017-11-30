@@ -16,7 +16,6 @@ import DescriptionFileComponent from '../../../components/description/file/Descr
 * Files container: display document files
 */
 export class DocumentFilesComponent extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     entity: CatalogShapes.Entity,

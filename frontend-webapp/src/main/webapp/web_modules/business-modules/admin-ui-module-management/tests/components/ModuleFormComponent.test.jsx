@@ -89,7 +89,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     }
     const wrapper = shallow(
       <UnconnectedModuleFormComponent {...props} />
-      , options)
+      , options,
+    )
 
     // Check form static fields
     const staticFields = wrapper.find({ id: 'staticFields' })
@@ -140,7 +141,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     }
     const wrapper = shallow(
       <UnconnectedModuleFormComponent {...props} />
-      , options)
+      , options,
+    )
 
     // Check form static fields
     const staticFields = wrapper.find({ id: 'staticFields' })

@@ -40,7 +40,6 @@ const IconButtonConstructorWrapper = props => (
  * @author Léo Mieulet
  */
 class DownloadEntityFileComponent extends React.Component {
-
   static propTypes = {
     entity: AccessShapes.EntityWithServices.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
@@ -86,8 +85,10 @@ class DownloadEntityFileComponent extends React.Component {
    */
   getAllDownloadeableFiles = () => {
     const { entity } = this.props
-    return concat(get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}`, []),
-      get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}`, []))
+    return concat(
+      get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}`, []),
+      get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}`, []),
+    )
   }
 
   getURIAuth = (uri) => {

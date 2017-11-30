@@ -27,7 +27,6 @@ import isString from 'lodash/isString'
  * @author Léo Mieulet
  */
 export default class CollectionActions extends BasicListActions {
-
   /**
    * Construtor
    * @param namespace

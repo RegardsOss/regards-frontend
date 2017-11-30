@@ -44,7 +44,6 @@ const actionsBreakpoints = [940, 995, 1065, 1320, 1380]
  * React components to list project.
  */
 export class ModelListComponent extends React.Component {
-
   static propTypes = {
     modelList: DataManagementShapes.ModelList,
     handleDelete: PropTypes.func.isRequired,
@@ -125,7 +124,9 @@ export class ModelListComponent extends React.Component {
   }
 
   render() {
-    const { modelList, handleEdit, handleDuplicate, createUrl, handleBindAttributes, backUrl } = this.props
+    const {
+      modelList, handleEdit, handleDuplicate, createUrl, handleBindAttributes, backUrl,
+    } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

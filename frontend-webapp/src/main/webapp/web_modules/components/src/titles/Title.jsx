@@ -22,7 +22,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @auhtor Sébastien Binda
  */
 class Title extends React.Component {
-
   static propTypes = {
     level: PropTypes.number.isRequired,
     label: PropTypes.string.isRequired,
@@ -45,7 +44,7 @@ class Title extends React.Component {
       case 2:
         color = this.context.muiTheme.palette.accent2Color
         break
-      default :
+      default:
         color = this.context.muiTheme.palette.textColor
         break
     }
@@ -63,7 +62,6 @@ class Title extends React.Component {
       </div>
     )
   }
-
 }
 
 export default Title

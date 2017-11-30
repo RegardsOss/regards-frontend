@@ -29,7 +29,6 @@ import { EntityConfiguration } from '@regardsoss/api'
  * @author Raphaël Mechali
  */
 class QueryRuntimeHelpersBuilder {
-
   /** Instance index counter */
   static INSTANCE_INDEX = 0
 
@@ -144,7 +143,6 @@ class QueryRuntimeHelpersBuilder {
       handleQueryPage(initialValue, 0, 0)
     })
   }
-
 }
 
 module.exports = {

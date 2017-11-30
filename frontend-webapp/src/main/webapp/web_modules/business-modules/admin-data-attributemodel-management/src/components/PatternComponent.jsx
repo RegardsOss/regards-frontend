@@ -24,7 +24,6 @@ import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
  * Handle pattern restriction
  */
 export class PatternComponent extends React.Component {
-
   static propTypes = {
     // redux form
     change: PropTypes.func.isRequired,

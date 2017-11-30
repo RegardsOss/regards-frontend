@@ -45,7 +45,6 @@ import { DISPLAY_MODE_VALUES, DISPLAY_MODE_ENUM } from '../../../../definitions/
 * @author Raphaël Mechali
 */
 class OptionsAndTabsHeaderLine extends React.Component {
-
   static propTypes = {
     // state
     attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
@@ -90,10 +89,12 @@ class OptionsAndTabsHeaderLine extends React.Component {
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
-    const { attributePresentationModels, displayMode, searchSelectors, tableColumns,
+    const {
+      attributePresentationModels, displayMode, searchSelectors, tableColumns,
       allowingFacettes, showingFacettes, selectionServices, onAddSelectionToCart,
       onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets,
-      onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes } = this.props
+      onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes,
+    } = this.props
 
     return (
       <TableHeaderLine key="table.options">

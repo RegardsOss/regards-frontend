@@ -13,7 +13,6 @@ import ItemLink from './ItemLink'
 * Displays a dataset
 */
 class DatasetItem extends React.Component {
-
   static propTypes = {
     locked: PropTypes.bool.isRequired,
     dataset: CatalogShapes.Entity.isRequired,
@@ -44,7 +43,9 @@ class DatasetItem extends React.Component {
   }
 
   render() {
-    const { dataset, datasetAttributes, locked, selected, attributesVisible, onSelect } = this.props
+    const {
+      dataset, datasetAttributes, locked, selected, attributesVisible, onSelect,
+    } = this.props
     const { detailState } = this.state
     const { moduleTheme: { user } } = this.context
     return (

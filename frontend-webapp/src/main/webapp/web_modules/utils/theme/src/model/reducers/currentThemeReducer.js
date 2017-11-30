@@ -22,9 +22,9 @@
  */
 const currentThemeReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'SET_CURRENT_THEME' :
+    case 'SET_CURRENT_THEME':
       return action.themeId
-    default :
+    default:
       return state
   }
 }

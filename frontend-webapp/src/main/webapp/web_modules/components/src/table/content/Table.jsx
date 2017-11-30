@@ -37,7 +37,6 @@ const MIN_COL_WIDTH = 150
  * @author Sébastien Binda
  */
 class Table extends React.Component {
-
   /**
    * PageActions : BasicPageableActions of the entities to manage
    * PageSelector : BasicPageableSelectors of the entities to manage
@@ -122,7 +121,9 @@ class Table extends React.Component {
    * @return {nbEntitiesByPage:{number}, height:{number}, runtimeColumns:{RuntimeColumn}} usable state for component, with
    * runtime columns (default table columns enriched with required runtime data and filtered on visible state)
    */
-  computeGraphicsMeasures = ({ displayCheckbox, displayedRowsCount, displayColumnsHeader, lineHeight = this.getDefaultLineHeight(), width, columns = [] }) => {
+  computeGraphicsMeasures = ({
+    displayCheckbox, displayedRowsCount, displayColumnsHeader, lineHeight = this.getDefaultLineHeight(), width, columns = [],
+  }) => {
     // 1 - compute height
     const height = (lineHeight * displayedRowsCount) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
 
@@ -147,19 +148,18 @@ class Table extends React.Component {
 
     // 3 - duplicate locally the column models to hold their width
     // Algo: we need here to count the floating rows to know when we are handling the last one
-    const { columnsAcc: runtimeColumns } = renderColumns.reduce(
-      ({ floatingCountAcc, columnsAcc }, column, index) => {
-        let nextFloatingCount
-        let runtimeWidth
-        if (isNumber(column.fixedWidth)) {
-          nextFloatingCount = floatingCountAcc
-          runtimeWidth = column.fixedWidth
-        } else {
-          nextFloatingCount = floatingCountAcc + 1
-          runtimeWidth = floatingCountAcc === floatingColumnsCount ? lastFloatingColumnWidth : floatingColumnWidth
-        }
-        return { floatingCount: nextFloatingCount, columnsAcc: [...columnsAcc, { ...column, runtimeWidth }] }
-      }, { floatingCountAcc: 0, columnsAcc: [] })
+    const { columnsAcc: runtimeColumns } = renderColumns.reduce(({ floatingCountAcc, columnsAcc }, column, index) => {
+      let nextFloatingCount
+      let runtimeWidth
+      if (isNumber(column.fixedWidth)) {
+        nextFloatingCount = floatingCountAcc
+        runtimeWidth = column.fixedWidth
+      } else {
+        nextFloatingCount = floatingCountAcc + 1
+        runtimeWidth = floatingCountAcc === floatingColumnsCount ? lastFloatingColumnWidth : floatingColumnWidth
+      }
+      return { floatingCount: nextFloatingCount, columnsAcc: [...columnsAcc, { ...column, runtimeWidth }] }
+    }, { floatingCountAcc: 0, columnsAcc: [] })
     return { height, runtimeColumns }
   }
 
@@ -169,7 +169,8 @@ class Table extends React.Component {
     }
     const {
       entities, columns, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader,
-      onScrollEnd } = this.props
+      onScrollEnd,
+    } = this.props
     const { runtimeColumns, height } = this.state
     return (
       <FixedDataTable

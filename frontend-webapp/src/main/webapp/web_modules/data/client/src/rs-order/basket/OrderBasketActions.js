@@ -23,7 +23,6 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * multiple BasicSignalActions
  */
 class OrderBasketActions {
-
   /**
    * Constructor. Note that the namespace is provided by default, allowing to use the default client actions when
    * no value is provided
@@ -136,7 +135,6 @@ class OrderBasketActions {
         return []
     }
   }
-
 }
 
 export default OrderBasketActions

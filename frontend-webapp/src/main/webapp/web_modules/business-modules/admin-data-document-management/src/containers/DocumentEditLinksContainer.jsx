@@ -37,7 +37,6 @@ import messages from '../i18n'
  * Show the document form
  */
 export class DocumentEditLinksContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -102,9 +101,7 @@ export class DocumentEditLinksContainer extends React.Component {
   getCollectionLinked = (collectionIpIdList, collectionList) =>
     map(collectionIpIdList, collectionIpId =>
       find(collectionList, collection =>
-        collection.content.ipId === collectionIpId,
-      ),
-    )
+        collection.content.ipId === collectionIpId))
 
   getDoneUrl = () => {
     const { params: { project } } = this.props
@@ -122,17 +119,14 @@ export class DocumentEditLinksContainer extends React.Component {
     const { collectionName } = this.state
 
     const collectionLinkedToCurrentDocument = partition(collectionList, collection =>
-      some(currentDocument.content.tags, tag => tag === collection.content.ipId,
-    ))
+      some(currentDocument.content.tags, tag => tag === collection.content.ipId))
     return filter(collectionLinkedToCurrentDocument[1], collection =>
-      startsWith(collection.content.label.toLowerCase(), collectionName),
-    )
+      startsWith(collection.content.label.toLowerCase(), collectionName))
   }
 
   partitionDatasetLinkedTags = (currentDocument) => {
     const linkedTags = partition(currentDocument.content.tags, tag =>
-      tag.match(/URN:.*:COLLECTION.*/),
-    )
+      tag.match(/URN:.*:COLLECTION.*/))
     return linkedTags
   }
 
@@ -160,8 +154,7 @@ export class DocumentEditLinksContainer extends React.Component {
   handleDelete = (tag, usingUpdate) => {
     if (usingUpdate) {
       this.props.currentDocument.content.tags = remove(this.props.currentDocument.content.tags, existingTag =>
-        existingTag !== tag,
-      )
+        existingTag !== tag)
       this.props.updateDocument(this.props.currentDocument.content.id, this.props.currentDocument.content)
     } else {
       Promise.resolve(this.props.removeTagFromDocument(this.props.currentDocument.content.id, [tag]))

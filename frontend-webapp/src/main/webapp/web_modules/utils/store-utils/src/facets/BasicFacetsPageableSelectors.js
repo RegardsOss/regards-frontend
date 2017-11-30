@@ -11,7 +11,6 @@ class BasicFacetsPageableSelectors extends BasicPageableSelectors {
   getFacets(state) {
     return this.uncombineStore(state).facets
   }
-
 }
 
 export default BasicFacetsPageableSelectors

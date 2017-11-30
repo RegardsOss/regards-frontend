@@ -53,7 +53,6 @@ const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButt
  * @author Sébastien Binda
  */
 class AccessRightListComponent extends React.Component {
-
   static propTypes = {
     // Access group to configure.
     accessGroup: DataManagementShapes.AccessGroup.isRequired,
@@ -224,7 +223,9 @@ class AccessRightListComponent extends React.Component {
   }
 
   render() {
-    const { accessRights, accessGroup, navigateToCreateDataset, selectedDatasets } = this.props
+    const {
+      accessRights, accessGroup, navigateToCreateDataset, selectedDatasets,
+    } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
@@ -300,7 +301,6 @@ class AccessRightListComponent extends React.Component {
       </Card>
     )
   }
-
 }
 
 export default AccessRightListComponent

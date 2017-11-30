@@ -30,7 +30,6 @@ import ControllerActions from './ControllerActions'
  * @author Sébastien Binda
  */
 class ControllerReducers extends BasicArrayReducers {
-
   constructor(namespace) {
     super(new ControllerActions(namespace))
   }

@@ -19,7 +19,9 @@
 import SelectField from 'material-ui/SelectField'
 import RenderHelper from './RenderHelper'
 
-const renderSelectField = ({ input, label, meta: { touched, error }, fullWidth, children, disabled, onSelect, intl, ...rest }) => {
+const renderSelectField = ({
+  input, label, meta: { touched, error }, fullWidth, children, disabled, onSelect, intl, ...rest
+}) => {
   const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
   return (
     <SelectField

@@ -18,7 +18,6 @@ import EntityTagContainer from '../../../../containers/description/properties/ta
 * Tags display component.
 */
 class TagsComponent extends React.Component {
-
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     simpleTags: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -35,7 +34,9 @@ class TagsComponent extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { loading, simpleTags, entityTags, onSearchTag, levelActions, levelSelectors } = this.props
+    const {
+      loading, simpleTags, entityTags, onSearchTag, levelActions, levelSelectors,
+    } = this.props
     const { tags: { rootStyle, tagsContainer, scrollAreaContent }, loadingContainerStyle, messageContainerStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
     return (
       <ScrollArea horizontal={false} vertical contentStyle={scrollAreaContent} >

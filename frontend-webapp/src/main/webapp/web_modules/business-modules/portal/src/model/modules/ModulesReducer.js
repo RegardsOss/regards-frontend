@@ -28,7 +28,6 @@ class ModulesReducer extends BasicPageableReducers {
   constructor() {
     super(ModuleConfiguration, ModulesActions)
   }
-
 }
 
 const instance = new ModulesReducer()

@@ -8,7 +8,6 @@ import { themeContextType } from '@regardsoss/theme'
 * Loading displayer for
 */
 class LoadingDisplayerComponent extends React.Component {
-
   static propTypes = {
     message: PropTypes.string.isRequired,
   }
@@ -19,7 +18,9 @@ class LoadingDisplayerComponent extends React.Component {
 
   render() {
     const { message } = this.props
-    const { rootStyle, circleSize, circleThickness, messageStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.loading
+    const {
+      rootStyle, circleSize, circleThickness, messageStyle,
+    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.loading
 
     return (
       <div style={rootStyle} >

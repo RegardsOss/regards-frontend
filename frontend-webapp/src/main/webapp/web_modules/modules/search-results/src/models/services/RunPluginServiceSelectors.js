@@ -23,11 +23,9 @@ import { BasicSelector } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 class RunPluginServiceSelectors extends BasicSelector {
-
   getServiceRunModel(state) {
     return this.uncombineStore(state).serviceRunModel
   }
-
 }
 
 export default new RunPluginServiceSelectors(['modules.search-results', 'runPluginService'])

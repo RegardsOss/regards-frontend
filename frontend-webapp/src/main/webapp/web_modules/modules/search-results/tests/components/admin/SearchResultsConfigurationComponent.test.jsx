@@ -49,9 +49,7 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
 
       changeField: () => { },
     }
-    const wrapper = shallow(
-      <SearchResultsConfigurationComponent {...props} />, options,
-    )
+    const wrapper = shallow(<SearchResultsConfigurationComponent {...props} />, options)
 
     const showDatasetsField = wrapper.find(Field).find({ name: 'conf.enableDownload' })
     assert(showDatasetsField.length === 1, 'The download field should be defined')

@@ -20,7 +20,6 @@ import get from 'lodash/get'
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
 class AuthenticateSelectors extends BasicSignalSelectors {
-
   getAuthentication(state) {
     return this.uncombineStore(state)
   }
@@ -50,7 +49,6 @@ class AuthenticateSelectors extends BasicSignalSelectors {
   getAccessToken(state) {
     return get(this.getAuthentication(state), 'result.access_token')
   }
-
 }
 
 export default storePath => new AuthenticateSelectors(storePath)

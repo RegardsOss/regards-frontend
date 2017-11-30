@@ -19,7 +19,6 @@ import PreviousButton from '../../../components/services/PreviousButton'
 * Note: it uses lifecycle (mount) to fetch plugin configuration and metadata, then it resolves edition parameters.
 */
 export class RunUIPluginServiceContainer extends React.Component {
-
   static Steps = {
     // Init 1: fetch plugin configuration
     FETCH_PLUGIN_CONFIGURATION: 'FETCH_PLUGIN_CONFIGURATION',
@@ -89,9 +88,11 @@ export class RunUIPluginServiceContainer extends React.Component {
     } else {
       this.setState({ step: RunUIPluginServiceContainer.Steps.LOAD_PLUGIN_INSTANCE })
       new Promise((resolve, reject) => {
-        loadPlugin(pluginDefinition.sourcePath, () => reject(),
+        loadPlugin(
+          pluginDefinition.sourcePath, () => reject(),
           // small hack here: behave like dispatch to get the plugin
-          pluginInstance => resolve({ pluginInstance, pluginConfiguration }))
+          pluginInstance => resolve({ pluginInstance, pluginConfiguration }),
+        )
       }).then(this.onLoadPluginDone).catch(() => this.onFetchError(RunUIPluginServiceContainer.Steps.PLUGIN_INSTANCE_ERROR))
     }
   }
@@ -186,18 +187,14 @@ export class RunUIPluginServiceContainer extends React.Component {
       // loading states
       case RunUIPluginServiceContainer.Steps.FETCH_PLUGIN_CONFIGURATION:
       case RunUIPluginServiceContainer.Steps.LOAD_PLUGIN_INSTANCE:
-        return RunServiceDialogComponent.buildLoadingStep(
-          formatMessage({ id: 'entities.common.services.loading.plugin.information' }))
+        return RunServiceDialogComponent.buildLoadingStep(formatMessage({ id: 'entities.common.services.loading.plugin.information' }))
       case RunUIPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR:
       case RunUIPluginServiceContainer.Steps.PLUGIN_INSTANCE_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(
-          formatMessage({ id: 'entities.common.services.loading.plugin.failed' }), true)
+        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.loading.plugin.failed' }), true)
       case RunUIPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(
-          formatMessage({ id: 'entities.common.services.plugin.parameters.error' }), true)
+        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.plugin.parameters.error' }), true)
       case RunUIPluginServiceContainer.Steps.RUNNING_SERVICE_FAILED:
-        return RunServiceDialogComponent.buildMessageStep(
-          formatMessage({ id: 'entities.common.services.ui.plugin.running.error' }), true)
+        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.ui.plugin.running.error' }), true)
       case RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION:
         return RunServiceDialogComponent.buildParametersConfigurationStep(resolvedParameters, userParametersValues, this.onConfigurationDone)
       case RunUIPluginServiceContainer.Steps.RUNNING_SERVICE:

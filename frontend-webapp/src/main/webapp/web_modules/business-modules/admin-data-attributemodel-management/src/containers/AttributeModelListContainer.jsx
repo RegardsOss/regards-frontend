@@ -34,7 +34,6 @@ import messages from '../i18n'
  *
  */
 export class AttributeModelListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

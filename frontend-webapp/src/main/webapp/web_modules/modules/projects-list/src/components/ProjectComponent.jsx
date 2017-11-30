@@ -33,7 +33,6 @@ interface ProjectProps {
  * Show the list of users for the current project
  */
 class ProjectComponent extends React.Component {
-
   /**
    * @type {{projects: *, theme: *}}
    */

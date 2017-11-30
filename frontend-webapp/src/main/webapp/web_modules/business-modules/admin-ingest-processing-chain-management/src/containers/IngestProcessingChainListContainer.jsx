@@ -28,7 +28,6 @@ import messages from '../i18n'
  * @author Sébastien Binda
  */
 export class IngestProcessingChainListContainer extends React.Component {
-
   static queryPageSize = 100
 
   static propTypes = {

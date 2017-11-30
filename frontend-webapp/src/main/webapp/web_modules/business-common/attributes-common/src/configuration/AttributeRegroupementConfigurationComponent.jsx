@@ -34,7 +34,6 @@ import AttributeRegroupementComponent from './AttributeRegroupementComponent'
  * @author Sébastien binda
  */
 class AttributeRegroupementConfigurationComponent extends React.Component {
-
   static propTypes = {
     // Available Attributes for configuration
     selectableAttributes: DataManagementShapes.AttributeModelList.isRequired,

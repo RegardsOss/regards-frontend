@@ -28,7 +28,6 @@ import { moduleDialogActions } from '../../../model/ModuleDialogActions'
 * @author Raphaël Mechali
 */
 export class ShowDatedItemSelectionDetailContainer extends React.Component {
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -61,4 +60,5 @@ export class ShowDatedItemSelectionDetailContainer extends React.Component {
 }
 export default compose(
   connect(null, ShowDatedItemSelectionDetailContainer.mapDispatchToProps),
-  withI18n(messages))(ShowDatedItemSelectionDetailContainer)
+  withI18n(messages),
+)(ShowDatedItemSelectionDetailContainer)

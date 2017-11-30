@@ -85,7 +85,8 @@ export default class PluginConfigurationListComponent extends React.Component {
         params={this.props.params}
         pluginConfiguration={pluginConfiguration}
         pluginMetaData={pluginMetaData}
-      />)))(pluginConfigurationList)
+      />)),
+    )(pluginConfigurationList)
 
     const inactiveConfs = flow(
       fpfilter(pluginConfiguration => !pluginConfiguration.content.active),
@@ -95,7 +96,8 @@ export default class PluginConfigurationListComponent extends React.Component {
         params={this.props.params}
         pluginConfiguration={pluginConfiguration}
         pluginMetaData={pluginMetaData}
-      />)))(pluginConfigurationList)
+      />)),
+    )(pluginConfigurationList)
 
     return (
       <I18nProvider messages={messages}>

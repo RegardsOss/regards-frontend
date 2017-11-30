@@ -11,7 +11,6 @@ import TableHeaderText from './TableHeaderText'
 * Table loader component, shown in table sub header area
 */
 class TableHeaderLoadingComponent extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,

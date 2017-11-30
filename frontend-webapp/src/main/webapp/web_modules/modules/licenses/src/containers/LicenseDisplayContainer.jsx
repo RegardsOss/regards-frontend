@@ -33,7 +33,6 @@ import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
  * License display container, shows license validation dialog after user authenticated (injected by parent)
  */
 export class LicenseDisplayContainer extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     // from mapStateToProps

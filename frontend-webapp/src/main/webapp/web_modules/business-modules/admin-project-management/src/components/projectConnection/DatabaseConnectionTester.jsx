@@ -37,7 +37,6 @@ import moduleStyles from '../../styles/styles'
  * @author Xavier-Alexandre Brochard
  */
 class DatabaseConnectionTester extends React.Component {
-
   static propTypes = {
     projectConnection: AdminShapes.ProjectConnection.isRequired,
     testConnection: PropTypes.func.isRequired,
@@ -164,8 +163,10 @@ class DatabaseConnectionTester extends React.Component {
     const snackbar =
       (<Snackbar
         open={this.state.snackBarOpen}
-        message={this.context.intl.formatMessage({ id: 'this.state.snackBarMessageId' }, { microservice: projectConnection.content.microservice,
-          driverClassName: projectConnection.content.driverClassName })}
+        message={this.context.intl.formatMessage({ id: 'this.state.snackBarMessageId' }, {
+ microservice: projectConnection.content.microservice,
+          driverClassName: projectConnection.content.driverClassName,
+})}
         autoHideDuration={4000}
         onRequestClose={this.handleSnackbarRequestClose}
         onActionTouchTap={this.handleSnackbarActionTouchTap}

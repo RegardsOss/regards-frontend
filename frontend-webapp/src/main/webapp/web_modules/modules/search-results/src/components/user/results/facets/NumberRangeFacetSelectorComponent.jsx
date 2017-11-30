@@ -9,7 +9,6 @@ import FacetSelectorComponent from './FacetSelectorComponent'
 * Range facet selector
 */
 class NumberRangeFacetSelectorComponent extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line
     facet: NumberRangeFacet.isRequired, // seriously eslint sux on PropTypes...
@@ -26,7 +25,8 @@ class NumberRangeFacetSelectorComponent extends React.Component {
    */
   formatFacetValueForMenu = (label, facet) => {
     const { intl: { formatMessage } } = this.context
-    return this.formatFacetValue(facet,
+    return this.formatFacetValue(
+      facet,
       (value, count) => formatMessage({ id: 'search.facets.filter.menu.number.greater' }, { value, count }),
       (value, count) => formatMessage({ id: 'search.facets.filter.menu.number.lower' }, { value, count }),
       (minValue, maxValue, count) => {
@@ -40,7 +40,8 @@ class NumberRangeFacetSelectorComponent extends React.Component {
 
   formatFacetValueForFilter = (label, facet) => {
     const { intl: { formatMessage } } = this.context
-    return this.formatFacetValue(facet,
+    return this.formatFacetValue(
+      facet,
       value => formatMessage({ id: 'search.facets.filter.chip.number.greater' }, { label, value }),
       value => formatMessage({ id: 'search.facets.filter.chip.number.lower' }, { label, value }),
       (minValue, maxValue) => {

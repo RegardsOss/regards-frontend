@@ -11,7 +11,6 @@ import { AccessShapes } from '@regardsoss/shape'
  * @author Raphaël Mechali
  */
 class SelectionServiceComponent extends React.Component {
-
   static propTypes = {
     // displayed service
     service: AccessShapes.PluginServiceWithContent,

@@ -33,7 +33,6 @@ import styles from '../../styles'
 * @author Raphaël Mechali
 */
 export class OrderCartTableComponent extends React.Component {
-
   static propTypes = {
     basket: OrderShapes.Basket,
   }
@@ -114,20 +113,26 @@ export class OrderCartTableComponent extends React.Component {
    * @param {*} datasetSelection dataset selection, as described by BasketDatasetSelection
    * @return TreeTableRow for the dataset selection as parameter
    */
-  buildDatasetSelectionRow = ({ id, datasetLabel, objectsCount, filesCount, filesSize, itemsSelections = [] }, rowExpanded) =>
-    new TreeTableRow(`dataset.selection.${id}`, [datasetLabel, objectsCount, filesCount,
-      OrderCartTableComponent.getStorageCapacity(filesSize), // scale the size to the level its the more readable
-      null, // no detail option
-      { datasetSelectionId: id }, // keep dataset selection id
-    ], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
-      rowExpanded)
+  buildDatasetSelectionRow = ({
+    id, datasetLabel, objectsCount, filesCount, filesSize, itemsSelections = [],
+  }, rowExpanded) =>
+    new TreeTableRow(
+      `dataset.selection.${id}`, [datasetLabel, objectsCount, filesCount,
+        OrderCartTableComponent.getStorageCapacity(filesSize), // scale the size to the level its the more readable
+        null, // no detail option
+        { datasetSelectionId: id }, // keep dataset selection id
+      ], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
+      rowExpanded,
+    )
 
   /**
    * Builds a dated selection item row
    * @param {*} datasetSelection dataset selection, as described by BasketDatedItemsSelection
    * @return TreeTableRow for the dated selection item
    */
-  buildDatedSelectionRow = (datasetSelectionId, datasetLabel, { date, objectsCount, filesCount, filesSize, openSearchRequest }) =>
+  buildDatedSelectionRow = (datasetSelectionId, datasetLabel, {
+    date, objectsCount, filesCount, filesSize, openSearchRequest,
+  }) =>
     // row cell values (no sub row)
     new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, objectsCount, filesCount,
       OrderCartTableComponent.getStorageCapacity(filesSize), // scale the size to the level its the more readable
@@ -189,19 +194,19 @@ export class OrderCartTableComponent extends React.Component {
           />
       // delete option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE:
-        {
-          // extract option parameters from cell value
-          const { datasetSelectionId, itemsSelectionDate } = cellValue
-          return OrderCartTableComponent.DATASET_SELECTION_LEVEL === level ?
-            // dataset: delete dataset
-            <DeleteDatasetSelectionContainer
-              datasetSelectionId={datasetSelectionId}
-            /> :
-            <DeleteDatedItemSelectionContainer
-              datasetSelectionId={datasetSelectionId}
-              itemsSelectionDate={itemsSelectionDate}
-            /> // selection: delete selection
-        }
+      {
+        // extract option parameters from cell value
+        const { datasetSelectionId, itemsSelectionDate } = cellValue
+        return OrderCartTableComponent.DATASET_SELECTION_LEVEL === level ?
+          // dataset: delete dataset
+          <DeleteDatasetSelectionContainer
+            datasetSelectionId={datasetSelectionId}
+          /> :
+          <DeleteDatedItemSelectionContainer
+            datasetSelectionId={datasetSelectionId}
+            itemsSelectionDate={itemsSelectionDate}
+          /> // selection: delete selection
+      }
       // Other columns: unchanged
       default:
         return cellValue
@@ -220,7 +225,8 @@ export class OrderCartTableComponent extends React.Component {
           (<TableHeaderColumn
             key={key}
             style={!labelKey ? table.optionColumn.style : undefined} // set up custom option columns style
-          >{labelKey ? formatMessage({ id: labelKey }) : null}</TableHeaderColumn>))}
+          >{labelKey ? formatMessage({ id: labelKey }) : null}
+          </TableHeaderColumn>))}
       />
     )
   }

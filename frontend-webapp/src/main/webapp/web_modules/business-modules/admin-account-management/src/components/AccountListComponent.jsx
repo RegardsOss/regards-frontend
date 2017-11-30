@@ -57,7 +57,6 @@ export const TABS = {
  * React component to list all REGARDS account.
  */
 export class AccountListComponent extends React.Component {
-
   static propTypes = {
     allAccounts: PropTypes.objectOf(AdminShapes.Account),
     waitingAccounts: PropTypes.objectOf(AdminShapes.Account),
@@ -177,7 +176,9 @@ export class AccountListComponent extends React.Component {
       commonActionHoverColor: this.context.muiTheme.palette.primary1Color,
       deleteActionHoverColor: this.context.muiTheme.palette.accent1Color,
     }
-    const { allAccounts, waitingAccounts, onEdit, onAccept, initialFecthing, isFetchingActions } = this.props
+    const {
+      allAccounts, waitingAccounts, onEdit, onAccept, initialFecthing, isFetchingActions,
+    } = this.props
     const { intl } = this.context
     const emptyComponent = (<NoContentComponent
       title={this.context.intl.formatMessage({ id: 'account.list.table.no.content.title' })}

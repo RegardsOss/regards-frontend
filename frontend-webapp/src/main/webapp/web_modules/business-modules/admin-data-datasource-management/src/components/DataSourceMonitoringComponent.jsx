@@ -28,7 +28,6 @@ import messages from '../i18n'
 * @author Sébastien Binda
 */
 class DataSourceMonitoringComponent extends React.Component {
-
   static propTypes = {
     crawlerDatasources: DataManagementShapes.CrawlerDatasourceArray.isRequired,
     onBack: PropTypes.func.isRequired,

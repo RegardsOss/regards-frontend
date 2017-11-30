@@ -32,7 +32,6 @@ import DefaultRequestEntityTooLargeComponent from './error/DefaultRequestEntityT
  * @author Xavier-Alexandre Brochard
  */
 class LoadableContentDisplayDecorator extends React.Component {
-
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     isLoading: PropTypes.bool,
@@ -72,7 +71,9 @@ class LoadableContentDisplayDecorator extends React.Component {
   }
 
   render() {
-    const { isLoading, loadingComponent, isContentError, contentErrorComponent, isEmpty, emptyComponent, isRequestEntityTooLarge, requestEntityTooLargeComponent } = this.props
+    const {
+      isLoading, loadingComponent, isContentError, contentErrorComponent, isEmpty, emptyComponent, isRequestEntityTooLarge, requestEntityTooLargeComponent,
+    } = this.props
     return (
       <div>
         <ShowableAtRender show={isLoading}>

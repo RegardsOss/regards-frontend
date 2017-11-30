@@ -30,7 +30,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien Binda
  */
 class ListHeaderComponent extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,

@@ -17,7 +17,6 @@ const accesGrantedRel = 'dataobjects'
 * An item entity container
 */
 export class DatasetItemContainer extends React.Component {
-
   static mapStateToProps = (state, { levelIndex, dataset }) => {
     const levelSelection = GraphContextSelectors.getSelectionForLevel(state, levelIndex)
     // a dataset is locked when the user cannot acces a link with rel field 'dataobjects'
@@ -63,7 +62,9 @@ export class DatasetItemContainer extends React.Component {
   }
 
   onSelected = () => {
-    const { dispatchSelected, dispatchSetSearchTag, locked, dataset } = this.props
+    const {
+      dispatchSelected, dispatchSetSearchTag, locked, dataset,
+    } = this.props
     if (!locked) {
       dispatchSelected()
       dispatchSetSearchTag({ type: TagTypes.DATASET, data: dataset })
@@ -91,7 +92,9 @@ export class DatasetItemContainer extends React.Component {
   })
 
   render() {
-    const { dataset, selected, locked, attributesVisible } = this.props
+    const {
+      dataset, selected, locked, attributesVisible,
+    } = this.props
     const { datasetAttributes } = this.state
     return (
       <DatasetItem
@@ -108,4 +111,5 @@ export class DatasetItemContainer extends React.Component {
 
 export default connect(
   DatasetItemContainer.mapStateToProps,
-  DatasetItemContainer.mapDispatchToProps)(DatasetItemContainer)
+  DatasetItemContainer.mapDispatchToProps,
+)(DatasetItemContainer)

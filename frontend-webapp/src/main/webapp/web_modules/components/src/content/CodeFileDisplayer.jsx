@@ -27,7 +27,6 @@ import { themeContextType } from '@regardsoss/theme'
 * @author Raphaël Mechali
 */
 class CodeFileDisplayer extends React.Component {
-
   /**
    * Maps MIME type to editor mode
    */

@@ -25,7 +25,6 @@ import MainMenuComponent from '../components/MainMenuComponent'
  * @author Sébastien binda
  **/
 class UserContainer extends React.Component {
-
   static propTypes = {
     // Set by module loader (LazyModuleComponent)
     project: PropTypes.string,
@@ -44,9 +43,13 @@ class UserContainer extends React.Component {
 
 
   render() {
-    const { project, appName,
-      moduleConf: { title, displayAuthentication, displayThemeSelector, displayCartSelector,
-        displayLocaleSelector, projectAboutPage, contacts } } = this.props
+    const {
+      project, appName,
+      moduleConf: {
+        title, displayAuthentication, displayThemeSelector, displayCartSelector,
+        displayLocaleSelector, projectAboutPage, contacts,
+      },
+    } = this.props
     return (
       <MainMenuComponent
         project={project}

@@ -25,7 +25,6 @@ import orderClient from '../../client/OrderListClient'
  * @author Raphaël Mechali
  */
 export default class UserModuleContainer extends React.Component {
-
   static propTypes = {
     description: PropTypes.string.isRequired,
   }

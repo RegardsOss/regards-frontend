@@ -75,7 +75,6 @@ export function packGridAttributesRenderData(attributePresentationModels) {
 * Container for list view entity cell (mainly provides selection related data)
 */
 export class ListViewEntityCellContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -149,8 +148,10 @@ export class ListViewEntityCellContainer extends React.Component {
   }
 
   render() {
-    const { entity, enableDownload, thumbnailRenderData, gridAttributesRenderData, selectionEnabled,
-      servicesEnabled, onAddToCart, onSelectEntity } = this.props
+    const {
+      entity, enableDownload, thumbnailRenderData, gridAttributesRenderData, selectionEnabled,
+      servicesEnabled, onAddToCart, onSelectEntity,
+    } = this.props
     return (
       <ListViewEntityCellComponent
         entity={entity}

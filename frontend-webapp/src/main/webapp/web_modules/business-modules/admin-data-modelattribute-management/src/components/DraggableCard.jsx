@@ -22,7 +22,6 @@ import { themeContextType } from '@regardsoss/theme'
 import moduleStyles from '../styles/styles'
 
 export class DraggableCard extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any,
@@ -42,7 +41,9 @@ export class DraggableCard extends React.Component {
   }
 
   render() {
-    const { connectDragSource, isDragging, shadow, value, children } = this.props
+    const {
+      connectDragSource, isDragging, shadow, value, children,
+    } = this.props
     const style = moduleStyles(this.context.theme).cardEspaced
     const overrideStyles = {
       ...style,
@@ -51,18 +52,16 @@ export class DraggableCard extends React.Component {
       opacity: isDragging ? 0.2 : 1,
     }
 
-    return connectDragSource(
-      <div>
-        <Paper
-          style={overrideStyles}
-          id={value.id}
-          key={value.id}
-          zDepth={shadow}
-        >
-          {children}
-        </Paper>
-      </div>,
-    )
+    return connectDragSource(<div>
+      <Paper
+        style={overrideStyles}
+        id={value.id}
+        key={value.id}
+        zDepth={shadow}
+      >
+        {children}
+      </Paper>
+                             </div>)
   }
 }
 

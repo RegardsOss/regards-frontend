@@ -343,7 +343,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing  PluginConfigurationCompone
       pluginClassName: props.pluginConfiguration.pluginClassName,
       parameters: map(props.pluginConfiguration.parameters, (param) => {
         // There should not have id set when copying a conf
-        // eslint-disable-next-line 
+        // eslint-disable-next-line
         const { id, ...otherProperties } = param
         return { ...otherProperties }
       }),

@@ -15,7 +15,6 @@ import styles from '../../styles'
 * making sure the runner will be mounted on request and unmounted at end
 */
 class ServiceContainer extends React.Component {
-
   static propTypes = {
     // running service model (null when none)
     serviceRunModel: PropTypes.instanceOf(PluginServiceRunModel),
@@ -56,6 +55,5 @@ class ServiceContainer extends React.Component {
         </ModuleStyleProvider>
       </I18nProvider>)
   }
-
 }
 export default ServiceContainer

@@ -40,7 +40,6 @@ import DocumentFilesContainer from '../../containers/description/file/DocumentFi
  * Note: you can add here properties that should be sent to inner dialog.
  */
 class EntityDescriptionComponent extends React.Component {
-
   static propTypes = {
     // component API
     entity: CatalogShapes.Entity,
@@ -76,8 +75,10 @@ class EntityDescriptionComponent extends React.Component {
   renderTab = props => props.selected ? props.children : null
 
   renderTabs = () => {
-    const { entity, onSearchTag, downloadDescriptionClient, fetchModelAttributesActions,
-      fetchModelAttributesSelectors, levelActions, levelSelectors } = this.props
+    const {
+      entity, onSearchTag, downloadDescriptionClient, fetchModelAttributesActions,
+      fetchModelAttributesSelectors, levelActions, levelSelectors,
+    } = this.props
     const result = [(
       <Tab key="properties" label={this.context.intl.formatMessage({ id: 'entities.common.properties.tabs' })}>
         <PropertiesTabComponent
@@ -90,27 +91,27 @@ class EntityDescriptionComponent extends React.Component {
         />
       </Tab>)]
     if (get(entity, 'content.entityType') !== ENTITY_TYPES_ENUM.DOCUMENT) {
-      result.push(
-        <Tab key="description" label={this.context.intl.formatMessage({ id: 'entities.common.description.tabs' })}>
-          <DescriptionFileContainer
-            entity={entity}
-            downloadDescriptionClient={downloadDescriptionClient}
-          />
-        </Tab>)
+      result.push(<Tab key="description" label={this.context.intl.formatMessage({ id: 'entities.common.description.tabs' })}>
+        <DescriptionFileContainer
+          entity={entity}
+          downloadDescriptionClient={downloadDescriptionClient}
+        />
+                  </Tab>)
     } else {
-      result.push(
-        <Tab key="files" label={this.context.intl.formatMessage({ id: 'entities.common.files.tabs' })}>
-          <DocumentFilesContainer
-            entity={entity}
-          />
-        </Tab>)
+      result.push(<Tab key="files" label={this.context.intl.formatMessage({ id: 'entities.common.files.tabs' })}>
+        <DocumentFilesContainer
+          entity={entity}
+        />
+                  </Tab>)
     }
     return result
   }
 
 
   render() {
-    const { open, onClose, levelActions, levelSelectors, ...otherDialogProperties } = this.props
+    const {
+      open, onClose, levelActions, levelSelectors, ...otherDialogProperties
+    } = this.props
     const { moduleTheme: { descriptionDialog } } = this.context
     const breadcrumb = <DescriptionBreadcrumbContainer levelActions={levelActions} levelSelectors={levelSelectors} />
     const actions = [<FlatButton
@@ -146,6 +147,5 @@ class EntityDescriptionComponent extends React.Component {
 
     )
   }
-
 }
 export default EntityDescriptionComponent

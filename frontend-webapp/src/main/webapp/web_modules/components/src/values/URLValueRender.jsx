@@ -26,7 +26,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Sébastien binda
  */
 class URLValueRender extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.string,
@@ -45,7 +44,6 @@ class URLValueRender extends React.Component {
         link={value}
       />) : null
   }
-
 }
 
 export default URLValueRender

@@ -35,7 +35,6 @@ import { AccessShapes } from '@regardsoss/shape'
  * @author Sébastien binda
  */
 class AttributeConfigurationComponent extends React.Component {
-
   static propTypes = {
     conf: AccessShapes.AttributesGroupConfigurationContent.isRequired,
     onChange: PropTypes.func.isRequired,

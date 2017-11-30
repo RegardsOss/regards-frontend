@@ -11,7 +11,6 @@ import NavigationComponent from '../../../components/user/navigation/NavigationC
 * Navigation container
 */
 export class NavigationContainer extends React.Component {
-
   static mapStateToProps = state => ({
     levels: navigationContextSelectors.getLevels(state),
   })
@@ -47,4 +46,5 @@ export class NavigationContainer extends React.Component {
 }
 export default connect(
   NavigationContainer.mapStateToProps,
-  NavigationContainer.mapDispatchToProps)(NavigationContainer)
+  NavigationContainer.mapDispatchToProps,
+)(NavigationContainer)

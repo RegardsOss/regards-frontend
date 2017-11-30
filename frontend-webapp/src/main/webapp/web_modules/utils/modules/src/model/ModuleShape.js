@@ -23,7 +23,7 @@
  */
 export default PropTypes.shape({
   id: PropTypes.number,
-    // Type available from AvailableModules.js
+  // Type available from AvailableModules.js
   type: PropTypes.string,
   description: PropTypes.string,
   active: PropTypes.bool,

@@ -35,7 +35,6 @@ import IngestProcessingPluginTypes from './IngestProcessingPluginType'
  * @author Sébastien Binda
  */
 export class IngestProcessingChainFormComponent extends React.Component {
-
   static propTypes = {
     processingChain: IngestShapes.IngestProcessingChain,
     onSubmit: PropTypes.func.isRequired,
@@ -128,14 +127,15 @@ export class IngestProcessingChainFormComponent extends React.Component {
                 style={avatarStyles}
                 color={palette.textColor}
                 backgroundColor={palette.primary1Color}
-              > 1 </Avatar>
+              > 1
+              </Avatar>
               <PluginFormComponent
-                key={'preprocessing'}
-                title={'[Optional] Pre-processing plugin'}
-                selectLabel={'None'}
+                key="preprocessing"
+                title="[Optional] Pre-processing plugin"
+                selectLabel="None"
                 ingestPluginType={IngestProcessingPluginTypes.PRE_PROCESSING}
                 pluginConf={preprocessingPlugin}
-                fieldNamePrefix={'preprocessingPlugin'}
+                fieldNamePrefix="preprocessingPlugin"
                 reduxFormChange={this.props.change}
                 reduxFormInitialize={this.props.initialize}
                 reduxFormGetField={this.props.getField}
@@ -148,14 +148,15 @@ export class IngestProcessingChainFormComponent extends React.Component {
                 style={avatarStyles}
                 color={palette.textColor}
                 backgroundColor={palette.primary1Color}
-              > 2 </Avatar>
+              > 2
+              </Avatar>
               <PluginFormComponent
-                key={'validation'}
-                title={'Validation plugin'}
-                selectLabel={'Choose a plugin ...'}
+                key="validation"
+                title="Validation plugin"
+                selectLabel="Choose a plugin ..."
                 ingestPluginType={IngestProcessingPluginTypes.VALIDATION}
                 pluginConf={validationPlugin}
-                fieldNamePrefix={'validationPlugin'}
+                fieldNamePrefix="validationPlugin"
                 reduxFormChange={this.props.change}
                 reduxFormInitialize={this.props.initialize}
                 reduxFormGetField={this.props.getField}
@@ -168,14 +169,15 @@ export class IngestProcessingChainFormComponent extends React.Component {
                 style={avatarStyles}
                 color={palette.textColor}
                 backgroundColor={palette.primary1Color}
-              > 3 </Avatar>
+              > 3
+              </Avatar>
               <PluginFormComponent
-                key={'generation'}
-                title={'AIP GEneration plugin'}
-                selectLabel={'Choose a plugin ...'}
+                key="generation"
+                title="AIP GEneration plugin"
+                selectLabel="Choose a plugin ..."
                 ingestPluginType={IngestProcessingPluginTypes.GENERATION}
                 pluginConf={generationPlugin}
-                fieldNamePrefix={'generationPlugin'}
+                fieldNamePrefix="generationPlugin"
                 reduxFormChange={this.props.change}
                 reduxFormInitialize={this.props.initialize}
                 reduxFormGetField={this.props.getField}
@@ -188,14 +190,15 @@ export class IngestProcessingChainFormComponent extends React.Component {
                 style={avatarStyles}
                 color={palette.textColor}
                 backgroundColor={palette.primary1Color}
-              > 4 </Avatar>
+              > 4
+              </Avatar>
               <PluginFormComponent
-                key={'tag'}
-                title={'[Optional] AIP Tag plugin'}
-                selectLabel={'None'}
+                key="tag"
+                title="[Optional] AIP Tag plugin"
+                selectLabel="None"
                 ingestPluginType={IngestProcessingPluginTypes.TAG}
                 pluginConf={tagPlugin}
-                fieldNamePrefix={'tagPlugin'}
+                fieldNamePrefix="tagPlugin"
                 reduxFormChange={this.props.change}
                 reduxFormInitialize={this.props.initialize}
                 reduxFormGetField={this.props.getField}
@@ -208,14 +211,15 @@ export class IngestProcessingChainFormComponent extends React.Component {
                 style={avatarStyles}
                 color={palette.textColor}
                 backgroundColor={palette.primary1Color}
-              > 5 </Avatar>
+              > 5
+              </Avatar>
               <PluginFormComponent
-                key={'postprocessing'}
-                title={'[Optional] Post-processing plugin'}
-                selectLabel={'None'}
+                key="postprocessing"
+                title="[Optional] Post-processing plugin"
+                selectLabel="None"
                 ingestPluginType={IngestProcessingPluginTypes.POST_PROCESSING}
                 pluginConf={postprocessingPlugin}
-                fieldNamePrefix={'postprocessingPlugin'}
+                fieldNamePrefix="postprocessingPlugin"
                 reduxFormChange={this.props.change}
                 reduxFormInitialize={this.props.initialize}
                 reduxFormGetField={this.props.getField}

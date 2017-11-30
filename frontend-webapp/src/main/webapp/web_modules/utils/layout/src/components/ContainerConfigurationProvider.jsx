@@ -22,7 +22,6 @@ import ContainerConfigurationComponent from './ContainerConfigurationComponent'
 import messages from '../i18n'
 
 class ContainerConfigurationProvider extends React.Component {
-
   static propTypes = {
     container: ContainerShape,
     hideDynamicContentOption: PropTypes.bool,
@@ -42,7 +41,6 @@ class ContainerConfigurationProvider extends React.Component {
       </I18nProvider>
     )
   }
-
 }
 
 export default ContainerConfigurationProvider

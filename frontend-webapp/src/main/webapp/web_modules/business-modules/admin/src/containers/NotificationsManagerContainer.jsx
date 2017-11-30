@@ -37,7 +37,6 @@ const instanceNotificationsDependencies = []
 * Installs all notifications handlers in Admin application
 */
 class NotificationsManager extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     isOnInstanceDashboard: PropTypes.bool.isRequired,

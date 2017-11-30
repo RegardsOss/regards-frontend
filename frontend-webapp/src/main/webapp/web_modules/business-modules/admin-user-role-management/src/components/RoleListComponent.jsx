@@ -38,7 +38,6 @@ const HateoasIconAction = withHateoasDisplayControl(IconButton)
  * React components to list project.
  */
 export class RoleListComponent extends React.Component {
-
   static propTypes = {
     roleList: AdminShapes.RoleList,
     handleDelete: PropTypes.func.isRequired,
@@ -127,7 +126,9 @@ export class RoleListComponent extends React.Component {
   }
 
   render() {
-    const { roleList, handleEdit, createUrl, handleEditResourceAccess } = this.props
+    const {
+      roleList, handleEdit, createUrl, handleEditResourceAccess,
+    } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

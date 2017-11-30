@@ -72,7 +72,6 @@ export const initialModes = {
  * (coming back from a mail for instance). Switches between components to show  message -> requests -> login transitions
  */
 export default class AuthenticationStatesContainer extends React.Component {
-
   static propTypes = {
     // current project (empty if admin)
     project: PropTypes.string.isRequired,
@@ -146,7 +145,9 @@ export default class AuthenticationStatesContainer extends React.Component {
 
   render() {
     const { currentView, currentMail } = this.state
-    const { project, actionToken, loginTitle, showAskProjectAccess, showCancel, onCancelAction } = this.props
+    const {
+      project, actionToken, loginTitle, showAskProjectAccess, showCancel, onCancelAction,
+    } = this.props
 
     // 1 - render messages states first (to write a bit less code in switch!)
     if (currentView.messageOperationId) {
@@ -221,6 +222,5 @@ export default class AuthenticationStatesContainer extends React.Component {
         throw new Error(`Unknown view state ${currentView}`)
     }
   }
-
 }
 

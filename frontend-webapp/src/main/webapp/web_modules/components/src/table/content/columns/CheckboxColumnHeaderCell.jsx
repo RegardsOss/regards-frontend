@@ -34,7 +34,6 @@ import { TableSelectors } from '../../model/TableSelectors' // class for prop ty
 * It acts as a connected container (to embed selection state and interactors)
 */
 class CheckboxColumnHeaderCell extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -116,4 +115,5 @@ class CheckboxColumnHeaderCell extends React.Component {
 
 export default connect(
   CheckboxColumnHeaderCell.mapStateToProps,
-  CheckboxColumnHeaderCell.mapDispatchToProps)(CheckboxColumnHeaderCell)
+  CheckboxColumnHeaderCell.mapDispatchToProps,
+)(CheckboxColumnHeaderCell)

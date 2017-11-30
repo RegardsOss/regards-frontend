@@ -23,7 +23,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
 
 export class DatasourceFormMappingEmptyDatabaseComponent extends React.Component {
-
   static propTypes = {
     handleBack: PropTypes.func.isRequired,
   }

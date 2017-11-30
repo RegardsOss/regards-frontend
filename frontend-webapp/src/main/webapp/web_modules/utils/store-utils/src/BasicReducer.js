@@ -26,7 +26,6 @@ import get from 'lodash/get'
  * @author Raphaël Mechali
  */
 class BasicReducer {
-
   constructor(basicActionsInstance, defaultState) {
     this.basicActionsInstance = basicActionsInstance
     this.defaultState = defaultState
@@ -55,7 +54,6 @@ class BasicReducer {
         return state
     }
   }
-
 }
 
 export default BasicReducer

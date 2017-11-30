@@ -29,7 +29,6 @@ import { DropDownButton } from '@regardsoss/components'
  * @author Sébastien Binda
  */
 class ListSortingComponent extends React.Component {
-
   static propTypes = {
     // model currently used for sorting, null / undefined if none
     sortingModel: AccessShapes.AttributePresentationModel,
@@ -65,7 +64,7 @@ class ListSortingComponent extends React.Component {
       >
         {/* No sort item */}
         <MenuItem
-          key={'no.sort'}
+          key="no.sort"
           checked={!sortingModel}
           primaryText={formatMessage({ id: 'list.sort.none.label' })}
           insetChildren
@@ -83,7 +82,6 @@ class ListSortingComponent extends React.Component {
       </DropDownButton>
     )
   }
-
 }
 
 export default ListSortingComponent

@@ -13,7 +13,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 * Profile edition form component
 */
 export class ProfileEditionFormComponent extends React.Component {
-
   static propTypes = {
     // project metadata
     userMetadata: MetadataList.isRequired,

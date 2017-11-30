@@ -34,7 +34,6 @@ import messages from '../i18n'
  * @author Xavier-Alexandre Brochard
  */
 export class MicroserviceBoardContainer extends React.Component {
-
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string,

@@ -26,7 +26,6 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 export default class PluginServiceActions extends BasicSignalActions {
-
   /**
    * Construtor
    * @param namespace -
@@ -52,5 +51,4 @@ export default class PluginServiceActions extends BasicSignalActions {
     }
     return this.sendSignal('GET', null, null, queryParams)
   }
-
 }

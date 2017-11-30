@@ -35,7 +35,9 @@ export default theme => ({
           tabTemplateStyle: growingVerticalLayout,
           tab: {
             loading: {
-              rootStyle: { padding: '24px', display: 'flex', flexDirection: 'row', alignItems: 'center' },
+              rootStyle: {
+                padding: '24px', display: 'flex', flexDirection: 'row', alignItems: 'center',
+              },
               circleSize: 32,
               circleThickness: 1.5,
               messageStyle: { fontWeight: '0.8em', padding: '16px 0 0 16px', color: theme.subheader.color },
@@ -44,7 +46,9 @@ export default theme => ({
               rootStyle: growingFlexElement,
             },
             propertiesTab: {
-              rootStyle: { display: 'flex', flexDirection: 'row', alignItems: 'stretch', ...growingFlexElement },
+              rootStyle: {
+                display: 'flex', flexDirection: 'row', alignItems: 'stretch', ...growingFlexElement,
+              },
               loadingContainerStyle: { display: 'flex', alignItems: 'flex-start' },
               messageContainerStyle: { display: 'flex', alignItems: 'flex-start', paddingLeft: '24px' },
               attributes: {
@@ -76,7 +80,9 @@ export default theme => ({
                   rowStyle: { display: 'table-row' },
                   iconCellStyle: { display: 'table-cell', padding: '0 0 0.4em 0' },
                   searchIconStyle: { height: '24px', width: '24px' },
-                  infoIconStyle: { height: '24px', width: '24px', color: theme.palette.accent2Color, opacity: 0.7 },
+                  infoIconStyle: {
+                    height: '24px', width: '24px', color: theme.palette.accent2Color, opacity: 0.7,
+                  },
                   buttonStyle: { height: '24px', width: '24px', padding: 0 },
                   labelStyle: { display: 'table-cell', padding: '0 20px 0.4em 10px' },
                   actionStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },

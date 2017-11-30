@@ -45,7 +45,6 @@ const nameFieldValidators = [ValidationHelpers.validAlphaNumericUnderscore, Vali
  * Display edit and create attribute model form
  */
 export class AttributeModelFormComponent extends React.Component {
-
   static propTypes = {
     attrModelTypeList: PropTypes.arrayOf(PropTypes.string),
     attrModelRestrictionList: PropTypes.arrayOf(PropTypes.string),
@@ -145,8 +144,7 @@ export class AttributeModelFormComponent extends React.Component {
           primaryText={text}
         />
       )
-    },
-    )
+    })
     fragments.push(<MenuItem
       value={DEFAULT_FRAGMENT_NAME}
       key={DEFAULT_FRAGMENT_NAME}
@@ -223,7 +221,9 @@ export class AttributeModelFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { attrModelTypeList, attrModelRestrictionList, fragmentList, pristine, submitting, invalid } = this.props
+    const {
+      attrModelTypeList, attrModelRestrictionList, fragmentList, pristine, submitting, invalid,
+    } = this.props
     const styles = moduleStyles(this.context.muiTheme)
     const title = this.state.isCreating ? this.context.intl.formatMessage({ id: 'attrmodel.create.title' }) :
       this.context.intl.formatMessage({ id: 'attrmodel.edit.title' }, { name: this.props.currentAttrModel.content.name })

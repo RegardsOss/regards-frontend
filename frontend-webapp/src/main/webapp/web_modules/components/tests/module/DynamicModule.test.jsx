@@ -43,11 +43,13 @@ describe('[Components] Testing DynamicModule', () => {
       expanded: true,
       isAuthenticated: true,
     }
-    shallow((
-      <DynamicModule {...props} >
-        <div>Some content</div>
-      </DynamicModule>
-    ), { context })
+    shallow(
+      (
+        <DynamicModule {...props} >
+          <div>Some content</div>
+        </DynamicModule>
+      ), { context },
+    )
     // TODO-V2 please add LOADS OF TESTS (when time)
   })
 })

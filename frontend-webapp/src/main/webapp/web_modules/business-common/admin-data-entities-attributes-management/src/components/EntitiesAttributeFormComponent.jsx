@@ -43,7 +43,6 @@ import isRestrictedWithEnum from '../utils/isRestrictedWithEnum'
  * Form component to edit datasets/collection attributes that the admin has to define.
  */
 export class EntitiesAttributeFormComponent extends React.Component {
-
   static propTypes = {
     modelAttribute: DataManagementShapes.ModelAttribute,
     isEditing: PropTypes.bool.isRequired,

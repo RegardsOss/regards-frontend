@@ -46,7 +46,6 @@ const HateoasToggle = withHateoasDisplayControl(Toggle)
  * @author Léo Mieulet
  */
 class ServiceConfigurationListComponent extends React.Component {
-
   static propTypes = {
     uiPluginConfigurationList: AccessShapes.UIPluginConfList,
     uiPluginDefinition: AccessShapes.UIPluginDefinition.isRequired,
@@ -77,7 +76,9 @@ class ServiceConfigurationListComponent extends React.Component {
   }
 
   render() {
-    const { uiPluginConfigurationList, plugin, handleToggleActivation, handleDuplicate, handleToggleDefault, handleEdit, handleDelete, createUrl, backUrl } = this.props
+    const {
+      uiPluginConfigurationList, plugin, handleToggleActivation, handleDuplicate, handleToggleDefault, handleEdit, handleDelete, createUrl, backUrl,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,

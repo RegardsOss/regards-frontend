@@ -25,7 +25,6 @@ import messages from '../i18n'
  * Confirm action dialog component. Switches dialog mode,
  */
 class SIPConfirmDeleteDialog extends React.Component {
-
   static propTypes = {
     sipId: PropTypes.string.isRequired,
     onDeleteSip: PropTypes.func.isRequired,
@@ -54,13 +53,13 @@ class SIPConfirmDeleteDialog extends React.Component {
         onTouchTap={onClose}
       />,
       <FlatButton
-        key={'deleteSIP'}
+        key="deleteSIP"
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: 'sip.confirm.delete.sip' })}
         onTouchTap={() => this.handleDelete(this.props.onDeleteSip)}
       />,
       <FlatButton
-        key={'deleteSIPS'}
+        key="deleteSIPS"
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: 'sip.confirm.delete.sips' })}
         onTouchTap={() => this.handleDelete(this.props.onDeleteSips)}
@@ -83,7 +82,6 @@ class SIPConfirmDeleteDialog extends React.Component {
 
     )
   }
-
 }
 
 export default withI18n(messages)(SIPConfirmDeleteDialog)

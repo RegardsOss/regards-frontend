@@ -22,7 +22,6 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * My user actions, user interface: fetches authenticated project user and updates it (GET / PUT on the same URL)
  */
 export default class MyUserActions extends BasicSignalActions {
-
   /**
    * Constructor
    */
@@ -44,5 +43,4 @@ export default class MyUserActions extends BasicSignalActions {
   updateMyUser(projectUser) {
     return this.sendSignal('PUT', projectUser)
   }
-
 }

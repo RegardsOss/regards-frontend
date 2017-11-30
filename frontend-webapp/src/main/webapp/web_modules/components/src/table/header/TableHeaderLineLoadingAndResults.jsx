@@ -26,7 +26,6 @@ import TableHeaderLoadingComponent from './TableHeaderLoadingComponent'
  * Note: custom children will lose their i18n context and styles context in this component
  */
 class TableHeaderLineLoadingAndResults extends React.Component {
-
   static propTypes = {
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -61,8 +60,6 @@ class TableHeaderLineLoadingAndResults extends React.Component {
       </TableHeaderLine >
     )
   }
-
-
 }
 
 

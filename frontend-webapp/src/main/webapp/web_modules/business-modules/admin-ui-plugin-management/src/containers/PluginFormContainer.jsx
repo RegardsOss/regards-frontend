@@ -30,7 +30,6 @@ import messages from '../i18n'
  * @author Sébastien Binda
  */
 export class PluginFormContainer extends React.Component {
-
   static propTypes = {
     // From react router
     params: PropTypes.shape({

@@ -203,9 +203,11 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
 
     let componentWrapper = containerWrapper.find(DescriptionFileComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for collection entity')
-    assert.equal(componentWrapper.props().descriptionFileURL,
+    assert.equal(
+      componentWrapper.props().descriptionFileURL,
       DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.COLLECTION, ipId, accessToken, scope),
-      'The file should use the internal description download URL')
+      'The file should use the internal description download URL',
+    )
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
 
     const datasetIpId = 'URN:AIP:DATASET:0'
@@ -227,9 +229,11 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
     assert.equal(fetchCount.description, 0, 'Description should not be fetched for datatypes not locally handled')
     componentWrapper = containerWrapper.find(DescriptionFileComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for dataset entity')
-    assert.equal(componentWrapper.props().descriptionFileURL,
+    assert.equal(
+      componentWrapper.props().descriptionFileURL,
       DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.DATASET, datasetIpId, accessToken, scope),
-      'The file should use the internal description download URL')
+      'The file should use the internal description download URL',
+    )
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
   })
 

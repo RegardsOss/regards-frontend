@@ -65,18 +65,17 @@ const ALL_MODULE_TYPES = values(VisibleModuleTypes)
  * @return promise for loading module. The promise will return (then) the loaded module or null if loading failed
  */
 function loadModule(moduleType) {
-  return new Promise(
-    (resolve, reject) => {
-      // load module through webpack chunk loader, see https://webpack.js.org/guides/code-splitting-async/#require-ensure-
-      require.ensure([], (require) => {
-        try {
-          // eslint-disable-next-line import/no-dynamic-require
-          resolve(require(`@regardsoss-modules/${moduleType}/src/main.js`))
-        } catch (e) {
-          resolve(null)
-        }
-      })
+  return new Promise((resolve, reject) => {
+    // load module through webpack chunk loader, see https://webpack.js.org/guides/code-splitting-async/#require-ensure-
+    require.ensure([], (require) => {
+      try {
+        // eslint-disable-next-line import/no-dynamic-require
+        resolve(require(`@regardsoss-modules/${moduleType}/src/main.js`))
+      } catch (e) {
+        resolve(null)
+      }
     })
+  })
 }
 
 const trueFunction = any => true

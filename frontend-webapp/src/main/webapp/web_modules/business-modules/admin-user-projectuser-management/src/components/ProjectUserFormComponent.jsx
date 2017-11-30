@@ -47,7 +47,6 @@ const requiredEmailValidator = [required, email]
  * Display edit and create project form
  */
 export class ProjectUserFormComponent extends React.Component {
-
   static POPOVER_ANCHOR_ORIGIN = { horizontal: 'left', vertical: 'top' }
 
   static propTypes = {
@@ -225,7 +224,9 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   render() {
-    const { invalid, userMetadata, submitting, roleList, passwordRules, useExistingAccount } = this.props
+    const {
+      invalid, userMetadata, submitting, roleList, passwordRules, useExistingAccount,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <form
@@ -391,8 +392,6 @@ const connectedReduxForm = reduxForm({
 
 // connect with selector to select the last mail value
 const selector = formValueSelector('user-form')
-export default connect(
-  state => ({
-    useExistingAccount: selector(state, 'useExistingAccount'),
-  }),
-)(connectedReduxForm)
+export default connect(state => ({
+  useExistingAccount: selector(state, 'useExistingAccount'),
+}))(connectedReduxForm)

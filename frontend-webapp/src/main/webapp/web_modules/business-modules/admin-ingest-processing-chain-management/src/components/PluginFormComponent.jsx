@@ -24,7 +24,6 @@ import { CommonShapes } from '@regardsoss/shape'
  * @author Sébastien Binda
  */
 export class PluginFormComponent extends React.Component {
-
   static propTypes = {
     title: PropTypes.string,
     selectLabel: PropTypes.string,
@@ -51,7 +50,9 @@ export class PluginFormComponent extends React.Component {
   }
 
   render() {
-    const { reduxFormInitialize, reduxFormGetField, reduxFormChange, fieldNamePrefix, ingestPluginType, pluginConf, selectLabel, title } = this.props
+    const {
+      reduxFormInitialize, reduxFormGetField, reduxFormChange, fieldNamePrefix, ingestPluginType, pluginConf, selectLabel, title,
+    } = this.props
     const styles = {
       display: 'flex',
       alignItems: 'baseline',
@@ -63,7 +64,7 @@ export class PluginFormComponent extends React.Component {
           <PluginListContainer
             title={title}
             selectLabel={selectLabel}
-            microserviceName={'rs-ingest'}
+            microserviceName="rs-ingest"
             pluginType={ingestPluginType}
             storePath={storePath}
             selectedPluginId={pluginConf ? pluginConf.pluginId : null}
@@ -73,7 +74,7 @@ export class PluginFormComponent extends React.Component {
         </div>
         {this.state.selectedPluginMetaData ?
           <PluginConfigurator
-            microserviceName={'rs-ingest'}
+            microserviceName="rs-ingest"
             pluginMetaData={this.state.selectedPluginMetaData}
             pluginConfiguration={pluginConf}
             formMode={this.props.pluginConf && this.props.pluginConf.pluginId === this.state.selectedPluginMetaData.pluginId ? 'edit' : 'create'}
@@ -87,6 +88,5 @@ export class PluginFormComponent extends React.Component {
       </div>
     )
   }
-
 }
 export default PluginFormComponent

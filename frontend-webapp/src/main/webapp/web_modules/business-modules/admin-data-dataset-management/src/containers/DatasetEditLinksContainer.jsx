@@ -37,7 +37,6 @@ import messages from '../i18n'
  * Show the dataset form
  */
 export class DatasetEditLinksContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -94,26 +93,20 @@ export class DatasetEditLinksContainer extends React.Component {
     const { collectionName } = this.state
     const collectionLinkedToCurrentCollection = partition(collectionList, collection =>
       some(currentDataset.content.tags, tag =>
-        tag === collection.content.ipId,
-      ),
-    )
+        tag === collection.content.ipId))
     return filter(collectionLinkedToCurrentCollection[1], remainingCollection =>
-      startsWith(remainingCollection.content.label.toLowerCase(), collectionName),
-    )
+      startsWith(remainingCollection.content.label.toLowerCase(), collectionName))
   }
 
 
   getCollectionLinked = (collectionIpIdList, collectionList) =>
     map(collectionIpIdList, collectionIpId =>
       find(collectionList, collection =>
-        collection.content.ipId === collectionIpId,
-      ),
-    )
+        collection.content.ipId === collectionIpId))
 
   partitionDatasetLinkedTags = (currentDataset) => {
     const linkedTags = partition(currentDataset.content.tags, tag =>
-      tag.match(/URN:.*:COLLECTION.*/),
-    )
+      tag.match(/URN:.*:COLLECTION.*/))
     return linkedTags
   }
 
@@ -147,8 +140,7 @@ export class DatasetEditLinksContainer extends React.Component {
   handleDelete = (tag, usingUpdate) => {
     if (usingUpdate) {
       this.props.currentDataset.content.tags = remove(this.props.currentDataset.content.tags, existingTag =>
-        existingTag !== tag,
-      )
+        existingTag !== tag)
       this.props.updateDataset(this.props.currentDataset.content.id, this.props.currentDataset.content)
     } else {
       Promise.resolve(this.props.removeTagFromDataset(this.props.currentDataset.content.id, [tag]))

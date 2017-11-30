@@ -64,7 +64,9 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
           links: [],
         },
         AG2: {
-          content: { id: 2, name: 'AG2', users: [], accessRights: [], isPrivate: true },
+          content: {
+            id: 2, name: 'AG2', users: [], accessRights: [], isPrivate: true,
+          },
           links: [],
         },
       },
@@ -75,7 +77,9 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
           email: 'mon@adresse.em',
           lastUpdate: {
             date: { year: '2017', month: '1', day: '9' },
-            time: { hour: '15', minute: '46', second: '12', nano: '453000000' },
+            time: {
+              hour: '15', minute: '46', second: '12', nano: '453000000',
+            },
           },
           status: 'WAITING_ACCESS',
           metadata: [{

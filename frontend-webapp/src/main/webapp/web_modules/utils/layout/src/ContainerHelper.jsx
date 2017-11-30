@@ -47,7 +47,6 @@ const getAllContainersInLayout = layout => flattenDeep(layout.containers.map(vis
  * @author Sébastien Binda
  */
 class ContainerHelper {
-
   /*
    * Retrieve class names for the given container
    * @param pContainer container to retrieve classes names
@@ -244,7 +243,6 @@ class ContainerHelper {
       container.dynamicContent = true
     }
   }
-
 }
 
 export default ContainerHelper

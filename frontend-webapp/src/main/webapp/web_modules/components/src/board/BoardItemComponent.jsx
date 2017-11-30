@@ -37,7 +37,6 @@ const BaseBoardItemComponentWithResourceDisplayControl = withResourceDisplayCont
  * @author Xavier-Alexandre Brochard
  */
 class BoardItemComponent extends React.Component {
-
   static propTypes = {
     item: BoardItemShape.isRequired,
   }

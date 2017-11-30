@@ -29,7 +29,6 @@ import messages from '../i18n'
  * Show the datasource list
  */
 export class DatasourceListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

@@ -33,7 +33,6 @@ import ContactComponent from './ContactComponent'
 * @author Raphaël Mechali
 */
 class MainMenuComponent extends React.Component {
-
   static propTypes = {
     appName: PropTypes.string,
     project: PropTypes.string,
@@ -54,8 +53,10 @@ class MainMenuComponent extends React.Component {
 
 
   render() {
-    const { title, displayAuthentication, displayCartSelector,
-      displayLocaleSelector, displayThemeSelector, projectAboutPage, contacts } = this.props
+    const {
+      title, displayAuthentication, displayCartSelector,
+      displayLocaleSelector, displayThemeSelector, projectAboutPage, contacts,
+    } = this.props
     const { moduleTheme: { user: { rootStyle, titleGroup, optionsGroup } } } = this.context
 
     return (

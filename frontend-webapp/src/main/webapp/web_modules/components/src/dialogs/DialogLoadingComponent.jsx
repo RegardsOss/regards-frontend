@@ -24,7 +24,6 @@ import { themeContextType } from '@regardsoss/theme'
 * @author Raphaël Mechali
 */
 class DialogLoadingComponent extends React.Component {
-
   static propTypes = {
     loadingMessage: PropTypes.string.isRequired,
   }

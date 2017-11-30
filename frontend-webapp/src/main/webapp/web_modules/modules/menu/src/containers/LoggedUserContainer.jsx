@@ -36,7 +36,6 @@ import LoggedUserComponent from '../components/LoggedUserComponent'
  * @author Sébastien binda
  */
 export class LoggedUserContainer extends React.Component {
-
   static propTypes = {
     appName: PropTypes.string.isRequired,
     project: PropTypes.string.isRequired,
@@ -104,8 +103,10 @@ export class LoggedUserContainer extends React.Component {
 
 
   render() {
-    const { authenticationName, currentRole, borrowableRoles,
-      showProfileEdition, isInstance } = this.props
+    const {
+      authenticationName, currentRole, borrowableRoles,
+      showProfileEdition, isInstance,
+    } = this.props
     return (
       <LoggedUserComponent
         name={authenticationName}

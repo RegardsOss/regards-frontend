@@ -31,7 +31,6 @@ import SessionManagementContainer from '../containers/SessionManagementContainer
  * 2 - perform redirections required on external mail re-entries
  */
 export class AuthenticationModuleContainer extends React.Component {
-
   static propTypes = {
     // current project (undefined or empty if admin)
     project: PropTypes.string.isRequired,
@@ -96,7 +95,11 @@ export class AuthenticationModuleContainer extends React.Component {
 
   render() {
     // parse initial state from parameters
-    const { project, moduleConf: { showLoginWindow, loginTitle, showAskProjectAccess, showCancel, onCancelAction } } = this.props
+    const {
+      project, moduleConf: {
+        showLoginWindow, loginTitle, showAskProjectAccess, showCancel, onCancelAction,
+      },
+    } = this.props
     const { initialViewMode, initialEmail, actionToken } = this.state
     // render in session management HOC (can override 'should show' if session is locked, controls dialog state and content)
     return (

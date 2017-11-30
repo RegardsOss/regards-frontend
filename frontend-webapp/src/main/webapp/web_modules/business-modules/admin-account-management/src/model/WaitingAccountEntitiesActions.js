@@ -26,7 +26,6 @@ class WaitingAccountEntitiesActions extends AccountActions {
   fetchWaitingAccountsEntityList(index, size) {
     return this.fetchPagedEntityList(index, size, null, { status: 'PENDING' })
   }
-
 }
 
 const instance = new WaitingAccountEntitiesActions()

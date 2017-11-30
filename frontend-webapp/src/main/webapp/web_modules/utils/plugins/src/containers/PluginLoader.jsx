@@ -36,7 +36,6 @@ import LoadPluginSelector from '../model/LoadPluginSelector'
  *
  */
 class PluginLoader extends React.Component {
-
   /**
    * pluginInstanceId: An unique identifier of the plugin to provide, in  case you're loading multiple plugins on the same page
    * pluginConf : Props to add to the plugin rendered,
@@ -146,7 +145,6 @@ class PluginLoader extends React.Component {
       </LoadableContentDisplayDecorator>
     )
   }
-
 }
 
 const mapStateToProps = (state, ownProps) => ({

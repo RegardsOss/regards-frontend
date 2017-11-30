@@ -32,7 +32,6 @@ const { validRequiredString } = ValidationHelpers
  * @author Xavier-Alexandre Brochard
  */
 export class DynamicValueCreateComponent extends React.Component {
-
   static propTypes = {
     open: PropTypes.bool,
     onRequestClose: PropTypes.func.isRequired,
@@ -78,7 +77,9 @@ export class DynamicValueCreateComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { open, onRequestClose, submitting, invalid, handleSubmit, pluginParameterType } = this.props
+    const {
+      open, onRequestClose, submitting, invalid, handleSubmit, pluginParameterType,
+    } = this.props
     const { muiTheme, intl } = this.context
     const styles = moduleStyles(muiTheme)
 

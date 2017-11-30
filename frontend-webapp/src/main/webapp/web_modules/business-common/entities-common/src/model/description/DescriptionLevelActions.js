@@ -3,7 +3,6 @@
 **/
 
 export default class DescriptionLevelAction {
-
   constructor(namespace) {
     this.SHOW = `${namespace}/DESCRIPTION_LEVEL/SHOW`
     this.SHOW_RELATED_ENTITY = `${namespace}/DESCRIPTION_LEVEL/SHOW_RELATED_ENTITY`
@@ -56,5 +55,4 @@ export default class DescriptionLevelAction {
       type: this.HIDE,
     }
   }
-
 }

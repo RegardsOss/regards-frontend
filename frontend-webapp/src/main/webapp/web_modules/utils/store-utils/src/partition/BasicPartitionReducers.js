@@ -7,7 +7,6 @@ import identity from 'lodash/identity'
  * Reducers for partition data, update store state by partitionKey
  */
 export default class BasicPartitionReducers {
-
   /**
    * Constructor
    * @param {*} storePartionedAction actions (provides the actions identifier for this reducer)
@@ -54,6 +53,5 @@ export default class BasicPartitionReducers {
         return state
     }
   }
-
 }
 

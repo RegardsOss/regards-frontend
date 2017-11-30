@@ -24,7 +24,6 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 class CreateOrderActions extends BasicSignalActions {
-
   /**
    * Constructor
    * @param {*} namespace  actions namespace
@@ -42,7 +41,6 @@ class CreateOrderActions extends BasicSignalActions {
   order() {
     return this.sendSignal('POST')
   }
-
 }
 
 export default CreateOrderActions

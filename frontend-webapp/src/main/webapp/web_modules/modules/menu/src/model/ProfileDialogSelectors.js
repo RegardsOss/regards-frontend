@@ -27,7 +27,6 @@ class ProfileDialogSelectors extends BasicSelector {
   }
 
   isProfileEditionVisible = state => this.uncombineStore(state).profileEditionVisible
-
 }
 
 

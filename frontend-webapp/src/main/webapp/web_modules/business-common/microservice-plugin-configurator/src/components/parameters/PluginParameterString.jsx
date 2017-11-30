@@ -38,7 +38,6 @@ const { required, string } = ValidationHelpers
  * @author Xavier-Alexandre Brochard
  */
 export class PluginParameterString extends React.Component {
-
   static propTypes = pluginParameterComponentPropTypes
 
   static contextTypes = {
@@ -46,7 +45,9 @@ export class PluginParameterString extends React.Component {
   }
 
   render() {
-    const { reduxFormfieldNamePrefix, pluginParameter, pluginParameterType, mode, pluginMetaData } = this.props
+    const {
+      reduxFormfieldNamePrefix, pluginParameter, pluginParameterType, mode, pluginMetaData,
+    } = this.props
     const { muiTheme } = this.context
     const isView = mode === 'view'
     const validators = [string]
@@ -74,7 +75,7 @@ export class PluginParameterString extends React.Component {
             name={fieldName}
             fullWidth
             component={RenderTextField}
-            type={'text'}
+            type="text"
             label={label}
             validate={validators}
             normalize={trim}

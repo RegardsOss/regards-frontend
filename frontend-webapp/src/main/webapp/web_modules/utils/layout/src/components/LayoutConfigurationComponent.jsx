@@ -32,7 +32,6 @@ const EDIT_ACTION = 'EDIT'
  * @author Sébastien Binda
  */
 class LayoutConfigurationComponent extends React.Component {
-
   static propTypes = {
     layout: AccessShapes.Layout,
     hideDynamicContentOption: PropTypes.bool,
@@ -151,7 +150,6 @@ class LayoutConfigurationComponent extends React.Component {
       </div >
     )
   }
-
 }
 
 export default withI18n(messages)(LayoutConfigurationComponent)

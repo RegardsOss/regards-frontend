@@ -26,7 +26,6 @@ import { createSelector } from 'reselect'
  * @author Raphaël Mechali
  */
 class OrderBasketSelectors extends BasicSignalSelectors {
-
   /**
    * Returns basket (as result content field)
    * @param {*} state redux application state
@@ -35,13 +34,13 @@ class OrderBasketSelectors extends BasicSignalSelectors {
     return get(this.uncombineStore(state), 'result.content')
   }
 
-  getObjectsCount = createSelector([state => this.getOrderBasket(state)],
+  getObjectsCount = createSelector(
+    [state => this.getOrderBasket(state)],
     (orderBasket) => {
       const datasetSelections = get(orderBasket, 'datasetSelections', [])
       return datasetSelections.reduce((acc, datasetSelection) => acc + datasetSelection.objectsCount, 0)
     },
   )
-
 }
 
 export default (storePath = ['user', 'order-basket']) => new OrderBasketSelectors(storePath)

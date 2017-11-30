@@ -35,7 +35,6 @@ import messages from '../../i18n'
  * @author Sébastien Binda
  */
 export class ProjectListContainer extends React.Component {
-
   static propTypes = {
     projectList: AdminShapes.ProjectList,
     fetchProjectList: PropTypes.func,

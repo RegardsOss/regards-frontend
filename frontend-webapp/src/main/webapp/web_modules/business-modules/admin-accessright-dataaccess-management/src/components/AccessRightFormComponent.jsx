@@ -37,7 +37,6 @@ import AccessRightsEnum from './AccessRightsEnum'
  * Display edit and create accessright form
  */
 export class AccessRightFormComponent extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
@@ -276,7 +275,9 @@ export class AccessRightFormComponent extends React.Component {
   }
 
   render() {
-    const { submitting, invalid, pluginMetaDataList, pluginConfigurationList } = this.props
+    const {
+      submitting, invalid, pluginMetaDataList, pluginConfigurationList,
+    } = this.props
     const { isDisplayPluginConf } = this.state
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>

@@ -28,7 +28,6 @@ import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/Plu
 import messages from '../i18n'
 
 export class DatasetEditPluginContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -117,8 +116,6 @@ export class DatasetEditPluginContainer extends React.Component {
       </I18nProvider>
     )
   }
-
-
 }
 
 

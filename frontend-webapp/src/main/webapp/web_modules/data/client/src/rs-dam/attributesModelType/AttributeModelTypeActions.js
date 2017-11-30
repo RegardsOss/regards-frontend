@@ -24,7 +24,6 @@ import { BasicArrayActions } from '@regardsoss/store-utils'
  * @author Léo Mieulet
  */
 export default class AttributeModelTypeActions extends BasicArrayActions {
-
   /**
    * Construtor
    * @param namespace

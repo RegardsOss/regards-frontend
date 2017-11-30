@@ -26,7 +26,6 @@ import messages from '../../../i18n'
 * @author Raphaël Mechali
 */
 export class SelectionDetailNoDataComponent extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
   }

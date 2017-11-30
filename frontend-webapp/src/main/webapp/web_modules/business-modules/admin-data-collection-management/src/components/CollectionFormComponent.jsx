@@ -43,7 +43,6 @@ const DESCRIPTION_MODE = {
  * React component to list collections.
  */
 export class CollectionFormComponent extends React.Component {
-
   static propTypes = {
     currentCollection: DataManagementShapes.Collection,
     onSubmit: PropTypes.func.isRequired,
@@ -164,7 +163,9 @@ export class CollectionFormComponent extends React.Component {
   }
 
   render() {
-    const { modelList, modelAttributeList, submitting, invalid, backUrl } = this.props
+    const {
+      modelList, modelAttributeList, submitting, invalid, backUrl,
+    } = this.props
     const { showDescriptionMode, disableNoDescription } = this.state
     const title = this.getTitle()
     return (

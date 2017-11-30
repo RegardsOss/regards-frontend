@@ -27,7 +27,6 @@ import ProjectsAction from '../model/ProjectsAction'
  * Display news and project list on the homepage
  */
 export class ModuleContainer extends React.Component {
-
   static propTypes = {
     // Set by module loader
     // eslint-disable-next-line react/no-unused-prop-types

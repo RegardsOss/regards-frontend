@@ -9,7 +9,6 @@ import { themeContextType } from '@regardsoss/theme'
 * Breadcrumb element displayer, to be built by a parent Breadcrumb
 */
 class BreadcrumbElement extends React.Component {
-
   static propTypes = {
     isFirst: PropTypes.bool,
     isLast: PropTypes.bool,
@@ -23,7 +22,9 @@ class BreadcrumbElement extends React.Component {
   }
 
   render() {
-    const { isFirst, isLast, onAction, label, RootIconConstructor } = this.props
+    const {
+      isFirst, isLast, onAction, label, RootIconConstructor,
+    } = this.props
     const { element: { style, iconStyle, labelStyle } } = this.context.moduleTheme.breadcrumb
     const IconConstructor = isFirst ? RootIconConstructor : NextLevelIcon
     return (

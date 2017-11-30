@@ -32,7 +32,6 @@ import styles from '../styles'
  * @author Raphaël Mechali
  */
 export class OrderListContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -83,4 +82,5 @@ export class OrderListContainer extends React.Component {
 // export connected to module styles (but allow overriding)
 export default compose(
   connect(OrderListContainer.mapStateToProps, OrderListContainer.mapDispatchToProps),
-  withI18n(messages, true), withModuleStyle(styles, true))(OrderListContainer)
+  withI18n(messages, true), withModuleStyle(styles, true),
+)(OrderListContainer)

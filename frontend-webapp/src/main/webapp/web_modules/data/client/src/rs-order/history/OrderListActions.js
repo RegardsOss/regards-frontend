@@ -26,7 +26,6 @@ import Schemas from '@regardsoss/api'
  * @author Raphaël Mechali
  */
 class OrderListActions extends BasicPageableActions {
-
   /** Endpoint for all users orders */
   static ALL_USERS_ORDERS_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders`
 
@@ -57,7 +56,6 @@ class OrderListActions extends BasicPageableActions {
   getOrdersPage(pageNumber, size) {
     return this.fetchPagedEntityList(pageNumber, size)
   }
-
 }
 
 export default OrderListActions

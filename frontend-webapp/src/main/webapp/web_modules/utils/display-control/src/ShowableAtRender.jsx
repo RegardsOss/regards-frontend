@@ -18,7 +18,6 @@
  **/
 
 class ShowableAtRender extends React.Component {
-
   static propTypes = {
     show: PropTypes.bool,
     children: PropTypes.oneOfType([

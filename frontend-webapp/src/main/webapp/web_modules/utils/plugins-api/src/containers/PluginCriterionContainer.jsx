@@ -33,7 +33,6 @@ import { DataManagementShapes } from '@regardsoss/shape'
  * @author Sébastien Binda
  */
 class PluginCriterionContainer extends React.Component {
-
   static propTypes = {
     /**
      * Plugin identifier

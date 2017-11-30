@@ -30,7 +30,6 @@ import styles from '../styles'
 * @author Sébastien Binda
 */
 export class RenderFileFieldWithMui extends React.Component {
-
   static propTypes = {
     input: PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -88,7 +87,7 @@ export class RenderFileFieldWithMui extends React.Component {
           <div style={RenderFileFieldWithMui.propStyles}>{intl.formatMessage({ id: 'renderer.fileField.file.type' })} : {file.type}</div>
           <div style={RenderFileFieldWithMui.propStyles}>
             {intl.formatMessage({ id: 'renderer.fileField.file.size' })} :
-          {this.transformSize(file.size)}
+            {this.transformSize(file.size)}
           </div>
         </div>
       </div>
@@ -124,5 +123,6 @@ export class RenderFileFieldWithMui extends React.Component {
 
 export default compose(
   withI18n(messages),
-  withModuleStyle(styles))(RenderFileFieldWithMui)
+  withModuleStyle(styles),
+)(RenderFileFieldWithMui)
 

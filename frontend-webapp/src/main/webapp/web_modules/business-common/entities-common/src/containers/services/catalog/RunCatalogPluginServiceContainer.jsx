@@ -18,7 +18,6 @@ import { resolveParametersWithTypes, packTargetParameters } from '../../../defin
 * Note: it uses lifecycle (mount) to fetch plugin configuration and metadata, then it resolves edition parameters.
 */
 export class RunCatalogPluginServiceContainer extends React.Component {
-
   static Steps = {
     // Init 1: fetch plugin configuration
     FETCH_PLUGIN_CONFIGURATION: 'FETCH_PLUGIN_CONFIGURATION',
@@ -187,29 +186,28 @@ export class RunCatalogPluginServiceContainer extends React.Component {
    */
   renderCurrentStep = () => {
     const { intl: { formatMessage } } = this.context
-    const { step, resolvedParameters, userParametersValues, resultFile, localAccessURL } = this.state
+    const {
+      step, resolvedParameters, userParametersValues, resultFile, localAccessURL,
+    } = this.state
     switch (step) {
       // loading states
       case RunCatalogPluginServiceContainer.Steps.FETCH_PLUGIN_CONFIGURATION:
       case RunCatalogPluginServiceContainer.Steps.FETCH_PLUGIN_METADATA:
-        return RunServiceDialogComponent.buildLoadingStep(
-          formatMessage({ id: 'entities.common.services.loading.plugin.information' }))
+        return RunServiceDialogComponent.buildLoadingStep(formatMessage({ id: 'entities.common.services.loading.plugin.information' }))
       case RunCatalogPluginServiceContainer.Steps.FETCH_APPLY_SERVICE:
-        return RunServiceDialogComponent.buildLoadingStep(
-          formatMessage({ id: 'entities.common.services.loading.results' }))
+        return RunServiceDialogComponent.buildLoadingStep(formatMessage({ id: 'entities.common.services.loading.results' }))
       // error states
       case RunCatalogPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR:
       case RunCatalogPluginServiceContainer.Steps.PLUGIN_METADATA_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(
-          formatMessage({ id: 'entities.common.services.loading.plugin.failed' }), true)
+        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.loading.plugin.failed' }), true)
       case RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(
-          formatMessage({ id: 'entities.common.services.plugin.parameters.error' }), true)
+        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.plugin.parameters.error' }), true)
       case RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_ERROR:
         // error after results, allow back if there was plugin configuration
         return RunServiceDialogComponent.buildMessageStep(
           formatMessage({ id: 'entities.common.services.plugin.run.failed' }), true,
-          [this.renderPreviousOption()])// custom options: previous
+          [this.renderPreviousOption()],
+        )// custom options: previous
       // configuration state
       case RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION:
         return RunServiceDialogComponent.buildParametersConfigurationStep(resolvedParameters, userParametersValues, this.onConfigurationDone)
@@ -217,14 +215,12 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       case RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT: {
         // 1 - if there is some usable result, provide a result displaying step
         if (localAccessURL) {
-          return RunServiceDialogComponent.buildResultsStep(
-            <FileContentDisplayer fileAccessURL={localAccessURL} file={resultFile} />, [
-              <DownloadResultButton key="download.button" localAccessURL={localAccessURL} />, // custom options: download
-              this.renderPreviousOption()]) // custom options: previous
+          return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer fileAccessURL={localAccessURL} file={resultFile} />, [
+            <DownloadResultButton key="download.button" localAccessURL={localAccessURL} />, // custom options: download
+            this.renderPreviousOption()]) // custom options: previous
         }
         // 2 - No: just provide a message step saying everything went right
-        return RunServiceDialogComponent.buildMessageStep(
-          formatMessage({ id: 'entities.common.services.plugin.run.empty' }), false, [this.renderPreviousOption()])
+        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.plugin.run.empty' }), false, [this.renderPreviousOption()])
       }
       default:
         throw new Error(`Unknown catalog plugin service launchin step: ${step}`)

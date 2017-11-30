@@ -57,9 +57,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeRegroupementComponent', () => {
       onEdit: onEditSpy,
     }
 
-    const wrapper = shallow(
-      <AttributeRegroupementComponent {...props} />, options,
-    )
+    const wrapper = shallow(<AttributeRegroupementComponent {...props} />, options)
 
     const attributeName = wrapper.find(CardHeader).find({ title: attributeConfProp.label })
     assert.lengthOf(attributeName, 1, 'There title of the card attribute should be the attribute name')

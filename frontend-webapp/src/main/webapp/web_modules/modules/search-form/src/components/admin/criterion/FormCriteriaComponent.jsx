@@ -32,7 +32,6 @@ import CriteriaConfigurationComponent from './CriteriaConfigurationComponent'
  * @author Sébastien binda
  */
 class FormCriteriaComponent extends React.Component {
-
   static propTypes = {
     // Criteria to edit or null to create a new one.
     criteria: AccessShapes.UIPluginConf,
@@ -124,8 +123,7 @@ class FormCriteriaComponent extends React.Component {
   renderCriterionTypesList = () => {
     if (!this.props.criterionFetching && this.props.availableCriterion) {
       return map(this.props.availableCriterion, (criterion, idx) =>
-        <MenuItem key={idx} value={criterion.content.id} primaryText={criterion.content.name} />,
-      )
+        <MenuItem key={idx} value={criterion.content.id} primaryText={criterion.content.name} />)
     }
     return []
   }
@@ -159,7 +157,7 @@ class FormCriteriaComponent extends React.Component {
       return (
         <PluginProvider
           key={this.state.selectedCriteria}
-          pluginInstanceId={'add-criteria'}
+          pluginInstanceId="add-criteria"
           pluginId={this.state.selectedCriteria}
           displayPlugin={false}
           onErrorCallback={this.pluginLoadError}

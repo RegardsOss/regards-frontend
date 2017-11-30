@@ -31,7 +31,6 @@ import en from '../gb_flag.png'
  * @author Sébastien Binda
  */
 class SelectLocaleComponent extends React.Component {
-
   static propTypes = {
     locales: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentLocale: PropTypes.string,

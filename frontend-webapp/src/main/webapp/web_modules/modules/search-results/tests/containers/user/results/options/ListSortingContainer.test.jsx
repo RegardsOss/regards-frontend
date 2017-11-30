@@ -27,10 +27,18 @@ import styles from '../../../../../src/styles/styles'
 const context = buildTestContext(styles)
 
 const models = [
-  { key: '0', label: 'L3', attributes: [], enableSorting: true, sortOrder: '' },
-  { key: '1', label: 'L2', attributes: [], enableSorting: false, sortOrder: '' },
-  { key: '2', label: 'L1', attributes: [], enableSorting: true, sortOrder: '' },
-  { key: '3', label: 'L4', attributes: [], enableSorting: true, sortOrder: '' },
+  {
+    key: '0', label: 'L3', attributes: [], enableSorting: true, sortOrder: '',
+  },
+  {
+    key: '1', label: 'L2', attributes: [], enableSorting: false, sortOrder: '',
+  },
+  {
+    key: '2', label: 'L1', attributes: [], enableSorting: true, sortOrder: '',
+  },
+  {
+    key: '3', label: 'L4', attributes: [], enableSorting: true, sortOrder: '',
+  },
 ]
 
 /**

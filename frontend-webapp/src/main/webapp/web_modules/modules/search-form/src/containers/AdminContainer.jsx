@@ -33,7 +33,6 @@ import FormTabsComponent from '../components/admin/FormTabsComponent'
  * @author Sébastien binda
  */
 class AdminContainer extends React.Component {
-
   static propTypes = {
     // Props supplied by LazyModuleComponent
     appName: PropTypes.string,
@@ -78,9 +77,11 @@ class AdminContainer extends React.Component {
 
   componentWillMount() {
     if (get(this.props, 'adminForm.form.conf.datasets', null)) {
-      this.updateselectableDataObjectsAttributes(this.props.adminForm.form.conf.datasets.type,
+      this.updateselectableDataObjectsAttributes(
+        this.props.adminForm.form.conf.datasets.type,
         this.props.adminForm.form.conf.datasets.selectedModels,
-        this.props.adminForm.form.conf.datasets.selectedDatasets)
+        this.props.adminForm.form.conf.datasets.selectedDatasets,
+      )
     } else {
       this.updateselectableDataObjectsAttributes()
     }
@@ -95,9 +96,11 @@ class AdminContainer extends React.Component {
     const datasetsConf = get(this.props, 'adminForm.form.conf.datasets', null)
     const newDatasetsConf = get(nextProps, 'adminForm.form.conf.datasets', null)
     if (datasetsConf && newDatasetsConf && !isEqual(datasetsConf, newDatasetsConf)) {
-      this.updateselectableDataObjectsAttributes(newDatasetsConf.type,
+      this.updateselectableDataObjectsAttributes(
+        newDatasetsConf.type,
         newDatasetsConf.selectedModels,
-        newDatasetsConf.selectedDatasets)
+        newDatasetsConf.selectedDatasets,
+      )
     }
   }
 
@@ -174,11 +177,9 @@ const mapDispatchToProps = dispatch => ({
   fetchCriterion: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {}, { type: 'CRITERIA' })),
   fetchAllModelsAttributes: () => dispatch(datasetDataAttributesActions.fetchPagedEntityList(0, 10000)),
   // Function to retrieve attributes associated to the selected models
-  fetchModelsAttributes: modelsId => dispatch(
-    datasetDataAttributesActions.fetchPagedEntityList(0, 10000, {}, { modelId: listToQueryParam(modelsId) })),
+  fetchModelsAttributes: modelsId => dispatch(datasetDataAttributesActions.fetchPagedEntityList(0, 10000, {}, { modelId: listToQueryParam(modelsId) })),
   // Function to retrieve attributes associated to the selected datasets
-  fetchDatasetsAttributes: datasetsId => dispatch(
-    datasetDataAttributesActions.fetchPagedEntityList(0, 10000, {}, { datasetIds: listToQueryParam(datasetsId) })),
+  fetchDatasetsAttributes: datasetsId => dispatch(datasetDataAttributesActions.fetchPagedEntityList(0, 10000, {}, { datasetIds: listToQueryParam(datasetsId) })),
   // funcution to update a value of the current redux-form
 })
 

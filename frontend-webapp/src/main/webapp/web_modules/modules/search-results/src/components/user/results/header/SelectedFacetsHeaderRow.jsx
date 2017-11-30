@@ -13,7 +13,6 @@ import SelectedFacetComponent from '../facets/SelectedFacetComponent'
  * Header line for facets and results count row
  */
 class SelectedFacetsHeaderRow extends React.Component {
-
   static propTypes = {
     showingFacettes: PropTypes.bool.isRequired,
     filters: FilterListShape,
@@ -48,6 +47,5 @@ class SelectedFacetsHeaderRow extends React.Component {
       </ShowableAtRender>
     )
   }
-
 }
 export default SelectedFacetsHeaderRow

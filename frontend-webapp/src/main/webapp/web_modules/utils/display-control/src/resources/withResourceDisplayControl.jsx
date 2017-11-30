@@ -34,7 +34,6 @@ import getDisplayName from '../getDisplayName'
  */
 const withResourceDisplayControl = (DecoratedComponent) => {
   class WithResourceDisplayControl extends React.Component {
-
     static propTypes = {
       // Function taking two arrays of strings as parameters and returning True or False
       displayLogic: PropTypes.func.isRequired,
@@ -59,7 +58,9 @@ const withResourceDisplayControl = (DecoratedComponent) => {
     render() {
       // Remove from otherProps all props that doesn't need to be reinjected in children
       // eslint-disable-next-line no-unused-vars, react/prop-types
-      const { displayLogic, resourceDependencies, availableDependencies, isInstance, theme, i18n, dispatch, ...otherProps } = this.props
+      const {
+        displayLogic, resourceDependencies, availableDependencies, isInstance, theme, i18n, dispatch, ...otherProps
+      } = this.props
       const decoratedComponentElement = React.createElement(DecoratedComponent, otherProps)
       const requiredDependencies = isString(resourceDependencies) ? [resourceDependencies] : resourceDependencies
       const isDisplayed = requiredDependencies.length === 0 || displayLogic(requiredDependencies, availableDependencies)

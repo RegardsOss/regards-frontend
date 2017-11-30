@@ -34,7 +34,6 @@ import DatasourceFormMappingCustomComponent from './DatasourceFormMappingCustomC
 import states from './FormMappingStates'
 
 export class DatasourceFormMappingComponent extends React.Component {
-
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     isEditing: PropTypes.bool,
@@ -150,7 +149,9 @@ export class DatasourceFormMappingComponent extends React.Component {
   }
 
   render() {
-    const { isSingleTable, handleBack, tableList, tableAttributeList, modelAttributeList, change, currentDatasource, isEditing, submitting, invalid } = this.props
+    const {
+      isSingleTable, handleBack, tableList, tableAttributeList, modelAttributeList, change, currentDatasource, isEditing, submitting, invalid,
+    } = this.props
     const { currentTableSelected } = this.state
     const cardEspaced = {
       marginTop: '20px',

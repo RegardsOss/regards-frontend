@@ -24,7 +24,6 @@ import { BasicArrayActions } from '@regardsoss/store-utils'
  * @author Sébastien Binda
  */
 export default class SIPImportActions extends BasicArrayActions {
-
   /**
    * Construtor
    * @param namespace

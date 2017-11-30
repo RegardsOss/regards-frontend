@@ -32,7 +32,6 @@ const nameValidator = [ValidationHelpers.required, ValidationHelpers.string]
  * @author Xavier-Alexandre Brochard
  */
 export class ThemeCreateComponent extends React.Component {
-
   static propTypes = {
     open: PropTypes.bool,
     onRequestClose: PropTypes.func.isRequired,
@@ -65,7 +64,9 @@ export class ThemeCreateComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { open, onSubmit, onRequestClose, submitting, invalid, handleSubmit } = this.props
+    const {
+      open, onSubmit, onRequestClose, submitting, invalid, handleSubmit,
+    } = this.props
     const { muiTheme, intl } = this.context
     const styles = moduleStyles(muiTheme).theme
 

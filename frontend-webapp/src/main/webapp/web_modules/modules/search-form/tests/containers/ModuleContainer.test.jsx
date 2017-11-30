@@ -88,11 +88,9 @@ describe('[SEARCH FORM] Testing User Container', () => {
       attributeModels: {},
       attributeModelsFetching: true,
     }
-    const wrapper = shallow(
-      <UnconnectedModuleContainer
-        {...props}
-      />, { context },
-    )
+    const wrapper = shallow(<UnconnectedModuleContainer
+      {...props}
+    />, { context })
 
     // Only 3 attributes to fetch, ids : 0,1 and 2. The attribute with id=ipId is a standard attribute and can not be load
     assert.equal(fetchAttributeCallback.callCount, 3, 'There should be 3 attributes to fetch')
@@ -116,7 +114,9 @@ describe('[SEARCH FORM] Testing User Container', () => {
             attributes: {
               testAttr: 0,
               testAttr2: 1,
-              testAttr3: { jsonPath: 'ipId', name: 'ipId', label: 'IP Identifier', type: 'STRING' },
+              testAttr3: {
+                jsonPath: 'ipId', name: 'ipId', label: 'IP Identifier', type: 'STRING',
+              },
             },
           },
         },

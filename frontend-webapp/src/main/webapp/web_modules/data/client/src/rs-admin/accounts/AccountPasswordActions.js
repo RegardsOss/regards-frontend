@@ -21,7 +21,6 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 const { getJSON } = require('redux-api-middleware')
 
 export default class AccountPasswordActions extends BasicSignalActions {
-
   static FetchingTypes = {
     passwordValidity: 'passwordValidity',
     passwordRules: 'passwordRules',

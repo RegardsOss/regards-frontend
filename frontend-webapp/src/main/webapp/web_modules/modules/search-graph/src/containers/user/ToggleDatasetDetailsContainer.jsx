@@ -27,7 +27,6 @@ import ToggleDatasetDetails from '../../components/user/ToggleDatasetDetails'
 * @author Raphaël Mechali
 */
 export class ToggleDatasetDetailsContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -73,4 +72,5 @@ export class ToggleDatasetDetailsContainer extends React.Component {
 }
 export default connect(
   ToggleDatasetDetailsContainer.mapStateToProps,
-  ToggleDatasetDetailsContainer.mapDispatchToProps)(ToggleDatasetDetailsContainer)
+  ToggleDatasetDetailsContainer.mapDispatchToProps,
+)(ToggleDatasetDetailsContainer)

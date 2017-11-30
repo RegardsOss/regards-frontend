@@ -30,7 +30,6 @@ import styles from '../styles/styles'
 * @author Maxime Bouveron
 */
 export class SIPSessionContainer extends React.Component {
-
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state

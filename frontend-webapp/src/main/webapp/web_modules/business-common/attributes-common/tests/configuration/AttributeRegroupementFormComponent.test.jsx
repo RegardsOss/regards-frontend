@@ -51,9 +51,7 @@ describe('[ATTRIBUTES COMMON] Testing AttributeRegroupementFormComponent', () =>
       initialize: () => { },
     }
 
-    const wrapper = shallow(
-      <UnconnectedAttributeRegroupementFormComponent {...props} />, { context },
-    )
+    const wrapper = shallow(<UnconnectedAttributeRegroupementFormComponent {...props} />, { context })
 
     const labelField = wrapper.find(Field).find({ name: 'label' })
     assert.lengthOf(labelField, 1, 'There should be a field for label in this form')

@@ -32,7 +32,6 @@ import RenderTextField from '../render/RenderTextField'
  * Handle enumeration restriction
  */
 export class EnumInputsComponent extends React.Component {
-
   static propTypes = {
     nbIntialFields: PropTypes.number,
     inputName: PropTypes.string.isRequired,

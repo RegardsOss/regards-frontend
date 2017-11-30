@@ -28,7 +28,6 @@ require('isomorphic-fetch')
 const originalConsoleError = console.error
 
 export default class ReduxEntityTester {
-
   constructor(entityActions, entityReducers, entitySelectors, entityShape, backendServerResultList, options) {
     this.entityActions = entityActions
     this.entityReducers = entityReducers
@@ -68,9 +67,7 @@ export default class ReduxEntityTester {
       // Make a copy of rootStore and send use it to create a store tree
       this.getRootStore(this.entitySelectors.rootStore.slice()),
       {},
-      compose(
-        applyMiddleware(...middlewares),
-      ),
+      compose(applyMiddleware(...middlewares)),
     )
   }
 

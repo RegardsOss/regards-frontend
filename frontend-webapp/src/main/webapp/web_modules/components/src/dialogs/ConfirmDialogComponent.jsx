@@ -41,7 +41,6 @@ export const ConfirmDialogComponentTypes = {
  * Confirm action dialog component. Switches dialog mode,
  */
 class ConfirmDialogComponent extends React.Component {
-
   static propTypes = {
     dialogType: PropTypes.oneOf(values(ConfirmDialogComponentTypes)),
     title: PropTypes.string.isRequired,
@@ -87,7 +86,9 @@ class ConfirmDialogComponent extends React.Component {
   }
 
   render() {
-    const { title, message, onClose, open } = this.props
+    const {
+      title, message, onClose, open,
+    } = this.props
     return (
       <Dialog
         title={title}
@@ -101,7 +102,6 @@ class ConfirmDialogComponent extends React.Component {
 
     )
   }
-
 }
 
 export default withI18n(messages)(ConfirmDialogComponent)

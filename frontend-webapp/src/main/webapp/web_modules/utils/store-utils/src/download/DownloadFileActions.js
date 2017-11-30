@@ -23,7 +23,6 @@ import BasicSignalActions from '../signal/BasicSignalActions'
  * @author Raphaël Mechali
  */
 class DownloadFileActions extends BasicSignalActions {
-
   constructor({ headers = {}, ...otherOptions }) {
     super({
       headers: {
@@ -58,7 +57,6 @@ class DownloadFileActions extends BasicSignalActions {
       return { contentType, content }
     })
   }
-
 }
 
 

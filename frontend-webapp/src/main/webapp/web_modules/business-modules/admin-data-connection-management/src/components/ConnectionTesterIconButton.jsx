@@ -42,7 +42,6 @@ const states = {
  * @author Léo Mieulet
  */
 class ConnectionTesterIconButton extends React.Component {
-
   static propTypes = {
     connection: DataManagementShapes.Connection.isRequired,
     handleTestConnection: PropTypes.func.isRequired,

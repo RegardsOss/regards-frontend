@@ -27,7 +27,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Sébastien binda
  */
 class LoginButton extends React.Component {
-
   static propTypes = {
     onLoginAction: PropTypes.func.isRequired,
   }

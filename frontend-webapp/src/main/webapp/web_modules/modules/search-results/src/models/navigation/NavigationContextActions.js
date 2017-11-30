@@ -6,7 +6,6 @@
  * Search results navigation context actions: handles navigation context in results
  */
 class NavigationContextActions {
-
   constructor() {
     this.INITIALIZE = 'search-results/navigation-context/INITIALIZE'
     this.CHANGE_VIEW_OBJECT_TYPE = 'search-results/navigation-context/CHANGE_VIEW_OBJECT_TYPE'
@@ -78,7 +77,6 @@ class NavigationContextActions {
       levelIndex,
     }
   }
-
 }
 
 export default new NavigationContextActions()

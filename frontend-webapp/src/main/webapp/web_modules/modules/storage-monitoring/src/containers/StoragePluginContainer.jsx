@@ -28,7 +28,6 @@ import styles from '../styles'
 * @author Raphaël Mechali
 */
 export class StoragePluginContainer extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     scale: storage.StorageUnitScaleShape.isRequired, // used only in onPropertiesChanged
@@ -93,7 +92,9 @@ export class StoragePluginContainer extends React.Component {
         usedPercent = StoragePluginContainer.computePercents(totalSize, usedSize)
         unusedPercent = StoragePluginContainer.TOTAL_PERCENT - usedPercent
       }
-      return { storagePhysicalId, totalSize, usedSize, unusedSize, usedPercent, unusedPercent }
+      return {
+        storagePhysicalId, totalSize, usedSize, unusedSize, usedPercent, unusedPercent,
+      }
     })
     this.setState({
       storageInfo,

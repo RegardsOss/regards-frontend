@@ -12,7 +12,6 @@ import graphContextActions from '../../model/graph/GraphContextActions'
 * Entity description container
 */
 export class DescriptionContainer extends React.Component {
-
   static mapDispatchToProps(dispatch) {
     return {
       dispatchSearchTag: tag => dispatch(graphContextActions.setSearchTag(tag)),

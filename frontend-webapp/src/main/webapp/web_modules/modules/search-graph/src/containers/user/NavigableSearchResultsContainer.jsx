@@ -13,7 +13,6 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
 * Navigable search results container: connect results to current search tag in graph (dataset or tag)
 */
 export class NavigableSearchResultsContainer extends React.Component {
-
   static mapStateToProps(state) {
     return {
       searchTag: graphContextSelectors.getSearchTag(state),

@@ -33,7 +33,6 @@ require('../../html/regards-homepage.html')
  * @author Maxime Bouveron
  */
 class ProjectAboutPageContainer extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     moduleConf: PropTypes.shape({
@@ -114,7 +113,13 @@ class ProjectAboutPageContainer extends React.Component {
   render() {
     const { moduleConf: { htmlPath, buttonComponent } } = this.props
     const { dialogOpen } = this.state
-    const { moduleTheme: { dialog: { bodyStyle, heightPercent, widthPercent, button } }, intl: { formatMessage } } = this.context
+    const {
+      moduleTheme: {
+        dialog: {
+          bodyStyle, heightPercent, widthPercent, button,
+        },
+      }, intl: { formatMessage },
+    } = this.context
 
     // render: is there a button provided or should we used module default one?
     const runtimeButton = buttonComponent ?

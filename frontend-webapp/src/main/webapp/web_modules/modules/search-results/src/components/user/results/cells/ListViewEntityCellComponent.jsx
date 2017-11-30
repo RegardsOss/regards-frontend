@@ -46,7 +46,6 @@ export const AttributeRenderData = PropTypes.shape({
  * @author Sébastien binda
  */
 class ListViewEntityCellComponent extends React.Component {
-
   static propTypes = {
     // Entity to display
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
@@ -71,9 +70,13 @@ class ListViewEntityCellComponent extends React.Component {
    * Renders title area of the list cell (title, with checkbox if selection enabled, empty space and options)
    */
   renderTitle = () => {
-    const { entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, onSelectEntity, onSearchEntity, onAddToCart } = this.props
+    const {
+      entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, onSelectEntity, onSearchEntity, onAddToCart,
+    } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
-    const { rootStyles, labelGroup, checkboxStyles, labelStyles, optionsBarStyles, option } = moduleTheme.user.listViewStyles.title
+    const {
+      rootStyles, labelGroup, checkboxStyles, labelStyles, optionsBarStyles, option,
+    } = moduleTheme.user.listViewStyles.title
 
     const services = get(entity, 'content.services', [])
 
@@ -183,7 +186,9 @@ class ListViewEntityCellComponent extends React.Component {
     const { thumbnailRenderData, gridAttributesRenderData } = this.props
     const { moduleTheme } = this.context
 
-    const { attributesStyles, thumbnailColumnStyle, labelColumnStyles, valueColumnStyles } = moduleTheme.user.listViewStyles
+    const {
+      attributesStyles, thumbnailColumnStyle, labelColumnStyles, valueColumnStyles,
+    } = moduleTheme.user.listViewStyles
 
     // 2 - prepare label columns and value columns
     const asColumns = this.renderAsColumns(gridAttributesRenderData)

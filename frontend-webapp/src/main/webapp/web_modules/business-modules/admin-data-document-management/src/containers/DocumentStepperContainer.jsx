@@ -40,7 +40,6 @@ const STEPS_ID = {
 }
 
 export class DocumentStepperContainer extends React.Component {
-
   static propTypes = {
     stepIndex: PropTypes.number.isRequired,
     isEditing: PropTypes.bool,

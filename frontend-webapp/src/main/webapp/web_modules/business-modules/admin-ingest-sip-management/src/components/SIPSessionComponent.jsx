@@ -212,8 +212,7 @@ class SIPSessionComponent extends React.Component {
           `column.${step}`,
           intl.formatMessage({ id: `sips.session.table.headers.${step}` }),
           TableColumnBuilder.buildProgressRenderCell(this.getProgressPercent(step), this.getProgressLabel(step)),
-        ),
-      ),
+        )),
       TableColumnBuilder.buildSimpleColumnWithCell(
         'column.errors',
         intl.formatMessage({ id: 'sips.session.table.headers.errors' }),

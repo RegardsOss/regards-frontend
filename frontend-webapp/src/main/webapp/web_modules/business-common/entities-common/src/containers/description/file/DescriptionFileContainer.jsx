@@ -16,7 +16,6 @@ import DescriptionFileComponent from '../../../components/description/file/Descr
 * Description container: resolves and provide the description to corresponding component
 */
 export class DescriptionFileContainer extends React.Component {
-
   static mapStateToProps = (state, { downloadDescriptionClient }) => {
     const { downloadCollectionDescriptionSelectors, downloadDatasetDescriptionSelectors } = downloadDescriptionClient
     return {
@@ -173,4 +172,5 @@ export class DescriptionFileContainer extends React.Component {
 }
 export default connect(
   DescriptionFileContainer.mapStateToProps,
-  DescriptionFileContainer.mapDispatchToProps)(DescriptionFileContainer)
+  DescriptionFileContainer.mapDispatchToProps,
+)(DescriptionFileContainer)

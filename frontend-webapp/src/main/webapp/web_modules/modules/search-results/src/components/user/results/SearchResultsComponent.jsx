@@ -46,7 +46,6 @@ const RESULTS_PAGE_SIZE = 500
  * @author Sébastien binda
  */
 class SearchResultsComponent extends React.Component {
-
   static propTypes = {
     // static module configuration
     allowingFacettes: PropTypes.bool.isRequired,
@@ -131,7 +130,9 @@ class SearchResultsComponent extends React.Component {
    * @param props : props map, to retrieve current properties
    */
   buildTableColumns = () => {
-    const { searchSelectors, attributePresentationModels, onSortByAttribute, onAddElementToCart, viewObjectType, enableDownload } = this.props
+    const {
+      searchSelectors, attributePresentationModels, onSortByAttribute, onAddElementToCart, viewObjectType, enableDownload,
+    } = this.props
     const { intl: { formatMessage } } = this.context
 
     const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
@@ -140,9 +141,11 @@ class SearchResultsComponent extends React.Component {
 
     return [
       // selection column
-      enableSelection ? TableColumnBuilder.buildSelectionColumn(formatMessage({ id: 'results.selection.column.label' }),
+      enableSelection ? TableColumnBuilder.buildSelectionColumn(
+        formatMessage({ id: 'results.selection.column.label' }),
         true, searchSelectors, TableClient.tableActions, TableClient.tableSelectors,
-        this.isColumnVisible(TableColumnBuilder.selectionColumnKey), fixedColumnWidth) : null,
+        this.isColumnVisible(TableColumnBuilder.selectionColumnKey), fixedColumnWidth,
+      ) : null,
       // attributes and attributes groups as provided by parent
       ...attributePresentationModels.map(presentationModel =>
         AttributeColumnBuilder.buildAttributeColumn(
@@ -150,8 +153,7 @@ class SearchResultsComponent extends React.Component {
           this.isColumnVisible(presentationModel.key),
           onSortByAttribute,
           fixedColumnWidth,
-        ),
-      ),
+        )),
       // Options in current context
       TableColumnBuilder.buildOptionsColumn(
         formatMessage({ id: 'results.options.column.label' }),
@@ -189,7 +191,9 @@ class SearchResultsComponent extends React.Component {
   * @returns {Array}
   */
   buildListColumn = () => {
-    const { attributePresentationModels, onAddElementToCart, onSetEntityAsTag, enableDownload, viewObjectType } = this.props
+    const {
+      attributePresentationModels, onAddElementToCart, onSetEntityAsTag, enableDownload, viewObjectType,
+    } = this.props
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
     const enableSearchRelated = SearchResultsComponent.canSearchRelated(viewObjectType)
@@ -231,10 +235,12 @@ class SearchResultsComponent extends React.Component {
     const { muiTheme } = this.context
     const tableTheme = muiTheme['components:infinite-table']
 
-    const { allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
+    const {
+      allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
       viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
       onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
-      onStartSelectionService, onAddSelectionToCart } = this.props
+      onStartSelectionService, onAddSelectionToCart,
+    } = this.props
 
     let columns
     let lineHeight

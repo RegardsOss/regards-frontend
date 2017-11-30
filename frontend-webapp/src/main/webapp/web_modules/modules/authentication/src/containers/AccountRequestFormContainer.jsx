@@ -29,7 +29,6 @@ import AccountRequestFormComponent, { requestFormIds, mailFieldId } from '../com
  * Container for account request forms. See below for specific form export
  */
 export class AccountRequestFormContainer extends React.Component {
-
   static propTypes = {
     // Form initial value
     initialMail: PropTypes.string,
@@ -68,15 +67,16 @@ export class AccountRequestFormContainer extends React.Component {
   }
 
   render() {
-    const { initialMail, onBack, hasError, errorStatus, requestFormId } = this.props
+    const {
+      initialMail, onBack, hasError, errorStatus, requestFormId,
+    } = this.props
     // should show error message?
     const errorMessage = hasError ?
-      this.context.intl.formatMessage(
-        {
-          id: `${requestFormId}.send.failed`,
-        }, {
-          status: errorStatus,
-        }) : null
+      this.context.intl.formatMessage({
+        id: `${requestFormId}.send.failed`,
+      }, {
+        status: errorStatus,
+      }) : null
     return (
       <AccountRequestFormComponent
         onRequestAction={this.onRequestAction}
@@ -116,11 +116,13 @@ const buildMapDispatchToProps = fetchMethod => dispatch => ({
 const AskResetPasswordForm = props => <AccountRequestFormContainer requestFormId={requestFormIds.resetPasswordRequest} {...props} />
 export const AskResetPasswordFormContainer = connect(
   buildMapStateToProps(ResetPasswordSelectors),
-  buildMapDispatchToProps(ResetPasswordActions.sendAskResetPassword))(AskResetPasswordForm)
+  buildMapDispatchToProps(ResetPasswordActions.sendAskResetPassword),
+)(AskResetPasswordForm)
 
 /** Export connected ask unlock account form container */
 const AskUnlockAccountForm = props => <AccountRequestFormContainer requestFormId={requestFormIds.unlockAccountRequest} {...props} />
 export const AskUnlockAccountFormContainer = connect(
   buildMapStateToProps(UnlockAccountSelectors),
-  buildMapDispatchToProps(UnlockAccountActions.sendAskUnlockAccount))(AskUnlockAccountForm)
+  buildMapDispatchToProps(UnlockAccountActions.sendAskUnlockAccount),
+)(AskUnlockAccountForm)
 

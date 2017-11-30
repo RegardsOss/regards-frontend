@@ -14,7 +14,6 @@ import TagsContainer from '../../../containers/description/properties/tags/TagsC
 * The properties tab content
 */
 class PropertiesTabComponent extends React.Component {
-
   static propTypes = {
     entity: CatalogShapes.Entity,
     onSearchTag: PropTypes.func,
@@ -29,8 +28,10 @@ class PropertiesTabComponent extends React.Component {
   }
 
   render() {
-    const { entity, onSearchTag,
-      fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors } = this.props
+    const {
+      entity, onSearchTag,
+      fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors,
+    } = this.props
     const { rootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
     return (
       <div style={rootStyle}>

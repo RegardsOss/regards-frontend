@@ -26,7 +26,6 @@ import IconButton from 'material-ui/IconButton'
 * @author Raphaël Mechali
 */
 class ContactComponent extends React.Component {
-
   static propTypes = {
     // contacts email
     contacts: PropTypes.string,

@@ -33,7 +33,6 @@ import getDisplayName from '../getDisplayName'
  */
 const withHateoasDisplayControl = (DecoratedComponent) => {
   class WithHateoasDisplayControl extends React.Component {
-
     static propTypes = {
       entityLinks: PropTypes.arrayOf(HateoasLinks),
       hateoasKey: PropTypes.string,
@@ -53,7 +52,9 @@ const withHateoasDisplayControl = (DecoratedComponent) => {
     render() {
       // Remove from otherProps all props that doesn't need to be reinjected in children
       // eslint-disable-next-line no-unused-vars, react/prop-types
-      const { entityLinks, hateoasKey, alwaysDisplayforInstanceUser, isInstance, theme, i18n, dispatch, disableInsteadOfHide, displayLogic, ...otherProps } = this.props
+      const {
+        entityLinks, hateoasKey, alwaysDisplayforInstanceUser, isInstance, theme, i18n, dispatch, disableInsteadOfHide, displayLogic, ...otherProps
+      } = this.props
       const childProps = otherProps
       const isDisplayed = displayLogic(hateoasKey, entityLinks, isInstance, alwaysDisplayforInstanceUser)
       if (!isDisplayed && disableInsteadOfHide) {

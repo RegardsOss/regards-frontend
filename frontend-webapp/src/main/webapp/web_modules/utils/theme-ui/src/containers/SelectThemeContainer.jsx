@@ -36,7 +36,6 @@ import styles from '../styles'
  * @author Xavier-Alexandre Brochard
  */
 export class SelectThemeContainer extends React.Component {
-
   static propTypes = {
     currentTheme: AccessShapes.Theme,
     themeList: AccessShapes.ThemeList,
@@ -92,4 +91,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withI18n(messages), withModuleStyle(styles))(SelectThemeContainer)
+  withI18n(messages), withModuleStyle(styles),
+)(SelectThemeContainer)

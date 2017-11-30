@@ -43,7 +43,6 @@ import DatabaseConnectionTesterIconButton from './DatabaseConnectionTesterIconBu
  * @author Léo Mieulet
  */
 export class ProjectConnectionListComponent extends React.Component {
-
   static propTypes = {
     project: AdminShapes.Project.isRequired,
     projectConnections: AdminShapes.ProjectConnectionList.isRequired,
@@ -190,8 +189,10 @@ export class ProjectConnectionListComponent extends React.Component {
     const { projectConnections } = this.props
 
     // Find if the connection project/microservice exists
-    const connection = find(projectConnections,
-      (conn, index) => conn.content.microservice === microserviceName)
+    const connection = find(
+      projectConnections,
+      (conn, index) => conn.content.microservice === microserviceName,
+    )
 
     return (
       <TableRow
@@ -234,8 +235,10 @@ export class ProjectConnectionListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(STATIC_CONF.MSERVICES,
-                (microserviceName, i) => this.displayMicroserviceConnection(microserviceName))}
+              {map(
+STATIC_CONF.MSERVICES,
+                (microserviceName, i) => this.displayMicroserviceConnection(microserviceName),
+)}
             </TableBody>
           </Table>
         </CardText>

@@ -13,7 +13,6 @@ import { RenderTextField, Field, reduxForm, ValidationHelpers } from '@regardsos
  * Session management component : if session is locked, shows unlock screen, renders children otherwise
  */
 export class SessionLockedFormComponent extends React.Component {
-
   static propTypes = {
     // on submit unlock
     onUnlock: PropTypes.func.isRequired,

@@ -33,7 +33,6 @@ import PluginConfigurationComponent from './PluginConfigurationComponent'
  * @author Xavier-Alexandre Brochard
  */
 export class PluginConfigurationFormComponent extends React.Component {
-
   static propTypes = {
     pluginConfiguration: CommonShapes.PluginConfiguration,
     pluginMetaData: CommonShapes.PluginMetaData,
@@ -76,7 +75,9 @@ export class PluginConfigurationFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    const { microserviceName, displayTitle, pluginMetaData, pluginConfiguration, handleSubmit, submitting, invalid, backUrl, change, formMode } = this.props
+    const {
+      microserviceName, displayTitle, pluginMetaData, pluginConfiguration, handleSubmit, submitting, invalid, backUrl, change, formMode,
+    } = this.props
 
     const styles = moduleStyles(this.context.muiTheme)
 

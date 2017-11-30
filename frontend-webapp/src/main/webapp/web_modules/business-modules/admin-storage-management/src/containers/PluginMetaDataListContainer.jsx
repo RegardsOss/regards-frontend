@@ -34,7 +34,6 @@ const MICROSERVICE = STATIC_CONF.MSERVICES.STORAGE
  * @author Sébastien Binda
  */
 export class PluginMetaDataListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -62,13 +61,12 @@ export class PluginMetaDataListContainer extends React.Component {
 
   componentDidMount() {
     const { fetchPluginMetaDataList } = this.props
-    fetchPluginMetaDataList().then(
-      (actionResults) => {
-        this.setState({
-          isLoading: false,
-        })
-        return actionResults
+    fetchPluginMetaDataList().then((actionResults) => {
+      this.setState({
+        isLoading: false,
       })
+      return actionResults
+    })
   }
 
   /**

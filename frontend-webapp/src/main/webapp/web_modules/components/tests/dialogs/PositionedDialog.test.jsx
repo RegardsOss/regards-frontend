@@ -56,7 +56,8 @@ describe('[Components] Testing PositionedDialog', () => {
       <PositionedDailogComponent {...props} >
         <ATestComp />
       </PositionedDailogComponent>
-      , { context })
+      , { context },
+    )
     assert.lengthOf(enzymeWrapper.find(ATestComp), 1, 'The positioned dialog should render children')
   })
 })

@@ -33,7 +33,6 @@ const orderBasketSelectors = OrderClient.getOrderBasketSelectors()
  * @author Raphaël Mechali
  */
 export class OrderCartContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -127,7 +126,9 @@ export class OrderCartContainer extends React.Component {
   setExpanded = expanded => this.setState({ expanded })
 
   render() {
-    const { basket, hasError, isAuthenticated, isFetching, dispatchClearCart, dispatchStartOrder } = this.props
+    const {
+      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, dispatchStartOrder,
+    } = this.props
     const { expanded } = this.state
     return (
       <div>
@@ -151,4 +152,5 @@ export class OrderCartContainer extends React.Component {
 
 export default connect(
   OrderCartContainer.mapStateToProps,
-  OrderCartContainer.mapDispatchToProps)(OrderCartContainer)
+  OrderCartContainer.mapDispatchToProps,
+)(OrderCartContainer)

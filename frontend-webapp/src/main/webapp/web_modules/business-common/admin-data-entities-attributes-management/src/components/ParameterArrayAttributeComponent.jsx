@@ -29,7 +29,6 @@ import IconButton from 'material-ui/IconButton'
  * Form component to edit datasets/collection attributes that the admin has to define.
  */
 export class ParameterArrayAttributeComponent extends React.Component {
-
   static propTypes = {
     type: PropTypes.string.isRequired,
     constraints: PropTypes.arrayOf(PropTypes.any),
@@ -76,7 +75,7 @@ export class ParameterArrayAttributeComponent extends React.Component {
           validate={constraints}
         />
         <IconButton
-          className={'selenium-removeValue'}
+          className="selenium-removeValue"
           title={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.stringarray.action.remove' })}
           onTouchTap={() => fields.remove(index)}
         >
@@ -92,7 +91,7 @@ export class ParameterArrayAttributeComponent extends React.Component {
     return (<div style={ParameterArrayAttributeComponent.formStyle}>
       {fields.map(this.renderExistingValues)}
       <FlatButton
-        className={'selenium-addValue'}
+        className="selenium-addValue"
         icon={ParameterArrayAttributeComponent.iconAdd}
         onTouchTap={this.addNewValue}
         label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.stringarray.action.add' })}

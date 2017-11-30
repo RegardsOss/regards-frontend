@@ -17,7 +17,6 @@ const DIALOG_STYLES = { styles }
  * @author Raphaël Mechali
  */
 export class LoadableContentDialogContainer extends React.Component {
-
   static propTypes = {
     loaded: PropTypes.bool.isRequired,
     dialogHeightPercent: CommonShapes.Percent.isRequired,
@@ -35,7 +34,9 @@ export class LoadableContentDialogContainer extends React.Component {
   static HIDE_CHILDREN_STYLE = { display: 'none' }
 
   render() {
-    const { loaded, loadingMessage, dialogHeightPercent, dialogWidthPercent, children, ...dialogProperties } = this.props
+    const {
+      loaded, loadingMessage, dialogHeightPercent, dialogWidthPercent, children, ...dialogProperties
+    } = this.props
     return (
       <PositionedDialog
         dialogHeightPercent={dialogHeightPercent}

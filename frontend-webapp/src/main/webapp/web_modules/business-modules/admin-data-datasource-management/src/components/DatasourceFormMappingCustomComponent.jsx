@@ -32,7 +32,6 @@ import StaticAttributeList from './StaticAttributeList'
 import states from './FormMappingStates'
 
 export class DatasourceFormMappingCustomComponent extends React.Component {
-
   static propTypes = {
     table: PropTypes.shape({
       name: PropTypes.string,
@@ -54,7 +53,9 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
   }
 
   render() {
-    const { modelAttributeList, table, tableAttributeList, change } = this.props
+    const {
+      modelAttributeList, table, tableAttributeList, change,
+    } = this.props
 
     const mappingLines = flow(
       fpsortBy('content.attribute.optional'),
@@ -67,7 +68,8 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
           table={table}
           change={change}
         />
-      )))(modelAttributeList)
+      )),
+    )(modelAttributeList)
 
     return (
       <div>

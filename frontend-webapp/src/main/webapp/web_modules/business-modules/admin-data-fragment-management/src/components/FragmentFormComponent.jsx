@@ -32,7 +32,6 @@ const nameValidators = [ValidationHelpers.required, ValidationHelpers.validAlpha
  * @author Léo Mieulet
  */
 export class FragmentFormComponent extends React.Component {
-
   static propTypes = {
     currentFragment: DataManagementShapes.Fragment,
     onSubmit: PropTypes.func.isRequired,

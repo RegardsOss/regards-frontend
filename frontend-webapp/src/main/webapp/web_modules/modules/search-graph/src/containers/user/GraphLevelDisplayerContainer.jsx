@@ -24,7 +24,6 @@ const moduleStyles = { styles }
  * Container for collection content displayer (connects with selection state and level content)
  */
 export class GraphLevelDisplayerContainer extends React.Component {
-
   static mapStateToProps = (state, { levelIndex, isFirstLevel }) => {
     const partitionKey = getLevelPartitionKey(levelIndex)
     // has parent selection, and is it a collectionb?
@@ -70,12 +69,16 @@ export class GraphLevelDisplayerContainer extends React.Component {
   static mapDispatchToProps = (dispatch, { levelIndex, levelModelName }) => ({
     // fetch collections and dispatch level partitions update state
     dispatchFetchLevelCollections: parentIpId =>
-      GraphLevelDisplayerContainer.dispatchFetchLevelData(levelIndex, dispatch, GraphLevelCollectionActions,
-        () => FetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentIpId, levelModelName)),
+      GraphLevelDisplayerContainer.dispatchFetchLevelData(
+        levelIndex, dispatch, GraphLevelCollectionActions,
+        () => FetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentIpId, levelModelName),
+      ),
     // fetch datasets and dispatch level partitions update state
     dispatchFetchLevelDatasets: parentPath =>
-      GraphLevelDisplayerContainer.dispatchFetchLevelData(levelIndex, dispatch, GraphLevelDatasetActions,
-        () => FetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath)),
+      GraphLevelDisplayerContainer.dispatchFetchLevelData(
+        levelIndex, dispatch, GraphLevelDatasetActions,
+        () => FetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath),
+      ),
   })
 
   static propTypes = {
@@ -90,8 +93,8 @@ export class GraphLevelDisplayerContainer extends React.Component {
     isShowable: PropTypes.bool.isRequired, // is showable in current selection state
     isLoading: PropTypes.bool.isRequired, // is loading
     hasError: PropTypes.bool.isRequired, // has fetch error
-    collections: CatalogShapes.EntityList.isRequired,  // level displayed collections
-    datasets: CatalogShapes.EntityList.isRequired,  // the level displayed dataset
+    collections: CatalogShapes.EntityList.isRequired, // level displayed collections
+    datasets: CatalogShapes.EntityList.isRequired, // the level displayed dataset
     parentIpId: PropTypes.string, // currently selected parent collection IP ID or null
 
     // from mapDispatchToProps
@@ -127,7 +130,9 @@ export class GraphLevelDisplayerContainer extends React.Component {
   updateLevelElements = (isShowable, parentIpId, selectionPath) => {
     // update only when in a showable state
     if (isShowable) {
-      const { isFirstLevel, isLastLevel, dispatchFetchLevelCollections, dispatchFetchLevelDatasets } = this.props
+      const {
+        isFirstLevel, isLastLevel, dispatchFetchLevelCollections, dispatchFetchLevelDatasets,
+      } = this.props
       const showDatasets = !isFirstLevel // no dataset on root level
       const showCollections = !isLastLevel // no collection on last level (used only to show parent collection's datasets)
       // 1 - Fetch collections
@@ -172,8 +177,8 @@ export class GraphLevelDisplayerContainer extends React.Component {
         />
       </ModuleStyleProvider>)
   }
-
 }
 export default connect(
   GraphLevelDisplayerContainer.mapStateToProps,
-  GraphLevelDisplayerContainer.mapDispatchToProps)(GraphLevelDisplayerContainer)
+  GraphLevelDisplayerContainer.mapDispatchToProps,
+)(GraphLevelDisplayerContainer)

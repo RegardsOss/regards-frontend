@@ -39,7 +39,6 @@ const actionsBreakpoints = [940, 995]
  * React component to list collections.
  */
 export class ConnectionListComponent extends React.Component {
-
   static propTypes = {
     connectionList: DataManagementShapes.ConnectionList,
     handleDelete: PropTypes.func.isRequired,
@@ -102,7 +101,9 @@ export class ConnectionListComponent extends React.Component {
   }
 
   render() {
-    const { connectionList, handleEdit, handleTestConnection, createUrl, backUrl } = this.props
+    const {
+      connectionList, handleEdit, handleTestConnection, createUrl, backUrl,
+    } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

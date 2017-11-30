@@ -24,7 +24,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien Binda
  */
 class LinkComponent extends React.Component {
-
   static propTypes = {
     link: PropTypes.string.isRequired,
     label: PropTypes.string,

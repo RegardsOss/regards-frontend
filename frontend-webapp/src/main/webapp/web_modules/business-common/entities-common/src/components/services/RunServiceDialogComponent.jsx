@@ -18,7 +18,6 @@ import ParametersConfigurationComponent from './parameters/ParametersConfigurati
 *  by both UI and catalog plugin services lifecycle)
 */
 export class RunServiceDialogComponent extends React.Component {
-
   static Steps = {
     LOADING: 'LOADING',
     MESSAGE: 'MESSAGE',
@@ -124,7 +123,9 @@ export class RunServiceDialogComponent extends React.Component {
   onSubmit = values => this.props.currentStep.onSubmit(values)
 
   renderActions = () => {
-    const { onClose, currentStep, invalid, handleSubmit } = this.props
+    const {
+      onClose, currentStep, invalid, handleSubmit,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     // 1 - determinate if there is a second action in current state
     let otherActions
@@ -163,7 +164,9 @@ export class RunServiceDialogComponent extends React.Component {
   }
 
   render() {
-    const { serviceName, currentStep, handleSubmit, initialize, ...otherDialogProps } = this.props
+    const {
+      serviceName, currentStep, handleSubmit, initialize, ...otherDialogProps
+    } = this.props
     const { moduleTheme: { pluginServiceDialog }, intl: { formatMessage } } = this.context
     const stepType = currentStep.step
     return (

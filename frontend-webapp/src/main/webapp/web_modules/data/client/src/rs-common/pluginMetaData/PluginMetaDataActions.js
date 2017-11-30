@@ -26,7 +26,6 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * @author Léo Mieulet
  */
 export default class PluginMetaDataActions extends BasicListActions {
-
   /**
    * Construtor
    * @param namespace

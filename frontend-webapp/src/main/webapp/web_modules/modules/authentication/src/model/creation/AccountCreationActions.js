@@ -23,7 +23,6 @@ import { AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regar
  * Specific actions for create account operation (create account / create user)
  */
 export default class CreateAccountActions extends BasicSignalActions {
-
   /**
    * Constructor
    * @param operation operation logical name, like 'createUser'
@@ -49,6 +48,5 @@ export default class CreateAccountActions extends BasicSignalActions {
       ...otherParameters,
     })
   }
-
 }
 

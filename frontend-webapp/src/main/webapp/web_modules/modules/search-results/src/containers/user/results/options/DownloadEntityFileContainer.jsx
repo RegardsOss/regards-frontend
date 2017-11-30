@@ -25,7 +25,6 @@ import { authenticationSelectors } from '../../../../clients/AuthenticationClien
 * @author Léo Mieulet
 */
 export class DownloadEntityFileContainer extends React.Component {
-
   static propTypes = {
     // from table cell API, mentionned here only to be excluded from children properties
     rowIndex: PropTypes.number,

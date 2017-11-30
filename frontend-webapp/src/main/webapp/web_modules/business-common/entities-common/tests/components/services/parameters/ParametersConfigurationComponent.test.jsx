@@ -93,7 +93,9 @@ describe('[Entities Common] Testing ParametersConfigurationComponent', () => {
         choice: 'c2', // choice should use c2 value
         // text field should initialize to default parameter value 'x'
       },
-      initialize: ({ bool, choice, date, text }) => {
+      initialize: ({
+        bool, choice, date, text,
+      }) => {
         assert.equal(bool, false, 'The boolean field should be initialized using parameters values')
         assert.equal(choice, 'c2', 'The choice field should be initialized using parameters values')
         assert.equal(text, 'x', 'The text field should be initialized using default parameter value')

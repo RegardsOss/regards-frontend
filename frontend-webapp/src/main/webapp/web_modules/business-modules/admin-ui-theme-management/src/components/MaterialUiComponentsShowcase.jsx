@@ -181,11 +181,11 @@ class ThemesPage extends React.Component {
           </div>
           <div style={styles.showcase.container}>
             <DropDownMenu value={3} style={styles.fullWidth}>
-              <MenuItem value={1} primaryText={'Never'} />
-              <MenuItem value={2} primaryText={'Every Night'} />
-              <MenuItem value={3} primaryText={'Weeknights'} />
-              <MenuItem value={4} primaryText={'Weekends'} />
-              <MenuItem value={5} primaryText={'Weekly'} />
+              <MenuItem value={1} primaryText="Never" />
+              <MenuItem value={2} primaryText="Every Night" />
+              <MenuItem value={3} primaryText="Weeknights" />
+              <MenuItem value={4} primaryText="Weekends" />
+              <MenuItem value={5} primaryText="Weekly" />
             </DropDownMenu>
           </div>
         </div>

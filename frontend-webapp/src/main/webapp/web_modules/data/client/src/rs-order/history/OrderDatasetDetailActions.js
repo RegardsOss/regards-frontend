@@ -23,7 +23,6 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 class OrderDatasetDetailActions extends BasicSignalActions {
-
   /**
    * Constructor
    * @param {*} namespace  actions namespace
@@ -44,7 +43,6 @@ class OrderDatasetDetailActions extends BasicSignalActions {
   getOrderDatasetDetail(orderId, datasetId) {
     return this.sendSignal('GET', null, { order_id: orderId, dataset_id: datasetId })
   }
-
 }
 
 export default OrderDatasetDetailActions

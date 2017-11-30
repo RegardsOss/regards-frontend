@@ -42,7 +42,6 @@ const ListItemWithResourceDisplayControl = withResourceDisplayControl(ListItem)
  * @author Sébastien Binda
  */
 class ModuleListComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
@@ -169,7 +168,6 @@ class ModuleListComponent extends React.Component {
       </Drawer>
     )
   }
-
 }
 
 export default ModuleListComponent

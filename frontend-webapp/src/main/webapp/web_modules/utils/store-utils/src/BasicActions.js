@@ -35,7 +35,6 @@ import RequestVerbEnum from './RequestVerbEnum'
  *  @author Xavier-Alexandre Brochard
  */
 class BasicActions {
-
   /**
    * Class constructor
    *
@@ -208,7 +207,8 @@ class BasicActions {
     forEach(objectValues, (value, key) => {
       if (isObject(value)) {
         // This is an object that we need to stringify
-        formData.append(key,
+        formData.append(
+          key,
           new Blob(
             [JSON.stringify(value)],
             {

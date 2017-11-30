@@ -26,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
 * @author Raphaël Mechali
 */
 class ErrorsCountRender extends React.Component {
-
   static propTypes = {
     // the error count
     value: PropTypes.number,

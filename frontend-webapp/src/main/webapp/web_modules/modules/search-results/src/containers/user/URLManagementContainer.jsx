@@ -18,7 +18,6 @@ import TableDisplayModeEnum from '../../models/navigation/TableDisplayModeEnum'
 * URL management container: reflects the current module state into URL, intialize module from URL (no graphics view)
 */
 export class URLManagementContainer extends React.Component {
-
   /**
    * module URL parameters
    */
@@ -122,7 +121,9 @@ export class URLManagementContainer extends React.Component {
     */
   updateStateFromURL = (nextProps) => {
     // first load: parse tag and dataset from URL, then initialize the module store
-    const { initialViewObjectType, initialTableDisplayMode, initialize, dispatchFetchEntity, currentQuery: query } = nextProps
+    const {
+      initialViewObjectType, initialTableDisplayMode, initialize, dispatchFetchEntity, currentQuery: query,
+    } = nextProps
     // collect query parameters from URL
     const viewObjectType = query[URLManagementContainer.ModuleURLParameters.TARGET_PARAMETER] || initialViewObjectType
     const tableDisplayMode = query[URLManagementContainer.ModuleURLParameters.TABLE_DISPLAY_MODE_PARAMETER] || initialTableDisplayMode
@@ -150,7 +151,9 @@ export class URLManagementContainer extends React.Component {
    * @param nextProps next component properties
    */
   updateURLFromState = (nextProps) => {
-    const { initialViewObjectType, initialTableDisplayMode, viewObjectType, tableDisplayMode, levels, currentQuery, currentPath } = nextProps
+    const {
+      initialViewObjectType, initialTableDisplayMode, viewObjectType, tableDisplayMode, levels, currentQuery, currentPath,
+    } = nextProps
 
     // Report new state properties in URL, if significant
     const nextBrowserQuery = { ...currentQuery }
@@ -198,4 +201,5 @@ export class URLManagementContainer extends React.Component {
 }
 export default connect(
   URLManagementContainer.mapStateToProps,
-  URLManagementContainer.mapDispatchToProps)(URLManagementContainer)
+  URLManagementContainer.mapDispatchToProps,
+)(URLManagementContainer)

@@ -72,9 +72,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
       handleSubmit: handleSubmitCallback,
     }
 
-    const wrapper = shallow(
-      <UnconnectedFormCriteriaComponent {...props} />, { context },
-    )
+    const wrapper = shallow(<UnconnectedFormCriteriaComponent {...props} />, { context })
 
     // // Check for Card
     // const card = wrapper.find(form)
@@ -142,9 +140,7 @@ describe('[SEARCH FORM] Testing FormCriteriaComponent', () => {
       handleSubmit: handleSubmitCallback,
     }
 
-    const wrapper = shallow(
-      <UnconnectedFormCriteriaComponent {...props} />, { context },
-    )
+    const wrapper = shallow(<UnconnectedFormCriteriaComponent {...props} />, { context })
 
     // Check for Card
     // const card = wrapper.find(Card)

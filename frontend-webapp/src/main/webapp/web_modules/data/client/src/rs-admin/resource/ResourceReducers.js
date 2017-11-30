@@ -31,7 +31,6 @@ import ResourceActions from './ResourceActions'
  * @author Sébastien Binda
  */
 class ResourceReducers extends BasicPageableReducers {
-
   constructor(namespace) {
     super(ResourceAccessConfiguration, new ResourceActions(namespace))
   }

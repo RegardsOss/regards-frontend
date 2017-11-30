@@ -26,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien Binda
  */
 class LineComponent extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     entity: PropTypes.object.isRequired,
@@ -84,7 +83,6 @@ class LineComponent extends React.Component {
 
     return null
   }
-
 }
 
 LineComponent.defaultProps = {

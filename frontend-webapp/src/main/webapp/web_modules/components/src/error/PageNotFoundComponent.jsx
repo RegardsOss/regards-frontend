@@ -26,7 +26,6 @@ import Icon from 'material-ui/svg-icons/content/report'
  * @author Sébastien Binda
  */
 class PageNotFoundComponent extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
   }
@@ -45,12 +44,21 @@ class PageNotFoundComponent extends React.Component {
           justifyContent: 'center',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', minHeight: '30vh', width: '100%' }}>
+        <div style={{
+ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', minHeight: '30vh', width: '100%',
+}}
+        >
           <Icon color={theme.palette.primary1Color} style={iconStyle} />
-          <div style={{ maxWidth: '40%', marginTop: '0.2em', color: theme.palette.textColor, fontSize: '1.5em' }}>
+          <div style={{
+ maxWidth: '40%', marginTop: '0.2em', color: theme.palette.textColor, fontSize: '1.5em',
+}}
+          >
             REGARDS : Page Not Found !
           </div>
-          <div style={{ maxWidth: '40%', marginTop: '0.6em', color: theme.palette.secondaryTextColor, textAlign: 'center', fontSize: '1em' }}>
+          <div style={{
+ maxWidth: '40%', marginTop: '0.6em', color: theme.palette.secondaryTextColor, textAlign: 'center', fontSize: '1em',
+}}
+          >
             Requested page does not exists
           </div>
         </div>

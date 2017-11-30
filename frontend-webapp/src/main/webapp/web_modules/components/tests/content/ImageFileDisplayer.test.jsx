@@ -37,6 +37,6 @@ describe('[Components] Testing ImageFileDisplayer', () => {
   })
 
   it('should render correctly', () => {
-    shallow(<ImageFileDisplayer imageURL={'./local'} />, { context })
+    shallow(<ImageFileDisplayer imageURL="./local" />, { context })
   })
 })

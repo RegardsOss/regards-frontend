@@ -22,7 +22,6 @@
  * @author Raphaël Mechali
  */
 class TreeTableRow {
-
   /**
    * Constructor
    * @param {string} key table row key
@@ -70,7 +69,6 @@ class TreeTableRow {
       }
     })
   }
-
 }
 
 export default TreeTableRow

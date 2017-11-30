@@ -49,7 +49,6 @@ const basketDependencies = [
  * @author Raphaël Mechali
  */
 export class OrderCartContainer extends React.Component {
-
   /** Required basket controller dependencies */
   static BASKET_DEPENDENCIES = basketDependencies
 
@@ -127,7 +126,7 @@ export class OrderCartContainer extends React.Component {
   static DEFAULT_STATE = {
     children: [], // pre rendered children
     basketAvailaible: false, // marks a state where basket is available
-    onAddElementToBasket: null,  // callback to add an element into basket
+    onAddElementToBasket: null, // callback to add an element into basket
     onAddSelectionToBasket: null, // callback to add selection to basket
   }
 
@@ -210,7 +209,9 @@ export class OrderCartContainer extends React.Component {
    * Callback: user adds a dataobjects selection to basket
    */
   onAddDataOjbectsSelectionToBasket = () => {
-    const { openSearchQuery: currentQuery, selectionMode, toggledElements, dispatchAddToCart } = this.props
+    const {
+      openSearchQuery: currentQuery, selectionMode, toggledElements, dispatchAddToCart,
+    } = this.props
     const ipIds = values(toggledElements).map(element => get(element, 'content.ipId'))
     // Should we dispatch an include or an exclude from request selection?
     const openSearchQuery = selectionMode === TableSelectionModes.excludeSelected ? currentQuery : null
@@ -245,8 +246,7 @@ export class OrderCartContainer extends React.Component {
       // B - There is / are active Order cart module(s)
       const hasOrderCartModule = find((modules || {}), module =>
         (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART &&
-          get(module, 'content.active', false)),
-      )
+          get(module, 'content.active', false)))
       if (hasOrderCartModule) {
         // C - Finally, user must have rights to manage the basket
         return allMatchHateoasDisplayLogic(OrderCartContainer.BASKET_DEPENDENCIES, availableDependencies)
@@ -261,6 +261,5 @@ export class OrderCartContainer extends React.Component {
     // render only the children list
     return HOCUtils.renderChildren(children)
   }
-
 }
 export default connect(OrderCartContainer.mapStateToProps, OrderCartContainer.mapDispatchToProps)(OrderCartContainer)

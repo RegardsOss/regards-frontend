@@ -31,7 +31,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 * @author Sébastien Binda
 */
 class SIPSubmissionNotReadyComponent extends React.Component {
-
   static propTypes = {
     onBack: PropTypes.func.isRequired,
     onConfigureAllocationStrategies: PropTypes.func.isRequired,

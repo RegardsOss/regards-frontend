@@ -8,7 +8,6 @@ import { RenderTextField, Field, ErrorTypes } from '@regardsoss/form-utils'
  * @author Raphaël Mechali
  */
 class TextParameterField extends React.Component {
-
   static propTypes = {
     // field name
     name: PropTypes.string.isRequired,

@@ -25,7 +25,6 @@ import { waitingAccessUsersEntitiesSelectors } from '../clients/WaitingAccessUse
  * Display user management functionalities
  */
 export class UsersListWithCountIconContainer extends React.Component {
-
   static propTypes = {
     notificationsCount: PropTypes.number.isRequired,
   }

@@ -27,7 +27,6 @@ import { dependencies } from '../../user-dependencies'
  * @author Raphaël Mechali
  */
 class OrderHistoryComponent extends React.Component {
-
   static propTypes = {
     commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
@@ -39,7 +38,9 @@ class OrderHistoryComponent extends React.Component {
 
   render() {
     //OrderListClient.orderListActions.getDependency(RequestVerbEnum.GET_LIST)
-    const { commandsActions, commandsSelectors, title, onExpandChange, expanded } = this.props
+    const {
+      commandsActions, commandsSelectors, title, onExpandChange, expanded,
+    } = this.props
     return (
       <DynamicModule
         title={<ModuleTitle IconConstructor={ModuleIcon} text={title} />}

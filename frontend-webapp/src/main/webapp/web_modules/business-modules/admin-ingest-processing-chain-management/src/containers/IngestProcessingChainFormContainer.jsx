@@ -13,7 +13,6 @@ import IngestProcessingChainFormComponent from '../components/IngestProcessingCh
  * @author Sébastien Binda
  */
 export class IngestProcessingChainFormContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

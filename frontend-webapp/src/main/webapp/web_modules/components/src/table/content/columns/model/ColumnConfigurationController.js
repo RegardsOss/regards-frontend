@@ -40,7 +40,8 @@ const doesEntityValuesNotEmptyForColumnConfiguration = (column, entity) => {
             return result[value]
           }
           return null
-        }, entity.content) !== null
+        }, entity.content,
+      ) !== null
     }
     return noEmpty
   }
@@ -72,7 +73,8 @@ const getConfiguredColumnValueForEntity = (column, entity, lineHeight, isTableSe
               return result[value]
             }
             return null
-          }, entity.content)
+          }, entity.content,
+        )
       }
       return React.createElement(rendererComponent.component, {
         attributes,

@@ -34,7 +34,6 @@ import AttributeRegroupementConfigurationComponent from './AttributeRegroupement
  * @author Sébastien binda
  */
 class MainAttributesConfigurationComponent extends React.Component {
-
   static propTypes = {
     // Available Attributes for configuration
     selectableAttributes: DataManagementShapes.AttributeModelList.isRequired,
@@ -159,14 +158,17 @@ class MainAttributesConfigurationComponent extends React.Component {
   removeUnavailableAttributesConfiguration(attributesConf) {
     // Remove attribute configuration for unavailable attributes
     const updatedAttributesConf = [...attributesConf]
-    remove(updatedAttributesConf,
+    remove(
+      updatedAttributesConf,
       attributeConf => !AccessDomain.AttributeConfigurationController.findAttributeConf(values(this.props.selectableAttributes), attributeConf),
     )
     return updatedAttributesConf
   }
 
   render() {
-    const { attributesConf = [], attributesRegroupementsConf = [], allowAttributesRegroupements, allowFacettes } = this.props
+    const {
+      attributesConf = [], attributesRegroupementsConf = [], allowAttributesRegroupements, allowFacettes,
+    } = this.props
     return (
       <div>
         <StandardAttributesConfigurationComponent

@@ -30,7 +30,6 @@ import styles from './styles/styles'
  * @author Xavier-Alexandre Brochard
  */
 class BaseBoardItemComponent extends React.Component {
-
   static propTypes = {
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string,
@@ -45,7 +44,9 @@ class BaseBoardItemComponent extends React.Component {
   }
 
   render() {
-    const { title, subtitle, description, actions } = this.props
+    const {
+      title, subtitle, description, actions,
+    } = this.props
     const keyedActions = map(actions, (action, index) => <div key={index}>{action}</div>)
     const computedStyles = styles(this.context.muiTheme)
 

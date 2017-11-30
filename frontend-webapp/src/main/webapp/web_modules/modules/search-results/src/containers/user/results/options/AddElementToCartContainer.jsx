@@ -26,7 +26,6 @@ import AddElementToCartComponent from '../../../../components/user/results/optio
 * @author Raphaël Mechali
 */
 export class AddElementToCartContainer extends React.Component {
-
   static propTypes = {
     // from table cell API, mentionned here only to be excluded from children properties
     rowIndex: PropTypes.number,

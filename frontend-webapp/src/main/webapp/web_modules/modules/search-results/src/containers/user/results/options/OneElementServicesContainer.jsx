@@ -29,7 +29,6 @@ import OneElementServicesComponent from '../../../../components/user/results/opt
 * @author Raphaël Mechali
 */
 export class OneElementServicesContainer extends React.Component {
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -57,8 +56,10 @@ export class OneElementServicesContainer extends React.Component {
    */
   onServiceStarted = ({ content: service }) => {
     const { entity, dispatchRunService } = this.props
-    dispatchRunService(new PluginServiceRunModel(service,
-      target.buildOneElementTarget(entity.content.ipId)))
+    dispatchRunService(new PluginServiceRunModel(
+      service,
+      target.buildOneElementTarget(entity.content.ipId),
+    ))
   }
 
   render() {
@@ -75,4 +76,5 @@ export class OneElementServicesContainer extends React.Component {
 }
 export default connect(
   OneElementServicesContainer.mapStateToProps,
-  OneElementServicesContainer.mapDispatchToProps)(OneElementServicesContainer)
+  OneElementServicesContainer.mapDispatchToProps,
+)(OneElementServicesContainer)

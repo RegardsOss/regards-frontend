@@ -42,7 +42,6 @@ const modulesSelectors = AccessProjectClient.ModuleSelectors()
  * Provides the theme to sub containers
  */
 export class UserApp extends React.Component {
-
   /**
    * @type {{theme: string, content: React.Component}}
    */

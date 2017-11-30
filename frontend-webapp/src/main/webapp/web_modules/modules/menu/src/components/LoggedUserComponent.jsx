@@ -39,7 +39,6 @@ import ProfileEditionContainer from '../containers/ProfileEditionContainer'
  * @author Sébastien binda
  */
 class LoggedUserComponent extends React.Component {
-
   static propTypes = {
     name: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
@@ -59,7 +58,9 @@ class LoggedUserComponent extends React.Component {
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { user: { optionsLabelStyle } } } = this.context
-    const { name, currentRole, borrowableRoles, onBorrowRole, onLogout, showProfileEdition, onShowProfileEdition } = this.props
+    const {
+      name, currentRole, borrowableRoles, onBorrowRole, onLogout, showProfileEdition, onShowProfileEdition,
+    } = this.props
     const showBorrowableRoles = !isEmpty(borrowableRoles)
     const hasMoreOption = showProfileEdition || showBorrowableRoles
 

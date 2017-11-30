@@ -28,7 +28,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien binda
  */
 class BooleanValueRender extends React.Component {
-
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }
@@ -52,7 +51,6 @@ class BooleanValueRender extends React.Component {
         {textValue}
       </div>)
   }
-
 }
 
 export default BooleanValueRender

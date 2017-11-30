@@ -29,7 +29,6 @@ import messages from '../i18n'
 * @author Sébastien Binda
 */
 export class SIPSubmitionSummaryContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -79,4 +78,5 @@ export class SIPSubmitionSummaryContainer extends React.Component {
 }
 export default connect(
   SIPSubmitionSummaryContainer.mapStateToProps,
-  SIPSubmitionSummaryContainer.mapDispatchToProps)(withI18n(messages)(SIPSubmitionSummaryContainer))
+  SIPSubmitionSummaryContainer.mapDispatchToProps,
+)(withI18n(messages)(SIPSubmitionSummaryContainer))

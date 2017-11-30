@@ -26,7 +26,6 @@ import messages from './i18n'
 * @author Raphaël Mechali
 */
 export class ClearFieldButton extends React.Component {
-
   static propTypes = {
     onTouchTap: PropTypes.func,
     displayed: PropTypes.bool,

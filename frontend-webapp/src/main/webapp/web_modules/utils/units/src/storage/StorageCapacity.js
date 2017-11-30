@@ -25,7 +25,6 @@ import { StorageUnitScale } from './StorageUnit'
  * @author Raphaël Mechali
  */
 class StorageCapacity {
-
   /**
    * Constructor
    * @param {number} value
@@ -132,7 +131,6 @@ class StorageCapacity {
     const unit = StorageUnitScale.getMatchingUnit(matched[2])
     return unit && !Number.isNaN(value) ? new StorageCapacity(value, unit) : null
   }
-
 }
 
 module.exports = {

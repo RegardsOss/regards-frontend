@@ -29,7 +29,6 @@ import AttributeConfigurationComponent from './AttributeConfigurationComponent'
  * @author Sébastien binda
  */
 class StandardAttributesConfigurationComponent extends React.Component {
-
   static propTypes = {
     allowFacettes: PropTypes.bool.isRequired,
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent).isRequired,

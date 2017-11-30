@@ -29,7 +29,6 @@ import LoggedUserContainer from './LoggedUserContainer'
  * @author Sébastien binda
  */
 export class AuthenticationMenuContainer extends React.Component {
-
   static propTypes = {
     // should be displayed?
     display: PropTypes.bool,
@@ -74,7 +73,9 @@ export class AuthenticationMenuContainer extends React.Component {
   }
 
   render() {
-    const { display, isAuthenticated, project, appName } = this.props
+    const {
+      display, isAuthenticated, project, appName,
+    } = this.props
     const { authenticationVisible } = this.state
 
     if (!display) { // hidden by configuration

@@ -24,7 +24,6 @@ import ModelsBoardItems from './ModelsBoardItems'
  * Board to display datamangement module foncionalities.
  */
 class ModelsBoardComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
   }

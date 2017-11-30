@@ -31,14 +31,20 @@ import { Parameter } from '../../src/definitions/parameters/Parameter'
 describe('[Entities Common] Testing UIPluginServiceHelper', () => {
   // test basic types without pre-entered choices and check field model
   const basicTypesTests = [
-    { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, correspondingFieldType: Parameter.EditorTypes.CHECKBOX, name: 'field1', label: 'label 1' },
-    { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.CHAR, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, name: 'field2', validator: true, label: 'label 2', required: true },
+    {
+      type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, correspondingFieldType: Parameter.EditorTypes.CHECKBOX, name: 'field1', label: 'label 1',
+    },
+    {
+      type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.CHAR, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, name: 'field2', validator: true, label: 'label 2', required: true,
+    },
     { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.DATE, correspondingFieldType: Parameter.EditorTypes.DATE_SELECTOR, defaultValue: '1994-11-05T08:15:30-05:00 ' },
     { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.FLOAT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
     { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.INT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
     { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD },
   ]
-  basicTypesTests.map(({ type, correspondingFieldType, validator = false, name = 'common.field', defaultValue = null, label = 'common.label', required = false }) =>
+  basicTypesTests.map(({
+    type, correspondingFieldType, validator = false, name = 'common.field', defaultValue = null, label = 'common.label', required = false,
+  }) =>
     it(`should convert correctly a basic type "${type}" parameter`, () => {
       const resolved = resolveParameter(name, defaultValue, { label, type, required })
       assert.isNotNull(resolved, 'the parameter should be converted')
@@ -55,8 +61,10 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
     }))
 
   it('should fail converting unknown  types', () => {
-    assert.throws(() => resolveParameter('x', null, { label: 'X', type: 'anything*', required: false }), Error,
-      /.*/, 'Unknown type should\'nt be handled')
+    assert.throws(
+      () => resolveParameter('x', null, { label: 'X', type: 'anything*', required: false }), Error,
+      /.*/, 'Unknown type should\'nt be handled',
+    )
   })
   it('should resolve only dynamic parameters and retrieve the admin value specified, if any', () => {
     // light plugin instance
@@ -147,13 +155,19 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
     const pluginConf = {
       content: {
         conf: {
-          static: { pStatic1: true, pStatic2: 'a', pStatic3: new Date(), pStatic4: 1.5, pStatic5: 42, pStatic6: 'Hello' },
+          static: {
+            pStatic1: true, pStatic2: 'a', pStatic3: new Date(), pStatic4: 1.5, pStatic5: 42, pStatic6: 'Hello',
+          },
           // this part SHOULD BE IGNORED (user changed values)
-          dynamic: { pDynamic1: false, pDynamic2: 'b', pDynamic3: null, pDynamic4: 2.5, pDynamic7: 'Nope' },
+          dynamic: {
+            pDynamic1: false, pDynamic2: 'b', pDynamic3: null, pDynamic4: 2.5, pDynamic7: 'Nope',
+          },
         },
       },
     }
-    const userValues = { pDynamic1: 'true', pDynamic2: 'a', pDynamic3: '1994-11-05T08:15:30-05:00', pDynamic4: '1.5', pDynamic5: 42, pDynamic6: 'Hello' }
+    const userValues = {
+      pDynamic1: 'true', pDynamic2: 'a', pDynamic3: '1994-11-05T08:15:30-05:00', pDynamic4: '1.5', pDynamic5: 42, pDynamic6: 'Hello',
+    }
     const resolved = packRuntimeConfiguration(pluginConf, pluginInstance, userValues)
     // test at same time values and types
     assert.deepEqual(resolved.static, pluginConf.content.conf.static, 'static configuration should be correctly reported') // no value conversion, that should be a strict equality
@@ -166,8 +180,10 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
     assert.equal(resolved.dynamic.pDynamic2, 'a', 'The char value should be the one specified by user')
 
     assert.isTrue(isDate(resolved.dynamic.pDynamic3), 'The date parameter type should be enforced')
-    assert.equal(resolved.dynamic.pDynamic3.getTime(), new Date('1994-11-05T08:15:30-05:00').getTime(),
-      'The date value should be the one specified by user')
+    assert.equal(
+      resolved.dynamic.pDynamic3.getTime(), new Date('1994-11-05T08:15:30-05:00').getTime(),
+      'The date value should be the one specified by user',
+    )
 
     assert.isNumber(resolved.dynamic.pDynamic4, 'The float parameter type should be enforced')
     assert.equal(resolved.dynamic.pDynamic4, 1.5, 'The float value should be the one specified by user')

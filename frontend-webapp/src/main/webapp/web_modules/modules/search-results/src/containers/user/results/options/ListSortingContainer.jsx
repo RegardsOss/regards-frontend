@@ -27,7 +27,6 @@ import ListSortingComponent from '../../../../components/user/results/options/Li
  * @author Raphaël Mechali
  */
 export class ListSortingContainer extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired, // presentation model, used in onPropertiesChanged
@@ -60,8 +59,7 @@ export class ListSortingContainer extends React.Component {
         .filter(model => model.enableSorting)
         .sort((m1, m2) => StringComparison.compare(m1.label, m2.label))
       // 2 - Find in those the currently selected model
-      newState.sortingModel = newState.sortableModels.find(
-        model => model.sortOrder && model.sortOrder !== TableSortOrders.NO_SORT)
+      newState.sortingModel = newState.sortableModels.find(model => model.sortOrder && model.sortOrder !== TableSortOrders.NO_SORT)
     }
 
     // update when there is a real difference (avoid columns visibility and such updates)

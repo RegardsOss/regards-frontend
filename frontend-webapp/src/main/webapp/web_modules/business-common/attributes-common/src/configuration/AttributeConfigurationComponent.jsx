@@ -35,7 +35,6 @@ import { ShowableAtRender } from '@regardsoss/components'
  * @author Sébastien binda
  */
 class AttributeConfigurationComponent extends React.Component {
-
   static propTypes = {
     allowFacettes: PropTypes.bool.isRequired,
     attribute: PropTypes.oneOfType([

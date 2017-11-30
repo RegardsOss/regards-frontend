@@ -32,7 +32,6 @@ import messages from '../i18n'
  * current role
  */
 export class ResourceAccessFormContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -68,7 +67,9 @@ export class ResourceAccessFormContainer extends React.Component {
   }
 
   getForm = () => {
-    const { role, isRoleFetching, roleResources, isResourcesFetching } = this.props
+    const {
+      role, isRoleFetching, roleResources, isResourcesFetching,
+    } = this.props
     if ((isRoleFetching && !role) || (isResourcesFetching && !roleResources)) {
       return (<FormLoadingComponent />)
     }

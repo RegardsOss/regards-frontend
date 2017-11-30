@@ -35,7 +35,6 @@ import DatasetSubsettingTesterIconButton from './DatasetSubsettingTesterIconButt
  * React component to list datasets.
  */
 export class DatasetFormSubsettingComponent extends React.Component {
-
   static propTypes = {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     currentDataset: DataManagementShapes.Dataset,
@@ -85,7 +84,9 @@ export class DatasetFormSubsettingComponent extends React.Component {
       justifyContent: 'flex-end',
     }
     const { subsetting } = this.state
-    const { currentDataset, modelAttributeList, handleBack, onSubmit, handleTestSubsetting } = this.props
+    const {
+      currentDataset, modelAttributeList, handleBack, onSubmit, handleTestSubsetting,
+    } = this.props
     return (
       <Card>
         <CardTitle

@@ -23,7 +23,6 @@ import { ModuleDialogActions } from './ModuleDialogActions'
  * @author Raphaël Mechali
  */
 class ModuleDialogReducer {
-
   /** Default reducer state */
   static DEFAULT_STATE = {
     detail: {
@@ -45,14 +44,17 @@ class ModuleDialogReducer {
   reduce(state = ModuleDialogReducer.DEFAULT_STATE, action) {
     switch (action.type) {
       case this.actions.SHOW_DETAIL:
-        return { detail: { visible: true, datasetLabel: action.datasetLabel, date: action.date, openSearchRequest: action.openSearchRequest } }
+        return {
+          detail: {
+            visible: true, datasetLabel: action.datasetLabel, date: action.date, openSearchRequest: action.openSearchRequest,
+          },
+        }
       case this.actions.HIDE_DETAIL:
         return { detail: { ...state.detail, visible: false } }
       default:
         return state
     }
   }
-
 }
 
 /**

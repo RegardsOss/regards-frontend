@@ -15,7 +15,6 @@ const { CALL_API, getJSON } = require('redux-api-middleware')
  *  @author Léo Mieulet
  */
 class BasicListActions extends BasicActions {
-
   /**
    * Class constructor
    *
@@ -326,7 +325,8 @@ class BasicListActions extends BasicActions {
     forEach(objectValues, (value, key) => {
       if (isObject(value)) {
         // This is an object that we need to stringify
-        formData.append(key,
+        formData.append(
+          key,
           new Blob(
             [JSON.stringify(value)],
             {

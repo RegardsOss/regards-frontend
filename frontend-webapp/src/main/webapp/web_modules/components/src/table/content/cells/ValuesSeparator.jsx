@@ -23,7 +23,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Raphaël Mechali
  */
 class ValuesSeparator extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
   }

@@ -41,7 +41,6 @@ const { required, string } = ValidationHelpers
  * @author Xavier-Alexandre Brochard
  */
 export class PluginParameterNumber extends React.Component {
-
   static propTypes = pluginParameterComponentPropTypes
 
   static contextTypes = {
@@ -51,7 +50,9 @@ export class PluginParameterNumber extends React.Component {
   format = val => parseFloat(val)
 
   render() {
-    const { reduxFormfieldNamePrefix, pluginParameter, pluginParameterType, mode, pluginMetaData } = this.props
+    const {
+      reduxFormfieldNamePrefix, pluginParameter, pluginParameterType, mode, pluginMetaData,
+    } = this.props
     const { muiTheme } = this.context
     const isView = mode === 'view'
     const validators = [string] // Yes a String, because we store the number in string in the model.
@@ -79,7 +80,7 @@ export class PluginParameterNumber extends React.Component {
             format={this.format}
             fullWidth
             component={RenderTextField}
-            type={'number'}
+            type="number"
             label={label}
             validate={validators}
           />

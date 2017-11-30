@@ -31,7 +31,6 @@ import messages from '../i18n'
  * Show the datasource form
  */
 export class DatasourceFormMappingContainer extends React.Component {
-
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     isEditing: PropTypes.bool,
@@ -83,7 +82,9 @@ export class DatasourceFormMappingContainer extends React.Component {
   }
 
   getForm = () => {
-    const { currentDatasource, tableList, tableAttributeList, modelAttributeList, handleBack, handleSave, isEditing, isCreating } = this.props
+    const {
+      currentDatasource, tableList, tableAttributeList, modelAttributeList, handleBack, handleSave, isEditing, isCreating,
+    } = this.props
     return (<DatasourceFormMappingComponent
       currentDatasource={currentDatasource}
       tableList={tableList}

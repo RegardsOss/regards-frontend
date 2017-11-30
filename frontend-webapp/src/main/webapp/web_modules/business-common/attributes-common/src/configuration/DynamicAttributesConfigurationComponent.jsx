@@ -33,7 +33,6 @@ import AttributeConfigurationComponent from './AttributeConfigurationComponent'
  * @author Sébastien binda
  */
 class DynamicAttributesConfigurationComponent extends React.Component {
-
   static propTypes = {
     allowFacettes: PropTypes.bool.isRequired,
     attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent).isRequired,
@@ -58,7 +57,9 @@ class DynamicAttributesConfigurationComponent extends React.Component {
   }
 
   render() {
-    const { allowFacettes, selectableAttributes, attributesConf, onChangeAttributeConfiguration } = this.props
+    const {
+      allowFacettes, selectableAttributes, attributesConf, onChangeAttributeConfiguration,
+    } = this.props
     const { filter } = this.state
     const styles = { margin: '0px 15px' }
     const attrStyles = { display: 'flex', flexWrap: 'wrap' }
@@ -114,6 +115,5 @@ class DynamicAttributesConfigurationComponent extends React.Component {
       </div >
     )
   }
-
 }
 export default DynamicAttributesConfigurationComponent

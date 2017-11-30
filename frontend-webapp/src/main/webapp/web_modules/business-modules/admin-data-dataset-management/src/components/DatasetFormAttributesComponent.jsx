@@ -47,7 +47,6 @@ const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLes
  * React component to list datasets.
  */
 export class DatasetFormAttributesComponent extends React.Component {
-
   static propTypes = {
     currentDataset: DataManagementShapes.Dataset,
     modelList: DataManagementShapes.ModelList,
@@ -168,7 +167,9 @@ export class DatasetFormAttributesComponent extends React.Component {
   }
 
   render() {
-    const { currentDataset, modelList, modelAttributeList, currentDatasource, submitting, invalid, backUrl } = this.props
+    const {
+      currentDataset, modelList, modelAttributeList, currentDatasource, submitting, invalid, backUrl,
+    } = this.props
     const title = this.getTitle()
     const { showDescriptionMode, disableNoDescription } = this.state
     return (

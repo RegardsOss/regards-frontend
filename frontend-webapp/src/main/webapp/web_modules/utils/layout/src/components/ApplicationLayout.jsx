@@ -27,7 +27,6 @@ import Container from './Container'
  * @author Sébastien Binda
  */
 class ApplicationLayout extends React.Component {
-
   static propTypes = {
     project: PropTypes.string,
     appName: PropTypes.string.isRequired,

@@ -35,7 +35,6 @@ import AttributesComponent from '../../../../components/description/properties/a
 * Attributes container: provides resolved attributes to corresponding component
 */
 export class AttributesContainer extends React.Component {
-
   static mapStateToProps = (state, { fetchModelAttributesSelectors }) => ({
     loading: fetchModelAttributesSelectors.isFetching(state),
     fetchedModelAttributes: fetchModelAttributesSelectors.hasError(state) ? {} : fetchModelAttributesSelectors.getList(state),
@@ -79,8 +78,8 @@ export class AttributesContainer extends React.Component {
     fetchedModelAttributes: oldModelAttributes,
   }, {
     entity: newEntity,
-      fetchedModelAttributes: newModelAttributes,
-      dispatchFetchModelAttributes,
+    fetchedModelAttributes: newModelAttributes,
+    dispatchFetchModelAttributes,
   }) => {
     const oldState = this.state
     const newState = { ...(oldState || AttributesContainer.DEFAULT_STATE) }
@@ -111,11 +110,15 @@ export class AttributesContainer extends React.Component {
     const standardAttributes = DamDomain.AttributeModelController.standardAttributes
     const descriptionStandardAttributes = DamDomain.AttributeModelController.descriptionStandardAttributes.map((attrKey, index) => {
       // retrieve attribute
-      const { id, label, type, entityPathName } = standardAttributes[attrKey]
+      const {
+        id, label, type, entityPathName,
+      } = standardAttributes[attrKey]
       // retrieve value
       const value = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, entityPathName)
       // resolve attribute
-      return { id, label, Renderer: getTypeRender(type), renderValue: value }
+      return {
+        id, label, Renderer: getTypeRender(type), renderValue: value,
+      }
     })
     // 2 - resolve dynamic attributes
     const dynamicAttributes = map(newModelAttributes, ({ content: { attribute: attributeModel } }) => {
@@ -149,5 +152,6 @@ export class AttributesContainer extends React.Component {
 // provide render context for sub components (that will render the objects attribute values)
 export default compose(
   connect(AttributesContainer.mapStateToProps, AttributesContainer.mapDispatchToProps),
-  withValueRenderContext)(AttributesContainer)
+  withValueRenderContext,
+)(AttributesContainer)
 

@@ -28,7 +28,6 @@ import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
  * @author Sébastien Binda
  */
 class AdminContainer extends React.Component {
-
   static propTypes = {
     // Form parameters
     adminForm: PropTypes.shape({

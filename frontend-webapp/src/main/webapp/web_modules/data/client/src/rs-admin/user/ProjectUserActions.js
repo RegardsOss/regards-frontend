@@ -31,5 +31,4 @@ export default class ProjectUserActions extends BasicPageableActions {
       },
     })
   }
-
 }

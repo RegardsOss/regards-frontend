@@ -40,7 +40,6 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
  * @author Léo Mieulet
  */
 export class AdminContainer extends React.Component {
-
   static propTypes = {
     // Props supplied by LazyModuleComponent
     // eslint-disable-next-line react/no-unused-prop-types
@@ -78,8 +77,7 @@ export class AdminContainer extends React.Component {
     ]
     Promise.all(tasks)
       .then(() =>
-        this.setState({ isLoading: false }),
-    )
+        this.setState({ isLoading: false }))
   }
 
   render() {

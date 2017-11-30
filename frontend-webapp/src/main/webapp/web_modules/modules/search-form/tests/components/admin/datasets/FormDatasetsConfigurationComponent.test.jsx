@@ -45,9 +45,7 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
       disableChangeDatasets: false,
     }
 
-    const wrapper = shallow(
-      <FormDatasetsConfigurationComponent {...props} />, { context },
-    )
+    const wrapper = shallow(<FormDatasetsConfigurationComponent {...props} />, { context })
 
     const listComp = wrapper.find(PageableListContainer)
     assert(listComp.length === 1, 'The list of selectable datasets should be rendered')
@@ -63,9 +61,7 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
       disableChangeDatasets: false,
     }
 
-    const wrapper = shallow(
-      <FormDatasetsConfigurationComponent {...props} />, { context },
-    )
+    const wrapper = shallow(<FormDatasetsConfigurationComponent {...props} />, { context })
 
     const listComp = wrapper.find(ListContainer)
     assert(listComp.length === 1, 'The list of selectable dataset models should be rendered')
@@ -81,9 +77,7 @@ describe('[SEARCH FORM] Testing FormDatasetsConfigurationComponent', () => {
       disableChangeDatasets: false,
     }
 
-    const wrapper = shallow(
-      <FormDatasetsConfigurationComponent {...props} />, { context },
-    )
+    const wrapper = shallow(<FormDatasetsConfigurationComponent {...props} />, { context })
 
     const listComp = wrapper.find(PageableListContainer)
     assert(listComp.length === 0, 'The list of selectable datasets should not be rendered as the form is associated to all datasets of the catalog')

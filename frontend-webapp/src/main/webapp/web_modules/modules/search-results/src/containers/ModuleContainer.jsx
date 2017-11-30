@@ -36,7 +36,6 @@ import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
  * @author Sébastien binda
  */
 export class ModuleContainer extends React.Component {
-
   static propTypes = {
     // Default props given to the form
     moduleConf: ModuleConfiguration.isRequired,
@@ -93,7 +92,8 @@ export class ModuleContainer extends React.Component {
         attributesRegroupements,
         breadcrumbInitialContextLabel,
         displayMode,
-    } } = this.props
+      },
+    } = this.props
     const { expanded, attributesFetching, facettesQuery } = this.state
     const initialViewObjectType = this.getInitialViewObjectType(displayMode)
     if (!attributesFetching) {

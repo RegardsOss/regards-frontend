@@ -23,7 +23,6 @@ import { AuthenticationRouteHelper } from '@regardsoss/authentication-manager'
  * Actions for existing account requests
  */
 export default class AccountOperationActions extends BasicSignalActions {
-
   /**
    * Constructor
    * @param endpointName URL endpoint name, like createAccount ...
@@ -61,7 +60,5 @@ export default class AccountOperationActions extends BasicSignalActions {
       ...otherBodyParameters,
     }, { accountEmail })
   }
-
-
 }
 

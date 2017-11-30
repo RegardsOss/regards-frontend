@@ -24,7 +24,6 @@ import styles from './styles'
 * @author Raphaël Mechali
 */
 export class HorizontalAreasSeparator extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
   }

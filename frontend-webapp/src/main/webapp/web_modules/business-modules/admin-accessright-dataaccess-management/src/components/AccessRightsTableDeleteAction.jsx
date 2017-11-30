@@ -27,7 +27,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 * @author Raphaël Mechali
 */
 class AccessRightsTableDeleteAction extends React.Component {
-
   static propTypes = {
     // from table cell API
     entity: DataManagementShapes.Dataset.isRequired,

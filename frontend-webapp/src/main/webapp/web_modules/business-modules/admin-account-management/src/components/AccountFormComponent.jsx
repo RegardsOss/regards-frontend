@@ -28,7 +28,6 @@ import { themeContextType } from '@regardsoss/theme'
  * Display edit and create project form
  */
 export class AccountFormComponent extends React.Component {
-
   static propTypes = {
     currentAccount: AdminShapes.Account.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -69,11 +68,13 @@ export class AccountFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={
-              this.context.intl.formatMessage({ id: 'account.form.edit.title' },
+              this.context.intl.formatMessage(
+{ id: 'account.form.edit.title' },
                 {
                   firstName: this.props.currentAccount.content.firstName,
                   lastName: this.props.currentAccount.content.lastName,
-                })}
+                },
+)}
           />
           <CardText>
 

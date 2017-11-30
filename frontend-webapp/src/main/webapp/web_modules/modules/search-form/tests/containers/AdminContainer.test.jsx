@@ -72,11 +72,9 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
       fetchDatasetsAttributes: fetchDatasetsAttributesCallback,
     }
 
-    const wrapper = shallow(
-      <UnconnectedAdminContainer
-        {...props}
-      />,
-    )
+    const wrapper = shallow(<UnconnectedAdminContainer
+      {...props}
+    />)
 
     assert.isTrue(wrapper.find(FormTabsComponent).length === 1, 'There should be one FormTabsComponent')
     assert.isTrue(fetchDatasetsAttributesCallback.notCalled, 'By default if no dataset type is selected, the all datasets type is selected')
@@ -127,11 +125,9 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
       fetchDatasetsAttributes: fetchDatasetsAttributesCallback,
     }
 
-    const wrapper = shallow(
-      <UnconnectedAdminContainer
-        {...props}
-      />,
-    )
+    const wrapper = shallow(<UnconnectedAdminContainer
+      {...props}
+    />)
 
     assert.isTrue(wrapper.find(FormTabsComponent).length === 1, 'There should be one FormTabsComponent')
     assert.isTrue(fetchDatasetsAttributesCallback.calledOnce, 'The list of datasets attributes should be fetched')
@@ -186,11 +182,9 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
       fetchDatasetsAttributes: fetchDatasetsAttributesCallback,
     }
 
-    const wrapper = shallow(
-      <UnconnectedAdminContainer
-        {...props}
-      />,
-    )
+    const wrapper = shallow(<UnconnectedAdminContainer
+      {...props}
+    />)
 
     assert.isTrue(wrapper.find(FormTabsComponent).length === 1, 'There should be one FormTabsComponent')
     assert.isTrue(fetchDatasetsAttributesCallback.notCalled, 'The list of datasets attributes should not be fetched for selected datasets')

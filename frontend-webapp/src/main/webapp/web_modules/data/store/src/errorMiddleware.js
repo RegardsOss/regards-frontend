@@ -54,20 +54,14 @@ export default store => next => (action) => {
       }
       const message = `${statusText} : \n ${serverMessage}`
 
-      store.dispatch(
-        ApplicationErrorAction.throwError(
-          message,
-          action.meta,
-          action.payload,
-        ),
-      )
+      store.dispatch(ApplicationErrorAction.throwError(
+        message,
+        action.meta,
+        action.payload,
+      ))
     } else {
       const message = `An internal error occurred: \n ${action.type}`
-      store.dispatch(
-        ApplicationErrorAction.throwError(
-          message,
-        ),
-      )
+      store.dispatch(ApplicationErrorAction.throwError(message))
     }
   }
   return next(action)

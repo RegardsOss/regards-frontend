@@ -9,7 +9,6 @@ import OpenSearchQueryParameter from './OpenSearchQueryParameter'
  * Open search query model (q parameter content)
  */
 export default class OpenSearchQuery extends Query {
-
   static PARAMETERS_SEPARATOR = ' AND '
   static TAGS_PARAM_NAME = 'tags'
   static MODEL_NAME_PARAM_NAME = 'model.name'
@@ -48,5 +47,4 @@ export default class OpenSearchQuery extends Query {
   constructor(rootQuery, parameters) {
     super(rootQuery, parameters, OpenSearchQuery.PARAMETERS_SEPARATOR)
   }
-
 }

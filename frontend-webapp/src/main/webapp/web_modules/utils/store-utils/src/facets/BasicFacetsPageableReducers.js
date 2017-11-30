@@ -7,7 +7,6 @@ import BasicPageableReducers from '../pageable/BasicPageableReducers'
  * Actions that are pageable and expose 'facets' field (same level than page metadata)
  */
 class BasicFacetsPageableReducers extends BasicPageableReducers {
-
   reduce(state, action) {
     if (this.isCancelled(state, action)) {
       return state
@@ -23,7 +22,6 @@ class BasicFacetsPageableReducers extends BasicPageableReducers {
         return newState
     }
   }
-
 }
 
 export default BasicFacetsPageableReducers

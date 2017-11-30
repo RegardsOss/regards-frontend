@@ -26,7 +26,6 @@ import instanceItems from './BoardUIInstanceItems'
  * @author Sébastien binda
  */
 class BoardUIComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string,
   }

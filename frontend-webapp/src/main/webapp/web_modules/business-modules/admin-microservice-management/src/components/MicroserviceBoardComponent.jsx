@@ -27,7 +27,6 @@ import microserviceBoardItems from './MicroserviceBoardItems'
  * @author Xavier-Alexandre Brochard
  */
 class MicroserviceBoardComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     maintenance: PropTypes.objectOf(PropTypes.objectOf(PropTypes.func)).isRequired,

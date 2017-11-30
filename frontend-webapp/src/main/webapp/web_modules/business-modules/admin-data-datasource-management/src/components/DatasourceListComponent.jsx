@@ -38,7 +38,6 @@ const actionsBreakpoints = [940, 995]
  * React component to list datasources.
  */
 export class DatasourceListComponent extends React.Component {
-
   static propTypes = {
     datasourceList: DataManagementShapes.DatasourceList,
     handleDelete: PropTypes.func.isRequired,
@@ -94,7 +93,9 @@ export class DatasourceListComponent extends React.Component {
 
 
   render() {
-    const { datasourceList, handleEdit, createUrl, backUrl } = this.props
+    const {
+      datasourceList, handleEdit, createUrl, backUrl,
+    } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

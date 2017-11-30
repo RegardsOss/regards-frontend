@@ -93,7 +93,9 @@ export class AttributeModelFormContainer extends React.Component {
   getFormComponent = () => {
     const { attrModelTypeList, attrModelRestrictionList, fragmentList } = this.props
     if (this.state.isEditing) {
-      const { attrModel, isAttributeModelFetching, isAttributeModelRestrictionFetching, isAttributeModelTypeFetching, isFragmentFetching } = this.props
+      const {
+        attrModel, isAttributeModelFetching, isAttributeModelRestrictionFetching, isAttributeModelTypeFetching, isFragmentFetching,
+      } = this.props
       if (isAttributeModelFetching || isAttributeModelRestrictionFetching || isAttributeModelTypeFetching || isFragmentFetching) {
         return (<FormLoadingComponent />)
       }

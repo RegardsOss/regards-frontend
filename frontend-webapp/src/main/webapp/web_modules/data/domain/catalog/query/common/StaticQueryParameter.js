@@ -6,8 +6,6 @@
  * A static query parameter model (sometimes used for backend computed URL parts)
  */
 export default class StaticQueryParameter {
-
-
   constructor(text = '') {
     this.text = text
   }

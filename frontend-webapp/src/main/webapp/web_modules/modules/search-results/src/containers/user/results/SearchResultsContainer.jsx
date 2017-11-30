@@ -53,7 +53,6 @@ const moduleStyles = { styles }
  * @author Raphaël Mechali
  */
 export class SearchResultsContainer extends React.Component {
-
   static mapStateToProps = state => ({
     resultsCount: searchSelectors.getResultsCount(state),
     isFetching: searchSelectors.isFetching(state),
@@ -146,12 +145,10 @@ export class SearchResultsContainer extends React.Component {
       } else {
         // Data: resolve some initial sorting
         newState.initialSortAttributesPath =
-          (AccessDomain.AttributeConfigurationController.getInitialSortAttributes(newProps.attributesConf) || []).map(
-            attribute => ({
-              attributePath: attribute,
-              type: TableSortOrders.ASCENDING_ORDER, // default is ascending
-            }),
-          )
+          (AccessDomain.AttributeConfigurationController.getInitialSortAttributes(newProps.attributesConf) || []).map(attribute => ({
+            attributePath: attribute,
+            type: TableSortOrders.ASCENDING_ORDER, // default is ascending
+          }))
       }
     }
 
@@ -286,8 +283,14 @@ export class SearchResultsContainer extends React.Component {
    * @param state : state to consider when building query
    * @return { openSearchQuery, fullSearchQuery, searchActions }: new search state
    */
-  buildSearchState = ({ viewObjectType, searchQuery, facettesQuery, levels },
-    { showingFacettes, filters, attributePresentationModels, initialSortAttributesPath }) => {
+  buildSearchState = (
+    {
+      viewObjectType, searchQuery, facettesQuery, levels,
+    },
+    {
+      showingFacettes, filters, attributePresentationModels, initialSortAttributesPath,
+    },
+  ) => {
     const showingDataobjects = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
     // check if facettes should be applied
@@ -300,8 +303,7 @@ export class SearchResultsContainer extends React.Component {
     const datasetTag = Tag.getSearchedDatasetTag(levels)
 
     // extract search parameters from level tags (every parameter except the datasets, that may be used specifically into the datasets search)
-    const parameters = levels.reduce(
-      (acc, levelTag) => levelTag.isDataset() ? acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
+    const parameters = levels.reduce((acc, levelTag) => levelTag.isDataset() ? acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
     if (viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
       // 1 - Data object search : use data object actions, search query and dataset as a Tag on dataobjects
       initialSearchQuery = searchQuery
@@ -370,8 +372,10 @@ export class SearchResultsContainer extends React.Component {
       facettesQuery, dispatchSetEntityAsTag, searchQuery: initialSearchQuery,
     } = this.props
 
-    const { attributePresentationModels, hiddenColumnKeys, searchActions, showingFacettes,
-      facets, filters, openSearchQuery, fullSearchQuery } = this.state
+    const {
+      attributePresentationModels, hiddenColumnKeys, searchActions, showingFacettes,
+      facets, filters, openSearchQuery, fullSearchQuery,
+    } = this.state
 
     return (
       <ModuleStyleProvider module={moduleStyles}>
@@ -430,4 +434,5 @@ export class SearchResultsContainer extends React.Component {
 }
 export default connect(
   SearchResultsContainer.mapStateToProps,
-  SearchResultsContainer.mapDispatchToProps)(SearchResultsContainer)
+  SearchResultsContainer.mapDispatchToProps,
+)(SearchResultsContainer)

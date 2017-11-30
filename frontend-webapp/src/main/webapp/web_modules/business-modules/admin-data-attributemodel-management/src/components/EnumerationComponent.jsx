@@ -34,7 +34,6 @@ import FlatButton from 'material-ui/FlatButton'
  * Deprecated: Use FormUtils.EnumInputs instead
  */
 export class EnumerationComponent extends React.Component {
-
   static propTypes = {
     currentAttrModel: DataManagementShapes.AttributeModel,
     // redux form

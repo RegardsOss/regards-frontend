@@ -33,7 +33,6 @@ const DATETIME_OPTIONS = {
 * @author Raphaël Mechali
 */
 class DateRangeFacetSelectorComponent extends React.Component {
-
   static propTypes = {
     facet: DateRangeFacet.isRequired,
     // applies a facet filter (key:string, label:string, searchQuery: string)
@@ -49,7 +48,8 @@ class DateRangeFacetSelectorComponent extends React.Component {
    */
   formatFacetValueForMenu = (label, facet) => {
     const { intl: { formatMessage } } = this.context
-    return this.formatFacetValue(facet,
+    return this.formatFacetValue(
+      facet,
       (date, count) => formatMessage({ id: 'search.facets.filter.menu.date.after' }, { date, count }),
       (date, count) => formatMessage({ id: 'search.facets.filter.menu.date.before' }, { date, count }),
       (minDate, maxDate, count) => {
@@ -63,7 +63,8 @@ class DateRangeFacetSelectorComponent extends React.Component {
 
   formatFacetValueForFilter = (label, facet) => {
     const { intl: { formatMessage } } = this.context
-    return this.formatFacetValue(facet,
+    return this.formatFacetValue(
+      facet,
       date => formatMessage({ id: 'search.facets.filter.chip.date.after' }, { label, date }),
       date => formatMessage({ id: 'search.facets.filter.chip.date.before' }, { label, date }),
       (minDate, maxDate) => {

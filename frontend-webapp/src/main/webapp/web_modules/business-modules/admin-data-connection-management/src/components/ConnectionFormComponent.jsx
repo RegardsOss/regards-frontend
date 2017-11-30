@@ -35,7 +35,6 @@ const minPoolSizeValidators = [ValidationHelpers.validRequiredNumber, Validation
  * React component to list connections.
  */
 export class ConnectionFormComponent extends React.Component {
-
   static propTypes = {
     currentConnection: DataManagementShapes.Connection,
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
@@ -122,7 +121,9 @@ export class ConnectionFormComponent extends React.Component {
 
 
   render() {
-    const { pluginMetaDataList, submitting, invalid, backUrl } = this.props
+    const {
+      pluginMetaDataList, submitting, invalid, backUrl,
+    } = this.props
     const title = this.getTitle()
     return (
       <form

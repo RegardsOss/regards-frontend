@@ -11,7 +11,6 @@ import DescriptionBreadcrumbComponent from '../../../components/description/brea
 * Description breadcrumb container
 */
 export class DescriptionBreadcrumbContainer extends React.Component {
-
   static mapStateToProps(state, { levelSelectors }) {
     return {
       descriptionPath: levelSelectors.getCurrentDescriptionPath(state),
@@ -46,4 +45,5 @@ export class DescriptionBreadcrumbContainer extends React.Component {
 }
 export default connect(
   DescriptionBreadcrumbContainer.mapStateToProps,
-  DescriptionBreadcrumbContainer.mapDispatchToProps)(DescriptionBreadcrumbContainer)
+  DescriptionBreadcrumbContainer.mapDispatchToProps,
+)(DescriptionBreadcrumbContainer)

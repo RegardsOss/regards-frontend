@@ -7,7 +7,6 @@ import BasicPageableActions from '../pageable/BasicPageableActions'
  * Actions that are pageable and expose 'facets' field (same level than page metadata)
  */
 class BasicFacetsPageableActions extends BasicPageableActions {
-
   constructor(options) {
     super(options)
     // rename actions to get correct logs
@@ -29,7 +28,6 @@ class BasicFacetsPageableActions extends BasicPageableActions {
       facets: json.facets,
     }
   }
-
 }
 
 export default BasicFacetsPageableActions

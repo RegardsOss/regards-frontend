@@ -26,7 +26,6 @@ import BasicListReducers from '../list/BasicListReducers'
  *  Handle reduction for pageable entity lists
  */
 class BasicPageableReducer extends BasicListReducers {
-
   reduce(state, action) {
     if (this.isCancelled(state, action)) {
       return state
@@ -42,7 +41,6 @@ class BasicPageableReducer extends BasicListReducers {
         return newState
     }
   }
-
 }
 
 export default BasicPageableReducer

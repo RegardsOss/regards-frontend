@@ -33,7 +33,6 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * @author Sébastien Binda
  */
 export default class ProjectConnectionActions extends BasicSignalActions {
-
   /**
    * Constructor
    * @param namespace
