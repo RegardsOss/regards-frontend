@@ -26,7 +26,6 @@ import Schemas from '@regardsoss/api'
  * @author Sébastien Binda
  */
 class GenerationChainActions extends BasicPageableActions {
-
   /**
    * constructor
    * @param {*} namespace namespace

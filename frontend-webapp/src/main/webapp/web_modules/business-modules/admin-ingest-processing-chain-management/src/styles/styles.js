@@ -17,6 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 const styles = theme => ({
+  pluginStyles: {
+    display: 'flex',
+    alignItems: 'baseline',
+  },
+  avatarStyles: {
+    marginRight: 10,
+  },
 })
 
 export default styles

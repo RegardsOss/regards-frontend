@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
- /**
-  * @author Sébastien Binda
-  */
+/**
+ * @author Sébastien Binda
+ */
 export const generationChainRoute = {
   path: 'chain/list',
   getComponents(nextState, cb) {
@@ -32,9 +32,22 @@ export const generationChainRoute = {
   },
 }
 
+export const generationChainCreateRoute = {
+  path: 'chain/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/GenerationChainFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const dataProviderManagementRouter = {
   childRoutes: [
     generationChainRoute,
+    generationChainCreateRoute,
   ],
 }
 

@@ -20,6 +20,7 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import GenerationChainListContainer from '../src/containers/GenerationChainListContainer'
+import GenerationChainFormContainer from '../src/containers/GenerationChainFormContainer'
 
 /**
  * Ingest processing chain module routers tests.
@@ -31,12 +32,19 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(1)
+    expect(Routes.childRoutes).to.have.length(2)
     expect(Routes.childRoutes[0].path).to.eq('chain/list')
+    expect(Routes.childRoutes[1].path).to.eq('chain/create')
   })
   it('list should return GenerationChainListContainer for listing of existing chains', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(GenerationChainListContainer)
+      done()
+    })
+  })
+  it('list should return GenerationChainFormContainer for listing of existing chains', (done) => {
+    Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(GenerationChainFormContainer)
       done()
     })
   })

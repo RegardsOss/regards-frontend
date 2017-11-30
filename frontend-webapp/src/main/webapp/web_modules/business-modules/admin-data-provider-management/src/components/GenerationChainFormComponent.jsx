@@ -16,27 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import trim from 'lodash/trim'
 import get from 'lodash/get'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import trim from 'lodash/trim'
+import { connect } from '@regardsoss/redux'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import Avatar from 'material-ui/Avatar'
 import { formValueSelector } from 'redux-form'
-import { connect } from '@regardsoss/redux'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { DataProviderShapes } from '@regardsoss/shape'
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, Field, reduxForm } from '@regardsoss/form-utils'
-import { IngestShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
 import { PluginFormComponent } from './PluginFormComponent'
-import IngestProcessingPluginTypes from './IngestProcessingPluginType'
-
+import generationChainPluginTypes from './GenerationChainPluginTypes'
+import styles from '../styles'
+import messages from '../i18n'
 /**
- * Display edit and create ingest processing chain form
- * @author Sébastien Binda
- */
-export class IngestProcessingChainFormComponent extends React.Component {
+* Component to display a form of GenerationChain entity
+* @author Sébastien Binda
+*/
+class GenerationChainFormComponent extends React.Component {
   static propTypes = {
-    processingChain: IngestShapes.IngestProcessingChain,
+    chain: DataProviderShapes.GenerationChain,
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     // from reduxForm
@@ -53,61 +54,41 @@ export class IngestProcessingChainFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.processingChain === undefined,
-    }
-  }
-
-  componentDidMount() {
-    this.handleInitialize()
-  }
-
-  handleInitialize = () => {
-    if (this.props.processingChain) {
-      this.props.initialize(this.props.processingChain)
-    }
-  }
+  static defaultProps = {}
 
   render() {
-    const { invalid, submitting, processingChain } = this.props
+    const {
+      chain, onBack, onSubmit, invalid, submitting, handleSubmit,
+    } = this.props
     const { intl: { formatMessage }, moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
-    const preprocessingPlugin = get(processingChain, 'preprocessingPlugin', null)
-    const validationPlugin = get(processingChain, 'validationPlugin', null)
-    const generationPlugin = get(processingChain, 'generationPlugin', null)
-    const tagPlugin = get(processingChain, 'tagPlugin', null)
-    const postprocessingPlugin = get(processingChain, 'postprocessingPlugin', null)
+
+    const scanPlugin = get(chain, 'scanAcquisitionPluginConf', null)
+    const checkPlugin = get(chain, 'checkAcquisitionPluginConf', null)
+    const genPlugin = get(chain, 'generateSipPluginConf', null)
+    const postProcessPlugin = get(chain, 'postProcessSipPluginConf', null)
 
     return (
       <form
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Card>
-          {this.state.isCreating ?
+          {!chain ?
             <CardTitle
-              title={formatMessage({ id: 'processing-chain.form.create.title' })}
+              title={formatMessage({ id: 'generation-chain.form.create.title' })}
             /> :
             <CardTitle
-              title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
+              title={formatMessage({ id: 'generation-chain.form.edit.title' }, { name: chain.name })}
             />
           }
           <CardText>
             <Field
-              name="name"
+              name="label"
               fullWidth
-              disabled={!this.state.isCreating}
+              disabled={!!chain}
               component={RenderTextField}
               type="text"
-              label={formatMessage({ id: 'processing-chain.form.create.input.name' })}
+              label={formatMessage({ id: 'generation-chain.form.create.input.label' })}
               normalize={trim}
-            />
-            <Field
-              name="description"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={formatMessage({ id: 'processing-chain.form.create.input.description' })}
             />
             <div style={pluginStyles}>
               <Avatar
@@ -118,12 +99,12 @@ export class IngestProcessingChainFormComponent extends React.Component {
               > 1
               </Avatar>
               <PluginFormComponent
-                key="preprocessing"
-                title="[Optional] Pre-processing plugin"
-                selectLabel="None"
-                ingestPluginType={IngestProcessingPluginTypes.PRE_PROCESSING}
-                pluginConf={preprocessingPlugin}
-                fieldNamePrefix="preprocessingPlugin"
+                key="scan"
+                title="Scan plugin"
+                selectLabel="Choose a plugin ..."
+                ingestPluginType={generationChainPluginTypes.SCAN}
+                pluginConf={scanPlugin}
+                fieldNamePrefix="scanAcquisitionPluginConf"
                 reduxFormChange={this.props.change}
                 reduxFormInitialize={this.props.initialize}
                 reduxFormGetField={this.props.getField}
@@ -139,12 +120,12 @@ export class IngestProcessingChainFormComponent extends React.Component {
               > 2
               </Avatar>
               <PluginFormComponent
-                key="validation"
-                title="Validation plugin"
+                key="check"
+                title="Check plugin"
                 selectLabel="Choose a plugin ..."
-                ingestPluginType={IngestProcessingPluginTypes.VALIDATION}
-                pluginConf={validationPlugin}
-                fieldNamePrefix="validationPlugin"
+                ingestPluginType={generationChainPluginTypes.CHECK}
+                pluginConf={checkPlugin}
+                fieldNamePrefix="checkAcquisitionPluginConf"
                 reduxFormChange={this.props.change}
                 reduxFormInitialize={this.props.initialize}
                 reduxFormGetField={this.props.getField}
@@ -161,11 +142,11 @@ export class IngestProcessingChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="generation"
-                title="AIP GEneration plugin"
+                title="SIP Generation plugin"
                 selectLabel="Choose a plugin ..."
-                ingestPluginType={IngestProcessingPluginTypes.GENERATION}
-                pluginConf={generationPlugin}
-                fieldNamePrefix="generationPlugin"
+                ingestPluginType={generationChainPluginTypes.GENERATE_SIP}
+                pluginConf={genPlugin}
+                fieldNamePrefix="generateSipPluginConf"
                 reduxFormChange={this.props.change}
                 reduxFormInitialize={this.props.initialize}
                 reduxFormGetField={this.props.getField}
@@ -181,33 +162,12 @@ export class IngestProcessingChainFormComponent extends React.Component {
               > 4
               </Avatar>
               <PluginFormComponent
-                key="tag"
-                title="[Optional] AIP Tag plugin"
-                selectLabel="None"
-                ingestPluginType={IngestProcessingPluginTypes.TAG}
-                pluginConf={tagPlugin}
-                fieldNamePrefix="tagPlugin"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 5
-              </Avatar>
-              <PluginFormComponent
-                key="postprocessing"
-                title="[Optional] Post-processing plugin"
-                selectLabel="None"
-                ingestPluginType={IngestProcessingPluginTypes.POST_PROCESSING}
-                pluginConf={postprocessingPlugin}
-                fieldNamePrefix="postprocessingPlugin"
+                key="PostProcessing"
+                title="Post processing plugin"
+                selectLabel="Choose a plugin ..."
+                ingestPluginType={generationChainPluginTypes.POST_PROCESSING}
+                pluginConf={postProcessPlugin}
+                fieldNamePrefix="postProcessSipPluginConf"
                 reduxFormChange={this.props.change}
                 reduxFormInitialize={this.props.initialize}
                 reduxFormGetField={this.props.getField}
@@ -218,14 +178,14 @@ export class IngestProcessingChainFormComponent extends React.Component {
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={
-                this.state.isCreating ?
-                  formatMessage({ id: 'processing-chain.form.create.action.create' }) :
-                  formatMessage({ id: 'processing-chain.form.edit.action.save' })
+                !chain ?
+                  formatMessage({ id: 'generation-chain.form.create.action.create' }) :
+                  formatMessage({ id: 'generation-chain.form.edit.action.save' })
               }
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={formatMessage({ id: 'processing-chain.form.create.action.cancel' })}
-              secondaryButtonTouchTap={this.props.onBack}
+              secondaryButtonLabel={formatMessage({ id: 'generation-chain.form.create.action.cancel' })}
+              secondaryButtonTouchTap={onBack}
             />
           </CardActions>
         </Card>
@@ -244,12 +204,11 @@ const mapStateToProps = state => ({
   getField: field => selector(state, field),
 })
 
-const ConnectedComponent = connect(mapStateToProps)(IngestProcessingChainFormComponent)
+const ConnectedComponent = connect(mapStateToProps)(GenerationChainFormComponent)
 
 const connectedReduxForm = reduxForm({
-  form: 'ingest-processing-chain-form',
+  form: 'generation-chain-form',
   validate,
 })(ConnectedComponent)
 
-export default connectedReduxForm
-
+export default withI18n(messages)(withModuleStyle(styles)(connectedReduxForm))

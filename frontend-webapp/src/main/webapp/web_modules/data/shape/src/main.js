@@ -33,6 +33,7 @@ module.exports = {
   CatalogShapes,
   CommonShapes,
   DataManagementShapes,
+  DataProviderShapes,
   IngestShapes,
   OrderShapes,
 }

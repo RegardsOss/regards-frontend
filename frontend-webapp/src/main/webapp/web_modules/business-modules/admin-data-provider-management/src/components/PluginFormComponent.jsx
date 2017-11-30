@@ -64,7 +64,7 @@ export class PluginFormComponent extends React.Component {
           <PluginListContainer
             title={title}
             selectLabel={selectLabel}
-            microserviceName={STATIC_CONF.MSERVICES.INGEST}
+            microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
             pluginType={ingestPluginType}
             storePath={storePath}
             selectedPluginId={pluginConf ? pluginConf.pluginId : null}
@@ -74,7 +74,7 @@ export class PluginFormComponent extends React.Component {
         </div>
         {this.state.selectedPluginMetaData ?
           <PluginConfigurator
-            microserviceName={STATIC_CONF.MSERVICES.INGEST}
+            microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
             pluginMetaData={this.state.selectedPluginMetaData}
             pluginConfiguration={pluginConf}
             formMode={this.props.pluginConf && this.props.pluginConf.pluginId === this.state.selectedPluginMetaData.pluginId ? 'edit' : 'create'}

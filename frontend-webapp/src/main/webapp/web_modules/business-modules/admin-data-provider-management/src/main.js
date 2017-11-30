@@ -20,7 +20,7 @@ import dataProviderManagementRouter from './router'
 import dataProviderManagementReducer from './reducer'
 import dataProviderDependencies from './dependencies'
 
- /**
+/**
   * @author Sébastien Binda
   */
 module.exports = {

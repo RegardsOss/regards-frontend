@@ -89,13 +89,13 @@ const styles = (theme) => {
           styles: {},
         },
         contentContainer: {
-          classes: ['col-xs-100', 'col-sm-68', 'col-md-75', 'col-lg-78'],
+          classes: ['col-xs-100', 'col-sm-68', 'col-md-76', 'col-lg-80'],
           styles: {
             padding: '10px',
           },
         },
         sidebarContainer: {
-          classes: ['col-xs-100', 'col-sm-32', 'col-md-25', 'col-lg-22'],
+          classes: ['col-xs-100', 'col-sm-32', 'col-md-24', 'col-lg-20'],
           styles: {
             position: 'relative',
             marginTop: 10,

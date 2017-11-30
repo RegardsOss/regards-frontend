@@ -15,15 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-const styles = theme => ({
-  pluginStyles: {
-    display: 'flex',
-    alignItems: 'baseline',
-  },
-  avatarStyles: {
-    marginRight: 10,
-  },
-})
+ **/
 
-export default styles
+/**
+ * List of plugin types available for configuration in every ingest processing chain
+ */
+const generationChainPluginTypes = {
+  SCAN: 'fr.cnes.regards.modules.acquisition.plugins.IAcquisitionScanPlugin',
+  CHECK: 'fr.cnes.regards.modules.acquisition.plugins.ICheckFilePlugin',
+  GENERATE_SIP: 'fr.cnes.regards.modules.acquisition.plugins.IGenerateSIPPlugin',
+  POST_PROCESSING: 'fr.cnes.regards.modules.acquisition.plugins.IPostProcessSipPlugin',
+}
+
+export default generationChainPluginTypes

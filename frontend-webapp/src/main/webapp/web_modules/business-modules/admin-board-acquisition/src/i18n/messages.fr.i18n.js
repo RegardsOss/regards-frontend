@@ -27,11 +27,11 @@ const messages = {
   'ingest.board.action.sumition.tooltip': 'Soumettre des données',
 
   'data-provider.board.title': 'Automatisation',
-  'data-provider.board.description': 'Cette fonctionalité vous permet de configurer des processus d\'ajout automatique des nouvelles données détectées. Pour chaque données détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour soumission.',
+  'data-provider.board.description': 'Cette fonctionalité vous permet de configurer des processus d\'ajout automatique des nouvelles données détectées. Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour soumission.',
   'data-provider.board.action.chain.list.tooltip': 'Configurer les chaînes de traitements',
 
   'ingest.board.external.datasources.title': 'Aspiration',
-  'ingest.board.external.datasources.description': 'Cette fonctionnalité vous permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la base aux modèles de données.',
+  'ingest.board.external.datasources.description': 'Cette fonctionnalité vous permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
   'ingest.board.action.external.datasources.list.tooltip': 'Configurer les aspirations',
   'ingest.board.action.connection.list.tooltip': 'Configurer les sources de données',
   'ingest.board.action.datasource.monitor.tooltip': 'Suivi des aspirations de données',

@@ -42,7 +42,6 @@ import messages from '../i18n'
 * @author Sébastien Binda
 */
 class GenerationChainListComponent extends React.Component {
-
   static propTypes = {
     fetchPage: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,

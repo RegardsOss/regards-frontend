@@ -16,23 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import GenerationChainListComponent from '../components/GenerationChainListComponent'
+import { DataProviderShapes } from '@regardsoss/shape'
+import GenerationChainFormComponent from '../components/GenerationChainFormComponent'
 import { generationChainActions, generationChainSelectors } from '../clients/GenerationChainClient'
 
 /**
-* GenerationChainListContainer
+* Container to display a form of GenerationChain entity
 * @author Sébastien Binda
 */
-export class GenerationChainListContainer extends React.Component {
+export class GenerationChainFormContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
-    return {}
+  static mapStateToProps(state, ownProps) {
+    return {
+      chain: get(ownProps, 'params.chain_id', false) ? generationChainSelectors.getById(ownProps.params.chain_id) : undefined,
+    }
   }
 
   /**
@@ -43,59 +48,43 @@ export class GenerationChainListContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      deleteChain: id => dispatch(generationChainActions.deleteEntity(id)),
-      fetchPage: (pageIndex, pageSize) => dispatch(generationChainActions.fetchPagedEntityList(pageIndex, pageSize)),
+      fetch: id => dispatch(generationChainActions.fetchEntity(id)),
     }
   }
 
   static propTypes = {
     params: PropTypes.shape({
-      project: PropTypes.string,
+      project: PropTypes.string.isRequired,
+      chain_id: PropTypes.string,
     }),
+    // from mapStateToProps
+    chain: DataProviderShapes.GenerationChain,
     // from mapDispatchToProps
-    deleteChain: PropTypes.func,
-    fetchPage: PropTypes.func,
+    fetch: PropTypes.func.isRequired,
   }
 
-  static PAGE_SIZE = 100
+  onSubmit = () => {
 
-  onEdit = (chainIdToEdit) => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/chain/${chainIdToEdit}/edit`
-    browserHistory.push(url)
-  }
-
-  onCreate = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/chain/create`
-    browserHistory.push(url)
   }
 
   onBack = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/board`
+    const url = `/admin/${project}/data/acquisition/dataprovider/chain/list`
     browserHistory.push(url)
   }
 
-  onDelete = ({ content: { id } }, callback) => {
-    this.props.deleteChain(id).then(callback)
-  }
-
   render() {
-    const { maProp } = this.props
+    const { chain } = this.props
     return (
-      <GenerationChainListComponent
-        fetchPage={this.props.fetchPage}
-        onDelete={this.onDelete}
-        onEdit={this.onEdit}
-        onCreate={this.onCreate}
+      <GenerationChainFormComponent
+        chain={chain}
+        onSubmit={this.onSubmit}
         onBack={this.onBack}
-        queryPageSize={GenerationChainListContainer.PAGE_SIZE}
       />
     )
   }
 }
 export default connect(
-  GenerationChainListContainer.mapStateToProps,
-  GenerationChainListContainer.mapDispatchToProps,
-)(GenerationChainListContainer)
+  GenerationChainFormContainer.mapStateToProps,
+  GenerationChainFormContainer.mapDispatchToProps,
+)(GenerationChainFormContainer)
