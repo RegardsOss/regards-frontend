@@ -79,12 +79,11 @@ const menuStyles = theme => (
     cart: {
       iconButton: {
         style: { padding: 0 },
-        iconStyle: { position: 'relative', width: '48px', height: '48px' },
+        iconStyle: { position: 'relative', width: theme.button.iconButtonSize, height: theme.button.iconButtonSize },
       },
       overlay: {
         style: {
           position: 'absolute',
-          color: 'red',
           bottom: '0',
           left: '0',
           width: '100%',
@@ -96,7 +95,7 @@ const menuStyles = theme => (
         },
       },
       icon: {
-        style: { position: 'absolute', left: '12px', top: '12px' },
+        style: { position: 'absolute', left: theme.spacing.iconSize / 2, top: theme.spacing.iconSize / 2 },
       },
     },
   })

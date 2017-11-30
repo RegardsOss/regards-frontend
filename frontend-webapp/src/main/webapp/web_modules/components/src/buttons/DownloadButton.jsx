@@ -39,10 +39,14 @@ class DownloadButton extends React.Component {
     ButtonIcon: DownloadIcon,
   }
 
+  static UNDECORATED_LINK_STYLE = {
+    textDecoration: 'none',
+  }
+
   render() {
     const { ButtonConstructor, ButtonIcon, label, tooltip, downloadURL, ...otherProperties } = this.props
     return (
-      <a download href={downloadURL} >
+      <a download href={downloadURL} style={DownloadButton.UNDECORATED_LINK_STYLE} >
         <ButtonConstructor
           label={label}
           icon={ButtonIcon && <ButtonIcon />}

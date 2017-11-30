@@ -30,7 +30,8 @@ import {
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 import OrderCountHeaderMessage from './OrderCountHeaderMessage'
 import NoOrderComponent from './NoOrderComponent'
-import DownloadOrderFilesContainer from '../../containers/orders/DownloadOrderFilesContainer'
+import DownloadOrderFilesAsZipContainer from '../../containers/orders/DownloadOrderFilesAsZipContainer'
+import DownloadOrderMetaLinkFileContainer from '../../containers/orders/DownloadOrderMetaLinkFileContainer'
 import ShowOrderDatasetsContainer from '../../containers/orders/ShowOrderDatasetsContainer'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import ErrorsCountRender from './ErrorsCountRender'
@@ -127,8 +128,32 @@ class OrderListComponent extends React.Component {
     return get(order, 'content.status')
   }
 
+  /**
+   * Builds options (removes / adds options according with display mode)
+   * @return {[*]} table columns list
+   */
+  buildOptions = () => {
+    const { displayMode, navigationActions } = this.props
+    // download options (user only)
+    const downloadOptions = displayMode !== ORDER_DISPLAY_MODES.USER ?
+      [] : [{ OptionConstructor: DownloadOrderFilesAsZipContainer }, { OptionConstructor: DownloadOrderMetaLinkFileContainer }]
+
+    return [
+      // downloads
+      ...downloadOptions, {
+        // show order detail (at last position to stay stable on multiple screens)
+        OptionConstructor: ShowOrderDatasetsContainer,
+        optionProps: { navigationActions },
+      },
+    ]
+  }
+
+  /**
+   * Builds options (removes / adds options according with display mode)
+   * @return {[*]} table columns list
+   */
   buildColumns = () => {
-    const { columnsVisibility, navigationActions } = this.props
+    const { columnsVisibility } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
     const fixedDataColumnWidth = muiTheme['module:order-history'].fixedDataColumnWidth
@@ -136,41 +161,42 @@ class OrderListComponent extends React.Component {
       // number
       TableColumnBuilder.buildSimplePropertyColumn(NUMBER_KEY, formatMessage({ id: 'order.list.column.number' }),
         'content.id', 0, get(columnsVisibility, NUMBER_KEY, true)),
+
+      // Progress column
+      TableColumnBuilder.buildSimpleColumnWithCell(PROGRESS_KEY, formatMessage({ id: 'order.list.column.progress' }),
+        TableColumnBuilder.buildProgressPercentRenderCell(OrderListComponent.getProgress), 1,
+        get(columnsVisibility, PROGRESS_KEY, true), fixedDataColumnWidth),
+
       // creation date
       TableColumnBuilder.buildSimplePropertyColumn(CREATION_DATE_KEY, formatMessage({ id: 'order.list.column.creation.date' }),
-        'content.creationDate', 1, get(columnsVisibility, CREATION_DATE_KEY, true), DateValueRender),
+        'content.creationDate', 2, get(columnsVisibility, CREATION_DATE_KEY, true), DateValueRender),
+
       // expiration date
       TableColumnBuilder.buildSimplePropertyColumn(EXPIRATION_DATE_KEY, formatMessage({ id: 'order.list.column.expiration.date' }),
-        'content.expirationDate', 2, get(columnsVisibility, EXPIRATION_DATE_KEY, true), DateValueRender),
-      // // objects count (as extracted, using getObjectCount)
-      TableColumnBuilder.buildSimpleColumnWithCell(OBJECTS_COUNT_KEY, formatMessage({ id: 'order.list.column.object.count' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 3,
-        get(columnsVisibility, OBJECTS_COUNT_KEY, true)),
+        'content.expirationDate', 3, get(columnsVisibility, EXPIRATION_DATE_KEY, true), DateValueRender),
+
       // total files size  (as extracted, using getFilesSize)
       TableColumnBuilder.buildSimpleColumnWithCell(FILES_SIZE_KEY, formatMessage({ id: 'order.list.column.files.size' }),
         TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getFilesSize, RenderConstructor: StorageCapacityRender }]),
         4, get(columnsVisibility, FILES_SIZE_KEY, true)),
+
       // error files count
       TableColumnBuilder.buildSimplePropertyColumn(ERRORS_COUNT_KEY, formatMessage({ id: 'order.list.column.errors.count' }),
         'content.filesInErrorCount', 5, get(columnsVisibility, ERRORS_COUNT_KEY, true), ErrorsCountRender),
-      // Progress column
-      TableColumnBuilder.buildSimpleColumnWithCell(PROGRESS_KEY, formatMessage({ id: 'order.list.column.progress' }),
-        TableColumnBuilder.buildProgressPercentRenderCell(OrderListComponent.getProgress), 6,
-        get(columnsVisibility, PROGRESS_KEY, true), fixedDataColumnWidth),
+
       // Status column
       TableColumnBuilder.buildSimpleColumnWithCell(STATUS_KEY, formatMessage({ id: 'order.list.column.status' }),
         TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getStatus, RenderConstructor: StatusRender }]),
-        7, get(columnsVisibility, STATUS_KEY, true), fixedDataColumnWidth),
+        6, get(columnsVisibility, STATUS_KEY, true), fixedDataColumnWidth),
+      // objects count (as extracted, using getObjectCount)
+      // TODO
+      TableColumnBuilder.buildSimpleColumnWithCell(OBJECTS_COUNT_KEY, formatMessage({ id: 'order.list.column.object.count' }),
+        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 7,
+        get(columnsVisibility, OBJECTS_COUNT_KEY, true)),
       // Options column
-      TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'order.list.column.options' }), [{
-        // Download order files (multiple options)
-        OptionConstructor: DownloadOrderFilesContainer,
-        // TODO: delete command.
-        // TODO handle rights?
-      }, { // show order detail (at last position to stay stable on multiple screens)
-        OptionConstructor: ShowOrderDatasetsContainer,
-        optionProps: { navigationActions },
-      }], get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnWidth)]
+      TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'order.list.column.options' }),
+        this.buildOptions(), get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnWidth),
+    ]
   }
 
   render() {

@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -19,27 +20,27 @@
 import { BasicActions } from '@regardsoss/store-utils'
 
 /**
- * Pseudo actions to obtain the link to download order file actions and check dependencies
+ * Pseudo actions to obtain the metalink file for an order files
  */
-class DownloadOrderFileActions extends BasicActions {
+class DownloadOrderMetalinkFileAtions extends BasicActions {
 
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/files/{dataFileId}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/user/orders/{orderId}/metalink/download`,
     })
   }
 
   /**
    * Returns file download link
-   * @param {number} dataFileId data file ID
+   * @param {number} orderId order id
    * @param {string} token logged user token (required for order files)
-   * @return {string} file download URL
+   * @return {string} metalink download URL
    */
-  getFileDownloadLink(dataFileId, token) {
-    const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { dataFileId })
+  getFileDownloadLink(orderId, token) {
+    const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { orderId })
     return this.handleRequestQueryParams(withPathParams, { token })
   }
 
 }
 
-export default DownloadOrderFileActions
+export default DownloadOrderMetalinkFileAtions

@@ -65,8 +65,8 @@ const messages = {
   'order.list.cell.status.UNKNOWN.text': 'unkown',
   'order.list.cell.status.UNKNOWN.tooltip': 'Order status is unknown',
   'order.list.option.cell.download.title': 'Download...',
-  'order.list.option.cell.download.zip.message': 'Available files as zip archive',
-  'order.list.option.cell.download.metalink.message': 'Order metalink file',
+  'order.list.option.cell.download.zip.tooltip': 'Download available order files as zip',
+  'order.list.option.cell.download.metalink.tooltip': 'Download order metalink file',
   'order.list.option.cell.detail.title': 'Detail',
 
   // order datasets table

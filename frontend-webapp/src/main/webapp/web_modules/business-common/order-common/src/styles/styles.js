@@ -46,4 +46,30 @@ export default theme => ({
       flexShrink: 1,
     },
   },
+  downloadWithCount: {
+    iconButton: {
+      style: { padding: 0 },
+      iconStyle: { position: 'relative', width: theme.button.iconButtonSize, height: theme.button.iconButtonSize },
+    },
+    overlay: {
+      style: {
+        position: 'absolute',
+        top: 5 * theme.button.iconButtonSize / 9,
+        left: 5 * theme.button.iconButtonSize / 9,
+        zIndex: '1',
+      },
+      chip: {
+        style: {
+          backgroundColor: theme.palette.accent1Color,
+        },
+        labelStyle: {
+          padding: '1px 3px',
+          lineHeight: undefined,
+        },
+      },
+    },
+    icon: {
+      style: { position: 'absolute', left: theme.spacing.iconSize / 2, top: theme.spacing.iconSize / 2 },
+    },
+  },
 })

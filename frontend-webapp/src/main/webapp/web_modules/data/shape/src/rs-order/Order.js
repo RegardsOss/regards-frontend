@@ -42,6 +42,7 @@ const Order = PropTypes.shape({
   filesInErrorCount: PropTypes.number,
   status: PropTypes.oneOf(OrderDomain.ORDER_STATUS).isRequired,
   statusDate: PropTypes.string.isRequired,
+  availableFilesCount: PropTypes.number.isRequired,
   datasetTasks: PropTypes.arrayOf(DatasetTask).isRequired,
 })
 
