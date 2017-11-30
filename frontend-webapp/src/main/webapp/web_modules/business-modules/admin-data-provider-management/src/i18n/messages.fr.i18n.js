@@ -33,6 +33,19 @@ const messages = Object.assign({
   'generation-chain.info.message.step2': '2 - Check plugin: Comment vérifier la validité des nouvelles données à acquérir.',
   'generation-chain.info.message.step3': '3 - Generate SIP plugin: Comment générer les métadonnées associées aux nouvelles données à acquérir.',
   'generation-chain.info.message.step4': '4 - Post processing plugin: Traitement à réaliser après la génération des données à acquérir.',
+
+  'generation-chain.form.create.title': 'Créer une nouvelle chaîne de génération',
+  'generation-chain.form.edit.title': 'Edition de la chaine : {name}',
+  'generation-chain.form.create.input.label': 'Libellé',
+  'generation-chain.form.plugins.select.label': 'Sélectionner un plugin ...',
+  'generation-chain.form.plugins.scan.label': 'Détection des données',
+  'generation-chain.form.plugins.check.label': 'Vérification des données',
+  'generation-chain.form.plugins.gen-sip.label': 'Génération des métadonnées',
+  'generation-chain.form.plugins.post-processing.label': 'Post traitement',
+  'generation-chain.form.create.action.create': 'Créer',
+  'generation-chain.form.edit.action.save': 'Mettre à jour',
+  'generation-chain.form.create.action.cancel': 'Annuler',
+
 }, Locales.fr)
 
 export default messages

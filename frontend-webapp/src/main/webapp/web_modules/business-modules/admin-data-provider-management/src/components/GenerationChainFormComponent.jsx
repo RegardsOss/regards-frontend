@@ -100,8 +100,8 @@ class GenerationChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="scan"
-                title="Scan plugin"
-                selectLabel="Choose a plugin ..."
+                title={formatMessage({ id: 'generation-chain.form.plugins.scan.label' })}
+                selectLabel={formatMessage({ id: 'generation-chain.form.plugins.select.label' })}
                 ingestPluginType={generationChainPluginTypes.SCAN}
                 pluginConf={scanPlugin}
                 fieldNamePrefix="scanAcquisitionPluginConf"
@@ -121,8 +121,8 @@ class GenerationChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="check"
-                title="Check plugin"
-                selectLabel="Choose a plugin ..."
+                title={formatMessage({ id: 'generation-chain.form.plugins.check.label' })}
+                selectLabel={formatMessage({ id: 'generation-chain.form.plugins.select.label' })}
                 ingestPluginType={generationChainPluginTypes.CHECK}
                 pluginConf={checkPlugin}
                 fieldNamePrefix="checkAcquisitionPluginConf"
@@ -142,8 +142,8 @@ class GenerationChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="generation"
-                title="SIP Generation plugin"
-                selectLabel="Choose a plugin ..."
+                title={formatMessage({ id: 'generation-chain.form.plugins.gen-sip.label' })}
+                selectLabel={formatMessage({ id: 'generation-chain.form.plugins.select.label' })}
                 ingestPluginType={generationChainPluginTypes.GENERATE_SIP}
                 pluginConf={genPlugin}
                 fieldNamePrefix="generateSipPluginConf"
@@ -163,8 +163,8 @@ class GenerationChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="PostProcessing"
-                title="Post processing plugin"
-                selectLabel="Choose a plugin ..."
+                title={formatMessage({ id: 'generation-chain.form.plugins.post-processing.label' })}
+                selectLabel={formatMessage({ id: 'generation-chain.form.plugins.select.label' })}
                 ingestPluginType={generationChainPluginTypes.POST_PROCESSING}
                 pluginConf={postProcessPlugin}
                 fieldNamePrefix="postProcessSipPluginConf"

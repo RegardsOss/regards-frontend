@@ -34,6 +34,19 @@ const messages = Object.assign({
   'generation-chain.info.message.step3': 'Generate SIP plugin: How to generate metadata of new datas.',
   'generation-chain.info.message.step4': 'Post processing plugin: Custom processing done after SIP generation.',
 
+  'generation-chain.form.create.title': 'Create a new generation chain',
+  'generation-chain.form.edit.title': 'Edit generation chain : {name}',
+  'generation-chain.form.create.input.label': 'Label',
+  'generation-chain.form.plugins.select.label': 'Choose a plugin ...',
+  'generation-chain.form.plugins.scan.label': 'Scan for new datas',
+  'generation-chain.form.plugins.check.label': 'Check datas',
+  'generation-chain.form.plugins.gen-sip.label': 'Metadatas generation',
+  'generation-chain.form.plugins.post-processing.label': 'Post processing',
+  'generation-chain.form.create.action.create': 'Create',
+  'generation-chain.form.edit.action.save': 'Update',
+  'generation-chain.form.create.action.cancel': 'Cancel',
+
+
 }, Locales.en)
 
 export default messages
