@@ -159,7 +159,6 @@
     "redux-thunk": "~2.2.0",
     "reselect": "^3.0.1",
     "scriptjs": "~2.5.8",
-    "stompjs": "~2.3.3",
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {
@@ -225,8 +224,8 @@
     "sinon": "^4.1.2",
     "source-map-loader": "~0.2.3",
     "source-map-support": "^0.5.0",
-    "webpack": "3.8.1",
-    "webpack-dev-server": "~2.9.4",
+    "webpack": "3.9.0",
+    "webpack-dev-server": "~2.9.5",
     "xunit-file": "~1.0.0"
   },
   "engines": {
