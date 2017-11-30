@@ -35,7 +35,6 @@ import { DISPLAY_MODE_ENUM } from '../../definitions/DisplayModeEnum'
  * @author Léo Mieulet
  */
 class SearchResultsConfigurationComponent extends React.Component {
-
   // Redux form
   static MODULE_ATTRIBUTES_CONF = 'conf.attributes'
   static MODULE_DATASET_ATTRIBUTES_CONF = 'conf.datasetAttributes'
@@ -46,8 +45,8 @@ class SearchResultsConfigurationComponent extends React.Component {
 
   static propTypes = {
     dataAttributeModels: AccessShapes.AttributeConfigurationList,
-    datasetAttributesModels: AccessShapes.AttributeConfigurationList,
-    documentAttributesModels: AccessShapes.AttributeConfigurationList,
+    datasetAttributeModels: AccessShapes.AttributeConfigurationList,
+    documentAttributeModels: AccessShapes.AttributeConfigurationList,
     currentFormValues: ModuleConfiguration,
     initialFormValues: ModuleConfiguration.isRequired,
     // Redux form
@@ -92,11 +91,13 @@ class SearchResultsConfigurationComponent extends React.Component {
 
     switch (displayMode) {
       case DISPLAY_MODE_ENUM.DISPLAY_DATA:
-        return this.renderObjectsAttributesConfiguration(currentAttributesConf,
+        return this.renderObjectsAttributesConfiguration(
+          currentAttributesConf,
           initialAttributesConf,
           currentAttributesGroupsConf,
           initialAttributesGroupsConf,
-          dataEnableFacettes)
+          dataEnableFacettes,
+        )
       case DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET:
         return (
           <Tabs>
@@ -106,18 +107,21 @@ class SearchResultsConfigurationComponent extends React.Component {
                 initialAttributesConf,
                 currentAttributesGroupsConf,
                 initialAttributesGroupsConf,
-                dataEnableFacettes)}
+                dataEnableFacettes,
+)}
             </Tab>
             <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.dataset.conf.selection.tab.label' })}>
               {this.renderDatasetsAttributesConfiguration(
                 currentDatasetAttributesConf,
-                initialDatasetAttributesConf)}
+                initialDatasetAttributesConf,
+)}
             </Tab>
           </Tabs>)
       case DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT:
         return this.renderDocumentsAttributesConfiguration(
           currentDocumentAttributesConf,
-          initialDocumentAttributesConf)
+          initialDocumentAttributesConf,
+        )
       default:
         throw new Error(`Unknow display type : ${displayMode}`)
     }
@@ -145,7 +149,7 @@ class SearchResultsConfigurationComponent extends React.Component {
       allowAttributesRegroupements={false}
       attributesFieldName={SearchResultsConfigurationComponent.MODULE_DATASET_ATTRIBUTES_CONF}
       changeField={this.props.changeField}
-      selectableAttributes={this.props.datasetAttributesModels}
+      selectableAttributes={this.props.datasetAttributeModels}
 
       attributesConf={currentDatasetAttributesConf}
       defaultAttributesConf={initialDatasetAttributesConf}
@@ -157,7 +161,7 @@ class SearchResultsConfigurationComponent extends React.Component {
       allowAttributesRegroupements={false}
       attributesFieldName={SearchResultsConfigurationComponent.MODULE_DOCUMENT_ATTRIBUTES_CONF}
       changeField={this.props.changeField}
-      selectableAttributes={this.props.documentAttributesModels}
+      selectableAttributes={this.props.documentAttributeModels}
 
       attributesConf={currentDocumentAttributesConf}
       defaultAttributesConf={initialDocumentAttributesConf}

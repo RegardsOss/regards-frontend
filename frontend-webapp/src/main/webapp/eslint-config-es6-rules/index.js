@@ -35,6 +35,9 @@ const allRules = {
   'no-warning-comments': [1, { terms: ['todo', 'fixme'], location: 'anywhere' }],
   // eslint reconfiguration for operators + and -
   'no-mixed-operators': ['error', { allowSamePrecedence: true }],
+  // Do not force array destructuration
+  "prefer-destructuring": ["error", { "object": true, "array": false }],
+
   semi: [
     'error',
     'never',

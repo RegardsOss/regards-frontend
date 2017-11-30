@@ -2,7 +2,7 @@ const getWebpackCoverageConf = require('./app/webpack.coverage.config')
 const getWebpackDevConf = require('./app/webpack.dev.config')
 const getWebpackProdConf = require('./app/webpack.prod.config')
 const getWebpackTestConf = require('./app/webpack.test.config')
-const webpackDllConf = require('./app/webpack.dll.config')
+const getWebpackDllConf = require('./app/webpack.dll.config')
 
 const getWebpackTestPackageConf = require('./plugin/webpack.test.config')
 const getWebpackDevPackageConf = require('./plugin/webpack.dev.config')
@@ -59,9 +59,7 @@ class WebpackConfig {
         this.conf = getWebpackTestConf(projectContextPath)
         break
       case MODE.DLL:
-        // Ensure babel environment variable is correctly setup to development - will be rewrite if production is called
-        process.env.NODE_ENV = 'development'
-        this.conf = webpackDllConf
+        this.conf = getWebpackDllConf(projectContextPath)
         break
       case MODE.PKG_TEST:
         this.conf = getWebpackTestPackageConf(projectContextPath)
