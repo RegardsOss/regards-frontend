@@ -53,7 +53,7 @@ class SIPDetailComponent extends React.Component {
             theme="monokai"
             value={JSON.stringify(sip, null, '\t')}
             showPrintMargin={false}
-            style={moduleTheme.sip.list.sipDetailsStyle}
+            style={moduleTheme.sipDetailsStyle}
             showGutter
             showLineNumbers
             readOnly

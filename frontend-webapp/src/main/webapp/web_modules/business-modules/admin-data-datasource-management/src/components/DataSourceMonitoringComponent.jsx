@@ -17,11 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { CardActionsComponent, DateValueRender, InfiniteTableContainer, TableColumnBuilder, TableLayout } from '@regardsoss/components'
+import {
+  CardActionsComponent, DateValueRender, InfiniteTableContainer, TableColumnBuilder, TableLayout,
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
+} from '@regardsoss/components'
 import messages from '../i18n'
 /**
 * DataSourceMonitoringComponent
@@ -65,14 +68,19 @@ class DataSourceMonitoringComponent extends React.Component {
           title={intl.formatMessage({ id: 'crawler.list.title' })}
         />
         <CardText>
-          <RaisedButton
-            label={intl.formatMessage({ id: 'crawler.list.refresh.button' })}
-            labelPosition="before"
-            primary
-            icon={<Refresh />}
-            onClick={onRefresh}
-          />
           <TableLayout>
+            <TableHeaderLine>
+              <TableHeaderOptionsArea />
+              <TableHeaderOptionsArea >
+                <TableHeaderOptionGroup>
+                  <FlatButton
+                    icon={<Refresh />}
+                    label={intl.formatMessage({ id: 'crawler.list.refresh.button' })}
+                    onClick={onRefresh}
+                  />
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea >
+            </TableHeaderLine>
             <InfiniteTableContainer
               columns={columns}
               entities={crawlerDatasources}

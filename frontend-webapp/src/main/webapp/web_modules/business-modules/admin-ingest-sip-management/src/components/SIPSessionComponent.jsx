@@ -16,18 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-import { Card, CardTitle, CardActions, CardText } from 'material-ui/Card'
+import get from 'lodash/get'
+import Refresh from 'material-ui/svg-icons/navigation/refresh'
+import Filter from 'mdi-material-ui/Filter'
+import Close from 'mdi-material-ui/Close'
+import FlatButton from 'material-ui/FlatButton'
+import { Card, CardTitle, CardActions, CardMedia } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import DatePicker from 'material-ui/DatePicker'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
 import IconButton from 'material-ui/IconButton'
 import Error from 'material-ui/svg-icons/alert/error'
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import {
   CardActionsComponent,
-  ClearFieldButton,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
   ShowableAtRender,
@@ -37,10 +39,13 @@ import {
   TableColumnBuilder,
   DateValueRender,
   NoContentComponent,
+  TableHeaderLine, TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
 } from '@regardsoss/components'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { sessionActions, sessionSelectors } from '../clients/SessionClient'
+import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * SIP list test
@@ -49,8 +54,14 @@ import { sessionActions, sessionSelectors } from '../clients/SessionClient'
  */
 class SIPSessionComponent extends React.Component {
   static propTypes = {
+    pageSize: PropTypes.number.isRequired,
+    resultsCount: PropTypes.number.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    appliedFilters: PropTypes.object.isRequired,
     handleOpen: PropTypes.func,
     onBack: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
+    handleFilter: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
   }
@@ -62,17 +73,18 @@ class SIPSessionComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static defaultPropTypes = {
+    resultsCount: 0,
+  }
+
   constructor(props) {
     super(props)
-    const from = new Date()
-    const to = new Date()
-    from.setHours(0, 0, 0, 0)
-    to.setHours(23, 59, 59, 999)
     this.state = {
-      filters: {},
-      fromFilter: from,
-      toFilter: to,
-      nameFilter: null,
+      filters: {
+        fromFilter: undefined,
+        toFilter: undefined,
+        nameFilter: '',
+      },
       sessionToDelete: null,
     }
   }
@@ -104,93 +116,109 @@ class SIPSessionComponent extends React.Component {
     return progress / total * 100
   }
 
-  handleClearDate = () => this.setState({ fromFilter: undefined, toFilter: undefined })
-
-  handleFilter = () => {
-    const filters = {}
-    if (this.state.nameFilter && this.state.nameFilter !== '') {
-      filters.id = this.state.nameFilter
-    }
-    if (this.state.fromFilter) {
-      filters.from = this.state.fromFilter.toISOString()
-    }
-    if (this.state.toFilter) {
-      filters.to = this.state.toFilter.toISOString()
-    }
-    this.setState({
-      filters,
-    })
-  }
-
-  changeNameFilter = (event, newValue) => {
-    this.setState({
-      nameFilter: newValue,
-    })
-  }
-
-  changeFromFilter = (event, newDate) => {
-    newDate.setHours(0, 0, 0, 0)
-    this.setState({
-      fromFilter: newDate,
-    })
-  }
-
-  changeToFilter = (event, newDate) => {
-    newDate.setHours(23, 59, 59, 999)
-    this.setState({
-      fromFilter: newDate,
-    })
-  }
-
   closeDeleteDialog = () => {
     this.setState({
       sessionToDelete: null,
     })
   }
 
+
+  changeNameFilter = (event, newValue) => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        nameFilter: newValue,
+      },
+    })
+  }
+
+  changeFromFilter = (event, newDate) => {
+    newDate.setHours(0, 0, 0, 0)
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        fromFilter: newDate,
+      },
+    })
+  }
+
+  changeToFilter = (event, newDate) => {
+    newDate.setHours(23, 59, 59, 999)
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        toFilter: newDate,
+      },
+    })
+  }
+
+  handleClearFilters = () => {
+    const newFilters = { filters: { fromFilter: undefined, toFilter: undefined, nameFilter: '' } }
+    this.setState({ filters: newFilters })
+    this.props.handleFilter(newFilters)
+  }
+
+  handleFilter = () => {
+    this.props.handleFilter(this.state.filters)
+  }
+
   renderFilters = () => {
-    const { intl, moduleTheme: { sip } } = this.context
+    const { intl, moduleTheme: { filter } } = this.context
     return (
-      <CardText>
-        <div style={sip.filter.lineStyle}>
-          <div>{intl.formatMessage({ id: 'sips.session.filter.name' })}</div>
-          <TextField
-            style={sip.filter.fieldStyle}
-            floatingLabelText={intl.formatMessage({
-              id: 'sips.session.filter.name.label',
-            })}
-            onChange={this.changeNameFilter}
-          />
-        </div>
-        <div style={sip.filter.lineStyle}>
-          <div>{intl.formatMessage({ id: 'sips.session.filter.date' })}</div>
-          <DatePicker
-            value={this.state.fromFilter}
-            textFieldStyle={sip.filter.dateStyle}
-            floatingLabelText={intl.formatMessage({ id: 'sips.session.filter.from.label' })}
-            defaultDate={this.state.fromFilter}
-            onChange={this.changeFromFilter}
-          />
-          <DatePicker
-            value={this.state.toFilter}
-            textFieldStyle={sip.filter.dateStyle}
-            floatingLabelText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
-            defaultDate={this.state.toFilter}
-            onChange={this.changeToFilter}
-          />
-          <ClearFieldButton onTouchTap={this.handleClearDate} displayed={!!this.state.toFilter || !!this.state.fromFilter} />
-        </div>
-        <RaisedButton
-          label={intl.formatMessage({ id: 'sips.button.filter' })}
-          primary
-          onTouchTap={this.handleFilter}
-        />
-      </CardText>
+      <TableHeaderLine>
+        <TableHeaderOptionsArea reducible>
+          <TableHeaderOptionGroup>
+            <TextField
+              style={filter.fieldStyle}
+              hintText={intl.formatMessage({
+                id: 'sips.session.filter.name.label',
+              })}
+              onChange={this.changeNameFilter}
+              value={get(this.state, 'filters.nameFilter', '')}
+            />
+            <DatePicker
+              value={this.state.filters.fromFilter}
+              textFieldStyle={filter.dateStyle}
+              hintText={intl.formatMessage({ id: 'sips.session.filter.from.label' })}
+              defaultDate={get(this.state, 'filters.fromFilter', undefined)}
+              onChange={this.changeFromFilter}
+            />
+            <DatePicker
+              value={this.state.filters.toFilter}
+              textFieldStyle={filter.dateStyle}
+              hintText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
+              defaultDate={get(this.state, 'filters.toFilter', undefined)}
+              onChange={this.changeToFilter}
+            />
+            <FlatButton
+              label={intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
+              icon={<Close />}
+              disabled={!this.state.filters.nameFilter && !this.state.filters.toFilter && !this.state.filters.fromFilter}
+              onTouchTap={this.handleClearFilters}
+            />
+            <FlatButton
+              label={intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
+              icon={<Filter />}
+              onTouchTap={this.handleFilter}
+            />
+          </TableHeaderOptionGroup>
+        </TableHeaderOptionsArea>
+        <TableHeaderOptionsArea>
+          <TableHeaderOptionGroup>
+            <FlatButton
+              label={intl.formatMessage({ id: 'sips.session.refresh.button' })}
+              icon={<Refresh />}
+              onClick={this.props.onRefresh}
+            />
+          </TableHeaderOptionGroup>
+        </TableHeaderOptionsArea>
+      </TableHeaderLine >
     )
   }
 
   renderTable = () => {
-    const { intl, muiTheme, moduleTheme: { sip } } = this.context
+    const { pageSize, resultsCount, appliedFilters } = this.props
+    const { intl, muiTheme, moduleTheme: { session } } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
     const emptyComponent = (
@@ -218,16 +246,16 @@ class SIPSessionComponent extends React.Component {
         intl.formatMessage({ id: 'sips.session.table.headers.errors' }),
         {
           Constructor: props => (
-            <div style={sip.session.error.rowColumnStyle}>
-              <div style={sip.session.error.textStyle}>
+            <div style={session.error.rowColumnStyle}>
+              <div style={session.error.textStyle}>
                 {props.entity.content.errorSipsCount} / {props.entity.content.sipsCount}
               </div>
               <ShowableAtRender
-                style={sip.session.error.iconContainerStyle}
+                style={session.error.iconContainerStyle}
                 show={props.entity.content.errorSipsCount > 0}
               >
                 <IconButton
-                  iconStyle={sip.session.error.iconStyle}
+                  iconStyle={session.error.iconStyle}
                   title={intl.formatMessage({
                     id: 'sips.session.table.actions.errors',
                   })}
@@ -279,19 +307,22 @@ class SIPSessionComponent extends React.Component {
     ]
 
     return (
-      <CardText>
+      <CardMedia>
         <TableLayout>
+          {this.renderFilters()}
+          <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={resultsCount} />
           <PageableInfiniteTableContainer
             name="sip-management-session-table"
             pageActions={sessionActions}
             pageSelectors={sessionSelectors}
-            pageSize={10}
+            pageSize={pageSize}
+            displayedRowsCount={12}
             columns={columns}
-            requestParams={this.state.filters}
+            requestParams={appliedFilters}
             emptyComponent={emptyComponent}
           />
         </TableLayout>
-      </CardText>
+      </CardMedia>
     )
   }
 
@@ -318,7 +349,6 @@ class SIPSessionComponent extends React.Component {
           title={intl.formatMessage({ id: 'sips.title' })}
           subtitle={intl.formatMessage({ id: 'sips.session.subtitle' })}
         />
-        {this.renderFilters()}
         {this.renderTable()}
         <CardActions>
           <CardActionsComponent
@@ -331,4 +361,4 @@ class SIPSessionComponent extends React.Component {
     )
   }
 }
-export default SIPSessionComponent
+export default withModuleStyle(styles)(withI18n(messages)(SIPSessionComponent))

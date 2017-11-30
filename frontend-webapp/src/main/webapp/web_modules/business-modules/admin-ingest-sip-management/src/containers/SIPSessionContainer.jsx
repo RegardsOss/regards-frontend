@@ -16,14 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { I18nProvider } from '@regardsoss/i18n'
-import { ModuleStyleProvider } from '@regardsoss/theme'
 import SIPSessionComponent from '../components/SIPSessionComponent'
-import { sessionActions } from '../clients/SessionClient'
-import messages from '../i18n'
-import styles from '../styles/styles'
+import { sessionActions, sessionSelectors } from '../clients/SessionClient'
 
 /**
 * Displays the selection of session in order to list SIPs
@@ -37,7 +34,9 @@ export class SIPSessionContainer extends React.Component {
   * @return {*} list of component properties extracted from redux state
   */
   static mapStateToProps(state) {
-    return {}
+    return {
+      meta: sessionSelectors.getMetaData(state),
+    }
   }
 
   /**
@@ -48,7 +47,7 @@ export class SIPSessionContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     deleteSession: session => dispatch(sessionActions.deleteEntity(session.id)),
-    fetchPage: (pageIndex, pageSize) => dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize)),
+    fetchPage: (pageIndex, pageSize, queryParams) => dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
   })
 
   static propTypes = {
@@ -56,8 +55,28 @@ export class SIPSessionContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
+    meta: PropTypes.shape({ // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
     deleteSession: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    meta: {
+      totalElements: 0,
+    },
+  }
+
+  static PAGE_SIZE = 20
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      appliedFilters: {},
+    }
   }
 
   onBack = () => {
@@ -66,25 +85,49 @@ export class SIPSessionContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  onRefresh = () => {
+    const { meta, fetchPage } = this.props
+    const curentPage = get(meta, 'number', 0)
+    fetchPage(0, SIPSessionContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
+  }
+
   handleOpen = (session, isError = false) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/sip/${session}/list${isError ? '?errors' : ''}`
     browserHistory.push(url)
   }
 
+  handleFilter = (filters) => {
+    const appliedFilters = {}
+    if (filters.nameFilter && filters.nameFilter !== '') {
+      appliedFilters.id = filters.nameFilter
+    }
+    if (filters.fromFilter) {
+      appliedFilters.from = filters.fromFilter.toISOString()
+    }
+    if (filters.toFilter) {
+      appliedFilters.to = filters.toFilter.toISOString()
+    }
+    this.setState({
+      appliedFilters,
+    })
+  }
+
   render() {
-    const stylesObj = { styles }
+    const { meta, deleteSession, fetchPage } = this.props
     return (
-      <I18nProvider messages={messages}>
-        <ModuleStyleProvider module={stylesObj}>
-          <SIPSessionComponent
-            handleOpen={this.handleOpen}
-            onBack={this.onBack}
-            deleteSession={this.props.deleteSession}
-            fetchPage={this.props.fetchPage}
-          />
-        </ModuleStyleProvider>
-      </I18nProvider>
+      <SIPSessionComponent
+        pageSize={SIPSessionContainer.PAGE_SIZE}
+        resultsCount={meta.totalElements}
+        handleOpen={this.handleOpen}
+        onBack={this.onBack}
+        onRefresh={this.onRefresh}
+        deleteSession={deleteSession}
+        fetchPage={fetchPage}
+        appliedFilters={this.state.appliedFilters}
+        handleFilter={this.handleFilter}
+        handleClearFilters={this.handleClearFilters}
+      />
     )
   }
 }

@@ -83,6 +83,9 @@ const messages = Object.assign({
   'sips.session.table.actions.delete': 'Supprimer les SIPs associés',
   'sips.session.table.actions.list': 'Lister les SIPs associés',
   'sips.session.button.back': 'Retour',
+  'sips.session.refresh.button': 'Rafraîchir',
+  'sips.session.clear.filters.button': 'Vider',
+  'sips.session.apply.filters.button': 'Appliquer',
 
   'sips.submit.title': 'Soumission de données',
   'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format geoson contenant le ou les entités',

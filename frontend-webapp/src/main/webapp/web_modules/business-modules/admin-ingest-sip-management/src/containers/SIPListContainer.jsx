@@ -16,16 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { I18nProvider } from '@regardsoss/i18n'
-import { ModuleStyleProvider } from '@regardsoss/theme'
 import { IngestShapes } from '@regardsoss/shape'
 import SIPListComponent from '../components/SIPListComponent'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
-import { sipActions } from '../clients/SIPClient'
-import messages from '../i18n'
-import styles from '../styles/styles'
+import { sipActions, sipSelectors } from '../clients/SIPClient'
 
 /**
  * Displays the list of SIPs
@@ -42,6 +39,7 @@ export class SIPListContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       chains: processingChainSelectors.getList(state),
+      meta: sipSelectors.getMetaData(state),
     }
   }
 
@@ -55,7 +53,7 @@ export class SIPListContainer extends React.Component {
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
     deleteSIPByIpId: sip => dispatch(sipActions.deleteEntity(sip.ipId)),
     deleteSIPBySipId: sip => dispatch(sipActions.deleteEntity(undefined, {}, { sipId: sip.sipId })),
-    fetchPage: (pageIndex, pageSize) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize)),
+    fetchPage: (pageIndex, pageSize, requestParams) => dispatch(sipActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
   })
 
   static propTypes = {
@@ -63,6 +61,11 @@ export class SIPListContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
       session: PropTypes.string,
+    }),
+    meta: PropTypes.shape({ // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
     }),
     // from mapDistpathToProps
     fetchProcessingChains: PropTypes.func.isRequired,
@@ -73,6 +76,24 @@ export class SIPListContainer extends React.Component {
     chains: IngestShapes.IngestProcessingChainList.isRequired,
   }
 
+  static defaultProps = {
+    meta: {
+      totalElements: 0,
+    },
+  }
+
+  static PAGE_SIZE = 20
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      appliedFilters: {
+        sessionId: props.params.session,
+      },
+    }
+  }
+
+
   componentDidMount() {
     this.props.fetchProcessingChains()
   }
@@ -81,27 +102,55 @@ export class SIPListContainer extends React.Component {
     sessionId: this.props.params.session,
   })
 
+  onRefresh = () => {
+    const { meta, fetchPage } = this.props
+    const curentPage = get(meta, 'number', 0)
+    fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
+  }
+
   handleGoBack = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/sip/session`
     browserHistory.push(url)
   }
 
+  handleFilter = (filters) => {
+    const { chainFilter, dateFilter, stateFilter } = filters
+    const newFilters = {}
+    if (chainFilter) {
+      newFilters.processing = chainFilter
+    }
+    if (dateFilter) {
+      newFilters.from = dateFilter.toISOString()
+    }
+    if (stateFilter) {
+      newFilters.state = stateFilter
+    }
+    this.setState({
+      appliedFilters: {
+        ...this.getInitialFilters(),
+        ...newFilters,
+      },
+    })
+  }
+
   render() {
-    const stylesObj = { styles }
+    const {
+      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId,
+    } = this.props
     return (
-      <I18nProvider messages={messages}>
-        <ModuleStyleProvider module={stylesObj}>
-          <SIPListComponent
-            chains={this.props.chains}
-            getInitialFilters={this.getInitialFilters}
-            onBack={this.handleGoBack}
-            onDeleteByIpId={this.props.deleteSIPByIpId}
-            onDeleteBySipId={this.props.deleteSIPBySipId}
-            fetchPage={this.props.fetchPage}
-          />
-        </ModuleStyleProvider>
-      </I18nProvider>
+      <SIPListComponent
+        chains={this.props.chains}
+        pageSize={SIPListContainer.PAGE_SIZE}
+        resultsCount={meta.totalElements}
+        appliedFilters={this.state.appliedFilters}
+        handleFilter={this.handleFilter}
+        onBack={this.handleGoBack}
+        onRefresh={this.onRefresh}
+        onDeleteByIpId={deleteSIPByIpId}
+        onDeleteBySipId={deleteSIPBySipId}
+        fetchPage={fetchPage}
+      />
     )
   }
 }
