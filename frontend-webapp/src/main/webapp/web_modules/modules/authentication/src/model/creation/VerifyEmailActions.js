@@ -22,7 +22,6 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * Specific actions for email verification, when user is back from mail using activation link
  */
 class VerifyEmailActions extends BasicSignalActions {
-
   constructor() {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accesses/verifyEmail/{token}`,
@@ -38,7 +37,6 @@ class VerifyEmailActions extends BasicSignalActions {
   sendValidationRequest(token) {
     return this.sendSignal('GET', {}, { token })
   }
-
 }
 
 export default new VerifyEmailActions()

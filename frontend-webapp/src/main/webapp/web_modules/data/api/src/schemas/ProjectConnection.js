@@ -25,7 +25,7 @@ const ProjectConnectionConfiguration = {
 
 const projectConnectionSchema = new Schema(ProjectConnectionConfiguration.normalizrKey, {
   idAttribute: projectConnection =>
-     projectConnection.content[ProjectConnectionConfiguration.entityKey]
+    projectConnection.content[ProjectConnectionConfiguration.entityKey]
   ,
 })
 

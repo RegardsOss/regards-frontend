@@ -24,7 +24,6 @@ import boardItems from './ModuleBoardItems'
  * Board to display datamangement module foncionalities.
  */
 class ModuleBoardComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
   }

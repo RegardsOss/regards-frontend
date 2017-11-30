@@ -69,7 +69,6 @@ export const canDenyUser = user => [status.accessGranted, status.waitingAccess, 
  * React component to list all project user and manage them.
  */
 export class ProjectUserListComponent extends React.Component {
-
   static propTypes = {
     users: AdminShapes.ProjectUserList,
     waitingAccessUsers: AdminShapes.ProjectUserList,
@@ -124,7 +123,9 @@ export class ProjectUserListComponent extends React.Component {
   }
 
   getWaitingUsersTabContent = () => {
-    const { waitingAccessUsers, isFetchingActions, onValidateAll, initialFecthing } = this.props
+    const {
+      waitingAccessUsers, isFetchingActions, onValidateAll, initialFecthing,
+    } = this.props
     return {
       tabSubtitleKey: 'projectUser.list.waiting.subtitle',
       noDataMessageKey: 'projectUser.list.waiting.no.content.message',

@@ -15,7 +15,6 @@ import TagsComponent from '../../../../components/description/properties/tags/Ta
 * Tags container: handles entity tag: split simple tags and URN (entity) tag, resolves entities to show label instead of URN
 */
 export class TagsContainer extends React.Component {
-
   static mapDispatchToProps = dispatch => ({
     // entity loading
     dispatchGetEntity: ipId => dispatch(searchEntityActions.getEntity(ipId)),
@@ -122,4 +121,5 @@ export class TagsContainer extends React.Component {
 }
 export default connect(
   null,
-  TagsContainer.mapDispatchToProps)(TagsContainer)
+  TagsContainer.mapDispatchToProps,
+)(TagsContainer)

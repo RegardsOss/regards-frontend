@@ -24,7 +24,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien Binda
  */
 class ColumnHeaderWrapper extends React.Component {
-
   static propTypes = {
     isLastColumn: PropTypes.bool.isRequired,
     children: PropTypes.oneOfType([

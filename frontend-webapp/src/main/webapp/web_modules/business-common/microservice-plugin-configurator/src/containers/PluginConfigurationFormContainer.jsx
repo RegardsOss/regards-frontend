@@ -34,7 +34,6 @@ import messages from '../i18n'
  * @author Xavier-Alexandre Brochard
  */
 export class PluginConfigurationFormContainer extends React.Component {
-
   static propTypes = {
     microserviceName: PropTypes.string,
     pluginId: PropTypes.string.isRequired,
@@ -83,7 +82,9 @@ export class PluginConfigurationFormContainer extends React.Component {
    * @returns {XML}
    */
   getFormComponent = () => {
-    const { displayTitle, formMode, microserviceName, currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching } = this.props
+    const {
+      displayTitle, formMode, microserviceName, currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching,
+    } = this.props
     const isEmpty = this.state.isEditing && isUndefined(currentPluginConfiguration)
     return (
       <LoadableContentDisplayDecorator

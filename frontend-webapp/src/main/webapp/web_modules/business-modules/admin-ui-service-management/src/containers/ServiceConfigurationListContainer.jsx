@@ -38,7 +38,6 @@ import messages from '../i18n'
  * @author Léo Mieulet
  */
 export class ServiceConfigurationListContainer extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,

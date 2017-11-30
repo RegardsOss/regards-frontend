@@ -23,7 +23,6 @@ import BasicSignalReducers from '../signal/BasicSignalReducers'
  * @author Raphaël Mechali
  */
 class DownloadFileReducers extends BasicSignalReducers {
-
   static DEFAULT_STATE = {
     isFetching: false,
     error: {
@@ -42,7 +41,6 @@ class DownloadFileReducers extends BasicSignalReducers {
   constructor(downloadFileActions) {
     super(downloadFileActions, null)
   }
-
 }
 
 export default DownloadFileReducers

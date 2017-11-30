@@ -37,7 +37,6 @@ const requiredIntNumber = [required, intNumber]
  * @author Sébastien Binda
  */
 export class ProjectConnectionFormComponent extends React.Component {
-
   static propTypes = {
     project: AdminShapes.Project,
     microservice: PropTypes.string.isRequired,

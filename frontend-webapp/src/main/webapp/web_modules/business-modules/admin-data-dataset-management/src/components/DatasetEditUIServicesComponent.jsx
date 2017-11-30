@@ -36,7 +36,6 @@ import DatasetStepperContainer from '../containers/DatasetStepperContainer'
  * React component to list datasets.
  */
 export class DatasetEditUIServicesComponent extends React.Component {
-
   static propTypes = {
     backUrl: PropTypes.string.isRequired,
     uiPluginConfigurationList: AccessShapes.UIPluginConfList,
@@ -89,8 +88,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
     let updatedLinkUIPluginConfigurationActiveList = cloneDeep(linkUIPluginConfigurationActiveList)
     if (this.isPluginConfigurationActivated(uiPluginConfiguration)) {
       remove(updatedLinkUIPluginConfigurationActiveList, value =>
-        uiPluginConfiguration.content.id === value.id,
-      )
+        uiPluginConfiguration.content.id === value.id)
     } else {
       updatedLinkUIPluginConfigurationActiveList = [
         ...updatedLinkUIPluginConfigurationActiveList,
@@ -154,8 +152,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
                   this.getConfigurationListItems(uiPluginDefinition)
                 }
               />
-              ),
-            )}
+              ))}
           </List>
         </CardText>
         <CardActions>

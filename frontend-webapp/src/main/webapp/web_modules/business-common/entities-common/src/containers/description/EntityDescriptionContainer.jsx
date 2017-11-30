@@ -22,7 +22,6 @@ const MODULE_STYLES = { styles }
 * Entity description container: Resolves the current entity in navigation context
 */
 export class EntityDescriptionContainer extends React.Component {
-
   static mapStateToProps = (state, { levelSelectors }) => ({
     // currently shown entity resolution
     shownEntity: levelSelectors.getShownEntity(state),
@@ -63,8 +62,10 @@ export class EntityDescriptionContainer extends React.Component {
   }
 
   render() {
-    const { shownEntity, onClose, downloadDescriptionClient, onSearchTag,
-      fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors } = this.props
+    const {
+      shownEntity, onClose, downloadDescriptionClient, onSearchTag,
+      fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors,
+    } = this.props
     return (
       <EntityDescriptionComponent
         entity={shownEntity}
@@ -88,5 +89,6 @@ export default flow(
   withI18n(messages),
   connect(
     EntityDescriptionContainer.mapStateToProps,
-    EntityDescriptionContainer.mapDispatchToProps),
+    EntityDescriptionContainer.mapDispatchToProps,
+  ),
 )(EntityDescriptionContainer)

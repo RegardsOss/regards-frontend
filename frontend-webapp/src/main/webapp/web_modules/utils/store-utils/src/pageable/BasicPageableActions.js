@@ -26,7 +26,6 @@ const { CALL_API } = require('redux-api-middleware')
  *  @author Léo Mieulet
  */
 class BasicPageableActions extends BasicListActions {
-
   constructor(options) {
     super(options)
     // rename actions to get correct logs
@@ -81,8 +80,10 @@ class BasicPageableActions extends BasicListActions {
       [CALL_API]: {
         types: [
           this.ENTITY_LIST_REQUEST,
-          this.buildSuccessAction(this.ENTITY_LIST_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesPagePayload(json))),
+          this.buildSuccessAction(
+            this.ENTITY_LIST_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesPagePayload(json)),
+          ),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
@@ -109,7 +110,6 @@ class BasicPageableActions extends BasicListActions {
   fetchEntityList() {
     throw new Error(`Method call forbidden on ${this.constructor.name}. Please use fetchPagedEntityList instead.`)
   }
-
 }
 
 export default BasicPageableActions

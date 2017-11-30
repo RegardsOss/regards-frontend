@@ -131,7 +131,9 @@ export class AccessGroupAccessRightsContainer extends React.Component {
   }
 
   render() {
-    const { params, accessGroup, accessRights, pluginConfigurationList, pluginMetaDataList } = this.props
+    const {
+      params, accessGroup, accessRights, pluginConfigurationList, pluginMetaDataList,
+    } = this.props
     const { loading } = this.state
     return (
       <I18nProvider messages={messages}>

@@ -23,10 +23,14 @@ import { convertParameter, resolveParametersWithTypes } from '../../src/definiti
 import { Parameter } from '../../src/definitions/parameters/Parameter'
 
 const getConfigParameter = (name, dynamicsValues, defaultValue = undefined, dynamic = true) =>
-  ({ name, dynamicsValues, value: defaultValue, dynamic })
+  ({
+    name, dynamicsValues, value: defaultValue, dynamic,
+  })
 
 const getMetaDataParameter = (name, type, defaultValue, paramType = PluginParameterTypes.PRIMITIVE, optional = false) =>
-  ({ name: 'common.field', type, paramType, defaultValue, optional })
+  ({
+    name: 'common.field', type, paramType, defaultValue, optional,
+  })
 
 /**
 * Test  CatalogPluginServiceHelper
@@ -36,9 +40,15 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
   // test basic types without pre-entered choices and check field model
   const basicTypesTests = [
     // boolean type isn't validated (not a text field).
-    { type: JavaPrimitiveTypes.BOOLEAN, correspondingFieldType: Parameter.EditorTypes.CHECKBOX, name: 'field1', validator: false },
-    { type: JavaPrimitiveTypes.BYTE, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, name: 'field2', validator: true },
-    { type: JavaPrimitiveTypes.CHARACTER, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, defaultValue: 'Z', validator: true },
+    {
+      type: JavaPrimitiveTypes.BOOLEAN, correspondingFieldType: Parameter.EditorTypes.CHECKBOX, name: 'field1', validator: false,
+    },
+    {
+      type: JavaPrimitiveTypes.BYTE, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, name: 'field2', validator: true,
+    },
+    {
+      type: JavaPrimitiveTypes.CHARACTER, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, defaultValue: 'Z', validator: true,
+    },
     { type: JavaPrimitiveTypes.DOUBLE, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
     { type: JavaPrimitiveTypes.FLOAT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
     { type: JavaPrimitiveTypes.INTEGER, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
@@ -47,7 +57,9 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
     // string type isn't validated (textfield input is always a valid string)
     { type: JavaPrimitiveTypes.STRING, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: false },
   ]
-  basicTypesTests.map(({ type, correspondingFieldType, validator, name = 'common.field' }) =>
+  basicTypesTests.map(({
+    type, correspondingFieldType, validator, name = 'common.field',
+  }) =>
     it(`should convert correctly a Java primitive "${type}" parameter`, () => {
       const configParam = getConfigParameter(name)
       const metaParam = getMetaDataParameter(name, type)
@@ -82,17 +94,25 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
   it('Should select initial values respecting priority: admin value if specified, plugin developper value if specified, default type value if specified', () => {
     const initValueTest = [
       // test admin value selection
-      { name: 't1', type: JavaPrimitiveTypes.STRING, configValue: 'a', metaValue: 'b', expectedValue: 'a' },
+      {
+        name: 't1', type: JavaPrimitiveTypes.STRING, configValue: 'a', metaValue: 'b', expectedValue: 'a',
+      },
       // test dev value selection (no admin)
-      { name: 't2', type: JavaPrimitiveTypes.BOOLEAN, metaValue: true, expectedValue: true },
+      {
+        name: 't2', type: JavaPrimitiveTypes.BOOLEAN, metaValue: true, expectedValue: true,
+      },
       // test default value selection (no admin nor dev, with default value for boolean type)
       { name: 't3', type: JavaPrimitiveTypes.BOOLEAN, expectedValue: false },
       // test default value selection (no admin nor dev, no default value for string editable type)
       { name: 't4', type: JavaPrimitiveTypes.INTEGER, expectedValue: undefined },
       // test default value selection (no admin nor dev, with default value for choice type)
-      { name: 't5', type: JavaPrimitiveTypes.INTEGER, dynamicsValues: [{ value: 1 }, { value: 2 }], expectedValue: 1 },
+      {
+        name: 't5', type: JavaPrimitiveTypes.INTEGER, dynamicsValues: [{ value: 1 }, { value: 2 }], expectedValue: 1,
+      },
     ]
-    initValueTest.forEach(({ name, type, configValue, metaValue, dynamicsValues, expectedValue }) => {
+    initValueTest.forEach(({
+      name, type, configValue, metaValue, dynamicsValues, expectedValue,
+    }) => {
       const configParam = getConfigParameter('common.field', dynamicsValues, configValue)
       const metaParam = getMetaDataParameter('common.field', type, metaValue)
       const resolved = convertParameter(configParam, metaParam)
@@ -142,9 +162,15 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
         priorityOrder: 0,
         active: true,
         parameters: [
-          { id: 8, name: 'A bool', value: '', dynamic: true },
-          { id: 2, name: 'A string', value: '', dynamic: true },
-          { id: 1, name: 'A string choice', value: '1/1', dynamic: true, dynamicsValues: [{ value: '1/1' }, { value: '1/5' }, { value: '1/10' }] },
+          {
+            id: 8, name: 'A bool', value: '', dynamic: true,
+          },
+          {
+            id: 2, name: 'A string', value: '', dynamic: true,
+          },
+          {
+            id: 1, name: 'A string choice', value: '1/1', dynamic: true, dynamicsValues: [{ value: '1/1' }, { value: '1/5' }, { value: '1/10' }],
+          },
         ],
       },
     }
@@ -161,9 +187,15 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
         owner: 'CSSI',
         licence: 'LGPLv3.0',
         parameters: [
-          { name: 'A bool', type: 'java.lang.Boolean', paramType: 'PRIMITIVE', optional: false },
-          { name: 'A string', type: 'java.lang.String', paramType: 'PRIMITIVE', defaultValue: 'Default val', optional: false },
-          { name: 'A string choice', type: 'java.lang.String', paramType: 'PRIMITIVE', defaultValue: 'v', optional: false },
+          {
+            name: 'A bool', type: 'java.lang.Boolean', paramType: 'PRIMITIVE', optional: false,
+          },
+          {
+            name: 'A string', type: 'java.lang.String', paramType: 'PRIMITIVE', defaultValue: 'Default val', optional: false,
+          },
+          {
+            name: 'A string choice', type: 'java.lang.String', paramType: 'PRIMITIVE', defaultValue: 'v', optional: false,
+          },
         ],
       },
     }
@@ -185,7 +217,9 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
         priorityOrder: 0,
         active: true,
         parameters: [
-          { id: 8, name: 'Ignored parameter', value: '', dynamic: false },
+          {
+            id: 8, name: 'Ignored parameter', value: '', dynamic: false,
+          },
         ],
       },
     }
@@ -202,7 +236,9 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
         owner: 'CSSI',
         licence: 'LGPLv3.0',
         parameters: [
-          { name: 'Ignored parameter', type: 'java.lang.Boolean', paramType: 'PRIMITIVE', optional: false },
+          {
+            name: 'Ignored parameter', type: 'java.lang.Boolean', paramType: 'PRIMITIVE', optional: false,
+          },
         ],
       },
     }
@@ -221,7 +257,9 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
         priorityOrder: 0,
         active: true,
         parameters: [
-          { id: 8, name: 'Non resolved parameter', value: '', dynamic: true },
+          {
+            id: 8, name: 'Non resolved parameter', value: '', dynamic: true,
+          },
         ],
       },
     }

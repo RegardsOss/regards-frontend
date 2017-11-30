@@ -23,7 +23,6 @@ import TableClient from '../clients/TableClient'
 import AccessRightListComponent from '../components/AccessRightListComponent'
 
 class AccessRightListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -65,7 +64,6 @@ class AccessRightListContainer extends React.Component {
       />
     )
   }
-
 }
 
 const mapStateToProps = (state, ownProps) => ({

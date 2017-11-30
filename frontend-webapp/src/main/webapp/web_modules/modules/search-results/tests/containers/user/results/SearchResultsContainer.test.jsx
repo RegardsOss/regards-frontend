@@ -24,27 +24,23 @@ import { SearchResultsContainer } from '../../../../src/containers/user/results/
 import PluginServicesContainer from '../../../../src/containers/user/results/PluginServicesContainer'
 import OrderCartContainer from '../../../../src/containers/user/results/OrderCartContainer'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
-import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
+import TableDisplayModeEnum from '../../../../src/models/navigation/TableDisplayModeEnum'
 import styles from '../../../../src/styles/styles'
+import { DISPLAY_MODE_VALUES } from '../../../../src/definitions/DisplayModeEnum'
 
-
-console.log('LEOOO WTF 1')
 const context = buildTestContext(styles)
-console.log('LEOOO WTF 2')
 
 describe('[Search Results] Testing SearchResultsContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    console.log('LEOOO WTF 3')
     assert.isDefined(SearchResultsContainer)
   })
   it('should render properly', () => {
     const props = {
       searchQuery: 'spacy=abit',
       enableFacettes: true,
-      displayDatasets: true,
       facettesQuery: 'facettes=condiments',
       attributesConf: [],
       attributesRegroupementsConf: [],
@@ -54,10 +50,12 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
       isFetching: false,
       resultsCount: 22,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      displayMode: DisplayModeEnum.LIST,
+      tableDisplayMode: TableDisplayModeEnum.LIST,
       levels: [],
+      enableDownload: true,
+      displayMode: DISPLAY_MODE_VALUES.DISPLAY_DATA_DATASET,
       dispatchChangeViewObjectType: () => { },
-      dispatchChangeDisplayMode: () => { },
+      dispatchChangeTableDisplayMode: () => { },
       dispatchSetEntityAsTag: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })

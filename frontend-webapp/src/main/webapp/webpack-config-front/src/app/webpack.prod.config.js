@@ -3,12 +3,13 @@ const getCommonConfig = require('./webpack.common.config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const path = require('path')
+const StatsPlugin = require('stats-webpack-plugin')
 
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'prod')
 
   // Ensure babel environment variable is correctly setup to production
-  process.env.NODE_ENV = 'production'
+  process.env.BABEL_ENV = 'production'
 
   config = merge(config, {
     output: {
@@ -76,6 +77,9 @@ module.exports = function (projectContextPath) {
         // eslint-disable-next-line import/no-dynamic-require
         manifest: require(`${projectContextPath}/dist/prod/coreoss-manifest.json`),
         context: projectContextPath,
+      }),
+      new StatsPlugin(`../../reports/prod-${Date.now()}-profile.json`, {
+        chunkModules: true,
       }),
     ],
   })

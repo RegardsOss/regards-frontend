@@ -53,7 +53,6 @@ const allWidthStyles = { width: '100%' }
  * @author Sébastien Binda
  */
 class InfiniteTableContainer extends React.Component {
-
   /**
    * PageActions : BasicPageableActions of the entities to manage
    * PageSelector : BasicPageableSelectors of the entities to manage

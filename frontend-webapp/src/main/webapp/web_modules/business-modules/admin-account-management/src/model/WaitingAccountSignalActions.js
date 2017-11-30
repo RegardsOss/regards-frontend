@@ -31,7 +31,6 @@ export class WaitingAccountSignalActions extends BasicSignalActions {
       account_email: accountEmail,
     })
   }
-
 }
 
 // export singleton instance

@@ -30,7 +30,6 @@ const tableMessages = {
  * performances in table)
  */
 export class TableLayout extends React.Component {
-
   static propTypes = {
     // should be header rows. Remind about setting keys onto the children
     children: PropTypes.oneOfType([

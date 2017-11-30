@@ -35,7 +35,6 @@ import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
  * @author Sébastien binda
  */
 class FormDatasetsConfigurationComponent extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
@@ -131,7 +130,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
     }
     const style = { width: '90%', margin: '20px auto' }
     switch (this.state.type) {
-      case DatasetSelectionTypes.DATASET_TYPE :
+      case DatasetSelectionTypes.DATASET_TYPE:
         return (
           <PageableListContainer
             key={this.state.type}
@@ -150,7 +149,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
             style={style}
           />
         )
-      case DatasetSelectionTypes.DATASET_MODEL_TYPE :
+      case DatasetSelectionTypes.DATASET_MODEL_TYPE:
         return (
           <ListContainer
             key={this.state.type}
@@ -170,7 +169,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
             style={style}
           />
         )
-      default :
+      default:
         return null
     }
   }
@@ -181,7 +180,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
       onTouchTap={this.resetAll}
       secondary
     />
-    )
+  )
 
   render() {
     return (

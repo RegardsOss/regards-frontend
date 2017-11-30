@@ -24,7 +24,6 @@ import { FormattedMessage } from 'react-intl'
  * Shows illustration/icon and messages for a user-friendly no content area
  */
 class NoContentComponent extends React.Component {
-
   static propTypes = {
     title: PropTypes.node.isRequired,
     message: PropTypes.node,
@@ -73,7 +72,9 @@ class NoContentComponent extends React.Component {
   })
 
   render() {
-    const { title, message, Icon, action } = this.props
+    const {
+      title, message, Icon, action,
+    } = this.props
     const theme = this.context.muiTheme
     const style = this.getStyle(theme)
     return (

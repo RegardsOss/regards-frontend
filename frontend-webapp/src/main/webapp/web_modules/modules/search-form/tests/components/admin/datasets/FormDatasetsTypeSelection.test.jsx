@@ -43,9 +43,7 @@ describe('[SEARCH FORM] Testing FormDatasetsTypeSelection', () => {
       onSelectType: selectCallback,
       disabled: false,
     }
-    const wrapper = shallow(
-      <FormDatasetsTypeSelection {...props} />, { context },
-    )
+    const wrapper = shallow(<FormDatasetsTypeSelection {...props} />, { context })
 
     const radioField = wrapper.find(Field).find({ name: 'conf.datasets.type' })
     assert(radioField.length === 1, 'The radio button to select the dataset association type should be defined')

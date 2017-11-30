@@ -32,7 +32,6 @@ const nameValidator = [ValidationHelpers.required, ValidationHelpers.validAlphaN
  * Display edit and create project form
  */
 export class RoleFormComponent extends React.Component {
-
   static propTypes = {
     currentRole: AdminShapes.Role,
     roleList: AdminShapes.RoleList,
@@ -82,7 +81,9 @@ export class RoleFormComponent extends React.Component {
 
 
   render() {
-    const { pristine, submitting, invalid, roleList } = this.props
+    const {
+      pristine, submitting, invalid, roleList,
+    } = this.props
     const title = this.state.isCreating ?
       this.context.intl.formatMessage({ id: 'role.create.title' }) :
       this.context.intl.formatMessage({ id: 'role.edit.title' }, { name: this.props.currentRole.content.name })

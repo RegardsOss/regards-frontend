@@ -44,7 +44,6 @@ const AttributeAndFragmentPartition = PropTypes.shape({
  * Display edit and create attribute model form
  */
 export class ModelAttributeFormComponent extends React.Component {
-
   static propTypes = {
     onCreateFragment: PropTypes.func.isRequired,
     onDeleteFragment: PropTypes.func.isRequired,
@@ -74,10 +73,10 @@ export class ModelAttributeFormComponent extends React.Component {
         this.props.onDeleteFragment(fragment)
       }
     } else if (entityDroppedTo === ItemTypes.ATTR_ASSOCIATED) {
-        // Add a new modelAttribute to the model
+      // Add a new modelAttribute to the model
       this.props.onCreateAttributeModel(entity)
     } else {
-        // Remove the modelAttribute from the model
+      // Remove the modelAttribute from the model
       this.props.onDeleteAttributeModel(entity)
     }
   }

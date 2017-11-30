@@ -27,7 +27,6 @@ import { AccessShapes } from '@regardsoss/shape'
  * @author Sébastien binda
  */
 class DynamicModuleFormComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -86,6 +85,5 @@ class DynamicModuleFormComponent extends React.Component {
       </Card>
     )
   }
-
 }
 export default DynamicModuleFormComponent

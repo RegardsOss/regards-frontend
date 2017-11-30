@@ -56,5 +56,4 @@ export default class ProjectUserSignalActions extends BasicSignalActions {
       userId,
     })
   }
-
 }

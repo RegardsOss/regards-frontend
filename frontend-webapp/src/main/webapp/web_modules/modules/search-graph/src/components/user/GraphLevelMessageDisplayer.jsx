@@ -8,7 +8,6 @@ import { FormattedMessage } from 'react-intl'
 * Level message displayer
 */
 class GraphLevelFetchErrorDisplayer extends React.Component {
-
   static propTypes = {
     // internationalized message key
     messageKey: PropTypes.string.isRequired,

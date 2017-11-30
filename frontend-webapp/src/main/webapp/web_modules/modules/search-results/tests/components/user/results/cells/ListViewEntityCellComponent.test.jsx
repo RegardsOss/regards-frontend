@@ -51,7 +51,7 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
         },
       },
 
-      hasDownload: true,
+      enableDownload: true,
       thumbnailRenderData: {
         key: 'thumbnail.test',
         renderers: [{

@@ -22,7 +22,6 @@ import { BasicSelector } from '@regardsoss/store-utils'
 import TableSelectionModes from './TableSelectionModes'
 
 export class TableSelectors extends BasicSelector {
-
   /**
    * Is empty selection? Compute empty selection using external page results selectors and buffers it with reselect
    * @param state redux store
@@ -44,8 +43,7 @@ export class TableSelectors extends BasicSelector {
         const selectionSize = keys(toggledElements).length
         return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0) ||
           (totalElements > 0 && selectionSize === totalElements)
-      },
-      )
+      })
     }
     // select or reselect
     return this.reselectEmptySelection(state)
@@ -73,8 +71,7 @@ export class TableSelectors extends BasicSelector {
         return totalElements > 0 && (
           (selectionMode === TableSelectionModes.includeSelected && selectionSize === totalElements) ||
           (selectionMode === TableSelectionModes.excludeSelected && !selectionSize))
-      },
-      )
+      })
     }
     // select or reselect
     return this.reselectAllSelected(state)
@@ -95,7 +92,6 @@ export class TableSelectors extends BasicSelector {
   getToggledElements(state) {
     return this.uncombineStore(state).toggledElements
   }
-
 }
 
 export default storePath => new TableSelectors(storePath)

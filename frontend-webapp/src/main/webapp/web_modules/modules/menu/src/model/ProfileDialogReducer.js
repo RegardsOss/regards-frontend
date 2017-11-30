@@ -22,7 +22,6 @@ import { ProfileDialogActions } from './ProfileDialogActions'
  * Profile edition dialog reducer
  */
 class ProfileDialogReducer {
-
   static DEFAULT_STATE = {
     profileEditionVisible: false,
   }
@@ -37,7 +36,6 @@ class ProfileDialogReducer {
         return state
     }
   }
-
 }
 
 const instance = new ProfileDialogReducer()

@@ -41,7 +41,6 @@ e passed {@link Connection}.<br>
  * @author Léo Mieulet
  */
 class ConnectionTesterIconButton extends React.Component {
-
   static propTypes = {
     currentDataset: DataManagementShapes.Dataset,
     subsetting: PropTypes.string,

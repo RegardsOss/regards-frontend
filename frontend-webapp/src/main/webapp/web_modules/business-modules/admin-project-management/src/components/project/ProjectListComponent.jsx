@@ -42,7 +42,6 @@ const actionsBreakpoints = [904, 995, 1065, 1270, 1270]
  * @author Sébastien Binda
  */
 export class ProjectListComponent extends React.Component {
-
   static propTypes = {
     projectList: AdminShapes.ProjectList,
     handleDelete: PropTypes.func.isRequired,
@@ -118,7 +117,9 @@ export class ProjectListComponent extends React.Component {
 
   render() {
     const { intl } = this.context
-    const { projectList, handleEdit, handleOpen, handleConfigureConnections, createUrl } = this.props
+    const {
+      projectList, handleEdit, handleOpen, handleConfigureConnections, createUrl,
+    } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,

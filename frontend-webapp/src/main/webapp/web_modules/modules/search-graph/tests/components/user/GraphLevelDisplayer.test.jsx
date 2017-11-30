@@ -211,7 +211,9 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
     allCombinations.forEach((combinedProperties) => {
       const stateWrapper = shallow(<GraphLevelDisplayer {...combinedProperties} />, { context })
       // Check that, in children showables (ignoring root showable), only one can be seen at same time
-      const { loadingShowable, emptyShowable, errorShowable, contentShowable } = getAllShowable(stateWrapper)
+      const {
+        loadingShowable, emptyShowable, errorShowable, contentShowable,
+      } = getAllShowable(stateWrapper)
       const allChildrenShowables = [loadingShowable, emptyShowable, errorShowable, contentShowable]
       const visibleElement = allChildrenShowables.filter(wrapper => wrapper.props().show)
       assert.lengthOf(visibleElement, 1, `Invalid visible count (${visibleElement.length}) - there should be one and only one. 

@@ -27,7 +27,6 @@ import messages from '../i18n'
  * @author Sébastien Binda
  */
 class ModuleListProvider extends React.Component {
-
   static propTypes = {
     container: PropTypes.string,
     modules: AccessShapes.ModuleArray,

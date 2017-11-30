@@ -38,7 +38,6 @@ export const PhysicalStorageShape = PropTypes.shape({
 * @author Raphaël Mechali
 */
 class PhysicalStorageChartComponent extends React.Component {
-
   static propTypes = {
     physicalStorage: PhysicalStorageShape, // not required, selection may be empty
   }
@@ -80,8 +79,10 @@ class PhysicalStorageChartComponent extends React.Component {
       colors = [curves.usedSizeColor, curves.unusedSizeColor]
     } else if (totalSize) {
       // B - show total size as used size is not available
-      labels = [formatMessage({ id: 'archival.storage.capacity.monitoring.chart.total.size' },
-        { unitLabel: this.context.intl.formatMessage({ id: totalSize.unit.messageKey }) })]
+      labels = [formatMessage(
+        { id: 'archival.storage.capacity.monitoring.chart.total.size' },
+        { unitLabel: this.context.intl.formatMessage({ id: totalSize.unit.messageKey }) },
+      )]
       data = [totalSize.value]
       colors = [curves.unusedSizeColor]
     } else {

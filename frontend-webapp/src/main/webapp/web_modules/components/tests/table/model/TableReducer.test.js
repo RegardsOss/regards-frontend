@@ -22,40 +22,48 @@ describe('[Component] Test table reducer', () => {
   })
 
   it('should reduce correctly the selection mode change', () => {
-    assert.deepEqual(reduce({ selectionMode: TableSelectionModes.includeSelected, toggledElements: { 1: 'x', 2: 'y' } },
-      tableActionsInstance.selectAll()), {
-        selectionMode: TableSelectionModes.excludeSelected,
-        toggledElements: {},
-      }, 'reducer should clear selected element and switch the selection mode (1)')
-
-    assert.deepEqual(reduce({
+    assert.deepEqual(reduce(
+      { selectionMode: TableSelectionModes.includeSelected, toggledElements: { 1: 'x', 2: 'y' } },
+      tableActionsInstance.selectAll(),
+    ), {
       selectionMode: TableSelectionModes.excludeSelected,
       toggledElements: {},
-    },
-      tableActionsInstance.unselectAll()), {
-        selectionMode: TableSelectionModes.includeSelected,
+    }, 'reducer should clear selected element and switch the selection mode (1)')
+
+    assert.deepEqual(reduce(
+      {
+        selectionMode: TableSelectionModes.excludeSelected,
         toggledElements: {},
-      }, 'reducer should switch the selection mode')
+      },
+      tableActionsInstance.unselectAll(),
+    ), {
+      selectionMode: TableSelectionModes.includeSelected,
+      toggledElements: {},
+    }, 'reducer should switch the selection mode')
   })
 
   it('should reduce correctly toggle element', () => {
-    assert.deepEqual(reduce({
-      selectionMode: TableSelectionModes.includeSelected,
-      toggledElements: {},
-    },
-      tableActionsInstance.toggleElement(3, 'elt')), {
+    assert.deepEqual(reduce(
+      {
         selectionMode: TableSelectionModes.includeSelected,
-        toggledElements: { 3: 'elt' },
-      }, 'reducer should add the element to toggled dictionnary')
-
-    assert.deepEqual(reduce({
-      selectionMode: TableSelectionModes.excludeSelected,
-      toggledElements: { 99: 'elt' },
-    },
-      tableActionsInstance.toggleElement(99, 'elt')), {
-        selectionMode: TableSelectionModes.excludeSelected,
         toggledElements: {},
-      }, 'reducer should add the element to toggled dictionnary')
+      },
+      tableActionsInstance.toggleElement(3, 'elt'),
+    ), {
+      selectionMode: TableSelectionModes.includeSelected,
+      toggledElements: { 3: 'elt' },
+    }, 'reducer should add the element to toggled dictionnary')
+
+    assert.deepEqual(reduce(
+      {
+        selectionMode: TableSelectionModes.excludeSelected,
+        toggledElements: { 99: 'elt' },
+      },
+      tableActionsInstance.toggleElement(99, 'elt'),
+    ), {
+      selectionMode: TableSelectionModes.excludeSelected,
+      toggledElements: {},
+    }, 'reducer should add the element to toggled dictionnary')
   })
 })
 

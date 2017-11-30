@@ -26,7 +26,6 @@ import { closeErrorDialog } from '../model/action'
  * @author Sébastien binda
  */
 class ApplicationErrorContainer extends React.Component {
-
   static propTypes = {
     snackBarOpened: PropTypes.bool,
     snackBarMessage: PropTypes.string,
@@ -37,7 +36,9 @@ class ApplicationErrorContainer extends React.Component {
   render() {
     if (this.props.snackBarOpened) {
       const message = this.props.snackBarMessage
-      const style = { height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line' }
+      const style = {
+        height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line',
+      }
       return (
         <Snackbar
           open={this.props.snackBarOpened}

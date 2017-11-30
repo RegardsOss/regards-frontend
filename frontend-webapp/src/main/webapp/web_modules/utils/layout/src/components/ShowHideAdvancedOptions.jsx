@@ -29,8 +29,8 @@ const ShowHideAdvancedOptions = ({ advanced = false, onTouchTap = () => {} }, { 
     <KeyboardArrowUp color={muiTheme.palette.primary1Color} /> :
     <KeyboardArrowDown color={muiTheme.palette.primary1Color} />
   const messageAdvanced = advanced ?
-      formatMessage({ id: 'container.form.advanced.mode.hide' }) :
-      formatMessage({ id: 'container.form.advanced.mode.show' })
+    formatMessage({ id: 'container.form.advanced.mode.hide' }) :
+    formatMessage({ id: 'container.form.advanced.mode.show' })
 
   return (
     <span

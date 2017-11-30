@@ -35,7 +35,6 @@ import { ShowableAtRender } from '@regardsoss/components'
  * @author Sébastien binda
  */
 class AttributeConfigurationComponent extends React.Component {
-
   static propTypes = {
     allowFacettes: PropTypes.bool.isRequired,
     attribute: PropTypes.oneOfType([
@@ -55,12 +54,18 @@ class AttributeConfigurationComponent extends React.Component {
   static getTitle = attribute => attribute.fragment && attribute.fragment.name &&
     attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT ? `${attribute.fragment.name} - ${attribute.label}` : attribute.label
 
+  static visibilityOffIcon = <VisibilityOff />
+  static visibilityOnIcon = <Visibility />
+  static searchOnIcon = <Search />
+  static searchOffIcon = <Locked />
+
   constructor(props) {
     super(props)
     this.state = {
       conf: this.props.conf,
     }
   }
+
 
   componentWillReceiveProps(nextProps) {
     if (this.state.conf.initialSort !== nextProps.conf.initialSort) {
@@ -80,6 +85,7 @@ class AttributeConfigurationComponent extends React.Component {
       this.state.conf.visibility !== nextState.conf.visibility ||
       this.state.conf.facetable !== nextState.conf.facetable ||
       this.state.conf.initialSort !== nextState.conf.initialSort ||
+      this.props.allowFacettes !== nextProps.allowFacettes ||
       this.props.filter !== nextProps.filter) {
       return true
     }
@@ -117,12 +123,9 @@ class AttributeConfigurationComponent extends React.Component {
       paddingTop: 0,
       paddingBottom: 0,
     }
+
     const cardContentStyle = { paddingTop: 0 }
     const searchFiledStyle = { maxWidth: 150 }
-    const visibilityOffIcon = <VisibilityOff />
-    const visibilityOnIcon = <Visibility />
-    const searchOnIcon = <Search />
-    const searchOffIcon = <Locked />
 
     return (
       <ShowableAtRender
@@ -150,24 +153,24 @@ class AttributeConfigurationComponent extends React.Component {
             <Checkbox
               label={this.context.intl.formatMessage({ id: 'form.attributes.visibility.label' })}
               checked={this.state.conf.visibility}
-              checkedIcon={visibilityOnIcon}
-              uncheckedIcon={visibilityOffIcon}
+              checkedIcon={AttributeConfigurationComponent.visibilityOnIcon}
+              uncheckedIcon={AttributeConfigurationComponent.visibilityOffIcon}
               onCheck={this.changeVisibility}
             />
             <ShowableAtRender show={allowFacettes}>
               <Checkbox
                 label={this.context.intl.formatMessage({ id: 'form.attributes.facetable.label' })}
                 checked={this.state.conf.facetable}
-                checkedIcon={searchOnIcon}
-                uncheckedIcon={searchOffIcon}
+                checkedIcon={AttributeConfigurationComponent.searchOnIcon}
+                uncheckedIcon={AttributeConfigurationComponent.searchOffIcon}
                 onCheck={this.changeFacetable}
               />
-              <Checkbox
-                label={this.context.intl.formatMessage({ id: 'form.attributes.initialSort.label' })}
-                checked={this.state.conf.initialSort}
-                onCheck={this.changeInitialSort}
-              />
             </ShowableAtRender>
+            <Checkbox
+              label={this.context.intl.formatMessage({ id: 'form.attributes.initialSort.label' })}
+              checked={this.state.conf.initialSort}
+              onCheck={this.changeInitialSort}
+            />
           </CardText>
         </Card>
       </ShowableAtRender>

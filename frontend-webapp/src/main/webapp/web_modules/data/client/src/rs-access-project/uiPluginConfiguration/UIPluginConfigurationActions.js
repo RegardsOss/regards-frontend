@@ -34,7 +34,6 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  * @author Léo Mieulet
  */
 export default class UIPluginConfigurationActions extends BasicPageableActions {
-
   /**
    * Construtor
    * @param namespace

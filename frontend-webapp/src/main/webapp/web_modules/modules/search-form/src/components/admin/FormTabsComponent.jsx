@@ -31,7 +31,6 @@ import FormPreviewComponent from './preview/FormPreviewComponent'
  * @author Sébastien binda
  */
 class FormTabsComponent extends React.Component {
-
   static propTypes = {
     // Props supplied by LazyModuleComponent
     appName: PropTypes.string,
@@ -117,7 +116,6 @@ class FormTabsComponent extends React.Component {
       </Tabs>
     )
   }
-
 }
 
 export default FormTabsComponent

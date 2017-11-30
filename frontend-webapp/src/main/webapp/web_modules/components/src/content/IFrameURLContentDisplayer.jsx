@@ -8,7 +8,6 @@ import { CommonShapes } from '@regardsoss/shape'
 * You can use all accepted dialog properties
 */
 class IFrameURLContentDisplayer extends React.Component {
-
   static propTypes = {
     contentURL: CommonShapes.URL.isRequired,
     onContentLoaded: PropTypes.func, // callback, called when IFrame content was loaded
@@ -18,7 +17,9 @@ class IFrameURLContentDisplayer extends React.Component {
   }
 
   /** Default IFrame styles: grab all space available and re-initialize background to white */
-  static DEFAULT_STYLES = { height: '100%', width: '100%', position: 'absolute', background: 'white' }
+  static DEFAULT_STYLES = {
+    height: '100%', width: '100%', position: 'absolute', background: 'white',
+  }
 
   render() {
     const { contentURL, onContentLoaded, onContentError } = this.props

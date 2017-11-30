@@ -36,7 +36,6 @@ import messages from './i18n'
  * @author Sébastien binda
  */
 class ChipList extends React.Component {
-
   static propTypes = {
     availableEntities: PropTypes.arrayOf(PropTypes.object),
     selectedEntities: PropTypes.arrayOf(PropTypes.object),
@@ -162,7 +161,6 @@ class ChipList extends React.Component {
       </div>
     )
   }
-
 }
 
 export default ChipList

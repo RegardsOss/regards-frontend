@@ -34,7 +34,6 @@ import messages from '../i18n'
  * @author Léo Mieulet
  */
 export class ApplicationLayoutContainer extends React.Component {
-
   static propTypes = {
     // From react router
     params: PropTypes.shape({
@@ -84,7 +83,8 @@ export class ApplicationLayoutContainer extends React.Component {
     const action = this.props.isInstance ? this.props.updateInstanceLayout : this.props.updateLayout
     try {
       const layoutString = JSON.stringify(values.layout)
-      Promise.resolve(action(this.props.layout.content.id,
+      Promise.resolve(action(
+        this.props.layout.content.id,
         {
           id: this.props.layout.content.id,
           applicationId: this.props.layout.content.applicationId,

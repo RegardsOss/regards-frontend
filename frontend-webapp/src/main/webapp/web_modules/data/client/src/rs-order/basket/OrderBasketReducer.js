@@ -24,7 +24,6 @@ import OrderBasketActions from './OrderBasketActions'
  * @author Raphaël Mechali
  */
 class OrderBasketReducer {
-
   /**
    * Constructor. Exactly like corresponding actions, leave the namespace empty to get common reducer instance
    * @param {string} namespace actions namespace
@@ -61,7 +60,6 @@ class OrderBasketReducer {
     const reducerDelegate = this.reducerDelegates[action.type]
     return reducerDelegate ? reducerDelegate.reduce(state, action) : state
   }
-
 }
 
 /**

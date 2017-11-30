@@ -49,10 +49,9 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
 
   it('should render properly without results', () => {
     const props = commonProperties
-    const render = shallow(
-      <PluginServicesContainer {...props}>
-        <TestComponent />
-      </PluginServicesContainer>, { context })
+    const render = shallow(<PluginServicesContainer {...props}>
+      <TestComponent />
+    </PluginServicesContainer>, { context })
 
     const subCompWrapper = render.find(TestComponent)
     assert.lengthOf(subCompWrapper, 1, 'Test component should be a render')
@@ -76,10 +75,9 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       },
     }
 
-    const render = shallow(
-      <PluginServicesContainer {...props}>
-        <TestComponent />
-      </PluginServicesContainer>, { context })
+    const render = shallow(<PluginServicesContainer {...props}>
+      <TestComponent />
+                           </PluginServicesContainer>, { context })
     assert.equal(spiedFetch.count, 1, 'The plugin services should have been fetched one time')
     assert.equal(spiedFetch.datasetIpId, props.selectedDatasetIpId, `The plugin services should have been fetched for "${props.datasetIpId}"`)
 
@@ -168,10 +166,9 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
         },
       },
     }
-    let render = shallow(
-      <PluginServicesContainer {...props}>
-        <TestComponent />
-      </PluginServicesContainer>, { context })
+    let render = shallow(<PluginServicesContainer {...props}>
+      <TestComponent />
+                         </PluginServicesContainer>, { context })
     let selectionServices = render.state('selectionServices')
     assert.lengthOf(selectionServices, 1, 'There should be one service retained for dataobjects (the user doesn\'t currently have rights for catalog service application)')
     assert.isOk(selectionServices.find(({ content: { label } }) => label === 'entity-service-3', `The entity service 3 should be preserved in dataobject selection services ${selectionServices}`))
@@ -181,10 +178,9 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       ...props,
       availableDependencies: ['rs-catalog@/services/{pluginConfigurationId}/apply@POST'], // specific endpoint rights
     }
-    render = shallow(
-      <PluginServicesContainer {...propsWithRights}>
-        <TestComponent />
-      </PluginServicesContainer>, { context })
+    render = shallow(<PluginServicesContainer {...propsWithRights}>
+      <TestComponent />
+                     </PluginServicesContainer>, { context })
     selectionServices = render.state('selectionServices')
     assert.lengthOf(selectionServices, 2, 'There should be two services retained for dataobjects (the user has now rights for catalog service application)')
     assert.isOk(selectionServices.find(({ content: { label } }) => label === 'entity-service-3', `The entity service 3 should be preserved in dataobject selection services ${selectionServices}`))
@@ -195,10 +191,9 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       ...propsWithRights,
       emptySelection: true,
     }
-    render = shallow(
-      <PluginServicesContainer {...props2}>
-        <TestComponent />
-      </PluginServicesContainer>, { context })
+    render = shallow(<PluginServicesContainer {...props2}>
+      <TestComponent />
+                     </PluginServicesContainer>, { context })
     selectionServices = render.state('selectionServices')
     assert.lengthOf(selectionServices, 0, 'There should be no selection services retained')
 
@@ -208,10 +203,9 @@ describe('[Search Results] Testing PluginServicesContainer', () => {
       ...propsWithRights,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
     }
-    render = shallow(
-      <PluginServicesContainer {...props3}>
-        <TestComponent />
-      </PluginServicesContainer>, { context })
+    render = shallow(<PluginServicesContainer {...props3}>
+      <TestComponent />
+                     </PluginServicesContainer>, { context })
     selectionServices = render.state('selectionServices')
     assert.lengthOf(selectionServices, 2, 'There should be two services retained for datasets')
     assert.isOk(selectionServices.find(({ content: { label } }) => label === 'common-service-2', `The context service 2 should be preserved in datasets selection services ${selectionServices}`))

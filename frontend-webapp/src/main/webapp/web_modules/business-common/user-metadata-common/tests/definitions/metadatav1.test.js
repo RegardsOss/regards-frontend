@@ -56,7 +56,9 @@ describe('[User Metadata Common] Testing metadatav1', () => {
   it('should return metadata models with user', () => {
     const metadataArray = metadatav1.getMetadataArray()
     assert.isAbove(metadataArray.length, 0, 'The metadata array should not be empty')
-    metadataArray.forEach(({ key, labelKey, editor, mandatory, onlyAtRegistration }) => {
+    metadataArray.forEach(({
+      key, labelKey, editor, mandatory, onlyAtRegistration,
+    }) => {
       assert.isDefined(key, `The metadata key should be defined for ${key}`)
       assert.isDefined(labelKey, `The metadata labelKey should be defined for ${key}`)
       assert.isDefined(editor, `The metadata editor should be defined for ${key}`)
@@ -67,7 +69,9 @@ describe('[User Metadata Common] Testing metadatav1', () => {
   it('should retrieve metadata values in user', () => {
     const metadataArray = metadatav1.getMetadataArray(modelUser)
     assert.isAbove(metadataArray.length, 0, 'The metadata array should not be empty')
-    metadataArray.forEach(({ key, labelKey, currentValue, editor, mandatory, onlyAtRegistration }) => {
+    metadataArray.forEach(({
+      key, labelKey, currentValue, editor, mandatory, onlyAtRegistration,
+    }) => {
       assert.isDefined(key, `The metadata key should be defined for ${key}`)
       assert.isDefined(labelKey, `The metadata labelKey should be defined for ${key}`)
       assert.isDefined(editor, `The metadata editor should be defined for ${key}`)

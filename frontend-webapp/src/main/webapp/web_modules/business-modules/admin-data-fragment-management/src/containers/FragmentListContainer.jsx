@@ -31,7 +31,6 @@ import messages from '../i18n'
  * @author Léo Mieulet
  */
 export class FragmentListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

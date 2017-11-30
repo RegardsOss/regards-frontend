@@ -44,7 +44,6 @@ const actionsBreakpoints = [460, 945, 945]
  * @author Sébastien binda
  */
 class ModuleListComponent extends React.Component {
-
   static propTypes = {
     modules: AccessShapes.ModuleList.isRequired,
     backUrl: PropTypes.string.isRequired,

@@ -54,7 +54,6 @@ const DividerWithHateoasDisplayControl = withResourceDisplayControl(Divider)
  * React sidebar components. Display the admin application menu
  */
 class ProjectSidebarComponent extends React.Component {
-
   /**
    * @type {{muiTheme: *}}
    */

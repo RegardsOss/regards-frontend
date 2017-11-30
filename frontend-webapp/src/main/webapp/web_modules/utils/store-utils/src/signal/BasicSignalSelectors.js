@@ -32,7 +32,6 @@ class BasicSignalSelectors extends BasicSelector {
   getResult(state) {
     return this.uncombineStore(state).result
   }
-
 }
 
 export default BasicSignalSelectors

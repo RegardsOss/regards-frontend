@@ -34,7 +34,6 @@ import messages from '../i18n'
  * This components display admin layout or login form if the user is not connected
  */
 export class AdminLayout extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -107,7 +106,7 @@ export class AdminLayout extends React.Component {
         <div className={`selenium-adminLayout ${style.app.classes}`} style={style.app.styles}>
           <div className={style.menu.classes}>
             <LazyModuleComponent
-              appName={'admin'}
+              appName="admin"
               project={project}
               module={menuModule}
             />

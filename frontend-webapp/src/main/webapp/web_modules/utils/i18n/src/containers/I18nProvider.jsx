@@ -46,7 +46,6 @@ addLocaleData(frLocaleData)
  * messages
  */
 export class I18nProvider extends React.Component {
-
   static propTypes = {
     children: PropTypes.element,
     messages: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,

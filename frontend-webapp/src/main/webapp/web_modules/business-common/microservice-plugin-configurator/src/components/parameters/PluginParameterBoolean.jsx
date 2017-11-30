@@ -32,7 +32,6 @@ import moduleStyles from '../../styles/styles'
  * @author Xavier-Alexandre Brochard
  */
 export class PluginParameterBoolean extends React.Component {
-
   static propTypes = pluginParameterComponentPropTypes
 
   static contextTypes = {
@@ -48,7 +47,9 @@ export class PluginParameterBoolean extends React.Component {
   parse = val => val.toString()
 
   render() {
-    const { reduxFormfieldNamePrefix, pluginParameter, pluginParameterType, pluginMetaData, mode } = this.props
+    const {
+      reduxFormfieldNamePrefix, pluginParameter, pluginParameterType, pluginMetaData, mode,
+    } = this.props
     const isView = mode === 'view'
     const styles = moduleStyles(this.context.muiTheme)
     let label = pluginParameterType.name
@@ -73,7 +74,7 @@ export class PluginParameterBoolean extends React.Component {
             format={this.format}
             parse={this.parse}
             component={RenderCheckbox}
-            type={'boolean'}
+            type="boolean"
             style={styles.pluginConfiguration.form.toggle}
             defaultChecked={this.format(value)}
           />

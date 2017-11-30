@@ -41,7 +41,6 @@ const ResourceIconAction = withResourceDisplayControl(IconButton)
  * React component to list accessgroups.
  */
 export class AccessGroupListComponent extends React.Component {
-
   static propTypes = {
     accessGroupList: DataManagementShapes.AccessGroupList,
     handleDelete: PropTypes.func.isRequired,
@@ -99,7 +98,9 @@ export class AccessGroupListComponent extends React.Component {
 
 
   render() {
-    const { accessGroupList, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl } = this.props
+    const {
+      accessGroupList, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl,
+    } = this.props
     const { intl } = this.context
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,

@@ -35,7 +35,6 @@ const requestTypes = {
  * Container for project access requests
  */
 export class AskProjectAccessFormContainer extends React.Component {
-
   static propTypes = {
     // Form initial value
     initialMail: PropTypes.string,
@@ -82,7 +81,9 @@ export class AskProjectAccessFormContainer extends React.Component {
     }
   }
 
-  onRequestAction = ({ firstName, lastName, newPassword, ...formValues }) => {
+  onRequestAction = ({
+    firstName, lastName, newPassword, ...formValues
+  }) => {
     // store current mail value (for done operation)
     this.submittedMail = formValues[mailFieldId]
     const { fetchNewAccount, fetchNewUser } = this.props
@@ -116,7 +117,9 @@ export class AskProjectAccessFormContainer extends React.Component {
 
 
   render() {
-    const { initialMail, onBack, newAccountFetchStatus, newUserFetchStatus, passwordRules, fetchPasswordValidity } = this.props
+    const {
+      initialMail, onBack, newAccountFetchStatus, newUserFetchStatus, passwordRules, fetchPasswordValidity,
+    } = this.props
     const { lastRequestType } = (this.state || {})
     const { intl } = this.context
     // select error to show in current mode

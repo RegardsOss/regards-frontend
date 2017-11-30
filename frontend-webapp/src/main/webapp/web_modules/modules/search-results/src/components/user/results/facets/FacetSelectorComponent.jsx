@@ -12,7 +12,6 @@ import { Facet } from '../../../../models/facets/FacetShape'
 * Range facet selector
 */
 class FacetSelectorComponent extends React.Component {
-
   static propTypes = {
     facet: Facet.isRequired,
     // formats the facet value for menu

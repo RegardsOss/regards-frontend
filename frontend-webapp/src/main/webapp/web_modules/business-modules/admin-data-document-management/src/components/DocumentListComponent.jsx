@@ -32,7 +32,7 @@ import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { tableActions, tableSelectors } from '../clients/TableClient'
+import { tableActions } from '../clients/TableClient'
 import { documentActions, documentSelectors } from '../clients/DocumentClient'
 import DocumentTableCustomCellActions from './DocumentTableCustomCellActions'
 
@@ -42,7 +42,6 @@ import DocumentTableCustomCellActions from './DocumentTableCustomCellActions'
  * @author Léo Mieulet
  */
 class DocumentListComponent extends React.Component {
-
   static propTypes = {
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
@@ -119,13 +118,6 @@ class DocumentListComponent extends React.Component {
   render() {
     const { intl } = this.context
     const { createUrl, backUrl, handleEdit } = this.props
-    const tableConfiguration = {
-      displayColumnsHeader: true,
-      displayCheckbox: false,
-      displaySelectAll: false,
-      onSortByColumn: () => {
-      },
-    }
     const { intl: { formatMessage } } = this.context
 
     // Table columns to display
@@ -189,7 +181,6 @@ class DocumentListComponent extends React.Component {
       </Card>
     )
   }
-
 }
 
 export default DocumentListComponent

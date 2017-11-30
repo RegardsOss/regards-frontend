@@ -29,7 +29,6 @@ const HeadlessAdapter = props => <div>{reduce(props, (acc, value, key) => `${acc
 * @author Raphaël Mechali
 */
 export class AceEditorAdapter extends React.Component {
-
   /** supported themes */
   static supportedThemesToImport = []
 

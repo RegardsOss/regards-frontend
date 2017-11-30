@@ -22,7 +22,6 @@ import AIPStatusComponent from '../../components/user/AIPStatusComponent'
  * AIP status container
  */
 class AIPStatusContainer extends React.Component {
-
   static propTypes = {}
 
   /**

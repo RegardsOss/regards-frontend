@@ -56,7 +56,6 @@ class StringValueRender extends React.Component {
         {textValue}
       </div>)
   }
-
 }
 
 export default StringValueRender

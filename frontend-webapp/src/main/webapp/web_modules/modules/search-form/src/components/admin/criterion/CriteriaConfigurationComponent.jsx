@@ -31,7 +31,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien binda
  */
 class CriteriaConfigurationComponent extends React.Component {
-
   static propTypes = {
     selectableAttributes: DataManagementShapes.AttributeModelList,
     // Set by plugin provider
@@ -56,8 +55,7 @@ class CriteriaConfigurationComponent extends React.Component {
       key={standardAttribute}
       value={standardAttribute}
       primaryText={standardAttribute}
-    />),
-  )
+    />))
 
   /**
    * Display a configurable attribute

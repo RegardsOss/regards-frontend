@@ -28,7 +28,6 @@ import { accountPasswordActions, accountPasswordSelectors } from '../clients/Acc
  * Change password form container
  */
 export class ChangePasswordFormContainer extends React.Component {
-
   static propTypes = {
     // user email
     mail: PropTypes.string.isRequired,

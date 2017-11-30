@@ -30,7 +30,6 @@ import LayoutActions from '../model/LayoutActions'
  * @author Sébastien binda
  */
 class ApplicationLayoutComponent extends React.Component {
-
   static propTypes = {
     layout: AccessShapes.Layout,
     onSubmit: PropTypes.func,

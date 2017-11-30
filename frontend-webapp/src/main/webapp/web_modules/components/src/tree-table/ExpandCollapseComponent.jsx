@@ -28,7 +28,6 @@ import TreeTableRow from './TreeTableRow'
 * @author Raphaël Mechali
 */
 class ExpandCollapseComponent extends React.Component {
-
   static propTypes = {
     // row model
     rowModel: PropTypes.instanceOf(TreeTableRow).isRequired,

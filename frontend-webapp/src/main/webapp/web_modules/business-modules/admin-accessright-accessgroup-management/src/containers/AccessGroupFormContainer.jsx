@@ -29,7 +29,6 @@ import messages from '../i18n'
  * Show the group form
  */
 export class AccessGroupFormContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

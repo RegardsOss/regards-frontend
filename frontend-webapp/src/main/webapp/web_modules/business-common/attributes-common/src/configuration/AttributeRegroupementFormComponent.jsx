@@ -33,7 +33,6 @@ import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
  * @author Sébastien binda
  */
 class AttributeRegroupementFormComponent extends React.Component {
-
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -109,12 +108,16 @@ class AttributeRegroupementFormComponent extends React.Component {
 
 
   render() {
-    const { pristine, submitting, invalid, error } = this.props
+    const {
+      pristine, submitting, invalid, error,
+    } = this.props
     let title = <FormattedMessage id="form.attributes.regroupement.form.title" />
     let saveButton = <FormattedMessage id="form.attributes.regroupement.form.save" />
     if (this.props.attributesRegrp) {
-      title = this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.title.update' },
-        { name: this.props.attributesRegrp.label })
+      title = this.context.intl.formatMessage(
+        { id: 'form.attributes.regroupement.form.title.update' },
+        { name: this.props.attributesRegrp.label },
+      )
       saveButton = this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.update' })
     }
 
@@ -141,7 +144,7 @@ class AttributeRegroupementFormComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.label' })}
               validate={this.props.validateLabel}
             />
-            <FieldArray name={'attributes'} component={this.renderAttributes} />
+            <FieldArray name="attributes" component={this.renderAttributes} />
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -156,7 +159,6 @@ class AttributeRegroupementFormComponent extends React.Component {
       </form>
     )
   }
-
 }
 
 function validate(formValues) {

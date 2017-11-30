@@ -37,7 +37,6 @@ import DatasetStepperContainer from '../containers/DatasetStepperContainer'
  * React component to list datasets.
  */
 export class DatasetEditLinksComponent extends React.Component {
-
   static propTypes = {
     currentDataset: DataManagementShapes.Dataset,
     linkedCollections: DataManagementShapes.CollectionArray,
@@ -73,7 +72,9 @@ export class DatasetEditLinksComponent extends React.Component {
   }
 
   render() {
-    const { currentDataset, linkedCollections, remainingCollections, handleAdd, handleDelete, doneUrl, backUrl, datasetStringTags, handleSearch } = this.props
+    const {
+      currentDataset, linkedCollections, remainingCollections, handleAdd, handleDelete, doneUrl, backUrl, datasetStringTags, handleSearch,
+    } = this.props
     return (
       <Card>
         <CardTitle

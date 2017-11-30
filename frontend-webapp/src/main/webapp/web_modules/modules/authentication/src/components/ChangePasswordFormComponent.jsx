@@ -28,7 +28,6 @@ import { RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers } from
  * Reset password request form component
  */
 export class ChangePasswordFormComponent extends React.Component {
-
   static propTypes = {
     passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // calls update password action or shows token expired message
@@ -49,7 +48,9 @@ export class ChangePasswordFormComponent extends React.Component {
    * @returns {React.Component} components
    */
   render() {
-    const { passwordRules, onChangePassword, pristine, submitting, invalid, handleSubmit } = this.props
+    const {
+      passwordRules, onChangePassword, pristine, submitting, invalid, handleSubmit,
+    } = this.props
     const { moduleTheme, intl: { formatMessage } } = this.context
 
     return (

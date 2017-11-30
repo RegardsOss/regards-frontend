@@ -42,7 +42,6 @@ import { addDependencies } from '../dependencies'
  * @author Sébastien Binda
  */
 export class ProcessingChainListComponent extends React.Component {
-
   static propTypes = {
     fetchPage: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -172,7 +171,6 @@ export class ProcessingChainListComponent extends React.Component {
       </Card>
     )
   }
-
 }
 
 export default ProcessingChainListComponent

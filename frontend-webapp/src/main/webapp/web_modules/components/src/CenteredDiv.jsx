@@ -21,7 +21,6 @@
  * A React component to display a div element centered in height and width in his parent element
  */
 class CenteredDiv extends React.Component {
-
   static propTypes = {
     children: PropTypes.element,
   }

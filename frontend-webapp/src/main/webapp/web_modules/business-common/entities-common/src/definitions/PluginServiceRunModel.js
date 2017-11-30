@@ -6,7 +6,6 @@
  * Plugin service run model: packed data to execute a service
  */
 class PluginServiceRunModel {
-
   /**
    * Constructor
    * @param {PluginService} serviceConfiguration fetched plguin service configuration, WITHOUT CONTENT ROOT
@@ -37,7 +36,6 @@ class PluginServiceRunModel {
   get icon() {
     return this.serviceConfiguration.content.icon
   }
-
 }
 
 module.exports = {

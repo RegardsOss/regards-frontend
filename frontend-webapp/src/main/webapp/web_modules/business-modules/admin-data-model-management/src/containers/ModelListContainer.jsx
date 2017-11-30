@@ -30,7 +30,6 @@ import messages from '../i18n'
  * React container to list all model entities
  */
 export class ModelListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

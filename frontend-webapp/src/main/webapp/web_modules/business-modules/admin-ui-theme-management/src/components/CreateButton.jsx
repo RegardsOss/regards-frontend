@@ -28,7 +28,6 @@ import moduleStyles from '../styles/styles'
  * @author Xavier-Alexandre Brochard
  */
 class CreateButton extends React.Component {
-
   static propTypes = {
     onCreate: PropTypes.func.isRequired,
   }

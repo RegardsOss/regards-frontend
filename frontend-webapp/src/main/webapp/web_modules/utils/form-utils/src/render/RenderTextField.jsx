@@ -46,7 +46,9 @@ class renderTextField extends React.Component {
   }
 
   render() {
-    const { input, label, hintText, floatingLabelText, type, meta: { touched, error }, intl, ...rest } = this.props
+    const {
+      input, label, hintText, floatingLabelText, type, meta: { touched, error }, intl, ...rest
+    } = this.props
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
 
     return (

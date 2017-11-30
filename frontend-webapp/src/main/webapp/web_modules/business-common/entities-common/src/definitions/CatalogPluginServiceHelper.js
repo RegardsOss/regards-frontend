@@ -52,7 +52,9 @@ const validatorByJavaType = {
  * @param metadataParameter corresponding metadata parameter
  * @return Parameter converted
  */
-function convertParameter({ name, value: adminValue, dynamicsValues }, { type, paramType, defaultValue: devValue, optional }) {
+function convertParameter({ name, value: adminValue, dynamicsValues }, {
+  type, paramType, defaultValue: devValue, optional,
+}) {
   // 1 - check that the parameter type is not plugin (strictly forbidden in plugin service)
   if (paramType !== PluginParameterTypes.PRIMITIVE) {
     throw new Error(`Unsupported plugin parameter type at runtime ${paramType}`)
@@ -113,10 +115,10 @@ function packTargetParameters(target) {
     case RuntimeTargetTypes.MANY:
       return { entitiesId: target.entities }
     case RuntimeTargetTypes.QUERY:
-      {
-        const q = new OpenSearchQuery(target.q, [OpenSearchQuery.buildIpIdParameter(target.excludedIpIds, true)]).toQueryString()
-        return { q, entityType: target.entityType }
-      }
+    {
+      const q = new OpenSearchQuery(target.q, [OpenSearchQuery.buildIpIdParameter(target.excludedIpIds, true)]).toQueryString()
+      return { q, entityType: target.entityType }
+    }
     default:
       throw new Error('Invalid target') // development error only
   }

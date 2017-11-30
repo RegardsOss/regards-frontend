@@ -37,7 +37,6 @@ import DatasetStepperContainer from '../containers/DatasetStepperContainer'
  * React component to list datasets.
  */
 export class DatasetEditPluginComponent extends React.Component {
-
   static propTypes = {
     linkPluginDataset: CatalogShapes.LinkPluginDataset.isRequired,
     pluginConfigurationList: CommonShapes.PluginConfigurationList,
@@ -66,8 +65,7 @@ export class DatasetEditPluginComponent extends React.Component {
       currentLinkPluginDataset.content.services.push(pluginConfiguration.content)
     } else {
       currentLinkPluginDataset.content.services = remove(currentLinkPluginDataset.content.services, service =>
-        service.id !== pluginConfiguration.content.id,
-      )
+        service.id !== pluginConfiguration.content.id)
     }
     this.setState({
       currentLinkPluginDataset,
@@ -76,8 +74,7 @@ export class DatasetEditPluginComponent extends React.Component {
 
   getItemMetaData = (pluginMetaData, pluginConfigurationList) => {
     const pluginConfigurationAssociated = filter(pluginConfigurationList, pluginConfiguration =>
-      pluginConfiguration.content.pluginClassName === pluginMetaData.content.pluginClassName,
-    )
+      pluginConfiguration.content.pluginClassName === pluginMetaData.content.pluginClassName)
     return (
       <ShowableAtRender
         show={pluginConfigurationAssociated.length > 0}

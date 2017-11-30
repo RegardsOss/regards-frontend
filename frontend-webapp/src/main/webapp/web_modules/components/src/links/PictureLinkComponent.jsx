@@ -22,7 +22,6 @@ import { themeContextType } from '@regardsoss/theme'
  * A link with picture, usable in already overloaded screens to make it look 'lighter'
  */
 class PictureLinkComponent extends React.Component {
-
   static propTypes = {
     className: PropTypes.string,
     disabled: PropTypes.bool,
@@ -80,7 +79,9 @@ class PictureLinkComponent extends React.Component {
 
 
   render() {
-    const { className, disabled, text, IconComponent, iconStyles, iconToTextGap } = this.props
+    const {
+      className, disabled, text, IconComponent, iconStyles, iconToTextGap,
+    } = this.props
     const { isOver } = this.state
     const { palette } = this.context.muiTheme
 
@@ -105,12 +106,16 @@ class PictureLinkComponent extends React.Component {
       [textColor, imageColor] = [defaultTextColor, defaultImageColor]
     }
     const iconStyle = { color: imageColor, ...iconStyles }
-    const textStyle = { color: textColor, textAlign: 'center', flexGrow: '1', flexShrink: '1', marginLeft: iconToTextGap }
+    const textStyle = {
+      color: textColor, textAlign: 'center', flexGrow: '1', flexShrink: '1', marginLeft: iconToTextGap,
+    }
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
       <div
         className={className}
-        style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
+        style={{
+ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer',
+}}
         onClick={this.onAction}
         onMouseOut={this.onMouseOut}
         onMouseOver={this.onMouseOver}

@@ -29,7 +29,6 @@ import { getNextSortOrder, TableSortOrders } from '../../model/TableSortOrders'
  * @author Raphaël Mechali
  */
 class SortableColumnHeaderCell extends React.Component {
-
   static propTypes = {
     // column ID for sort (how will it be retrieved by parent component)
     sortId: PropTypes.string.isRequired,
@@ -52,14 +51,18 @@ class SortableColumnHeaderCell extends React.Component {
    * User callback: on sort
    */
   onSort = () => {
-    const { sortable, sortingOrder, sortId, onSort } = this.props
+    const {
+      sortable, sortingOrder, sortId, onSort,
+    } = this.props
     if (sortable && sortingOrder) { // do change sort only when sortable with known sorting state
       onSort(sortId, getNextSortOrder(sortingOrder))
     }
   }
 
   render() {
-    const { label, hideLabel, sortable, sortingOrder } = this.props
+    const {
+      label, hideLabel, sortable, sortingOrder,
+    } = this.props
     const { header: { sortableHeader: { style, sortButtonStyle, sortIconStyle } } } = this.context.moduleTheme
     return (
       <div style={style} >

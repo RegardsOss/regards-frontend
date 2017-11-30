@@ -27,7 +27,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 * @author Sébastien Binda
 */
 class SIPDetailComponent extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     sip: PropTypes.object.isRequired,
@@ -54,7 +53,7 @@ class SIPDetailComponent extends React.Component {
             theme="monokai"
             value={JSON.stringify(sip, null, '\t')}
             showPrintMargin={false}
-            style={moduleTheme.sip.list.sipDetailsStyle}
+            style={moduleTheme.sipDetailsStyle}
             showGutter
             showLineNumbers
             readOnly

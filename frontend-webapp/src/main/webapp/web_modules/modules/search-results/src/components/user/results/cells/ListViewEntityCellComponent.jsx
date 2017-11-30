@@ -18,17 +18,15 @@
  **/
 import flatMap from 'lodash/flatMap'
 import get from 'lodash/get'
-import IconButton from 'material-ui/IconButton'
 import FlatButton from 'material-ui/FlatButton'
-import DownloadIcon from 'material-ui/svg-icons/action/get-app'
 import Checkbox from 'material-ui/Checkbox'
-import { CatalogDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { DownloadButton, ShowableAtRender } from '@regardsoss/components'
+import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import AddElementToCartContainer from '../../../../containers/user/results/options/AddElementToCartContainer'
 import EntityDescriptionContainer from '../../../../containers/user/results/options/EntityDescriptionContainer'
+import DownloadEntityFileContainer from '../../../../containers/user/results/options/DownloadEntityFileContainer'
 import OneElementServicesContainer from '../../../../containers/user/results/options/OneElementServicesContainer'
 
 /**
@@ -42,18 +40,16 @@ export const AttributeRenderData = PropTypes.shape({
     RenderConstructor: PropTypes.func.isRequired,
   })).isRequired,
 })
-
 /**
  * Component to display datasets in search results.
  *
  * @author Sébastien binda
  */
 class ListViewEntityCellComponent extends React.Component {
-
   static propTypes = {
     // Entity to display
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
-    hasDownload: PropTypes.bool.isRequired,
+    enableDownload: PropTypes.bool.isRequired,
     thumbnailRenderData: AttributeRenderData, // no thumbnail when not provided
     gridAttributesRenderData: PropTypes.arrayOf(AttributeRenderData).isRequired,
     selectionEnabled: PropTypes.bool,
@@ -74,12 +70,15 @@ class ListViewEntityCellComponent extends React.Component {
    * Renders title area of the list cell (title, with checkbox if selection enabled, empty space and options)
    */
   renderTitle = () => {
-    const { entity, selectionEnabled, servicesEnabled, entitySelected, onSelectEntity, onSearchEntity, onAddToCart } = this.props
+    const {
+      entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, onSelectEntity, onSearchEntity, onAddToCart,
+    } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
-    const { rootStyles, labelGroup, checkboxStyles, labelStyles, optionsBarStyles, option } = moduleTheme.user.listViewStyles.title
+    const {
+      rootStyles, labelGroup, checkboxStyles, labelStyles, optionsBarStyles, option,
+    } = moduleTheme.user.listViewStyles.title
 
     const services = get(entity, 'content.services', [])
-    const downloadURL = get(this.props.entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}[0].uri`, null)
 
     return (
       <div style={rootStyles}>
@@ -102,19 +101,13 @@ class ListViewEntityCellComponent extends React.Component {
         {/* B. Options bar */}
         <div style={optionsBarStyles}>
           {/* B-1. Download, when available. Like below, due to props, we can't use a showable at render */}
-          {this.props.hasDownload && !!downloadURL ? (
-            <DownloadButton
+          <ShowableAtRender show={enableDownload}>
+            <DownloadEntityFileContainer
+              entity={entity}
               style={option.buttonStyles}
-              tooltip={formatMessage({ id: 'download.tooltip' })}
               iconStyle={option.iconStyles}
-              downloadURL={downloadURL}
-              ButtonIcon={null} // remove default icon, use children instead for an Icon button
-              ButtonConstructor={IconButton}
-            >
-              <DownloadIcon />
-            </DownloadButton>
-          ) : null
-          }
+            />
+          </ShowableAtRender>
           {/* B-2. Description  */}
           <EntityDescriptionContainer
             entity={entity}
@@ -193,7 +186,9 @@ class ListViewEntityCellComponent extends React.Component {
     const { thumbnailRenderData, gridAttributesRenderData } = this.props
     const { moduleTheme } = this.context
 
-    const { attributesStyles, thumbnailColumnStyle, labelColumnStyles, valueColumnStyles } = moduleTheme.user.listViewStyles
+    const {
+      attributesStyles, thumbnailColumnStyle, labelColumnStyles, valueColumnStyles,
+    } = moduleTheme.user.listViewStyles
 
     // 2 - prepare label columns and value columns
     const asColumns = this.renderAsColumns(gridAttributesRenderData)

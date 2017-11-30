@@ -49,9 +49,7 @@ describe('[SEARCH FORM] Testing FormPreviewComponent', () => {
         },
       },
     }
-    const wrapper = shallow(
-      <FormPreviewComponent {...props} />, { context },
-    )
+    const wrapper = shallow(<FormPreviewComponent {...props} />, { context })
 
     const lazyModule = wrapper.find(LazyModuleComponent)
     assert(lazyModule.length === 1, 'The current module sould be rendered with a LayModuleComponent')

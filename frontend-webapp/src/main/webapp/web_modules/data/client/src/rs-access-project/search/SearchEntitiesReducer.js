@@ -28,7 +28,6 @@ class CatalogEntityReducer extends BasicFacetsPageableReducers {
   constructor(namespace) {
     super(EntityConfiguration, new SearchEntitiesActions(namespace))
   }
-
 }
 
 export default (namespace) => {

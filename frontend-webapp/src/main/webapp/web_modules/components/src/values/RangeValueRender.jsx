@@ -67,7 +67,6 @@ class RangeValueRender extends React.Component {
         {textValue}
       </div>)
   }
-
 }
 
 export default RangeValueRender

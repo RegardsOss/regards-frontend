@@ -28,7 +28,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien binda
  */
 class CellWrapper extends React.PureComponent {
-
   static propTypes = {
     rowIndex: PropTypes.number, // provided by React infinite
     lineHeight: PropTypes.number,
@@ -63,7 +62,9 @@ class CellWrapper extends React.PureComponent {
   render() {
     // render with styles
     const styles = this.context.moduleTheme
-    const { lineHeight, CellContentBuilder, cellContentBuilderProps = {}, rowIndex } = this.props
+    const {
+      lineHeight, CellContentBuilder, cellContentBuilderProps = {}, rowIndex,
+    } = this.props
 
     // 1 - Select style
     let basicCellStyle

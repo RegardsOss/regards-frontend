@@ -29,7 +29,6 @@ import {
  * React component to list collections.
  */
 export class CollectionStepperComponent extends React.Component {
-
   static propTypes = {
     stepIndex: PropTypes.number,
   }

@@ -22,7 +22,6 @@ import FetchGraphEntitiesActions from './FetchGraphEntitiesActions'
  * Actions to fetch graph datasets at a given graph level
  */
 class FetchGraphDatasetsActions extends FetchGraphEntitiesActions {
-
   constructor() {
     super('datasets') // specific URL path for datasets
   }
@@ -38,7 +37,6 @@ class FetchGraphDatasetsActions extends FetchGraphEntitiesActions {
     }
     return super.fetchAll(levelIndex, parentPath)
   }
-
 }
 
 /**

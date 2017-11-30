@@ -28,7 +28,6 @@ export const IconButtonWithConfirmDialog = withConfirmDialog(IconButton)
 * @author Raphaël Mechali
 */
 class DeleteDatedItemSelectionComponent extends React.Component {
-
   static propTypes = {
     onDelete: PropTypes.func.isRequired,
   }

@@ -29,7 +29,6 @@ import messages from '../i18n'
  * Pick the datasource if existing or ask the user to create a new one
  */
 export class DatasourceCreateOrPickConnectionContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

@@ -38,7 +38,6 @@ import DocumentStepperContainer from '../containers/DocumentStepperContainer'
  * React component to list documents files.
  */
 export class DocumentEditFilesComponent extends React.Component {
-
   static propTypes = {
     document: DataManagementShapes.Document,
     accessToken: PropTypes.string.isRequired,
@@ -113,7 +112,9 @@ export class DocumentEditFilesComponent extends React.Component {
 
 
   render() {
-    const { document, handleDeleteDocFile, backUrl, submitting, invalid } = this.props
+    const {
+      document, handleDeleteDocFile, backUrl, submitting, invalid,
+    } = this.props
     const fileList = get(document, 'content.files.DOCUMENT', [])
     return (
       <form

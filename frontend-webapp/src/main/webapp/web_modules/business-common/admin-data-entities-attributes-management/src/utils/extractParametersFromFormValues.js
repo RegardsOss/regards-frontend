@@ -106,8 +106,7 @@ const extractParametersFromFormValues = (formValues, modelAttributeList) => {
   forEach(formValues.properties, (fragmentValues, fragmentName) => {
     forEach(fragmentValues, (attrValue, attrName) => {
       const modelAttr = find(modelAttributeList, modelAttribute =>
-        modelAttribute.content.attribute.name === attrName && modelAttribute.content.attribute.fragment.name === fragmentName,
-      )
+        modelAttribute.content.attribute.name === attrName && modelAttribute.content.attribute.fragment.name === fragmentName)
       const fragment = modelAttr.content.attribute.fragment
       // Retrieve the value, depending of the modelAttr
       const attrValueSentToBack = getAttributeValue(attrValue, modelAttr)

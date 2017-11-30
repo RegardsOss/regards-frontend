@@ -240,8 +240,10 @@ function buildSimpleColumnWithCell(key, label, rowCellDefinition, order, visible
  * @return packed column model
  */
 function buildSimplePropertyColumn(key, label, propertyPath, order, visible, RenderConstructor, fixedWidth) {
-  return buildSimpleColumnWithCell(key, label, buildPropertiesRenderCell([{ path: propertyPath, RenderConstructor }]),
-    order, visible, fixedWidth)
+  return buildSimpleColumnWithCell(
+    key, label, buildPropertiesRenderCell([{ path: propertyPath, RenderConstructor }]),
+    order, visible, fixedWidth,
+  )
 }
 
 module.exports = {

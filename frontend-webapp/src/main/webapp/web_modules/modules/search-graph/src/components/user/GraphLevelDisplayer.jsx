@@ -18,7 +18,6 @@ import GraphLevelMessageDisplayer from './GraphLevelMessageDisplayer'
 * A collection content displayer: shows the collections and datasets within root collection
 */
 class GraphLevelDispayer extends React.Component {
-
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
     isShowable: PropTypes.bool.isRequired, // is showable in current state?
@@ -45,7 +44,9 @@ class GraphLevelDispayer extends React.Component {
   }
 
   render() {
-    const { graphDatasetAttributes, isShowable, isLoading, isLastLevel, hasError, collections, datasets, levelIndex } = this.props
+    const {
+      graphDatasetAttributes, isShowable, isLoading, isLastLevel, hasError, collections, datasets, levelIndex,
+    } = this.props
     const { user } = this.context.moduleTheme
     // note: is loading and has error are strictly exclusive (cannot be true at same time)
     const hasContent = size(collections) + size(datasets) > 0

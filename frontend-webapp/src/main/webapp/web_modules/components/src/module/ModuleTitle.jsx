@@ -24,7 +24,6 @@ import styles from './styles'
 * @author Raphaël Mechali
 */
 export class ModuleTitle extends React.Component {
-
   static propTypes = {
     IconConstructor: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,

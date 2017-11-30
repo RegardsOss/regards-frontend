@@ -31,7 +31,6 @@ const modulesSelectors = AccessProjectClient.ModuleSelectors()
  * The module to display is retrieved from the url from react-router /modules/moduleId
  */
 class DynamicContentContainer extends React.Component {
-
   /**
    * @type {{theme: string, content: React.Component}}
    */
@@ -60,7 +59,7 @@ class DynamicContentContainer extends React.Component {
       return (
         <LazyModuleComponent
           key={this.props.module.content.id}
-          appName={'user'}
+          appName="user"
           project={this.props.params.project}
           module={this.props.module.content}
         />
@@ -69,7 +68,6 @@ class DynamicContentContainer extends React.Component {
 
     return null
   }
-
 }
 
 const mapStateToProps = (state, ownProps) => ({

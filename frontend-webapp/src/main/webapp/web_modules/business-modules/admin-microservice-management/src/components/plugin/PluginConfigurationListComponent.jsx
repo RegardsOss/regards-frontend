@@ -20,6 +20,7 @@ import flow from 'lodash/flow'
 import fpfilter from 'lodash/fp/filter'
 import fpsortBy from 'lodash/fp/sortBy'
 import fpmap from 'lodash/fp/map'
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import Subheader from 'material-ui/Subheader'
@@ -27,9 +28,9 @@ import { CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
+import { ShowableAtRender, CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import PluginConfigurationContainer from './../../containers/plugin/PluginConfigurationContainer'
-import { pluginConfigurationActions } from '../../clients/PluginConfigurationClient'
+import { pluginConfigurationByTypeActions } from '../../clients/PluginConfigurationClient'
 import moduleStyles from '../../styles/styles'
 import messages from '../../i18n'
 
@@ -58,7 +59,7 @@ export default class PluginConfigurationListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static getCreateDependencies = microserviceName => [pluginConfigurationActions.getMsDependency(RequestVerbEnum.POST, microserviceName)]
+  static getCreateDependencies = microserviceName => [pluginConfigurationByTypeActions.getMsDependency(RequestVerbEnum.POST, microserviceName)]
 
   constructor(props, context) {
     super(props)
@@ -74,6 +75,8 @@ export default class PluginConfigurationListComponent extends React.Component {
       getBackURL,
     } = this.props
 
+    const { intl } = this.context
+
     const activeConfs = flow(
       fpfilter(pluginConfiguration => pluginConfiguration.content.active),
       fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
@@ -82,7 +85,8 @@ export default class PluginConfigurationListComponent extends React.Component {
         params={this.props.params}
         pluginConfiguration={pluginConfiguration}
         pluginMetaData={pluginMetaData}
-      />)))(pluginConfigurationList)
+      />)),
+    )(pluginConfigurationList)
 
     const inactiveConfs = flow(
       fpfilter(pluginConfiguration => !pluginConfiguration.content.active),
@@ -92,7 +96,8 @@ export default class PluginConfigurationListComponent extends React.Component {
         params={this.props.params}
         pluginConfiguration={pluginConfiguration}
         pluginMetaData={pluginMetaData}
-      />)))(pluginConfigurationList)
+      />)),
+    )(pluginConfigurationList)
 
     return (
       <I18nProvider messages={messages}>
@@ -109,6 +114,12 @@ export default class PluginConfigurationListComponent extends React.Component {
               <ShowableAtRender show={!!inactiveConfs.length}>
                 <Subheader>Inactive</Subheader>
                 {inactiveConfs}
+              </ShowableAtRender>
+              <ShowableAtRender show={!inactiveConfs.length && !activeConfs.length}>
+                <NoContentComponent
+                  title={intl.formatMessage({ id: 'microservice-management.plugin.configurations.empty' })}
+                  Icon={AddToPhotos}
+                />
               </ShowableAtRender>
             </div>
           </CardText>

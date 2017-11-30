@@ -42,7 +42,6 @@ const { required, string } = ValidationHelpers
  * @author Xavier-Alexandre Brochard
  */
 export class PluginParameterDynamicField extends React.Component {
-
   static propTypes = pluginParameterComponentPropTypes
 
   static contextTypes = {
@@ -60,7 +59,9 @@ export class PluginParameterDynamicField extends React.Component {
   }
 
   onRequestDelete = (dynamicvalueIndex) => {
-    const { reduxFormfieldNamePrefix, change, pluginMetaData, pluginParameterType: { name } } = this.props
+    const {
+      reduxFormfieldNamePrefix, change, pluginMetaData, pluginParameterType: { name },
+    } = this.props
     const { selectedValue, dynamicsValues } = this.state
     const removedValue = dynamicsValues.splice(dynamicvalueIndex, 1)[0]
     this.setState({ // Update the state for re-render
@@ -77,7 +78,9 @@ export class PluginParameterDynamicField extends React.Component {
   }
 
   onTouchTap = (dynamicvalueIndex) => {
-    const { reduxFormfieldNamePrefix, change, pluginMetaData, pluginParameterType: { name } } = this.props
+    const {
+      reduxFormfieldNamePrefix, change, pluginMetaData, pluginParameterType: { name },
+    } = this.props
     const { dynamicsValues, selectedValue } = this.state
     const newValue = dynamicsValues[dynamicvalueIndex].value
     // We clicked on currently selected value -> deselect it
@@ -99,7 +102,9 @@ export class PluginParameterDynamicField extends React.Component {
   onClose = () => this.setState({ open: false })
 
   onCreate = (value) => {
-    const { reduxFormfieldNamePrefix, change, pluginMetaData, pluginParameterType: { name } } = this.props
+    const {
+      reduxFormfieldNamePrefix, change, pluginMetaData, pluginParameterType: { name },
+    } = this.props
     const { dynamicsValues, selectedValue } = this.state
     const newDynamicValues = dynamicsValues.concat([value]) // concat returns the result array
     this.setState({ // Update state for re-render

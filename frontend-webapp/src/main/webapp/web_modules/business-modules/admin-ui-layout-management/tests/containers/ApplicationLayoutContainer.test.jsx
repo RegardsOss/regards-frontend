@@ -45,11 +45,9 @@ describe('[ADMIN UI LAYOUT MANAGEMENT] Testing Layout container', () => {
       fetchLayout: fetchLayoutCallBack,
       updateLayout: updateLayoutCallBack,
     }
-    const wrapper = shallow(
-      <ApplicationLayoutContainer
-        {...props}
-      />,
-    )
+    const wrapper = shallow(<ApplicationLayoutContainer
+      {...props}
+    />)
 
     assert.isTrue(fetchLayoutCallBack.calledOnce, 'Fetch layout entities should be called at container mount')
     assert.isTrue(wrapper.find(LoadableContentDisplayDecorator).length === 1, 'There should be a LoadableContentDisplayDecorator displayed')

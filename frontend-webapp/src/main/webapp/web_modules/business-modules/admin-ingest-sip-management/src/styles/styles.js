@@ -21,53 +21,38 @@ const sipManagementStyles = theme => ({
     errorColor: theme['forms-extension:validation'].errorColor,
     validColor: theme['forms-extension:validation'].validColor,
   },
-  sip: {
-    filter: {
-      lineStyle: {
+  filter: {
+    fieldStyle: {
+      width: '190px',
+      margin: '0px 10px',
+    },
+    dateStyle: {
+      width: '120px',
+      margin: '0px 10px',
+    },
+  },
+  session: {
+    error: {
+      rowColumnStyle: {
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: '80%',
       },
-      fieldStyle: {
-        top: -18,
-        width: 190,
-        margin: '0px 10px',
+      iconContainerStyle: {
+        width: '25%',
       },
-      dateStyle: {
-        width: '120px',
-        margin: '0px 10px',
+      textStyle: {
+        width: '75%',
       },
-      checkboxStyle: {
-        width: 200,
-      },
-    },
-    list: {
-      sipDetailsStyle: {
-        height: 300,
-        width: '100%',
-      },
-      aipDialog: {
-        marginBottom: 15,
+      iconStyle: {
+        color: '#f44336',
       },
     },
-    session: {
-      error: {
-        rowColumnStyle: {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          width: '80%',
-        },
-        iconContainerStyle: {
-          width: '25%',
-        },
-        textStyle: {
-          width: '75%',
-        },
-        iconStyle: {
-          color: '#f44336',
-        },
-      },
-    },
+  },
+  sipDetailsStyle: {
+    height: '300px',
+    width: '100%',
   },
 })
 

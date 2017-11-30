@@ -24,7 +24,6 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  * @author Léo Mieulet
  */
 export default class AccessRightActions extends BasicPageableActions {
-
   /**
    * Construtor
    * @param namespace

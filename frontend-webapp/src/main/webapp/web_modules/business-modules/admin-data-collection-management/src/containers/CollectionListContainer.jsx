@@ -29,7 +29,6 @@ import messages from '../i18n'
  * Show the collection list
  */
 export class CollectionListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

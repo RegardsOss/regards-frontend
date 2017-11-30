@@ -6,7 +6,7 @@ import { TagTypes } from '@regardsoss/domain/catalog'
 import { Tag } from '../../../src/models/navigation/Tag'
 import navigationContextActions from '../../../src/models/navigation/NavigationContextActions'
 import reduce, { DEFAULT_STATE } from '../../../src/models/navigation/NavigationContextReducer'
-import DisplayModeEnum from '../../../src/models/navigation/DisplayModeEnum'
+import TableDisplayModeEnum from '../../../src/models/navigation/TableDisplayModeEnum'
 
 
 describe('[Search Results] Test navigation context reducer', () => {
@@ -23,10 +23,10 @@ describe('[Search Results] Test navigation context reducer', () => {
   it('should reduce initialization from URL parameters to navigation context and levels', () => {
     // 1 - without any optional information
     let currentState = DEFAULT_STATE
-    let reduced = reduce(currentState, navigationContextActions.initialize('aType', DisplayModeEnum.LIST))
+    let reduced = reduce(currentState, navigationContextActions.initialize('aType', TableDisplayModeEnum.LIST))
     let expected = {
       viewObjectType: 'aType',
-      displayMode: DisplayModeEnum.LIST,
+      displayMode: TableDisplayModeEnum.LIST,
       levels: [],
     }
     assert.deepEqual(reduced, expected, 'Initialization should be correctly reduced without optional parameters')
@@ -37,10 +37,10 @@ describe('[Search Results] Test navigation context reducer', () => {
       new Tag(TagTypes.DATASET, 'label1', 'URN:ip1'),
       new Tag(TagTypes.WORD, 'fries', 'fries'),
     ]
-    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', DisplayModeEnum.LIST, tags))
+    reduced = reduce(currentState, navigationContextActions.initialize('anotherType', TableDisplayModeEnum.LIST, tags))
     expected = {
       viewObjectType: 'anotherType',
-      displayMode: DisplayModeEnum.LIST,
+      displayMode: TableDisplayModeEnum.LIST,
       levels: tags,
     }
 

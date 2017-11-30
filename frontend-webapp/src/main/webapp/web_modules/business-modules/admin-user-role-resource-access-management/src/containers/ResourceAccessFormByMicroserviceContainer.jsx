@@ -32,7 +32,6 @@ import ResourceAccessModalOverviewComponent from '../components/ResourceAccessMo
  * current role
  */
 export class ResourceAccessFormByMicroserviceContainer extends React.Component {
-
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
     currentRole: AdminShapes.Role,
@@ -66,8 +65,7 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
     Promise.resolve(this.props.fetchControllerList(this.props.microserviceName)).then(() =>
       this.setState({
         controllersLoading: false,
-      }),
-    )
+      }))
   }
 
   handleOpenController = (controllerName) => {
@@ -100,8 +98,10 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   }
 
   render() {
-    const { currentRole, roleResources, microserviceName, resourceList, getResource, controllerList,
-      editRoleResources, resourceRoles } = this.props
+    const {
+      currentRole, roleResources, microserviceName, resourceList, getResource, controllerList,
+      editRoleResources, resourceRoles,
+    } = this.props
     const { modalResourceAccessId, isModalOpen } = this.state
 
     const resource = modalResourceAccessId ? getResource(modalResourceAccessId) : {}

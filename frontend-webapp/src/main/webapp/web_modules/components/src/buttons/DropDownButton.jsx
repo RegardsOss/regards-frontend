@@ -12,7 +12,6 @@ import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
  * WORKAROUND - remove when MUI handles submenus correctly!
  */
 class DropDownButton extends React.Component {
-
   static propTypes = {
     ButtonConstructor: PropTypes.func.isRequired,
     getLabel: PropTypes.func.isRequired, // Generates label: (current value (optional)) => string
@@ -122,7 +121,9 @@ class DropDownButton extends React.Component {
   }
 
   render() {
-    const { ButtonConstructor, getLabel, children, disabled, hasSubMenus, ...otherButtonProperties } = this.props
+    const {
+      ButtonConstructor, getLabel, children, disabled, hasSubMenus, ...otherButtonProperties
+    } = this.props
     const { value, menuVisibleOn } = this.state
     const iconAnchor = { horizontal: 'left', vertical: 'bottom' }
     const iconTarget = { horizontal: 'left', vertical: 'top' }

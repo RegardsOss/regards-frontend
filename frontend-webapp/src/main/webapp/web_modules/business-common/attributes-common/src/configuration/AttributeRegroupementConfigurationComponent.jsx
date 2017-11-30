@@ -34,7 +34,6 @@ import AttributeRegroupementComponent from './AttributeRegroupementComponent'
  * @author Sébastien binda
  */
 class AttributeRegroupementConfigurationComponent extends React.Component {
-
   static propTypes = {
     // Available Attributes for configuration
     selectableAttributes: DataManagementShapes.AttributeModelList.isRequired,
@@ -47,15 +46,11 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      editingRegroupement: null,
-      newAttributeRegrpDialogOpened: false,
-      deleteDialogOpened: false,
-      regroupementToDelete: null,
-    }
+  state = {
+    editingRegroupement: null,
+    newAttributeRegrpDialogOpened: false,
+    deleteDialogOpened: false,
+    regroupementToDelete: null,
   }
 
   /**

@@ -12,7 +12,6 @@ import ItemLink from './ItemLink'
 * Displays a collection
 */
 class CollectionItem extends React.Component {
-
   static propTypes = {
     collection: CatalogShapes.Entity.isRequired,
     expensible: PropTypes.bool.isRequired,
@@ -42,7 +41,9 @@ class CollectionItem extends React.Component {
   }
 
   render() {
-    const { collection, expensible, selected, onSelect } = this.props
+    const {
+      collection, expensible, selected, onSelect,
+    } = this.props
     const { arrowStyles } = this.state
     const { moduleTheme: { user: { collectionItem } } } = this.context
     return (

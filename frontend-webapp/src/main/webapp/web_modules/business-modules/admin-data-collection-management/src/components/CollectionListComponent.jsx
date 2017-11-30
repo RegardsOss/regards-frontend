@@ -40,7 +40,6 @@ const actionsBreakpoints = [940, 995, 1065]
  * React component to list collections.
  */
 export class CollectionListComponent extends React.Component {
-
   static propTypes = {
     collectionList: DataManagementShapes.CollectionList,
     handleDelete: PropTypes.func.isRequired,
@@ -97,7 +96,9 @@ export class CollectionListComponent extends React.Component {
 
 
   render() {
-    const { collectionList, handleEdit, handleDuplicate, createUrl, backUrl } = this.props
+    const {
+      collectionList, handleEdit, handleDuplicate, createUrl, backUrl,
+    } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

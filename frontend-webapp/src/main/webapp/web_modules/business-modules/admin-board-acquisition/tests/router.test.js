@@ -23,6 +23,7 @@ import { datasourceDataManagementRouter } from '@regardsoss/admin-data-datasourc
 import { documentDataManagementRouter } from '@regardsoss/admin-data-document-management'
 import { processingChainManagementRouter } from '@regardsoss/admin-ingest-processing-chain-management'
 import { sipManagementRouter } from '@regardsoss/admin-ingest-sip-management'
+import { storageManagementRouter } from '@regardsoss/admin-storage-management'
 import Routes from '../src/router'
 import ModuleContainer from '../src/components/ModuleContainer'
 
@@ -32,13 +33,14 @@ describe('[ADMIN BOARD Acquisition] Testing acquisition board router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(6)
+    expect(Routes.childRoutes).to.have.length(7)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq('chain')
     expect(Routes.childRoutes[2].path).to.eq('sip')
     expect(Routes.childRoutes[3].path).to.eq('document')
     expect(Routes.childRoutes[4].path).to.eq('datasource')
     expect(Routes.childRoutes[5].path).to.eq('connection')
+    expect(Routes.childRoutes[6].path).to.eq('storage')
   })
 
 
@@ -75,6 +77,12 @@ describe('[ADMIN BOARD Acquisition] Testing acquisition board router', () => {
   it('should return connectionDataManagementRouter', (done) => {
     Routes.childRoutes[5].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(connectionDataManagementRouter)
+      done()
+    })
+  })
+  it('should return storageManagementRouter', (done) => {
+    Routes.childRoutes[6].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(storageManagementRouter)
       done()
     })
   })

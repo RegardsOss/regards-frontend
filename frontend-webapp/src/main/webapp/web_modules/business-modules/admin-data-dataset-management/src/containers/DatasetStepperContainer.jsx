@@ -41,7 +41,6 @@ const STEPS_ID = {
   UI_SERVICES: 4,
 }
 export class DatasetStepperContainer extends React.Component {
-
   static propTypes = {
     stepIndex: PropTypes.number.isRequired,
     isEditing: PropTypes.bool,

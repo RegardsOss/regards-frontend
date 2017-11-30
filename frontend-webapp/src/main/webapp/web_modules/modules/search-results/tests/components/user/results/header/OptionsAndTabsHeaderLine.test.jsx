@@ -22,9 +22,10 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
 import { TableSortOrders } from '@regardsoss/components'
 import { selectors as searchSelectors } from '../../../../../src/clients/SearchEntitiesClient'
-import DisplayModeEnum from '../../../../../src/models/navigation/DisplayModeEnum'
+import TableDisplayModeEnum from '../../../../../src/models/navigation/TableDisplayModeEnum'
 import OptionsAndTabsHeaderLine from '../../../../../src/components/user/results/header/OptionsAndTabsHeaderLine'
 import styles from '../../../../../src/styles/styles'
+import { DISPLAY_MODE_ENUM } from '../../../../../src/definitions/DisplayModeEnum'
 
 const context = buildTestContext(styles)
 
@@ -52,9 +53,9 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
         sortOrder: TableSortOrders.NO_SORT,
         order: 0,
       }],
-      displayDatasets: true,
+      displayMode: DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA, // current view object type
-      viewMode: DisplayModeEnum.LIST, // current mode
+      tableViewMode: TableDisplayModeEnum.LIST, // current mode
       searchSelectors,
       tableColumns: [{
         key: 'some.model',

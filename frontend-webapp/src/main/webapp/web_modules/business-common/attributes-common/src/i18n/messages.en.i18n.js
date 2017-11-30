@@ -22,7 +22,6 @@
 * @author Raphaël Mechali
 */
 const messages = {
-  'attribute.render.download.title': 'Download',
   'attribute.thumbnail.alt': 'No thumbnail',
 }
 

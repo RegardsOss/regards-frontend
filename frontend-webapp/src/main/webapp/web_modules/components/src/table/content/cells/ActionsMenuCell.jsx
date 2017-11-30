@@ -41,7 +41,6 @@ const iconAnchor = { horizontal: 'right', vertical: 'top' }
  * @author Xavier-Alexandre Brochard
  */
 class ActionsMenuCell extends React.Component {
-
   state = {
     open: false,
   }

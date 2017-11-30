@@ -36,7 +36,6 @@ import CollectionStepperComponent from './CollectionStepperComponent'
  * React component to list collections that can be linked them to the current document.
  */
 export class CollectionEditLinksComponent extends React.Component {
-
   static propTypes = {
     linkedCollections: DataManagementShapes.CollectionArray,
     remainingCollections: DataManagementShapes.CollectionArray,
@@ -54,7 +53,9 @@ export class CollectionEditLinksComponent extends React.Component {
 
 
   render() {
-    const { linkedCollections, remainingCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl } = this.props
+    const {
+      linkedCollections, remainingCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl,
+    } = this.props
     return (
       <Card>
         <CardTitle

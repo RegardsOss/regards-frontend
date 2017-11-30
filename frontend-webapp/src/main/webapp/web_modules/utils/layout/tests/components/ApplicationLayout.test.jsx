@@ -38,23 +38,25 @@ describe('[LAYOUT] Testing Application layout ', () => {
   it('Should render correctly an application layout Container with ApplicationLayout', () => {
     const wrapper = shallow(
       <Container
-        appName={'testApp'}
-        project={'test'}
+        appName="testApp"
+        project="test"
         container={testLayout}
       />
-      , { context })
+      , { context },
+    )
 
     expect(wrapper.find('.mainapp')).to.have.length(1)
     expect(wrapper.find(Container)).to.have.length(3)
 
     const wrapper2 = shallow(
       <Container
-        appName={'testApp'}
-        project={'test'}
+        appName="testApp"
+        project="test"
         container={testLayout.containers[1]}
         modules={testModules}
       />
-      , { context })
+      , { context },
+    )
 
     expect(wrapper2.find('.row')).to.have.length(1)
     expect(wrapper2.find('.header')).to.have.length(0)
@@ -65,11 +67,12 @@ describe('[LAYOUT] Testing Application layout ', () => {
   it('Should render correctly an application layout factory with ApplicationLayout', () => {
     const wrapper = shallow(
       <ApplicationLayout
-        appName={'testApp'}
-        project={'test'}
+        appName="testApp"
+        project="test"
         layout={testLayout}
       />,
-      { context })
+      { context },
+    )
 
     expect(wrapper.find(Container)).to.have.length(1)
   })

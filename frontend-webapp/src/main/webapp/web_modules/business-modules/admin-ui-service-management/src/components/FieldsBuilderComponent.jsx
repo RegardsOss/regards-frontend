@@ -26,7 +26,6 @@ import { BooleanParameterField, DateParameterField, TextParameterField } from '@
 * @author Raphaël Mechali
 */
 class FieldBuilderComponent extends React.Component {
-
   /**
    * Used by parent container to retrieve and sort the parameters types
    */

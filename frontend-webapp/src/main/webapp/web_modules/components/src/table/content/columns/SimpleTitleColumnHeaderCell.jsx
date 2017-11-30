@@ -22,7 +22,6 @@
  * @author Raphaël Mechali
  */
 class SimpleTitleColumnHeaderCell extends React.Component {
-
   static propTypes = {
     label: PropTypes.string.isRequired,
   }

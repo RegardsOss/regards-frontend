@@ -26,7 +26,6 @@ const { CALL_API, getJSON } = require('redux-api-middleware')
  *  @author Léo Mieulet
  */
 class BasicArrayActions extends BasicActions {
-
   constructor(options) {
     super(options)
     this.namespace = options.namespace
@@ -81,8 +80,6 @@ class BasicArrayActions extends BasicActions {
       },
     }
   }
-
-
 }
 
 

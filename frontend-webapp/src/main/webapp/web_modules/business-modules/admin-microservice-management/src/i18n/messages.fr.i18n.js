@@ -82,6 +82,8 @@ const messages = Object.assign({
   'microservice-management.plugin.parameter.plugin.choose': 'Choisir un plugin',
   'microservice-management.plugin.parameter.plugin.empty.menu.item': 'Aucun',
 
+  'microservice-management.plugin.configurations.empty': 'Aucune configuration définie',
+
 }, Locales.fr)
 
 export default messages

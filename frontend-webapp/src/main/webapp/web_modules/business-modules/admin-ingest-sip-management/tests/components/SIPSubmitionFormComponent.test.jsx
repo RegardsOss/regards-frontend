@@ -41,6 +41,7 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPSubmitionFormComponent', () =
       submitSips: () => new Promise(() => { }),
       onBack: () => new Promise(() => { }),
       isError: false,
+      isLoading: false,
       handleSubmit: () => new Promise(() => { }),
     }
     const enzymeWrapper = shallow(<SIPSubmitionFormComponent {...props} />, { context })

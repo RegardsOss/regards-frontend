@@ -26,7 +26,6 @@ import { ShowableAtRender } from '@regardsoss/components'
 * @author Raphaël Mechali
 */
 class ToggleDatasetDetails extends React.Component {
-
   static propTypes = {
     datasetAttributesVisible: PropTypes.bool.isRequired, // are dataset attributes currently visible
     areDatasetAttributesAvailable: PropTypes.bool.isRequired, // are dataset attributes available

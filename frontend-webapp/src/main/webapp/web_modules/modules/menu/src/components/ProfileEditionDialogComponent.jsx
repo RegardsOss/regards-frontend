@@ -11,7 +11,6 @@ import ProfileEditionFormComponent from './ProfileEditionFormComponent'
 * Note that this component is always visible when mounted (the container unmounts it when it is not visible)
 */
 class ProfileEditionDialogComponent extends React.Component {
-
   static propTypes = {
     userMetadata: MetadataList.isRequired,
     onHideDialog: PropTypes.func.isRequired,

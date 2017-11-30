@@ -27,7 +27,6 @@ import LoadingDisplayerComponent from '../../LoadingDisplayerComponent'
  * Attributes view component
  */
 class AttributesComponent extends React.Component {
-
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     // entity attributes, empty array allowed
@@ -77,13 +76,15 @@ class AttributesComponent extends React.Component {
               return (
                 <div style={attributesContainer.rootStyle} >
                   { // map every attribute to a table row layout
-                    attributes.map(({ id, label, Renderer, renderValue }) => (
-                      <div key={id} style={attributesContainer.rowStyle}>
-                        <div style={attributesContainer.labelStyle}>{label}</div>
-                        <div style={attributesContainer.valueStyle}>
-                          <Renderer value={renderValue} />
-                        </div>
-                      </div>))
+                    attributes.map(({
+ id, label, Renderer, renderValue,
+}) => (
+  <div key={id} style={attributesContainer.rowStyle}>
+    <div style={attributesContainer.labelStyle}>{label}</div>
+    <div style={attributesContainer.valueStyle}>
+      <Renderer value={renderValue} />
+    </div>
+  </div>))
                   }
                 </div>
               )

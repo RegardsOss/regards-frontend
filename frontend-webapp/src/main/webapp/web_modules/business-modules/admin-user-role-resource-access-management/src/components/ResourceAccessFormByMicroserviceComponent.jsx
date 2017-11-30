@@ -38,7 +38,6 @@ const HateoasToggle = withHateoasDisplayControl(Toggle)
  * current role
  */
 export class ResourceAccessFormByMicroserviceComponent extends React.Component {
-
   static propTypes = {
     roleResources: AdminShapes.ResourceArray,
     controllerList: PropTypes.arrayOf(PropTypes.string),
@@ -203,7 +202,8 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     const { isControllerOpen } = this.state
     const items = resourceListFetching ? [<ListItem
       key={1}
-    ><LoadingComponent /></ListItem>] : this.getResourceListItems()
+    ><LoadingComponent />
+    </ListItem>] : this.getResourceListItems()
 
     return (
       <List>

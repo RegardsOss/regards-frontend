@@ -44,7 +44,6 @@ import messages from '../i18n'
  * @author Sébastien Binda
  */
 class Container extends React.Component {
-
   static defaultProps = {
     configurationMode: false,
     mainContainer: false,
@@ -150,8 +149,8 @@ class Container extends React.Component {
               pluginProps={this.props.pluginProps}
               displayPlugin
             />
-          </Paper>),
-        ))(this.props.plugins)
+          </Paper>)),
+      )(this.props.plugins)
     }
     return []
   }

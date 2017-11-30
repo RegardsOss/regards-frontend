@@ -23,7 +23,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Raphaël Mechali
  */
 export class TableHeaderLine extends React.Component {
-
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),

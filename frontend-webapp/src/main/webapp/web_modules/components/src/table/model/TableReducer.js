@@ -26,7 +26,6 @@ export const DEFAULT_STATE = {
 }
 
 class TableReducer {
-
   constructor(namespace) {
     this.tableActions = new TableActions(namespace)
   }
@@ -55,7 +54,6 @@ class TableReducer {
         return state
     }
   }
-
 }
 
 export default (namespace) => {

@@ -36,7 +36,6 @@ const IconButtonConstructorWrapper = props => (
  * @author Raphaël Mechali
  */
 class OneElementServicesComponent extends React.Component {
-
   static propTypes = {
     services: AccessShapes.PluginServiceWithContentArray,
     onServiceStarted: PropTypes.func.isRequired, // (service) => ()

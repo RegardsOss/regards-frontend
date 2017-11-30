@@ -25,7 +25,6 @@ import ProjectAboutPageLinkComponent from '../components/ProjectAboutPageLinkCom
 * @author Raphaël Mechali
 */
 export class ProjectAboutPageLinkContainer extends React.Component {
-
   static propTypes = {
     // CONTEXT: app name
     appName: PropTypes.string.isRequired,

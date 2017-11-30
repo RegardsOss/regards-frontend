@@ -36,7 +36,6 @@ const requiredStringValidator = [string, required]
 const requiredNumberValidator = [number, required]
 
 export class PluginConfigurationComponent extends React.Component {
-
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // Name of the microservice of the plugin
     pluginMetaData: CommonShapes.PluginMetaDataContent.isRequired, // PluginMetadata used to configure new plugin configuration
@@ -296,7 +295,9 @@ export class PluginConfigurationComponent extends React.Component {
   }
 
   renderParameters = () => {
-    const { pluginMetaData, pluginConfiguration, reduxFormChange, formMode } = this.props
+    const {
+      pluginMetaData, pluginConfiguration, reduxFormChange, formMode,
+    } = this.props
     const parameters = get(pluginMetaData, 'parameters', [])
     if (parameters.length === 0) {
       return null

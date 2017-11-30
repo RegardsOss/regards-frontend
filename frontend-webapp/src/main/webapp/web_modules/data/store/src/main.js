@@ -21,4 +21,6 @@ import preloadedState from './preloadedState'
 import getReducerRegistry from './ReducerRegistry'
 import configureReducers from './configureReducers'
 
-module.exports = { configureStore, configureReducers, preloadedState, getReducerRegistry }
+module.exports = {
+  configureStore, configureReducers, preloadedState, getReducerRegistry,
+}

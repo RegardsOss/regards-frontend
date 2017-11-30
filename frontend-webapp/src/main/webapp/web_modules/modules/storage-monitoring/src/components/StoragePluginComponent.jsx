@@ -29,7 +29,6 @@ import PhysicalStorageChartComponent, { PhysicalStorageShape } from './PhysicalS
  * Displays storage plugin capacity information
  */
 class StoragePluginComponent extends React.Component {
-
   static propTypes = {
     label: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
@@ -59,7 +58,9 @@ class StoragePluginComponent extends React.Component {
   onRowSelection = ([firstRowIndex]) => this.props.onStorageRowSelected(firstRowIndex)
 
   render() {
-    const { label, description, storageInfo, selectedStorageIndex } = this.props
+    const {
+      label, description, storageInfo, selectedStorageIndex,
+    } = this.props
     const { moduleTheme: { user: { pluginCard } } } = this.context
     const selectedStorage = !isNil(selectedStorageIndex) ? storageInfo[selectedStorageIndex] : null
 
@@ -94,7 +95,9 @@ class StoragePluginComponent extends React.Component {
               </TableHeader>
               <TableBody showRowHover displayRowCheckbox={false} deselectOnClickaway={false}>
                 {
-                  storageInfo.map(({ storagePhysicalId, totalSize, usedSize, unusedSize }, index) =>
+                  storageInfo.map(({
+ storagePhysicalId, totalSize, usedSize, unusedSize,
+}, index) =>
                     (<TableRow style={pluginCard.media.table.row} key={storagePhysicalId} selected={index === selectedStorageIndex}>
                       <TableRowColumn title={storagePhysicalId} style={pluginCard.media.table.cell}>
                         {storagePhysicalId}
@@ -108,8 +111,7 @@ class StoragePluginComponent extends React.Component {
                       <TableRowColumn style={pluginCard.media.table.cell}>
                         <storage.FormattedStorageCapacity capacity={unusedSize} />
                       </TableRowColumn>
-                    </TableRow>),
-                  )}
+                    </TableRow>))}
               </TableBody>
             </Table>
           </div>

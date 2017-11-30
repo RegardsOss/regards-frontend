@@ -27,6 +27,8 @@ const messages = {
   'description.breadcrumb.root': 'Description: {entityLabel}',
   'entities.common.properties.tabs': 'Propriétés',
   'entities.common.description.tabs': 'Description',
+  'entities.common.files.tabs': 'Fichiers',
+  'entities.common.file.subheader': 'Cliquez sur un des fichiers ci-dessous pour le télécharger',
   'entities.common.close.button': 'Fermer',
   'entities.common.properties.attributes': 'Attributs',
   'entities.common.properties.loading.attributes': 'Chargement des attributs',
@@ -40,6 +42,8 @@ const messages = {
   'entities.common.description.loading': 'Chargement de la description',
   'entities.common.description.no.value.title': 'Aucune description',
   'entities.common.description.no.value.message': 'Cette entité n\'a pas de description',
+  'entities.common.document.files.no.value.title': 'Aucun fichier',
+  'entities.common.document.files.no.value.message': 'Ce document n\'a pas de fichiers joints',
 
   // services
   'entities.common.services.error.title': 'Erreur de service',

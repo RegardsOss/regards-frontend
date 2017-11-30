@@ -32,7 +32,6 @@ import { pluginConfigurationByTypeActions } from '../../clients/PluginConfigurat
  * @author Xavier-Alexandre Brochard
  */
 export class PluginConfigurationContainer extends React.Component {
-
   static propTypes = {
     // from parent or router
     params: PropTypes.shape({
@@ -118,8 +117,7 @@ export class PluginConfigurationContainer extends React.Component {
 
   render() {
     const { pluginConfiguration, pluginMetaData, params: { microserviceName } } = this.props
-    const deleteTitle = this.context.intl.formatMessage(
-      { id: 'microservice-management.plugin.configuration.delete.confirmation.title' }, { name: pluginConfiguration ? pluginConfiguration.content.label : '' })
+    const deleteTitle = this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.delete.confirmation.title' }, { name: pluginConfiguration ? pluginConfiguration.content.label : '' })
     const deleteDialogActions = [
       <FlatButton
         key="cancel"

@@ -24,7 +24,7 @@ import { UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray 
 import RuntimeConfiguration from './UIPlugin/RuntimeConfiguration'
 import RuntimeTarget from './UIPlugin/RuntimeTarget'
 
-import { AttributeConfigurationContent, AttributeConfigurationArray } from './AttributeConfigurationContent'
+import { AttributeConfigurationContent, AttributeConfigurationArray, AttributeConfigurationList } from './AttributeConfigurationContent'
 import { AttributesGroupConfigurationContent, AttributesGroupConfigurationArray } from './AttributesGroupConfigurationContent'
 import { AttributePresentationModel, AttributePresentationModelArray } from './AttributePresentationModelShape'
 import ContainerContent from './ContainerContent'
@@ -51,6 +51,7 @@ module.exports = {
 
   AttributeConfigurationArray,
   AttributeConfigurationContent,
+  AttributeConfigurationList,
   AttributesGroupConfigurationContent,
   AttributesGroupConfigurationArray,
 

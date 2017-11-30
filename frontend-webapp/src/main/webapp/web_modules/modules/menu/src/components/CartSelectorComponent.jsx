@@ -28,7 +28,6 @@ import { ShowableAtRender } from '@regardsoss/components'
 * @author Raphaël Mechali
 */
 class CartSelectorComponent extends React.Component {
-
   static propTypes = {
     // number of nofications
     objectsCount: PropTypes.number.isRequired,

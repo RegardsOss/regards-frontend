@@ -28,7 +28,6 @@ class LayoutsReducer extends BasicPageableReducers {
   constructor() {
     super(LayoutConfiguration, LayoutActions)
   }
-
 }
 
 const instance = new LayoutsReducer()

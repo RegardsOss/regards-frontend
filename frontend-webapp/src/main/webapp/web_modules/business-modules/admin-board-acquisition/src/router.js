@@ -76,6 +76,16 @@ export const connectionManagementRouter = {
   },
 }
 
+export const storageManagementRouter = {
+  path: 'storage',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const storageManagement = require('@regardsoss/admin-storage-management')
+      cb(null, [storageManagement.storageManagementRouter])
+    })
+  },
+}
+
 const acquisitionRouter = {
   childRoutes: [
     boardRoute,
@@ -84,6 +94,7 @@ const acquisitionRouter = {
     documentManagementRouter,
     datasourceManagementRouter,
     connectionManagementRouter,
+    storageManagementRouter,
   ],
 }
 

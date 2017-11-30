@@ -24,7 +24,6 @@ import { DownloadFileActions } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 export default class CatalogPluginServiceResultActions extends DownloadFileActions {
-
   /**
    * Construtor
    * @param namespace -
@@ -48,5 +47,4 @@ export default class CatalogPluginServiceResultActions extends DownloadFileActio
   fetchResult(pluginConfigurationId, dynamicParameters, targetParams) {
     return this.download({ pluginConfigurationId }, null, 'POST', { dynamicParameters, ...targetParams })
   }
-
 }

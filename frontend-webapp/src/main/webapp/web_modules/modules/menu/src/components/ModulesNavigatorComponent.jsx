@@ -27,7 +27,6 @@ import { ModuleListContainer } from '@regardsoss/modules'
 * @author Raphaël Mechali
 */
 class ModulesNavigatorComponent extends React.Component {
-
   static propTypes = {
     // project name: When in this component, we are necessary in user app and therefore we MUST have a project name
     project: PropTypes.string.isRequired,

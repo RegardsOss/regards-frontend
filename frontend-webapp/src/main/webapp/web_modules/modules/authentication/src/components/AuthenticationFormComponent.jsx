@@ -36,7 +36,6 @@ const requiredEmailValidator = [ValidationHelpers.required, ValidationHelpers.em
  * React components for login form
  */
 export class AuthenticationFormComponent extends React.Component {
-
   static propTypes = {
 
     // initial mail value
@@ -172,9 +171,7 @@ const connectedReduxForm = reduxForm({
 
 // connect with selector to select the last mail value
 const selector = formValueSelector(formId)
-export default connect(
-  state => ({
-    currentMailValue: selector(state, mailFieldId),
-  }),
-)(connectedReduxForm)
+export default connect(state => ({
+  currentMailValue: selector(state, mailFieldId),
+}))(connectedReduxForm)
 

@@ -41,7 +41,6 @@ const smallIconStyle = {
  * @author Xavier-Alexandre Brochard
  */
 class DynamicContentField extends React.Component {
-
   static propTypes = {
     change: PropTypes.func.isRequired,
   }

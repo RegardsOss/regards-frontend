@@ -27,7 +27,6 @@ import { StorageUnits } from './StorageUnit'
 * @author Raphaël Mechali
 */
 export class FormattedStorageCapacity extends React.Component {
-
   static propTypes = {
     capacity: StorageCapacityShape,
   }
@@ -62,8 +61,10 @@ export class FormattedStorageCapacity extends React.Component {
       // unit
       const unitLabel = formatMessage({ id: capacity.unit.messageKey })
       // value: when bytes or bits, format without digits
-      const valueLabel = formatNumber(capacity.value,
-        FormattedStorageCapacity.SMALL_UNITS.includes(capacity.unit.symbol) ? FormattedStorageCapacity.SMALL_UNITS : FormattedStorageCapacity.BIG_UNITS_FORMAT_OPTIONS)
+      const valueLabel = formatNumber(
+        capacity.value,
+        FormattedStorageCapacity.SMALL_UNITS.includes(capacity.unit.symbol) ? FormattedStorageCapacity.SMALL_UNITS : FormattedStorageCapacity.BIG_UNITS_FORMAT_OPTIONS,
+      )
       formatProperties.values = { valueLabel, unitLabel }
     }
     return (

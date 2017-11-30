@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ModuleComponent from '../../../src/components/user/ModuleComponent'
 import styles from '../../../src/styles/styles'
+import { DISPLAY_MODE_VALUES } from '../../../src/definitions/DisplayModeEnum'
 
 const context = buildTestContext(styles)
 
@@ -37,7 +38,8 @@ describe('[Search Results] Testing ModuleComponent', () => {
       project: 'say-hello',
       searchQuery: 'kikikisonlessnorki?',
       enableFacettes: true,
-      displayDatasets: true,
+      enableDownload: true,
+      displayMode: DISPLAY_MODE_VALUES.DISPLAY_DATA_DATASET,
       facettesQuery: '',
       initialDatasetIpId: 'URN:DATASET:8',
       attributesConf: [],

@@ -28,7 +28,6 @@ import { getFormattedRange } from './RangeValueRender'
  * @author Sébastien binda
  */
 class DateRangeValueRender extends React.Component {
-
   static propTypes = {
     value: PropTypes.shape({
       lowerBound: PropTypes.string,

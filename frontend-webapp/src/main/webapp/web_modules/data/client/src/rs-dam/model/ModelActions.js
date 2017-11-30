@@ -25,7 +25,6 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * @author Léo Mieulet
  */
 export default class ModelActions extends BasicListActions {
-
   /**
    * Construtor
    * @param namespace

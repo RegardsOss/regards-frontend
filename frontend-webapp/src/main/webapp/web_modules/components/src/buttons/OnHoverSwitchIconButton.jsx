@@ -27,7 +27,6 @@ import mapValues from 'lodash/mapValues'
  * The first value will be used as default and the second will be used on button hover.
  */
 class OnHoverSwitchIconButton extends React.Component {
-
   static propTypes = {
     children: PropTypes.element,
     onTouchTap: PropTypes.arrayOf(PropTypes.func),

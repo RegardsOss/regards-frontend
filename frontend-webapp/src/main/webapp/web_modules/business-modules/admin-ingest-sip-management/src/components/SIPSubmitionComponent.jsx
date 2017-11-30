@@ -29,7 +29,6 @@ import styles from '../styles'
 * @author Sébastien Binda
 */
 export class SIPSubmitionComponent extends React.Component {
-
   static propTypes = {
     sip: IngestShapes.SIPSubmited,
   }

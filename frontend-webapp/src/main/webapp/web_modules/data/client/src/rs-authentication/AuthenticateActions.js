@@ -22,7 +22,6 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 const SPECIFIC_ENDPOINT_MARKER = 'oauth/token'
 
 export default class AuthenticateActions extends BasicSignalActions {
-
   /**
    * Constructor
    */
@@ -70,7 +69,6 @@ export default class AuthenticateActions extends BasicSignalActions {
       result,
     }
   }
-
 }
 export {
   SPECIFIC_ENDPOINT_MARKER,

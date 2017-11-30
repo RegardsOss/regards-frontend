@@ -40,7 +40,6 @@ import ProjectConnectionFormComponent from './ProjectConnectionFormComponent'
  * @author Sébastien Binda
  */
 class GuidedProjectConfigurationComponent extends React.Component {
-
   static propTypes = {
     project: AdminShapes.Project.isRequired,
     projectConnections: AdminShapes.ProjectConnectionList.isRequired,

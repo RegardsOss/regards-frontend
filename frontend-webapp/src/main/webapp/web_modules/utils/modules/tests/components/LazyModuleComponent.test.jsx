@@ -41,12 +41,11 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
       type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
       active: true,
     }
-    const wrapper = shallow(
-      <LazyModuleComponent
-        appName={'testApp'}
-        project={'test'}
-        module={module}
-        onLoadAction={
+    const wrapper = shallow(<LazyModuleComponent
+      appName="testApp"
+      project="test"
+      module={module}
+      onLoadAction={
           () => {
             try {
               wrapper.update()
@@ -59,7 +58,7 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
             }
           }
         }
-      />, { context, lifecycleExperimental: true })
+    />, { context, lifecycleExperimental: true })
   }).timeout(60000)
 
   it('Should not render a disabled module', (done) => {
@@ -67,12 +66,11 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
       type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
       active: false,
     }
-    const wrapper = shallow(
-      <LazyModuleComponent
-        appName={'testApp'}
-        project={'test'}
-        module={module}
-        onLoadAction={
+    const wrapper = shallow(<LazyModuleComponent
+      appName="testApp"
+      project="test"
+      module={module}
+      onLoadAction={
           () => {
             try {
               wrapper.update()
@@ -85,6 +83,6 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
             }
           }
         }
-      />, { context, lifecycleExperimental: true })
+    />, { context, lifecycleExperimental: true })
   }).timeout(60000)
 })

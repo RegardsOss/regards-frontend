@@ -32,7 +32,6 @@ import messages from '../i18n'
  * Show the document files form
  */
 export class DocumentEditFilesContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

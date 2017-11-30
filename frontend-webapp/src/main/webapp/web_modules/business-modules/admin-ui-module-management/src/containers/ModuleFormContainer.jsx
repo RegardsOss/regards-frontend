@@ -39,7 +39,6 @@ import messages from '../i18n'
  * @author Léo Mieulet
  */
 class ModuleFormContainer extends React.Component {
-
   static propTypes = {
     // From react router
     params: PropTypes.shape({

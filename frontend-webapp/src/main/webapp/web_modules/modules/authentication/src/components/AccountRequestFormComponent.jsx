@@ -42,7 +42,6 @@ export const mailFieldId = 'mail'
  * Account request form component (the user enters his mail address and emits the request to admin here)
  */
 export class AccountRequestFormComponent extends React.Component {
-
   static propTypes = {
     // Submit error
     errorMessage: PropTypes.string,
@@ -135,8 +134,6 @@ const connectedReduxForm = reduxForm({
 
 // connect with selector to select the last mail value
 const selector = formValueSelector(form)
-export default connect(
-  state => ({
-    currentMailValue: selector(state, mailFieldId),
-  }),
-)(connectedReduxForm)
+export default connect(state => ({
+  currentMailValue: selector(state, mailFieldId),
+}))(connectedReduxForm)

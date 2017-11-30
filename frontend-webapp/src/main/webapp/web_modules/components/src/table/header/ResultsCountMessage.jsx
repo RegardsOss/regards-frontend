@@ -24,7 +24,6 @@ import TableHeaderText from './TableHeaderText'
 * @author Raphaël Mechali
 */
 class ResultsCountMessage extends React.Component {
-
   static propTypes = {
     count: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,

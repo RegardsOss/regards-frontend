@@ -36,7 +36,6 @@ import messages from '../i18n'
  * Show the collection form
  */
 export class CollectionFormContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -180,7 +179,9 @@ export class CollectionFormContainer extends React.Component {
   }
 
   render() {
-    const { isFetchingCollection, currentCollection, modelList, modelAttributeList, isFetchingModel, isFetchingModelAttribute } = this.props
+    const {
+      isFetchingCollection, currentCollection, modelList, modelAttributeList, isFetchingModel, isFetchingModelAttribute,
+    } = this.props
     const { isEditing, isDuplicating } = this.state
     const isLoading = ((isEditing || isDuplicating) && (isFetchingCollection || (isFetchingModelAttribute && Object.keys(modelAttributeList).length === 0) || isFetchingModel)) || isFetchingModel
     return (

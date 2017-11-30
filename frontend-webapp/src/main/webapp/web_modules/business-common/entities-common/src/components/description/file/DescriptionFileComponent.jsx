@@ -12,7 +12,6 @@ import LoadingDisplayerComponent from '../LoadingDisplayerComponent'
 * Description file component
 */
 class DescriptionFileComponent extends React.Component {
-
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     // description file URL, when it should be accessed through URL
@@ -23,7 +22,10 @@ class DescriptionFileComponent extends React.Component {
       contentType: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
     }),
+    noContentMessage: PropTypes.string,
+    noContentTitle: PropTypes.string,
   }
+
 
   static contextTypes = {
     ...themeContextType,
@@ -37,7 +39,9 @@ class DescriptionFileComponent extends React.Component {
   updateDisplayAreaStyle = (width, height) => this.setState({ displayAreaStyle: { width, height } })
 
   render() {
-    const { loading, descriptionFileURL, descriptionFile } = this.props
+    const {
+      loading, descriptionFileURL, descriptionFile, noContentTitle, noContentMessage,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     const { rootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.descriptionTab
 
@@ -63,8 +67,8 @@ class DescriptionFileComponent extends React.Component {
               return (
                 <NoContentMessageInfo
                   noContent
-                  title={formatMessage({ id: 'entities.common.description.no.value.title' })}
-                  message={formatMessage({ id: 'entities.common.description.no.value.message' })}
+                  title={noContentTitle || formatMessage({ id: 'entities.common.description.no.value.title' })}
+                  message={noContentMessage || formatMessage({ id: 'entities.common.description.no.value.message' })}
                   Icon={NoDataIcon}
                 >
                   <div />

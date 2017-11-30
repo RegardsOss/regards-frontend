@@ -33,7 +33,6 @@ import messages from '../i18n'
  * Show the list of REGARDS account
  */
 export class AccountListContainer extends React.Component {
-
   static propTypes = {
     // from mapStateToProps
     allAccounts: PropTypes.shape({

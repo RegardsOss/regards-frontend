@@ -35,8 +35,10 @@ describe('[STORE UTILS] Testing partition reducer', () => {
           data: null,
         },
       }
-      assert.deepEqual(partitionReducer.reduce(previousState, partitionActions.onDataLoadingStart(partitionKey)), nextState,
-        'Failed reducing loading start action')
+      assert.deepEqual(
+        partitionReducer.reduce(previousState, partitionActions.onDataLoadingStart(partitionKey)), nextState,
+        'Failed reducing loading start action',
+      )
       // 2 - loading done (check also that elements are extracted in action payload)
       previousState = nextState
       const itemsData = { someData: 'some list data' }
@@ -62,8 +64,10 @@ describe('[STORE UTILS] Testing partition reducer', () => {
           ...otherPayloadFields,
         },
       })
-      assert.deepEqual(partitionReducer.reduce(previousState, doneAtion), nextState,
-        'Failed reducing loading done action')
+      assert.deepEqual(
+        partitionReducer.reduce(previousState, doneAtion), nextState,
+        'Failed reducing loading done action',
+      )
 
       // 3 - loading failed (order independent)
       previousState = nextState
@@ -77,8 +81,10 @@ describe('[STORE UTILS] Testing partition reducer', () => {
           data: null,
         },
       }
-      assert.deepEqual(partitionReducer.reduce(previousState, partitionActions.onDataLoadingFailed(partitionKey, error)), nextState,
-        'Failed reducing loading error action')
+      assert.deepEqual(
+        partitionReducer.reduce(previousState, partitionActions.onDataLoadingFailed(partitionKey, error)), nextState,
+        'Failed reducing loading error action',
+      )
     })
   }
 

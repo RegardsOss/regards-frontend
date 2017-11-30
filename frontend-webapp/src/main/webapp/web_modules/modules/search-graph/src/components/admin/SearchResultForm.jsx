@@ -9,7 +9,6 @@ import ModuleConfiguration from '../../model/ModuleConfiguration'
 * Search result configuration form, using search result module
 */
 class SearchResultFormComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,
@@ -29,7 +28,7 @@ class SearchResultFormComponent extends React.Component {
       applicationId: this.props.appName,
       conf: {
         resultType: ENTITY_TYPES_ENUM.DATA,
-        hideDatasetsConfiguration: true,
+        onlyAllowDataConfiguration: true,
       },
     }
 

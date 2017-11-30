@@ -30,7 +30,6 @@ import messages from '../i18n'
  * List connection
  */
 export class ConnectionFormContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

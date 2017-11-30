@@ -19,9 +19,8 @@
 import {
   BooleanValueRender, DateArrayValueRender, DateRangeValueRender, DateValueRender,
   NumberValueRender, RangeValueRender, StringArrayValueRender, StringValueRender,
-  URLValueRender, TableColumnBuilder,
+  URLValueRender,
 } from '@regardsoss/components'
-import RawDataAttributeRender from './RawDataAttributeRender'
 import ThumbnailAttributeRender from './ThumbnailAttributeRender'
 
 /**
@@ -37,7 +36,6 @@ const TYPES_ENUM = {
   DATE_ARRAY: 'DATE_ARRAY',
   DOUBLE: 'DOUBLE',
   DOUBLE_INTERVAL: 'DOUBLE_INTERVAL',
-  DOWNLOAD_LINK: 'DOWNLOAD_LINK',
   INTEGER: 'INTEGER',
   INTEGER_INTERVAL: 'INTEGER_INTERVAL',
   LONG: 'LONG',
@@ -62,7 +60,6 @@ const typeToRenderMap = {
   [TYPES_ENUM.DATE_ARRAY]: DateArrayValueRender,
   [TYPES_ENUM.DOUBLE]: NumberValueRender,
   [TYPES_ENUM.DOUBLE_INTERVAL]: RangeValueRender,
-  [TYPES_ENUM.DOWNLOAD_LINK]: RawDataAttributeRender,
   [TYPES_ENUM.INTEGER]: NumberValueRender,
   [TYPES_ENUM.INTEGER_INTERVAL]: RangeValueRender,
   [TYPES_ENUM.LONG]: NumberValueRender,

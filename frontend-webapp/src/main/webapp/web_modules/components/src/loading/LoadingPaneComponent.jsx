@@ -23,7 +23,6 @@ import CircularProgress from 'material-ui/CircularProgress'
  * Shows loading with title and subtitle (optional) in a card (useing card overlay)
  */
 class LoadingPaneComponent extends React.Component {
-
   static propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -46,7 +45,9 @@ class LoadingPaneComponent extends React.Component {
   }
 
   render() {
-    const { title, subtitle, containerStyle, loadingComponentSize } = this.props
+    const {
+      title, subtitle, containerStyle, loadingComponentSize,
+    } = this.props
     return (
       <Card>
         <CardMedia

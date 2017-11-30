@@ -75,9 +75,7 @@ describe('[SEARCH FORM] Testing FormTabsComponent', () => {
       availableCriterion: {},
       criterionFetching: false,
     }
-    const wrapper = shallow(
-      <FormTabsComponent {...props} />, options,
-    )
+    const wrapper = shallow(<FormTabsComponent {...props} />, options)
 
     const paramTab = wrapper.find(FormParametersComponent)
     const datasetTab = wrapper.find(FormDatasetsConfigurationComponent)

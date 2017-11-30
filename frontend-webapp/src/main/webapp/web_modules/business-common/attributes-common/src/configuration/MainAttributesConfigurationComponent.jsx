@@ -34,7 +34,6 @@ import AttributeRegroupementConfigurationComponent from './AttributeRegroupement
  * @author Sébastien binda
  */
 class MainAttributesConfigurationComponent extends React.Component {
-
   static propTypes = {
     // Available Attributes for configuration
     selectableAttributes: DataManagementShapes.AttributeModelList.isRequired,
@@ -55,6 +54,8 @@ class MainAttributesConfigurationComponent extends React.Component {
     // Redux-form function to change current form values
     changeField: PropTypes.func.isRequired,
   }
+
+  static styles = { marginTop: 20 }
 
   /**
    * At mount, check that the configuration is valid with the available attributes.
@@ -157,15 +158,17 @@ class MainAttributesConfigurationComponent extends React.Component {
   removeUnavailableAttributesConfiguration(attributesConf) {
     // Remove attribute configuration for unavailable attributes
     const updatedAttributesConf = [...attributesConf]
-    remove(updatedAttributesConf,
+    remove(
+      updatedAttributesConf,
       attributeConf => !AccessDomain.AttributeConfigurationController.findAttributeConf(values(this.props.selectableAttributes), attributeConf),
     )
     return updatedAttributesConf
   }
 
   render() {
-    const { attributesConf = [], attributesRegroupementsConf = [], allowAttributesRegroupements, allowFacettes } = this.props
-    const styles = { marginTop: 20 }
+    const {
+      attributesConf = [], attributesRegroupementsConf = [], allowAttributesRegroupements, allowFacettes,
+    } = this.props
     return (
       <div>
         <StandardAttributesConfigurationComponent
@@ -173,7 +176,7 @@ class MainAttributesConfigurationComponent extends React.Component {
           allowFacettes={allowFacettes}
           onChangeAttributeConfiguration={this.onChange}
         />
-        <Divider style={styles} />
+        <Divider style={MainAttributesConfigurationComponent.styles} />
         <DynamicAttributesConfigurationComponent
           selectableAttributes={this.props.selectableAttributes}
           attributesConf={attributesConf}
@@ -187,7 +190,7 @@ class MainAttributesConfigurationComponent extends React.Component {
             onChangeRegroupenentConfiguration={this.onChangeRegroupement}
             onDeleteRegroupement={this.onDeleteRegroupement}
           />
-          <Divider style={styles} />
+          <Divider style={MainAttributesConfigurationComponent.styles} />
         </ShowableAtRender>
       </div>
     )

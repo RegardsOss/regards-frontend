@@ -36,7 +36,6 @@ import ConnectionTesterProgress from './ConnectionTesterProgress'
  * @author Xavier-Alexandre Brochard
  */
 class DatabaseConnectionTesterIconButton extends React.Component {
-
   static propTypes = {
     projectConnection: AdminShapes.ProjectConnection.isRequired,
     testConnection: PropTypes.func.isRequired,

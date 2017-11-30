@@ -25,7 +25,9 @@ import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
-const { string, url, validStringSize, required, validAlphaNumericUnderscore } = ValidationHelpers
+const {
+  string, url, validStringSize, required, validAlphaNumericUnderscore,
+} = ValidationHelpers
 const requiredStringValidator = [required, string]
 const requiredUrlValidator = [required, url, validStringSize(1, 255)]
 const nameValidator = [validAlphaNumericUnderscore, ...requiredStringValidator]
@@ -38,7 +40,6 @@ const validUrlSize255 = [url, validStringSize(0, 255)]
  * @author Sébastien Binda
  */
 export class ProjectFormComponent extends React.Component {
-
   static propTypes = {
     currentProject: AdminShapes.Project,
     onSubmit: PropTypes.func.isRequired,
@@ -89,7 +90,9 @@ export class ProjectFormComponent extends React.Component {
   }
 
   render() {
-    const { currentProject, pristine, submitting, invalid } = this.props
+    const {
+      currentProject, pristine, submitting, invalid,
+    } = this.props
     const title = this.state.isCreating ?
       this.context.intl.formatMessage({ id: 'project.create.title' }) :
       this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })

@@ -3,9 +3,7 @@
 **/
 import { AccessProjectClient } from '@regardsoss/client'
 
-const REDUCER_PATH = 'searchCatalog'
-
-const ENTITIES_STORE_PATH = ['modules.search-results', REDUCER_PATH]
+const ENTITIES_STORE_PATH = ['modules.search-results', 'searchCatalog']
 const REDUX_ACTION_NAMESPACE = 'search-results/search-catalog'
 
 
@@ -29,5 +27,4 @@ module.exports = {
   searchEntitiesActions,
   reducer,
   selectors,
-  REDUCER_PATH,
 }

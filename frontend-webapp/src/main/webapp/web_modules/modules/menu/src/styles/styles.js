@@ -90,7 +90,9 @@ const menuStyles = theme => (
           zIndex: '1',
         },
         chip: {
-          labelStyle: { fontSize: '10px', padding: 3, lineHeight: undefined, fontWeight: 'bold' },
+          labelStyle: {
+            fontSize: '10px', padding: 3, lineHeight: undefined, fontWeight: 'bold',
+          },
           style: { opacity: '0.9', backgroundColor: theme.palette.accent1Color, margin: 'auto' },
         },
       },

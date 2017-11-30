@@ -34,7 +34,6 @@ import styles from '../styles'
  * @author Sébastien Binda
  */
 export class ThumbnailAttributeRender extends React.Component {
-
   static propTypes = {
     value: CatalogShapes.entityFiles,
   }
@@ -92,7 +91,6 @@ export class ThumbnailAttributeRender extends React.Component {
     }
     return <NoDataIcon />
   }
-
 }
 
 export default compose(withModuleStyle(styles, true), withI18n(messages, true))(ThumbnailAttributeRender)

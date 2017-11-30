@@ -28,7 +28,6 @@ export const ButtonWithConfirmDialog = withConfirmDialog(FlatButton)
 * @author Raphaël Mechali
 */
 class ClearCartComponent extends React.Component {
-
   static propTypes = {
     onClearCart: PropTypes.func.isRequired,
     empty: PropTypes.bool.isRequired,

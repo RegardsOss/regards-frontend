@@ -31,7 +31,6 @@ const orderBasketActions = new OrderClient.OrderBasketActions()
 * @author Raphaël Mechali
 */
 export class DeleteDatedItemSelectionContainer extends React.Component {
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -63,4 +62,5 @@ export class DeleteDatedItemSelectionContainer extends React.Component {
 
 export default compose(
   connect(null, DeleteDatedItemSelectionContainer.mapDispatchToProps),
-  withI18n(messages))(DeleteDatedItemSelectionContainer)
+  withI18n(messages),
+)(DeleteDatedItemSelectionContainer)

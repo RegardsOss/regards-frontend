@@ -23,7 +23,6 @@ import { RenderCheckbox, Field } from '@regardsoss/form-utils'
 * @author Raphaël Mechali
 */
 class BooleanParameterFieldComponent extends React.Component {
-
   static propTypes = {
     // field name
     name: PropTypes.string.isRequired,

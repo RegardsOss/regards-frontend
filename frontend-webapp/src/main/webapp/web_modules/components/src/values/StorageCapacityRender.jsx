@@ -30,7 +30,6 @@ import { storage } from '@regardsoss/units'
 * @author Raphaël Mechali
 */
 class StorageCapacityRender extends React.Component {
-
   static propTypes = {
     value: PropTypes.oneOfType([
       PropTypes.string,

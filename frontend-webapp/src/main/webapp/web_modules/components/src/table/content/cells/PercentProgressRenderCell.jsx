@@ -24,7 +24,6 @@ import ProgressRenderCell from './ProgressRenderCell'
 * @author Raphaël Mechali
 */
 class PercentProgressRenderCell extends React.Component {
-
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     entity: PropTypes.any.isRequired,

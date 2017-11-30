@@ -6,7 +6,6 @@ import { pluginMetadataActions } from '../clients/PluginMetadataClient'
 import PluginListComponent from '../components/PluginListComponent'
 
 export class PluginListContainer extends React.Component {
-
   static propTypes = {
     title: PropTypes.string,
     selectLabel: PropTypes.string,
@@ -52,7 +51,6 @@ export class PluginListContainer extends React.Component {
       />
     )
   }
-
 }
 
 const mapStateToProps = (state, ownProps) => ({

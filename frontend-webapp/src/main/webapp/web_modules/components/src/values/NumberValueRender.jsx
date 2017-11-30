@@ -26,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien binda
  */
 class NumberValueRender extends React.Component {
-
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }
@@ -46,7 +45,6 @@ class NumberValueRender extends React.Component {
         {textValue}
       </div>)
   }
-
 }
 
 export default NumberValueRender

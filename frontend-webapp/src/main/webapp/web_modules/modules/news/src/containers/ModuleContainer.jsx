@@ -24,7 +24,6 @@ import { themeContextType } from '@regardsoss/theme'
  * Show the list of public visible projects
  */
 class NewsListContainer extends React.Component {
-
   static propTypes = {
     newsList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
   }

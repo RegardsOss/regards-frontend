@@ -20,7 +20,7 @@ import Schemas from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Redux actions to handle ProjectConnection entities from backend server.
+ * Redux actions to handle user resources that he can reach.
  *
  * To use this actions, you need to pass a parameter : <namespace>.
  *

@@ -57,10 +57,18 @@ describe('[Search Results] Testing OrderCartContainer', () => {
     {},
     {
       // an order-cart module in list, enabling cart selection
-      1: { content: { id: 1, type: modulesManager.AllDynamicModuleTypes.ORDER_CART, name: 'idk1', active: true, container: 'a-container', conf: {} } },
+      1: {
+        content: {
+          id: 1, type: modulesManager.AllDynamicModuleTypes.ORDER_CART, name: 'idk1', active: true, container: 'a-container', conf: {},
+        },
+      },
     }, {
       // no order-cart module, disabling cart selection
-      1: { content: { id: 1, type: 'IDK', name: 'idk1', active: true, container: 'a-container', conf: {} } },
+      1: {
+        content: {
+          id: 1, type: 'IDK', name: 'idk1', active: true, container: 'a-container', conf: {},
+        },
+      },
     }]
 
   const emptySelectionVals = [true, false]
@@ -94,7 +102,9 @@ describe('[Search Results] Testing OrderCartContainer', () => {
     modules === modulesVals[1] && // there must be cart module
     availableDependencies === availableDependenciesVals[1] // user must have all required dependencies
   // note: selection showing dataobjects are ignored for add element
-  const hasAddSelectionCallback = ({ viewObjectType, modules, isAuthenticated, availableDependencies, emptySelection }) =>
+  const hasAddSelectionCallback = ({
+    viewObjectType, modules, isAuthenticated, availableDependencies, emptySelection,
+  }) =>
     isAuthenticated && // use must be authenticated to access the cart functionality
     modules === modulesVals[1] && // there must be cart module
     availableDependencies === availableDependenciesVals[1] && // user must have all required dependencies
@@ -112,10 +122,9 @@ describe('[Search Results] Testing OrderCartContainer', () => {
     const testLabel = `should show the sub component ${expectAddElementCallback ? 'with add element callback' : 'without add element callback'} and \
 ${expectAddSelectionCallback ? 'with add selection callback' : 'without add selection callback'} when:${propsLabel}`
     it(testLabel, () => {
-      const enzymeWrapper = shallow(
-        <OrderCartContainer {...testProperties} >
-          <TestComponent />
-        </OrderCartContainer>, { context })
+      const enzymeWrapper = shallow(<OrderCartContainer {...testProperties} >
+        <TestComponent />
+                                    </OrderCartContainer>, { context })
       const componentWrapper = enzymeWrapper.find(TestComponent)
       // verify component was drawn
       assert.lengthOf(componentWrapper, 1, 'There must be the sub component')
@@ -133,8 +142,10 @@ ${expectAddSelectionCallback ? 'with add selection callback' : 'without add sele
       }
       if (expectAddSelectionCallback) {
         // only one possible callback here
-        assert.equal(onAddSelectionToCart, enzymeWrapper.instance().onAddDataOjbectsSelectionToBasketHandler,
-          'The add selection callback should be set to dataobjects selection callback')
+        assert.equal(
+          onAddSelectionToCart, enzymeWrapper.instance().onAddDataOjbectsSelectionToBasketHandler,
+          'The add selection callback should be set to dataobjects selection callback',
+        )
       } else {
         assert.isNotOk(onAddSelectionToCart, 'The add selection callback should not be present')
       }

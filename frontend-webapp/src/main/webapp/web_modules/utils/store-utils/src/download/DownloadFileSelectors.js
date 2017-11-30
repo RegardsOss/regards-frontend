@@ -31,7 +31,6 @@ class DownloadFileSelectors extends BasicSignalSelectors {
   getFile(state) {
     return this.getResult(state)
   }
-
 }
 
 export default DownloadFileSelectors

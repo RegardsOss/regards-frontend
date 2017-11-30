@@ -40,7 +40,6 @@ const searchFormDefaultLayout = merge({}, DefaultLayout('FormMainContainer'), {
  * @author Sébastien binda
  */
 class FormLayoutComponent extends React.Component {
-
   static propTypes = {
     defaultLayout: AccessShapes.ContainerContent,
     changeField: PropTypes.func,

@@ -9,7 +9,6 @@ import { FilterShape } from '../../../../models/facets/FilterShape'
 * Displays a selected facet with delete option (== filter)
 */
 class SelectedFacetComponent extends React.Component {
-
   static propTypes = {
     filter: FilterShape.isRequired,
     // on delete filter

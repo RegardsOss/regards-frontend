@@ -42,7 +42,6 @@ const actionsBreakpoints = [940, 995, 1065]
  * @author Léo Mieulet
  */
 export class FragmentListComponent extends React.Component {
-
   static propTypes = {
     fragmentList: DataManagementShapes.FragmentList,
     handleDelete: PropTypes.func.isRequired,
@@ -107,7 +106,9 @@ export class FragmentListComponent extends React.Component {
   }
 
   render() {
-    const { fragmentList, handleEdit, createUrl, backUrl } = this.props
+    const {
+      fragmentList, handleEdit, createUrl, backUrl,
+    } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,

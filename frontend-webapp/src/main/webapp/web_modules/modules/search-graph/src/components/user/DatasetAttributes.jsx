@@ -12,7 +12,6 @@ import ItemLink from './ItemLink'
 * Displays dataset attributes. Uses item link state to render
 */
 class DatasetAttributes extends React.Component {
-
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     state: PropTypes.oneOf(values(ItemLink.States)).isRequired,
@@ -38,7 +37,9 @@ class DatasetAttributes extends React.Component {
         <div style={containerStyles} >
           {
             // render values row
-            datasetAttributes.map(({ renderValue, label: attributeLabel, render: TypeRender, renderKey }) =>
+            datasetAttributes.map(({
+ renderValue, label: attributeLabel, render: TypeRender, renderKey,
+}) =>
               (<div key={renderKey} style={lineStyles}>
                 <div style={detailLabelStyles}>{attributeLabel}</div>
                 <div style={detailValueStlyles}>

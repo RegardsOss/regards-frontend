@@ -28,7 +28,6 @@ import { linkUIPluginDatasetActions, linkUIPluginDatasetSelectors } from './../c
 import messages from '../i18n'
 
 export class DatasetEditUIServicesContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -59,7 +58,8 @@ export class DatasetEditUIServicesContainer extends React.Component {
     fetchUIPluginConfigurationList: uiPluginId => dispatch(uiPluginConfigurationActions.fetchPagedEntityList(0, 100,
       // { isActive: true, isDefault: false }
     )),
-    fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {},
+    fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(
+      0, 100, {},
       { type: 'SERVICE' },
     )),
     fetchLinkUIPluginDataset: id => dispatch(linkUIPluginDatasetActions.fetchEntity(id)),
@@ -80,8 +80,7 @@ export class DatasetEditUIServicesContainer extends React.Component {
       .then(() =>
         this.setState({
           isLoading: false,
-        }),
-    )
+        }))
   }
 
   getBackUrl = () => {

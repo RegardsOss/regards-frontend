@@ -29,7 +29,6 @@ import styles from '../styles'
  * @author Sébastien Binda
  */
 export class SelectLocaleContainer extends React.Component {
-
   static propTypes = {}
 
   static LOCALES = ['en', 'fr']
@@ -73,4 +72,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withModuleStyle(styles), withI18n(messages))(SelectLocaleContainer)
+  withModuleStyle(styles), withI18n(messages),
+)(SelectLocaleContainer)

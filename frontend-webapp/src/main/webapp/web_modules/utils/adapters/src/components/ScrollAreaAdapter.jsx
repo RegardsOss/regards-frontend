@@ -16,7 +16,6 @@ HeadlessAdapter.propTypes = {
 * Scroll area adapter for headless environement. Also provides default component styles (can be overriden through properties)
 */
 class ScrollAreaAdapter extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
   }

@@ -23,7 +23,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Raphaël Mechali
  */
 export default class OptionsCell extends React.Component {
-
   static propTypes = {
     // common cell content properties
     rowIndex: PropTypes.number.isRequired,
@@ -47,6 +46,5 @@ export default class OptionsCell extends React.Component {
       <OptionConstructor key={`option.${optionIndex}`} entity={entity} rowIndex={rowIndex} {...optionProps} />
     ))
   }
-
 }
 

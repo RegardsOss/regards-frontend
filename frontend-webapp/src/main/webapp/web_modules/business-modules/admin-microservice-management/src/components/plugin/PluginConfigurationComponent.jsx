@@ -45,7 +45,6 @@ const ResourceIconAction = withResourceDisplayControl(IconButton)
  * @author Xavier-Alexandre Brochard
  */
 class PluginConfigurationComponent extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -84,7 +83,9 @@ class PluginConfigurationComponent extends React.Component {
   }
 
   render() {
-    const { microserviceName, pluginConfiguration, pluginMetaData, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick } = this.props
+    const {
+      microserviceName, pluginConfiguration, pluginMetaData, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick,
+    } = this.props
 
     const styles = moduleStyles(this.context.muiTheme).pluginConfiguration
 
@@ -98,7 +99,7 @@ class PluginConfigurationComponent extends React.Component {
             pluginParameterType={pluginParameterType}
             pluginParameter={pluginParam}
             pluginMetaData={pluginMetaData}
-            mode={'view'}
+            mode="view"
           />)
       } catch (e) {
         return null
@@ -119,7 +120,8 @@ class PluginConfigurationComponent extends React.Component {
             <div style={styles.buttonsGroupWrapper}>
               <span style={styles.version}><FormattedMessage
                 id="microservice-management.plugin.configuration.priorityOrder"
-              /> {pluginConfiguration.content.priorityOrder}</span>
+              /> {pluginConfiguration.content.priorityOrder}
+              </span>
               <HateoasIconAction
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.UPDATE}

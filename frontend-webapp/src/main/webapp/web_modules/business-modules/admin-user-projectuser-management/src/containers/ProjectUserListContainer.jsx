@@ -31,7 +31,6 @@ import messages from '../i18n'
  * Show the user list for the current project
  */
 export class ProjectUserListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

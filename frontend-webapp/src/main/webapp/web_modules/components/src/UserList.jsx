@@ -74,8 +74,7 @@ function UserList(props) {
       disabled
       rightIconButton={props.menuElements ? rightIconMenu : null}
       primaryText={item.name}
-    />),
-  )
+    />))
 
   return (
     <List>

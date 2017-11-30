@@ -39,7 +39,6 @@ const labelValidators = [ValidationHelpers.required, ValidationHelpers.string, V
  * @author Léo Mieulet
  */
 export class ServiceConfigurationFormComponent extends React.Component {
-
   static propTypes = {
     uiPluginConfiguration: AccessShapes.UIPluginConf,
     plugin: AccessShapes.UIPluginInstanceContent,
@@ -100,7 +99,9 @@ export class ServiceConfigurationFormComponent extends React.Component {
 
 
   render() {
-    const { plugin, submitting, invalid, backUrl } = this.props
+    const {
+      plugin, submitting, invalid, backUrl,
+    } = this.props
     const { formatMessage } = this.context.intl
     const title = this.getTitle()
     return (

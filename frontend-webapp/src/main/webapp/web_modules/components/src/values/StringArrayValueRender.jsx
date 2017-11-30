@@ -26,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien binda
  */
 class StringArrayValueRender extends React.Component {
-
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),
   }
@@ -37,17 +36,16 @@ class StringArrayValueRender extends React.Component {
   }
 
   render() {
-    const { value = [] } = this.props
+    const { value } = this.props
     const { intl, moduleTheme: { textRenderCell } } = this.context
     const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
-    const textValue = value.map(text => text || noValueText).join(intl.formatMessage({ id: 'value.render.array.values.separator' })) ||
+    const textValue = (value || []).map(text => text || noValueText).join(intl.formatMessage({ id: 'value.render.array.values.separator' })) ||
       noValueText
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}
       </div>)
   }
-
 }
 
 export default StringArrayValueRender

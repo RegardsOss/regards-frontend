@@ -42,7 +42,6 @@ import defaultTheme from '../model/defaultTheme'
  * @author Xavier-Alexandre Brochard
  */
 export class ThemeProvider extends React.Component {
-
   static propTypes = {
     currentTheme: AccessShapes.Theme,
     isInstance: PropTypes.bool,

@@ -32,7 +32,6 @@ import moduleStyles from '../styles/styles'
  * current resource access
  */
 class ResourceAccessModalOverviewComponent extends React.Component {
-
   static propTypes = {
     currentResource: AdminShapes.Resource.isRequired,
     roles: AdminShapes.RoleList.isRequired,
@@ -102,7 +101,8 @@ class ResourceAccessModalOverviewComponent extends React.Component {
                       style={styles.chipItem}
                       onTouchTap={() => this.handleEditRoleResources(role)}
                       key={role.content.id}
-                    >{role.content.name}</Chip>
+                    >{role.content.name}
+                    </Chip>
                     ))
                   }
                 </div>

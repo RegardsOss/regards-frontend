@@ -21,7 +21,6 @@ import { BasicSignalReducers } from '@regardsoss/store-utils'
 import AccountPasswordActions from './AccountPasswordActions'
 
 export class AccountPasswordReducer extends BasicSignalReducers {
-
   static DEFAULT_STATE = {
     ...BasicSignalReducers.DEFAULT_STATE,
     rules: '', // rules description
@@ -63,8 +62,6 @@ export class AccountPasswordReducer extends BasicSignalReducers {
         return nextState
     }
   }
-
-
 }
 
 /** Closure builder for reducer function */

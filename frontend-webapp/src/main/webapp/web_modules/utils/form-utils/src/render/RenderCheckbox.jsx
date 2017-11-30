@@ -40,6 +40,7 @@ export default class RenderCheckbox extends React.Component {
       formatMessage: PropTypes.func,
     }),
     alwaysShowError: PropTypes.bool, // bypass touched to show some automatic errors
+    disabled: PropTypes.bool,
   }
 
   static STYLES = {
@@ -55,7 +56,9 @@ export default class RenderCheckbox extends React.Component {
   }
 
   render() {
-    const { alwaysShowError, input, className, label, meta: { touched, error }, intl } = this.props
+    const {
+      alwaysShowError, input, className, label, disabled, meta: { touched, error }, intl,
+    } = this.props
     const { muiTheme } = this.context
     const checked = !!input.value
     return (
@@ -66,6 +69,7 @@ export default class RenderCheckbox extends React.Component {
           label={label}
           checked={checked}
           onCheck={this.onChange}
+          disabled={disabled}
         />
         {(alwaysShowError || touched) && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
       </div>

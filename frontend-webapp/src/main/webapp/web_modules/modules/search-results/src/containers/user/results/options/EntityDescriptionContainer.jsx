@@ -28,7 +28,6 @@ import EntityDescriptionComponent from '../../../../components/user/results/opti
  * @author Raphaël Mechali
  */
 export class EntityDescriptionContainer extends React.Component {
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function

@@ -36,7 +36,6 @@ export const useExistingAccountFieldId = 'hasAlreadyAccount'
  * Form to request access to a project. Handles new account (internal or external) and existing account
  */
 export class AskProjectAccessFormComponent extends React.Component {
-
   static propTypes = {
     // Form initial value
     initialMail: PropTypes.string,
@@ -253,9 +252,7 @@ const connectedReduxForm = reduxForm({
 
 // connect with selector to select the last mail value
 const selector = formValueSelector(formId)
-export default connect(
-  state => ({
-    currentMailValue: selector(state, mailFieldId),
-    useExistingAccount: selector(state, useExistingAccountFieldId),
-  }),
-)(connectedReduxForm)
+export default connect(state => ({
+  currentMailValue: selector(state, mailFieldId),
+  useExistingAccount: selector(state, useExistingAccountFieldId),
+}))(connectedReduxForm)

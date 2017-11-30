@@ -37,7 +37,6 @@ import DocumentStepperContainer from '../containers/DocumentStepperContainer'
  * React component to list documents tags.
  */
 export class DocumentEditLinksComponent extends React.Component {
-
   static propTypes = {
     currentDocument: DataManagementShapes.Document,
     linkedCollections: DataManagementShapes.CollectionArray,
@@ -74,7 +73,9 @@ export class DocumentEditLinksComponent extends React.Component {
 
 
   render() {
-    const { documentStringTags, currentDocument, remainingCollections, linkedCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl } = this.props
+    const {
+      documentStringTags, currentDocument, remainingCollections, linkedCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl,
+    } = this.props
     return (
       <Card>
         <CardTitle

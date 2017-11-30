@@ -26,7 +26,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 * @author Sébastien Binda
 */
 class IngestProcessingChainTableEditAction extends React.Component {
-
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,

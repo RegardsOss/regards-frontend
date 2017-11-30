@@ -57,7 +57,9 @@ const accelerationCurve = CubicBezier.config(0.4, 0.0, 1, 1)
  */
 const sharpCurve = CubicBezier.config(0.0, 0.0, 0.2, 1)
 
-module.exports = { standardCurve, decelerationCurve, accelerationCurve, sharpCurve }
+module.exports = {
+  standardCurve, decelerationCurve, accelerationCurve, sharpCurve,
+}
 export { standardCurve }
 export { decelerationCurve }
 export { accelerationCurve }

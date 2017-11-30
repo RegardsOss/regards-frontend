@@ -30,7 +30,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Sébastien Binda
  */
 export class TableColumnsVisibilityOption extends React.Component {
-
   static propTypes = {
     // Columns: describes a partial column shape (requires only key, label and visible state) to avoid
     // strong coupling with tables

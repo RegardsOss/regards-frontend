@@ -90,5 +90,4 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
     const enzymeWrapper = shallow(<ProjectConnectionListComponent {...props} />, options)
     expect(enzymeWrapper.find(TableRow)).to.have.length(9)
   })
-},
-)
+})

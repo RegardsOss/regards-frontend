@@ -34,14 +34,6 @@ function getAttributeModel(attributePresentationModels, attributeName) {
   return attributePresentationModels.find(m => isAttribute(m, attributeName))
 }
 
-/**
- * Returns true of download attribute is present in models list
- * @param {[AttributePresentationModel]} attributePresentationModels presentation models
- * @return {boolean} true if download attribute is present in model list (ie should be displayed)
- */
-export function hasDownloadAttribute(attributePresentationModels) {
-  return !!getAttributeModel(attributePresentationModels, DamDomain.AttributeModelController.standardAttributesKeys.download)
-}
 
 /**
  * Packs thumbnail attribute data for render (or null if not present)
@@ -83,7 +75,6 @@ export function packGridAttributesRenderData(attributePresentationModels) {
 * Container for list view entity cell (mainly provides selection related data)
 */
 export class ListViewEntityCellContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -115,12 +106,12 @@ export class ListViewEntityCellContainer extends React.Component {
     rowIndex: PropTypes.number.isRequired,
     entity: AccessShapes.EntityWithServices.isRequired,
     // pre-fetched data to enhance rendering
-    hasDownload: PropTypes.bool.isRequired,
     thumbnailRenderData: AttributeRenderData, // no thumbnail when not provided
     gridAttributesRenderData: PropTypes.arrayOf(AttributeRenderData).isRequired,
     // Attributes to display configured on entity
     selectionEnabled: PropTypes.bool,
     servicesEnabled: PropTypes.bool.isRequired,
+    enableDownload: PropTypes.bool.isRequired,
     // Callback
     onSearchEntity: PropTypes.func,
     onAddToCart: PropTypes.func,
@@ -157,12 +148,14 @@ export class ListViewEntityCellContainer extends React.Component {
   }
 
   render() {
-    const { entity, hasDownload, thumbnailRenderData, gridAttributesRenderData, selectionEnabled,
-      servicesEnabled, onAddToCart, onSelectEntity } = this.props
+    const {
+      entity, enableDownload, thumbnailRenderData, gridAttributesRenderData, selectionEnabled,
+      servicesEnabled, onAddToCart, onSelectEntity,
+    } = this.props
     return (
       <ListViewEntityCellComponent
         entity={entity}
-        hasDownload={hasDownload}
+        enableDownload={enableDownload}
         thumbnailRenderData={thumbnailRenderData}
         gridAttributesRenderData={gridAttributesRenderData}
         selectionEnabled={selectionEnabled}

@@ -52,7 +52,6 @@ const { required, string } = ValidationHelpers
  * @author Xavier-Alexandre Brochard
  */
 export class PluginParameterPlugin extends React.Component {
-
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
     pluginParameter: CommonShapes.PluginParameterContent.isRequired,
@@ -89,16 +88,14 @@ export class PluginParameterPlugin extends React.Component {
     const { pluginParameterType, fetchPluginConfigurationList, microserviceName } = this.props
 
     if (pluginParameterType.type) {
-      Promise.resolve(fetchPluginConfigurationList(pluginParameterType.type, microserviceName)).then(
-        () => {
-          const selectedPluginConfiguration = find(this.props.pluginConfigurationList, el => el.content.id === get(this.props.pluginParameter, 'pluginConfiguration.id'))
-          if (selectedPluginConfiguration) {
-            this.setState({
-              selectedPluginConfiguration,
-            })
-          }
-        },
-      )
+      Promise.resolve(fetchPluginConfigurationList(pluginParameterType.type, microserviceName)).then(() => {
+        const selectedPluginConfiguration = find(this.props.pluginConfigurationList, el => el.content.id === get(this.props.pluginParameter, 'pluginConfiguration.id'))
+        if (selectedPluginConfiguration) {
+          this.setState({
+            selectedPluginConfiguration,
+          })
+        }
+      })
     }
   }
 
@@ -115,7 +112,9 @@ export class PluginParameterPlugin extends React.Component {
   }
 
   handleChange = (value) => {
-    const { reduxFormfieldNamePrefix, pluginConfigurationList, change, pluginMetaData, pluginParameter: { name } } = this.props
+    const {
+      reduxFormfieldNamePrefix, pluginConfigurationList, change, pluginMetaData, pluginParameter: { name },
+    } = this.props
     this.setState({
       value,
       selectedPluginConfiguration: find(pluginConfigurationList, el => el.content.id === value),
@@ -124,7 +123,9 @@ export class PluginParameterPlugin extends React.Component {
   }
 
   render() {
-    const { reduxFormfieldNamePrefix, pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList, mode, pluginMetaData } = this.props
+    const {
+      reduxFormfieldNamePrefix, pluginParameter: { name, defaultValue, optional }, pluginMetaDataList, pluginConfigurationList, mode, pluginMetaData,
+    } = this.props
     const { openMenu, selectedPluginConfiguration } = this.state
     const { muiTheme, intl } = this.context
     const isView = mode === 'view'
@@ -179,7 +180,7 @@ export class PluginParameterPlugin extends React.Component {
               })}
               <Divider />
               <MenuItem
-                key={'none'}
+                key="none"
                 primaryText={intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.empty.menu.item' })}
                 onTouchTap={() => this.handleChange(undefined)}
                 rightIcon={<Delete />}
@@ -189,7 +190,7 @@ export class PluginParameterPlugin extends React.Component {
               style={styles.pluginParameter.field}
               name={getFieldName(reduxFormfieldNamePrefix, name, pluginMetaData, '.value')}
               component={RenderTextField}
-              type={'text'}
+              type="text"
               label={label}
               defaultValue={defaultValue}
               validate={validators}

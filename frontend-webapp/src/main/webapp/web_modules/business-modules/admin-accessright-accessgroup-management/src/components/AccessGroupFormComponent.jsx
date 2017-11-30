@@ -29,7 +29,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * React component to edit/create/duplicate an accessgroup.
  */
 export class AccessGroupFormComponent extends React.Component {
-
   static propTypes = {
     currentAccessGroup: DataManagementShapes.AccessGroup,
     onSubmit: PropTypes.func.isRequired,

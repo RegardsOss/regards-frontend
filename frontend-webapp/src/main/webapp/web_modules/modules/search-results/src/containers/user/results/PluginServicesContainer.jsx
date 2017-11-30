@@ -39,7 +39,6 @@ const catalogServiceDependency = tempActions.getDependency(RequestVerbEnum.POST)
  * @author Raphaël Mechali
  */
 export class PluginServicesContainer extends React.Component {
-
   /**
    * Retains plugin services that are present in both services list, by there configId
    * @param services1
@@ -69,8 +68,10 @@ export class PluginServicesContainer extends React.Component {
    * @param properties properties describing current selection state and global services
    * @return [{PluginService}] services available for current selection
    */
-  static getSelectionServices = ({ selectionMode, toggledElements, pageMetadata, emptySelection,
-    contextSelectionServices, viewObjectType, selectedDatasetIpId, availableDependencies = [] }) => {
+  static getSelectionServices = ({
+    selectionMode, toggledElements, pageMetadata, emptySelection,
+    contextSelectionServices, viewObjectType, selectedDatasetIpId, availableDependencies = [],
+  }) => {
     let selectionServices = []
     if (!emptySelection) {
       // 1 - recover context services
@@ -87,8 +88,7 @@ export class PluginServicesContainer extends React.Component {
         // compute first element services (pre: toggled elements cannot be empty here since we are in 'includeSelected' mode)
         // note: we remove doubles here to lower later complexity
         const [{ content: { services: allFirstEntityServices = [] } }, ...otherSelectedElements] = values(toggledElements)
-        const filteredFirstEntityServices = allFirstEntityServices.filter(
-          service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies) &&
+        const filteredFirstEntityServices = allFirstEntityServices.filter(service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies) &&
             !selectionServices.some(({ content: { configId, type } }) =>
               configId === service.content.configId && type === service.content.type))
 
@@ -100,7 +100,8 @@ export class PluginServicesContainer extends React.Component {
               // intersection is valid if a service with same config Id and type can be retrieved in next entity services
               entityServices && entityServices.some(({ content: entityService }) =>
                 entityService.configId === collectedService.configId && entityService.type === collectedService.type))
-          , filteredFirstEntityServices)
+          , filteredFirstEntityServices,
+        )
 
 
         // store in resulting list
@@ -244,7 +245,9 @@ export class PluginServicesContainer extends React.Component {
    * @param service started service (as returned by served, wrapped in content)
    */
   onStartSelectionService = ({ content: service }) => {
-    const { dispatchRunService, selectionMode, toggledElements, openSearchQuery, viewObjectType, pageMetadata } = this.props
+    const {
+      dispatchRunService, selectionMode, toggledElements, openSearchQuery, viewObjectType, pageMetadata,
+    } = this.props
     // pack ip ID array
     const ipIdArray = map(toggledElements, elt => elt.content.ipId)
     // pack query
@@ -270,7 +273,6 @@ export class PluginServicesContainer extends React.Component {
       </div >
     )
   }
-
 }
 
 export default connect(PluginServicesContainer.mapStateToProps, PluginServicesContainer.mapDispatchToProps)(PluginServicesContainer)

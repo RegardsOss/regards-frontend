@@ -36,7 +36,6 @@ import Styles from '../styles/styles'
  * @author Sébastien binda
  */
 class ModuleFormComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     module: AccessShapes.Module,
@@ -68,8 +67,10 @@ class ModuleFormComponent extends React.Component {
     super(props)
     let dynamicContainerSelected = false
     if (this.props.module) {
-      dynamicContainerSelected = find(this.props.containers,
-        container => container.id === this.props.module.container && container.dynamicContent)
+      dynamicContainerSelected = find(
+        this.props.containers,
+        container => container.id === this.props.module.container && container.dynamicContent,
+      )
     }
     this.state = {
       creation: this.props.duplication || isNil(this.props.module),
@@ -88,12 +89,14 @@ class ModuleFormComponent extends React.Component {
 
   handleInitialize = () => {
     if (this.props.module) {
-      const initializeModule = Object.assign({},
+      const initializeModule = Object.assign(
+        {},
         {
           applicationId: this.props.applicationId,
           active: false,
           defaultDynamicModule: false,
-        }, this.state.module)
+        }, this.state.module,
+      )
       this.props.initialize(initializeModule)
     }
   }

@@ -30,17 +30,15 @@ describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
   })
 
   it('should render correctly when loading', () => {
-    const enzymeWrapper = shallow(
-      <LoadableContentDialogContainer
-        dialogHeightPercent={50}
-        dialogWidthPercent={50}
-        loadingMessage="Loading..."
-        open
-        loaded={false}
-      >
-        <div id="testDiv" />
-      </LoadableContentDialogContainer>,
-    )
+    const enzymeWrapper = shallow(<LoadableContentDialogContainer
+      dialogHeightPercent={50}
+      dialogWidthPercent={50}
+      loadingMessage="Loading..."
+      open
+      loaded={false}
+    >
+      <div id="testDiv" />
+                                  </LoadableContentDialogContainer>)
     const showables = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(showables, 1, 'It should use a showable for loading state')
     assert.isTrue(showables.props().show, 'It should display loading')
@@ -53,17 +51,15 @@ describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
     assert.equal(parentStyles.display, 'none', 'The parent should hide children while loading')
   })
   it('should render correctly when loaded', () => {
-    const enzymeWrapper = shallow(
-      <LoadableContentDialogContainer
-        dialogHeightPercent={50}
-        dialogWidthPercent={50}
-        loadingMessage="Loading..."
-        open
-        loaded
-      >
-        <div id="testDiv" />
-      </LoadableContentDialogContainer>,
-    )
+    const enzymeWrapper = shallow(<LoadableContentDialogContainer
+      dialogHeightPercent={50}
+      dialogWidthPercent={50}
+      loadingMessage="Loading..."
+      open
+      loaded
+    >
+      <div id="testDiv" />
+                                  </LoadableContentDialogContainer>)
     const showables = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(showables, 1, 'It should use a showable for loading state')
     assert.isFalse(showables.props().show, 'It should not show loading')

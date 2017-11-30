@@ -27,7 +27,6 @@ import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
  * @author Sébastien Binda
  **/
 class ModuleContainer extends React.Component {
-
   static propTypes = {
     // Module configuration.
     moduleConf: ModuleConfigurationShape,

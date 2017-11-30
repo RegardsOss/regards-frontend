@@ -148,8 +148,10 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
     const enzymeWrapper = shallow(<RunUIPluginServiceContainer {...props} />, { context })
     // it should start fetching configuration
     assert.equal(fetchCounters.fetchConfigurationCount, 1, 'The container should have started fetching configuration')
-    assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.FETCH_PLUGIN_CONFIGURATION,
-      'The container should be in fetching configuration state')
+    assert.equal(
+      enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.FETCH_PLUGIN_CONFIGURATION,
+      'The container should be in fetching configuration state',
+    )
     // that step should be reported as loading into the displayer
     const serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
     assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')
@@ -168,8 +170,10 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
     errorsCallbacks.forEach((enterError) => {
       enterError()
       enzymeWrapper.update() // wait for update
-      assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR,
-        'The container should be in fetch configuration error state')
+      assert.equal(
+        enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR,
+        'The container should be in fetch configuration error state',
+      )
       // that step should be reported as error message into the displayer
       const serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
       assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')
@@ -184,12 +188,16 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
     const enzymeWrapper = shallow(<RunUIPluginServiceContainer {...props} />, { context })
     // simulate the configuration loading done event WITH the configuration
     enzymeWrapper.instance().onFetchConfigurationDone({
-      payload: getPayloadWithParameters(UIPluginConfConfiguration.normalizrKey,
-        serviceConfiguration.configId, basicConfiguration),
+      payload: getPayloadWithParameters(
+        UIPluginConfConfiguration.normalizrKey,
+        serviceConfiguration.configId, basicConfiguration,
+      ),
     }, 1)
     enzymeWrapper.update() // wait for update
-    assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.LOAD_PLUGIN_INSTANCE,
-      'The container should be fetching plugin instance')
+    assert.equal(
+      enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.LOAD_PLUGIN_INSTANCE,
+      'The container should be fetching plugin instance',
+    )
     // that step should be reported as loading into the displayer
     const serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
     assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')
@@ -206,8 +214,10 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
       pluginConfiguration: { content: basicConfiguration },
     })
     enzymeWrapper.update() // wait for update
-    assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.RUNNING_SERVICE,
-      'The container should be fetching the service results now (skipped configuration as there is no parameter)')
+    assert.equal(
+      enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.RUNNING_SERVICE,
+      'The container should be fetching the service results now (skipped configuration as there is no parameter)',
+    )
     // that step should be reported as result into the displayer
     const serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
     assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')
@@ -233,8 +243,10 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
       },
     })
     enzymeWrapper.update() // wait for update
-    assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR,
-      'The container should be in parameters resolution error state)')
+    assert.equal(
+      enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR,
+      'The container should be in parameters resolution error state)',
+    )
     // that step should be reported as error message into the displayer
     const serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
     assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')
@@ -267,8 +279,10 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
       pluginConfiguration: { content: basicConfiguration },
     })
     enzymeWrapper.update() // wait for update
-    assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
-      'The container should be in parameters configuration state)')
+    assert.equal(
+      enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
+      'The container should be in parameters configuration state)',
+    )
     // that step should be reported as configuration into the displayer
     let serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
     assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')
@@ -282,8 +296,10 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
     const testFormValues = { pBool: false }
     enzymeWrapper.instance().onConfigurationDone(testFormValues)
     enzymeWrapper.update() // wait for update
-    assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.RUNNING_SERVICE,
-      'The container should be fetching the service results now (skipped configuration as there is no parameter)')
+    assert.equal(
+      enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.RUNNING_SERVICE,
+      'The container should be fetching the service results now (skipped configuration as there is no parameter)',
+    )
     // that step should be reported as result into the displayer
     serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
     assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')
@@ -294,8 +310,10 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
     // (C) re-enter configuration, on previous, with previously entered values
     enzymeWrapper.instance().onPrevious()
     enzymeWrapper.update() // wait for update
-    assert.equal(enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
-      'The container should display configuration again after onPrevious()')
+    assert.equal(
+      enzymeWrapper.state('step'), RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
+      'The container should display configuration again after onPrevious()',
+    )
     // that step should be reported as loading into the displayer
     serviceRunComponent = enzymeWrapper.find(RunServiceDialogConnectedComponent)
     assert.lengthOf(serviceRunComponent, 1, 'The container should render using a RunServiceDialogComponent')

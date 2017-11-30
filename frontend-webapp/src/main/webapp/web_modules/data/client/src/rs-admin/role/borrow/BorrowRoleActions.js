@@ -38,5 +38,4 @@ export default class BorrowRoleActions extends BasicSignalActions {
   borrowRole(roleName) {
     return this.sendSignal('GET', null, { roleName })
   }
-
 }

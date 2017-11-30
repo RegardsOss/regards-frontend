@@ -44,7 +44,6 @@ class SetMaintenanceModeActions extends BasicSignalActions {
     dependency = replace(dependency, '{microservice}', this.microserviceName)
     return replace(dependency, '{action}', MAINTENANCES_ACTIONS.DISABLE)
   }
-
 }
 
 export {

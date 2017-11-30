@@ -30,7 +30,6 @@ import DumpDictionary from './DumpDictionary'
 
 
 class DumpProvider {
-
   dumpDictionary = DumpDictionary
 
   static getContent(json, isPageable) {

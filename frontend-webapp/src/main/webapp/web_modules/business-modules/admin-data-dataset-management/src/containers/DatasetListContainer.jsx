@@ -29,7 +29,6 @@ import messages from '../i18n'
  * Show the dataset list
  */
 export class DatasetListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

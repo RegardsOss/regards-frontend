@@ -34,7 +34,6 @@ import OrderCartTableComponent from './OrderCartTableComponent'
  * @author Raphaël Mechali
  */
 class OrderCartComponent extends React.Component {
-
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     basket: OrderShapes.Basket,
@@ -58,13 +57,15 @@ class OrderCartComponent extends React.Component {
   renderOptions = (isNoContent) => {
     const { onClearCart, onOrder } = this.props
     return [
-      <OrderComponent key={'options.order'} empty={isNoContent} onOrder={onOrder} />,
-      <ClearCartComponent key={'options.clear.cart'} empty={isNoContent} onClearCart={onClearCart} />,
+      <OrderComponent key="options.order" empty={isNoContent} onOrder={onOrder} />,
+      <ClearCartComponent key="options.clear.cart" empty={isNoContent} onClearCart={onClearCart} />,
     ]
   }
 
   render() {
-    const { isAuthenticated, basket, isFetching, onExpandChange, expanded } = this.props
+    const {
+      isAuthenticated, basket, isFetching, onExpandChange, expanded,
+    } = this.props
     const { intl: { formatMessage } } = this.context
 
     const emptyBasket = isEmpty(basket) || isEmpty(basket.datasetSelections)
@@ -103,6 +104,5 @@ class OrderCartComponent extends React.Component {
       </DynamicModule>
     )
   }
-
 }
 export default OrderCartComponent

@@ -25,7 +25,6 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
  * @author Sébastien Binda
  */
 class NoContainerAvailables extends React.PureComponent {
-
   static propTypes = {
     goToLayoutConfiguration: PropTypes.func.isRequired,
   }
@@ -43,14 +42,14 @@ class NoContainerAvailables extends React.PureComponent {
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id={'module.no.container.available.title'} />}
+          title={<FormattedMessage id="module.no.container.available.title" />}
         />
         <CardText
           style={NoContainerAvailables.cardStyle}
         >
-          <FormattedMessage id={'module.no.container.available'} />
+          <FormattedMessage id="module.no.container.available" />
           <RaisedButton
-            label={<FormattedMessage id={'module.no.container.available.configure.layout'} />}
+            label={<FormattedMessage id="module.no.container.available.configure.layout" />}
             primary
             onTouchTap={this.props.goToLayoutConfiguration}
             style={NoContainerAvailables.buttonStyle}
@@ -59,7 +58,6 @@ class NoContainerAvailables extends React.PureComponent {
       </Card>
     )
   }
-
 }
 
 export default NoContainerAvailables

@@ -28,7 +28,6 @@ import ModuleListComponent from './ModuleListComponent'
  * @author Sébastien Binda
  */
 class ModuleListButtonComponent extends React.Component {
-
   static propTypes = {
     container: PropTypes.string,
     modules: AccessShapes.ModuleArray,
@@ -76,7 +75,6 @@ class ModuleListButtonComponent extends React.Component {
       </div>
     )
   }
-
 }
 
 export default ModuleListButtonComponent

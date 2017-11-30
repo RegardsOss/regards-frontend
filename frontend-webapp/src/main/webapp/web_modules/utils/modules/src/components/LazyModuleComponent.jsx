@@ -43,7 +43,6 @@ const WithResourceDisplayControl = withResourceDisplayControl(Div)
  * @author Sébastien Binda
  */
 class LazyModuleComponent extends React.Component {
-
   /**
    * @type {{appName: *, moduleId: *}}
    */
@@ -178,7 +177,6 @@ class LazyModuleComponent extends React.Component {
     }
     return null
   }
-
 }
 
 export default LazyModuleComponent

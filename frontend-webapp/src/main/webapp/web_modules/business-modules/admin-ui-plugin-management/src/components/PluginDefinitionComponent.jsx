@@ -28,7 +28,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Sébastien Binda
  */
 class PluginDefinitionComponent extends React.Component {
-
   static propTypes = {
     handlePluginValid: PropTypes.func.isRequired,
     plugin: AccessShapes.UIPluginInstanceContent,

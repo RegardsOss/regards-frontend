@@ -27,12 +27,12 @@ import BasicSelector from '../BasicSelector'
  *  Provide an high level class to interact with entity stored in a list
  */
 class BasicListSelectors extends BasicSelector {
-
   getList = state => this.uncombineStore(state).items
 
   getResults = state => this.uncombineStore(state).results
 
-  getOrderedList = createSelector([this.getResults, this.getList],
+  getOrderedList = createSelector(
+    [this.getResults, this.getList],
     (orderedResults, list) => map(orderedResults, entityId => list[entityId]),
   )
 
@@ -51,7 +51,6 @@ class BasicListSelectors extends BasicSelector {
   getSize(state) {
     return size(this.uncombineStore(state).items)
   }
-
 }
 
 export default BasicListSelectors

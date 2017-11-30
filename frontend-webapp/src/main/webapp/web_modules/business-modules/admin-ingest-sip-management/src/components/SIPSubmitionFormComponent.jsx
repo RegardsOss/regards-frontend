@@ -30,7 +30,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Sébastien Binda
  */
 export class SIPSubmitionFormComponent extends React.Component {
-
   static propTypes = {
     submitSips: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -47,7 +46,9 @@ export class SIPSubmitionFormComponent extends React.Component {
 
   render() {
     const { intl } = this.context
-    const { isLoading, handleSubmit, submitSips, isError, onBack } = this.props
+    const {
+      isLoading, handleSubmit, submitSips, isError, onBack,
+    } = this.props
     return (
       <form onSubmit={handleSubmit(submitSips)}>
         <LoadableContentDisplayDecorator
@@ -64,11 +65,11 @@ export class SIPSubmitionFormComponent extends React.Component {
                 : null
               }
               <Field
-                name={'sips'}
+                name="sips"
                 component={RenderFileFieldWithMui}
                 label={intl.formatMessage({ id: 'sips.submit.select.file.button' })}
                 changeLabel={intl.formatMessage({ id: 'sips.submit.change.file.button' })}
-                accept={'.json'}
+                accept=".json"
               />
             </CardText>
             <CardActions>
@@ -86,7 +87,6 @@ export class SIPSubmitionFormComponent extends React.Component {
       </form>
     )
   }
-
 }
 
 const connectedReduxForm = reduxForm({

@@ -32,7 +32,6 @@ import PluginLoader from './PluginLoader'
  * @author Sébastien Binda
  */
 class PluginProvider extends React.Component {
-
   /**
    * pluginConf : Props to add to te plugin rendering element,
    * displayPlugin : Display the plugin component. If false the plugin is only passed as a prop to the children of this provider
@@ -94,7 +93,6 @@ class PluginProvider extends React.Component {
       </LoadableContentDisplayDecorator>
     )
   }
-
 }
 
 const mapStateToProps = (state, ownProps) => ({

@@ -15,7 +15,6 @@ import TableClient from '../../../../clients/TableClient'
  * @author Raphaël Mechali
  */
 export class TableSelectAllContainer extends React.Component {
-
   static mapStateToProps = (state, { pageSelectors }) => ({
     // results metadata
     pageMetadata: pageSelectors.getMetaData(state),
@@ -102,4 +101,5 @@ export class TableSelectAllContainer extends React.Component {
 
 export default connect(
   TableSelectAllContainer.mapStateToProps,
-  TableSelectAllContainer.mapDispatchToProps)(TableSelectAllContainer)
+  TableSelectAllContainer.mapDispatchToProps,
+)(TableSelectAllContainer)

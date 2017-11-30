@@ -10,7 +10,6 @@ import DownloadDescriptionDefinitions from './DownloadDescriptionDefinitions'
  * Currently handles only markdown content
  */
 export default class DownloadEntityDescriptionActions extends BasicSignalActions {
-
   constructor(objectType, namespacePrefix) {
     super({
       namespace: `${namespacePrefix}/${objectType}`,
@@ -37,5 +36,4 @@ export default class DownloadEntityDescriptionActions extends BasicSignalActions
       contentType: DownloadDescriptionDefinitions.MARKDOWN_MIMETYPE,
       content,
     }))
-
 }

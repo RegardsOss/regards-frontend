@@ -25,7 +25,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 * @author Raphaël Mechali
 */
 class ShowDatedItemSelectionDetailComponent extends React.Component {
-
   static propTypes = {
     onShowDetail: PropTypes.func.isRequired,
   }

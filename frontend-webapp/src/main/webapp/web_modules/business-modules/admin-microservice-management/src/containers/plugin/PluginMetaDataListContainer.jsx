@@ -33,7 +33,6 @@ import messages from '../../i18n'
  * @autor Xavier-Alexandre Brochard
  */
 export class PluginMetaDataListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

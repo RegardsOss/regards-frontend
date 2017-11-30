@@ -47,9 +47,7 @@ describe('[FORM MODULE] Testing Form User component', () => {
       handleSearch: handleSearchCallback,
     }
 
-    const wrapper = shallow(
-      <FormComponent {...props} />, options,
-    )
+    const wrapper = shallow(<FormComponent {...props} />, options)
 
     const button = wrapper.find(RaisedButton)
     assert.isTrue(wrapper.find(Container).length === 1, 'Form module should render configured layout')

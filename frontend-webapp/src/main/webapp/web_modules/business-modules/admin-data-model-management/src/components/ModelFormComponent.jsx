@@ -32,7 +32,6 @@ const nameValidators = [ValidationHelpers.validAlphaNumericUnderscore, Validatio
  * Display edit and create project form
  */
 export class ModelFormComponent extends React.Component {
-
   static propTypes = {
     currentModel: DataManagementShapes.Model,
     onSubmit: PropTypes.func.isRequired,
@@ -77,7 +76,9 @@ export class ModelFormComponent extends React.Component {
   }
 
   render() {
-    const { pristine, submitting, isCreating, isEditing } = this.props
+    const {
+      pristine, submitting, isCreating, isEditing,
+    } = this.props
     const title = this.getTitle()
     return (
       <form

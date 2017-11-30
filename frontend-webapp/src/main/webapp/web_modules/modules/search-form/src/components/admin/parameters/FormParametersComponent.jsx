@@ -24,7 +24,6 @@ import ModuleConfiguration from '../../../models/ModuleConfiguration'
  * @author Sébastien binda
  */
 class FormParametersComponent extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,
@@ -44,7 +43,7 @@ class FormParametersComponent extends React.Component {
       attributesRegroupementsConf: this.props.attributesRegroupements,
       selectableAttributes: this.props.selectableAttributes,
       resultType: this.props.resultType,
-      hideDatasetsConfiguration: false,
+      onlyAllowDataConfiguration: false,
     }
 
     const module = {
@@ -64,7 +63,6 @@ class FormParametersComponent extends React.Component {
       />
     )
   }
-
 }
 
 export default FormParametersComponent

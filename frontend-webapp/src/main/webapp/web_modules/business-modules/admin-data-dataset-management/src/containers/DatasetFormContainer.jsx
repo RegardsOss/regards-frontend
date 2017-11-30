@@ -36,7 +36,6 @@ const states = {
  * Show the dataset form
  */
 export class DatasetFormContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -210,7 +209,9 @@ export class DatasetFormContainer extends React.Component {
 
   renderSubContainer = () => {
     const { params: { datasourceId } } = this.props
-    const { isEditing, isCreating, state, currentDataset } = this.state
+    const {
+      isEditing, isCreating, state, currentDataset,
+    } = this.state
     switch (state) {
       case states.FORM_ATTRIBUTE:
         return (<DatasetFormAttributesContainer

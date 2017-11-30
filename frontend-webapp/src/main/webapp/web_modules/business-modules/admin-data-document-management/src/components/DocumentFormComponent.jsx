@@ -35,7 +35,6 @@ import DocumentStepperContainer from '../containers/DocumentStepperContainer'
  * React component to list documents.
  */
 export class DocumentFormComponent extends React.Component {
-
   static propTypes = {
     currentDocument: DataManagementShapes.Document,
     onSubmit: PropTypes.func.isRequired,
@@ -115,7 +114,9 @@ export class DocumentFormComponent extends React.Component {
   }
 
   render() {
-    const { modelList, modelAttributeList, submitting, invalid, backUrl } = this.props
+    const {
+      modelList, modelAttributeList, submitting, invalid, backUrl,
+    } = this.props
     const title = this.getTitle()
     return (
       <form

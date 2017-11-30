@@ -30,7 +30,6 @@ import messages from '../i18n'
  * @author Sébastien Binda
  */
 class ModuleListContainer extends React.Component {
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,

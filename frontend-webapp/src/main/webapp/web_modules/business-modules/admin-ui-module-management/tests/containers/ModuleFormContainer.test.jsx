@@ -49,11 +49,9 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
       // Set by mapStateToProps
       isFetching: false,
     }
-    const wrapper = shallow(
-      <UnconnectedModuleFormContainer
-        {...props}
-      />,
-    )
+    const wrapper = shallow(<UnconnectedModuleFormContainer
+      {...props}
+    />)
 
     assert.isTrue(wrapper.find(ModuleFormComponent).length === 0, 'There should be no ModuleFormComponent displayed')
     assert.isTrue(fetchModuleCallback.calledOnce, 'The module should fetch the given module')
@@ -75,11 +73,9 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
       module: {},
       layout: {},
     }
-    const wrapper = shallow(
-      <UnconnectedModuleFormContainer
-        {...props}
-      />,
-    )
+    const wrapper = shallow(<UnconnectedModuleFormContainer
+      {...props}
+    />)
 
     assert.lengthOf(wrapper.find(ModuleFormComponent), 0, 'There should not be a ModuleFormComponent displayed')
     assert.lengthOf(wrapper.find(FormEntityNotFoundComponent), 1, 'There should be a FormEntityNotFoundComponent displayed')
@@ -103,11 +99,9 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
       module: {},
       layout: {},
     }
-    const wrapper = shallow(
-      <UnconnectedModuleFormContainer
-        {...props}
-      />,
-    )
+    const wrapper = shallow(<UnconnectedModuleFormContainer
+      {...props}
+    />)
     // give some modules (otherwise the component should lock the rendering)
     wrapper.instance().setState({ availableModuleTypes: ['aModule'] })
     wrapper.update() // wait for state update
@@ -148,11 +142,9 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
         },
       },
     }
-    const wrapper = shallow(
-      <UnconnectedModuleFormContainer
-        {...props}
-      />,
-    )
+    const wrapper = shallow(<UnconnectedModuleFormContainer
+      {...props}
+    />)
     // give some modules (otherwise the component should lock the rendering)
     wrapper.instance().setState({ availableModuleTypes: ['aModule'] })
     wrapper.update() // wait for state update

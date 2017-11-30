@@ -10,7 +10,6 @@ import styles from './styles/styles'
 * Card action icon, showing notificatations count (usable as board item action icon, for sub categories)
 */
 class ActionIconWithNotifications extends React.Component {
-
   static propTypes = {
     notificationsCount: PropTypes.number.isRequired,
     icon: PropTypes.element.isRequired,
@@ -29,7 +28,9 @@ class ActionIconWithNotifications extends React.Component {
   }
 
   render() {
-    const { notificationsCount, icon, iconStyle, badgeStyle } = this.props
+    const {
+      notificationsCount, icon, iconStyle, badgeStyle,
+    } = this.props
     // render styles, as not provided by a dynamic module
     let usedIconStyle = iconStyle
     let usedBadgeStyle = badgeStyle

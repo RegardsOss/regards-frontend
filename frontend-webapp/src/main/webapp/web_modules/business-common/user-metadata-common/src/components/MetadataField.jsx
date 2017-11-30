@@ -16,7 +16,6 @@ const DEFAULT_MULTILINES_COUNT = 3
 * Note: when importing this field, you should make sure the i18n keys of this module are available
 */
 class MetadataField extends React.Component {
-
   static propTypes = {
     metadata: Metadata,
   }

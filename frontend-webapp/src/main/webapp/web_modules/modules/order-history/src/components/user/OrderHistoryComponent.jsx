@@ -28,7 +28,6 @@ import OrdersNavigationClient from '../../client/OrdersNavigationClient'
  * @author Raphaël Mechali
  */
 class OrderHistoryComponent extends React.Component {
-
   static propTypes = {
     commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,

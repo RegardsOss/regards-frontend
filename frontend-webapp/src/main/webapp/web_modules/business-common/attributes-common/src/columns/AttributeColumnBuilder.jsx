@@ -40,13 +40,15 @@ function buildRenderDelegates(attributes) {
  * @param {*} presentationModel an attribute presentation model, see AttributePresentationShape
  * @return {TableColumnConfiguration} column built
  */
-function buildAttributeColumn({ key, label, attributes, order, enableSorting, sortOrder }, visible, onSort, fixedColumnsWidth) {
+function buildAttributeColumn({
+  key, label, attributes, order, enableSorting, sortOrder,
+}, visible, onSort, fixedColumnsWidth) {
   if (attributes.length < 1) {
     throw new Error(`An attribute presentation model must have attributes! (${key}/${label})`)
   }
 
   const isSpecialAttr = attributes.length === 1 && [
-    DamDomain.AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL, DamDomain.AttributeModelController.ATTRIBUTE_TYPES.DOWNLOAD_LINK,
+    DamDomain.AttributeModelController.ATTRIBUTE_TYPES.THUMBNAIL,
   ].includes(attributes[0].content.type)
   const isSortable = attributes.length === 1 && enableSorting
 
@@ -60,15 +62,19 @@ function buildAttributeColumn({ key, label, attributes, order, enableSorting, so
   } else if (isSortable) {
     // default column: if sorting enabled, sorting header
     // width: undefined (growing column)
-    columnHeader = TableColumnBuilder.buildSortableColumnHeader(key, label, false,
-      enableSorting, sortOrder, onSort)
+    columnHeader = TableColumnBuilder.buildSortableColumnHeader(
+      key, label, false,
+      enableSorting, sortOrder, onSort,
+    )
   } else {
     columnHeader = TableColumnBuilder.buildTitleColumnHeader(key, label)
   }
 
   // 2 - detemines cell rendeer
-  return TableColumnBuilder.buildColumn(key, label, columnHeader,
-    TableColumnBuilder.buildPropertiesRenderCell(buildRenderDelegates(attributes)), visible, order, columnWidth)
+  return TableColumnBuilder.buildColumn(
+    key, label, columnHeader,
+    TableColumnBuilder.buildPropertiesRenderCell(buildRenderDelegates(attributes)), visible, order, columnWidth,
+  )
 }
 
 

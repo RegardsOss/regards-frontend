@@ -22,7 +22,6 @@
  * @author Raphaël Mechali
  */
 class ModuleDialogActions {
-
   /**
    * Default namespace
    */
@@ -55,7 +54,6 @@ class ModuleDialogActions {
   hideDetail() {
     return { type: this.HIDE_DETAIL }
   }
-
 }
 
 module.exports = {

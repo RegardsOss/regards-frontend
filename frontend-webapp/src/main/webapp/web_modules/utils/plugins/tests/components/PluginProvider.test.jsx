@@ -38,17 +38,15 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should fetch the pluginDefinition with the given pluginId in props', () => {
     const pluginDefinitionId = 12
     const fetchPluginSpy = spy()
-    const wrapper = shallow(
-      <UnconnectedPluginProvider
-        pluginInstanceId={'0'}
-        pluginId={pluginDefinitionId}
-        pluginConf={{}}
-        pluginProps={{}}
-        displayPlugin
-        pluginToLoad={null}
-        fetchPlugin={fetchPluginSpy}
-      />,
-    )
+    const wrapper = shallow(<UnconnectedPluginProvider
+      pluginInstanceId="0"
+      pluginId={pluginDefinitionId}
+      pluginConf={{}}
+      pluginProps={{}}
+      displayPlugin
+      pluginToLoad={null}
+      fetchPlugin={fetchPluginSpy}
+    />)
 
     assert.isTrue(fetchPluginSpy.calledOnce, 'As no plugin is given, the PluginProvider should fetch the plugin using fetchPlugin method')
     assert.isTrue(fetchPluginSpy.calledWith(pluginDefinitionId), 'Wrong parameter passed to fetchPlugin.')
@@ -59,14 +57,13 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render a PluginLoader', () => {
     const pluginDefinitionId = 12
     const fetchPluginSpy = spy()
-    const wrapper = shallow(
-      <UnconnectedPluginProvider
-        pluginInstanceId={'0'}
-        pluginId={pluginDefinitionId}
-        pluginConf={{}}
-        pluginProps={{}}
-        displayPlugin
-        pluginToLoad={{
+    const wrapper = shallow(<UnconnectedPluginProvider
+      pluginInstanceId="0"
+      pluginId={pluginDefinitionId}
+      pluginConf={{}}
+      pluginProps={{}}
+      displayPlugin
+      pluginToLoad={{
           content: {
             id: pluginDefinitionId,
             name: 'plugin-test',
@@ -74,42 +71,38 @@ describe('[PLUGINS] Testing Plugins load', () => {
             sourcePath: '/test/plugin.js',
           },
         }}
-        fetchPlugin={fetchPluginSpy}
-      />,
-    )
+      fetchPlugin={fetchPluginSpy}
+    />)
 
     assert.isFalse(fetchPluginSpy.called, 'The pluginDefinition is already fetched so the fetch method should not be called')
     assert.lengthOf(wrapper.find(PluginLoader), 1, 'The PluginLoader component should be rendered')
     assert.equal(wrapper.find(LoadableContentDisplayDecorator).prop('isLoading'), false, 'Loading component should not be display as the pluginDefinition is already fetched')
   })
   it('Should render correctly that a plugin is loading', () => {
-    const wrapper = shallow(
-      <UnconnectedPluginLoader
-        pluginInstanceId={0}
-        pluginPath="test"
-        pluginConf={{
+    const wrapper = shallow(<UnconnectedPluginLoader
+      pluginInstanceId={0}
+      pluginPath="test"
+      pluginConf={{
           parameter: 'value',
         }}
-        displayPlugin
-        locale="fr"
-        loadPlugin={() => { }}
-      />,
-    )
+      displayPlugin
+      locale="fr"
+      loadPlugin={() => { }}
+    />)
 
     expect(wrapper.find(PluginTest)).to.have.length(0)
     expect(wrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
   })
 
   it('Should render correctly a plugin', () => {
-    const wrapper = shallow(
-      <UnconnectedPluginLoader
-        pluginInstanceId={0}
-        pluginPath="test"
-        pluginConf={{
+    const wrapper = shallow(<UnconnectedPluginLoader
+      pluginInstanceId={0}
+      pluginPath="test"
+      pluginConf={{
           parameter: 'value',
         }}
-        displayPlugin
-        loadedPlugin={{
+      displayPlugin
+      loadedPlugin={{
           name: 'testPlugin',
           plugin: PluginTest,
           messages: {
@@ -129,9 +122,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
             conf: {},
           },
         }}
-        locale="fr"
-      />,
-    )
+      locale="fr"
+    />)
 
     expect(wrapper.find(PluginTest)).to.have.length(1)
     expect(wrapper.find(PluginTest).prop('parameter')).to.equal('value')
@@ -139,15 +131,14 @@ describe('[PLUGINS] Testing Plugins load', () => {
   })
 
   it('Should render correctly an element with a plugin as a prop', () => {
-    const wrapper = shallow(
-      <UnconnectedPluginLoader
-        pluginInstanceId={0}
-        pluginPath="test"
-        pluginConf={{
+    const wrapper = shallow(<UnconnectedPluginLoader
+      pluginInstanceId={0}
+      pluginPath="test"
+      pluginConf={{
           parameter: 'value',
         }}
-        displayPlugin={false}
-        loadedPlugin={{
+      displayPlugin={false}
+      loadedPlugin={{
           name: 'testPlugin',
           plugin: PluginTest,
           messages: {
@@ -165,11 +156,10 @@ describe('[PLUGINS] Testing Plugins load', () => {
             conf: {},
           },
         }}
-        locale="fr"
-      >
-        <div>Test</div>
-      </UnconnectedPluginLoader>,
-    )
+      locale="fr"
+    >
+      <div>Test</div>
+    </UnconnectedPluginLoader>)
 
     expect(wrapper.find(PluginTest)).to.have.length(0)
     expect(wrapper.find('div')).to.have.length(1)

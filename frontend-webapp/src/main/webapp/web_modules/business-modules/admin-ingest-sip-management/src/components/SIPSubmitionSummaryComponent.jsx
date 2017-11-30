@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { Card, CardText, CardTitle } from 'material-ui/Card'
+import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { IngestShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -28,7 +28,6 @@ import SIPSubmitionComponent from './SIPSubmitionComponent'
 * @author Sébastien Binda
 */
 class SIPSubmitionSummaryComponent extends React.Component {
-
   static propTypes = {
     submitedSips: PropTypes.arrayOf(IngestShapes.SIPSubmited),
     onBack: PropTypes.func.isRequired,
@@ -49,10 +48,12 @@ class SIPSubmitionSummaryComponent extends React.Component {
       <CardText>
         {map(this.props.submitedSips, sip => <SIPSubmitionComponent key={sip.id} sip={sip} />)}
       </CardText>
-      <CardActionsComponent
-        mainButtonLabel={this.context.intl.formatMessage({ id: 'sips.submition-summary.back.button' })}
-        mainButtonTouchTap={this.props.onBack}
-      />
+      <CardActions>
+        <CardActionsComponent
+          mainButtonLabel={this.context.intl.formatMessage({ id: 'sips.submition-summary.back.button' })}
+          mainButtonTouchTap={this.props.onBack}
+        />
+      </CardActions>
     </Card>
   )
 }

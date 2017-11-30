@@ -24,14 +24,12 @@ const Datasource = PropTypes.shape({
     label: PropTypes.string,
     tableName: PropTypes.string,
     mapping: PropTypes.shape({
-      attributeMapping: PropTypes.arrayOf(
-        PropTypes.shape({
-          namespace: PropTypes.string,
-          name: PropTypes.string,
-          type: PropTypes.string,
-          nameDS: PropTypes.string,
-        }),
-      ),
+      attributeMapping: PropTypes.arrayOf(PropTypes.shape({
+        namespace: PropTypes.string,
+        name: PropTypes.string,
+        type: PropTypes.string,
+        nameDS: PropTypes.string,
+      })),
       model: PropTypes.number,
     }),
   }).isRequired,

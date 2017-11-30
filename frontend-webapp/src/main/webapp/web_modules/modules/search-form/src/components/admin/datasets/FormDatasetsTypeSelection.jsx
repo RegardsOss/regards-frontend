@@ -27,7 +27,6 @@ import DatasetSelectionType from '../../../models/datasets/DatasetSelectionTypes
  * @author Sébastien binda
  */
 class FormDatasetsTypeSelection extends React.Component {
-
   static propTypes = {
     defaultSelected: PropTypes.string,
     onSelectType: PropTypes.func,
@@ -65,6 +64,5 @@ class FormDatasetsTypeSelection extends React.Component {
       </Field>
     )
   }
-
 }
 export default FormDatasetsTypeSelection

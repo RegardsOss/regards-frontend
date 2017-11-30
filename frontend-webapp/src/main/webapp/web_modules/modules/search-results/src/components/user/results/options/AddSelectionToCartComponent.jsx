@@ -25,7 +25,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Raphaël Mechali
  */
 export class AddSelectionToCartComponent extends React.Component {
-
   static propTypes = {
     onAddSelectionToCart: PropTypes.func,
     // other properties are reported to the button

@@ -22,4 +22,6 @@ const SUCCESS = Symbol('The connection has successfuly been established')
 const WARNING = Symbol('The connection could be established but errors occured')
 const ERROR = Symbol('The connection could not be established')
 
-module.exports = { NOT_TESTED, PENDING, SUCCESS, WARNING, ERROR }
+module.exports = {
+  NOT_TESTED, PENDING, SUCCESS, WARNING, ERROR,
+}

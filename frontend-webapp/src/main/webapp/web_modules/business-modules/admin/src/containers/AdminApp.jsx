@@ -32,7 +32,6 @@ import messages from '../i18n'
  * This components displays admin layout or login form if the user is not connected
  */
 class AdminApp extends React.Component {
-
   static propTypes = {
     content: PropTypes.element,
     // from router
@@ -98,7 +97,9 @@ class AdminApp extends React.Component {
 
 
   render() {
-    const { isAuthenticated, content, project, isInstance } = this.props
+    const {
+      isAuthenticated, content, project, isInstance,
+    } = this.props
     const { isLoadingEndpoints } = this.state
 
     const projectHandlerComp = isInstance || !this.props.params.project ? null :

@@ -23,7 +23,6 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Raphaël Mechali
  */
 class TableHeaderOptionsGroup extends React.Component {
-
   static propTypes = {
     // expected options as children
     children: PropTypes.oneOfType([

@@ -22,7 +22,6 @@
  * @author Raphaël Mechali
  */
 class RunPluginServiceActions {
-
   constructor() {
     this.RUN_SERVICE = 'search-results/run-plugin-service/RUN_SERVICE'
     this.CLOSE_SERVICE = 'search-results/run-plugin-service/CLOSE_SERVICE'
@@ -49,7 +48,6 @@ class RunPluginServiceActions {
       type: this.CLOSE_SERVICE,
     }
   }
-
 }
 
 export default new RunPluginServiceActions()

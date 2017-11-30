@@ -9,7 +9,6 @@ import Badge from 'material-ui/Badge'
 * Container for observable list counts (fetches the results on timer, to show the notifications count changes)
 */
 class NotificationCountContainer extends React.Component {
-
   static propTypes = {
     notificationsCount: PropTypes.number.isRequired,
     // used in map state to props

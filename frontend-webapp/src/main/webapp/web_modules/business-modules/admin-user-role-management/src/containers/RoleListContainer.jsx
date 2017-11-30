@@ -29,7 +29,6 @@ import messages from '../i18n'
  *
  */
 export class RoleListContainer extends React.Component {
-
   static propTypes = {
     roleList: AdminShapes.RoleList,
     fetchRoleList: PropTypes.func,

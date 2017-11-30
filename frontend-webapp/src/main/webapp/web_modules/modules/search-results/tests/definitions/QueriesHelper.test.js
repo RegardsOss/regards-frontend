@@ -11,13 +11,16 @@ describe('[Search Results] Testing QueriesHelper', () => {
   after(testSuiteHelpers.after)
 
   it('Should display correctly the url search with open search query', () => {
-    const openSearchQuery = QueriesHelper.getOpenSearchQuery('meta:false', // root query
+    const openSearchQuery = QueriesHelper.getOpenSearchQuery(
+      'meta:false', // root query
       [{ openSearchQuery: 'anyBlblblbl' }], // facettes selected
-      [QueriesHelper.getDatasetIpIdParameter('mimi-c-mati')]) // other parameters
+      [QueriesHelper.getDatasetIpIdParameter('mimi-c-mati')],
+    ) // other parameters
     assert.equal(openSearchQuery.toQueryString(), 'meta:false AND anyBlblblbl AND tags:"mimi-c-mati"', 'Open search query should be correctly generated')
 
     const urlQuery = QueriesHelper.getURLQuery(openSearchQuery.toQueryString(), [{ attributePath: 'taille', type: TableSortOrders.ASCENDING_ORDER }], 'jeveuxlesfacettes=oui')
-    assert.equal(urlQuery.toQueryString(),
+    assert.equal(
+      urlQuery.toQueryString(),
       'q=(meta:false AND anyBlblblbl AND tags:"mimi-c-mati")&sort=taille,ASC&jeveuxlesfacettes=oui',
       'The URL query be correctly genereted',
     )

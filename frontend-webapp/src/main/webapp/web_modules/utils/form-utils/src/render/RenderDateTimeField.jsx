@@ -40,7 +40,6 @@ import styles from '../styles'
  *  @author Léo Mieulet
  */
 export class RenderDateTimeField extends React.Component {
-
   static propTypes = {
     input: PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
@@ -139,7 +138,9 @@ export class RenderDateTimeField extends React.Component {
   }
 
   render() {
-    const { intl, label, timeFormat, input, meta: { touched, error } } = this.props
+    const {
+      intl, label, timeFormat, input, meta: { touched, error },
+    } = this.props
     const { moduleTheme: { dateFieldStyles } } = this.context
     const clearButtonDisplayed = !!input.value
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)

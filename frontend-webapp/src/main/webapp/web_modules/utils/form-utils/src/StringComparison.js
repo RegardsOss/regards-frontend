@@ -4,7 +4,6 @@
 import reduce from 'lodash/reduce'
 
 export default class StringComparison {
-
   static charToAccentMap = {
     a: ['à', 'á', 'â', 'ã', 'ä', 'å', 'æ'],
     c: ['ç'],
@@ -23,10 +22,12 @@ export default class StringComparison {
    * @return comparable string
    */
   static getComparableLabel(str) {
-    return reduce(StringComparison.charToAccentMap,
+    return reduce(
+      StringComparison.charToAccentMap,
       (acc, accents, char) =>
         accents.reduce((innerAcc, accent) => innerAcc.split(accent).join(char), acc)
-      , str.toLowerCase())
+      , str.toLowerCase(),
+    )
   }
 
   /**
@@ -45,5 +46,4 @@ export default class StringComparison {
     }
     return 0
   }
-
 }

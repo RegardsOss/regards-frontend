@@ -24,7 +24,6 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  * @author Maxime Bouveron
  */
 export default class SessionActions extends BasicPageableActions {
-
   /**
    * Construtor
    * @param namespace

@@ -23,7 +23,6 @@ import ModulesNavigatorComponent from '../components/ModulesNavigatorComponent'
 * @author Raphaël Mechali
 */
 export class ModulesNavigatorContainer extends React.Component {
-
   static propTypes = {
     appName: PropTypes.string,
     project: PropTypes.string,

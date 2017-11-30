@@ -55,9 +55,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
       selectableAttributes: {},
       availableCriterion: {},
     }
-    const wrapper = shallow(
-      <FormCriterionComponent {...props} />, { context },
-    )
+    const wrapper = shallow(<FormCriterionComponent {...props} />, { context })
 
     const tableList = wrapper.find(Table)
     const tableRows = wrapper.find(TableBody).find(TableRow)
@@ -113,9 +111,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
       selectableAttributes: {},
       availableCriterion: {},
     }
-    const wrapper = shallow(
-      <FormCriterionComponent {...props} />, { context },
-    )
+    const wrapper = shallow(<FormCriterionComponent {...props} />, { context })
 
     const tableList = wrapper.find(Table)
     let tableRows = wrapper.find(TableBody).find(TableRow)
@@ -150,6 +146,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     assert(changeFieldCallback.calledOnce, 'The change callback should have been called here')
     assert(changeFieldCallback.calledWith(
       'conf.criterion',
-      [props.criterion[1]]), 'The delete callback is not valid')
+      [props.criterion[1]],
+    ), 'The delete callback is not valid')
   })
 })

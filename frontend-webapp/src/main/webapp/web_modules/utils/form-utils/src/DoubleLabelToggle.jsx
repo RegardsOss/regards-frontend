@@ -51,7 +51,7 @@ const DoubleLabelToggle = ({
       {rightLabel}
     </span>
   </div>
-  )
+)
 
 DoubleLabelToggle.propTypes = {
   rightLabel: PropTypes.string.isRequired,

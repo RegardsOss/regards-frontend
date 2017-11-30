@@ -31,7 +31,6 @@ export class RefuseAccountSignalActions extends BasicSignalActions {
       account_email: accountEmail,
     })
   }
-
 }
 
 // export singleton instance

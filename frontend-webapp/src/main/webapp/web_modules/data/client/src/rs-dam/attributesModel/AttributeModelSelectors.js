@@ -25,7 +25,6 @@ import { DEFAULT_FRAGMENT } from '@regardsoss/domain/dam'
  * @author Léo Mieulet
  */
 class AttributeModelSelectors extends BasicListSelectors {
-
   /**
    * Return an array containing all attributes ordered by their fragment and their name
    * Attributes on the default fragment are at the end of the result

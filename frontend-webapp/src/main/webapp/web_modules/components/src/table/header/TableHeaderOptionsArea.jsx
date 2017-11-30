@@ -28,7 +28,6 @@ import TableHeaderOptionsSeparator from './TableHeaderOptionsSeparator'
  * @author Raphaël Mechali
  */
 class TableHeaderOptionsArea extends React.Component {
-
   static propTypes = {
     // expected options groups as children (this component will add separators)
     children: PropTypes.oneOfType([
@@ -56,10 +55,12 @@ class TableHeaderOptionsArea extends React.Component {
     let presentedChildren = children
     if (isArray(children)) {
       // 1 - filter only visible non null children (keep children that do not have show property)
-      presentedChildren = flatMap(children.filter(child => child && get(child, 'props.show', true)),
+      presentedChildren = flatMap(
+        children.filter(child => child && get(child, 'props.show', true)),
         // 2 - for each remaining child, add a separator if not the last one
         (visibleChild, index, array) => index < array.length - 1 ?
-          [visibleChild, <SeparatorConstructor key={`separator.${index}`} />] : [visibleChild])
+          [visibleChild, <SeparatorConstructor key={`separator.${index}`} />] : [visibleChild],
+      )
     }
 
     return (

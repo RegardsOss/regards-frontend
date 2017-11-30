@@ -24,7 +24,6 @@ import messages from '../../i18n'
  * I18n Provider for ProjectConnectionsContainer
  */
 export class ProjectConnectionsProvider extends React.Component {
-
   render() {
     return (
       <I18nProvider messages={messages}>
@@ -34,7 +33,6 @@ export class ProjectConnectionsProvider extends React.Component {
       </I18nProvider>
     )
   }
-
 }
 
 export default ProjectConnectionsProvider

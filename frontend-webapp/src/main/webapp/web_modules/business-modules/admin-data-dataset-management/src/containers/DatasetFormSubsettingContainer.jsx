@@ -29,7 +29,6 @@ import messages from '../i18n'
  * Show the dataset form
  */
 export class DatasetFormSubsettingContainer extends React.Component {
-
   static propTypes = {
     currentDataset: DataManagementShapes.Dataset,
     handleBack: PropTypes.func.isRequired,
@@ -61,7 +60,9 @@ export class DatasetFormSubsettingContainer extends React.Component {
   }
 
   getForm = () => {
-    const { currentDataset, handleBack, handleSave, isEditing, modelAttributeList } = this.props
+    const {
+      currentDataset, handleBack, handleSave, isEditing, modelAttributeList,
+    } = this.props
     return (<DatasetFormSubsettingComponent
       currentDataset={currentDataset}
       handleBack={handleBack}

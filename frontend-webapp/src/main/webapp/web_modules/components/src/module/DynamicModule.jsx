@@ -38,7 +38,6 @@ import messages from './i18n'
  * @author Raphaël Mechali
  */
 export class DynamicModule extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -121,8 +120,7 @@ export class DynamicModule extends React.Component {
   onPropertiesChanged = (oldProps, newProps) => {
     const oldState = this.state
     let newState
-    const hasAllDependencies = newProps.requiredDependencies.reduce(
-      (acc, dependency) => acc && newProps.availableDependencies.includes(dependency), true)
+    const hasAllDependencies = newProps.requiredDependencies.reduce((acc, dependency) => acc && newProps.availableDependencies.includes(dependency), true)
     if (!newProps.fetching && !newProps.isAuthenticated && (newProps.requiresAuthentication || !hasAllDependencies)) {
       // 1 - we consider here the user should log in when:
       // A - authentication is required
@@ -150,9 +148,17 @@ export class DynamicModule extends React.Component {
 
 
   render() {
-    const { title, options, children, onExpandChange, expanded, onKeyPress } = this.props
-    const { moduleTheme: { module: { cardHeaderStyle, cardHeaderContentStyle, titleBarDivStyle,
-      titleDivStyle, optionsDivStyle } }, intl: { formatMessage } } = this.context
+    const {
+      title, options, children, onExpandChange, expanded, onKeyPress,
+    } = this.props
+    const {
+      moduleTheme: {
+        module: {
+          cardHeaderStyle, cardHeaderContentStyle, titleBarDivStyle,
+          titleDivStyle, optionsDivStyle,
+        },
+      }, intl: { formatMessage },
+    } = this.context
     const { noData, noDataTitleKey, noDataMessageKey } = this.state
     return (
       <Card
@@ -188,9 +194,9 @@ export class DynamicModule extends React.Component {
       </Card>
     )
   }
-
 }
 
 export default compose(
   connect(DynamicModule.mapStateToProps),
-  withI18n(messages, true), withModuleStyle(styles, true))(DynamicModule)
+  withI18n(messages, true), withModuleStyle(styles, true),
+)(DynamicModule)

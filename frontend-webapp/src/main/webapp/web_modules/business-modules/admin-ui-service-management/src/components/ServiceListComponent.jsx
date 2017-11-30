@@ -40,7 +40,6 @@ const ResourceIconAction = withResourceDisplayControl(IconButton)
  * @author Léo Mieulet
  */
 class ServiceListComponent extends React.Component {
-
   static propTypes = {
     uiPluginDefinitionList: AccessShapes.UIPluginDefinitionList,
     handleCreate: PropTypes.func.isRequired,

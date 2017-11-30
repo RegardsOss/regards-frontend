@@ -21,7 +21,6 @@ import ModuleIcon from 'material-ui/svg-icons/device/storage'
 import { DynamicModule, ModuleTitle } from '@regardsoss/components'
 
 class AIPStatus extends Component {
-
   static propTypes = {
     // expanded state management
     expanded: PropTypes.bool.isRequired,
@@ -32,7 +31,7 @@ class AIPStatus extends Component {
     const { onExpandChange, expanded } = this.props
     return (
       <DynamicModule
-        title={<ModuleTitle IconConstructor={ModuleIcon} text={'TODO TITLE'} />} // TODO
+        title={<ModuleTitle IconConstructor={ModuleIcon} text="TODO TITLE" />} // TODO
         onExpandChange={onExpandChange}
         expanded={expanded}
       >

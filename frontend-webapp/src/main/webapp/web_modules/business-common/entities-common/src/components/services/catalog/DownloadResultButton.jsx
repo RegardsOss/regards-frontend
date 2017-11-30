@@ -24,7 +24,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 * @author Raphaël Mechali
 */
 class DownloadResultButton extends React.Component {
-
   static propTypes = {
     localAccessURL: PropTypes.string.isRequired, // Not URL as it may be local URL (prefixed by blob)
   }
@@ -43,7 +42,6 @@ class DownloadResultButton extends React.Component {
         downloadURL={localAccessURL}
       />)
   }
-
 }
 
 export default DownloadResultButton

@@ -6,14 +6,15 @@
   "author": "CS-SI",
   "license": "GPL-3.0",
   "peerdependencies": {
-    "eslint": "~3.19.0",
+    "eslint": "~4.12.0",
     "eslint-loader": "~1.9.0",
-    "eslint-config-airbnb": "~15.1.0",
-    "eslint-plugin-import": "~2.7.0",
-    "eslint-plugin-jsx-a11y": "~5.1.1",
-    "eslint-plugin-lodash": "^2.4.4",
-    "eslint-plugin-mocha": "^4.8.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "~7.1.0"
+    "eslint-config-airbnb": "~16.1.0",
+    "eslint-plugin-import": "~2.8.0",
+    "eslint-plugin-jsx-a11y": "~6.0.2",
+    "eslint-plugin-lodash": "^2.5.0",
+    "eslint-plugin-mocha": "^4.11.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "~7.5.1",
+    "eslint-plugin-react-perf": "~2.0.6"
   }
 }

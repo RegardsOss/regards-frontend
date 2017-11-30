@@ -35,6 +35,12 @@ const messages = {
   'data.board.document.title': 'Documents',
   'data.board.document.description': 'Documents contain files',
 
+  'data.board.storage.title': 'Data storage configuration',
+  'data.board.storage.description': 'This section allows you to configure one or multiples data storage locations and also the strategy to define wich location system will use.',
+  'data.board.action.storages.tooltip': 'Configure locations',
+  'data.board.action.allocations.tooltip': 'Configure stratgies',
+
+
 }
 
 export default messages

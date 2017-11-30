@@ -30,7 +30,6 @@ import { dependencies } from '../../user-dependencies'
  * @author Sébastien binda
  */
 class FormComponent extends React.Component {
-
   static propTypes = {
     expanded: PropTypes.bool,
     description: PropTypes.string.isRequired,

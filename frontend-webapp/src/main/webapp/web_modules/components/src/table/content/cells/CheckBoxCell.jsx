@@ -33,7 +33,6 @@ import { TableSelectors } from '../../model/TableSelectors' // class for prop ty
  * @author Raphaël Mechali
  */
 export class CheckBoxCell extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -122,5 +121,6 @@ export class CheckBoxCell extends React.Component {
 
 export default connect(
   CheckBoxCell.mapStateToProps,
-  CheckBoxCell.mapDispatchToProps)(CheckBoxCell)
+  CheckBoxCell.mapDispatchToProps,
+)(CheckBoxCell)
 

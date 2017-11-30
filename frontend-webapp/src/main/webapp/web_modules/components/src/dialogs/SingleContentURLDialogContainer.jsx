@@ -9,7 +9,6 @@ import LoadableContentDialogContainer from './LoadableContentDialogContainer'
 * Loadable content dialog showing only one content with its URL
 */
 class SingleContentURLDialogContainer extends React.Component {
-
   static propTypes = {
     contentURL: CommonShapes.URL.isRequired,
     open: PropTypes.bool.isRequired,
@@ -36,7 +35,9 @@ class SingleContentURLDialogContainer extends React.Component {
   }
 
   render() {
-    const { contentURL, open, dialogWidthPercent, dialogHeightPercent, loadingMessage, ...otherDialogProps } = this.props
+    const {
+      contentURL, open, dialogWidthPercent, dialogHeightPercent, loadingMessage, ...otherDialogProps
+    } = this.props
     const { loaded } = this.state
     return (
       <LoadableContentDialogContainer

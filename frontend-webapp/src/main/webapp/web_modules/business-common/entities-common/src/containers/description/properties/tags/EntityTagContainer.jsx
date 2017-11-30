@@ -11,7 +11,6 @@ import TagComponent from '../../../../components/description/properties/tags/Tag
 * Entity tag container
 */
 export class EntityTagContainer extends React.Component {
-
   static mapStateToProps = (state, { levelSelectors }) => ({
     descriptionPath: levelSelectors.getCurrentDescriptionPath(state),
   })
@@ -77,4 +76,5 @@ export class EntityTagContainer extends React.Component {
 
 export default connect(
   EntityTagContainer.mapStateToProps,
-  EntityTagContainer.mapDispatchToProps)(EntityTagContainer)
+  EntityTagContainer.mapDispatchToProps,
+)(EntityTagContainer)

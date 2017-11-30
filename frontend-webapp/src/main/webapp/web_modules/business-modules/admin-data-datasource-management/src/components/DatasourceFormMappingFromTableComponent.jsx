@@ -34,7 +34,6 @@ import StaticAttributeList from './StaticAttributeList'
 import states from './FormMappingStates'
 
 export class DatasourceFormMappingFromTableComponent extends React.Component {
-
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     isEditing: PropTypes.bool,
@@ -77,7 +76,9 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
   }
 
   render() {
-    const { modelAttributeList, table, tableAttributeList, change } = this.props
+    const {
+      modelAttributeList, table, tableAttributeList, change,
+    } = this.props
 
     const mappingLines = flow(
       fpsortBy('content.attribute.optional'),
@@ -93,7 +94,8 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
             change={change}
           />
         )
-      }))(modelAttributeList)
+      }),
+    )(modelAttributeList)
     return (
       <div>
         <CardTitle

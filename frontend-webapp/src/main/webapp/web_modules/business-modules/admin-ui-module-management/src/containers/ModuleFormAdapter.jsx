@@ -30,7 +30,6 @@ import { layoutActions, layoutSelectors } from '../clients/LayoutClient'
  * @author Léo Mieulet
  */
 export class ModuleFormAdapter extends React.Component {
-
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string,

@@ -40,7 +40,6 @@ const SCROLLBAR_SIZE = 17
  * @author Sébastien Binda
  */
 class Table extends React.Component {
-
   /**
    * PageActions : BasicPageableActions of the entities to manage
    * PageSelector : BasicPageableSelectors of the entities to manage

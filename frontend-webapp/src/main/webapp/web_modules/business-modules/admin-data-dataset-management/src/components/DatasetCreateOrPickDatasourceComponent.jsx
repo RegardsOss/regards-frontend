@@ -32,7 +32,6 @@ import RaisedButton from 'material-ui/RaisedButton'
  * React component to list datasets.
  */
 export class DatasetCreateOrPickDatasourceComponent extends React.Component {
-
   static propTypes = {
     datasourceList: DataManagementShapes.DatasourceList,
     createDatasourceUrl: PropTypes.string.isRequired,

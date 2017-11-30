@@ -7,7 +7,6 @@ import { themeContextType } from '@regardsoss/theme'
 * Table options separator
 */
 class TableHeaderOptionsSeparator extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
   }

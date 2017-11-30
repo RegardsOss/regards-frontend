@@ -58,7 +58,6 @@ const HateoasCreateButton = withResourceDisplayControl(CreateButton)
  * @author Xavier-Alexandre Brochard
  */
 class ApplicationThemeComponent extends React.Component {
-
   static propTypes = {
     themeList: AccessShapes.ThemeList,
     currentTheme: AccessShapes.Theme,
@@ -207,7 +206,8 @@ class ApplicationThemeComponent extends React.Component {
         hateoasKey={HateoasKeys.UPDATE}
         onTouchTap={() => this.onSave(editingTheme)}
         tooltip={formatMessage({ id: 'application.theme.save' })}
-      ><Save color={muiTheme.palette.alternateTextColor} /></HateoasIconAction>
+      ><Save color={muiTheme.palette.alternateTextColor} />
+      </HateoasIconAction>
     )
     const deleteButton = (<ConfirmableHateoasIconAction
       entityLinks={editingTheme.links}

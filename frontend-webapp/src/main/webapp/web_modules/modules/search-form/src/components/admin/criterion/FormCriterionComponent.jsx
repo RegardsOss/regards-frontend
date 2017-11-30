@@ -44,7 +44,6 @@ import FormCriteriaComponent from './FormCriteriaComponent'
  * @author Sébastien binda
  */
 class FormCriterionComponent extends React.Component {
-
   static propTypes = {
     // Fu,ction to update current redux-form
     changeField: PropTypes.func,
@@ -166,21 +165,19 @@ class FormCriterionComponent extends React.Component {
         if (criteriaType) {
           label = criteriaType.content.name
         }
-        rows.push(
-          <TableRow key={idx}>
-            <TableRowColumn>{label}</TableRowColumn>
-            <TableRowColumn>{this.getCriteriaAttributes(criteria)}</TableRowColumn>
-            <TableRowColumn>{criteria.container}</TableRowColumn>
-            <TableRowColumn>
-              <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
-                <Edit />
-              </IconButton>
-              <IconButton onTouchTap={() => this.handleDelete(criteria, idx)}>
-                <Delete />
-              </IconButton>
-            </TableRowColumn>
-          </TableRow>,
-          )
+        rows.push(<TableRow key={idx}>
+          <TableRowColumn>{label}</TableRowColumn>
+          <TableRowColumn>{this.getCriteriaAttributes(criteria)}</TableRowColumn>
+          <TableRowColumn>{criteria.container}</TableRowColumn>
+          <TableRowColumn>
+            <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
+              <Edit />
+            </IconButton>
+            <IconButton onTouchTap={() => this.handleDelete(criteria, idx)}>
+              <Delete />
+            </IconButton>
+          </TableRowColumn>
+                  </TableRow>)
       })
     }
     return rows

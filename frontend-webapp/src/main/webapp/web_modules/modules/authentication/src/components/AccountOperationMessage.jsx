@@ -44,7 +44,6 @@ export const operationIds = {
  * Shows the user the 'operation complete' view, for account operations
  */
 class AccountOperationMessage extends React.Component {
-
   static propTypes = {
     operationId: PropTypes.oneOf(values(operationIds)).isRequired,
     operationAction: PropTypes.func.isRequired,

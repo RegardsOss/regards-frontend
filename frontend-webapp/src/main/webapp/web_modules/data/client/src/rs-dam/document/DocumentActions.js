@@ -27,7 +27,6 @@ import isString from 'lodash/isString'
  * @author Léo Mieulet
  */
 export default class DocumentActions extends BasicPageableActions {
-
   /**
    * Construtor
    * @param namespace

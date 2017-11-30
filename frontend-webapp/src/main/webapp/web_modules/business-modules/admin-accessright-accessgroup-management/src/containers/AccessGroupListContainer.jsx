@@ -29,7 +29,6 @@ import messages from '../i18n'
  * Show the group list
  */
 export class AccessGroupListContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

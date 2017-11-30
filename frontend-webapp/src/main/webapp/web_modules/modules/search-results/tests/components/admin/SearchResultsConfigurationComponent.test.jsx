@@ -40,18 +40,21 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
       defaultSelected: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       onSelectType: selectCallback,
       disabled: false,
-      selectableAttributes: {},
-      changeField: () => { },
-      hideDatasetsConfiguration: false,
-    }
-    const wrapper = shallow(
-      <SearchResultsConfigurationComponent {...props} />, options,
-    )
 
-    const showDatasetsField = wrapper.find(Field).find({ name: 'conf.displayDatasets' })
-    assert(showDatasetsField.length === 1, 'The show dataset field should be defined')
+      dataAttributeModels: {},
+      datasetAttributeModels: {},
+      documentAttributeModels: {},
+      currentFormValues: {},
+      initialFormValues: {},
+
+      changeField: () => { },
+    }
+    const wrapper = shallow(<SearchResultsConfigurationComponent {...props} />, options)
+
+    const showDatasetsField = wrapper.find(Field).find({ name: 'conf.enableDownload' })
+    assert(showDatasetsField.length === 1, 'The download field should be defined')
 
     const showFacettes = wrapper.find(Field).find({ name: 'conf.enableFacettes' })
-    assert(showFacettes.length === 1, 'The faccettes field should be defined')
+    assert(showFacettes.length === 1, 'The facettes field should be defined')
   })
 })

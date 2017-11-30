@@ -76,9 +76,7 @@ describe('[SEARCH FORM] Testing CriteriaConfigurationComponent', () => {
         info: TestPluginInfo,
       },
     }
-    const wrapper = shallow(
-      <CriteriaConfigurationComponent {...props} />, options,
-    )
+    const wrapper = shallow(<CriteriaConfigurationComponent {...props} />, options)
 
     const numberOfAttributesToConfigure = TestPluginInfo.conf.attributes.length
     const attributes = wrapper.find(Field)

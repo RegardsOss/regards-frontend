@@ -19,7 +19,6 @@
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
 class AccountPasswordSelectors extends BasicSignalSelectors {
-
   getValidity(state) {
     return this.uncombineStore(state).validity
   }
@@ -27,7 +26,6 @@ class AccountPasswordSelectors extends BasicSignalSelectors {
   getRules(state) {
     return this.uncombineStore(state).rules
   }
-
 }
 
 export default storePath => new AccountPasswordSelectors(storePath)

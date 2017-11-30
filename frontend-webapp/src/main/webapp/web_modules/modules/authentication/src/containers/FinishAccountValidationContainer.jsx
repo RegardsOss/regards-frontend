@@ -26,7 +26,6 @@ import VerifyEmailSelectors from '../model/creation/VerifyAccountSelectors'
  * Completes unlock account when back from mail or fails if token is now invalid
  */
 export class FinishAccountValidationContainer extends React.Component {
-
   static propTypes = {
     // token to finish reset password
     token: PropTypes.string.isRequired,

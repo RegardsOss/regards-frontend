@@ -35,7 +35,6 @@ import ScaleSelectorComponent from './ScaleSelectorComponent'
  * @author Raphaël Mechali
  */
 class StorageMonitoringComponent extends React.Component {
-
   static propTypes = {
     scale: storage.StorageUnitScaleShape.isRequired,
     storagePlugins: StorageShapes.StoragePluginList.isRequired,
@@ -49,7 +48,9 @@ class StorageMonitoringComponent extends React.Component {
 
   static contextTypes = { ...themeContextType, ...i18nContextType }
 
-  parsePluginsInput = pluginsInput => pluginsInput.map(({ id, label, description, totalSize, usedSize }) => ({
+  parsePluginsInput = pluginsInput => pluginsInput.map(({
+    id, label, description, totalSize, usedSize,
+  }) => ({
     id,
     label,
     description,
@@ -67,7 +68,9 @@ class StorageMonitoringComponent extends React.Component {
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { user } } = this.context
-    const { isFetching, hasError, storagePlugins, scale, expanded, onExpandChange } = this.props
+    const {
+      isFetching, hasError, storagePlugins, scale, expanded, onExpandChange,
+    } = this.props
     return (
       <DynamicModule
         title={<ModuleTitle
@@ -100,7 +103,6 @@ class StorageMonitoringComponent extends React.Component {
       </DynamicModule>
     )
   }
-
 }
 
 export default StorageMonitoringComponent

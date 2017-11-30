@@ -28,7 +28,6 @@ export const ButtonWithConfirmDialog = withConfirmDialog(FlatButton)
 * @author Raphaël Mechali
 */
 class OrderComponent extends React.Component {
-
   static propTypes = {
     onOrder: PropTypes.func.isRequired,
     empty: PropTypes.bool.isRequired,

@@ -33,7 +33,6 @@ import messages from '../i18n'
  * @author Léo Mieulet
  */
 export class ServiceListContainer extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
@@ -55,7 +54,8 @@ export class ServiceListContainer extends React.Component {
   })
 
   static mapDispatchToProps = dispatch => ({
-    fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {},
+    fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(
+      0, 100, {},
       { type: AccessDomain.UI_PLUGIN_INFO_TYPES_ENUM.SERVICE },
     )),
   })

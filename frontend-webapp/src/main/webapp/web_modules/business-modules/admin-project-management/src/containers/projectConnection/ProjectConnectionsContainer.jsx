@@ -44,7 +44,6 @@ import GuidedProjectConfigurationComponent from '../../components/projectConnect
  * @author Sébastien Binda
  */
 export class ProjectConnectionsContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -156,18 +155,16 @@ export class ProjectConnectionsContainer extends React.Component {
       // Save new connection
       return this.props.createProjectConnection(connection, this.props.project.content.name)
     })
-    Promise.all(actions).then(
-      (actionsResults) => {
-        const errors = filter(actionsResults, { error: true })
-        if (!errors || errors.length === 0) {
-          this.handleBack()
-        } else {
-          this.setState({
-            errorMessage: this.context.intl.formatMessage({ id: 'project.connection.form.error.server' }),
-          })
-        }
-      },
-    )
+    Promise.all(actions).then((actionsResults) => {
+      const errors = filter(actionsResults, { error: true })
+      if (!errors || errors.length === 0) {
+        this.handleBack()
+      } else {
+        this.setState({
+          errorMessage: this.context.intl.formatMessage({ id: 'project.connection.form.error.server' }),
+        })
+      }
+    })
   }
 
   /**
@@ -294,7 +291,6 @@ export class ProjectConnectionsContainer extends React.Component {
     // Else, guided mode, to edit all connection at a time.
     return this.renderGuidedForm()
   }
-
 }
 
 const mapStateToProps = (state, ownProps) => ({

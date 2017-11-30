@@ -37,7 +37,6 @@ import PluginDefinitionComponent from './PluginDefinitionComponent'
  * @author Sébastien Binda
  */
 class pluginFormComponent extends React.Component {
-
   static propTypes = {
     plugin: AccessShapes.UIPluginDefinition,
     onSubmit: PropTypes.func.isRequired,

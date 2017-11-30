@@ -12,7 +12,6 @@ import styles from './styles'
  * @author Raphaël Mechali
  */
 class Breadcrumb extends React.Component {
-
   static propTypes = {
     /** list of breadcrumb elements */
     // eslint-disable-next-line

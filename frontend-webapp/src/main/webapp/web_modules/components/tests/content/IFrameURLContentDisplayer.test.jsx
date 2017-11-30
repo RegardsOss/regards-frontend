@@ -37,6 +37,6 @@ describe('[Components] Testing IFrameURLContentDisplayer', () => {
   })
 
   it('should render correctly', () => {
-    shallow(<IFrameURLContentDisplayer contentURL={'./local'} />, { context })
+    shallow(<IFrameURLContentDisplayer contentURL="./local" />, { context })
   })
 })

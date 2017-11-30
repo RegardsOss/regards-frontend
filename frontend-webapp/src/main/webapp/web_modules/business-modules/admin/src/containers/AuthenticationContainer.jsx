@@ -25,7 +25,6 @@ import getModuleStyles from '../styles/styles'
  * Authentication container before access to admin layout (if logged, passes through)
  */
 class AuthenticationContainer extends React.Component {
-
   static propTypes = {
     project: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,
@@ -56,7 +55,7 @@ class AuthenticationContainer extends React.Component {
       <div className={moduleStyles.adminApp.layout.app.classes.join(' ')} style={moduleStyles.adminApp.layout.app.styles}>
         <LazyModuleComponent
           module={module}
-          appName={'admin'}
+          appName="admin"
           project={this.props.project}
         />
         {isAuthenticated && children ? children : null}

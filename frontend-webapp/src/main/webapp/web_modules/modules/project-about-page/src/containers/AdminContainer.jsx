@@ -39,7 +39,6 @@ const defaultHomepagePath = '/html/regards-homepage.html'
  * @author Xavier-Alexandre Brochard
  */
 class AdminContainer extends React.Component {
-
   state = {
     isLoading: false,
     path: defaultHomepagePath,

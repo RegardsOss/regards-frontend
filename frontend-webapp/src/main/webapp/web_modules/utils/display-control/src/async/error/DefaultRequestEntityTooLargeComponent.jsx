@@ -36,7 +36,6 @@ const style = {
  * @author Xavier-Alexandre Brochard
  */
 class DefaultRequestEntityTooLargeComponent extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
   }

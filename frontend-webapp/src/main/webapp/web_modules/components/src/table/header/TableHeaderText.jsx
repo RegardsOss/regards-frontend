@@ -23,8 +23,6 @@ import { themeContextType } from '@regardsoss/theme'
 * @author Raphaël Mechali
 */
 class TableHeaderText extends React.Component {
-
-
   static propTypes = {
     // text to show
     text: PropTypes.string.isRequired,

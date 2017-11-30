@@ -11,7 +11,6 @@ import CollectionItem from '../../components/user/CollectionItem'
 * Displays a collection
 */
 export class CollectionItemContainer extends React.Component {
-
   static mapStateToProps = (state, { levelIndex, collection }) => {
     const levelSelection = GraphContextSelectors.getSelectionForLevel(state, levelIndex)
     const selected = levelSelection ? levelSelection.ipId === collection.content.ipId : false
@@ -53,4 +52,5 @@ export class CollectionItemContainer extends React.Component {
 }
 export default connect(
   CollectionItemContainer.mapStateToProps,
-  CollectionItemContainer.mapDispatchToProps)(CollectionItemContainer)
+  CollectionItemContainer.mapDispatchToProps,
+)(CollectionItemContainer)

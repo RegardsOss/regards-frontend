@@ -28,14 +28,14 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
 import DescriptionContainer from './user/DescriptionContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
-import DisplayModeEnum from '../models/navigation/DisplayModeEnum'
+import TableDisplayModeEnum from '../models/navigation/TableDisplayModeEnum'
+import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
 
 /**
  * Main container to display module form.
  * @author Sébastien binda
  */
 export class ModuleContainer extends React.Component {
-
   static propTypes = {
     // Default props given to the form
     moduleConf: ModuleConfiguration.isRequired,
@@ -64,22 +64,38 @@ export class ModuleContainer extends React.Component {
 
   onExpandChange = () => this.setState({ expanded: !this.state.expanded })
 
+  getInitialViewObjectType = (displayMode) => {
+    switch (displayMode) {
+      case DISPLAY_MODE_ENUM.DISPLAY_DATA:
+        return ENTITY_TYPES_ENUM.DATA
+      case DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET:
+        // when showing datasets, select dataset tab first (by default)
+        return ENTITY_TYPES_ENUM.DATASET
+      case DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT:
+        return ENTITY_TYPES_ENUM.DOCUMENT
+      default:
+        throw new Error(`Unexpected display mode : ${displayMode}`)
+    }
+  }
+
+
   render() {
     const {
       attributeModels,
       moduleConf: {
+        enableDownload,
         enableFacettes,
         searchQuery,
         attributes,
         datasetAttributes,
+        documentAttributes,
         attributesRegroupements,
-        displayDatasets,
         breadcrumbInitialContextLabel,
-    } } = this.props
+        displayMode,
+      },
+    } = this.props
     const { expanded, attributesFetching, facettesQuery } = this.state
-    // when showing datasets, select dataset tab first (by default)
-    const initialViewObjectType = displayDatasets ? ENTITY_TYPES_ENUM.DATASET : ENTITY_TYPES_ENUM.DATA
-
+    const initialViewObjectType = this.getInitialViewObjectType(displayMode)
     if (!attributesFetching) {
       return (
         <div>
@@ -90,8 +106,7 @@ export class ModuleContainer extends React.Component {
             currentPath={browserHistory.getCurrentLocation().pathname}
             currentQuery={browserHistory.getCurrentLocation().query}
             initialViewObjectType={initialViewObjectType}
-            initialDisplayMode={DisplayModeEnum.LIST}
-            displayDatasets={!!displayDatasets}
+            initialTableDisplayMode={TableDisplayModeEnum.LIST}
           >
             { /* View : module */}
             <ModuleComponent
@@ -99,13 +114,15 @@ export class ModuleContainer extends React.Component {
               onExpandChange={this.onExpandChange}
               resultsTitle={breadcrumbInitialContextLabel}
               enableFacettes={!!enableFacettes}
+              enableDownload={!!enableDownload}
               searchQuery={searchQuery}
               facettesQuery={facettesQuery}
               attributesConf={attributes}
-              displayDatasets={!!displayDatasets}
               attributesRegroupementsConf={attributesRegroupements}
               datasetAttributesConf={datasetAttributes}
+              documentAttributesConf={documentAttributes}
               attributeModels={attributeModels}
+              displayMode={displayMode}
             />
           </URLManagementContainer>
         </div>

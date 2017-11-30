@@ -27,7 +27,6 @@ import messages from '../i18n'
  * Form component to edit datasets/collection attributes that the admin has to define.
  */
 export class EntitiesAttributesFormContainer extends React.Component {
-
   static propTypes = {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     isDisplayAttributeValue: PropTypes.bool.isRequired,

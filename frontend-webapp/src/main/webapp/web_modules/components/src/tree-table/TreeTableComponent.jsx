@@ -35,7 +35,6 @@ import styles from './styles/styles'
 * @author Raphaël Mechali
 */
 export class TreeTableComponent extends React.Component {
-
   static propTypes = {
     /** Dynamic model (user typed) */
     // eslint-disable-next-line react/forbid-prop-types
@@ -134,7 +133,11 @@ export class TreeTableComponent extends React.Component {
    * @return {*} Rendered React element
    */
   renderRow = (row, indexInLevel, parentIndexChain = [], leftIndentation = this.context.moduleTheme.firstCell.leftMarginForLevel) => {
-    const { moduleTheme: { oddLevelRowStyle, evenLevelRowStyle, expandCell, firstCell } } = this.context
+    const {
+      moduleTheme: {
+        oddLevelRowStyle, evenLevelRowStyle, expandCell, firstCell,
+      },
+    } = this.context
     const depthLevel = parentIndexChain.length
     const uniqueKeyChain = [...parentIndexChain, indexInLevel]
 
@@ -184,7 +187,7 @@ export class TreeTableComponent extends React.Component {
           <TableRow>
             {columns}
             {/* Insert last column for collapse / expand option */}
-            <TableHeaderColumn key={'inner.table.options'} style={expandCell.style} />
+            <TableHeaderColumn key="inner.table.options" style={expandCell.style} />
           </TableRow>
         </TableHeader>
         {/* Table body, hacked into a recursive rendered tree */}
@@ -199,7 +202,6 @@ export class TreeTableComponent extends React.Component {
       </Table >
     )
   }
-
 }
 
 // Export, by default, this componenent with i18n and styles (use class export to customize)

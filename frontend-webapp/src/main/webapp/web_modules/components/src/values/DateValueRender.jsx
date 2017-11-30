@@ -47,7 +47,6 @@ export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, date
  * @author Sébastien binda
  */
 class DateValueRender extends React.Component {
-
   static propTypes = {
     value: PropTypes.string,
   }
@@ -66,7 +65,6 @@ class DateValueRender extends React.Component {
         {textValue}
       </div>)
   }
-
 }
 
 export default DateValueRender

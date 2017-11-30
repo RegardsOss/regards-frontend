@@ -6,7 +6,6 @@
  *  Common query model
  */
 export default class Query {
-
   /**
    * Query constructor
    * @param rootQuery root query path (optional)
@@ -41,5 +40,4 @@ export default class Query {
 
     return makeQueryChain(this.parameters)
   }
-
 }

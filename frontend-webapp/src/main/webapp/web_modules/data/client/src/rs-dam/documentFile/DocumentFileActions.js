@@ -25,7 +25,6 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * @author Léo Mieulet
  */
 export default class DocumentFileActions extends BasicListActions {
-
   /**
    * Construtor
    * @param namespace
@@ -41,5 +40,4 @@ export default class DocumentFileActions extends BasicListActions {
       },
     })
   }
-
 }

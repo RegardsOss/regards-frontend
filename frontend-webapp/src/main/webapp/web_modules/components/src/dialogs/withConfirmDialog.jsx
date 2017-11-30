@@ -31,7 +31,6 @@ import getDisplayName from '../getDisplayName'
  */
 const withConfirmDialog = (DecoratedComponent) => {
   class WithConfirmDialog extends React.Component {
-
     static propTypes = {
       onTouchTap: PropTypes.func.isRequired,
       dialogTitle: PropTypes.string.isRequired,

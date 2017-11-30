@@ -6,7 +6,6 @@
  * Search results navigation context actions: handles navigation context in results
  */
 class NavigationContextActions {
-
   constructor() {
     this.INITIALIZE = 'search-results/navigation-context/INITIALIZE'
     this.CHANGE_VIEW_OBJECT_TYPE = 'search-results/navigation-context/CHANGE_VIEW_OBJECT_TYPE'
@@ -48,7 +47,7 @@ class NavigationContextActions {
    * @param viewObjectType new view object type (dataobjects or datasets)
    * @return {type: string, ...} dispatchable redux action
    */
-  changeDisplayMode(displayMode) {
+  changeTableDisplayMode(displayMode) {
     return {
       type: this.CHANGE_DISPLAY_MODE,
       displayMode,
@@ -78,7 +77,6 @@ class NavigationContextActions {
       levelIndex,
     }
   }
-
 }
 
 export default new NavigationContextActions()

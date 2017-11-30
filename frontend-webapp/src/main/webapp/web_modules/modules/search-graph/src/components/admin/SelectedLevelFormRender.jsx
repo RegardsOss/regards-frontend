@@ -22,7 +22,6 @@ import { DataManagementShapes } from '@regardsoss/shape'
 * Render for selected levels field
 */
 class SelectedLevelFormRender extends React.Component {
-
   static propTypes = {
     // values pool as fetched and normalized
     collectionModels: DataManagementShapes.ModelList.isRequired,

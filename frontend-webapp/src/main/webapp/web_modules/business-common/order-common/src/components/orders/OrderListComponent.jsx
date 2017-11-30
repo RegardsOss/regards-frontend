@@ -52,7 +52,6 @@ const STATUS_KEY = 'status'
 * @author Raphaël Mechali
 */
 class OrderListComponent extends React.Component {
-
   static propTypes = {
     // component display mode
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,

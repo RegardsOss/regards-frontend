@@ -20,6 +20,7 @@
 /**
  * Type definition for AttributeConfiguration objects
  * @author Sébastien binda
+ * @author Léo Mieulet
  */
 
 const AttributeConfigurationContent = PropTypes.shape({
@@ -37,8 +38,11 @@ const AttributeConfigurationContent = PropTypes.shape({
 
 const AttributeConfigurationArray = PropTypes.arrayOf(AttributeConfigurationContent)
 
+const AttributeConfigurationList = PropTypes.objectOf(AttributeConfigurationContent)
+
 
 module.exports = {
   AttributeConfigurationContent,
   AttributeConfigurationArray,
+  AttributeConfigurationList,
 }

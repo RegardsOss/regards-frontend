@@ -27,7 +27,6 @@ import { ModuleStyleProvider } from '@regardsoss/theme'
 * @author Raphaël Mechali
 */
 export class PluginDisplayerContainer extends React.Component {
-
   /** Messages to use when the module provides none */
   static DEFAULT_MESSAGES = { en: {}, fr: {} }
 

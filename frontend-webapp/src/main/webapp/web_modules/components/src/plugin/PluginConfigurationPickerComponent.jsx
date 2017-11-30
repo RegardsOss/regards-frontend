@@ -35,7 +35,6 @@ import { CommonShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/display-control'
 
 class PluginConfigurationPickerComponent extends React.Component {
-
   static propTypes = {
     // Callback provided by redux-form in order to manually change a field value
     // must return a promise
@@ -143,8 +142,7 @@ class PluginConfigurationPickerComponent extends React.Component {
                       primaryText={this.buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
                       onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
                       checked={currentPluginConfiguration && pluginConfiguration.content.id === currentPluginConfiguration.id}
-                    />),
-                  )
+                    />))
                 }
               />
             )
@@ -152,7 +150,7 @@ class PluginConfigurationPickerComponent extends React.Component {
           <ShowableAtRender show={currentPluginConfiguration != null}>
             <Divider />
             <MenuItem
-              key={'none'}
+              key="none"
               primaryText={this.context.intl.formatMessage({ id: 'component.plugin-parameter.action.reset' })}
               onTouchTap={() => this.handleChange(null)}
               rightIcon={<Delete />}

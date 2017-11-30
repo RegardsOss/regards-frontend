@@ -29,7 +29,6 @@ import SelectionDetailNoDataComponent from './SelectionDetailNoDataComponent'
 * @author Raphaël Mechali
 */
 class SelectionDetailResultsTableComponent extends React.Component {
-
   static propTypes = {
     // details object search request
     // eslint-disable-next-line react/no-unused-prop-types
@@ -50,7 +49,9 @@ class SelectionDetailResultsTableComponent extends React.Component {
     DamDomain.AttributeModelController.standardAttributes.ipId,
     DamDomain.AttributeModelController.standardAttributes.creationDate,
     DamDomain.AttributeModelController.standardAttributes.lastUpdate,
-  ].map(({ key, label, entityPathName, type }) => ({
+  ].map(({
+    key, label, entityPathName, type,
+  }) => ({
     key,
     label,
     attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(key)],
@@ -106,8 +107,10 @@ class SelectionDetailResultsTableComponent extends React.Component {
   computeVisibleRowsCount(availableHeight) {
     const lineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
     const remainingRowsHeight = availableHeight - this.context.muiTheme['components:infinite-table'].minHeaderRowHeight
-    return Math.max(SelectionDetailResultsTableComponent.MIN_TABLE_PAGE_SIZE,
-      Math.floor((remainingRowsHeight / lineHeight) - 1)) // note: remove one row to take headers line in account
+    return Math.max(
+      SelectionDetailResultsTableComponent.MIN_TABLE_PAGE_SIZE,
+      Math.floor((remainingRowsHeight / lineHeight) - 1),
+    ) // note: remove one row to take headers line in account
   }
 
   /**
@@ -116,8 +119,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
    */
   renderColumns = () => {
     const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
-    return SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
-      model => AttributeColumnBuilder.buildAttributeColumn(model, true, null, fixedColumnWidth))
+    return SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(model => AttributeColumnBuilder.buildAttributeColumn(model, true, null, fixedColumnWidth))
   }
 
   render() {

@@ -38,7 +38,6 @@ const RaisedButtonWithResourceDisplayControl = withResourceDisplayControl(Raised
  * @author Xavier-Alexandre Brochard
  */
 class BaseBoardComponent extends React.Component {
-
   static propTypes = {
     advancedBoardDependencies: PropTypes.arrayOf(PropTypes.string),
     boardItemComponents: PropTypes.arrayOf(PropTypes.element),
@@ -132,8 +131,7 @@ class BaseBoardComponent extends React.Component {
                 show={this.state.showAdvanced}
               >
                 {component}
-              </ShowableAtRender>),
-            )}
+              </ShowableAtRender>))}
           </div>
 
           {this.renderAdvancedToggle(computedStyles)}

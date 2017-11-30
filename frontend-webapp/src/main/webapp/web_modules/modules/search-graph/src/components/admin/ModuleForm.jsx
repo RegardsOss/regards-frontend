@@ -18,7 +18,6 @@ import SearchResultForm from './SearchResultForm'
 * Module form component for admin instance
 */
 class ModuleForm extends React.Component {
-
   static LEVELS_FIELD_NAME = 'conf.graphLevels'
   static DATASET_ATTRIBUTES_FIELD_NAME = 'conf.graphDatasetAttributes'
 
@@ -43,7 +42,9 @@ class ModuleForm extends React.Component {
   validateSelectedLevels = selectedLevels => isEmpty(selectedLevels) ? 'search.graph.levels.selection.none.selected.error' : null
 
   render() {
-    const { collectionModels, appName, project, adminForm, selectableAttributes } = this.props
+    const {
+      collectionModels, appName, project, adminForm, selectableAttributes,
+    } = this.props
     const formConf = adminForm.form.conf
     const currentAttributesConfiguration = formConf && formConf.graphDatasetAttributes ? formConf.graphDatasetAttributes : []
     return (

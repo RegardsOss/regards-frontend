@@ -43,7 +43,6 @@ const classesParse = (value, name) => split(value, ',')
  * React container to edit a container configuration
  */
 class ContainerConfigurationComponent extends React.Component {
-
   static propTypes = {
     container: ContainerShape,
     hideDynamicContentOption: PropTypes.bool,
@@ -112,7 +111,9 @@ class ContainerConfigurationComponent extends React.Component {
   }
 
   render() {
-    const { pristine, submitting, invalid, container, handleSubmit, onSubmit, onCancel } = this.props
+    const {
+      pristine, submitting, invalid, container, handleSubmit, onSubmit, onCancel,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     const { advanced } = this.state
 
@@ -185,7 +186,6 @@ class ContainerConfigurationComponent extends React.Component {
       </form >
     )
   }
-
 }
 
 const UnconnectedContainerConfigurationComponent = ContainerConfigurationComponent

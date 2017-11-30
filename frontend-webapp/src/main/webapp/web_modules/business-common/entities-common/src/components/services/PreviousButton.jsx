@@ -25,7 +25,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 * @author Raphaël Mechali
 */
 class PreviousButtonComponent extends React.Component {
-
   static propTypes = {
     onPrevious: PropTypes.func.isRequired,
   }

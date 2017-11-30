@@ -34,7 +34,6 @@ import messages from '../i18n'
  * Show the dataset form
  */
 export class DatasetFormAttributesContainer extends React.Component {
-
   static propTypes = {
     currentDataset: DataManagementShapes.Dataset,
     currentDatasourceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -98,7 +97,9 @@ export class DatasetFormAttributesContainer extends React.Component {
   }
 
   render() {
-    const { backUrl, currentDataset, modelList, modelAttributeList, currentDatasource, isEditing } = this.props
+    const {
+      backUrl, currentDataset, modelList, modelAttributeList, currentDatasource, isEditing,
+    } = this.props
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>

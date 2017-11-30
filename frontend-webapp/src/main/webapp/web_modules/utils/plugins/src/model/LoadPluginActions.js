@@ -32,7 +32,9 @@ if (!isUndefined(root.document) && !isUndefined(root.document.getElementsByTagNa
  */
 export const PLUGIN_LOADED = 'LOAD_PLUGINS/PLUGIN_LOADED'
 
-export const savePluginLoaded = ({ sourcePath, info, plugin, reducer, messages, ...otherProps }, sourcePathFromDb) => ({
+export const savePluginLoaded = ({
+  sourcePath, info, plugin, reducer, messages, ...otherProps
+}, sourcePathFromDb) => ({
   type: PLUGIN_LOADED,
   name: info.name,
   plugin,

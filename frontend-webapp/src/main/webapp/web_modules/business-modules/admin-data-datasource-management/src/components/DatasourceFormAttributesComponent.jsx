@@ -36,7 +36,6 @@ const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLes
  * React component to edit datasources attributes.
  */
 export class DatasourceFormAttributesComponent extends React.Component {
-
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     currentConnection: DataManagementShapes.Connection,
@@ -97,7 +96,9 @@ export class DatasourceFormAttributesComponent extends React.Component {
   }
 
   render() {
-    const { currentConnection, modelList, pluginMetaDataList, submitting, invalid, backUrl } = this.props
+    const {
+      currentConnection, modelList, pluginMetaDataList, submitting, invalid, backUrl,
+    } = this.props
     const title = this.getTitle()
     return (
       <form

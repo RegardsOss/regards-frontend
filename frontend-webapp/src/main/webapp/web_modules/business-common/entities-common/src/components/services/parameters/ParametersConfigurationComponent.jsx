@@ -30,7 +30,6 @@ import TextParameterField from './TextParameterField'
  * @author Raphaël Mechali
  */
 class ParametersConfigurationComponent extends React.Component {
-
   static propTypes = {
     parameters: PropTypes.arrayOf(PropTypes.instanceOf(Parameter)).isRequired,
     // previously entered values if any (used for 'previous step')
@@ -59,7 +58,9 @@ class ParametersConfigurationComponent extends React.Component {
     return (
       <div>
         {
-          parameters.map(({ editorType, name, required, choices, valueValidator, label }) => {
+          parameters.map(({
+ editorType, name, required, choices, valueValidator, label,
+}) => {
             // prepare field label
             const fieldLabel = required ?
               formatMessage({ id: 'entities.common.services.parameter.required' }, { label }) : label

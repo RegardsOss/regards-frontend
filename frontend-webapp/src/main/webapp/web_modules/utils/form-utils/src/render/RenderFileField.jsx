@@ -25,9 +25,9 @@ const adaptFileEventToValue = delegate =>
 const RenderFileField = ({
   input: {
     value: omitValue,
-  onChange,
-  onBlur,
-  ...inputProps
+    onChange,
+    onBlur,
+    ...inputProps
   },
   meta: omitMeta,
   fullWidth,
@@ -53,7 +53,7 @@ const RenderFileField = ({
       />
     </RaisedButton>
   </div>
-  )
+)
 RenderFileField.contextTypes = {
   ...themeContextType,
 }

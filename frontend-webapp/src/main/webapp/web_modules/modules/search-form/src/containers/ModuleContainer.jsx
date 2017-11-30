@@ -48,7 +48,6 @@ import AttributeModelClient from '../clients/AttributeModelClient'
  * @author Sébastien binda
  */
 class ModuleContainer extends React.Component {
-
   static propTypes = {
     // Props supplied by LazyModuleComponent
     appName: PropTypes.string,

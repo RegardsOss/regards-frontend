@@ -22,7 +22,6 @@ import FetchGraphEntitiesActions from './FetchGraphEntitiesActions'
  * Actions to fetch graph collections at a given graph level
  */
 class FetchGraphCollectionsActions extends FetchGraphEntitiesActions {
-
   constructor() {
     super('collections') // specific URL path for collections
   }
@@ -39,7 +38,6 @@ class FetchGraphCollectionsActions extends FetchGraphEntitiesActions {
     }
     return super.fetchAll(levelIndex, parentEntityId ? [parentEntityId] : [], levelModelName)
   }
-
 }
 
 /**

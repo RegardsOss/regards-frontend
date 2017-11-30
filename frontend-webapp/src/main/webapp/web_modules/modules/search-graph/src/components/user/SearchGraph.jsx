@@ -17,7 +17,6 @@ import ToggleDatasetDetailsContainer from '../../containers/user/ToggleDatasetDe
 * Search graph (collections explorer)
 */
 class SearchGraph extends React.Component {
-
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
     onExpandChange: PropTypes.func.isRequired,
@@ -59,7 +58,9 @@ class SearchGraph extends React.Component {
   }
 
   render() {
-    const { moduleConf: { graphLevels }, onExpandChange, expanded, graphDatasetAttributes } = this.props
+    const {
+      moduleConf: { graphLevels }, onExpandChange, expanded, graphDatasetAttributes,
+    } = this.props
     const { viewportStyles } = this.state
     const { moduleTheme: { user }, intl: { formatMessage } } = this.context
 

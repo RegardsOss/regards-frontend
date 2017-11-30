@@ -7,7 +7,6 @@ import { withI18n } from '@regardsoss/i18n'
 import messages from '../i18n'
 
 export class PluginListComponent extends React.Component {
-
   static propTypes = {
     title: PropTypes.string,
     selectLabel: PropTypes.string,

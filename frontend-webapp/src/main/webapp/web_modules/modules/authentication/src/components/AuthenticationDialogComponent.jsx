@@ -25,7 +25,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Sébastien binda
  */
 class AuthenticationDialog extends React.Component {
-
   static propTypes = {
     children: PropTypes.element.isRequired,
   }

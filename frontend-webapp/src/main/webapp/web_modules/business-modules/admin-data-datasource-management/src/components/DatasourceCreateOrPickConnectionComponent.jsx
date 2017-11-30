@@ -33,7 +33,6 @@ import DatasourceStepperComponent from './DatasourceStepperComponent'
  * React component to prevent user to create datasource if he doesn't have a connection yet
  */
 export class DatasourceCreateOrPickConnectionComponent extends React.Component {
-
   static propTypes = {
     connectionList: DataManagementShapes.ConnectionList,
     createConnectionUrl: PropTypes.string.isRequired,
@@ -97,8 +96,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
                   key={id}
                   primaryText={connection.content.label}
                 />
-                ) : null,
-              )}
+                ) : null)}
             </SelectField>
           </CardText>
           <CardActions>

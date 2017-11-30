@@ -16,7 +16,6 @@ import WordFacetSelectorComponent from '../facets/WordFacetSelectorComponent'
  * Header line for facets, results count and loading row
  */
 class ResultsAndFacetsHeaderRow extends React.Component {
-
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
     showFacets: PropTypes.bool.isRequired,
@@ -36,7 +35,9 @@ class ResultsAndFacetsHeaderRow extends React.Component {
   }
 
   render() {
-    const { showFacets, facets, onSelectFacet, resultsCount, isFetching } = this.props
+    const {
+      showFacets, facets, onSelectFacet, resultsCount, isFetching,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       // 1 - results count message and loading
@@ -83,7 +84,6 @@ class ResultsAndFacetsHeaderRow extends React.Component {
         }
       </TableHeaderLineLoadingAndResults>)
   }
-
 }
 
 export default ResultsAndFacetsHeaderRow

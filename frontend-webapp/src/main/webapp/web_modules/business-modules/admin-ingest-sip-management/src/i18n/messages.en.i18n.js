@@ -84,6 +84,9 @@ const messages = Object.assign({
   'sips.session.table.actions.delete': 'Delete associated SIPs',
   'sips.session.table.actions.list': 'List associated SIPs',
   'sips.session.button.back': 'Back',
+  'sips.session.refresh.button': 'Refresh',
+  'sips.session.clear.filters.button': 'Clear',
+  'sips.session.apply.filters.button': 'Apply',
 
   'sips.submit.title': 'Data submition',
   'sips.submit.subtitle': 'This section allows you to run a datas sumition thought a local file (geoson format) containing entities to submit',
@@ -96,6 +99,13 @@ const messages = Object.assign({
   'sips.submition-summary.title': 'Datas submition summary',
   'sips.submition-summary.subtitle': 'This summary let you know accepted entities by the system. If youts datas are accepted, so they will be handle for storage soon.',
   'sips.submition-summary.back.button': 'Ok',
+
+  'sips.submission.not.ready.title': 'Configuration is needed before data submission',
+  'sips.submission.not.ready.information.message': 'Your system is not configured to allow data submission. Please ensure that you have well configured your data storages.',
+  'sips.submission.not.ready.server.message': 'The storage service unavaibility response message is : ',
+  'sips.submission.not.ready.config.allocations.link.button': 'Configure allocation strategies',
+  'sips.submission.not.ready.config.storages.link.button': 'Configure storage locations',
+  'sips.submission.not.ready.back.button': 'Back',
 
   CREATED: 'CREATED',
   REJECTED: 'REJECTED',

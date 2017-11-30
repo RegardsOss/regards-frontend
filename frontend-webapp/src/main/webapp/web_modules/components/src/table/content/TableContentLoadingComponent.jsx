@@ -23,7 +23,6 @@ import { themeContextType } from '@regardsoss/theme'
 * @author Raphaël Mechali
 */
 class TableContentLoadingComponent extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
   }

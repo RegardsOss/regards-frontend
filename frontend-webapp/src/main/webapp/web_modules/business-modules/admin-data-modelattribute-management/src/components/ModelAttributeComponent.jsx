@@ -25,7 +25,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import get from 'lodash/get'
 
 class ModelAttributeComponent extends React.Component {
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,

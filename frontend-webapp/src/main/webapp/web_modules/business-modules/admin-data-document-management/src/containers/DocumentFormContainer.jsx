@@ -36,7 +36,6 @@ import messages from '../i18n'
  * Show the document form
  */
 export class DocumentFormContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -173,7 +172,9 @@ export class DocumentFormContainer extends React.Component {
   }
 
   render() {
-    const { isFetchingDocument, modelAttributeList, isFetchingModel, isFetchingModelAttribute } = this.props
+    const {
+      isFetchingDocument, modelAttributeList, isFetchingModel, isFetchingModelAttribute,
+    } = this.props
     const { isEditing, isDuplicating } = this.state
     const isLoading = ((isEditing || isDuplicating) && (isFetchingDocument || (isFetchingModelAttribute && Object.keys(modelAttributeList).length === 0) || isFetchingModel)) || isFetchingModel
     return (

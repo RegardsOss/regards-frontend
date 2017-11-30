@@ -22,7 +22,6 @@ import themeContextType from './contextType'
  * Retrieves the Material UI theme fom the context and injects it as a prop to its child.
  */
 class ThemeInjector extends React.Component {
-
   static context = {
     ...themeContextType,
   }

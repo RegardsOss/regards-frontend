@@ -24,7 +24,8 @@ import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { searchDataobjectsActions, searchDatasetsActions, selectors as searchSelectors } from '../../../../src/clients/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import Styles from '../../../../src/styles/styles'
-import DisplayModeEnum from '../../../../src/models/navigation/DisplayModeEnum'
+import TableDisplayModeEnum from '../../../../src/models/navigation/TableDisplayModeEnum'
+import { DISPLAY_MODE_ENUM } from '../../../../src/definitions/DisplayModeEnum'
 
 
 /**
@@ -39,7 +40,8 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
   const commonProperties = {
     isFetching: false,
     allowingFacettes: true,
-    displayDatasets: true,
+    enableDownload: false,
+    displayMode: DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET,
 
     showingFacettes: true,
     filters: [],
@@ -78,35 +80,35 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
       isFetching: true,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       searchActions: searchDataobjectsActions,
-      viewMode: DisplayModeEnum.LIST,
+      tableViewMode: TableDisplayModeEnum.LIST,
     },
   }, {
     caseLabel: 'Should render dataobjects in list mode',
     caseProperties: {
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       searchActions: searchDataobjectsActions,
-      viewMode: DisplayModeEnum.LIST,
+      tableViewMode: TableDisplayModeEnum.LIST,
     },
   }, {
     caseLabel: 'Should render dataobjects in table mode',
     caseProperties: {
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       searchActions: searchDataobjectsActions,
-      viewMode: DisplayModeEnum.TABLE,
+      tableViewMode: TableDisplayModeEnum.TABLE,
     },
   }, {
     caseLabel: 'Should render datasets in list mode',
     caseProperties: {
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       searchActions: searchDatasetsActions,
-      viewMode: DisplayModeEnum.LIST,
+      tableViewMode: TableDisplayModeEnum.LIST,
     },
   }, {
     caseLabel: 'Should render datasets in list mode',
     caseProperties: {
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
       searchActions: searchDatasetsActions,
-      viewMode: DisplayModeEnum.TABLE,
+      tableViewMode: TableDisplayModeEnum.TABLE,
     },
   }]
 

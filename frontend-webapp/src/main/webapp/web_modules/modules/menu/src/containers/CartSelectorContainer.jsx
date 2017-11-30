@@ -45,7 +45,6 @@ const basketActions = new OrderClient.OrderBasketActions()
 * @author Raphaël Mechali
 */
 export class CartSelectorContainer extends React.Component {
-
   static USER_LAYOUT_NAME = 'user'
 
   static BASKET_DEPENDENCIES = basketActions.getDependencies('GET')
@@ -140,7 +139,9 @@ export class CartSelectorContainer extends React.Component {
    * @param {*} properties this component properties
    * @return {number} retrieved ID or null when not found or state not matching
    */
-  getCartModuleId = ({ isAuthenticated, modules, userLayout, moduleConf, availableEndpoints }) => {
+  getCartModuleId = ({
+    isAuthenticated, modules, userLayout, moduleConf, availableEndpoints,
+  }) => {
     // 0 - pre: don't show cart to non logged users or users that do not have enough rights
     if (!isAuthenticated || !allMatchHateoasDisplayLogic(CartSelectorContainer.BASKET_DEPENDENCIES, availableEndpoints)) {
       return null

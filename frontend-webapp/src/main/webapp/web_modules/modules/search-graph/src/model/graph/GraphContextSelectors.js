@@ -23,7 +23,6 @@ import { REDUCER_PATH } from './GraphContextReducers'
  * Graph context state selectors
  */
 class GraphContextSelectors extends BasicSelector {
-
   /**
    * Returns selection path
    * @param {*} state store
@@ -77,7 +76,6 @@ class GraphContextSelectors extends BasicSelector {
 
   /** @return current search tag as a (see @regardsoss/domain/catalog/Tag)  */
   getSearchTag = state => this.uncombineStore(state).searchTag
-
 }
 
 export default new GraphContextSelectors(['modules.search-graph', REDUCER_PATH])

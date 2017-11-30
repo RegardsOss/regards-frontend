@@ -32,7 +32,6 @@ import messages from '../i18n'
  * @author Xavier-Alexandre Brochard
  */
 export class ApplicationThemeContainer extends React.Component {
-
   static propTypes = {
     // from router
     params: PropTypes.shape({

@@ -14,7 +14,6 @@ import { ShowableAtRender } from '@regardsoss/components'
 * information action 'lives aside'
 */
 class ItemLink extends React.Component {
-
   /**
    * Possible component states
    */
@@ -38,7 +37,9 @@ class ItemLink extends React.Component {
  * }
  * @return appliable style objects in state
  */
-  static selectStyles = (newState, { defaultStyles = {}, lockedStyles = {}, hoverStyles = {}, selectedStyles = {} }, basicStyles = {}) => {
+  static selectStyles = (newState, {
+    defaultStyles = {}, lockedStyles = {}, hoverStyles = {}, selectedStyles = {},
+  }, basicStyles = {}) => {
     switch (newState) {
       case ItemLink.States.DEFAULT:
         return { ...basicStyles, ...defaultStyles }
@@ -98,13 +99,15 @@ class ItemLink extends React.Component {
   }
 
   render() {
-    const { Icon, text, displayState, additiveLineComponent,
-      onMouseOver, onMouseOut, onLinkClicked, onDescriptionClicked } = this.props
+    const {
+      Icon, text, displayState, additiveLineComponent,
+      onMouseOver, onMouseOut, onLinkClicked, onDescriptionClicked,
+    } = this.props
     const { rootStyles, textStyles, iconStyles } = this.state
     const {
       moduleTheme: { user: { itemLink: { iconsOverlay, lockIcon, informationButton } } },
       intl: { formatMessage },
-  } = this.context
+    } = this.context
 
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (

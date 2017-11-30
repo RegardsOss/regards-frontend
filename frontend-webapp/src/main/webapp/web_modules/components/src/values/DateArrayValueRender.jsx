@@ -28,7 +28,6 @@ import { getFormattedDate } from './DateValueRender'
  * @author Sébastien binda
  */
 class DateArrayValueRender extends React.Component {
-
   static propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),
   }
@@ -51,7 +50,6 @@ class DateArrayValueRender extends React.Component {
         {textValue}
       </div>)
   }
-
 }
 
 export default DateArrayValueRender

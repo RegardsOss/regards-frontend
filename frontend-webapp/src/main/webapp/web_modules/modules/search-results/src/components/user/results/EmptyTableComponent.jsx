@@ -24,7 +24,6 @@ import { NoContentComponent } from '@regardsoss/components'
 * @author Raphaël Mechali
 */
 class EmptyTableComponent extends React.Component {
-
   static propTypes = {
     // no props
   }

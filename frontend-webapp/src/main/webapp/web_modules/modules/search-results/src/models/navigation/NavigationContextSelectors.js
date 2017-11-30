@@ -22,7 +22,6 @@ import { BasicSelector } from '@regardsoss/store-utils'
  * Navigation context state selectors
  */
 class NavigationContextSelectors extends BasicSelector {
-
   /**
    * Returns current tags levels
    * @param {*} state store
@@ -49,7 +48,6 @@ class NavigationContextSelectors extends BasicSelector {
   getDisplayMode(state) {
     return this.uncombineStore(state).displayMode
   }
-
 }
 
 export default new NavigationContextSelectors(['modules.search-results', 'navigationContext'])

@@ -38,7 +38,6 @@ const actionsBreakpoints = [940, 995]
  * React component to list datasets.
  */
 export class DatasetListComponent extends React.Component {
-
   static propTypes = {
     datasetList: DataManagementShapes.DatasetList,
     handleDelete: PropTypes.func.isRequired,
@@ -93,7 +92,9 @@ export class DatasetListComponent extends React.Component {
   }
 
   render() {
-    const { datasetList, handleEdit, createUrl, backUrl } = this.props
+    const {
+      datasetList, handleEdit, createUrl, backUrl,
+    } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
