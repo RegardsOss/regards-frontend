@@ -25,6 +25,27 @@ import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
+const docFile = {
+  content: {
+    entityType: 'DOCUMENT',
+    files: {},
+    ipId: 'URN:AIP:DOCUMENT:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
+    label: 'EmptyDoc',
+    model: {
+      id: 1,
+      name: 'MODEL_1',
+      description: 'model',
+      type: 'DOCUMENT',
+    },
+    lastUpdate: '2017-11-29T10:14:35.642Z',
+    creationDate: '2017-11-28T14:49:44.622Z',
+    id: 154,
+    tags: [],
+    groups: ['PublicDocumentGroup'],
+    properties: {},
+    services: [],
+  },
+}
 /**
 * Test DownloadEntityContainer
 * @author Léo Mieulet
@@ -41,6 +62,7 @@ describe('[Search Results] Testing DownloadEntityContainer', () => {
       accessToken: 'token user',
       isAuthenticated: true,
       scope: 'project1',
+      entity: docFile,
     }
     const enzymeWrapper = shallow(<DownloadEntityFileContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(DownloadEntityFileComponent), 1)
