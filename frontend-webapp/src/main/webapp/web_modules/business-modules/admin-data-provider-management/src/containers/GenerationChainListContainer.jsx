@@ -18,6 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import GenerationChainListComponent from '../components/GenerationChainListComponent'
+import { generationChainActions, generationChainSelectors } from '../clients/GenerationChainClient'
 
 /**
 * GenerationChainListContainer
@@ -42,18 +43,56 @@ export class GenerationChainListContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapDispatchToProps(dispatch) {
-    return {}
+    return {
+      deleteChain: id => dispatch(generationChainActions.deleteEntity(id)),
+      fetchPage: (pageIndex, pageSize) => dispatch(generationChainActions.fetchPagedEntityList(pageIndex, pageSize)),
+    }
   }
 
   static propTypes = {
-    // from mapStateToProps
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
     // from mapDispatchToProps
+    deleteChain: PropTypes.func,
+    fetchPage: PropTypes.func,
+  }
+
+  static PAGE_SIZE = 100
+
+  onEdit = (chainIdToEdit) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/dataprovider/chain/${chainIdToEdit}/edit`
+    browserHistory.push(url)
+  }
+
+  onCreate = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/dataprovider/chain/create`
+    browserHistory.push(url)
+  }
+
+  onBack = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/board`
+    browserHistory.push(url)
+  }
+
+  onDelete = ({ content: { id } }, callback) => {
+    this.props.deleteChain(id).then(callback)
   }
 
   render() {
     const { maProp } = this.props
     return (
-      <div />
+      <GenerationChainListComponent
+        fetchPage={this.props.fetchPage}
+        onDelete={this.onDelete}
+        onEdit={this.onEdit}
+        onCreate={this.onCreate}
+        onBack={this.onBack}
+        queryPageSize={GenerationChainListContainer.PAGE_SIZE}
+      />
     )
   }
 }

@@ -16,15 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { generationChainReducer } from './clients/GenerationChainClient'
-import { tableReducer } from './clients/TableClient'
+import { ScanDirectoryContent } from './ScanDirectory'
+
 /**
+ * Describes a MetaFile shape and related sub objects
  * @author Sébastien Binda
  */
-const dataProviderManagementReducer = combineReducers({
-  chain: generationChainReducer,
-  processingChainTable: tableReducer,
+
+/** A dated selection item shape */
+const MetaFileContent = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  mandatory: PropTypes.bool.isRequired,
+  fileNamePattern: PropTypes.string.isRequired,
+  scanDirectories: PropTypes.arrayOf(ScanDirectoryContent),
+  invalidFolder: PropTypes.string.isRequired,
+  fileType: PropTypes.string, // mime type
+  comment: PropTypes.string,
 })
 
-export default dataProviderManagementReducer
+const MetaFile = PropTypes.shape({
+  content: MetaFileContent,
+})
+const MetaFileList = PropTypes.objectOf(MetaFile)
+const MetaFileArray = PropTypes.arrayOf(MetaFile)
+
+module.exports = {
+  MetaFileList,
+  MetaFileArray,
+  MetaFileContent,
+  MetaFile,
+}

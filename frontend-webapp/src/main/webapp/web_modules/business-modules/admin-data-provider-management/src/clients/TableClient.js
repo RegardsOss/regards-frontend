@@ -16,24 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import DataProviderShapes from './rs-data-provider/index'
-import IngestShapes from './rs-ingest/index'
-import OrderShapes from './rs-order/index'
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
+
+/**
+ * Infinite table actions client.
+ * @author Sébastien Binda
+ */
+const NAMESPACE = 'admin-ingest-management/generation-chain-table'
+const STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'processingChainTable']
 
 module.exports = {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  IngestShapes,
-  OrderShapes,
+  tableActions: new TableActions(NAMESPACE),
+  tableReducer: getTableReducer(NAMESPACE),
+  tableSelectors: getTableSelectors(STORE_PATH),
 }
-

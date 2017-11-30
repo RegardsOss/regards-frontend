@@ -19,6 +19,20 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
+  'generation-chain.empty.title': 'Aucune chaîne définie',
+  'generation-chain.list.title': 'Configuration des chaînes de génération',
+  'generation-chain.list.subtitle': 'Les chaînes de générations correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectée avant leur ajout dans le catalogue de données.',
+  'generation-chain.addnew.button': 'Ajouter',
+  'generation-chain.back.button': 'Retour',
+  'generation-chain.edit.tooltip': 'Editer',
+
+  'generation-chain.delete.confirm.title': 'Etes-vous sûr de vouloir suppriler la chaîne de traitement : {label}',
+
+  'generation-chain.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement spécifique grâce aux plugins suivants.',
+  'generation-chain.info.message.step1': '1 - Scan plugin: Comment chercher les nouvelles données à acquérir.',
+  'generation-chain.info.message.step2': '2 - Check plugin: Comment vérifier la validité des nouvelles données à acquérir.',
+  'generation-chain.info.message.step3': '3 - Generate SIP plugin: Comment générer les métadonnées associées aux nouvelles données à acquérir.',
+  'generation-chain.info.message.step4': '4 - Post processing plugin: Traitement à réaliser après la génération des données à acquérir.',
 }, Locales.fr)
 
 export default messages

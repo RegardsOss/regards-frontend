@@ -16,24 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import DataProviderShapes from './rs-data-provider/index'
-import IngestShapes from './rs-ingest/index'
-import OrderShapes from './rs-order/index'
+import styles from './styles'
 
-module.exports = {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  IngestShapes,
-  OrderShapes,
-}
-
+/**
+ * @author Sébastien Binda
+ */
+export default { styles }

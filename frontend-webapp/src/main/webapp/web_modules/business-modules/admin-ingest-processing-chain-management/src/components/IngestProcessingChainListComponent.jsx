@@ -34,7 +34,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { tableActions } from '../clients/TableClient'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import IngestProcessingChainTableEditAction from './IngestProcessingChainTableEditAction'
-//import IngestProcessingChainTableDeleteAction from './IngestProcessingChainTableDeleteAction'
 import { addDependencies } from '../dependencies'
 
 /**
@@ -132,6 +131,7 @@ export class ProcessingChainListComponent extends React.Component {
           <li>{intl.formatMessage({ id: 'processing-chain.info.message.step2' })}</li>
           <li>{intl.formatMessage({ id: 'processing-chain.info.message.step3' })}</li>
           <li>{intl.formatMessage({ id: 'processing-chain.info.message.step4' })}</li>
+          <li>{intl.formatMessage({ id: 'processing-chain.info.message.step5' })}</li>
         </ul>
       </span>
     )

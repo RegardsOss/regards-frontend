@@ -19,6 +19,21 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
+  'generation-chain.empty.title': 'No generation chain defined',
+  'generation-chain.list.title': 'Configure generation chains',
+  'generation-chain.list.subtitle': 'Generation chains are used to automaticcly generate and add datas.',
+  'generation-chain.addnew.button': 'Add new',
+  'generation-chain.back.button': 'Back',
+  'generation-chain.edit.tooltip': 'Edit',
+
+  'generation-chain.delete.confirm.title': 'Are you sur you want to delete the chain {label}',
+
+  'generation-chain.info.message': 'You can define specific plugins to handle each generation steps.',
+  'generation-chain.info.message.step1': 'Scan plugin: How to define new data to generate.',
+  'generation-chain.info.message.step2': 'Check plugin: How to check new data validity.',
+  'generation-chain.info.message.step3': 'Generate SIP plugin: How to generate metadata of new datas.',
+  'generation-chain.info.message.step4': 'Post processing plugin: Custom processing done after SIP generation.',
+
 }, Locales.en)
 
 export default messages

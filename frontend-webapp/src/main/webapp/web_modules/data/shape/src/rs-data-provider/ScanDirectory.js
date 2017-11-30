@@ -16,24 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessShapes from './rs-access/index'
-import AdminShapes from './rs-admin/index'
-import StorageShapes from './rs-storage/index'
-import CommonShapes from './rs-common/index'
-import CatalogShapes from './rs-catalog/index'
-import DataManagementShapes from './rs-dam/index'
-import DataProviderShapes from './rs-data-provider/index'
-import IngestShapes from './rs-ingest/index'
-import OrderShapes from './rs-order/index'
+import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
+
+/**
+ * Describes a ScanDirectory shape and related sub objects
+ * @author Sébastien Binda
+ */
+
+/** A dated selection item shape */
+const ScanDirectoryContent = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  scanDir: PropTypes.string.isRequired,
+})
+
+const ScanDirectory = PropTypes.shape({
+  content: ScanDirectoryContent,
+})
+const ScanDirectoryList = PropTypes.objectOf(ScanDirectory)
+const ScanDirectoryArray = PropTypes.arrayOf(ScanDirectory)
 
 module.exports = {
-  AccessShapes,
-  AdminShapes,
-  StorageShapes,
-  CatalogShapes,
-  CommonShapes,
-  DataManagementShapes,
-  IngestShapes,
-  OrderShapes,
+  ScanDirectoryList,
+  ScanDirectoryArray,
+  ScanDirectoryContent,
+  ScanDirectory,
 }
-
