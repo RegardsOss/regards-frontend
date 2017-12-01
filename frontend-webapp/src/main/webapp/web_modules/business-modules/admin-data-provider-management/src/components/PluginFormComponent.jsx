@@ -35,41 +35,37 @@ export class PluginFormComponent extends React.Component {
     reduxFormInitialize: PropTypes.func.isRequired,
   }
 
+  static listLabelStyle = { minWidth: '220px' }
+
   state = {
     selectedPluginMetaData: null,
   }
 
-  handleSelectPluginMetaData = (selectedPluginMetaData) => {
-    this.setState({
-      selectedPluginMetaData,
-    })
-    // Plugin configuration removed from chain
-    if (selectedPluginMetaData === null) {
-      this.props.reduxFormChange(this.props.fieldNamePrefix, null)
-    }
-  }
-
   getPluginSelector = () => {
-    const { ingestPluginType, pluginConf, selectLabel, title } = this.props
+    const {
+      ingestPluginType, pluginConf, selectLabel, title,
+    } = this.props
     const storePath = ['admin', 'acquisition', 'processing-chain-management', 'pluginConfigurator']
     return (
       <PluginListContainer
         key="selector"
         title={title}
         selectLabel={selectLabel}
-        labelStyles={{ minWidth: '220px' }}
+        labelStyles={PluginFormComponent.listLabelStyle}
         microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
         pluginType={ingestPluginType}
         storePath={storePath}
         selectedPluginId={pluginConf ? pluginConf.pluginId : null}
         handleSelect={this.handleSelectPluginMetaData}
-        displayTitle={false} />
+        displayTitle={false}
+      />
     )
   }
 
   getPluginConfigurator = () => {
     const {
-      reduxFormInitialize, reduxFormGetField, reduxFormChange, fieldNamePrefix, pluginConf } = this.props
+      reduxFormInitialize, reduxFormGetField, reduxFormChange, fieldNamePrefix, pluginConf,
+    } = this.props
     if (this.state.selectedPluginMetaData) {
       return (
         <PluginConfigurator
@@ -88,6 +84,16 @@ export class PluginFormComponent extends React.Component {
       )
     }
     return null
+  }
+
+  handleSelectPluginMetaData = (selectedPluginMetaData) => {
+    this.setState({
+      selectedPluginMetaData,
+    })
+    // Plugin configuration removed from chain
+    if (selectedPluginMetaData === null) {
+      this.props.reduxFormChange(this.props.fieldNamePrefix, null)
+    }
   }
 
   render() {

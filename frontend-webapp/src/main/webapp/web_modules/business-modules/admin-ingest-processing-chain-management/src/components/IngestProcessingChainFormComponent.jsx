@@ -23,7 +23,7 @@ import Avatar from 'material-ui/Avatar'
 import { formValueSelector } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -31,6 +31,10 @@ import { PluginFormComponent } from './PluginFormComponent'
 import IngestProcessingPluginTypes from './IngestProcessingPluginType'
 import messages from '../i18n'
 import styles from '../styles'
+
+const { required, validStringSize } = ValidationHelpers
+const validString50 = [required, validStringSize(1, 50)]
+const validString128 = [validStringSize(0, 128)]
 
 /**
  * Display edit and create ingest processing chain form
@@ -103,12 +107,14 @@ export class IngestProcessingChainFormComponent extends React.Component {
               type="text"
               label={formatMessage({ id: 'processing-chain.form.create.input.name' })}
               normalize={trim}
+              validate={validString50}
             />
             <Field
               name="description"
               fullWidth
               component={RenderTextField}
               type="text"
+              validate={validString128}
               label={formatMessage({ id: 'processing-chain.form.create.input.description' })}
             />
             <div style={pluginStyles}>

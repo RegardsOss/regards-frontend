@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,15 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import SearchEntitiesActions from './SearchEntitiesActions'
+ */
+import { DataManagementClient } from '@regardsoss/client'
 
 /**
- * Actions to search for catalog datasets
+ * Datasource entities client.
+ *
+ * @author Sébastien Binda
  */
-export default class CatalogDatasetEntityActions extends SearchEntitiesActions {
-  constructor(namespace) {
-    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/datasets/search?{parameters}`)
-  }
-}
+const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/dataset'
 
+const datasetActions = new DataManagementClient.DatasetActions(REDUX_ACTION_NAMESPACE)
+
+module.exports = {
+  datasetActions,
+}

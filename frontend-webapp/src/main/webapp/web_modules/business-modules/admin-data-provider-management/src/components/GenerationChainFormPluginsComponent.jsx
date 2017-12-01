@@ -29,7 +29,6 @@ import { PluginFormComponent } from './PluginFormComponent'
 * @author Sébastien Binda
 */
 class GenerationChainFormPluginsComponent extends React.Component {
-
   static propTypes = {
     chain: DataProviderShapes.GenerationChain,
     change: PropTypes.func.isRequired,
@@ -62,9 +61,9 @@ class GenerationChainFormPluginsComponent extends React.Component {
           ingestPluginType={ingestPluginType}
           pluginConf={pluginConf}
           fieldNamePrefix={fieldNamePrefix}
-          reduxFormChange={this.props.change}
-          reduxFormInitialize={this.props.initialize}
-          reduxFormGetField={this.props.getField}
+          reduxFormChange={change}
+          reduxFormInitialize={initialize}
+          reduxFormGetField={getField}
           hideGlobalParameterConf
         />
       </div>
@@ -86,29 +85,29 @@ class GenerationChainFormPluginsComponent extends React.Component {
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
         generationChainPluginTypes.SCAN,
         scanPlugin,
-        "scanAcquisitionPluginConf",
+        'scanAcquisitionPluginConf',
       ),
       this.getPluginConfigurator(
         formatMessage({ id: 'generation-chain.form.plugins.check.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
         generationChainPluginTypes.CHECK,
         checkPlugin,
-        "checkAcquisitionPluginConf",
+        'checkAcquisitionPluginConf',
       ),
       this.getPluginConfigurator(
         formatMessage({ id: 'generation-chain.form.plugins.gen-sip.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
         generationChainPluginTypes.GENERATE_SIP,
         genPlugin,
-        "generateSipPluginConf",
+        'generateSipPluginConf',
       ),
       this.getPluginConfigurator(
         formatMessage({ id: 'generation-chain.form.plugins.post-processing.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
         generationChainPluginTypes.POST_PROCESSING,
         postProcessPlugin,
-        "postProcessSipPluginConf",
-      )
+        'postProcessSipPluginConf',
+      ),
     ]
     return plugins
   }

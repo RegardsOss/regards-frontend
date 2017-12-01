@@ -37,8 +37,10 @@ import EnumInputsComponent from './EnumInputs/EnumInputsComponent'
 import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
 import StringComparison from './StringComparison'
 import reduxForm from './reduxForm'
+import RenderAutoCompleteField from './render/RenderAutoCompleteField'
 
 module.exports = {
+  RenderAutoCompleteField,
   RenderTextField,
   RenderToggle,
   RenderDoubleLabelToggle,

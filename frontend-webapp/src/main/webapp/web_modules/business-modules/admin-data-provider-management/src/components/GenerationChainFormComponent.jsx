@@ -16,24 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import trim from 'lodash/trim'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import Avatar from 'material-ui/Avatar'
 import { formValueSelector } from 'redux-form'
+import { DatasetSelector } from '@regardsoss/entities-common'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, reduxForm } from '@regardsoss/form-utils'
+import { Field, RenderTextField, RenderCheckbox, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import GenerationChainFormPluginsComponent from './GenerationChainFormPluginsComponent'
 import styles from '../styles'
 import messages from '../i18n'
+
 /**
 * Component to display a form of GenerationChain entity
 * @author Sébastien Binda
 */
+
+const {
+  required, validStringSize,
+} = ValidationHelpers
+const validString255 = [validStringSize(0, 255)]
+const validRequiredString255 = [required, validStringSize(1, 255)]
+
+
 class GenerationChainFormComponent extends React.Component {
   static propTypes = {
     chain: DataProviderShapes.GenerationChain,
@@ -55,9 +62,15 @@ class GenerationChainFormComponent extends React.Component {
 
   static defaultProps = {}
 
+  onSelectDataset = () => {
+
+  }
+
   renderActionButtons = () => {
     const { intl: { formatMessage } } = this.context
-    const { chain, invalid, submitting, onBack } = this.props
+    const {
+      chain, invalid, submitting, onBack,
+    } = this.props
     const label = !chain ?
       formatMessage({ id: 'generation-chain.form.create.action.create' }) :
       formatMessage({ id: 'generation-chain.form.edit.action.save' })
@@ -75,8 +88,10 @@ class GenerationChainFormComponent extends React.Component {
   }
 
   render() {
-    const { chain, onBack, onSubmit, invalid, submitting, handleSubmit, change, initialize, getField } = this.props
-    const { intl: { formatMessage }, moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
+    const {
+      chain, onSubmit, handleSubmit, change, initialize, getField,
+    } = this.props
+    const { intl: { formatMessage } } = this.context
 
     const title = !chain ?
       formatMessage({ id: 'generation-chain.form.create.title' }) :
@@ -92,10 +107,36 @@ class GenerationChainFormComponent extends React.Component {
             <Field
               name="label"
               fullWidth
-              disabled={!!chain}
               component={RenderTextField}
               type="text"
+              validate={validString255}
               label={formatMessage({ id: 'generation-chain.form.create.input.label' })}
+            />
+            <Field
+              name="comment"
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              validate={validRequiredString255}
+              label={formatMessage({ id: 'generation-chain.form.create.input.comment' })}
+            />
+            <Field
+              name="active"
+              fullWidth
+              component={RenderCheckbox}
+              label={formatMessage({ id: 'generation-chain.form.create.input.active' })}
+            />
+            <Field
+              name="periodicity"
+              fullWidth
+              component={RenderTextField}
+              type="number"
+              label={formatMessage({ id: 'generation-chain.form.create.input.periodicity' })}
+            />
+            <DatasetSelector
+              fieldName="dataSetIpId"
+              hintText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select' })}
+              onSelect={this.onSelectDataset}
             />
             <GenerationChainFormPluginsComponent
               chain={chain}

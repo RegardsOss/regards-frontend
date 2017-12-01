@@ -80,7 +80,6 @@ class GenerationChainListComponent extends React.Component {
   }
 
   render() {
-    const { maProp } = this.props
     const { intl } = this.context
 
     const emptyComponent = (

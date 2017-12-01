@@ -30,11 +30,11 @@ const REDUX_ACTION_NAMESPACE = 'common/pluginConfiguration'
 const pluginConfigurationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
 const pluginConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
 const pluginConfigurationByTypeActions = new CommonClient.PluginConfigurationByTypeActions(REDUX_ACTION_NAMESPACE)
-const pluginConfigurationSelectorBuilder = paths => CommonClient.getPluginConfigurationSelectors(concat(paths, ENTITIES_STORE_PATH))
+const getPluginConfigurationSelectorBuilder = paths => CommonClient.getPluginConfigurationSelectors(concat(paths, ENTITIES_STORE_PATH))
 
 module.exports = {
   pluginConfigurationActions,
   pluginConfigurationByTypeActions,
   pluginConfigurationReducer,
-  pluginConfigurationSelectorBuilder,
+  getPluginConfigurationSelectorBuilder,
 }

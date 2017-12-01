@@ -35,29 +35,23 @@ export class PluginFormComponent extends React.Component {
     reduxFormInitialize: PropTypes.func.isRequired,
   }
 
+  static labelStyle = { minWidth: '190px' }
+
   state = {
     selectedPluginMetaData: null,
   }
 
-  handleSelectPluginMetaData = (selectedPluginMetaData) => {
-    this.setState({
-      selectedPluginMetaData,
-    })
-    // Plugin configuration removed from chain
-    if (selectedPluginMetaData === null) {
-      this.props.reduxFormChange(this.props.fieldNamePrefix, null)
-    }
-  }
-
   getPluginSelector = () => {
-    const { ingestPluginType, pluginConf, selectLabel, title } = this.props
+    const {
+      ingestPluginType, pluginConf, selectLabel, title,
+    } = this.props
     const storePath = ['admin', 'acquisition', 'processing-chain-management', 'pluginConfigurator']
     return (
       <PluginListContainer
         key="selector"
         title={title}
         selectLabel={selectLabel}
-        labelStyles={{ minWidth: '190px' }}
+        labelStyles={PluginFormComponent.labelStyle}
         microserviceName={STATIC_CONF.MSERVICES.INGEST}
         pluginType={ingestPluginType}
         storePath={storePath}
@@ -70,9 +64,10 @@ export class PluginFormComponent extends React.Component {
 
   getPluginConfigurator = () => {
     const {
-      reduxFormInitialize, reduxFormGetField, reduxFormChange, fieldNamePrefix, pluginConf } = this.props
+      reduxFormInitialize, reduxFormGetField, reduxFormChange, fieldNamePrefix, pluginConf,
+    } = this.props
     if (this.state.selectedPluginMetaData) {
-      return <PluginConfigurator
+      return (<PluginConfigurator
         key="configurator"
         microserviceName={STATIC_CONF.MSERVICES.INGEST}
         pluginMetaData={this.state.selectedPluginMetaData}
@@ -84,9 +79,19 @@ export class PluginFormComponent extends React.Component {
         reduxFormInitialize={reduxFormInitialize}
         newPluginConfLabel={`chain-${fieldNamePrefix}`}
         hideGlobalParameterConf
-      />
+      />)
     }
     return null
+  }
+
+  handleSelectPluginMetaData = (selectedPluginMetaData) => {
+    this.setState({
+      selectedPluginMetaData,
+    })
+    // Plugin configuration removed from chain
+    if (selectedPluginMetaData === null) {
+      this.props.reduxFormChange(this.props.fieldNamePrefix, null)
+    }
   }
 
   render() {

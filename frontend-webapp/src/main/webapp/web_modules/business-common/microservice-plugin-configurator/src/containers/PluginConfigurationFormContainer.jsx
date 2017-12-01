@@ -24,7 +24,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginConfigurationFormComponent from '../components/PluginConfigurationFormComponent'
-import { pluginConfigurationByTypeActions, pluginConfigurationSelectorBuilder } from '../clients/PluginConfigurationClient'
+import { pluginConfigurationByTypeActions, getPluginConfigurationSelectorBuilder } from '../clients/PluginConfigurationClient'
 import { pluginMetadataActions, pluginMetadataSelectorBuilder } from '../clients/PluginMetadataClient'
 import messages from '../i18n'
 
@@ -62,9 +62,7 @@ export class PluginConfigurationFormContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isCreating: props.formMode === 'create',
       isEditing: props.formMode === 'edit',
-      isCopying: props.formMode === 'copy',
     }
   }
 
@@ -149,8 +147,8 @@ export class PluginConfigurationFormContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   currentPluginMetaData: ownProps.pluginId ? pluginMetadataSelectorBuilder(ownProps.storePath).getById(state, ownProps.pluginId) : null,
   isPluginMetaDataFetching: pluginMetadataSelectorBuilder(ownProps.storePath).isFetching(state),
-  currentPluginConfiguration: ownProps.pluginConfigurationId ? pluginConfigurationSelectorBuilder(ownProps.storePath).getById(state, ownProps.pluginConfigurationId) : null,
-  isPluginConfigurationFetching: pluginConfigurationSelectorBuilder(ownProps.storePath).isFetching(state),
+  currentPluginConfiguration: ownProps.pluginConfigurationId ? getPluginConfigurationSelectorBuilder(ownProps.storePath).getById(state, ownProps.pluginConfigurationId) : null,
+  isPluginConfigurationFetching: getPluginConfigurationSelectorBuilder(ownProps.storePath).isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({

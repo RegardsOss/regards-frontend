@@ -61,6 +61,8 @@ const messages = {
   'entities.common.services.download.service.result': 'Télécharger',
   'entities.common.services.ui.plugin.running.error': 'Une erreur est survenue pendant l\'exécution du service',
 
+  'entities.common.dataset-selector.loading': 'Chargement ...',
+
   ...Locales.fr,
 }
 

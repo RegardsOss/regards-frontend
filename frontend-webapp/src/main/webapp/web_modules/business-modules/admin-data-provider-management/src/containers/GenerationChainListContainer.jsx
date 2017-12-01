@@ -19,7 +19,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import GenerationChainListComponent from '../components/GenerationChainListComponent'
-import { generationChainActions, generationChainSelectors } from '../clients/GenerationChainClient'
+import { generationChainActions } from '../clients/GenerationChainClient'
 
 /**
 * GenerationChainListContainer
@@ -83,7 +83,6 @@ export class GenerationChainListContainer extends React.Component {
   }
 
   render() {
-    const { maProp } = this.props
     return (
       <GenerationChainListComponent
         fetchPage={this.props.fetchPage}

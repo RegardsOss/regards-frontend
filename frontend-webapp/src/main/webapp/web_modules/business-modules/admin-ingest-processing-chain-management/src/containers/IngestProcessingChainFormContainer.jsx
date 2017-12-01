@@ -1,11 +1,9 @@
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { withI18n } from '@regardsoss/i18n'
 import { IngestShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
-import messages from '../i18n'
 import IngestProcessingChainFormComponent from '../components/IngestProcessingChainFormComponent'
 
 /**
