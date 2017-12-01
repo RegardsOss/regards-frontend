@@ -9,6 +9,7 @@ export class PluginListContainer extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     selectLabel: PropTypes.string,
+    labelStyles: PropTypes.object,
     microserviceName: PropTypes.string.isRequired,
     pluginType: PropTypes.string.isRequired,
     selectedPluginId: PropTypes.string,
@@ -45,6 +46,7 @@ export class PluginListContainer extends React.Component {
       <PluginListComponent
         title={this.props.title}
         selectLabel={this.props.selectLabel}
+        labelStyles={this.props.labelStyles}
         onChange={this.props.handleSelect}
         pluginList={this.state.pluginList}
         defaultSelectedPluginId={this.props.selectedPluginId}

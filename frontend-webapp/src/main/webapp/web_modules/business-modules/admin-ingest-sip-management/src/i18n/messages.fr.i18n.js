@@ -19,7 +19,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'sips.title': 'Consultation des acquisitions de donées (SIP)',
+  'sips.title': 'Consultation des soumissions de données',
   'sips.button.filter': 'Filtrer',
   'sips.button.back': 'Retour',
   'sips.list.subtitle': 'Liste des SIPS pour la session sélectionnée',

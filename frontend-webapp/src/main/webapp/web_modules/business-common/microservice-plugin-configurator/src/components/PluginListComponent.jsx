@@ -10,6 +10,7 @@ export class PluginListComponent extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     selectLabel: PropTypes.string,
+    labelStyles: PropTypes.object,
     pluginList: CommonShapes.PluginMetaDataList,
     defaultSelectedPluginId: PropTypes.string,
     onChange: PropTypes.func.isRequired,
@@ -17,7 +18,7 @@ export class PluginListComponent extends React.Component {
 
   static styles = {
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'center',
   }
 
   constructor(props) {
@@ -40,8 +41,10 @@ export class PluginListComponent extends React.Component {
   render() {
     return (
       <div style={PluginListComponent.styles}>
-        <span>{this.props.title ? this.props.title : null}</span>
-        <DropDownMenu value={this.state.selectedPluginId} onChange={this.handleSelect}>
+        <div style={this.props.labelStyles}>
+          {this.props.title ? this.props.title : null}
+        </div>
+        <DropDownMenu value={this.state.selectedPluginId} onChange={this.handleSelect} style={{ top: '-7px' }}>
           <MenuItem value={null} primaryText={this.props.selectLabel || 'none'} />
           {map(this.props.pluginList, this.renderItem)}
         </DropDownMenu>

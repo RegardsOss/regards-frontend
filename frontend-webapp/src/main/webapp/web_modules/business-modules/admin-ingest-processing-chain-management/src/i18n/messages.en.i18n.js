@@ -45,6 +45,13 @@ const messages = Object.assign({
   'processing-chain.form.create.action.create': 'Create',
   'processing-chain.form.edit.action.save': 'Update',
   'processing-chain.form.create.action.cancel': 'Cancel',
+  'processing-chain.form.plugins.none.selected': 'None',
+  'processing-chain.form.plugins.none.selected.mandatory': 'Choose a plugin ...',
+  'processing-chain.form.preprocessing.plugin.label': 'Pre processing',
+  'processing-chain.form.validation.plugin.label': 'Datas validation',
+  'processing-chain.form.generation.plugin.label': 'Datas generation',
+  'processing-chain.form.tag.plugin.label': 'Tag datas',
+  'processing-chain.form.postprocessing.plugin.label': 'Post processing',
 
 }, Locales.en)
 

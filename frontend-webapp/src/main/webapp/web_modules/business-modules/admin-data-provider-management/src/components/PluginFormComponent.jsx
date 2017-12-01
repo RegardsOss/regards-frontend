@@ -49,44 +49,49 @@ export class PluginFormComponent extends React.Component {
     }
   }
 
-  render() {
-    const {
-      reduxFormInitialize, reduxFormGetField, reduxFormChange, fieldNamePrefix, ingestPluginType, pluginConf, selectLabel, title,
-    } = this.props
-    const styles = {
-      display: 'flex',
-      alignItems: 'baseline',
-    }
+  getPluginSelector = () => {
+    const { ingestPluginType, pluginConf, selectLabel, title } = this.props
     const storePath = ['admin', 'acquisition', 'processing-chain-management', 'pluginConfigurator']
     return (
-      <div>
-        <div style={styles}>
-          <PluginListContainer
-            title={title}
-            selectLabel={selectLabel}
-            microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
-            pluginType={ingestPluginType}
-            storePath={storePath}
-            selectedPluginId={pluginConf ? pluginConf.pluginId : null}
-            handleSelect={this.handleSelectPluginMetaData}
-            displayTitle={false}
-          />
-        </div>
-        {this.state.selectedPluginMetaData ?
-          <PluginConfigurator
-            microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
-            pluginMetaData={this.state.selectedPluginMetaData}
-            pluginConfiguration={pluginConf}
-            formMode={this.props.pluginConf && this.props.pluginConf.pluginId === this.state.selectedPluginMetaData.pluginId ? 'edit' : 'create'}
-            reduxFormChange={reduxFormChange}
-            reduxFormGetField={reduxFormGetField}
-            reduxFormfieldNamePrefix={fieldNamePrefix}
-            reduxFormInitialize={reduxFormInitialize}
-            newPluginConfLabel={`chain-${fieldNamePrefix}`}
-            hideGlobalParameterConf
-          /> : null}
-      </div>
+      <PluginListContainer
+        key="selector"
+        title={title}
+        selectLabel={selectLabel}
+        labelStyles={{ minWidth: '220px' }}
+        microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
+        pluginType={ingestPluginType}
+        storePath={storePath}
+        selectedPluginId={pluginConf ? pluginConf.pluginId : null}
+        handleSelect={this.handleSelectPluginMetaData}
+        displayTitle={false} />
     )
+  }
+
+  getPluginConfigurator = () => {
+    const {
+      reduxFormInitialize, reduxFormGetField, reduxFormChange, fieldNamePrefix, pluginConf } = this.props
+    if (this.state.selectedPluginMetaData) {
+      return (
+        <PluginConfigurator
+          key="configurator"
+          microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
+          pluginMetaData={this.state.selectedPluginMetaData}
+          pluginConfiguration={pluginConf}
+          formMode={this.props.pluginConf && this.props.pluginConf.pluginId === this.state.selectedPluginMetaData.pluginId ? 'edit' : 'create'}
+          reduxFormChange={reduxFormChange}
+          reduxFormGetField={reduxFormGetField}
+          reduxFormfieldNamePrefix={fieldNamePrefix}
+          reduxFormInitialize={reduxFormInitialize}
+          newPluginConfLabel={`chain-${fieldNamePrefix}`}
+          hideGlobalParameterConf
+        />
+      )
+    }
+    return null
+  }
+
+  render() {
+    return [this.getPluginSelector(), this.getPluginConfigurator()]
   }
 }
 export default PluginFormComponent

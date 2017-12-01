@@ -109,4 +109,4 @@ const mapDispatchToProps = dispatch => ({
   fetchChain: name => dispatch(processingChainActions.fetchEntity(name)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withI18n(messages)(IngestProcessingChainFormContainer))
+export default connect(mapStateToProps, mapDispatchToProps)(IngestProcessingChainFormContainer)

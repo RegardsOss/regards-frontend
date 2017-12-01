@@ -25,10 +25,12 @@ import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, Field, reduxForm } from '@regardsoss/form-utils'
 import { IngestShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { PluginFormComponent } from './PluginFormComponent'
 import IngestProcessingPluginTypes from './IngestProcessingPluginType'
+import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Display edit and create ingest processing chain form
@@ -119,8 +121,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="preprocessing"
-                title="[Optional] Pre-processing plugin"
-                selectLabel="None"
+                title={formatMessage({ id: 'processing-chain.form.preprocessing.plugin.label' })}
+                selectLabel={formatMessage({ id: 'processing-chain.form.plugins.none.selected' })}
                 ingestPluginType={IngestProcessingPluginTypes.PRE_PROCESSING}
                 pluginConf={preprocessingPlugin}
                 fieldNamePrefix="preprocessingPlugin"
@@ -140,8 +142,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="validation"
-                title="Validation plugin"
-                selectLabel="Choose a plugin ..."
+                title={formatMessage({ id: 'processing-chain.form.validation.plugin.label' })}
+                selectLabel={formatMessage({ id: 'processing-chain.form.plugins.none.selected.mandatory' })}
                 ingestPluginType={IngestProcessingPluginTypes.VALIDATION}
                 pluginConf={validationPlugin}
                 fieldNamePrefix="validationPlugin"
@@ -161,8 +163,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="generation"
-                title="AIP GEneration plugin"
-                selectLabel="Choose a plugin ..."
+                title={formatMessage({ id: 'processing-chain.form.generation.plugin.label' })}
+                selectLabel={formatMessage({ id: 'processing-chain.form.plugins.none.selected.mandatory' })}
                 ingestPluginType={IngestProcessingPluginTypes.GENERATION}
                 pluginConf={generationPlugin}
                 fieldNamePrefix="generationPlugin"
@@ -182,8 +184,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="tag"
-                title="[Optional] AIP Tag plugin"
-                selectLabel="None"
+                title={formatMessage({ id: 'processing-chain.form.tag.plugin.label' })}
+                selectLabel={formatMessage({ id: 'processing-chain.form.plugins.none.selected' })}
                 ingestPluginType={IngestProcessingPluginTypes.TAG}
                 pluginConf={tagPlugin}
                 fieldNamePrefix="tagPlugin"
@@ -203,8 +205,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
               </Avatar>
               <PluginFormComponent
                 key="postprocessing"
-                title="[Optional] Post-processing plugin"
-                selectLabel="None"
+                title={formatMessage({ id: 'processing-chain.form.postprocessing.plugin.label' })}
+                selectLabel={formatMessage({ id: 'processing-chain.form.plugins.none.selected' })}
                 ingestPluginType={IngestProcessingPluginTypes.POST_PROCESSING}
                 pluginConf={postprocessingPlugin}
                 fieldNamePrefix="postprocessingPlugin"
@@ -251,5 +253,5 @@ const connectedReduxForm = reduxForm({
   validate,
 })(ConnectedComponent)
 
-export default connectedReduxForm
+export default withI18n(messages)(withModuleStyle(styles)(connectedReduxForm))
 

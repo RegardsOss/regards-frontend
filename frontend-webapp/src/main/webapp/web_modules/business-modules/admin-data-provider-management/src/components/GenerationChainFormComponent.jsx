@@ -27,8 +27,7 @@ import { DataProviderShapes } from '@regardsoss/shape'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, Field, reduxForm } from '@regardsoss/form-utils'
-import { PluginFormComponent } from './PluginFormComponent'
-import generationChainPluginTypes from './GenerationChainPluginTypes'
+import GenerationChainFormPluginsComponent from './GenerationChainFormPluginsComponent'
 import styles from '../styles'
 import messages from '../i18n'
 /**
@@ -56,30 +55,39 @@ class GenerationChainFormComponent extends React.Component {
 
   static defaultProps = {}
 
+  renderActionButtons = () => {
+    const { intl: { formatMessage } } = this.context
+    const { chain, invalid, submitting, onBack } = this.props
+    const label = !chain ?
+      formatMessage({ id: 'generation-chain.form.create.action.create' }) :
+      formatMessage({ id: 'generation-chain.form.edit.action.save' })
+    return (
+      <CardActions>
+        <CardActionsComponent
+          mainButtonLabel={label}
+          mainButtonType="submit"
+          isMainButtonDisabled={submitting || invalid}
+          secondaryButtonLabel={formatMessage({ id: 'generation-chain.form.create.action.cancel' })}
+          secondaryButtonTouchTap={onBack}
+        />
+      </CardActions>
+    )
+  }
+
   render() {
-    const {
-      chain, onBack, onSubmit, invalid, submitting, handleSubmit,
-    } = this.props
+    const { chain, onBack, onSubmit, invalid, submitting, handleSubmit, change, initialize, getField } = this.props
     const { intl: { formatMessage }, moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
 
-    const scanPlugin = get(chain, 'scanAcquisitionPluginConf', null)
-    const checkPlugin = get(chain, 'checkAcquisitionPluginConf', null)
-    const genPlugin = get(chain, 'generateSipPluginConf', null)
-    const postProcessPlugin = get(chain, 'postProcessSipPluginConf', null)
+    const title = !chain ?
+      formatMessage({ id: 'generation-chain.form.create.title' }) :
+      formatMessage({ id: 'generation-chain.form.edit.title' }, { name: chain.name })
 
     return (
       <form
         onSubmit={handleSubmit(onSubmit)}
       >
         <Card>
-          {!chain ?
-            <CardTitle
-              title={formatMessage({ id: 'generation-chain.form.create.title' })}
-            /> :
-            <CardTitle
-              title={formatMessage({ id: 'generation-chain.form.edit.title' }, { name: chain.name })}
-            />
-          }
+          <CardTitle title={title} />
           <CardText>
             <Field
               name="label"
@@ -88,106 +96,15 @@ class GenerationChainFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={formatMessage({ id: 'generation-chain.form.create.input.label' })}
-              normalize={trim}
             />
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 1
-              </Avatar>
-              <PluginFormComponent
-                key="scan"
-                title={formatMessage({ id: 'generation-chain.form.plugins.scan.label' })}
-                selectLabel={formatMessage({ id: 'generation-chain.form.plugins.select.label' })}
-                ingestPluginType={generationChainPluginTypes.SCAN}
-                pluginConf={scanPlugin}
-                fieldNamePrefix="scanAcquisitionPluginConf"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 2
-              </Avatar>
-              <PluginFormComponent
-                key="check"
-                title={formatMessage({ id: 'generation-chain.form.plugins.check.label' })}
-                selectLabel={formatMessage({ id: 'generation-chain.form.plugins.select.label' })}
-                ingestPluginType={generationChainPluginTypes.CHECK}
-                pluginConf={checkPlugin}
-                fieldNamePrefix="checkAcquisitionPluginConf"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 3
-              </Avatar>
-              <PluginFormComponent
-                key="generation"
-                title={formatMessage({ id: 'generation-chain.form.plugins.gen-sip.label' })}
-                selectLabel={formatMessage({ id: 'generation-chain.form.plugins.select.label' })}
-                ingestPluginType={generationChainPluginTypes.GENERATE_SIP}
-                pluginConf={genPlugin}
-                fieldNamePrefix="generateSipPluginConf"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 4
-              </Avatar>
-              <PluginFormComponent
-                key="PostProcessing"
-                title={formatMessage({ id: 'generation-chain.form.plugins.post-processing.label' })}
-                selectLabel={formatMessage({ id: 'generation-chain.form.plugins.select.label' })}
-                ingestPluginType={generationChainPluginTypes.POST_PROCESSING}
-                pluginConf={postProcessPlugin}
-                fieldNamePrefix="postProcessSipPluginConf"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
+            <GenerationChainFormPluginsComponent
+              chain={chain}
+              change={change}
+              initialize={initialize}
+              getField={getField}
+            />
           </CardText>
-          <CardActions>
-            <CardActionsComponent
-              mainButtonLabel={
-                !chain ?
-                  formatMessage({ id: 'generation-chain.form.create.action.create' }) :
-                  formatMessage({ id: 'generation-chain.form.edit.action.save' })
-              }
-              mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={formatMessage({ id: 'generation-chain.form.create.action.cancel' })}
-              secondaryButtonTouchTap={onBack}
-            />
-          </CardActions>
+          {this.renderActionButtons()}
         </Card>
       </form>
     )
