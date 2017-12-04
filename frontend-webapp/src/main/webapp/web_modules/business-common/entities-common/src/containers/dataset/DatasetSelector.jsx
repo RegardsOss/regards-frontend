@@ -57,8 +57,11 @@ export class DatasetSelector extends React.Component {
 
   static propTypes = {
     fieldName: PropTypes.string.isRequired,
+    fullWidth: PropTypes.bool,
     hintText: PropTypes.string.isRequired,
+    floatingLabelText: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
+    validate: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.func), PropTypes.func]),
     // from mapDispatchToProps
     fetchDatasets: PropTypes.func.isRequired,
   }
@@ -72,12 +75,34 @@ export class DatasetSelector extends React.Component {
     }
   }
 
+  state = {
+    inputUpdateTimeout: null,
+  }
+
   componentDidMount() {
     this.searchDatasets()
   }
 
   onItemSelected = (selected) => {
     this.props.onSelect(selected)
+  }
+
+  /**
+   * Set the search text into the search field and wait for user ends to enter the full text he wants before sending filter request
+   * to server.
+   * @param {*} searchText: filter text given by user
+   */
+  onUpdateInput = (searchText) => {
+    this.setState({
+      searchText,
+    }, () => {
+      if (this.state.inputUpdateTimeout) {
+        clearTimeout(this.state.inputUpdateTimeout)
+      }
+      this.setState({
+        inputUpdateTimeout: setTimeout(() => this.searchDatasets(searchText), 500),
+      })
+    })
   }
 
   searchDatasets = (label) => {
@@ -94,25 +119,23 @@ export class DatasetSelector extends React.Component {
     })
   }
 
-  handleUpdateInput = (searchText) => {
-    this.setState({
-      searchText,
-    }, () => {
-      this.searchDatasets(searchText)
-    })
-  }
-
   renderAutocomplete = () => {
+    const {
+      fullWidth, fieldName, hintText, floatingLabelText, validate,
+    } = this.props
     const dsContents = map(this.state.datasets, d => d.content)
     return (
       <DatasetSelectorComponent
-        fieldName={this.props.fieldName}
-        hintText={this.props.hintText}
+        fullWidth={fullWidth}
+        fieldName={fieldName}
+        hintText={hintText}
+        floatingLabelText={floatingLabelText}
         searchText={this.state.searchText}
         onNewRequest={this.onItemSelected}
-        handleUpdateInput={this.handleUpdateInput}
+        handleUpdateInput={this.onUpdateInput}
         datasource={dsContents}
         isLoading={this.state.isLoading}
+        validate={validate}
       />
     )
   }

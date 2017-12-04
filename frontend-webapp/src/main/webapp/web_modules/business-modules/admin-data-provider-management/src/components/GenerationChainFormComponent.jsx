@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import Divider from 'material-ui/Divider'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { formValueSelector } from 'redux-form'
@@ -109,7 +110,7 @@ class GenerationChainFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              validate={validString255}
+              validate={validRequiredString255}
               label={formatMessage({ id: 'generation-chain.form.create.input.label' })}
             />
             <Field
@@ -117,14 +118,16 @@ class GenerationChainFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              validate={validRequiredString255}
+              validate={validString255}
               label={formatMessage({ id: 'generation-chain.form.create.input.comment' })}
             />
-            <Field
-              name="active"
+            <DatasetSelector
+              fieldName="dataSetIpId"
               fullWidth
-              component={RenderCheckbox}
-              label={formatMessage({ id: 'generation-chain.form.create.input.active' })}
+              floatingLabelText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select' })}
+              hintText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select.hint' })}
+              onSelect={this.onSelectDataset}
+              validate={required}
             />
             <Field
               name="periodicity"
@@ -133,11 +136,15 @@ class GenerationChainFormComponent extends React.Component {
               type="number"
               label={formatMessage({ id: 'generation-chain.form.create.input.periodicity' })}
             />
-            <DatasetSelector
-              fieldName="dataSetIpId"
-              hintText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select' })}
-              onSelect={this.onSelectDataset}
+            <Field
+              name="active"
+              fullWidth
+              component={RenderCheckbox}
+              label={formatMessage({ id: 'generation-chain.form.create.input.active' })}
             />
+            <br />
+            <Divider />
+            <br />
             <GenerationChainFormPluginsComponent
               chain={chain}
               change={change}

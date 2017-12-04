@@ -26,12 +26,15 @@ import { themeContextType } from '@regardsoss/theme'
 class DatasetSelectorComponent extends React.Component {
   static propTypes = {
     fieldName: PropTypes.string.isRequired,
+    fullWidth: PropTypes.bool,
     hintText: PropTypes.string.isRequired,
     searchText: PropTypes.string.isRequired,
+    floatingLabelText: PropTypes.string,
     isLoading: PropTypes.bool.isRequired,
     handleUpdateInput: PropTypes.func.isRequired,
     onNewRequest: PropTypes.func.isRequired,
     datasource: PropTypes.arrayOf(PropTypes.object).isRequired,
+    validate: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.func), PropTypes.func]),
   }
 
   static defaultProps = {}
@@ -41,10 +44,12 @@ class DatasetSelectorComponent extends React.Component {
     ...themeContextType,
   }
 
+  isValideDataset = (dataset) => { }
+
   render() {
     const { intl: { formatMessage } } = this.context
     const {
-      hintText, isLoading, fieldName, searchText, datasource, handleUpdateInput, onNewRequest,
+      fullWidth, floatingLabelText, hintText, isLoading, fieldName, searchText, datasource, handleUpdateInput, onNewRequest, validate,
     } = this.props
     const dataSourceConfig = {
       text: 'label',
@@ -54,14 +59,18 @@ class DatasetSelectorComponent extends React.Component {
     return (
       <Field
         name={fieldName}
+        fullWidth={fullWidth}
         component={RenderAutoCompleteField}
         hintText={hintText}
+        floatingLabelText={floatingLabelText}
         onNewRequest={onNewRequest}
         searchText={searchText}
         onUpdateInput={handleUpdateInput}
         dataSource={ds}
         dataSourceConfig={dataSourceConfig}
         openOnFocus
+        enableOnlyDatasourceValues
+        validate={validate}
       />
     )
   }
