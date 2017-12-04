@@ -22,6 +22,23 @@ import RenderHelper from './RenderHelper'
 
 export default class renderAutoCompleteField extends React.Component {
   static propTypes = {
+    hintText: PropTypes.string.isRequired,
+    floatingLabelText: PropTypes.string,
+    fullWidth: PropTypes.bool,
+    // eslint-disable-next-line react/forbid-prop-types
+    dataSource: PropTypes.array, // Elements availables for selection
+    // eslint-disable-next-line react/forbid-prop-types
+    dataSourceConfig: PropTypes.shape({
+      text: PropTypes.string.isRequired, // Field use for display from the items of the datasource
+      value: PropTypes.string.isRequired, // Field use for selection from the items of the datasource
+    }), // Elements configuration
+    onUpdateInput: PropTypes.func, // Callback when a filter text is given
+    onNewRequest: PropTypes.func, // Callback when an item from the datasource is selected
+    openOnFocus: PropTypes.bool, // Open the datasource items list when focus
+    searchText: PropTypes.string, // search or filter text
+    filter: PropTypes.func, // see material-ui AutoComplete
+    enableOnlyDatasourceValues: PropTypes.bool, // Does the search text is a valid value if it does not match one from the datasource ?
+    // From redux form field
     input: PropTypes.shape({
       value: PropTypes.oneOfType([
         PropTypes.string,
@@ -30,29 +47,20 @@ export default class renderAutoCompleteField extends React.Component {
       ]),
       name: PropTypes.string,
     }),
-    hintText: PropTypes.string.isRequired,
-    floatingLabelText: PropTypes.string,
+
     meta: PropTypes.shape({
       touched: PropTypes.bool,
       error: PropTypes.string,
     }),
-    fullWidth: PropTypes.bool,
-    // eslint-disable-next-line react/forbid-prop-types
-    dataSource: PropTypes.array,
-    // eslint-disable-next-line react/forbid-prop-types
-    dataSourceConfig: PropTypes.object,
-    onUpdateInput: PropTypes.func.isRequired,
-    onNewRequest: PropTypes.func.isRequired,
-    openOnFocus: PropTypes.bool.isRequired,
-    searchText: PropTypes.string.isRequired,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),
-    enableOnlyDatasourceValues: PropTypes.bool, // Does the search text is a valid value if it does not match one from the datasource ?
   }
 
   static defaultProps = {
     enableOnlyDatasourceValues: false,
+    openOnFocus: true,
+    filter: AutoComplete.noFilter,
   }
 
   static valueIsInDataSource(value, datasource, datasourceConfig) {
@@ -64,7 +72,7 @@ export default class renderAutoCompleteField extends React.Component {
 
   render() {
     const {
-      enableOnlyDatasourceValues, floatingLabelText, input, hintText, meta: { touched, error }, fullWidth, dataSource,
+      enableOnlyDatasourceValues, filter, floatingLabelText, input, hintText, meta: { touched, error }, fullWidth, dataSource,
       dataSourceConfig, onUpdateInput, onNewRequest, openOnFocus, searchText, intl,
     } = this.props
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
@@ -84,20 +92,22 @@ export default class renderAutoCompleteField extends React.Component {
             }
             return input.onChange(selected)
           }}
-          filter={AutoComplete.noFilter}
-          searchText={searchText}
+          searchText={input.value ? input.value : searchText}
           onUpdateInput={(pSearchText, pDatasource, params) => {
             if (enableOnlyDatasourceValues && !renderAutoCompleteField.valueIsInDataSource(pSearchText, pDatasource, dataSourceConfig)) {
               input.onChange(null)
             } else if (!enableOnlyDatasourceValues) {
               input.onChange(pSearchText)
             }
-            onUpdateInput(pSearchText, pDatasource, params)
+            if (onUpdateInput) {
+              onUpdateInput(pSearchText, pDatasource, params)
+            }
           }}
           onClick={() => input.onBlur()}
           dataSource={dataSource}
           dataSourceConfig={dataSourceConfig}
           openOnFocus={openOnFocus}
+          filter={filter}
         />
       </div>
     )

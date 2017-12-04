@@ -17,16 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { DataManagementClient } from '@regardsoss/client'
+import { DatasetConfiguration } from '@regardsoss/api'
 
 /**
  * Datasource entities client.
  *
  * @author Sébastien Binda
  */
-const REDUX_ACTION_NAMESPACE = 'admin-data-dataset-management/dataset'
+const REDUX_ACTION_NAMESPACE = 'admin-data-prodiver-management/dataset'
 
 const datasetActions = new DataManagementClient.DatasetActions(REDUX_ACTION_NAMESPACE)
+const datasetEntitiesKey = DatasetConfiguration.normalizrKey
 
 module.exports = {
   datasetActions,
+  datasetEntitiesKey,
 }

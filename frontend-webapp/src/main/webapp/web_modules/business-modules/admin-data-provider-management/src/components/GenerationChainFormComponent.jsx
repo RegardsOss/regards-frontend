@@ -20,13 +20,15 @@ import Divider from 'material-ui/Divider'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { formValueSelector } from 'redux-form'
-import { DatasetSelector } from '@regardsoss/entities-common'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
-import { Field, RenderTextField, RenderCheckbox, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
+import { Field, FieldArray, RenderTextField, RenderPageableAutoCompleteField, RenderCheckbox, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import { datasetActions, datasetEntitiesKey } from '../clients/DatasetClient'
 import GenerationChainFormPluginsComponent from './GenerationChainFormPluginsComponent'
+import MetaProductFormComponent from './MetaProductFormComponent'
+import MetaFilesFormComponent from './MetaFilesFormComponent'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -63,8 +65,26 @@ class GenerationChainFormComponent extends React.Component {
 
   static defaultProps = {}
 
-  onSelectDataset = () => {
+  componentDidMount() {
+    const initialValues = {
+      active: true,
+      metaProduct: {
+        checksumAlgorithm: 'MD5',
+        cleanOriginalFile: true,
+        metaFiles: [
+          {
+            fileNamePattern: '/plop',
+            scanDirectory: '',
+          },
+          {
+            fileNamePattern: 'second fichier',
+            scanDirectory: '',
+          },
+        ],
+      },
+    }
 
+    this.props.initialize(initialValues)
   }
 
   renderActionButtons = () => {
@@ -94,9 +114,25 @@ class GenerationChainFormComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
 
+    const infoMessage = (
+      <span>
+        {formatMessage({ id: 'generation-chain.form.informations-1' })}
+        <ul>
+          <li>{formatMessage({ id: 'generation-chain.form.informations-2' })}</li>
+          <li>{formatMessage({ id: 'generation-chain.form.informations-3' })}</li>
+          <li>{formatMessage({ id: 'generation-chain.form.informations-4' })}</li>
+        </ul>
+      </span>
+    )
+
     const title = !chain ?
       formatMessage({ id: 'generation-chain.form.create.title' }) :
       formatMessage({ id: 'generation-chain.form.edit.title' }, { name: chain.name })
+
+    const datasetsConfig = {
+      text: 'label',
+      value: 'ipId',
+    }
 
     return (
       <form
@@ -105,6 +141,7 @@ class GenerationChainFormComponent extends React.Component {
         <Card>
           <CardTitle title={title} />
           <CardText>
+            <HelpMessageComponent message={infoMessage} />
             <Field
               name="label"
               fullWidth
@@ -121,12 +158,17 @@ class GenerationChainFormComponent extends React.Component {
               validate={validString255}
               label={formatMessage({ id: 'generation-chain.form.create.input.comment' })}
             />
-            <DatasetSelector
-              fieldName="dataSetIpId"
+            <Field
+              name="dataSetIpId"
               fullWidth
+              component={RenderPageableAutoCompleteField}
               floatingLabelText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select' })}
               hintText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select.hint' })}
-              onSelect={this.onSelectDataset}
+              pageSize={50}
+              entitiesFilterProperty="label"
+              entityActions={datasetActions}
+              entitiesPayloadKey={datasetEntitiesKey}
+              entitiesConfig={datasetsConfig}
               validate={required}
             />
             <Field
@@ -136,6 +178,7 @@ class GenerationChainFormComponent extends React.Component {
               type="number"
               label={formatMessage({ id: 'generation-chain.form.create.input.periodicity' })}
             />
+            <MetaProductFormComponent />
             <Field
               name="active"
               fullWidth
@@ -145,6 +188,11 @@ class GenerationChainFormComponent extends React.Component {
             <br />
             <Divider />
             <br />
+            <FieldArray
+              name="metaProduct.metaFiles"
+              component={MetaFilesFormComponent}
+              rerenderOnEveryChange
+            />
             <GenerationChainFormPluginsComponent
               chain={chain}
               change={change}

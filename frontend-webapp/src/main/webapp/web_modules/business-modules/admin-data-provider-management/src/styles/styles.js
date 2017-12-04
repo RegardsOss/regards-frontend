@@ -24,6 +24,40 @@ const styles = theme => ({
   avatarStyles: {
     marginRight: 10,
   },
+  metafiles: {
+    layoutStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      border: '1px solid',
+      borderColor: theme.palette.borderColor,
+    },
+    titleStyle: {
+      width: '100%',
+    },
+    titleLabelStyle: {
+      marginLeft: '10px',
+    },
+    contentStyle: {
+      display: 'flex',
+      flexDirection: 'row',
+      maxHeight: '310px',
+      width: '100%',
+    },
+    leftColumnStyle: {
+      width: '15%',
+      borderRight: '1px solid',
+      borderColor: theme.palette.borderColor,
+    },
+    rightColumnStyle: {
+      width: '85%',
+      overflow: 'auto',
+    },
+    typeListStyle: {
+      maxHeight: '260px',
+      overflow: 'auto',
+    },
+  },
 })
 
 export default styles

@@ -61,8 +61,6 @@ const messages = {
   'entities.common.services.download.service.result': 'Download',
   'entities.common.services.ui.plugin.running.error': 'Error during service execution',
 
-  'entities.common.dataset-selector.loading': 'loading ...',
-
   ...Locales.en,
 }
 

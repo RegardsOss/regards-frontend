@@ -31,9 +31,6 @@ import ChoiceParameterField from './components/services/parameters/ChoiceParamet
 import DateParameterField from './components/services/parameters/DateParameterField'
 import TextParameterField from './components/services/parameters/TextParameterField'
 
-import DatasetSelector from './containers/dataset/DatasetSelector'
-import { datasetSelectorReducer } from './clients/SearchEntityClient'
-
 module.exports = {
   DownloadDescriptionClient,
   EntityDescriptionContainer,
@@ -51,7 +48,4 @@ module.exports = {
   ChoiceParameterField,
   DateParameterField,
   TextParameterField,
-
-  DatasetSelector,
-  datasetSelectorReducer,
 }

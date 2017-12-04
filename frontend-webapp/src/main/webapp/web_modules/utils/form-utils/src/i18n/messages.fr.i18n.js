@@ -51,6 +51,8 @@ const messages = {
   'renderer.fileField.button.select.label': 'Sélectionner un fichier',
   'renderer.fileField.button.change.label': 'Changer le fichier sélectionné',
   'renderer.fileField.no.file.selected': 'Aucun fichier sélectionné',
+
+  'render.pageableAutoCompleteField.loading': 'Chargement ...',
 }
 
 export default messages
