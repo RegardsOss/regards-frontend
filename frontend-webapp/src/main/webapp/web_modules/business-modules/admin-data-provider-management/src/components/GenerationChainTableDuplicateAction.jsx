@@ -19,7 +19,7 @@
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import IconButton from 'material-ui/IconButton'
 import { IngestShapes } from '@regardsoss/shape'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { addDependencies } from '../dependencies'
 
@@ -56,10 +56,11 @@ class GenerationChainTableDuplicateAction extends React.Component {
         style={GenerationChainTableDuplicateAction.buttonStyle}
         onTouchTap={() => this.props.onDuplicate(chain.id)}
         resourceDependencies={addDependencies}
+        displayLogic={allMatchHateoasDisplayLogic}
       >
         <ContentCopy />
       </IconButtonWithResourceDisplayControl>
     )
   }
 }
-export default withResourceDisplayControl()(GenerationChainTableDuplicateAction)
+export default GenerationChainTableDuplicateAction
