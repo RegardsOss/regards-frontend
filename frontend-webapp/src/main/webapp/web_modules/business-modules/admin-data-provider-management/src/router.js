@@ -44,10 +44,23 @@ export const generationChainCreateRoute = {
   },
 }
 
+export const generationChainEditOrDuplicateRoute = {
+  path: 'chain/:chainId/:mode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/GenerationChainFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const dataProviderManagementRouter = {
   childRoutes: [
     generationChainRoute,
     generationChainCreateRoute,
+    generationChainEditOrDuplicateRoute,
   ],
 }
 

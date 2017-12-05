@@ -43,7 +43,7 @@ class GenerationChainFormPluginsComponent extends React.Component {
 
   static defaultProps = {}
 
-  getPluginConfigurator = (title, selectLabel, ingestPluginType, pluginConf, fieldNamePrefix) => {
+  getPluginConfigurator = (index, title, selectLabel, ingestPluginType, pluginConf, fieldNamePrefix) => {
     const { change, initialize, getField } = this.props
     const { moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
     return (
@@ -53,7 +53,7 @@ class GenerationChainFormPluginsComponent extends React.Component {
           style={avatarStyles}
           color={palette.textColor}
           backgroundColor={palette.primary1Color}
-        > 1
+        > {index}
         </Avatar>
         <PluginFormComponent
           title={title}
@@ -81,6 +81,7 @@ class GenerationChainFormPluginsComponent extends React.Component {
 
     const plugins = [
       this.getPluginConfigurator(
+        1,
         formatMessage({ id: 'generation-chain.form.plugins.scan.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
         generationChainPluginTypes.SCAN,
@@ -88,6 +89,7 @@ class GenerationChainFormPluginsComponent extends React.Component {
         'scanAcquisitionPluginConf',
       ),
       this.getPluginConfigurator(
+        2,
         formatMessage({ id: 'generation-chain.form.plugins.check.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
         generationChainPluginTypes.CHECK,
@@ -95,6 +97,7 @@ class GenerationChainFormPluginsComponent extends React.Component {
         'checkAcquisitionPluginConf',
       ),
       this.getPluginConfigurator(
+        3,
         formatMessage({ id: 'generation-chain.form.plugins.gen-sip.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
         generationChainPluginTypes.GENERATE_SIP,
@@ -102,6 +105,7 @@ class GenerationChainFormPluginsComponent extends React.Component {
         'generateSipPluginConf',
       ),
       this.getPluginConfigurator(
+        4,
         formatMessage({ id: 'generation-chain.form.plugins.post-processing.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
         generationChainPluginTypes.POST_PROCESSING,

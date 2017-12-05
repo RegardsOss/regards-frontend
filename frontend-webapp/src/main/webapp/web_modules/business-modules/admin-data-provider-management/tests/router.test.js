@@ -32,9 +32,10 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(2)
+    expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('chain/list')
     expect(Routes.childRoutes[1].path).to.eq('chain/create')
+    expect(Routes.childRoutes[2].path).to.eq('chain/:chainId/:mode')
   })
   it('list should return GenerationChainListContainer for listing of existing chains', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -42,8 +43,14 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('list should return GenerationChainFormContainer for listing of existing chains', (done) => {
+  it('create should return GenerationChainFormContainer for listing of existing chains', (done) => {
     Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(GenerationChainFormContainer)
+      done()
+    })
+  })
+  it('chain/:chainId/:mode should return GenerationChainFormContainer for listing of existing chains', (done) => {
+    Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(GenerationChainFormContainer)
       done()
     })

@@ -34,6 +34,7 @@ import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { tableActions } from '../clients/TableClient'
 import { generationChainActions, generationChainSelectors } from '../clients/GenerationChainClient'
 import GenerationChainTableEditAction from './GenerationChainTableEditAction'
+import GenerationChainTableDuplicateAction from './GenerationChainTableDuplicateAction'
 import { addDependencies } from '../dependencies'
 import styles from '../styles'
 import messages from '../i18n'
@@ -46,6 +47,7 @@ class GenerationChainListComponent extends React.Component {
     fetchPage: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     queryPageSize: PropTypes.number.isRequired,
@@ -65,6 +67,35 @@ class GenerationChainListComponent extends React.Component {
     }
   }
 
+  /**
+   * Callback to open the delete confirm dialog
+   * @param {*} chain : chain to delete
+   */
+  onDelete = (chain) => {
+    this.setState({
+      chainToDelete: chain,
+    })
+  }
+
+  /**
+   * Callback for deletion confirmation
+   */
+  onConfirmDelete = () => {
+    this.closeDeleteDialog()
+    if (this.state.chainToDelete) {
+      this.props.onDelete(this.state.chainToDelete)
+    }
+  }
+
+  /**
+   * Callback to close delete confirm dialog
+   */
+  closeDeleteDialog = () => {
+    this.setState({
+      chainToDelete: null,
+    })
+  }
+
   renderDeleteConfirmDialog = () => {
     if (this.state.chainToDelete) {
       return (
@@ -80,7 +111,8 @@ class GenerationChainListComponent extends React.Component {
   }
 
   render() {
-    const { intl } = this.context
+    const { intl, muiTheme } = this.context
+    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
     const emptyComponent = (
       <NoContentComponent
@@ -101,7 +133,25 @@ class GenerationChainListComponent extends React.Component {
       </span>
     )
 
-    const columns = []
+    const columns = [
+      TableColumnBuilder.buildSimplePropertyColumn('column.name', 'label', 'content.label'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.description', 'description', 'content.description'),
+      TableColumnBuilder.buildOptionsColumn('', [{
+        OptionConstructor: GenerationChainTableEditAction,
+        optionProps: { onEdit: this.props.onEdit },
+      }, {
+        OptionConstructor: GenerationChainTableDuplicateAction,
+        optionProps: { onEdit: this.props.onDuplicate },
+      }, {
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          fetchPage: this.props.fetchPage,
+          onDelete: this.onDelete,
+          queryPageSize: this.props.queryPageSize,
+        },
+      }], true, fixedColumnWidth),
+    ]
+
     return (
       <Card>
         <CardTitle

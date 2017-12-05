@@ -109,6 +109,7 @@
     "@regardsoss/i18n-ui": "0.0.1",
     "@regardsoss/layout": "0.0.1",
     "@regardsoss/modules": "0.0.1",
+    "@regardsoss/mime-types": "1.0.0",
     "@regardsoss/plugins": "0.0.1",
     "@regardsoss/plugins-api": "0.0.1",
     "@regardsoss/portal": "0.0.1",

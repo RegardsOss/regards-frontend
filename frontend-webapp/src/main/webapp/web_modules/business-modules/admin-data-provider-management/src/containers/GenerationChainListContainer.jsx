@@ -60,26 +60,50 @@ export class GenerationChainListContainer extends React.Component {
 
   static PAGE_SIZE = 100
 
+  /**
+   * Callback to go to chain edition page
+   * @param {*} chainIdToEdit : identifier of the generation chain to edit
+   */
   onEdit = (chainIdToEdit) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/dataprovider/chain/${chainIdToEdit}/edit`
     browserHistory.push(url)
   }
 
+  /**
+   * Callback to go to the chain creation page
+   */
   onCreate = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/dataprovider/chain/create`
     browserHistory.push(url)
   }
 
+  /**
+   * Callback to return to the acquisition board
+   */
   onBack = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/board`
     browserHistory.push(url)
   }
 
+  /**
+   * Callback to delete the given chain by id
+   * @param { content: * } chain : Object containing the chain to delete ({content: chain})
+   */
   onDelete = ({ content: { id } }, callback) => {
     this.props.deleteChain(id).then(callback)
+  }
+
+  /**
+   * Callback to go to the duplication page of the given chain.
+   * @param {*} chainIdToDuplicate : Identifier of the chain to duplicate
+   */
+  onDuplicate = (chainIdToDuplicate) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/dataprovider/chain/${chainIdToDuplicate}/duplicate`
+    browserHistory.push(url)
   }
 
   render() {
@@ -88,6 +112,7 @@ export class GenerationChainListContainer extends React.Component {
         fetchPage={this.props.fetchPage}
         onDelete={this.onDelete}
         onEdit={this.onEdit}
+        onDuplicate={this.onDuplicate}
         onCreate={this.onCreate}
         onBack={this.onBack}
         queryPageSize={GenerationChainListContainer.PAGE_SIZE}

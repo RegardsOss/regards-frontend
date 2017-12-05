@@ -18,9 +18,14 @@
  **/
 import find from 'lodash/find'
 import AutoComplete from 'material-ui/AutoComplete'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import RenderHelper from './RenderHelper'
-
-export default class renderAutoCompleteField extends React.Component {
+import styles from '../styles'
+/**
+ * Redux form component to display a material-ui AutoComplete widget.
+ * @author Sébastien Binda
+ */
+export class RenderAutoCompleteField extends React.Component {
   static propTypes = {
     hintText: PropTypes.string.isRequired,
     floatingLabelText: PropTypes.string,
@@ -63,6 +68,10 @@ export default class renderAutoCompleteField extends React.Component {
     filter: AutoComplete.noFilter,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   static valueIsInDataSource(value, datasource, datasourceConfig) {
     if (datasourceConfig) {
       return !!find(datasource, ds => ds[datasourceConfig.value] === value)
@@ -75,10 +84,12 @@ export default class renderAutoCompleteField extends React.Component {
       enableOnlyDatasourceValues, filter, floatingLabelText, input, hintText, meta: { touched, error }, fullWidth, dataSource,
       dataSourceConfig, onUpdateInput, onNewRequest, openOnFocus, searchText, intl,
     } = this.props
+    const { moduleTheme: { autoCompleteFields: { listStyle } } } = this.context
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
     return (
       <div>
         <AutoComplete
+          listStyle={listStyle}
           errorText={errorMessage}
           floatingLabelText={floatingLabelText}
           hintText={hintText}
@@ -92,9 +103,9 @@ export default class renderAutoCompleteField extends React.Component {
             }
             return input.onChange(selected)
           }}
-          searchText={input.value ? input.value : searchText}
+          searchText={input.value ? input.value : searchText || ''}
           onUpdateInput={(pSearchText, pDatasource, params) => {
-            if (enableOnlyDatasourceValues && !renderAutoCompleteField.valueIsInDataSource(pSearchText, pDatasource, dataSourceConfig)) {
+            if (enableOnlyDatasourceValues && !RenderAutoCompleteField.valueIsInDataSource(pSearchText, pDatasource, dataSourceConfig)) {
               input.onChange(null)
             } else if (!enableOnlyDatasourceValues) {
               input.onChange(pSearchText)
@@ -113,3 +124,5 @@ export default class renderAutoCompleteField extends React.Component {
     )
   }
 }
+
+export default withModuleStyle(styles)(RenderAutoCompleteField)

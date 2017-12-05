@@ -29,10 +29,11 @@ function wrapState(ComposedComponent) {
       children: PropTypes.node.isRequired,
       defaultValue: PropTypes.number,
       onSelect: PropTypes.func,
+      style: PropTypes.objectOf(PropTypes.string),
     }
 
     static defaultProps = {
-      defaultValue: 1,
+      defaultValue: 0,
     }
 
     componentWillMount() {
@@ -41,12 +42,18 @@ function wrapState(ComposedComponent) {
       })
     }
 
+    componentWillReceiveProps(nextProps) {
+      if (this.props.defaultValue !== nextProps.defaultValue) {
+        this.setState({ selectedIndex: nextProps.defaultValue })
+      }
+    }
+
     handleRequestChange = (event, index) => {
       this.setState({
         selectedIndex: index,
       })
       if (this.props.onSelect) {
-        this.props.onSelect(event, index)
+        this.props.onSelect(index)
       }
     }
 
@@ -55,6 +62,7 @@ function wrapState(ComposedComponent) {
         <ComposedComponent
           value={this.state.selectedIndex}
           onChange={this.handleRequestChange}
+          style={this.props.style}
         >
           {this.props.children}
         </ComposedComponent>

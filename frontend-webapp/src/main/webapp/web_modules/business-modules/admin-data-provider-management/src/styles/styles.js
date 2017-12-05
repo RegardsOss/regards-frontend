@@ -35,26 +35,24 @@ const styles = theme => ({
     titleStyle: {
       width: '100%',
     },
-    titleLabelStyle: {
-      marginLeft: '10px',
-    },
     contentStyle: {
       display: 'flex',
       flexDirection: 'row',
-      maxHeight: '310px',
+      height: '450px',
       width: '100%',
     },
     leftColumnStyle: {
-      width: '15%',
+      width: '18%',
       borderRight: '1px solid',
       borderColor: theme.palette.borderColor,
     },
     rightColumnStyle: {
-      width: '85%',
+      width: '82%',
       overflow: 'auto',
+      margin: '0px 15px',
     },
     typeListStyle: {
-      maxHeight: '260px',
+      height: '415px',
       overflow: 'auto',
     },
   },

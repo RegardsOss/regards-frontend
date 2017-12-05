@@ -70,5 +70,11 @@ export default function styles(theme) {
         top: dateFieldThemeValues.textTop,
       },
     },
+    autoCompleteFields: {
+      listStyle: {
+        maxHeight: '200px',
+        overflow: 'auto',
+      },
+    },
   }
 }

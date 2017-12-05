@@ -20,12 +20,13 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import AutoComplete from 'material-ui/AutoComplete'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import RenderAutoCompleteField from '../../src/render/RenderAutoCompleteField'
+import { RenderAutoCompleteField } from '../../src/render/RenderAutoCompleteField'
+import styles from '../../src/styles'
 
 /**
  * @author Sébastien Binda
  */
-const context = buildTestContext()
+const context = buildTestContext(styles)
 // Test a components rendering
 describe('[FORM UTILS] Testing RenderAutoCompleteField', () => {
   before(testSuiteHelpers.before)
@@ -34,7 +35,7 @@ describe('[FORM UTILS] Testing RenderAutoCompleteField', () => {
   it('should exists', () => {
     assert.isDefined(RenderAutoCompleteField)
   })
-  it('should retrive the AutoComplete component', () => {
+  it('should retrieve the AutoComplete component', () => {
     const props = {
       label: 'Some label',
       input: {

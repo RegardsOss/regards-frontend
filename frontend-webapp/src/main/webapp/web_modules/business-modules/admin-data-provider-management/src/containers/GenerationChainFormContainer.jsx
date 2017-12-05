@@ -20,6 +20,8 @@ import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { DataProviderShapes } from '@regardsoss/shape'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { ErrorCardComponent } from '@regardsoss/components'
 import GenerationChainFormComponent from '../components/GenerationChainFormComponent'
 import { generationChainActions, generationChainSelectors } from '../clients/GenerationChainClient'
 
@@ -36,7 +38,7 @@ export class GenerationChainFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      chain: get(ownProps, 'params.chain_id', false) ? generationChainSelectors.getById(ownProps.params.chain_id) : undefined,
+      chain: get(ownProps, 'params.chainId', false) ? generationChainSelectors.getById(ownProps.params.chainId) : undefined,
     }
   }
 
@@ -49,38 +51,91 @@ export class GenerationChainFormContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetch: id => dispatch(generationChainActions.fetchEntity(id)),
+      create: values => dispatch(generationChainActions.createEntity(values)),
+      update: (id, values) => dispatch(generationChainActions.updateEntity(id, values)),
     }
   }
 
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
-      chain_id: PropTypes.string,
+      chainId: PropTypes.string,
+      mode: PropTypes.string,
     }),
     // from mapStateToProps
     chain: DataProviderShapes.GenerationChain,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
+    create: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired,
   }
 
-  onSubmit = () => {
-
+  constructor(props) {
+    super(props)
+    const isLoading = !(props.params.chainId === undefined)
+    this.state = {
+      isLoading,
+      isLoadingError: false,
+    }
   }
 
+  componentDidMount() {
+    const { params: { chainId }, fetch } = this.props
+    if (chainId) {
+      fetch(chainId).then((actionResults) => {
+        if (actionResults.error) {
+          this.setState({
+            isLoading: false,
+            isLoadingError: true,
+          })
+        } else {
+          this.setState({
+            isLoading: false,
+            isLoadingError: false,
+          })
+        }
+      })
+    }
+  }
+
+  /**
+   * Callback to return to the list page
+   */
   onBack = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/dataprovider/chain/list`
     browserHistory.push(url)
   }
 
+  /**
+   * Callback to submit form values
+   * @param {*} values : generationChain object to submit (update or create)
+   */
+  onSubmit = (values) => {
+    const { params: { mode } } = this.props
+    if (mode === 'edit') {
+      this.props.update(values.id, values)
+    } else {
+      this.props.create(values)
+    }
+  }
+
   render() {
-    const { chain } = this.props
+    const { chain, params: { mode } } = this.props
+    const { isLoading, isLoadingError } = this.state
     return (
-      <GenerationChainFormComponent
-        chain={chain}
-        onSubmit={this.onSubmit}
-        onBack={this.onBack}
-      />
+      <LoadableContentDisplayDecorator
+        isLoading={isLoading}
+        isContentError={isLoadingError}
+        contentErrorComponent={<ErrorCardComponent />}
+      >
+        <GenerationChainFormComponent
+          chain={chain}
+          mode={mode}
+          onSubmit={this.onSubmit}
+          onBack={this.onBack}
+        />
+      </LoadableContentDisplayDecorator>
     )
   }
 }

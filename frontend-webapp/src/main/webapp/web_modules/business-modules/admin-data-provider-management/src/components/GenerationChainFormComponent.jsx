@@ -16,7 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import map from 'lodash/map'
+import omit from 'lodash/omit'
 import Divider from 'material-ui/Divider'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { formValueSelector } from 'redux-form'
@@ -28,14 +31,9 @@ import { Field, FieldArray, RenderTextField, RenderPageableAutoCompleteField, Re
 import { datasetActions, datasetEntitiesKey } from '../clients/DatasetClient'
 import GenerationChainFormPluginsComponent from './GenerationChainFormPluginsComponent'
 import MetaProductFormComponent from './MetaProductFormComponent'
-import MetaFilesFormComponent from './MetaFilesFormComponent'
+import MetaFilesListFormComponent from './MetaFilesListFormComponent'
 import styles from '../styles'
 import messages from '../i18n'
-
-/**
-* Component to display a form of GenerationChain entity
-* @author Sébastien Binda
-*/
 
 const {
   required, validStringSize,
@@ -43,10 +41,14 @@ const {
 const validString255 = [validStringSize(0, 255)]
 const validRequiredString255 = [required, validStringSize(1, 255)]
 
-
+/**
+* Component to display a form of GenerationChain entity
+* @author Sébastien Binda
+*/
 class GenerationChainFormComponent extends React.Component {
   static propTypes = {
     chain: DataProviderShapes.GenerationChain,
+    mode: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     // from reduxForm
@@ -63,28 +65,33 @@ class GenerationChainFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  static defaultProps = {}
-
   componentDidMount() {
-    const initialValues = {
-      active: true,
-      metaProduct: {
-        checksumAlgorithm: 'MD5',
-        cleanOriginalFile: true,
-        metaFiles: [
-          {
-            fileNamePattern: '/plop',
-            scanDirectory: '',
-          },
-          {
-            fileNamePattern: 'second fichier',
-            scanDirectory: '',
-          },
-        ],
-      },
+    const { chain, mode } = this.props
+    if (chain) {
+      if (mode === 'duplicate') {
+        const duplicatedChain = omit(chain.content, ['id', 'metaProduct', 'metaFiles'])
+        duplicatedChain.metaProduct = omit(chain.content.metaProduct, ['id'])
+        duplicatedChain.metaFiles = map(chain.content.metaFiles, mf => omit(mf, ['id']))
+        this.props.initialize(duplicatedChain)
+      } else {
+        this.props.initialize(chain.content)
+      }
+    } else {
+      const initialValues = {
+        active: true,
+        metaProduct: {
+          checksumAlgorithm: '',
+          cleanOriginalFile: false,
+          metaFiles: [
+            {
+              fileNamePattern: '',
+              scanDirectory: '',
+            },
+          ],
+        },
+      }
+      this.props.initialize(initialValues)
     }
-
-    this.props.initialize(initialValues)
   }
 
   renderActionButtons = () => {
@@ -142,63 +149,72 @@ class GenerationChainFormComponent extends React.Component {
           <CardTitle title={title} />
           <CardText>
             <HelpMessageComponent message={infoMessage} />
-            <Field
-              name="label"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              validate={validRequiredString255}
-              label={formatMessage({ id: 'generation-chain.form.create.input.label' })}
-            />
-            <Field
-              name="comment"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              validate={validString255}
-              label={formatMessage({ id: 'generation-chain.form.create.input.comment' })}
-            />
-            <Field
-              name="dataSetIpId"
-              fullWidth
-              component={RenderPageableAutoCompleteField}
-              floatingLabelText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select' })}
-              hintText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select.hint' })}
-              pageSize={50}
-              entitiesFilterProperty="label"
-              entityActions={datasetActions}
-              entitiesPayloadKey={datasetEntitiesKey}
-              entitiesConfig={datasetsConfig}
-              validate={required}
-            />
-            <Field
-              name="periodicity"
-              fullWidth
-              component={RenderTextField}
-              type="number"
-              label={formatMessage({ id: 'generation-chain.form.create.input.periodicity' })}
-            />
-            <MetaProductFormComponent />
-            <Field
-              name="active"
-              fullWidth
-              component={RenderCheckbox}
-              label={formatMessage({ id: 'generation-chain.form.create.input.active' })}
-            />
             <br />
-            <Divider />
-            <br />
-            <FieldArray
-              name="metaProduct.metaFiles"
-              component={MetaFilesFormComponent}
-              rerenderOnEveryChange
-            />
-            <GenerationChainFormPluginsComponent
-              chain={chain}
-              change={change}
-              initialize={initialize}
-              getField={getField}
-            />
+            <Tabs>
+              <Tab label={formatMessage({ id: 'generation-chain.form.create.general.section' })} >
+                <Field
+                  name="label"
+                  fullWidth
+                  component={RenderTextField}
+                  type="text"
+                  validate={validRequiredString255}
+                  label={formatMessage({ id: 'generation-chain.form.create.input.label' })}
+                />
+                <Field
+                  name="comment"
+                  fullWidth
+                  component={RenderTextField}
+                  type="text"
+                  validate={validString255}
+                  label={formatMessage({ id: 'generation-chain.form.create.input.comment' })}
+                />
+                <Field
+                  name="dataSetIpId"
+                  fullWidth
+                  component={RenderPageableAutoCompleteField}
+                  floatingLabelText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select' })}
+                  hintText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select.hint' })}
+                  pageSize={50}
+                  entitiesFilterProperty="label"
+                  entityActions={datasetActions}
+                  entitiesPayloadKey={datasetEntitiesKey}
+                  entitiesConfig={datasetsConfig}
+                  validate={required}
+                />
+                <Field
+                  name="periodicity"
+                  fullWidth
+                  component={RenderTextField}
+                  type="number"
+                  label={formatMessage({ id: 'generation-chain.form.create.input.periodicity' })}
+                />
+                <MetaProductFormComponent />
+                <Field
+                  name="active"
+                  fullWidth
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'generation-chain.form.create.input.active' })}
+                />
+                <br />
+                <Divider />
+                <br />
+              </Tab>
+              <Tab label={formatMessage({ id: 'generation-chain.form.create.metafiles.section' })} >
+                <FieldArray
+                  name="metaProduct.metaFiles"
+                  component={MetaFilesListFormComponent}
+                  validate={required}
+                />
+              </Tab>
+              <Tab label={formatMessage({ id: 'generation-chain.form.create.plugins.section' })} >
+                <GenerationChainFormPluginsComponent
+                  chain={chain}
+                  change={change}
+                  initialize={initialize}
+                  getField={getField}
+                />
+              </Tab>
+            </Tabs>
           </CardText>
           {this.renderActionButtons()}
         </Card>

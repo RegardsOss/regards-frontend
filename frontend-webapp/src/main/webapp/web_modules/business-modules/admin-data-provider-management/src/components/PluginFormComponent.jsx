@@ -86,6 +86,10 @@ export class PluginFormComponent extends React.Component {
     return null
   }
 
+  /**
+   * Callback when a plugin metadata is selected.
+   * @param {*} selectedPluginMetaData : selected pluginMetaData
+   */
   handleSelectPluginMetaData = (selectedPluginMetaData) => {
     this.setState({
       selectedPluginMetaData,
