@@ -27,7 +27,7 @@ import { MetaFileContent } from './MetaFile'
 const MetaProductContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
-  checksumAlgorithm: PropTypes.string.isRequired, // TODO : fixed list
+  checksumAlgorithm: PropTypes.string.isRequired,
   cleanOriginalFile: PropTypes.bool.isRequired,
   metaFiles: PropTypes.arrayOf(MetaFileContent).isRequired,
   ingestChain: PropTypes.string.isRequired,

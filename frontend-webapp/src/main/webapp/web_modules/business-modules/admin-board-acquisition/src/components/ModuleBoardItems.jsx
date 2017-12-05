@@ -71,7 +71,7 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/dataprovider/chain/list`,
         icon: <Build />,
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.chain.list.tooltip' }),
-        // TODO : hateoasDependencies: dataProviderDependencies.listDependencies,
+        hateoasDependencies: dataProviderDependencies.listDependencies,
       },
     ],
   },

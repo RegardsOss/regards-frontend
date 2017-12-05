@@ -19,7 +19,11 @@
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import IconButton from 'material-ui/IconButton'
 import { IngestShapes } from '@regardsoss/shape'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
+import { addDependencies } from '../dependencies'
+
+const IconButtonWithResourceDisplayControl = withResourceDisplayControl(IconButton)
 
 /**
 * Edit button action cell for the infinite table used to display ingest processing chains
@@ -45,16 +49,17 @@ class GenerationChainTableDuplicateAction extends React.Component {
     const { intl: { formatMessage } } = this.context
     const chain = this.props.entity.content
     return (
-      <IconButton
+      <IconButtonWithResourceDisplayControl
         className={`selenium-edit-${chain.id}`}
         title={formatMessage({ id: 'generation-chain.edit.tooltip' })}
         iconStyle={GenerationChainTableDuplicateAction.iconStyle}
         style={GenerationChainTableDuplicateAction.buttonStyle}
         onTouchTap={() => this.props.onDuplicate(chain.id)}
+        resourceDependencies={addDependencies}
       >
         <ContentCopy />
-      </IconButton>
+      </IconButtonWithResourceDisplayControl>
     )
   }
 }
-export default GenerationChainTableDuplicateAction
+export default withResourceDisplayControl()(GenerationChainTableDuplicateAction)

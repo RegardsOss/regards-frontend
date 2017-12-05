@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
 
 /**
  * Describes a ScanDirectory shape and related sub objects

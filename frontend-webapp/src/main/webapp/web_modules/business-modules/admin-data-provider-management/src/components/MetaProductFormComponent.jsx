@@ -20,7 +20,6 @@ import AutoComplete from 'material-ui/AutoComplete'
 import Divider from 'material-ui/Divider'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Field, RenderAutoCompleteField, RenderPageableAutoCompleteField, RenderCheckbox, ValidationHelpers } from '@regardsoss/form-utils'
-import { DataProviderShapes } from '@regardsoss/shape'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../clients/IngestProcessingChainClient'
 /**
 * Comment Here
@@ -28,7 +27,6 @@ import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '
 */
 class MetaProductFormComponent extends React.Component {
   static propTypes = {
-    metaProduct: DataProviderShapes.MetaProductContent,
   }
 
   static contextTypes = {
