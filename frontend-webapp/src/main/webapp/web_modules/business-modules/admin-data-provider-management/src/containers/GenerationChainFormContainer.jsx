@@ -131,7 +131,7 @@ export class GenerationChainFormContainer extends React.Component {
       >
         <GenerationChainFormComponent
           chain={chain}
-          mode={mode}
+          mode={mode || 'create'}
           onSubmit={this.onSubmit}
           onBack={this.onBack}
         />

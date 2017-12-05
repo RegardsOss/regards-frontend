@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import omit from 'lodash/omit'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
@@ -169,7 +170,7 @@ class MetaFilesFormComponent extends React.Component {
   }
 
   renderDeleteConfirmDialog = () => {
-    if (this.state.fieldIndexToDelete) {
+    if (!isNil(this.state.fieldIndexToDelete) && this.state.fieldIndexToDelete >= 0) {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
