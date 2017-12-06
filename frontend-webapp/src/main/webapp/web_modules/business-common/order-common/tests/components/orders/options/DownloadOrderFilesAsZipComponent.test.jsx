@@ -39,7 +39,7 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipComponent', () => {
   })
   it('should render correctly a no data', () => {
     const props = {
-      isWaitingUser: 0,
+      isWaitingUser: false,
       availableFilesCount: 0,
       canDownload: false,
       downloadZipURL: 'http://www.trump.did.it',

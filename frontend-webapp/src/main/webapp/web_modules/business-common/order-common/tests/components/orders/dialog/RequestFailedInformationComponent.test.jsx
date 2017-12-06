@@ -59,6 +59,7 @@ describe('[Order Common] Testing RequestFailedInformationComponent', () => {
             },
           },
         },
+        onClose: () => { },
       }
       const enzymeWrapper = shallow(<RequestFailedInformationComponent {...props} />, { context })
       const dialog = enzymeWrapper.find(Dialog)
@@ -73,6 +74,7 @@ describe('[Order Common] Testing RequestFailedInformationComponent', () => {
       requestResponse: {
         payload: {},
       },
+      onClose: () => { },
     }
     const enzymeWrapper = shallow(<RequestFailedInformationComponent {...props} />, { context })
     const dialog = enzymeWrapper.find(Dialog)

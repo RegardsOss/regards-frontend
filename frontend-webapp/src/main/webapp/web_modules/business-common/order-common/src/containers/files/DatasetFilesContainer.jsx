@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { OrderShapes } from '@regardsoss/shape'
@@ -79,7 +80,7 @@ export class DatasetFilesContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const oldState = this.state
-    const newState = { ...(oldState || DatasetFilesContainer.DEFAULT_STATE) }
+    const newState = { ...(isEmpty(oldState) ? DatasetFilesContainer.DEFAULT_STATE : oldState) }
     if (!isEqual(oldProps.order, newProps.order) || !isEqual(oldProps.dataset, newProps.dataset)) {
       // update and pack path parameters for order query
       newState.pathParams = {

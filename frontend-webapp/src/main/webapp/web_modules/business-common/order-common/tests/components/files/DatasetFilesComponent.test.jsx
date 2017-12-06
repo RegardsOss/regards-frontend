@@ -46,7 +46,7 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
       totalFilesCount: 0,
       pathParams: { any: 'a simple marker' },
       orderFilesActions: new OrderClient.OrderDatasetFilesActions('any'),
-      orderFilesSelectors: OrderClient.getOrderBasketSelectors(['idk']),
+      orderFilesSelectors: OrderClient.getOrderDatasetFilesSelectors(['idk']),
       columnsVisibility: {},
       onChangeColumnsVisibility: () => { },
     }
@@ -69,7 +69,7 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
       totalFilesCount: 45,
       pathParams: { any: 'a simple marker' },
       orderFilesActions: new OrderClient.OrderDatasetFilesActions('any'),
-      orderFilesSelectors: OrderClient.getOrderBasketSelectors(['idk']),
+      orderFilesSelectors: OrderClient.getOrderDatasetFilesSelectors(['idk']),
       columnsVisibility: {},
       onChangeColumnsVisibility: () => { },
     }

@@ -76,33 +76,21 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
         digestAlgorithm: 'MD5',
         size: 826,
         name: 'file.xml',
-        mimeType: {
-          type: 'text',
-          subtype: 'xml',
-          parameters: {},
-        },
+        mimeType: 'text/xml',
       }, {
         uri: 'http://regards/api/v1/rs-dam/documents/52/files/b72cf5d28db6485bead4c43a54828ea5',
         checksum: 'b72cf5d28db6485bead4c43a54828ea5',
         digestAlgorithm: 'MD5',
         size: 377,
         name: 'model.xml',
-        mimeType: {
-          type: 'text',
-          subtype: 'xml',
-          parameters: {},
-        },
+        mimeType: 'text/xml',
       }, {
         uri: 'http://regards/api/v1/rs-dam/documents/52/files/a07683baac2190fec3902f2bfb79d8e',
         checksum: 'a07683baac2190fec3902f2bfb79d8e',
         digestAlgorithm: 'MD5',
         size: 78864635,
         name: 'v3.2.1.tar.gz',
-        mimeType: {
-          type: 'application',
-          subtype: 'gzip',
-          parameters: {},
-        },
+        mimeType: 'application/gzip',
       }],
     }
     const props = {
