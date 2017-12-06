@@ -23,7 +23,6 @@ import { BasicSelector } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 export class OrdersNavigationSelectors extends BasicSelector {
-
   /**
    * Returns selected navigation path
    * @param {*} state application redux state
@@ -32,7 +31,6 @@ export class OrdersNavigationSelectors extends BasicSelector {
   getNavigationPath(state) {
     return super.uncombineStore(state).navigationPath
   }
-
 }
 
 /**

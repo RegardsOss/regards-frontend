@@ -19,7 +19,8 @@
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { OrderShapes } from '@regardsoss/shape'
-import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
+import { OrderClient } from '@regardsoss/client'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import DatasetFilesComponent from '../../components/files/DatasetFilesComponent'
 
 /**
@@ -27,7 +28,6 @@ import DatasetFilesComponent from '../../components/files/DatasetFilesComponent'
 * @author Raphaël Mechali
 */
 export class DatasetFilesContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -48,7 +48,7 @@ export class DatasetFilesContainer extends React.Component {
     // selected dataset
     // eslint-disable-next-line react/no-unused-prop-types
     dataset: OrderShapes.DatasetTask.isRequired, // used in onPropertiesUpdated
-    orderFilesActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
+    orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions).isRequired,
     orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // from mapStateToProps
     isFetching: PropTypes.bool,
@@ -108,7 +108,9 @@ export class DatasetFilesContainer extends React.Component {
   }
 
   render() {
-    const { isFetching, totalFilesCount, orderFilesActions, orderFilesSelectors } = this.props
+    const {
+      isFetching, totalFilesCount, orderFilesActions, orderFilesSelectors,
+    } = this.props
     const { pathParams, columnsVisibility } = this.state
     return (
       <DatasetFilesComponent

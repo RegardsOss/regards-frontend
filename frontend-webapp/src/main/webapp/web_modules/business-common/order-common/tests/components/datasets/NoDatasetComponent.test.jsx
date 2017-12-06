@@ -16,31 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableActions } from '@regardsoss/store-utils'
-import { ORDER_FILE, ORDER_FILE_ARRAY } from '@regardsoss/api'
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import NoDatasetComponent from '../../../src/components/datasets/NoDatasetComponent'
+import styles from '../../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 /**
- * Action to retrieve an order dataset files
- * Note: It also provides path to file download
- * @author Raphaël Mechali
- */
-class OrderDatasetFilesActions extends BasicPageableActions {
+* Test NoDatasetComponent
+* @author Raphaël Mechali
+*/
+describe('[Order Common] Testing NoDatasetComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-  /**
-   * Constructor
-   * @param {*} namespace  actions namespace
-   */
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/{order_id}/dataset/{dataset_id}/files`,
-      schemaTypes: {
-        ENTITY: ORDER_FILE,
-        ENTITY_ARRAY: ORDER_FILE_ARRAY,
-      },
-    })
-  }
-}
-
-export default OrderDatasetFilesActions
-
+  it('should exists', () => {
+    assert.isDefined(NoDatasetComponent)
+  })
+  it('should render correctly', () => {
+    shallow(<NoDatasetComponent />, { context })
+  })
+})

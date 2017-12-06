@@ -26,7 +26,6 @@ import { Breadcrumb } from '@regardsoss/components'
  * @author Raphaël Mechali
  */
 class OrdersNavigationComponent extends React.Component {
-
   /** Marks root element */
   static ROOT_MARKER = { id: 'root' }
 

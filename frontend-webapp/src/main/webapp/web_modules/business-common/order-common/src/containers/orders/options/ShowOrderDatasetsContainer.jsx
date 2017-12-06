@@ -18,15 +18,14 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { OrderShapes } from '@regardsoss/shape'
-import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
-import ShowOrderDatasetsComponent from '../../components/orders/ShowOrderDatasetsComponent'
+import { OrdersNavigationActions } from '../../../model/OrdersNavigationActions'
+import ShowOrderDatasetsComponent from '../../../components/orders/options/ShowOrderDatasetsComponent'
 
 /**
 * Show order datasets container
 * @author Raphaël Mechali
 */
 export class ShowOrderDatasetsContainer extends React.Component {
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -42,7 +41,7 @@ export class ShowOrderDatasetsContainer extends React.Component {
   static propTypes = {
     // from table cell API
     // eslint-disable-next-line react/no-unused-prop-types
-    entity: OrderShapes.OrderWithContent, // used in mapDispatchToProps only
+    entity: OrderShapes.OrderWithContent.isRequired, // used in mapDispatchToProps only
     // required actions to dispatch level change
     // eslint-disable-next-line react/no-unused-prop-types
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired, // used in mapDispatchToProps only

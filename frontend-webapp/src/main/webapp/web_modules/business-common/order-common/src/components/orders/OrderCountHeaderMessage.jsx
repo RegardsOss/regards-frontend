@@ -26,7 +26,6 @@ import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
  * @author Raphaël Mechali
  */
 class OrderCountHeaderMessage extends React.Component {
-
   static propTypes = {
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     totalOrderCount: PropTypes.number.isRequired,

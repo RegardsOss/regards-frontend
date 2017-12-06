@@ -18,24 +18,26 @@
  **/
 import get from 'lodash/get'
 import values from 'lodash/values'
-import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { OrderClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLine,
-  TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup,
-  TableHeaderLoadingComponent, TableColumnsVisibilityOption,
-  DateValueRender, StorageCapacityRender,
+  PageableInfiniteTableContainer, RefreshPageableTableOption, TableColumnBuilder, TableLayout, TableHeaderLine,
+  TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
+  TableColumnsVisibilityOption, DateValueRender, StorageCapacityRender,
 } from '@regardsoss/components'
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
-import OrderCountHeaderMessage from './OrderCountHeaderMessage'
-import NoOrderComponent from './NoOrderComponent'
-import DownloadOrderFilesAsZipContainer from '../../containers/orders/DownloadOrderFilesAsZipContainer'
-import DownloadOrderMetaLinkFileContainer from '../../containers/orders/DownloadOrderMetaLinkFileContainer'
-import ShowOrderDatasetsContainer from '../../containers/orders/ShowOrderDatasetsContainer'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
-import ErrorsCountRender from './ErrorsCountRender'
-import StatusRender from './StatusRender'
+import NoOrderComponent from './NoOrderComponent'
+import OrderCountHeaderMessage from './OrderCountHeaderMessage'
+import DeleteOrderContainer from '../../containers/orders/options/DeleteOrderContainer'
+import DownloadOrderFilesAsZipContainer from '../../containers/orders/options/DownloadOrderFilesAsZipContainer'
+import DownloadOrderMetaLinkFileContainer from '../../containers/orders/options/DownloadOrderMetaLinkFileContainer'
+import PauseResumeOrderContainer from '../../containers/orders/options/PauseResumeOrderContainer'
+import ShowOrderDatasetsContainer from '../../containers/orders/options/ShowOrderDatasetsContainer'
+import ErrorsCountRender from './cells/ErrorsCountRender'
+import StatusRender from './cells/StatusRender'
 
 // Column keys
 const NUMBER_KEY = 'number'
@@ -48,31 +50,60 @@ const PROGRESS_KEY = 'progress'
 const STATUS_KEY = 'status'
 
 /**
-* Order list component - displays user order list
-* @author Raphaël Mechali
-*/
+ * Order list component - displays user order list
+ * @author Raphaël Mechali
+ */
 class OrderListComponent extends React.Component {
   static propTypes = {
     // component display mode
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
+    // table query page size
+    pageSize: PropTypes.number.isRequired,
     // is fetching?
     isFetching: PropTypes.bool,
     // total order count
     totalOrderCount: PropTypes.number.isRequired,
+    /** Has access to delete completely order option? */
+    hasDeleteCompletely: PropTypes.bool.isRequired,
+    /** Has access to delete superficially order option? */
+    hasDeleteSuperficially: PropTypes.bool.isRequired,
+    /** Has access to pause and resume otpions? */
+    hasPauseResume: PropTypes.bool.isRequired,
     // columns visibility, like (string: columnKey):(boolean: column visible)
     columnsVisibility: PropTypes.objectOf(PropTypes.bool).isRequired,
     // columns configuration callback
     onChangeColumnsVisibility: PropTypes.func.isRequired,
     // actions and selectors for table
-    commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
-    commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
+    ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    orderStateActions: PropTypes.instanceOf(OrderClient.OrderStateActions).isRequired,
     // actions for navigation
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired, // used in mapDispatchToProps
+    // dialog management callbacks
+    // request failed callback: response => ()
+    onShowRequestFailedInformation: PropTypes.func.isRequired,
+    // shows asynchronous operation callback: () => ()
+    onShowAsynchronousRequestInformation: PropTypes.func.isRequired,
+    // shows delete confirmation callback: (completeDelete:boolean, onDelete:function like () => ()) => ()
+    onShowDeleteConfirmation: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  /** Default columns visibiltiy */
+  static DEFAULT_COLUMNS_VISIBILITY = {
+    [NUMBER_KEY]: true,
+    [CREATION_DATE_KEY]: true,
+    [EXPIRATION_DATE_KEY]: true,
+    [OBJECTS_COUNT_KEY]: true,
+    [FILES_SIZE_KEY]: true,
+    [ERRORS_COUNT_KEY]: false,
+    [PROGRESS_KEY]: true,
+    [STATUS_KEY]: true,
+    [TableColumnBuilder.optionsColumnKey]: true,
   }
 
   /** No data component (avoids re-rendering it) */
@@ -119,32 +150,59 @@ class OrderListComponent extends React.Component {
   }
 
   /**
-   * Returns an order status
-   * @param {*} order order
-   * @return {ORDER_STATUS} status or undefined if unknown
-   */
-  static getStatus(order) {
-    return get(order, 'content.status')
-  }
-
-  /**
    * Builds options (removes / adds options according with display mode)
    * @return {[*]} table columns list
    */
   buildOptions = () => {
-    const { displayMode, navigationActions } = this.props
-    // download options (user only)
-    const downloadOptions = displayMode !== ORDER_DISPLAY_MODES.USER ?
-      [] : [{ OptionConstructor: DownloadOrderFilesAsZipContainer }, { OptionConstructor: DownloadOrderMetaLinkFileContainer }]
+    const {
+      displayMode, pageSize, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
+      ordersActions, ordersSelectors, navigationActions, orderStateActions,
+      onShowRequestFailedInformation, onShowAsynchronousRequestInformation, onShowDeleteConfirmation,
+    } = this.props
+    const options = []
+    // 1 - Pause / resume order option (must have sufficient rights)
+    if (hasPauseResume) {
+      options.push({
+        OptionConstructor: PauseResumeOrderContainer,
+        optionProps: {
+          pageSize,
+          ordersActions,
+          ordersSelectors,
+          orderStateActions,
+          onShowRequestFailedInformation,
+          onShowAsynchronousRequestInformation,
+        },
+      })
+    }
+    // 2 - user only options: download zip and metalink files
+    if (displayMode === ORDER_DISPLAY_MODES.USER) {
+      options.push({ OptionConstructor: DownloadOrderMetaLinkFileContainer }, { OptionConstructor: DownloadOrderFilesAsZipContainer })
+    }
+    // 3 - delete option (superficial and complete)
+    if (hasDeleteSuperficially || hasDeleteCompletely) {
+      options.push({
+        OptionConstructor: DeleteOrderContainer,
+        optionProps: {
+          hasDeleteSuperficially,
+          hasDeleteCompletely,
+          pageSize,
+          ordersActions,
+          ordersSelectors,
+          orderStateActions,
+          onShowDeleteConfirmation,
+          onShowRequestFailedInformation,
+        },
+      })
+    }
 
-    return [
-      // downloads
-      ...downloadOptions, {
-        // show order detail (at last position to stay stable on multiple screens)
-        OptionConstructor: ShowOrderDatasetsContainer,
-        optionProps: { navigationActions },
-      },
-    ]
+    // 4 - Detail
+    options.push({
+      // show order detail (at last position to stay stable on multiple screens)
+      OptionConstructor: ShowOrderDatasetsContainer,
+      optionProps: { navigationActions },
+    })
+
+    return options
   }
 
   /**
@@ -155,51 +213,65 @@ class OrderListComponent extends React.Component {
     const { columnsVisibility } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
-    const fixedDataColumnWidth = muiTheme['module:order-history'].fixedDataColumnWidth
     return [
       // number
-      TableColumnBuilder.buildSimplePropertyColumn(NUMBER_KEY, formatMessage({ id: 'order.list.column.number' }),
-        'content.id', 0, get(columnsVisibility, NUMBER_KEY, true)),
-
+      TableColumnBuilder.buildSimplePropertyColumn(
+        NUMBER_KEY, formatMessage({ id: 'order.list.column.number' }),
+        'content.id', 0, get(columnsVisibility, NUMBER_KEY, true),
+      ),
       // Progress column
-      TableColumnBuilder.buildSimpleColumnWithCell(PROGRESS_KEY, formatMessage({ id: 'order.list.column.progress' }),
+      TableColumnBuilder.buildSimpleColumnWithCell(
+        PROGRESS_KEY, formatMessage({ id: 'order.list.column.progress' }),
         TableColumnBuilder.buildProgressPercentRenderCell(OrderListComponent.getProgress), 1,
-        get(columnsVisibility, PROGRESS_KEY, true), fixedDataColumnWidth),
-
+        get(columnsVisibility, PROGRESS_KEY, true),
+      ),
       // creation date
-      TableColumnBuilder.buildSimplePropertyColumn(CREATION_DATE_KEY, formatMessage({ id: 'order.list.column.creation.date' }),
-        'content.creationDate', 2, get(columnsVisibility, CREATION_DATE_KEY, true), DateValueRender),
-
+      TableColumnBuilder.buildSimplePropertyColumn(
+        CREATION_DATE_KEY, formatMessage({ id: 'order.list.column.creation.date' }),
+        'content.creationDate', 2, get(columnsVisibility, CREATION_DATE_KEY, true), DateValueRender,
+      ),
       // expiration date
-      TableColumnBuilder.buildSimplePropertyColumn(EXPIRATION_DATE_KEY, formatMessage({ id: 'order.list.column.expiration.date' }),
-        'content.expirationDate', 3, get(columnsVisibility, EXPIRATION_DATE_KEY, true), DateValueRender),
-
+      TableColumnBuilder.buildSimplePropertyColumn(
+        EXPIRATION_DATE_KEY, formatMessage({ id: 'order.list.column.expiration.date' }),
+        'content.expirationDate', 3, get(columnsVisibility, EXPIRATION_DATE_KEY, true), DateValueRender,
+      ),
+      // objects count (as extracted, using getObjectCount)
+      TableColumnBuilder.buildSimpleColumnWithCell(
+        OBJECTS_COUNT_KEY, formatMessage({ id: 'order.list.column.object.count' }),
+        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 4,
+        get(columnsVisibility, OBJECTS_COUNT_KEY, true),
+      ),
       // total files size  (as extracted, using getFilesSize)
-      TableColumnBuilder.buildSimpleColumnWithCell(FILES_SIZE_KEY, formatMessage({ id: 'order.list.column.files.size' }),
+      TableColumnBuilder.buildSimpleColumnWithCell(
+        FILES_SIZE_KEY, formatMessage({ id: 'order.list.column.files.size' }),
         TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getFilesSize, RenderConstructor: StorageCapacityRender }]),
-        4, get(columnsVisibility, FILES_SIZE_KEY, true)),
-
+        5, get(columnsVisibility, FILES_SIZE_KEY, true),
+      ),
       // error files count
-      TableColumnBuilder.buildSimplePropertyColumn(ERRORS_COUNT_KEY, formatMessage({ id: 'order.list.column.errors.count' }),
-        'content.filesInErrorCount', 5, get(columnsVisibility, ERRORS_COUNT_KEY, true), ErrorsCountRender),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        ERRORS_COUNT_KEY, formatMessage({ id: 'order.list.column.errors.count' }),
+        'content.filesInErrorCount', 6, get(columnsVisibility, ERRORS_COUNT_KEY, true), ErrorsCountRender,
+      ),
 
       // Status column
-      TableColumnBuilder.buildSimpleColumnWithCell(STATUS_KEY, formatMessage({ id: 'order.list.column.status' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getStatus, RenderConstructor: StatusRender }]),
-        6, get(columnsVisibility, STATUS_KEY, true), fixedDataColumnWidth),
-      // objects count (as extracted, using getObjectCount)
-      // TODO
-      TableColumnBuilder.buildSimpleColumnWithCell(OBJECTS_COUNT_KEY, formatMessage({ id: 'order.list.column.object.count' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 7,
-        get(columnsVisibility, OBJECTS_COUNT_KEY, true)),
+      TableColumnBuilder.buildSimpleColumnWithCell(
+        STATUS_KEY, formatMessage({ id: 'order.list.column.status' }),
+        TableColumnBuilder.buildValuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }]),
+        7, get(columnsVisibility, STATUS_KEY, true),
+      ),
+
       // Options column
-      TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'order.list.column.options' }),
-        this.buildOptions(), get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnWidth),
+      TableColumnBuilder.buildOptionsColumn(
+        formatMessage({ id: 'order.list.column.options' }),
+        this.buildOptions(), get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnWidth,
+      ),
     ]
   }
 
   render() {
-    const { displayMode, isFetching, totalOrderCount, onChangeColumnsVisibility, commandsActions, commandsSelectors } = this.props
+    const {
+      displayMode, pageSize, isFetching, totalOrderCount, onChangeColumnsVisibility, ordersActions, ordersSelectors,
+    } = this.props
     const columns = this.buildColumns()
 
 
@@ -217,6 +289,12 @@ class OrderListComponent extends React.Component {
           {/* 3 - table options  */}
           <TableHeaderOptionsArea >
             <TableHeaderOptionGroup>
+              {/* refresh option */}
+              <RefreshPageableTableOption
+                pageSize={pageSize}
+                pageableTableActions={ordersActions}
+                pageableTableSelectors={ordersSelectors}
+              />
               {/* columns visibility configuration  */}
               <TableColumnsVisibilityOption
                 columns={columns}
@@ -228,8 +306,9 @@ class OrderListComponent extends React.Component {
         {/* the table itself */}
         <PageableInfiniteTableContainer
           // infinite table configuration
-          pageActions={commandsActions}
-          pageSelectors={commandsSelectors}
+          pageActions={ordersActions}
+          pageSelectors={ordersSelectors}
+          queryPageSize={pageSize}
           columns={columns}
           emptyComponent={OrderListComponent.EMPTY_COMPONENT}
         />

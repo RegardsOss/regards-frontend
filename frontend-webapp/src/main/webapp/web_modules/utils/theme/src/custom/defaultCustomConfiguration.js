@@ -80,11 +80,11 @@ module.exports = {
   },
   'module:order-history': {
     // common
-    fixedDataColumnWidth: 126,
     statusIconMargin: '0 7px 0 15px',
     // orders
-    'color.PENDING': 'white',
+    'color.PENDING': '#00BCD4',
     'color.RUNNING': 'white',
+    'color.WAITING_USER_DOWNLOAD': '#00BCD4',
     'color.PAUSED': '#00BCD4',
     'color.EXPIRED': '#9E9E9E',
     'color.FAILED': '#f44336',
@@ -93,8 +93,9 @@ module.exports = {
     'color.DELETED': '#9E9E9E',
     'color.REMOVED': '#9E9E9E',
     'color.UNKNOWN': '#9E9E9E',
+    'waiting.user.download.animation': 'shake 3s infinite',
     // files
-    'color.file.PENDING': 'white',
+    'color.file.PENDING': '#00BCD4',
     'color.file.AVAILABLE': 'white',
     'color.file.ONLINE': 'white',
     'color.file.DOWNLOADED': '#9E9E9E',

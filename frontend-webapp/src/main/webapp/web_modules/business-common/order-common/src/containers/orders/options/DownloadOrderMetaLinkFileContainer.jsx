@@ -21,16 +21,15 @@ import { OrderDomain } from '@regardsoss/domain'
 import { OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
-import DownloadOrderFilesAsZipComponent from '../../components/orders/DownloadOrderFilesAsZipComponent'
+import DownloadOrderMetaLinkFileComponent from '../../../components/orders/options/DownloadOrderMetaLinkFileComponent'
 
-const zipFileActions = new OrderClient.DownloadAllOrderFilesAction()
+const metalinkFileActions = new OrderClient.DownloadOrderMetalinkFileActions()
 
 /**
  * Download order metalink file table option container
  * @author Raphaël Mechali
  */
-export class DownloadOrderFilesAsZipContainer extends React.Component {
-
+export class DownloadOrderMetaLinkFileContainer extends React.Component {
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state
@@ -45,7 +44,7 @@ export class DownloadOrderFilesAsZipContainer extends React.Component {
 
   static propTypes = {
     // from table cell API
-    entity: OrderShapes.OrderWithContent,
+    entity: OrderShapes.OrderWithContent.isRequired,
     // from mapStateToProps
     authentication: AuthenticateShape.isRequired,
   }
@@ -60,15 +59,14 @@ export class DownloadOrderFilesAsZipContainer extends React.Component {
   ]
 
   render() {
-    const { entity: { content: { id, availableFilesCount = 0 } }, authentication: { result: { access_token } } } = this.props
+    const { entity: { content: { id, status } }, authentication: { result: { access_token } } } = this.props
     return (
-      <DownloadOrderFilesAsZipComponent
-        canDownload={availableFilesCount > 0}
-        availableFilesCount={availableFilesCount}
-        downloadZipURL={zipFileActions.getFileDownloadLink(id, access_token)}
+      <DownloadOrderMetaLinkFileComponent
+        canDownload={DownloadOrderMetaLinkFileContainer.METALINK_AVAILABLE_STATE.includes(status)}
+        downloadMetalinkURL={metalinkFileActions.getFileDownloadLink(id, access_token)}
       />
     )
   }
 }
 
-export default connect(DownloadOrderFilesAsZipContainer.mapStateToProps)(DownloadOrderFilesAsZipContainer)
+export default connect(DownloadOrderMetaLinkFileContainer.mapStateToProps)(DownloadOrderMetaLinkFileContainer)

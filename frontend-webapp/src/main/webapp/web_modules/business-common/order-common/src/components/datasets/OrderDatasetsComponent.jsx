@@ -40,7 +40,6 @@ const FILES_SIZE_KEY = 'column.files.size'
  * @author Raphaël Mechali
  */
 class OrderDatasetsComponent extends React.Component {
-
   static propTypes = {
     // currently selected order
     datasets: PropTypes.arrayOf(OrderShapes.DatasetTask).isRequired,
@@ -68,27 +67,33 @@ class OrderDatasetsComponent extends React.Component {
   buildColumns = () => {
     const { columnsVisibility, navigationActions } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const fixedColumnsWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { fixedColumnsWidth } = muiTheme['components:infinite-table']
     return [
       // 1 - Dataset label
-      TableColumnBuilder.buildSimplePropertyColumn(LABEL_KEY, formatMessage({ id: 'datasets.list.column.label' }),
-        'datasetLabel', 0, get(columnsVisibility, LABEL_KEY, true)),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        LABEL_KEY, formatMessage({ id: 'datasets.list.column.label' }),
+        'datasetLabel', 0, get(columnsVisibility, LABEL_KEY, true),
+      ),
       // 2 - Objects count
-      TableColumnBuilder.buildSimplePropertyColumn(OBJECT_COUNT_KEY, formatMessage({ id: 'datasets.list.column.objects.count' }),
-        'objectsCount', 1, get(columnsVisibility, OBJECT_COUNT_KEY, true)),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        OBJECT_COUNT_KEY, formatMessage({ id: 'datasets.list.column.objects.count' }),
+        'objectsCount', 1, get(columnsVisibility, OBJECT_COUNT_KEY, true),
+      ),
       // 3 - Files count
-      TableColumnBuilder.buildSimplePropertyColumn(FILES_COUNT_KEY, formatMessage({ id: 'datasets.list.column.files.count' }),
-        'filesCount', 2, get(columnsVisibility, FILES_COUNT_KEY, true)),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        FILES_COUNT_KEY, formatMessage({ id: 'datasets.list.column.files.count' }),
+        'filesCount', 2, get(columnsVisibility, FILES_COUNT_KEY, true),
+      ),
       // 4 - Files size
-      TableColumnBuilder.buildSimplePropertyColumn(FILES_SIZE_KEY, formatMessage({ id: 'datasets.list.column.files.size' }),
-        'filesSize', 3, get(columnsVisibility, FILES_SIZE_KEY, true), StorageCapacityRender),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        FILES_SIZE_KEY, formatMessage({ id: 'datasets.list.column.files.size' }),
+        'filesSize', 3, get(columnsVisibility, FILES_SIZE_KEY, true), StorageCapacityRender,
+      ),
       // 5 - Options
       TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'datasets.list.column.options' }), [{
         OptionConstructor: ShowDatasetFilesContainer, // show dataset files
         optionProps: { navigationActions },
-        // TODO handle rights?
       }], get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnsWidth),
-      //
     ]
   }
 

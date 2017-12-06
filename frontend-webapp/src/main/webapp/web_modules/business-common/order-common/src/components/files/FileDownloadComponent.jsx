@@ -27,7 +27,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Raphaël Mechali
  */
 class FileDownloadComponent extends React.Component {
-
   static propTypes = {
     canDownload: PropTypes.bool.isRequired,
     downloadURL: PropTypes.string.isRequired,

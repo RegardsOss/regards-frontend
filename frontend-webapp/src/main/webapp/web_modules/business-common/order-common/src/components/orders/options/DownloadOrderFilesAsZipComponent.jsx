@@ -23,17 +23,18 @@ import Chip from 'material-ui/Chip'
 import { DownloadButton, ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import '../../../styles/animations.css'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
-const IconButtonConstructorWrapper = props => <IconButton {...(omit(props, ['label', 'labelPosition'])) } />
+const IconButtonConstructorWrapper = props => <IconButton {...(omit(props, ['label', 'labelPosition']))} />
 
 /**
  * Download order files as zip table option
  * @author Raphaël Mechali
  */
 class DownloadOrderFilesAsZipComponent extends React.Component {
-
   static propTypes = {
+    isWaitingUser: PropTypes.bool.isRequired,
     availableFilesCount: PropTypes.number.isRequired,
     canDownload: PropTypes.bool.isRequired,
     downloadZipURL: PropTypes.string.isRequired,
@@ -64,7 +65,9 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
   static NO_DIGIT_CHAR = '\u00A0'
 
   render() {
-    const { canDownload, downloadZipURL, availableFilesCount } = this.props
+    const {
+      isWaitingUser, canDownload, downloadZipURL, availableFilesCount,
+    } = this.props
     const { intl: { formatMessage }, moduleTheme: { downloadWithCount }, muiTheme } = this.context
     // compute displayed text (null if it should be hidden)
     let filesCountText = null
@@ -81,6 +84,16 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
         filesCountText = halfFillingText + availableFilesCount + halfFillingText
       }
     }
+
+    // if command is waiting, incite the user to download it with animation
+    let buttonStyle = downloadWithCount.iconButton.style
+    if (isWaitingUser && canDownload) {
+      buttonStyle = {
+        ...buttonStyle,
+        animation: muiTheme['module:order-history']['waiting.user.download.animation'],
+      }
+    }
+
     return (
       <DownloadButton
         key="download.order.files.zip"
@@ -88,7 +101,7 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
         ButtonConstructor={IconButtonConstructorWrapper}
         title={formatMessage({ id: 'order.list.option.cell.download.zip.tooltip' })}
         disabled={!canDownload}
-        style={downloadWithCount.iconButton.style}
+        style={buttonStyle}
         iconStyle={downloadWithCount.iconButton.iconStyle}
       >
         <div>

@@ -31,7 +31,6 @@ const downloadOrderFileActions = new OrderClient.DownloadOrderFileActions()
  * @author Raphaël Mechali
  */
 export class FileDownloadContainer extends React.Component {
-
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state

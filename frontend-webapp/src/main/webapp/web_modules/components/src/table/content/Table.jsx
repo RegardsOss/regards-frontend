@@ -18,6 +18,7 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isMatch from 'lodash/isMatch'
 import isNumber from 'lodash/isNumber'
 import map from 'lodash/map'
 import { Table as FixedDataTable, Column } from 'fixed-data-table-2'
@@ -72,6 +73,33 @@ class Table extends React.Component {
   }
 
   /**
+   * Computes if the two columns list will behave differently in layout
+   * @param {*} oldColumns old Columns
+   * @param {*} newColumns new Columns
+   */
+  static areDifferentLayoutColumn(oldColumns = [], newColumns = []) {
+    // same count?
+    if (oldColumns.length !== newColumns.length) {
+      return true
+    }
+    // same content for each column? (check layout related data: key, order, fixedWidth and visible)
+    for (let index = 0; index < oldColumns.length; index += 1) {
+      const oldColumn = oldColumns[index]
+      const newColumn = newColumns[index]
+      if (!isMatch(oldColumn, {
+        key: newColumn.key,
+        order: newColumn.order,
+        fixedWidth: newColumn.fixedWidth,
+        visible: newColumn.visible,
+      })) {
+        // found one different column
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
    * Lifecycle method component will mount. Used here to initialize runtime graphic data in state
    */
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
@@ -102,7 +130,8 @@ class Table extends React.Component {
     const willShowScroll = (newProps.entities || []).length > (oldProps.displayedRowsCount || 0)
 
     // update columns when: scroll state changed, width changed or columns list changed
-    if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width || !isEqual(oldProps.columns, newProps.columns)) {
+    if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width ||
+      Table.areDifferentLayoutColumn(oldProps.columns, newProps.columns)) {
       newState.runtimeColumns = this.computeColumnsModelsWithWidth(newProps)
     }
 
@@ -158,7 +187,9 @@ class Table extends React.Component {
    * @return {nbEntitiesByPage:{number}, height:{number}, runtimeColumns:{RuntimeColumn}} usable state for component, with
    * runtime columns (default table columns enriched with required runtime data and filtered on visible state)
    */
-  computeColumnsModelsWithWidth = ({ displayedRowsCount, entities, width, columns = [] }) => {
+  computeColumnsModelsWithWidth = ({
+    displayedRowsCount, entities, width, columns = [],
+  }) => {
     // 2 - Update columns width related data
     // 2.a - prepare columns (filter unvisible and sort on order)
     const renderColumns = columns.filter(c => c.visible).sort((c1, c2) => c1.order - c2.order)
@@ -182,19 +213,18 @@ class Table extends React.Component {
 
     // 3 - duplicate locally the column models to hold their width
     // Algo: we need here to count the floating rows to know when we are handling the last one
-    const { columnsAcc: runtimeColumns } = renderColumns.reduce(
-      ({ floatingCountAcc, columnsAcc }, column, index) => {
-        let nextFloatingCount
-        let runtimeWidth
-        if (isNumber(column.fixedWidth)) {
-          nextFloatingCount = floatingCountAcc
-          runtimeWidth = column.fixedWidth
-        } else {
-          nextFloatingCount = floatingCountAcc + 1
-          runtimeWidth = floatingCountAcc === floatingColumnsCount ? lastFloatingColumnWidth : floatingColumnWidth
-        }
-        return { floatingCount: nextFloatingCount, columnsAcc: [...columnsAcc, { ...column, runtimeWidth }] }
-      }, { floatingCountAcc: 0, columnsAcc: [] })
+    const { columnsAcc: runtimeColumns } = renderColumns.reduce(({ floatingCountAcc, columnsAcc }, column, index) => {
+      let nextFloatingCount
+      let runtimeWidth
+      if (isNumber(column.fixedWidth)) {
+        nextFloatingCount = floatingCountAcc
+        runtimeWidth = column.fixedWidth
+      } else {
+        nextFloatingCount = floatingCountAcc + 1
+        runtimeWidth = floatingCountAcc === floatingColumnsCount ? lastFloatingColumnWidth : floatingColumnWidth
+      }
+      return { floatingCount: nextFloatingCount, columnsAcc: [...columnsAcc, { ...column, runtimeWidth }] }
+    }, { floatingCountAcc: 0, columnsAcc: [] })
     return runtimeColumns
   }
 
@@ -202,7 +232,9 @@ class Table extends React.Component {
     if (!this.props.entities) {
       return null
     }
-    const { entities, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader, onScrollEnd } = this.props
+    const {
+      entities, width, lineHeight = this.getDefaultLineHeight(), displayColumnsHeader, onScrollEnd,
+    } = this.props
     const { runtimeColumns, height } = this.state
     return (
       <FixedDataTable

@@ -33,7 +33,6 @@ import styles from '../styles'
  * @author Raphaël Mechali
  */
 export class OrdersNavigationContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -117,4 +116,6 @@ export class OrdersNavigationContainer extends React.Component {
 }
 export default compose(
   connect(OrdersNavigationContainer.mapStateToProps, OrdersNavigationContainer.mapDispatchToProps),
-  withI18n(messages, true), withModuleStyle(styles, true))(OrdersNavigationContainer)
+  withI18n(messages, true),
+  withModuleStyle(styles, true),
+)(OrdersNavigationContainer)

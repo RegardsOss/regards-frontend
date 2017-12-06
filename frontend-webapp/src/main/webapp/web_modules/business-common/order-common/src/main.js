@@ -19,7 +19,7 @@
 import { ORDER_DISPLAY_MODES } from './model/OrderDisplayModes'
 import { OrdersNavigationActions } from './model/OrdersNavigationActions'
 import { getOrdersNavigationReducer } from './model/OrdersNavigationReducer'
-import { getOrdersNavigationSelectors } from './model/OrdersNavigationSelectors'
+import { OrdersNavigationSelectors, getOrdersNavigationSelectors } from './model/OrdersNavigationSelectors'
 import OrderDisplayContainer from './containers/OrderDisplayContainer'
 import OrdersNavigationContainer from './containers/OrdersNavigationContainer'
 
@@ -27,6 +27,7 @@ module.exports = {
   // model and actions
   ORDER_DISPLAY_MODES,
   OrdersNavigationActions,
+  OrdersNavigationSelectors,
   getOrdersNavigationReducer,
   getOrdersNavigationSelectors,
 

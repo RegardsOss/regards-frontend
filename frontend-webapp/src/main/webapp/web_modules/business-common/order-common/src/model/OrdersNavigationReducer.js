@@ -22,8 +22,7 @@ import { OrdersNavigationActions } from './OrdersNavigationActions'
  * Reducer for order navigation actions. Stores in redux state the navigation levels (none, order, order>dataset task)
  * @author Raphaël Mechali
  */
-class OrdersNavigationReducer {
-
+export class OrdersNavigationReducer {
   /**
    * Default reducer state
    */
@@ -70,11 +69,8 @@ class OrdersNavigationReducer {
         }
       default:
         return state
-
-
     }
   }
-
 }
 
 /**

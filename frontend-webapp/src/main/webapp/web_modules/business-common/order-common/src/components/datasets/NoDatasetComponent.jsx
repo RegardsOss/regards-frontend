@@ -24,7 +24,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Raphaël Mechali
  */
 class NoDatasetComponent extends React.Component {
-
   static contextTypes = {
     ...i18nContextType,
   }

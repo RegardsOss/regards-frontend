@@ -27,7 +27,7 @@ const messages = {
 
   // orders table
   'no.order.information.title': 'Aucune commande trouvée',
-  'no.order.information.message': 'Vous n\'avez actuellement aucune commande enregistrée. Vous pouvez en créer en utilisant le panier.',
+  'no.order.information.message': 'Vous n\'avez actuellement aucune commande enregistrée.',
   'not.logged.information.title': 'Utilisateur inconnu',
   'not.logged.information.message': 'Vous devez vous authentifier pour accéder à la liste de vos commandes',
   'order.list.admin.no.command.header.message': 'Aucune commande',
@@ -64,10 +64,30 @@ const messages = {
   'order.list.cell.status.REMOVED.tooltip': 'Cette commande a été définitivement effacée',
   'order.list.cell.status.UNKNOWN.text': 'inconnu',
   'order.list.cell.status.UNKNOWN.tooltip': 'L\'état de cette commande est inconnu',
+  'order.list.cell.status.WAITING_USER_DOWNLOAD.text': 'attente utilisateur',
+  'order.list.cell.status.WAITING_USER_DOWNLOAD.tooltip': 'La commande est en attente de téléchargement - son espace de stockage est actuellement rempli',
   'order.list.option.cell.download.title': 'Télécharger...',
   'order.list.option.cell.download.zip.tooltip': 'Télécharger les fichiers disponibles de la commande en ZIP',
   'order.list.option.cell.download.metalink.tooltip': 'Télécharger le fichier metalink de la commande',
+  'order.list.option.cell.delete.superficially.order.tooltip': 'Supprimer la commande',
+  'order.list.option.cell.delete.superficially.confirmation.title': 'Suppression',
+  'order.list.option.cell.delete.superficially.confirmation.message': 'Cette commande et ses données seront superficiellement supprimées. Voulez vous continuer?',
+  'order.list.option.cell.delete.completely.order.tooltip': 'Effacer complètement la commande et les données liées',
+  'order.list.option.cell.delete.completely.confirmation.title': 'Suppression complète',
+  'order.list.option.cell.delete.completely.confirmation.message': 'Cette commande et ses données seront intégralement effacées du système REGARDS. Voulez vous continuer?',
+  'order.list.option.cell.pause.order.tooltip': 'Mettre la commande en pause',
+  'order.list.option.cell.resume.order.tooltip': 'Reprendre la commande',
   'order.list.option.cell.detail.title': 'Détail',
+  'order.list.options.error.title': 'Echec de la requête',
+  'order.list.options.error.close.button.label': 'Fermer',
+  'order.list.options.error.ORDER_MUST_BE_PAUSED_BEFORE_BEING_DELETED': 'Une commande doit être mise en pause avant suppression.',
+  'order.list.options.error.ORDER_NOT_COMPLETELY_STOPPED': 'La commande n\'est pas complètement stoppée. Veuillez ré-essayer ultérieurement.',
+  'order.list.options.error.ORDER_NOT_COMPLETELY_PAUSED': 'La commande n\'est pas complètement en pause. Veuillez ré-essayer ultérieurement.',
+  'order.list.options.error.ORDER_MUST_BE_DELETED': 'La commande doit être supprimée superficielement avant sa suppression complète',
+  'order.list.options.error.UNKNOWN': 'Une erreur inconnue est survenue.',
+  'order.list.options.aynschronous.request.title': 'Requête en cours de traitement...',
+  'order.list.options.aynschronous.request.message': 'Votre requête a été prise en compte et les changements sur la commande seront effectués au plus tôt.',
+  'order.list.options.aynschronous.request.close.button.label': 'Fermer',
 
   // order datasets table
   'datasets.list.no.dataset.information.title': 'Aucun jeu de données',
@@ -104,6 +124,7 @@ const messages = {
   'files.list.cell.status.UNKNOWN.text': 'inconnu',
   'files.list.cell.status.UNKNOWN.tooltip': 'L\'état du fichier est inconnu',
   'files.list.cell.options.download.tooltip': 'Télécharger le fichier',
+
 }
 
 export default messages

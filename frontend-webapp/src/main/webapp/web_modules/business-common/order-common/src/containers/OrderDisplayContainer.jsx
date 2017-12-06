@@ -20,7 +20,8 @@ import compose from 'lodash/fp/compose'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { OrderShapes } from '@regardsoss/shape'
-import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
+import { OrderClient } from '@regardsoss/client'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { ORDER_DISPLAY_MODES } from '../model/OrderDisplayModes'
@@ -37,14 +38,13 @@ import styles from '../styles'
 * @author Raphaël Mechali
 */
 export class OrderDisplayContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { navigationSelectors }) {
+  static mapStateToProps(state, { navigationActions, navigationSelectors }) {
     return {
       navigationPath: navigationSelectors.getNavigationPath(state),
     }
@@ -52,9 +52,9 @@ export class OrderDisplayContainer extends React.Component {
 
   static propTypes = {
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
-    commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
-    commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
-    orderFilesActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
+    ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
+    ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions).isRequired,
     orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -67,16 +67,18 @@ export class OrderDisplayContainer extends React.Component {
   }
 
   render() {
-    const { navigationActions, navigationPath, displayMode,
-      commandsActions, commandsSelectors, orderFilesActions, orderFilesSelectors } = this.props
+    const {
+      navigationActions, navigationPath, displayMode,
+      ordersActions, ordersSelectors, orderFilesActions, orderFilesSelectors,
+    } = this.props
     switch (navigationPath.length) {
       case 0:
         // root level: all commands
         return (
           <OrderListContainer
             displayMode={displayMode}
-            commandsActions={commandsActions}
-            commandsSelectors={commandsSelectors}
+            ordersActions={ordersActions}
+            ordersSelectors={ordersSelectors}
             navigationActions={navigationActions}
           />)
       case 1:
@@ -97,9 +99,9 @@ export class OrderDisplayContainer extends React.Component {
       default:
         throw new Error(`Unknown navigation level ${navigationPath.length}`)
     }
-    // TODO swap container on navigation context
   }
 }
 export default compose(
   connect(OrderDisplayContainer.mapStateToProps),
-  withI18n(messages, true), withModuleStyle(styles, true))(OrderDisplayContainer)
+  withI18n(messages, true), withModuleStyle(styles, true),
+)(OrderDisplayContainer)

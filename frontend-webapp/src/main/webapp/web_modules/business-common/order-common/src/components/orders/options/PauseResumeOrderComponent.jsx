@@ -17,18 +17,21 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import DetailIcon from 'material-ui/svg-icons/action/search'
+import PauseIcon from 'material-ui/svg-icons/av/pause'
+import ResumeIcon from 'material-ui/svg-icons/av/play-arrow'
 import { i18nContextType } from '@regardsoss/i18n'
 
+
 /**
- * Show order dataset option cell component
+ * Pause / resume order table option
  * @author Raphaël Mechali
  */
-class ShowOrderDatasetsComponent extends React.Component {
-
+class PauseResultOrderComponent extends React.Component {
   static propTypes = {
-    // callback: on select order
-    onSelectOrder: PropTypes.func.isRequired,
+    canUpdate: PropTypes.bool.isRequired,
+    isPaused: PropTypes.bool.isRequired,
+    onPause: PropTypes.func.isRequired,
+    onResume: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -36,16 +39,25 @@ class ShowOrderDatasetsComponent extends React.Component {
   }
 
   render() {
-    const { onSelectOrder } = this.props
+    const {
+      canUpdate, isPaused, onPause, onResume,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        onTouchTap={onSelectOrder}
-        title={formatMessage({ id: 'order.list.option.cell.detail.title' })}
+        disabled={!canUpdate}
+        onTouchTap={isPaused ? onResume : onPause}
+        title={
+          isPaused ?
+            formatMessage({ id: 'order.list.option.cell.resume.order.tooltip' }) :
+            formatMessage({ id: 'order.list.option.cell.pause.order.tooltip' })
+        }
       >
-        <DetailIcon />
+        {
+          isPaused ? <ResumeIcon /> : <PauseIcon />
+        }
       </IconButton>
     )
   }
 }
-export default ShowOrderDatasetsComponent
+export default PauseResultOrderComponent

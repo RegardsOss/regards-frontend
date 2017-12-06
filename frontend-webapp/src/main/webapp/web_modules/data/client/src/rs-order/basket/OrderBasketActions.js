@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 
 /**
  * Order basket (cart) action, to control logged user basket content. To implement that behavior, this class uses a composition to
@@ -56,7 +56,7 @@ class OrderBasketActions {
    * @return {type:string, ...} redux action (redux API middleware compatible) to to get basket content
    */
   getBasket() {
-    return this.rootDelegate.sendSignal('GET')
+    return this.rootDelegate.sendSignal(RequestVerbEnum.GET)
   }
 
   /**
@@ -64,7 +64,7 @@ class OrderBasketActions {
    * @return {type:string, ...} redux action (redux API middleware compatible) to get basket content
    */
   clearBasket() {
-    return this.rootDelegate.sendSignal('DELETE')
+    return this.rootDelegate.sendSignal(RequestVerbEnum.DELETE)
   }
 
   /**
@@ -84,7 +84,7 @@ class OrderBasketActions {
    * @return {type:string, ...} redux action (redux API middleware compatible) to add elements or request to the basket
    */
   addToBasket(ipIds = [], selectAllOpenSearchRequest = null) {
-    return this.selectionDelegate.sendSignal('POST', { ipIds, selectAllOpenSearchRequest })
+    return this.selectionDelegate.sendSignal(RequestVerbEnum.POST, { ipIds, selectAllOpenSearchRequest })
   }
 
   /**
@@ -96,7 +96,7 @@ class OrderBasketActions {
    * @return {type:string, ...} redux action (redux API middleware compatible) to remove all dataset related selections from basket
    */
   removeDatasetSelectionFromBasket(datasetSelectionId) {
-    return this.datasetDelegate.sendSignal('DELETE', null, { datasetSelectionId })
+    return this.datasetDelegate.sendSignal(RequestVerbEnum.DELETE, null, { datasetSelectionId })
   }
 
   /**
@@ -108,7 +108,7 @@ class OrderBasketActions {
    * a given date - from  dataset, in basket
    */
   removeItemsSelectionFromBasket(datasetSelectionId, itemsSelectionDate) {
-    return this.datasetItemDelegate.sendSignal('DELETE', null, {
+    return this.datasetItemDelegate.sendSignal(RequestVerbEnum.DELETE, null, {
       datasetSelectionId,
       itemsSelectionDate: encodeURIComponent(itemsSelectionDate),
     })
@@ -125,11 +125,11 @@ class OrderBasketActions {
    */
   getDependencies(verb) {
     switch (verb) {
-      case 'GET':
+      case RequestVerbEnum.GET:
         return [this.rootDelegate.getDependency(verb)]
-      case 'POST':
+      case RequestVerbEnum.POST:
         return [this.selectionDelegate.getDependency(verb)]
-      case 'DELETE':
+      case RequestVerbEnum.DELETE:
         return [
           this.rootDelegate.getDependency(verb),
           this.datasetDelegate.getDependency(verb),

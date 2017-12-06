@@ -16,12 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import noop from 'lodash/noop'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
+import { OrderClient } from '@regardsoss/client'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import OrderListComponent from '../../components/orders/OrderListComponent'
+import AsynchronousRequestInformationComponent from '../../components/orders/dialog/AsynchronousRequestInformationComponent'
+import RequestFailedInformationComponent from '../../components/orders/dialog/RequestFailedInformationComponent'
+import DeleteOrderConfirmationComponent from '../../components/orders/dialog/DeleteOrderConfirmationComponent'
+
+// create a local instance of order state actions (we don't use the reducer / selector for
+// those as they are used though promises)
+const orderStateActions = new OrderClient.OrderStateActions('')
+// store dependencies for runtime resolution
+const pauseResumeDependencies = [orderStateActions.getPauseDependency(), orderStateActions.getResumeDependency()]
+const deleteSuperficiallyDependencies = [orderStateActions.getDeleteSuperficiallyDependency()]
+const deleteCompletelyDependencies = [orderStateActions.getDeleteCompletelyDependency()]
 
 /**
  * Order list container: It shows all orders in given context (configured using actions and selectors)
@@ -30,39 +48,80 @@ import OrderListComponent from '../../components/orders/OrderListComponent'
  * @author Raphaël Mechali
  */
 export class OrderListContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { commandsSelectors }) {
+  static mapStateToProps(state, { ordersSelectors }) {
     return {
-      isFetching: commandsSelectors.isFetching(state),
-      totalOrderCount: commandsSelectors.getResultsCount(state),
+      isFetching: ordersSelectors.isFetching(state),
+      totalOrderCount: ordersSelectors.getResultsCount(state),
+      availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
   }
 
   static propTypes = {
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
-    commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
-    commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
+    ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired, // used in mapDispatchToProps
     // from mapStateToProps
     isFetching: PropTypes.bool,
     totalOrderCount: PropTypes.number.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    availableEndpoints: PropTypes.arrayOf(PropTypes.string), // used in onPropertiesUpdated
   }
 
+  /** Page size for this component queries */
+  static PAGE_SIZE = 20
+
+  /** Default component state */
   static DEFAULT_STATE = {
     /** columns visibility map (no assertion on child columns keys) */
-    columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
+    columnsVisibility: OrderListComponent.DEFAULT_COLUMNS_VISIBILITY,
+    // enpoints rights management
+    hasPauseResume: false,
+    hasDeleteSuperficially: false,
+    hasDeleteCompletely: false,
+    // current failure query response (null when hidden)
+    currentFailureResponse: null,
+    // async request notification information
+    asynchRequestInformation: false,
+    // current delete operation like {completeDelete: boolean, onDelete: function}, null when none
+    deleteConfirmation: null,
   }
 
   /**
-   * Lifecycle method: component will mount. Used here to initialize the state
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.setState(OrderListContainer.DEFAULT_STATE)
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const oldState = this.state
+    const newState = { ...(isEmpty(oldState) ? OrderListContainer.DEFAULT_STATE : oldState) }
+    if (!isEqual(oldProps.availableEndpoints, newProps.availableEndpoints)) {
+      newState.hasPauseResume = allMatchHateoasDisplayLogic(pauseResumeDependencies, newProps.availableEndpoints)
+      newState.hasDeleteSuperficially = allMatchHateoasDisplayLogic(deleteSuperficiallyDependencies, newProps.availableEndpoints)
+      newState.hasDeleteCompletely = allMatchHateoasDisplayLogic(deleteCompletelyDependencies, newProps.availableEndpoints)
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
+  }
+
 
   /**
    * User callbacker: user updated columns visibility (this container considers only columns keys)
@@ -78,20 +137,72 @@ export class OrderListContainer extends React.Component {
     })
   }
 
+  /** Request callback: show a request failure to user */
+  onShowRequestFailedInformation = requestResponse => this.setState({ currentFailureResponse: requestResponse })
+
+  /** User callback: hide request failure */
+  onHideRequestFailedInformation = () => this.setState({ currentFailureResponse: null })
+
+  /** Request callback: everythink went fine, notify user of an asynchronous treatment in progres */
+  onShowAsynchronousRequestInformation = () => this.setState({ asynchRequestInformation: true })
+
+  /** User callback: hide aynchronous information */
+  onHideAsynchronousRequestInformation = () => this.setState({ asynchRequestInformation: false })
+
+  /** On delete user request: shows confirmation dialog */
+  onShowDeleteConfirmation = (completeDelete, onDelete) => this.setState({ deleteConfirmation: { completeDelete, onDelete } })
+
+  /** User callback: hide aynchronous information */
+  onHideDeleteConfirmation = () => this.setState({ deleteConfirmation: null })
+
   render() {
-    const { displayMode, commandsActions, commandsSelectors, navigationActions, isFetching, totalOrderCount } = this.props
-    const { columnsVisibility } = this.state
+    const {
+      displayMode, ordersActions, ordersSelectors, navigationActions, isFetching, totalOrderCount,
+    } = this.props
+    const {
+      columnsVisibility, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
+      currentFailureResponse, asynchRequestInformation, deleteConfirmation,
+    } = this.state
     return (
-      <OrderListComponent
-        displayMode={displayMode}
-        isFetching={isFetching}
-        totalOrderCount={totalOrderCount}
-        columnsVisibility={columnsVisibility}
-        onChangeColumnsVisibility={this.onChangeColumnsVisibility}
-        commandsActions={commandsActions}
-        commandsSelectors={commandsSelectors}
-        navigationActions={navigationActions}
-      />
+      <div>
+        {/* request fail information component, on demand */}
+        <RequestFailedInformationComponent
+          visible={!!currentFailureResponse}
+          requestResponse={currentFailureResponse}
+          onClose={this.onHideRequestFailedInformation}
+        />
+        {/* asynchronous request information component, on demand */}
+        <AsynchronousRequestInformationComponent
+          visible={asynchRequestInformation}
+          onClose={this.onHideAsynchronousRequestInformation}
+        />
+        {/* delete confirmation component, on demand */}
+        <DeleteOrderConfirmationComponent
+          visible={!!deleteConfirmation}
+          isCompleteDelete={get(deleteConfirmation, 'completeDelete', false)}
+          onClose={this.onHideDeleteConfirmation}
+          onDelete={get(deleteConfirmation, 'onDelete', noop)}
+        />
+        {/* Order list component */}
+        <OrderListComponent
+          displayMode={displayMode}
+          pageSize={OrderListContainer.PAGE_SIZE}
+          isFetching={isFetching}
+          totalOrderCount={totalOrderCount}
+          columnsVisibility={columnsVisibility}
+          hasDeleteCompletely={hasDeleteCompletely}
+          hasDeleteSuperficially={hasDeleteSuperficially}
+          hasPauseResume={hasPauseResume}
+          onChangeColumnsVisibility={this.onChangeColumnsVisibility}
+          ordersActions={ordersActions}
+          ordersSelectors={ordersSelectors}
+          orderStateActions={orderStateActions}
+          navigationActions={navigationActions}
+          onShowRequestFailedInformation={this.onShowRequestFailedInformation}
+          onShowAsynchronousRequestInformation={this.onShowAsynchronousRequestInformation}
+          onShowDeleteConfirmation={this.onShowDeleteConfirmation}
+        />
+      </div>
     )
   }
 }

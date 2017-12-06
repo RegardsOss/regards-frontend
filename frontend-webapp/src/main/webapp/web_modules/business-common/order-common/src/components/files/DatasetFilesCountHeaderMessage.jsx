@@ -24,7 +24,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Raphaël Mechali
  */
 class OrderDatasetsCountHeaderMessage extends React.Component {
-
   static propTypes = {
     totalFilesCount: PropTypes.number.isRequired,
   }

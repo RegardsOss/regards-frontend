@@ -34,7 +34,11 @@ class TableDeleteOption extends React.Component {
     // Entity. Note: when used in options column, this is provided by the table cell API
     // eslint-disable-next-line react/forbid-prop-types
     entity: PropTypes.object.isRequired,
-    fetchPage: PropTypes.func.isRequired, // fetch method: (pageIndex, pageSize) => Promise
+    fetchPage: PropTypes.func.isRequired, // fetch method: (pageIndex, pageSize, pathParams, requestParams) => Promise
+    // eslint-disable-next-line react/forbid-prop-types
+    pathParams: PropTypes.object,
+    // eslint-disable-next-line react/forbid-prop-types
+    requestParams: PropTypes.object,
     onDelete: PropTypes.func.isRequired, // delete method (entity, onDone) => ()
     queryPageSize: PropTypes.number.isRequired,
   }
@@ -55,9 +59,11 @@ class TableDeleteOption extends React.Component {
    * Delete has been performed, finish table refreshing
    */
   onDeleteDone = () => {
-    const { rowIndex, fetchPage, queryPageSize } = this.props
+    const {
+      rowIndex, fetchPage, queryPageSize, pathParams, requestParams,
+    } = this.props
     const pageIndex = Math.floor(rowIndex / queryPageSize)
-    fetchPage(pageIndex, queryPageSize)
+    fetchPage(pageIndex, queryPageSize, pathParams, requestParams)
   }
 
   render() {

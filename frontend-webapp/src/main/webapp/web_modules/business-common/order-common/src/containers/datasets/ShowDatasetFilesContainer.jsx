@@ -26,7 +26,6 @@ import ShowDatasetDetailComponent from '../../components/datasets/ShowDatasetFil
 * @author Raphaël Mechali
 */
 export class ShowDatasetFilesContainer extends React.Component {
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function

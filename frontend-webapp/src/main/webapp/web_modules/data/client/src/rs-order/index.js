@@ -19,18 +19,21 @@
 import OrderBasketActions from './basket/OrderBasketActions'
 import getOrderBasketReducer from './basket/OrderBasketReducer'
 import getOrderBasketSelectors from './basket/OrderBasketSelectors'
-import OrderDatasetFilesActions from './history/OrderDatasetFilesActions'
-import getOrderDatasetFilesReducer from './history/OrderDatasetFilesReducer'
-import getOrderDatasetFilesSelectors from './history/OrderDatasetFilesSelectors'
-import DownloadAllOrderFilesAction from './history/DownloadAllOrderFilesAction'
-import DownloadOrderFileActions from './history/DownloadOrderFileActions'
-import DownloadOrderMetalinkFileActions from './history/DownloadOrderMetalinkFileActions'
-import OrderListActions from './history/OrderListActions'
-import getOrderListReducer from './history/OrderListReducer'
-import getOrderListSelectors from './history/OrderListSelectors'
 import CreateOrderActions from './order/CreateOrderActions'
 import getCreateOrderReducer from './order/CreateOrderReducer'
 import getCreateOrderSelectors from './order/CreateOrderSelectors'
+import DownloadAllOrderFilesAction from './order/DownloadAllOrderFilesAction'
+import DownloadOrderFileActions from './order/DownloadOrderFileActions'
+import DownloadOrderMetalinkFileActions from './order/DownloadOrderMetalinkFileActions'
+import OrderDatasetFilesActions from './order/OrderDatasetFilesActions'
+import getOrderDatasetFilesReducer from './order/OrderDatasetFilesReducer'
+import getOrderDatasetFilesSelectors from './order/OrderDatasetFilesSelectors'
+import OrderListActions from './order/OrderListActions'
+import getOrderListReducer from './order/OrderListReducer'
+import getOrderListSelectors from './order/OrderListSelectors'
+import OrderStateActions from './order/OrderStateActions'
+import getOrderStateReducer from './order/OrderStateReducer'
+import getOrderStateSelectors from './order/OrderStateSelectors'
 
 /**
  * Index for all order microservice clients.
@@ -41,20 +44,25 @@ module.exports = {
   OrderBasketActions,
   getOrderBasketReducer,
   getOrderBasketSelectors,
-  // get a dataset order detail (history)
-  OrderDatasetFilesActions,
-  getOrderDatasetFilesReducer,
-  getOrderDatasetFilesSelectors,
-  // download file 'pseudo' actions (used to get the dependencies and the path to order files downloads)
-  DownloadAllOrderFilesAction,
-  DownloadOrderFileActions,
-  DownloadOrderMetalinkFileActions,
-  // get orders list (history) for current or all users
-  OrderListActions,
-  getOrderListReducer,
-  getOrderListSelectors,
   // transform basket into a new order actions
   CreateOrderActions,
   getCreateOrderReducer,
   getCreateOrderSelectors,
+  // download file 'pseudo' actions (used to get the dependencies and the path to order files downloads)
+  DownloadAllOrderFilesAction,
+  DownloadOrderFileActions,
+  DownloadOrderMetalinkFileActions,
+  // get a dataset order detail (order)
+  OrderDatasetFilesActions,
+  getOrderDatasetFilesReducer,
+  getOrderDatasetFilesSelectors,
+  // get orders list (order) for current or all users
+  OrderListActions,
+  getOrderListReducer,
+  getOrderListSelectors,
+  // change order state (pause, resume, delete, delete completely)
+  OrderStateActions,
+  getOrderStateReducer,
+  getOrderStateSelectors,
+
 }

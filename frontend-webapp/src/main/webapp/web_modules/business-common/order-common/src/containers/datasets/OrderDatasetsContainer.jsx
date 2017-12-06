@@ -25,8 +25,6 @@ import OrderDatasetsComponent from '../../components/datasets/OrderDatasetsCompo
  * @author Raphaël Mechali
  */
 export class OrderDatasetsContainer extends React.Component {
-
-
   static propTypes = {
     // currently selected order
     order: OrderShapes.OrderWithContent,

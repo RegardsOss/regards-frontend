@@ -24,9 +24,12 @@
  */
 const messages = {
   'modules.list.menu.label': 'Browse',
+  'section.order-cart': 'Carts',
+  'section.order-history': 'Commands',
   'section.search-form': 'Search forms',
   'section.search-results': 'Data catalogs',
   'section.search-graph': 'Data tree navigation',
+  'section.storage-monitoring': 'Storage monitoring',
 }
 
 export default messages

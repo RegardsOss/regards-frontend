@@ -17,14 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { OrderClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLine,
-  TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup,
-  TableHeaderLoadingComponent, TableColumnsVisibilityOption,
-  StorageCapacityRender,
+  PageableInfiniteTableContainer, RefreshPageableTableOption, TableColumnBuilder, TableLayout, TableHeaderLine,
+  TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
+  TableColumnsVisibilityOption, StorageCapacityRender,
 } from '@regardsoss/components'
 import FileDownloadContainer from '../../containers/files/FileDownloadContainer'
 import DatasetFilesCountHeaderMessage from './DatasetFilesCountHeaderMessage'
@@ -42,7 +42,6 @@ const STATUS_KEY = 'status.column'
  * @author Raphaël Mechali
  */
 class DatasetFilesComponent extends React.Component {
-
   static propTypes = {
     // is fetching?
     isFetching: PropTypes.bool,
@@ -50,7 +49,7 @@ class DatasetFilesComponent extends React.Component {
     totalFilesCount: PropTypes.number.isRequired,
     // request related
     pathParams: PropTypes.objectOf(PropTypes.any).isRequired,
-    orderFilesActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
+    orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions).isRequired,
     orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // columns visibility, like (string: columnKey):(boolean: column visible)
     columnsVisibility: PropTypes.objectOf(PropTypes.bool).isRequired,
@@ -97,23 +96,30 @@ class DatasetFilesComponent extends React.Component {
     const { columnsVisibility } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
-    const fixedDataColumnWidth = muiTheme['module:order-history'].fixedDataColumnWidth
 
     return [
       // 1 - Name column
-      TableColumnBuilder.buildSimpleColumnWithCell(NAME_KEY, formatMessage({ id: 'files.list.column.name' }),
+      TableColumnBuilder.buildSimpleColumnWithCell(
+        NAME_KEY, formatMessage({ id: 'files.list.column.name' }),
         TableColumnBuilder.buildValuesRenderCell([{ getValue: DatasetFilesComponent.getFileName }]), 0,
-        get(columnsVisibility, NAME_KEY, true)),
+        get(columnsVisibility, NAME_KEY, true),
+      ),
       // 2 - size column
-      TableColumnBuilder.buildSimplePropertyColumn(SIZE_KEY, formatMessage({ id: 'files.list.column.size' }),
-        'content.size', 1, get(columnsVisibility, SIZE_KEY, true), StorageCapacityRender),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        SIZE_KEY, formatMessage({ id: 'files.list.column.size' }),
+        'content.size', 1, get(columnsVisibility, SIZE_KEY, true), StorageCapacityRender,
+      ),
       // 3 - MIME type column
-      TableColumnBuilder.buildSimplePropertyColumn(TYPE_KEY, formatMessage({ id: 'files.list.column.type' }),
-        'content.mimeType', 2, get(columnsVisibility, TYPE_KEY, true)),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        TYPE_KEY, formatMessage({ id: 'files.list.column.type' }),
+        'content.mimeType', 2, get(columnsVisibility, TYPE_KEY, true),
+      ),
       // 4 - status column
-      TableColumnBuilder.buildSimpleColumnWithCell(STATUS_KEY, formatMessage({ id: 'files.list.column.status' }),
+      TableColumnBuilder.buildSimpleColumnWithCell(
+        STATUS_KEY, formatMessage({ id: 'files.list.column.status' }),
         TableColumnBuilder.buildValuesRenderCell([{ getValue: DatasetFilesComponent.getStatus, RenderConstructor: OrderFileStatusRender }]),
-        3, get(columnsVisibility, STATUS_KEY, true), fixedDataColumnWidth),
+        3, get(columnsVisibility, STATUS_KEY, true),
+      ),
       // 5 - options column
       TableColumnBuilder.buildOptionsColumn(formatMessage({ id: 'files.list.column.options' }), [{
         OptionConstructor: FileDownloadContainer, // show download
@@ -122,7 +128,9 @@ class DatasetFilesComponent extends React.Component {
   }
 
   render() {
-    const { isFetching, totalFilesCount, onChangeColumnsVisibility, pathParams, orderFilesActions, orderFilesSelectors } = this.props
+    const {
+      isFetching, totalFilesCount, onChangeColumnsVisibility, pathParams, orderFilesActions, orderFilesSelectors,
+    } = this.props
     const columns = this.buildColumns()
 
     // render headers and table
@@ -139,6 +147,12 @@ class DatasetFilesComponent extends React.Component {
           {/* 3 - table options  */}
           <TableHeaderOptionsArea >
             <TableHeaderOptionGroup>
+              {/* refresh option */}
+              <RefreshPageableTableOption
+                pageableTableActions={orderFilesActions}
+                pageableTableSelectors={orderFilesSelectors}
+                pathParams={pathParams}
+              />
               {/* columns visibility configuration  */}
               <TableColumnsVisibilityOption
                 columns={columns}

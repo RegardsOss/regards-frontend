@@ -17,20 +17,18 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { OrderDomain } from '@regardsoss/domain'
 import { OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
-import DownloadOrderMetaLinkFileComponent from '../../components/orders/DownloadOrderMetaLinkFileComponent'
+import DownloadOrderFilesAsZipComponent from '../../../components/orders/options/DownloadOrderFilesAsZipComponent'
 
-const metalinkFileActions = new OrderClient.DownloadOrderMetalinkFileActions()
+const zipFileActions = new OrderClient.DownloadAllOrderFilesAction()
 
 /**
  * Download order metalink file table option container
  * @author Raphaël Mechali
  */
-export class DownloadOrderMetaLinkFileContainer extends React.Component {
-
+export class DownloadOrderFilesAsZipContainer extends React.Component {
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state
@@ -45,29 +43,22 @@ export class DownloadOrderMetaLinkFileContainer extends React.Component {
 
   static propTypes = {
     // from table cell API
-    entity: OrderShapes.OrderWithContent,
+    entity: OrderShapes.OrderWithContent.isRequired,
     // from mapStateToProps
     authentication: AuthenticateShape.isRequired,
   }
 
-  /** States in which meta link is available */
-  static METALINK_AVAILABLE_STATE = [
-    OrderDomain.ORDER_STATUS_ENUM.PENDING,
-    OrderDomain.ORDER_STATUS_ENUM.RUNNING,
-    OrderDomain.ORDER_STATUS_ENUM.PAUSED,
-    OrderDomain.ORDER_STATUS_ENUM.DONE_WITH_WARNING,
-    OrderDomain.ORDER_STATUS_ENUM.DONE,
-  ]
-
   render() {
-    const { entity: { content: { id, status } }, authentication: { result: { access_token } } } = this.props
+    const { entity: { content: { id, availableFilesCount = 0, waitingForUser = false } }, authentication: { result: { access_token } } } = this.props
     return (
-      <DownloadOrderMetaLinkFileComponent
-        canDownload={DownloadOrderMetaLinkFileContainer.METALINK_AVAILABLE_STATE.includes(status)}
-        downloadMetalinkURL={metalinkFileActions.getFileDownloadLink(id, access_token)}
+      <DownloadOrderFilesAsZipComponent
+        isWaitingUser={waitingForUser}
+        canDownload={availableFilesCount > 0}
+        availableFilesCount={availableFilesCount}
+        downloadZipURL={zipFileActions.getFileDownloadLink(id, access_token)}
       />
     )
   }
 }
 
-export default connect(DownloadOrderMetaLinkFileContainer.mapStateToProps)(DownloadOrderMetaLinkFileContainer)
+export default connect(DownloadOrderFilesAsZipContainer.mapStateToProps)(DownloadOrderFilesAsZipContainer)

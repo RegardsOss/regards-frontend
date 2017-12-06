@@ -25,7 +25,6 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Raphaël Mechali
  */
 class ShowDatasetFilesComponent extends React.Component {
-
   static propTypes = {
     // callback: on select order
     onShowDatasetFiles: PropTypes.func.isRequired,

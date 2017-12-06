@@ -34,7 +34,6 @@ const IconButtonConstructorWrapper = props => (
  * @author Raphaël Mechali
  */
 class DownloadOrderMetaLinkFileComponent extends React.Component {
-
   static propTypes = {
     canDownload: PropTypes.bool.isRequired,
     downloadMetalinkURL: PropTypes.string.isRequired,

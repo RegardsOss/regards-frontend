@@ -24,8 +24,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  * Simple no data component (to be statically rendered by DatasetFilesComponent)
  * @author Raphaël Mechali
  */
-class NoOrderComponent extends React.Component {
-
+class NoFileComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
   }
@@ -41,4 +40,4 @@ class NoOrderComponent extends React.Component {
     )
   }
 }
-export default NoOrderComponent
+export default NoFileComponent

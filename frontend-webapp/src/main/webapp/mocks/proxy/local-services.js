@@ -77,7 +77,7 @@ function getResourcesDependencies({ content, links, metadata }, pathParams, quer
   }
 }
 
-const MOCKED_ORDERS_LIST = JSON.parse(loadFile('mocks/proxy/resources/mock-orders.json'))
+let MOCKED_ORDERS_LIST = JSON.parse(loadFile('mocks/proxy/resources/mock-orders.json'))
 const MOCKED_ORDER_DS_FILES_LIST = JSON.parse(loadFile('mocks/proxy/resources/mock-order-ds-files.json'))
 
 function buildLocalServices(gatewayURL) {
@@ -132,11 +132,66 @@ function buildLocalServices(gatewayURL) {
       },
     },
     PUT: {
+      // pause order
+      pauseOrder: {
+        url: 'rs-order/user/orders/pause/{orderId}',
+        handler: () => {
+          return {
+            code: 200,
+            content: {},
+            //   messages: ['ORDER_NOT_COMPLETELY_PAUSED'],
+            // },
+          }
+        },
+      },
+      // resume order
+      resumeOrder: {
+        url: 'rs-order/user/orders/resume/{orderId}',
+        handler: () => {
+          return {
+            code: 200,
+            content: {},
+            //   messages: ['ORDER_MUST_BE_DELETED'],
+            // },
+          }
+        },
+      }
     },
     POST: {
     },
     DELETE: {
-    },
+      deletePartiallyOrder: {
+        url: 'rs-order/user/orders/{orderId}',
+        handler: (req, resp, { orderId }) => {
+          const idAsNumber = parseInt(orderId, 10)
+          const foundIndex = MOCKED_ORDERS_LIST.findIndex(order => order.content.id === idAsNumber)
+          console.error('Found index is then ', foundIndex)
+          if (foundIndex === -1) {
+            return { code: 404, content: [{ messages: 'Order not found' }] }
+          }
+          // mutate the list to hold the new state
+          MOCKED_ORDERS_LIST[foundIndex].content.status = 'DELETED'
+          return { code: 204 }
+        }
+      },
+      deleteCompletelyOrder: {
+        url: 'rs-order/user/orders/remove/{orderId}',
+        handler: (req, resp, { orderId }) => {
+          const idAsNumber = parseInt(orderId, 10)
+          const oldMockedOrderList = MOCKED_ORDERS_LIST
+          MOCKED_ORDERS_LIST = MOCKED_ORDERS_LIST.filter(order => order.content.id !== idAsNumber)
+          if (MOCKED_ORDERS_LIST.length === oldMockedOrderList.length - 1) {
+            return { code: 204 }
+          }
+          if (MOCKED_ORDERS_LIST.length === oldMockedOrderList) {
+            return { code: 404, content: [{ messages: 'Order not found' }] }
+          }
+          // roll back
+          MOCKED_ORDERS_LIST = oldMockedOrderList
+          return { code: 500, content: [{ messages: 'Order not found' }] }
+        }
+      },
+    }
   }
 }
 

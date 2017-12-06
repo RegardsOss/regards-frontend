@@ -22,7 +22,6 @@
  * @author Raphaël Mechali
  */
 export class OrdersNavigationActions {
-
   /**
    * Constructor
    * @param {string} namespace actions / reducer namespace
@@ -61,5 +60,4 @@ export class OrdersNavigationActions {
   resetToLevel(level) {
     return { type: this.RESET_TO_LEVEL, level }
   }
-
 }
