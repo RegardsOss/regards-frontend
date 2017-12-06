@@ -133,6 +133,11 @@ const microserviceManagementStyles = theme => ({
       marginRight: 5,
     },
   },
+  renderer: {
+    errorStyle: {
+      color: theme.textField.errorColor,
+    },
+  },
 })
 
 export default microserviceManagementStyles

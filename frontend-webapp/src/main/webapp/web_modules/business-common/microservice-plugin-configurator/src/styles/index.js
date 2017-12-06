@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,19 +15,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import concat from 'lodash/concat'
-import { CommonClient } from '@regardsoss/client'
+ **/
+import styles from './styles'
 
 /**
- * Plugin Metadata entities client.
- *
  * @author Sébastien Binda
  */
-const REDUX_ACTION_NAMESPACE = 'common/pluginMetadata'
-
-const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
-
-module.exports = {
-  pluginMetadataActions,
-}
+export default { styles }

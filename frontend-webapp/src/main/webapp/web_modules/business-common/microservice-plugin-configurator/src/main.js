@@ -19,9 +19,9 @@
 import PluginFormConfigurator from './containers/PluginConfigurationFormContainer'
 import GenericPluginParameter from './components/parameters/GenericPluginParameter'
 import PluginUtils from './components/utils'
-import PluginConfiguratorReducer from './reducer'
 import PluginListContainer from './containers/PluginListContainer'
 import PluginConfigurator from './components/PluginConfigurationComponent'
+import RenderPluginField from './form-utils/RenderPluginField'
 
 /**
  * Module to handle current project of the interface. Fetch the project and put the information in the store.
@@ -33,6 +33,6 @@ module.exports = {
   PluginConfigurator,
   GenericPluginParameter,
   PluginUtils,
-  PluginConfiguratorReducer,
   PluginListContainer,
+  RenderPluginField,
 }

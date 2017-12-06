@@ -318,7 +318,7 @@ export class PluginConfigurationComponent extends React.Component {
           change={reduxFormChange}
           mode={formMode}
         />))}
-    </CardText>
+            </CardText>
     )
   }
 

@@ -22,7 +22,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 import generationChainPluginTypes from './GenerationChainPluginTypes'
-import { PluginFormComponent } from './PluginFormComponent'
+import { NewPluginFormComponent } from './NewPluginFormComponent'
 
 /**
 * Component to configure plugins of a generation chain of DataProvider microservice
@@ -55,16 +55,12 @@ class GenerationChainFormPluginsComponent extends React.Component {
           backgroundColor={palette.primary1Color}
         > {index}
         </Avatar>
-        <PluginFormComponent
+        <NewPluginFormComponent
           title={title}
           selectLabel={selectLabel}
           ingestPluginType={ingestPluginType}
-          pluginConf={pluginConf}
           fieldNamePrefix={fieldNamePrefix}
-          reduxFormChange={change}
-          reduxFormInitialize={initialize}
-          reduxFormGetField={getField}
-          hideGlobalParameterConf
+          defaultPluginConfLabel="TODO CONF !!!!!!"
         />
       </div>
     )

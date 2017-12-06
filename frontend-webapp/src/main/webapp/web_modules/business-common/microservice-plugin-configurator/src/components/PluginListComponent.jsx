@@ -3,23 +3,32 @@ import map from 'lodash/map'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
 import { CommonShapes } from '@regardsoss/shape'
-import { withI18n } from '@regardsoss/i18n'
+import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import messages from '../i18n'
+import moduleStyles from '../styles'
 
 export class PluginListComponent extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     selectLabel: PropTypes.string,
-    labelStyles: PropTypes.object,
     pluginList: CommonShapes.PluginMetaDataList,
     defaultSelectedPluginId: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    errorText: PropTypes.string,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   static styles = {
     display: 'flex',
     alignItems: 'center',
   }
+
+  static menuStyles = { top: '-7px' }
 
   constructor(props) {
     super(props)
@@ -39,18 +48,26 @@ export class PluginListComponent extends React.Component {
   )
 
   render() {
+    const { moduleTheme: { renderer: { errorStyle } } } = this.context
     return (
       <div style={PluginListComponent.styles}>
-        <div style={this.props.labelStyles}>
+        <div>
           {this.props.title ? this.props.title : null}
         </div>
-        <DropDownMenu value={this.state.selectedPluginId} onChange={this.handleSelect} style={{ top: '-7px' }}>
+        <DropDownMenu
+          value={this.state.selectedPluginId}
+          onChange={this.handleSelect}
+          style={PluginListComponent.menuStyles}
+        >
           <MenuItem value={null} primaryText={this.props.selectLabel || 'none'} />
           {map(this.props.pluginList, this.renderItem)}
         </DropDownMenu>
+        <div style={errorStyle}>
+          {this.props.errorText}
+        </div>
       </div>
     )
   }
 }
 
-export default withI18n(messages)(PluginListComponent)
+export default withModuleStyle(moduleStyles)(withI18n(messages)(PluginListComponent))

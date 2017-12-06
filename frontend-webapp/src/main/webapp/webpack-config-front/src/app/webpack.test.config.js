@@ -7,7 +7,7 @@ require('../conf/staticConfiguration')
 
 module.exports = function (projectContextPath) {
   const config = getCommonConfig(projectContextPath, 'test')
-  
+
   // Ensure babel environment variable is correctly setup to test
   process.env.NODE_ENV = 'test'
 

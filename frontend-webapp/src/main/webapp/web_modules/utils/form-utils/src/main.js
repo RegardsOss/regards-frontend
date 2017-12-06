@@ -39,6 +39,7 @@ import StringComparison from './StringComparison'
 import reduxForm from './reduxForm'
 import RenderAutoCompleteField from './render/RenderAutoCompleteField'
 import RenderPageableAutoCompleteField from './render/RenderPageableAutoCompleteField'
+import RenderHelper from './render/RenderHelper'
 
 module.exports = {
   RenderAutoCompleteField,
@@ -64,4 +65,5 @@ module.exports = {
   StringComparison,
   reduxForm,
   RenderJsonCodeEditorField,
+  RenderHelper,
 }

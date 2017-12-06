@@ -16,18 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import concat from 'lodash/concat'
 import { CommonClient } from '@regardsoss/client'
 
 /**
- * Plugin Metadata entities client.
+ * Plugin configuration entities client.
  *
  * @author Sébastien Binda
  */
-const REDUX_ACTION_NAMESPACE = 'common/pluginMetadata'
+const REDUX_ACTION_CONF_NAMESPACE = 'common/plugin-parameter/pluginConfiguration'
+const REDUX_ACTION_META_NAMESPACE = 'common/plugin-parameter/pluginMetadata'
 
-const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
+const pluginParameterConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_CONF_NAMESPACE)
+const pluginParameterMetaDataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_META_NAMESPACE)
 
 module.exports = {
-  pluginMetadataActions,
+  pluginParameterConfigurationActions,
+  pluginParameterMetaDataActions,
 }

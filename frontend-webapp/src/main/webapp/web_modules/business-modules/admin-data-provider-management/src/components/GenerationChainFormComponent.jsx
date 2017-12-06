@@ -225,6 +225,9 @@ class GenerationChainFormComponent extends React.Component {
 
 function validate(fieldValues) {
   const errors = {}
+  if (!fieldValues.checkAcquisitionPluginConf) {
+    errors.checkAcquisitionPluginConf = 'required !'
+  }
   return errors
 }
 

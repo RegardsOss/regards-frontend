@@ -9,11 +9,11 @@ export class PluginListContainer extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     selectLabel: PropTypes.string,
-    labelStyles: PropTypes.object,
     microserviceName: PropTypes.string.isRequired,
     pluginType: PropTypes.string.isRequired,
     selectedPluginId: PropTypes.string,
     handleSelect: PropTypes.func.isRequired,
+    errorText: PropTypes.string,
     // Set by connect
     fetchPlugins: PropTypes.func.isRequired,
   }
@@ -46,10 +46,10 @@ export class PluginListContainer extends React.Component {
       <PluginListComponent
         title={this.props.title}
         selectLabel={this.props.selectLabel}
-        labelStyles={this.props.labelStyles}
         onChange={this.props.handleSelect}
         pluginList={this.state.pluginList}
         defaultSelectedPluginId={this.props.selectedPluginId}
+        errorText={this.props.errorText}
       />
     )
   }
