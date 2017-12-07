@@ -22,7 +22,6 @@ import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsos
 import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import moduleStyles from '../../styles/styles'
 
 const { validRequiredString } = ValidationHelpers
 
@@ -86,14 +85,14 @@ export class DynamicValueCreateComponent extends React.Component {
     const actions = (
       <div style={styles.dynamicValue.createdialogbuttons}>
         <FlatButton
-          label={intl.formatMessage({ id: 'microservice-management.plugin.parameter.dynamicvalue.dialog.cancel' })}
+          label={intl.formatMessage({ id: 'plugin.parameter.dynamicvalue.dialog.cancel' })}
           primary
           onTouchTap={onRequestClose}
         />
         <FlatButton
           type="submit"
           disabled={submitting || invalid}
-          label={intl.formatMessage({ id: 'microservice-management.plugin.parameter.dynamicvalue.dialog.submit' })}
+          label={intl.formatMessage({ id: 'plugin.parameter.dynamicvalue.dialog.submit' })}
           primary
           keyboardFocused
         />
@@ -102,7 +101,7 @@ export class DynamicValueCreateComponent extends React.Component {
 
     return (
       <Dialog
-        title={intl.formatMessage({ id: 'microservice-management.plugin.parameter.dynamicvalue.dialog.title' })}
+        title={intl.formatMessage({ id: 'plugin.parameter.dynamicvalue.dialog.title' })}
         open={open}
         modal={false}
         onRequestClose={onRequestClose}
@@ -113,7 +112,7 @@ export class DynamicValueCreateComponent extends React.Component {
             component={RenderTextField}
             type={this.getFieldType(pluginParameterType)}
             validate={validRequiredString}
-            label={intl.formatMessage({ id: 'microservice-management.plugin.parameter.dynamicvalue.dialog.placeholder' })}
+            label={intl.formatMessage({ id: 'plugin.parameter.dynamicvalue.dialog.placeholder' })}
           />
           {actions}
         </form>

@@ -26,8 +26,6 @@ import { ValidationHelpers } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import DynamicValueCreateComponent from './DynamicValueCreateComponent'
-import { pluginParameterComponentPropTypes, getFieldName } from './util'
-import moduleStyles from '../../styles/styles'
 
 const { required, string } = ValidationHelpers
 
@@ -140,7 +138,7 @@ export class PluginParameterDynamicField extends React.Component {
         <ShowableAtRender show={!isView}>
           <IconButton
             onTouchTap={this.onOpen}
-            tooltip={intl.formatMessage({ id: 'microservice-management.plugin.parameter.dynamicvalue.add' })}
+            tooltip={intl.formatMessage({ id: 'plugin.parameter.dynamicvalue.add' })}
           >
             <AddCircle />
           </IconButton>

@@ -24,6 +24,9 @@ import values from 'lodash/values'
 const PluginParameterTypes = {
   PRIMITIVE: 'PRIMITIVE',
   PLUGIN: 'PLUGIN',
+  OBJECT: 'OBJECT',
+  COLLECTION: 'COLLECTION',
+  MAP: 'MAP',
 }
 
 /**

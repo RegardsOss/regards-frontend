@@ -16,16 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
-import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
+import styles from './styles'
 
 /**
  * @author Sébastien Binda
  */
-const microserviceManagementReducer = combineReducers({
-  pluginMetadata: pluginMetaDataReducer,
-  pluginConfiguration: pluginConfigurationReducer,
-})
-
-export default microserviceManagementReducer
+export default { styles }

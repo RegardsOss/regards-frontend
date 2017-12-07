@@ -55,7 +55,7 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.parameters': 'Parameters',
 
   'microservice-management.plugin.configuration.form.create.title': 'Add a configuration',
-  'microservice-management.plugin.configuration.form.edit.title': 'Edit a configuration',
+  'microservice-management.plugin.configuration.form.edit.title': 'Edit a configuration {name}',
   'microservice-management.plugin.configuration.form.pluginClassName': 'Plugin class (full path)',
   'microservice-management.plugin.configuration.form.label': 'Label *',
   'microservice-management.plugin.configuration.form.version': 'Version *',

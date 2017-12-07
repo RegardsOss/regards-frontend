@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
-import { PluginConfiguratorReducer } from '@regardsoss/microservice-plugin-configurator'
 import { processingChainReducer } from './clients/ProcessingChainClient'
 import { tableReducer } from './clients/TableClient'
 
@@ -28,7 +27,6 @@ import { tableReducer } from './clients/TableClient'
 const ingestManagementReducer = combineReducers({
   chain: processingChainReducer,
   'processing-chain-table': tableReducer,
-  pluginConfigurator: PluginConfiguratorReducer,
 })
 
 export default ingestManagementReducer

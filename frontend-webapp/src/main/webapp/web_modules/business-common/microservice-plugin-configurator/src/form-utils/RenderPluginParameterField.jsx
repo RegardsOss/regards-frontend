@@ -29,6 +29,7 @@ class RenderPluginParameterField extends React.Component {
     microserviceName: PropTypes.string.isRequired,
     pluginParameterType: CommonShapes.PluginParameterType,
     hideDynamicParameterConf: PropTypes.bool,
+    disabled: PropTypes.bool,
     // From redux field
     input: PropTypes.shape({
       value: CommonShapes.PluginParameterContent,
@@ -37,6 +38,7 @@ class RenderPluginParameterField extends React.Component {
   }
 
   static defaultProps = {
+    disabled: false,
     hideDynamicParameterConf: false,
   }
 
@@ -56,13 +58,14 @@ class RenderPluginParameterField extends React.Component {
       key="isDynamic"
       name={`${name}.dynamic`}
       component={RenderCheckbox}
+      disabled={this.props.disabled}
       label="Is dynamic ?"
     />,
   ]
 
   render() {
     const {
-      input: { name }, pluginParameterType, microserviceName,
+      input: { name }, pluginParameterType, microserviceName, disabled,
     } = this.props
 
     let label = pluginParameterType.label || pluginParameterType.name
@@ -104,6 +107,7 @@ class RenderPluginParameterField extends React.Component {
               name={`${name}.value`}
               fullWidth
               component={component}
+              disabled={disabled}
               label={label}
               type={type}
               validate={validators}
@@ -116,6 +120,7 @@ class RenderPluginParameterField extends React.Component {
           name={`${name}.value`}
           fullWidth
           component={RenderPluginPluginParameterField}
+          disabled={disabled}
           label={label}
           microserviceName={microserviceName}
           pluginParameterType={pluginParameterType}

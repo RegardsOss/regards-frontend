@@ -42,6 +42,7 @@ class RenderPluginConfField extends React.Component {
     pluginMetaData: CommonShapes.PluginMetaDataContent.isRequired, // PluginMetadata used to configure new plugin configuration
     hideGlobalParameterConf: PropTypes.bool, // Use this parameter to hide the global configuration of plugins
     hideDynamicParameterConf: PropTypes.bool,
+    disabled: PropTypes.bool,
     // From redux field
     input: PropTypes.shape({
       value: CommonShapes.PluginConfigurationContent,
@@ -50,6 +51,7 @@ class RenderPluginConfField extends React.Component {
   }
 
   static defaultProps = {
+    disabled: false,
     hideGlobalParameterConf: false,
     hideDynamicParameterConf: false,
   }
@@ -62,7 +64,7 @@ class RenderPluginConfField extends React.Component {
   getFormFieldName = fieldName => `${this.props.input.name}.${fieldName}`
 
   renderGlobalConf = () => {
-    const { hideGlobalParameterConf, input: { value } } = this.props
+    const { hideGlobalParameterConf, input: { value }, disabled } = this.props
     const pluginConfiguration = value
     const { moduleTheme, intl: { formatMessage } } = this.context
 
@@ -83,32 +85,35 @@ class RenderPluginConfField extends React.Component {
             component={RenderTextField}
             type="text"
             validate={requiredStringValidator}
-            label={formatMessage({ id: 'microservice-management.plugin.configuration.form.pluginClassName' })}
+            label={formatMessage({ id: 'plugin.configuration.form.pluginClassName' })}
           />
           <Field
             name={this.getFormFieldName('label')}
             fullWidth
             component={RenderTextField}
             type="text"
+            disabled={disabled}
             validate={requiredStringValidator}
-            label={formatMessage({ id: 'microservice-management.plugin.configuration.form.label' })}
+            label={formatMessage({ id: 'plugin.configuration.form.label' })}
           />
           <Field
             name={this.getFormFieldName('version')}
             fullWidth
             component={RenderTextField}
             type="text"
+            disabled={disabled}
             validate={requiredStringValidator}
-            label={formatMessage({ id: 'microservice-management.plugin.configuration.form.version' })}
+            label={formatMessage({ id: 'plugin.configuration.form.version' })}
           />
           <Field
             name={this.getFormFieldName('priorityOrder')}
             fullWidth
             component={RenderTextField}
             type="number"
+            disabled={disabled}
             parse={parseFloat}
             validate={requiredNumberValidator}
-            label={formatMessage({ id: 'microservice-management.plugin.configuration.form.priorityOrder' })}
+            label={formatMessage({ id: 'plugin.configuration.form.priorityOrder' })}
           />
           <div
             style={{
@@ -121,7 +126,8 @@ class RenderPluginConfField extends React.Component {
               component={RenderTextField}
               fullWidth
               type="text"
-              label={formatMessage({ id: 'microservice-management.plugin.configuration.form.icon' })}
+              disabled={disabled}
+              label={formatMessage({ id: 'plugin.configuration.form.icon' })}
             />
             <IconButton
               tooltip="Display icon"
@@ -134,8 +140,9 @@ class RenderPluginConfField extends React.Component {
             name={this.getFormFieldName('active')}
             component={RenderDoubleLabelToggle}
             type="boolean"
-            leftLabel={formatMessage({ id: 'microservice-management.plugin.configuration.form.inactive' })}
-            rightLabel={formatMessage({ id: 'microservice-management.plugin.configuration.form.active' })}
+            disabled={disabled}
+            leftLabel={formatMessage({ id: 'plugin.configuration.form.inactive' })}
+            rightLabel={formatMessage({ id: 'plugin.configuration.form.active' })}
             style={moduleTheme.pluginConfiguration.form.toggle}
             defaultToggled={pluginConfiguration ? pluginConfiguration.active : true}
           />
@@ -145,7 +152,7 @@ class RenderPluginConfField extends React.Component {
   }
 
   renderParameters = () => {
-    const { pluginMetaData, hideDynamicParameterConf } = this.props
+    const { pluginMetaData, hideDynamicParameterConf, disabled } = this.props
     const parameters = get(pluginMetaData, 'parameters', [])
     if (parameters.length === 0) {
       return null
@@ -158,6 +165,7 @@ class RenderPluginConfField extends React.Component {
               key={pluginParameterType.name}
               fullWidth
               component={RenderPluginParameterField}
+              disabled={disabled}
               name={this.getFormFieldName(`parameters.${index}`)}
               microserviceName={this.props.microserviceName}
               pluginParameterType={pluginParameterType}

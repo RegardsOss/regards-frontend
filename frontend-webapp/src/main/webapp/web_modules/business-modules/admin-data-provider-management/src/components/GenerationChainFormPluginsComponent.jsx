@@ -21,8 +21,9 @@ import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
+import { Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import generationChainPluginTypes from './GenerationChainPluginTypes'
-import { NewPluginFormComponent } from './NewPluginFormComponent'
 
 /**
 * Component to configure plugins of a generation chain of DataProvider microservice
@@ -31,9 +32,6 @@ import { NewPluginFormComponent } from './NewPluginFormComponent'
 class GenerationChainFormPluginsComponent extends React.Component {
   static propTypes = {
     chain: DataProviderShapes.GenerationChain,
-    change: PropTypes.func.isRequired,
-    initialize: PropTypes.func.isRequired,
-    getField: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -44,7 +42,6 @@ class GenerationChainFormPluginsComponent extends React.Component {
   static defaultProps = {}
 
   getPluginConfigurator = (index, title, selectLabel, ingestPluginType, pluginConf, fieldNamePrefix) => {
-    const { change, initialize, getField } = this.props
     const { moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
     return (
       <div key={ingestPluginType} style={pluginStyles}>
@@ -55,12 +52,17 @@ class GenerationChainFormPluginsComponent extends React.Component {
           backgroundColor={palette.primary1Color}
         > {index}
         </Avatar>
-        <NewPluginFormComponent
+        <Field
+          name={fieldNamePrefix}
+          component={RenderPluginField}
           title={title}
           selectLabel={selectLabel}
           ingestPluginType={ingestPluginType}
-          fieldNamePrefix={fieldNamePrefix}
           defaultPluginConfLabel="TODO CONF !!!!!!"
+          validate={ValidationHelpers.required}
+          microserviceName={STATIC_CONF.MSERVICES.DATAPROVIDER}
+          hideDynamicParameterConf
+          hideGlobalParameterConf
         />
       </div>
     )

@@ -146,7 +146,7 @@ export class RenderPluginPluginParameterField extends React.Component {
         <Subheader style={pluginParameter.label}>{label}</Subheader>
         <div>
           <RaisedButton
-            label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.choose' })}
+            label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : intl.formatMessage({ id: 'plugin.parameter.plugin.choose' })}
             onTouchTap={this.handleOpenMenu}
             style={pluginParameter.pluginButton}
           />
@@ -182,7 +182,7 @@ export class RenderPluginPluginParameterField extends React.Component {
             <Divider />
             <MenuItem
               key="none"
-              primaryText={intl.formatMessage({ id: 'microservice-management.plugin.parameter.plugin.empty.menu.item' })}
+              primaryText={intl.formatMessage({ id: 'plugin.parameter.plugin.empty.menu.item' })}
               onTouchTap={() => this.handleChange(undefined)}
               rightIcon={<Delete />}
             />

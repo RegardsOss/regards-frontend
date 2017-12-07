@@ -127,7 +127,11 @@ class RenderPluginField extends React.Component {
    */
   handleSelectPluginMetaData = (selectedPluginMetaData) => {
     const { input } = this.props
-    input.onChange(this.getPluginDefaultConf(selectedPluginMetaData))
+    if (selectedPluginMetaData) {
+      input.onChange(this.getPluginDefaultConf(selectedPluginMetaData))
+    } else {
+      input.onChange(null)
+    }
     this.setState({ selectedPluginMetaData })
   }
 
