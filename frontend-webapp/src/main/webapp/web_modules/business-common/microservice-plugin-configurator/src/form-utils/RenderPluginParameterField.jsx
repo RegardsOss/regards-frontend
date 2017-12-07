@@ -18,8 +18,11 @@
  **/
 import omit from 'lodash/omit'
 import { CommonShapes } from '@regardsoss/shape'
-import { Field, RenderTextField, RenderCheckbox, ValidationHelpers } from '@regardsoss/form-utils'
+import { RadioButton } from 'material-ui/RadioButton'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { Field, RenderTextField, RenderCheckbox, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
 import RenderPluginPluginParameterField from './RenderPluginPluginParameterField'
+import styles from '../styles'
 /**
 * Comment Here
 * @author Sébastien Binda
@@ -35,6 +38,10 @@ class RenderPluginParameterField extends React.Component {
       value: CommonShapes.PluginParameterContent,
       name: PropTypes.string,
     }),
+  }
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   static defaultProps = {
@@ -53,15 +60,36 @@ class RenderPluginParameterField extends React.Component {
   }
 
   // TODO : handle dynamic values to configure for parameters confiured as dynamic
-  renderDynamicConfiguration = name => this.props.hideDynamicParameterConf ? [] : [
-    <Field
-      key="isDynamic"
-      name={`${name}.dynamic`}
-      component={RenderCheckbox}
-      disabled={this.props.disabled}
-      label="Is dynamic ?"
-    />,
-  ]
+  renderDynamicConfiguration = (name, component, type, label, disabled, validators) => {
+    if (this.props.hideDynamicParameterConf) {
+      return null
+    }
+    const { moduleTheme: { dynamicParameter } } = this.context
+    return (
+      <div style={dynamicParameter.layout}>
+        <Field
+          key="isDynamic"
+          name={`${name}.dynamic`}
+          component={RenderRadio}
+          disabled={this.props.disabled}
+          defaultSelected={false}
+          label="Is dynamic ?"
+        >
+          <RadioButton value={false} label="Static field iop la" labelStyle={dynamicParameter.toggle.labelStyle} />
+          <RadioButton value label="Dynamic field" labelStyle={dynamicParameter.toggle.labelStyle} />
+        </Field>
+        <Field
+          name={`${name}.value`}
+          fullWidth
+          component={component}
+          disabled={disabled}
+          label={label}
+          type={type}
+          validate={validators}
+        />
+      </div>
+    )
+  }
 
   render() {
     const {
@@ -101,20 +129,7 @@ class RenderPluginParameterField extends React.Component {
           default:
             return null
         }
-        return (
-          <div>
-            <Field
-              name={`${name}.value`}
-              fullWidth
-              component={component}
-              disabled={disabled}
-              label={label}
-              type={type}
-              validate={validators}
-            />
-            {this.renderDynamicConfiguration(name)}
-          </div>
-        )
+        return this.renderDynamicConfiguration(name, component, type, label, disabled, validators)
       case 'PLUGIN':
         return (<Field
           name={`${name}.value`}
@@ -130,4 +145,4 @@ class RenderPluginParameterField extends React.Component {
     }
   }
 }
-export default RenderPluginParameterField
+export default withModuleStyle(styles)(RenderPluginParameterField)

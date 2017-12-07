@@ -143,7 +143,7 @@ class RenderPluginConfField extends React.Component {
             disabled={disabled}
             leftLabel={formatMessage({ id: 'plugin.configuration.form.inactive' })}
             rightLabel={formatMessage({ id: 'plugin.configuration.form.active' })}
-            style={moduleTheme.pluginConfiguration.form.toggle}
+            style={moduleTheme.pluginParameter.toggle}
             defaultToggled={pluginConfiguration ? pluginConfiguration.active : true}
           />
         </CardText>
