@@ -43,7 +43,7 @@ import MetaFileFormComponent from './MetaFileFormComponent'
 class MetaFilesFormComponent extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    fields: PropTypes.object, // fileds given by FieldArray from redux-form
+    fields: PropTypes.object, // fields given by FieldArray from redux-form
   }
 
   static defaultProps = {}

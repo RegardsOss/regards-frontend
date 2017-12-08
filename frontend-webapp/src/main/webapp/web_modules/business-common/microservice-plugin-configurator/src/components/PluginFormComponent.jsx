@@ -29,11 +29,11 @@ import RenderPluginConfField from '../form-utils/RenderPluginConfField'
 import messages from '../i18n'
 
 /**
- * Display edit and create fragment form
- *
+ * Display a form to configure (edition or creation) a Pluginconfiguration for a given PluginMetaData.
  * @author Xavier-Alexandre Brochard
+ * @author Sébastien Binda
  */
-export class PluginConfigurationFormComponent extends React.Component {
+export class PluginFormComponent extends React.Component {
   static propTypes = {
     pluginConfiguration: CommonShapes.PluginConfiguration,
     pluginMetaData: CommonShapes.PluginMetaData.isRequired,
@@ -57,6 +57,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     ...i18nContextType,
   }
 
+  // Redux-form field name for current plugin configuration
   static confFieldName = 'pluginConfiguration'
 
   componentDidMount() {
@@ -64,9 +65,12 @@ export class PluginConfigurationFormComponent extends React.Component {
   }
 
   onSubmit = (values) => {
-    this.props.onSubmit(values[PluginConfigurationFormComponent.confFieldName])
+    this.props.onSubmit(values[PluginFormComponent.confFieldName])
   }
 
+  /**
+   * Initialize redux-form values with the given pluginConfiguration if any or with an new empty one.
+   */
   handleInitialize = () => {
     const {
       pluginConfiguration, pluginMetaData, initialize, isEditing,
@@ -99,12 +103,11 @@ export class PluginConfigurationFormComponent extends React.Component {
         parameters: [],
       }
     }
-    initialize({ [PluginConfigurationFormComponent.confFieldName]: initialValues })
+    initialize({ [PluginFormComponent.confFieldName]: initialValues })
   }
 
   /**
    * Returns React component
-   *
    * @returns {XML}
    */
   render() {
@@ -125,7 +128,7 @@ export class PluginConfigurationFormComponent extends React.Component {
           <CardTitle title={title} />
           <CardText>
             <Field
-              name={PluginConfigurationFormComponent.confFieldName}
+              name={PluginFormComponent.confFieldName}
               component={RenderPluginConfField}
               microserviceName={microserviceName}
               pluginMetaData={pluginMetaData}
@@ -151,5 +154,5 @@ export class PluginConfigurationFormComponent extends React.Component {
 
 export default reduxForm({
   form: 'plugin-configuration-form',
-})(withI18n(messages)(PluginConfigurationFormComponent))
+})(withI18n(messages)(PluginFormComponent))
 

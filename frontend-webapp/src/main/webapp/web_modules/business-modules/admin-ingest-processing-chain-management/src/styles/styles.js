@@ -20,6 +20,7 @@ const styles = theme => ({
   pluginStyles: {
     display: 'flex',
     alignItems: 'baseline',
+    width: '100%',
   },
   avatarStyles: {
     marginRight: 10,

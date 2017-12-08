@@ -16,32 +16,36 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import omit from 'lodash/omit'
 import { CommonShapes } from '@regardsoss/shape'
+import { fieldInputPropTypes } from 'redux-form'
 import { RadioButton } from 'material-ui/RadioButton'
+import SubHeader from 'material-ui/Subheader'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { Field, RenderTextField, RenderCheckbox, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { Field, FieldArray, RenderArrayTextField, RenderTextField, RenderCheckbox, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
 import RenderPluginPluginParameterField from './RenderPluginPluginParameterField'
 import styles from '../styles'
+import messages from '../i18n'
+
 /**
-* Comment Here
+* Redux-form compatible field component to display a PluginParameter configurator form.
 * @author Sébastien Binda
 */
 class RenderPluginParameterField extends React.Component {
   static propTypes = {
-    microserviceName: PropTypes.string.isRequired,
-    pluginParameterType: CommonShapes.PluginParameterType,
-    hideDynamicParameterConf: PropTypes.bool,
-    disabled: PropTypes.bool,
+    microserviceName: PropTypes.string.isRequired, // microservice name of the plugin
+    pluginParameterType: CommonShapes.PluginParameterType, // Type of the parameter to configure
+    hideDynamicParameterConf: PropTypes.bool, // Hide the dynamic configuration of parameter
+    disabled: PropTypes.bool, // Disable all fields
     // From redux field
-    input: PropTypes.shape({
-      value: CommonShapes.PluginParameterContent,
-      name: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   static defaultProps = {
@@ -51,49 +55,119 @@ class RenderPluginParameterField extends React.Component {
 
   componentDidMount() {
     const { input, pluginParameterType } = this.props
-    if (!input.value && pluginParameterType.defaultValue) {
+    if (!input.value) {
       input.onChange({
-        ...omit(input.value, 'value'),
         value: pluginParameterType.defaultValue,
+        type: pluginParameterType.type,
+        name: pluginParameterType.name,
       })
     }
   }
 
-  // TODO : handle dynamic values to configure for parameters confiured as dynamic
-  renderDynamicConfiguration = (name, component, type, label, disabled, validators) => {
+  /**
+   * Render a radio button to select the configuration mode of the parameter : static / dynamic.
+   * A static parameter is configured with a fixed value.
+   * A dynmaic parameter is configured to set the list of possible values for the parameter.
+   * @param {*} name: parameter name
+   */
+  renderDynamicRadioButton = (name) => {
     if (this.props.hideDynamicParameterConf) {
       return null
     }
-    const { moduleTheme: { dynamicParameter } } = this.context
+    const { moduleTheme: { dynamicParameter }, intl: { formatMessage } } = this.context
     return (
-      <div style={dynamicParameter.layout}>
+      <div style={dynamicParameter.toggle.style}>
         <Field
-          key="isDynamic"
           name={`${name}.dynamic`}
           component={RenderRadio}
           disabled={this.props.disabled}
           defaultSelected={false}
-          label="Is dynamic ?"
         >
-          <RadioButton value={false} label="Static field iop la" labelStyle={dynamicParameter.toggle.labelStyle} />
-          <RadioButton value label="Dynamic field" labelStyle={dynamicParameter.toggle.labelStyle} />
+          <RadioButton value={false} label={formatMessage({ id: 'plugin.parameter.static.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
+          <RadioButton value label={formatMessage({ id: 'plugin.parameter.dynamic.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
         </Field>
-        <Field
-          name={`${name}.value`}
+      </div >
+    )
+  }
+
+  /**
+   * Render the global configuration of the typed parameter
+   * @param {string} name: parameter name
+   * @param {bool} dynamic: display dynamic configurator ?
+   * @param {element} component: React component to render field
+   * @param {string} type: type of parameter
+   * @param {string} label: label of parameter
+   * @param {bool} disabled: disable the configurator field ?
+   * @param {[func]} validators: List of validator functions
+   */
+  renderParamConfiguration = (name, dynamic, component, type, label, disabled, validators) => {
+    const { moduleTheme: { dynamicParameter } } = this.context
+    const parameters = (
+      <div style={dynamicParameter.layout}>
+        {this.renderDynamicRadioButton(name)}
+        {this.renderParamValueConf(name, dynamic, component, type, label, disabled, validators)}
+      </div >
+    )
+    let header
+    if (!this.props.hideDynamicParameterConf) {
+      header = <SubHeader>{label}</SubHeader>
+    }
+    return (
+      <div>
+        {header}
+        {parameters}
+      </div>
+    )
+  }
+
+  /**
+  * Render the value configuration of the typed parameter
+  * @param {string} name: parameter name
+  * @param {bool} dynamic: display dynamic configurator ?
+  * @param {element} component: React component to render field
+  * @param {string} type: type of parameter
+  * @param {string} label: label of parameter
+  * @param {bool} disabled: disable the configurator field ?
+  * @param {[func]} validators: List of validator functions
+  */
+  renderParamValueConf = (name, dynamic, component, type, label, disabled, validators) => {
+    if (this.props.hideDynamicParameterConf && dynamic) {
+      return null
+    }
+    if (dynamic) {
+      const { intl: { formatMessage } } = this.context
+      return (
+        <FieldArray
+          name={`${name}.dynamicsValues`}
           fullWidth
-          component={component}
+          component={RenderArrayTextField}
+          fieldsListLabel={formatMessage({ id: 'plugin.parameter.dynamicvalues.title' })}
           disabled={disabled}
+          valueField="value"
           label={label}
           type={type}
           validate={validators}
         />
-      </div>
+      )
+    }
+    return (
+      <Field
+        name={`${name}.value`}
+        fullWidth
+        component={component}
+        disabled={disabled}
+        floatingLabelText={this.props.hideDynamicParameterConf ? label : null}
+        hintText={label}
+        label={this.props.hideDynamicParameterConf ? label : null}
+        type={type}
+        validate={validators}
+      />
     )
   }
 
   render() {
     const {
-      input: { name }, pluginParameterType, microserviceName, disabled,
+      input: { name, value }, pluginParameterType, microserviceName, disabled,
     } = this.props
 
     let label = pluginParameterType.label || pluginParameterType.name
@@ -129,7 +203,7 @@ class RenderPluginParameterField extends React.Component {
           default:
             return null
         }
-        return this.renderDynamicConfiguration(name, component, type, label, disabled, validators)
+        return this.renderParamConfiguration(name, value.dynamic, component, type, label, disabled, validators)
       case 'PLUGIN':
         return (<Field
           name={`${name}.value`}
@@ -145,4 +219,4 @@ class RenderPluginParameterField extends React.Component {
     }
   }
 }
-export default withModuleStyle(styles)(RenderPluginParameterField)
+export default withModuleStyle(styles)(withI18n(messages)(RenderPluginParameterField))

@@ -21,6 +21,10 @@ const microserviceManagementStyles = theme => ({
     pluginButton: {
       marginLeft: 10,
     },
+    parameterPaper: {
+      margin: '5px',
+      padding: '0px 5px 15px 10px',
+    },
     iconMenu: {
       visibility: 'hidden',
     },
@@ -45,9 +49,16 @@ const microserviceManagementStyles = theme => ({
   dynamicParameter: {
     layout: {
       display: 'flex',
+      alignItems: 'baseline',
     },
     toggle: {
-      labelStyle: { width: '100%' },
+      style: {
+        flexShrink: 0,
+      },
+      labelStyle: {
+        width: '100%',
+        marginRight: '20px',
+      },
     },
   },
   renderer: {

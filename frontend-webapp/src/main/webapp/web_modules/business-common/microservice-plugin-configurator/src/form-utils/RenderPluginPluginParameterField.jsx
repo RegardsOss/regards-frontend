@@ -31,6 +31,7 @@ import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
+import { fieldInputPropTypes } from 'redux-form'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
@@ -43,20 +44,28 @@ import {
 
 /**
  * Component displaying a menu allowing to pick a plugin configuration for the passed plugin paramater.
- * Connected to redux store.
- *
  * @author Xavier-Alexandre Brochard
+ * @author Sébastien Binda
  */
 export class RenderPluginPluginParameterField extends React.Component {
+  /**
+  * Redux: map dispatch to props function
+  * @param {*} dispatch: redux dispatch function
+  * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+  * @return {*} list of component properties extracted from redux state
+  */
+  static mapDispatchToProps = dispatch => ({
+    fetchPluginConfigurationList: (pluginType, microserviceName) =>
+      dispatch(pluginParameterConfigurationActions.fetchEntityList({ microserviceName }, { pluginType })),
+    fetchPluginMetadataList: (microserviceName, pluginType) => dispatch(pluginParameterMetaDataActions.fetchEntityList({ microserviceName }, { pluginType })),
+  })
+
   static propTypes = {
     label: PropTypes.string.isRequired,
     microserviceName: PropTypes.string.isRequired,
     pluginParameterType: CommonShapes.PluginParameterType.isRequired,
     // From redux field
-    input: PropTypes.shape({
-      value: CommonShapes.PluginParameterContent,
-      name: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
     // form mapStateToProps
     fetchPluginMetadataList: PropTypes.func.isRequired,
     fetchPluginConfigurationList: PropTypes.func.isRequired,
@@ -85,13 +94,14 @@ export class RenderPluginPluginParameterField extends React.Component {
     const pluginParameter = this.props.input.value
 
     if (pluginParameterType.type) {
-      //1. Retrieve pluginMetadatas for the microservice
+      // 1. Retrieve pluginMetadatas for the microservice.
       fetchPluginMetadataList(microserviceName, pluginParameterType.type).then((actionResults) => {
         this.setState({
           pluginMetaDataList: values(get(actionResults, 'payload.entities.pluginMetaData', {})),
         })
       })
 
+      // 2. Retrieve all plugin configuration available for the plugin type.
       fetchPluginConfigurationList(pluginParameterType.type, microserviceName).then((actionResults) => {
         const pluginConfigurationList = values(get(actionResults, 'payload.entities.pluginConfiguration', {}))
         const selectedPluginConfiguration = find(pluginConfigurationList, el => el.content.id === get(pluginParameter, 'pluginConfiguration.id'))
@@ -103,12 +113,18 @@ export class RenderPluginPluginParameterField extends React.Component {
     }
   }
 
+  /**
+   * Function to open the plugin selector menu.
+   */
   handleOpenMenu = () => {
     this.setState({
       openMenu: true,
     })
   }
 
+  /**
+   * Function to set the selected plugin from the menu
+   */
   handleOnRequestChange = (value) => {
     this.setState({
       openMenu: value,
@@ -193,14 +209,5 @@ export class RenderPluginPluginParameterField extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  fetchPluginConfigurationList: (pluginType, microserviceName) =>
-    dispatch(pluginParameterConfigurationActions.fetchEntityList({ microserviceName }, { pluginType })),
-  fetchPluginMetadataList: (microserviceName, pluginType) => dispatch(pluginParameterMetaDataActions.fetchEntityList({ microserviceName }, { pluginType })),
-})
-
-const mapStateToProps = (state, ownProps) => ({
-})
-
-const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(RenderPluginPluginParameterField)
+const connectedComponent = connect(null, RenderPluginPluginParameterField.mapDispatchToProps)(RenderPluginPluginParameterField)
 export default withModuleStyle(styles)(connectedComponent)

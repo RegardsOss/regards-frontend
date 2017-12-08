@@ -19,7 +19,6 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-
   'plugin.configuration.form.create.title': 'Ajouter une configuration',
   'plugin.configuration.form.edit.title': 'Editer la configuration {name}',
   'plugin.configuration.form.pluginClassName': 'Classe du plugin (chemin complet)',
@@ -33,14 +32,9 @@ const messages = Object.assign({
   'plugin.configuration.form.action.submit.save': 'Sauvegarder',
   'plugin.configuration.form.action.cancel': 'Annuler',
 
-  'plugin.parameter.list.title': 'Paramètres',
-  'plugin.parameter.dynamicvalue.add': 'Ajouter une valeur possible',
-  'plugin.parameter.dynamicvalue.dialog.title': 'Ajouter une valeur possible',
-  'plugin.parameter.dynamicvalue.dialog.placeholder': 'Valeur',
-  'plugin.parameter.dynamicvalue.dialog.cancel': 'Annuler',
-  'plugin.parameter.dynamicvalue.dialog.submit': 'Ajouter',
-  'plugin.parameter.dynamicvalue.setdefault': 'Par défaut',
-  'plugin.parameter.dynamicvalue.remove': 'Supprimer',
+  'plugin.parameter.static.field': 'Fixer la valeur du paramètre',
+  'plugin.parameter.dynamic.field': 'Définir les valeurs possibles du paramètre',
+  'plugin.parameter.dynamicvalues.title': 'Valeurs possibles du paramètre',
 
   'plugin.parameter.plugin.choose': 'Choisir un plugin',
   'plugin.parameter.plugin.empty.menu.item': 'Aucun',

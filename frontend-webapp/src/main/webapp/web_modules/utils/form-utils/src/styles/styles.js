@@ -76,5 +76,22 @@ export default function styles(theme) {
         overflow: 'auto',
       },
     },
+    arrayField: {
+      layout: {
+        display: 'flex',
+        alignItems: 'baseline',
+      },
+      list: {
+        paddingRight: '10px',
+      },
+      listContent: {
+        maxHeight: '150px',
+        minWidth: '200px',
+        overflow: 'auto',
+      },
+      text: {
+        margin: '0px 15px',
+      },
+    },
   }
 }

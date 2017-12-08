@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import RenderTextField from './render/RenderTextField'
+import RenderArrayTextField from './render/RenderArrayTextField'
 import RenderSelectField from './render/RenderSelectField'
 import RenderCheckbox from './render/RenderCheckbox'
 import RenderRadio from './render/RenderRadio'
@@ -45,6 +46,7 @@ module.exports = {
   RenderAutoCompleteField,
   RenderPageableAutoCompleteField,
   RenderTextField,
+  RenderArrayTextField,
   RenderToggle,
   RenderDoubleLabelToggle,
   RenderSelectField,

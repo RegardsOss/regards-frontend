@@ -23,20 +23,21 @@ const RenderRadio = ({
   input, onSelect, defaultSelected, children, meta: { touched, error }, intl,
 }, { muiTheme }) => (
   <div>
-    <RadioButtonGroup
-      {...input}
-      defaultSelected={defaultSelected}
-      onChange={(event, value) => {
-        if (onSelect) {
-          onSelect(event, value, input)
-        }
-        return input.onChange(value)
-      }}
-    >
-      {children}
-    </RadioButtonGroup>
-    {touched && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
-  </div>
+      <RadioButtonGroup
+        {...input}
+        defaultSelected={defaultSelected}
+        valueSelected={(input.value || input.value === false) ? input.value : undefined}
+        onChange={(event, value) => {
+          if (onSelect) {
+            onSelect(event, value, input)
+          }
+          return input.onChange(value)
+        }}
+      >
+        {children}
+      </RadioButtonGroup>
+      {touched && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
+    </div>
 )
 RenderRadio.contextTypes = {
   ...themeContextType,
@@ -54,7 +55,8 @@ RenderRadio.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,
   }),
-  defaultSelected: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  defaultSelected: PropTypes.any,
   onSelect: PropTypes.func,
   children: PropTypes.arrayOf(PropTypes.element),
 }

@@ -19,6 +19,8 @@
 import get from 'lodash/get'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import IconButton from 'material-ui/IconButton'
+import Paper from 'material-ui/Paper'
+import { fieldInputPropTypes } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { Card, CardText } from 'material-ui/Card'
@@ -33,7 +35,7 @@ const requiredStringValidator = [string, required]
 const requiredNumberValidator = [number, required]
 
 /**
-* Comment Here
+* Redux-form compatible field component to display a PluginConfiguration form.
 * @author Sébastien Binda
 */
 class RenderPluginConfField extends React.Component {
@@ -41,16 +43,15 @@ class RenderPluginConfField extends React.Component {
     microserviceName: PropTypes.string.isRequired, // Name of the microservice of the plugin
     pluginMetaData: CommonShapes.PluginMetaDataContent.isRequired, // PluginMetadata used to configure new plugin configuration
     hideGlobalParameterConf: PropTypes.bool, // Use this parameter to hide the global configuration of plugins
-    hideDynamicParameterConf: PropTypes.bool,
-    disabled: PropTypes.bool,
+    hideDynamicParameterConf: PropTypes.bool, // Hide dynamic configuration of parameters
+    disabled: PropTypes.bool, // Disable all fields of this form
+    fullWidth: PropTypes.bool,
     // From redux field
-    input: PropTypes.shape({
-      value: CommonShapes.PluginConfigurationContent,
-      name: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
   }
 
   static defaultProps = {
+    fullWidth: false,
     disabled: false,
     hideGlobalParameterConf: false,
     hideDynamicParameterConf: false,
@@ -59,6 +60,10 @@ class RenderPluginConfField extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  componentDidMount() {
+    console.error('RenderPluginConfField', this.props.input)
   }
 
   getFormFieldName = fieldName => `${this.props.input.name}.${fieldName}`
@@ -153,16 +158,16 @@ class RenderPluginConfField extends React.Component {
 
   renderParameters = () => {
     const { pluginMetaData, hideDynamicParameterConf, disabled } = this.props
+    const { moduleTheme: { pluginParameter: { parameterPaper } } } = this.context
     const parameters = get(pluginMetaData, 'parameters', [])
     if (parameters.length === 0) {
       return null
     }
     return (
-      <Card>
-        <CardText>
-          {parameters.map((pluginParameterType, index) => (
+      <div>
+        {parameters.map((pluginParameterType, index) => (
+          <Paper key={pluginParameterType.name} style={parameterPaper}>
             <Field
-              key={pluginParameterType.name}
               fullWidth
               component={RenderPluginParameterField}
               disabled={disabled}
@@ -170,9 +175,10 @@ class RenderPluginConfField extends React.Component {
               microserviceName={this.props.microserviceName}
               pluginParameterType={pluginParameterType}
               hideDynamicParameterConf={hideDynamicParameterConf}
-            />))}
-        </CardText>
-      </Card>
+            />
+          </Paper>
+        ))}
+      </div>
     )
   }
 
@@ -189,8 +195,9 @@ class RenderPluginConfField extends React.Component {
   }
 
   render() {
+    const divStyle = this.props.fullWidth ? { width: '100%' } : {}
     return (
-      <div>
+      <div style={divStyle}>
         {this.renderGlobalConf()}
         {this.renderParameters()}
       </div>

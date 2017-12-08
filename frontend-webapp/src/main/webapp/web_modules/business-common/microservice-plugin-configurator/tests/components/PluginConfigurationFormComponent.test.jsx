@@ -20,8 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
-import { PluginConfigurationFormComponent } from '../../src/components/PluginConfigurationFormComponent'
-import PluginConfigurationComponent from '../../src/components/PluginConfigurationComponent'
+import { PluginFormComponent } from '../../src/components/PluginFormComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -34,7 +33,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing plugin configuration form c
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(PluginConfigurationFormComponent)
+    assert.isDefined(PluginFormComponent)
     assert.isDefined(Card)
   })
 
@@ -73,10 +72,8 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing plugin configuration form c
       initialize: () => { },
       change: () => { },
     }
-    const enzymeWrapper = shallow(<PluginConfigurationFormComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<PluginFormComponent {...props} />, { context })
     const subComponent = enzymeWrapper.find(Card)
     expect(subComponent).to.have.length(1)
-    const pluginConfComponent = enzymeWrapper.find(PluginConfigurationComponent)
-    expect(pluginConfComponent).to.have.length(1)
   })
 })

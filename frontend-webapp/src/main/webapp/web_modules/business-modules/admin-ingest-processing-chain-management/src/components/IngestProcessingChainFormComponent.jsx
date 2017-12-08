@@ -83,13 +83,13 @@ export class IngestProcessingChainFormComponent extends React.Component {
         <Field
           name={fieldNamePrefix}
           component={RenderPluginField}
+          fullWidth
           title={title}
           selectLabel={selectLabel}
-          ingestPluginType={ingestPluginType}
+          pluginType={ingestPluginType}
           defaultPluginConfLabel={defaultPluginLabel}
           validate={isRequired ? ValidationHelpers.required : null}
           microserviceName={STATIC_CONF.MSERVICES.INGEST}
-          hideDynamicParameterConf
           hideGlobalParameterConf
         />
       </div>

@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import isString from 'lodash/isString'
-import { CommonShapes } from '@regardsoss/shape'
-import { RenderHelper } from '@regardsoss/form-utils'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
+import { Field, RenderHelper } from '@regardsoss/form-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import PluginListContainer from '../containers/PluginListContainer'
@@ -27,31 +28,26 @@ import styles from '../styles'
 import messages from '../i18n'
 
 /**
-* Comment Here
+* Redux-form compatible field component to display a Plugin selector asscioated to a Plugin configurator form.
 * @author Sébastien Binda
 */
 class RenderPluginField extends React.Component {
   static propTypes = {
-    title: PropTypes.string,
-    selectLabel: PropTypes.string,
-    ingestPluginType: PropTypes.string.isRequired,
-    defaultPluginConfLabel: PropTypes.string.isRequired,
-    storePath: PropTypes.arrayOf(PropTypes.string).isRequired,
-    microserviceName: PropTypes.string.isRequired,
-    hideGlobalParameterConf: PropTypes.bool,
-    hideDynamicParameterConf: PropTypes.bool,
+    title: PropTypes.string, // Title of display in top of the form
+    selectLabel: PropTypes.string, // Label displayed in the selectable list of plugins
+    pluginType: PropTypes.string.isRequired, // Type of plugin to configure
+    microserviceName: PropTypes.string.isRequired, // Name of the microservice associated to the plugin type
+    defaultPluginConfLabel: PropTypes.string, // If set, the label of a new plugin configuration is initialized with
+    hideGlobalParameterConf: PropTypes.bool, // Hide the global parameters configuration
+    hideDynamicParameterConf: PropTypes.bool, // Hide the dynmaic configuration of parameters
+    fullWidth: PropTypes.bool, // Display the form with full width
     // From redux field
-    input: PropTypes.shape({
-      value: CommonShapes.PluginConfigurationContent,
-      name: PropTypes.string,
-    }),
-    meta: PropTypes.shape({
-      touched: PropTypes.bool,
-      error: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
   }
 
   static defaultProps = {
+    fullWidth: false,
     hideGlobalParameterConf: false,
     hideDynamicParameterConf: false,
   }
@@ -63,13 +59,21 @@ class RenderPluginField extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    selectedPluginMetaData: null,
+  constructor(props) {
+    super(props)
+    console.error('CONSTRUCTOR', props)
+    this.state = {
+      selectedPluginMetaData: null,
+    }
+  }
+
+  componentDidMount() {
+    console.error('RenderPluginField', this.props.input)
   }
 
   getPluginSelector = () => {
     const {
-      ingestPluginType, input: { value }, selectLabel, title, storePath, meta: { error }, microserviceName,
+      pluginType, input: { value }, selectLabel, title, meta: { error }, microserviceName,
     } = this.props
     const { intl } = this.context
     const errorMessage = error && isString(error) ? RenderHelper.getErrorMessage(true, error, intl) : undefined
@@ -78,8 +82,7 @@ class RenderPluginField extends React.Component {
         title={title}
         selectLabel={selectLabel}
         microserviceName={microserviceName}
-        pluginType={ingestPluginType}
-        storePath={storePath}
+        pluginType={pluginType}
         selectedPluginId={value ? value.pluginId : null}
         handleSelect={this.handleSelectPluginMetaData}
         displayTitle={false}
@@ -90,16 +93,16 @@ class RenderPluginField extends React.Component {
 
   getPluginConfigurator = () => {
     const {
-      input, input: { value }, microserviceName, defaultPluginConfLabel, hideGlobalParameterConf, hideDynamicParameterConf,
+      input, microserviceName, defaultPluginConfLabel, hideGlobalParameterConf, hideDynamicParameterConf,
     } = this.props
 
     if (this.state.selectedPluginMetaData) {
       return (
-        <RenderPluginConfField
-          input={input}
+        <Field
+          name={input.name}
+          component={RenderPluginConfField}
           microserviceName={microserviceName}
           pluginMetaData={this.state.selectedPluginMetaData}
-          formMode={value && value.pluginId === this.state.selectedPluginMetaData.pluginId ? 'edit' : 'create'}
           newPluginConfLabel={defaultPluginConfLabel}
           hideGlobalParameterConf={hideGlobalParameterConf}
           hideDynamicParameterConf={hideDynamicParameterConf}
@@ -125,19 +128,23 @@ class RenderPluginField extends React.Component {
    * Callback when a plugin metadata is selected.
    * @param {*} selectedPluginMetaData : selected pluginMetaData
    */
-  handleSelectPluginMetaData = (selectedPluginMetaData) => {
+  handleSelectPluginMetaData = (selectedPluginMetaData, isInitialization) => {
     const { input } = this.props
-    if (selectedPluginMetaData) {
-      input.onChange(this.getPluginDefaultConf(selectedPluginMetaData))
-    } else {
-      input.onChange(null)
-    }
     this.setState({ selectedPluginMetaData })
+    if (!isInitialization) {
+      if (selectedPluginMetaData) {
+        input.onChange(this.getPluginDefaultConf(selectedPluginMetaData))
+      } else {
+        input.onChange(null)
+      }
+    }
   }
 
   render() {
+    const divStyle = this.props.fullWidth ? { width: '100%' } : {}
+
     return (
-      <div>
+      <div style={divStyle}>
         {this.getPluginSelector()}
         {this.getPluginConfigurator()}
       </div>

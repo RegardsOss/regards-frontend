@@ -44,7 +44,7 @@ class GenerationChainFormPluginsComponent extends React.Component {
   getPluginConfigurator = (index, title, selectLabel, ingestPluginType, pluginConf, fieldNamePrefix) => {
     const { moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
     return (
-      <div key={ingestPluginType} style={pluginStyles}>
+      <div key={ingestPluginType}>
         <Avatar
           size={30}
           style={avatarStyles}

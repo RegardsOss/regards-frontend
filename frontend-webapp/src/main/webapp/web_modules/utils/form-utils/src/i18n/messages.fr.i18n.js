@@ -53,6 +53,11 @@ const messages = {
   'renderer.fileField.no.file.selected': 'Aucun fichier sélectionné',
 
   'render.pageableAutoCompleteField.loading': 'Chargement ...',
+
+  'render.array-field.values.title': 'Valeurs définies',
+  'render.array-field.add.new.value.button': 'Ajouter',
+  'render.array-field.new.value.hint': 'Nouvelle valeur ...',
+
 }
 
 export default messages

@@ -45,7 +45,7 @@ const ResourceIconAction = withResourceDisplayControl(IconButton)
  *
  * @author Xavier-Alexandre Brochard
  */
-class PluginConfigurationComponent extends React.Component {
+export class PluginConfigurationComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -83,6 +83,9 @@ class PluginConfigurationComponent extends React.Component {
     const { moduleTheme } = this.context
 
     const ConfForm = reduxForm({ form: `edit-plugin-conf-${pluginConfiguration.content.id}` })(RenderPluginConfField)
+    const input = {
+      value: pluginConfiguration,
+    }
     const conf = (
       <ConfForm
         microserviceName={microserviceName}
@@ -90,10 +93,8 @@ class PluginConfigurationComponent extends React.Component {
         disabled
         hideGlobalParameterConf
         hideDynamicParameterConf
-        // From redux field
-        input={{
-          value: pluginConfiguration,
-        }}
+        // Workaround to simulate redux form
+        input={input}
       />)
 
 

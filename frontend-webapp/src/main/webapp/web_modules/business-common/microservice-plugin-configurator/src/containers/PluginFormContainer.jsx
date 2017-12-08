@@ -26,11 +26,11 @@ import { pluginConfigurationByTypeActions } from '../clients/PluginConfiguration
 import { pluginMetadataActions } from '../clients/PluginMetadataClient'
 
 /**
- * Container connecting the plugin configuration from to the redux store and handling user actions.
- *
+ * Container to connect with server informations to display a PluginConfigurationForm
+ * @author Sébastien Binda
  * @author Xavier-Alexandre Brochard
  */
-export class PluginConfigurationFormContainer extends React.Component {
+export class PluginFormContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -179,6 +179,6 @@ export class PluginConfigurationFormContainer extends React.Component {
 }
 
 export default connect(
-  PluginConfigurationFormContainer.mapStateToProps,
-  PluginConfigurationFormContainer.mapDispatchToProps,
-)(PluginConfigurationFormContainer)
+  PluginFormContainer.mapStateToProps,
+  PluginFormContainer.mapDispatchToProps,
+)(PluginFormContainer)
