@@ -62,10 +62,6 @@ class RenderPluginConfField extends React.Component {
     ...i18nContextType,
   }
 
-  componentDidMount() {
-    console.error('RenderPluginConfField', this.props.input)
-  }
-
   getFormFieldName = fieldName => `${this.props.input.name}.${fieldName}`
 
   renderGlobalConf = () => {

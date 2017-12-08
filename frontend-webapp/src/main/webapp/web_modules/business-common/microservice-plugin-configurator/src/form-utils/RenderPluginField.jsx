@@ -61,14 +61,9 @@ class RenderPluginField extends React.Component {
 
   constructor(props) {
     super(props)
-    console.error('CONSTRUCTOR', props)
     this.state = {
       selectedPluginMetaData: null,
     }
-  }
-
-  componentDidMount() {
-    console.error('RenderPluginField', this.props.input)
   }
 
   getPluginSelector = () => {
