@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- LICENSE_PLACEHOLDER -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<name>REGARDS Frontend</name>
 	<groupId>fr.cs.regards</groupId>
 	<artifactId>frontend</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-
+	<version>1.1.0</version>
 	<packaging>pom</packaging>
-
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.5.RELEASE</version>
+		<groupId>fr.cnes.regards</groupId>
+		<artifactId>regards-aggregator-parent</artifactId>
+		<version>1.1.0</version>
 	</parent>
-
 	<modules>
 		<module>frontend-boot</module>
 		<module>frontend-webapp</module>
 	</modules>
-
-	<properties>
-		<regards.version>1.0.0-SNAPSHOT</regards.version>
-	</properties>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>fr.cnes.regards</groupId>
 				<artifactId>frontend-boot</artifactId>
-				<version>${regards.version}</version>
+				<version>${project.version}</version>
 				<type>war</type>
 			</dependency>
 			<dependency>
 				<groupId>fr.cnes.regards</groupId>
 				<artifactId>frontend-webapp</artifactId>
-				<version>${regards.version}</version>
+				<version>${project.version}</version>
 				<type>war</type>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
+	<distributionManagement>
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>archivas</id>
+			<name>Archiva Managed Snapshot Repository</name>
+			<url>http://172.26.46.158:8010/repository/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>

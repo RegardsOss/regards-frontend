@@ -1,6 +1,21 @@
 /* eslint-disable react-perf/jsx-no-new-object-as-prop */
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
@@ -55,7 +70,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
           content: {
             id: pluginDefinitionId,
             name: 'plugin-test',
-            type: 'test',
+            type: 'CRITERIA',
             sourcePath: '/test/plugin.js',
           },
         }}
@@ -70,7 +85,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly that a plugin is loading', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={'0'}
+        pluginInstanceId={0}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -88,7 +103,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render correctly a plugin', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={'0'}
+        pluginInstanceId={0}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -101,10 +116,13 @@ describe('[PLUGINS] Testing Plugins load', () => {
             fr: {},
             en: {},
           },
+          styles: {
+            styles: () => { },
+          },
           info: {
             name: 'testPlugin',
             description: 'description',
-            version: 1.0,
+            version: '1.0',
             author: 'Sébastien Binda',
             company: 'CS-SI',
             type: 'CRITERIA',
@@ -120,10 +138,10 @@ describe('[PLUGINS] Testing Plugins load', () => {
     expect(wrapper.find(IntlProvider)).to.have.length(1)
   })
 
-  it('Should render correctly a element with a plugin as a prop', () => {
+  it('Should render correctly an element with a plugin as a prop', () => {
     const wrapper = shallow(
       <UnconnectedPluginLoader
-        pluginInstanceId={'0'}
+        pluginInstanceId={0}
         pluginPath="test"
         pluginConf={{
           parameter: 'value',
@@ -136,10 +154,11 @@ describe('[PLUGINS] Testing Plugins load', () => {
             fr: {},
             en: {},
           },
+          styles: {},
           info: {
             name: 'testPlugin',
             description: 'description',
-            version: 1.0,
+            version: '1.0',
             author: 'Sébastien Binda',
             company: 'CS-SI',
             type: 'CRITERIA',

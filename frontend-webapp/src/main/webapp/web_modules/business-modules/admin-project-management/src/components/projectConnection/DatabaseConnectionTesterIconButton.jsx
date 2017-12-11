@@ -1,5 +1,20 @@
 /*
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { FormattedMessage } from 'react-intl'
 import IconButton from 'material-ui/IconButton'
@@ -10,8 +25,8 @@ import Warning from 'material-ui/svg-icons/alert/warning'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import OnHoverSwitchIconButton from '@regardsoss/components/src/buttons/OnHoverSwitchIconButton'
-import ProjectConnection from '@regardsoss/model/src/admin/ProjectConnection'
-import EnumConnectivity from '@regardsoss/model/src/admin/EnumConnectivity'
+import { AdminShapes } from '@regardsoss/shape'
+import { EnumConnectivity } from '@regardsoss/domain/admin'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
 
 /**
@@ -23,7 +38,7 @@ import ConnectionTesterProgress from './ConnectionTesterProgress'
 class DatabaseConnectionTesterIconButton extends React.Component {
 
   static propTypes = {
-    projectConnection: ProjectConnection.isRequired,
+    projectConnection: AdminShapes.ProjectConnection.isRequired,
     testConnection: PropTypes.func.isRequired,
     refreshConnection: PropTypes.func.isRequired,
   }

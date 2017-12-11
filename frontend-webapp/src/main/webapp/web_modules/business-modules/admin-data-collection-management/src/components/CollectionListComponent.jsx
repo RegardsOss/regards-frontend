@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
@@ -38,6 +53,8 @@ export class CollectionListComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static CREATE_DEPENDENCIES = [collectionActions.getDependency(RequestVerbEnum.POST)]
 
   state = {
     deleteDialogOpened: false,
@@ -163,7 +180,7 @@ export class CollectionListComponent extends React.Component {
                 id="collection.list.action.add"
               />
             }
-            mainHateoasDependencies={[collectionActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={CollectionListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

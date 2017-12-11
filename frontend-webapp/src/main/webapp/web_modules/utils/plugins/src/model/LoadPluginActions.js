@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import root from 'window-or-global'
 import get from 'lodash/get'
@@ -31,9 +46,9 @@ export const savePluginLoaded = ({ sourcePath, info, plugin, reducer, messages, 
 
 /**
  * Load a plugin with a given name and a given sourcePath
- * @param pluginName
- * @param sourcePath
- * @param dispatchAction
+ * @param {string} sourcePath plugin source path
+ * @param {function}onErrorCallback error callback, first param is attempted loading path
+ * @param {function} dispatchAction Dispatch success action (can also be used as success callback, first param is action to dispatch)
  */
 export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
   let fullSourcePlugin = ''
@@ -43,7 +58,6 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
     } else {
       fullSourcePlugin = `${root.location.origin}/${sourcePath}`
     }
-
     // Add dateNow tag at the end of the plugin sourcePath to allow reload of the plugin file.
     const sourcePathPluginWithDateTag = `${fullSourcePlugin}?${Date.now()}`
 
@@ -59,6 +73,7 @@ export const loadPlugin = (sourcePath, onErrorCallback, dispatchAction) => {
       scriptjs(sourcePathPluginWithDateTag, sourcePath)
     } catch (e) {
       console.error('Error getting plugin', e)
+      onErrorCallback(fullSourcePlugin)
     }
     root.document.addEventListener('error', (e, url) => {
       if (get(e, 'srcElement.src', null) === sourcePathPluginWithDateTag) {

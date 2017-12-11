@@ -1,6 +1,22 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import trim from 'lodash/trim'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { RenderTextField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
@@ -8,7 +24,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, defaultCustomConfiguration } from '@regardsoss/theme'
 import moduleStyles from '../styles/styles'
 
-const { validRequiredString } = ValidationHelpers
+const nameValidator = [ValidationHelpers.required, ValidationHelpers.string]
 
 /**
  * Display edit and create fragment form
@@ -82,8 +98,9 @@ export class ThemeCreateComponent extends React.Component {
             name="name"
             component={RenderTextField}
             type="text"
-            validate={validRequiredString}
+            validate={nameValidator}
             label={intl.formatMessage({ id: 'application.theme.create.form.name' })}
+            normalize={trim}
           />
           {actions}
         </form>

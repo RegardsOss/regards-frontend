@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
@@ -10,7 +25,7 @@ import { FormattedMessage } from 'react-intl'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import ContentCopy from 'material-ui/svg-icons/content/content-copy'
-import { CardActionsComponent, SVGIconFromString } from '@regardsoss/components'
+import { CardActionsComponent, withConfirmDialog } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
@@ -22,6 +37,7 @@ import moduleStyles from '../styles/styles'
 const styles = moduleStyles().plugin
 const ResourceIconAction = withResourceDisplayControl(IconButton)
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const ConfirmableHateoasIconAction = withConfirmDialog(HateoasIconAction)
 const HateoasToggle = withHateoasDisplayControl(Toggle)
 
 /**
@@ -33,6 +49,7 @@ class ServiceConfigurationListComponent extends React.Component {
 
   static propTypes = {
     uiPluginConfigurationList: AccessShapes.UIPluginConfList,
+    uiPluginDefinition: AccessShapes.UIPluginDefinition.isRequired,
     plugin: AccessShapes.UIPluginInstanceContent,
     handleDelete: PropTypes.func.isRequired,
     handleDuplicate: PropTypes.func.isRequired,
@@ -48,9 +65,19 @@ class ServiceConfigurationListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static CREATE_DEPENDENCIES = [uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)]
+
+  renderIcon = () => {
+    const { uiPluginDefinition } = this.props
+    if (uiPluginDefinition.content.iconUrl) {
+      return <img src={uiPluginDefinition.content.iconUrl} alt="" width="75" height="75" />
+    }
+    return null
+  }
 
   render() {
     const { uiPluginConfigurationList, plugin, handleToggleActivation, handleDuplicate, handleToggleDefault, handleEdit, handleDelete, createUrl, backUrl } = this.props
+    const { intl: { formatMessage } } = this.context
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -66,8 +93,8 @@ class ServiceConfigurationListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'service.listconf.title' }, { value: plugin.info.name })}
-          subtitle={this.context.intl.formatMessage({ id: 'service.listconf.subtitle' })}
+          title={formatMessage({ id: 'service.listconf.title' }, { value: plugin.info.name })}
+          subtitle={formatMessage({ id: 'service.listconf.subtitle' })}
         />
         <CardText>
           <div className={styles.line.classes}>
@@ -82,11 +109,7 @@ class ServiceConfigurationListComponent extends React.Component {
               <div><FormattedMessage id="service.listconf.plugin.url" values={urlMsgValues} /> </div>
             </div>
             <div className={styles.icon.classes}>
-              <SVGIconFromString
-                viewBox={plugin.info.icon.viewBox}
-                style={styles.icon.style}
-                icon={plugin.info.icon.content}
-              />
+              {this.renderIcon()}
             </div>
           </div>
           <Table
@@ -111,7 +134,7 @@ class ServiceConfigurationListComponent extends React.Component {
             >
               {map(uiPluginConfigurationList, (uiPluginConfiguration, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{uiPluginConfiguration.content.conf.label}</TableRowColumn>
+                  <TableRowColumn>{uiPluginConfiguration.content.label}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasToggle
                       entityLinks={uiPluginConfiguration.links}
@@ -124,7 +147,7 @@ class ServiceConfigurationListComponent extends React.Component {
                     <HateoasToggle
                       entityLinks={uiPluginConfiguration.links}
                       hateoasKey={HateoasKeys.UPDATE}
-                      toggled={uiPluginConfiguration.content.default}
+                      toggled={uiPluginConfiguration.content.linkedToAllEntities}
                       disabled={!uiPluginConfiguration.content.active}
                       onToggle={() => handleToggleDefault(uiPluginConfiguration.content)}
                     />
@@ -134,25 +157,26 @@ class ServiceConfigurationListComponent extends React.Component {
                       entityLinks={uiPluginConfiguration.links}
                       hateoasKey={HateoasKeys.UPDATE}
                       onTouchTap={() => handleEdit(uiPluginConfiguration.content.id)}
-                      title={this.context.intl.formatMessage({ id: 'service.listconf.tooltip.edit' })}
+                      title={formatMessage({ id: 'service.listconf.tooltip.edit' })}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
                     <ResourceIconAction
                       resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)}
                       onTouchTap={() => handleDuplicate(uiPluginConfiguration.content.id)}
-                      title={this.context.intl.formatMessage({ id: 'service.listconf.tooltip.duplicate' })}
+                      title={formatMessage({ id: 'service.listconf.tooltip.duplicate' })}
                     >
                       <ContentCopy hoverColor={style.hoverButtonDuplicate} />
                     </ResourceIconAction>
-                    <HateoasIconAction
+                    <ConfirmableHateoasIconAction
                       entityLinks={uiPluginConfiguration.links}
                       hateoasKey={HateoasKeys.DELETE}
                       onTouchTap={() => handleDelete(uiPluginConfiguration.content.id)}
-                      title={this.context.intl.formatMessage({ id: 'service.listconf.tooltip.delete' })}
+                      title={formatMessage({ id: 'service.listconf.tooltip.delete' })}
+                      dialogTitle={formatMessage({ id: 'service.listconf.delete.confirm.title' })}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
+                    </ConfirmableHateoasIconAction>
                   </TableRowColumn>
                 </TableRow>
               ))}
@@ -167,8 +191,8 @@ class ServiceConfigurationListComponent extends React.Component {
                 id="service.listconf.action.add"
               />
             }
-            mainHateoasDependencies={[uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)]}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'service.listconf.action.back' })}
+            mainHateoasDependencies={ServiceConfigurationListComponent.CREATE_DEPENDENCIES}
+            secondaryButtonLabel={formatMessage({ id: 'service.listconf.action.back' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

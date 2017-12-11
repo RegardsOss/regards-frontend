@@ -1,3 +1,21 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -23,6 +41,7 @@ const messages = Object.assign({
   'microservice-management.plugin.list.configurations': 'Configurations',
 
   'microservice-management.plugin.configuration.list.add': 'Add',
+  'microservice-management.plugin.configuration.list.back': 'Back',
 
   'microservice-management.plugin.configuration.copy': 'Duplicate',
   'microservice-management.plugin.configuration.increment.priorityOrder': 'Increase the prority',
@@ -38,9 +57,10 @@ const messages = Object.assign({
   'microservice-management.plugin.configuration.form.create.title': 'Add a configuration',
   'microservice-management.plugin.configuration.form.edit.title': 'Edit a configuration',
   'microservice-management.plugin.configuration.form.pluginClassName': 'Plugin class (full path)',
-  'microservice-management.plugin.configuration.form.label': 'Label',
-  'microservice-management.plugin.configuration.form.version': 'Version',
-  'microservice-management.plugin.configuration.form.priorityOrder': 'Priority',
+  'microservice-management.plugin.configuration.form.label': 'Label *',
+  'microservice-management.plugin.configuration.form.version': 'Version *',
+  'microservice-management.plugin.configuration.form.priorityOrder': 'Priority *',
+  'microservice-management.plugin.configuration.form.icon': 'Icon (http link)',
   'microservice-management.plugin.configuration.form.active': 'Active',
   'microservice-management.plugin.configuration.form.inactive': 'Inactive',
   'microservice-management.plugin.configuration.form.action.submit.add': 'Add',

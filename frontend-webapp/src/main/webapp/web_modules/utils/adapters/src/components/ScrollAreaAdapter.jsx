@@ -21,6 +21,8 @@ class ScrollAreaAdapter extends React.Component {
     ...themeContextType,
   }
 
+  // props types: merge any of the styles you need here
+
   constructor(props) {
     super(props)
     this.renderHeadless = ['test', 'coverage'].includes(process.env.NODE_ENV)
@@ -45,16 +47,18 @@ class ScrollAreaAdapter extends React.Component {
     const moduleTheme = buildStyles(muiTheme)
 
     const RenderComponent = this.renderComponent
-    return (
-      <RenderComponent
-        ref={(c) => { this.delegateInstance = c }}
-        horizontalContainerStyle={moduleTheme.scrollArea.horizontalScrollContainer.styles}
-        horizontalScrollbarStyle={moduleTheme.scrollArea.horizontalScrollbar.styles}
-        verticalContainerStyle={moduleTheme.scrollArea.verticalScrollContainer.styles}
-        verticalScrollbarStyle={moduleTheme.scrollArea.verticalScrollbar.styles}
-        {...this.props}
-      />
-    )
+
+    const renderingProps = {
+      ref: (c) => { this.delegateInstance = c },
+      horizontalContainerStyle: moduleTheme.scrollArea.horizontalScrollContainer.styles,
+      horizontalScrollbarStyle: moduleTheme.scrollArea.horizontalScrollbar.styles,
+      verticalContainerStyle: moduleTheme.scrollArea.verticalScrollContainer.styles,
+      verticalScrollbarStyle: moduleTheme.scrollArea.verticalScrollbar.styles,
+      // user styles and properties have heigher priority
+      ...this.props,
+    }
+
+    return <RenderComponent {...renderingProps} />
   }
 }
 

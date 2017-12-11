@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import filter from 'lodash/filter'
 import isEqual from 'lodash/isEqual'
@@ -8,7 +23,7 @@ import { ShowableAtRender } from '@regardsoss/components'
 import { BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
 import { StringComparison } from '@regardsoss/form-utils'
 import { DamDomain } from '@regardsoss/domain'
-import { AttributeModel } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import ModuleContentComponent from '../components/ModuleContentComponent'
 import { FacetArray } from '../model/FacetShape'
 import { filterListShape } from '../model/FilterShape'
@@ -29,17 +44,22 @@ export class ModuleContainer extends React.Component {
       filters: filterListShape.isRequired,
       show: PropTypes.bool.isRequired,
       resultsSelectors: PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
-      attributeModels: PropTypes.objectOf(AttributeModel).isRequired,
+      attributeModels: DataManagementShapes.AttributeModelList.isRequired,
     }).isRequired,
     // from map state to props
     // eslint-disable-next-line react/no-unused-prop-types
     facets: FacetArray.isRequired, // facets, used only in onPropertiesChanged
+    resultsCount: PropTypes.number.isRequired,
   }
 
   /** Default component state */
   static DEFAULT_STATE = {
     filters: [],
     facets: [],
+  }
+
+  static defaultProps = {
+    resultsCount: 0,
   }
 
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
@@ -103,7 +123,7 @@ export class ModuleContainer extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { moduleConf: { show, filters } } = this.props
+    const { moduleConf: { show, filters }, resultsCount } = this.props
     const { facets } = this.state
 
     return (
@@ -113,6 +133,7 @@ export class ModuleContainer extends React.Component {
           filters={filters}
           applyFilter={this.applyFilter}
           deleteFilter={this.deleteFilter}
+          resultsCount={resultsCount}
         />
       </ShowableAtRender>
     )
@@ -121,6 +142,7 @@ export class ModuleContainer extends React.Component {
 
 const mapStateToProps = (state, { moduleConf: { resultsSelectors, facets } }) => ({
   facets: resultsSelectors.getFacets(state) || [],
+  resultsCount: resultsSelectors.getResultsCount(state),
 })
 
 export default connect(mapStateToProps)(ModuleContainer)

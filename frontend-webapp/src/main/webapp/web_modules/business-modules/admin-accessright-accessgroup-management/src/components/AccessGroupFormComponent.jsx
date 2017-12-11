@@ -1,9 +1,25 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import keys from 'lodash/keys'
+import trim from 'lodash/trim'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import { AccessGroup } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderCheckbox, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -15,7 +31,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 export class AccessGroupFormComponent extends React.Component {
 
   static propTypes = {
-    currentAccessGroup: AccessGroup,
+    currentAccessGroup: DataManagementShapes.AccessGroup,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isDuplicating: PropTypes.bool,
@@ -85,6 +101,7 @@ export class AccessGroupFormComponent extends React.Component {
               disabled={this.props.isEditing}
               validate={nameFieldValidations}
               label={this.context.intl.formatMessage({ id: 'group.form.name' })}
+              normalize={trim}
             />
             <br />
             <br />

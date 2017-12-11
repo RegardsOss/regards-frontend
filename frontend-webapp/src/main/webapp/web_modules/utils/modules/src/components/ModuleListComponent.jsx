@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
 import map from 'lodash/map'
@@ -83,11 +98,12 @@ class ModuleListComponent extends React.Component {
 
         const that = this
         if (loadedModule.moduleContainer) {
+          const LineIcon = loadedModule.ModuleIcon || GoToIcon
           const element = (
             <ListItemWithResourceDisplayControl
               key={key}
               resourceDependencies={moduleDependencies}
-              leftIcon={<GoToIcon />}
+              leftIcon={<LineIcon />}
               primaryText={
                 <div style={{ marginRight: 20 }}>
                   {module.content.description}
@@ -121,8 +137,7 @@ class ModuleListComponent extends React.Component {
       <Drawer
         open={this.props.open}
         docked={false}
-        width={300}
-        openSecondary
+        width={styles.modulesListWidth}
         onRequestChange={this.props.onCloseMenu}
       >
         <List>
@@ -136,7 +151,7 @@ class ModuleListComponent extends React.Component {
                 <div key={section}>
                   <ListItem
                     primaryText={this.getSectionLabel(section)}
-                    initiallyOpen={false}
+                    initiallyOpen
                     primaryTogglesNestedList
                     nestedItems={modules}
                   />

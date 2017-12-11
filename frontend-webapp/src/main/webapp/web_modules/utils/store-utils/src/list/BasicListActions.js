@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { normalize } from 'normalizr'
 import forEach from 'lodash/forEach'
@@ -44,6 +59,9 @@ class BasicListActions extends BasicActions {
     this.UPDATE_ENTITY_SUCCESS = `${options.namespace}/UPDATE_SUCCESS`
     this.UPDATE_ENTITY_REQUEST = `${options.namespace}/UPDATE_REQUEST`
     this.UPDATE_ENTITY_FAILURE = `${options.namespace}/UPDATE_FAILURE`
+    this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
+    this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
+    this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
   }
 
 
@@ -61,10 +79,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.ENTITY_LIST_REQUEST,
-          {
-            type: this.ENTITY_LIST_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json)),
-          },
+          this.buildSuccessAction(this.ENTITY_LIST_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json))),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
@@ -97,10 +113,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.ENTITY_REQUEST,
-          {
-            type: this.ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
         endpoint,
@@ -124,10 +138,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.ENTITY_REQUEST_SILENT,
-          {
-            type: this.ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
         endpoint,
@@ -143,10 +155,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.CREATE_ENTITY_REQUEST,
-          {
-            type: this.CREATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.CREATE_ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
         ],
         endpoint,
@@ -170,10 +180,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.CREATE_ENTITIES_REQUEST,
-          {
-            type: this.CREATE_ENTITIES_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json)),
-          },
+          this.buildSuccessAction(this.CREATE_ENTITIES_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json))),
           this.buildFailureAction(this.CREATE_ENTITIES_FAILURE),
         ],
         endpoint,
@@ -191,10 +199,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.UPDATE_ENTITY_REQUEST,
-          {
-            type: this.UPDATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.UPDATE_ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
         ],
         endpoint,
@@ -212,10 +218,7 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.DELETE_ENTITY_REQUEST,
-          {
-            type: this.DELETE_ENTITY_SUCCESS,
-            payload: keyValue,
-          },
+          this.buildSuccessAction(this.DELETE_ENTITY_SUCCESS, keyValue),
           this.buildFailureAction(this.DELETE_ENTITY_FAILURE),
         ],
         endpoint,
@@ -242,10 +245,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.CREATE_ENTITY_REQUEST,
-          {
-            type: this.CREATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.CREATE_ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
         ],
         endpoint,
@@ -275,10 +276,8 @@ class BasicListActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.UPDATE_ENTITY_REQUEST,
-          {
-            type: this.UPDATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
+          this.buildSuccessAction(this.UPDATE_ENTITY_SUCCESS,
+            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json))),
           this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
         ],
         endpoint,

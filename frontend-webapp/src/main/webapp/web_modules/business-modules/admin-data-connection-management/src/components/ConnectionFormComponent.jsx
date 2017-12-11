@@ -1,9 +1,25 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
+import trim from 'lodash/trim'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
@@ -12,6 +28,8 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
+
+const minPoolSizeValidators = [ValidationHelpers.validRequiredNumber, ValidationHelpers.moreThan(3)]
 
 /**
  * React component to list connections.
@@ -130,6 +148,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderSelectField}
               label={this.context.intl.formatMessage({ id: 'connection.form.pluginClassName' })}
               disabled={this.props.isEditing}
+              validate={ValidationHelpers.required}
             >
               {map(pluginMetaDataList, (pluginMetaData, id) => (
                 <MenuItem
@@ -146,6 +165,7 @@ export class ConnectionFormComponent extends React.Component {
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.user' })}
               validate={ValidationHelpers.validRequiredString}
+              normalize={trim}
             />
             <Field
               name="password"
@@ -154,6 +174,7 @@ export class ConnectionFormComponent extends React.Component {
               type="password"
               label={this.context.intl.formatMessage({ id: 'connection.form.password' })}
               validate={ValidationHelpers.validRequiredString}
+              normalize={trim}
             />
             <Field
               name="dbHost"
@@ -162,6 +183,7 @@ export class ConnectionFormComponent extends React.Component {
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.dbHost' })}
               validate={ValidationHelpers.validRequiredString}
+              normalize={trim}
             />
             <Field
               name="dbPort"
@@ -170,6 +192,7 @@ export class ConnectionFormComponent extends React.Component {
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.dbPort' })}
               validate={ValidationHelpers.validRequiredNumber}
+              normalize={trim}
             />
             <Field
               name="dbName"
@@ -178,6 +201,7 @@ export class ConnectionFormComponent extends React.Component {
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.dbName' })}
               validate={ValidationHelpers.validRequiredString}
+              normalize={trim}
             />
             <Field
               name="minPoolSize"
@@ -185,7 +209,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="number"
               label={this.context.intl.formatMessage({ id: 'connection.form.minPoolSize' })}
-              validate={ValidationHelpers.validRequiredNumber}
+              validate={minPoolSizeValidators}
             />
             <Field
               name="maxPoolSize"
@@ -222,9 +246,6 @@ function validate(values) {
     // XXX workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
-  }
-  if (parseInt(values.minPoolSize, 10) < 3) {
-    errors.minPoolSize = 'invalid.minPoolSizeLow'
   }
   if (parseInt(values.maxPoolSize, 10) < parseInt(values.minPoolSize, 10)) {
     errors.maxPoolSize = 'invalid.maxPoolSizeGreaterThanMinPoolSize'

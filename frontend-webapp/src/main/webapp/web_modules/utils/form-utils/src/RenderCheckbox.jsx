@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Checkbox from 'material-ui/Checkbox'
 import { themeContextType } from '@regardsoss/theme'
@@ -27,6 +42,12 @@ export default class RenderCheckbox extends React.Component {
     alwaysShowError: PropTypes.bool, // bypass touched to show some automatic errors
   }
 
+  static STYLES = {
+    rootStyles: {
+      marginTop: 24,
+    },
+  }
+
   onChange = () => {
     const { input } = this.props
     // switch the value
@@ -40,6 +61,7 @@ export default class RenderCheckbox extends React.Component {
     return (
       <div>
         <Checkbox
+          style={RenderCheckbox.STYLES.rootStyles}
           className={className}
           label={label}
           checked={checked}

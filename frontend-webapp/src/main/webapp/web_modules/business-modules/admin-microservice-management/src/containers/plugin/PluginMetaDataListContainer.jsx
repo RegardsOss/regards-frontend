@@ -1,12 +1,26 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
-import { PluginMetaDataList } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import PluginTypeActions from '../../model/plugin/PluginTypeActions'
 import PluginTypeSelectors from '../../model/plugin/PluginTypeSelectors'
 import PluginMetaDataActions from '../../model/plugin/PluginMetaDataActions'
@@ -31,7 +45,7 @@ export class PluginMetaDataListContainer extends React.Component {
     pluginTypes: PropTypes.arrayOf(PropTypes.shape({
       content: PropTypes.string,
     })),
-    pluginMetaDataList: PluginMetaDataList,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
     // from mapDispatchToProps
     fetchPluginTypeList: PropTypes.func,
     fetchPluginMetaDataList: PropTypes.func,
@@ -60,35 +74,42 @@ export class PluginMetaDataListContainer extends React.Component {
         return actionResults
       })
   }
-
   getView = () => (
     <PluginMetaDataListComponent
       microserviceName={this.props.params.microserviceName}
       pluginTypes={this.props.pluginTypes}
       pluginMetaDataList={this.props.pluginMetaDataList}
-      handleClose={this.handleClose}
-      handleProjectConfigurationListClick={this.handleProjectConfigurationListClick}
+      getProjectConfigurationListURL={this.getProjectConfigurationListURL}
+      getAddURL={this.getAddURL}
+      getBackURL={this.getBackURL}
     />
   )
 
+
   /**
-   * Navigate back when clicking on close button
+   * @return back URL
    */
-  handleClose = () => {
+  getBackURL = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/microservice/board`
-    browserHistory.push(url)
+    return `/admin/${project}/microservice/board`
   }
 
   /**
-   * Navigate to the project configuration list when clicking on the corresponding button
-   *
-   * @param {String} pluginId
+   * @param pluginId plugin ID
+   * @return create new configuration URL for navigation
    */
-  handleProjectConfigurationListClick = (pluginId) => {
+  getAddURL = (pluginId) => {
     const { params: { project, microserviceName } } = this.props
-    const url = `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/list`
-    browserHistory.push(url)
+    return `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/create`
+  }
+
+  /**
+   * @param pluginId plugin ID
+   * @return project plugins configuration list URL for navigation
+   */
+  getProjectConfigurationListURL = (pluginId) => {
+    const { params: { project, microserviceName } } = this.props
+    return `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/list`
   }
 
   render() {

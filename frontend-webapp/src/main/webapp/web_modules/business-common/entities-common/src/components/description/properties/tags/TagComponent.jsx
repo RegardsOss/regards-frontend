@@ -4,7 +4,6 @@
 import IconButton from 'material-ui/IconButton'
 import TagWithDescriptionIcon from 'material-ui/svg-icons/action/label'
 import TagIcon from 'material-ui/svg-icons/action/label-outline'
-import SearchIcon from 'material-ui/svg-icons/action/search'
 import DetailIcon from 'material-ui/svg-icons/action/info-outline'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -18,7 +17,7 @@ class TagComponent extends React.Component {
     tagLabel: PropTypes.string.isRequired,
     isEntity: PropTypes.bool.isRequired,
     // callback: on search tag (or null)
-    onSearchTag: PropTypes.func,
+    // onSearchTag: PropTypes.func,
     // callback: on show description (or null)
     onShowDescription: PropTypes.func,
   }
@@ -28,8 +27,32 @@ class TagComponent extends React.Component {
     ...i18nContextType,
   }
 
+  renderSearchTag = () => null
+  // XXX : Add search tag functionality in V2.0
+  /**
+  const { onSearchTag } = this.props
+  const { iconStyle, actionStyle, buttonStyle } =
+    this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags.tagsContainer
+  const { intl: { formatMessage } } = this.context
+  // render search option if available
+  if (onSearchTag) {
+    return (
+      <div style={actionStyle}>
+        <IconButton
+          title={formatMessage({id: 'entities.common.properties.tag.search.tooltip'})}
+          onTouchTap={onSearchTag}
+          style={buttonStyle}
+          iconStyle={iconStyle}
+        >
+          <SearchIcon/>
+        </IconButton>
+      </div>
+    )
+  }
+   */
+
   render() {
-    const { tagLabel, isEntity, onShowDescription, onSearchTag } = this.props
+    const { tagLabel, isEntity, onShowDescription } = this.props
     const { rowStyle, iconCellStyle, iconStyle, infoIconStyle, labelStyle, actionStyle, buttonStyle } =
       this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags.tagsContainer
     const { intl: { formatMessage } } = this.context
@@ -43,21 +66,7 @@ class TagComponent extends React.Component {
           }
         </div>
         <div style={labelStyle}>{tagLabel}</div>
-        {
-          // render search option if available
-          onSearchTag ?
-            <div style={actionStyle}>
-              <IconButton
-                title={formatMessage({ id: 'entities.common.properties.tag.search.tooltip' })}
-                onTouchTap={onSearchTag}
-                style={buttonStyle}
-                iconStyle={iconStyle}
-              >
-                <SearchIcon />
-              </IconButton>
-            </div>
-            : null
-        }
+        {this.renderSearchTag()}
         {
           // render description option if available
           onShowDescription ?

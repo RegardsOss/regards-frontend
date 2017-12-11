@@ -1,20 +1,19 @@
 {
   "name": "example-plugin",
-  "version": "1.0.0",
+  "version": "1.1.0-SNAPSHOT",
   "description": "REGARDS frontend criteria plugin for string attributes",
   "private": true,
   "scripts": {
-    "build": "webpack --progress --config webpack.prod.config.js",
+    "build:production": "webpack --progress --config webpack.prod.config.js",
+    "build:dev": "webpack --progress --config webpack.dev.config.js",
     "build:watch": "nodemon -e js,jsx --ignore \"target\" --exec \"webpack --progress --config webpack.dev.config.js\"",
     "test": "npm run test:mocha --silent",
     "test:coverage": "nyc node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive --require source-map-support/register",
-    "test:mocha": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend - Plugin String Criterion tests'",
+    "test:mocha": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend - Plugin service example tests'",
     "test:watch": "node --max_old_space_size=4096 --optimize_for_size --max_executable_size=4096 --stack_size=4096 ./node_modules/.bin/mocha-webpack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --require source-map-support/register --inline-diffs --watch",
     "esdoc": "esdoc -c esdoc.json",
-    "lint": "eslint .storybook src tests --ext .js,.jsx",
-    "lint:fix": "eslint --fix .storybook src tests --ext .js,.jsx",
-    "storybook:start": "start-storybook -p 6006 --dont-track",
-    "storybook:build": "build-storybook -o reports/storybook"
+    "lint": "eslint src tests --ext .js,.jsx",
+    "lint:fix": "eslint --fix  src tests --ext .js,.jsx"
   },
   "author": "CS-SI",
   "license": "GPL-3.0",
@@ -78,8 +77,7 @@
     "sinon": "^2.3.5",
     "source-map-loader": "~0.2.1",
     "source-map-support": "^0.4.15",
-    "storybook-addon-material-ui": "^0.7.7",
-    "webpack": "3.0.0",
+    "webpack": "3.3.0",
     "xunit-file": "~1.0.0"
   },
   "engines": {

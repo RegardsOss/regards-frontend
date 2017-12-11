@@ -1,9 +1,24 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import ItemLink from '../../../src/components/user/ItemLink'
 import { ItemLinkContainer } from '../../../src/containers/user/ItemLinkContainer'
 import styles from '../../../src/styles/styles'
@@ -20,13 +35,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
   it('should render correctly and propagate its properties to ItemLink', () => {
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'Héssketumanteného',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: false,
@@ -48,13 +57,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     let lastNotifiedState = null
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'tant mieux',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: false,
@@ -90,13 +93,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     let lastNotifiedState = null
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'tant mieux',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: false,
@@ -132,13 +129,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     let lastNotifiedState = null
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'tant mieux',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: true,
@@ -170,13 +161,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     let callCount = 0
     const props = {
       Icon: () => <div />,
-      entity: {
-        content: {
-          ipId: 'lalala',
-          entityType: 'DATASET',
-          label: 'tant mieux',
-        },
-      },
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
       additiveLineComponent: <a>Non</a>,
       onSelect: () => { },
       locked: false,

@@ -94,10 +94,10 @@ propTypes = {
     /**
      * Plugin unique identifier provided by the plugin loader
      */
-    pluginInstanceId: React.PropTypes.string,
+    pluginInstanceId: PropTypes.string,
 }
 ```
-TODO 
+XXX 
 
 ## Compile your plugin
 

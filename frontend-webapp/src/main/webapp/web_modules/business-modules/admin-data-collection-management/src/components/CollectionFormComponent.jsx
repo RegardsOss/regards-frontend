@@ -1,15 +1,29 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
 import has from 'lodash/has'
-import keys from 'lodash/keys'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, RenderFileField, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field, RenderFileField, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -121,8 +135,8 @@ export class CollectionFormComponent extends React.Component {
    */
   handleInitialize = () => {
     if (!this.state.isCreating) {
-      const { currentCollection } = this.props
-      const properties = getInitialFormValues(currentCollection)
+      const { currentCollection, modelAttributeList } = this.props
+      const properties = getInitialFormValues(modelAttributeList, currentCollection)
       const initialValues = {
         label: currentCollection.content.label,
         geometry: currentCollection.content.geometry,
@@ -170,6 +184,7 @@ export class CollectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'collection.form.label' })}
+              validate={ValidationHelpers.lengthLessThan(128)}
             />
             <div className="row">
               <div className="col-sm-30">
@@ -235,6 +250,7 @@ export class CollectionFormComponent extends React.Component {
               component={RenderSelectField}
               label={this.context.intl.formatMessage({ id: 'collection.form.model' })}
               disabled={!this.state.isCreating && !this.state.isDuplicating}
+              validate={ValidationHelpers.required}
             >
               {map(modelList, (model, id) => (
                 <MenuItem
@@ -264,33 +280,7 @@ export class CollectionFormComponent extends React.Component {
   }
 }
 
-/**
- * Form validation
- * @param values
- * @returns {{}} i18n keys
- */
-function validate(values) {
-  const errors = {}
-  if (!keys(values).length) {
-    // XXX workaround for redux form bug initial validation:
-    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
-    return errors
-  }
-  if (values.label) {
-    if (values.label.length > 128) {
-      errors.label = 'invalid.max_128_carac'
-    }
-  } else {
-    errors.label = ErrorTypes.REQUIRED
-  }
-  if (!values.model) {
-    errors.model = ErrorTypes.REQUIRED
-  }
-  return errors
-}
-
 export default reduxForm({
   form: 'collection-form',
-  validate,
 })(CollectionFormComponent)
 

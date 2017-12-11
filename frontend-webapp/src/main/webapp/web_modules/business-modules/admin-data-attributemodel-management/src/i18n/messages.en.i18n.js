@@ -1,3 +1,21 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import { Locales } from '@regardsoss/form-utils'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
@@ -45,9 +63,6 @@ const messages = Object.assign({
 
   'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Adding a new mandatory attribute to a fragment already used by models can cause issues during future ingestions and data updates',
 
-  'invalid.min_3_carac': 'At least 3 characters',
-  'invalid.max_32_carac': 'Max 32 characters',
-  'invalid.max_20_carac': 'Max 20 characters',
   'invalid.only_1_restriction_on_the_same_time': 'You can\'t activate more than one restriction',
 }, Locales.en)
 messages[`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`] = 'No fragment'

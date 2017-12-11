@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
@@ -12,7 +27,7 @@ import Delete from 'material-ui/svg-icons/action/delete'
 import { FormattedMessage } from 'react-intl'
 import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { AccessGroup } from '@regardsoss/model'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -28,7 +43,7 @@ const ResourceIconAction = withResourceDisplayControl(IconButton)
 export class AccessGroupListComponent extends React.Component {
 
   static propTypes = {
-    accessGroupList: PropTypes.objectOf(AccessGroup),
+    accessGroupList: DataManagementShapes.AccessGroupList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     handleEditAccessRights: PropTypes.func.isRequired,
@@ -41,6 +56,8 @@ export class AccessGroupListComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static CREATE_DEPENDENCIES = [accessGroupActions.getDependency(RequestVerbEnum.POST)]
 
   state = {
     deleteDialogOpened: false,
@@ -168,7 +185,7 @@ export class AccessGroupListComponent extends React.Component {
               />
             }
             mainButtonClassName="selenium-createButton"
-            mainHateoasDependencies={[accessGroupActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={AccessGroupListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'group.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

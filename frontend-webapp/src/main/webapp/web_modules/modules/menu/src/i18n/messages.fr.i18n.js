@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
 import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
@@ -11,12 +26,20 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 const messages = {
   loginFormTitle: 'Connexion à l\'interface projet',
   loginButtonLabel: 'Connexion',
+  loginButtonTooltip: 'Connexion',
+  loggedButtonLabel: '{login}',
+  loggedButtonTooltip: 'Logged as {login}',
   logoutLabel: 'Déconnexion',
   accountLabel: 'Mon compte',
   changeRole: 'Changer de rôle',
   resetRole: 'Rôle par défaut',
-  'menu.modules.list.button': 'Menu',
+  contactTooltip: 'Nous contacter...',
+  AboutPageTooltip: 'A propos...',
+  'menu.modules.list.button.label': 'Navigation',
+  'menu.modules.list.button.tooltip': 'Naviguer dans les pages du site',
   'menu.form.title': 'Titre du menu',
+  'menu.form.contacts': 'Contacts',
+  'menu.form.projectpage': 'Page "à propos" du projet',
   'menu.form.displayauthentication': 'Afficher l\'option d\'authentification',
   'menu.form.displaylocale': 'Afficher le sélecteur de langues',
   'menu.form.displaytheme': 'Afficher le sélecteur de thèmes',

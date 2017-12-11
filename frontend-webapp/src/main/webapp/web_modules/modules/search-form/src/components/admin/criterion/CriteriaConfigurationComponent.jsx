@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
 import concat from 'lodash/concat'
@@ -8,7 +23,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { DamDomain } from '@regardsoss/domain'
-import { AttributeModel, Plugin } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -18,9 +33,9 @@ import { themeContextType } from '@regardsoss/theme'
 class CriteriaConfigurationComponent extends React.Component {
 
   static propTypes = {
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    selectableAttributes: DataManagementShapes.AttributeModelList,
     // Set by plugin provider
-    plugin: Plugin,
+    plugin: AccessShapes.UIPluginInstanceContent,
   }
 
   static contextTypes = {

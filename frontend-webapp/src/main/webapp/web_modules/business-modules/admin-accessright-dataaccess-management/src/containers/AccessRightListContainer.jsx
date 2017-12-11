@@ -1,5 +1,23 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import { browserHistory } from 'react-router'
-import { AccessGroup, AccessRight, PluginConfiguration, PluginMetaData } from '@regardsoss/model'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import TableClient from '../clients/TableClient'
 import AccessRightListComponent from '../components/AccessRightListComponent'
@@ -12,13 +30,13 @@ class AccessRightListContainer extends React.Component {
       project: PropTypes.string,
     }),
     // Access group to configure.
-    accessGroup: AccessGroup.isRequired,
+    accessGroup: DataManagementShapes.AccessGroup.isRequired,
     // Access rights for the given access group
-    accessRights: PropTypes.objectOf(AccessRight),
+    accessRights: DataManagementShapes.AccessRightList,
     // Availables plugin configuration for custom access rights delegated to plugins
-    pluginConfigurationList: PropTypes.objectOf(PluginConfiguration).isRequired,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList.isRequired,
     // Availables plugin definitions for custom access rights delegated to plugins
-    pluginMetaDataList: PropTypes.objectOf(PluginMetaData).isRequired,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList.isRequired,
     // Callback to delete an AccessRight
     deleteAccessRight: PropTypes.func.isRequired,
     // Callback to submit AccessRight(s) configuration (updates and creation)

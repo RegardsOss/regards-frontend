@@ -1,11 +1,27 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
 import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
-import { AttributeModel, SearchResultsTargetsEnum } from '@regardsoss/model'
+import { SearchResultsTargetsEnum } from '@regardsoss/domain/catalog'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
@@ -13,7 +29,6 @@ import URLManagementContainer from './user/URLManagementContainer'
 import DescriptionContainer from './user/DescriptionContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
 import DisplayModeEnum from '../models/navigation/DisplayModeEnum'
-
 
 /**
  * Main container to display module form.
@@ -30,7 +45,7 @@ export class ModuleContainer extends React.Component {
 
     // Set by mapDispatchToProps
     fetchAllModelsAttributes: PropTypes.func,
-    attributeModels: PropTypes.objectOf(AttributeModel),
+    attributeModels: DataManagementShapes.AttributeModelList,
   }
 
   constructor(props) {
@@ -42,14 +57,15 @@ export class ModuleContainer extends React.Component {
     const facettes = reduce(attributes, (result, value, key) =>
       value.facetable ? [...result, value.attributeFullQualifiedName] : result, [])
     this.state = {
+      expanded: true,
       attributesFetching: true,
       facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
     }
   }
 
-  componentWillMount() {
-    return Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
-  }
+  componentDidMount = () => Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
+
+  onExpandChange = () => this.setState({ expanded: !this.state.expanded })
 
   render() {
     const { appName, project } = this.props
@@ -64,37 +80,40 @@ export class ModuleContainer extends React.Component {
         displayDatasets,
         breadcrumbInitialContextLabel,
     } } = this.props
-    const { attributesFetching, facettesQuery } = this.state
+    const { expanded, attributesFetching, facettesQuery } = this.state
     // when showing datasets, select dataset tab first (by default)
     const initialViewObjectType = displayDatasets ? SearchResultsTargetsEnum.DATASET_RESULTS : SearchResultsTargetsEnum.DATAOBJECT_RESULTS
 
     if (!attributesFetching) {
       return (
         <div>
-          { /* URL management container (no view) */}
+          { /* Description handling */}
+          <DescriptionContainer />
+          { /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */}
           <URLManagementContainer
             currentPath={browserHistory.getCurrentLocation().pathname}
             currentQuery={browserHistory.getCurrentLocation().query}
             initialViewObjectType={initialViewObjectType}
             initialDisplayMode={DisplayModeEnum.LIST}
             displayDatasets={!!displayDatasets}
-          />
-          { /* Description handling */}
-          <DescriptionContainer />
-          { /* View : module */}
-          <ModuleComponent
-            appName={appName}
-            project={project}
-            resultsTitle={breadcrumbInitialContextLabel}
-            enableFacettes={!!enableFacettes}
-            searchQuery={searchQuery}
-            facettesQuery={facettesQuery}
-            attributesConf={attributes}
-            displayDatasets={!!displayDatasets}
-            attributesRegroupementsConf={attributesRegroupements}
-            datasetAttributesConf={datasetAttributes}
-            attributeModels={attributeModels}
-          />
+          >
+            { /* View : module */}
+            <ModuleComponent
+              appName={appName}
+              project={project}
+              expanded={expanded}
+              onExpandChange={this.onExpandChange}
+              resultsTitle={breadcrumbInitialContextLabel}
+              enableFacettes={!!enableFacettes}
+              searchQuery={searchQuery}
+              facettesQuery={facettesQuery}
+              attributesConf={attributes}
+              displayDatasets={!!displayDatasets}
+              attributesRegroupementsConf={attributesRegroupements}
+              datasetAttributesConf={datasetAttributes}
+              attributeModels={attributeModels}
+            />
+          </URLManagementContainer>
         </div>
       )
     }

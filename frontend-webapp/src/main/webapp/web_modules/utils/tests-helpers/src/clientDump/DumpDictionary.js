@@ -1,3 +1,21 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+**/
 import UIPluginConfigurationClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginConfiguration.dump'
 import UIPluginDefinitionClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginDefinition.dump'
 import LinkUIPluginDatasetDump from '@regardsoss/client/tests/rs-access-project/LinkUIPluginDataset.dump'
@@ -24,6 +42,10 @@ import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-admin/Wa
 import AccessGroupDump from '@regardsoss/client/tests/rs-dam/AccessGroup.dump'
 import UserGroupDump from '@regardsoss/client/tests/rs-dam/UserGroup.dump'
 import AccessRightDump from '@regardsoss/client/tests/rs-dam/AccessRight.dump'
+
+import DatasetEntityDump from '@regardsoss/client/tests/rs-access-project/DatasetEntity.dump'
+import DataobjectEntityDump from '@regardsoss/client/tests/rs-access-project/DataobjectEntity.dump'
+import CollectionEntityDump from '@regardsoss/client/tests/rs-access-project/CollectionEntity.dump'
 
 import {
 
@@ -91,6 +113,8 @@ import {
   LINK_UI_PLUGIN_DATASET_ARRAY,
   LinkUIPluginDatasetConfiguration,
 
+  ENTITY_ARRAY as ENTITY_CATALOG_ARRAY,
+  EntityConfiguration,
 } from '@regardsoss/api'
 
 /**
@@ -119,6 +143,24 @@ export default {
       dump: LinkUIPluginDatasetDump,
       ENTITY_ARRAY: LINK_PLUGIN_DATASET_ARRAY,
       normalizrKey: LinkPluginDatasetConfiguration.normalizrKey,
+    },
+    DataobjectEntity: {
+      isPageable: true,
+      dump: DataobjectEntityDump,
+      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
+      normalizrKey: EntityConfiguration.normalizrKey,
+    },
+    DatasetEntity: {
+      isPageable: true,
+      dump: DatasetEntityDump,
+      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
+      normalizrKey: EntityConfiguration.normalizrKey,
+    },
+    CollectionEntity: {
+      isPageable: true,
+      dump: CollectionEntityDump,
+      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
+      normalizrKey: EntityConfiguration.normalizrKey,
     },
   },
   AdminClient: {

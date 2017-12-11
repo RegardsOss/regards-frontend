@@ -1,11 +1,29 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+**/
 import nock from 'nock'
 import { assert } from 'chai'
 import thunk from 'redux-thunk'
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
-import { stub } from 'sinon'
 
 const { apiMiddleware } = require('redux-api-middleware')
 
+const originalConsoleError = console.error
 
 export default class ReduxEntityTester {
 
@@ -120,28 +138,30 @@ export default class ReduxEntityTester {
       entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.urlParams)
     }
     if (this.entityActions.fetchPagedEntityList) {
-      entityEndpoint = `${entityEndpoint}?page=0&size=0`
+      entityEndpoint = `${entityEndpoint}?page=0&size=100000`
     }
     nock(GATEWAY_HOSTNAME)
       .get(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))
       .reply(200, this.backendServerResultList)
 
-    const previousConsoleError = console.error
+
     // Since react will console.error propType manual that we use in pure JS to check if normalized
     // entities matches Shapes, we use sinon.js to stub it into throwing only others errors
-    this.stubConsole = stub(console, 'error').callsFake((warning) => {
+    console.error = (warning, ...args) => {
       if (!warning.includes('Warning: You are manually calling a PropTypes validation function for the')) {
-        previousConsoleError(warning)
+        originalConsoleError(warning)
+      } else {
+        throw new Error([warning, ...args].join(' '))
       }
-    })
+    }
   }
 
 
   /**
    * Remove any HTTP mock created
    */
-  afterAll() {
+  afterAll = () => {
     nock.cleanAll()
-    this.stubConsole.restore()
+    console.error = originalConsoleError
   }
 }

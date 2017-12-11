@@ -1,9 +1,10 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
-import { RenderTextField, Field, FormErrorMessage, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, FormErrorMessage, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -53,6 +54,8 @@ export class SessionLockedFormComponent extends React.Component {
                 component={RenderTextField}
                 type="password"
                 label={this.context.intl.formatMessage({ id: 'session.locked.password' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>

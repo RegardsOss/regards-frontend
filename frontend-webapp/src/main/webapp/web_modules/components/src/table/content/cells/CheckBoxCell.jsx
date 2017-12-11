@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
 import omit from 'lodash/omit'
@@ -15,6 +30,7 @@ import TableSelectionModes from '../../model/TableSelectionModes'
 export default class CheckBoxCell extends React.Component {
 
   static propTypes = {
+    hasEntity: PropTypes.func,
     toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     rowIndex: PropTypes.number,
@@ -40,7 +56,7 @@ export default class CheckBoxCell extends React.Component {
   }
 
   render() {
-    const { onToggleRowSelection, rowIndex, ...otherProps } = this.props
+    const { onToggleRowSelection, rowIndex, hasEntity, ...otherProps } = this.props
     const styles = this.context.moduleTheme
 
     let cellStyle = styles.cellOdd
@@ -58,10 +74,13 @@ export default class CheckBoxCell extends React.Component {
         style={cellStyle}
       >
         <div style={cellContentStyle}>
-          <Checkbox
-            onCheck={() => onToggleRowSelection(rowIndex)}
-            defaultChecked={this.isSelectedRow(rowIndex)}
-          />
+          {
+            hasEntity(rowIndex) ?
+              <Checkbox
+                onCheck={() => onToggleRowSelection(rowIndex)}
+                defaultChecked={this.isSelectedRow(rowIndex)}
+              /> : null
+          }
         </div>
       </Cell>
     )

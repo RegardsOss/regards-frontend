@@ -1,11 +1,28 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ClearFieldButton } from '@regardsoss/components'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
-import AttributeModel from '../common/AttributeModel'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
-import PluginComponent from '../common/PluginComponent'
-import ClearButton from './ClearButton'
 
 /**
  * Component allowing the user to configure the numerical value of two different attributes with a mathematical comparator (=, >, <=, ...).
@@ -16,15 +33,24 @@ import ClearButton from './ClearButton'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
+export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContainer {
 
   static propTypes = {
+    // parent props
+    ...PluginCriterionContainer.propTypes,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   state = {
@@ -66,7 +92,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
     if (isNaN(openSearchQuery)) {
-      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9\*]*) TO ([0-9\*]*)[ ]{0,1}\]/)
+      const values = openSearchQuery.match(/\[[ ]{0,1}([0-9*]*) TO ([0-9*]*)[ ]{0,1}\]/)
       if (values && values.length === 3) {
         const value = values[1] !== '*' ? values[1] : values[2]
         const operator = values[1] === '*' ? EnumNumericalComparator.LE : EnumNumericalComparator.GE
@@ -109,13 +135,13 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
     let openSearchQuery = ''
     const lvalue = value || '*'
     switch (operator) {
-      case EnumNumericalComparator.EQ :
+      case EnumNumericalComparator.EQ:
         openSearchQuery = `${this.getAttributeName(attribute)}:${lvalue}`
         break
-      case EnumNumericalComparator.LE :
+      case EnumNumericalComparator.LE:
         openSearchQuery = `${this.getAttributeName(attribute)}:[* TO ${lvalue}]`
         break
-      case EnumNumericalComparator.GE :
+      case EnumNumericalComparator.GE:
         openSearchQuery = `${this.getAttributeName(attribute)}:[${lvalue} TO *]`
         break
       default:
@@ -126,15 +152,11 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
 
   render() {
     const { firstField, secondField, operator1, operator2 } = this.state
+    const { moduleTheme: { rootStyle, lineStyle } } = this.context
     return (
-      <div style={{ display: 'flex' }}>
+      <div style={rootStyle}>
         <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-          }}
+          style={lineStyle}
         >
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('firstField')}
@@ -150,7 +172,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginComponent {
             onChange={this.changeValue2}
             fixedComparator={false}
           />
-          <ClearButton onTouchTap={this.handleClear} displayed={firstField || secondField}/>
+          <ClearFieldButton onTouchTap={this.handleClear} displayed={!!(firstField || secondField)} />
         </div>
       </div>
     )

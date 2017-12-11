@@ -1,11 +1,26 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Avatar from 'material-ui/Avatar'
-import { ObjectLinkedFileTypes } from '@regardsoss/model'
+import { CatalogDomain } from '@regardsoss/domain'
 import ThumbnailAttributesRender from '../../src/render/ThumbnailAttributesRender'
 
 /**
@@ -20,24 +35,24 @@ describe('[ATTRIBUTES COMMON] Testing ThumbmailAttributesRender', () => {
     const props = {
       attributes: {
         files: [
-          { dataType: ObjectLinkedFileTypes.THUMBNAIL, fileRef: 'http://test.fr' },
-          { dataType: ObjectLinkedFileTypes.RAWDATA, fileRef: 'http://error.fr' },
+          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL, fileRef: 'http://test.fr' },
+          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA, fileRef: 'http://error.fr' },
         ],
       },
       lineHeight: 150,
     }
     const wrapper = shallow(<ThumbnailAttributesRender {...props} />)
 
-    const value = wrapper.find(Avatar)
-    assert.lengthOf(value, 1, 'There should be one Avatar rendered')
+    const value = wrapper.find('img')
+    assert.lengthOf(value, 1, 'There should be one image rendered')
   })
 
   it('Should render an empty value', () => {
     const props = {
       attributes: {
         files: [
-          { dataType: ObjectLinkedFileTypes.RAWDATA, fileRef: 'http://test.fr' },
-          { dataType: ObjectLinkedFileTypes.RAWDATA, fileRef: 'http://error.fr' },
+          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA, fileRef: 'http://test.fr' },
+          { dataType: CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA, fileRef: 'http://error.fr' },
         ],
       },
       lineHeight: 150,

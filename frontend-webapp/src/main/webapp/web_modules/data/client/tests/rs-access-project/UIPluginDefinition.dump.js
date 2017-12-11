@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
 /**
@@ -12,7 +27,7 @@ export default {
       content: {
         id: 1,
         name: 'string-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/string/plugin.js',
       },
       links: [
@@ -42,7 +57,7 @@ export default {
       content: {
         id: 2,
         name: 'numerical-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/numerical/plugin.js',
       },
       links: [
@@ -72,7 +87,7 @@ export default {
       content: {
         id: 3,
         name: 'two-numerical-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/two-numerical/plugin.js',
       },
       links: [
@@ -102,7 +117,7 @@ export default {
       content: {
         id: 4,
         name: 'temporal-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/temporal/plugin.js',
       },
       links: [
@@ -132,7 +147,7 @@ export default {
       content: {
         id: 5,
         name: 'two-temporal-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         sourcePath: '/plugins/criterion/two-temporal/plugin.js',
       },
       links: [
@@ -162,7 +177,7 @@ export default {
       content: {
         sourcePath: '/plugins/criterion/full-text/plugin.js',
         name: 'full-text-criteria',
-        type: 'criteria',
+        type: 'CRITERIA',
         id: 6,
       },
       links: [

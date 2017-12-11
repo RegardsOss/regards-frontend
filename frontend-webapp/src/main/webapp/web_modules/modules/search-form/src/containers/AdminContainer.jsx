@@ -1,11 +1,26 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import join from 'lodash/join'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
-import { AttributeModel, PluginDefinition } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import { datasetDataAttributesActions, datasetDataAttributesSelectors } from '../clients/DatasetDataAttributesClient'
@@ -36,18 +51,21 @@ class AdminContainer extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapStateToProps and mapDispatchToProps
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
-    selectableAttributesFectching: PropTypes.bool,
-    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
+    selectableDataObjectsAttributesFetching: PropTypes.bool,
+    availableCriterion: AccessShapes.UIPluginDefinitionList,
     fetchCriterion: PropTypes.func,
+    // Retrieve data objects attributes for given dataset models
     fetchModelsAttributes: PropTypes.func,
+    // Retrieve data objects attributes for all data objects models
     fetchAllModelsAttributes: PropTypes.func,
+    // Retrieve data objects attributes for given datasets
     fetchDatasetsAttributes: PropTypes.func,
   }
 
   static defaultProps = {
-    selectableAttributes: [],
-    selectableAttributesFectching: false,
+    selectableDataObjectsAttributes: [],
+    selectableDataObjectsAttributesFetching: false,
   }
 
   constructor(props) {
@@ -60,11 +78,11 @@ class AdminContainer extends React.Component {
 
   componentWillMount() {
     if (get(this.props, 'adminForm.form.conf.datasets', null)) {
-      this.updateSelectableAttributes(this.props.adminForm.form.conf.datasets.type,
+      this.updateselectableDataObjectsAttributes(this.props.adminForm.form.conf.datasets.type,
         this.props.adminForm.form.conf.datasets.selectedModels,
         this.props.adminForm.form.conf.datasets.selectedDatasets)
     } else {
-      this.updateSelectableAttributes()
+      this.updateselectableDataObjectsAttributes()
     }
     // Load available criterion plugins
     return Promise.resolve(this.props.fetchCriterion()).then(() => this.setState({
@@ -74,14 +92,16 @@ class AdminContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Check if the selectable attributes have to be updated
-    if (this.props.adminForm.form && this.props.adminForm.form.conf && !isEqual(this.props.adminForm.form.conf.datasets, nextProps.adminForm.form.conf.datasets)) {
-      this.updateSelectableAttributes(nextProps.adminForm.form.conf.datasets.type,
-        nextProps.adminForm.form.conf.datasets.selectedModels,
-        nextProps.adminForm.form.conf.datasets.selectedDatasets)
+    const datasetsConf = get(this.props, 'adminForm.form.conf.datasets', null)
+    const newDatasetsConf = get(nextProps, 'adminForm.form.conf.datasets', null)
+    if (datasetsConf && newDatasetsConf && !isEqual(datasetsConf, newDatasetsConf)) {
+      this.updateselectableDataObjectsAttributes(newDatasetsConf.type,
+        newDatasetsConf.selectedModels,
+        newDatasetsConf.selectedDatasets)
     }
   }
 
-  updateSelectableAttributes = (type, models, datasets) => {
+  updateselectableDataObjectsAttributes = (type, models, datasets) => {
     let task
     if (type === DatasetSelectionTypes.DATASET_MODEL_TYPE && models && models.length > 0) {
       task = this.props.fetchModelsAttributes(models)
@@ -111,9 +131,9 @@ class AdminContainer extends React.Component {
         attributes: this.props.moduleConf.attributes ? this.props.moduleConf.attributes : [],
         attributesRegroupements: this.props.moduleConf.attributesRegroupements ? this.props.moduleConf.attributesRegroupements : [],
       },
-      selectableAttributes: this.props.selectableAttributes,
-      selectableAttributesFectching: this.state.attributesLoading,
-      disableChangeDatasets: this.props.selectableAttributesFectching,
+      selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
+      selectableDataObjectsAttributesFetching: this.state.attributesLoading,
+      disableChangeDatasets: this.props.selectableDataObjectsAttributesFetching,
       availableCriterion: this.props.availableCriterion,
       criterionFetching: this.state.criterionLoading,
     }
@@ -137,7 +157,7 @@ class AdminContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  selectableAttributes: datasetDataAttributesSelectors.getList(state),
+  selectableDataObjectsAttributes: datasetDataAttributesSelectors.getList(state),
   availableCriterion: uiPluginDefinitionSelectors.getList(state),
 })
 

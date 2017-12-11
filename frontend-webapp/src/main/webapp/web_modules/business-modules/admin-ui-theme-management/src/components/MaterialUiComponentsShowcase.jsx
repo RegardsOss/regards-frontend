@@ -1,28 +1,52 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import React from 'react'
-import muiThemeable from 'material-ui/styles/muiThemeable'
-import withWidth from 'material-ui/utils/withWidth'
-import ClearFix from 'material-ui/internal/ClearFix'
+import AppBar from 'material-ui/AppBar'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
+import Checkbox from 'material-ui/Checkbox'
+import DatePicker from 'material-ui/DatePicker'
+import Dialog from 'material-ui/Dialog'
+import DropDownMenu from 'material-ui/DropDownMenu'
+import FlatButton from 'material-ui/FlatButton'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import FontIcon from 'material-ui/FontIcon'
+import IconButton from 'material-ui/IconButton'
+import IconMenu from 'material-ui/IconMenu'
+import ClearFix from 'material-ui/internal/ClearFix'
+import MenuItem from 'material-ui/MenuItem'
+import Paper from 'material-ui/Paper'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import Snackbar from 'material-ui/Snackbar'
+import Slider from 'material-ui/Slider'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import Call from 'material-ui/svg-icons/communication/call'
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
+import { Tabs, Tab } from 'material-ui/Tabs'
+import TextField from 'material-ui/TextField'
+import TimePicker from 'material-ui/TimePicker'
+import Toggle from 'material-ui/Toggle'
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import withWidth from 'material-ui/utils/withWidth'
 import { themeContextType } from '@regardsoss/theme'
-import {
-  Checkbox,
-  DatePicker,
-  Dialog,
-  DropDownMenu,
-  FlatButton,
-  MenuItem,
-  Paper,
-  RadioButton,
-  RadioButtonGroup,
-  RaisedButton,
-  Snackbar,
-  Slider,
-  Tabs,
-  Tab,
-  TextField,
-  Toggle,
-} from 'material-ui'
-import rocket from '../resources/rocket.png'
+import exampleImage from '../resources/example-image.png'
 import stylesFunc from '../styles/styles'
 
 function getStyles(muiTheme) {
@@ -76,6 +100,16 @@ class ThemesPage extends React.Component {
           </div>
           <div style={styles.showcase.containerCentered}>
             <RaisedButton label="Default" />
+          </div>
+          <div style={styles.showcase.containerCentered}>
+            <FloatingActionButton>
+              <ContentAdd />
+            </FloatingActionButton>
+          </div>
+          <div style={styles.showcase.containerCentered}>
+            <FloatingActionButton secondary mini>
+              <Call />
+            </FloatingActionButton>
           </div>
         </div>
         <div style={styles.showcase.group}>
@@ -134,9 +168,15 @@ class ThemesPage extends React.Component {
           </div>
           <div style={styles.showcase.container}>
             <DatePicker
-              hintText="Landscape Dialog"
+              hintText="Date Picker"
               mode="landscape"
               style={styles.showcase.datePicker}
+            />
+          </div>
+          <div style={styles.showcase.container}>
+            <TimePicker
+              format="24hr"
+              hintText="Time Picker"
             />
           </div>
           <div style={styles.showcase.container}>
@@ -157,7 +197,7 @@ class ThemesPage extends React.Component {
             <CardHeader
               title="URL Avatar"
               subtitle="Subtitle"
-              avatar={rocket}
+              avatar={exampleImage}
               actAsExpander
               showExpandableButton
             />
@@ -173,7 +213,7 @@ class ThemesPage extends React.Component {
               expandable
               overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
             >
-              <img src={rocket} alt="A rocket illustration" />
+              <img src={exampleImage} alt="Staring at the skies" />
             </CardMedia>
             <CardTitle title="Card title" subtitle="Card subtitle" expandable />
             <CardText expandable>
@@ -224,6 +264,39 @@ class ThemesPage extends React.Component {
   getThemeExamples() {
     return (
       <div>
+        <AppBar
+          title="AppBar"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
+        <Toolbar>
+          <ToolbarGroup firstChild>
+            <DropDownMenu value={1}>
+              <MenuItem value={1} primaryText="ToolBar" />
+              <MenuItem value={2} primaryText="All Voice" />
+              <MenuItem value={3} primaryText="All Text" />
+              <MenuItem value={4} primaryText="Complete Voice" />
+              <MenuItem value={5} primaryText="Complete Text" />
+              <MenuItem value={6} primaryText="Active Voice" />
+              <MenuItem value={7} primaryText="Active Text" />
+            </DropDownMenu>
+          </ToolbarGroup>
+          <ToolbarGroup>
+            <ToolbarTitle text="Options" />
+            <FontIcon className="muidocs-icon-custom-sort" />
+            <ToolbarSeparator />
+            <RaisedButton label="Create Broadcast" primary />
+            <IconMenu
+              iconButtonElement={
+                <IconButton touch>
+                  <NavigationExpandMoreIcon />
+                </IconButton>
+              }
+            >
+              <MenuItem primaryText="Download" />
+              <MenuItem primaryText="More Info" />
+            </IconMenu>
+          </ToolbarGroup>
+        </Toolbar>
         <Tabs
           value={this.state.valueTabs}
           onChange={() => {

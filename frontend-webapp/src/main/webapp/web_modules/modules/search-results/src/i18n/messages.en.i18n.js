@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
 
@@ -48,9 +63,11 @@ const messages = Object.assign({
   'list.sort.none.label': 'None',
   'view.type.table.button.label': 'Display results with table format',
   'view.type.list.button.label': 'Display results with list format',
-  'show.description.tooltip': 'View entity details',
-  'results.no.content.title': 'No results',
-  'results.no.content.subtitle': 'Your search returned no results. Try to change your criteria',
+  'download.tooltip': 'Download',
+  'show.entity.services.tooltip': 'Services',
+  'show.description.tooltip': 'Details',
+  'results.no.content.title': 'No result',
+  'results.no.content.subtitle': 'Your search returned no result. Try to change your criteria',
   'results.options.column.label': 'Options and services',
 }, Locales.en)
 

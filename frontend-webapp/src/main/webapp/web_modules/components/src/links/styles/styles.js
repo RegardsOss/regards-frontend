@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
 /**
@@ -9,26 +24,29 @@
  */
 const styles = theme => ({
   breadcrumb: {
-    path: {
-      color: theme.palette.textColor,
-      backgroundColor: 'transparent',
-      border: 'none',
-      padding: '0px',
-      font: 'inherit',
-      fontSize: '21px',
+    style: {
+      height: theme.module.titleBarHeight,
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
     },
-    pathHover: {
-      cursor: 'pointer',
-      color: theme.palette.accent1Color,
-      backgroundColor: 'transparent',
-      border: 'none',
-      padding: '0px',
-      font: 'inherit',
-      fontSize: '21px',
-    },
-    separator: {
-      verticalAlign: 'text-bottom',
-      margin: ' 0px 5px',
+    element: {
+      style: {
+        margin: theme.module.titleMargin,
+      },
+      iconStyle: {
+        width: theme.module.titleIconSize,
+        height: theme.module.titleIconSize,
+        margin: theme.module.titleIconMargin,
+      },
+      labelStyle: {
+        margin: theme.module.titleTextMargin,
+        fontSize: theme.module.titleFontSize,
+        fontWeight: theme.module.titleFontWeight,
+        textTransform: theme.module.textTransform,
+        padding: 0,
+      },
     },
   },
 })

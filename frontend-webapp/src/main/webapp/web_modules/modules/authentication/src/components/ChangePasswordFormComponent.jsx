@@ -1,12 +1,28 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import get from 'lodash/get'
+import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, Field, ErrorTypes, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 
 /**
  * Reset password request form component
@@ -27,7 +43,6 @@ export class ChangePasswordFormComponent extends React.Component {
   }
 
   static contextTypes = { ...themeContextType, ...i18nContextType }
-
 
   /**
    * Render function
@@ -54,6 +69,8 @@ export class ChangePasswordFormComponent extends React.Component {
                 component={RenderTextField}
                 type="password"
                 label={formatMessage({ id: 'reset.password.update.new.password' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
               />
               <Field
                 name="confirmPassword"
@@ -61,6 +78,8 @@ export class ChangePasswordFormComponent extends React.Component {
                 component={RenderTextField}
                 type="password"
                 label={formatMessage({ id: 'reset.password.update.confirm.password' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
               />
             </CardText>
             <CardActions style={moduleTheme.action}>
@@ -81,12 +100,6 @@ export class ChangePasswordFormComponent extends React.Component {
 
 function validate(values) {
   const errors = {}
-  if (!values.newPassword) {
-    errors.newPassword = ErrorTypes.REQUIRED
-  }
-  if (!values.confirmPassword) {
-    errors.confirmPassword = ErrorTypes.REQUIRED
-  }
   if (values.confirmPassword && values.newPassword && values.newPassword !== values.confirmPassword) {
     errors.confirmPassword = ErrorTypes.DIFFERENT_PASSWORDS
   }
@@ -103,7 +116,7 @@ function asyncValidate({ newPassword }, dispatch, props) {
   // ugly async connection should be done by the container bu we can't
   const { fetchPasswordValidity } = props
   return fetchPasswordValidity(newPassword).then((result) => {
-    const validity = get(result, 'payload.content.validity', false)
+    const validity = get(result, 'payload.validity', false)
     const errors = {}
     if (!validity) { // invalid password
       errors.newPassword = ErrorTypes.INVALID_PASSWORD

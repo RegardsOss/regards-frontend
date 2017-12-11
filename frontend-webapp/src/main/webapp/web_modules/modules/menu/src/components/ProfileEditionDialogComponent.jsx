@@ -24,7 +24,7 @@ class ProfileEditionDialogComponent extends React.Component {
 
   render() {
     const { userMetadata, onHideDialog, onEdit } = this.props
-    const { moduleTheme: { profile: { dialog } } } = this.context
+    const { moduleTheme: { user: { profile: { dialog } } } } = this.context
 
     return (
       <Dialog open onRequestClose={onHideDialog} bodyStyle={dialog.styles}>

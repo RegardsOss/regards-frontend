@@ -8,12 +8,12 @@
 	<groupId>fr.cnes.regards</groupId>
 	<artifactId>bootstrap-frontend</artifactId>
 	<description>Starter module</description>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.1.0</version>
 
 	<parent>
 		<groupId>fr.cnes.regards</groupId>
 		<artifactId>regards-boot-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.1.0</version>
 		<relativePath></relativePath>
 	</parent>
 
@@ -47,10 +47,6 @@
 			<artifactId>frontend-webapp</artifactId>
 			<type>war</type>
 		</dependency>
-		<dependency>
-			<groupId>fr.cnes.regards.framework</groupId>
-			<artifactId>cloud-regards-starter</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -59,23 +55,7 @@
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<configuration>
-					<forceTags>true</forceTags>
-					<imageName>${docker.registry.host}/${fr.cnes.regards.docker.image.name}</imageName>
-					<baseImage>${docker.registry.host}/rs-alpine-oraclejdk8</baseImage>
-					<entryPoint>["/bin/bash", "-c", "chmod +x prestart.sh &amp;&amp; /prestart.sh &amp;&amp; java -jar /${project.build.finalName}.${project.packaging} --regards.frontend.www.path=/static/"]</entryPoint>
-					<!-- We rewrite the entrypoint because rs-frontend requires the GATEWAY_PUBLIC_URL inside staticConfiguration.js -->
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.${project.packaging}</include>
-						</resource>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.basedir}/src/main/docker</directory>
-							<include>prestart.sh</include>
-						</resource>
-					</resources>
+					<skipDockerBuild>true</skipDockerBuild>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -96,6 +76,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+                                        <layout>WAR</layout>
+                                </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

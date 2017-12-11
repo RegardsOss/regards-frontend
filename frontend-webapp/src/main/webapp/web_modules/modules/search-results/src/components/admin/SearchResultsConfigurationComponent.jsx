@@ -1,14 +1,25 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card } from 'material-ui/Card'
+import { CardText } from 'material-ui/Card'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { i18nContextType } from '@regardsoss/i18n'
-import {
-  AttributeModel,
-  AttributeConfiguration,
-  AttributesRegroupementConfiguration,
-} from '@regardsoss/model'
+import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender, Title } from '@regardsoss/components'
 import { Field, RenderCheckbox } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
@@ -27,14 +38,14 @@ class SearchResultsConfigurationComponent extends React.Component {
   static propTypes = {
     defaultDisplayDatasets: PropTypes.bool,
     defaultEnableFacettes: PropTypes.bool,
-    defaultAttributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    defaultAttributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    defaultDatasetAttributes: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    attributesConf: PropTypes.arrayOf(AttributeConfiguration),
-    attributesRegroupementsConf: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    datasetAttributes: PropTypes.arrayOf(AttributesRegroupementConfiguration),
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
-    datasetSelectableAttributes: PropTypes.objectOf(AttributeModel),
+    defaultAttributesConf: AccessShapes.AttributeConfigurationArray,
+    defaultAttributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
+    defaultDatasetAttributes: AccessShapes.AttributesGroupConfigurationArray,
+    attributesConf: AccessShapes.AttributeConfigurationArray,
+    attributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
+    datasetAttributes: AccessShapes.AttributesGroupConfigurationArray,
+    selectableAttributes: DataManagementShapes.AttributeModelList,
+    datasetSelectableAttributes: DataManagementShapes.AttributeModelList,
     hideDatasetsConfiguration: PropTypes.bool.isRequired,
     changeField: PropTypes.func.isRequired,
     displayDataset: PropTypes.bool,
@@ -91,7 +102,7 @@ class SearchResultsConfigurationComponent extends React.Component {
   render() {
     const { topOptions } = this.context.moduleTheme.configuration
     return (
-      <Card>
+      <CardText>
         <Title
           level={3}
           label={this.context.intl.formatMessage({ id: 'form.configuration.tab.title' })}
@@ -115,7 +126,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           />
         </div>
         {this.renderAttributesConfiguration()}
-      </Card>
+      </CardText>
     )
   }
 }

@@ -1,6 +1,22 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import get from 'lodash/get'
 import { BasicSignalReducers } from '@regardsoss/store-utils'
 import AccountPasswordActions from './AccountPasswordActions'
 
@@ -14,10 +30,14 @@ export class AccountPasswordReducer extends BasicSignalReducers {
 
   constructor(namespace) {
     super(new AccountPasswordActions(namespace))
+    this.defaultState = AccountPasswordReducer.DEFAULT_STATE
   }
 
+  reduce(state = this.defaultState, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
 
-  reduce(state = AccountPasswordReducer.DEFAULT_STATE, action) {
     // in this reducer, we want to keep last rules fetch and last password validation separately
     const { rules, validity } = state
     const nextState = super.reduce(state, action)
@@ -32,20 +52,12 @@ export class AccountPasswordReducer extends BasicSignalReducers {
           rules: state.rules,
           validity: state.validity,
         }
-      case this.basicSignalActionInstance.FLUSH:
-        return {
-          ...nextState,
-          // reset rules and validity to defaults
-          rules: AccountPasswordReducer.DEFAULT_STATE.rules,
-          validity: AccountPasswordReducer.DEFAULT_STATE.validity,
-        }
-
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
         return {
           ...nextState,
           // update rules or validity depending on what the action performed
-          rules: nextState.result.type === AccountPasswordActions.FetchingTypes.passwordRules ? nextState.result.content.rules : rules,
-          validity: nextState.result.type === AccountPasswordActions.FetchingTypes.passwordValidity ? nextState.result.content.validity : validity,
+          rules: get(nextState, 'result.rules', null) ? get(nextState, 'result.rules', null) : rules,
+          validity: get(nextState, 'result.validity', null) ? get(nextState, 'result.validity', null) : validity,
         }
       default:
         return nextState

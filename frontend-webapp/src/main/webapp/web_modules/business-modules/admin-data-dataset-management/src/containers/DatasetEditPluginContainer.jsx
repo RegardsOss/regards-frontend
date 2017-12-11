@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
@@ -66,6 +81,23 @@ export class DatasetEditPluginContainer extends React.Component {
     return `/admin/${project}/data/dataset/${datasetId}/links`
   }
 
+  getForm = () => {
+    const {
+      pluginConfigurationList,
+      pluginMetaDataList,
+      linkPluginDataset,
+    } = this.props
+    return (<DatasetEditPluginComponent
+      pluginConfigurationList={pluginConfigurationList}
+      pluginMetaDataList={pluginMetaDataList}
+      linkPluginDataset={linkPluginDataset}
+      onSubmit={this.onSubmit}
+      backUrl={this.getBackUrl()}
+      currentDatasetIpId={this.props.params.datasetIpId}
+      currentDatasetId={this.props.params.datasetId}
+    />)
+  }
+
   redirectToUIServices = () => {
     const { params: { project, datasetId, datasetIpId } } = this.props
     const url = `/admin/${project}/data/dataset/${datasetId}/${datasetIpId}/ui-services`
@@ -74,26 +106,12 @@ export class DatasetEditPluginContainer extends React.Component {
 
   render() {
     const { isLoading } = this.state
-    const {
-      pluginConfigurationList,
-      pluginMetaDataList,
-      linkPluginDataset,
-    } = this.props
     return (
       <I18nProvider messageDir="business-modules/admin-data-dataset-management/src/i18n">
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {() => (<DatasetEditPluginComponent
-            pluginConfigurationList={pluginConfigurationList}
-            pluginMetaDataList={pluginMetaDataList}
-            linkPluginDataset={linkPluginDataset}
-            onSubmit={this.onSubmit}
-            backUrl={this.getBackUrl()}
-            currentDatasetIpId={this.props.params.datasetIpId}
-            currentDatasetId={this.props.params.datasetId}
-          />)
-          }
+          {this.getForm}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -113,12 +131,12 @@ const mapDispatchToProps = dispatch => ({
   fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-catalog',
   }, {
-    pluginId: 'fr.cnes.regards.modules.search.plugin.IService',
+    pluginType: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
   })),
   fetchPluginMetaData: () => dispatch(pluginMetaDataActions.fetchEntityList({
     microserviceName: 'rs-catalog',
   }, {
-    pluginType: 'fr.cnes.regards.modules.search.plugin.IService',
+    pluginType: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
   })),
   fetchLinkPluginDataset: datasetIpId => dispatch(linkPluginDatasetActions.fetchEntity(datasetIpId)),
   updateLinkPluginDataset: (datasetIpId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetIpId, linkPluginDataset)),

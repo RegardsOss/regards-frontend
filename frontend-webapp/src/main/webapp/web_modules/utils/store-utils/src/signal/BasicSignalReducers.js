@@ -1,11 +1,31 @@
 /**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+**/
+
+/**
  * @author Léo Mieulet
  */
+import BasicReducer from '../BasicReducer'
 
 /**
  *  Handle reduction for lists
  */
-class BasicSignalReducers {
+class BasicSignalReducers extends BasicReducer {
 
   static DEFAULT_STATE = {
     isFetching: false,
@@ -15,24 +35,37 @@ class BasicSignalReducers {
       message: '',
       status: 200,
     },
-    result: {},
   }
 
-  constructor(basicSignalActionInstance) {
+  /**
+   * Constructor
+   * @param {*} basicSignalActionInstance actions instance
+   * @param {*} defaultResultValue default results value (as signal is not typed, value may be an array, an object...)
+   */
+  constructor(basicSignalActionInstance, defaultResultValue = {}) {
+    super(basicSignalActionInstance, {
+      ...BasicSignalReducers.DEFAULT_STATE,
+      result: defaultResultValue,
+    })
     this.basicSignalActionInstance = basicSignalActionInstance
   }
 
-  reduce(state = BasicSignalReducers.DEFAULT_STATE, action) {
+
+  reduce(state = this.defaultState, action) {
+    if (this.isCancelled(state, action)) {
+      return state
+    }
+    const newState = super.reduce(state, action)
     switch (action.type) {
       case this.basicSignalActionInstance.SIGNAL_REQUEST:
         return {
-          ...state,
+          ...newState,
           isFetching: true,
           error: BasicSignalReducers.DEFAULT_STATE.error,
         }
       case this.basicSignalActionInstance.SIGNAL_FAILURE:
         return {
-          ...state,
+          ...newState,
           isFetching: false,
           error: {
             hasError: true,
@@ -43,16 +76,14 @@ class BasicSignalReducers {
         }
       case this.basicSignalActionInstance.SIGNAL_SUCCESS:
         return {
-          ...state,
+          ...newState,
           isFetching: false,
           error: BasicSignalReducers.DEFAULT_STATE.error,
           result: action.payload,
         }
-      case this.basicSignalActionInstance.FLUSH:
-        return BasicSignalReducers.DEFAULT_STATE
       default:
         // not in this reducer
-        return state
+        return newState
     }
   }
 

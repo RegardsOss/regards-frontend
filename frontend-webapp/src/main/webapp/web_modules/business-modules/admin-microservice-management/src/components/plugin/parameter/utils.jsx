@@ -1,5 +1,23 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import findIndex from 'lodash/findIndex'
-import { PluginMetaData, PluginParameter, PluginParameterType } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 
 /**
  * Builds a node allowing to display a left & a right text in the {@code primaryText} of a {@link MenuItem}.
@@ -25,10 +43,10 @@ const getFieldName = (name, pluginMetaData, suffix) => {
  */
 const pluginParameterComponentPropTypes = {
   microserviceName: PropTypes.string.isRequired,
-  pluginMetaData: PluginMetaData,
+  pluginMetaData: CommonShapes.PluginMetaData,
   // eslint-disable-next-line react/no-unused-prop-types
-  pluginParameter: PluginParameter,
-  pluginParameterType: PluginParameterType,
+  pluginParameter: CommonShapes.PluginParameterContent,
+  pluginParameterType: CommonShapes.PluginParameterType,
   // eslint-disable-next-line react/no-unused-prop-types
   mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
   // eslint-disable-next-line react/no-unused-prop-types

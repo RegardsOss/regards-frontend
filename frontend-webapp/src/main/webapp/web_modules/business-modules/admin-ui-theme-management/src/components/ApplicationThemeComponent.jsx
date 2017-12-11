@@ -1,36 +1,54 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import find from 'lodash/find'
+import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
-import stubTrue from 'lodash/stubTrue'
+import map from 'lodash/map'
 import merge from 'lodash/merge'
+import stubTrue from 'lodash/stubTrue'
 import values from 'lodash/values'
-import IconButton from 'material-ui/IconButton'
-import Close from 'material-ui/svg-icons/navigation/close'
-import Save from 'material-ui/svg-icons/content/save'
-import MenuItem from 'material-ui/MenuItem'
-import Toggle from 'material-ui/Toggle'
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import DropDownMenu from 'material-ui/DropDownMenu'
+import IconButton from 'material-ui/IconButton'
+import MenuItem from 'material-ui/MenuItem'
 import Paper from 'material-ui/Paper'
 import Snackbar from 'material-ui/Snackbar'
+import Toggle from 'material-ui/Toggle'
+import TextField from 'material-ui/TextField'
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
+import Delete from 'material-ui/svg-icons/action/delete'
+import Save from 'material-ui/svg-icons/content/save'
 import Back from 'material-ui/svg-icons/navigation/arrow-back'
+import Close from 'material-ui/svg-icons/navigation/close'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ShowableAtRender } from '@regardsoss/components'
+import { ShowableAtRender, withConfirmDialog } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType, defaultCustomConfiguration, defaultTheme, ThemeActions } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { muiTheme } from '@regardsoss/vendors'
+import { muiTheme as generateMuiThemeConfigurator } from '@regardsoss/vendors'
 import MaterialUiComponentsShowcase from './MaterialUiComponentsShowcase'
-import DeleteButton from './DeleteButton'
 import CreateButton from './CreateButton'
 import moduleStyles from '../styles/styles'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
+const ConfirmableHateoasIconAction = withConfirmDialog(HateoasIconAction)
 const HateoasToggle = withHateoasDisplayControl(Toggle)
 const HateoasCreateButton = withResourceDisplayControl(CreateButton)
 
@@ -69,7 +87,10 @@ class ApplicationThemeComponent extends React.Component {
       theme = values(props.themeList)[0]
     }
 
+    const background = get(theme, 'content.configuration.palette.background', null)
+
     this.state = {
+      background,
       editingTheme: theme,
       snackBarOpen: false,
       snackBarMessageId: 'application.theme.save.success',
@@ -79,7 +100,13 @@ class ApplicationThemeComponent extends React.Component {
   onThemeSelect = (event, index, value) => {
     Promise.resolve(this.props.fetchTheme(value)).then((actionResult) => {
       if (!actionResult.error) {
-        this.setState({ editingTheme: find(this.props.themeList, theme => theme.content.id === value) })
+        const newTheme = find(this.props.themeList, theme => theme.content.id === value)
+        if (newTheme) {
+          this.setState({
+            background: newTheme.content.configuration.palette.background || '',
+            editingTheme: newTheme,
+          })
+        }
       }
     })
   }
@@ -150,38 +177,56 @@ class ApplicationThemeComponent extends React.Component {
     })
   }
 
+  changeBackground = (event, newValue) => {
+    const newEditingTheme = this.state.editingTheme
+    newEditingTheme.content.configuration.palette.background = newValue
+    this.setState({
+      background: newValue,
+      editingTheme: newEditingTheme,
+    })
+  }
+
   render() {
     const { themeList, onClose, isFetching } = this.props
     const { snackBarOpen, snackBarMessageId } = this.state
+    const { muiTheme, intl: { formatMessage } } = this.context
     const editingTheme = this.getEditingTheme()
     const isThemeListEmpty = isEmpty(themeList)
     const previewWrapper = <MaterialUiComponentsShowcase />
-    const style = moduleStyles(this.context.muiTheme).theme
+    const style = moduleStyles(muiTheme).theme
 
     const themeForDecorator = editingTheme.content.configuration
     themeForDecorator.themeName = editingTheme.content.name
-    const themeConfigurer = muiTheme(themeForDecorator, this.onThemeOverride)(() => (previewWrapper))
+    const themeConfigurer = generateMuiThemeConfigurator(themeForDecorator, this.onThemeOverride)(() => (previewWrapper))
 
-    const toolbarTitle = this.context.intl.formatMessage({ id: 'application.theme.title' })
+    const toolbarTitle = formatMessage({ id: 'application.theme.title' })
 
     const saveButton = (
       <HateoasIconAction
         entityLinks={editingTheme.links}
         hateoasKey={HateoasKeys.UPDATE}
         onTouchTap={() => this.onSave(editingTheme)}
-        tooltip={this.context.intl.formatMessage({ id: 'application.theme.save' })}
-      ><Save color={style.toolbar.icon.color} /></HateoasIconAction>
+        tooltip={formatMessage({ id: 'application.theme.save' })}
+      ><Save color={muiTheme.palette.alternateTextColor} /></HateoasIconAction>
     )
-    const deleteButton = (<DeleteButton
-      onDelete={() => this.onDelete(editingTheme)}
-      entityHateoasLinks={editingTheme.links}
-    />)
+    const deleteButton = (<ConfirmableHateoasIconAction
+      entityLinks={editingTheme.links}
+      hateoasKey={HateoasKeys.DELETE}
+      onTouchTap={() => this.onDelete(editingTheme)}
+      tooltip={formatMessage({ id: 'application.theme.remove.tooltip' })}
+      dialogTitle={formatMessage({ id: 'application.theme.remove.confirm' })}
+    >
+      <Delete
+        color={muiTheme.palette.alternateTextColor}
+        hoverColor={muiTheme.palette.accent1Color}
+      />
+    </ConfirmableHateoasIconAction>)
     const createButton = (<HateoasCreateButton
       resourceDependencies={ThemeActions.getDependency(RequestVerbEnum.POST)}
       onCreate={this.onCreate}
     />)
     const themeActivationToggle = (<HateoasToggle
-      label={this.context.intl.formatMessage({ id: 'application.theme.default.active' })}
+      label={formatMessage({ id: 'application.theme.default.active' })}
       defaultToggled={editingTheme.content.active}
       onToggle={this.toggleThemeActivation}
       style={style.activationToggle}
@@ -209,7 +254,7 @@ class ApplicationThemeComponent extends React.Component {
           <Toolbar style={style.toolbar.root}>
             <ToolbarGroup firstChild>
               <IconButton onTouchTap={onClose}><Back color={style.toolbar.icon.color} /></IconButton>
-              <ToolbarTitle text={toolbarTitle} />
+              <ToolbarTitle text={toolbarTitle} style={style.toolbar.title} />
               {themeSelect}
             </ToolbarGroup>
             <ToolbarGroup lastChild>
@@ -237,12 +282,17 @@ class ApplicationThemeComponent extends React.Component {
           isEmpty={isThemeListEmpty}
           emptyComponent={
             <span>
-              {this.context.intl.formatMessage({ id: 'application.theme.default.create.message' })}
+              {formatMessage({ id: 'application.theme.default.create.message' })}
             </span>
           }
         >
           <div style={style.contentWrapper}>
             {themeActivationToggle}
+            <TextField
+              hintText="Background style"
+              value={this.state.background}
+              onChange={this.changeBackground}
+            />
             {themeConfigurer}
           </div>
         </LoadableContentDisplayDecorator>

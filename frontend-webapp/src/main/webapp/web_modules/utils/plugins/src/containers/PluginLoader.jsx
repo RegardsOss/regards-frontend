@@ -1,13 +1,30 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
+import isEmpty from 'lodash/isEmpty'
 import { IntlProvider } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
 import { i18nSelectors } from '@regardsoss/i18n'
-import isNil from 'lodash/isNil'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { loadPlugin } from '../model/LoadPluginActions'
 import LoadPluginSelector from '../model/LoadPluginSelector'
@@ -30,7 +47,7 @@ class PluginLoader extends React.Component {
    * @type {{pluginId: *, pluginConf: *, displayPlugin: *, children: *, loadedPlugin: *, loadPlugin: *, locale: *}}
    */
   static propTypes = {
-    pluginInstanceId: PropTypes.string.isRequired,
+    pluginInstanceId: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.string.isRequired]),
     pluginPath: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     pluginConf: PropTypes.object,
@@ -65,16 +82,19 @@ class PluginLoader extends React.Component {
       })
       nextProps.loadPlugin(nextProps.pluginPath, this.errorCallback)
     }
-    if (!this.state.registered && nextProps.loadedPlugin && nextProps.loadedPlugin.reducer) {
-      const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
-      const loadedPluginReducer = {}
+    if (!this.state.registered && nextProps.loadedPlugin) {
+      if (!isEmpty(nextProps.loadedPlugin.reducer)) {
+        const loadedPluginReducerName = `plugins.${nextProps.loadedPlugin.name}`
+        const loadedPluginReducer = {}
+
+        loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
+        if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
+          getReducerRegistry().register(loadedPluginReducer)
+        }
+      }
       this.setState({
         registered: true,
       })
-      loadedPluginReducer[loadedPluginReducerName] = configureReducers(nextProps.loadedPlugin.reducer)
-      if (!getReducerRegistry().isRegistered(loadedPluginReducer)) {
-        getReducerRegistry().register(loadedPluginReducer)
-      }
     }
   }
 
@@ -102,7 +122,9 @@ class PluginLoader extends React.Component {
             locale={this.props.locale}
             messages={this.props.loadedPlugin.messages[this.props.locale]}
           >
-            {element}
+            <ModuleThemeProvider module={this.props.loadedPlugin.styles} >
+              {element}
+            </ModuleThemeProvider>
           </IntlProvider>
         )
       } else if (this.props.children) {

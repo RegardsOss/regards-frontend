@@ -13,10 +13,10 @@ import { DataManagementClient } from '@regardsoss/client'
 export default class DownloadDescriptionClient {
 
   /** dataset reducer branch path element in store (relative to parentStorePathArray) */
-  static LAST_DATASET_REDUCER_PATH_ELT = 'dataset'
+  static LAST_DATASET_REDUCER_PATH_ELT = 'dataset-description'
 
   /** dataset reducer branch path element in store (relative to parentStorePathArray) */
-  static LAST_COLLECTION_REDUCER_PATH_ELT = 'collection'
+  static LAST_COLLECTION_REDUCER_PATH_ELT = 'collection-description'
 
   /**
    * constructor

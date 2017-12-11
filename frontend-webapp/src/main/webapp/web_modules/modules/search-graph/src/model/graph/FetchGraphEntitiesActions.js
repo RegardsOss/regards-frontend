@@ -19,7 +19,7 @@ class FetchGraphEntitiesActions extends BasicPageableActions {
     super({
       namespace: `search-graph/GRAPH_LEVEL_${objectTypePath.toUpperCase()}`,
       // note: search query is dynamically computed on fetch request
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/${objectTypePath}/search`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/${objectTypePath}/search`,
       schemaTypes: {
         ENTITY,
         ENTITY_ARRAY,

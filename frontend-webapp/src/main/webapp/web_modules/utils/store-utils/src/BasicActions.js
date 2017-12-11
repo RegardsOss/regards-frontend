@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
 import replace from 'lodash/replace'
@@ -30,25 +45,42 @@ class BasicActions {
   constructor(options) {
     this.entityEndpoint = options.entityEndpoint
     this.entityPathVariable = options.entityPathVariable
-    this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
-    this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
-    this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
     this.FLUSH = `${options.namespace}/FLUSH`
     this.headers = options.headers || {}
     this.bypassErrorMiddleware = !!options.bypassErrorMiddleware
   }
 
+
   /**
    * Builds a failure action, storing status code and allowing bypass middleware (see constructor)
-   * @param type action type
+   * @param {string} type action type
    */
-  buildFailureAction = type => ({
-    type,
-    meta: (action, state, res) => ({
-      status: res && res.status,
-      bypassErrorMiddleware: this.bypassErrorMiddleware,
-    }),
-  })
+  buildFailureAction = (type) => {
+    const requestTime = Date.now()
+    return {
+      type,
+      meta: (action, state, res) => ({
+        status: res && res.status,
+        bypassErrorMiddleware: this.bypassErrorMiddleware,
+        requestTime,
+      }),
+    }
+  }
+
+  /**
+   * Builds a success action. Instantiates required data to handle the cancel pending events
+   * @param {string} type redux action type
+   * @param {function} payload optional action payload build function (optional)
+   * @return a CALL API compatible redux action
+   */
+  buildSuccessAction = (type, payload) => {
+    const requestTime = Date.now()
+    return {
+      type,
+      payload,
+      meta: () => ({ requestTime }),
+    }
+  }
 
   /**
    * Replace parameterized value in the current configured endpoint
@@ -88,12 +120,15 @@ class BasicActions {
 
   /**
    * Remove all existing entries
+   * @param {boolean} cancelPending: (default: true) should cancel pending actions?
    *
    * @returns {{type: string}}
    */
-  flush() {
+  flush(cancelPending = true) {
     return {
       type: this.FLUSH,
+      cancelPending,
+      flushTime: Date.now(),
     }
   }
 

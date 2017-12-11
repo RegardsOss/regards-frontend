@@ -2,7 +2,9 @@
 * LICENSE_PLACEHOLDER
 **/
 import { connect } from '@regardsoss/redux'
-import { CatalogEntity, CatalogEntityTypes } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { ModuleThemeProvider } from '@regardsoss/modules'
 import GraphLevelDisplayer from '../../components/user/GraphLevelDisplayer'
 import { SelectionPath } from '../../model/graph/SelectionShape'
 import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
@@ -13,18 +15,21 @@ import GraphLevelCollectionActions from '../../model/graph/GraphLevelCollectionA
 import GraphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions'
 import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
 import GraphLevelCollectionSelectors from '../../model/graph/GraphLevelCollectionSelectors'
-import GraphLevelDatasetSelectors from '../../model/graph/GraphLevelDatasetSelectors'
+import GraphLevelDatasetSelectors, { getTerminalDatasets } from '../../model/graph/GraphLevelDatasetSelectors'
+import styles from '../../styles/styles'
+
+const moduleStyles = { styles }
 
 /**
-* Container for collection content displayer (connects with selection state and level content)
-*/
+ * Container for collection content displayer (connects with selection state and level content)
+ */
 export class GraphLevelDisplayerContainer extends React.Component {
 
   static mapStateToProps = (state, { levelIndex, isFirstLevel }) => {
     const partitionKey = getLevelPartitionKey(levelIndex)
     // has parent selection, and is it a collectionb?
     const parentSelection = GraphContextSelectors.getSelectionForParentLevel(state, levelIndex)
-    const parentIpId = parentSelection && parentSelection.entityType === CatalogEntityTypes.COLLECTION ? parentSelection.ipId : null
+    const parentIpId = parentSelection && parentSelection.entityType === ENTITY_TYPES_ENUM.COLLECTION ? parentSelection.ipId : null
     return {
       parentIpId,
       // retrieve level data from partitioned store
@@ -32,7 +37,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
       isLoading: GraphLevelCollectionSelectors.isLoading(state, partitionKey) || GraphLevelDatasetSelectors.isLoading(state, partitionKey),
       hasError: GraphLevelCollectionSelectors.hasError(state, partitionKey) || GraphLevelDatasetSelectors.hasError(state, partitionKey),
       collections: GraphLevelCollectionSelectors.getCollections(state, partitionKey),
-      datasets: GraphLevelDatasetSelectors.getDatasets(state, partitionKey),
+      datasets: getTerminalDatasets(partitionKey)(state),
       selectionPath: GraphContextSelectors.getSelectionPath(state),
     }
   }
@@ -85,8 +90,8 @@ export class GraphLevelDisplayerContainer extends React.Component {
     isShowable: PropTypes.bool.isRequired, // is showable in current selection state
     isLoading: PropTypes.bool.isRequired, // is loading
     hasError: PropTypes.bool.isRequired, // has fetch error
-    collections: PropTypes.objectOf(CatalogEntity).isRequired,  // level displayed collections
-    datasets: PropTypes.objectOf(CatalogEntity).isRequired,  // the level displayed dataset
+    collections: CatalogShapes.EntityList.isRequired,  // level displayed collections
+    datasets: CatalogShapes.EntityList.isRequired,  // the level displayed dataset
     parentIpId: PropTypes.string, // currently selected parent collection IP ID or null
 
     // from mapDispatchToProps
@@ -154,16 +159,18 @@ export class GraphLevelDisplayerContainer extends React.Component {
       datasets,
     } = this.props
     return (
-      <GraphLevelDisplayer
-        graphDatasetAttributes={graphDatasetAttributes}
-        isShowable={isShowable}
-        isLoading={isLoading}
-        hasError={hasError}
-        collections={collections}
-        datasets={datasets}
-        levelIndex={levelIndex}
-        isLastLevel={isLastLevel}
-      />)
+      <ModuleThemeProvider module={moduleStyles}>
+        <GraphLevelDisplayer
+          graphDatasetAttributes={graphDatasetAttributes}
+          isShowable={isShowable}
+          isLoading={isLoading}
+          hasError={hasError}
+          collections={collections}
+          datasets={datasets}
+          levelIndex={levelIndex}
+          isLastLevel={isLastLevel}
+        />
+      </ModuleThemeProvider>)
   }
 
 }

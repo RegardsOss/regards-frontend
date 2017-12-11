@@ -1,9 +1,29 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
+import IconButton from 'material-ui/IconButton'
+import SearchIcon from 'material-ui/svg-icons/action/search'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { formValueSelector } from 'redux-form'
+import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { CommonShapes } from '@regardsoss/shape'
@@ -13,7 +33,9 @@ import { buildParameterList, buildDefaultParameterList, mapPluginParameterTypeTo
 import moduleStyles from '../../styles/styles'
 import GenericPluginParameter from './parameter/GenericPluginParameter'
 
-const { validRequiredString, validRequiredNumber } = ValidationHelpers
+const { string, number, required } = ValidationHelpers
+const requiredStringValidator = [string, required]
+const requiredNumberValidator = [number, required]
 
 /**
  * Display edit and create fragment form
@@ -35,6 +57,7 @@ export class PluginConfigurationFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
+    iconField: PropTypes.string,
   }
 
   static defaultProps = {
@@ -114,7 +137,42 @@ export class PluginConfigurationFormComponent extends React.Component {
         break
     }
 
+    // Load icon if any
+    this.loadIcon(get(currentPluginConfiguration, 'content.iconUrl'), null)
+
     this.props.initialize(initialValues)
+  }
+
+  /**
+   * Load icon from the form field iconUrl.
+   * @param path
+   */
+  loadIcon = (path) => {
+    const { iconField } = this.props
+    if (iconField) {
+      this.setState({
+        loadedIcon: iconField,
+      })
+    } else if (path) {
+      this.setState({
+        loadedIcon: path,
+      })
+    }
+  }
+
+  /**
+   * Render loaded icon see loadIcon method
+   * @returns {*}
+   */
+  renderIcon = () => {
+    const { currentPluginConfiguration } = this.props
+    const { loadedIcon } = this.state
+    if (loadedIcon) {
+      return <img src={loadedIcon} alt="" width="75" height="75" />
+    } else if (get(currentPluginConfiguration, 'content.iconUrl', null)) {
+      return <img src={currentPluginConfiguration.content.iconUrl} alt="" width="75" height="75" />
+    }
+    return null
   }
 
   /**
@@ -141,13 +199,16 @@ export class PluginConfigurationFormComponent extends React.Component {
               title={title}
             />
             <CardText>
+              <div>
+                {this.renderIcon()}
+              </div>
               <Field
                 disabled
                 name="pluginClassName"
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                validate={validRequiredString}
+                validate={requiredStringValidator}
                 label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.pluginClassName' })}
               />
               <Field
@@ -155,7 +216,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                validate={validRequiredString}
+                validate={requiredStringValidator}
                 label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.label' })}
               />
               <Field
@@ -163,7 +224,7 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                validate={validRequiredString}
+                validate={requiredStringValidator}
                 label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.version' })}
               />
               <Field
@@ -171,10 +232,30 @@ export class PluginConfigurationFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="number"
-                parse={val => parseFloat(val)}
-                validate={validRequiredNumber}
+                parse={parseFloat}
+                validate={requiredNumberValidator}
                 label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.priorityOrder' })}
               />
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                }}
+              >
+                <Field
+                  name="iconUrl"
+                  component={RenderTextField}
+                  fullWidth
+                  type="text"
+                  label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.form.icon' })}
+                />
+                <IconButton
+                  tooltip="Display icon"
+                  onTouchTap={this.loadIcon}
+                >
+                  <SearchIcon />
+                </IconButton>
+              </div>
               <Field
                 name="active"
                 component={RenderDoubleLabelToggle}
@@ -223,7 +304,13 @@ export class PluginConfigurationFormComponent extends React.Component {
   }
 }
 
+const selector = formValueSelector('plugin-configuration-form')
+const mapStateToProps = state => ({
+  iconField: selector(state, 'iconUrl'),
+})
+const ConnectedComponent = connect(mapStateToProps)(PluginConfigurationFormComponent)
+
 export default reduxForm({
   form: 'plugin-configuration-form',
-})(PluginConfigurationFormComponent)
+})(ConnectedComponent)
 

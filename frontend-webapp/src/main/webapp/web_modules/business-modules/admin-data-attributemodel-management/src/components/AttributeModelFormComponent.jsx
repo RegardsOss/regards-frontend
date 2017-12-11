@@ -1,3 +1,21 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import map from 'lodash/map'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 
@@ -7,7 +25,6 @@ import {
   RenderSelectField,
   Field,
   ValidationHelpers,
-  ErrorTypes,
   reduxForm,
 } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
@@ -21,6 +38,8 @@ import EnumerationComponent, { initializeEnumerationForm } from './EnumerationCo
 import PatternComponent, { initializePatternForm } from './PatternComponent'
 import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
+
+const nameFieldValidators = [ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
 
 /**
  * Display edit and create attribute model form
@@ -227,6 +246,7 @@ export class AttributeModelFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={this.context.intl.formatMessage({ id: 'attrmodel.form.name' })}
+                validate={nameFieldValidators}
               />
             </ShowableAtRender>
             <Field
@@ -235,6 +255,7 @@ export class AttributeModelFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'attrmodel.form.label' })}
+              validate={ValidationHelpers.lengthLessThan(20)}
             />
             <Field
               name="description"
@@ -318,22 +339,6 @@ export class AttributeModelFormComponent extends React.Component {
  */
 function validate(values) {
   const errors = {}
-  if (values.name) {
-    if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
-      errors.name = ErrorTypes.ALPHA_NUMERIC
-    }
-    if (values.name.length < 3) {
-      errors.name = 'invalid.min_3_carac'
-    }
-    if (values.name.length > 32) {
-      errors.name = 'invalid.max_32_carac'
-    }
-  }
-  if (values.label) {
-    if (values.label.length > 20) {
-      errors.label = 'invalid.max_20_carac'
-    }
-  }
   // flag the user if he active two filters on the same time
   if (values.restriction) {
     const restrictions = ['INTEGER_RANGE', 'DOUBLE_RANGE', 'LONG_RANGE', 'ENUMERATION', 'PATTERN']

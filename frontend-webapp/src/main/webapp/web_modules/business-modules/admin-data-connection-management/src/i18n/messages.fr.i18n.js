@@ -1,3 +1,21 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -38,7 +56,6 @@ const messages = Object.assign({
   'connection.connectionTester.snackbar.success': 'La connexion à {label} est fonctionnelle',
   'connection.connectionTester.snackbar.error': 'La connexion à {label} a échoué',
   'connection.connectionTester.pending': 'Tentative de connexion...',
-  'invalid.minPoolSizeLow': 'Nombre de connexions insuffisant',
   'invalid.maxPoolSizeGreaterThanMinPoolSize': 'Le nombre max de connexions doit être supérieur au min',
 }, Locales.fr)
 

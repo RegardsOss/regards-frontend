@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
@@ -36,6 +51,8 @@ class PluginListComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static CREATE_DEPENDENCIES = [uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]
 
   constructor(props) {
     super(props)
@@ -111,6 +128,7 @@ class PluginListComponent extends React.Component {
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.UPDATE}
                       onTouchTap={() => this.props.onEdit(plugin.content)}
+                      title={this.context.intl.formatMessage({ id: 'plugin.form.edit' })}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
@@ -118,6 +136,7 @@ class PluginListComponent extends React.Component {
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.DELETE}
                       onTouchTap={() => this.openDeleteDialog(plugin.content)}
+                      title={this.context.intl.formatMessage({ id: 'plugin.form.delete' })}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>
@@ -135,7 +154,7 @@ class PluginListComponent extends React.Component {
                 id="plugins.list.action.add"
               />
             }
-            mainHateoasDependencies={[uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]}
+            mainHateoasDependencies={PluginListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugins.list.action.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />

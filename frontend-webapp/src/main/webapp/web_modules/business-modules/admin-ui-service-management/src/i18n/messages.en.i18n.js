@@ -1,11 +1,27 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'service.list.title': 'UI Service plugin list',
   'service.list.open.tooltip': 'Configurations',
+  'service.list.create.tooltip': 'Create',
 
   'service.listconf.title': 'List service configurations {value}',
   'service.listconf.subtitle': 'You can define several configurations for each service',
@@ -27,16 +43,18 @@ const messages = Object.assign({
   'service.listconf.plugin.email': 'Email contact: {value}',
   'service.listconf.plugin.license': 'Licence: {value}',
   'service.listconf.plugin.url': 'Url: {value}',
+  'service.listconf.delete.confirm.title': 'Remove the configuration?',
 
   'service.form.create.title': 'Create a service configuration',
   'service.form.edit.title': 'Edit the service configuration {name}',
   'service.form.duplicate.title': 'Duplicate using the service configuration {name}',
   'service.form.subtitle': 'Services have two types of input variables: those fixed here in this form (static variables) and variables provided by the user (dynamic variables). For dynamic variables, you can define here the default value',
   'service.form.label': 'Configuration label (only for administrators)',
-  'service.form.staticField': 'Value of the static variable "{name}"',
-  'service.form.dynamicField': 'Value used by default by the dynamic variable "{name}"',
+  'service.form.static.configuration.title': 'Configuration parameters',
+  'service.form.dynamic.configuration.title': 'Runtime parameter (pre-filled values for user)',
+  'service.form.mandatory.field': '{label} (*)',
   'service.form.isActive': 'Activate this configuration',
-  'service.form.isDefault': 'Automatically associate this service with the current configuration on ALL datasets',
+  'service.form.linkedToAllEntities': 'Incluse this service within every dataset',
   'service.form.action.save': 'Save',
   'service.form.action.back': 'Back',
 

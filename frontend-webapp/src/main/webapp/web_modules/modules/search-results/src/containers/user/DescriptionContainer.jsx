@@ -2,8 +2,8 @@
 * LICENSE_PLACEHOLDER
 **/
 import { connect } from '@regardsoss/redux'
-import { TagTypes } from '@regardsoss/domain/catalog'
 import { EntityDescriptionContainer } from '@regardsoss/entities-common'
+import { Tag } from '../../models/navigation/Tag'
 import downloadDescriptionClient from '../../clients/DownloadDescriptionClient'
 import { ModelAttributesActions, ModelAttributesSelectors } from '../../clients/ModelAttributeClient'
 import { descriptionLevelActions, descriptionLevelSelectors } from '../../models/description/DescriptionLevelModel'
@@ -15,28 +15,20 @@ import navigationContextActions from '../../models/navigation/NavigationContextA
 export class DescriptionContainer extends React.Component {
 
   static mapDispatchToProps = dispatch => ({
-    dispatchOnSearchTag: tag => dispatch(navigationContextActions.changeSearchTag(tag)),
-    dispatchOnSearchDataset: dataset => dispatch(navigationContextActions.changeDataset(dataset)),
+    dispatchAddSearchTag: tag => dispatch(navigationContextActions.addSearchTag(tag)),
   })
 
   static propTypes = {
-    dispatchOnSearchTag: PropTypes.func.isRequired,
-    dispatchOnSearchDataset: PropTypes.func.isRequired,
+    dispatchAddSearchTag: PropTypes.func.isRequired,
   }
 
-  onSearchTag = (tag) => {
-    const { dispatchOnSearchTag, dispatchOnSearchDataset } = this.props
-    switch (tag.type) {
-      case TagTypes.WORD:
-        dispatchOnSearchTag(tag.data) // data is a simple word
-        break
-      case TagTypes.DATASET:
-        dispatchOnSearchDataset(tag.data) // data is an entity
-        break
-      default:
-        // data is an entity but unused here
-        dispatchOnSearchTag(tag.data.content.ipId)
-    }
+  /**
+   * On user search tag callback - packs the new tag into a Tag model and then dispatches action
+   * @param descriptionTag description tag, as callback from tag selection in description component
+   */
+  onSearchTag = (descriptionTag) => {
+    const { dispatchAddSearchTag } = this.props
+    dispatchAddSearchTag(Tag.fromDescriptionTag(descriptionTag))
   }
 
   render() {

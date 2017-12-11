@@ -1,7 +1,22 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-// import ExtensionIcon from 'material-ui/svg-icons/action/extension'
+import ExtensionIcon from 'material-ui/svg-icons/action/extension'
 import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
 import Palette from 'material-ui/svg-icons/image/palette'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
@@ -10,7 +25,7 @@ import { themeUIDependencies } from '@regardsoss/admin-ui-theme-management'
 import { pluginUIDependencies } from '@regardsoss/admin-ui-plugin-management'
 import { moduleUIDependencies } from '@regardsoss/admin-ui-module-management'
 import { layoutUIDependencies } from '@regardsoss/admin-ui-layout-management'
-// import { serviceUIDependencies } from '@regardsoss/admin-ui-service-management'
+import { serviceUIDependencies } from '@regardsoss/admin-ui-service-management'
 
 /**
  * Configuration file for UI-Configuration boards items.
@@ -73,8 +88,6 @@ export default (project, intl) => [
       hateoasDependencies: pluginUIDependencies.boardAddRequiredDependencies,
     }],
   },
-  /**
-   * TODO Add services management
   {
     title: intl.formatMessage({ id: 'project.service.title' }),
     description: intl.formatMessage({ id: 'project.service.description' }),
@@ -82,8 +95,8 @@ export default (project, intl) => [
     actions: [{
       path: `/admin/${project}/ui/service/list`,
       icon: <ExtensionIcon />,
-      tooltipMsg: intl.formatMessage({ id: 'action.list.tooltip' }),
+      tooltipMsg: intl.formatMessage({ id: 'action.service.list.tooltip' }),
       hateoasDependencies: serviceUIDependencies.boardListRequiredDependencies,
     }],
-  },*/
+  },
 ]

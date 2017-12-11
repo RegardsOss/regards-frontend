@@ -1,13 +1,28 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
-import { Card, CardText, CardHeader } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginConf, Container as ContainerShape } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { Container } from '@regardsoss/layout'
 import { themeContextType } from '@regardsoss/theme'
+import { DynamicModule, ModuleTitle } from '@regardsoss/components'
 
 /**
  * Component to display a configured Search form module
@@ -18,8 +33,8 @@ class FormComponent extends React.Component {
   static propTypes = {
     expanded: PropTypes.bool,
     description: PropTypes.string.isRequired,
-    layout: ContainerShape.isRequired,
-    plugins: PropTypes.arrayOf(PluginConf),
+    layout: AccessShapes.ContainerContent.isRequired,
+    plugins: AccessShapes.UIPluginConfArray,
     pluginsProps: PropTypes.shape({
       onChange: PropTypes.func.isRequired,
     }),
@@ -82,39 +97,38 @@ class FormComponent extends React.Component {
       getDefaultState: this.getPluginDefaultState,
       savePluginState: this.savePluginState,
     }
+
+    // XXX - please correct that horror...
+    // Container type changed between version 1 and version 1.1. So, to avoid changing every configuration saved, we force container type with the new value.
+    this.props.layout.type = 'FormMainContainer'
+
     return (
-      <Card
+      <DynamicModule
+        title={<ModuleTitle IconConstructor={SearchIcon} text={this.props.description} />}
         onExpandChange={this.handleExpand}
         expanded={this.state.expanded}
+        onKeyPress={this.onKeyPress}
       >
-        <CardHeader
-          title={this.props.description}
-          actAsExpander
-          showExpandableButton
+        <Container
+          appName="user"
+          container={this.props.layout}
+          plugins={this.props.plugins}
+          pluginProps={pluginsProps}
+          formHeader
         />
-        <CardText expandable onKeyPress={this.onKeyPress}>
-          <Container
-            appName="user"
-            container={this.props.layout}
-            plugins={this.props.plugins}
-            pluginProps={pluginsProps}
-            mainContainer
+        <div
+          style={this.context.moduleTheme.user.searchButtonContainer}
+        >
+          <RaisedButton
+            label={this.context.intl.formatMessage({ id: 'form.search.button.label' })}
+            labelPosition="before"
+            primary
+            icon={<SearchIcon />}
+            style={this.context.moduleTheme.user.searchButton}
+            onTouchTap={this.onHandleSearch}
           />
-          <div
-            style={this.context.moduleTheme.user.searchButtonContainer}
-          >
-            <RaisedButton
-              label={this.context.intl.formatMessage({ id: 'form.search.button.label' })}
-              labelPosition="before"
-              primary
-              icon={<SearchIcon />}
-              style={this.context.moduleTheme.user.searchButton}
-              onTouchTap={this.onHandleSearch}
-            />
-          </div>
-        </CardText>
-      </Card>
-    )
+        </div>
+      </DynamicModule>)
   }
 }
 

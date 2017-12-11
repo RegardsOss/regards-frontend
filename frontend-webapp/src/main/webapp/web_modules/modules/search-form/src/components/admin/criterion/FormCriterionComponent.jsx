@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import {
   Table,
@@ -14,12 +29,13 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import concat from 'lodash/concat'
 import filter from 'lodash/filter'
+import { CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { CardActionsComponent, Title } from '@regardsoss/components'
-import { PluginConf, PluginDefinition, AttributeModel, Container as ContainerShape } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import FormCriteriaComponent from './FormCriteriaComponent'
 
@@ -33,15 +49,15 @@ class FormCriterionComponent extends React.Component {
     // Fu,ction to update current redux-form
     changeField: PropTypes.func,
     // Default form criterion list
-    defaultCriterion: PropTypes.arrayOf(PluginConf),
+    defaultCriterion: AccessShapes.UIPluginConfArray,
     // Current form criterion list
-    criterion: PropTypes.arrayOf(PluginConf),
+    criterion: AccessShapes.UIPluginConfArray,
     // Current layout form
-    layout: ContainerShape,
+    layout: AccessShapes.ContainerContent,
     // List of availables attributes to edit criterion configuration
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
+    selectableAttributes: DataManagementShapes.AttributeModelList,
     // List of available criterion plugins
-    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    availableCriterion: AccessShapes.UIPluginDefinitionList,
   }
 
   static contextTypes = {
@@ -59,11 +75,14 @@ class FormCriterionComponent extends React.Component {
       return ''
     }
     return reduce(attributes, (result, attribute) => {
-      const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label') || attribute
-      if (result !== '') {
-        return `${result} - ${attrLabel}`
+      if (this.props.selectableAttributes && this.props.selectableAttributes[attribute]) {
+        const attrLabel = get(this.props.selectableAttributes[attribute], 'content.label', null) || attribute
+        if (result !== '') {
+          return `${result} - ${attrLabel}`
+        }
+        return attrLabel
       }
-      return attrLabel
+      return attribute
     }, '')
   }
 
@@ -170,7 +189,7 @@ class FormCriterionComponent extends React.Component {
   render() {
     const dialogTitle = this.context.intl.formatMessage({ id: 'form.criterion.criteria.new.title' })
     return (
-      <div>
+      <CardText>
         <Title
           level={3}
           label={this.context.intl.formatMessage({ id: 'form.criterion.tab.title' })}
@@ -212,7 +231,7 @@ class FormCriterionComponent extends React.Component {
             availableCriterion={this.props.availableCriterion}
           />
         </Dialog>
-      </div>
+      </CardText>
     )
   }
 }

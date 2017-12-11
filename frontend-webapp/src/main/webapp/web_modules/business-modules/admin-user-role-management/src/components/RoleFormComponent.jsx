@@ -1,11 +1,32 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import map from 'lodash/map'
+import trim from 'lodash/trim'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, RenderSelectField, ErrorTypes, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, RenderSelectField, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { AdminShapes } from '@regardsoss/shape'
+
+const nameValidator = [ValidationHelpers.required, ValidationHelpers.validAlphaNumericUnderscore]
 
 /**
  * Display edit and create project form
@@ -81,6 +102,8 @@ export class RoleFormComponent extends React.Component {
               type="text"
               disabled={!this.state.isCreating}
               label={this.context.intl.formatMessage({ id: 'role.form.name' })}
+              validate={nameValidator}
+              normalize={trim}
             />
             <Field
               name="parentRole"
@@ -112,21 +135,7 @@ export class RoleFormComponent extends React.Component {
   }
 }
 
-
-function validate(values) {
-  const errors = {}
-  if (values.name) {
-    if (!ValidationHelpers.isValidAlphaNumericUnderscore(values.name)) {
-      errors.name = ErrorTypes.ALPHA_NUMERIC
-    }
-  } else {
-    errors.name = ErrorTypes.REQUIRED
-  }
-  return errors
-}
-
 export default reduxForm({
   form: 'role-form',
-  validate,
 })(RoleFormComponent)
 

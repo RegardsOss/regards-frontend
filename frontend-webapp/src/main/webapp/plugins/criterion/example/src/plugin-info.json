@@ -1,19 +1,19 @@
 {
   "name": "string-criteria",
   "description": "Criteria widget to search for a given string into a model attribute",
-  "version" : 1.0,
-  "author" : "Binda sebastien",
-  "company" : "CS-SI",
-  "email" : "sebastien.binda@c-s.fr",
-  "url" : "http://www.cnes.fr",
+  "version": "1.0.0",
+  "author": "Binda sebastien",
+  "company": "CS-SI",
+  "email": "sebastien.binda@c-s.fr",
+  "url": "http://www.cnes.fr",
   "license": "GPL V3",
-  "type" : "CRITERIA",
-  "conf" : {
+  "type": "CRITERIA",
+  "conf": {
     "attributes": [
       {
-        "name":"searchField",
+        "name": "searchField",
         "description": "Attribute to search",
-        "type":"string"
+        "type": "string"
       }
     ]
   }

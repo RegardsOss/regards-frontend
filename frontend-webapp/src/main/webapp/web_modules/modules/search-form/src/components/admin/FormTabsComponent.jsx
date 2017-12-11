@@ -1,9 +1,24 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { PluginDefinition, AttributeModel } from '@regardsoss/model'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import FormParametersComponent from './parameters/FormParametersComponent'
 import FormDatasetsConfigurationComponent from './datasets/FormDatasetsConfigurationComponent'
@@ -30,11 +45,10 @@ class FormTabsComponent extends React.Component {
     // Default props given to the form
     defaultConf: ModuleConfiguration.isRequired,
 
-    // From mapStateToProps and mapDispatchToProps
-    selectableAttributes: PropTypes.objectOf(AttributeModel),
-    selectableAttributesFectching: PropTypes.bool,
+    selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
+    selectableDataObjectsAttributesFectching: PropTypes.bool,
     disableChangeDatasets: PropTypes.bool,
-    availableCriterion: PropTypes.objectOf(PluginDefinition),
+    availableCriterion: AccessShapes.UIPluginDefinitionList,
     criterionFetching: PropTypes.bool,
   }
 
@@ -43,13 +57,13 @@ class FormTabsComponent extends React.Component {
   }
 
   renderCriterionTab = () => {
-    if (!this.props.criterionFetching && !this.props.selectableAttributesFectching && this.props.adminForm.form.conf) {
+    if (!this.props.criterionFetching && !this.props.selectableDataObjectsAttributesFectching && this.props.adminForm.form.conf) {
       return (
         <FromCriterionComponent
           defaultCriterion={this.props.defaultConf.criterion}
           criterion={this.props.adminForm.form.conf.criterion}
           layout={this.props.adminForm.form.conf.layout}
-          selectableAttributes={this.props.selectableAttributes}
+          selectableAttributes={this.props.selectableDataObjectsAttributes}
           changeField={this.props.adminForm.changeField}
           availableCriterion={this.props.availableCriterion}
         />
@@ -65,7 +79,7 @@ class FormTabsComponent extends React.Component {
       adminForm={this.props.adminForm}
       attributes={this.props.defaultConf.attributes}
       attributesRegroupements={this.props.defaultConf.attributesRegroupements}
-      selectableAttributes={this.props.selectableAttributes}
+      selectableAttributes={this.props.selectableDataObjectsAttributes}
       resultType={this.props.defaultConf.resultType}
     />
   )

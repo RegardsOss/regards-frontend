@@ -1,9 +1,23 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { PluginMetaData, PluginConfigurationList } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
@@ -28,8 +42,8 @@ export class PluginConfigurationListContainer extends React.Component {
       pluginConfigurationId: PropTypes.string,
     }),
     // from mapStateToProps
-    pluginMetaData: PluginMetaData,
-    pluginConfigurationList: PluginConfigurationList,
+    pluginMetaData: CommonShapes.PluginMetaData,
+    pluginConfigurationList: CommonShapes.PluginConfigurationList,
     // from mapDispatchToProps
     fetchPluginMetaData: PropTypes.func,
     fetchPluginConfigurationList: PropTypes.func,
@@ -66,21 +80,19 @@ export class PluginConfigurationListContainer extends React.Component {
       params={this.props.params}
       pluginMetaData={this.props.pluginMetaData}
       pluginConfigurationList={this.props.pluginConfigurationList}
-      handleBackClick={this.handleBackClick}
-      handleAddClick={this.handleAddClick}
+      getBackURL={this.getBackURL}
+      getAddURL={this.getAddURL}
     />
   )
 
-  handleAddClick = () => {
+  getAddURL = () => {
     const { params: { project, microserviceName, pluginId } } = this.props
-    const url = `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/create`
-    browserHistory.push(url)
+    return `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/create`
   }
 
-  handleBackClick = () => {
+  getBackURL = () => {
     const { params: { project, microserviceName } } = this.props
-    const url = `/admin/${project}/microservice/${microserviceName}/plugin/list`
-    browserHistory.push(url)
+    return `/admin/${project}/microservice/${microserviceName}/plugin/list`
   }
 
   render() {

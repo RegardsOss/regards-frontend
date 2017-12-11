@@ -3,7 +3,7 @@
 **/
 import { DownloadDescriptionClient } from '@regardsoss/entities-common'
 
-const clientInstance = new DownloadDescriptionClient('search-results', ['modules.search-results'])
+const clientInstance = new DownloadDescriptionClient('search-results/description', ['modules.search-results'])
 export default clientInstance
 
 export const DATASET_REDUCER_PATH = DownloadDescriptionClient.LAST_DATASET_REDUCER_PATH_ELT

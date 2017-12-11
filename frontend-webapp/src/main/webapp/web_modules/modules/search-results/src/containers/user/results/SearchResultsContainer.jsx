@@ -1,58 +1,64 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
 import remove from 'lodash/remove'
-import keys from 'lodash/keys'
 import { connect } from '@regardsoss/redux'
 import { AccessDomain, CatalogDomain } from '@regardsoss/domain'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
-import { TableSelectionModes, TableSortOrders } from '@regardsoss/components'
-import TableClient from '../../../clients/TableClient'
-import NavigationLevel from '../../../models/navigation/NavigationLevel'
-import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
-import navigationContextActions from '../../../models/navigation/NavigationContextActions'
-import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
+import { ModuleThemeProvider } from '@regardsoss/modules'
+import { TableSortOrders } from '@regardsoss/components'
+import { Tag } from '../../../models/navigation/Tag'
 import {
   searchDataobjectsActions,
   searchDatasetsFromDataObjectsActions,
   searchDatasetsActions,
-  selectors as searchSelectors,
 } from '../../../clients/SearchEntitiesClient'
-import datasetServicesSelectors from '../../../models/services/DatasetServicesSelectors'
+import DisplayModeEnum from '../../../models/navigation/DisplayModeEnum'
+import navigationContextActions from '../../../models/navigation/NavigationContextActions'
+import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
 import QueriesHelper from '../../../definitions/QueriesHelper'
-import Service from '../../../definitions/service/Service'
-import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
+import PluginServicesContainer from './PluginServicesContainer'
+import styles from '../../../styles/styles'
 
-const EMPTY_SERVICE_LIST = []
+const moduleStyles = { styles }
 
 /**
  * Search results container, drives corresponding component
+ * @author Raphaël Mechali
  */
 export class SearchResultsContainer extends React.Component {
 
   static mapStateToProps = state => ({
-    datasetServices: datasetServicesSelectors.getDatasetServices(state),
-    selectedDataobjectsServices: datasetServicesSelectors.getSelectedDataobjectsServices(state),
     levels: navigationContextSelectors.getLevels(state),
     viewObjectType: navigationContextSelectors.getViewObjectType(state),
     displayMode: navigationContextSelectors.getDisplayMode(state),
-
-    // selection related
-    selectionMode: TableClient.tableSelectors.getSelectionMode(state),
-    toggledElements: TableClient.tableSelectors.getToggledElements(state),
-    pageMetadata: searchSelectors.getMetaData(state),
   })
 
   static mapDispatchToProps = dispatch => ({
     dispatchChangeViewObjectType: viewObjectType => dispatch(navigationContextActions.changeViewObjectType(viewObjectType)),
     dispatchChangeDisplayMode: displayMode => dispatch(navigationContextActions.changeDisplayMode(displayMode)),
-    dispatchTagSelected: searchTag => dispatch(navigationContextActions.changeSearchTag(searchTag)),
-    dispatchDatasetSelected: (dataset) => {
-      dispatch(navigationContextActions.changeDataset(dataset))
+    // lets user select an entity and set it as a current search tag
+    dispatchSetEntityAsTag: ({ content: { entityType, label, ipId } }) => {
+      dispatch(navigationContextActions.addSearchTag(new Tag(entityType, label, ipId)))
       dispatch(navigationContextActions.changeViewObjectType(CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS))
     },
   })
@@ -72,37 +78,20 @@ export class SearchResultsContainer extends React.Component {
     attributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent),
     datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
     attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
-
     // From map state to props
-    datasetServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
-    selectedDataobjectsServices: PropTypes.arrayOf(PropTypes.instanceOf(Service)).isRequired,
-    viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired,
-    // Display mode
-    displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    levels: PropTypes.arrayOf(PropTypes.instanceOf(NavigationLevel)).isRequired, // only used to build query
-    // eslint-disable-next-line react/no-unused-prop-types
-    pageMetadata: PropTypes.shape({
-      number: PropTypes.number,
-      size: PropTypes.number,
-      totalElements: PropTypes.number,
-    }),
-    // eslint-disable-next-line react/no-unused-prop-types
-    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    selectionMode: PropTypes.oneOf(values(TableSelectionModes)),
-
+    viewObjectType: PropTypes.oneOf(values(CatalogDomain.SearchResultsTargetsEnum)).isRequired, // current view object type
+    displayMode: PropTypes.oneOf([DisplayModeEnum.LIST, DisplayModeEnum.TABLE]).isRequired, // Display mode
+    levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
+    // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
     dispatchChangeDisplayMode: PropTypes.func.isRequired,
-    dispatchDatasetSelected: PropTypes.func.isRequired,
-    dispatchTagSelected: PropTypes.func.isRequired,
+    dispatchSetEntityAsTag: PropTypes.func.isRequired,
   }
 
   /**
    * Default component state (describes all possible state elements)
    */
   static DEFAULT_STATE = {
-    emptySelection: true, // is current selection empty?
     // is currently showing facettes
     showingFacettes: false,
     // initial sorting attributes array
@@ -112,7 +101,7 @@ export class SearchResultsContainer extends React.Component {
     filters: [],
     searchTag: null,
     // runtime qearch query, generated from all query elements known
-    searchQuery: null,
+    fullSearchQuery: null,
     // request actioner depends on entities to search
     searchActions: null,
   }
@@ -169,17 +158,11 @@ export class SearchResultsContainer extends React.Component {
     })
   }
 
-  onDatasetServiceSelected = service => console.error('Implement dataset service ', service)
-
-  onSelectionServiceSelected = service => console.error('Implement selection (dataobjects) service ', service)
-
-  onDataobjectServiceSelected = (service, dataobjectEntity) => console.error('Implement single (dataobject) service ', service)
-
   /**
    * Builds opensearch query from properties and state as parameter
    * @param properties : properties to consider when building query
    * @param state : state to consider when building query
-   * @return { searchQuery, searchActions }: new searc state
+   * @return { openSearchQuery, fullSearchQuery, searchActions }: new search state
    */
   buildSearchState = ({ viewObjectType, searchQuery, facettesQuery, levels },
     { showingFacettes, filters, sortingOn, initialSortAttributesPath }) => {
@@ -189,39 +172,48 @@ export class SearchResultsContainer extends React.Component {
     const facettes = showingFacettes && viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS ? filters : []
     const facettesQueryPart = showingFacettes ? facettesQuery : ''
 
-    const datasetLevel = find(levels, { levelType: NavigationLevel.LevelTypes.DATASET })
-    const tagLevel = find(levels, { levelType: NavigationLevel.LevelTypes.SEARCH_TAG })
-
     let searchActions
     let sorting
     let initialSearchQuery
-    const parameters = [
-      // restrict to given tag?
-      OpenSearchQuery.buildTagParameter(tagLevel ? tagLevel.levelValue : ''), // common tag parameter
-    ]
+    const datasetTag = Tag.getSearchedDatasetTag(levels)
+
+    // extract search parameters from level tags (every parameter except the datasets, that may be used specifically into the datasets search)
+    const parameters = levels.reduce(
+      (acc, levelTag) => levelTag.isDataset() ? acc : [...acc, OpenSearchQuery.buildTagParameter(levelTag.searchKey)], [])
+
     if (showingDataobjects) {
+      // 1 - Data object search : use data object actions, search query and dataset as a Tag on dataobjects
       initialSearchQuery = searchQuery
-        // using dataobject actions
       searchActions = searchDataobjectsActions
-        // restrict to given dataset tag?
-      parameters.push(OpenSearchQuery.buildTagParameter(datasetLevel ? datasetLevel.levelValue : ''))
-        // check if user specified or sorting or provide one (Only available for dataobjects)
+      parameters.push(OpenSearchQuery.buildTagParameter(datasetTag ? datasetTag.searchKey : ''))
+      // check if user specified or sorting or provide one (Only available for dataobjects)
       sorting = sortingOn.length ? sortingOn : initialSortAttributesPath
     } else {
-      if (datasetLevel || tagLevel || !searchQuery) {
-          // we bypass the default query
-        searchActions = searchDatasetsActions
+      // 2 - Showing datasets: use specific dataset actions to cut down fetch time when possible
+      const datasetLevel = Tag.getSearchedDatasetTag(levels)
+      if (datasetLevel || parameters.length || !searchQuery) {
+        // not restricted or requestable directly onto the datasets
+        searchActions = searchDatasetsActions // XXX V2 this will induce a problem because we don't know if we speak about DO or DS tag!!
       } else {
+        // restricted, requires to check the dataobjects in order to gather corresponding datasets
         initialSearchQuery = searchQuery
         searchActions = searchDatasetsFromDataObjectsActions
       }
-      parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.levelValue : ''))
+      parameters.push(OpenSearchQuery.buildIpIdParameter(datasetLevel ? datasetLevel.searchKey : ''))
     }
-    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters)
+    const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters).toQueryString()
+
+    let fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString()
+    // Add threshold if request is datasets from dataobjects
+    if (searchActions === searchDatasetsFromDataObjectsActions) {
+      fullSearchQuery = `${fullSearchQuery}&threshold=${STATIC_CONF.CATALOG_SEARCH_THRESHOLD}`
+    }
 
     return {
       searchActions,
-      searchQuery: QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString() }
+      openSearchQuery,
+      fullSearchQuery,
+    }
   }
 
   /**
@@ -263,89 +255,56 @@ export class SearchResultsContainer extends React.Component {
         )
     }
 
-    // on selection change, if new selection is empty, hide selection services
-    if (oldProperties.selectionMode !== newProperties.selectionMode ||
-      oldProperties.toggledElements !== newProperties.toggledElements ||
-      oldProperties.pageMetadata !== newProperties.pageMetadata) {
-      newState.emptySelection = this.isEmptySelection(newProperties)
-    }
     this.updateStateAndQuery(newState, newProperties, true)
-  }
-
-  /**
-   * @return true if selection is empty in current state, false otherwise
-   */
-  isEmptySelection = (properties) => {
-    const { selectionMode, toggledElements, pageMetadata } = properties
-    const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
-    const selectionSize = keys(toggledElements).length
-
-    return (selectionMode === TableSelectionModes.includeSelected && selectionSize === 0) ||
-      (selectionMode === TableSelectionModes.excludeSelected && selectionSize === totalElements)
   }
 
   render() {
     const {
-      appName, project, enableFacettes, attributesConf,
-      attributesRegroupementsConf, attributeModels, viewObjectType,
-      facettesQuery, datasetServices, selectedDataobjectsServices, displayDatasets,
-      dispatchDatasetSelected, dispatchTagSelected, displayMode, datasetAttributesConf,
+      appName, project, enableFacettes, attributesConf, viewObjectType, facettesQuery, attributesRegroupementsConf, levels,
+      attributeModels, displayDatasets, dispatchSetEntityAsTag, displayMode, datasetAttributesConf,
     } = this.props
-    const { showingFacettes, filters, searchTag, searchQuery, searchActions, emptySelection, sortingOn } = this.state
+    const { showingFacettes, filters, searchTag, openSearchQuery, fullSearchQuery, searchActions, sortingOn } = this.state
 
     // compute view mode
     const showingDataobjects = viewObjectType === CatalogDomain.SearchResultsTargetsEnum.DATAOBJECT_RESULTS
-    // compute child results fetch actions
-
-    // control the available selection options
-    let usableDatasetServices = []
-    let usableSelectedDataobjectServices = []
-    if (showingDataobjects) {
-      usableDatasetServices = datasetServices
-      usableSelectedDataobjectServices = emptySelection ? EMPTY_SERVICE_LIST : selectedDataobjectsServices
-    }
 
     return (
-      <SearchResultsComponent
-        appName={appName}
-        project={project}
-        allowingFacettes={enableFacettes && !!facettesQuery}
+      <ModuleThemeProvider module={moduleStyles}>
+        <PluginServicesContainer
+          // plugin service exlusive properties
+          viewObjectType={viewObjectType}
+          levels={levels}
+          openSearchQuery={openSearchQuery}
 
-        showingDataobjects={showingDataobjects}
-        viewMode={displayMode || DisplayModeEnum.LIST}
-        showingFacettes={showingFacettes}
-        displayDatasets={displayDatasets}
-        sortingOn={sortingOn}
-        filters={filters}
-        searchTag={searchTag}
-        searchQuery={searchQuery}
+          // search results display properties
+          appName={appName}
+          project={project}
+          allowingFacettes={enableFacettes && !!facettesQuery}
+          searchQuery={fullSearchQuery}
+          viewMode={displayMode || DisplayModeEnum.LIST}
+          showingFacettes={showingFacettes}
+          displayDatasets={displayDatasets}
+          sortingOn={sortingOn}
+          filters={filters}
+          searchTag={searchTag}
+          attributesConf={attributesConf}
+          attributesRegroupementsConf={attributesRegroupementsConf}
+          datasetAttributesConf={datasetAttributesConf}
+          attributeModels={attributeModels}
+          resultPageActions={searchActions}
+          showingDataobjects={showingDataobjects}
 
-        attributesConf={attributesConf}
-        attributesRegroupementsConf={attributesRegroupementsConf}
-        datasetAttributesConf={datasetAttributesConf}
-        attributeModels={attributeModels}
-
-        resultPageActions={searchActions}
-
-        datasetServices={usableDatasetServices}
-        selectedDataobjectsServices={usableSelectedDataobjectServices}
-
-        onShowDatasets={this.onShowDatasets}
-        onShowDataobjects={this.onShowDataobjects}
-        onShowListView={this.onShowListView}
-        onShowTableView={this.onShowTableView}
-        onToggleShowFacettes={this.onToggleShowFacettes}
-        onSelectDataset={dispatchDatasetSelected}
-        onSelectSearchTag={dispatchTagSelected}
-        onFiltersChanged={this.onFiltersChanged}
-        onResetNavigationContext={this.onResetNavigationContext}
-        onSortChanged={this.onSortChanged}
-
-        onDatasetServiceSelected={this.onDatasetServiceSelected}
-        onSelectionServiceSelected={this.onSelectionServiceSelected}
-        onDataobjectServiceSelected={this.onDataobjectServiceSelected}
-
-      />
+          onShowDatasets={this.onShowDatasets}
+          onShowDataobjects={this.onShowDataobjects}
+          onShowListView={this.onShowListView}
+          onShowTableView={this.onShowTableView}
+          onToggleShowFacettes={this.onToggleShowFacettes}
+          onSetEntityAsTag={dispatchSetEntityAsTag}
+          onFiltersChanged={this.onFiltersChanged}
+          onResetNavigationContext={this.onResetNavigationContext}
+          onSortChanged={this.onSortChanged}
+        />
+      </ModuleThemeProvider>
     )
   }
 }

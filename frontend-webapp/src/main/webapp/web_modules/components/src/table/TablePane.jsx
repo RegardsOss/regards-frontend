@@ -16,6 +16,7 @@ import ShowableAtRender from '../cards/ShowableAtRender'
 import Table from './content/Table'
 import TablePaneHeader from './header/TablePaneHeader'
 import HeaderAdvancedOption from './header/HeaderAdvancedOption'
+import TableLoadingComponent from './content/TableLoadingComponent'
 import ColumnsVisibilitySelector from './content/columns/ColumnsVisibilitySelector'
 import ColumnConfiguration from './content/columns/model/ColumnConfiguration'
 import TablePaneConfigurationModel from './model/TablePaneConfigurationModel'
@@ -68,6 +69,8 @@ class TablePane extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static LOADING_COMPONENT = <TableLoadingComponent />
 
   constructor(props) {
     super(props)
@@ -207,8 +210,9 @@ class TablePane extends React.Component {
   }
 
   render() {
-    const { error, resultsCount, tableData, toggledElements, selectionMode,
-      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent, maxRowCounts, minRowCounts } = this.props
+    const { error, entitiesFetching, resultsCount, tableData, toggledElements, selectionMode,
+      allSelected, onToggleRowSelection, onToggleSelectAll, emptyComponent,
+      maxRowCounts, minRowCounts } = this.props
     const { visibleColumns, tableWidth } = this.state
     const isRequestEntityTooLarge = error.status === 413
 
@@ -218,7 +222,8 @@ class TablePane extends React.Component {
           {this.renderHeaderBar()}
           {this.renderColumnsFilterPanel()}
           <LoadableContentDisplayDecorator
-            isLoading={false} // Do not use loading feature of the decorator
+            isLoading={!resultsCount && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
+            loadingComponent={TablePane.LOADING_COMPONENT}
             isEmpty={!resultsCount}
             emptyComponent={emptyComponent}
             isRequestEntityTooLarge={isRequestEntityTooLarge}

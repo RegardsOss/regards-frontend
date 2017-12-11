@@ -47,8 +47,7 @@ const tableToOpenSearchSort = {
  */
 export function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '') {
   // specific query format: put parameter value in parenthesis (when available)
-  const openSearchQueryText = openSearchQuery.toQueryString()
-  const queryParamValue = openSearchQueryText && `(${openSearchQueryText})`
+  const queryParamValue = openSearchQuery && `(${openSearchQuery})`
   const urlParameters = [
     // 1 - query parameter (q)
     new URLSearchQueryParameter(URLSearchQuery.QUERY_PARAMETER_NAME, queryParamValue),

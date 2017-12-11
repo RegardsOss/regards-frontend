@@ -1,14 +1,31 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import get from 'lodash/get'
+import trim from 'lodash/trim'
 import { formValueSelector } from 'redux-form'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { reduxForm, RenderTextField, RenderCheckbox, Field, FormErrorMessage, ErrorTypes, ValidationHelpers } from '@regardsoss/form-utils'
+import { HelpMessageComponent } from '@regardsoss/components'
+import { reduxForm, RenderTextField, RenderCheckbox, Field, FormErrorMessage, ValidationHelpers, ErrorTypes } from '@regardsoss/form-utils'
 import { ScrollArea } from '@regardsoss/adapters'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 
@@ -32,8 +49,6 @@ export class AskProjectAccessFormComponent extends React.Component {
     onRequestAction: PropTypes.func.isRequired,
     // back
     onBack: PropTypes.func.isRequired,
-    // project name
-    project: PropTypes.string.isRequired,
     // project metadata
     projectMetadata: MetadataList.isRequired,
     // from reduxFormSelector
@@ -62,7 +77,7 @@ export class AskProjectAccessFormComponent extends React.Component {
 
   render() {
     const {
-      project, projectMetadata, passwordRules,
+      projectMetadata, passwordRules,
       currentMailValue, useExistingAccount, errorMessage,
       onBack, onRequestAction,
       pristine, submitting, invalid, handleSubmit,
@@ -73,10 +88,13 @@ export class AskProjectAccessFormComponent extends React.Component {
         <form onSubmit={handleSubmit(onRequestAction)}>
           <Card>
             <CardTitle
-              title={formatMessage({ id: 'ask.project.access.request.title' }, { project })}
-              subtitle={formatMessage({ id: 'ask.project.access.request.message' }, { project, passwordRules })}
+              title={formatMessage({ id: 'ask.project.access.request.title' })}
+              subtitle={formatMessage({ id: 'ask.project.access.request.message' })}
             />
             <CardText>
+              <HelpMessageComponent
+                message={passwordRules}
+              />
               <FormErrorMessage>{errorMessage}</FormErrorMessage>
               <ScrollArea
                 vertical
@@ -94,6 +112,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                   component={RenderTextField}
                   type="text"
                   floatingLabelText={formatMessage({ id: 'ask.project.access.mail' })}
+                  normalize={trim}
                 />
                 {useExistingAccount ? null : (
                   <div>
@@ -104,6 +123,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       component={RenderTextField}
                       type="password"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.new.password' })}
+                      normalize={trim}
                     />
                     <Field
                       key="confirmPassword"
@@ -112,6 +132,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       component={RenderTextField}
                       type="password"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.confirm.password' })}
+                      normalize={trim}
                     />
                     <Field
                       key="firstName"
@@ -210,7 +231,7 @@ function asyncValidate({ newPassword }, dispatch, props) {
 
   // ugly async connection should be done by the container bu we can't
   return fetchPasswordValidity(newPassword).then((result) => {
-    const validity = get(result, 'payload.content.validity', false)
+    const validity = get(result, 'payload.validity', false)
     const errors = {}
     if (!validity) { // invalid password
       errors.newPassword = ErrorTypes.INVALID_PASSWORD

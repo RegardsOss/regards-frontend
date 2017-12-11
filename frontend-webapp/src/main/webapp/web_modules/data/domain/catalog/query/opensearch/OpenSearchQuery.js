@@ -15,16 +15,34 @@ export default class OpenSearchQuery extends Query {
   static MODEL_NAME_PARAM_NAME = 'model.name'
   static IP_ID_PARAM_NAME = 'ipId'
 
-  static buildTagParameter(value) {
-    return new OpenSearchQueryParameter(OpenSearchQuery.TAGS_PARAM_NAME, value)
+  /**
+   * Builds a tag parameter
+   * @param {[string]|string} values values array or simple string
+   * @param {boolean} negate should negate parameter value in final request?
+   * @return built parameter
+   */
+  static buildTagParameter(values, negate = false) {
+    return new OpenSearchQueryParameter(OpenSearchQuery.TAGS_PARAM_NAME, values, negate)
   }
 
-  static buildModelNameParameter(value) {
-    return new OpenSearchQueryParameter(OpenSearchQuery.MODEL_NAME_PARAM_NAME, value)
+  /**
+   * Builds a model name parameter
+   * @param {[string]|string} values values array or simple string
+   * @param {boolean} negate should negate parameter value in final request?
+   * @return built parameter
+   */
+  static buildModelNameParameter(values, negate = false) {
+    return new OpenSearchQueryParameter(OpenSearchQuery.MODEL_NAME_PARAM_NAME, values, negate)
   }
 
-  static buildIpIdParameter(value) {
-    return new OpenSearchQueryParameter(OpenSearchQuery.IP_ID_PARAM_NAME, value)
+  /**
+   * Builds a IP ID parameter
+   * @param {[string]|string} values values array or simple string
+   * @param {boolean} negate should negate parameter value in final request?
+   * @return built parameter
+   */
+  static buildIpIdParameter(values, negate = false) {
+    return new OpenSearchQueryParameter(OpenSearchQuery.IP_ID_PARAM_NAME, values, negate)
   }
 
   constructor(rootQuery, parameters) {

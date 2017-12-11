@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
 import values from 'lodash/values'
@@ -96,6 +111,14 @@ class Table extends React.Component {
   getEntity = rowIndex => this.props.entities[rowIndex]
 
   /**
+   * Is a row with entity? especially for cells that are not aware of their entities, like especially checkbox cells.
+   * Note: it happens that a row have no entity, because of the min row count being sometimes greater than the entities count
+   * @param {number} rowIndex row index
+   * @return {boolean} true if row has an entity
+   */
+  hasEntity = rowIndex => this.props.entities.length > rowIndex
+
+  /**
    * Computes graphics measures
    */
   computeGraphicsMeasures = ({ displayCheckbox, pageSize, lineHeight, width, columns = [] }) => {
@@ -165,6 +188,7 @@ class Table extends React.Component {
                   lineHeight={lineHeight}
                 />}
                 cell={<CheckBoxCell
+                  hasEntity={rowIndex => this.hasEntity(rowIndex)}
                   onToggleRowSelection={onToggleRowSelection}
                   toggledElements={toggledElements}
                   selectionMode={selectionMode}

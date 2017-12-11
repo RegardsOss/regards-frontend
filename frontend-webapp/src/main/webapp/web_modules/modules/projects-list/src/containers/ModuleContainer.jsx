@@ -1,9 +1,24 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { AccessProject } from '@regardsoss/model'
+import { AccessShapes } from '@regardsoss/shape'
 import { FormLoadingComponent } from '@regardsoss/form-utils'
 import ProjectListComponent from '../components/ProjectListComponent'
 import ProjectsSelector from '../model/ProjectsSelector'
@@ -18,7 +33,7 @@ export class ModuleContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     appName: PropTypes.string.isRequired,
     // Set by mapStateToProps
-    projects: PropTypes.objectOf(AccessProject),
+    projects: AccessShapes.ProjectList,
     isFetching: PropTypes.bool,
     // Set by mapDispatchToProps
     fetchProjects: PropTypes.func,

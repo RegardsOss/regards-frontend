@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
 /**
@@ -20,6 +35,9 @@ const formStyles = theme => ({
     },
   },
   user: {
+    cardTitle: {
+      padding: '0',
+    },
     searchButtonContainer: {
       display: 'flex',
       alignItems: 'center',
@@ -29,12 +47,23 @@ const formStyles = theme => ({
       marginTop: 10,
       width: 200,
     },
-    formHeader: {
-      backgroundColor: theme.palette.primary2Color,
+    selectionService: {
+      iconStyles: {
+        height: '24px',
+        width: '24px',
+      },
     },
     optionsStyles: {
+      rootStyles: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+      },
       buttonStyles: {
-        width: 24,
+        width: 34,
         height: 24,
         padding: 0,
       },
@@ -69,6 +98,24 @@ const formStyles = theme => ({
         margin: 'auto',
         cursor: 'auto',
         backgroundColor: theme.tableRow.stripeColor,
+      },
+      title: {
+        rootStyles: { display: 'flex', alignItems: 'center' },
+        checkboxStyles: { margin: '0 0 0 6px', width: 'auto' },
+        labelStyles: { margin: '0 10px 0 6px' },
+        optionsBarStyles: { display: 'flex', right: 16, position: 'absolute' },
+        option: {
+          buttonStyles: {
+            width: 24,
+            height: 24,
+            padding: 0,
+            marginLeft: 12,
+          },
+          iconStyles: {
+            width: 24,
+            height: 24,
+          },
+        },
       },
       thumbnail: {
         display: 'inline-block',

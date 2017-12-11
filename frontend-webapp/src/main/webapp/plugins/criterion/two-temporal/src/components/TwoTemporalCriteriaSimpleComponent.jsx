@@ -1,13 +1,30 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
 import { FormattedMessage } from 'react-intl'
+import { DataManagementShapes } from '@regardsoss/shape'
+import { PluginCriterionContainer } from '@regardsoss/plugins-api'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ClearFieldButton } from '@regardsoss/components'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
-import ClearButton from './ClearButton'
-import AttributeModel from '../common/AttributeModel'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
-import PluginComponent from '../common/PluginComponent'
 
 /**
  * Component allowing the user to configure the temporal value of two different attributes with a date comparator (after, before, ...).
@@ -16,15 +33,24 @@ import PluginComponent from '../common/PluginComponent'
  *
  * @author Xavier-Alexandre Brochard
  */
-export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
+export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer {
 
   static propTypes = {
+    // parent props
+    ...PluginCriterionContainer.propTypes,
     /**
      * List of attributes associated to the plugin.
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: React.PropTypes.objectOf(AttributeModel),
+    attributes: DataManagementShapes.AttributeModelList,
+  }
+
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
   }
 
   state = {
@@ -74,10 +100,10 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
     let openSearchQuery = ''
     if (operator && value) {
       switch (operator) {
-        case EnumTemporalComparator.LE :
+        case EnumTemporalComparator.LE:
           openSearchQuery = `${this.getAttributeName(attribute)}:[* TO ${value.toISOString()}]`
           break
-        case EnumTemporalComparator.GE :
+        case EnumTemporalComparator.GE:
           openSearchQuery = `${this.getAttributeName(attribute)}:[${value.toISOString()} TO *]`
           break
         default:
@@ -108,7 +134,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
           this.setState({ operator2: operator })
         }
         const date = new Date(value)
-        if (isNaN(date.getTime())){
+        if (isNaN(date.getTime())) {
           return null
         }
         return date
@@ -119,16 +145,13 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
 
   render() {
     const { firstField, secondField, operator1, operator2 } = this.state
+    const { moduleTheme: { rootStyle, lineStyle } } = this.context
     const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
 
     return (
-      <div style={{ display: 'flex' }}>
+      <div style={rootStyle}>
         <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-          }}
+          style={lineStyle}
         >
           <TemporalCriteriaComponent
             label={this.getAttributeLabel('firstField')}
@@ -136,14 +159,14 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginComponent {
             value={firstField}
             onChange={this.changeValue1}
           />
-          <FormattedMessage id="criterion.aggregator.and"/>
+          <FormattedMessage id="criterion.aggregator.and" />
           <TemporalCriteriaComponent
             label={this.getAttributeLabel('secondField')}
             comparator={operator2}
             value={secondField}
             onChange={this.changeValue2}
           />
-          <ClearButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed}/>
+          <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )

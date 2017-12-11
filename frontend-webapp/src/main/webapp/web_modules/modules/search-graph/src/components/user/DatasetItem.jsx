@@ -3,7 +3,7 @@
 **/
 import DatasetIcon from 'material-ui/svg-icons/device/widgets'
 import { themeContextType } from '@regardsoss/theme'
-import { CatalogEntity } from '@regardsoss/model'
+import { CatalogShapes } from '@regardsoss/shape'
 import { ResolvedDatasetAttributesArray } from '../../model/DatasetAttributesForGraph'
 import DatasetAttributes from './DatasetAttributes'
 import ItemLinkContainer from '../../containers/user/ItemLinkContainer'
@@ -16,7 +16,7 @@ class DatasetItem extends React.Component {
 
   static propTypes = {
     locked: PropTypes.bool.isRequired,
-    dataset: CatalogEntity.isRequired,
+    dataset: CatalogShapes.Entity.isRequired,
     datasetAttributes: ResolvedDatasetAttributesArray.isRequired, // resolved attributes, empty array allowed
     attributesVisible: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,

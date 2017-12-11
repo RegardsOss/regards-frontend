@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
 
@@ -45,7 +60,7 @@ const messages = Object.assign({
   'module.form.description': 'Description',
   'module.form.container': 'Emplacement du module',
   'module.form.active': 'Activation du module',
-  'module.form.isDefault': 'Module par défaut de l\'emplacement dynamique',
+  'module.form.isDefault': 'Sera l\'élément sélectionné par défaut dans le menu',
   'module.form.submit.button': 'Créer module',
   'module.form.update.button': 'Mettre à jour',
   'module.form.cancel.button': 'Annuler',

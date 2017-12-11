@@ -1,14 +1,33 @@
 /*
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import keys from 'lodash/keys'
+import trim from 'lodash/trim'
 import Checkbox from 'material-ui/Checkbox'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
 import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage } from '@regardsoss/form-utils'
+import { RenderTextField, Field, ErrorTypes, reduxForm, FormErrorMessage, ValidationHelpers } from '@regardsoss/form-utils'
+
+const { required, intNumber } = ValidationHelpers
+const requiredIntNumber = [required, intNumber]
 
 /**
  * Reusable {@link ProjectConnection} form for reading, editing, creating.
@@ -140,6 +159,7 @@ export class ProjectConnectionFormComponent extends React.Component {
           type="text"
           label={this.context.intl.formatMessage({ id: 'database.form.input.driverClassName' })}
           disabled
+          validate={required}
         />
         <Field
           name="address"
@@ -147,13 +167,17 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="text"
           label={this.context.intl.formatMessage({ id: 'database.form.input.address' })}
+          validate={required}
+          normalize={trim}
         />
         <Field
           name="port"
           fullWidth
           component={RenderTextField}
-          type="number"
+          type="string"
           label={this.context.intl.formatMessage({ id: 'database.form.input.port' })}
+          validate={requiredIntNumber}
+          normalize={trim}
         />
         <Field
           name="db_name"
@@ -161,6 +185,8 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="text"
           label={this.context.intl.formatMessage({ id: 'database.form.input.db_name' })}
+          validate={required}
+          normalize={trim}
         />
         <Field
           name="userName"
@@ -168,6 +194,8 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="text"
           label={this.context.intl.formatMessage({ id: 'database.form.input.userName' })}
+          validate={required}
+          normalize={trim}
         />
         <Field
           name="password"
@@ -175,6 +203,8 @@ export class ProjectConnectionFormComponent extends React.Component {
           component={RenderTextField}
           type="password"
           label={this.context.intl.formatMessage({ id: 'database.form.input.password' })}
+          validate={required}
+          normalize={trim}
         />
         <Checkbox
           label={this.context.intl.formatMessage({ id: 'database.form.input.cange.configuration.mode' })}
@@ -212,11 +242,6 @@ validate(values) {
   }
   if (!values.address) {
     errors.address = ErrorTypes.REQUIRED
-  }
-  if (!values.port) {
-    errors.port = ErrorTypes.REQUIRED
-  } else if (isNaN(values.port)) {
-    errors.port = ErrorTypes.NUMERIC
   }
   if (!values.db_name) {
     errors.db_name = ErrorTypes.REQUIRED

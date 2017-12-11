@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
 import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
@@ -47,7 +62,7 @@ const messages = {
 
   // ask project access form
   'ask.project.access.request.title': 'Demander un accès projet',
-  'ask.project.access.request.message': 'Renseignez ci-dessous vos données personnelles pour obtenir un accès au projet ou renseignez l\'adresse e-mail de votre compte REGARDS si vous en avez déjà un. {passwordRules}',
+  'ask.project.access.request.message': 'Renseignez ci-dessous vos données personnelles pour obtenir un accès au projet ou renseignez l\'adresse e-mail de votre compte REGARDS si vous en avez déjà un.',
   'ask.project.access.using.existing.account': 'J\'ai déjà accès à un autre projet',
   'ask.project.access.mail': 'Adresse e-mail',
   'ask.project.access.first.name': 'Prénom',

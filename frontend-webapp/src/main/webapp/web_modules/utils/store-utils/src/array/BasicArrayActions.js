@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import BasicActions from '../BasicActions'
 
@@ -12,6 +27,13 @@ const { CALL_API, getJSON } = require('redux-api-middleware')
  */
 class BasicArrayActions extends BasicActions {
 
+  constructor(options) {
+    super(options)
+    this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
+    this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
+    this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
+  }
+
   fetchEntityList(pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
@@ -19,10 +41,7 @@ class BasicArrayActions extends BasicActions {
       [CALL_API]: {
         types: [
           this.ENTITY_LIST_REQUEST,
-          {
-            type: this.ENTITY_LIST_SUCCESS,
-            payload: (action, state, res) => getJSON(res),
-          },
+          this.buildSuccessAction(this.ENTITY_LIST_SUCCESS, (action, state, res) => getJSON(res)),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,

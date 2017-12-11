@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
@@ -161,6 +176,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
 
     const ipId = 'URN:AIP:COLLECTION:0'
     const accessToken = '0123'
+    const scope = 'project1'
 
     const props = {
       downloadDescriptionClient: new DownloadDescriptionClient('test', ['test']),
@@ -188,7 +204,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
     let componentWrapper = containerWrapper.find(DescriptionFileComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for collection entity')
     assert.equal(componentWrapper.props().descriptionFileURL,
-      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.COLLECTION, ipId, accessToken),
+      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.COLLECTION, ipId, accessToken, scope),
       'The file should use the internal description download URL')
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
 
@@ -212,7 +228,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
     componentWrapper = containerWrapper.find(DescriptionFileComponent)
     assert.equal(componentWrapper.length, 1, 'The corresponding component should be rendered for dataset entity')
     assert.equal(componentWrapper.props().descriptionFileURL,
-      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.DATASET, datasetIpId, accessToken),
+      DataManagementClient.DownloadDescriptionDefinitions.getDirectDownloadURL(ENTITY_TYPES_ENUM.DATASET, datasetIpId, accessToken, scope),
       'The file should use the internal description download URL')
     assert.isNull(componentWrapper.props().descriptionFile, 'The file should not use an internal content description!')
   })
@@ -230,6 +246,7 @@ describe('[Entities Common] Testing DescriptionFileContainer', () => {
       // from mapStateToProps
       loading: false,
       accessToken: '0123',
+      scope: 'project1',
       dispatchFetchDescription: () => { fetchCount.description += 1 },
       entity: {
         content: {

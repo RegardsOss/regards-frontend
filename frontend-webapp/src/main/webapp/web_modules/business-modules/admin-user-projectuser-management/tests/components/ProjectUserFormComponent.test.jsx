@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
@@ -78,8 +93,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
       initialize: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
-    // field count : 6 for account
-    expect(enzymeWrapper.find(Field)).to.have.length(6)
+    // field count : 7 for account
+    expect(enzymeWrapper.find(Field)).to.have.length(7)
     // Metadata field count: 1 for each metadata model (hold by front end in V1)
     expect(enzymeWrapper.find(MetadataField)).to.have.length(getMetadataArray().length)
 
@@ -131,7 +146,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
     }
     const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context, lifecycleExperimental: true })
     const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(6)
+    expect(subComponent).to.have.length(7)
     let showableComps = enzymeWrapper.find(ShowableAtRender)
     assert.isTrue(showableComps.at(0).props().show, 'We are creating a user, re use account check box should be visible')
     assert.isTrue(showableComps.at(1).props().show, 'The account fields should be visible')

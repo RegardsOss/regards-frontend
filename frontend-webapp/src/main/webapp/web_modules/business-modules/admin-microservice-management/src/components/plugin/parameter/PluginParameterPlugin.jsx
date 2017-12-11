@@ -1,5 +1,20 @@
 /**
- * LICENSE_PLACEHOLDER
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
@@ -17,7 +32,7 @@ import Divider from 'material-ui/Divider'
 import Delete from 'material-ui/svg-icons/action/delete'
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PluginParameter, PluginMetaDataList, PluginMetaData, PluginConfiguration, PluginParameterType } from '@regardsoss/model'
+import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field, ValidationHelpers } from '@regardsoss/form-utils'
@@ -41,14 +56,14 @@ export class PluginParameterPlugin extends React.Component {
 
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
-    pluginParameter: PluginParameter.isRequired,
-    pluginMetaData: PluginMetaData,
+    pluginParameter: CommonShapes.PluginParameterContent.isRequired,
+    pluginMetaData: CommonShapes.PluginMetaData,
     change: PropTypes.func, // Callback provided by redux-form in order to manually change a field value
     mode: PropTypes.oneOf(['view', 'edit', 'create', 'copy']),
     // form mapStateToProps
-    pluginMetaDataList: PluginMetaDataList,
-    pluginConfigurationList: PropTypes.arrayOf(PluginConfiguration),
-    pluginParameterType: PluginParameterType.isRequired,
+    pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    pluginConfigurationList: CommonShapes.PluginConfigurationArray,
+    pluginParameterType: CommonShapes.PluginParameterType.isRequired,
     fetchPluginConfigurationList: PropTypes.func.isRequired,
   }
 

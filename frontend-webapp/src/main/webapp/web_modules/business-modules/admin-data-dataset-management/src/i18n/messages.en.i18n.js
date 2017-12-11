@@ -1,3 +1,21 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
@@ -37,6 +55,8 @@ const messages = Object.assign({
   'dataset.form.uiservices.subtitle': 'To add user interactions with the dataset, activate those services.',
   'dataset.form.uiservices.action.next': 'Finish',
   'dataset.form.uiservices.action.cancel': 'Previous',
+  'dataset.form.uiservices.services': 'Services UI',
+  'dataset.form.uiservices.latestVersion': 'latest',
 
 
   'dataset.form.subsetting.subtitle': 'Setup subsetting',
@@ -65,7 +85,6 @@ const messages = Object.assign({
 
   'dataset.edit.title': 'Edit dataset {name}',
   'dataset.create.title': 'Create a dataset',
-  'invalid.max_128_carac': 'The dataset label cannot exceed 128 characters',
 
   'dataset.form.create.action.datasource': 'Create a datasource',
   'dataset.form.create.action.cancel': 'Back',
@@ -74,9 +93,9 @@ const messages = Object.assign({
   'dataset.form.create.title': 'Create a datasource',
   'dataset.form.create.subtitle': 'To create a dataset, select a datasource. Otherwise you can click on the button to create a new datasource',
 
-  'dataset.stepper.links': 'Edit links with collections',
+  'dataset.stepper.links': 'Edit links',
   'dataset.stepper.attributes': 'Attributes',
-  'dataset.stepper.subsetting': 'Subsetting (datasource)',
+  'dataset.stepper.subsetting': 'Subsetting',
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'UI services',
 
