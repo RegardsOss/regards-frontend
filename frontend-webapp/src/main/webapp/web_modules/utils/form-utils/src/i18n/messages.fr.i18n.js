@@ -58,6 +58,13 @@ const messages = {
   'render.array-field.add.new.value.button': 'Ajouter',
   'render.array-field.new.value.hint': 'Nouvelle valeur ...',
 
+  'render.array-object.options.title': 'Options',
+  'render.array-object.delete.button': 'Supprimer',
+  'render.array-object.duplicate.button': 'Dupliquer',
+  'render.array-object.item.title': 'Element {index}',
+  'render.array-object.delete.confirm.title': 'Voulez vous supprimer l\'élément {index} ?',
+  'render.array-object.add.button': 'Ajouter',
+
 }
 
 export default messages

@@ -82,10 +82,12 @@ export class PluginConfigurationComponent extends React.Component {
     } = this.props
     const { moduleTheme } = this.context
 
-    const ConfForm = reduxForm({ form: `edit-plugin-conf-${pluginConfiguration.content.id}` })(RenderPluginConfField)
+    const ConfForm = reduxForm({ form: `view-plugin-conf-${pluginConfiguration.content.id}` })(RenderPluginConfField)
     const input = {
       value: pluginConfiguration,
     }
+
+    // Simulate a redux form to use the same component RenderPluginConfField to display a non editable form of plugin configuration.
     const conf = (
       <ConfForm
         microserviceName={microserviceName}

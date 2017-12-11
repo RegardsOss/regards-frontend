@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import isString from 'lodash/isString'
 import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { Field, RenderHelper } from '@regardsoss/form-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import PluginListContainer from '../containers/PluginListContainer'
-import RenderPluginConfField from './RenderPluginConfField'
+import { RenderPluginConfField } from './RenderPluginConfField'
 import styles from '../styles'
 import messages from '../i18n'
 

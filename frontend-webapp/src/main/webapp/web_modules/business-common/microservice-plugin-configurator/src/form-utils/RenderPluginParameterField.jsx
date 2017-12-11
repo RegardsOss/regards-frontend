@@ -22,9 +22,12 @@ import { RadioButton } from 'material-ui/RadioButton'
 import SubHeader from 'material-ui/Subheader'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { Field, FieldArray, RenderArrayTextField, RenderTextField, RenderCheckbox, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
-import RenderPluginPluginParameterField from './RenderPluginPluginParameterField'
-import RenderObjectParameterField from './RenderObjectParameterField'
+import { Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderPluginField } from './RenderPluginPluginParameterField'
+import { RenderObjectParameterField } from './RenderObjectParameterField'
+import { RenderCollectionParameterField } from './RenderCollectionParameterField'
+import { RenderMapParameterField } from './RenderMapParameterField'
+import { getPrimitiveJavaTypeRenderParameters } from './JavaPrimitiveTypesTool'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -32,12 +35,13 @@ import messages from '../i18n'
 * Redux-form compatible field component to display a PluginParameter configurator form.
 * @author Sébastien Binda
 */
-class RenderPluginParameterField extends React.Component {
+export class RenderPluginParameterField extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // microservice name of the plugin
     pluginParameterType: CommonShapes.PluginParameterType.isRequired, // Type of the parameter to configure
     hideDynamicParameterConf: PropTypes.bool, // Hide the dynamic configuration of parameter
     disabled: PropTypes.bool, // Disable all fields
+    complexParameter: PropTypes.bool, // Set to true to disable the complex structur of pluginParameter. Default true. Used for Object recursivity of parameters.
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
   }
@@ -48,16 +52,17 @@ class RenderPluginParameterField extends React.Component {
   }
 
   static defaultProps = {
+    complexParameter: true,
     disabled: false,
     hideDynamicParameterConf: false,
   }
 
   componentDidMount() {
-    const { input, pluginParameterType } = this.props
-    if (!input.value) {
+    const { input, pluginParameterType, complexParameter } = this.props
+    if (!input.value && complexParameter) {
       input.onChange({
+        dynamic: false,
         value: pluginParameterType.defaultValue,
-        type: pluginParameterType.type,
         name: pluginParameterType.name,
       })
     }
@@ -70,7 +75,8 @@ class RenderPluginParameterField extends React.Component {
    * @param {*} name: parameter name
    */
   renderDynamicRadioButton = (name) => {
-    if (this.props.hideDynamicParameterConf) {
+    const { hideDynamicParameterConf, complexParameter } = this.props
+    if (hideDynamicParameterConf || !complexParameter) {
       return null
     }
     const { moduleTheme: { dynamicParameter }, intl: { formatMessage } } = this.context
@@ -102,14 +108,16 @@ class RenderPluginParameterField extends React.Component {
    */
   renderParamConfiguration = (name, dynamic, forceHideDynamicConf, component, label, disabled, validators, fieldParams = {}) => {
     const { moduleTheme: { dynamicParameter } } = this.context
+    const { hideDynamicParameterConf } = this.props
     const parameters = (
       <div style={dynamicParameter.layout}>
         {forceHideDynamicConf ? null : this.renderDynamicRadioButton(name)}
         {this.renderParamValueConf(name, dynamic, component, label, disabled, validators, fieldParams)}
-      </div >
+      </div>
     )
+    // Display parameter header with his own label if dynamic configuration is enabled
     let header
-    if (!this.props.hideDynamicParameterConf || !forceHideDynamicConf) {
+    if ((!hideDynamicParameterConf && !forceHideDynamicConf) || component === RenderObjectParameterField || component === RenderMapParameterField) {
       header = <SubHeader>{label}</SubHeader>
     }
     return (
@@ -131,10 +139,11 @@ class RenderPluginParameterField extends React.Component {
   * @param {*} fieldParams: additional field parameters
   */
   renderParamValueConf = (name, dynamic, component, label, disabled, validators, fieldParams) => {
-    if (this.props.hideDynamicParameterConf && dynamic) {
+    const { hideDynamicParameterConf, complexParameter } = this.props
+    if (hideDynamicParameterConf && dynamic) {
       return null
     }
-    if (dynamic) {
+    if (dynamic && complexParameter) {
       const { intl: { formatMessage } } = this.context
       return (
         <FieldArray
@@ -149,9 +158,10 @@ class RenderPluginParameterField extends React.Component {
         />
       )
     }
+    const fieldName = complexParameter ? `${name}.value` : name
     return (
       <Field
-        name={`${name}.value`}
+        name={fieldName}
         fullWidth
         component={component}
         disabled={disabled}
@@ -165,37 +175,14 @@ class RenderPluginParameterField extends React.Component {
     const {
       input: { name, value }, pluginParameterType, disabled,
     } = this.props
-    let component
-    let type
-    switch (pluginParameterType.type) {
-      case 'java.lang.String':
-      case 'java.lang.Character':
-        component = RenderTextField
-        type = 'text'
-        break
-      case 'java.lang.Byte':
-      case 'java.lang.Integer':
-      case 'java.lang.Long':
-      case 'java.lang.Float':
-      case 'java.lang.Double':
-      case 'java.lang.Short':
-        component = RenderTextField
-        type = 'number'
-        break
-      case 'java.lang.Boolean':
-        component = RenderCheckbox
-        type = 'boolean'
-        break
-      default:
-        return null
-    }
+    const primitiveParameters = getPrimitiveJavaTypeRenderParameters(pluginParameterType.type)
     const parameters = {
-      type,
+      type: primitiveParameters.type,
       floatingLabelText: this.props.hideDynamicParameterConf ? label : null,
       hintText: label,
       label: this.props.hideDynamicParameterConf ? label : null,
     }
-    return this.renderParamConfiguration(name, value.dynamic, false, component, label, disabled, validators, parameters)
+    return this.renderParamConfiguration(name, value.dynamic, false, primitiveParameters.component, label, disabled, validators, parameters)
   }
 
   renderPluginParameter = (label, validators) => {
@@ -207,7 +194,7 @@ class RenderPluginParameterField extends React.Component {
       microserviceName,
       pluginParameterType,
     }
-    return this.renderParamConfiguration(`${name}.value`, false, true, RenderPluginPluginParameterField, label, disabled, validators, parameters)
+    return this.renderParamConfiguration(`${name}.value`, false, true, RenderPluginField, label, disabled, validators, parameters)
   }
 
   renderObjectParameter = (label, validators) => {
@@ -219,8 +206,31 @@ class RenderPluginParameterField extends React.Component {
       microserviceName,
       pluginParameterType,
     }
-    // XXX : dynamic configuration is not available for objects parameter
     return this.renderParamConfiguration(name, false, true, RenderObjectParameterField, label, disabled, validators, parameters)
+  }
+
+  renderCollectionParameter = (label, validators) => {
+    const {
+      input: { name }, disabled, pluginParameterType, microserviceName,
+    } = this.props
+    const parameters = {
+      label,
+      microserviceName,
+      pluginParameterType,
+    }
+    return this.renderParamConfiguration(name, false, true, RenderCollectionParameterField, label, disabled, validators, parameters)
+  }
+
+  renderMapParameter = (label, validators) => {
+    const {
+      input: { name }, disabled, pluginParameterType, microserviceName,
+    } = this.props
+    const parameters = {
+      label,
+      microserviceName,
+      pluginParameterType,
+    }
+    return this.renderParamConfiguration(name, false, true, RenderMapParameterField, label, disabled, validators, parameters)
   }
 
   render() {
@@ -240,6 +250,10 @@ class RenderPluginParameterField extends React.Component {
         return this.renderPluginParameter(label, validators)
       case 'OBJECT':
         return this.renderObjectParameter(label, validators)
+      case 'COLLECTION':
+        return this.renderCollectionParameter(label, validators)
+      case 'MAP':
+        return this.renderMapParameter(label, validators)
       default:
         return null
     }

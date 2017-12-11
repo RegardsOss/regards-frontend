@@ -57,6 +57,13 @@ const messages = {
   'render.array-field.values.title': 'Defined values',
   'render.array-field.add.new.value.button': 'Add',
   'render.array-field.new.value.hint': 'New value ...',
+
+  'render.array-object.options.title': 'Options',
+  'render.array-object.delete.button': 'Delete',
+  'render.array-object.duplicate.button': 'Duplicate',
+  'render.array-object.item.title': 'Item {index}',
+  'render.array-object.delete.confirm.title': 'Do you want to delete {index} ?',
+  'render.array-object.add.button': 'Add',
 }
 
 export default messages

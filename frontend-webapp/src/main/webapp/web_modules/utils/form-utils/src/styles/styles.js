@@ -93,5 +93,37 @@ export default function styles(theme) {
         margin: '0px 15px',
       },
     },
+    arrayObject: {
+      layoutStyle: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        border: '1px solid',
+        borderColor: theme.palette.borderColor,
+      },
+      titleStyle: {
+        width: '100%',
+      },
+      contentStyle: {
+        display: 'flex',
+        flexDirection: 'row',
+        height: '450px',
+        width: '100%',
+      },
+      leftColumnStyle: {
+        width: '18%',
+        borderRight: '1px solid',
+        borderColor: theme.palette.borderColor,
+      },
+      rightColumnStyle: {
+        width: '82%',
+        overflow: 'auto',
+        margin: '0px 15px',
+      },
+      typeListStyle: {
+        height: '415px',
+        overflow: 'auto',
+      },
+    },
   }
 }

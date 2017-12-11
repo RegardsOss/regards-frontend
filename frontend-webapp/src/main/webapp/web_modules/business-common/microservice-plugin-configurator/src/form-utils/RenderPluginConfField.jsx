@@ -26,7 +26,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { Card, CardText } from 'material-ui/Card'
 import { RenderTextField, RenderDoubleLabelToggle, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { CommonShapes } from '@regardsoss/shape'
-import RenderPluginParameterField from './RenderPluginParameterField'
+import { RenderPluginParameterField } from './RenderPluginParameterField'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -38,7 +38,7 @@ const requiredNumberValidator = [number, required]
 * Redux-form compatible field component to display a PluginConfiguration form.
 * @author Sébastien Binda
 */
-class RenderPluginConfField extends React.Component {
+export class RenderPluginConfField extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // Name of the microservice of the plugin
     pluginMetaData: CommonShapes.PluginMetaDataContent.isRequired, // PluginMetadata used to configure new plugin configuration

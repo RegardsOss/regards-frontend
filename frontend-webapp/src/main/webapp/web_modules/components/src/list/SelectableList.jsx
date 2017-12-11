@@ -27,7 +27,7 @@ function wrapState(ComposedComponent) {
   return class SelectableListComponent extends React.Component {
     static propTypes = {
       children: PropTypes.node.isRequired,
-      defaultValue: PropTypes.number,
+      defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       onSelect: PropTypes.func,
       style: PropTypes.objectOf(PropTypes.string),
     }

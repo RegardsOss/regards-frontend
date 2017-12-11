@@ -17,30 +17,54 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import get from 'lodash/get'
 import { CommonShapes } from '@regardsoss/shape'
-import { fieldInputPropTypes, Field } from 'redux-form'
-import RenderPluginParameterField from './RenderPluginParameterField'
+import { fieldInputPropTypes } from 'redux-form'
+import { Field } from '@regardsoss/form-utils'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { RenderPluginParameterField } from './RenderPluginParameterField'
+import styles from '../styles'
+import messages from '../i18n'
 
 /**
-* Comment Here
+* Render a plugin parameter form for a OBJECT parameter.
 * @author Sébastien Binda
 */
-class RenderObjectParameterField extends React.Component {
+export class RenderObjectParameterField extends React.Component {
   static propTypes = {
-    label: PropTypes.string.isRequired,
     microserviceName: PropTypes.string.isRequired,
     pluginParameterType: CommonShapes.PluginParameterType.isRequired,
+    fullWidth: PropTypes.bool,
     // From redux field
+    name: PropTypes.string,
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    fullWidth: false,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
   render() {
-    const { input, pluginParameterType, microserviceName } = this.props
-    console.error('OBJECT', pluginParameterType)
-    return null
+    const {
+      input, pluginParameterType, microserviceName, fullWidth, name,
+    } = this.props
+
+    const parameters = map(pluginParameterType.parameters, p => (<Field
+      key={`${name || input.name}.${p.name}`}
+      name={`${name || input.name}.${p.name}`}
+      component={RenderPluginParameterField}
+      microserviceName={microserviceName}
+      pluginParameterType={p}
+      hideDynamicParameterConf
+      complexParameter={false}
+    />))
+    const style = fullWidth ? { width: '100%' } : {}
+    return (<div style={style}>{parameters}</div>)
   }
 }
-export default RenderObjectParameterField
+export default withModuleStyle(styles)(withI18n(messages)(RenderObjectParameterField))

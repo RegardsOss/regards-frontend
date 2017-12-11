@@ -18,6 +18,8 @@
  **/
 import RenderTextField from './render/RenderTextField'
 import RenderArrayTextField from './render/RenderArrayTextField'
+import RenderArrayObjectField from './render/RenderArrayObjectField'
+import RenderMapField from './render/RenderMapField'
 import RenderSelectField from './render/RenderSelectField'
 import RenderCheckbox from './render/RenderCheckbox'
 import RenderRadio from './render/RenderRadio'
@@ -47,6 +49,8 @@ module.exports = {
   RenderPageableAutoCompleteField,
   RenderTextField,
   RenderArrayTextField,
+  RenderArrayObjectField,
+  RenderMapField,
   RenderToggle,
   RenderDoubleLabelToggle,
   RenderSelectField,

@@ -209,5 +209,5 @@ export class RenderPluginPluginParameterField extends React.Component {
   }
 }
 
-const connectedComponent = connect(null, RenderPluginPluginParameterField.mapDispatchToProps)(RenderPluginPluginParameterField)
-export default withModuleStyle(styles)(connectedComponent)
+export const RenderPluginField = connect(null, RenderPluginPluginParameterField.mapDispatchToProps)(RenderPluginPluginParameterField)
+export default withModuleStyle(styles)(RenderPluginField)

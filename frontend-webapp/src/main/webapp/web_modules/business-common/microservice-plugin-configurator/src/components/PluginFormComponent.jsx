@@ -60,7 +60,8 @@ export class PluginFormComponent extends React.Component {
   // Redux-form field name for current plugin configuration
   static confFieldName = 'pluginConfiguration'
 
-  componentDidMount() {
+  constructor(props) {
+    super(props)
     this.handleInitialize()
   }
 
