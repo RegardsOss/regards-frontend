@@ -154,6 +154,7 @@ class LazyModuleComponent extends React.Component {
           description: this.props.module.description,
         }, { adminForm: this.props.adminForm })
       } else if (!this.props.admin && module.moduleContainer) {
+        // eslint-disable-next-line prefer-destructuring
         moduleContainer = module.moduleContainer
         moduleDependencies = get(module, 'dependencies.user', [])
         moduleProps = merge({}, defaultModuleProps, {

@@ -22,7 +22,6 @@ import { BasicActions } from '@regardsoss/store-utils'
  * Pseudo actions to obtain the link to download all order files as zip
  */
 class DownloadAllOrderFilesActions extends BasicActions {
-
   constructor() {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/user/orders/{orderId}/download`,
@@ -39,7 +38,6 @@ class DownloadAllOrderFilesActions extends BasicActions {
     const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { orderId })
     return this.handleRequestQueryParams(withPathParams, { token })
   }
-
 }
 
 export default DownloadAllOrderFilesActions

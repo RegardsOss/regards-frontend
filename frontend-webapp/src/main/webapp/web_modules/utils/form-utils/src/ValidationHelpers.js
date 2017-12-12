@@ -17,8 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
+import isFinite from 'lodash/isFinite'
 import isUndefined from 'lodash/isUndefined'
 import isNil from 'lodash/isNil'
+import isNaN from 'lodash/isNaN'
 import isString from 'lodash/isString'
 import isNumber from 'lodash/isNumber'
 import partialRight from 'lodash/partialRight'

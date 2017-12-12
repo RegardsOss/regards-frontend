@@ -93,13 +93,14 @@ class DynamicContentField extends React.Component {
         <Badge
           style={badgeStyle}
           badgeStyle={badgeBadgeStyle}
-          badgeContent={<IconButton
-            tooltip={formatMessage({ id: 'container.form.dynamicContent.info' })}
-            tooltipPosition="top-right"
-            iconStyle={smallIconStyle}
-          >
-            <Help color={muiTheme.palette.disabledColor} />
-          </IconButton>}
+          badgeContent={
+            <IconButton
+              tooltip={formatMessage({ id: 'container.form.dynamicContent.info' })}
+              tooltipPosition="top-right"
+              iconStyle={smallIconStyle}
+            >
+              <Help color={muiTheme.palette.disabledColor} />
+            </IconButton>}
         >
           <Field
             onChange={this.handleChange}

@@ -27,9 +27,10 @@ export default class HelpMessageComponent extends React.Component {
   static styleIcon = { width: '24px', height: '24px', marginRight: '10px' }
 
   render() {
-    return (<span style={HelpMessageComponent.styleContainer}>
-      <Info style={HelpMessageComponent.styleIcon} />
-      {this.props.message}
-    </span>)
+    return (
+      <span style={HelpMessageComponent.styleContainer}>
+        <Info style={HelpMessageComponent.styleIcon} />
+        {this.props.message}
+      </span>)
   }
 }

@@ -40,7 +40,6 @@ export class SelectLocaleContainer extends React.Component {
    * @param {string} value Form value
    */
   handleLocaleChange = (event, value) => {
-    this.setState({ value })
     this.props.setLocale(value)
   }
 

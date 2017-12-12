@@ -36,7 +36,9 @@ const allRules = {
   // eslint reconfiguration for operators + and -
   'no-mixed-operators': ['error', { allowSamePrecedence: true }],
   // Do not force array destructuration
-  "prefer-destructuring": ["error", { "object": true, "array": false }],
+  'prefer-destructuring': ['error', { object: true, array: false }],
+  // let newlines allowed after parenthesis (better for react elements alignment)
+  'function-paren-newline': 0,
 
   semi: [
     'error',

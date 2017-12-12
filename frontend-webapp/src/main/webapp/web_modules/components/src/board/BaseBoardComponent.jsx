@@ -77,7 +77,7 @@ class BaseBoardComponent extends React.Component {
     this.setState({
       showAdvanced: !showAdvanced,
     }, () => {
-      const query = browserHistory.getCurrentLocation().query
+      const { query } = browserHistory.getCurrentLocation()
       browserHistory.push({
         pathname: browserHistory.getCurrentLocation().pathname,
         query: query ? { ...query, advanced: this.state.showAdvanced } : {
@@ -125,8 +125,8 @@ class BaseBoardComponent extends React.Component {
             style={computedStyles.section.styles}
           >
             {this.props.boardItemComponents}
-            {map(this.props.advancedBoardItemComponents, (component, key) =>
-              (<ShowableAtRender
+            {map(this.props.advancedBoardItemComponents, (component, key) => (
+              <ShowableAtRender
                 key={key}
                 show={this.state.showAdvanced}
               >

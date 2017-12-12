@@ -23,7 +23,6 @@ import { BasicActions } from '@regardsoss/store-utils'
  * Pseudo actions to obtain the metalink file for an order files
  */
 class DownloadOrderMetalinkFileAtions extends BasicActions {
-
   constructor() {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/user/orders/{orderId}/metalink/download`,
@@ -40,7 +39,6 @@ class DownloadOrderMetalinkFileAtions extends BasicActions {
     const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { orderId })
     return this.handleRequestQueryParams(withPathParams, { token })
   }
-
 }
 
 export default DownloadOrderMetalinkFileAtions

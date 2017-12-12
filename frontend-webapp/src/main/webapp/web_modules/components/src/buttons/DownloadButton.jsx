@@ -25,7 +25,7 @@ import DownloadIcon from 'material-ui/svg-icons/file/file-download'
 */
 class DownloadButton extends React.Component {
   static propTypes = {
-    ButtonConstructor: PropTypes.func.isRequired,
+    ButtonConstructor: PropTypes.func,
     ButtonIcon: PropTypes.func, // not mandatory, can use a simple label
     label: PropTypes.string, // not mandatory, can use a simple icon
     tooltip: PropTypes.string,

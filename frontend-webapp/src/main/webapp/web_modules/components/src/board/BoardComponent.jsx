@@ -31,7 +31,7 @@ import BaseBoardComponent from './BaseBoardComponent'
  */
 class BoardComponent extends React.Component {
   static propTypes = {
-    items: PropTypes.arrayOf(BoardItemShape).isRequired,
+    items: PropTypes.arrayOf(BoardItemShape),
   }
 
   static defaultProps = {

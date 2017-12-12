@@ -30,6 +30,7 @@ import {
 const styles = (theme) => {
   let background = theme ? theme.palette.canvasColor : 'transparent'
   if (theme && theme.palette.background && theme.palette.background !== '') {
+    // eslint-disable-next-line prefer-destructuring
     background = theme.palette.background
   } else {
     background = theme && theme.palette.backgroundImage ? `url('${theme.palette.backgroundImage}') no-repeat fixed center center` : background
