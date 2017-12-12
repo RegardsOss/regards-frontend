@@ -79,10 +79,10 @@ export default function styles(theme) {
     arrayField: {
       layout: {
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'baseline',
       },
       list: {
-        paddingRight: '10px',
       },
       listContent: {
         maxHeight: '150px',
@@ -107,7 +107,7 @@ export default function styles(theme) {
       contentStyle: {
         display: 'flex',
         flexDirection: 'row',
-        height: '450px',
+        height: '250px',
         width: '100%',
       },
       leftColumnStyle: {
@@ -121,7 +121,7 @@ export default function styles(theme) {
         margin: '0px 15px',
       },
       typeListStyle: {
-        height: '415px',
+        height: '215px',
         overflow: 'auto',
       },
     },

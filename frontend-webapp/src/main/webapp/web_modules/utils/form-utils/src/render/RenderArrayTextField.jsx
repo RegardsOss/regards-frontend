@@ -19,11 +19,12 @@
 import Divider from 'material-ui/Divider'
 import Paper from 'material-ui/Paper'
 import Subheader from 'material-ui/Subheader'
+import Dialog from 'material-ui/Dialog'
 import Delete from 'material-ui/svg-icons/action/delete'
+import AddBoxIcon from 'material-ui/svg-icons/content/add-box'
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
 import { List, ListItem } from 'material-ui/List'
-import AddBoxIcon from 'material-ui/svg-icons/content/add-box'
 import RaisedButton from 'material-ui/RaisedButton'
 import { fieldArrayFieldsPropTypes } from 'redux-form'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
@@ -59,9 +60,10 @@ class RenderArrayTextField extends React.Component {
 
   state = {
     newValue: null,
+    dialogOpened: false,
   }
 
-  addValue = () => {
+  onAddNewValue = () => {
     const { valueField, fields } = this.props
     const { newValue } = this.state
     if (newValue) {
@@ -71,12 +73,63 @@ class RenderArrayTextField extends React.Component {
         fields.push(newValue)
       }
     }
+    this.closeAddDialog()
   }
 
   handleChange = (event) => {
     this.setState({
       newValue: event.target.value,
     })
+  }
+
+  openAddDialog = () => {
+    this.setState({
+      dialogOpened: true,
+    })
+  }
+
+  closeAddDialog = () => {
+    this.setState({
+      newValue: null,
+      dialogOpened: false,
+    })
+  }
+
+  renderNewValueDialog = () => {
+    const { dialogOpened, newValue } = this.state
+    const { newFieldLabel, fieldsListLabel } = this.props
+    const { intl: { formatMessage } } = this.context
+    const actions = [
+      <RaisedButton
+        key="ok"
+        label={formatMessage({ id: 'render.array-object.add.button' })}
+        primary
+        disabled={!newValue}
+        keyboardFocused
+        onClick={this.onAddNewValue}
+      />,
+      <RaisedButton
+        key="cancel"
+        label={formatMessage({ id: 'render.array-object.cancel.button' })}
+        onClick={this.closeAddDialog}
+      />,
+    ]
+
+    return (
+      <Dialog
+        title={formatMessage({ id: 'render.map-object.add.new.dialog.title' }, { parameter: fieldsListLabel })}
+        actions={actions}
+        modal={false}
+        open={dialogOpened}
+        onRequestClose={this.closeDialog}
+      >
+        <TextField
+          hintText={newFieldLabel || formatMessage({ id: 'render.array-field.new.value.hint' })}
+          type="text"
+          onChange={this.handleChange}
+        />
+      </Dialog>
+    )
   }
 
   renderField = (field, index) => {
@@ -94,7 +147,7 @@ class RenderArrayTextField extends React.Component {
 
   render() {
     const {
-      fields, type, newFieldLabel, fieldsListLabel, addButtonLabel,
+      fields, fieldsListLabel, addButtonLabel,
     } = this.props
     const { moduleTheme: { arrayField }, intl: { formatMessage } } = this.context
     return (
@@ -105,18 +158,15 @@ class RenderArrayTextField extends React.Component {
           <List style={arrayField.listContent}>
             {fields.map(this.renderField)}
           </List>
+          <RaisedButton
+            onClick={this.openAddDialog}
+            label={addButtonLabel || formatMessage({ id: 'render.array-field.add.new.value.button' })}
+            fullWidth
+            primary
+            icon={<AddBoxIcon />}
+          />
         </Paper>
-        <RaisedButton
-          onClick={this.addValue}
-          label={addButtonLabel || formatMessage({ id: 'render.array-field.add.new.value.button' })}
-          icon={<AddBoxIcon />}
-        />
-        <TextField
-          hintText={newFieldLabel || formatMessage({ id: 'render.array-field.new.value.hint' })}
-          type={type}
-          onChange={this.handleChange}
-          style={arrayField.text}
-        />
+        {this.renderNewValueDialog()}
       </div>
     )
   }

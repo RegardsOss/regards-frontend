@@ -34,14 +34,9 @@ export class RenderObjectParameterField extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
     pluginParameterType: CommonShapes.PluginParameterType.isRequired,
-    fullWidth: PropTypes.bool,
     // From redux field
     name: PropTypes.string,
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
-  }
-
-  static defaultProps = {
-    fullWidth: false,
   }
 
   static contextTypes = {
@@ -51,20 +46,23 @@ export class RenderObjectParameterField extends React.Component {
 
   render() {
     const {
-      input, pluginParameterType, microserviceName, fullWidth, name,
+      input, pluginParameterType, microserviceName, name,
     } = this.props
+    const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
 
-    const parameters = map(pluginParameterType.parameters, p => (<Field
-      key={`${name || input.name}.${p.name}`}
-      name={`${name || input.name}.${p.name}`}
-      component={RenderPluginParameterField}
-      microserviceName={microserviceName}
-      pluginParameterType={p}
-      hideDynamicParameterConf
-      complexParameter={false}
-    />))
-    const style = fullWidth ? { width: '100%' } : {}
-    return (<div style={style}>{parameters}</div>)
+    return (
+      <div style={fullWidthStyle}>
+        {map(pluginParameterType.parameters, p => (<Field
+          key={`${name || input.name}.${p.name}`}
+          name={`${name || input.name}.${p.name}`}
+          component={RenderPluginParameterField}
+          microserviceName={microserviceName}
+          pluginParameterType={p}
+          hideDynamicParameterConf
+          complexParameter={false}
+        />))}
+      </div>
+    )
   }
 }
 export default withModuleStyle(styles)(withI18n(messages)(RenderObjectParameterField))

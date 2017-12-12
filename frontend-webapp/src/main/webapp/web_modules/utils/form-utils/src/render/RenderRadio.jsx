@@ -23,21 +23,21 @@ const RenderRadio = ({
   input, onSelect, defaultSelected, children, meta: { touched, error }, intl,
 }, { muiTheme }) => (
   <div>
-      <RadioButtonGroup
-        {...input}
-        defaultSelected={defaultSelected}
-        valueSelected={(input.value || input.value === false) ? input.value : undefined}
-        onChange={(event, value) => {
+    <RadioButtonGroup
+      {...input}
+      defaultSelected={defaultSelected}
+      valueSelected={(input.value || input.value === false) ? input.value : undefined}
+      onChange={(event, value) => {
           if (onSelect) {
             onSelect(event, value, input)
           }
           return input.onChange(value)
         }}
-      >
-        {children}
-      </RadioButtonGroup>
-      {touched && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
-    </div>
+    >
+      {children}
+    </RadioButtonGroup>
+    {touched && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
+  </div>
 )
 RenderRadio.contextTypes = {
   ...themeContextType,

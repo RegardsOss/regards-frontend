@@ -28,6 +28,10 @@ const microserviceManagementStyles = theme => ({
     iconMenu: {
       visibility: 'hidden',
     },
+    iconViewStyle: {
+      display: 'flex',
+      alignItems: 'flex-end',
+    },
     label: {
       paddingLeft: 0,
       fontSize: 12,
@@ -41,7 +45,7 @@ const microserviceManagementStyles = theme => ({
       alignItems: 'center',
       justifyContent: 'flex-start',
     },
-    toggle: {
+    toggleStyle: {
       width: 'auto',
       height: 'auto',
     },
@@ -65,6 +69,7 @@ const microserviceManagementStyles = theme => ({
     errorStyle: {
       color: theme.textField.errorColor,
     },
+    fullWidthStyle: { width: '100%' },
   },
 })
 

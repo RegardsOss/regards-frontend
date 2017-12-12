@@ -91,6 +91,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
           validate={isRequired ? ValidationHelpers.required : null}
           microserviceName={STATIC_CONF.MSERVICES.INGEST}
           hideGlobalParameterConf
+          hideDynamicParameterConf
         />
       </div>
     )

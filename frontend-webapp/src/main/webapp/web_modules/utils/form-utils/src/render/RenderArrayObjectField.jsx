@@ -18,6 +18,7 @@
  **/
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
+import AddBoxIcon from 'material-ui/svg-icons/content/add-box'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
@@ -231,6 +232,7 @@ class RenderArrayObjectField extends React.Component {
                   fullWidth
                   primary
                   onClick={this.onAddNewObject}
+                  icon={<AddBoxIcon />}
                 />
               </div>
               <div style={rightColumnStyle}>

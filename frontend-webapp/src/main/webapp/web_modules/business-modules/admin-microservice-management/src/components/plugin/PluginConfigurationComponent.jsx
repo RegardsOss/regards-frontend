@@ -110,6 +110,8 @@ export class PluginConfigurationComponent extends React.Component {
             <div>
               <span>{pluginConfiguration.content.label}</span>
               <span style={moduleTheme.pluginConfiguration.version}>Version {pluginConfiguration.content.version}</span>
+              <span> -</span>
+              <span style={moduleTheme.pluginConfiguration.version}>Id {pluginConfiguration.content.id}</span>
             </div>
             <div style={moduleTheme.pluginConfiguration.buttonsGroupWrapper}>
               <span style={moduleTheme.pluginConfiguration.version}><FormattedMessage

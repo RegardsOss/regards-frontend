@@ -39,7 +39,6 @@ class RenderPluginField extends React.Component {
     defaultPluginConfLabel: PropTypes.string, // If set, the label of a new plugin configuration is initialized with
     hideGlobalParameterConf: PropTypes.bool, // Hide the global parameters configuration
     hideDynamicParameterConf: PropTypes.bool, // Hide the dynmaic configuration of parameters
-    fullWidth: PropTypes.bool, // Display the form with full width
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
@@ -65,6 +64,9 @@ class RenderPluginField extends React.Component {
     }
   }
 
+  /**
+   * Displays the plugin selector. Allow to select a PluginMetadata of the given pluginType (see props)
+   */
   getPluginSelector = () => {
     const {
       pluginType, input: { value }, selectLabel, title, meta: { error }, microserviceName,
@@ -85,6 +87,9 @@ class RenderPluginField extends React.Component {
     )
   }
 
+  /**
+   * Displays the plugin configurator. Allow to configure a PluginConfiguration of the selected PluginMetadata (see getPluginSelector)
+   */
   getPluginConfigurator = () => {
     const {
       input, microserviceName, defaultPluginConfLabel, hideGlobalParameterConf, hideDynamicParameterConf,
@@ -106,6 +111,9 @@ class RenderPluginField extends React.Component {
     return null
   }
 
+  /**
+   * Default PluginConfiguration to initialize a new one.
+   */
   getPluginDefaultConf = pluginMetaData => ({
     id: null,
     pluginId: pluginMetaData.pluginId,
@@ -135,10 +143,9 @@ class RenderPluginField extends React.Component {
   }
 
   render() {
-    const divStyle = this.props.fullWidth ? { width: '100%' } : {}
-
+    const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
     return (
-      <div style={divStyle}>
+      <div style={fullWidthStyle}>
         {this.getPluginSelector()}
         {this.getPluginConfigurator()}
       </div>

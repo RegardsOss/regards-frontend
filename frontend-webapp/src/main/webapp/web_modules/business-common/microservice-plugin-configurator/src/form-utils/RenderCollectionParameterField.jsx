@@ -46,46 +46,81 @@ export class RenderCollectionParameterField extends React.Component {
     ...i18nContextType,
   }
 
-  render() {
+  state = {
+    isPrimitive: false,
+    component: null,
+    type: null,
+    fieldProps: {},
+  }
+
+  componentDidMount() {
+    this.initialize()
+  }
+
+  initialize = () => {
     const { input, pluginParameterType, microserviceName } = this.props
     const parameterizedType = get(pluginParameterType, 'parameterizedSubTypes', [undefined])[0]
-
-    // Is a collection of primitive type ?
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(parameterizedType)
     if (parameterizedType && primitiveParameters) {
-      return (
+      this.setState({
+        isPrimitive: true,
+        component: RenderArrayTextField,
+        type: primitiveParameters.type,
+      })
+    } else {
+      if (!pluginParameterType.parameters || pluginParameterType.parameters.length === 0) {
+        // No parameters for the list of objects.
+        throw new Error('Invalid COLLECTION plugin parameter. Parameterized type is an object without any parameters.')
+      }
+      this.setState({
+        isPrimitive: false,
+        component: RenderObjectParameterField,
+        fieldProps: {
+          microserviceName,
+          pluginParameterType,
+          complexParameter: false,
+          input,
+        },
+      })
+    }
+  }
+
+  render() {
+    const { input: { name }, pluginParameterType } = this.props
+    const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
+    const {
+      isPrimitive, component, type, fieldProps,
+    } = this.state
+
+    if (component == null) {
+      return null
+    }
+
+    let collectionParameter
+    if (isPrimitive) {
+      collectionParameter = (
         <FieldArray
-          name={`${input.name}`}
-          fullWidth
-          component={RenderArrayTextField}
+          name={name}
+          component={component}
           fieldsListLabel={pluginParameterType.label}
-          type={primitiveParameters.type}
+          type={type}
         />
       )
-    } else if (pluginParameterType.parameters && pluginParameterType.parameters.length > 0) {
-      // List of object.
-      const fieldProps = {
-        microserviceName,
-        pluginParameterType,
-        complexParameter: false,
-        input,
-      }
-      return (
-        <div style={{ width: '100%' }}>
-          <FieldArray
-            name={`${input.name}`}
-            fullWidth
-            component={RenderArrayObjectField}
-            label={pluginParameterType.label || pluginParameterType.name}
-            fieldComponent={RenderObjectParameterField}
-            fieldProps={fieldProps}
-          />
-        </div>
+    } else {
+      collectionParameter = (
+        <FieldArray
+          name={name}
+          component={RenderArrayObjectField}
+          label={pluginParameterType.label || pluginParameterType.name}
+          fieldComponent={component}
+          fieldProps={fieldProps}
+        />
       )
     }
-    console.error('Invalid type for collection plugin parameter', pluginParameterType)
     return (
-      <div />
+      <div style={fullWidthStyle}>
+        {collectionParameter}
+      </div>
     )
   }
 }

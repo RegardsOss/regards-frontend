@@ -91,7 +91,7 @@ export class RenderPluginPluginParameterField extends React.Component {
     const {
       pluginParameterType, fetchPluginConfigurationList, fetchPluginMetadataList, microserviceName,
     } = this.props
-    const pluginParameter = this.props.input.value
+    const pluginId = this.props.input.value
 
     if (pluginParameterType.type) {
       // 1. Retrieve pluginMetadatas for the microservice.
@@ -104,7 +104,7 @@ export class RenderPluginPluginParameterField extends React.Component {
       // 2. Retrieve all plugin configuration available for the plugin type.
       fetchPluginConfigurationList(pluginParameterType.type, microserviceName).then((actionResults) => {
         const pluginConfigurationList = values(get(actionResults, 'payload.entities.pluginConfiguration', {}))
-        const selectedPluginConfiguration = find(pluginConfigurationList, el => el.content.id === get(pluginParameter, 'pluginConfiguration.id'))
+        const selectedPluginConfiguration = find(pluginConfigurationList, el => el.content.id === parseInt(pluginId, 10))
         this.setState({
           pluginConfigurationList,
           selectedPluginConfiguration,

@@ -64,6 +64,11 @@ const messages = {
   'render.array-object.item.title': 'Item {index}',
   'render.array-object.delete.confirm.title': 'Do you want to delete {index} ?',
   'render.array-object.add.button': 'Add',
+  'render.array-object.cancel.button': 'Cancel',
+
+  'render.map-object.add.new.dialog.title': 'Add new element to the map parameter {parameter}',
+  'render.map-object.add.new.dialog.key.label': 'New element key',
+  'render.map-object.key.already.exists.error': 'Selected value already exists.',
 }
 
 export default messages

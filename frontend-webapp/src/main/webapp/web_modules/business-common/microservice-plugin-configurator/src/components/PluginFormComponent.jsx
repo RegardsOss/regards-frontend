@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import omit from 'lodash/omit'
+import map from 'lodash/map'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import { Card, CardText, CardTitle, CardActions } from 'material-ui/Card'
-import { Field } from 'redux-form'
 import { CardActionsComponent } from '@regardsoss/components'
-import { reduxForm } from '@regardsoss/form-utils'
+import { reduxForm, Field } from 'redux-form'
 import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -66,7 +67,12 @@ export class PluginFormComponent extends React.Component {
   }
 
   onSubmit = (values) => {
-    this.props.onSubmit(values[PluginFormComponent.confFieldName])
+    const cloneValues = cloneDeep(values[PluginFormComponent.confFieldName])
+    cloneValues.parameters = map(cloneValues.parameters, p => ({
+      ...omit(p, 'value'),
+      value: JSON.stringify(p.value),
+    }))
+    this.props.onSubmit(cloneValues)
   }
 
   /**
@@ -76,15 +82,22 @@ export class PluginFormComponent extends React.Component {
     const {
       pluginConfiguration, pluginMetaData, initialize, isEditing,
     } = this.props
-
+    // The values are serialized by the backend. So deseralize it all here
+    const deserializedPluginConf = pluginConfiguration ? cloneDeep(pluginConfiguration) : null
+    if (deserializedPluginConf) {
+      deserializedPluginConf.parameters = map(deserializedPluginConf.parameters, p => ({
+        ...omit(p, 'value'),
+        value: JSON.parse(p.value),
+      }))
+    }
     let initialValues
     if (isEditing) {
       // Edition mode
-      initialValues = pluginConfiguration
-    } else if (pluginConfiguration) {
+      initialValues = deserializedPluginConf
+    } else if (deserializedPluginConf) {
       // Duplication mode
       // Deep copy pluginConfiguration
-      initialValues = cloneDeep(pluginConfiguration)
+      initialValues = deserializedPluginConf
       // In copy mode remove id of the duplicated pluginConfiguration
       delete initialValues.id
       // In copy mode remove id of each pluginParameters

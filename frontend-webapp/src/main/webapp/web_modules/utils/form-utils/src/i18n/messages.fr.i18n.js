@@ -64,6 +64,11 @@ const messages = {
   'render.array-object.item.title': 'Element {index}',
   'render.array-object.delete.confirm.title': 'Voulez vous supprimer l\'élément {index} ?',
   'render.array-object.add.button': 'Ajouter',
+  'render.array-object.cancel.button': 'Annuler',
+
+  'render.map-object.add.new.dialog.title': 'Ajouter un nouvel élément au paramètre {parameter}',
+  'render.map-object.add.new.dialog.key.label': 'Clef du nouvel élément ... ',
+  'render.map-object.key.already.exists.error': 'La valeur existe déjà.',
 
 }
 

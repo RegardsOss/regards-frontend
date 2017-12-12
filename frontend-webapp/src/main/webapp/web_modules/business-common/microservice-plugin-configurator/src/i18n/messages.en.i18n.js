@@ -33,7 +33,7 @@ const messages = Object.assign({
   'plugin.configuration.form.action.cancel': 'Cancel',
 
   'plugin.parameter.static.field': 'Set parameter value',
-  'plugin.parameter.dynamic.field': 'Define parameter possible values',
+  'plugin.parameter.dynamic.field': 'Dynamic parameter',
   'plugin.parameter.dynamicvalues.title': 'Possible values',
 
   'plugin.parameter.plugin.choose': 'Choose a plugin',

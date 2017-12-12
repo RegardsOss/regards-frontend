@@ -20,7 +20,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { fieldInputPropTypes, Field } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { FieldArray, RenderArrayTextField, RenderArrayObjectField, RenderMapField } from '@regardsoss/form-utils'
+import { RenderMapField } from '@regardsoss/form-utils'
 import { getPrimitiveJavaTypeRenderParameters } from './JavaPrimitiveTypesTool'
 import RenderObjectParameterField from './RenderObjectParameterField'
 import styles from '../styles'
@@ -34,7 +34,6 @@ export class RenderMapParameterField extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
     pluginParameterType: CommonShapes.PluginParameterType.isRequired,
-    fullWidth: PropTypes.bool,
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
   }
@@ -46,50 +45,78 @@ export class RenderMapParameterField extends React.Component {
     ...i18nContextType,
   }
 
-  render() {
+  state = {
+    component: null,
+    fieldProps: {},
+  }
+
+  componentDidMount() {
+    try {
+      this.initialize()
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+  /**
+   * Initialize the map renderer by calculating the map value renderer and its props.
+   */
+  initialize = () => {
     const {
-      input, pluginParameterType, microserviceName, fullWidth, name,
+      pluginParameterType, microserviceName,
     } = this.props
 
     // There should be two parameterized subtypes
     if (!pluginParameterType.parameterizedSubTypes || pluginParameterType.parameterizedSubTypes.length !== 2) {
-      console.error('Invalid map parameter', pluginParameterType)
-      return null
+      throw new Error('Invalid map parameter', pluginParameterType)
     }
     if (pluginParameterType.parameterizedSubTypes[0] !== 'java.lang.String') {
-      console.error('Invalid map key parameter. Only String is allowed.')
-      return null
+      throw new Error('Invalid map key parameter. Only String is allowed.')
     }
 
-    // Check if second parameter is primitive
-    let renderComponent = null
+    // Calculate value renderer type. Primitive or object
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(pluginParameterType.parameterizedSubTypes[1])
     if (primitiveParameters) {
-      const mapValueFieldProps = {
-        type: primitiveParameters.type,
-      }
-      renderComponent = (<Field
-        name={input.name}
-        component={RenderMapField}
-        mapValueFieldComponent={primitiveParameters.component}
-        mapValueFieldProps={mapValueFieldProps}
-        getNewMapValue={() => ''}
-      />)
+      this.setState({
+        fieldProps: {
+          // Props of the component renderer
+          type: primitiveParameters.type,
+        },
+        // Component renderer (exemple : RenderTextField)
+        component: primitiveParameters.component,
+        defaultValue: null,
+      })
     } else {
-      const fieldProps = {
-        microserviceName,
-        pluginParameterType,
-        complexParameter: false,
-      }
-      renderComponent = (<Field
-        name={input.name}
-        component={RenderMapField}
-        mapValueFieldComponent={RenderObjectParameterField}
-        mapValueFieldProps={fieldProps}
-        getNewMapValue={() => ({})}
-      />)
+      this.setState({
+        fieldProps: {
+          // Props for the RenderObjectParameterField
+          microserviceName,
+          pluginParameterType,
+          complexParameter: false,
+        },
+        component: RenderObjectParameterField,
+        defaultValue: {},
+      })
     }
-    return (<div style={{ width: '100%' }}>{renderComponent}</div>)
+  }
+
+  render() {
+    const { fieldProps, component, defaultValue } = this.state
+    const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
+    const { input: { name } } = this.props
+    if (component === null) {
+      return null
+    }
+    return (
+      <div style={fullWidthStyle}>
+        <Field
+          name={name}
+          component={RenderMapField}
+          mapValueFieldComponent={component}
+          mapValueFieldProps={fieldProps}
+          defaultValue={defaultValue}
+        />
+      </div>
+    )
   }
 }
 export default withModuleStyle(styles)(withI18n(messages)(RenderMapParameterField))
