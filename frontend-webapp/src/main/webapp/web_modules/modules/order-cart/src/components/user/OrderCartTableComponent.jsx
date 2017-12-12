@@ -193,8 +193,7 @@ export class OrderCartTableComponent extends React.Component {
             openSearchRequest={cellValue.openSearchRequest}
           />
       // delete option
-      case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE:
-      {
+      case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE: {
         // extract option parameters from cell value
         const { datasetSelectionId, itemsSelectionDate } = cellValue
         return OrderCartTableComponent.DATASET_SELECTION_LEVEL === level ?
@@ -221,8 +220,8 @@ export class OrderCartTableComponent extends React.Component {
         model={basket}
         buildTreeTableRows={this.buildTableRows}
         buildCellComponent={this.buildTableCell}
-        columns={OrderCartTableComponent.COLUMNS_DEFINITION.map(({ key, labelKey }) =>
-          (<TableHeaderColumn
+        columns={OrderCartTableComponent.COLUMNS_DEFINITION.map(({ key, labelKey }) => (
+          <TableHeaderColumn
             key={key}
             style={!labelKey ? table.optionColumn.style : undefined} // set up custom option columns style
           >{labelKey ? formatMessage({ id: labelKey }) : null}
