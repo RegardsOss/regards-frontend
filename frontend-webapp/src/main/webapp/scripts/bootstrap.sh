@@ -31,6 +31,16 @@ if [ -d "${SCRIPT_DIR}/../node_modules/.cache" ]; then
   rm -rf "${SCRIPT_DIR}/../node_modules/.cache"
 fi
 
+if [ -d "${SCRIPT_DIR}/../node_modules/@regardsoss" ]; then
+  echo "Clean regardsoss modules : ${SCRIPT_DIR}/../node_modules/@regardsoss"
+  rm -rf "${SCRIPT_DIR}/../node_modules/@regardsoss"
+fi
+
+if [ -d "${SCRIPT_DIR}/../node_modules/@regardsoss-modules" ]; then
+  echo "Clean regardsoss modules : ${SCRIPT_DIR}/../node_modules/@regardsoss-modules"
+  rm -rf "${SCRIPT_DIR}/../node_modules/@regardsoss-modules"
+fi
+
 # Lint
 npm install eslint-config-es6-rules
 
