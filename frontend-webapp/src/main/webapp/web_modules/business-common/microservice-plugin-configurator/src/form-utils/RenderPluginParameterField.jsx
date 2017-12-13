@@ -246,8 +246,22 @@ export class RenderPluginParameterField extends React.Component {
     let label = pluginParameterType.label || pluginParameterType.name
     const validators = []
     if (pluginParameterType && !pluginParameterType.optional) {
-      validators.push(ValidationHelpers.required)
       label += ' (*)'
+      switch (pluginParameterType && pluginParameterType.paramType) {
+        case 'PRIMITIVE':
+        case 'PLUGIN':
+        case 'OBJECT':
+          validators.push(ValidationHelpers.required)
+          break
+        case 'COLLECTION':
+          validators.push(ValidationHelpers.arrayRequired)
+          break
+        case 'MAP':
+          validators.push(ValidationHelpers.mapRequired)
+          break
+        default:
+          break
+      }
     }
 
     switch (pluginParameterType && pluginParameterType.paramType) {

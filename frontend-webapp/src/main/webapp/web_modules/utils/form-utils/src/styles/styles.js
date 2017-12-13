@@ -92,6 +92,9 @@ export default function styles(theme) {
       text: {
         margin: '0px 15px',
       },
+      errorIconStyle: {
+        color: theme['forms-extension:validation'].errorColor,
+      },
     },
     arrayObject: {
       layoutStyle: {

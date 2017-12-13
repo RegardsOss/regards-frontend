@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import isString from 'lodash/isString'
 import remove from 'lodash/remove'
 import find from 'lodash/find'
 import keys from 'lodash/keys'
 import map from 'lodash/map'
 import omit from 'lodash/omit'
 import AddBoxIcon from 'material-ui/svg-icons/content/add-box'
+import ErrorIcon from 'material-ui/svg-icons/alert/error'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
@@ -31,10 +34,12 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import { Card, CardMedia } from 'material-ui/Card'
 import { ListItem } from 'material-ui/List'
-import { fieldInputPropTypes } from 'redux-form'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { SelectableList, FormErrorMessage, ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
+import RenderHelper from './RenderHelper'
+import ValidationHelpers from '../ValidationHelpers'
 import Field from '../Field'
 import styles from '../styles'
 import messages from '../i18n/Locales'
@@ -55,7 +60,8 @@ class RenderArrayObjectField extends React.Component {
     mapKeyLabel: PropTypes.string,
     mapLabel: PropTypes.string,
     // From redux-form
-    input: PropTypes.shape(fieldInputPropTypes).isRequired, // fields given by FieldArray from redux-form
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
   }
 
   static defaultProps = {
@@ -72,7 +78,8 @@ class RenderArrayObjectField extends React.Component {
     this.state = {
       mapKeys: keys(this.props.input.value) || [],
       displayedKey: null,
-      dialogOpened: false,
+      addDialogOpened: false,
+      duplicateDialogOpened: false,
       newKey: null,
       newKeyErrorMessage: null,
       keyToDelete: null,
@@ -109,6 +116,10 @@ class RenderArrayObjectField extends React.Component {
       })
       this.setState({
         mapKeys: remove(mapKeys, k => k !== keyToDelete),
+      }, () => {
+        if (this.state.mapKeys.length > 0) {
+          this.displayObject(this.state.mapKeys[0])
+        }
       })
     }
     this.closeDeleteDialog()
@@ -120,10 +131,31 @@ class RenderArrayObjectField extends React.Component {
     })
   }
 
-  onDuplicateObject = (key) => {
-    this.setState({
-      keyToDuplicate: key,
-    })
+  onDuplicateObject = () => {
+    const { newKey, mapKeys, keyToDuplicate } = this.state
+    const { input } = this.props
+    const { intl: { formatMessage } } = this.context
+    if (!input.value[keyToDuplicate]) {
+      // Key to duplicate does not exists.
+      this.setState({
+        newKeyErrorMessage: formatMessage({ id: 'render.map-object.duplicate.key.not.exists' }),
+      })
+    } else if (!newKey || find(mapKeys, k => k === newKey)) {
+      // Key is empty or does not exists.
+      this.setState({
+        newKeyErrorMessage: formatMessage({ id: 'render.map-object.key.already.exists.error' }),
+      })
+    } else {
+      this.setState({
+        mapKeys: [...mapKeys, newKey],
+      })
+      input.onChange({
+        ...input.value,
+        [newKey]: input.value[keyToDuplicate],
+      })
+      this.displayObject(newKey)
+      this.closeDuplicateDialog()
+    }
   }
 
   setNewKey = (event, newKey) => this.setState({ newKey })
@@ -140,14 +172,23 @@ class RenderArrayObjectField extends React.Component {
 
   openAddDialog = () => {
     this.setState({
-      dialogOpened: true,
+      newKey: null,
+      addDialogOpened: true,
+    })
+  }
+
+  openDuplicateDialog = (keyToDuplicate) => {
+    this.setState({
+      keyToDuplicate,
+      newKey: `${keyToDuplicate} (1)`,
+      duplicateDialogOpened: true,
     })
   }
 
   closeAddDialog = () => {
     this.setState({
       newKey: null,
-      dialogOpened: false,
+      addDialogOpened: false,
     })
   }
 
@@ -157,64 +198,16 @@ class RenderArrayObjectField extends React.Component {
     })
   }
 
-  renderDeleteConfirmDialog = () => {
-    const { keyToDelete } = this.state
-    const { intl: { formatMessage } } = this.context
-    if (keyToDelete) {
-      return (
-        <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={formatMessage({ id: 'render.array-object.delete.confirm.title' }, { index: keyToDelete })}
-          onConfirm={this.onConfirmDeleteObject}
-          onClose={this.closeDeleteDialog}
-        />
-      )
-    }
-    return null
+  closeDuplicateDialog = () => {
+    this.setState({
+      keyToDuplicate: null,
+      newKey: null,
+      duplicateDialogOpened: false,
+    })
   }
 
-  /**
-   * Render a ListItem for the given objects
-   * @param {*} index : Index of the object from the fields props to render
-   */
-  renderListItem = (key) => {
-    const { intl: { formatMessage } } = this.context
-    const iconButtonElement = (
-      <IconButton
-        touch
-        tooltip={formatMessage({ id: 'render.array-object.options.title' })}
-        tooltipPosition="bottom-left"
-      >
-        <MoreVertIcon />
-      </IconButton>
-    )
-
-    const rightIconMenu = (
-      <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem
-          onClick={() => this.onDeleteObject(key)}
-        >
-          {formatMessage({ id: 'render.array-object.delete.button' })}
-        </MenuItem>
-        <MenuItem
-          onClick={() => this.onDuplicateObject(key)}
-        >
-          {formatMessage({ id: 'render.array-object.duplicate.button' })}
-        </MenuItem>
-      </IconMenu>
-    )
-    return (
-      <ListItem
-        key={`${key}`}
-        value={key}
-        rightIconButton={rightIconMenu}
-        primaryText={key}
-      />
-    )
-  }
-
-  renderNewKeySelector = () => {
-    const { newKeyErrorMessage, dialogOpened, newKey } = this.state
+  renderAddObjectDialog = () => {
+    const { newKeyErrorMessage, addDialogOpened, newKey } = this.state
     const { newValueDialogLabel, mapKeyLabel, mapLabel } = this.props
     const { intl: { formatMessage } } = this.context
     const actions = [
@@ -238,8 +231,8 @@ class RenderArrayObjectField extends React.Component {
         title={newValueDialogLabel || formatMessage({ id: 'render.map-object.add.new.dialog.title' }, { parameter: mapLabel })}
         actions={actions}
         modal={false}
-        open={dialogOpened}
-        onRequestClose={this.closeDialog}
+        open={addDialogOpened}
+        onRequestClose={this.closeAddDialog}
       >
         <TextField
           type="text"
@@ -251,8 +244,111 @@ class RenderArrayObjectField extends React.Component {
     )
   }
 
+  renderDeleteConfirmDialog = () => {
+    const { keyToDelete } = this.state
+    const { intl: { formatMessage } } = this.context
+    if (keyToDelete) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          title={formatMessage({ id: 'render.array-object.delete.confirm.title' }, { index: keyToDelete })}
+          onConfirm={this.onConfirmDeleteObject}
+          onClose={this.closeDeleteDialog}
+        />
+      )
+    }
+    return null
+  }
+
+  renderDuplicateObjectDialog = () => {
+    const { newKeyErrorMessage, duplicateDialogOpened, newKey } = this.state
+    const { newValueDialogLabel, mapKeyLabel, mapLabel } = this.props
+    const { intl: { formatMessage } } = this.context
+    const actions = [
+      <RaisedButton
+        key="ok"
+        label={formatMessage({ id: 'render.array-object.add.button' })}
+        primary
+        disabled={!newKey}
+        keyboardFocused
+        onClick={this.onDuplicateObject}
+      />,
+      <RaisedButton
+        key="cancel"
+        label={formatMessage({ id: 'render.array-object.cancel.button' })}
+        onClick={this.closeDuplicateDialog}
+      />,
+    ]
+
+    return (
+      <Dialog
+        title={newValueDialogLabel || formatMessage({ id: 'render.map-object.add.new.dialog.title' }, { parameter: mapLabel })}
+        actions={actions}
+        modal={false}
+        open={duplicateDialogOpened}
+        onRequestClose={this.closeDuplicateDialog}
+      >
+        <TextField
+          type="text"
+          hintText={mapKeyLabel || formatMessage({ id: 'render.map-object.add.new.dialog.key.label' })}
+          onChange={this.setNewKey}
+          defaultValue={newKey}
+        />
+        <FormErrorMessage>{newKeyErrorMessage}</FormErrorMessage>
+      </Dialog>
+    )
+  }
+
+  /**
+   * Render a ListItem for the given objects
+   * @param {*} index : Index of the object from the fields props to render
+   */
+  renderListItem = (key) => {
+    const { intl: { formatMessage }, moduleTheme: { arrayField: { errorIconStyle } } } = this.context
+    const { meta } = this.props
+    const iconButtonElement = (
+      <IconButton
+        touch
+        tooltip={formatMessage({ id: 'render.array-object.options.title' })}
+        tooltipPosition="bottom-left"
+      >
+        <MoreVertIcon />
+      </IconButton>
+    )
+
+    const rightIconMenu = (
+      <IconMenu iconButtonElement={iconButtonElement}>
+        <MenuItem
+          onClick={() => this.onDeleteObject(key)}
+        >
+          {formatMessage({ id: 'render.array-object.delete.button' })}
+        </MenuItem>
+        <MenuItem
+          onClick={() => this.openDuplicateDialog(key)}
+        >
+          {formatMessage({ id: 'render.array-object.duplicate.button' })}
+        </MenuItem>
+      </IconMenu>
+    )
+
+    let leftIcon
+    if (get(meta, `error.${key}`, null)) {
+      leftIcon = <ErrorIcon color={errorIconStyle.color} />
+    }
+    return (
+      <ListItem
+        key={`${key}`}
+        value={key}
+        rightIconButton={rightIconMenu}
+        leftIcon={leftIcon}
+        primaryText={key}
+      />
+    )
+  }
+
   render() {
     const {
+      intl,
       intl: { formatMessage },
       moduleTheme: {
         arrayObject: {
@@ -262,16 +358,22 @@ class RenderArrayObjectField extends React.Component {
     } = this.context
 
     const { displayedKey, mapKeys } = this.state
-    const { mapValueFieldComponent, input, mapValueFieldProps } = this.props
+    const {
+      mapValueFieldComponent, input, mapValueFieldProps, meta,
+    } = this.props
 
     const fieldForm = displayedKey !== null ? (
       <Field
         name={`${input.name}.${displayedKey}`}
         component={mapValueFieldComponent}
         {...mapValueFieldProps}
+        validate={ValidationHelpers.required}
       />) : null
     return (
       <Card>
+        {meta.error && isString(meta.error) ?
+          <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
+          : null}
         <CardMedia>
           <div style={layoutStyle}>
             <div style={titleStyle} />
@@ -298,8 +400,9 @@ class RenderArrayObjectField extends React.Component {
             </div>
           </div>
         </CardMedia>
-        {this.renderNewKeySelector()}
+        {this.renderAddObjectDialog()}
         {this.renderDeleteConfirmDialog()}
+        {this.renderDuplicateObjectDialog()}
       </Card>
     )
   }

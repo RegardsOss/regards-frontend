@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isString from 'lodash/isString'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import AddBoxIcon from 'material-ui/svg-icons/content/add-box'
@@ -26,12 +27,14 @@ import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardMedia } from 'material-ui/Card'
 import { ListItem } from 'material-ui/List'
+import { fieldArrayFieldsPropTypes, fieldArrayMetaPropTypes } from 'redux-form'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import {
   SelectableList, ConfirmDialogComponent,
-  ConfirmDialogComponentTypes,
+  ConfirmDialogComponentTypes, FormErrorMessage,
 } from '@regardsoss/components'
+import RenderHelper from './RenderHelper'
 import styles from '../styles'
 import messages from '../i18n/Locales'
 
@@ -50,8 +53,8 @@ class RenderArrayObjectField extends React.Component {
     getEmptyObject: PropTypes.func,
     duplicationTransfromation: PropTypes.func,
     canBeEmpty: PropTypes.bool,
-    // eslint-disable-next-line react/forbid-prop-types
-    fields: PropTypes.object, // fields given by FieldArray from redux-form
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
+    meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
   }
 
   static defaultProps = {
@@ -93,11 +96,13 @@ class RenderArrayObjectField extends React.Component {
    * Callback when user confirm deletion
    */
   onConfirmDeleteObject = () => {
+    if (this.props.fields.length > 1) {
+      this.displayObject(0)
+    } else {
+      this.displayObject(undefined)
+    }
     this.props.fields.remove(this.state.fieldIndexToDelete)
     this.closeDeleteDialog()
-    if (this.props.fields.length > 0) {
-      this.displayObject(0)
-    }
   }
 
   /**
@@ -189,6 +194,7 @@ class RenderArrayObjectField extends React.Component {
 
   render() {
     const {
+      intl,
       intl: { formatMessage },
       moduleTheme: {
         arrayObject: {
@@ -197,7 +203,7 @@ class RenderArrayObjectField extends React.Component {
       },
     } = this.context
     const {
-      canBeEmpty, fields, fieldComponent, fieldProps,
+      canBeEmpty, fields, fieldComponent, fieldProps, meta,
     } = this.props
     const { displayedFieldIdx } = this.state
     const entity = fields.get(displayedFieldIdx)
@@ -207,7 +213,7 @@ class RenderArrayObjectField extends React.Component {
       return null
     }
 
-    const fieldForm = displayedFieldIdx !== null && displayedFieldIdx >= 0 ? (
+    const fieldForm = !isNil(displayedFieldIdx) ? (
       <EntityComponent
         name={`${fields.name}[${displayedFieldIdx}]`}
         entity={entity}
@@ -225,6 +231,9 @@ class RenderArrayObjectField extends React.Component {
                   defaultValue={displayedFieldIdx}
                   onSelect={this.displayObject}
                 >
+                  {meta.error && isString(meta.error) ?
+                    <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
+                    : null}
                   {map(fields, (object, idx) => this.renderListItem(idx))}
                 </SelectableList>
                 <RaisedButton

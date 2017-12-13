@@ -18,6 +18,7 @@
 **/
 const messages = {
   'invalid.required': 'Champs requis',
+  'invalid.array.required': 'Il doit y avoir au moins un élément dans la liste',
   'invalid.email': 'Addresse e-mail invalide',
   'invalid.url': 'Url invalide',
   'invalid.only_alphanumeric': 'Utilisez les caractères alphanumériques et "_"',
@@ -69,6 +70,7 @@ const messages = {
   'render.map-object.add.new.dialog.title': 'Ajouter un nouvel élément au paramètre {parameter}',
   'render.map-object.add.new.dialog.key.label': 'Clef du nouvel élément ... ',
   'render.map-object.key.already.exists.error': 'La valeur existe déjà.',
+  'render.map-object.duplicate.key.not.exists': 'L\'élément à dupliquer n\'éxiste plus',
 
 }
 

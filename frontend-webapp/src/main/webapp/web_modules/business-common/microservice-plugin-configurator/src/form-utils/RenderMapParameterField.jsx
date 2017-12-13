@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { CommonShapes } from '@regardsoss/shape'
-import { fieldInputPropTypes, Field } from 'redux-form'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { RenderMapField } from '@regardsoss/form-utils'
@@ -36,6 +36,7 @@ export class RenderMapParameterField extends React.Component {
     pluginParameterType: CommonShapes.PluginParameterType.isRequired,
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
   }
 
   static defaultProps = {}
@@ -102,18 +103,19 @@ export class RenderMapParameterField extends React.Component {
   render() {
     const { fieldProps, component, defaultValue } = this.state
     const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
-    const { input: { name } } = this.props
+    const { input, meta } = this.props
     if (component === null) {
       return null
     }
     return (
       <div style={fullWidthStyle}>
-        <Field
-          name={name}
+        <RenderMapField
           component={RenderMapField}
           mapValueFieldComponent={component}
           mapValueFieldProps={fieldProps}
           defaultValue={defaultValue}
+          input={input}
+          meta={meta}
         />
       </div>
     )

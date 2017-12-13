@@ -76,6 +76,22 @@ export const compose = (...validators) => (value, allValues, props) => {
 export const required = value => !isNil(value) && value !== '' ? undefined : ErrorTypes.REQUIRED
 
 /**
+ * Redux-Form-style validator for Fields which content is required.
+ *
+ * @param {String} value
+ * @returns {String||undefined}
+ */
+export const arrayRequired = value => !isNil(value) && value !== '' && value.length > 0 ? undefined : ErrorTypes.ARRAY_REQUIRED
+
+/**
+ * Redux-Form-style validator for Fields which content is required.
+ *
+ * @param {String} value
+ * @returns {String||undefined}
+ */
+export const mapRequired = value => !isNil(value) && value !== '' ? undefined : ErrorTypes.ARRAY_REQUIRED
+
+/**
  * Redux-Form-style validator for Fields which content must be a string.
  *
  * @param {String} value
@@ -237,6 +253,8 @@ module.exports = {
   isValidIP,
   compose,
   required,
+  arrayRequired,
+  mapRequired,
   string,
   validStringSize,
   validRequiredNumber,

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isString from 'lodash/isString'
 import Divider from 'material-ui/Divider'
 import Paper from 'material-ui/Paper'
 import Subheader from 'material-ui/Subheader'
@@ -26,9 +27,11 @@ import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
 import { List, ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
-import { fieldArrayFieldsPropTypes } from 'redux-form'
+import { fieldArrayFieldsPropTypes, fieldArrayMetaPropTypes } from 'redux-form'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import { FormErrorMessage } from '@regardsoss/components'
+import RenderHelper from './RenderHelper'
 import styles from '../styles'
 import messages from '../i18n/Locales'
 /**
@@ -40,17 +43,12 @@ class RenderArrayTextField extends React.Component {
     newFieldLabel: PropTypes.string,
     fieldsListLabel: PropTypes.string,
     addButtonLabel: PropTypes.string,
-    type: PropTypes.string, // type of text field to instanciate
     // If the list is not a list of string but a list of objects this field is used to know the key of the object
     // where to set te value
     valueField: PropTypes.string,
     // From redux form
-    // eslint-disable-next-line react/no-unused-prop-types
     fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
-  }
-
-  static defaultProps = {
-    type: 'text',
+    meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
   }
 
   static contextTypes = {
@@ -147,14 +145,17 @@ class RenderArrayTextField extends React.Component {
 
   render() {
     const {
-      fields, fieldsListLabel, addButtonLabel,
+      fields, fieldsListLabel, addButtonLabel, meta,
     } = this.props
-    const { moduleTheme: { arrayField }, intl: { formatMessage } } = this.context
+    const { moduleTheme: { arrayField }, intl: { formatMessage }, intl } = this.context
     return (
       <div style={arrayField.layout} >
         <Paper style={arrayField.list} >
           <Subheader>{fieldsListLabel || formatMessage({ id: 'render.array-field.values.title' })}</Subheader>
           <Divider />
+          {meta.error && isString(meta.error) ?
+            <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
+            : null}
           <List style={arrayField.listContent}>
             {fields.map(this.renderField)}
           </List>
