@@ -23,10 +23,9 @@ import Chip from 'material-ui/Chip'
 import { DownloadButton, ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-// import '../../../styles/animations.css'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
-const IconButtonConstructorWrapper = props => <IconButton {...(omit(props, ['label', 'labelPosition'])) } />
+const IconButtonConstructorWrapper = props => <IconButton {...(omit(props, ['label', 'labelPosition']))} />
 
 /**
  * Download order files as zip table option
