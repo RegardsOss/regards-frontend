@@ -19,13 +19,14 @@
 import AutoComplete from 'material-ui/AutoComplete'
 import Divider from 'material-ui/Divider'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Field, RenderAutoCompleteField, RenderPageableAutoCompleteField, RenderCheckbox, ValidationHelpers } from '@regardsoss/form-utils'
+import { Field } from 'redux-form'
+import { RenderAutoCompleteField, RenderPageableAutoCompleteField, RenderCheckbox, ValidationHelpers } from '@regardsoss/form-utils'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../clients/IngestProcessingChainClient'
 /**
 * Comment Here
 * @author Sébastien Binda
 */
-class MetaProductFormComponent extends React.Component {
+class MetaProductFormComponent extends React.PureComponent {
   static propTypes = {
   }
 

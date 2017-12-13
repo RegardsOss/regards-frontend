@@ -16,11 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import omit from 'lodash/omit'
 import AutoComplete from 'material-ui/AutoComplete'
-import { Field, RenderTextField, RenderAutoCompleteField, RenderCheckbox, ValidationHelpers } from '@regardsoss/form-utils'
-import { i18nContextType } from '@regardsoss/i18n'
+import {
+  Field, FieldArray, RenderTextField, RenderAutoCompleteField,
+  RenderCheckbox, ValidationHelpers, RenderArrayObjectField,
+} from '@regardsoss/form-utils'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { mimeTypes } from '@regardsoss/mime-types'
+import ScanDirectoryComponent from './ScanDirectoryComponent'
+import messages from '../i18n'
 
 const {
   required, validStringSize,
@@ -32,7 +38,7 @@ const validRequiredString255 = [required, validStringSize(1, 255)]
 * Display a form to create or edit a MetaFile entity from a dataprovider generation chain
 * @author Sébastien Binda
 */
-class MetaFileFormComponent extends React.Component {
+class MetaFileFormComponent extends React.PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
   }
@@ -44,6 +50,8 @@ class MetaFileFormComponent extends React.Component {
     ...themeContextType,
   }
 
+  duplicateScanDirectory = scanDir => omit(scanDir, ['id'])
+
   render() {
     const { name } = this.props
     const { intl: { formatMessage } } = this.context
@@ -54,15 +62,17 @@ class MetaFileFormComponent extends React.Component {
     }
     return [
       <Field
-        key="mandatory"
-        name={`${name}].mandatory`}
+        key="comment"
+        name={`${name}.comment`}
         fullWidth
-        component={RenderCheckbox}
-        label={formatMessage({ id: 'generation-chain.form.create.metaFile.mandatory' })}
+        component={RenderTextField}
+        type="text"
+        label={formatMessage({ id: 'generation-chain.form.create.metaFile.comment' })}
+        validate={validString255}
       />,
       <Field
         key="fileNamePattern"
-        name={`${name}].fileNamePattern`}
+        name={`${name}.fileNamePattern`}
         fullWidth
         component={RenderTextField}
         type="text"
@@ -70,26 +80,8 @@ class MetaFileFormComponent extends React.Component {
         validate={validRequiredString255}
       />,
       <Field
-        key="scanDirectory"
-        name={`${name}].scanDirectory`}
-        fullWidth
-        component={RenderTextField}
-        type="text"
-        label={formatMessage({ id: 'generation-chain.form.create.metaFile.scanDirectory' })}
-        validate={validRequiredString255}
-      />,
-      <Field
-        key="invalidFolder"
-        name={`${name}].invalidFolder`}
-        fullWidth
-        component={RenderTextField}
-        type="text"
-        label={formatMessage({ id: 'generation-chain.form.create.metaFile.invalidFolder' })}
-        validate={validRequiredString255}
-      />,
-      <Field
         key="mimeType"
-        name={`${name}].fileType`}
+        name={`${name}.fileType`}
         fullWidth
         component={RenderAutoCompleteField}
         hintText={formatMessage({ id: 'generation-chain.form.create.metaFile.mimeType.hint' })}
@@ -99,16 +91,34 @@ class MetaFileFormComponent extends React.Component {
         filter={AutoComplete.caseInsensitiveFilter}
         validate={required}
       />,
+      <FieldArray
+        key="scanDirectory"
+        name={`${name}.scanDirectories`}
+        component={RenderArrayObjectField}
+        label={formatMessage({ id: 'generation-chain.form.create.metaFile.scanDirectories' })}
+        elementLabel={formatMessage({ id: 'generation-chain.form.create.metaFile.scanDirectory.list.item' })}
+        fieldComponent={ScanDirectoryComponent}
+        duplicationTransfromation={this.duplicateScanDirectory}
+        canBeEmpty={false}
+        listHeight="200px"
+      />,
       <Field
-        key="comment"
-        name={`${name}].comment`}
+        key="invalidFolder"
+        name={`${name}.invalidFolder`}
         fullWidth
         component={RenderTextField}
         type="text"
-        label={formatMessage({ id: 'generation-chain.form.create.metaFile.comment' })}
-        validate={validString255}
+        label={formatMessage({ id: 'generation-chain.form.create.metaFile.invalidFolder' })}
+        validate={validRequiredString255}
+      />,
+      <Field
+        key="mandatory"
+        name={`${name}.mandatory`}
+        fullWidth
+        component={RenderCheckbox}
+        label={formatMessage({ id: 'generation-chain.form.create.metaFile.mandatory' })}
       />,
     ]
   }
 }
-export default MetaFileFormComponent
+export default withI18n(messages)(MetaFileFormComponent)

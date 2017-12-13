@@ -30,7 +30,7 @@ import messages from '../i18n'
 * Render a plugin parameter form for a MAP parameter.
 * @author Sébastien Binda
 */
-export class RenderMapParameterField extends React.Component {
+export class RenderMapParameterField extends React.PureComponent {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
     pluginParameterType: CommonShapes.PluginParameterType.isRequired,

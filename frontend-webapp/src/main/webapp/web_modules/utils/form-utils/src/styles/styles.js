@@ -117,15 +117,20 @@ export default function styles(theme) {
         width: '18%',
         borderRight: '1px solid',
         borderColor: theme.palette.borderColor,
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      leftListStyle: {
+        flexGrow: '1',
+        overflow: 'auto',
+      },
+      leftButtonStyle: {
+        flexGrow: '0',
       },
       rightColumnStyle: {
         width: '82%',
         overflow: 'auto',
         margin: '0px 15px',
-      },
-      typeListStyle: {
-        height: '215px',
-        overflow: 'auto',
       },
     },
   }

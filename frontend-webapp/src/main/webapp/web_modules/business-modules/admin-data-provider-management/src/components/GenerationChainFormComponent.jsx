@@ -20,18 +20,20 @@ import map from 'lodash/map'
 import omit from 'lodash/omit'
 import Divider from 'material-ui/Divider'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { connect } from '@regardsoss/redux'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { formValueSelector } from 'redux-form'
+import { Field, FieldArray, reduxForm } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
-import { Field, FieldArray, RenderTextField, RenderPageableAutoCompleteField, RenderCheckbox, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderPageableAutoCompleteField,
+  RenderArrayObjectField, RenderCheckbox, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { datasetActions, datasetEntitiesKey } from '../clients/DatasetClient'
 import GenerationChainFormPluginsComponent from './GenerationChainFormPluginsComponent'
 import MetaProductFormComponent from './MetaProductFormComponent'
-import MetaFilesListFormComponent from './MetaFilesListFormComponent'
+import MetaFileFormComponent from './MetaFileFormComponent'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -45,19 +47,17 @@ const validRequiredString255 = [required, validStringSize(1, 255)]
 * Component to display a form of GenerationChain entity
 * @author Sébastien Binda
 */
-class GenerationChainFormComponent extends React.Component {
+class GenerationChainFormComponent extends React.PureComponent {
   static propTypes = {
     chain: DataProviderShapes.GenerationChain,
     mode: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     // from reduxForm
-    change: PropTypes.func,
     initialize: PropTypes.func,
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func,
-    getField: PropTypes.func,
   }
 
   static contextTypes = {
@@ -65,7 +65,7 @@ class GenerationChainFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { chain, mode } = this.props
     if (chain) {
       if (mode === 'duplicate') {
@@ -83,16 +83,26 @@ class GenerationChainFormComponent extends React.Component {
           checksumAlgorithm: '',
           cleanOriginalFile: false,
           metaFiles: [
-            {
-              fileNamePattern: '',
-              scanDirectory: '',
-            },
+            this.getEmptyMetaFile(),
           ],
         },
       }
       this.props.initialize(initialValues)
     }
   }
+
+  getEmptyMetaFile = () => ({
+    mandatory: false,
+    fileNamePattern: '',
+    scanDirectories: [{
+      scanDir: '',
+    }],
+    invalidFolder: '',
+    fileType: '',
+    comment: '',
+  })
+
+  duplicateMetaFile = metaFile => omit(metaFile, ['id'])
 
   renderActionButtons = () => {
     const { intl: { formatMessage } } = this.context
@@ -117,7 +127,7 @@ class GenerationChainFormComponent extends React.Component {
 
   render() {
     const {
-      chain, onSubmit, handleSubmit, change, initialize, getField,
+      chain, onSubmit, handleSubmit,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -202,16 +212,19 @@ class GenerationChainFormComponent extends React.Component {
               <Tab label={formatMessage({ id: 'generation-chain.form.create.metafiles.section' })} >
                 <FieldArray
                   name="metaProduct.metaFiles"
-                  component={MetaFilesListFormComponent}
+                  component={RenderArrayObjectField}
+                  elementLabel={formatMessage({ id: 'generation-chain.form.create.metaFile.list.item.title' })}
+                  fieldComponent={MetaFileFormComponent}
+                  getEmptyObject={this.getEmptyMetaFile}
+                  duplicationTransfromation={this.duplicateMetaFile}
+                  canBeEmpty={false}
+                  listHeight="600px"
                   validate={required}
                 />
               </Tab>
               <Tab label={formatMessage({ id: 'generation-chain.form.create.plugins.section' })} >
                 <GenerationChainFormPluginsComponent
                   chain={chain}
-                  change={change}
-                  initialize={initialize}
-                  getField={getField}
                 />
               </Tab>
             </Tabs>
@@ -231,16 +244,9 @@ function validate(fieldValues) {
   return errors
 }
 
-const selector = formValueSelector('plugin-configuration-form')
-const mapStateToProps = state => ({
-  getField: field => selector(state, field),
-})
-
-const ConnectedComponent = connect(mapStateToProps)(GenerationChainFormComponent)
-
 const connectedReduxForm = reduxForm({
   form: 'generation-chain-form',
   validate,
-})(ConnectedComponent)
+})(GenerationChainFormComponent)
 
 export default withI18n(messages)(withModuleStyle(styles)(connectedReduxForm))

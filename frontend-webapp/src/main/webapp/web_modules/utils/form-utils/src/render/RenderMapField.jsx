@@ -119,6 +119,8 @@ class RenderArrayObjectField extends React.Component {
       }, () => {
         if (this.state.mapKeys.length > 0) {
           this.displayObject(this.state.mapKeys[0])
+        } else {
+          this.displayObject(null)
         }
       })
     }
@@ -352,7 +354,7 @@ class RenderArrayObjectField extends React.Component {
       intl: { formatMessage },
       moduleTheme: {
         arrayObject: {
-          layoutStyle, leftColumnStyle, rightColumnStyle, typeListStyle, titleStyle, contentStyle,
+          layoutStyle, leftColumnStyle, rightColumnStyle, leftListStyle, leftButtonStyle, titleStyle, contentStyle,
         },
       },
     } = this.context
@@ -380,7 +382,7 @@ class RenderArrayObjectField extends React.Component {
             <div style={contentStyle}>
               <div style={leftColumnStyle}>
                 <SelectableList
-                  style={typeListStyle}
+                  style={leftListStyle}
                   defaultValue={displayedKey}
                   onSelect={this.displayObject}
                 >
@@ -392,6 +394,7 @@ class RenderArrayObjectField extends React.Component {
                   primary
                   onClick={this.openAddDialog}
                   icon={<AddBoxIcon />}
+                  style={leftButtonStyle}
                 />
               </div>
               <div style={rightColumnStyle}>

@@ -21,7 +21,8 @@ import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
-import { Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { Field } from 'redux-form'
+import { ValidationHelpers } from '@regardsoss/form-utils'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import generationChainPluginTypes from './GenerationChainPluginTypes'
 
@@ -29,7 +30,7 @@ import generationChainPluginTypes from './GenerationChainPluginTypes'
 * Component to configure plugins of a generation chain of DataProvider microservice
 * @author Sébastien Binda
 */
-class GenerationChainFormPluginsComponent extends React.Component {
+class GenerationChainFormPluginsComponent extends React.PureComponent {
   static propTypes = {
     chain: DataProviderShapes.GenerationChain,
   }
@@ -41,10 +42,11 @@ class GenerationChainFormPluginsComponent extends React.Component {
 
   static defaultProps = {}
 
-  getPluginConfigurator = (index, title, selectLabel, ingestPluginType, pluginConf, fieldNamePrefix) => {
+  getPluginConfigurator = (index, title, selectLabel, pluginType, pluginConf, fieldNamePrefix) => {
     const { moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
+    const defaultPluginLabel = `${fieldNamePrefix}-${Date.now()}`
     return (
-      <div key={ingestPluginType}>
+      <div key={pluginType} style={pluginStyles}>
         <Avatar
           size={30}
           style={avatarStyles}
@@ -57,8 +59,8 @@ class GenerationChainFormPluginsComponent extends React.Component {
           component={RenderPluginField}
           title={title}
           selectLabel={selectLabel}
-          ingestPluginType={ingestPluginType}
-          defaultPluginConfLabel="TODO CONF !!!!!!"
+          pluginType={pluginType}
+          defaultPluginConfLabel={defaultPluginLabel}
           validate={ValidationHelpers.required}
           microserviceName={STATIC_CONF.MSERVICES.DATAPROVIDER}
           hideDynamicParameterConf
