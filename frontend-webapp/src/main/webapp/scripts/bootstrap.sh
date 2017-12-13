@@ -23,6 +23,14 @@
 
 set -e
 
+SCRIPT_DIR=`dirname "${BASH_SOURCE[0]}"`
+
+# Clean directories
+if [ -d "${SCRIPT_DIR}/../node_modules/.cache" ]; then
+  echo "Clean babel cache directory : ${SCRIPT_DIR}/../node_modules/.cache"
+  rm -rf "${SCRIPT_DIR}/../node_modules/.cache"
+fi
+
 # Lint
 npm install eslint-config-es6-rules
 
