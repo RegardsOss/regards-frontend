@@ -30,7 +30,7 @@ import messages from '../i18n'
 * Redux-form compatible field component to display a Plugin selector asscioated to a Plugin configurator form.
 * @author Sébastien Binda
 */
-class RenderPluginField extends React.Component {
+class RenderPluginField extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string, // Title of display in top of the form
     selectLabel: PropTypes.string, // Label displayed in the selectable list of plugins

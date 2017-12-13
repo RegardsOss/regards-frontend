@@ -47,7 +47,7 @@ import {
  * @author Xavier-Alexandre Brochard
  * @author Sébastien Binda
  */
-export class RenderPluginPluginParameterField extends React.Component {
+export class RenderPluginPluginParameterField extends React.PureComponent {
   /**
   * Redux: map dispatch to props function
   * @param {*} dispatch: redux dispatch function

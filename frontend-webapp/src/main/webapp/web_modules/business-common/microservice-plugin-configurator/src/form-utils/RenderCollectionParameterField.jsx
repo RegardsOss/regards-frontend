@@ -31,7 +31,7 @@ import messages from '../i18n'
 * Render a plugin parameter form for a COLLECTION parameter.
 * @author Sébastien Binda
 */
-export class RenderCollectionParameterField extends React.Component {
+export class RenderCollectionParameterField extends React.PureComponent {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired,
     pluginParameterType: CommonShapes.PluginParameterType.isRequired,
