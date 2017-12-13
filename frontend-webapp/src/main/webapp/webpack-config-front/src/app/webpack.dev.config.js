@@ -3,6 +3,7 @@ const getCommonConfig = require('./webpack.common.config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const path = require('path')
+const StatsPlugin = require('stats-webpack-plugin')
 
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'dev')
@@ -72,6 +73,9 @@ module.exports = function (projectContextPath) {
         'process.env': {
           NODE_ENV: JSON.stringify('development'),
         },
+      }),
+      new StatsPlugin(`../../reports/dev-${Date.now()}-profile.json`, {
+        chunkModules: true,
       }),
     ],
   })

@@ -89,9 +89,9 @@ export class PluginMetaDataListContainer extends React.Component {
   getView = () => {
     let pluginType = ''
     if (this.props.params.pluginType === 'storages') {
-      pluginType = 'fr.cnes.regards.modules.storage.plugin.datastorage.IDataStorage'
+      pluginType = 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage'
     } else {
-      pluginType = 'fr.cnes.regards.modules.storage.plugin.allocation.strategy.IAllocationStrategy'
+      pluginType = 'fr.cnes.regards.modules.storage.domain.plugin.IAllocationStrategy'
     }
     return (
       <PluginMetaDataListComponent
