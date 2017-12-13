@@ -1,0 +1,9 @@
+{
+  "name": "@regardsoss/mime-types",
+  "version": "1.0.0",
+  "private": true,
+  "description": "List of most known mime types",
+  "main": "src/main.js",
+  "author": "CS-SI",
+  "license": "GPL-3.0"
+}

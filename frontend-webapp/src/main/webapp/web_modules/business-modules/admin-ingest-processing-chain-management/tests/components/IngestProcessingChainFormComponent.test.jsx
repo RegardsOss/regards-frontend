@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { Field } from '@regardsoss/form-utils'
 import { IngestProcessingChainFormComponent } from '../../src/components/IngestProcessingChainFormComponent'
-import { PluginFormComponent } from '../../src/components/PluginFormComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -49,7 +49,7 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
       getField: () => { },
     }
     const enzymeWrapper = shallow(<IngestProcessingChainFormComponent {...props} />, { context })
-    assert.equal(enzymeWrapper.find(PluginFormComponent).length, 5, 'There should be 5 PluginFormComponent rendered. One for each processing chain plugable step.')
+    assert.equal(enzymeWrapper.find(Field).length, 7, 'There should be 7 Redux form Field rendered. One for name, one for description, and one for each processing chain plugable step.')
   })
   it('should render correctly on edition mode', () => {
     const preprocessingPlugin = {
@@ -121,19 +121,19 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
       onSubmit: () => { },
       onBack: () => { },
       // from reduxForm
-      change: () => { },
       initialize: () => { },
       invalid: false,
       submitting: false,
       handleSubmit: () => { },
-      getField: () => { },
     }
     const enzymeWrapper = shallow(<IngestProcessingChainFormComponent {...props} />, { context })
-    assert.equal(enzymeWrapper.find(PluginFormComponent).length, 5, 'There should be 5 PluginFormComponent rendered. One for each processing chain plugable step.')
-    assert.equal(enzymeWrapper.find(PluginFormComponent).find({ fieldNamePrefix: 'validationPlugin' }).prop('pluginConf'), validationPlugin, 'Invalid validationPlugin configuration used for PluginFormComponent')
-    assert.equal(enzymeWrapper.find(PluginFormComponent).find({ fieldNamePrefix: 'generationPlugin' }).prop('pluginConf'), generationPlugin, 'Invalid generationPlugin configuration used for PluginFormComponent')
-    assert.equal(enzymeWrapper.find(PluginFormComponent).find({ fieldNamePrefix: 'tagPlugin' }).prop('pluginConf'), tagPlugin, 'Invalid tagPlugin configuration used for PluginFormComponent')
-    assert.equal(enzymeWrapper.find(PluginFormComponent).find({ fieldNamePrefix: 'postprocessingPlugin' }).prop('pluginConf'), postprocessingPlugin, 'Invalid postprocessingPlugin configuration used for PluginFormComponent')
-    assert.equal(enzymeWrapper.find(PluginFormComponent).find({ fieldNamePrefix: 'preprocessingPlugin' }).prop('pluginConf'), preprocessingPlugin, 'Invalid preprocessingPlugin configuration used for PluginFormComponent')
+    assert.equal(enzymeWrapper.find(Field).length, 7, 'There should be 7 Redux form Field rendered. One for name, one for description, and one for each processing chain plugable step.')
+    assert.equal(enzymeWrapper.find(Field).find({ name: 'name' }).length, 1, 'The name Field is not rendered')
+    assert.equal(enzymeWrapper.find(Field).find({ name: 'description' }).length, 1, 'The description Field is not rendered')
+    assert.equal(enzymeWrapper.find(Field).find({ name: 'validationPlugin' }).length, 1, 'The validationPlugin Field is not rendered')
+    assert.equal(enzymeWrapper.find(Field).find({ name: 'generationPlugin' }).length, 1, 'The generationPlugin Field is not rendered')
+    assert.equal(enzymeWrapper.find(Field).find({ name: 'tagPlugin' }).length, 1, 'The tagPlugin Field is not rendered')
+    assert.equal(enzymeWrapper.find(Field).find({ name: 'postprocessingPlugin' }).length, 1, 'The postprocessingPlugin Field is not rendered')
+    assert.equal(enzymeWrapper.find(Field).find({ name: 'preprocessingPlugin' }).length, 1, 'The preprocessingPlugin Field is not rendered')
   })
 })

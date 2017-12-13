@@ -52,6 +52,7 @@ npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
 npm link web_modules/utils/i18n-ui
 npm link web_modules/utils/layout
+npm link web_modules/utils/mime-types
 npm link web_modules/utils/modules
 npm link web_modules/utils/plugins
 npm link web_modules/utils/plugins-api
@@ -93,6 +94,7 @@ npm link web_modules/business-modules/admin-data-dataset-management
 npm link web_modules/business-modules/admin-data-datasource-management
 npm link web_modules/business-modules/admin-data-document-management
 npm link web_modules/business-modules/admin-data-fragment-management
+npm link web_modules/business-modules/admin-data-provider-management
 npm link web_modules/business-modules/admin-ingest-processing-chain-management
 npm link web_modules/business-modules/admin-ingest-sip-management
 npm link web_modules/business-modules/admin-microservice-management

@@ -44,6 +44,13 @@ const messages = Object.assign({
   'processing-chain.form.create.action.create': 'Créer',
   'processing-chain.form.edit.action.save': 'Mettre à jour',
   'processing-chain.form.create.action.cancel': 'Annuler',
+  'processing-chain.form.plugins.none.selected': 'Aucun',
+  'processing-chain.form.plugins.none.selected.mandatory': 'Sélectionner un plugin ...',
+  'processing-chain.form.preprocessing.plugin.label': 'Pre traitement',
+  'processing-chain.form.validation.plugin.label': 'Vérification des données',
+  'processing-chain.form.generation.plugin.label': 'Génération des données',
+  'processing-chain.form.tag.plugin.label': 'Tag des données',
+  'processing-chain.form.postprocessing.plugin.label': 'Post traitement',
 
 }, Locales.fr)
 

@@ -71,6 +71,7 @@ import LinkComponent from './links/LinkComponent'
 import PageableListContainer from './list/PageableListContainer'
 import ListContainer from './list/ListContainer'
 import ChipList from './list/ChipList'
+import SelectableList from './list/SelectableList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
@@ -173,6 +174,7 @@ export {
   LinkComponent,
   HelpMessageComponent,
   NoContentComponent,
+  SelectableList,
 
   // Table
   ActionsMenuCell,

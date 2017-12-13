@@ -98,15 +98,15 @@ export class SIPListContainer extends React.Component {
     this.props.fetchProcessingChains()
   }
 
-  getInitialFilters = () => ({
-    sessionId: this.props.params.session,
-  })
-
   onRefresh = () => {
     const { meta, fetchPage } = this.props
     const curentPage = get(meta, 'number', 0)
     fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
   }
+
+  getInitialFilters = () => ({
+    sessionId: this.props.params.session,
+  })
 
   handleGoBack = () => {
     const { params: { project } } = this.props

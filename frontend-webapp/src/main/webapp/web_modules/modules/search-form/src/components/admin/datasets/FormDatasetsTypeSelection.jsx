@@ -19,7 +19,7 @@
 import { RadioButton } from 'material-ui/RadioButton'
 import { Field, RenderRadio } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import DatasetSelectionType from '../../../models/datasets/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../../../models/datasets/DatasetSelectionTypes'
 
 /**
  * React component to display a radio group box to select the search form dataset assocation type
@@ -44,20 +44,20 @@ class FormDatasetsTypeSelection extends React.Component {
         name="conf.datasets.type"
         onSelect={this.props.onSelectType}
         component={RenderRadio}
-        defaultSelected={this.props.defaultSelected}
+        defaultSelected={DatasetSelectionTypes.ALL_CATALOG_TYPE}
       >
         <RadioButton
-          value={DatasetSelectionType.ALL_CATALOG_TYPE}
+          value={DatasetSelectionTypes.ALL_CATALOG_TYPE}
           label={this.context.intl.formatMessage({ id: 'form.datasets.all.label' })}
           disabled={this.props.disabled}
         />
         <RadioButton
-          value={DatasetSelectionType.DATASET_TYPE}
+          value={DatasetSelectionTypes.DATASET_TYPE}
           label={this.context.intl.formatMessage({ id: 'form.datasets.selected.label' })}
           disabled={this.props.disabled}
         />
         <RadioButton
-          value={DatasetSelectionType.DATASET_MODEL_TYPE}
+          value={DatasetSelectionTypes.DATASET_MODEL_TYPE}
           label={this.context.intl.formatMessage({ id: 'form.datasets.model.selected.label' })}
           disabled={this.props.disabled}
         />

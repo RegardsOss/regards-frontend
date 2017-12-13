@@ -19,9 +19,11 @@
 import { PluginParamType } from '@regardsoss/domain/common'
 
 const PluginParameterType = PropTypes.shape({
-  name: PropTypes.string,
-  type: PropTypes.string,
+  name: PropTypes.string, // Identifier of the parameter
+  label: PropTypes.string, // Label to display
+  type: PropTypes.string, // type of parameter
   paramType: PropTypes.oneOf(PluginParamType),
+  parameterizedSubTypes: PropTypes.arrayOf(PropTypes.string),
   optional: PropTypes.bool,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 })

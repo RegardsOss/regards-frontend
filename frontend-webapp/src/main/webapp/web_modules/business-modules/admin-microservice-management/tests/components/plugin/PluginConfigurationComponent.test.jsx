@@ -20,10 +20,11 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
-import PluginConfigurationComponent from '../../../src/components/plugin/PluginConfigurationComponent'
+import { PluginConfigurationComponent } from '../../../src/components/plugin/PluginConfigurationComponent'
+import styles from '../../../src/styles'
 
 const options = {
-  context: buildTestContext(),
+  context: buildTestContext(styles),
 }
 
 /**

@@ -20,8 +20,8 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import sinon from 'sinon'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import PluginConfigurationFormComponent from '../../src/components/PluginConfigurationFormComponent'
-import { PluginConfigurationFormContainer } from '../../src/containers/PluginConfigurationFormContainer'
+import PluginFormComponent from '../../src/components/PluginFormComponent'
+import { PluginFormContainer } from '../../src/containers/PluginFormContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -35,7 +35,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing PluginConfigurationFormCont
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(PluginConfigurationFormContainer)
+    assert.isDefined(PluginFormContainer)
   })
   it('should render correctly without plugin configuration provided', () => {
     const fetchPluginStub = sinon.stub()
@@ -47,19 +47,13 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing PluginConfigurationFormCont
       pluginId: 'pluginId',
       formMode: 'create',
       backUrl: 'url',
-      storePath: ['here'],
-      displayTitle: true,
-      currentPluginMetaData: {},
-      isPluginMetaDataFetching: false,
-      currentPluginConfiguration: {},
-      isPluginConfigurationFetching: false,
       fetchPluginConfiguration: fetchPluginStub,
       createPluginConfiguration: () => new Promise(() => { }),
       updatePluginConfiguration: () => new Promise(() => { }),
-      fetchPluginMetaDataList: fetchMetaDataStub,
+      fetchPluginMetaData: fetchMetaDataStub,
     }
-    const enzymeWrapper = shallow(<PluginConfigurationFormContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(PluginConfigurationFormComponent).length, 1, 'There should be a PluginConfigurationFormComponent rendered')
+    const enzymeWrapper = shallow(<PluginFormContainer {...props} />, { context })
+    assert.equal(enzymeWrapper.find(PluginFormComponent).length, 1, 'There should be a PluginFormComponent rendered')
 
     assert.equal(fetchMetaDataStub.calledOnce, true, 'Fetch plugins metadatas method should be called once at initialization')
     assert.equal(fetchMetaDataStub.calledWith(props.microserviceName), true, 'Fetch plugins metadatas method is not called with valid parameters')
@@ -77,19 +71,13 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing PluginConfigurationFormCont
       pluginConfigurationId: 'pluginConfId',
       formMode: 'create',
       backUrl: 'url',
-      storePath: ['here'],
-      displayTitle: true,
-      currentPluginMetaData: {},
-      isPluginMetaDataFetching: false,
-      currentPluginConfiguration: {},
-      isPluginConfigurationFetching: false,
       fetchPluginConfiguration: fetchPluginStub,
       createPluginConfiguration: () => new Promise(() => { }),
       updatePluginConfiguration: () => new Promise(() => { }),
-      fetchPluginMetaDataList: fetchMetaDataStub,
+      fetchPluginMetaData: fetchMetaDataStub,
     }
-    const enzymeWrapper = shallow(<PluginConfigurationFormContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(PluginConfigurationFormComponent).length, 1, 'There should be a PluginConfigurationFormComponent rendered')
+    const enzymeWrapper = shallow(<PluginFormContainer {...props} />, { context })
+    assert.equal(enzymeWrapper.find(PluginFormComponent).length, 1, 'There should be a PluginFormComponent rendered')
 
     assert.equal(fetchMetaDataStub.calledOnce, true, 'Fetch plugins metadatas method should be called once at initialization')
     assert.equal(fetchMetaDataStub.calledWith(props.microserviceName), true, 'Fetch plugins metadatas method is not called with valid parameters')

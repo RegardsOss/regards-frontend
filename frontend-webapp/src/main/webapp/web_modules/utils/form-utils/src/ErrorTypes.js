@@ -22,6 +22,7 @@
  */
 module.exports = {
   REQUIRED: 'invalid.required',
+  ARRAY_REQUIRED: 'invalid.array.required',
   EMAIL: 'invalid.email',
   INVLID_JSON_FORMAT: 'invalid.json',
   ALPHA_NUMERIC: 'invalid.only_alphanumeric',

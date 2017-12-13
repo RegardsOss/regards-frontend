@@ -39,6 +39,7 @@ const DESCRIPTION_MODE = {
   URL: 'url',
 }
 
+const lessThan128 = ValidationHelpers.lengthLessThan(128)
 /**
  * React component to list collections.
  */
@@ -185,7 +186,7 @@ export class CollectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'collection.form.label' })}
-              validate={ValidationHelpers.lengthLessThan(128)}
+              validate={lessThan128}
             />
             <div className="row">
               <div className="col-sm-30">

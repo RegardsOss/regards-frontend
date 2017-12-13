@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import Checkbox from 'material-ui/Checkbox'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -41,12 +42,24 @@ export default class RenderCheckbox extends React.Component {
     }),
     alwaysShowError: PropTypes.bool, // bypass touched to show some automatic errors
     disabled: PropTypes.bool,
+    defaultValue: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    defaultValue: false,
   }
 
   static STYLES = {
     rootStyles: {
       marginTop: 24,
     },
+  }
+
+  componentDidMount() {
+    const { defaultValue, input } = this.props
+    if (isNil(input.value) || input.value === '') {
+      input.onChange(defaultValue)
+    }
   }
 
   onChange = () => {

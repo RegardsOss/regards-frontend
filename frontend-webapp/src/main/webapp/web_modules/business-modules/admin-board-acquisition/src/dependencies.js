@@ -18,9 +18,13 @@
  **/
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
+import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
+import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
+import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
 
 /**
  * Mandatory Dependencies to display module in project menu
+ * @author Sébastien Binda
  * @type {Array}
  */
 export default [
@@ -28,4 +32,10 @@ export default [
   ...connectionDependencies.addDependencies,
   ...datasourceDependencies.listDependencies,
   ...datasourceDependencies.addDependencies,
+  ...dataProviderDependencies.listDependencies,
+  ...dataProviderDependencies.addDependencies,
+  ...processingChainDependencies.listDependencies,
+  ...processingChainDependencies.addDependencies,
+  ...sipDependencies.listDependencies,
+  ...sipDependencies.addDependencies,
 ]

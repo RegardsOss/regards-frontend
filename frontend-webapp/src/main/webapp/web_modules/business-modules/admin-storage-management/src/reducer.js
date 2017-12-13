@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
-import { PluginConfiguratorReducer } from '@regardsoss/microservice-plugin-configurator'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 
@@ -26,7 +25,6 @@ import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
  */
 const microserviceManagementReducer = combineReducers({
   pluginMetadata: pluginMetaDataReducer,
-  pluginConfigurator: PluginConfiguratorReducer,
   pluginConfiguration: pluginConfigurationReducer,
 })
 
