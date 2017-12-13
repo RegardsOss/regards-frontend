@@ -66,10 +66,10 @@ export class DynamicModule extends React.Component {
     onKeyPress: PropTypes.func,
     // does this module require authentication?
     // eslint-disable-next-line react/no-unused-prop-types
-    requiresAuthentication: PropTypes.bool.isRequired, // async use
+    requiresAuthentication: PropTypes.bool, // async use
     // required dependencies for this module
     // eslint-disable-next-line react/no-unused-prop-types
-    requiredDependencies: PropTypes.arrayOf(PropTypes.string).isRequired, // async use
+    requiredDependencies: PropTypes.arrayOf(PropTypes.string), // async use
     // children here are the module content (none, one many)
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),

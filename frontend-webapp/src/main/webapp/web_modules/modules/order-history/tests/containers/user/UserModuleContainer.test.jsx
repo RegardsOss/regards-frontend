@@ -20,6 +20,8 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import UserModuleContainer from '../../../src/containers/user/UserModuleContainer'
+import OrderHistoryComponent from '../../../src/components/user/OrderHistoryComponent'
+
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -39,7 +41,7 @@ describe('[Order History] Testing UserModuleContainer', () => {
     const props = {
       description: 'Some module name',
     }
-    // TODO tests
-    shallow(<UserModuleContainer name {...props} />, { context })
+    const wrapper = shallow(<UserModuleContainer name {...props} />, { context })
+    assert.lengthOf(wrapper.find(OrderHistoryComponent), 1, 'It should render main module component')
   })
 })

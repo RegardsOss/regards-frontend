@@ -7,7 +7,7 @@ require('../conf/staticConfiguration')
 
 module.exports = function (projectContextPath) {
   const config = getCommonConfig(projectContextPath, 'test')
-  
+
   // Ensure babel environment variable is correctly setup to test
   process.env.NODE_ENV = 'test'
 
@@ -32,14 +32,6 @@ module.exports = function (projectContextPath) {
       ],
     },
     plugins: [
-      new webpack.DllReferencePlugin({
-        // The path to the manifest file which maps between
-        // modules included in a bundle and the internal IDs
-        // within that bundle
-        // eslint-disable-next-line import/no-dynamic-require
-        manifest: require(`${projectContextPath}/dist/dev/core-manifest.json`),
-        context: projectContextPath,
-      }),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify('test'),

@@ -23,6 +23,7 @@ import { Collection, CollectionList, CollectionArray } from './Collection'
 import { Connection, ConnectionList } from './Connection'
 import { Dataset, DatasetContent, DatasetList } from './Dataset'
 import { Datasource, DatasourceList } from './Datasource'
+import { DataFile } from './DataFile'
 import Entity from './Entity'
 import { FragmentContent, Fragment, FragmentList } from './Fragment'
 import { Model, ModelList } from './Model'
@@ -51,6 +52,8 @@ module.exports = {
 
   Connection,
   ConnectionList,
+
+  DataFile,
 
   Dataset,
   DatasetContent,

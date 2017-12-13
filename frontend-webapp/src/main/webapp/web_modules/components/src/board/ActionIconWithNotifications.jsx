@@ -11,7 +11,7 @@ import styles from './styles/styles'
 */
 class ActionIconWithNotifications extends React.Component {
   static propTypes = {
-    notificationsCount: PropTypes.number.isRequired,
+    notificationsCount: PropTypes.number,
     icon: PropTypes.element.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     iconStyle: PropTypes.object, // CSS styles to apply, or none if default styles should be used

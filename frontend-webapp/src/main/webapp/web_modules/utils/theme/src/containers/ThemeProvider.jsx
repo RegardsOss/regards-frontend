@@ -34,6 +34,7 @@ import '../custom/reset.css'
 import '../custom/main.css'
 import '../custom/bootstrap_grid_100.css'
 import '../custom/background.jpg'
+import '../custom/animations.css'
 import defaultTheme from '../model/defaultTheme'
 
 /**

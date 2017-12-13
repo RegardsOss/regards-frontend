@@ -59,7 +59,6 @@ class ModuleListComponent extends React.Component {
     super(props)
     this.state = {
       sections: {},
-      modulesElements: [],
     }
   }
 

@@ -72,7 +72,7 @@ export class UserApp extends React.Component {
   componentWillMount() {
     // before any request: provide the project name
     // init with project parameter if available, or fallback on INSTANCE default
-    const project = this.props.params.project
+    const { project } = this.props.params
     this.props.initializeApplication(project)
 
     this.props.fetchLayout()

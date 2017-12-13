@@ -31,7 +31,7 @@ import { ShowableAtRender } from '@regardsoss/display-control'
 class ActionButtonComponent extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     button: PropTypes.func,
     primary: PropTypes.bool,
     secondary: PropTypes.bool,

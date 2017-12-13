@@ -89,15 +89,6 @@ class ContainerConfigurationComponent extends React.Component {
     input.onChange(value)
   }
 
-  /**
-   * When the user checks the "Main Container" option, warn him that only one container can be "Main Container" at once
-   */
-  warnOnlyOneMainContainer = (event, newValue, previousValue) => {
-    this.setState({
-      warnDialogOpen: true,
-    })
-  }
-
   validatedJSON = (value, allValues, props, name) => {
     if (value == null || value === undefined) {
       return this.context.intl.formatMessage({ id: 'container.configuration.edit.styles.error.json.format' })

@@ -17,8 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import OrderHistoryComponent from '../../components/user/OrderHistoryComponent'
-import orderClient from '../../client/OrderListClient'
-
+import orderListClient from '../../client/OrderListClient'
+import orderFilesClient from '../../client/OrderFilesClient'
+import OrdersNavigationClient from '../../client/OrdersNavigationClient'
 
 /**
  * User module container
@@ -27,10 +28,6 @@ import orderClient from '../../client/OrderListClient'
 export default class UserModuleContainer extends React.Component {
   static propTypes = {
     description: PropTypes.string.isRequired,
-  }
-
-  static defaultProps = {
-    showUserName: false, // when used in User interface, this module must not show the user name
   }
 
   /**
@@ -56,8 +53,12 @@ export default class UserModuleContainer extends React.Component {
     const { description } = this.props
     return (
       <OrderHistoryComponent
-        commandsActions={orderClient.orderListActions}
-        commandsSelectors={orderClient.orderListSelectors}
+        ordersActions={orderListClient.orderListActions}
+        ordersSelectors={orderListClient.orderListSelectors}
+        orderFilesActions={orderFilesClient.orderFilesActions}
+        orderFilesSelectors={orderFilesClient.orderFilesSelectors}
+        navigationActions={OrdersNavigationClient.ordersNavigationActions}
+        navigationSelectors={OrdersNavigationClient.ordersNavigationSelectors}
         title={description}
         expanded={expanded}
         onExpandChange={this.onExpandChange}

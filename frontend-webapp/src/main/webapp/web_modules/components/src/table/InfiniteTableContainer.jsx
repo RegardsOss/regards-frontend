@@ -19,7 +19,6 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import Measure from 'react-measure'
-import noop from 'lodash/noop'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
@@ -30,25 +29,21 @@ import Table from './content/Table'
 
 import './styles/fixed-data-table-mui.css'
 
+/** Exports default page size for inner use */
+export const DEFAULT_PAGE_SIZE = 20
+
 const allWidthStyles = { width: '100%' }
 
 /**
- * Fixed data table from facebook library integrated with material ui theme
- * and infinite scroll functionality.
- * Should be integrated in a TableLayout component for UI uniformity
+ * Infinite table container:
+ * Wraps fixed data table into regardsoss adapted component.
+ * This component can either:
+ * - Be used with pageable actions (or directly using PageableInfiniteTableContainer), to show pages one after the other
+ * - Be used with a fixed list of entities (when entity list changes, the page index is considered as new list start index,
+ * meaning entities can be inserted in list or replacing current list)
  *
- * The FixedDataTable from facebook library, use an array with all elements to display.
- * If X is the number of elements visible in the table, so 3*X elements are present in the DOM.
- * There is X elements cached before the first visible element and X elements cached after the last
- * visible element.
- *
- * To manage the infinite scroll:
- * 1. Initialize an array with empty objects with N empty objects where N=total number of elements.
- * 2. Initialize first search by running a request to the server from index 0 with 3*X elements per page. Where
- * X is the number of visible elements in the table. (Configurable with the pagesize props).
- * 3. After each scroll end, this class run a request to the server
- * to retrieve 3*X elements after the first missing entity index around the current first visible index.
- * 4. FixedDataTable, display the object from the array with the current visible indexes
+ * Please note that the component changes sub components context to provides his fetch method: this allows any sub element (including
+ * cells) to use through context the TableContext elements
  *
  * @author Sébastien Binda
  */
@@ -68,7 +63,7 @@ class InfiniteTableContainer extends React.Component {
     columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
     // configures when the loading should start when user scrolls in page: this is a number in ]0; 1[ standing for
     // "after half", "after 2/3" (default), ... Adapt it to your queryPageSize
-    loadAtPagePoint: PropTypes.number.isRequired,
+    loadAtPagePoint: PropTypes.number,
     // Customize state display
     emptyComponent: PropTypes.element,
     loadingComponent: PropTypes.element,
@@ -80,7 +75,7 @@ class InfiniteTableContainer extends React.Component {
     entities: PropTypes.arrayOf(PropTypes.object),
     // page index of entities in results (change it to handle next/previous pages)
     // eslint-disable-next-line react/no-unused-prop-types
-    entitiesPageIndex: PropTypes.number.isRequired,
+    entitiesPageIndex: PropTypes.number,
     entitiesFetching: PropTypes.bool,
     // total entities count, including those not yet fetched. When no provided, the table won't auto fetch next pages
     entitiesCount: PropTypes.number,
@@ -94,13 +89,14 @@ class InfiniteTableContainer extends React.Component {
     // INNER TABLE API (will be provided by adequate parents)
 
     // functions to fetch/flush entities and select them in redux store
-    // fetch entities: (pageIndex:{number}, pageSize:{number}, requestParams:{object, as provided to this component}) => ()
+    // fetch entities: (pageIndex:{number}, pageSize:{number}, pathParams: {from props}, requestParams: {from props}) => ()
+    // when fetchEntities is not provided, table is considered as externally controlled
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchEntities: PropTypes.func.isRequired,
+    fetchEntities: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
-    flushEntities: PropTypes.func.isRequired, // flush entities: () => ()
+    flushEntities: PropTypes.func, // flush entities: () => ()
     // eslint-disable-next-line react/no-unused-prop-types
-    flushSelection: PropTypes.func.isRequired, // flush selection: () => ()
+    flushSelection: PropTypes.func, // flush selection: () => ()
 
     // from map state to props
 
@@ -118,17 +114,12 @@ class InfiniteTableContainer extends React.Component {
     loadingComponent: <TableContentLoadingComponent />,
     // by default we consider here that provided entities starts at 0
     entitiesPageIndex: 0,
-    // by default, fetch and flush are stubs
-    fetchEntities: noop,
-    flushEntities: noop,
-    flushSelection: noop,
   }
 
   static DEFAULT_STATE = {
     entities: [],
     entitiesCount: 0, // inhibits he pageable behavior
     allColumns: [],
-    tableWidth: 0,
   }
 
   /** Initialize state */
@@ -147,14 +138,16 @@ class InfiniteTableContainer extends React.Component {
     const previousState = this.state
     const nextState = this.state ? { ...this.state } : { ...InfiniteTableContainer.DEFAULT_STATE } // initialize to previous state or use default one
 
-    // initialization or authentication update: fetch the first page
-    if (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
-      !isEqual(nextProps.pathParams, previousProps.pathParams) ||
-      !isEqual(nextProps.authentication, previousProps.authentication)) {
+    // initialization or authentication update: fetch the first page if table is dynamic
+    const isAutoControlled = nextProps.fetchEntities
+    if (isAutoControlled &&
+      (!isEqual(nextProps.requestParams, previousProps.requestParams) ||
+        !isEqual(nextProps.pathParams, previousProps.pathParams) ||
+        !isEqual(nextProps.authentication, previousProps.authentication))) {
       // remove any previously fetched data
       nextState.entities = []
-      // Remove entities in store
-      this.flushEntities(nextProps)
+      // Remove entities in store CONSIDERING CURRENT STATE (and not next state fetch method)
+      this.flushEntities()
       // Fetch new ones
       this.fetchEntityPage(nextProps)
     } else if (!isEqual(previousProps.entities, nextProps.entities) || nextState.entities.length < get(nextProps, 'entities.length', 0)) {
@@ -214,13 +207,16 @@ class InfiniteTableContainer extends React.Component {
   getCurrentTotalEntities = () => Math.max(this.props.entitiesCount || 0, (this.props.entities || []).length)
 
   /**
-   selection if any data)
-   * @param {flushEntities:{func}} props component props to use
+   * Flushes current entities and selection if such methods exist
    */
-  flushEntities = ({ flushEntities, flushSelection }) => {
-    flushEntities()
-    // clear selection (if there is a selection model)
-    flushSelection()
+  flushEntities = () => {
+    const { flushEntities, flushSelection } = this.props
+    if (flushEntities) {
+      flushEntities()
+    }
+    if (flushSelection) {
+      flushSelection()
+    }
   }
 
   /**
@@ -231,7 +227,9 @@ class InfiniteTableContainer extends React.Component {
   fetchEntityPage = ({
     fetchEntities, pathParams, requestParams, queryPageSize,
   }, pageNumber = 0) => {
-    fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
+    if (fetchEntities) {
+      fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
+    }
   }
 
   render() {
@@ -239,12 +237,11 @@ class InfiniteTableContainer extends React.Component {
       displayColumnsHeader, lineHeight, displayedRowsCount, columns, entitiesFetching,
       loadingComponent, emptyComponent,
     } = this.props
-    const { tableWidth, entities } = this.state // cached render entities
+    const { tableWidth = 0, entities } = this.state // cached render entities
     const actualLineHeight = lineHeight || this.context.muiTheme['components:infinite-table'].lineHeight
     const actualRowCount = displayedRowsCount || this.context.muiTheme['components:infinite-table'].rowCount
 
     const currentTotalEntities = this.getCurrentTotalEntities()
-
     return (
       <Measure onMeasure={this.onComponentResized}>
         <div style={allWidthStyles}>

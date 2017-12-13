@@ -134,7 +134,7 @@ class SIPListComponent extends React.Component {
       filters: {
         ...this.state.filters,
         dateFilter: newValue,
-      }
+      },
     })
   }
 
@@ -143,7 +143,7 @@ class SIPListComponent extends React.Component {
       filters: {
         ...this.state.filters,
         stateFilter: newValue,
-      }
+      },
     })
   }
 
@@ -160,7 +160,7 @@ class SIPListComponent extends React.Component {
       stateFilter: undefined,
     }
     this.setState({
-      filters: clearedFilters
+      filters: clearedFilters,
     })
     this.props.handleFilter(clearedFilters)
   }

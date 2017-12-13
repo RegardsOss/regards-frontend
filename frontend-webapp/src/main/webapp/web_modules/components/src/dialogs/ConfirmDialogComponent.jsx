@@ -38,7 +38,7 @@ export const ConfirmDialogComponentTypes = {
 }
 
 /**
- * Confirm action dialog component. Switches dialog mode,
+ * Confirm action dialog component. Switches dialog modes to show adequate button
  */
 class ConfirmDialogComponent extends React.Component {
   static propTypes = {

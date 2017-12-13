@@ -78,4 +78,28 @@ module.exports = {
     chartBorderColor: '#FFFFFF',
     chartBorderWidth: '1px',
   },
+  'module:order-history': {
+    // common
+    statusIconMargin: '0 7px 0 15px',
+    // orders
+    'color.PENDING': '#00BCD4',
+    'color.RUNNING': 'white',
+    'color.WAITING_USER_DOWNLOAD': '#00BCD4',
+    'color.PAUSED': '#00BCD4',
+    'color.EXPIRED': '#9E9E9E',
+    'color.FAILED': '#f44336',
+    'color.DONE_WITH_WARNING': '#FF9800',
+    'color.DONE': '#9E9E9E',
+    'color.DELETED': '#9E9E9E',
+    'color.REMOVED': '#9E9E9E',
+    'color.UNKNOWN': '#9E9E9E',
+    'waiting.user.download.animation': 'shake 3s infinite',
+    // files
+    'color.file.PENDING': '#00BCD4',
+    'color.file.AVAILABLE': 'white',
+    'color.file.ONLINE': 'white',
+    'color.file.DOWNLOADED': '#9E9E9E',
+    'color.file.ERROR': '#f44336',
+    'color.file.UNKNOWN': '#9E9E9E',
+  },
 }

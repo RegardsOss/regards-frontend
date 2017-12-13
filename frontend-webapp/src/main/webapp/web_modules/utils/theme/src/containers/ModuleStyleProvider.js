@@ -46,7 +46,7 @@ class ModuleStyleProvider extends React.Component {
     module: PropTypes.shape({
       styles: PropTypes.func,
     }).isRequired,
-    stackCallingContext: PropTypes.bool.isRequired,
+    stackCallingContext: PropTypes.bool,
   }
 
   static defaultProps = {

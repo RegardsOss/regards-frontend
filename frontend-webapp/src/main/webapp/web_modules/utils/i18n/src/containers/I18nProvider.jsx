@@ -49,7 +49,7 @@ export class I18nProvider extends React.Component {
   static propTypes = {
     children: PropTypes.element,
     messages: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
-    stackCallingContext: PropTypes.bool.isRequired,
+    stackCallingContext: PropTypes.bool,
     // from mapStateToProps
     locale: PropTypes.string,
   }

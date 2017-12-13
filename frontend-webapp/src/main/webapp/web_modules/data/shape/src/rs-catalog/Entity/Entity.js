@@ -19,7 +19,7 @@
 import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 import { OBJECT_LINKED_FILE_TYPES } from '@regardsoss/domain/catalog'
 import EntityGeoProperties from './EntityGeoProperties'
-import { ObjectLinkedFile } from './ObjectLinkedFile'
+import { DataFile } from '../../rs-dam/DataFile'
 import URL from '../../rs-common/URL'
 
 /**
@@ -30,7 +30,7 @@ import URL from '../../rs-common/URL'
 /* Entity files attribute as key: file type, value: file array */
 const entityFiles = PropTypes.shape(OBJECT_LINKED_FILE_TYPES.reduce((acc, fileType) => ({
   ...acc,
-  [fileType]: PropTypes.arrayOf(ObjectLinkedFile),
+  [fileType]: PropTypes.arrayOf(DataFile),
 }), {}))
 
 /** Fields of an entity (for re-use) */

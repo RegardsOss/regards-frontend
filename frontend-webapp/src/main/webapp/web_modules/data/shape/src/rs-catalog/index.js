@@ -18,7 +18,6 @@
  **/
 
 import { Entity, EntityList, entityFiles } from './Entity/Entity'
-import { ObjectLinkedFile } from './Entity/ObjectLinkedFile'
 import Tag from './Entity/Tag'
 
 import { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
@@ -28,7 +27,6 @@ module.exports = {
   entityFiles,
   Entity,
   EntityList,
-  ObjectLinkedFile,
   Tag,
 
   LinkPluginDataset,

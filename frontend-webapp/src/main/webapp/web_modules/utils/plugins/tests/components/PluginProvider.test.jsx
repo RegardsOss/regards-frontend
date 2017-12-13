@@ -64,13 +64,13 @@ describe('[PLUGINS] Testing Plugins load', () => {
       pluginProps={{}}
       displayPlugin
       pluginToLoad={{
-          content: {
-            id: pluginDefinitionId,
-            name: 'plugin-test',
-            type: 'CRITERIA',
-            sourcePath: '/test/plugin.js',
-          },
-        }}
+        content: {
+          id: pluginDefinitionId,
+          name: 'plugin-test',
+          type: 'CRITERIA',
+          sourcePath: '/test/plugin.js',
+        },
+      }}
       fetchPlugin={fetchPluginSpy}
     />)
 
@@ -83,8 +83,8 @@ describe('[PLUGINS] Testing Plugins load', () => {
       pluginInstanceId={0}
       pluginPath="test"
       pluginConf={{
-          parameter: 'value',
-        }}
+        parameter: 'value',
+      }}
       displayPlugin
       locale="fr"
       loadPlugin={() => { }}
@@ -99,29 +99,29 @@ describe('[PLUGINS] Testing Plugins load', () => {
       pluginInstanceId={0}
       pluginPath="test"
       pluginConf={{
-          parameter: 'value',
-        }}
+        parameter: 'value',
+      }}
       displayPlugin
       loadedPlugin={{
+        name: 'testPlugin',
+        plugin: PluginTest,
+        messages: {
+          fr: {},
+          en: {},
+        },
+        styles: {
+          styles: () => { },
+        },
+        info: {
           name: 'testPlugin',
-          plugin: PluginTest,
-          messages: {
-            fr: {},
-            en: {},
-          },
-          styles: {
-            styles: () => { },
-          },
-          info: {
-            name: 'testPlugin',
-            description: 'description',
-            version: '1.0',
-            author: 'Sébastien Binda',
-            company: 'CS-SI',
-            type: 'CRITERIA',
-            conf: {},
-          },
-        }}
+          description: 'description',
+          version: '1.0',
+          author: 'Sébastien Binda',
+          company: 'CS-SI',
+          type: 'CRITERIA',
+          conf: {},
+        },
+      }}
       locale="fr"
     />)
 
@@ -131,14 +131,15 @@ describe('[PLUGINS] Testing Plugins load', () => {
   })
 
   it('Should render correctly an element with a plugin as a prop', () => {
-    const wrapper = shallow(<UnconnectedPluginLoader
-      pluginInstanceId={0}
-      pluginPath="test"
-      pluginConf={{
+    const wrapper = shallow(
+      <UnconnectedPluginLoader
+        pluginInstanceId={0}
+        pluginPath="test"
+        pluginConf={{
           parameter: 'value',
         }}
-      displayPlugin={false}
-      loadedPlugin={{
+        displayPlugin={false}
+        loadedPlugin={{
           name: 'testPlugin',
           plugin: PluginTest,
           messages: {
@@ -156,10 +157,10 @@ describe('[PLUGINS] Testing Plugins load', () => {
             conf: {},
           },
         }}
-      locale="fr"
-    >
-      <div>Test</div>
-    </UnconnectedPluginLoader>)
+        locale="fr"
+      >
+        <div>Test</div>
+      </UnconnectedPluginLoader>)
 
     expect(wrapper.find(PluginTest)).to.have.length(0)
     expect(wrapper.find('div')).to.have.length(1)

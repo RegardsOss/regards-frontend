@@ -13,7 +13,7 @@ import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
  */
 class DropDownButton extends React.Component {
   static propTypes = {
-    ButtonConstructor: PropTypes.func.isRequired,
+    ButtonConstructor: PropTypes.func,
     getLabel: PropTypes.func.isRequired, // Generates label: (current value (optional)) => string
     children: PropTypes.arrayOf(PropTypes.node), // Expected children: menu items
     onChange: PropTypes.func, // on change listener

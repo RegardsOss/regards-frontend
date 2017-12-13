@@ -17,9 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ModuleIcon from 'material-ui/svg-icons/notification/folder-special'
-import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import { DynamicModule, ModuleTitle } from '@regardsoss/components'
-import { OrderListContainer } from '@regardsoss/order-common'
+import { OrderClient } from '@regardsoss/client'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { DynamicModule } from '@regardsoss/components'
+import {
+  ORDER_DISPLAY_MODES, OrdersNavigationActions, OrdersNavigationSelectors,
+  OrderDisplayContainer, OrdersNavigationContainer,
+} from '@regardsoss/order-common'
 import { dependencies } from '../../user-dependencies'
 
 /**
@@ -28,8 +32,12 @@ import { dependencies } from '../../user-dependencies'
  */
 class OrderHistoryComponent extends React.Component {
   static propTypes = {
-    commandsActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
-    commandsSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
+    ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions).isRequired,
+    orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
+    navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors).isRequired,
     title: PropTypes.string.isRequired,
     // expanded state management
     expanded: PropTypes.bool.isRequired,
@@ -37,21 +45,34 @@ class OrderHistoryComponent extends React.Component {
   }
 
   render() {
-    //OrderListClient.orderListActions.getDependency(RequestVerbEnum.GET_LIST)
     const {
-      commandsActions, commandsSelectors, title, onExpandChange, expanded,
+      ordersActions, ordersSelectors, orderFilesActions, orderFilesSelectors,
+      navigationActions, navigationSelectors, title, onExpandChange, expanded,
     } = this.props
     return (
       <DynamicModule
-        title={<ModuleTitle IconConstructor={ModuleIcon} text={title} />}
+        title={
+          <OrdersNavigationContainer
+            title={title}
+            displayMode={ORDER_DISPLAY_MODES.USER}
+            RootIconConstructor={ModuleIcon}
+            navigationActions={navigationActions}
+            navigationSelectors={navigationSelectors}
+          />
+        }
         onExpandChange={onExpandChange}
         expanded={expanded}
         requiresAuthentication
         requiredDependencies={dependencies}
       >
-        <OrderListContainer
-          commandsActions={commandsActions}
-          commandsSelectors={commandsSelectors}
+        <OrderDisplayContainer
+          ordersActions={ordersActions}
+          ordersSelectors={ordersSelectors}
+          orderFilesActions={orderFilesActions}
+          orderFilesSelectors={orderFilesSelectors}
+          navigationActions={navigationActions}
+          navigationSelectors={navigationSelectors}
+          displayMode={ORDER_DISPLAY_MODES.USER}
         />
       </DynamicModule>
     )

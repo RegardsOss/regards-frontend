@@ -23,8 +23,8 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Raphaël Mechali
  */
 const messages = {
+  // no specific message
   ...Locales.fr,
-  // empty so far
 }
 
 export default messages

@@ -46,7 +46,6 @@ class LayoutConfigurationComponent extends React.Component {
   state = {
     editorOpened: false,
     containerToEdit: null,
-    actionType: '',
   }
 
   /**
@@ -88,7 +87,6 @@ class LayoutConfigurationComponent extends React.Component {
       editorOpened: true,
       containerToEdit: action === EDIT_ACTION ? container : null,
       parentContainer: action === ADD_ACTION ? container : null,
-      actionType: action,
     })
   }
 

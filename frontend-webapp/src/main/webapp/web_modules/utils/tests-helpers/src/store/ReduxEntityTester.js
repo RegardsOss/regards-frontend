@@ -132,7 +132,7 @@ export default class ReduxEntityTester {
     if (!this.entityActions) {
       throw new Error("The action you've provided is undefined")
     }
-    let entityEndpoint = this.entityActions.entityEndpoint
+    let { entityEndpoint } = this.entityActions
     if (this.options.urlParams) {
       entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.urlParams)
     }
