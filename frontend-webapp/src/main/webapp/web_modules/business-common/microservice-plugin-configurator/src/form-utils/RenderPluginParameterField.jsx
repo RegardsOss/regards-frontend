@@ -40,7 +40,7 @@ import messages from '../i18n'
 export class RenderPluginParameterField extends React.PureComponent {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // microservice name of the plugin
-    pluginParameterType: CommonShapes.PluginParameterType.isRequired, // Type of the parameter to configure
+    pluginParameterType: CommonShapes.PluginParameterType.isRequired, // Parameter definition to configure
     hideDynamicParameterConf: PropTypes.bool, // Hide the dynamic configuration of parameter
     disabled: PropTypes.bool, // Disable all fields
     complexParameter: PropTypes.bool, // Set to true to disable the complex structur of pluginParameter. Default true. Used for Object recursivity of parameters.
@@ -247,7 +247,7 @@ export class RenderPluginParameterField extends React.PureComponent {
     const validators = []
     if (pluginParameterType && !pluginParameterType.optional) {
       label += ' (*)'
-      switch (pluginParameterType && pluginParameterType.paramType) {
+      switch (pluginParameterType.paramType) {
         case 'PRIMITIVE':
         case 'PLUGIN':
         case 'OBJECT':
@@ -264,7 +264,7 @@ export class RenderPluginParameterField extends React.PureComponent {
       }
     }
 
-    switch (pluginParameterType && pluginParameterType.paramType) {
+    switch (pluginParameterType.paramType) {
       case 'PRIMITIVE':
         return this.renderPrimitiveParameter(label, validators)
       case 'PLUGIN':

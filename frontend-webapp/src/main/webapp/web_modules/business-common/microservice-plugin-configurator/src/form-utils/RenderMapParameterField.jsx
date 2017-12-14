@@ -32,14 +32,17 @@ import messages from '../i18n'
 */
 export class RenderMapParameterField extends React.PureComponent {
   static propTypes = {
-    microserviceName: PropTypes.string.isRequired,
-    pluginParameterType: CommonShapes.PluginParameterType.isRequired,
+    microserviceName: PropTypes.string.isRequired, // microservice name of the plugin
+    pluginParameterType: CommonShapes.PluginParameterType.isRequired, // Parameter definition to configure
+    disabled: PropTypes.bool, // Disable all fields
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    disabled: false,
+  }
 
   static contextTypes = {
     ...themeContextType,
@@ -63,7 +66,7 @@ export class RenderMapParameterField extends React.PureComponent {
    */
   initialize = () => {
     const {
-      pluginParameterType, microserviceName,
+      pluginParameterType, microserviceName, disabled,
     } = this.props
 
     // There should be two parameterized subtypes
@@ -81,6 +84,7 @@ export class RenderMapParameterField extends React.PureComponent {
         fieldProps: {
           // Props of the component renderer
           type: primitiveParameters.type,
+          disabled,
         },
         // Component renderer (exemple : RenderTextField)
         component: primitiveParameters.component,
@@ -93,6 +97,7 @@ export class RenderMapParameterField extends React.PureComponent {
           microserviceName,
           pluginParameterType,
           complexParameter: false,
+          disabled,
         },
         component: RenderObjectParameterField,
         defaultValue: {},
@@ -101,19 +106,21 @@ export class RenderMapParameterField extends React.PureComponent {
   }
 
   render() {
-    const { fieldProps, component, defaultValue } = this.state
+    const {
+      fieldProps, component, defaultValue,
+    } = this.state
     const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
-    const { input, meta } = this.props
+    const { input, meta, disabled } = this.props
     if (component === null) {
       return null
     }
     return (
       <div style={fullWidthStyle}>
         <RenderMapField
-          component={RenderMapField}
           mapValueFieldComponent={component}
           mapValueFieldProps={fieldProps}
           defaultValue={defaultValue}
+          disabled={disabled}
           input={input}
           meta={meta}
         />

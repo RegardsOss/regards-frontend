@@ -64,6 +64,7 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     label: PropTypes.string.isRequired,
     microserviceName: PropTypes.string.isRequired,
     pluginParameterType: CommonShapes.PluginParameterType.isRequired,
+    disabled: PropTypes.bool,
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     // form mapStateToProps
@@ -71,7 +72,9 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     fetchPluginConfigurationList: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    disabled: false,
+  }
 
   static contextTypes = {
     ...themeContextType,
@@ -89,11 +92,11 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
 
   componentDidMount() {
     const {
-      pluginParameterType, fetchPluginConfigurationList, fetchPluginMetadataList, microserviceName,
+      pluginParameterType, fetchPluginConfigurationList, fetchPluginMetadataList, microserviceName, disabled,
     } = this.props
     const pluginId = this.props.input.value
 
-    if (pluginParameterType.type) {
+    if (pluginParameterType.type && !disabled) {
       // 1. Retrieve pluginMetadatas for the microservice.
       fetchPluginMetadataList(microserviceName, pluginParameterType.type).then((actionResults) => {
         this.setState({
@@ -150,60 +153,69 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     input.onChange(value ? value.toString() : null)
   }
 
-  render() {
+  renderDisabled = () => (<span>{this.props.input.value}</span>)
+
+  renderEnabled = () => {
     const {
       pluginMetaDataList, pluginConfigurationList, selectedPluginConfiguration, openMenu,
     } = this.state
-    const { label } = this.props
     const { moduleTheme: { pluginParameter }, intl } = this.context
+    return [
+      <RaisedButton
+        key="button"
+        label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : intl.formatMessage({ id: 'plugin.parameter.plugin.choose' })}
+        onTouchTap={this.handleOpenMenu}
+        style={pluginParameter.pluginButton}
+      />,
+      <IconMenu
+        key="menu"
+        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+        open={openMenu}
+        onRequestChange={this.handleOnRequestChange}
+        desktop
+        autoWidth
+        style={pluginParameter.iconMenu}
+      >
+        {map(pluginMetaDataList, (pmd) => {
+          const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pc => pc.content.pluginId === pmd.content.pluginId)
+          const pluginConfigurationListIsEmpty = isEmpty(pluginConfigurationListForThisPluginMetaData)
+          return (
+            <MenuItem
+              key={pmd.content.pluginId}
+              primaryText={this.buildMenuItemPrimaryText(pmd.content.pluginId, pmd.content.version)}
+              rightIcon={<ArrowDropRight />}
+              disabled={pluginConfigurationListIsEmpty}
+              menuItems={
+                map(pluginConfigurationListForThisPluginMetaData, pc =>
+                  (<MenuItem
+                    key={pc.content.id}
+                    primaryText={this.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
+                    onTouchTap={() => this.handleChange(pc.content.id)}
+                    checked={pc.content.id === this.state.value}
+                  />))
+              }
+            />
+          )
+        })}
+        <Divider />
+        <MenuItem
+          key="none"
+          primaryText={intl.formatMessage({ id: 'plugin.parameter.plugin.empty.menu.item' })}
+          onTouchTap={() => this.handleChange(undefined)}
+          rightIcon={<Delete />}
+        />
+      </IconMenu>,
+    ]
+  }
+
+  render() {
+    const { disabled, label } = this.props
+    const { moduleTheme: { pluginParameter } } = this.context
 
     return (
       <div style={pluginParameter.wrapper}>
         <Subheader style={pluginParameter.label}>{label}</Subheader>
-        <div>
-          <RaisedButton
-            label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : intl.formatMessage({ id: 'plugin.parameter.plugin.choose' })}
-            onTouchTap={this.handleOpenMenu}
-            style={pluginParameter.pluginButton}
-          />
-          <IconMenu
-            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-            open={openMenu}
-            onRequestChange={this.handleOnRequestChange}
-            desktop
-            autoWidth
-            style={pluginParameter.iconMenu}
-          >
-            {map(pluginMetaDataList, (pmd) => {
-              const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pc => pc.content.pluginId === pmd.content.pluginId)
-              const pluginConfigurationListIsEmpty = isEmpty(pluginConfigurationListForThisPluginMetaData)
-              return (
-                <MenuItem
-                  key={pmd.content.pluginId}
-                  primaryText={this.buildMenuItemPrimaryText(pmd.content.pluginId, pmd.content.version)}
-                  rightIcon={<ArrowDropRight />}
-                  disabled={pluginConfigurationListIsEmpty}
-                  menuItems={
-                    map(pluginConfigurationListForThisPluginMetaData, pc =>
-                      (<MenuItem
-                        key={pc.content.id}
-                        primaryText={this.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
-                        onTouchTap={() => this.handleChange(pc.content.id)}
-                        checked={pc.content.id === this.state.value}
-                      />))
-                  }
-                />
-              )
-            })}
-            <Divider />
-            <MenuItem
-              key="none"
-              primaryText={intl.formatMessage({ id: 'plugin.parameter.plugin.empty.menu.item' })}
-              onTouchTap={() => this.handleChange(undefined)}
-              rightIcon={<Delete />}
-            />
-          </IconMenu>
-        </div>
+        {disabled ? this.renderDisabled() : this.renderEnabled()}
       </div>
     )
   }

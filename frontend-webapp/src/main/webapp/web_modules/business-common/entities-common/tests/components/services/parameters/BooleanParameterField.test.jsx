@@ -28,7 +28,7 @@ const context = buildTestContext(styles)
 * Test BooleanParameterField
 * @author Raphaël Mechali
 */
-describe('[ Module name] Testing BooleanParameterField', () => {
+describe('[Entities Common] Testing BooleanParameterField', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

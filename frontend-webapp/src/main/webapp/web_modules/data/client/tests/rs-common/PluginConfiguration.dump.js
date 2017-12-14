@@ -19,6 +19,50 @@
 export default [
   {
     content: {
+      id: 202,
+      pluginId: 'FullPluginExample',
+      label: 'fdgfdgfdg',
+      version: '1.0.0',
+      priorityOrder: 1,
+      active: true,
+      pluginClassName: 'fr.cnes.regards.modules.ingest.service.plugin.FullPluginExample',
+      interfaceNames: ['fr.cnes.regards.modules.ingest.domain.plugin.IFullPluginExample'],
+      parameters: [{
+        id: 115, name: 'embedded', value: '"1"', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 113, name: 'constraints', value: '{"constraints":[{"enabled":true,"pattern":"dfgdg"},{"enabled":false,"pattern":"plop"}]}', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 114, name: 'scMap', value: '{"dfgfdfgdg":{"enabled":true,"pattern":"dfgfdg"}}', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 112, name: 'pojo', value: '{"message":"dfgfdgd"}', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 111, name: 'ssMap', value: '{"dfgdg":"dfgdg"}', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 110, name: 'sList', value: '["dfgdg"]', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 110, name: 'sListPojo', value: '[{"message":"value"},{"message":"value2"}]', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 109, name: 'pBoolean', value: 'true', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 108, name: 'pDouble', value: '"1"', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 107, name: 'pFloat', value: '"1"', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 106, name: 'pLong', value: '"1"', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 105, name: 'pInteger', value: '"1"', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 104, name: 'pShort', value: '"1"', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 103, name: 'pByte', value: '"1"', dynamic: false, dynamicsValues: [],
+      }, {
+        id: 102, name: 'pString', value: '"df"', dynamic: false, dynamicsValues: [],
+      }],
+    },
+    links: [{ rel: 'self', href: 'http://172.26.47.107/api/v1/rs-ingest/plugins/FullPluginExample/config/202', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.107/api/v1/rs-ingest/plugins/FakeSipValidation/config/202' } }, { rel: 'delete', href: 'http://172.26.47.107/api/v1/rs-ingest/plugins/FakeSipValidation/config/202', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.107/api/v1/rs-ingest/plugins/FakeSipValidation/config/202' } }, { rel: 'update', href: 'http://172.26.47.107/api/v1/rs-ingest/plugins/FakeSipValidation/config/202', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.107/api/v1/rs-ingest/plugins/FakeSipValidation/config/202' } }, { rel: 'list', href: 'http://172.26.47.107/api/v1/rs-ingest/plugins/FakeSipValidation/config', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.107/api/v1/rs-ingest/plugins/FullPluginExample/config' } }],
+  },
+  {
+    content: {
       id: 40,
       pluginId: 'aComplexErrorPlugin',
       label: 'a plugin configuration for the test',

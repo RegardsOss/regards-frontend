@@ -57,12 +57,14 @@ class RenderArrayObjectField extends React.Component {
     duplicationTransfromation: PropTypes.func, // Function to transform object value when dulicating an element of the list
     canBeEmpty: PropTypes.bool, // If false, the list is not displayed if there is no element in it
     listHeight: PropTypes.string,
+    disabled: PropTypes.bool,
     // From redux-form
     fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
     meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
   }
 
   static defaultProps = {
+    disabled: false,
     canBeEmpty: true,
     fieldProps: {},
     getEmptyObject: () => ({}),
@@ -159,7 +161,7 @@ class RenderArrayObjectField extends React.Component {
   renderListItem = (index) => {
     const { intl: { formatMessage } } = this.context
     const {
-      elementLabel, canBeEmpty,
+      elementLabel, canBeEmpty, disabled,
     } = this.props
     const isDeletable = canBeEmpty ? true : this.props.fields.length > 1
     const iconButtonElement = (
@@ -194,14 +196,14 @@ class RenderArrayObjectField extends React.Component {
       <ListItem
         key={`${index}`}
         value={index}
-        rightIconButton={rightIconMenu}
+        rightIconButton={disabled ? null : rightIconMenu}
         primaryText={itemLabel}
       />
     )
   }
 
   renderDeleteConfirmDialog = () => {
-    if (!isNil(this.state.fieldIndexToDelete) && this.state.fieldIndexToDelete >= 0) {
+    if (!isNil(this.state.fieldIndexToDelete) && this.state.fieldIndexToDelete >= 0 && !this.props.disabled) {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
@@ -260,14 +262,15 @@ class RenderArrayObjectField extends React.Component {
                 >
                   {map(fields, (object, idx) => this.renderListItem(idx))}
                 </SelectableList>
-                <RaisedButton
-                  label={formatMessage({ id: 'render.array-object.add.button' })}
-                  fullWidth
-                  primary
-                  onClick={this.onAddNewObject}
-                  icon={<AddBoxIcon />}
-                  style={leftButtonStyle}
-                />
+                {!this.props.disabled ?
+                  <RaisedButton
+                    label={formatMessage({ id: 'render.array-object.add.button' })}
+                    fullWidth
+                    primary
+                    onClick={this.onAddNewObject}
+                    icon={<AddBoxIcon />}
+                    style={leftButtonStyle}
+                  /> : null}
               </div>
               <div style={rightColumnStyle}>
                 {fieldForm}

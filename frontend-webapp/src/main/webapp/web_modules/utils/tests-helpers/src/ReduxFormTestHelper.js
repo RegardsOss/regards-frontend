@@ -15,25 +15,40 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
-import defaultFluxStandardError from './DefaultFluxStandardError'
-import IntlStub from './IntlStub'
-import muiThemeStub from './MuiThemeStub'
-import buildTestContext from './TestContextStub'
-import testSuiteHelpers from './TestSuiteHelpers'
-import uiPluginServiceTestHelpers from './UIPluginServiceTestHelpers'
-import ReduxEntityTester from './store/ReduxEntityTester'
-import ReduxFormTestHelper from './ReduxFormTestHelper'
-import DumpProvider from './clientDump/DumpProvider'
+ **/
+
+/**
+ * Return default props for input of a redux-form field
+ * @author Sébastien Binda
+ */
+const getInputFieldProps = (name, value) => ({
+  name,
+  value,
+  onBlur: () => { },
+  onChange: () => { },
+  onDragStart: () => { },
+  onDrop: () => { },
+  onFocus: () => { },
+})
+
+const getMetaFieldProps = (error, invalid) => ({
+  active: true,
+  asyncValidating: true,
+  autofilled: true,
+  dirty: false,
+  dispatch: () => { },
+  error,
+  form: '',
+  invalid: !!invalid,
+  pristine: true,
+  submitting: false,
+  submitFailed: false,
+  touched: false,
+  valid: !error,
+  visited: true,
+})
 
 module.exports = {
-  defaultFluxStandardError,
-  IntlStub,
-  muiThemeStub,
-  ReduxEntityTester,
-  ReduxFormTestHelper,
-  DumpProvider,
-  buildTestContext,
-  testSuiteHelpers,
-  uiPluginServiceTestHelpers,
+  getInputFieldProps,
+  getMetaFieldProps,
 }

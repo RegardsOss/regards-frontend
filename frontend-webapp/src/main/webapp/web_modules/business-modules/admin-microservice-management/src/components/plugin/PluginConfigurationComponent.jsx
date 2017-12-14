@@ -16,6 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
+import map from 'lodash/map'
+import omit from 'lodash/omit'
+import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
@@ -34,7 +38,9 @@ import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RenderPluginConfField } from '@regardsoss/microservice-plugin-configurator'
 import { pluginConfigurationByTypeActions } from '../../clients/PluginConfigurationClient'
+import PluginView from './PluginView'
 import styles from '../../styles'
+
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const HateoasToggle = withHateoasDisplayControl(Toggle)
@@ -82,21 +88,34 @@ export class PluginConfigurationComponent extends React.Component {
     } = this.props
     const { moduleTheme } = this.context
 
-    const ConfForm = reduxForm({ form: `view-plugin-conf-${pluginConfiguration.content.id}` })(RenderPluginConfField)
-    const input = {
-      value: pluginConfiguration,
+    const deserializedPluginConf = pluginConfiguration.content ? cloneDeep(pluginConfiguration.content) : null
+    if (deserializedPluginConf) {
+      deserializedPluginConf.parameters = map(deserializedPluginConf.parameters, (p) => {
+        let value = get(p, 'value', null)
+        try {
+          value = value ? JSON.parse(p.value) : null
+        } catch (e) {
+          console.error('error', e, p)
+        }
+        return {
+          ...omit(p, 'value'),
+          value,
+        }
+      })
     }
+
+    const ConfForm = reduxForm({
+      form: `view-plugin-conf-${pluginConfiguration.content.id}`,
+      initialValues: { pluginConfiguration: deserializedPluginConf },
+    })(PluginView)
 
     // Simulate a redux form to use the same component RenderPluginConfField to display a non editable form of plugin configuration.
     const conf = (
       <ConfForm
         microserviceName={microserviceName}
         pluginMetaData={get(pluginMetaData, 'content', {})}
-        disabled
-        hideGlobalParameterConf
-        hideDynamicParameterConf
-        // Workaround to simulate redux form
-        input={input}
+        name="pluginConfiguration"
+        component={RenderPluginConfField}
       />)
 
 

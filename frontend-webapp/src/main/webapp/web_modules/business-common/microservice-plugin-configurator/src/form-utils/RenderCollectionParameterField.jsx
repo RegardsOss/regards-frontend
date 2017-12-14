@@ -33,13 +33,16 @@ import messages from '../i18n'
 */
 export class RenderCollectionParameterField extends React.PureComponent {
   static propTypes = {
-    microserviceName: PropTypes.string.isRequired,
-    pluginParameterType: CommonShapes.PluginParameterType.isRequired,
+    microserviceName: PropTypes.string.isRequired, // microservice name of the plugin
+    pluginParameterType: CommonShapes.PluginParameterType.isRequired, // Parameter definition to configure
+    disabled: PropTypes.bool, // Disable all fields
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    disabled: false,
+  }
 
   static contextTypes = {
     ...themeContextType,
@@ -53,12 +56,14 @@ export class RenderCollectionParameterField extends React.PureComponent {
     fieldProps: {},
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.initialize()
   }
 
   initialize = () => {
-    const { input, pluginParameterType, microserviceName } = this.props
+    const {
+      input, pluginParameterType, microserviceName, disabled,
+    } = this.props
     const parameterizedType = get(pluginParameterType, 'parameterizedSubTypes', [undefined])[0]
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(parameterizedType)
     if (parameterizedType && primitiveParameters) {
@@ -72,6 +77,7 @@ export class RenderCollectionParameterField extends React.PureComponent {
         // No parameters for the list of objects.
         throw new Error('Invalid COLLECTION plugin parameter. Parameterized type is an object without any parameters.')
       }
+
       this.setState({
         isPrimitive: false,
         component: RenderObjectParameterField,
@@ -79,6 +85,7 @@ export class RenderCollectionParameterField extends React.PureComponent {
           microserviceName,
           pluginParameterType,
           complexParameter: false,
+          disabled,
           input,
         },
       })
@@ -86,7 +93,7 @@ export class RenderCollectionParameterField extends React.PureComponent {
   }
 
   render() {
-    const { input: { name }, pluginParameterType } = this.props
+    const { input: { name }, pluginParameterType, disabled } = this.props
     const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
     const {
       isPrimitive, component, type, fieldProps,
@@ -110,6 +117,7 @@ export class RenderCollectionParameterField extends React.PureComponent {
           fieldsListLabel={pluginParameterType.label}
           type={type}
           validate={validators}
+          disabled={disabled}
         />
       )
     } else {
@@ -121,6 +129,7 @@ export class RenderCollectionParameterField extends React.PureComponent {
           fieldComponent={component}
           fieldProps={fieldProps}
           validate={validators}
+          disabled={disabled}
         />
       )
     }

@@ -30,7 +30,7 @@ import messages from '../i18n'
 * Redux-form compatible field component to display a Plugin selector asscioated to a Plugin configurator form.
 * @author Sébastien Binda
 */
-class RenderPluginField extends React.PureComponent {
+export class RenderPluginField extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string, // Title of display in top of the form
     selectLabel: PropTypes.string, // Label displayed in the selectable list of plugins
@@ -45,7 +45,6 @@ class RenderPluginField extends React.PureComponent {
   }
 
   static defaultProps = {
-    fullWidth: false,
     hideGlobalParameterConf: false,
     hideDynamicParameterConf: false,
   }
@@ -56,6 +55,21 @@ class RenderPluginField extends React.PureComponent {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  /**
+ * Default PluginConfiguration to initialize a new one.
+ */
+  static getPluginDefaultConf = (pluginMetaData, defaultPluginConfLabel) => ({
+    id: null,
+    pluginId: pluginMetaData.pluginId,
+    label: defaultPluginConfLabel,
+    version: pluginMetaData.version,
+    priorityOrder: 0,
+    active: true,
+    pluginClassName: pluginMetaData.pluginClassName,
+    parameters: [],
+    iconUrl: null,
+  })
 
   constructor(props) {
     super(props)
@@ -112,30 +126,15 @@ class RenderPluginField extends React.PureComponent {
   }
 
   /**
-   * Default PluginConfiguration to initialize a new one.
-   */
-  getPluginDefaultConf = pluginMetaData => ({
-    id: null,
-    pluginId: pluginMetaData.pluginId,
-    label: this.props.defaultPluginConfLabel,
-    version: pluginMetaData.version,
-    priorityOrder: 0,
-    active: true,
-    pluginClassName: pluginMetaData.pluginClassName,
-    parameters: [],
-    iconUrl: null,
-  })
-
-  /**
    * Callback when a plugin metadata is selected.
    * @param {*} selectedPluginMetaData : selected pluginMetaData
    */
   handleSelectPluginMetaData = (selectedPluginMetaData, isInitialization) => {
-    const { input } = this.props
+    const { input, defaultPluginConfLabel } = this.props
     this.setState({ selectedPluginMetaData })
     if (!isInitialization) {
       if (selectedPluginMetaData) {
-        input.onChange(this.getPluginDefaultConf(selectedPluginMetaData))
+        input.onChange(RenderPluginField.getPluginDefaultConf(selectedPluginMetaData, defaultPluginConfLabel))
       } else {
         input.onChange(null)
       }

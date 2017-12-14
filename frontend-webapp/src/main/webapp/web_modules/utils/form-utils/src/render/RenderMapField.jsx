@@ -59,6 +59,7 @@ class RenderArrayObjectField extends React.Component {
     newValueDialogLabel: PropTypes.string,
     mapKeyLabel: PropTypes.string,
     mapLabel: PropTypes.string,
+    disabled: PropTypes.bool,
     // From redux-form
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
@@ -66,6 +67,7 @@ class RenderArrayObjectField extends React.Component {
 
   static defaultProps = {
     defaultValue: '',
+    disabled: false,
   }
 
   static contextTypes = {
@@ -307,7 +309,7 @@ class RenderArrayObjectField extends React.Component {
    */
   renderListItem = (key) => {
     const { intl: { formatMessage }, moduleTheme: { arrayField: { errorIconStyle } } } = this.context
-    const { meta } = this.props
+    const { meta, disabled } = this.props
     const iconButtonElement = (
       <IconButton
         touch
@@ -341,7 +343,7 @@ class RenderArrayObjectField extends React.Component {
       <ListItem
         key={`${key}`}
         value={key}
-        rightIconButton={rightIconMenu}
+        rightIconButton={disabled ? null : rightIconMenu}
         leftIcon={leftIcon}
         primaryText={key}
       />
@@ -361,7 +363,7 @@ class RenderArrayObjectField extends React.Component {
 
     const { displayedKey, mapKeys } = this.state
     const {
-      mapValueFieldComponent, input, mapValueFieldProps, meta,
+      mapValueFieldComponent, input, mapValueFieldProps, meta, disabled,
     } = this.props
 
     const fieldForm = displayedKey !== null ? (
@@ -370,6 +372,7 @@ class RenderArrayObjectField extends React.Component {
         component={mapValueFieldComponent}
         {...mapValueFieldProps}
         validate={ValidationHelpers.required}
+        disabled={disabled}
       />) : null
     return (
       <Card>
@@ -388,14 +391,17 @@ class RenderArrayObjectField extends React.Component {
                 >
                   {map(mapKeys, (key, idx) => this.renderListItem(key))}
                 </SelectableList>
-                <RaisedButton
-                  label={formatMessage({ id: 'render.array-object.add.button' })}
-                  fullWidth
-                  primary
-                  onClick={this.openAddDialog}
-                  icon={<AddBoxIcon />}
-                  style={leftButtonStyle}
-                />
+                {disabled ?
+                  null :
+                  <RaisedButton
+                    label={formatMessage({ id: 'render.array-object.add.button' })}
+                    fullWidth
+                    primary
+                    onClick={this.openAddDialog}
+                    icon={<AddBoxIcon />}
+                    style={leftButtonStyle}
+                  />
+                }
               </div>
               <div style={rightColumnStyle}>
                 {fieldForm}
@@ -403,9 +409,9 @@ class RenderArrayObjectField extends React.Component {
             </div>
           </div>
         </CardMedia>
-        {this.renderAddObjectDialog()}
-        {this.renderDeleteConfirmDialog()}
-        {this.renderDuplicateObjectDialog()}
+        {disabled ? null : this.renderAddObjectDialog()}
+        {disabled ? null : this.renderDeleteConfirmDialog()}
+        {disabled ? null : this.renderDuplicateObjectDialog()}
       </Card>
     )
   }

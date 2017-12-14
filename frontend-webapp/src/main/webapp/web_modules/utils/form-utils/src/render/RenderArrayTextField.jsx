@@ -46,9 +46,14 @@ class RenderArrayTextField extends React.Component {
     // If the list is not a list of string but a list of objects this field is used to know the key of the object
     // where to set te value
     valueField: PropTypes.string,
+    disabled: PropTypes.bool,
     // From redux form
     fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
     meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
+  }
+
+  static defaultProps = {
+    disabled: false,
   }
 
   static contextTypes = {
@@ -131,7 +136,7 @@ class RenderArrayTextField extends React.Component {
   }
 
   renderField = (field, index) => {
-    const { valueField } = this.props
+    const { valueField, disabled } = this.props
     const label = valueField ? this.props.fields.get(index)[valueField] : this.props.fields.get(index)
     const rightIconButton = (
       <IconButton onClick={() => this.props.fields.remove(index)}>
@@ -139,13 +144,13 @@ class RenderArrayTextField extends React.Component {
       </IconButton>
     )
     return (
-      <ListItem key={index} primaryText={label} rightIconButton={rightIconButton} />
+      <ListItem key={index} primaryText={label} rightIconButton={disabled ? null : rightIconButton} />
     )
   }
 
   render() {
     const {
-      fields, fieldsListLabel, addButtonLabel, meta,
+      fields, fieldsListLabel, addButtonLabel, meta, disabled,
     } = this.props
     const { moduleTheme: { arrayField }, intl: { formatMessage }, intl } = this.context
     return (
@@ -159,15 +164,18 @@ class RenderArrayTextField extends React.Component {
           <List style={arrayField.listContent}>
             {fields.map(this.renderField)}
           </List>
-          <RaisedButton
-            onClick={this.openAddDialog}
-            label={addButtonLabel || formatMessage({ id: 'render.array-field.add.new.value.button' })}
-            fullWidth
-            primary
-            icon={<AddBoxIcon />}
-          />
+          {disabled ?
+            null :
+            <RaisedButton
+              onClick={this.openAddDialog}
+              label={addButtonLabel || formatMessage({ id: 'render.array-field.add.new.value.button' })}
+              fullWidth
+              primary
+              icon={<AddBoxIcon />}
+            />
+          }
         </Paper>
-        {this.renderNewValueDialog()}
+        {disabled ? null : this.renderNewValueDialog()}
       </div>
     )
   }
