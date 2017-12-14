@@ -96,8 +96,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
   componentDidMount() {
     this.layout(this.props)
     this.onScroll()
-    document.addEventListener('scroll', this.onScroll)
-    root.addEventListener('resize', this.onResize)
+    if (root.document) {
+      root.document.addEventListener('scroll', this.onScroll)
+      root.addEventListener('resize', this.onResize)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -107,8 +109,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('scroll', this.onScroll)
-    root.removeEventListener('resize', this.onResize)
+    if (root.document) {
+      root.document.removeEventListener('scroll', this.onScroll)
+      root.removeEventListener('resize', this.onResize)
+    }
   }
 
 

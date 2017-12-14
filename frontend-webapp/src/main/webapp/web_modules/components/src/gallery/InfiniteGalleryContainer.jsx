@@ -28,7 +28,7 @@ import InfiniteGalleryComponent from './InfiniteGalleryComponent'
 /**
  * @author Léo Mieulet
  */
-class InfiniteGalleryContainer extends React.Component {
+export class InfiniteGalleryContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
