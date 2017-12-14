@@ -67,12 +67,7 @@ export class PluginFormComponent extends React.Component {
   }
 
   onSubmit = (values) => {
-    const cloneValues = cloneDeep(values[PluginFormComponent.confFieldName])
-    cloneValues.parameters = map(cloneValues.parameters, p => ({
-      ...omit(p, 'value'),
-      value: JSON.stringify(p.value),
-    }))
-    this.props.onSubmit(cloneValues)
+    this.props.onSubmit(values[PluginFormComponent.confFieldName])
   }
 
   /**
@@ -83,21 +78,15 @@ export class PluginFormComponent extends React.Component {
       pluginConfiguration, pluginMetaData, initialize, isEditing,
     } = this.props
     // The values are serialized by the backend. So deseralize it all here
-    const deserializedPluginConf = pluginConfiguration ? cloneDeep(pluginConfiguration) : null
-    if (deserializedPluginConf) {
-      deserializedPluginConf.parameters = map(deserializedPluginConf.parameters, p => ({
-        ...omit(p, 'value'),
-        value: JSON.parse(p.value),
-      }))
-    }
+
     let initialValues
     if (isEditing) {
       // Edition mode
-      initialValues = deserializedPluginConf
-    } else if (deserializedPluginConf) {
+      initialValues = pluginConfiguration
+    } else if (pluginConfiguration) {
       // Duplication mode
       // Deep copy pluginConfiguration
-      initialValues = deserializedPluginConf
+      initialValues = pluginConfiguration
       // In copy mode remove id of the duplicated pluginConfiguration
       delete initialValues.id
       // In copy mode remove id of each pluginParameters

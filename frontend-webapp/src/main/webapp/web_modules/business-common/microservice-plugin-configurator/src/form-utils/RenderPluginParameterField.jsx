@@ -183,6 +183,8 @@ export class RenderPluginParameterField extends React.PureComponent {
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(pluginParameterType.type)
     const parameters = {
       type: primitiveParameters.type,
+      normalize: primitiveParameters.type === 'number' ? val => parseInt(val, 10) : null,
+      format: primitiveParameters.type === 'number' ? val => parseInt(val, 10) : null,
       floatingLabelText: this.props.hideDynamicParameterConf ? label : null,
       hintText: label,
       label: this.props.hideDynamicParameterConf ? label : null,

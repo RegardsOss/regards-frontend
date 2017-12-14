@@ -88,25 +88,9 @@ export class PluginConfigurationComponent extends React.Component {
     } = this.props
     const { moduleTheme } = this.context
 
-    const deserializedPluginConf = pluginConfiguration.content ? cloneDeep(pluginConfiguration.content) : null
-    if (deserializedPluginConf) {
-      deserializedPluginConf.parameters = map(deserializedPluginConf.parameters, (p) => {
-        let value = get(p, 'value', null)
-        try {
-          value = value ? JSON.parse(p.value) : null
-        } catch (e) {
-          console.error('error', e, p)
-        }
-        return {
-          ...omit(p, 'value'),
-          value,
-        }
-      })
-    }
-
     const ConfForm = reduxForm({
       form: `view-plugin-conf-${pluginConfiguration.content.id}`,
-      initialValues: { pluginConfiguration: deserializedPluginConf },
+      initialValues: { pluginConfiguration: pluginConfiguration.content },
     })(PluginView)
 
     // Simulate a redux form to use the same component RenderPluginConfField to display a non editable form of plugin configuration.
