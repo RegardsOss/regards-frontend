@@ -6,7 +6,7 @@ import { TagTypes } from '@regardsoss/domain/catalog'
 import { Tag } from '../../../src/models/navigation/Tag'
 import navigationContextActions from '../../../src/models/navigation/NavigationContextActions'
 import reduce, { DEFAULT_STATE } from '../../../src/models/navigation/NavigationContextReducer'
-import TableDisplayModeEnum from '../../../src/models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeEnum } from '../../../src/models/navigation/TableDisplayModeEnum'
 
 
 describe('[Search Results] Test navigation context reducer', () => {

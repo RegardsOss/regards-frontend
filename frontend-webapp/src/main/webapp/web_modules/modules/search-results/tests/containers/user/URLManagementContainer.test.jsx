@@ -22,7 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CatalogDomain, DamDomain } from '@regardsoss/domain'
 import { Tag } from '../../../src/models/navigation/Tag'
 import { URLManagementContainer } from '../../../src/containers/user/URLManagementContainer'
-import TableDisplayModeEnum from '../../../src/models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeEnum } from '../../../src/models/navigation/TableDisplayModeEnum'
 
 const context = buildTestContext()
 

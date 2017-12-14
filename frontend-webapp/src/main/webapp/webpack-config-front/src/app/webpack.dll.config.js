@@ -3,7 +3,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const StatsPlugin = require('stats-webpack-plugin')
 
 module.exports = function (projectContextPath) {
-
   // Ensure babel environment variable is correctly setup to development - will be rewrite if production is called
   process.env.NODE_ENV = 'development'
 
@@ -35,7 +34,7 @@ module.exports = function (projectContextPath) {
           // used to cache the results of the loader.
           // Next builds will attempt to read from the cache
           // the cache is different depending of the value of NODE_ENV
-          loader: 'babel-loader?cacheDirectory',
+          loader: 'babel-loader',
         },
         {
           test: /\.css$/,
@@ -64,5 +63,4 @@ module.exports = function (projectContextPath) {
       }),
     ],
   }
-
 }

@@ -128,6 +128,11 @@ const styles = theme => ({
         padding: '5px 0px 10px 10px',
       },
     },
+    galleryViewStyles: {
+      descriptionContainer: {
+        padding: '0 5px',
+      },
+    },
   },
 })
 
