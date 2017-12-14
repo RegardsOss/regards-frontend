@@ -29,6 +29,7 @@ import RenderToggle from './render/RenderToggle'
 import RenderDoubleLabelToggle from './render/RenderDoubleLabelToggle'
 import RenderDateTimeField from './render/RenderDateTimeField'
 import RenderJsonCodeEditorField from './render/RenderJsonCodeEditorField'
+import RenderSlider from './render/RenderSlider'
 import ErrorTypes from './ErrorTypes'
 import Locales from './i18n/Locales'
 import Field from './Field'
@@ -59,6 +60,7 @@ module.exports = {
   RenderFileField,
   RenderFileFieldWithMui,
   RenderDateTimeField,
+  RenderSlider,
   ErrorTypes,
   Locales,
   Field,

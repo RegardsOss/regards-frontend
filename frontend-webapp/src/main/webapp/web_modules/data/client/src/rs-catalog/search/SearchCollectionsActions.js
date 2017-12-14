@@ -24,6 +24,6 @@ import SearchEntitiesActions from './SearchEntitiesActions'
  */
 export default class CatalogCollectionsEntityActions extends SearchEntitiesActions {
   constructor(namespace) {
-    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/collections/search?{parameters}`)
+    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search/collections?{parameters}`)
   }
 }

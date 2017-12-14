@@ -43,9 +43,10 @@ const tableToOpenSearchSort = {
  * @param sortingArray [{attributePath, type}] sorting array, where attribute is an attribute path and type is sorting type,
  * from table columns sorting types
  * @param facettesQuery facettes query, facettes to be provided on results (optional)
+ * @param facettesQuery quicklook filter (optional)
  * @return URL query
  */
-function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '') {
+function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '', quicklookFilterQuery = '') {
   // specific query format: put parameter value in parenthesis (when available)
   const queryParamValue = openSearchQuery && `(${openSearchQuery})`
   const urlParameters = [
@@ -61,6 +62,8 @@ function getURLQuery(openSearchQuery, sortingArray = [], facettesQuery = '') {
     }),
     // 3 - facettes query
     new StaticQueryParameter(facettesQuery),
+    // 4 - Quicklook filter
+    new StaticQueryParameter(quicklookFilterQuery),
   ]
 
   return new URLSearchQuery('', urlParameters)

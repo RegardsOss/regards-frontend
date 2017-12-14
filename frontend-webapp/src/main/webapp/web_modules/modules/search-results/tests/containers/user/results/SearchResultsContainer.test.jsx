@@ -24,7 +24,7 @@ import { SearchResultsContainer } from '../../../../src/containers/user/results/
 import PluginServicesContainer from '../../../../src/containers/user/results/PluginServicesContainer'
 import OrderCartContainer from '../../../../src/containers/user/results/OrderCartContainer'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
-import TableDisplayModeEnum from '../../../../src/models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeEnum } from '../../../../src/models/navigation/TableDisplayModeEnum'
 import styles from '../../../../src/styles/styles'
 import { DISPLAY_MODE_VALUES } from '../../../../src/definitions/DisplayModeEnum'
 
@@ -41,7 +41,9 @@ describe('[Search Results] Testing SearchResultsContainer', () => {
     const props = {
       searchQuery: 'spacy=abit',
       enableFacettes: true,
+      enableQuicklooks: false,
       facettesQuery: 'facettes=condiments',
+      displayConf: {},
       attributesConf: [],
       attributesRegroupementsConf: [],
       datasetAttributesConf: [],

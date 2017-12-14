@@ -22,13 +22,16 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
 import { Title } from '@regardsoss/components'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import { Field, RenderCheckbox } from '@regardsoss/form-utils'
+import { Field, RenderCheckbox, RenderTextField } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 import { themeContextType } from '@regardsoss/theme'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
 import { DISPLAY_MODE_ENUM } from '../../definitions/DisplayModeEnum'
 
+
+const parseIntNormalizer = value => parseInt(value, 10)
 /**
  * Display form to configure main parameters of search form.
  * @author Sébastien binda
@@ -37,11 +40,15 @@ import { DISPLAY_MODE_ENUM } from '../../definitions/DisplayModeEnum'
 class SearchResultsConfigurationComponent extends React.Component {
   // Redux form
   static MODULE_ATTRIBUTES_CONF = 'conf.attributes'
+  static MODULE_ATTRIBUTES_QUICKLOOK_CONF = 'conf.attributesQuicklook'
   static MODULE_DATASET_ATTRIBUTES_CONF = 'conf.datasetAttributes'
   static MODULE_DOCUMENT_ATTRIBUTES_CONF = 'conf.documentAttributes'
   static MODULE_REGROUPEMENTS_CONF = 'conf.attributesRegroupements'
   static MODULE_DISPLAY_MODE = 'conf.displayMode'
   static CONF_ENABLE_FACETTES = 'conf.enableFacettes'
+  static CONF_ENABLE_QUICKLOOKS = 'conf.enableQuicklooks'
+  static CONF_QUICKLOOKS_WIDTH = 'conf.displayConf.quicklookColumnWidth'
+  static CONF_QUICKLOOKS_SPACING = 'conf.displayConf.quicklookColumnSpacing'
 
   static propTypes = {
     dataAttributeModels: AccessShapes.AttributeConfigurationList,
@@ -62,12 +69,16 @@ class SearchResultsConfigurationComponent extends React.Component {
     // Set a default value for display mode
     if (!this.props.initialFormValues) {
       this.props.changeField(SearchResultsConfigurationComponent.MODULE_DISPLAY_MODE, DISPLAY_MODE_ENUM.DISPLAY_DATA)
+      this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_WIDTH, 400)
+      this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_WIDTH, 400)
     }
   }
   changeDisplayMode = (event, value) => {
     this.props.changeField(SearchResultsConfigurationComponent.MODULE_DISPLAY_MODE, value)
     if (value === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT) {
       this.props.changeField(SearchResultsConfigurationComponent.CONF_ENABLE_FACETTES, false)
+      this.props.changeField(SearchResultsConfigurationComponent.CONF_ENABLE_QUICKLOOKS, 400)
+      this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_SPACING, 20)
     }
   }
 
@@ -80,10 +91,15 @@ class SearchResultsConfigurationComponent extends React.Component {
     const currentAttributesGroupsConf = get(currentFormValues, 'attributesRegroupements', [])
     const initialAttributesGroupsConf = get(initialFormValues, 'attributesRegroupements', [])
     const dataEnableFacettes = get(currentFormValues, 'enableFacettes', false)
+    const dataEnableQuicklook = get(currentFormValues, 'enableQuicklooks', false)
 
     // Dataset
     const currentDatasetAttributesConf = get(currentFormValues, 'datasetAttributes', [])
     const initialDatasetAttributesConf = get(initialFormValues, 'datasetAttributes', [])
+
+    // Quicklook
+    const currentAttributesQuicklookConf = get(currentFormValues, 'attributesQuicklook', [])
+    const initialAttributesQuicklookConf = get(initialFormValues, 'attributesQuicklook', [])
 
     // Document
     const currentDocumentAttributesConf = get(currentFormValues, 'documentAttributes', [])
@@ -91,6 +107,30 @@ class SearchResultsConfigurationComponent extends React.Component {
 
     switch (displayMode) {
       case DISPLAY_MODE_ENUM.DISPLAY_DATA:
+
+        if (dataEnableQuicklook) {
+          // return the Object attrs and Quicklook attrs HMI
+          return (
+            <Tabs>
+              <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.conf.selection.tab.label' })}>
+                {this.renderObjectsAttributesConfiguration(
+                  currentAttributesConf,
+                  initialAttributesConf,
+                  currentAttributesGroupsConf,
+                  initialAttributesGroupsConf,
+                  dataEnableFacettes,
+                )}
+              </Tab>
+              <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.quicklook.conf.selection.tab.label' })}>
+                {this.renderObjectsQuicklookAttributesConfiguration(
+                  currentAttributesQuicklookConf,
+                  initialAttributesQuicklookConf,
+                )}
+              </Tab>
+            </Tabs>
+          )
+        }
+        // Only return attr HMI
         return this.renderObjectsAttributesConfiguration(
           currentAttributesConf,
           initialAttributesConf,
@@ -108,13 +148,23 @@ class SearchResultsConfigurationComponent extends React.Component {
                 currentAttributesGroupsConf,
                 initialAttributesGroupsConf,
                 dataEnableFacettes,
-)}
+              )}
             </Tab>
+            {/* Add Quicklook configuration if enabled */}
+            {
+              dataEnableQuicklook ? (
+                <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.quicklook.conf.selection.tab.label' })}>
+                  {this.renderObjectsQuicklookAttributesConfiguration(
+                    currentAttributesQuicklookConf,
+                    initialAttributesQuicklookConf,
+                  )}
+                </Tab>) : null
+            }
             <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.dataset.conf.selection.tab.label' })}>
               {this.renderDatasetsAttributesConfiguration(
                 currentDatasetAttributesConf,
                 initialDatasetAttributesConf,
-)}
+              )}
             </Tab>
           </Tabs>)
       case DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT:
@@ -140,6 +190,20 @@ class SearchResultsConfigurationComponent extends React.Component {
 
       attributesRegroupementsConf={currentAttributesGroupsConf}
       defaultAttributesRegroupementsConf={initialAttributesGroupsConf}
+    />
+  )
+
+
+  renderObjectsQuicklookAttributesConfiguration = (currentAttributesConf, initialAttributesConf) => (
+    <MainAttributesConfigurationComponent
+      allowFacettes={false}
+      allowAttributesRegroupements={false}
+      attributesFieldName={SearchResultsConfigurationComponent.MODULE_ATTRIBUTES_QUICKLOOK_CONF}
+      changeField={this.props.changeField}
+      selectableAttributes={this.props.dataAttributeModels}
+
+      attributesConf={currentAttributesConf}
+      defaultAttributesConf={initialAttributesConf}
     />
   )
 
@@ -172,6 +236,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     const { topOptions } = this.context.moduleTheme.configuration
     const onlyAllowDataConfiguration = get(this.props.initialFormValues, 'onlyAllowDataConfiguration', false)
     const displayMode = get(this.props.currentFormValues, 'displayMode', DISPLAY_MODE_ENUM.DISPLAY_DATA)
+    const enableQuicklooks = get(this.props.currentFormValues, 'enableQuicklooks', false)
 
     return (
       <CardText>
@@ -183,7 +248,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           <RadioButtonGroup
             onChange={this.changeDisplayMode}
             valueSelected={displayMode}
-            name="display_mode"
+            name="__display_mode"
           >
             <RadioButton
               value={DISPLAY_MODE_ENUM.DISPLAY_DATA}
@@ -201,11 +266,35 @@ class SearchResultsConfigurationComponent extends React.Component {
             />
           </RadioButtonGroup>
           <Field
-            name="conf.enableFacettes"
+            name={SearchResultsConfigurationComponent.CONF_ENABLE_FACETTES}
             component={RenderCheckbox}
             label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
-            disabled={displayMode === SearchResultsConfigurationComponent.DISPLAY_DOCUMENT}
+            disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
           />
+          <Field
+            name={SearchResultsConfigurationComponent.CONF_ENABLE_QUICKLOOKS}
+            component={RenderCheckbox}
+            label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.quicklooks.label' })}
+            disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
+          />
+          <ShowableAtRender show={enableQuicklooks}>
+            <Field
+              name={SearchResultsConfigurationComponent.CONF_QUICKLOOKS_WIDTH}
+              component={RenderTextField}
+              type="number"
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
+              fullWidth
+              normalize={parseIntNormalizer}
+            />
+            <Field
+              name={SearchResultsConfigurationComponent.CONF_QUICKLOOKS_SPACING}
+              component={RenderTextField}
+              type="number"
+              label={this.context.intl.formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
+              fullWidth
+              normalize={parseIntNormalizer}
+            />
+          </ShowableAtRender>
           <Field
             name="conf.enableDownload"
             component={RenderCheckbox}

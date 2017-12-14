@@ -24,7 +24,7 @@ import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { searchDataobjectsActions, searchDatasetsActions, selectors as searchSelectors } from '../../../../src/clients/SearchEntitiesClient'
 import SearchResultsComponent from '../../../../src/components/user/results/SearchResultsComponent'
 import Styles from '../../../../src/styles/styles'
-import TableDisplayModeEnum from '../../../../src/models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeEnum } from '../../../../src/models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../../../../src/definitions/DisplayModeEnum'
 
 
@@ -41,7 +41,9 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     isFetching: false,
     allowingFacettes: true,
     enableDownload: false,
+    enableQuicklooks: false,
     displayMode: DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET,
+    displayConf: {},
 
     showingFacettes: true,
     filters: [],
@@ -53,6 +55,8 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     facets: [],
     searchQuery: '',
 
+    displayOnlyQuicklook: false,
+
     selectionServices: [],
     // control
     onChangeColumnsVisibility: () => { },
@@ -63,8 +67,10 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     onShowDataobjects: () => { },
     onShowListView: () => { },
     onShowTableView: () => { },
+    onShowQuicklookView: () => { },
     onSortByAttribute: () => { },
     onToggleShowFacettes: () => { },
+    onToggleDisplayOnlyQuicklook: () => { },
     // from PluginServicesContainer HOC
     onStartSelectionService: null,
     // from OrderCartContainer HOC

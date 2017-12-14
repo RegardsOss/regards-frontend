@@ -18,6 +18,8 @@
  **/
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { DISPLAY_MODE_VALUES } from '../definitions/DisplayModeEnum'
+import DisplayModuleConf from './DisplayModuleConf'
+
 /**
  * Form entity description
  * @author Sébastien binda
@@ -50,6 +52,8 @@ const Form = PropTypes.shape({
 
   // For modules that only displays DataObjects (never Dataset or Documents) - used by AdminForm
   onlyAllowDataConfiguration: PropTypes.bool,
+
+  displayConf: DisplayModuleConf,
 })
 
 export default Form

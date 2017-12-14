@@ -28,7 +28,7 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
 import DescriptionContainer from './user/DescriptionContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
-import TableDisplayModeEnum from '../models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
 
 /**
@@ -85,13 +85,16 @@ export class ModuleContainer extends React.Component {
       moduleConf: {
         enableDownload,
         enableFacettes,
+        enableQuicklooks,
         searchQuery,
         attributes,
+        attributesQuicklook,
         datasetAttributes,
         documentAttributes,
         attributesRegroupements,
         breadcrumbInitialContextLabel,
         displayMode,
+        displayConf,
       },
     } = this.props
     const { expanded, attributesFetching, facettesQuery } = this.state
@@ -114,15 +117,18 @@ export class ModuleContainer extends React.Component {
               onExpandChange={this.onExpandChange}
               resultsTitle={breadcrumbInitialContextLabel}
               enableFacettes={!!enableFacettes}
+              enableQuicklooks={!!enableQuicklooks}
               enableDownload={!!enableDownload}
               searchQuery={searchQuery}
               facettesQuery={facettesQuery}
               attributesConf={attributes}
+              attributesQuicklookConf={attributesQuicklook}
               attributesRegroupementsConf={attributesRegroupements}
               datasetAttributesConf={datasetAttributes}
               documentAttributesConf={documentAttributes}
               attributeModels={attributeModels}
               displayMode={displayMode}
+              displayConf={displayConf}
             />
           </URLManagementContainer>
         </div>

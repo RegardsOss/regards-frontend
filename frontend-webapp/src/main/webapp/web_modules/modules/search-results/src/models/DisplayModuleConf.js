@@ -16,21 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
- * Actions to find an entity by its IP ID (unlike search entities, it will always provide a single entity as result)
+ * Store how the component should render itself
  */
-export default class SearchEntityActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search/entities/{urn}`,
-      bypassErrorMiddleware: false,
-    })
-  }
+const DisplayModuleConf = PropTypes.shape({
+  quicklookColumnWidth: PropTypes.number,
+  quicklookColumnGutter: PropTypes.number,
+})
 
-  getEntity(urn) {
-    return this.sendSignal('GET', null, { urn })
-  }
-}
+export default DisplayModuleConf
