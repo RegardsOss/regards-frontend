@@ -235,7 +235,7 @@ class InfiniteTableContainer extends React.Component {
   render() {
     const {
       displayColumnsHeader, lineHeight, displayedRowsCount, columns, entitiesFetching,
-      loadingComponent, emptyComponent,
+      loadingComponent, emptyComponent, entitiesCount,
     } = this.props
     const { tableWidth = 0, entities } = this.state // cached render entities
     const actualLineHeight = lineHeight || this.context.muiTheme['components:infinite-table'].lineHeight
@@ -257,6 +257,7 @@ class InfiniteTableContainer extends React.Component {
               displayedRowsCount={actualRowCount}
 
               entities={entities}
+              entitiesCount={entitiesCount}
               onScrollEnd={this.onScrollEnd}
               columns={columns}
               width={tableWidth}

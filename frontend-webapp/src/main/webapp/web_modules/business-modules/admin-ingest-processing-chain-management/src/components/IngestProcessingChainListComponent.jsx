@@ -153,7 +153,7 @@ export class ProcessingChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              displayedRowsCount={10}
+              displayedRowsCount={15}
               queryPageSize={this.props.queryPageSize}
             />
           </TableLayout>
