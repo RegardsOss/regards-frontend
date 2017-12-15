@@ -68,6 +68,7 @@ export class RenderMapParameterField extends React.PureComponent {
     const {
       pluginParameterType, microserviceName, disabled,
     } = this.props
+    const { intl: { formatMessage } } = this.context
 
     // There should be two parameterized subtypes
     if (!pluginParameterType.parameterizedSubTypes || pluginParameterType.parameterizedSubTypes.length !== 2) {
@@ -84,6 +85,7 @@ export class RenderMapParameterField extends React.PureComponent {
         fieldProps: {
           // Props of the component renderer
           type: primitiveParameters.type,
+          floatingLabelText: formatMessage({ id: 'plugin.parameter.map.new.value.label' }, { value: pluginParameterType.label }),
           disabled,
         },
         // Component renderer (exemple : RenderTextField)
@@ -109,17 +111,26 @@ export class RenderMapParameterField extends React.PureComponent {
     const {
       fieldProps, component, defaultValue,
     } = this.state
-    const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
-    const { input, meta, disabled } = this.props
+    const { moduleTheme: { renderer: { fullWidthStyle } }, intl: { formatMessage } } = this.context
+    const {
+      input, meta, disabled, pluginParameterType,
+    } = this.props
     if (component === null) {
       return null
     }
+
+    const newValueDialogLabel = pluginParameterType.keyLabel ?
+      formatMessage({ id: 'plugin.parameter.map.new.key.dialog.title' }, { key: pluginParameterType.keyLabel }) :
+      null
     return (
-      <div style={fullWidthStyle}>
+      <div style={fullWidthStyle} >
         <RenderMapField
           mapValueFieldComponent={component}
           mapValueFieldProps={fieldProps}
           defaultValue={defaultValue}
+          newValueDialogLabel={newValueDialogLabel}
+          mapKeyLabel={pluginParameterType.keyLabel}
+          mapLabel={pluginParameterType.label}
           disabled={disabled}
           input={input}
           meta={meta}

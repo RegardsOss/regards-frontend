@@ -30,8 +30,10 @@ import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import Dialog from 'material-ui/Dialog'
+import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
+import Subheader from 'material-ui/Subheader'
 import { Card, CardMedia } from 'material-ui/Card'
 import { ListItem } from 'material-ui/List'
 import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
@@ -363,7 +365,7 @@ class RenderArrayObjectField extends React.Component {
 
     const { displayedKey, mapKeys } = this.state
     const {
-      mapValueFieldComponent, input, mapValueFieldProps, meta, disabled,
+      mapValueFieldComponent, input, mapValueFieldProps, meta, disabled, mapKeyLabel,
     } = this.props
 
     const fieldForm = displayedKey !== null ? (
@@ -384,6 +386,7 @@ class RenderArrayObjectField extends React.Component {
             <div style={titleStyle} />
             <div style={contentStyle}>
               <div style={leftColumnStyle}>
+                {mapKeyLabel ? [<Subheader key="header">{mapKeyLabel}</Subheader>, <Divider key="divider" />] : null}
                 <SelectableList
                   style={leftListStyle}
                   defaultValue={displayedKey}

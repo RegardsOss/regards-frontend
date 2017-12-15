@@ -20,8 +20,12 @@ import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 import { CommonShapes } from '@regardsoss/shape'
 import { fieldInputPropTypes } from 'redux-form'
+import HelpCircle from 'mdi-material-ui/HelpCircle'
 import { RadioButton } from 'material-ui/RadioButton'
 import SubHeader from 'material-ui/Subheader'
+import RasiedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+import IconButton from 'material-ui/IconButton'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers } from '@regardsoss/form-utils'
@@ -59,6 +63,10 @@ export class RenderPluginParameterField extends React.PureComponent {
     hideDynamicParameterConf: false,
   }
 
+  state = {
+    descriptionOpened: false,
+  }
+
   componentWillMount() {
     const { input, pluginParameterType, complexParameter } = this.props
     if (complexParameter && isNil(get(input.value, 'value')) && isNil(get(input.value, 'dynamicValues'))) {
@@ -69,6 +77,14 @@ export class RenderPluginParameterField extends React.PureComponent {
         name: pluginParameterType.name,
       })
     }
+  }
+
+  handleCloseDescription = () => {
+    this.setState({ descriptionOpened: false })
+  }
+
+  handleOpenDescription = () => {
+    this.setState({ descriptionOpened: true })
   }
 
   /**
@@ -111,8 +127,8 @@ export class RenderPluginParameterField extends React.PureComponent {
    * @param {*} fieldParams: additional field parameters
    */
   renderParamConfiguration = (name, dynamic, forceHideDynamicConf, component, label, disabled, validators, displayDynamicValues, fieldParams = {}) => {
-    const { moduleTheme: { dynamicParameter } } = this.context
-    const { hideDynamicParameterConf } = this.props
+    const { moduleTheme: { dynamicParameter, pluginParameter: { headerStyle } } } = this.context
+    const { hideDynamicParameterConf, pluginParameterType: { description } } = this.props
     const parameters = (
       <div style={dynamicParameter.layout}>
         {!forceHideDynamicConf ? this.renderDynamicRadioButton(name) : null}
@@ -122,7 +138,13 @@ export class RenderPluginParameterField extends React.PureComponent {
     // Display parameter header with his own label if dynamic configuration is enabled
     let header
     if ((!hideDynamicParameterConf && !forceHideDynamicConf) || component === RenderObjectParameterField || component === RenderMapParameterField) {
-      header = <SubHeader>{label}</SubHeader>
+      header = (
+        <div style={headerStyle}>
+          <SubHeader key="label">{label}</SubHeader>
+          {description ? <IconButton onClick={this.handleOpenDescription}><HelpCircle /></IconButton> : null}
+          {description ? this.renderDescriptionDialog() : null}
+        </div>
+      )
     }
     return (
       <div>
@@ -240,6 +262,28 @@ export class RenderPluginParameterField extends React.PureComponent {
       pluginParameterType,
     }
     return this.renderParamConfiguration(name, false, true, RenderMapParameterField, label, disabled, validators, false, parameters)
+  }
+
+  renderDescriptionDialog = () => {
+    const { intl: { formatMessage } } = this.context
+    const { pluginParameterType } = this.props
+    const actions = [
+      <RasiedButton
+        key="close"
+        label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
+        primary
+        onClick={this.handleCloseDescription}
+      />]
+    return (
+      <Dialog
+        title={formatMessage({ id: 'plugin.parameter.description.dialog.title' }, { parameter: pluginParameterType.label })}
+        actions={actions}
+        modal
+        open={this.state.descriptionOpened}
+      >
+        {pluginParameterType.description}
+      </Dialog>
+    )
   }
 
   render() {
