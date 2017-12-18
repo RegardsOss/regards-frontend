@@ -112,6 +112,7 @@ export class ProcessingChainListComponent extends React.Component {
           fetchPage: this.props.fetchPage,
           onDelete: this.onDelete,
           queryPageSize: this.props.queryPageSize,
+          handleHateoas: true,
         },
       }], true, fixedColumnWidth),
     ]
