@@ -103,6 +103,7 @@ import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSepara
 import TableHeaderText from './table/header/TableHeaderText'
 import TableLayout from './table/TableLayout'
 import TableDeleteOption from './table/content/cells/options/TableDeleteOption'
+import TableSimpleActionOption from './table/content/cells/options/TableSimpleActionOption'
 import TableSelectAllOption from './table/options/TableSelectAllOption'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import { TableSortOrders } from './table/model/TableSortOrders'
@@ -202,6 +203,7 @@ export {
   TableHeaderText,
   TableLayout,
   TableDeleteOption,
+  TableSimpleActionOption,
   TableSelectAllOption,
   TableSelectionModes,
   TableSortOrders,

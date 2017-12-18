@@ -28,7 +28,9 @@ import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import Error from 'material-ui/svg-icons/alert/error'
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
+import PageView from 'material-ui/svg-icons/action/pageview'
 import {
+  Breadcrumb,
   CardActionsComponent,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
@@ -216,6 +218,19 @@ class SIPSessionComponent extends React.Component {
     )
   }
 
+  renderBreadCrump = () => {
+    const { intl: { formatMessage } } = this.context
+    const elements = [formatMessage({ id: 'sips.session.title' })]
+    return (
+      <Breadcrumb
+        RootIconConstructor={PageView}
+        elements={elements}
+        labelGenerator={label => label}
+        onAction={() => null}
+      />
+    )
+  }
+
   renderTable = () => {
     const { pageSize, resultsCount, appliedFilters } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
@@ -346,7 +361,7 @@ class SIPSessionComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={intl.formatMessage({ id: 'sips.title' })}
+          title={this.renderBreadCrump()}
           subtitle={intl.formatMessage({ id: 'sips.session.subtitle' })}
         />
         {this.renderTable()}
