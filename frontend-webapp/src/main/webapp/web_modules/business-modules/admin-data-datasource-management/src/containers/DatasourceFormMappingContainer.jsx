@@ -110,7 +110,7 @@ export class DatasourceFormMappingContainer extends React.Component {
 
   isSingleTable = () => {
     const { currentPluginMetaData } = this.props
-    return currentPluginMetaData.content.interfaceNames.includes('fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourceFromSingleTablePlugin')
+    return currentPluginMetaData.content.interfaceNames.includes('fr.cnes.regards.modules.datasources.plugins.interfaces.IDBDataSourceFromSingleTablePlugin')
   }
 
   render() {
