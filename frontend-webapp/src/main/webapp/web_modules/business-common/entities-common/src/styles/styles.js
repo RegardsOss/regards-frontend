@@ -70,6 +70,7 @@ export default theme => ({
                   borderColor: theme.toolbar.separatorColor,
                   borderStyle: 'solid',
                   minHeight: '100%',
+                  maxWidth: '350px',
                 },
                 rootStyle: {
                   ...verticalLayout,
