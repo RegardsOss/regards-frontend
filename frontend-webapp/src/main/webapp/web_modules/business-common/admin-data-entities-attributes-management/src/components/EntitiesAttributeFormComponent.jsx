@@ -57,6 +57,15 @@ export class EntitiesAttributeFormComponent extends React.Component {
     height: '95px',
   }
 
+  constructor(props) {
+    super(props)
+    const { modelAttribute } = props
+    this.state = {
+      restrictions: this.getComplexRestriction(modelAttribute),
+    }
+  }
+
+
   getField = (modelAttribute) => {
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
@@ -102,7 +111,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       component={RenderTextField}
       type={type}
       label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
-      validate={this.getRestrictions(modelAttribute)}
+      validate={this.state.restrictions}
       disabled={this.isDisabled()}
     />
   )
@@ -121,7 +130,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderDateTimeField}
-      validate={this.getRestrictions(modelAttribute)}
+      validate={this.state.restrictions}
       disabled={this.isDisabled()}
     />
   )
@@ -131,7 +140,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       fullWidth
       component={RenderSelectField}
-      validate={this.getRestrictions(modelAttribute)}
+      validate={this.state.restrictions}
       disabled={this.isDisabled()}
       label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
     >
@@ -156,7 +165,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
         component={ParameterArrayAttributeComponent}
         modelAttribute={modelAttribute}
         type={type}
-        constraints={this.getRestrictions(modelAttribute)}
+        constraints={this.state.restrictions}
       />
     </div>)
 
