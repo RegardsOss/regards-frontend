@@ -42,7 +42,6 @@ describe('[COMPONENTS] Testing InfiniteGalleryContainer', () => {
       itemComponent: (<div />),
       columnWidth: 400,
       columnGutter: 15,
-      loadingComponent: (<div />),
       emptyComponent: (<div />),
       queryPageSize: 100,
 

@@ -124,7 +124,7 @@ class ConnectionTesterIconButton extends React.Component {
       >
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
-      </OnHoverSwitchIconButton>)
+       </OnHoverSwitchIconButton>)
 
     const errorButton =
       (<OnHoverSwitchIconButton
@@ -132,7 +132,7 @@ class ConnectionTesterIconButton extends React.Component {
       >
         <Error color={this.context.muiTheme.palette.accent1Color} />
         <PlayArrow />
-      </OnHoverSwitchIconButton>)
+       </OnHoverSwitchIconButton>)
 
     const pendingProgress = <ConnectionTesterProgress />
 
@@ -141,7 +141,7 @@ class ConnectionTesterIconButton extends React.Component {
       message={this.context.intl.formatMessage({ id: this.getSnackBarMessageId(this.state.status) }, { label: connection.content.label })}
       autoHideDuration={4000}
       onRequestClose={this.handleSnackbarRequestClose}
-      onActionTouchTap={this.handleSnackbarActionTouchTap}
+      onActionClick={this.handleSnackbarActionTouchTap}
       action="OK"
     />)
 

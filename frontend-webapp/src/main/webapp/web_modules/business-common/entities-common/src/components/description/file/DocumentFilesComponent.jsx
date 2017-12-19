@@ -3,6 +3,7 @@
 **/
 import get from 'lodash/get'
 import map from 'lodash/map'
+import root from 'window-or-global'
 import { CatalogShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -65,10 +66,12 @@ export class DocumentFilesComponent extends React.Component {
    */
   addAuthToURI = (downloadLink) => {
     const { isAuthenticated, scope, accessToken } = this.props
+    // add request origin for X-Frame-Options bypass. WARN: bad security workaround
+    const requestOrigin = `${root.location.protocol}//${root.location.host}`
     if (isAuthenticated) {
-      return `${downloadLink}?token=${accessToken}`
+      return `${downloadLink}?origin=${requestOrigin}&token=${accessToken}`
     }
-    return `${downloadLink}?scope=${scope}`
+    return `${downloadLink}?origin=${requestOrigin}&scope=${scope}`
   }
 
   /**
@@ -100,7 +103,7 @@ export class DocumentFilesComponent extends React.Component {
                 primaryText={(<div>
                   {`${file.name}, `}
                   {this.transformBytesIntoReadeableSize(file.size)}
-                </div>)}
+                              </div>)}
                 leftIcon={<File />}
               />
             </a>

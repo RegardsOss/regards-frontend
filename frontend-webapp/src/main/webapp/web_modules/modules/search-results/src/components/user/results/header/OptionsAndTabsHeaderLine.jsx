@@ -190,7 +190,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
               style={viewModeButton}
               title={formatMessage({ id: 'view.type.table.button.label' })}
             />
-            <ShowableAtRender show={enableQuicklooks}>
+            <ShowableAtRender show={enableQuicklooks && this.isDisplayingDataobjects()}>
               <FlatButton
                 key="view.type.quicklook"
                 onTouchTap={onShowQuicklookView}

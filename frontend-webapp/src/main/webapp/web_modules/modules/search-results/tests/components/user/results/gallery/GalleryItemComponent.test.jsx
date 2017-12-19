@@ -56,6 +56,8 @@ describe('[Search Results] Testing GalleryItemComponent', () => {
       width: 20,
       entity,
       attributePresentationModels: [],
+      columnGutter: 80,
+      columnWidth: 600,
     }
     const enzymeWrapper = shallow(<GalleryItemComponent name {...props} />, { context })
     expect(enzymeWrapper.find(GalleryParametersComponent)).to.have.length(1)

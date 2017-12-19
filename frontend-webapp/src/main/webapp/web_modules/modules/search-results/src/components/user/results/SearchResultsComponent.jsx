@@ -252,6 +252,7 @@ class SearchResultsComponent extends React.Component {
       viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
       onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
       onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
+      onAddElementToCart,
     } = this.props
 
     let columns
@@ -275,7 +276,7 @@ class SearchResultsComponent extends React.Component {
     // TODO-V3 do refactor that please
     const pathParams = { parameters: searchQuery }
     const showFacets = this.isDisplayingDataobjects() && allowingFacettes && showingFacettes
-    const itemProps = { attributePresentationModels }
+    const itemProps = { attributePresentationModels, onAddElementToCart }
 
     return (
       <TableLayout>

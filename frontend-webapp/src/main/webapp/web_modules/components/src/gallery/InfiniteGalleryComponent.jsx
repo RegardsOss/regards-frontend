@@ -14,7 +14,6 @@
  *        - This engine was designed for a static order placement
  *          and was not designed for reordering
  *    D) New items will layout if the previous layout parameters still apply
- *    E) Function `getState` returns either Redux or local component state
  *  - Infinite Scroll
  *
  *
@@ -23,6 +22,7 @@
 import isNaN from 'lodash/isNaN'
 import throttle from 'lodash/throttle'
 import root from 'window-or-global'
+import GalleryLoadingComponent from './GalleryLoadingComponent'
 
 const noPage = { stop: 0 }
 const sortAscending = (a, b) => a - b
@@ -32,13 +32,9 @@ const classNamePropType = PropTypes.oneOfType([
   PropTypes.array,
 ]).isRequired
 
-const AnimatedGem = function () {
-  return (<div> loadfin </div>)
-}
-
 export default class InfiniteGalleryComponent extends React.PureComponent {
   static propTypes = {
-    alignCenter: PropTypes.bool.isRequired,
+    alignCenter: PropTypes.bool,
     columnGutter: PropTypes.number.isRequired,
     columnWidth: PropTypes.number.isRequired,
     containerClassName: classNamePropType,
@@ -53,9 +49,12 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     ]).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     itemProps: PropTypes.object,
-    loadingElement: PropTypes.node,
+    loadingElement: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+    ]),
     onInfiniteLoad: PropTypes.func.isRequired,
-    threshold: PropTypes.number.isRequired,
+    threshold: PropTypes.number,
     // eslint-disable-next-line react/forbid-prop-types
     scrollAnchor: PropTypes.object,
     scrollOffset: PropTypes.number,
@@ -66,11 +65,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     containerClassName: 'masonry collection-group',
     layoutClassName: 'masonry-view',
     pageClassName: 'masonry-page',
-    loadingElement: (
-      <div className="loading-cap">
-        <AnimatedGem animate />
-      </div>
-    ),
+    loadingElement: GalleryLoadingComponent,
     scrollAnchor: root,
     threshold: root.innerHeight * 2,
   }
@@ -344,7 +339,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       }
 
       // Ok now we have an item, let's decide how many columns it spans
-      const columnSpan = Math.min(maxColumns, columnSpanSelector(props.getState, pageItem))
+      const columnSpan = Math.min(maxColumns, columnSpanSelector(pageItem))
 
       // Check if the column will exceed maxColumns
       if (column + columnSpan > maxColumns) {
@@ -352,7 +347,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       }
 
       // Determine the height of this item to stage
-      const height = heightSelector(props.getState, pageItem, columnSpan, columnGutter, columnWidth, this.props.itemProps)
+      const height = heightSelector(pageItem, columnSpan, columnGutter, columnWidth, this.props.itemProps)
 
       if (isNaN(height)) {
         console.warn(`Skipping feed item with props ${JSON.stringify(pageItem)} because "${height}" is not a number.`)
@@ -507,6 +502,8 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     const {
       pageClassName,
       itemComponent: Item,
+      columnGutter,
+      gridWidth,
     } = this.props
     if (!page.visible) {
       return null
@@ -526,6 +523,8 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
               top={top}
               width={width}
               entity={props}
+              columnGutter={columnGutter}
+              gridWidth={gridWidth}
               {...this.props.itemProps}
             />
           ))}
