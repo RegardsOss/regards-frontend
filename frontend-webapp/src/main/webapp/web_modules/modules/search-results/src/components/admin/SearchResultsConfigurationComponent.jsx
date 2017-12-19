@@ -67,7 +67,6 @@ class SearchResultsConfigurationComponent extends React.Component {
 
   componentDidMount() {
     // Set a default value for display mode
-    console.error('HERE', this.props.currentFormValues)
     if (!this.props.currentFormValues) {
       this.props.changeField(SearchResultsConfigurationComponent.MODULE_DISPLAY_MODE, DISPLAY_MODE_ENUM.DISPLAY_DATA)
       this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_WIDTH, 400)
