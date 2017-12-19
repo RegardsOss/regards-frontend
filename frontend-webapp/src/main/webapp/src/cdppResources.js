@@ -21,4 +21,6 @@
  * Global CDPP resources
  */
 require('../resources/cdpp-footer.html')
+require('../resources/cdpp-footer-black.html')
 require('../resources/cdpp-header.html')
+require('../resources/cdpp-header-black.html')
