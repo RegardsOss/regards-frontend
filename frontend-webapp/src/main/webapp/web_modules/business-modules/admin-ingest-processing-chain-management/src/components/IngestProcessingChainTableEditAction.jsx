@@ -44,7 +44,7 @@ class IngestProcessingChainTableEditAction extends React.Component {
 
   isEditable = () => {
     const { links } = this.props.entity
-    return find(links, l => l.rel === 'update', false) !== false
+    return !!find(links, l => l.rel === 'update')
   }
 
   render() {
@@ -57,7 +57,7 @@ class IngestProcessingChainTableEditAction extends React.Component {
         iconStyle={IngestProcessingChainTableEditAction.iconStyle}
         style={IngestProcessingChainTableEditAction.buttonStyle}
         onTouchTap={() => this.props.onEdit(chain.name)}
-        disabled={this.isEditable()}
+        disabled={!this.isEditable()}
       >
         <Edit />
       </IconButton>
