@@ -34,8 +34,12 @@ const messages = {
   'entities.common.properties.loading.attributes': 'Chargement des attributs',
   'entities.common.properties.no.attribute': 'Cette entité n\'a pas d\'attribut',
   'entities.common.properties.tags.entities': 'Mot-clefs liés',
+  'entities.common.properties.documents.entities': 'Documents associés',
+  'entities.common.properties.document.entities': 'Documents associés',
   'entities.common.properties.loading.tags': 'Chargement des mot-clefs',
+  'entities.common.properties.loading.documents': 'Chargement des documents',
   'entities.common.properties.no.tag': 'Cette entité n\'a pas de mot-clef',
+  'entities.common.properties.no.document': 'Cette entité n\'a pas de document',
   'entities.common.properties.tag.search.tooltip': 'Rechercher les entités portant ce tag',
   'entities.common.properties.tag.show.description.tooltip': 'Afficher les détails de l\'entité',
 

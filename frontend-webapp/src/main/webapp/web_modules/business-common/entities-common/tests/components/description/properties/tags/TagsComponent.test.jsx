@@ -56,7 +56,7 @@ describe('[Entities Common] Testing TagsComponent', () => {
       levelSelectors: getDescriptionLevelSelectors([]),
     }
     const enzymeWrapper = shallow(<TagsComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(LoadingDisplayerComponent), 1, 'There should be a loading displayer')
+    assert.lengthOf(enzymeWrapper.find(LoadingDisplayerComponent), 2, 'There should be two loading displayer. One for tags, One for documents')
   })
   it('should render correctly tags list', () => {
     const props = {

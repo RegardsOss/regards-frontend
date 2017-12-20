@@ -11,6 +11,7 @@ const growingVerticalLayout = { ...growingFlexElement, ...verticalLayout }
  * Builds module style on theme
  */
 export default theme => ({
+  fullHeight: { height: '100%' },
   descriptionDialog: {
     widthPercent: 88,
     heightPercent: 68,
@@ -62,6 +63,18 @@ export default theme => ({
                 },
               },
               tags: {
+                rootStyle: {
+                  display: 'flex',
+                  flexDirection: 'column',
+                },
+                tagsRootStyle: {
+                  flexGrow: 1,
+                  height: '100%',
+                },
+                documentsRootStyle: {
+                  flexGrow: 1,
+                  height: '100%',
+                },
                 scrollArea: {
                   ...fixedFlexElement,
                 },
@@ -72,7 +85,7 @@ export default theme => ({
                   minHeight: '100%',
                   maxWidth: '350px',
                 },
-                rootStyle: {
+                sectionStyle: {
                   ...verticalLayout,
                   padding: '0 12px 0 12px',
                 },

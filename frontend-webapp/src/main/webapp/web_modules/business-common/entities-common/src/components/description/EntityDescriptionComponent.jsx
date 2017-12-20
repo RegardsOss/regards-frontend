@@ -62,9 +62,36 @@ class EntityDescriptionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount = () => {
+  static PROPERTIES_TAB = 'properties'
+  static FILES_TAB = 'files'
+  static DESCRIPTION_TAB = 'description'
+
+  state = {
+    isDocument: false,
+    selectedTab: EntityDescriptionComponent.PROPERTIES_TAB,
+  }
+
+  componentWillMount() {
+    this.updateEntityType(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (get(this.props.entity, 'content.entityType') !== get(nextProps.entity, 'content.entityType')) {
+      this.updateEntityType(nextProps)
+    }
+  }
+
+  onChangeTab = (value) => {
     this.setState({
-      contentHeight: 0,
+      selectedTab: value,
+    })
+  }
+
+  updateEntityType = (props) => {
+    const isDocument = !!(get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DOCUMENT)
+    this.setState({
+      isDocument,
+      selectedTab: isDocument ? EntityDescriptionComponent.FILES_TAB : EntityDescriptionComponent.PROPERTIES_TAB,
     })
   }
 
@@ -79,8 +106,13 @@ class EntityDescriptionComponent extends React.Component {
       entity, onSearchTag, downloadDescriptionClient, fetchModelAttributesActions,
       fetchModelAttributesSelectors, levelActions, levelSelectors,
     } = this.props
+    const { isDocument } = this.state
     const result = [(
-      <Tab key="properties" label={this.context.intl.formatMessage({ id: 'entities.common.properties.tabs' })}>
+      <Tab
+        key="properties"
+        label={this.context.intl.formatMessage({ id: 'entities.common.properties.tabs' })}
+        value={EntityDescriptionComponent.PROPERTIES_TAB}
+      >
         <PropertiesTabComponent
           entity={entity}
           onSearchTag={onSearchTag}
@@ -90,28 +122,39 @@ class EntityDescriptionComponent extends React.Component {
           levelSelectors={levelSelectors}
         />
       </Tab>)]
-    if (get(entity, 'content.entityType') !== ENTITY_TYPES_ENUM.DOCUMENT) {
-      result.push(<Tab key="description" label={this.context.intl.formatMessage({ id: 'entities.common.description.tabs' })}>
-        <DescriptionFileContainer
-          entity={entity}
-          downloadDescriptionClient={downloadDescriptionClient}
-        />
-                  </Tab>)
+    if (!isDocument) {
+      result.push(
+        <Tab
+          key="description"
+          label={this.context.intl.formatMessage({ id: 'entities.common.description.tabs' })}
+          value={EntityDescriptionComponent.DESCRIPTION_TAB}
+        >
+          <DescriptionFileContainer
+            entity={entity}
+            downloadDescriptionClient={downloadDescriptionClient}
+          />
+        </Tab>,
+      )
     } else {
-      result.push(<Tab key="files" label={this.context.intl.formatMessage({ id: 'entities.common.files.tabs' })}>
-        <DocumentFilesContainer
-          entity={entity}
-        />
-                  </Tab>)
+      result.push(
+        <Tab
+          key="files"
+          label={this.context.intl.formatMessage({ id: 'entities.common.files.tabs' })}
+          value={EntityDescriptionComponent.FILES_TAB}
+        >
+          <DocumentFilesContainer
+            entity={entity}
+          />
+        </Tab>)
     }
     return result
   }
-
 
   render() {
     const {
       open, onClose, levelActions, levelSelectors, ...otherDialogProperties
     } = this.props
+    const { selectedTab } = this.state
     const { moduleTheme: { descriptionDialog } } = this.context
     const breadcrumb = <DescriptionBreadcrumbContainer levelActions={levelActions} levelSelectors={levelSelectors} />
     const actions = [<FlatButton
@@ -138,6 +181,8 @@ class EntityDescriptionComponent extends React.Component {
               contentContainerStyle={descriptionDialog.card.media.tabs.contentContainerStyle}
               tabTemplate={this.renderTab}
               tabTemplateStyle={descriptionDialog.card.media.tabs.tabTemplateStyle}
+              value={selectedTab}
+              onChange={this.onChangeTab}
             >
               {this.renderTabs()}
             </Tabs>
