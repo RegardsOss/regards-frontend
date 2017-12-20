@@ -6,7 +6,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
-* Table loader component, shown in table sub header area
+* Gallery loading component, shown in footer
 */
 class GalleryLoadingComponent extends React.Component {
   static contextTypes = {
@@ -14,11 +14,20 @@ class GalleryLoadingComponent extends React.Component {
     ...themeContextType,
   }
 
+  static styleLoadingGallery = {
+    height: '45vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+
 
   render() {
     const { moduleTheme: { header }, intl: { formatMessage } } = this.context
+
     return (
-      <div>
+      <div style={GalleryLoadingComponent.styleLoadingGallery}>
         <CircularProgress
           size={header.loading.size}
           thickness={header.loading.thickness}

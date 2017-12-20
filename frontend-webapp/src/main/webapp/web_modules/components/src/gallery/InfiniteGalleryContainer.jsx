@@ -22,8 +22,8 @@ import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
-import TableContentLoadingComponent from '../table/content/TableContentLoadingComponent'
 import InfiniteGalleryComponent from './InfiniteGalleryComponent'
+import GalleryLoadingComponent from './GalleryLoadingComponent'
 
 /**
  * @author Léo Mieulet
@@ -67,7 +67,7 @@ export class InfiniteGalleryContainer extends React.Component {
     ]).isRequired,
     columnWidth: PropTypes.number,
     columnGutter: PropTypes.number,
-    loadingComponent: PropTypes.element,
+    loadingElement: PropTypes.element,
     emptyComponent: PropTypes.element,
     // eslint-disable-next-line react/no-unused-prop-types
     queryPageSize: PropTypes.number,
@@ -79,8 +79,6 @@ export class InfiniteGalleryContainer extends React.Component {
 
     // see InfiniteTableContainer for the other properties required (note that the fetch / flush method are
     // already provided by this component, just fill in the other ones =)
-
-    // from map state to props
 
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
@@ -114,7 +112,7 @@ export class InfiniteGalleryContainer extends React.Component {
 
   static defaultProps = {
     queryPageSize: 20,
-    loadingComponent: <TableContentLoadingComponent />,
+    loadingElement: (<GalleryLoadingComponent />),
   }
 
 
@@ -197,13 +195,13 @@ export class InfiniteGalleryContainer extends React.Component {
     // except actions / selectors, we need all properties through
     const { entities } = this.state
     const {
-      itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps,
+      itemComponent, columnWidth, columnGutter, entitiesFetching, loadingElement, emptyComponent, itemProps,
     } = this.props
     const currentTotalEntities = this.getCurrentTotalEntities()
     return (
       <LoadableContentDisplayDecorator
-        isLoading={!currentTotalEntities && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
-        loadingComponent={loadingComponent}
+        isLoading={!currentTotalEntities && entitiesFetching}
+        loadingComponent={loadingElement}
         isEmpty={!currentTotalEntities}
         emptyComponent={emptyComponent}
       >
@@ -215,14 +213,14 @@ export class InfiniteGalleryContainer extends React.Component {
           columnGutter={columnGutter}
 
           hasMore
-          isLoading={false}
+          isLoading={entitiesFetching}
+          loadingElement={loadingElement}
           alignCenter
           onInfiniteLoad={this.fetchMoreEntities}
           getState={this.getItemState}
           containerClassName="masonry"
           layoutClassName="masonry-view"
           pageClassName="masonry-page"
-          loadingElement={loadingComponent}
         />
       </LoadableContentDisplayDecorator>)
   }

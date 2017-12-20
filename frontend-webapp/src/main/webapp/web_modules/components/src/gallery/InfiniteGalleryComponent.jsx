@@ -22,7 +22,6 @@
 import isNaN from 'lodash/isNaN'
 import throttle from 'lodash/throttle'
 import root from 'window-or-global'
-import GalleryLoadingComponent from './GalleryLoadingComponent'
 
 const noPage = { stop: 0 }
 const sortAscending = (a, b) => a - b
@@ -65,7 +64,6 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     containerClassName: 'masonry collection-group',
     layoutClassName: 'masonry-view',
     pageClassName: 'masonry-page',
-    loadingElement: GalleryLoadingComponent,
     scrollAnchor: root,
     threshold: root.innerHeight * 2,
   }
@@ -85,6 +83,12 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
     return false
   }
+
+  /**
+   * A scrollbar width can be between 12 and 17 px
+   * We removed that value if there is no scrollbar (few ms after we will get a scrollbar anyway)
+   */
+  static LARGE_SCROLLBAR_WIDTH = 17
 
   state = { averageHeight: 400, pages: [] }
 
@@ -279,6 +283,16 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     return null
   }
 
+  /**
+   * Returns true if there is a scrollbar in the displayed page
+   * @source https://stackoverflow.com/a/46092676/2294168
+   */
+  hasScrollBar = () => {
+    const { body } = root.document
+    // eslint-disable-next-line
+    return !!(body.scrollTop || (++body.scrollTop && body.scrollTop--))
+  }
+
   layout(props, rearrange = false) {
     if (!this.node) {
       return
@@ -296,8 +310,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
 
 
     // Decide a starter position for centering
-    const viewableWidth = this.node.offsetWidth
+    // Use the node width if there is a scrollbar, otherwise subtract LARGE_SCROLLBAR_WIDTH
+    const viewableWidth = this.hasScrollBar() ? this.node.offsetWidth : this.node.offsetWidth - InfiniteGalleryComponent.LARGE_SCROLLBAR_WIDTH
     const viewableHeight = this.getViewableHeight()
+
     const maxColumns = Math.floor(viewableWidth / (columnWidth + columnGutter))
     const spannableWidth = (maxColumns * columnWidth) + (columnGutter * (maxColumns - 1))
     const viewableStart = this.props.alignCenter ? (viewableWidth - spannableWidth) / 2 : 0
@@ -516,17 +532,17 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         {page.items.map(({
  props, left, top, width, height, columnSpan,
 }, itemIndex) => (
-            <Item
-              key={`page-${index}-item-${itemIndex}`}
-              columnSpan={columnSpan}
-              left={left}
-              top={top}
-              width={width}
-              entity={props}
-              columnGutter={columnGutter}
-              gridWidth={gridWidth}
-              {...this.props.itemProps}
-            />
+  <Item
+    key={`page-${index}-item-${itemIndex}`}
+    columnSpan={columnSpan}
+    left={left}
+    top={top}
+    width={width}
+    entity={props}
+    columnGutter={columnGutter}
+    gridWidth={gridWidth}
+    {...this.props.itemProps}
+  />
           ))}
       </div>
     )
