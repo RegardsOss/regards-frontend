@@ -177,7 +177,8 @@ class GenerationChainListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonTouchTap={this.props.onCreate}
-            mainHateoasDependencies={addDependencies}
+            // TODO : Set hateoas dependencies for data-provider
+            // mainHateoasDependencies={addDependencies}
             mainButtonLabel={intl.formatMessage({ id: 'generation-chain.addnew.button' })}
             secondaryButtonLabel={intl.formatMessage({ id: 'generation-chain.back.button' })}
             secondaryButtonTouchTap={this.props.onBack}
