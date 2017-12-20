@@ -60,8 +60,8 @@ class GalleryItemComponent extends React.PureComponent {
     }
     // Check if the entity has a quicklook to display
     if (has(props, 'content.files.QUICKLOOK_SD[0]')) {
-      const height = props.content.files.QUICKLOOK_SD[0].image_height
-      const width = props.content.files.QUICKLOOK_SD[0].image_width
+      const height = props.content.files.QUICKLOOK_SD[0].imageHeight
+      const width = props.content.files.QUICKLOOK_SD[0].imageWidth
       return ((gridWidth / width) * height) + footerHeight
     }
     return gridWidth + footerHeight

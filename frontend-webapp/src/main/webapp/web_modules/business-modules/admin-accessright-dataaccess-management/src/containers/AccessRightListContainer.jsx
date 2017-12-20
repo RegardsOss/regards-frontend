@@ -44,6 +44,11 @@ class AccessRightListContainer extends React.Component {
     selectedDatasets: PropTypes.objectOf(PropTypes.object).isRequired,
   }
 
+  getBackURL = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/data/access-right/access-group/list`
+  }
+
   navigateToCreateDataset = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/collections/dataset/create/datasource`
@@ -61,6 +66,7 @@ class AccessRightListContainer extends React.Component {
         submitAccessRights={this.props.submitAccessRights}
         selectedDatasets={this.props.selectedDatasets}
         navigateToCreateDataset={this.navigateToCreateDataset}
+        backURL={this.getBackURL()}
       />
     )
   }

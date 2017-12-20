@@ -65,41 +65,50 @@ function withProxyFetcher(proxiedURL, handler) {
 
 function addQuicklook({ content, links, metadata }, pathParams, queryParams, bodyParams) {
   const contentWithQuicklook = content.map((entityContent) => {
-    if (!entityContent.content.files) {
-      entityContent.content.files = {}
+    if (Math.floor(Math.random() * 2) + 1 === -1) {
+
+      if (!entityContent.content.files) {
+        entityContent.content.files = {}
+      }
+
+      const hdW = Math.floor(Math.random() * 400) + 500
+      const hdH = Math.floor(Math.random() * 700) + 1000
+      entityContent.content.files.QUICKLOOK_HD = [{
+        uri: `http://lorempicsum.com/futurama/${hdW}/${hdH}/4`,
+        imageHeight: hdH,
+        imageWidth: hdW,
+      }]
+
+      const mdW = Math.floor(Math.random() * 300) + 200
+      const mdH = Math.floor(Math.random() * 300) + 400
+      entityContent.content.files.QUICKLOOK_MD = [{
+        uri: `http://lorempicsum.com/futurama/${mdW}/${mdH}/4`,
+        imageHeight: mdH,
+        imageWidth: mdW,
+      }]
+
+      const sdW = Math.floor(Math.random() * 250) + 100
+      const sdH = Math.floor(Math.random() * 250) + 50
+      entityContent.content.files.QUICKLOOK_SD = [{
+        uri: `http://lorempicsum.com/futurama/${sdW}/${sdH}/4`,
+        imageHeight: sdH,
+        imageWidth: sdW,
+      }]
     }
-
-    const hdW = Math.floor(Math.random() * 400) + 500
-    const hdH = Math.floor(Math.random() * 700) + 1000
-    entityContent.content.files.QUICKLOOK_HD = [{
-      uri: `http://lorempicsum.com/futurama/${hdW}/${hdH}/4`,
-      image_height: hdH,
-      image_width: hdW,
-    }]
-
-    const mdW = Math.floor(Math.random() * 300) + 200
-    const mdH = Math.floor(Math.random() * 300) + 400
-    entityContent.content.files.QUICKLOOK_MD = [{
-      uri: `http://lorempicsum.com/futurama/${mdW}/${mdH}/4`,
-      image_height: mdH,
-      image_width: mdW,
-    }]
-
-    const sdW = Math.floor(Math.random() * 250) + 100
-    const sdH = Math.floor(Math.random() * 250) + 50
-    entityContent.content.files.QUICKLOOK_SD = [{
-      uri: `http://lorempicsum.com/futurama/${sdW}/${sdH}/4`,
-      image_height: sdH,
-      image_width: sdW,
-    }]
-
     return entityContent
   })
   return {
     content: {
       content: contentWithQuicklook,
+      // content: [],
       links,
       metadata
+      // metadata: {
+      //   number: 0,
+      //   size: 500,
+      //   totalElements: 0,
+      //   totalPages: 1,
+      // }
     }
   }
 }

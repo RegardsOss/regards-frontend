@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import FlatButton from 'material-ui/FlatButton'
@@ -32,7 +32,9 @@ import {
   ShowableAtRender,
   TableColumnBuilder,
   TableLayout,
+  CardActionsComponent,
 } from '@regardsoss/components'
+import { FormattedMessage } from 'react-intl'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
@@ -70,6 +72,7 @@ class AccessRightListComponent extends React.Component {
     selectedDatasets: PropTypes.objectOf(PropTypes.object).isRequired,
     // Callback to navigate to dataset creation
     navigateToCreateDataset: PropTypes.func.isRequired,
+    backURL: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -226,7 +229,7 @@ class AccessRightListComponent extends React.Component {
 
   render() {
     const {
-      accessRights, accessGroup, navigateToCreateDataset, selectedDatasets,
+      accessRights, accessGroup, navigateToCreateDataset, selectedDatasets, backURL,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
@@ -299,6 +302,17 @@ class AccessRightListComponent extends React.Component {
               displayColumnsHeader
             />
           </TableLayout>
+
+          <CardActions>
+            <CardActionsComponent
+              mainButtonUrl={backURL}
+              mainButtonLabel={
+                <FormattedMessage
+                  id="accessright.form.action.back"
+                />
+              }
+            />
+          </CardActions>
         </CardText>
       </Card>
     )
