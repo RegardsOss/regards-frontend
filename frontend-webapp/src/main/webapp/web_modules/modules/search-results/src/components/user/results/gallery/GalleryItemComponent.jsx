@@ -89,6 +89,9 @@ class GalleryItemComponent extends React.PureComponent {
         height: '100 %',
         width: '100 %',
       },
+      imageStyle: {
+        maxWidth: "100%",
+      }
     }
   }
 
@@ -105,7 +108,7 @@ class GalleryItemComponent extends React.PureComponent {
   }
 
   renderImage(hasImage, hasIssueWithImage) {
-    const { attributesRenderData, iconStyle } = this.state
+    const { attributesRenderData, iconStyle, imageStyle } = this.state
     const { entity, attributePresentationModels, onAddElementToCart } = this.props
     const { descriptionContainer } = this.context.moduleTheme.user.galleryViewStyles
 
@@ -117,6 +120,7 @@ class GalleryItemComponent extends React.PureComponent {
         <img
           src={entity.content.files.QUICKLOOK_SD[0].uri}
           alt=""
+          style={imageStyle}
         />)
     } else {
       image = (<ImageOff style={iconStyle} />)
