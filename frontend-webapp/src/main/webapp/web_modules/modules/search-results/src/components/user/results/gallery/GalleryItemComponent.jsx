@@ -19,6 +19,7 @@
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 import has from 'lodash/has'
 import ImageOff from 'mdi-material-ui/ImageOff'
+import ImageBroken from 'mdi-material-ui/ImageBroken'
 import FlatButton from 'material-ui/FlatButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -59,7 +60,11 @@ class GalleryItemComponent extends React.PureComponent {
       footerHeight = (itemProps.attributePresentationModels.length * 19) + 23
     }
     // Check if the entity has a quicklook to display
-    if (has(props, 'content.files.QUICKLOOK_SD[0]')) {
+
+    const hasImage = has(props, 'content.files.QUICKLOOK_SD[0]')
+    const hasIssueWithImage = !has(props, 'content.files.QUICKLOOK_SD[0].imageWidth') || !has(props, 'content.files.QUICKLOOK_SD[0].imageHeight')
+
+    if (hasImage && !hasIssueWithImage) {
       const height = props.content.files.QUICKLOOK_SD[0].imageHeight
       const width = props.content.files.QUICKLOOK_SD[0].imageWidth
       return ((gridWidth / width) * height) + footerHeight
@@ -99,16 +104,23 @@ class GalleryItemComponent extends React.PureComponent {
     })
   }
 
-  renderImage(hasImage) {
+  renderImage(hasImage, hasIssueWithImage) {
     const { attributesRenderData, iconStyle } = this.state
     const { entity, attributePresentationModels, onAddElementToCart } = this.props
     const { descriptionContainer } = this.context.moduleTheme.user.galleryViewStyles
 
-    const image = hasImage ? (
-      <img
-        src={entity.content.files.QUICKLOOK_SD[0].uri}
-        alt=""
-      />) : (<ImageOff style={iconStyle} />)
+    let image
+    if (hasIssueWithImage) {
+      image = (<ImageBroken style={iconStyle} />)
+    } else if (hasImage) {
+      image = (
+        <img
+          src={entity.content.files.QUICKLOOK_SD[0].uri}
+          alt=""
+        />)
+    } else {
+      image = (<ImageOff style={iconStyle} />)
+    }
     return [
       <CardMedia
         key="media"
@@ -180,12 +192,13 @@ class GalleryItemComponent extends React.PureComponent {
     const { cardStyle } = this.state
     const { entity } = this.props
     const hasImage = has(entity, 'content.files.QUICKLOOK_SD[0]')
+    const hasIssueWithImage = !has(entity, 'content.files.QUICKLOOK_SD[0].imageWidth') || !has(entity, 'content.files.QUICKLOOK_SD[0].imageHeight')
     return (
       <Card
         style={cardStyle}
       >
         {this.renderModal(hasImage)}
-        {this.renderImage(hasImage)}
+        {this.renderImage(hasImage, hasIssueWithImage)}
       </Card>
     )
   }

@@ -22,6 +22,7 @@
 import isNaN from 'lodash/isNaN'
 import throttle from 'lodash/throttle'
 import root from 'window-or-global'
+import { ShowableAtRender } from '@regardsoss/display-control'
 
 const noPage = { stop: 0 }
 const sortAscending = (a, b) => a - b
@@ -573,7 +574,9 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         >
           {pages.map(this.renderPage)}
         </div>
-        {hasMore && isLoading && loadingElement}
+        <ShowableAtRender show={hasMore && isLoading}>
+          {loadingElement}
+        </ShowableAtRender>
       </div>
     )
   }
