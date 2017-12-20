@@ -43,6 +43,7 @@ class GalleryItemComponent extends React.PureComponent {
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
+    enableDownload: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -67,9 +68,9 @@ class GalleryItemComponent extends React.PureComponent {
     if (hasImage && !hasIssueWithImage) {
       const height = props.content.files.QUICKLOOK_SD[0].imageHeight
       const width = props.content.files.QUICKLOOK_SD[0].imageWidth
-      return ((gridWidth / width) * height) + footerHeight
+      return Math.ceil(((gridWidth / width) * height) + footerHeight)
     }
-    return gridWidth + footerHeight
+    return gridWidth + footerHeight - (250 - 160 + 1)
   }
 
 
@@ -88,9 +89,10 @@ class GalleryItemComponent extends React.PureComponent {
       iconStyle: {
         height: '100 %',
         width: '100 %',
+        margin: '0 45px', // HACK PREZ
       },
       imageStyle: {
-        maxWidth: "100%",
+        maxWidth: '100%',
       }
     }
   }
@@ -109,21 +111,21 @@ class GalleryItemComponent extends React.PureComponent {
 
   renderImage(hasImage, hasIssueWithImage) {
     const { attributesRenderData, iconStyle, imageStyle } = this.state
-    const { entity, attributePresentationModels, onAddElementToCart } = this.props
+    const { entity, attributePresentationModels, onAddElementToCart, enableDownload } = this.props
     const { descriptionContainer } = this.context.moduleTheme.user.galleryViewStyles
 
     let image
-    if (hasIssueWithImage) {
+    if (!hasImage) {
+      image = (<ImageOff style={iconStyle} />)
+    } else if (hasIssueWithImage) {
       image = (<ImageBroken style={iconStyle} />)
-    } else if (hasImage) {
+    } else {
       image = (
         <img
           src={entity.content.files.QUICKLOOK_SD[0].uri}
           alt=""
           style={imageStyle}
         />)
-    } else {
-      image = (<ImageOff style={iconStyle} />)
     }
     return [
       <CardMedia
@@ -132,11 +134,12 @@ class GalleryItemComponent extends React.PureComponent {
           <ListViewEntityCellComponent
             // Entity to display
             entity={entity}
-            enableDownload={false}
+            enableDownload={enableDownload}
             gridAttributesRenderData={attributesRenderData}
             selectionEnabled={false}
-            servicesEnabled={false}
+            servicesEnabled
             entitySelected={false}
+            displayLabel={false}
             // Callback
             onSelectEntity={() => { }}
             onSearchEntity={null}
