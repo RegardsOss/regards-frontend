@@ -24,7 +24,7 @@ import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, RenderFileField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, RenderFileFieldWithMui, Field, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -251,7 +251,7 @@ export class DatasetFormAttributesComponent extends React.Component {
                     name="descriptionFileContent"
                     fullWidth
                     accept=".md,.pdf"
-                    component={RenderFileField}
+                    component={RenderFileFieldWithMui}
                   />
                 </ShowableAtRender>
               </div>
