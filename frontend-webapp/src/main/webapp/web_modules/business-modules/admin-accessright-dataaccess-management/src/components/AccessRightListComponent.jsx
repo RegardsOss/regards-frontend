@@ -77,21 +77,25 @@ class AccessRightListComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      // Define if the confirm delete dialog is opened
-      deleteDialogOpened: false,
-      // Define it the AccessRight configuration dialog is opened
-      editAccessDialogOpened: false,
-      // Set the AccessRight to edit into the AccessRight configuration dialog.
-      // If this accessRight is not set, then the AccessRight configuration dialog configure
-      // access for multiples accessRights at a time and the selectedDatasets is used to define which ones.
-      accessRightToEdit: null,
-      // Set to define a new AccessRight for the given dataset into the AccessRight configuration dialog.
-      datasetAccessRightToEdit: null,
-      submitError: false,
-    }
+  static PAGE_SIZE = 10
+
+  state = {
+    // Define if the confirm delete dialog is opened
+    deleteDialogOpened: false,
+    // Define it the AccessRight configuration dialog is opened
+    editAccessDialogOpened: false,
+    // Set the AccessRight to edit into the AccessRight configuration dialog.
+    // If this accessRight is not set, then the AccessRight configuration dialog configure
+    // access for multiples accessRights at a time and the selectedDatasets is used to define which ones.
+    accessRightToEdit: null,
+    // Set to define a new AccessRight for the given dataset into the AccessRight configuration dialog.
+    datasetAccessRightToEdit: null,
+    submitError: false,
+  }
+
+
+  onDelete = () => {
+    this.props.deleteAccessRight(this.state.entityToDelete)
   }
 
   /**
@@ -212,9 +216,7 @@ class AccessRightListComponent extends React.Component {
       >
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          onConfirm={() => {
-            this.props.deleteAccessRight(this.state.entityToDelete)
-          }}
+          onConfirm={this.onDelete}
           onClose={this.closeDeleteDialog}
           title={title}
         />
@@ -291,7 +293,7 @@ class AccessRightListComponent extends React.Component {
               pageActions={datasetActions}
               pageSelectors={datasetSelectors}
               tableActions={tableActions}
-              pageSize={10}
+              pageSize={AccessRightListComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader

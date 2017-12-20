@@ -111,8 +111,7 @@ export class AccessGroupAccessRightsContainer extends React.Component {
     return Promise.all(requests)
       .then((actionsResults) => {
         const errors = filter(actionsResults, ar => ar.error)
-        this.props.fetchAccessGroup(accessGroup.content.name)
-        // this.props.fetchAccessRights(accessGroup.content.name)
+        this.props.fetchAccessRights(accessGroup.content.name)
         return {
           error: errors && errors.length > 0,
         }
@@ -124,9 +123,16 @@ export class AccessGroupAccessRightsContainer extends React.Component {
    * @param accessRight
    */
   onDelete = (accessRight) => {
+    // Force redraw
+    this.setState({
+      loading: true,
+    })
     Promise.resolve(this.props.deleteAccessRight(accessRight.id))
       .then(() => {
-        this.props.fetchAccessGroup(this.props.accessGroup.content.name)
+        this.setState({
+          loading: false,
+        })
+        this.props.fetchAccessRights(this.props.accessGroup.content.name)
       })
   }
 
