@@ -175,7 +175,7 @@ class EntityDescriptionComponent extends React.Component {
         <Card style={descriptionDialog.card.style} containerStyle={descriptionDialog.card.containerStyle}>
           <CardTitle title={breadcrumb} style={descriptionDialog.card.titleStyle} />
           <CardMedia style={descriptionDialog.card.media.rootStyle} mediaStyle={descriptionDialog.card.media.mediaStyle}>
-            <div>
+            <div style={descriptionDialog.card.media.tabs.rootStyle} >
               <Tabs
                 style={descriptionDialog.card.media.tabs.rootStyle}
                 tabItemContainerStyle={descriptionDialog.card.media.tabs.tabItemContainerStyle}
