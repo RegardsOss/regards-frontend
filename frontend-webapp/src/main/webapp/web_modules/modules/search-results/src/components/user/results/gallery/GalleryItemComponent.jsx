@@ -128,7 +128,9 @@ class GalleryItemComponent extends React.PureComponent {
           />
         }
       >
-        {image}
+        <div>
+          {image}
+        </div>
       </CardMedia>,
       <ShowableAtRender
         show={attributePresentationModels.length > 0}

@@ -175,17 +175,19 @@ class EntityDescriptionComponent extends React.Component {
         <Card style={descriptionDialog.card.style} containerStyle={descriptionDialog.card.containerStyle}>
           <CardTitle title={breadcrumb} style={descriptionDialog.card.titleStyle} />
           <CardMedia style={descriptionDialog.card.media.rootStyle} mediaStyle={descriptionDialog.card.media.mediaStyle}>
-            <Tabs
-              style={descriptionDialog.card.media.tabs.rootStyle}
-              tabItemContainerStyle={descriptionDialog.card.media.tabs.tabItemContainerStyle}
-              contentContainerStyle={descriptionDialog.card.media.tabs.contentContainerStyle}
-              tabTemplate={this.renderTab}
-              tabTemplateStyle={descriptionDialog.card.media.tabs.tabTemplateStyle}
-              value={selectedTab}
-              onChange={this.onChangeTab}
-            >
-              {this.renderTabs()}
-            </Tabs>
+            <div>
+              <Tabs
+                style={descriptionDialog.card.media.tabs.rootStyle}
+                tabItemContainerStyle={descriptionDialog.card.media.tabs.tabItemContainerStyle}
+                contentContainerStyle={descriptionDialog.card.media.tabs.contentContainerStyle}
+                tabTemplate={this.renderTab}
+                tabTemplateStyle={descriptionDialog.card.media.tabs.tabTemplateStyle}
+                value={selectedTab}
+                onChange={this.onChangeTab}
+              >
+                {this.renderTabs()}
+              </Tabs>
+            </div>
           </CardMedia>
         </Card>
       </PositionedDialog >

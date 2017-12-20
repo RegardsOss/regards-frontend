@@ -37,7 +37,7 @@ const messages = {
   'entities.common.properties.documents.entities': 'Related documents',
   'entities.common.properties.document.entities': 'Related documents',
   'entities.common.properties.loading.tags': 'Loading tags information',
-  'entities.common.properties.loading.documents': 'Loading documents information',
+  'entities.common.properties.loading.document': 'Loading documents information',
   'entities.common.properties.no.tag': 'This entity has no tag',
   'entities.common.properties.no.document': 'This entity has no document',
   'entities.common.properties.tag.search.tooltip': 'Search for entities with that tag',

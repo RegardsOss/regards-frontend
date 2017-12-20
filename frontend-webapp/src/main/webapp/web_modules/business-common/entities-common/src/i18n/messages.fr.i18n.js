@@ -37,7 +37,7 @@ const messages = {
   'entities.common.properties.documents.entities': 'Documents associés',
   'entities.common.properties.document.entities': 'Documents associés',
   'entities.common.properties.loading.tags': 'Chargement des mot-clefs',
-  'entities.common.properties.loading.documents': 'Chargement des documents',
+  'entities.common.properties.loading.document': 'Chargement des documents',
   'entities.common.properties.no.tag': 'Cette entité n\'a pas de mot-clef',
   'entities.common.properties.no.document': 'Cette entité n\'a pas de document',
   'entities.common.properties.tag.search.tooltip': 'Rechercher les entités portant ce tag',
