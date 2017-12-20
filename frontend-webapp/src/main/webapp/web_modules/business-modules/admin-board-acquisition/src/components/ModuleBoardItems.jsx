@@ -71,7 +71,8 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/dataprovider/chain/list`,
         icon: <Build />,
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.chain.list.tooltip' }),
-        hateoasDependencies: dataProviderDependencies.listDependencies,
+        // TODO : Set hateoas dependencies
+        // hateoasDependencies: dataProviderDependencies.listDependencies,
       },
     ],
   },
@@ -81,16 +82,16 @@ const items = (projectName, intl) => [
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/datasource/list`,
-        icon: <Build />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.external.datasources.list.tooltip' }),
-        hateoasDependencies: datasourceDependencies.listDependencies,
-      },
-      {
         path: `/admin/${projectName}/data/acquisition/connection/list`,
         icon: <Database />,
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.connection.list.tooltip' }),
         hateoasDependencies: connectionDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/datasource/list`,
+        icon: <Build />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.external.datasources.list.tooltip' }),
+        hateoasDependencies: datasourceDependencies.listDependencies,
       },
       {
         path: `/admin/${projectName}/data/acquisition/datasource/monitor`,
