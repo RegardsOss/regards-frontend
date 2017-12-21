@@ -46,6 +46,10 @@ class GalleryItemComponent extends React.PureComponent {
     enableDownload: PropTypes.bool,
   }
 
+  static defaultProps = {
+    enableDownload: true,
+  }
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -93,7 +97,7 @@ class GalleryItemComponent extends React.PureComponent {
       },
       imageStyle: {
         maxWidth: '100%',
-      }
+      },
     }
   }
 
@@ -111,7 +115,9 @@ class GalleryItemComponent extends React.PureComponent {
 
   renderImage(hasImage, hasIssueWithImage) {
     const { attributesRenderData, iconStyle, imageStyle } = this.state
-    const { entity, attributePresentationModels, onAddElementToCart, enableDownload } = this.props
+    const {
+ entity, attributePresentationModels, onAddElementToCart, enableDownload
+} = this.props
     const { descriptionContainer } = this.context.moduleTheme.user.galleryViewStyles
 
     let image
