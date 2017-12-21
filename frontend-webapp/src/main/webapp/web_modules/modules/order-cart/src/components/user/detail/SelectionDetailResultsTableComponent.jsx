@@ -52,11 +52,11 @@ class SelectionDetailResultsTableComponent extends React.Component {
   ].map(({
     key, label, entityPathName, type,
   }) => ({
-      key,
-      label,
-      attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(key)],
-      enableSorting: false,
-    }))
+    key,
+    label,
+    attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(key)],
+    enableSorting: false,
+  }))
 
   /** static rendering component (it will update itself with context changes) */
   static NO_DATA_COMPONENT = <SelectionDetailNoDataComponent />

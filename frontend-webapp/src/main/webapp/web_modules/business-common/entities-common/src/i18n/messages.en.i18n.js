@@ -28,6 +28,7 @@ const messages = {
   'entities.common.properties.tabs': 'Properties',
   'entities.common.description.tabs': 'Description',
   'entities.common.files.tabs': 'Files',
+  'entities.common.quicklook.tabs': 'Quicklook',
   'entities.common.file.subheader': 'Click on a file to download it',
   'entities.common.close.button': 'Close',
   'entities.common.properties.attributes': 'Attributes',
