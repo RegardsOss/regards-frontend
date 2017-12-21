@@ -18,6 +18,7 @@
  **/
 import { Card, CardMedia, CardText } from 'material-ui/Card'
 import has from 'lodash/has'
+import isEqual from 'lodash/isEqual'
 import ImageOff from 'mdi-material-ui/ImageOff'
 import ImageBroken from 'mdi-material-ui/ImageBroken'
 import FlatButton from 'material-ui/FlatButton'
@@ -98,6 +99,20 @@ class GalleryItemComponent extends React.PureComponent {
       imageStyle: {
         maxWidth: '100%',
       },
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (!isEqual(newProps.left, this.props.left) || !isEqual(newProps.top, this.props.top) || !isEqual(newProps.width, this.props.width)) {
+      this.setState({
+        cardStyle: {
+          position: 'absolute',
+          left: `${newProps.left}px`,
+          top: `${newProps.top}px`,
+          width: `${newProps.width}px`,
+          padding: 0,
+        },
+      })
     }
   }
 
