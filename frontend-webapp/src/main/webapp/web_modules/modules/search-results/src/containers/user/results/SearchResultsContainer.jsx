@@ -218,7 +218,12 @@ export class SearchResultsContainer extends React.Component {
 
 
   /** On show datasets */
-  onShowDatasets = () => this.props.dispatchChangeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATASET)
+  onShowDatasets = () => {
+    this.props.dispatchChangeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATASET)
+    if (this.props.tableDisplayMode === TableDisplayModeEnum.QUICKLOOK) {
+      this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.LIST)
+    }
+  }
 
   /** On show dataobjects */
   onShowDataobjects = () => this.props.dispatchChangeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATA)

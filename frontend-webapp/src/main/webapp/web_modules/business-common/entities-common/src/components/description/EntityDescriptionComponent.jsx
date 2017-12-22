@@ -19,6 +19,8 @@
 import { Tab, Tabs } from 'material-ui/Tabs'
 import FlatButton from 'material-ui/FlatButton'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import has from 'lodash/has'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -34,6 +36,7 @@ import DescriptionBreadcrumbContainer from '../../containers/description/breadcr
 import PropertiesTabComponent from './properties/PropertiesTabComponent'
 import DescriptionFileContainer from '../../containers/description/file/DescriptionFileContainer'
 import DocumentFilesContainer from '../../containers/description/file/DocumentFilesContainer'
+import DataQuicklookComponent from './quicklook/DataQuicklookComponent'
 
 /**
  * Shows entity description view.
@@ -65,6 +68,7 @@ class EntityDescriptionComponent extends React.Component {
   static PROPERTIES_TAB = 'properties'
   static FILES_TAB = 'files'
   static DESCRIPTION_TAB = 'description'
+  static QUICKLOOK_TAB = 'quicklook'
 
   state = {
     isDocument: false,
@@ -87,10 +91,23 @@ class EntityDescriptionComponent extends React.Component {
     })
   }
 
+
   updateEntityType = (props) => {
     const isDocument = !!(get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DOCUMENT)
+    const isDataset = !!(get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DATASET)
+    const isCollection = !!(get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.COLLECTION)
+    const isDataObject = !!(get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DATA)
+    const hasQuicklook = has(props.entity, 'content.files.QUICKLOOK_SD[0]') &&
+      has(props.entity, 'content.files.QUICKLOOK_SD[0].imageWidth') && has(props.entity, 'content.files.QUICKLOOK_SD[0].imageHeight')
+
+    const hasDescription = !isEmpty(get(props.entity, 'content.descriptionFile', {}))
     this.setState({
       isDocument,
+      isDataObject,
+      isDataset,
+      isCollection,
+      hasQuicklook,
+      hasDescription,
       selectedTab: isDocument ? EntityDescriptionComponent.FILES_TAB : EntityDescriptionComponent.PROPERTIES_TAB,
     })
   }
@@ -106,7 +123,15 @@ class EntityDescriptionComponent extends React.Component {
       entity, onSearchTag, downloadDescriptionClient, fetchModelAttributesActions,
       fetchModelAttributesSelectors, levelActions, levelSelectors,
     } = this.props
-    const { isDocument } = this.state
+    const {
+      isDocument,
+      isDataObject,
+      isCollection,
+      isDataset,
+      hasQuicklook,
+      hasDescription,
+    } = this.state
+
     const result = [(
       <Tab
         key="properties"
@@ -122,7 +147,7 @@ class EntityDescriptionComponent extends React.Component {
           levelSelectors={levelSelectors}
         />
       </Tab>)]
-    if (!isDocument) {
+    if ((isDataset || isCollection) && hasDescription) {
       result.push(
         <Tab
           key="description"
@@ -135,7 +160,7 @@ class EntityDescriptionComponent extends React.Component {
           />
         </Tab>,
       )
-    } else {
+    } else if (isDocument) {
       result.push(
         <Tab
           key="files"
@@ -143,6 +168,17 @@ class EntityDescriptionComponent extends React.Component {
           value={EntityDescriptionComponent.FILES_TAB}
         >
           <DocumentFilesContainer
+            entity={entity}
+          />
+        </Tab>)
+    } else if (isDataObject && hasQuicklook) {
+      result.push(
+        <Tab
+          key="quicklook"
+          label={this.context.intl.formatMessage({ id: 'entities.common.quicklook.tabs' })}
+          value={EntityDescriptionComponent.QUICKLOOK_TAB}
+        >
+          <DataQuicklookComponent
             entity={entity}
           />
         </Tab>)

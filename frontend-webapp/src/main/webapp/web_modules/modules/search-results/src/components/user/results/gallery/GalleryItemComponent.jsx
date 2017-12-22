@@ -131,8 +131,8 @@ class GalleryItemComponent extends React.PureComponent {
   renderImage(hasImage, hasIssueWithImage) {
     const { attributesRenderData, iconStyle, imageStyle } = this.state
     const {
- entity, attributePresentationModels, onAddElementToCart, enableDownload
-} = this.props
+      entity, attributePresentationModels, onAddElementToCart, enableDownload,
+    } = this.props
     const { descriptionContainer } = this.context.moduleTheme.user.galleryViewStyles
 
     let image
