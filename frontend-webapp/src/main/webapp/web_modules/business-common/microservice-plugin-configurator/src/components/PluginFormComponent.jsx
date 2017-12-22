@@ -16,10 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import omit from 'lodash/omit'
-import map from 'lodash/map'
 import forEach from 'lodash/forEach'
-import cloneDeep from 'lodash/cloneDeep'
 import { Card, CardText, CardTitle, CardActions } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { reduxForm, Field } from 'redux-form'
@@ -27,6 +24,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import RenderPluginConfField from '../form-utils/RenderPluginConfField'
+import PluginFormUtils from '../tools/PluginFormUtils'
 import messages from '../i18n'
 
 /**
@@ -67,8 +65,11 @@ export class PluginFormComponent extends React.Component {
   }
 
   onSubmit = (values) => {
-    this.props.onSubmit(values[PluginFormComponent.confFieldName])
+    // 1. Check if there is MapParameter to reformat before sending
+    const formatedValues = PluginFormUtils.formatPluginConfForReduxFormSubmit(values[PluginFormComponent.confFieldName], this.props.pluginMetaData)
+    this.props.onSubmit(formatedValues)
   }
+
 
   /**
    * Initialize redux-form values with the given pluginConfiguration if any or with an new empty one.
@@ -79,14 +80,17 @@ export class PluginFormComponent extends React.Component {
     } = this.props
     // The values are serialized by the backend. So deseralize it all here
 
+    const formatedConf = pluginConfiguration ?
+      PluginFormUtils.formatPluginConfForReduxFormInit(pluginConfiguration, pluginMetaData, true) : null
+
     let initialValues
     if (isEditing) {
       // Edition mode
-      initialValues = pluginConfiguration
-    } else if (pluginConfiguration) {
+      initialValues = formatedConf
+    } else if (formatedConf) {
       // Duplication mode
       // Deep copy pluginConfiguration
-      initialValues = pluginConfiguration
+      initialValues = formatedConf
       // In copy mode remove id of the duplicated pluginConfiguration
       delete initialValues.id
       // In copy mode remove id of each pluginParameters
@@ -150,7 +154,7 @@ export class PluginFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </form >
+      </form>
     )
   }
 }

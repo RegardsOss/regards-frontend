@@ -23,6 +23,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { RenderMapField } from '@regardsoss/form-utils'
 import { getPrimitiveJavaTypeRenderParameters } from './JavaPrimitiveTypesTool'
 import RenderObjectParameterField from './RenderObjectParameterField'
+import PluginFormUtils from '../tools/PluginFormUtils'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -127,6 +128,7 @@ export class RenderMapParameterField extends React.PureComponent {
         <RenderMapField
           mapValueFieldComponent={component}
           mapValueFieldProps={fieldProps}
+          charsToReplaceDotsInKeys={PluginFormUtils.DOT_CHAR_REPLACEMENT}
           defaultValue={defaultValue}
           newValueDialogLabel={newValueDialogLabel}
           mapKeyLabel={pluginParameterType.keyLabel}

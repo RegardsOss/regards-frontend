@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import replace from 'lodash/replace'
 import get from 'lodash/get'
 import isString from 'lodash/isString'
 import remove from 'lodash/remove'
@@ -51,11 +52,12 @@ import messages from '../i18n/Locales'
 * The map parameter is configured as a new Field for each key of the map. The values are configured with parametrable field.
 * @author Sébastien Binda
 */
-class RenderArrayObjectField extends React.Component {
+class RenderMapField extends React.Component {
   static propTypes = {
     mapValueFieldComponent: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     mapValueFieldProps: PropTypes.object,
+    charsToReplaceDotsInKeys: PropTypes.string,
     // eslint-disable-next-line react/forbid-prop-types
     defaultValue: PropTypes.any,
     newValueDialogLabel: PropTypes.string,
@@ -68,6 +70,7 @@ class RenderArrayObjectField extends React.Component {
   }
 
   static defaultProps = {
+    charsToReplaceDotsInKeys: '____',
     defaultValue: '',
     disabled: false,
   }
@@ -76,6 +79,8 @@ class RenderArrayObjectField extends React.Component {
     ...i18nContextType,
     ...themeContextType,
   }
+
+  static DOT_CHAR = '\\.'
 
   constructor(props) {
     super(props)
@@ -164,7 +169,7 @@ class RenderArrayObjectField extends React.Component {
     }
   }
 
-  setNewKey = (event, newKey) => this.setState({ newKey })
+  setNewKey = (event, newKey) => this.setState({ newKey: replace(newKey, new RegExp(RenderMapField.DOT_CHAR, 'g'), this.props.charsToReplaceDotsInKeys) })
 
   /**
    * Callback to display selected object form
@@ -311,7 +316,7 @@ class RenderArrayObjectField extends React.Component {
    */
   renderListItem = (key) => {
     const { intl: { formatMessage }, moduleTheme: { arrayField: { errorIconStyle } } } = this.context
-    const { meta, disabled } = this.props
+    const { meta, disabled, charsToReplaceDotsInKeys } = this.props
     const iconButtonElement = (
       <IconButton
         touch
@@ -347,7 +352,7 @@ class RenderArrayObjectField extends React.Component {
         value={key}
         rightIconButton={disabled ? null : rightIconMenu}
         leftIcon={leftIcon}
-        primaryText={key}
+        primaryText={replace(key, new RegExp(charsToReplaceDotsInKeys, 'g'), '.')}
       />
     )
   }
@@ -365,12 +370,13 @@ class RenderArrayObjectField extends React.Component {
 
     const { displayedKey, mapKeys } = this.state
     const {
-      mapValueFieldComponent, input, mapValueFieldProps, meta, disabled, mapKeyLabel,
+      mapValueFieldComponent, input, mapValueFieldProps, meta, disabled, mapKeyLabel, charsToReplaceDotsInKeys,
     } = this.props
 
+    const key = replace(displayedKey, new RegExp(RenderMapField.DOT_CHAR, 'g'), charsToReplaceDotsInKeys)
     const fieldForm = displayedKey !== null ? (
       <Field
-        name={`${input.name}.${displayedKey}`}
+        name={`${input.name}.${key}`}
         component={mapValueFieldComponent}
         {...mapValueFieldProps}
         validate={ValidationHelpers.required}
@@ -419,4 +425,4 @@ class RenderArrayObjectField extends React.Component {
     )
   }
 }
-export default withI18n(messages)(withModuleStyle(styles)(RenderArrayObjectField))
+export default withI18n(messages)(withModuleStyle(styles)(RenderMapField))
