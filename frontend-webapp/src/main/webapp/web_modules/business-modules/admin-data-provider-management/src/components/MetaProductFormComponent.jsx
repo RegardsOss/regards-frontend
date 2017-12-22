@@ -36,7 +36,7 @@ class MetaProductFormComponent extends React.PureComponent {
 
   static defaultProps = {}
 
-  static algorithms = ['MD4', 'MD5', 'MD6', 'SHA-1', 'SHA-512', 'TODO ...']
+  static algorithms = ['MD4', 'MD5', 'MD6', 'SHA-1', 'SHA-512']
 
   render() {
     const { intl: { formatMessage } } = this.context

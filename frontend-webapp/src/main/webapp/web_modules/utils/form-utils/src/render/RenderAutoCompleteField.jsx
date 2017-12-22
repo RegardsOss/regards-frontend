@@ -19,8 +19,10 @@
 import find from 'lodash/find'
 import AutoComplete from 'material-ui/AutoComplete'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import RenderHelper from './RenderHelper'
 import styles from '../styles'
+import messages from '../i18n/Locales'
 /**
  * Redux form component to display a material-ui AutoComplete widget.
  * @author Sébastien Binda
@@ -57,9 +59,6 @@ export class RenderAutoCompleteField extends React.Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }),
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func,
-    }),
   }
 
   static defaultProps = {
@@ -70,6 +69,7 @@ export class RenderAutoCompleteField extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   static valueIsInDataSource(value, datasource, datasourceConfig) {
@@ -82,9 +82,9 @@ export class RenderAutoCompleteField extends React.Component {
   render() {
     const {
       enableOnlyDatasourceValues, filter, floatingLabelText, input, hintText, meta: { touched, error }, fullWidth, dataSource,
-      dataSourceConfig, onUpdateInput, onNewRequest, openOnFocus, searchText, intl,
+      dataSourceConfig, onUpdateInput, onNewRequest, openOnFocus, searchText,
     } = this.props
-    const { moduleTheme: { autoCompleteFields: { listStyle } } } = this.context
+    const { moduleTheme: { autoCompleteFields: { listStyle } }, intl } = this.context
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
     return (
       <div>
@@ -125,4 +125,4 @@ export class RenderAutoCompleteField extends React.Component {
   }
 }
 
-export default withModuleStyle(styles)(RenderAutoCompleteField)
+export default withI18n(messages)(withModuleStyle(styles)(RenderAutoCompleteField))

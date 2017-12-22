@@ -70,9 +70,8 @@ function convertParameter({ name, value: adminValue, dynamicsValues }, {
 
   // a choice parameter (ie. restricted to a given choice list)
   if (dynamicsValues && dynamicsValues.length) {
-    const choices = dynamicsValues.map(({ value }) => value)
     // default value: make sure it is one of the choices
-    return Parameter.buildChoiceEditor(name, !choices.includes(specDefaultValue) ? choices[0] : specDefaultValue, choices, !optional)
+    return Parameter.buildChoiceEditor(name, !dynamicsValues.includes(specDefaultValue) ? dynamicsValues[0] : specDefaultValue, dynamicsValues, !optional)
   }
 
   // a text parameter, free or not, depending on type

@@ -58,7 +58,11 @@ export default theme => ({
                 attributesContainer: {
                   rootStyle: { display: 'table', padding: '0 15px 0 20px' },
                   rowStyle: { display: 'table-row' },
-                  labelStyle: { display: 'table-cell', padding: '0 20px 0.4em 0', textDecoration: 'underline' },
+                  labelStyle: {
+                    display: 'table-cell',
+                    padding: '0 20px 0.4em 0',
+                    textDecoration: 'underline',
+                  },
                   valueStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
                 },
               },
@@ -83,7 +87,6 @@ export default theme => ({
                   borderColor: theme.toolbar.separatorColor,
                   borderStyle: 'solid',
                   minHeight: '100%',
-                  maxWidth: '350px',
                 },
                 sectionStyle: {
                   ...verticalLayout,
@@ -98,7 +101,12 @@ export default theme => ({
                     height: '24px', width: '24px', color: theme.palette.accent2Color, opacity: 0.7,
                   },
                   buttonStyle: { height: '24px', width: '24px', padding: 0 },
-                  labelStyle: { display: 'table-cell', padding: '0 20px 0.4em 10px' },
+                  labelStyle: {
+                    display: 'table-cell',
+                    padding: '0 20px 0.4em 10px',
+                    maxWidth: '350px',
+                    overflowWrap: 'break-word',
+                  },
                   actionStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
                 },
               },

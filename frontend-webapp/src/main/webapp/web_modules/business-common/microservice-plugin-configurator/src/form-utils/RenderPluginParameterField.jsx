@@ -178,7 +178,6 @@ export class RenderPluginParameterField extends React.PureComponent {
           component={RenderArrayTextField}
           fieldsListLabel={formatMessage({ id: 'plugin.parameter.dynamicvalues.title' })}
           disabled={disabled}
-          valueField="value"
           label={label}
           {...fieldParams}
         />
