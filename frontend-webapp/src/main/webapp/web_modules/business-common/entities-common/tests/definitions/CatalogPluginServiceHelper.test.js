@@ -76,9 +76,9 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
 
 
   const choiceTests = [
-    { type: JavaPrimitiveTypes.CHARACTER, dynamicsValues: [{ value: 'Z' }, { value: 'A' }] },
-    { type: JavaPrimitiveTypes.DOUBLE, dynamicsValues: [{ value: '1.5' }, { value: '3.2' }] },
-    { type: JavaPrimitiveTypes.STRING, dynamicsValues: [{ value: 'aaa' }, { value: 'zzz' }] },
+    { type: JavaPrimitiveTypes.CHARACTER, dynamicsValues: ['Z', 'A'] },
+    { type: JavaPrimitiveTypes.DOUBLE, dynamicsValues: [1.5, 3.2] },
+    { type: JavaPrimitiveTypes.STRING, dynamicsValues: ['aaa', 'zzz'] },
   ]
   choiceTests.map(({ type, dynamicsValues, validator }) =>
     it(`should convert any type (here ${type}) into a choice when dynamic values are provided`, () => {
@@ -88,7 +88,7 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
       assert.isNotNull(resolved, 'the parameter should be converted')
       assert.equal(resolved.name, 'common.field', 'The parameter name should be correctly reported')
       assert.equal(resolved.editorType, Parameter.EditorTypes.CHOICE, 'The parameter editor type is erroneous')
-      assert.equal(resolved.defaultValue, dynamicsValues[0].value, 'Default value, when it s not specified by the administrator nor the plugin developper, should be first choice')
+      assert.equal(resolved.defaultValue, dynamicsValues[0], 'Default value, when it s not specified by the administrator nor the plugin developper, should be first choice')
     }))
 
   it('Should select initial values respecting priority: admin value if specified, plugin developper value if specified, default type value if specified', () => {
@@ -107,7 +107,7 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
       { name: 't4', type: JavaPrimitiveTypes.INTEGER, expectedValue: undefined },
       // test default value selection (no admin nor dev, with default value for choice type)
       {
-        name: 't5', type: JavaPrimitiveTypes.INTEGER, dynamicsValues: [{ value: 1 }, { value: 2 }], expectedValue: 1,
+        name: 't5', type: JavaPrimitiveTypes.INTEGER, dynamicsValues: [1, 2], expectedValue: 1,
       },
     ]
     initValueTest.forEach(({
