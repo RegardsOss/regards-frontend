@@ -23,6 +23,7 @@ import { SelectThemeContainer } from '@regardsoss/theme-ui'
 import { CommonShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import AuthenticationMenuContainer from '../containers/AuthenticationMenuContainer'
+import NotificationListContainer from '../containers/NotificationListContainer'
 import CartSelectorContainer from '../containers/CartSelectorContainer'
 import ModulesNavigatorContainer from '../containers/ModulesNavigatorContainer'
 import ProjectAboutPageLinkContainer from '../containers/ProjectAboutPageLinkContainer'
@@ -72,6 +73,8 @@ class MainMenuComponent extends React.Component {
         </div>
         {/* Authentication access, state and options */}
         <AuthenticationMenuContainer display={displayAuthentication} appName={this.props.appName} project={this.props.project} />
+        {/* Notifications */}
+        <NotificationListContainer project={this.props.project} />
         {/* User cart stateful link */}
         <ShowableAtRender show={!!displayCartSelector}>
           <CartSelectorContainer project={this.props.project} />

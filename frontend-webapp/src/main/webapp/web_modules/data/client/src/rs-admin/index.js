@@ -68,6 +68,10 @@ import MyUserActions from './user/MyUserActions'
 import getMyUserReducer from './user/MyUserReducer'
 import getMyUserSelectors from './user/MyUserSelectors'
 
+import NotificationActions from './notification/NotificationActions'
+import getNotificationReducer from './notification/NotificationReducer'
+import getNotificationSelectors from './notification/NotificationSelectors'
+
 import ProjectUserActions from './user/ProjectUserActions'
 import getProjectUserReducer from './user/ProjectUserReducer'
 import getProjectUserSelectors from './user/ProjectUserSelectors'
@@ -125,6 +129,10 @@ module.exports = {
   MyUserActions,
   getMyUserReducer,
   getMyUserSelectors,
+
+  NotificationActions,
+  getNotificationReducer,
+  getNotificationSelectors,
 
   ProjectUserActions,
   getProjectUserReducer,

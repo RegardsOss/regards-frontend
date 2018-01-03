@@ -16,18 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { borrowRoleReducer } from './clients/BorrowRoleClient'
-import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
-import { myUserReducer } from './clients/MyUserClient'
-import { notificationReducer } from './clients/NotificationClient'
-import profileDialogReducer from './model/ProfileDialogReducer'
+import { Schema, arrayOf } from 'normalizr'
 
+const NotificationConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'notification',
+}
+
+const NotificationSchema = new Schema(NotificationConfiguration.normalizrKey, {
+  idAttribute: notification => notification[NotificationConfiguration.entityKey],
+})
+
+
+// Schemas for API responses.
 module.exports = {
-  // web consuming clients (redux API actions / reducers)
-  borrowRole: borrowRoleReducer,
-  borrowableRoles: borrowableRolesReducer,
-  myUser: myUserReducer,
-  notification: notificationReducer,
-  // local actions / reducers
-  profileDialog: profileDialogReducer,
+  NOTIFICATION: NotificationSchema,
+  NOTIFICATION_ARRAY: arrayOf(NotificationSchema),
+  NotificationConfiguration,
 }

@@ -330,6 +330,10 @@ function buildLocalServices(gatewayURL) {
       proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
       proxyQuicklook: { url: 'rs-access-project/dataobjects/search', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-access-project/dataobjects/search`, addQuicklook) },
       getBasket: { url: 'rs-order/order/basket', handler: getBasket },
+      getNotifications: { url: 'rs-admin/notifications', handler: () => {
+        const content = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
+        return { content }
+      }},
       getSessions: {
         url: 'rs-ingest/sessions', handler: () => {
           const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
