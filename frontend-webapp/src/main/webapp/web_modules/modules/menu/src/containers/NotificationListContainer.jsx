@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import filter from 'lodash/filter'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { ShowableAtRender } from '@regardsoss/display-control'
@@ -56,12 +57,10 @@ export class NotificationListContainer extends React.Component {
   }
 
   render() {
-    const { notifications } = this.props
-    console.log(notifications)
+    const unreadCount = filter(this.props.notifications, notif => notif.status === 'UNREAD').length
     return (
-      // Show only when module cart ID has been resolved (user is logged and has rights, module exists)
       <ShowableAtRender show={this.props.isAuthenticated}>
-        <NotificationListComponent objectsCount={4} />
+        <NotificationListComponent unreadCount={unreadCount} />
       </ShowableAtRender>
     )
   }

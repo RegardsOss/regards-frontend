@@ -31,7 +31,7 @@ import { ShowableAtRender } from '@regardsoss/components'
 class NotificationListComponent extends React.Component {
   static propTypes = {
     // number of notifications
-    objectsCount: PropTypes.number.isRequired,
+    unreadCount: PropTypes.number.isRequired,
   }
 
   static contextTypes = {
@@ -42,23 +42,23 @@ class NotificationListComponent extends React.Component {
   static MAX_ELEMENTS_COUNT = 9999
 
   render() {
-    const { objectsCount } = this.props
+    const { unreadCount } = this.props
     const { intl: { formatMessage }, moduleTheme: { cart } } = this.context
 
     // compute label for current count
     const elementsCountLabel =
-      objectsCount < NotificationListComponent.MAX_ELEMENTS_COUNT
-        ? objectsCount
+      unreadCount < NotificationListComponent.MAX_ELEMENTS_COUNT
+        ? unreadCount
         : formatMessage(
           { id: 'user.menu.cart.max.count' },
           { maxCount: NotificationListComponent.MAX_ELEMENTS_COUNT },
         )
 
     // compute tooltip for current count
-    const elementsCountTooltip = objectsCount
+    const elementsCountTooltip = unreadCount
       ? formatMessage(
         { id: 'user.menu.displaycart.elements.count.tooltip' },
-        { elementsCount: objectsCount },
+        { elementsCount: unreadCount },
       )
       : formatMessage({ id: 'user.menu.displaycart.empty.tooltip' })
 
@@ -71,7 +71,7 @@ class NotificationListComponent extends React.Component {
       >
         {/*Create a free position chip over the icon */}
         <div>
-          <ShowableAtRender show={!!objectsCount}>
+          <ShowableAtRender show={!!unreadCount}>
             <div style={cart.overlay.style}>
               <Chip labelStyle={cart.overlay.chip.labelStyle} style={cart.overlay.chip.style}>
                 {elementsCountLabel}
@@ -79,7 +79,7 @@ class NotificationListComponent extends React.Component {
             </div>
           </ShowableAtRender>
           {/* Show the icon */}
-          {objectsCount ? (
+          {unreadCount ? (
             <Notification style={cart.icon.style} />
           ) : (
             <NotificationNone style={cart.icon.style} />

@@ -15,7 +15,7 @@
       }
     ],
     "sender": "microservice",
-    "status": "UNREAD",
+    "status": "READ",
     "type": "INFO",
     "title": "test"
   },
