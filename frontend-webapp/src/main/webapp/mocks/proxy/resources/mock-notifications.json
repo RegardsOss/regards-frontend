@@ -75,5 +75,24 @@
     "status": "UNREAD",
     "type": "INFO",
     "title": "test"
+  },
+  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 454,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "INFO",
+    "title": "Coucou"
   }
 ]

@@ -57,10 +57,9 @@ export class NotificationListContainer extends React.Component {
   }
 
   render() {
-    const unreadCount = filter(this.props.notifications, notif => notif.status === 'UNREAD').length
     return (
       <ShowableAtRender show={this.props.isAuthenticated}>
-        <NotificationListComponent unreadCount={unreadCount} />
+        <NotificationListComponent notifications={this.props.notifications} />
       </ShowableAtRender>
     )
   }
