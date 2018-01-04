@@ -156,46 +156,52 @@ class NotificationListComponent extends React.Component {
           targetOrigin={targetOrigin}
           onRequestClose={this.onNotificationClose}
         >
-          <List style={notificationStyle.popover.unreadList.style}>
-            <Subheader>
-              <FormattedMessage id="user.menu.notification.title" />
-            </Subheader>
-            {map(unreadNotifications, notif => [
-              <ListItem
-                key={`notification-${notif.id}`}
-                primaryText={notif.title}
-                leftAvatar={this.renderAvatar(notif.type)}
-                rightIconButton={
-                  <IconButton>
-                    <Check />
-                  </IconButton>
-                }
-                secondaryText={<p>{notif.message}</p>}
-                secondaryTextLines={2}
-              />,
-              <Divider key={`divider-${notif.id}`} />,
-            ])}
-          </List>
-          <RaisedButton
-            onClick={this.onAllNotifications}
-            style={notificationStyle.popover.showNotificationsButton.style}
-            label={formatMessage({ id: 'user.menu.notification.view.button' })}
-          />
-          <ShowableAtRender show={this.state.showAllNotifications}>
-            <List style={notificationStyle.popover.readList.style}>
-              {map(readNotifications, notif => [
+          <div style={notificationStyle.popover.wrapperDiv.style}>
+            <List style={notificationStyle.popover.unreadList.style}>
+              <Subheader>
+                <FormattedMessage id="user.menu.notification.title" />
+              </Subheader>
+              {map(unreadNotifications, notif => [
                 <ListItem
-                  style={notificationStyle.popover.readList.item.style}
                   key={`notification-${notif.id}`}
-                  leftAvatar={this.renderAvatar(notif.type)}
                   primaryText={notif.title}
+                  leftAvatar={this.renderAvatar(notif.type)}
+                  rightIconButton={
+                    <IconButton>
+                      <Check />
+                    </IconButton>
+                  }
                   secondaryText={<p>{notif.message}</p>}
                   secondaryTextLines={2}
                 />,
                 <Divider key={`divider-${notif.id}`} />,
               ])}
             </List>
-          </ShowableAtRender>
+            <RaisedButton
+              onClick={this.onAllNotifications}
+              style={notificationStyle.popover.showNotificationsButton.style}
+              label={formatMessage({
+                id: this.state.showAllNotifications
+                  ? 'user.menu.notification.hide.button'
+                  : 'user.menu.notification.view.button',
+              })}
+            />
+            <ShowableAtRender show={this.state.showAllNotifications}>
+              <List style={notificationStyle.popover.readList.style}>
+                {map(readNotifications, notif => [
+                  <ListItem
+                    style={notificationStyle.popover.readList.item.style}
+                    key={`notification-${notif.id}`}
+                    leftAvatar={this.renderAvatar(notif.type)}
+                    primaryText={notif.title}
+                    secondaryText={<p>{notif.message}</p>}
+                    secondaryTextLines={2}
+                  />,
+                  <Divider key={`divider-${notif.id}`} />,
+                ])}
+              </List>
+            </ShowableAtRender>
+          </div>
         </Popover>
       </div>
     )

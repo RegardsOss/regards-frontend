@@ -94,5 +94,115 @@
     "status": "READ",
     "type": "INFO",
     "title": "Coucou"
+  },  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 908,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "ERROR",
+    "title": "Coucou"
+  }
+  ,  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 234,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "FATAL",
+    "title": "Coucou"
+  }
+  ,  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 987,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "INFO",
+    "title": "Coucou"
+  },  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 345,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "ERROR",
+    "title": "Coucou"
+  },  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 532,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "INFO",
+    "title": "Coucou"
+  },  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 500,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "INFO",
+    "title": "Coucou"
   }
 ]
