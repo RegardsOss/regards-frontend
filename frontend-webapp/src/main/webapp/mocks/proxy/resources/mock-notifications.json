@@ -16,7 +16,7 @@
     ],
     "sender": "microservice",
     "status": "READ",
-    "type": "INFO",
+    "type": "FATAL",
     "title": "test"
   },
   {
@@ -35,7 +35,7 @@
     ],
     "sender": "microservice",
     "status": "UNREAD",
-    "type": "INFO",
+    "type": "ERROR",
     "title": "test"
   },
   {
@@ -54,7 +54,7 @@
     ],
     "sender": "microservice",
     "status": "UNREAD",
-    "type": "INFO",
+    "type": "FATAL",
     "title": "test"
   },
   {
@@ -78,7 +78,7 @@
   },
   {
     "date": "2018-01-03T14:05:13.419Z",
-    "id": 454,
+    "id": 458,
     "message": "Je suis lue",
     "projectUserRecipients": [],
     "roleRecipients": [

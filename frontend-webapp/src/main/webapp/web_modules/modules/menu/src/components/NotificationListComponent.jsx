@@ -21,6 +21,10 @@ import Chip from 'material-ui/Chip'
 import NotificationNone from 'material-ui/svg-icons/social/notifications-none'
 import Notification from 'material-ui/svg-icons/social/notifications'
 import Close from 'material-ui/svg-icons/navigation/close'
+import Check from 'material-ui/svg-icons/navigation/check'
+import Info from 'mdi-material-ui/InformationVariant'
+import Warning from 'material-ui/svg-icons/alert/warning'
+import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -37,8 +41,7 @@ import RaisedButton from 'material-ui/RaisedButton'
  * @author Maxime Bouveron
  */
 class NotificationListComponent extends React.Component {
-  static propTypes = {
-  }
+  static propTypes = {}
 
   static contextTypes = {
     ...i18nContextType,
@@ -75,6 +78,19 @@ class NotificationListComponent extends React.Component {
     })
   }
 
+  renderAvatar = (type) => {
+    switch (type) {
+      case 'INFO':
+        return <Avatar backgroundColor="lightblue" color="#ffffff" icon={<Info />} />
+      case 'ERROR':
+        return <Avatar backgroundColor="orange" color="#ffffff" icon={<Warning />} />
+      case 'FATAL':
+        return <Avatar backgroundColor="red" color="#ffffff" icon={<Close />} />
+      default:
+        return <Avatar backgroundColor="lightblue" color="#fffff" icon={<Info />} />
+    }
+  }
+
   render() {
     const { intl: { formatMessage }, moduleTheme: { cart } } = this.context
 
@@ -98,7 +114,6 @@ class NotificationListComponent extends React.Component {
         { elementsCount: unreadCount },
       )
       : formatMessage({ id: 'user.menu.displaycart.empty.tooltip' })
-
 
     // render
     return (
@@ -134,40 +149,42 @@ class NotificationListComponent extends React.Component {
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           onRequestClose={this.onNotificationClose}
         >
-          <List>
+          <List style={{ paddingBottom: 0 }}>
             <Subheader>Notifications</Subheader>
             {map(unreadNotifications, notif => [
               <ListItem
-                key={notif.id}
+                key={`notification-${notif.id}`}
                 primaryText={notif.title}
+                leftAvatar={this.renderAvatar(notif.type)}
                 rightIconButton={
                   <IconButton>
-                    <Close />
+                    <Check />
                   </IconButton>
                 }
                 secondaryText={<p>{notif.message}</p>}
                 secondaryTextLines={2}
               />,
-              <Divider key={notif.id} />,
+              <Divider key={`divider-${notif.id}`} />,
             ])}
           </List>
           <RaisedButton
             onClick={this.onAllNotifications}
-            style={{ marginLeft: 'auto', marginRight: 'auto' }}
+            style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
           >
             View all notifications
           </RaisedButton>
           <ShowableAtRender show={this.state.showAllNotifications}>
-            <List>
+            <List style={{ paddingBottom: 0 }}>
               {map(readNotifications, notif => [
                 <ListItem
                   style={{ opacity: 0.5 }}
-                  key={notif.id}
+                  key={`notification-${notif.id}`}
+                  leftAvatar={this.renderAvatar(notif.type)}
                   primaryText={notif.title}
                   secondaryText={<p>{notif.message}</p>}
                   secondaryTextLines={2}
                 />,
-                <Divider key={notif.id} />,
+                <Divider key={`divider-${notif.id}`} />,
               ])}
             </List>
           </ShowableAtRender>
