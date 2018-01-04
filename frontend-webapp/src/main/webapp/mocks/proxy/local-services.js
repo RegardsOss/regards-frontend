@@ -334,12 +334,12 @@ function buildLocalServices(gatewayURL) {
         const content = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
         return { content }
       }},
-      getSessions: {
-        url: 'rs-ingest/sessions', handler: () => {
-          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
-          return { content }
-        }
-      },
+      // getSessions: {
+      //   url: 'rs-ingest/sessions', handler: () => {
+      //     const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
+      //     return { content }
+      //   }
+      // },
       userOrders: {
         url: 'user/orders', handler: (req, resp, pathParameters, { page, size }) => {
           const pageIndex = parseInt(page, 10)

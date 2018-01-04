@@ -35,6 +35,7 @@ import Divider from 'material-ui/Divider/Divider'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import RaisedButton from 'material-ui/RaisedButton'
+import { FormattedMessage } from 'react-intl'
 
 /**
  * Notification List Component
@@ -103,26 +104,22 @@ class NotificationListComponent extends React.Component {
       unreadCount < NotificationListComponent.MAX_ELEMENTS_COUNT
         ? unreadCount
         : formatMessage(
-          { id: 'user.menu.cart.max.count' },
+          { id: 'user.menu.notification.max.count' },
           { maxCount: NotificationListComponent.MAX_ELEMENTS_COUNT },
         )
-
-    // compute tooltip for current count
-    const elementsCountTooltip = unreadCount
-      ? formatMessage(
-        { id: 'user.menu.displaycart.elements.count.tooltip' },
-        { elementsCount: unreadCount },
-      )
-      : formatMessage({ id: 'user.menu.displaycart.empty.tooltip' })
 
     // render
     return (
       <div>
         <IconButton
-          title={formatMessage({ id: 'user.menu.displaycart.tooltip' }, { elementsCountTooltip })}
+          title={formatMessage(
+            { id: 'user.menu.notification.elements.count.tooltip' },
+            { elementsCount: unreadCount },
+          )}
           style={cart.iconButton.style}
           iconStyle={cart.iconButton.iconStyle}
           onClick={this.onNotificationOpen}
+          disabled={Object.keys(this.props.notifications).length === 0}
         >
           {/*Create a free position chip over the icon */}
           <div>
@@ -150,7 +147,9 @@ class NotificationListComponent extends React.Component {
           onRequestClose={this.onNotificationClose}
         >
           <List style={{ paddingBottom: 0 }}>
-            <Subheader>Notifications</Subheader>
+            <Subheader>
+              <FormattedMessage id="user.menu.notification.title" />
+            </Subheader>
             {map(unreadNotifications, notif => [
               <ListItem
                 key={`notification-${notif.id}`}
@@ -169,12 +168,11 @@ class NotificationListComponent extends React.Component {
           </List>
           <RaisedButton
             onClick={this.onAllNotifications}
-            style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
-          >
-            View all notifications
-          </RaisedButton>
+            style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', marginBottom: 1 }}
+            label={formatMessage({ id: 'user.menu.notification.view.button' })}
+          />
           <ShowableAtRender show={this.state.showAllNotifications}>
-            <List style={{ paddingBottom: 0 }}>
+            <List style={{ paddingBottom: 0, paddingTop: 0 }}>
               {map(readNotifications, notif => [
                 <ListItem
                   style={{ opacity: 0.5 }}

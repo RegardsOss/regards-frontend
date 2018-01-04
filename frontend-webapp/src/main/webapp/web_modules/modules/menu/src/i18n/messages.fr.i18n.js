@@ -56,6 +56,15 @@ const messages = {
   'edit.profile.form.lastName': 'Nom',
   'edit.profile.form.confirm': 'Confirmer',
   'edit.profile.form.cancel': 'Annuler',
+  // notifications
+  'user.menu.notification.max.count': '{maxCount}+',
+  'user.menu.notification.elements.count.tooltip': `{elementsCount, plural,
+    =0 {Vous n'avez aucune nouvelle notification}
+    one {Vous avez une nouvelle notification}
+    other {Vous avez {elementsCount} nouvelles notifications}
+  }`,
+  'user.menu.notification.title': 'Notifications',
+  'user.menu.notification.view.button': 'Voir toutes les notifications',
 
   ...Locales.fr,
   ...MetadataLocales.fr,
