@@ -80,20 +80,24 @@ class NotificationListComponent extends React.Component {
   }
 
   renderAvatar = (type) => {
+    const { moduleTheme: { notifications: { popover: { icons } } } } = this.context
     switch (type) {
       case 'INFO':
-        return <Avatar backgroundColor="lightblue" color="#ffffff" icon={<Info />} />
+        return <Avatar backgroundColor={icons.infoColor} color={icons.color} icon={<Info />} />
       case 'ERROR':
-        return <Avatar backgroundColor="orange" color="#ffffff" icon={<Warning />} />
+        return <Avatar backgroundColor={icons.errorColor} color={icons.color} icon={<Warning />} />
       case 'FATAL':
-        return <Avatar backgroundColor="red" color="#ffffff" icon={<Close />} />
+        return <Avatar backgroundColor={icons.fatalColor} color={icons.color} icon={<Close />} />
       default:
-        return <Avatar backgroundColor="lightblue" color="#fffff" icon={<Info />} />
+        return <Avatar backgroundColor={icons.infoColor} color={icons.color} icon={<Info />} />
     }
   }
 
   render() {
-    const { intl: { formatMessage }, moduleTheme: { cart } } = this.context
+    const {
+      intl: { formatMessage },
+      moduleTheme: { notifications: notificationStyle },
+    } = this.context
 
     const unreadNotifications = filter(this.props.notifications, notif => notif.status === 'UNREAD')
     const readNotifications = filter(this.props.notifications, notif => notif.status === 'READ')
@@ -108,6 +112,9 @@ class NotificationListComponent extends React.Component {
           { maxCount: NotificationListComponent.MAX_ELEMENTS_COUNT },
         )
 
+    const anchorOrigin = { horizontal: 'right', vertical: 'bottom' }
+    const targetOrigin = { horizontal: 'right', vertical: 'top' }
+
     // render
     return (
       <div>
@@ -116,37 +123,40 @@ class NotificationListComponent extends React.Component {
             { id: 'user.menu.notification.elements.count.tooltip' },
             { elementsCount: unreadCount },
           )}
-          style={cart.iconButton.style}
-          iconStyle={cart.iconButton.iconStyle}
+          style={notificationStyle.iconButton.style}
+          iconStyle={notificationStyle.iconButton.iconStyle}
           onClick={this.onNotificationOpen}
           disabled={Object.keys(this.props.notifications).length === 0}
         >
           {/*Create a free position chip over the icon */}
           <div>
             <ShowableAtRender show={!!unreadCount}>
-              <div style={cart.overlay.style}>
-                <Chip labelStyle={cart.overlay.chip.labelStyle} style={cart.overlay.chip.style}>
+              <div style={notificationStyle.overlay.style}>
+                <Chip
+                  labelStyle={notificationStyle.overlay.chip.labelStyle}
+                  style={notificationStyle.overlay.chip.style}
+                >
                   {elementsCountLabel}
                 </Chip>
               </div>
             </ShowableAtRender>
             {/* Show the icon */}
             {unreadCount ? (
-              <Notification style={cart.icon.style} />
+              <Notification style={notificationStyle.icon.style} />
             ) : (
-              <NotificationNone style={cart.icon.style} />
+              <NotificationNone style={notificationStyle.icon.style} />
             )}
           </div>
         </IconButton>
         <Popover
           open={this.state.notificationShade}
-          style={{ width: 325 }}
+          style={notificationStyle.popover.style}
           anchorEl={this.state.anchorEl}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={anchorOrigin}
+          targetOrigin={targetOrigin}
           onRequestClose={this.onNotificationClose}
         >
-          <List style={{ paddingBottom: 0 }}>
+          <List style={notificationStyle.popover.unreadList.style}>
             <Subheader>
               <FormattedMessage id="user.menu.notification.title" />
             </Subheader>
@@ -168,14 +178,14 @@ class NotificationListComponent extends React.Component {
           </List>
           <RaisedButton
             onClick={this.onAllNotifications}
-            style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', marginBottom: 1 }}
+            style={notificationStyle.popover.showNotificationsButton.style}
             label={formatMessage({ id: 'user.menu.notification.view.button' })}
           />
           <ShowableAtRender show={this.state.showAllNotifications}>
-            <List style={{ paddingBottom: 0, paddingTop: 0 }}>
+            <List style={notificationStyle.popover.readList.style}>
               {map(readNotifications, notif => [
                 <ListItem
-                  style={{ opacity: 0.5 }}
+                  style={notificationStyle.popover.readList.item.style}
                   key={`notification-${notif.id}`}
                   leftAvatar={this.renderAvatar(notif.type)}
                   primaryText={notif.title}
