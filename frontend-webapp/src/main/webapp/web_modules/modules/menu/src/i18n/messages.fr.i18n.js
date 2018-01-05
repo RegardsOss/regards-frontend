@@ -66,6 +66,7 @@ const messages = {
   'user.menu.notification.title': 'Notifications',
   'user.menu.notification.view.button': 'Voir toutes les notifications',
   'user.menu.notification.hide.button': 'Cacher les notifications lues',
+  'user.menu.notification.empty': 'Pas de nouvelles notifications',
 
   ...Locales.fr,
   ...MetadataLocales.fr,

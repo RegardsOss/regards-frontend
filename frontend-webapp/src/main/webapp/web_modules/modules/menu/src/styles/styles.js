@@ -158,6 +158,23 @@ const menuStyles = theme => ({
           paddingBottom: 0,
         },
       },
+      noNewNotifications: {
+        style: {
+          width: '100%',
+          height: 150,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          fontSize: '0.8em',
+          opacity: 0.7,
+        },
+        iconStyle: {
+          width: 50,
+          height: 50,
+          marginBottom: 10,
+        },
+      },
       showNotificationsButton: {
         style: {
           display: 'block',
