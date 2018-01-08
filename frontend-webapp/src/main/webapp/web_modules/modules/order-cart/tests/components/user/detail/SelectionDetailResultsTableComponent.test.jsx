@@ -46,6 +46,6 @@ describe('[Order Cart] Testing SelectionDetailResultsTableComponent', () => {
     const renderWrapper = shallow(<SelectionDetailResultsTableComponent {...props} />, { context })
     const tableContainer = renderWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(tableContainer, 1, 'There should be an infinite table to show results')
-    assert.deepEqual(tableContainer.props().requestParams, { queryParams: props.openSearchRequest })
+    assert.deepEqual(tableContainer.props().pathParams, { parameters: `q=${props.openSearchRequest}` })
   })
 })

@@ -39,13 +39,16 @@ describe('[Search Results] Testing ModuleComponent', () => {
       searchQuery: 'kikikisonlessnorki?',
       enableFacettes: true,
       enableDownload: true,
+      enableQuicklooks: false,
       displayMode: DISPLAY_MODE_VALUES.DISPLAY_DATA_DATASET,
       facettesQuery: '',
       initialDatasetIpId: 'URN:DATASET:8',
       attributesConf: [],
       attributesRegroupementsConf: [],
+      attributesQuicklookConf: [],
       attributeModels: {},
       expanded: true,
+      displayConf: {},
       onExpandChange: () => { },
     }
     shallow(<ModuleComponent {...props} />, { context })

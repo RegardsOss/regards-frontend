@@ -23,7 +23,7 @@ import SearchEntitiesActions from './SearchEntitiesActions'
  */
 export default class CatalogDatasetEntityActions extends SearchEntitiesActions {
   constructor(namespace) {
-    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/datasets/search?{queryParams}`)
+    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search/datasets?{parameters}`)
   }
 }
 

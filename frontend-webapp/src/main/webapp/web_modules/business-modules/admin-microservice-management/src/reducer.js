@@ -18,7 +18,6 @@
  **/
 import forEach from 'lodash/forEach'
 import { combineReducers } from 'redux'
-import { PluginConfiguratorReducer } from '@regardsoss/microservice-plugin-configurator'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 import { pluginTypeReducer } from './clients/PluginTypeClient'
 import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
@@ -36,7 +35,6 @@ const microserviceManagementReducer = combineReducers({
   pluginMetadata: pluginMetaDataReducer,
   pluginType: pluginTypeReducer,
   pluginConfiguration: pluginConfigurationReducer,
-  pluginConfigurator: PluginConfiguratorReducer,
   microserviceInfo: MicroserviceInfoClient.microserviceInfoActions,
   ...maintenanceReducers,
 })

@@ -40,6 +40,7 @@ import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
 const nameFieldValidators = [ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
+const lessThan20 = ValidationHelpers.lengthLessThan(20)
 
 /**
  * Display edit and create attribute model form
@@ -255,7 +256,7 @@ export class AttributeModelFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'attrmodel.form.label' })}
-              validate={ValidationHelpers.lengthLessThan(20)}
+              validate={lessThan20}
             />
             <Field
               name="description"

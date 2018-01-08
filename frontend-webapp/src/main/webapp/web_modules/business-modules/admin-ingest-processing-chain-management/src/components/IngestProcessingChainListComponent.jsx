@@ -34,7 +34,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { tableActions } from '../clients/TableClient'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import IngestProcessingChainTableEditAction from './IngestProcessingChainTableEditAction'
-//import IngestProcessingChainTableDeleteAction from './IngestProcessingChainTableDeleteAction'
 import { addDependencies } from '../dependencies'
 
 /**
@@ -113,6 +112,7 @@ export class ProcessingChainListComponent extends React.Component {
           fetchPage: this.props.fetchPage,
           onDelete: this.onDelete,
           queryPageSize: this.props.queryPageSize,
+          handleHateoas: true,
         },
       }], true, fixedColumnWidth),
     ]
@@ -132,6 +132,7 @@ export class ProcessingChainListComponent extends React.Component {
           <li>{intl.formatMessage({ id: 'processing-chain.info.message.step2' })}</li>
           <li>{intl.formatMessage({ id: 'processing-chain.info.message.step3' })}</li>
           <li>{intl.formatMessage({ id: 'processing-chain.info.message.step4' })}</li>
+          <li>{intl.formatMessage({ id: 'processing-chain.info.message.step5' })}</li>
         </ul>
       </span>
     )
@@ -153,7 +154,7 @@ export class ProcessingChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              displayedRowsCount={10}
+              displayedRowsCount={15}
               queryPageSize={this.props.queryPageSize}
             />
           </TableLayout>

@@ -33,11 +33,12 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(4)
+    expect(Routes.childRoutes).to.have.length(5)
     expect(Routes.childRoutes[0].path).to.eq('session')
     expect(Routes.childRoutes[1].path).to.eq(':session/list')
-    expect(Routes.childRoutes[2].path).to.eq('submition')
-    expect(Routes.childRoutes[3].path).to.eq('submition-summary')
+    expect(Routes.childRoutes[2].path).to.eq(':session/:sip/history')
+    expect(Routes.childRoutes[3].path).to.eq('submition')
+    expect(Routes.childRoutes[4].path).to.eq('submition-summary')
   })
   it('session should return SIPSessionContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -51,14 +52,20 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it(':submition should return SIPSubmitionFormContainer', (done) => {
+  it(':session/:sip/history should return SIPListContainer', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(SIPListContainer)
+      done()
+    })
+  })
+  it(':submition should return SIPSubmitionFormContainer', (done) => {
+    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(SIPSubmitionFormContainer)
       done()
     })
   })
   it('submition-summary should return SIPSubmitionSummaryContainer', (done) => {
-    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(SIPSubmitionSummaryContainer)
       done()
     })

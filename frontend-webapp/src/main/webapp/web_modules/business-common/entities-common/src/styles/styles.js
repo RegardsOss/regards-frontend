@@ -11,6 +11,7 @@ const growingVerticalLayout = { ...growingFlexElement, ...verticalLayout }
  * Builds module style on theme
  */
 export default theme => ({
+  fullHeight: { height: '100%' },
   descriptionDialog: {
     widthPercent: 88,
     heightPercent: 68,
@@ -57,11 +58,27 @@ export default theme => ({
                 attributesContainer: {
                   rootStyle: { display: 'table', padding: '0 15px 0 20px' },
                   rowStyle: { display: 'table-row' },
-                  labelStyle: { display: 'table-cell', padding: '0 20px 0.4em 0', textDecoration: 'underline' },
+                  labelStyle: {
+                    display: 'table-cell',
+                    padding: '0 20px 0.4em 0',
+                    textDecoration: 'underline',
+                  },
                   valueStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
                 },
               },
               tags: {
+                rootStyle: {
+                  display: 'flex',
+                  flexDirection: 'column',
+                },
+                tagsRootStyle: {
+                  flexGrow: 1,
+                  height: '100%',
+                },
+                documentsRootStyle: {
+                  flexGrow: 1,
+                  height: '100%',
+                },
                 scrollArea: {
                   ...fixedFlexElement,
                 },
@@ -71,7 +88,7 @@ export default theme => ({
                   borderStyle: 'solid',
                   minHeight: '100%',
                 },
-                rootStyle: {
+                sectionStyle: {
                   ...verticalLayout,
                   padding: '0 12px 0 12px',
                 },
@@ -84,7 +101,12 @@ export default theme => ({
                     height: '24px', width: '24px', color: theme.palette.accent2Color, opacity: 0.7,
                   },
                   buttonStyle: { height: '24px', width: '24px', padding: 0 },
-                  labelStyle: { display: 'table-cell', padding: '0 20px 0.4em 10px' },
+                  labelStyle: {
+                    display: 'table-cell',
+                    padding: '0 20px 0.4em 10px',
+                    maxWidth: '350px',
+                    overflowWrap: 'break-word',
+                  },
                   actionStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
                 },
               },

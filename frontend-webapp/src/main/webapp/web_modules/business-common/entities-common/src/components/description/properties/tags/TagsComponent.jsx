@@ -1,6 +1,8 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import isEqual from 'lodash/isEqual'
+import filter from 'lodash/filter'
 import Subheader from 'material-ui/Subheader'
 import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -32,15 +34,89 @@ class TagsComponent extends React.Component {
     ...i18nContextType,
   }
 
-  render() {
+  state = {
+    tags: [],
+    documents: [],
+  }
+
+  componentWillMount() {
+    this.updateTagsAndDocuments(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.entityTags, nextProps.entityTags)) {
+      this.updateTagsAndDocuments(nextProps)
+    }
+  }
+
+  updateTagsAndDocuments = (props) => {
+    const tags = filter(props.entityTags, entity => !entity.content.ipId.match(/URN:AIP:DOCUMENT:.*/)) || []
+    const documents = filter(props.entityTags, entity => entity.content.ipId.match(/URN:AIP:DOCUMENT:.*/)) || []
+    this.setState({
+      tags,
+      documents,
+    })
+  }
+
+  renderDocuments = () => {
     const { intl: { formatMessage } } = this.context
     const {
-      loading, simpleTags, entityTags, onSearchTag, levelActions, levelSelectors,
+      loading, levelActions, levelSelectors,
     } = this.props
-    const { tags: { rootStyle, tagsContainer, scrollAreaContent }, loadingContainerStyle, messageContainerStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const { documents } = this.state
+    const { tags: { sectionStyle, tagsContainer, scrollAreaContent }, loadingContainerStyle, messageContainerStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const { fullHeight } = this.context.moduleTheme
     return (
-      <ScrollArea horizontal={false} vertical contentStyle={scrollAreaContent} >
-        <div style={rootStyle}>
+      <ScrollArea horizontal={false} vertical contentStyle={scrollAreaContent} style={fullHeight}>
+        <div style={sectionStyle}>
+          <Subheader>
+            <FormattedMessage id="entities.common.properties.documents.entities" />
+          </Subheader>
+          {
+            (function renderContent() {
+              if (loading) {
+                return (
+                  <div style={loadingContainerStyle} >
+                    <LoadingDisplayerComponent message={formatMessage({ id: 'entities.common.properties.loading.document' })} />
+                  </div>
+                )
+              } else if (!documents.length) {
+                return (
+                  <div style={messageContainerStyle}>
+                    <FormattedMessage id="entities.common.properties.no.document" />
+                  </div>)
+              }
+              return (
+                <div style={tagsContainer.rootStyle}>
+                  {
+                    documents.map(entity => (
+                      <EntityTagContainer
+                        key={entity.content.ipId}
+                        entity={entity}
+                        levelActions={levelActions}
+                        levelSelectors={levelSelectors}
+                      />))
+                  }
+                </div>
+              )
+            }())
+          }
+        </div>
+      </ScrollArea>
+    )
+  }
+
+  renderTags = () => {
+    const { intl: { formatMessage } } = this.context
+    const {
+      loading, simpleTags, onSearchTag, levelActions, levelSelectors,
+    } = this.props
+    const { tags: { sectionStyle, tagsContainer, scrollAreaContent }, loadingContainerStyle, messageContainerStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const { fullHeight } = this.context.moduleTheme
+    const { tags } = this.state
+    return (
+      <ScrollArea horizontal={false} vertical contentStyle={scrollAreaContent} style={fullHeight}>
+        <div style={sectionStyle}>
           <Subheader>
             <FormattedMessage id="entities.common.properties.tags.entities" />
           </Subheader>
@@ -52,7 +128,7 @@ class TagsComponent extends React.Component {
                     <LoadingDisplayerComponent message={formatMessage({ id: 'entities.common.properties.loading.tags' })} />
                   </div>
                 )
-              } else if (!simpleTags.length && !entityTags.length) {
+              } else if (!simpleTags.length && !tags.length) {
                 return (
                   <div style={messageContainerStyle}>
                     <FormattedMessage id="entities.common.properties.no.tag" />
@@ -64,7 +140,7 @@ class TagsComponent extends React.Component {
                     simpleTags.map(tag => <SimpleTagContainer key={tag} tag={tag} onSearchTag={onSearchTag} />)
                   }
                   {
-                    entityTags.map(entity => (
+                    tags.map(entity => (
                       <EntityTagContainer
                         key={entity.content.ipId}
                         entity={entity}
@@ -79,6 +155,16 @@ class TagsComponent extends React.Component {
           }
         </div>
       </ScrollArea>
+    )
+  }
+
+  render() {
+    const { rootStyle, tagsRootStyle, documentsRootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags
+    return (
+      <div style={rootStyle}>
+        <div style={tagsRootStyle}>{this.renderTags()}</div>
+        <div style={documentsRootStyle}>{this.renderDocuments()}</div>
+      </div>
     )
   }
 }

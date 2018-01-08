@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { PluginFormConfigurator } from '@regardsoss/microservice-plugin-configurator'
+import { PluginFormContainer } from '@regardsoss/microservice-plugin-configurator'
 import { PluginConfigurationFormContainer } from '../../../src/containers/plugin/PluginConfigurationFormContainer'
 
 // mock router
@@ -41,7 +41,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form cont
 
   it('should exists', () => {
     assert.isDefined(PluginConfigurationFormContainer)
-    assert.isDefined(PluginFormConfigurator)
+    assert.isDefined(PluginFormContainer)
   })
 
   it('should render self and subcomponents in create mode', () => {
@@ -54,31 +54,8 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form cont
         pluginConfigurationId: '0',
         formMode: 'create',
       },
-      // from mapStateToProps
-      pluginConfiguration: {
-        pluginId: 6,
-        pluginType: 'Other',
-        pluginClassName: 'Kerberos',
-        author: 'Jules Verne',
-        version: '0.0.5',
-        description: 'Allows the users to log in with their usual email and password.',
-      },
-      pluginMetaData: {
-        pluginId: '8',
-        pluginType: 'Other',
-        pluginClassName: 'Titi',
-        author: 'Victor Hugo',
-        version: '2.0.5',
-        description: 'This plugin is pretty useless actually.',
-      },
-      isPluginConfigurationFetching: false,
-      // from mapDispatchToProps
-      fetchPluginConfiguration: () => { },
-      createPluginConfiguration: () => { },
-      updatePluginConfiguration: () => { },
-      fetchPluginMetaDataList: () => { },
     }
     const enzymeWrapper = shallow(<PluginConfigurationFormContainer {...props} />)
-    expect(enzymeWrapper.find(PluginFormConfigurator)).to.have.length(1)
+    expect(enzymeWrapper.find(PluginFormContainer)).to.have.length(1)
   })
 })

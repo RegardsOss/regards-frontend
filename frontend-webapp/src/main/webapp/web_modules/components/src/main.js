@@ -71,6 +71,7 @@ import LinkComponent from './links/LinkComponent'
 import PageableListContainer from './list/PageableListContainer'
 import ListContainer from './list/ListContainer'
 import ChipList from './list/ChipList'
+import SelectableList from './list/SelectableList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
@@ -102,6 +103,7 @@ import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSepara
 import TableHeaderText from './table/header/TableHeaderText'
 import TableLayout from './table/TableLayout'
 import TableDeleteOption from './table/content/cells/options/TableDeleteOption'
+import TableSimpleActionOption from './table/content/cells/options/TableSimpleActionOption'
 import TableSelectAllOption from './table/options/TableSelectAllOption'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import { TableSortOrders } from './table/model/TableSortOrders'
@@ -123,6 +125,9 @@ import StringArrayValueRender from './values/StringArrayValueRender'
 import StringValueRender from './values/StringValueRender'
 import URLValueRender from './values/URLValueRender'
 import withValueRenderContext from './values/withValueRenderContext'
+
+import InfiniteGalleryContainer from './gallery/InfiniteGalleryContainer'
+
 
 export {
   ActionButtonComponent,
@@ -173,6 +178,7 @@ export {
   LinkComponent,
   HelpMessageComponent,
   NoContentComponent,
+  SelectableList,
 
   // Table
   ActionsMenuCell,
@@ -197,6 +203,7 @@ export {
   TableHeaderText,
   TableLayout,
   TableDeleteOption,
+  TableSimpleActionOption,
   TableSelectAllOption,
   TableSelectionModes,
   TableSortOrders,
@@ -221,4 +228,6 @@ export {
   StringValueRender,
   URLValueRender,
   withValueRenderContext, // use it in values render parent to connect with their context (stacking)
+
+  InfiniteGalleryContainer,
 }

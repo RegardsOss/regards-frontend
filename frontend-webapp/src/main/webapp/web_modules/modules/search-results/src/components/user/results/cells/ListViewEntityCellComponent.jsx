@@ -55,6 +55,7 @@ class ListViewEntityCellComponent extends React.Component {
     selectionEnabled: PropTypes.bool,
     servicesEnabled: PropTypes.bool.isRequired,
     entitySelected: PropTypes.bool.isRequired,
+    displayLabel: PropTypes.bool,
     // Callback
     onSelectEntity: PropTypes.func.isRequired,
     onSearchEntity: PropTypes.func,
@@ -66,12 +67,16 @@ class ListViewEntityCellComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static defaultProps = {
+    displayLabel: true,
+  }
   /**
    * Renders title area of the list cell (title, with checkbox if selection enabled, empty space and options)
    */
   renderTitle = () => {
     const {
       entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, onSelectEntity, onSearchEntity, onAddToCart,
+      displayLabel,
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
     const {
@@ -90,13 +95,16 @@ class ListViewEntityCellComponent extends React.Component {
               checked={entitySelected}
               style={checkboxStyles}
             />) : null}
-          <FlatButton
-            label={entity.content.label}
-            title={onSearchEntity ? formatMessage({ id: 'results.search.entity' }) : null}
-            labelStyle={labelStyles}
-            onTouchTap={onSearchEntity}
-            disabled={!onSearchEntity}
-          />
+          <ShowableAtRender show={displayLabel}>
+            <FlatButton
+              label={entity.content.label}
+              title={onSearchEntity ? formatMessage({ id: 'results.search.entity' }) : null}
+              labelStyle={labelStyles}
+              onTouchTap={onSearchEntity}
+              disabled={!onSearchEntity}
+            />
+          </ShowableAtRender>
+
         </div>
         {/* B. Options bar */}
         <div style={optionsBarStyles}>

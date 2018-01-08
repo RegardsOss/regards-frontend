@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import values from 'lodash/values'
 /**
  * Table possible display modes
  * @author Sébastien Binda
  */
-module.exports = {
+export const TableDisplayModeEnum = {
   TABLE: 'table',
   LIST: 'list',
+  QUICKLOOK: 'quicklook',
 }
+
+export const TableDisplayModeValues = values(TableDisplayModeEnum)

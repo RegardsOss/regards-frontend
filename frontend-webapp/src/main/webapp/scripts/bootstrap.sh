@@ -23,6 +23,24 @@
 
 set -e
 
+SCRIPT_DIR=`dirname "${BASH_SOURCE[0]}"`
+
+# Clean directories
+if [ -d "${SCRIPT_DIR}/../node_modules/.cache" ]; then
+  echo "Clean babel cache directory : ${SCRIPT_DIR}/../node_modules/.cache"
+  rm -rf "${SCRIPT_DIR}/../node_modules/.cache"
+fi
+
+if [ -d "${SCRIPT_DIR}/../node_modules/@regardsoss" ]; then
+  echo "Clean regardsoss modules : ${SCRIPT_DIR}/../node_modules/@regardsoss"
+  rm -rf "${SCRIPT_DIR}/../node_modules/@regardsoss"
+fi
+
+if [ -d "${SCRIPT_DIR}/../node_modules/@regardsoss-modules" ]; then
+  echo "Clean regardsoss modules : ${SCRIPT_DIR}/../node_modules/@regardsoss-modules"
+  rm -rf "${SCRIPT_DIR}/../node_modules/@regardsoss-modules"
+fi
+
 # Lint
 npm install eslint-config-es6-rules
 
@@ -44,6 +62,7 @@ npm link web_modules/utils/form-utils
 npm link web_modules/utils/i18n
 npm link web_modules/utils/i18n-ui
 npm link web_modules/utils/layout
+npm link web_modules/utils/mime-types
 npm link web_modules/utils/modules
 npm link web_modules/utils/plugins
 npm link web_modules/utils/plugins-api
@@ -85,6 +104,7 @@ npm link web_modules/business-modules/admin-data-dataset-management
 npm link web_modules/business-modules/admin-data-datasource-management
 npm link web_modules/business-modules/admin-data-document-management
 npm link web_modules/business-modules/admin-data-fragment-management
+npm link web_modules/business-modules/admin-data-provider-management
 npm link web_modules/business-modules/admin-ingest-processing-chain-management
 npm link web_modules/business-modules/admin-ingest-sip-management
 npm link web_modules/business-modules/admin-microservice-management

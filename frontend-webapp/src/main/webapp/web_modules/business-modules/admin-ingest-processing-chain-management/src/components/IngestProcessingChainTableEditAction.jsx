@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import find from 'lodash/find'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
 import { IngestShapes } from '@regardsoss/shape'
@@ -43,7 +44,7 @@ class IngestProcessingChainTableEditAction extends React.Component {
 
   isEditable = () => {
     const { links } = this.props.entity
-    return find(links, l => l.rel === 'update', false) !== false
+    return !!find(links, l => l.rel === 'update')
   }
 
   render() {
@@ -56,7 +57,7 @@ class IngestProcessingChainTableEditAction extends React.Component {
         iconStyle={IngestProcessingChainTableEditAction.iconStyle}
         style={IngestProcessingChainTableEditAction.buttonStyle}
         onTouchTap={() => this.props.onEdit(chain.name)}
-        disabled={this.isEditable()}
+        disabled={!this.isEditable()}
       >
         <Edit />
       </IconButton>

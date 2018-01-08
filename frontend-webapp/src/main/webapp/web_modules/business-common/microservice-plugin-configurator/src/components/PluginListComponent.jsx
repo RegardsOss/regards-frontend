@@ -1,11 +1,35 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import find from 'lodash/find'
 import map from 'lodash/map'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
 import { CommonShapes } from '@regardsoss/shape'
-import { withI18n } from '@regardsoss/i18n'
+import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import messages from '../i18n'
+import moduleStyles from '../styles'
 
+/**
+ * Displays a selectable list of plugins (PluginMetaData)
+ * @author Sébastien Binda
+ */
 export class PluginListComponent extends React.Component {
   static propTypes = {
     title: PropTypes.string,
@@ -13,12 +37,20 @@ export class PluginListComponent extends React.Component {
     pluginList: CommonShapes.PluginMetaDataList,
     defaultSelectedPluginId: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    errorText: PropTypes.string,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   static styles = {
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'center',
   }
+
+  static menuStyles = { top: '-7px' }
 
   constructor(props) {
     super(props)
@@ -27,27 +59,55 @@ export class PluginListComponent extends React.Component {
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.defaultSelectedPluginId !== newProps.defaultSelectedPluginId) {
+      this.setState({
+        selectedPluginId: newProps.defaultSelectedPluginId,
+      })
+    }
+  }
+
+  /**
+   * Callback function to select a pluginMetadata from the list
+   */
   handleSelect = (event, index, pluginId) => {
     this.setState({ selectedPluginId: pluginId })
     const plugin = find(this.props.pluginList, p => p.content.pluginId === pluginId, null)
     this.props.onChange(plugin ? plugin.content : null)
   }
 
+  /**
+   * Render one pluginMetadata to display in the list
+   */
   renderItem = plugin => (
     <MenuItem key={plugin.content.pluginId} value={plugin.content.pluginId} primaryText={plugin.content.pluginId} />
   )
 
+  /**
+   * Returns React component
+   * @returns {XML}
+   */
   render() {
+    const { moduleTheme: { renderer: { errorStyle } } } = this.context
     return (
       <div style={PluginListComponent.styles}>
-        <span>{this.props.title ? this.props.title : null}</span>
-        <DropDownMenu value={this.state.selectedPluginId} onChange={this.handleSelect}>
+        <div>
+          {this.props.title ? this.props.title : null}
+        </div>
+        <DropDownMenu
+          value={this.state.selectedPluginId}
+          onChange={this.handleSelect}
+          style={PluginListComponent.menuStyles}
+        >
           <MenuItem value={null} primaryText={this.props.selectLabel || 'none'} />
           {map(this.props.pluginList, this.renderItem)}
         </DropDownMenu>
+        <div style={errorStyle}>
+          {this.props.errorText}
+        </div>
       </div>
     )
   }
 }
 
-export default withI18n(messages)(PluginListComponent)
+export default withModuleStyle(moduleStyles)(withI18n(messages)(PluginListComponent))

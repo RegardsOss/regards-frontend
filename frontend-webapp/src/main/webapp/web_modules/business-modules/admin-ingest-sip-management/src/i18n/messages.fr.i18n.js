@@ -19,11 +19,12 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'sips.title': 'Consultation des acquisitions de donées (SIP)',
+
   'sips.button.filter': 'Filtrer',
   'sips.button.back': 'Retour',
   'sips.list.subtitle': 'Liste des SIPS pour la session sélectionnée',
   'sips.list.filters.chain.label': 'Chaîne de traitement',
+  'sips.list.filters.sipid.label': 'Identient SIP',
   'sips.list.filters.chain.all': 'Toutes les chaînes',
   'sips.list.filters.status.label': 'Etat',
   'sips.list.filters.status.all': 'Tous les statuts',
@@ -37,24 +38,15 @@ const messages = Object.assign({
   'sips.list.table.headers.type': 'Type',
   'sips.list.table.headers.state': 'Statut',
   'sips.list.table.headers.date': 'Date',
+  'sips.list.table.headers.version': 'Version',
   'sips.list.table.headers.actions': 'Actions',
   'sips.list.table.actions.delete': 'Supprimer session',
   'sips.list.table.actions.original-sip': 'Voir SIP original',
   'sips.list.table.actions.original-aip': 'Voir AIP généré',
   'sips.list.table.actions.retry': 'Réessayer',
-  'sips.list.aip-details.title': 'AIPs',
-  'sips.list.aip-details.table.headers.aip-id': 'AIP ID',
-  'sips.list.aip-details.table.headers.state': 'Statut',
-  'sips.list.aip-details.table.headers.actions': 'Actions',
-  'sips.list.aip-details.table.actions.retry': 'Réessayer',
-  'sips.list.aip-details.table.actions.files': 'Voir fichiers',
-  'sips.list.aip-details.table.files.title': 'Fichiers',
-  'sips.list.aip-details.table.files.headers.name': 'Nom',
-  'sips.list.aip-details.table.files.headers.size': 'Taille',
-  'sips.list.aip-details.table.files.headers.actions': 'Actions',
   'sips.list.sip-details.title': 'Détails du SIP',
+  'sips.list.sip-history.title': 'Historique du SIP',
   'sips.list.empty.title': 'Aucune donnée trouvée',
-  'sips.list.button.back': 'Retour aux sessions',
   'sips.stepper.list': 'Afficher SIPs',
   'sips.stepper.session': 'Selectionner session',
 
@@ -66,6 +58,8 @@ const messages = Object.assign({
 
   'sip.details.button.close': 'Fermer',
 
+  'sips.session.title': 'Sessions',
+  'sips.session.sips.title': 'Session {session}',
   'sips.session.subtitle': 'Visualisation des sessions d\'acquisitions. Une session est un regroupement de paquets de d\'information de données (SIP).',
   'sips.session.filter.name': 'Nom de la session : ',
   'sips.session.filter.name.label': 'Nom',
@@ -84,8 +78,8 @@ const messages = Object.assign({
   'sips.session.table.actions.list': 'Lister les SIPs associés',
   'sips.session.button.back': 'Retour',
   'sips.session.refresh.button': 'Rafraîchir',
-  'sips.session.clear.filters.button': 'Vider',
-  'sips.session.apply.filters.button': 'Appliquer',
+  'sips.session.clear.filters.button': 'Vider les filtres',
+  'sips.session.apply.filters.button': 'Appliquer les filtres',
 
   'sips.submit.title': 'Soumission de données',
   'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format geoson contenant le ou les entités',

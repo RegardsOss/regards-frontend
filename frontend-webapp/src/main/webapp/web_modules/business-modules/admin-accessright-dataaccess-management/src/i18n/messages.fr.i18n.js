@@ -39,6 +39,7 @@ const messages = Object.assign({
   'accessright.form.dataset.input': 'Recherche par nom de collection',
   'accessright.form.action.save': 'Sauvegarder',
   'accessright.form.action.cancel': 'Annuler',
+  'accessright.form.action.back': 'Retour',
   'accessright.form.action.advanced.hide': 'Cacher',
   'accessright.form.action.advanced.show': 'Afficher les paramètres avancés',
   'accessright.form.title': 'Droits d\'accès',

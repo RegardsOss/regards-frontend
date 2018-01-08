@@ -20,9 +20,11 @@ import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
+import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 
 
+const HateoasIconAction = withHateoasDisplayControl(IconButton)
 /**
 * Table delete option: deletes then fetches data
 * @author Raphaël Mechali
@@ -34,6 +36,8 @@ class TableDeleteOption extends React.Component {
     // Entity. Note: when used in options column, this is provided by the table cell API
     // eslint-disable-next-line react/forbid-prop-types
     entity: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    handleHateoas: PropTypes.bool,
     fetchPage: PropTypes.func.isRequired, // fetch method: (pageIndex, pageSize, pathParams, requestParams) => Promise
     // eslint-disable-next-line react/forbid-prop-types
     pathParams: PropTypes.object,
@@ -41,6 +45,10 @@ class TableDeleteOption extends React.Component {
     requestParams: PropTypes.object,
     onDelete: PropTypes.func.isRequired, // delete method (entity, onDone) => ()
     queryPageSize: PropTypes.number.isRequired,
+  }
+
+  static defaultProps = {
+    handleHateoas: false,
   }
 
   static contextTypes = {
@@ -66,8 +74,29 @@ class TableDeleteOption extends React.Component {
     fetchPage(pageIndex, queryPageSize, pathParams, requestParams)
   }
 
+  renderWithHateoas = () => {
+    const { intl: { formatMessage } } = this.context
+    const { entity } = this.props
+    return (
+      <HateoasIconAction
+        entityLinks={entity.links}
+        hateoasKey={HateoasKeys.DELETE}
+        alwaysDisplayforInstanceUser={false}
+        title={formatMessage({ id: 'table.delete.option.tooltip' })}
+        onTouchTap={this.onDelete}
+        {...omit(this.props, keys(TableDeleteOption.propTypes))}
+      >
+        <DeleteIcon />
+      </HateoasIconAction>
+    )
+  }
+
   render() {
     const { intl: { formatMessage } } = this.context
+    const { handleHateoas, entity } = this.props
+    if (handleHateoas && entity.links) {
+      return this.renderWithHateoas()
+    }
     return (
       <IconButton
         title={formatMessage({ id: 'table.delete.option.tooltip' })}

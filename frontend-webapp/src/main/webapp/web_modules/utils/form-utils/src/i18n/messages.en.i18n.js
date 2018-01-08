@@ -18,6 +18,7 @@
 **/
 const messages = {
   'invalid.required': 'Required',
+  'invalid.array.required': 'There should be one element at least in this list',
   'invalid.email': 'Invalid email address',
   'invalid.url': 'Invalid url',
   'invalid.only_alphanumeric': 'Use alphanumeric characters and "_"',
@@ -51,6 +52,25 @@ const messages = {
   'renderer.fileField.button.select.label': 'Select a file',
   'renderer.fileField.button.change.label': 'Change selected file',
   'renderer.fileField.no.file.selected': 'No file selected',
+
+  'render.pageableAutoCompleteField.loading': 'loading ...',
+
+  'render.array-field.values.title': 'Defined values',
+  'render.array-field.add.new.value.button': 'Add',
+  'render.array-field.new.value.hint': 'New value ...',
+
+  'render.array-object.options.title': 'Options',
+  'render.array-object.delete.button': 'Delete',
+  'render.array-object.duplicate.button': 'Duplicate',
+  'render.array-object.item.title': 'Item {index}',
+  'render.array-object.delete.confirm.title': 'Do you want to delete {index} ?',
+  'render.array-object.add.button': 'Add',
+  'render.array-object.cancel.button': 'Cancel',
+
+  'render.map-object.add.new.dialog.title': 'Add new element to the map parameter {parameter}',
+  'render.map-object.add.new.dialog.key.label': 'New element key',
+  'render.map-object.key.already.exists.error': 'Selected value already exists.',
+  'render.map-object.duplicate.key.not.exists': 'Element to duplicate does not exists anymore',
 }
 
 export default messages

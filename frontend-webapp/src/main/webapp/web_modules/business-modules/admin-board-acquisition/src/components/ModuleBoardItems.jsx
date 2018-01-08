@@ -29,6 +29,7 @@ import { datasourceDependencies } from '@regardsoss/admin-data-datasource-manage
 import { documentDependencies } from '@regardsoss/admin-data-document-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
 import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
+import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 
 /**
  * BoardItems configuration for ingest module
@@ -37,8 +38,8 @@ import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
  */
 const items = (projectName, intl) => [
   {
-    title: intl.formatMessage({ id: 'ingest.board.ois.title' }),
-    description: intl.formatMessage({ id: 'ingest.board.ois.description' }),
+    title: intl.formatMessage({ id: 'ingest.board.title' }),
+    description: intl.formatMessage({ id: 'ingest.board.description' }),
     advanced: false,
     actions: [
       {
@@ -62,21 +63,35 @@ const items = (projectName, intl) => [
     ],
   },
   {
+    title: intl.formatMessage({ id: 'data-provider.board.title' }),
+    description: intl.formatMessage({ id: 'data-provider.board.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/dataprovider/chain/list`,
+        icon: <Build />,
+        tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.chain.list.tooltip' }),
+        // TODO : Set hateoas dependencies
+        // hateoasDependencies: dataProviderDependencies.listDependencies,
+      },
+    ],
+  },
+  {
     title: intl.formatMessage({ id: 'ingest.board.external.datasources.title' }),
     description: intl.formatMessage({ id: 'ingest.board.external.datasources.description' }),
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/datasource/list`,
-        icon: <Build />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.external.datasources.list.tooltip' }),
-        hateoasDependencies: datasourceDependencies.listDependencies,
-      },
-      {
         path: `/admin/${projectName}/data/acquisition/connection/list`,
         icon: <Database />,
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.connection.list.tooltip' }),
         hateoasDependencies: connectionDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/datasource/list`,
+        icon: <Build />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.external.datasources.list.tooltip' }),
+        hateoasDependencies: datasourceDependencies.listDependencies,
       },
       {
         path: `/admin/${projectName}/data/acquisition/datasource/monitor`,

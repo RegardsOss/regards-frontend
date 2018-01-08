@@ -17,6 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import RenderTextField from './render/RenderTextField'
+import RenderArrayTextField from './render/RenderArrayTextField'
+import RenderArrayObjectField from './render/RenderArrayObjectField'
+import RenderMapField from './render/RenderMapField'
 import RenderSelectField from './render/RenderSelectField'
 import RenderCheckbox from './render/RenderCheckbox'
 import RenderRadio from './render/RenderRadio'
@@ -26,6 +29,7 @@ import RenderToggle from './render/RenderToggle'
 import RenderDoubleLabelToggle from './render/RenderDoubleLabelToggle'
 import RenderDateTimeField from './render/RenderDateTimeField'
 import RenderJsonCodeEditorField from './render/RenderJsonCodeEditorField'
+import RenderSlider from './render/RenderSlider'
 import ErrorTypes from './ErrorTypes'
 import Locales from './i18n/Locales'
 import Field from './Field'
@@ -37,9 +41,17 @@ import EnumInputsComponent from './EnumInputs/EnumInputsComponent'
 import EnumInputsHelper from './EnumInputs/EnumInputsHelper'
 import StringComparison from './StringComparison'
 import reduxForm from './reduxForm'
+import RenderAutoCompleteField from './render/RenderAutoCompleteField'
+import RenderPageableAutoCompleteField from './render/RenderPageableAutoCompleteField'
+import RenderHelper from './render/RenderHelper'
 
 module.exports = {
+  RenderAutoCompleteField,
+  RenderPageableAutoCompleteField,
   RenderTextField,
+  RenderArrayTextField,
+  RenderArrayObjectField,
+  RenderMapField,
   RenderToggle,
   RenderDoubleLabelToggle,
   RenderSelectField,
@@ -48,6 +60,7 @@ module.exports = {
   RenderFileField,
   RenderFileFieldWithMui,
   RenderDateTimeField,
+  RenderSlider,
   ErrorTypes,
   Locales,
   Field,
@@ -60,4 +73,5 @@ module.exports = {
   StringComparison,
   reduxForm,
   RenderJsonCodeEditorField,
+  RenderHelper,
 }

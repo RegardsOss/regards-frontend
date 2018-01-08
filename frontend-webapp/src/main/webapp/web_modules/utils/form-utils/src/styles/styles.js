@@ -70,5 +70,68 @@ export default function styles(theme) {
         top: dateFieldThemeValues.textTop,
       },
     },
+    autoCompleteFields: {
+      listStyle: {
+        maxHeight: '200px',
+        overflow: 'auto',
+      },
+    },
+    arrayField: {
+      layout: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'baseline',
+      },
+      list: {
+      },
+      listContent: {
+        maxHeight: '150px',
+        minWidth: '200px',
+        overflow: 'auto',
+      },
+      text: {
+        margin: '0px 15px',
+      },
+      errorIconStyle: {
+        color: theme['forms-extension:validation'].errorColor,
+      },
+    },
+    arrayObject: {
+      layoutStyle: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        border: '1px solid',
+        borderColor: theme.palette.borderColor,
+      },
+      titleStyle: {
+        width: '100%',
+      },
+      contentStyle: {
+        display: 'flex',
+        flexDirection: 'row',
+        height: '250px',
+        width: '100%',
+      },
+      leftColumnStyle: {
+        width: '18%',
+        borderRight: '1px solid',
+        borderColor: theme.palette.borderColor,
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      leftListStyle: {
+        flexGrow: '1',
+        overflow: 'auto',
+      },
+      leftButtonStyle: {
+        flexGrow: '0',
+      },
+      rightColumnStyle: {
+        width: '82%',
+        overflow: 'auto',
+        margin: '0px 15px',
+      },
+    },
   }
 }

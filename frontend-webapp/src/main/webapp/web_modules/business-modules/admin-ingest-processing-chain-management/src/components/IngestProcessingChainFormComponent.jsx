@@ -23,12 +23,18 @@ import Avatar from 'material-ui/Avatar'
 import { formValueSelector } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderTextField, Field, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, Field, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { IngestShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
-import { PluginFormComponent } from './PluginFormComponent'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import IngestProcessingPluginTypes from './IngestProcessingPluginType'
+import messages from '../i18n'
+import styles from '../styles'
+
+const { required, validStringSize } = ValidationHelpers
+const validString50 = [required, validStringSize(1, 50)]
+const validString128 = [validStringSize(0, 128)]
 
 /**
  * Display edit and create ingest processing chain form
@@ -40,12 +46,10 @@ export class IngestProcessingChainFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     // from reduxForm
-    change: PropTypes.func,
     initialize: PropTypes.func,
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func,
-    getField: PropTypes.func,
   }
 
   static contextTypes = {
@@ -64,6 +68,35 @@ export class IngestProcessingChainFormComponent extends React.Component {
     this.handleInitialize()
   }
 
+  getPluginConfigurator = (index, title, selectLabel, ingestPluginType, pluginConf, fieldNamePrefix, isRequired) => {
+    const { moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
+    const defaultPluginLabel = `${fieldNamePrefix}-${Date.now()}`
+    return (
+      <div style={pluginStyles}>
+        <Avatar
+          size={30}
+          style={avatarStyles}
+          color={palette.textColor}
+          backgroundColor={palette.primary1Color}
+        > {index}
+        </Avatar>
+        <Field
+          name={fieldNamePrefix}
+          component={RenderPluginField}
+          fullWidth
+          title={title}
+          selectLabel={selectLabel}
+          pluginType={ingestPluginType}
+          defaultPluginConfLabel={defaultPluginLabel}
+          validate={isRequired ? ValidationHelpers.required : null}
+          microserviceName={STATIC_CONF.MSERVICES.INGEST}
+          hideGlobalParameterConf
+          hideDynamicParameterConf
+        />
+      </div>
+    )
+  }
+
   handleInitialize = () => {
     if (this.props.processingChain) {
       this.props.initialize(this.props.processingChain)
@@ -78,17 +111,6 @@ export class IngestProcessingChainFormComponent extends React.Component {
     const generationPlugin = get(processingChain, 'generationPlugin', null)
     const tagPlugin = get(processingChain, 'tagPlugin', null)
     const postprocessingPlugin = get(processingChain, 'postprocessingPlugin', null)
-
-    const pluginStyles = {
-      display: 'flex',
-      alignItems: 'baseline',
-    }
-
-    const avatarStyles = {
-      marginRight: 10,
-    }
-
-    const palette = this.context.muiTheme.palette
 
     return (
       <form
@@ -112,120 +134,53 @@ export class IngestProcessingChainFormComponent extends React.Component {
               type="text"
               label={formatMessage({ id: 'processing-chain.form.create.input.name' })}
               normalize={trim}
+              validate={validString50}
             />
             <Field
               name="description"
               fullWidth
               component={RenderTextField}
               type="text"
+              validate={validString128}
               label={formatMessage({ id: 'processing-chain.form.create.input.description' })}
-              normalize={trim}
             />
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 1
-              </Avatar>
-              <PluginFormComponent
-                key="preprocessing"
-                title="[Optional] Pre-processing plugin"
-                selectLabel="None"
-                ingestPluginType={IngestProcessingPluginTypes.PRE_PROCESSING}
-                pluginConf={preprocessingPlugin}
-                fieldNamePrefix="preprocessingPlugin"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 2
-              </Avatar>
-              <PluginFormComponent
-                key="validation"
-                title="Validation plugin"
-                selectLabel="Choose a plugin ..."
-                ingestPluginType={IngestProcessingPluginTypes.VALIDATION}
-                pluginConf={validationPlugin}
-                fieldNamePrefix="validationPlugin"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 3
-              </Avatar>
-              <PluginFormComponent
-                key="generation"
-                title="AIP GEneration plugin"
-                selectLabel="Choose a plugin ..."
-                ingestPluginType={IngestProcessingPluginTypes.GENERATION}
-                pluginConf={generationPlugin}
-                fieldNamePrefix="generationPlugin"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 4
-              </Avatar>
-              <PluginFormComponent
-                key="tag"
-                title="[Optional] AIP Tag plugin"
-                selectLabel="None"
-                ingestPluginType={IngestProcessingPluginTypes.TAG}
-                pluginConf={tagPlugin}
-                fieldNamePrefix="tagPlugin"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
-            <div style={pluginStyles}>
-              <Avatar
-                size={30}
-                style={avatarStyles}
-                color={palette.textColor}
-                backgroundColor={palette.primary1Color}
-              > 5
-              </Avatar>
-              <PluginFormComponent
-                key="postprocessing"
-                title="[Optional] Post-processing plugin"
-                selectLabel="None"
-                ingestPluginType={IngestProcessingPluginTypes.POST_PROCESSING}
-                pluginConf={postprocessingPlugin}
-                fieldNamePrefix="postprocessingPlugin"
-                reduxFormChange={this.props.change}
-                reduxFormInitialize={this.props.initialize}
-                reduxFormGetField={this.props.getField}
-                hideGlobalParameterConf
-              />
-            </div>
+            {this.getPluginConfigurator(
+              1, formatMessage({ id: 'processing-chain.form.preprocessing.plugin.label' }),
+              formatMessage({ id: 'processing-chain.form.plugins.none.selected' }),
+              IngestProcessingPluginTypes.PRE_PROCESSING,
+              preprocessingPlugin,
+              'preprocessingPlugin',
+            )}
+            {this.getPluginConfigurator(
+              2, formatMessage({ id: 'processing-chain.form.validation.plugin.label' }),
+              formatMessage({ id: 'processing-chain.form.plugins.none.selected.mandatory' }),
+              IngestProcessingPluginTypes.VALIDATION,
+              validationPlugin,
+              'validationPlugin',
+              true,
+            )}
+            {this.getPluginConfigurator(
+              3, formatMessage({ id: 'processing-chain.form.generation.plugin.label' }),
+              formatMessage({ id: 'processing-chain.form.plugins.none.selected.mandatory' }),
+              IngestProcessingPluginTypes.GENERATION,
+              generationPlugin,
+              'generationPlugin',
+              true,
+            )}
+            {this.getPluginConfigurator(
+              4, formatMessage({ id: 'processing-chain.form.tag.plugin.label' }),
+              formatMessage({ id: 'processing-chain.form.plugins.none.selected' }),
+              IngestProcessingPluginTypes.TAG,
+              tagPlugin,
+              'tagPlugin',
+            )}
+            {this.getPluginConfigurator(
+              5, formatMessage({ id: 'processing-chain.form.postprocessing.plugin.label' }),
+              formatMessage({ id: 'processing-chain.form.plugins.none.selected' }),
+              IngestProcessingPluginTypes.POST_PROCESSING,
+              postprocessingPlugin,
+              'postprocessingPlugin',
+            )}
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -263,5 +218,5 @@ const connectedReduxForm = reduxForm({
   validate,
 })(ConnectedComponent)
 
-export default connectedReduxForm
+export default withI18n(messages)(withModuleStyle(styles)(connectedReduxForm))
 

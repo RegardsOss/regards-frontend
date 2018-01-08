@@ -16,7 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import map from 'lodash/map'
+import omit from 'lodash/omit'
+import cloneDeep from 'lodash/cloneDeep'
+import get from 'lodash/get'
+import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import Delete from 'material-ui/svg-icons/action/delete'
@@ -28,12 +33,14 @@ import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 import Subheader from 'material-ui/Subheader'
 import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
-import { GenericPluginParameter, PluginUtils } from '@regardsoss/microservice-plugin-configurator'
+import { RenderPluginConfField } from '@regardsoss/microservice-plugin-configurator'
 import { pluginConfigurationByTypeActions } from '../../clients/PluginConfigurationClient'
-import moduleStyles from '../../styles/styles'
+import PluginView from './PluginView'
+import styles from '../../styles'
+
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const HateoasToggle = withHateoasDisplayControl(Toggle)
@@ -44,7 +51,7 @@ const ResourceIconAction = withResourceDisplayControl(IconButton)
  *
  * @author Xavier-Alexandre Brochard
  */
-class PluginConfigurationComponent extends React.Component {
+export class PluginConfigurationComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -66,14 +73,7 @@ class PluginConfigurationComponent extends React.Component {
     super(props)
     this.state = {
       expanded: false,
-      pluginParameterTypeList: props.pluginMetaData && props.pluginMetaData.content.parameters,
     }
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      pluginParameterTypeList: newProps.pluginMetaData && newProps.pluginMetaData.content.parameters,
-    })
   }
 
   handleExpandChange = (newExpandedState) => {
@@ -86,39 +86,38 @@ class PluginConfigurationComponent extends React.Component {
     const {
       microserviceName, pluginConfiguration, pluginMetaData, onActiveToggle, onCopyClick, onDeleteClick, onEditClick, onDownwardClick, onUpwardClick,
     } = this.props
+    const { moduleTheme } = this.context
 
-    const styles = moduleStyles(this.context.muiTheme).pluginConfiguration
+    const ConfForm = reduxForm({
+      form: `view-plugin-conf-${pluginConfiguration.content.id}`,
+      initialValues: { pluginConfiguration: pluginConfiguration.content },
+    })(PluginView)
 
-    const parameters = map(pluginMetaData.content.parameters, (pluginParameterType, index) => {
-      try {
-        const pluginParam = PluginUtils.mapPluginParameterTypeToPluginParameter(pluginParameterType, pluginConfiguration.content)
-        return (
-          <GenericPluginParameter
-            key={pluginParameterType.name}
-            microserviceName={microserviceName}
-            pluginParameterType={pluginParameterType}
-            pluginParameter={pluginParam}
-            pluginMetaData={pluginMetaData}
-            mode="view"
-          />)
-      } catch (e) {
-        return null
-      }
-    })
+    // Simulate a redux form to use the same component RenderPluginConfField to display a non editable form of plugin configuration.
+    const conf = (
+      <ConfForm
+        microserviceName={microserviceName}
+        pluginMetaData={get(pluginMetaData, 'content', {})}
+        name="pluginConfiguration"
+        component={RenderPluginConfField}
+      />)
+
 
     return (
       <Card
         onExpandChange={this.handleExpandChange}
-        style={this.state.expanded ? styles.cardExpanded : styles.card}
+        style={this.state.expanded ? moduleTheme.pluginConfiguration.cardExpanded : moduleTheme.pluginConfiguration.card}
       >
         <CardActions showExpandableButton>
-          <div style={styles.lineWrapper}>
+          <div style={moduleTheme.pluginConfiguration.lineWrapper}>
             <div>
               <span>{pluginConfiguration.content.label}</span>
-              <span style={styles.version}>Version {pluginConfiguration.content.version}</span>
+              <span style={moduleTheme.pluginConfiguration.version}>Version {pluginConfiguration.content.version}</span>
+              <span> -</span>
+              <span style={moduleTheme.pluginConfiguration.version}>Id {pluginConfiguration.content.id}</span>
             </div>
-            <div style={styles.buttonsGroupWrapper}>
-              <span style={styles.version}><FormattedMessage
+            <div style={moduleTheme.pluginConfiguration.buttonsGroupWrapper}>
+              <span style={moduleTheme.pluginConfiguration.version}><FormattedMessage
                 id="microservice-management.plugin.configuration.priorityOrder"
               /> {pluginConfiguration.content.priorityOrder}
               </span>
@@ -166,18 +165,18 @@ class PluginConfigurationComponent extends React.Component {
                 hateoasKey={HateoasKeys.UPDATE}
                 onToggle={onActiveToggle}
                 defaultToggled={pluginConfiguration.content.active}
-                style={styles.toggle}
+                style={moduleTheme.pluginConfiguration.toggle}
               />
             </div>
           </div>
         </CardActions>
-        <CardText expandable style={styles.cardExpandedText}>
-          <Subheader style={styles.subheader}><FormattedMessage id="microservice-management.plugin.configuration.parameters" /></Subheader>
-          {parameters}
+        <CardText expandable style={moduleTheme.pluginConfiguration.cardExpandedText}>
+          <Subheader style={moduleTheme.pluginConfiguration.subheader}><FormattedMessage id="microservice-management.plugin.configuration.parameters" /></Subheader>
+          {conf}
         </CardText>
       </Card>
     )
   }
 }
 
-export default PluginConfigurationComponent
+export default withModuleStyle(styles)(PluginConfigurationComponent)

@@ -22,6 +22,7 @@ import StorageShapes from './rs-storage/index'
 import CommonShapes from './rs-common/index'
 import CatalogShapes from './rs-catalog/index'
 import DataManagementShapes from './rs-dam/index'
+import DataProviderShapes from './rs-data-provider/index'
 import IngestShapes from './rs-ingest/index'
 import OrderShapes from './rs-order/index'
 
@@ -32,6 +33,7 @@ module.exports = {
   CatalogShapes,
   CommonShapes,
   DataManagementShapes,
+  DataProviderShapes,
   IngestShapes,
   OrderShapes,
 }

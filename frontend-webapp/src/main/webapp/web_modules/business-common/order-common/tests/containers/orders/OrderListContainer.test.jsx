@@ -36,7 +36,7 @@ const context = buildTestContext(styles)
 * Test OrderListContainer
 * @author Raphaël Mechali
 */
-describe('[ Module name] Testing OrderListContainer', () => {
+describe('[Order Common] Testing OrderListContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

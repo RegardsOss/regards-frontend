@@ -23,7 +23,7 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
  * @author Sébastien Binda
  */
 const NAMESPACE = 'admin-ingest-management/processing-chain-table'
-const STORE_PATH = ['admin', 'acquisition', 'processing-chain-management', 'processing-chain-table']
+const STORE_PATH = ['admin', 'acquisition', 'processingChain', 'processing-chain-table']
 
 module.exports = {
   tableActions: new TableActions(NAMESPACE),

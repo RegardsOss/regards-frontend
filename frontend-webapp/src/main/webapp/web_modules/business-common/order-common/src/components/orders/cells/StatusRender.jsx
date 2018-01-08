@@ -22,8 +22,6 @@ import { OrderDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
-//import '../../../styles/animations.css'
-
 /** User status for status render cell: one of OrderDomain.ORDER_STATUS,
  * WAITING_USER_DOWNLOAD (blocked order case) or UNKNOWN */
 export const ORDER_USER_STATUS = {

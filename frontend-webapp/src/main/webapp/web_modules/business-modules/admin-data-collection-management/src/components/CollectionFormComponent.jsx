@@ -23,7 +23,7 @@ import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, RenderFileField, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field, RenderFileFieldWithMui, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -39,6 +39,7 @@ const DESCRIPTION_MODE = {
   URL: 'url',
 }
 
+const lessThan128 = ValidationHelpers.lengthLessThan(128)
 /**
  * React component to list collections.
  */
@@ -185,7 +186,7 @@ export class CollectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'collection.form.label' })}
-              validate={ValidationHelpers.lengthLessThan(128)}
+              validate={lessThan128}
             />
             <div className="row">
               <div className="col-sm-30">
@@ -231,7 +232,7 @@ export class CollectionFormComponent extends React.Component {
                     name="descriptionFileContent"
                     fullWidth
                     accept=".md,.pdf"
-                    component={RenderFileField}
+                    component={RenderFileFieldWithMui}
                   />
                 </ShowableAtRender>
               </div>

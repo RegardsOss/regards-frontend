@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import concat from 'lodash/concat'
 import { CommonClient } from '@regardsoss/client'
 
 /**
@@ -24,16 +23,10 @@ import { CommonClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['plugin-metadata']
 const REDUX_ACTION_NAMESPACE = 'common/pluginMetadata'
 
-const pluginMetadataReducer = CommonClient.getPluginMetaDataReducer(REDUX_ACTION_NAMESPACE)
 const pluginMetadataActions = new CommonClient.PluginMetaDataActions(REDUX_ACTION_NAMESPACE)
-const pluginMetadataSelectorBuilder = paths => CommonClient.getPluginMetaDataSelectors(concat(paths, ENTITIES_STORE_PATH))
-
 
 module.exports = {
-  pluginMetadataReducer,
   pluginMetadataActions,
-  pluginMetadataSelectorBuilder,
 }

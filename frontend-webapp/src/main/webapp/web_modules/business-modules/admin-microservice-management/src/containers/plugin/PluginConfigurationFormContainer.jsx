@@ -18,15 +18,13 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { PluginFormConfigurator } from '@regardsoss/microservice-plugin-configurator'
+import { PluginFormContainer } from '@regardsoss/microservice-plugin-configurator'
 /**
  * Container connecting the plugin configuration from to the redux store and handling user actions.
  *
  * @author Xavier-Alexandre Brochard
  */
 export class PluginConfigurationFormContainer extends React.Component {
-  static storePath = ['admin', 'microservice-management', 'pluginConfigurator']
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -44,9 +42,11 @@ export class PluginConfigurationFormContainer extends React.Component {
     },
   }
 
+  static storePath = ['admin', 'microservice-management', 'pluginConfigurator']
+
   getBackUrl = () => {
     const { params: { project, microserviceName, pluginId } } = this.props
-    const query = browserHistory.getCurrentLocation().query
+    const { query } = browserHistory.getCurrentLocation()
     if (query.backUrl && query.backUrl !== '') {
       return `/admin/${project}/${query.backUrl}`
     }
@@ -56,7 +56,7 @@ export class PluginConfigurationFormContainer extends React.Component {
   render() {
     const { params } = this.props
     return (
-      <PluginFormConfigurator
+      <PluginFormContainer
         microserviceName={params.microserviceName}
         pluginId={params.pluginId}
         pluginConfigurationId={params.pluginConfigurationId}

@@ -91,7 +91,8 @@ class SelectionDetailResultsTableComponent extends React.Component {
     }
     // 1 - prepare table search dataobjects request
     if (oldProperties.openSearchRequest !== newProperties.openSearchRequest) {
-      newState.dataobjectsSearchParams = { queryParams: newProperties.openSearchRequest }
+      // TODO : Raphael change client to use requestParams instead of pathParams
+      newState.dataobjectsSearchParams = { parameters: `q=${newProperties.openSearchRequest}` }
     }
     // 2 - update table rows count to adjust available size
     if (oldProperties.availableHeight !== newProperties.availableHeight) {
@@ -131,7 +132,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
           pageSelectors={searchDataobjectsSelectors}
           displayedRowsCount={visibleRowsCount}
           columns={this.renderColumns()}
-          requestParams={dataobjectsSearchParams}
+          pathParams={dataobjectsSearchParams}
           emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}
         />
       </TableLayout>

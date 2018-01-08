@@ -220,7 +220,7 @@ class ApplicationThemeComponent extends React.Component {
         color={muiTheme.palette.alternateTextColor}
         hoverColor={muiTheme.palette.accent1Color}
       />
-    </ConfirmableHateoasIconAction>)
+                          </ConfirmableHateoasIconAction>)
     const createButton = (<HateoasCreateButton
       resourceDependencies={ThemeActions.getDependency(RequestVerbEnum.POST)}
       onCreate={this.onCreate}
@@ -302,7 +302,7 @@ class ApplicationThemeComponent extends React.Component {
           message={<FormattedMessage id={snackBarMessageId} />}
           autoHideDuration={4000}
           onRequestClose={this.onSnackbarRequestClose}
-          onActionTouchTap={this.onSnackbarActionTouchTap}
+          onActionClick={this.onSnackbarActionTouchTap}
           action="OK"
         />
       </Paper>

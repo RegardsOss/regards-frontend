@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import FlatButton from 'material-ui/FlatButton'
@@ -32,7 +32,9 @@ import {
   ShowableAtRender,
   TableColumnBuilder,
   TableLayout,
+  CardActionsComponent,
 } from '@regardsoss/components'
+import { FormattedMessage } from 'react-intl'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
@@ -70,6 +72,7 @@ class AccessRightListComponent extends React.Component {
     selectedDatasets: PropTypes.objectOf(PropTypes.object).isRequired,
     // Callback to navigate to dataset creation
     navigateToCreateDataset: PropTypes.func.isRequired,
+    backURL: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -77,21 +80,25 @@ class AccessRightListComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      // Define if the confirm delete dialog is opened
-      deleteDialogOpened: false,
-      // Define it the AccessRight configuration dialog is opened
-      editAccessDialogOpened: false,
-      // Set the AccessRight to edit into the AccessRight configuration dialog.
-      // If this accessRight is not set, then the AccessRight configuration dialog configure
-      // access for multiples accessRights at a time and the selectedDatasets is used to define which ones.
-      accessRightToEdit: null,
-      // Set to define a new AccessRight for the given dataset into the AccessRight configuration dialog.
-      datasetAccessRightToEdit: null,
-      submitError: false,
-    }
+  static PAGE_SIZE = 10
+
+  state = {
+    // Define if the confirm delete dialog is opened
+    deleteDialogOpened: false,
+    // Define it the AccessRight configuration dialog is opened
+    editAccessDialogOpened: false,
+    // Set the AccessRight to edit into the AccessRight configuration dialog.
+    // If this accessRight is not set, then the AccessRight configuration dialog configure
+    // access for multiples accessRights at a time and the selectedDatasets is used to define which ones.
+    accessRightToEdit: null,
+    // Set to define a new AccessRight for the given dataset into the AccessRight configuration dialog.
+    datasetAccessRightToEdit: null,
+    submitError: false,
+  }
+
+
+  onDelete = () => {
+    this.props.deleteAccessRight(this.state.entityToDelete)
   }
 
   /**
@@ -212,9 +219,7 @@ class AccessRightListComponent extends React.Component {
       >
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          onConfirm={() => {
-            this.props.deleteAccessRight(this.state.entityToDelete)
-          }}
+          onConfirm={this.onDelete}
           onClose={this.closeDeleteDialog}
           title={title}
         />
@@ -224,7 +229,7 @@ class AccessRightListComponent extends React.Component {
 
   render() {
     const {
-      accessRights, accessGroup, navigateToCreateDataset, selectedDatasets,
+      accessRights, accessGroup, navigateToCreateDataset, selectedDatasets, backURL,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
@@ -291,12 +296,23 @@ class AccessRightListComponent extends React.Component {
               pageActions={datasetActions}
               pageSelectors={datasetSelectors}
               tableActions={tableActions}
-              pageSize={10}
+              pageSize={AccessRightListComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
             />
           </TableLayout>
+
+          <CardActions>
+            <CardActionsComponent
+              mainButtonUrl={backURL}
+              mainButtonLabel={
+                <FormattedMessage
+                  id="accessright.form.action.back"
+                />
+              }
+            />
+          </CardActions>
         </CardText>
       </Card>
     )

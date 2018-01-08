@@ -23,6 +23,6 @@ import SearchEntitiesActions from './SearchEntitiesActions'
  */
 export default class CatalogDocumentEntityActions extends SearchEntitiesActions {
   constructor(namespace) {
-    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/documents/search?{queryParams}`)
+    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search/documents?{parameters}`)
   }
 }

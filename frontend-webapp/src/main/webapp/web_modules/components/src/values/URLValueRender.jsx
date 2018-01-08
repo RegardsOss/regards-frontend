@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { LinkComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
+import LinkComponent from '../links/LinkComponent'
 
 /**
  * Component to display url link values group value

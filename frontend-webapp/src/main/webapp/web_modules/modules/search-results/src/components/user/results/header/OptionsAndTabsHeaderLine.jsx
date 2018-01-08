@@ -18,8 +18,7 @@
  **/
 import ListViewIcon from 'mdi-material-ui/ViewSequential'
 import TableViewIcon from 'mdi-material-ui/TableLarge'
-// TODO-V2 for quicklook
-// import TableViewIcon from 'mdi-material-ui/Apps'
+import ImageAlbum from 'mdi-material-ui/ImageAlbum'
 import ShowFacetsSearchIcon from 'material-ui/svg-icons/action/find-in-page'
 import DatasetLibraryIcon from 'material-ui/svg-icons/image/collections-bookmark'
 import DataLibraryIcon from 'material-ui/svg-icons/av/library-books'
@@ -33,11 +32,12 @@ import {
   ShowableAtRender, TableColumnConfiguration, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableColumnsVisibilityOption,
 } from '@regardsoss/components'
-import TableDisplayModeEnum from '../../../../models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../../models/navigation/TableDisplayModeEnum'
 import TableSelectAllContainer from '../../../../containers/user/results/options/TableSelectAllContainer'
 import ListSortingContainer from '../../../../containers/user/results/options/ListSortingContainer'
 import SelectionServiceComponent from '../options/SelectionServiceComponent'
 import AddSelectionToCartComponent from '../options/AddSelectionToCartComponent'
+import ResultFilterOnlyQuicklookComponent from '../options/ResultFilterOnlyQuicklookComponent'
 import { DISPLAY_MODE_VALUES, DISPLAY_MODE_ENUM } from '../../../../definitions/DisplayModeEnum'
 
 /**
@@ -50,13 +50,17 @@ class OptionsAndTabsHeaderLine extends React.Component {
     attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES).isRequired,
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
-    tableViewMode: PropTypes.oneOf([TableDisplayModeEnum.LIST, TableDisplayModeEnum.TABLE]), // current mode
+    tableViewMode: PropTypes.oneOf(TableDisplayModeValues), // current mode
     searchSelectors: PropTypes.instanceOf(BasicFacetsPageableSelectors).isRequired,
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
 
     // facet state
     allowingFacettes: PropTypes.bool.isRequired,
     showingFacettes: PropTypes.bool.isRequired,
+
+    // quicklook
+    enableQuicklooks: PropTypes.bool.isRequired,
+    displayOnlyQuicklook: PropTypes.bool.isRequired,
 
     // services
     selectionServices: AccessShapes.PluginServiceWithContentArray.isRequired,
@@ -66,11 +70,13 @@ class OptionsAndTabsHeaderLine extends React.Component {
     onChangeColumnsVisibility: PropTypes.func.isRequired,
     onShowDataobjects: PropTypes.func.isRequired,
     onShowDatasets: PropTypes.func.isRequired,
+    onShowQuicklookView: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
     onSortByAttribute: PropTypes.func.isRequired,
     onStartSelectionService: PropTypes.func, // callback to start a selection service
     onToggleShowFacettes: PropTypes.func.isRequired,
+    onToggleDisplayOnlyQuicklook: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -87,13 +93,16 @@ class OptionsAndTabsHeaderLine extends React.Component {
   /** @return {boolean} true if currently in table view */
   isInTableView = () => this.props.tableViewMode === TableDisplayModeEnum.TABLE
 
+  /** @return {boolean} true if currently in table view */
+  isInQuicklookView = () => this.props.tableViewMode === TableDisplayModeEnum.QUICKLOOK
+
   render() {
     const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
     const {
       attributePresentationModels, displayMode, searchSelectors, tableColumns,
-      allowingFacettes, showingFacettes, selectionServices, onAddSelectionToCart,
-      onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets,
-      onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes,
+      allowingFacettes, showingFacettes, enableQuicklooks, selectionServices, onAddSelectionToCart,
+      onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
+      onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes, onToggleDisplayOnlyQuicklook,
     } = this.props
 
     return (
@@ -143,10 +152,18 @@ class OptionsAndTabsHeaderLine extends React.Component {
               />
             </ShowableAtRender>
           </TableHeaderOptionGroup>
-          {/* 1.b.3 List view select all and sort options */}
-          <TableHeaderOptionGroup show={this.isInListView() && this.isDisplayingDataobjects()}>
+          {/* 1.b.3 List or quicklook option - select all and sort options */}
+          <TableHeaderOptionGroup show={!this.isInTableView() && this.isDisplayingDataobjects()}>
             <ListSortingContainer onSortByAttribute={onSortByAttribute} attributePresentationModels={attributePresentationModels} />
-            <TableSelectAllContainer pageSelectors={searchSelectors} />
+            <ShowableAtRender show={this.isInListView()}>
+              <TableSelectAllContainer pageSelectors={searchSelectors} />
+            </ShowableAtRender>
+            <ShowableAtRender show={this.isInQuicklookView()}>
+              <ResultFilterOnlyQuicklookComponent
+                displayOnlyQuicklook={displayOnlyQuicklook}
+                onToggleDisplayOnlyQuicklook={onToggleDisplayOnlyQuicklook}
+              />
+            </ShowableAtRender>
           </TableHeaderOptionGroup>
           {/* 1.b.4 - Show / hide table columns */}
           <TableHeaderOptionGroup show={this.isInTableView()}>
@@ -173,6 +190,16 @@ class OptionsAndTabsHeaderLine extends React.Component {
               style={viewModeButton}
               title={formatMessage({ id: 'view.type.table.button.label' })}
             />
+            <ShowableAtRender show={enableQuicklooks && this.isDisplayingDataobjects()}>
+              <FlatButton
+                key="view.type.quicklook"
+                onTouchTap={onShowQuicklookView}
+                icon={<ImageAlbum />}
+                secondary={this.isInQuicklookView()}
+                style={viewModeButton}
+                title={formatMessage({ id: 'view.type.quicklook.button.label' })}
+              />
+            </ShowableAtRender>
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
       </TableHeaderLine>

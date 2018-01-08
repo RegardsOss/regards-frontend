@@ -44,7 +44,7 @@ class ApplicationErrorContainer extends React.Component {
           open={this.props.snackBarOpened}
           message={message}
           onRequestClose={this.props.closeDialog}
-          onActionTouchTap={this.props.closeDialog}
+          onActionClick={this.props.closeDialog}
           action="OK"
           bodyStyle={style}
         />

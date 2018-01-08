@@ -49,6 +49,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       deleteAccessRight: () => { },
       submitAccessRights: () => { },
       navigateToCreateDataset: spy(),
+      backURL: '#test',
     }
 
     const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context, lifecycleExperimental: true })

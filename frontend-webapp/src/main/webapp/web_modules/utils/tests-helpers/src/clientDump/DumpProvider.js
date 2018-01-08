@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import find from 'lodash/find'
 import { normalize } from 'normalizr'
 import keys from 'lodash/keys'
 import cloneDeep from 'lodash/cloneDeep'
@@ -76,6 +78,11 @@ class DumpProvider {
   getNthEntity(microserviceName, entityName, n) {
     const entityListResult = this.get(microserviceName, entityName)
     return entityListResult[keys(entityListResult)[n]]
+  }
+
+  getEntityContentBy(microserviceName, entityName, key, value) {
+    const entityListResult = this.get(microserviceName, entityName)
+    return get(find(entityListResult, entity => get(entity, key) === value, {}), 'content')
   }
 
   /**

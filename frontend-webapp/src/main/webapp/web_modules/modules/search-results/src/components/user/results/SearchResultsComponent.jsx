@@ -18,7 +18,7 @@
  **/
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PageableInfiniteTableContainer, TableLayout, TableColumnBuilder } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableLayout, TableColumnBuilder, InfiniteGalleryContainer } from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
@@ -26,7 +26,7 @@ import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { FacetArray } from '../../../models/facets/FacetShape'
 import { FilterListShape } from '../../../models/facets/FilterShape'
 import TableClient from '../../../clients/TableClient'
-import TableDisplayModeEnum from '../../../models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
 import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
 import SelectedFacetsHeaderRow from './header/SelectedFacetsHeaderRow'
@@ -37,8 +37,11 @@ import OneElementServicesContainer from '../../../containers/user/results/option
 import DownloadEntityFileContainer from '../../../containers/user/results/options/DownloadEntityFileContainer'
 import EmptyTableComponent from './EmptyTableComponent'
 import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
+import GalleryItemComponent from './gallery/GalleryItemComponent'
+import DisplayModuleConf from '../../../models/DisplayModuleConf'
 
 const RESULTS_PAGE_SIZE = 500
+const QUICKLOOK_PAGE_SIZE = 60
 
 /**
  * React component to manage search requests and display results. It handles locally the columns visible state, considered
@@ -50,7 +53,9 @@ class SearchResultsComponent extends React.Component {
     // static module configuration
     allowingFacettes: PropTypes.bool.isRequired,
     enableDownload: PropTypes.bool.isRequired,
+    enableQuicklooks: PropTypes.bool.isRequired, // are quicklook available on data items
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
+    displayConf: DisplayModuleConf,
 
     // results related
     resultsCount: PropTypes.number.isRequired,
@@ -64,12 +69,15 @@ class SearchResultsComponent extends React.Component {
 
     // dynamic display control
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
-    tableViewMode: PropTypes.oneOf([TableDisplayModeEnum.LIST, TableDisplayModeEnum.TABLE]), // current mode
+    tableViewMode: PropTypes.oneOf(TableDisplayModeValues), // current mode
 
     // facets control
     showingFacettes: PropTypes.bool.isRequired,
     facets: FacetArray.isRequired,
     filters: FilterListShape.isRequired,
+
+    // quicklook search filter
+    displayOnlyQuicklook: PropTypes.bool.isRequired,
 
     // request control
     searchQuery: PropTypes.string.isRequired,
@@ -85,8 +93,10 @@ class SearchResultsComponent extends React.Component {
     onShowDataobjects: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
+    onShowQuicklookView: PropTypes.func.isRequired,
     onSortByAttribute: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
+    onToggleDisplayOnlyQuicklook: PropTypes.func.isRequired,
     // from PluginServicesContainer HOC
     onStartSelectionService: PropTypes.func, // callback to start a selection service
     // from OrderCartContainer HOC
@@ -230,6 +240,8 @@ class SearchResultsComponent extends React.Component {
   /** @return {boolean} true if currently in table view */
   isInTableView = () => this.props.tableViewMode === TableDisplayModeEnum.TABLE
 
+  /** @return {boolean} true if currently in table view */
+  isInQuicklookView = () => this.props.tableViewMode === TableDisplayModeEnum.QUICKLOOK
 
   render() {
     const { muiTheme } = this.context
@@ -239,7 +251,8 @@ class SearchResultsComponent extends React.Component {
       allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
       viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
       onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
-      onStartSelectionService, onAddSelectionToCart,
+      onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
+      onAddElementToCart, enableDownload,
     } = this.props
 
     let columns
@@ -253,7 +266,7 @@ class SearchResultsComponent extends React.Component {
       lineHeight = tableTheme.lineHeight
       columns = tableColumns
       displayColumnsHeader = true
-    } else { // use list columns
+    } else if (this.isInListView()) { // use list columns
       displayedRowsCount = tableTheme.listRowCount
       lineHeight = tableTheme.listLineHeight
       columns = [this.buildListColumn()]
@@ -263,6 +276,7 @@ class SearchResultsComponent extends React.Component {
     // TODO-V3 do refactor that please
     const pathParams = { parameters: searchQuery }
     const showFacets = this.isDisplayingDataobjects() && allowingFacettes && showingFacettes
+    const itemProps = { attributePresentationModels, onAddElementToCart, enableDownload }
 
     return (
       <TableLayout>
@@ -275,6 +289,8 @@ class SearchResultsComponent extends React.Component {
           attributePresentationModels={attributePresentationModels}
           tableColumns={tableColumns}
           allowingFacettes={allowingFacettes}
+          displayOnlyQuicklook={displayOnlyQuicklook}
+          enableQuicklooks={enableQuicklooks}
           showingFacettes={showingFacettes}
           selectionServices={selectionServices}
           onAddSelectionToCart={onAddSelectionToCart}
@@ -283,9 +299,11 @@ class SearchResultsComponent extends React.Component {
           onShowDatasets={onShowDatasets}
           onShowListView={onShowListView}
           onShowTableView={onShowTableView}
+          onShowQuicklookView={onShowQuicklookView}
           onSortByAttribute={onSortByAttribute}
           onStartSelectionService={onStartSelectionService}
           onToggleShowFacettes={onToggleShowFacettes}
+          onToggleDisplayOnlyQuicklook={onToggleDisplayOnlyQuicklook}
         />
         {/* Second header row: results, loading, and optionally facets */}
         <ResultsAndFacetsHeaderRow
@@ -301,22 +319,34 @@ class SearchResultsComponent extends React.Component {
           filters={filters}
           onDeleteFilter={onDeleteFacet}
         />
-        {/* Table content */}
-        <PageableInfiniteTableContainer
-          key={viewObjectType} // unmount the table when change entity type (using key trick)
-          // infinite table configuration
-          pageActions={searchActions}
-          pageSelectors={searchSelectors}
-          tableActions={TableClient.tableActions}
+        {this.isInQuicklookView() ?
+          (<InfiniteGalleryContainer
+            itemComponent={GalleryItemComponent}
+            pageActions={searchActions}
+            pageSelectors={searchSelectors}
+            columnWidth={displayConf.quicklookColumnWidth}
+            columnGutter={displayConf.quicklookColumnSpacing}
+            pathParams={pathParams}
+            queryPageSize={QUICKLOOK_PAGE_SIZE}
+            emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
+            itemProps={itemProps}
+          />) : (<PageableInfiniteTableContainer
+            key={viewObjectType} // unmount the table when change entity type (using key trick)
+            // infinite table configuration
+            pageActions={searchActions}
+            pageSelectors={searchSelectors}
+            tableActions={TableClient.tableActions}
 
-          displayColumnsHeader={displayColumnsHeader}
-          lineHeight={lineHeight}
-          displayedRowsCount={displayedRowsCount}
-          columns={columns}
-          queryPageSize={RESULTS_PAGE_SIZE}
-          pathParams={pathParams}
-          emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
-        />
+            displayColumnsHeader={displayColumnsHeader}
+            lineHeight={lineHeight}
+            displayedRowsCount={displayedRowsCount}
+            columns={columns}
+            queryPageSize={RESULTS_PAGE_SIZE}
+            pathParams={pathParams}
+            emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
+          />)
+        }
+
       </TableLayout>
     )
   }

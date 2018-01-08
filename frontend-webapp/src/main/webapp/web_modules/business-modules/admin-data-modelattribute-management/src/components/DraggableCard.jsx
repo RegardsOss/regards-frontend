@@ -50,18 +50,21 @@ export class DraggableCard extends React.Component {
       marginBottom: 2,
       paddingLeft: 5,
       opacity: isDragging ? 0.2 : 1,
+      cursor: 'move',
     }
 
-    return connectDragSource(<div>
-      <Paper
-        style={overrideStyles}
-        id={value.id}
-        key={value.id}
-        zDepth={shadow}
-      >
-        {children}
-      </Paper>
-                             </div>)
+    return connectDragSource(
+      <div>
+        <Paper
+          style={overrideStyles}
+          id={value.id}
+          key={value.id}
+          zDepth={shadow}
+        >
+          {children}
+        </Paper>
+      </div>,
+    )
   }
 }
 

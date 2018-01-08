@@ -55,7 +55,9 @@ class Table extends React.Component {
     displayedRowsCount: PropTypes.number.isRequired, // use in graphics computing
 
     // dynamic properties
-    entities: PropTypes.arrayOf(PropTypes.object),
+    entities: PropTypes.arrayOf(PropTypes.object), // Current fetched entities
+    // eslint-disable-next-line react/no-unused-prop-types
+    entitiesCount: PropTypes.number, // Total number of entities (even the unfetched ones)
     onScrollEnd: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired, // used in state update
@@ -70,6 +72,7 @@ class Table extends React.Component {
 
   static defaultProps = {
     displayColumnsHeader: true,
+    entitiesCount: 0,
   }
 
   /**
@@ -179,8 +182,15 @@ class Table extends React.Component {
    * @param props component properties to consider
    * @return component height
    */
-  computeHeight = ({ lineHeight, displayedRowsCount, displayColumnsHeader }) =>
-    (lineHeight * displayedRowsCount) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
+  computeHeight = ({
+    lineHeight, displayedRowsCount, displayColumnsHeader, entitiesCount,
+  }) => {
+    // If total number of entities is too small don't display all the lines.
+    if (entitiesCount < displayedRowsCount) {
+      return (lineHeight * (entitiesCount + 1)) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
+    }
+    return (lineHeight * displayedRowsCount) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
+  }
 
   /**
    * Computes graphics measures and provides a usable component state

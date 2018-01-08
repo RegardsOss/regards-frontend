@@ -26,12 +26,13 @@ const RenderRadio = ({
     <RadioButtonGroup
       {...input}
       defaultSelected={defaultSelected}
+      valueSelected={(input.value || input.value === false) ? input.value : undefined}
       onChange={(event, value) => {
-        if (onSelect) {
-          onSelect(event, value, input)
-        }
-        return input.onChange(value)
-      }}
+          if (onSelect) {
+            onSelect(event, value, input)
+          }
+          return input.onChange(value)
+        }}
     >
       {children}
     </RadioButtonGroup>
@@ -54,7 +55,8 @@ RenderRadio.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,
   }),
-  defaultSelected: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  defaultSelected: PropTypes.any,
   onSelect: PropTypes.func,
   children: PropTypes.arrayOf(PropTypes.element),
 }

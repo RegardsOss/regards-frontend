@@ -54,6 +54,6 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration list comp
     }
 
     const enzymeWrapper = shallow(<PluginConfigurationListComponent {...props} />, options)
-    expect(enzymeWrapper.find(PluginConfigurationContainer)).to.have.length(4)
+    expect(enzymeWrapper.find(PluginConfigurationContainer)).to.have.length(5)
   })
 })

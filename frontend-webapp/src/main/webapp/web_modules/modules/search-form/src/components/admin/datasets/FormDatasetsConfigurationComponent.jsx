@@ -87,6 +87,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
     this.setState({
       type: value,
     })
+    this.props.changeField('conf.datasets.type', value)
   }
 
   unselectAll = () => {

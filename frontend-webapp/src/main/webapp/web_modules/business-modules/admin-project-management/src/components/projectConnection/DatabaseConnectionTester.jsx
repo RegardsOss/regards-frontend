@@ -169,7 +169,7 @@ class DatabaseConnectionTester extends React.Component {
 })}
         autoHideDuration={4000}
         onRequestClose={this.handleSnackbarRequestClose}
-        onActionTouchTap={this.handleSnackbarActionTouchTap}
+        onActionClick={this.handleSnackbarActionTouchTap}
         action="OK"
       />)
 

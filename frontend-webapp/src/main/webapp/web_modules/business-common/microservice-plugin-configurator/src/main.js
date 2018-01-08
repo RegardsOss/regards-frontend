@@ -16,12 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginFormConfigurator from './containers/PluginConfigurationFormContainer'
-import GenericPluginParameter from './components/parameters/GenericPluginParameter'
-import PluginUtils from './components/utils'
-import PluginConfiguratorReducer from './reducer'
+import PluginFormContainer from './containers/PluginFormContainer'
 import PluginListContainer from './containers/PluginListContainer'
-import PluginConfigurator from './components/PluginConfigurationComponent'
+import RenderPluginField from './form-utils/RenderPluginField'
+import RenderPluginConfField from './form-utils/RenderPluginConfField'
 
 /**
  * Module to handle current project of the interface. Fetch the project and put the information in the store.
@@ -29,10 +27,8 @@ import PluginConfigurator from './components/PluginConfigurationComponent'
  *
  */
 module.exports = {
-  PluginFormConfigurator,
-  PluginConfigurator,
-  GenericPluginParameter,
-  PluginUtils,
-  PluginConfiguratorReducer,
+  PluginFormContainer,
   PluginListContainer,
+  RenderPluginField,
+  RenderPluginConfField,
 }

@@ -23,6 +23,7 @@ import buildTestContext from './TestContextStub'
 import testSuiteHelpers from './TestSuiteHelpers'
 import uiPluginServiceTestHelpers from './UIPluginServiceTestHelpers'
 import ReduxEntityTester from './store/ReduxEntityTester'
+import ReduxFormTestHelper from './ReduxFormTestHelper'
 import DumpProvider from './clientDump/DumpProvider'
 
 module.exports = {
@@ -30,6 +31,7 @@ module.exports = {
   IntlStub,
   muiThemeStub,
   ReduxEntityTester,
+  ReduxFormTestHelper,
   DumpProvider,
   buildTestContext,
   testSuiteHelpers,
