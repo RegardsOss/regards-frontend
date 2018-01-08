@@ -79,6 +79,11 @@ export default theme => ({
                   flexGrow: 1,
                   height: '100%',
                 },
+                horizontalAreaSeparator: {
+                  flexGrow: 0,
+                  minHeight: 1,
+                  backgroundColor: theme.toolbar.separatorColor,
+                },
                 scrollArea: {
                   ...fixedFlexElement,
                 },
