@@ -16,11 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
+import filter from 'lodash/filter'
+import find from 'lodash/find'
+import { AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import NotificationListComponent from '../components/NotificationListComponent'
 import { notificationActions, notificationSelectors } from '../clients/NotificationClient'
+
+/** Refresh time in milliseconds */
+const refreshTimerMS = 10000
 
 /**
  * Notification list container, shows the number of unread notifications.
@@ -42,20 +49,44 @@ export class NotificationListContainer extends React.Component {
 
   static propTypes = {
     // from mapStateToProps
-    notifications: PropTypes.object,
+    notifications: AdminShapes.NotificationList,
     isAuthenticated: PropTypes.bool,
     // from mapDispatchToProps
     fetchNotifications: PropTypes.func.isRequired,
   }
 
-  componentWillMount() {
+  componentWillMount = () => {
+    this.startTimer()
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (Object.keys(this.props.notifications).length > 0) {
+      this.newNotifications = filter(
+        nextProps.notifications,
+        el => !find(this.props.notifications, o => o.id === el.id),
+      )
+    }
+  }
+
+  componentWillUnmount = () => {
+    this.stopTimer()
+  }
+
+  startTimer = () => {
+    // A - refresh list
     this.props.fetchNotifications()
+    // B - restart timer
+    this.refreshTimer = setTimeout(() => this.startTimer(), refreshTimerMS)
+  }
+
+  stopTimer = () => {
+    clearTimeout(this.refreshTimer)
   }
 
   render() {
     return (
       <ShowableAtRender show={this.props.isAuthenticated}>
-        <NotificationListComponent notifications={this.props.notifications} />
+        <NotificationListComponent notifications={this.props.notifications} newNotifications={this.newNotifications} />
       </ShowableAtRender>
     )
   }

@@ -20,7 +20,7 @@
     "title": "test"
   },
   {
-    "date": "2018-01-03T14:01:13.435Z",
+    "date": "2017-04-19T14:01:13.435Z",
     "id": 455,
     "message": "2018",
     "projectUserRecipients": [],
@@ -204,5 +204,23 @@
     "status": "READ",
     "type": "INFO",
     "title": "Coucou"
+  }  ,  {
+    "date": "2018-01-08T02:05:13.419Z",
+    "id": 89347,
+    "message": "Je suis une notification basique",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "UNREAD",
+    "type": "WARNING",
+    "title": "Salut"
   }
 ]

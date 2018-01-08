@@ -25,7 +25,7 @@ import { ProjectConnection, ProjectConnectionList } from './ProjectConnection'
 import { ProjectUser, ProjectUserList } from './ProjectUser'
 import { Resource, ResourceList, ResourceArray } from './Resource'
 import { Role, RoleList, RoleArray } from './Role'
-
+import { Notification, NotificationList, NotificationArray } from './Notification'
 
 module.exports = {
   Account,
@@ -54,4 +54,8 @@ module.exports = {
   Role,
   RoleList,
   RoleArray,
+
+  Notification,
+  NotificationList,
+  NotificationArray,
 }
