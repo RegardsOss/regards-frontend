@@ -15,21 +15,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { borrowRoleReducer } from './clients/BorrowRoleClient'
-import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
-import { myUserReducer } from './clients/MyUserClient'
-import { notificationReducer } from './clients/NotificationClient'
-import { readNotificationReducer } from './clients/ReadNotificationClient'
-import profileDialogReducer from './model/ProfileDialogReducer'
+ */
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import ReadNotificationActions from './ReadNotificationActions'
 
-module.exports = {
-  // web consuming clients (redux API actions / reducers)
-  borrowRole: borrowRoleReducer,
-  borrowableRoles: borrowableRolesReducer,
-  myUser: myUserReducer,
-  notification: notificationReducer,
-  readNotification: readNotificationReducer,
-  // local actions / reducers
-  profileDialog: profileDialogReducer,
+class ReadNotificationReducer extends BasicSignalReducers {
+  constructor(namespace) {
+    super(new ReadNotificationActions(namespace))
+  }
 }
+
+/** Closure builder for reducer function */
+export default (namespace) => {
+  const reducerInstance = new ReadNotificationReducer(namespace)
+  return (state, action) => reducerInstance.reduce(state, action)
+}
+

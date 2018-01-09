@@ -16,20 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { borrowRoleReducer } from './clients/BorrowRoleClient'
-import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
-import { myUserReducer } from './clients/MyUserClient'
-import { notificationReducer } from './clients/NotificationClient'
-import { readNotificationReducer } from './clients/ReadNotificationClient'
-import profileDialogReducer from './model/ProfileDialogReducer'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-module.exports = {
-  // web consuming clients (redux API actions / reducers)
-  borrowRole: borrowRoleReducer,
-  borrowableRoles: borrowableRolesReducer,
-  myUser: myUserReducer,
-  notification: notificationReducer,
-  readNotification: readNotificationReducer,
-  // local actions / reducers
-  profileDialog: profileDialogReducer,
+/**
+ * Actions to send a read notification request
+ */
+export default class ReadNotificationActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/notifications/{notificationId}/read`,
+    })
+  }
+
+  /**
+   * Sends a read notification request
+   * @param notificationId Notification ID
+   */
+  readNotification(notificationId) {
+    return this.sendSignal('PUT', null, { notificationId })
+  }
 }

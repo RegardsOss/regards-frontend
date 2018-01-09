@@ -25,9 +25,10 @@ import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import NotificationListComponent from '../components/NotificationListComponent'
 import { notificationActions, notificationSelectors } from '../clients/NotificationClient'
+import { readNotificationActions } from '../clients/ReadNotificationClient'
 
 /** Refresh time in milliseconds */
-const refreshTimerMS = 10000
+const refreshTimerMS = 2000
 
 /**
  * Notification list container, shows the number of unread notifications.
@@ -44,6 +45,8 @@ export class NotificationListContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchNotifications: () => dispatch(notificationActions.fetchEntityList()),
+      sendReadNotification: notificationId =>
+        dispatch(readNotificationActions.readNotification(notificationId)),
     }
   }
 
@@ -53,6 +56,7 @@ export class NotificationListContainer extends React.Component {
     isAuthenticated: PropTypes.bool,
     // from mapDispatchToProps
     fetchNotifications: PropTypes.func.isRequired,
+    sendReadNotification: PropTypes.func.isRequired,
   }
 
   componentWillMount = () => {
@@ -83,10 +87,22 @@ export class NotificationListContainer extends React.Component {
     clearTimeout(this.refreshTimer)
   }
 
+  readAllNotifications = (unreadNotifications) => {
+    unreadNotifications.forEach(notif => this.props.sendReadNotification(notif.id))
+  }
+
+  readNotification = (notification) => {
+    this.props.sendReadNotification(notification.id)
+  }
+
   render() {
     return (
       <ShowableAtRender show={this.props.isAuthenticated}>
-        <NotificationListComponent notifications={this.props.notifications} newNotifications={this.newNotifications} />
+        <NotificationListComponent
+          notifications={this.props.notifications}
+          readAllNotifications={this.readAllNotifications}
+          newNotifications={this.newNotifications}
+        />
       </ShowableAtRender>
     )
   }

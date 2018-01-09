@@ -404,6 +404,15 @@ function buildLocalServices(gatewayURL) {
             // },
           }
         },
+      },
+      readNotification: {
+        url: 'rs-admin/notifications/{notificationId}/read',
+        handler: () => {
+          return {
+            code: 204,
+            content: {},
+          }
+        }
       }
     },
     POST: {
