@@ -16,30 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccountCreationActions from './AccountCreationActions'
 
-const CreateAccountActions = new AccountCreationActions('createAccount')
+/**
+ * Feedback actions for modules: lets using module show some specific feedback for a given operation (using modules must
+ * define what type of feedback they expect to show)
+ * @author Raphaël Mechali
+ */
+export class FeedbackActions {
+  /**
+   * Constructor
+   * @param {string} namespace actions namespace
+   */
+  constructor(namespace) {
+    this.TOGGLE_FEEDBACK = `${namespace}/toggle-feedback`
+  }
 
-module.exports = {
   /**
-   * Actions to create a REGARDS account (linked with the global instance)
-   * @type {CreateAccountActions}
+   * Shows feedback for type as parameter
+   * @param {string} feedbackType feedback type
+   * @return action to dispatch
    */
-  CreateAccountActions,
+  showFeedback = feedbackType => ({
+    type: this.TOGGLE_FEEDBACK,
+    feedbackType,
+  })
+
   /**
-   * Sends create account request
-   * @param email account mail
-   * @param firstName first name
-   * @param lastName last name
-   * @param password password
-   * @param metadata array of user metadata
+   * Hides feedback
+   * @return action to dispatch
    */
-  sendCreateAccount: (email, firstName, lastName, password, metadata) =>
-    CreateAccountActions.sendCreateRequest({
-      email,
-      firstName,
-      lastName,
-      password,
-      metadata,
-    }),
+  hideFeedback = () => this.showFeedback(null)
 }

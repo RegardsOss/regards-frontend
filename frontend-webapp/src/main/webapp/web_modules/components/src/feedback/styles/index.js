@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
-import AccountOperationActions from './AccountOperationActions'
+import styles from './styles'
 
-const ResetPasswordActions = new AccountOperationActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
-
-module.exports = {
-  ResetPasswordActions,
-  sendAskResetPassword: mail => ResetPasswordActions.sendAskRequest(mail),
-  sendFinishResetPassword: (token, mail, newPassword) => ResetPasswordActions.sendFinishRequest(token, mail, { newPassword }),
-}
+module.exports = { styles }

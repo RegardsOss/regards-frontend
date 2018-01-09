@@ -122,9 +122,10 @@ describe('[Search Results] Testing OrderCartContainer', () => {
     const testLabel = `should show the sub component ${expectAddElementCallback ? 'with add element callback' : 'without add element callback'} and \
 ${expectAddSelectionCallback ? 'with add selection callback' : 'without add selection callback'} when:${propsLabel}`
     it(testLabel, () => {
-      const enzymeWrapper = shallow(<OrderCartContainer {...testProperties} >
-        <TestComponent />
-                                    </OrderCartContainer>, { context })
+      const enzymeWrapper = shallow(
+        <OrderCartContainer {...testProperties} >
+          <TestComponent />
+        </OrderCartContainer>, { context })
       const componentWrapper = enzymeWrapper.find(TestComponent)
       // verify component was drawn
       assert.lengthOf(componentWrapper, 1, 'There must be the sub component')

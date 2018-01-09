@@ -28,6 +28,7 @@ import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
 import DescriptionContainer from './user/DescriptionContainer'
 import ModuleComponent from '../components/user/ModuleComponent'
+import FeedbackDisplayComponent from '../components/user/feedback/FeedbackDisplayComponent'
 import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
 
@@ -102,6 +103,8 @@ export class ModuleContainer extends React.Component {
     if (!attributesFetching) {
       return (
         <div>
+          {/* Feedback handling for long actions in module */}
+          <FeedbackDisplayComponent />
           { /* Description handling */}
           <DescriptionContainer />
           { /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */}

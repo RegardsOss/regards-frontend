@@ -124,16 +124,15 @@ class ProjectAboutPageContainer extends React.Component {
     // render: is there a button provided or should we used module default one?
     const runtimeButton = buttonComponent ?
       // use provided button with added callback
-      React.cloneElement(buttonComponent, { onTouchTap: this.forceOpen }) :
-      // create default button
-      (<FloatingActionButton
-        style={button}
-        mini
-        title={formatMessage({ id: 'module.defaault.button.tooltip' })}
-        onTouchTap={this.forceOpen}
-      >
-        <HomeIcone />
-      </FloatingActionButton>)
+      React.cloneElement(buttonComponent, { onTouchTap: this.forceOpen }) : ( // create default button
+        <FloatingActionButton
+          style={button}
+          mini
+          title={formatMessage({ id: 'module.defaault.button.tooltip' })}
+          onTouchTap={this.forceOpen}
+        >
+          <HomeIcone />
+        </FloatingActionButton>)
 
     return (
       <div>
