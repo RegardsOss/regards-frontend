@@ -69,7 +69,7 @@ export const routeHelpers = {
    * @return boolean - true if the UI in current state has been opened when back from a mail
    */
   isBackFromAuthenticationMail: () => {
-    const query = browserHistory.getCurrentLocation().query
+    const { query } = browserHistory.getCurrentLocation()
     return !!query[routeParameters.mailAuthenticationAction.urlKey]
   },
   /**

@@ -89,14 +89,15 @@ class CriteriaConfigurationComponent extends React.Component {
    * @returns {XML}
    */
   render() {
-    return (<Card>
-      <CardTitle
-        title={this.props.plugin.info.description}
-      />
-      <CardText>
-        {map(this.props.plugin.info.conf.attributes, attribute => this.renderCriteriaAttributeConf(attribute))}
-      </CardText>
-    </Card>)
+    return (
+      <Card>
+        <CardTitle
+          title={this.props.plugin.info.description}
+        />
+        <CardText>
+          {map(this.props.plugin.info.conf.attributes, attribute => this.renderCriteriaAttributeConf(attribute))}
+        </CardText>
+      </Card>)
   }
 }
 

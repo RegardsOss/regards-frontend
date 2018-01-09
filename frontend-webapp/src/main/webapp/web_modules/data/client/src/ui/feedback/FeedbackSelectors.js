@@ -16,13 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
-import AccountOperationActions from './AccountOperationActions'
 
-const ResetPasswordActions = new AccountOperationActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
+import { BasicSelector } from '@regardsoss/store-utils'
 
-module.exports = {
-  ResetPasswordActions,
-  sendAskResetPassword: mail => ResetPasswordActions.sendAskRequest(mail),
-  sendFinishResetPassword: (token, mail, newPassword) => ResetPasswordActions.sendFinishRequest(token, mail, { newPassword }),
+/**
+ * Feedback state selectors
+ * @author Raphaël Mechali
+ */
+export class FeedbackSelectors extends BasicSelector {
+  /**
+   * Returns current feedback type (null or undefined if no feedback is currently shown)
+   * @return {string} current feedback type or null / undefined
+   */
+  getFeedbackType(state) {
+    return this.uncombineStore(state).feedbackType
+  }
+}
+
+/**
+ * Returns an intsance of feedback selectors on given store path
+ * @param  {[string]} store path: reducer store path
+ * @return {FeedbackSelectors} feedback selectors instance
+ */
+export function getFeedbackSelectors(storePath) {
+  return new FeedbackSelectors(storePath)
 }

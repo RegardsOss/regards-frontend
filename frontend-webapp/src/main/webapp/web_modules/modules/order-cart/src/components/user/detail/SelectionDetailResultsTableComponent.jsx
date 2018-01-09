@@ -106,7 +106,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
   }
 
   computeVisibleRowsCount(availableHeight) {
-    const lineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
+    const { lineHeight } = this.context.muiTheme['components:infinite-table']
     const remainingRowsHeight = availableHeight - this.context.muiTheme['components:infinite-table'].minHeaderRowHeight
     return Math.max(
       SelectionDetailResultsTableComponent.MIN_TABLE_PAGE_SIZE,

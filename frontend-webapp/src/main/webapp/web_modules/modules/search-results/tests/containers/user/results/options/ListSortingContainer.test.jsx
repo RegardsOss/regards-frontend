@@ -61,7 +61,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     const component = enzymeWrapper.find(ListSortingComponent)
     assert.lengthOf(component, 1, 'There should be the render component')
     // check that non sortable attributes were removed and alphabetical order is granted
-    const sortableModels = component.props().sortableModels
+    const { sortableModels } = component.props()
     assert.lengthOf(sortableModels, 3, 'The non sortable models should be filters!')
     assert.equal(sortableModels[0].key, '2', 'Model 2 should be at alphabetical position 0')
     assert.equal(sortableModels[1].key, '0', 'Model 0 should be at alphabetical position 1')
@@ -80,7 +80,7 @@ describe('[Search Results] Testing ListSortingContainer', () => {
     const component = enzymeWrapper.find(ListSortingComponent)
     assert.lengthOf(component, 1, 'There should be the render component')
     // verify the model was retrieved as sorting model
-    const sortingModel = component.props().sortingModel
+    const { sortingModel } = component.props()
     assert.isOk(sortingModel, 'A sorting model should be retrieved')
     assert.equal(sortingModel.key, '3', 'The sorting model retrieved should be 3')
   })

@@ -94,7 +94,6 @@ export class UserModuleContainer extends React.Component {
   }
 
   componentWillMount = () => {
-    this.setState({ expanded: true })
     this.onPropertiesChanged(undefined, this.props)
   }
 

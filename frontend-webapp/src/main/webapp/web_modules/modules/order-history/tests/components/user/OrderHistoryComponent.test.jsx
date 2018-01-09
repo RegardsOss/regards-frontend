@@ -20,9 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DynamicModule } from '@regardsoss/components'
-import {
-  ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationContainer,
-} from '@regardsoss/order-common'
+import { OrderDisplayContainer } from '@regardsoss/order-common'
 import { orderListActions, orderListSelectors } from '../../../src/client/OrderListClient'
 import { orderFilesActions, orderFilesSelectors } from '../../../src/client/OrderFilesClient'
 import { ordersNavigationActions, ordersNavigationSelectors } from '../../../src/client/OrdersNavigationClient'

@@ -398,7 +398,7 @@ class RenderMapField extends React.Component {
                   defaultValue={displayedKey}
                   onSelect={this.displayObject}
                 >
-                  {map(mapKeys, (key, idx) => this.renderListItem(key))}
+                  {map(mapKeys, (localKey, idx) => this.renderListItem(localKey))}
                 </SelectableList>
                 {disabled ?
                   null :

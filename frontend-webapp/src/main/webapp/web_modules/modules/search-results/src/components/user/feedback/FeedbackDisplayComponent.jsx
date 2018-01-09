@@ -16,13 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
-import AccountOperationActions from './AccountOperationActions'
+import { FeedbackDisplayer } from '@regardsoss/components'
+import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
+import { FEEDBACK_TYPES_ENUM, feedbackSelectors } from '../../../clients/FeedbackClient'
 
-const ResetPasswordActions = new AccountOperationActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
+/**
+ * Component to display long operations on module
+ * @author Raphaël Mechali
+ */
+class FeedbackDisplayComponent extends React.Component {
+  static FEEDBACK_ICON_BY_TYPE = {
+    [FEEDBACK_TYPES_ENUM.ADD_TO_BASKET]: CartIcon,
+  }
 
-module.exports = {
-  ResetPasswordActions,
-  sendAskResetPassword: mail => ResetPasswordActions.sendAskRequest(mail),
-  sendFinishResetPassword: (token, mail, newPassword) => ResetPasswordActions.sendFinishRequest(token, mail, { newPassword }),
+  render() {
+    return (
+      <FeedbackDisplayer
+        feedbackSelector={feedbackSelectors}
+        iconByType={FeedbackDisplayComponent.FEEDBACK_ICON_BY_TYPE}
+      />
+    )
+  }
 }
+export default FeedbackDisplayComponent

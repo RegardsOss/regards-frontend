@@ -12,7 +12,7 @@ import { Tag } from '../../models/navigation/Tag'
 import navigationContextActions from '../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../models/navigation/NavigationContextSelectors'
 import { actions as searchEntityActions } from '../../clients/SearchEntityClient'
-import { TableDisplayModeEnum, TableDisplayModeValues } from '../../models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeValues } from '../../models/navigation/TableDisplayModeEnum'
 
 /**
 * URL management container: reflects the current module state into URL, intialize module from URL (no graphics view)
