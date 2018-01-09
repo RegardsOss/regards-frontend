@@ -21,20 +21,17 @@ import Chip from 'material-ui/Chip'
 import NotificationNone from 'material-ui/svg-icons/social/notifications-none'
 import Notification from 'material-ui/svg-icons/social/notifications'
 import Close from 'material-ui/svg-icons/navigation/close'
-import Check from 'material-ui/svg-icons/navigation/check'
 import Info from 'mdi-material-ui/InformationVariant'
 import Warning from 'material-ui/svg-icons/alert/warning'
 import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
-import { Popover } from 'material-ui/Popover'
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider/Divider'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
-import RaisedButton from 'material-ui/RaisedButton'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import { AdminShapes } from '@regardsoss/shape'
 import ReactMaterialUiNotifications from 'react-materialui-notifications'
@@ -61,10 +58,7 @@ class NotificationListComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      notificationShade: false,
-      showAllNotifications: false,
-    }
+    this.state = {}
   }
 
   componentWillUpdate = () => {
@@ -79,26 +73,6 @@ class NotificationListComponent extends React.Component {
         })
       })
     }
-  }
-
-  onNotificationOpen = (event) => {
-    this.setState({
-      notificationShade: true,
-      showAllNotifications: false,
-      anchorEl: event.currentTarget,
-    })
-  }
-
-  onNotificationClose = () => {
-    this.setState({
-      notificationShade: false,
-    })
-  }
-
-  onAllNotifications = () => {
-    this.setState({
-      showAllNotifications: !this.state.showAllNotifications,
-    })
   }
 
   getFormattedDate = (notif) => {
@@ -125,7 +99,6 @@ class NotificationListComponent extends React.Component {
     this.setState({
       open: true,
       openedNotification: notification,
-      notificationShade: false,
     })
   }
 
@@ -134,7 +107,7 @@ class NotificationListComponent extends React.Component {
   }
 
   renderAvatar = (type) => {
-    const { moduleTheme: { notifications: { popover: { icons } } } } = this.context
+    const { moduleTheme: { notifications: { list: { icons } } } } = this.context
     switch (type) {
       case 'INFO':
         return <Avatar backgroundColor={icons.infoColor} color={icons.color} icon={<Info />} />
@@ -147,45 +120,17 @@ class NotificationListComponent extends React.Component {
     }
   }
 
-  renderUnreadNotificationList = (unreadNotifications) => {
+  renderNotificationList = (notifications, unread = false) => {
     const { moduleTheme: { notifications: notificationStyle } } = this.context
-
     return (
-      <List style={notificationStyle.popover.unreadList.style}>
+      <List>
         <Subheader>
-          <FormattedMessage id="user.menu.notification.title" />
+          <FormattedMessage id={`user.menu.notification.${unread ? 'unread.' : ''}title`} />
         </Subheader>
-        {map(unreadNotifications, notif => [
+        {map(notifications, notif => [
           <ListItem
             onClick={() => this.handleOpen(notif)}
-            key={`notification-${notif.id}`}
-            primaryText={notif.title}
-            leftAvatar={this.renderAvatar(notif.type)}
-            rightIconButton={
-              <div style={{ display: 'flex', alignItems: 'center', fontSize: '0.8em' }}>
-                {this.getFormattedDate(notif)}
-                <IconButton>
-                  <Check />
-                </IconButton>
-              </div>
-            }
-            secondaryText={<p>{notif.message}</p>}
-            secondaryTextLines={2}
-          />,
-          <Divider key={`divider-${notif.id}`} />,
-        ])}
-      </List>
-    )
-  }
-
-  renderReadNotificationList = (readNotifications) => {
-    const { moduleTheme: { notifications: notificationStyle } } = this.context
-    return (
-      <List style={notificationStyle.popover.readList.style}>
-        {map(readNotifications, notif => [
-          <ListItem
-            onClick={() => this.handleOpen(notif)}
-            style={notificationStyle.popover.readList.item.style}
+            style={unread ? {} : notificationStyle.list.readList.item.style}
             key={`notification-${notif.id}`}
             leftAvatar={this.renderAvatar(notif.type)}
             rightIconButton={
@@ -202,8 +147,6 @@ class NotificationListComponent extends React.Component {
               </div>
             }
             primaryText={notif.title}
-            secondaryText={<p>{notif.message}</p>}
-            secondaryTextLines={2}
           />,
           <Divider key={`divider-${notif.id}`} />,
         ])}
@@ -211,30 +154,41 @@ class NotificationListComponent extends React.Component {
     )
   }
 
-  renderNotificationDialog = (notification) => {
-    const actions = [
-      <FlatButton label="Mark as read" key="read" primary onClick={this.handleClose} />,
-      <FlatButton label="Delete" key="delete" primary onClick={this.handleClose} />,
-      <FlatButton label="Cancel" key="cancel" onClick={this.handleClose} />,
-    ]
-    return notification ? (
-      <Dialog
-        title={
-          <CardHeader title={notification.title} avatar={this.renderAvatar(notification.type)} />
-        }
-        actions={actions}
-        open={this.state.open}
-        onRequestClose={this.handleClose}
-      >
-        id: {notification.id}
-        <br />
-        Sender: {notification.sender}
-        <br />
-        Message: {notification.message}
-        <br />
+  renderNotificationDialog = (unreadNotifications, readNotifications) =>
+    this.state.openedNotification ? (
+      <Dialog open={this.state.open} onRequestClose={this.handleClose}>
+        <div
+          style={{
+            margin: -24,
+            display: 'grid',
+            gridTemplateColumns: '350px 1fr',
+          }}
+        >
+          <div
+            style={{
+              maxHeight: 500,
+              overflowY: 'scroll',
+            }}
+          >
+            {this.renderNotificationList(unreadNotifications, true)}
+            {this.renderNotificationList(readNotifications)}
+          </div>
+          <div>
+            <CardHeader
+              title={this.state.openedNotification.title}
+              avatar={this.renderAvatar(this.state.openedNotification.type)}
+            />
+            id: {this.state.openedNotification.id}
+            <br />
+            Sender: {this.state.openedNotification.sender}
+            <br />
+            Message: {this.state.openedNotification.message}
+            <br />
+            <FlatButton label="Close" key="close" primary onClick={this.handleClose} />
+          </div>
+        </div>
       </Dialog>
     ) : null
-  }
 
   render() {
     const {
@@ -255,9 +209,6 @@ class NotificationListComponent extends React.Component {
           { maxCount: NotificationListComponent.MAX_ELEMENTS_COUNT },
         )
 
-    const anchorOrigin = { horizontal: 'right', vertical: 'bottom' }
-    const targetOrigin = { horizontal: 'right', vertical: 'top' }
-
     // render
     return (
       <div>
@@ -268,7 +219,7 @@ class NotificationListComponent extends React.Component {
           )}
           style={notificationStyle.iconButton.style}
           iconStyle={notificationStyle.iconButton.iconStyle}
-          onClick={this.onNotificationOpen}
+          onClick={() => this.handleOpen(unreadNotifications[0])}
         >
           {/*Create a free position chip over the icon */}
           <div>
@@ -290,40 +241,7 @@ class NotificationListComponent extends React.Component {
             )}
           </div>
         </IconButton>
-        <Popover
-          open={this.state.notificationShade}
-          style={notificationStyle.popover.style}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={anchorOrigin}
-          targetOrigin={targetOrigin}
-          onRequestClose={this.onNotificationClose}
-        >
-          <div style={notificationStyle.popover.wrapperDiv.style}>
-            {unreadNotifications.length === 0 ? (
-              <div style={notificationStyle.popover.noNewNotifications.style}>
-                <NotificationNone style={notificationStyle.popover.noNewNotifications.iconStyle} />
-                <FormattedMessage id="user.menu.notification.empty" />
-              </div>
-            ) : (
-              this.renderUnreadNotificationList(unreadNotifications)
-            )}
-            <ShowableAtRender show={readNotifications.length !== 0}>
-              <RaisedButton
-                onClick={this.onAllNotifications}
-                style={notificationStyle.popover.showNotificationsButton.style}
-                label={formatMessage({
-                  id: this.state.showAllNotifications
-                    ? 'user.menu.notification.hide.button'
-                    : 'user.menu.notification.view.button',
-                })}
-              />
-            </ShowableAtRender>
-            <ShowableAtRender show={this.state.showAllNotifications}>
-              {this.renderReadNotificationList(readNotifications)}
-            </ShowableAtRender>
-          </div>
-        </Popover>
-        {this.renderNotificationDialog(this.state.openedNotification)}
+        {this.renderNotificationDialog(unreadNotifications, readNotifications)}
         <ReactMaterialUiNotifications transitionAppear transitionLeave />
       </div>
     )

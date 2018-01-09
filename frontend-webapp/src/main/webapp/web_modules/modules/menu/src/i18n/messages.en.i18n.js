@@ -63,9 +63,8 @@ const messages = {
     one {a new notification}
     other {{elementsCount} new notifications}
   }`,
-  'user.menu.notification.title': 'Notifications',
-  'user.menu.notification.view.button': 'View all notifications',
-  'user.menu.notification.hide.button': 'Hide read notifications',
+  'user.menu.notification.title': 'Old notifications',
+  'user.menu.notification.unread.title': 'New notifications',
   'user.menu.notification.empty': 'No new notifications',
   ...Locales.en,
   ...MetadataLocales.en,
