@@ -23,6 +23,7 @@ import Notification from 'material-ui/svg-icons/social/notifications'
 import Close from 'material-ui/svg-icons/navigation/close'
 import Info from 'mdi-material-ui/InformationVariant'
 import Warning from 'material-ui/svg-icons/alert/warning'
+import ClearAll from 'material-ui/svg-icons/communication/clear-all'
 import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -37,7 +38,7 @@ import { AdminShapes } from '@regardsoss/shape'
 import ReactMaterialUiNotifications from 'react-materialui-notifications'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import { CardHeader } from 'material-ui/Card'
+import { CardHeader, CardText, CardActions } from 'material-ui/Card'
 
 /**
  * Notification List Component
@@ -96,6 +97,11 @@ class NotificationListComponent extends React.Component {
   }
 
   handleOpen = (notification) => {
+    if (this.state.openedNotification) {
+      if (notification.id !== this.state.openedNotification.id) {
+        this.props.readNotification(this.state.openedNotification)
+      }
+    }
     this.setState({
       open: true,
       openedNotification: notification,
@@ -103,6 +109,7 @@ class NotificationListComponent extends React.Component {
   }
 
   handleClose = () => {
+    this.props.readNotification(this.state.openedNotification)
     this.setState({ open: false })
   }
 
@@ -122,15 +129,39 @@ class NotificationListComponent extends React.Component {
 
   renderNotificationList = (notifications, unread = false) => {
     const { moduleTheme: { notifications: notificationStyle } } = this.context
+    const itemStyle = (item) => {
+      let style = {}
+      if (!unread) {
+        style = {
+          ...style,
+          ...notificationStyle.list.readList.item.style,
+        }
+      }
+      if (item.id === this.state.openedNotification.id) {
+        style = {
+          ...style,
+          ...notificationStyle.list.selectedItem.style,
+        }
+      }
+      return style
+    }
     return (
       <List>
-        <Subheader>
+        <Subheader style={{ display: 'flex', justifyContent: 'space-between' }}>
           <FormattedMessage id={`user.menu.notification.${unread ? 'unread.' : ''}title`} />
+          <ShowableAtRender show={unread}>
+            <IconButton
+              onClick={() => this.props.readAllNotifications(notifications)}
+              title="Clear all"
+            >
+              <ClearAll />
+            </IconButton>
+          </ShowableAtRender>
         </Subheader>
         {map(notifications, notif => [
           <ListItem
             onClick={() => this.handleOpen(notif)}
-            style={unread ? {} : notificationStyle.list.readList.item.style}
+            style={itemStyle(notif)}
             key={`notification-${notif.id}`}
             leftAvatar={this.renderAvatar(notif.type)}
             rightIconButton={
@@ -156,12 +187,12 @@ class NotificationListComponent extends React.Component {
 
   renderNotificationDialog = (unreadNotifications, readNotifications) =>
     this.state.openedNotification ? (
-      <Dialog open={this.state.open} onRequestClose={this.handleClose}>
+      <Dialog modal open={this.state.open} onRequestClose={this.handleClose}>
         <div
           style={{
             margin: -24,
             display: 'grid',
-            gridTemplateColumns: '350px 1fr',
+            gridTemplateColumns: '33% 1fr',
           }}
         >
           <div
@@ -176,15 +207,26 @@ class NotificationListComponent extends React.Component {
           <div>
             <CardHeader
               title={this.state.openedNotification.title}
+              subtitle={this.context.intl.formatMessage(
+                { id: 'user.menu.notification.details.sentby' },
+                { sender: this.state.openedNotification.sender },
+              )}
               avatar={this.renderAvatar(this.state.openedNotification.type)}
             />
-            id: {this.state.openedNotification.id}
-            <br />
-            Sender: {this.state.openedNotification.sender}
-            <br />
-            Message: {this.state.openedNotification.message}
-            <br />
-            <FlatButton label="Close" key="close" primary onClick={this.handleClose} />
+            <div
+              style={{
+                position: 'absolute',
+                right: 24,
+                top: 24,
+                fontSize: '0.8em',
+              }}
+            >
+              {this.getFormattedDate(this.state.openedNotification)}
+            </div>
+            <CardText>Message: {this.state.openedNotification.message}</CardText>
+            <CardActions style={{ position: 'absolute', bottom: 10, right: 10 }}>
+              <FlatButton label="Close" key="close" primary onClick={this.handleClose} />
+            </CardActions>
           </div>
         </div>
       </Dialog>

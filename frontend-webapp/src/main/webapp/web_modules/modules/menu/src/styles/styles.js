@@ -152,6 +152,11 @@ const menuStyles = theme => ({
           },
         },
       },
+      selectedItem: {
+        style: {
+          backgroundColor: theme.palette.primary3Color,
+        },
+      },
       icons: {
         color: '#ffffff',
         infoColor: '#2196F3',
