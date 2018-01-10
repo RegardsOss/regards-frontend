@@ -75,6 +75,25 @@ const menuStyles = theme => ({
       },
     },
   },
+  overlay: {
+    style: {
+      position: 'absolute',
+      bottom: '0',
+      left: '0',
+      width: '100%',
+      zIndex: '1',
+      display: 'flex',
+    },
+    chip: {
+      labelStyle: {
+        fontSize: '10px',
+        padding: 3,
+        lineHeight: undefined,
+        fontWeight: 'bold',
+      },
+      style: { opacity: '0.9', backgroundColor: theme.palette.accent1Color, margin: 'auto' },
+    },
+  },
   cart: {
     iconButton: {
       style: { padding: 0 },
@@ -82,24 +101,6 @@ const menuStyles = theme => ({
         position: 'relative',
         width: theme.button.iconButtonSize,
         height: theme.button.iconButtonSize,
-      },
-    },
-    overlay: {
-      style: {
-        position: 'absolute',
-        bottom: '0',
-        left: '0',
-        width: '100%',
-        zIndex: '1',
-      },
-      chip: {
-        labelStyle: {
-          fontSize: '10px',
-          padding: 3,
-          lineHeight: undefined,
-          fontWeight: 'bold',
-        },
-        style: { opacity: '0.9', backgroundColor: theme.palette.accent1Color, margin: 'auto' },
       },
     },
     icon: {
@@ -117,24 +118,6 @@ const menuStyles = theme => ({
         position: 'relative',
         width: theme.button.iconButtonSize,
         height: theme.button.iconButtonSize,
-      },
-    },
-    overlay: {
-      style: {
-        position: 'absolute',
-        bottom: '0',
-        left: '0',
-        width: '100%',
-        zIndex: '1',
-      },
-      chip: {
-        labelStyle: {
-          fontSize: '10px',
-          padding: 3,
-          lineHeight: undefined,
-          fontWeight: 'bold',
-        },
-        style: { opacity: '0.9', backgroundColor: theme.palette.accent1Color, margin: 'auto' },
       },
     },
     icon: {

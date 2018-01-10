@@ -235,7 +235,7 @@ class NotificationListComponent extends React.Component {
   render() {
     const {
       intl: { formatMessage },
-      moduleTheme: { notifications: notificationStyle },
+      moduleTheme: { notifications: notificationStyle, overlay },
     } = this.context
 
     const unreadNotifications = filter(this.props.notifications, notif => notif.status === 'UNREAD')
@@ -266,10 +266,10 @@ class NotificationListComponent extends React.Component {
           {/*Create a free position chip over the icon */}
           <div>
             <ShowableAtRender show={!!unreadCount}>
-              <div style={notificationStyle.overlay.style}>
+              <div style={overlay.style}>
                 <Chip
-                  labelStyle={notificationStyle.overlay.chip.labelStyle}
-                  style={notificationStyle.overlay.chip.style}
+                  labelStyle={overlay.chip.labelStyle}
+                  style={overlay.chip.style}
                 >
                   {elementsCountLabel}
                 </Chip>
