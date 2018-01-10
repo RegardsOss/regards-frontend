@@ -33,7 +33,7 @@ const messages = {
   'order-cart.module.order.label': 'Order',
   'order-cart.module.order.tooltip': 'Order cart content',
   'order-cart.module.order.confirmation.title': 'Order',
-  'order-cart.module.order.confirmation.message': 'This action will start order and clear basket. Would you like to continue?',
+  'order-cart.module.order.confirmation.message': 'This action will start order and clear basket, then your order list will be displayed. Would you like to continue?',
   'order-cart.module.clear.label': 'Clear',
   'order-cart.module.clear.tooltip': 'Clear cart content',
   'order-cart.module.clear.confirmation.title': 'Clear basket',

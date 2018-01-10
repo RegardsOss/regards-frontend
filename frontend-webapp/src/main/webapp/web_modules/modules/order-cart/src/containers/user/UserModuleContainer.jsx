@@ -25,12 +25,13 @@ import { ModuleConfigurationShape } from '../../model/ModuleConfigurationShape'
  */
 class UserModuleContainer extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     moduleConf: ModuleConfigurationShape.isRequired,
   }
 
   render() {
-    const { showDatasets } = this.props.moduleConf
-    return <OrderCartContainer showDatasets={showDatasets} />
+    const { project, moduleConf: { showDatasets } } = this.props
+    return <OrderCartContainer project={project} showDatasets={showDatasets} />
   }
 }
 

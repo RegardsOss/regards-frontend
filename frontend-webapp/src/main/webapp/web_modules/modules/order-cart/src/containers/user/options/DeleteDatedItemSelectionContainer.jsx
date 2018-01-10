@@ -44,6 +44,7 @@ export class DeleteDatedItemSelectionContainer extends React.Component {
   }
 
   static propTypes = {
+    disabled: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     datasetSelectionId: PropTypes.number.isRequired, // used only in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -53,9 +54,9 @@ export class DeleteDatedItemSelectionContainer extends React.Component {
   }
 
   render() {
-    const { dispatchDelete } = this.props
+    const { disabled, dispatchDelete } = this.props
     return (
-      <DeleteDatedItemSelectionComponent onDelete={dispatchDelete} />
+      <DeleteDatedItemSelectionComponent disabled={disabled} onDelete={dispatchDelete} />
     )
   }
 }

@@ -56,10 +56,10 @@ class OrderCartComponent extends React.Component {
    * @return [React.Element] options list
    */
   renderOptions = (isNoContent) => {
-    const { onClearCart, onOrder } = this.props
+    const { isFetching, onClearCart, onOrder } = this.props
     return [
-      <OrderComponent key="options.order" empty={isNoContent} onOrder={onOrder} />,
-      <ClearCartComponent key="options.clear.cart" empty={isNoContent} onClearCart={onClearCart} />,
+      <OrderComponent key="options.order" disabled={isFetching} empty={isNoContent} onOrder={onOrder} />,
+      <ClearCartComponent key="options.clear.cart" disabled={isFetching} empty={isNoContent} onClearCart={onClearCart} />,
     ]
   }
 
@@ -95,7 +95,7 @@ class OrderCartComponent extends React.Component {
             Icon={NoContentIconConstructor}
           >
             {/* 2.b - content  */}
-            <OrderCartTableComponent basket={basket} showDatasets={showDatasets} />
+            <OrderCartTableComponent disableOptions={isFetching} basket={basket} showDatasets={showDatasets} />
             {/* 2.c - loading (content is not inside, as we need the table to not be
               unmounted. Indeed the table uses previous props to restore the rows expanded state  */}
             <LoadableContentDisplayDecorator isLoading={isFetching} />

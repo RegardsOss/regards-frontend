@@ -31,6 +31,7 @@ class OrderComponent extends React.Component {
   static propTypes = {
     onOrder: PropTypes.func.isRequired,
     empty: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -39,7 +40,7 @@ class OrderComponent extends React.Component {
 
 
   render() {
-    const { empty, onOrder } = this.props
+    const { disabled, empty, onOrder } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <ButtonWithConfirmDialog
@@ -50,7 +51,7 @@ class OrderComponent extends React.Component {
         label={formatMessage({ id: 'order-cart.module.order.label' })} // button properties
         title={formatMessage({ id: 'order-cart.module.order.tooltip' })}
         icon={<OrderIcon />}
-        disabled={empty}
+        disabled={disabled || empty}
       />
     )
   }

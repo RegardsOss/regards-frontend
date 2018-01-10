@@ -21,5 +21,5 @@
  * Module configuration related
  */
 export const ModuleConfigurationShape = PropTypes.shape({
-  showDatasets: PropTypes.bool.isRequired,
+  showDatasets: PropTypes.bool,
 })

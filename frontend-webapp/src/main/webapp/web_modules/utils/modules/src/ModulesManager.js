@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import isNil from 'lodash/isNil'
+import find from 'lodash/find'
 import values from 'lodash/values'
 
 /**
@@ -58,6 +60,17 @@ const AllDynamicModuleTypes = {
 
 /** Defines all module types for application available for project administration and as user module  */
 const ALL_MODULE_TYPES = values(VisibleModuleTypes)
+
+/**
+ * Finds the first available module by type
+ * @param {*} modules modules list, as provided by ccessProjectClient.ModuleSelectors().getList(state) (normalized results)
+ * @param {string} moduleType searched module type, from ALL_MODULE_TYPES
+ * @return {{content: {*}, links: [*]}} found module as a {} object or null if not found
+ */
+function findFirstModuleByType(modules, moduleType) {
+  return find(modules, module => get(module, 'content.type', null) === moduleType) || null
+}
+
 
 /**
  * Builds a promise to load a module from its type
@@ -110,6 +123,7 @@ module.exports = {
   VisibleModuleTypes,
   HiddenModuleTypes,
   AllDynamicModuleTypes,
+  findFirstModuleByType,
   loadModule,
   getAvailableVisibleModuleTypes,
   getModuleURL,

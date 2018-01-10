@@ -37,6 +37,7 @@ export class OrderCartTableComponent extends React.Component {
   static propTypes = {
     showDatasets: PropTypes.bool.isRequired,
     basket: OrderShapes.Basket,
+    disableOptions: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -176,7 +177,7 @@ export class OrderCartTableComponent extends React.Component {
    */
   buildTableCellContent = (cellValue, level, columnID) => {
     const { intl: { formatDate } } = this.context
-    const { showDatasets } = this.props
+    const { showDatasets, disableOptions } = this.props
 
     // is it a dataset cell or a dated item selection cell?
 
@@ -204,6 +205,7 @@ export class OrderCartTableComponent extends React.Component {
             datasetLabel={cellValue.datasetLabel}
             date={cellValue.date}
             openSearchRequest={cellValue.openSearchRequest}
+            disabled={disableOptions}
           />
       // delete option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE: {
@@ -213,10 +215,12 @@ export class OrderCartTableComponent extends React.Component {
           // dataset: delete dataset
           <DeleteDatasetSelectionContainer
             datasetSelectionId={datasetSelectionId}
+            disabled={disableOptions}
           /> :
           <DeleteDatedItemSelectionContainer
             datasetSelectionId={datasetSelectionId}
             itemsSelectionDate={itemsSelectionDate}
+            disabled={disableOptions}
           /> // selection: delete selection
       }
       // Other columns: unchanged

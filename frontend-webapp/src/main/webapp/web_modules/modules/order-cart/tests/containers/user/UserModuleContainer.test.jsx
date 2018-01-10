@@ -38,6 +38,7 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
+      project: 'any',
       moduleConf: {
         showDatasets: false,
       },
