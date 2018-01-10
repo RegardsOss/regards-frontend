@@ -18,36 +18,8 @@
  **/
 
 /**
- * Exports modules styles builder on current theme values
- * @author Raphaël Mechali
+ * Module configuration related
  */
-const moduleStyles = theme => ({
-  admin: {
-    rootStyle: {
-      padding: 20,
-    },
-  },
-  user: {
-    // module content styles
-    content: {
-      table: {
-        optionColumn: {
-          style: {
-            width: 48,
-            height: 48,
-            padding: 0,
-          },
-        },
-      },
-      detail: {
-        widthPercent: 80,
-        heightPercent: 70,
-      },
-    },
-    header: {
-      optionStyle: { marginLeft: 0, marginRight: 6 },
-    },
-  },
+export const ModuleConfigurationShape = PropTypes.shape({
+  showDatasets: PropTypes.bool.isRequired,
 })
-
-export default moduleStyles

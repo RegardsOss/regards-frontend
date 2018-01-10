@@ -16,38 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import ModuleConfigurationComponent from '../../components/admin/ModuleConfigurationComponent'
+import { ModuleConfigurationShape } from '../../model/ModuleConfigurationShape'
 
 /**
- * Exports modules styles builder on current theme values
+ * Admin module container for module configuration
  * @author Raphaël Mechali
  */
-const moduleStyles = theme => ({
-  admin: {
-    rootStyle: {
-      padding: 20,
-    },
-  },
-  user: {
-    // module content styles
-    content: {
-      table: {
-        optionColumn: {
-          style: {
-            width: 48,
-            height: 48,
-            padding: 0,
-          },
-        },
-      },
-      detail: {
-        widthPercent: 80,
-        heightPercent: 70,
-      },
-    },
-    header: {
-      optionStyle: { marginLeft: 0, marginRight: 6 },
-    },
-  },
-})
+export class AdminModuleContainer extends React.Component {
+  static propTypes = {
+    adminForm: PropTypes.shape({
+      changeField: PropTypes.func.isRequired,
+      form: ModuleConfigurationShape,
+    }),
+  }
 
-export default moduleStyles
+  render() {
+    const { changeField, form } = this.props.adminForm
+    return <ModuleConfigurationComponent changeField={changeField} moduleForm={form} />
+  }
+}
+export default AdminModuleContainer

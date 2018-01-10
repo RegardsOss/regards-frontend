@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import flatMap from 'lodash/flatMap'
 import reduce from 'lodash/reduce'
 import { TableHeaderColumn, TableRowColumn } from 'material-ui/Table'
 import { OrderShapes } from '@regardsoss/shape'
@@ -34,6 +35,7 @@ import styles from '../../styles'
 */
 export class OrderCartTableComponent extends React.Component {
   static propTypes = {
+    showDatasets: PropTypes.bool.isRequired,
     basket: OrderShapes.Basket,
   }
 
@@ -81,12 +83,6 @@ export class OrderCartTableComponent extends React.Component {
     [OrderCartTableComponent.COLUMNS_DEFINITION.findIndex(({ key }) => key === columnKey)]: columnKey,
   }), {})
 
-  /** Selection level in tree table */
-  static DATASET_SELECTION_LEVEL = 0
-
-  /** Dated selection insertion level in tree table */
-  static DATED_SELECTION_ADD_LEVEL = 1
-
   /** Formatting options for selection date */
   static SELECTION_DATE_OPTIONS = {
     year: 'numeric',
@@ -105,8 +101,19 @@ export class OrderCartTableComponent extends React.Component {
  * @param {*} basket current basket model (optional) as described in Basket shape
  * @return [TreeTableRow] root tree table rows
  */
-  buildTableRows = (basket = { datasetSelections: [] }) => basket.datasetSelections.map(selection =>
-    this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
+  buildTableRows = (basket = { datasetSelections: [] }) => {
+    // When showing datasets, map datasets to rows, otherwise, map directly selection items into root rows
+    const { showDatasets } = this.props
+    if (showDatasets) {
+      // datasets as root rows
+      return basket.datasetSelections.map(selection =>
+        this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
+    }
+    // selections as root rows, datasets hidden
+    return flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) =>
+      itemsSelections.map(itemSelection => this.buildDatedSelectionRow(id, datasetLabel, itemSelection)))
+  }
+
 
   /**
    * Builds a dataset selection row
@@ -169,11 +176,17 @@ export class OrderCartTableComponent extends React.Component {
    */
   buildTableCellContent = (cellValue, level, columnID) => {
     const { intl: { formatDate } } = this.context
+    const { showDatasets } = this.props
+
+    // is it a dataset cell or a dated item selection cell?
+
+    const isDatasetCell = level === 0 && showDatasets
+
     // transform content into element, according with column and level (dataset or selection)
     switch (columnID) {
       // ID column
       case OrderCartTableComponent.ColumnKeys.ID:
-        return OrderCartTableComponent.DATASET_SELECTION_LEVEL === level ?
+        return isDatasetCell ?
           // dataset: no change (use label)
           cellValue :
           // selection: format date
@@ -183,7 +196,7 @@ export class OrderCartTableComponent extends React.Component {
         return <storage.FormattedStorageCapacity capacity={cellValue} />
       // detail option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL:
-        return OrderCartTableComponent.DATASET_SELECTION_LEVEL === level ?
+        return isDatasetCell ?
           // dataset: no detail
           null :
           // selection: detail option, cell value is open search request
@@ -196,7 +209,7 @@ export class OrderCartTableComponent extends React.Component {
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE: {
         // extract option parameters from cell value
         const { datasetSelectionId, itemsSelectionDate } = cellValue
-        return OrderCartTableComponent.DATASET_SELECTION_LEVEL === level ?
+        return isDatasetCell ?
           // dataset: delete dataset
           <DeleteDatasetSelectionContainer
             datasetSelectionId={datasetSelectionId}

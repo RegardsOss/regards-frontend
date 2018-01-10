@@ -41,6 +41,7 @@ describe('[Order Cart] Testing OrderCartContainer', () => {
   })
   it('should render correctly with different properties sets', () => {
     const propsSets = [{
+      showDatasets: true,
       isAuthenticated: false,
       basket: undefined,
       hasError: false,
@@ -50,6 +51,7 @@ describe('[Order Cart] Testing OrderCartContainer', () => {
       dispatchStartOrder: () => { },
       dispatchClearCart: () => { },
     }, {
+      showDatasets: true,
       isAuthenticated: true,
       basket: emptyBasket,
       hasError: true,
@@ -59,6 +61,7 @@ describe('[Order Cart] Testing OrderCartContainer', () => {
       dispatchStartOrder: () => { },
       dispatchClearCart: () => { },
     }, {
+      showDatasets: false,
       isAuthenticated: true,
       basket: mockBasket1,
       hasError: false,

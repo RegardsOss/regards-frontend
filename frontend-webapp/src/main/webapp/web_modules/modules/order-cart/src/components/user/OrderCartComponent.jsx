@@ -35,8 +35,9 @@ import OrderCartTableComponent from './OrderCartTableComponent'
  */
 class OrderCartComponent extends React.Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool,
     basket: OrderShapes.Basket,
+    showDatasets: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool,
     isFetching: PropTypes.bool.isRequired,
     onClearCart: PropTypes.func.isRequired,
     onOrder: PropTypes.func.isRequired,
@@ -64,7 +65,7 @@ class OrderCartComponent extends React.Component {
 
   render() {
     const {
-      isAuthenticated, basket, isFetching, onExpandChange, expanded,
+      isAuthenticated, basket, isFetching, onExpandChange, expanded, showDatasets,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -77,7 +78,6 @@ class OrderCartComponent extends React.Component {
     const NoContentIconConstructor = !isAuthenticated ? NotLoggedIcon : CartIcon
 
     return (
-
       <DynamicModule
         title={<ModuleTitle IconConstructor={CartIcon} text={formatMessage({ id: 'order-cart.module.title' })} />}
         onExpandChange={onExpandChange}
@@ -95,7 +95,7 @@ class OrderCartComponent extends React.Component {
             Icon={NoContentIconConstructor}
           >
             {/* 2.b - content  */}
-            <OrderCartTableComponent basket={basket} />
+            <OrderCartTableComponent basket={basket} showDatasets={showDatasets} />
             {/* 2.c - loading (content is not inside, as we need the table to not be
               unmounted. Indeed the table uses previous props to restore the rows expanded state  */}
             <LoadableContentDisplayDecorator isLoading={isFetching} />

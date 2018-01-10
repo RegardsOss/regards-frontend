@@ -24,7 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   ...Locales.fr,
-  'order-cart.module.admin.message': 'Il n\'y a pas d\'options spécifiques pour ce module',
+  'order.cart.configuration.show.datasets': 'Afficher les jeux de données',
   'order-cart.module.title': 'Mon panier',
   'order-cart.module.not.logged.title': 'Utilisateur non authentifié',
   'order-cart.module.not.logged.messsage': 'Le panier n\'est accessible qu\'aux utilisateurs authentifiés. Vous pouvez vous connecter en utilisant le bouton "Connexion"',

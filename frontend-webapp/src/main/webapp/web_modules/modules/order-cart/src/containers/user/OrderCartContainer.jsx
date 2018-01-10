@@ -66,6 +66,7 @@ export class OrderCartContainer extends React.Component {
   }
 
   static propTypes = {
+    showDatasets: PropTypes.bool.isRequired,
     // from mapStateToProps
     isAuthenticated: PropTypes.bool, // used only in properties changed
     basket: OrderShapes.Basket,
@@ -127,7 +128,7 @@ export class OrderCartContainer extends React.Component {
 
   render() {
     const {
-      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, dispatchStartOrder,
+      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, dispatchStartOrder, showDatasets,
     } = this.props
     const { expanded } = this.state
     return (
@@ -135,6 +136,7 @@ export class OrderCartContainer extends React.Component {
         {/* 1 - Add main view */}
         <OrderCartComponent
           basket={basket}
+          showDatasets={showDatasets}
           hasError={hasError}
           isFetching={isFetching}
           isAuthenticated={isAuthenticated}

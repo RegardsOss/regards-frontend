@@ -19,30 +19,29 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import UserModuleContainer from '../../../src/containers/user/UserModuleContainer'
-import OrderCartContainer from '../../../src/containers/user/OrderCartContainer'
+import ModuleConfigurationComponent from '../../../src/components/admin/ModuleConfigurationComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test UserModuleContainer
+* Test ModuleConfigurationComponent
 * @author Raphaël Mechali
 */
-describe('[Order Cart] Testing UserModuleContainer', () => {
+describe('[Order Cart] Testing ModuleConfigurationComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(UserModuleContainer)
+    assert.isDefined(ModuleConfigurationComponent)
   })
   it('should render correctly', () => {
     const props = {
-      moduleConf: {
+      changeField: () => { },
+      moduleForm: {
         showDatasets: false,
       },
     }
-    const renderWrapper = shallow(<UserModuleContainer {...props} />, { context })
-    assert.lengthOf(renderWrapper.find(OrderCartContainer), 1, 'There should be the sub container (this one does\'t do anything')
+    shallow(<ModuleConfigurationComponent {...props} />, { context })
   })
 })
