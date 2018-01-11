@@ -9,6 +9,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CatalogShapes } from '@regardsoss/shape'
 import { ScrollArea } from '@regardsoss/adapters'
+import { EntityIpIdTester } from '@regardsoss/domain/common'
 import DescriptionLevelActions from '../../../../model/description/DescriptionLevelActions'
 import { DescriptionLevelSelectors } from '../../../../model/description/DescriptionLevelSelectors'
 import LoadingDisplayerComponent from '../../LoadingDisplayerComponent'
@@ -50,8 +51,8 @@ class TagsComponent extends React.Component {
   }
 
   updateTagsAndDocuments = (props) => {
-    const tags = filter(props.entityTags, entity => !entity.content.ipId.match(/URN:AIP:DOCUMENT:.*/)) || []
-    const documents = filter(props.entityTags, entity => entity.content.ipId.match(/URN:AIP:DOCUMENT:.*/)) || []
+    const tags = filter(props.entityTags, entity => !EntityIpIdTester.isIpIdADocument(entity.content.ipId)) || []
+    const documents = filter(props.entityTags, entity => EntityIpIdTester.isIpIdADocument(entity.content.ipId)) || []
     this.setState({
       tags,
       documents,

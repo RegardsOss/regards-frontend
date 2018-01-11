@@ -25,10 +25,12 @@ export class EntityDescriptionContainer extends React.Component {
   static mapStateToProps = (state, { levelSelectors }) => ({
     // currently shown entity resolution
     shownEntity: levelSelectors.getShownEntity(state),
+    currentTab: levelSelectors.getCurrentTab(state),
   })
 
   static mapDispatchToProps = (dispatch, { fetchModelAttributesActions, downloadDescriptionClient, levelActions }) => ({
     onClose: () => dispatch(levelActions.hide()),
+    changeTab: tab => dispatch(levelActions.changeTab(tab)),
   })
 
   static propTypes = {
@@ -44,10 +46,12 @@ export class EntityDescriptionContainer extends React.Component {
     downloadDescriptionClient: PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
 
     // from mapStateToProps
+    currentTab: PropTypes.string.isRequired,
     shownEntity: CatalogShapes.Entity, // entity shown or null
 
     // from mapDispatchToProps
     onClose: PropTypes.func.isRequired,
+    changeTab: PropTypes.func.isRequired,
   }
 
   /**
@@ -63,13 +67,14 @@ export class EntityDescriptionContainer extends React.Component {
 
   render() {
     const {
-      shownEntity, onClose, downloadDescriptionClient, onSearchTag,
+      shownEntity, onClose, downloadDescriptionClient, onSearchTag, changeTab, currentTab,
       fetchModelAttributesActions, fetchModelAttributesSelectors, levelActions, levelSelectors,
     } = this.props
     return (
       <EntityDescriptionComponent
         entity={shownEntity}
         open={!!shownEntity}
+        currentTab={currentTab}
 
         downloadDescriptionClient={downloadDescriptionClient}
         fetchModelAttributesActions={fetchModelAttributesActions}
@@ -79,6 +84,7 @@ export class EntityDescriptionContainer extends React.Component {
 
         onSearchTag={onSearchTag ? this.onSearchTag : null}
         onClose={onClose}
+        changeTab={changeTab}
       />
     )
   }
