@@ -119,7 +119,6 @@ class ModuleContainer extends React.Component {
         searchQuery: query.q,
         expanded: true,
         hasSearched: false,
-        resetCriterion: true,
       })
       this.criterionValues = {}
     } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {

@@ -256,14 +256,13 @@ class SearchResultsComponent extends React.Component {
     } = this.props
 
     let columns
-    let lineHeight
+    let { lineHeight } = tableTheme
     let displayColumnsHeader
     let displayedRowsCount
 
     const tableColumns = this.buildTableColumns()
     if (this.isInTableView()) {
       displayedRowsCount = tableTheme.rowCount
-      lineHeight = tableTheme.lineHeight
       columns = tableColumns
       displayColumnsHeader = true
     } else if (this.isInListView()) { // use list columns
@@ -346,7 +345,6 @@ class SearchResultsComponent extends React.Component {
             emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
           />)
         }
-
       </TableLayout>
     )
   }

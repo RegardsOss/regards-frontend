@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import isString from 'lodash/isString'
+import root from 'window-or-global'
 import { CommonShapes } from '@regardsoss/shape'
 
 /**
@@ -24,12 +25,12 @@ const getTextBoundPropType = parser => (props, propName, componentName, location
 
 const parseInt = (intText) => {
   const n = Number.parseInt(intText, 10)
-  return !isNaN(n) && Number.isInteger(n)
+  return !root.isNaN(n) && Number.isInteger(n)
 }
 
 const NumericTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBoundPropType(parseInt))
 
-const parseDate = dateText => !isNaN(Date.parse(dateText))
+const parseDate = dateText => !root.isNaN(Date.parse(dateText))
 const DateTextBoundPropType = CommonShapes.getChainableTypeChecker(getTextBoundPropType(parseDate))
 
 module.exports = {

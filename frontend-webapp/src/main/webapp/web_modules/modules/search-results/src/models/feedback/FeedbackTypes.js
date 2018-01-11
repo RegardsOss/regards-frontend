@@ -16,13 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
-import AccountOperationActions from './AccountOperationActions'
+import values from 'lodash/values'
 
-const ResetPasswordActions = new AccountOperationActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
+/**
+ * Feedback types, to be shown over the results on specific operations
+ * @author Raphaël Mechali
+ */
 
-module.exports = {
-  ResetPasswordActions,
-  sendAskResetPassword: mail => ResetPasswordActions.sendAskRequest(mail),
-  sendFinishResetPassword: (token, mail, newPassword) => ResetPasswordActions.sendFinishRequest(token, mail, { newPassword }),
+/** As enumeration */
+export const FEEDBACK_TYPES_ENUM = {
+  ADD_TO_BASKET: 'ADD_TO_BASKET',
 }
+
+/** As values list */
+export const FEEDBACK_TYPES_LIST = values(FEEDBACK_TYPES_ENUM)

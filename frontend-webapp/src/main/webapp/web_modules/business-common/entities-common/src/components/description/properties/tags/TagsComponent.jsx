@@ -64,7 +64,10 @@ class TagsComponent extends React.Component {
       loading, levelActions, levelSelectors,
     } = this.props
     const { documents } = this.state
-    const { tags: { sectionStyle, tagsContainer, scrollAreaContent }, loadingContainerStyle, messageContainerStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const {
+      tags: { sectionStyle, tagsContainer, scrollAreaContent },
+      loadingContainerStyle, messageContainerStyle,
+    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
     const { fullHeight } = this.context.moduleTheme
     return (
       <ScrollArea horizontal={false} vertical contentStyle={scrollAreaContent} style={fullHeight}>
@@ -159,10 +162,16 @@ class TagsComponent extends React.Component {
   }
 
   render() {
-    const { rootStyle, tagsRootStyle, documentsRootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags
+    const {
+      rootStyle, tagsRootStyle, documentsRootStyle, horizontalAreaSeparator,
+    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags
     return (
       <div style={rootStyle}>
+        {/* tags */}
         <div style={tagsRootStyle}>{this.renderTags()}</div>
+        {/* layout separator */}
+        <div style={horizontalAreaSeparator} />
+        {/* documents */}
         <div style={documentsRootStyle}>{this.renderDocuments()}</div>
       </div>
     )

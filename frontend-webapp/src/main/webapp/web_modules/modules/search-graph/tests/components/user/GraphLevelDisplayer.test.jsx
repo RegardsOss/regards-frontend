@@ -79,16 +79,14 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
 
     // check all showable are found
     const enzymeWrapper = shallow(<GraphLevelDisplayer {...props} />, { context })
-    let rootShowable = getAllShowable(enzymeWrapper).rootShowable
-    assert.isFalse(rootShowable.props().show, 'Root showable should be hidden')
+    assert.isFalse(getAllShowable(enzymeWrapper).rootShowable.props().show, 'Root showable should be hidden')
 
     // switch to isShowable true
     enzymeWrapper.setProps({
       ...props,
       isShowable: true,
     })
-    rootShowable = getAllShowable(enzymeWrapper).rootShowable
-    assert.isTrue(rootShowable.props().show, 'Root showable should be visible')
+    assert.isTrue(getAllShowable(enzymeWrapper).rootShowable.props().show, 'Root showable should be visible')
   })
   it('Should render loading state', () => {
     const props = {

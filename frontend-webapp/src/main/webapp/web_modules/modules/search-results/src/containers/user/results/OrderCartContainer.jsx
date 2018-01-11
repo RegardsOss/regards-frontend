@@ -32,6 +32,7 @@ import { TableSelectionModes } from '@regardsoss/components'
 import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
 import TableClient from '../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
+import { FEEDBACK_TYPES_ENUM, feedbackActions } from '../../../clients/FeedbackClient'
 
 // get default modules client actions and reducers instances - we will use it to verify if a basket exists AND if it is in a dynamic container
 const modulesSelectors = AccessProjectClient.ModuleSelectors()
@@ -44,8 +45,7 @@ const basketDependencies = [
 ]
 
 /**
- * Container to add order basket functionality (allows to split a little the SearchResultsContainer code and separate
- * responsabilities)
+ * Container for cart management functionalities and related feedback
  * @author Raphaël Mechali
  */
 export class OrderCartContainer extends React.Component {
@@ -80,13 +80,18 @@ export class OrderCartContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       /**
-       * Dispatches add to cart action (sends add to cart command to server)
+       * Dispatches add to cart action (sends add to cart command to server), showing then hiding feedback
        * @param ipIds IP ID list to add to cart, when request is null, or to exclude from add request when it isn't
        * @param selectAllOpenSearchRequest request to retrieve elements to add, when not null
        * @return {Promise} add to cart promise
        */
-      dispatchAddToCart: (ipIds = [], selectAllOpenSearchRequest = null) =>
-        dispatch(defaultBasketActions.addToBasket(ipIds, selectAllOpenSearchRequest)),
+      dispatchAddToCart: (ipIds = [], selectAllOpenSearchRequest = null) => {
+        // show user feedback
+        dispatch(feedbackActions.showFeedback(FEEDBACK_TYPES_ENUM.ADD_TO_BASKET))
+        // run network processing action then hide feedback
+        dispatch(defaultBasketActions.addToBasket(ipIds, selectAllOpenSearchRequest))
+          .then(() => dispatch(feedbackActions.hideFeedback()))
+      },
     }
   }
 
@@ -186,6 +191,7 @@ export class OrderCartContainer extends React.Component {
       // pre render children (attempt to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         ...HOCUtils.getOnlyNonDeclaredProps(this, newProps), // this will report injected service data
+        // report cart information
         onAddElementToCart: newState.onAddElementToBasket,
         onAddSelectionToCart: newState.onAddSelectionToBasket,
       })

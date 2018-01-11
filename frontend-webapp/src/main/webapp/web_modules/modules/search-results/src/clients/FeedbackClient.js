@@ -16,13 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AuthenticationRouteParameters } from '@regardsoss/authentication-manager'
-import AccountOperationActions from './AccountOperationActions'
+import { UIClient } from '@regardsoss/client'
 
-const ResetPasswordActions = new AccountOperationActions('resetPassword', AuthenticationRouteParameters.mailAuthenticationAction.values.changePassword)
+const namespace = 'namespace'
+const feedbackActions = new UIClient.FeedbackActions(namespace)
+const feedbackReducer = UIClient.getFeedbackReducer(namespace)
+const feedbackSelectors = UIClient.getFeedbackSelectors(['modules.search-results', 'feedback'])
+
+/** Exposes module feedback types */
+const FEEDBACK_TYPES_ENUM = {
+  ADD_TO_BASKET: 'add.to.basket',
+}
 
 module.exports = {
-  ResetPasswordActions,
-  sendAskResetPassword: mail => ResetPasswordActions.sendAskRequest(mail),
-  sendFinishResetPassword: (token, mail, newPassword) => ResetPasswordActions.sendFinishRequest(token, mail, { newPassword }),
+  FEEDBACK_TYPES_ENUM,
+  feedbackActions,
+  feedbackReducer,
+  feedbackSelectors,
 }

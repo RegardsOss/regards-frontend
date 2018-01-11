@@ -60,6 +60,8 @@ import ErrorCardComponent from './error/ErrorCardComponent'
 import PageNotFoundComponent from './error/PageNotFoundProvider'
 import FormErrorMessage from './error/FormErrorMessage'
 
+import FeedbackDisplayer from './feedback/FeedbackDisplayer'
+
 import HelpMessageComponent from './help/HelpMessageComponent'
 
 import SVGIconFromString from './icon/SVGIconFromString'
@@ -149,6 +151,7 @@ export {
   DynamicModule,
   ErrorCardComponent,
   ErrorDecoratorComponent,
+  FeedbackDisplayer,
   FormErrorMessage,
   FileContentDisplayer,
   HorizontalAreasSeparator,

@@ -80,7 +80,7 @@ function buildSimplePresentationModel(configuration, attributesModel, enableSort
     return null
   }
   // 1 - retrieve the attribute model
-  const attributeFullQualifiedName = configuration.attributeFullQualifiedName
+  const { attributeFullQualifiedName } = configuration
   const attributeModel = getAttributeConfigurationByName(attributeFullQualifiedName, attributesModel)
   if (!attributeModel) {
     return null
