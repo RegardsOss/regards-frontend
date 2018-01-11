@@ -67,7 +67,7 @@ export class NotificationListContainer extends React.Component {
     if (Object.keys(this.props.notifications).length > 0) {
       this.newNotifications = filter(
         nextProps.notifications,
-        el => !find(this.props.notifications, o => o.id === el.id),
+        el => !find(this.props.notifications, o => o.id === el.id) && el.status === 'UNREAD',
       )
     }
   }
@@ -89,21 +89,25 @@ export class NotificationListContainer extends React.Component {
 
   readAllNotifications = (unreadNotifications) => {
     unreadNotifications.forEach((notif) => {
-      if (notif.status === 'UNREAD') this.props.sendReadNotification(notif.id)
+      this.readNotification(notif)
     })
   }
 
   readNotification = (notification) => {
     if (notification.status === 'UNREAD') {
-      this.props.sendReadNotification(notification.id)
+      this.props.sendReadNotification(notification.id).then(() => this.props.fetchNotifications())
     }
   }
 
   render() {
+    const unreadNotifications = filter(this.props.notifications, notif => notif.status === 'UNREAD')
+    const readNotifications = filter(this.props.notifications, notif => notif.status === 'READ')
+
     return (
       <ShowableAtRender show={this.props.isAuthenticated}>
         <NotificationListComponent
-          notifications={this.props.notifications}
+          unreadNotifications={unreadNotifications}
+          readNotifications={readNotifications}
           readAllNotifications={this.readAllNotifications}
           readNotification={this.readNotification}
           newNotifications={this.newNotifications}

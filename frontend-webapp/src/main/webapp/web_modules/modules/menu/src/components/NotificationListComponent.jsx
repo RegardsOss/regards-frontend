@@ -32,7 +32,6 @@ import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider/Divider'
 import map from 'lodash/map'
-import filter from 'lodash/filter'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import { AdminShapes } from '@regardsoss/shape'
 import ReactMaterialUiNotifications from 'react-materialui-notifications'
@@ -46,7 +45,8 @@ import { CardHeader, CardText, CardActions } from 'material-ui/Card'
  */
 class NotificationListComponent extends React.Component {
   static propTypes = {
-    notifications: AdminShapes.NotificationList,
+    readNotifications: AdminShapes.NotificationArray,
+    unreadNotifications: AdminShapes.NotificationArray,
     newNotifications: AdminShapes.NotificationArray,
     readNotification: PropTypes.func,
     readAllNotifications: PropTypes.func,
@@ -73,11 +73,19 @@ class NotificationListComponent extends React.Component {
           icon: this.renderAvatar(notif.type),
           onClick: () => this.handleOpen(notif),
           timestamp: this.getFormattedDate(notif),
+          autoHide: 7000,
+          style: {
+            maxWidth: 325,
+          },
         })
       })
     }
   }
 
+  /**
+   * Gives a formatted date from a notification
+   * @param notif notification
+   */
   getFormattedDate = (notif) => {
     const date = new Date()
     const notifDate = new Date(notif.date)
@@ -115,6 +123,10 @@ class NotificationListComponent extends React.Component {
     this.setState({ open: false })
   }
 
+  /**
+   * Renders an avatar based on a notification's type
+   * @param type notification type
+   */
   renderAvatar = (type) => {
     const { moduleTheme: { notifications: { list: { icons } } } } = this.context
     switch (type) {
@@ -129,6 +141,11 @@ class NotificationListComponent extends React.Component {
     }
   }
 
+  /**
+   * Renders a notification list
+   * @param notifications Array containing the notifications to show
+   * @param unread Is the array containing unread notifications ?
+   */
   renderNotificationList = (notifications, unread = false) => {
     const { moduleTheme: { notifications: notificationStyle } } = this.context
     const itemStyle = (item) => {
@@ -147,9 +164,9 @@ class NotificationListComponent extends React.Component {
       }
       return style
     }
-    return (
+    return notifications.length > 0 ? (
       <List>
-        <Subheader style={notificationStyle.list.subHeader}>
+        <Subheader style={notificationStyle.list.subHeader.style}>
           <FormattedMessage id={`user.menu.notification.${unread ? 'unread.' : ''}title`} />
           <ShowableAtRender show={unread}>
             <IconButton
@@ -173,21 +190,24 @@ class NotificationListComponent extends React.Component {
             }
             primaryText={notif.title}
           />,
-          <Divider key={`divider-${notif.id}`} />,
+          <Divider inset key={`divider-${notif.id}`} />,
         ])}
       </List>
-    )
+    ) : null
   }
 
-  renderNotificationDialog = (unreadNotifications, readNotifications) => {
+  /**
+   * Renders the notification center dialog
+   */
+  renderNotificationDialog = () => {
     const { moduleTheme: { notifications: { dialog } } } = this.context
 
     return this.state.openedNotification ? (
       <Dialog modal open={this.state.open} onRequestClose={this.handleClose}>
         <div style={dialog.wrapper.style}>
           <div style={dialog.list.style}>
-            {this.renderNotificationList(unreadNotifications, true)}
-            {this.renderNotificationList(readNotifications)}
+            {this.renderNotificationList(this.props.unreadNotifications, true)}
+            {this.renderNotificationList(this.props.readNotifications)}
           </div>
           <div>
             <CardHeader
@@ -217,9 +237,8 @@ class NotificationListComponent extends React.Component {
       moduleTheme: { notifications: notificationStyle, overlay },
     } = this.context
 
-    const unreadNotifications = filter(this.props.notifications, notif => notif.status === 'UNREAD')
-    const readNotifications = filter(this.props.notifications, notif => notif.status === 'READ')
-    const unreadCount = unreadNotifications.length
+    const unreadCount = this.props.unreadNotifications.length
+    const readCount = this.props.readNotifications.length
 
     // compute label for current count
     const elementsCountLabel =
@@ -240,7 +259,12 @@ class NotificationListComponent extends React.Component {
           )}
           style={notificationStyle.iconButton.style}
           iconStyle={notificationStyle.iconButton.iconStyle}
-          onClick={() => this.handleOpen(unreadNotifications[0])}
+          disabled={!unreadCount && !readCount}
+          onClick={() =>
+            this.handleOpen(
+              unreadCount > 0 ? this.props.unreadNotifications[0] : this.props.readNotifications[0],
+            )
+          }
         >
           {/*Create a free position chip over the icon */}
           <div>
@@ -259,8 +283,8 @@ class NotificationListComponent extends React.Component {
             )}
           </div>
         </IconButton>
-        {this.renderNotificationDialog(unreadNotifications, readNotifications)}
-        <ReactMaterialUiNotifications transitionAppear transitionLeave />
+        {this.renderNotificationDialog()}
+        <ReactMaterialUiNotifications maxNotifications={5} transitionAppear transitionLeave />
       </div>
     )
   }
