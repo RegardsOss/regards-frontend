@@ -189,7 +189,7 @@ class ModuleFormContainer extends React.Component {
       module = Object.assign({}, this.props.duplicatedModule)
       module.id = null
     } else {
-      module = this.props.module
+      ({ module } = this.props)
     }
 
     let availablecontainers = []

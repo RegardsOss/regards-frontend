@@ -39,6 +39,7 @@ describe('[Order Cart] Testing OrderComponent', () => {
     const props = {
       onOrder: () => { },
       empty: true,
+      disabled: false,
     }
     const enzymeWrapper = shallow(<OrderComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(ButtonWithConfirmDialog)
@@ -52,10 +53,23 @@ describe('[Order Cart] Testing OrderComponent', () => {
     assert.isDefined(buttonWrapper.props().label, 'There should be a label')
     assert.isDefined(buttonWrapper.props().title, 'There should be a title')
   })
-  it('should render correctly when not empty', () => {
+  it('should render correctly when disabled', () => {
+    const props = {
+      onOrder: () => { },
+      empty: true,
+      disabled: true,
+    }
+    const enzymeWrapper = shallow(<OrderComponent {...props} />, { context })
+    const buttonWrapper = enzymeWrapper.find(ButtonWithConfirmDialog)
+    assert.lengthOf(buttonWrapper, 1, 'There should be a button with confirm dialog')
+    assert.equal(buttonWrapper.props().onTouchTap, props.onOrder, 'Callback should be correctly reported')
+    assert.isTrue(buttonWrapper.props().disabled, 'The button should be disabled')
+  })
+  it('should render correctly when not empty nor disabled', () => {
     const props = {
       onOrder: () => { },
       empty: false,
+      disabled: false,
     }
     const enzymeWrapper = shallow(<OrderComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(ButtonWithConfirmDialog)

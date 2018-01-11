@@ -3,8 +3,8 @@
 **/
 import { connect } from '@regardsoss/redux'
 import { CatalogShapes } from '@regardsoss/shape'
-import { descriptionLevelActions } from '../../model/description/DescriptionLevelModel'
 import { descriptionLevelModel } from '@regardsoss/entities-common'
+import { descriptionLevelActions } from '../../model/description/DescriptionLevelModel'
 import ItemLink from '../../components/user/ItemLink'
 
 /**

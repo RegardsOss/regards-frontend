@@ -18,13 +18,13 @@ export default theme => ({
     body: { padding: '0', overflowY: 'none' },
     card: {
       style: {
-        height: '100%',
-        boxShadow: 'none',
-        borderWidth: '0 0 1px 0',
-        borderColor: theme.toolbar.separatorColor,
-        borderStyle: 'solid',
+        ...growingFlexElement,
+        ...verticalLayout,
       },
-      containerStyle: { height: '100%', ...verticalLayout },
+      containerStyle: {
+        ...growingFlexElement,
+        ...verticalLayout,
+      },
       titleStyle: fixedFlexElement,
       media: {
         rootStyle: growingVerticalLayout,
@@ -157,8 +157,8 @@ export default theme => ({
       padding: '0',
     },
     contentStyles: {
-      width: '100%',
-      height: '100%',
+      flexGrow: 1,
+      flexShrink: 1,
     },
   },
 })

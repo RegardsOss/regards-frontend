@@ -40,16 +40,17 @@ class DatasetAttributes extends React.Component {
             datasetAttributes.map(({
  renderValue, label: attributeLabel, render: TypeRender, renderKey,
 }) =>
-              (<div key={renderKey} style={lineStyles}>
-                <div style={detailLabelStyles}>{attributeLabel}</div>
-                <div style={detailValueStlyles}>
-                  {
-                    renderValue ?
-                      (<TypeRender attributes={renderValue} />) :
-                      (<FormattedMessage id="search.graph.dataset.attribute.no.value" />)
-                  }
-                </div>
-              </div>))
+              (
+                <div key={renderKey} style={lineStyles}>
+                  <div style={detailLabelStyles}>{attributeLabel}</div>
+                  <div style={detailValueStlyles}>
+                    {
+                      renderValue ?
+                        (<TypeRender attributes={renderValue} />) :
+                        (<FormattedMessage id="search.graph.dataset.attribute.no.value" />)
+                    }
+                  </div>
+                </div>))
           }
         </div >
       </ShowableAtRender>

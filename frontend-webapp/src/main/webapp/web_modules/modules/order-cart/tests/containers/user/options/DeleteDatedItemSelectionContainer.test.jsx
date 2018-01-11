@@ -38,6 +38,7 @@ describe('[Order Cart] Testing DeleteDatedItemSelectionContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
+      disabled: false,
       datasetSelectionId: 48,
       itemsSelectionDate: '2017-09-08T15:59:57.664Z',
       dispatchDelete: () => { },
@@ -46,5 +47,6 @@ describe('[Order Cart] Testing DeleteDatedItemSelectionContainer', () => {
     const componentWrapper = enzymeWrapper.find(DeleteDatedItemSelectionComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     assert.equal(componentWrapper.props().onDelete, props.dispatchDelete, 'The component callback should be correctly set up')
+    assert.equal(componentWrapper.props().disabled, props.disabled, 'The component disabled state should be correctly reported')
   })
 })

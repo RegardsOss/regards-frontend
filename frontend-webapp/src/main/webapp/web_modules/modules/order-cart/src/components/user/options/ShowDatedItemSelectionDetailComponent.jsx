@@ -26,6 +26,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 */
 class ShowDatedItemSelectionDetailComponent extends React.Component {
   static propTypes = {
+    disabled: PropTypes.bool.isRequired,
     onShowDetail: PropTypes.func.isRequired,
   }
 
@@ -36,9 +37,10 @@ class ShowDatedItemSelectionDetailComponent extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { onShowDetail } = this.props
+    const { disabled, onShowDetail } = this.props
     return (
       <IconButton
+        disabled={disabled}
         onTouchTap={onShowDetail}
         title={formatMessage({ id: 'order-cart.module.basket.table.show.selection.detail.tooltip' })}
       >

@@ -62,7 +62,6 @@ class pluginFormComponent extends React.Component {
     this.state = {
       path: null,
       creation: isNil(this.props.plugin),
-      pluginSelected: !isNil(this.props.plugin),
       plugin: this.props.plugin ? this.props.plugin : {},
     }
   }

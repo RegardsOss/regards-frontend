@@ -36,7 +36,7 @@ class StandardAttributesConfigurationComponent extends React.Component {
   }
 
   render = () => {
-    const standardAttributes = DamDomain.AttributeModelController.standardAttributes
+    const { standardAttributes } = DamDomain.AttributeModelController
     const { allowFacettes, attributesConf, onChangeAttributeConfiguration } = this.props
 
     return (
