@@ -23,6 +23,6 @@ const UnlockAccountActions = new AccountOperationActions('unlockAccount', Authen
 
 module.exports = {
   UnlockAccountActions,
-  sendAskUnlockAccount: mail => AccountOperationActions.sendAskRequest(mail),
-  sendFinishAccountUnlocking: (mail, token) => AccountOperationActions.sendFinishRequest(mail, token),
+  sendAskUnlockAccount: mail => UnlockAccountActions.sendAskRequest(mail),
+  sendFinishAccountUnlocking: (mail, token) => UnlockAccountActions.sendFinishRequest(mail, token),
 }

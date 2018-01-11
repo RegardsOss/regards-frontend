@@ -50,10 +50,14 @@ export class ModuleContainer extends React.Component {
     super(props)
 
     // Calculate needed facettes from given props.
-    const { moduleConf: { attributes } } = props
+    const { moduleConf: { attributes, displayMode, documentAttributes } } = props
+    // We retrieve attrs facettables depending of the display mode
+    const facettesAttrsToCheck = displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT ? documentAttributes : attributes
+
     // Calculate facettes
-    const facettes = reduce(attributes, (result, value, key) =>
+    const facettes = reduce(facettesAttrsToCheck, (result, value, key) =>
       value.facetable ? [...result, value.attributeFullQualifiedName] : result, [])
+
     this.state = {
       expanded: true,
       attributesFetching: true,

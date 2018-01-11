@@ -21,19 +21,12 @@ import has from 'lodash/has'
 import isEqual from 'lodash/isEqual'
 import ImageOff from 'mdi-material-ui/ImageOff'
 import ImageBroken from 'mdi-material-ui/ImageBroken'
-import FlatButton from 'material-ui/FlatButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import Dialog from 'material-ui/Dialog'
 import { AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import ListViewEntityCellComponent from '../cells/ListViewEntityCellComponent'
 import GalleryParametersComponent from './GalleryParametersComponent'
-
-const customContentStyle = {
-  width: '100%',
-  maxWidth: 'none',
-}
 
 class GalleryItemComponent extends React.PureComponent {
   static propTypes = {
@@ -45,6 +38,7 @@ class GalleryItemComponent extends React.PureComponent {
     attributePresentationModels: AccessShapes.AttributePresentationModelArray.isRequired,
     onAddElementToCart: PropTypes.func, // callback to add element to cart, null when disabled
     enableDownload: PropTypes.bool,
+    onShowQuicklook: PropTypes.func,
   }
 
   static defaultProps = {
@@ -63,7 +57,7 @@ class GalleryItemComponent extends React.PureComponent {
     // when there is no attributes, we do not display footer
     let footerHeight = 0
     if (itemProps.attributePresentationModels.length > 0) {
-      footerHeight = (itemProps.attributePresentationModels.length * 19) + 23
+      footerHeight = itemProps.attributePresentationModels.length * 19
     }
     // Check if the entity has a quicklook to display
 
@@ -75,14 +69,14 @@ class GalleryItemComponent extends React.PureComponent {
       const width = props.content.files.QUICKLOOK_SD[0].imageWidth
       return Math.ceil(((gridWidth / width) * height) + footerHeight)
     }
-    return gridWidth + footerHeight - (250 - 160 + 1)
+    return (gridWidth * 7 / 10) + footerHeight + 15
   }
-
 
   constructor(props) {
     super(props)
+    const listViewEntityCellComponentWidth = 34
+    const iconTotalWidth = props.gridWidth - listViewEntityCellComponentWidth
     this.state = {
-      showModalQuicklook: false,
       attributesRenderData: [],
       cardStyle: {
         position: 'absolute',
@@ -92,12 +86,18 @@ class GalleryItemComponent extends React.PureComponent {
         padding: 0,
       },
       iconStyle: {
-        height: '100 %',
-        width: '100 %',
-        margin: '0 45px', // HACK PREZ
+        width: `${iconTotalWidth / 2}px`,
+        height: `${iconTotalWidth / 2}px`,
+        margin: `${iconTotalWidth / 10}px ${iconTotalWidth / 4}px`,
       },
       imageStyle: {
         maxWidth: '100%',
+      },
+      imageAndOptionsContainer: {
+        display: 'flex',
+      },
+      imageContainer: {
+        cursor: 'zoom-in',
       },
     }
   }
@@ -116,26 +116,17 @@ class GalleryItemComponent extends React.PureComponent {
     }
   }
 
-  handleClickPreview = () => {
-    this.setState({
-      showModalQuicklook: true,
-    })
-  }
-
-  handleClosePreview = () => {
-    this.setState({
-      showModalQuicklook: false,
-    })
-  }
-
   renderImage(hasImage, hasIssueWithImage) {
-    const { attributesRenderData, iconStyle, imageStyle } = this.state
     const {
-      entity, attributePresentationModels, onAddElementToCart, enableDownload,
+      attributesRenderData, iconStyle, imageStyle, imageAndOptionsContainer, imageContainer,
+    } = this.state
+    const {
+      entity, attributePresentationModels, onAddElementToCart, enableDownload, onShowQuicklook,
     } = this.props
     const { descriptionContainer } = this.context.moduleTheme.user.galleryViewStyles
 
     let image
+    let imageContainerStyle = {}
     if (!hasImage) {
       image = (<ImageOff style={iconStyle} />)
     } else if (hasIssueWithImage) {
@@ -146,13 +137,23 @@ class GalleryItemComponent extends React.PureComponent {
           src={entity.content.files.QUICKLOOK_SD[0].uri}
           alt=""
           style={imageStyle}
+          onTouchTap={onShowQuicklook}
         />)
+      imageContainerStyle = imageContainer
     }
     return [
-      <CardMedia
-        key="media"
-        overlay={
+      <div
+        key="img-and-options"
+        style={imageAndOptionsContainer}
+      >
+        <CardMedia>
+          <div style={imageContainerStyle}>
+            {image}
+          </div>
+        </CardMedia>
+        <div>
           <ListViewEntityCellComponent
+            key="entity"
             // Entity to display
             entity={entity}
             enableDownload={enableDownload}
@@ -161,17 +162,14 @@ class GalleryItemComponent extends React.PureComponent {
             servicesEnabled
             entitySelected={false}
             displayLabel={false}
+            displayVertically
             // Callback
             onSelectEntity={() => { }}
             onSearchEntity={null}
             onAddToCart={onAddElementToCart}
           />
-        }
-      >
-        <div>
-          {image}
         </div>
-      </CardMedia>,
+      </div>,
       <ShowableAtRender
         show={attributePresentationModels.length > 0}
         key="desc"
@@ -186,35 +184,6 @@ class GalleryItemComponent extends React.PureComponent {
     ]
   }
 
-  renderModal(hasImage) {
-    const { entity } = this.props
-    if (hasImage) {
-      const modalAction = [
-        <FlatButton
-          key="close-btn"
-          label="Close"
-          primary
-          onClick={this.handleClosePreview}
-        />,
-      ]
-      return (
-        <Dialog
-          modal={false}
-          actions={modalAction}
-          open={this.state.showModalQuicklook}
-          onRequestClose={this.handleClosePreview}
-          autoScrollBodyContent
-          contentStyle={customContentStyle}
-        >
-          <img
-            src={entity.content.files.QUICKLOOK_MD[0].uri}
-            alt=""
-          />
-        </Dialog>
-      )
-    }
-    return null
-  }
 
   render() {
     const { cardStyle } = this.state
@@ -225,7 +194,6 @@ class GalleryItemComponent extends React.PureComponent {
       <Card
         style={cardStyle}
       >
-        {this.renderModal(hasImage)}
         {this.renderImage(hasImage, hasIssueWithImage)}
       </Card>
     )

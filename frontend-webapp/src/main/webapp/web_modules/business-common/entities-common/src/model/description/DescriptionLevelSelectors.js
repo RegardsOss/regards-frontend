@@ -13,6 +13,10 @@ export class DescriptionLevelSelectors extends BasicSelector {
     const path = this.getCurrentDescriptionPath(state)
     return path && path.length ? last(path) : null
   }
+
+  getCurrentTab(state) {
+    return this.uncombineStore(state).tab
+  }
 }
 
 export default function getDescriptionLevelSelectors(storePath) {

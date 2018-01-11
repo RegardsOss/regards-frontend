@@ -56,6 +56,7 @@ class ListViewEntityCellComponent extends React.Component {
     servicesEnabled: PropTypes.bool.isRequired,
     entitySelected: PropTypes.bool.isRequired,
     displayLabel: PropTypes.bool,
+    displayVertically: PropTypes.bool,
     // Callback
     onSelectEntity: PropTypes.func.isRequired,
     onSearchEntity: PropTypes.func,
@@ -69,6 +70,7 @@ class ListViewEntityCellComponent extends React.Component {
 
   static defaultProps = {
     displayLabel: true,
+    displayVertically: false,
   }
   /**
    * Renders title area of the list cell (title, with checkbox if selection enabled, empty space and options)
@@ -76,13 +78,13 @@ class ListViewEntityCellComponent extends React.Component {
   renderTitle = () => {
     const {
       entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, onSelectEntity, onSearchEntity, onAddToCart,
-      displayLabel,
+      displayLabel, displayVertically,
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
     const {
-      rootStyles, labelGroup, checkboxStyles, labelStyles, optionsBarStyles, option,
+      rootStyles, labelGroup, checkboxStyles, labelStyles, optionsBarVerticalStyles, optionsBarHorizontalStyles, option,
     } = moduleTheme.user.listViewStyles.title
-
+    const optionsBarStyles = displayVertically ? optionsBarVerticalStyles : optionsBarHorizontalStyles
     const services = get(entity, 'content.services', [])
 
     return (

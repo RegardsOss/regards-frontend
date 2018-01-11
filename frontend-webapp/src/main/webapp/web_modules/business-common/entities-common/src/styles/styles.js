@@ -46,6 +46,26 @@ export default theme => ({
             descriptionTab: {
               rootStyle: growingFlexElement,
             },
+            quicklook: {
+              imageContainerZoomOut: {
+                display: 'flex',
+                justifyContent: 'center',
+                maxHeight: '100%',
+                cursor: 'zoom-in',
+              },
+              imageContainerZoomIn: {
+                cursor: 'zoom-out',
+                overflow: 'auto',
+              },
+              imageZoomOut: {
+                maxHeight: '100%',
+                objectFit: 'contain',
+              },
+              imageZoomIn: {
+                display: 'block',
+                margin: 'auto',
+              },
+            },
             propertiesTab: {
               rootStyle: {
                 display: 'flex', flexDirection: 'row', alignItems: 'stretch', ...growingFlexElement,
