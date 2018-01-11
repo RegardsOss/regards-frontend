@@ -27,8 +27,8 @@ import TableHeaderLoadingComponent from './TableHeaderLoadingComponent'
  */
 class TableHeaderLineLoadingAndResults extends React.Component {
   static propTypes = {
-    resultsCount: PropTypes.number.isRequired,
-    isFetching: PropTypes.bool.isRequired,
+    resultsCount: PropTypes.number,
+    isFetching: PropTypes.bool,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,

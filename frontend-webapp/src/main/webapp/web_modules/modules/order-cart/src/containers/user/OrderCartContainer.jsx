@@ -174,7 +174,7 @@ export class OrderCartContainer extends React.Component {
           onOrder={this.onOrder}
         />
         {/* 2 - Add detail dialog */}
-        <SelectionItemDetailContainer />
+        <SelectionItemDetailContainer showDatasets={showDatasets} />
       </div>
     )
   }

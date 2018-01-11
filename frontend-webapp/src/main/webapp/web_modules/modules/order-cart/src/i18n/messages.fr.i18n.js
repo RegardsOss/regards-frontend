@@ -50,7 +50,9 @@ const messages = {
   'order-cart.module.basket.table.delete.selection.confirm.message': 'Cette opération supprimera du panier tous les objets de cette sélection. Elle ne peut pas être annulée',
   'order-cart.module.basket.table.delete.selection.confirm.title': 'Supprimer la sélection',
   'order-cart.module.basket.table.show.selection.detail.tooltip': 'Afficher la liste des objets',
-  'order-cart.module.basket.items.group.selection.detail.title': '{dataset}: Objets sélectionnés le {date}',
+  'order-cart.module.basket.items.group.selection.detail.title.with.dataset': '{dataset}: Objets sélectionnés le {date}',
+  'order-cart.module.basket.items.group.selection.detail.title.without.dataset': 'Objets sélectionnés le {date}',
+  'order-cart.module.basket.items.group.selection.detail.close': 'Fermer',
   'order-cart.module.basket.items.group.selection.detail.no.data.title': 'Aucun élément',
   'order-cart.module.basket.items.group.selection.detail.no.data.message': 'Il n\'y a plus d\'élément dans ce groupe de sélection. Ceux-ci ont pu être supprimés ou leurs droits d\'accès ont pus être modifiés.',
 }

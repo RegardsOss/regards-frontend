@@ -42,6 +42,7 @@ const moduleStyles = theme => ({
       detail: {
         widthPercent: 80,
         heightPercent: 70,
+        dialogBodyStyle: { paddingBottom: 0 },
       },
     },
     header: {

@@ -50,7 +50,9 @@ const messages = {
   'order-cart.module.basket.table.delete.selection.confirm.message': 'That operation will remove all dataobjects in this selection from basket. It cannot be undone',
   'order-cart.module.basket.table.delete.selection.confirm.title': 'Remove selection',
   'order-cart.module.basket.table.show.selection.detail.tooltip': 'Shows added object list',
-  'order-cart.module.basket.items.group.selection.detail.title': '{dataset}: Items selected on {date}',
+  'order-cart.module.basket.items.group.selection.detail.title.with.dataset': '{dataset}: Items selected on {date}',
+  'order-cart.module.basket.items.group.selection.detail.title.without.dataset': 'Items selected on {date}',
+  'order-cart.module.basket.items.group.selection.detail.close': 'Close',
   'order-cart.module.basket.items.group.selection.detail.no.data.title': 'No item',
   'order-cart.module.basket.items.group.selection.detail.no.data.message': 'There is no longer item in this selection group. They may have been deleted or their access rights could have changed',
 }

@@ -4,13 +4,11 @@
 
 import { CommonShapes } from '@regardsoss/shape'
 import { withModuleStyle } from '@regardsoss/theme'
-import { ShowableAtRender } from '@regardsoss/display-control'
+import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
 import PositionedDialog from './PositionedDialog'
 import DialogLoadingComponent from './DialogLoadingComponent'
 
-import styles from './styles/styles'
-
-const DIALOG_STYLES = { styles }
+import styles from './styles'
 
 /**
  * Shows loadable children in a dialog. Must be driven using loaded true / false
@@ -25,13 +23,11 @@ export class LoadableContentDialogContainer extends React.Component {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
-    ]).isRequired,
+    ]),
   }
 
-  /** style to show children  */
-  static SHOW_CHILDREN_STYLE = { height: '100%', maxHeight: '100%' }
-  /** style to hide children */
-  static HIDE_CHILDREN_STYLE = { display: 'none' }
+  static VISIBLE_STYLES = { display: 'flex', flexGrow: 1, flexShrink: 1 }
+  static HIDDEN_STYLES = { display: 'none', flexGrow: 0, flexShrink: 0 }
 
   render() {
     const {
@@ -43,14 +39,16 @@ export class LoadableContentDialogContainer extends React.Component {
         dialogWidthPercent={dialogWidthPercent}
         {...dialogProperties}
       >
-        <ShowableAtRender show={!loaded}>
-          <DialogLoadingComponent loadingMessage={loadingMessage} />
-        </ShowableAtRender>
-        <div style={loaded ? LoadableContentDialogContainer.SHOW_CHILDREN_STYLE : LoadableContentDialogContainer.HIDE_CHILDREN_STYLE}>
-          {children}
+        {
+          loaded ? null : <DialogLoadingComponent loadingMessage={loadingMessage} />
+        }
+        <div style={loaded ? LoadableContentDialogContainer.VISIBLE_STYLES : LoadableContentDialogContainer.HIDDEN_STYLES}>
+          {
+            HOCUtils.renderChildren(children)
+          }
         </div>
       </PositionedDialog >
     )
   }
 }
-export default withModuleStyle(DIALOG_STYLES)(LoadableContentDialogContainer)
+export default withModuleStyle(styles)(LoadableContentDialogContainer)

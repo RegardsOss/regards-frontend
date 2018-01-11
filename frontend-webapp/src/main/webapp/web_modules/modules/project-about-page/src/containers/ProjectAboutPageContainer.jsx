@@ -116,7 +116,7 @@ class ProjectAboutPageContainer extends React.Component {
     const {
       moduleTheme: {
         dialog: {
-          bodyStyle, heightPercent, widthPercent, button,
+          heightPercent, widthPercent, button,
         },
       }, intl: { formatMessage },
     } = this.context
@@ -144,7 +144,6 @@ class ProjectAboutPageContainer extends React.Component {
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}
-          bodyStyle={bodyStyle}
           actions={this.renderActionButtons()}
         />
       </div >

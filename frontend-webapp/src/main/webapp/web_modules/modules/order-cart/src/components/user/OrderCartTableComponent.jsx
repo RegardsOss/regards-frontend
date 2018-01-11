@@ -144,7 +144,7 @@ export class OrderCartTableComponent extends React.Component {
     // row cell values (no sub row)
     new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, objectsCount, filesCount,
       OrderCartTableComponent.getStorageCapacity(filesSize), // scale the size to the level its the more readable
-      { datasetLabel, date, openSearchRequest }, // keep date and request for detail option
+      { datasetLabel, date, openSearchRequest }, // keep label, date and request for detail option
       { datasetSelectionId, itemsSelectionDate: date }, // keep parent id and date for delete option
     ])
 
