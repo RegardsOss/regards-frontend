@@ -48,6 +48,8 @@ class NotificationListComponent extends React.Component {
   static propTypes = {
     notifications: AdminShapes.NotificationList,
     newNotifications: AdminShapes.NotificationArray,
+    readNotification: PropTypes.func,
+    readAllNotifications: PropTypes.func,
   }
 
   static contextTypes = {
@@ -134,7 +136,7 @@ class NotificationListComponent extends React.Component {
       if (!unread) {
         style = {
           ...style,
-          ...notificationStyle.list.readList.item.style,
+          ...notificationStyle.list.item.style,
         }
       }
       if (item.id === this.state.openedNotification.id) {
@@ -147,7 +149,7 @@ class NotificationListComponent extends React.Component {
     }
     return (
       <List>
-        <Subheader style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Subheader style={notificationStyle.list.subHeader}>
           <FormattedMessage id={`user.menu.notification.${unread ? 'unread.' : ''}title`} />
           <ShowableAtRender show={unread}>
             <IconButton
@@ -165,15 +167,7 @@ class NotificationListComponent extends React.Component {
             key={`notification-${notif.id}`}
             leftAvatar={this.renderAvatar(notif.type)}
             rightIconButton={
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  fontSize: '0.8em',
-                  paddingTop: 16,
-                  paddingRight: 16,
-                }}
-              >
+              <div style={notificationStyle.list.item.dateStyle}>
                 {this.getFormattedDate(notif)}
               </div>
             }
@@ -185,22 +179,13 @@ class NotificationListComponent extends React.Component {
     )
   }
 
-  renderNotificationDialog = (unreadNotifications, readNotifications) =>
-    this.state.openedNotification ? (
+  renderNotificationDialog = (unreadNotifications, readNotifications) => {
+    const { moduleTheme: { notifications: { dialog } } } = this.context
+
+    return this.state.openedNotification ? (
       <Dialog modal open={this.state.open} onRequestClose={this.handleClose}>
-        <div
-          style={{
-            margin: -24,
-            display: 'grid',
-            gridTemplateColumns: '33% 1fr',
-          }}
-        >
-          <div
-            style={{
-              maxHeight: 500,
-              overflowY: 'scroll',
-            }}
-          >
+        <div style={dialog.wrapper.style}>
+          <div style={dialog.list.style}>
             {this.renderNotificationList(unreadNotifications, true)}
             {this.renderNotificationList(readNotifications)}
           </div>
@@ -213,24 +198,18 @@ class NotificationListComponent extends React.Component {
               )}
               avatar={this.renderAvatar(this.state.openedNotification.type)}
             />
-            <div
-              style={{
-                position: 'absolute',
-                right: 24,
-                top: 24,
-                fontSize: '0.8em',
-              }}
-            >
+            <div style={dialog.details.date.style}>
               {this.getFormattedDate(this.state.openedNotification)}
             </div>
             <CardText>Message: {this.state.openedNotification.message}</CardText>
-            <CardActions style={{ position: 'absolute', bottom: 10, right: 10 }}>
+            <CardActions style={dialog.details.actions.style}>
               <FlatButton label="Close" key="close" primary onClick={this.handleClose} />
             </CardActions>
           </div>
         </div>
       </Dialog>
     ) : null
+  }
 
   render() {
     const {
@@ -267,10 +246,7 @@ class NotificationListComponent extends React.Component {
           <div>
             <ShowableAtRender show={!!unreadCount}>
               <div style={overlay.style}>
-                <Chip
-                  labelStyle={overlay.chip.labelStyle}
-                  style={overlay.chip.style}
-                >
+                <Chip labelStyle={overlay.chip.labelStyle} style={overlay.chip.style}>
                   {elementsCountLabel}
                 </Chip>
               </div>

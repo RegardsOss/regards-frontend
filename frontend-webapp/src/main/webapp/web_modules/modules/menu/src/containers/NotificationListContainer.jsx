@@ -89,7 +89,7 @@ export class NotificationListContainer extends React.Component {
 
   readAllNotifications = (unreadNotifications) => {
     unreadNotifications.forEach((notif) => {
-      if (notification.status === 'UNREAD') this.props.sendReadNotification(notif.id)
+      if (notif.status === 'UNREAD') this.props.sendReadNotification(notif.id)
     })
   }
 

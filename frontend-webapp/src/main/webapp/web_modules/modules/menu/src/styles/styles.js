@@ -128,11 +128,17 @@ const menuStyles = theme => ({
       },
     },
     list: {
-      readList: {
-        item: {
-          style: {
-            opacity: 0.5,
-          },
+      item: {
+        style: {
+          opacity: 0.5,
+        },
+        dateStyle: {
+          display: 'flex',
+          alignItems: 'center',
+          fontSize: '0.8em',
+          paddingTop: 16,
+          paddingRight: 16,
+          pointerEvents: 'none',
         },
       },
       selectedItem: {
@@ -140,11 +146,49 @@ const menuStyles = theme => ({
           backgroundColor: theme.palette.primary3Color,
         },
       },
+      subHeader: {
+        style: {
+          display: 'flex',
+          justifyContent: 'space-between',
+        },
+      },
       icons: {
         color: '#ffffff',
         infoColor: '#2196F3',
         errorColor: '#FF9800',
         fatalColor: '#f44336',
+      },
+    },
+    dialog: {
+      wrapper: {
+        style: {
+          margin: -24,
+          display: 'grid',
+          gridTemplateColumns: '350px 1fr',
+        },
+      },
+      list: {
+        style: {
+          maxHeight: 500,
+          overflowY: 'scroll',
+        },
+      },
+      details: {
+        date: {
+          style: {
+            position: 'absolute',
+            right: 24,
+            top: 24,
+            fontSize: '0.8em',
+          },
+        },
+        actions: {
+          style: {
+            position: 'absolute',
+            bottom: 10,
+            right: 10,
+          },
+        },
       },
     },
   },
