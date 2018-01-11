@@ -18,7 +18,7 @@
  *
  *
  */
-
+/* eslint-disable */
 import isNaN from 'lodash/isNaN'
 import throttle from 'lodash/throttle'
 import root from 'window-or-global'
@@ -453,13 +453,12 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       // Calculate when a page starts and stops
       // To determine which pages are visible
       const itemsTop = page.items.map(item => item.top)
-
-      page.start = (!itemsTop.length ? 0 : Math.min(...itemsTop))
-      page.stop = (Math.max(0, ...page.items.map(item => item.top + item.height)))
-
-      page.visible = InfiniteGalleryComponent.isPageVisible({ page, top, viewableHeight })
-
-      return page
+      return {
+        ...page,
+        start: (!itemsTop.length ? 0 : Math.min(...itemsTop)),
+        stop: (Math.max(0, ...page.items.map(item => item.top + item.height))),
+        visible: InfiniteGalleryComponent.isPageVisible({ page, top, viewableHeight }),
+      }
     })
 
     // Facilitate the average height for next layout's itemsPerPage
@@ -532,7 +531,8 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       >
         {page.items.map(({
           props, left, top, width, height, columnSpan,
-        }, itemIndex) => (
+        }, itemIndex) =>
+          (
             <Item
               key={`page-${index}-item-${itemIndex}`}
               columnSpan={columnSpan}
@@ -543,7 +543,8 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
               columnGutter={columnGutter}
               gridWidth={columnWidth}
               {...this.props.itemProps}
-            />))}
+            />
+          ))}
       </div>
     )
   }
@@ -580,3 +581,5 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     )
   }
 }
+
+/* eslint-enable */

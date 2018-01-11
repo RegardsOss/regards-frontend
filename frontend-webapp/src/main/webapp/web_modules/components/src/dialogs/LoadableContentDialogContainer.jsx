@@ -4,7 +4,7 @@
 
 import { CommonShapes } from '@regardsoss/shape'
 import { withModuleStyle } from '@regardsoss/theme'
-import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
+import { HOCUtils } from '@regardsoss/display-control'
 import PositionedDialog from './PositionedDialog'
 import DialogLoadingComponent from './DialogLoadingComponent'
 

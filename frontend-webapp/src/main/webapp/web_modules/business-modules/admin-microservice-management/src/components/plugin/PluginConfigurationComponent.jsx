@@ -16,10 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
-import map from 'lodash/map'
-import omit from 'lodash/omit'
-import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'

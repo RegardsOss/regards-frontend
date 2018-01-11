@@ -67,7 +67,6 @@ export class AccessGroupAccessRightsContainer extends React.Component {
       .then(() => {
         this.setState({
           loading: false,
-          submitStatus: undefined,
         })
       })
   }

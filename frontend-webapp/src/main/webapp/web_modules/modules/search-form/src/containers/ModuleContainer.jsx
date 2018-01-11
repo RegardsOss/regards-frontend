@@ -91,7 +91,7 @@ class ModuleContainer extends React.Component {
     let q = this.getInitialQuery()
 
     if (query && query.q) {
-      q = query.q
+      ({ q } = query)
     }
 
     q = q && q.length > 0 ? q : this.createSearchQueryFromCriterion()

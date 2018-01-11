@@ -81,10 +81,7 @@ class ActionButtonComponent extends React.Component {
         {(() => {
           if (url) {
             return (
-              <Link
-                to={url}
-                style={style}
-              >
+              <Link to={url} style={style}>
                 {this.getComponent(button, {
                   className,
                   label,

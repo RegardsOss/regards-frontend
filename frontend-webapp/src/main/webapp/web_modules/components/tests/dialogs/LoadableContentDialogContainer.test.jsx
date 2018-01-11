@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ShowableAtRender } from '@regardsoss/display-control'
 import { LoadableContentDialogContainer } from '../../src/dialogs/LoadableContentDialogContainer'
+import DialogLoadingComponent from '../../src/dialogs/DialogLoadingComponent'
 
 describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
   before(testSuiteHelpers.before)
@@ -30,18 +30,17 @@ describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
   })
 
   it('should render correctly when loading', () => {
-    const enzymeWrapper = shallow(<LoadableContentDialogContainer
-      dialogHeightPercent={50}
-      dialogWidthPercent={50}
-      loadingMessage="Loading..."
-      open
-      loaded={false}
-    >
-      <div id="testDiv" />
-                                  </LoadableContentDialogContainer>)
-    const showables = enzymeWrapper.find(ShowableAtRender)
-    assert.lengthOf(showables, 1, 'It should use a showable for loading state')
-    assert.isTrue(showables.props().show, 'It should display loading')
+    const enzymeWrapper = shallow(
+      <LoadableContentDialogContainer
+        dialogHeightPercent={50}
+        dialogWidthPercent={50}
+        loadingMessage="Loading..."
+        open
+        loaded={false}
+      >
+        <div id="testDiv" />
+      </LoadableContentDialogContainer>)
+    assert.lengthOf(enzymeWrapper.find(DialogLoadingComponent), 1, 'It should display loading')
 
     const testDivs = enzymeWrapper.findWhere(n => n.props().id === 'testDiv')
     assert.lengthOf(testDivs, 1, 'The children should be added')
@@ -51,18 +50,17 @@ describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
     assert.equal(parentStyles.display, 'none', 'The parent should hide children while loading')
   })
   it('should render correctly when loaded', () => {
-    const enzymeWrapper = shallow(<LoadableContentDialogContainer
-      dialogHeightPercent={50}
-      dialogWidthPercent={50}
-      loadingMessage="Loading..."
-      open
-      loaded
-    >
-      <div id="testDiv" />
-                                  </LoadableContentDialogContainer>)
-    const showables = enzymeWrapper.find(ShowableAtRender)
-    assert.lengthOf(showables, 1, 'It should use a showable for loading state')
-    assert.isFalse(showables.props().show, 'It should not show loading')
+    const enzymeWrapper = shallow(
+      <LoadableContentDialogContainer
+        dialogHeightPercent={50}
+        dialogWidthPercent={50}
+        loadingMessage="Loading..."
+        open
+        loaded
+      >
+        <div id="testDiv" />
+      </LoadableContentDialogContainer>)
+    assert.lengthOf(enzymeWrapper.find(DialogLoadingComponent), 0, 'It should not display loading')
 
     const testDivs = enzymeWrapper.findWhere(n => n.props().id === 'testDiv')
     assert.lengthOf(testDivs, 1, 'The children should be added')

@@ -36,7 +36,7 @@ class MetadataField extends React.Component {
     // we compute here the transient options list, as we need to use them sorted by I18N label at runtime
     let options = []
     if (properties.metadata) {
-      const editor = properties.metadata.editor
+      const { editor } = properties.metadata
       if (editor.type === metadatav1.editorTypes.choice) {
         const { intl: { formatMessage } } = this.context
         // convert (store value for sorting)

@@ -10,7 +10,7 @@ import styles from './styles'
 /**
  * Loadable content dialog showing only one content with its URL
  */
-class SingleContentURLDialogContainer extends React.Component {
+export class SingleContentURLDialogContainer extends React.Component {
   static propTypes = {
     contentURL: CommonShapes.URL.isRequired,
     open: PropTypes.bool.isRequired,

@@ -1,5 +1,3 @@
-
-
 /**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -21,36 +19,33 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { PageableInfiniteTableContainer } from '@regardsoss/components'
-import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../../src/client/SearchDataobjectsClient'
 import SelectionDetailResultsTableComponent from '../../../../src/components/user/detail/SelectionDetailResultsTableComponent'
+import { SelectionDetailResultsTableContainer } from '../../../../src/containers/user/detail/SelectionDetailResultsTableContainer'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test SelectionDetailResultsTableComponent
+* Test SelectionDetailResultsTableContainer
 * @author Raphaël Mechali
 */
-describe('[Order Cart] Testing SelectionDetailResultsTableComponent', () => {
+describe('[Order Cart] Testing SelectionDetailResultsTableContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SelectionDetailResultsTableComponent)
+    assert.isDefined(SelectionDetailResultsTableContainer)
   })
-  it('should render correctly and link page size with available height', () => {
+  it('should render correctly', () => {
     const props = {
-      pageActions: searchDataobjectsActions,
-      pageSelectors: searchDataobjectsSelectors,
-      pathParams: { q: 'mamie=nova' },
-      resultsCount: 22,
+      openSearchRequest: 'any',
+      availableHeight: 260,
+      resultsCount: 25,
       isFetching: true,
-      availableHeight: 55,
     }
-    const renderWrapper = shallow(<SelectionDetailResultsTableComponent {...props} />, { context })
-    const tableContainer = renderWrapper.find(PageableInfiniteTableContainer)
-    assert.lengthOf(tableContainer, 1, 'There should be an infinite table to show results')
-    assert.deepEqual(tableContainer.props().pathParams, props.pathParams)
+    const enzymeWrapper = shallow(<SelectionDetailResultsTableContainer {...props} />, { context })
+
+    const componentWrapper = enzymeWrapper.find(SelectionDetailResultsTableComponent)
+    assert.lengthOf(componentWrapper, 1, 'There should be the component')
   })
 })

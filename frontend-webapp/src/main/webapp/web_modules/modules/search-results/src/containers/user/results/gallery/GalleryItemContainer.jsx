@@ -18,7 +18,6 @@
  **/
 import keys from 'lodash/keys'
 import omit from 'lodash/omit'
-import has from 'lodash/has'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { descriptionLevelModel } from '@regardsoss/entities-common'
@@ -43,6 +42,7 @@ export class GalleryItemContainer extends React.Component {
   }
 
   static propTypes = {
+    entity: AccessShapes.EntityWithServices.isRequired,
     // from mapDispatchToProps
     dispatchShowQuicklook: PropTypes.func.isRequired,
   }
@@ -62,7 +62,12 @@ export class GalleryItemContainer extends React.Component {
 
   render() {
     const subComponentProperties = omit(this.props, keys(GalleryItemContainer.propTypes))
-    return <GalleryItemComponent onShowQuicklook={this.onShowQuicklook} {...subComponentProperties} />
+    return (
+      <GalleryItemComponent
+        entity={this.props.entity}
+        onShowQuicklook={this.onShowQuicklook}
+        {...subComponentProperties}
+      />)
   }
 }
 

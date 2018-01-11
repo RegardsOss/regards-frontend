@@ -54,7 +54,8 @@ class SelectionDetailResultsTableComponent extends React.Component {
     DamDomain.AttributeModelController.standardAttributes.lastUpdate,
   ].map(({
     key, label, entityPathName, type,
-  }) => ({
+  }) =>
+    ({
       key,
       label,
       attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(key)],

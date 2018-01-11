@@ -35,7 +35,6 @@ import { tableActions } from '../clients/TableClient'
 import { generationChainActions, generationChainSelectors } from '../clients/GenerationChainClient'
 import GenerationChainTableEditAction from './GenerationChainTableEditAction'
 import GenerationChainTableDuplicateAction from './GenerationChainTableDuplicateAction'
-import { addDependencies } from '../dependencies'
 import styles from '../styles'
 import messages from '../i18n'
 /**
