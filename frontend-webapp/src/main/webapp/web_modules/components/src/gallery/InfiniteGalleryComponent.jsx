@@ -520,7 +520,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       pageClassName,
       itemComponent: Item,
       columnGutter,
-      gridWidth,
+      columnWidth,
     } = this.props
     if (!page.visible) {
       return null
@@ -531,20 +531,19 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         key={`page-${index}`}
       >
         {page.items.map(({
- props, left, top, width, height, columnSpan,
-}, itemIndex) => (
-  <Item
-    key={`page-${index}-item-${itemIndex}`}
-    columnSpan={columnSpan}
-    left={left}
-    top={top}
-    width={width}
-    entity={props}
-    columnGutter={columnGutter}
-    gridWidth={gridWidth}
-    {...this.props.itemProps}
-  />
-          ))}
+          props, left, top, width, height, columnSpan,
+        }, itemIndex) => (
+            <Item
+              key={`page-${index}-item-${itemIndex}`}
+              columnSpan={columnSpan}
+              left={left}
+              top={top}
+              width={width}
+              entity={props}
+              columnGutter={columnGutter}
+              gridWidth={columnWidth}
+              {...this.props.itemProps}
+            />))}
       </div>
     )
   }

@@ -320,10 +320,11 @@ export class SearchResultsContainer extends React.Component {
     },
   ) => {
     const showingDataobjects = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
+    const showingDocuments = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
 
     // check if facettes should be applied
-    const facettes = showingFacettes && showingDataobjects ? filters : []
-    const facettesQueryPart = showingFacettes ? facettesQuery : ''
+    const facettes = (showingFacettes && showingDataobjects) || showingDocuments ? filters : []
+    const facettesQueryPart = showingFacettes || showingDocuments ? facettesQuery : ''
     const quicklookQuery = displayOnlyQuicklook ? 'onlyQuicklook' : ''
 
     let searchActions
@@ -405,7 +406,7 @@ export class SearchResultsContainer extends React.Component {
       attributePresentationModels, hiddenColumnKeys, searchActions, showingFacettes,
       facets, filters, openSearchQuery, fullSearchQuery, displayOnlyQuicklook,
     } = this.state
-
+    const tableViewMode = tableDisplayMode || TableDisplayModeEnum.LIST
     return (
       <ModuleStyleProvider module={moduleStyles}>
         {/* enable the services functionnalities */}
@@ -419,6 +420,7 @@ export class SearchResultsContainer extends React.Component {
             viewObjectType={viewObjectType}
             initialSearchQuery={initialSearchQuery}
             openSearchQuery={openSearchQuery}
+            tableViewMode={tableViewMode}
           >
             {/** Render a default search results component with common properties (sub elements will clone it with added properties)*/}
             <SearchResultsComponent
@@ -434,7 +436,7 @@ export class SearchResultsContainer extends React.Component {
               searchSelectors={searchSelectors}
 
               viewObjectType={viewObjectType}
-              tableViewMode={tableDisplayMode || TableDisplayModeEnum.LIST}
+              tableViewMode={tableViewMode}
 
               displayOnlyQuicklook={displayOnlyQuicklook}
 

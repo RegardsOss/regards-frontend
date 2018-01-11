@@ -37,7 +37,7 @@ import OneElementServicesContainer from '../../../containers/user/results/option
 import DownloadEntityFileContainer from '../../../containers/user/results/options/DownloadEntityFileContainer'
 import EmptyTableComponent from './EmptyTableComponent'
 import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
-import GalleryItemComponent from './gallery/GalleryItemComponent'
+import GalleryItemContainer from '../../../containers/user/results/gallery/GalleryItemContainer'
 import DisplayModuleConf from '../../../models/DisplayModuleConf'
 
 const RESULTS_PAGE_SIZE = 500
@@ -234,6 +234,9 @@ class SearchResultsComponent extends React.Component {
   /** @return {boolean} true if currently displaying dataobjects */
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
+  /** @return {boolean} true if currently displaying documents */
+  isDisplayingDocuments = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
+
   /** @return {boolean} true if currently in list view */
   isInListView = () => this.props.tableViewMode === TableDisplayModeEnum.LIST
 
@@ -274,9 +277,8 @@ class SearchResultsComponent extends React.Component {
 
     // TODO-V3 do refactor to use request parameters instead or path params
     const pathParams = { parameters: searchQuery }
-    const showFacets = this.isDisplayingDataobjects() && allowingFacettes && showingFacettes
+    const showFacets = ((this.isDisplayingDataobjects() && showingFacettes) || this.isDisplayingDocuments()) && allowingFacettes
     const itemProps = { attributePresentationModels, onAddElementToCart, enableDownload }
-
     return (
       <TableLayout>
         {/* First header row :Table tabs and options */}
@@ -320,7 +322,7 @@ class SearchResultsComponent extends React.Component {
         />
         {this.isInQuicklookView() ?
           (<InfiniteGalleryContainer
-            itemComponent={GalleryItemComponent}
+            itemComponent={GalleryItemContainer}
             pageActions={searchActions}
             pageSelectors={searchSelectors}
             columnWidth={displayConf.quicklookColumnWidth}
