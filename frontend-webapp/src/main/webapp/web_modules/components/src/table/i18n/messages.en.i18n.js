@@ -37,6 +37,7 @@ const messages = {
   'table.loading.message': 'Loading content',
   'table.delete.option.tooltip': 'Delete this element',
   'table.progress.percent.cell.message': '{percent}%',
+  'table.actions.more': 'More options',
 }
 
 export default messages
