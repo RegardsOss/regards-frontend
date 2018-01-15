@@ -16,14 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginParameterDynamicValue from './PluginParameterDynamicValue'
+import find from 'lodash/find'
 
+const findParam = (datasource, parameterName) => {
+  const param = find(datasource.content.parameters, parameter => parameter.name === parameterName)
+  if (!param) {
+    console.error('Failed to find the param', parameterName, 'on the datasource', datasource)
+  }
+  return param
+}
+const hasParam = (datasource, parameterName) => {
+  const param = find(datasource.content.parameters, parameter => parameter.name === parameterName)
+  return !!param
+}
+const IDBDatasourceParamsEnum = {
+  CONNECTION: 'connection',
+  MODEL: 'model',
+  REFRESH_RATE: 'refreshRate',
+  FROM_CLAUSE: 'fromClause',
+  TABLE: 'table',
+}
 
-const PluginParameterContent = PropTypes.shape({
-  name: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.object]),
-  dynamic: PropTypes.bool,
-  dynamicsValues: PropTypes.arrayOf(PluginParameterDynamicValue),
-})
-
-export default PluginParameterContent
+module.exports = {
+  IDBDatasourceParamsEnum,
+  findParam,
+  hasParam,
+}
