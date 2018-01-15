@@ -79,7 +79,6 @@ export class ConnectionFormComponent extends React.Component {
         label: currentConnection.content.label,
         version: currentConnection.content.version,
         priorityOrder: currentConnection.content.priorityOrder,
-        isActive: currentConnection.content.active,
         pluginClassName: currentConnection.content.pluginClassName,
       }
       forEach(currentConnection.content.parameters, (parameter) => {

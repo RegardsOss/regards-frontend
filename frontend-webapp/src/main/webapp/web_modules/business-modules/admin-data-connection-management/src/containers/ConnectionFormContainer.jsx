@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -46,6 +47,8 @@ export class ConnectionFormContainer extends React.Component {
     fetchPluginMetaDataList: PropTypes.func,
   }
 
+  static PLUGIN_ATTRS = ['user', 'password', 'dbHost', 'dbPort', 'dbName', 'minPoolSize', 'maxPoolSize']
+
   constructor(props) {
     super(props)
     const isCreating = props.params.connectionId === undefined
@@ -75,18 +78,20 @@ export class ConnectionFormContainer extends React.Component {
     return `/admin/${project}/data/acquisition/connection/list`
   }
 
+  generateParameters = values => map(ConnectionFormContainer.PLUGIN_ATTRS, attr => ({
+    name: attr,
+    value: values[attr],
+    dynamic: false,
+    dynamicsValues: [],
+  }))
+
 
   handleCreate = (values) => {
+    const parameters = this.generateParameters(values)
     const newConnection = {
       label: values.label,
       pluginClassName: values.pluginClassName,
-      user: values.user,
-      password: values.password,
-      dbHost: values.dbHost,
-      dbPort: values.dbPort,
-      dbName: values.dbName,
-      maxPoolSize: values.maxPoolSize,
-      minPoolSize: values.minPoolSize,
+      parameters,
     }
     Promise.resolve(this.props.createConnection(newConnection))
       .then((actionResult) => {
@@ -98,17 +103,12 @@ export class ConnectionFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
+    const parameters = this.generateParameters(values)
     const updatedConnection = Object.assign({}, {
+      id: this.props.params.connectionId,
       label: values.label,
       pluginClassName: values.pluginClassName,
-      user: values.user,
-      password: values.password,
-      dbHost: values.dbHost,
-      dbPort: values.dbPort,
-      dbName: values.dbName,
-      maxPoolSize: values.maxPoolSize,
-      minPoolSize: values.minPoolSize,
-      pluginConfigurationId: this.props.params.connectionId,
+      parameters,
     })
     Promise.resolve(this.props.updateConnection(this.props.params.connectionId, updatedConnection))
       .then((actionResult) => {

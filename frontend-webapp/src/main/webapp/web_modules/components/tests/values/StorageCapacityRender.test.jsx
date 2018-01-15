@@ -44,7 +44,7 @@ describe('[COMPONENTS] Testing StorageCapacityRender', () => {
     const enzymeWrapper = shallow(<StorageCapacityRender {...props} />, { context })
     let formatterWrapper = enzymeWrapper.find(storage.FormattedStorageCapacity)
     assert.lengthOf(formatterWrapper, 1, 'There should be a formatter wrapper')
-    let capacity = formatterWrapper.props().capacity
+    let { capacity } = formatterWrapper.props()
     assert.isOk(capacity, 'Capacity should be defined')
     assert.equal(capacity.value, 1, 'Capacity should scaled to 1 (KB)')
     assert.equal(capacity.unit.symbol, 'KB', 'Capacity should be scaled to (1) KB')
@@ -56,6 +56,7 @@ describe('[COMPONENTS] Testing StorageCapacityRender', () => {
     enzymeWrapper.setProps(props2)
     formatterWrapper = enzymeWrapper.find(storage.FormattedStorageCapacity)
     assert.lengthOf(formatterWrapper, 1, 'There should be a formatter wrapper')
+
     capacity = formatterWrapper.props().capacity
     assert.isOk(capacity, 'Capacity should be defined')
     assert.equal(capacity.value, 8, 'Capacity should scaled to 8 (kb)')
@@ -70,7 +71,7 @@ describe('[COMPONENTS] Testing StorageCapacityRender', () => {
     const enzymeWrapper = shallow(<StorageCapacityRender {...props} />, { context })
     const formatterWrapper = enzymeWrapper.find(storage.FormattedStorageCapacity)
     assert.lengthOf(formatterWrapper, 1, 'There should be a formatter wrapper')
-    const capacity = formatterWrapper.props().capacity
+    const { capacity } = formatterWrapper.props()
     assert.isOk(capacity, 'Capacity should be parsed')
     assert.equal(capacity.value, 1, 'Capacity should scaled to 1 (mb)')
     assert.equal(capacity.unit.symbol, 'mb', 'Capacity should be scaled to (1) mb')
@@ -85,7 +86,7 @@ describe('[COMPONENTS] Testing StorageCapacityRender', () => {
     const enzymeWrapper = shallow(<StorageCapacityRender {...props} />, { context })
     const formatterWrapper = enzymeWrapper.find(storage.FormattedStorageCapacity)
     assert.lengthOf(formatterWrapper, 1, 'There should be a formatter wrapper')
-    const capacity = formatterWrapper.props().capacity
+    const { capacity } = formatterWrapper.props()
     assert.isOk(capacity, 'Capacity should be set')
     assert.equal(capacity.value, 8, 'Capacity should scaled to 8 (b)')
     assert.equal(capacity.unit.symbol, 'b', 'Capacity should be scaled to (8) b')
@@ -98,7 +99,7 @@ describe('[COMPONENTS] Testing StorageCapacityRender', () => {
     const enzymeWrapper = shallow(<StorageCapacityRender {...props} />, { context })
     const formatterWrapper = enzymeWrapper.find(storage.FormattedStorageCapacity)
     assert.lengthOf(formatterWrapper, 1, 'There should be a formatter wrapper')
-    const capacity = formatterWrapper.props().capacity
+    const { capacity } = formatterWrapper.props()
     assert.isNotOk(capacity, 'Capacity should not be set')
   })
 
@@ -109,7 +110,7 @@ describe('[COMPONENTS] Testing StorageCapacityRender', () => {
     const enzymeWrapper = shallow(<StorageCapacityRender {...props} />, { context })
     const formatterWrapper = enzymeWrapper.find(storage.FormattedStorageCapacity)
     assert.lengthOf(formatterWrapper, 1, 'There should be a formatter wrapper')
-    const capacity = formatterWrapper.props().capacity
+    const { capacity } = formatterWrapper.props()
     assert.isNotOk(capacity, 'Capacity should not be set as it was not parsed')
   })
 })

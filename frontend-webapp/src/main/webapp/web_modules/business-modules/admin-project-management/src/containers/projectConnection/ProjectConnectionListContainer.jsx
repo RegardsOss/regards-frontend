@@ -106,7 +106,7 @@ export class ProjectConnectionListContainer extends React.Component {
       || !projectConnection.content.id || !projectConnection.content.project.name) {
       throw new Error('Invalid connection to test')
     }
-    const project = projectConnection.content.project
+    const { project } = projectConnection.content
     return this.props.testProjectConnection(projectConnection.content.microservice, project.name)
   }
 

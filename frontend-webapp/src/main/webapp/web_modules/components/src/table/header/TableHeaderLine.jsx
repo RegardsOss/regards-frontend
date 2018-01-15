@@ -30,10 +30,6 @@ export class TableHeaderLine extends React.Component {
     ]),
   }
 
-  static defaultProps = {
-    show: true,
-  }
-
   static contextTypes = {
     ...themeContextType,
   }

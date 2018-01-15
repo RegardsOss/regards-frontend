@@ -100,10 +100,11 @@ export class DocumentFilesComponent extends React.Component {
               style={DocumentFilesComponent.resetLinkStyle}
             >
               <ListItem
-                primaryText={(<div>
-                  {`${file.name}, `}
-                  {this.transformBytesIntoReadeableSize(file.size)}
-                              </div>)}
+                primaryText={(
+                  <div>
+                    {`${file.name}, `}
+                    {this.transformBytesIntoReadeableSize(file.size)}
+                  </div>)}
                 leftIcon={<File />}
               />
             </a>

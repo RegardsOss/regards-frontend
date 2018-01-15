@@ -38,6 +38,7 @@ describe('[Order Cart] Testing ShowDatedItemSelectionDetailContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
+      disabled: false,
       datasetLabel: 'test-label',
       date: '2017-09-08T15:59:57.664Z',
       openSearchRequest: 'testRequest',
@@ -47,5 +48,6 @@ describe('[Order Cart] Testing ShowDatedItemSelectionDetailContainer', () => {
     const componentWrapper = enzymeWrapper.find(ShowDatedItemSelectionDetailComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     assert.equal(componentWrapper.props().onShowDetail, props.dispatchShowDetail, 'The component callback should be correctly set up')
+    assert.equal(componentWrapper.props().disabled, props.disabled, 'The component disabled state should be correctly reported')
   })
 })

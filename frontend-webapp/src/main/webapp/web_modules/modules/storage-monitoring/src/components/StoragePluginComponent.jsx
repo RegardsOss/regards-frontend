@@ -98,20 +98,21 @@ class StoragePluginComponent extends React.Component {
                   storageInfo.map(({
  storagePhysicalId, totalSize, usedSize, unusedSize,
 }, index) =>
-                    (<TableRow style={pluginCard.media.table.row} key={storagePhysicalId} selected={index === selectedStorageIndex}>
-                      <TableRowColumn title={storagePhysicalId} style={pluginCard.media.table.cell}>
-                        {storagePhysicalId}
-                      </TableRowColumn>
-                      <TableRowColumn style={pluginCard.media.table.cell}>
-                        <storage.FormattedStorageCapacity capacity={totalSize} />
-                      </TableRowColumn>
-                      <TableRowColumn style={pluginCard.media.table.cell}>
-                        <storage.FormattedStorageCapacity capacity={usedSize} />
-                      </TableRowColumn>
-                      <TableRowColumn style={pluginCard.media.table.cell}>
-                        <storage.FormattedStorageCapacity capacity={unusedSize} />
-                      </TableRowColumn>
-                    </TableRow>))}
+                    (
+                      <TableRow style={pluginCard.media.table.row} key={storagePhysicalId} selected={index === selectedStorageIndex}>
+                        <TableRowColumn title={storagePhysicalId} style={pluginCard.media.table.cell}>
+                          {storagePhysicalId}
+                        </TableRowColumn>
+                        <TableRowColumn style={pluginCard.media.table.cell}>
+                          <storage.FormattedStorageCapacity capacity={totalSize} />
+                        </TableRowColumn>
+                        <TableRowColumn style={pluginCard.media.table.cell}>
+                          <storage.FormattedStorageCapacity capacity={usedSize} />
+                        </TableRowColumn>
+                        <TableRowColumn style={pluginCard.media.table.cell}>
+                          <storage.FormattedStorageCapacity capacity={unusedSize} />
+                        </TableRowColumn>
+                      </TableRow>))}
               </TableBody>
             </Table>
           </div>

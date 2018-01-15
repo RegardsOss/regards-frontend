@@ -37,7 +37,13 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
     assert.isDefined(UserModuleContainer)
   })
   it('should render correctly', () => {
-    const renderWrapper = shallow(<UserModuleContainer />, { context })
+    const props = {
+      project: 'any',
+      moduleConf: {
+        showDatasets: false,
+      },
+    }
+    const renderWrapper = shallow(<UserModuleContainer {...props} />, { context })
     assert.lengthOf(renderWrapper.find(OrderCartContainer), 1, 'There should be the sub container (this one does\'t do anything')
   })
 })

@@ -118,21 +118,21 @@ class ConnectionTesterIconButton extends React.Component {
     )
 
     const switchActions = [this.handleTouchTap, this.handleTouchTap]
-    const successButton =
-      (<OnHoverSwitchIconButton
+    const successButton = (
+      <OnHoverSwitchIconButton
         onTouchTap={switchActions}
       >
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
-       </OnHoverSwitchIconButton>)
+      </OnHoverSwitchIconButton>)
 
-    const errorButton =
-      (<OnHoverSwitchIconButton
+    const errorButton = (
+      <OnHoverSwitchIconButton
         onTouchTap={switchActions}
       >
         <Error color={this.context.muiTheme.palette.accent1Color} />
         <PlayArrow />
-       </OnHoverSwitchIconButton>)
+      </OnHoverSwitchIconButton>)
 
     const pendingProgress = <ConnectionTesterProgress />
 

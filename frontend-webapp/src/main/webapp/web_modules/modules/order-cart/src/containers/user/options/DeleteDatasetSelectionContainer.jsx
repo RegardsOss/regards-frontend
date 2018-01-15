@@ -45,6 +45,7 @@ export class DeleteDatasetSelectionContainer extends React.Component {
   }
 
   static propTypes = {
+    disabled: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     datasetSelectionId: PropTypes.number.isRequired,
     // from mapDispatchToProps
@@ -52,9 +53,9 @@ export class DeleteDatasetSelectionContainer extends React.Component {
   }
 
   render() {
-    const { dispatchDelete } = this.props
+    const { disabled, dispatchDelete } = this.props
     return (
-      <DeleteDatasetSelectionComponent onDelete={dispatchDelete} />
+      <DeleteDatasetSelectionComponent disabled={disabled} onDelete={dispatchDelete} />
     )
   }
 }

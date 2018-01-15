@@ -29,7 +29,7 @@ class TableHeaderOptionsGroup extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
-    show: PropTypes.bool.isRequired,
+    show: PropTypes.bool,
   }
 
   static contextTypes = {

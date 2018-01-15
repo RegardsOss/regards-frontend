@@ -76,7 +76,7 @@ function renderChildren(children = []) {
     case 1:
       return children[0]
     default:
-      return <div>{children}</div>
+      return children
   }
 }
 

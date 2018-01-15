@@ -42,10 +42,7 @@ class DynamicModuleFormComponent extends React.Component {
     styles: PropTypes.object,
   }
 
-  state = {
-    moduleLoading: true,
-    noAdminComp: false,
-  }
+  state = {}
 
   shouldComponentUpdate(nextProps, nextState) {
     if (!this.props.adminForm.form || !this.props.adminForm.form.conf) {
@@ -66,7 +63,7 @@ class DynamicModuleFormComponent extends React.Component {
     if (!this.props.module && !this.props.module.type) {
       return null
     }
-    let styles = this.props.styles
+    let { styles } = this.props
     if (this.state.module && !this.state.module.adminContainer) {
       // Hide Card element if there is no adminContainer to display for the module specific configuration
       styles = merge({}, styles, { display: 'none' })

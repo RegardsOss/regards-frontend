@@ -36,8 +36,9 @@ describe('[Order Cart] Testing ShowDatedItemSelectionDetailComponent', () => {
   it('should exists', () => {
     assert.isDefined(ShowDatedItemSelectionDetailComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly disabled', () => {
     const props = {
+      disabled: true,
       onShowDetail: () => { },
     }
     const enzymeWrapper = shallow(<ShowDatedItemSelectionDetailComponent {...props} />, { context })
@@ -45,5 +46,18 @@ describe('[Order Cart] Testing ShowDatedItemSelectionDetailComponent', () => {
     assert.lengthOf(buttonWrapper, 1, 'There should be a button')
     assert.equal(buttonWrapper.props().onTouchTap, props.onShowDetail, 'Callback should be correctly reported')
     assert.isDefined(buttonWrapper.props().title, 'There should be a title')
+    assert.isTrue(buttonWrapper.props().disabled, 'Option should be disabled')
+  })
+  it('should render correctly not disabled', () => {
+    const props = {
+      disabled: false,
+      onShowDetail: () => { },
+    }
+    const enzymeWrapper = shallow(<ShowDatedItemSelectionDetailComponent {...props} />, { context })
+    const buttonWrapper = enzymeWrapper.find(IconButton)
+    assert.lengthOf(buttonWrapper, 1, 'There should be a button')
+    assert.equal(buttonWrapper.props().onTouchTap, props.onShowDetail, 'Callback should be correctly reported')
+    assert.isDefined(buttonWrapper.props().title, 'There should be a title')
+    assert.isFalse(buttonWrapper.props().disabled, 'Option should be enabled')
   })
 })

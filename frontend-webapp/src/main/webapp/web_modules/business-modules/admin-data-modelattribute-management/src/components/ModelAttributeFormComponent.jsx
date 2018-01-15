@@ -64,7 +64,7 @@ export class ModelAttributeFormComponent extends React.Component {
 
   onDrop = (entityDroppedTo, isFragment, entity) => {
     if (isFragment) {
-      const fragment = entity[keys(entity)[0]].content.fragment
+      const { fragment } = entity[keys(entity)[0]].content
       if (entityDroppedTo === ItemTypes.ATTR_ASSOCIATED) {
         // Add a new fragment to the model
         this.props.onCreateFragment(fragment)

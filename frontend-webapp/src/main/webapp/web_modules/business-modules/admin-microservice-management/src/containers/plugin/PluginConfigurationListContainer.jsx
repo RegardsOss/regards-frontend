@@ -87,7 +87,7 @@ export class PluginConfigurationListContainer extends React.Component {
 
   getAddURL = () => {
     const { params: { project, microserviceName, pluginId } } = this.props
-    const query = browserHistory.getCurrentLocation().query
+    const { query } = browserHistory.getCurrentLocation()
     const url = `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/create`
     if (query.backUrl && query.backUrl !== '') {
       return `${url}?backUrl=${query.backUrl}`
@@ -100,7 +100,7 @@ export class PluginConfigurationListContainer extends React.Component {
    */
   getBackURL = () => {
     const { params: { project, microserviceName } } = this.props
-    const query = browserHistory.getCurrentLocation().query
+    const { query } = browserHistory.getCurrentLocation()
     if (query.backUrl && query.backUrl !== '') {
       return `/admin/${project}/${query.backUrl}`
     }

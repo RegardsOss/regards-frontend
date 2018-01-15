@@ -18,9 +18,12 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SingleContentURLDialogContainer from '../../src/dialogs/SingleContentURLDialogContainer'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { SingleContentURLDialogContainer } from '../../src/dialogs/SingleContentURLDialogContainer'
 import LoadableContentDialogContainer from '../../src/dialogs/LoadableContentDialogContainer'
+import styles from '../../src/dialogs/styles'
+
+const context = buildTestContext(styles)
 
 describe('[COMPONENTS] Testing SingleContentURLDialogContainer', () => {
   before(testSuiteHelpers.before)
@@ -37,7 +40,7 @@ describe('[COMPONENTS] Testing SingleContentURLDialogContainer', () => {
       dialogWidthPercent={50}
       loadingMessage="Loading..."
       open
-    />)
+    />, { context })
     // 1 - test initial
     // loaded : false
     assert.isFalse(enzymeWrapper.state('loaded'), 'The component should be in loading state')

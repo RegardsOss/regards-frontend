@@ -275,7 +275,7 @@ class SearchResultsComponent extends React.Component {
       displayColumnsHeader = false
     }
 
-    // TODO-V3 do refactor that please
+    // TODO-V3 do refactor to use request parameters instead or path params
     const pathParams = { parameters: searchQuery }
     const showFacets = ((this.isDisplayingDataobjects() && showingFacettes) || this.isDisplayingDocuments()) && allowingFacettes
     const itemProps = { attributePresentationModels, onAddElementToCart, enableDownload }

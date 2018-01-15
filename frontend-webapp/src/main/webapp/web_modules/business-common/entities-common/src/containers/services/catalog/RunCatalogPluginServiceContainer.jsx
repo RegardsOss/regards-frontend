@@ -71,7 +71,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   componentWillMount = () => {
     this.setState(RunCatalogPluginServiceContainer.DEFAULT_STATE)
     const { service, dispatchFetchPluginConfiguration } = this.props
-    const configId = service.configId
+    const { configId } = service
     dispatchFetchPluginConfiguration(configId)
       .then(result => this.onFetchConfigurationDone(result, configId))
       .catch(() => this.onFetchError(RunCatalogPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR))

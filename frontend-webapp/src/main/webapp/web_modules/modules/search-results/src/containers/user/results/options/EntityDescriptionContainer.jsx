@@ -19,7 +19,6 @@
 import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
-import has from 'lodash/has'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'

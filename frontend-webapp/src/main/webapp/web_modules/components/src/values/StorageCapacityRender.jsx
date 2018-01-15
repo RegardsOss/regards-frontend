@@ -36,8 +36,8 @@ class StorageCapacityRender extends React.Component {
       PropTypes.number,
       PropTypes.instanceOf(storage.StorageCapacity).isRequired,
     ]),
-    presentationScale: PropTypes.oneOf(storage.StorageUnitScale.all).isRequired,
-    numberUnit: PropTypes.oneOf([storage.StorageUnits.BIT, storage.StorageUnits.BYTE]).isRequired,
+    presentationScale: PropTypes.oneOf(storage.StorageUnitScale.all),
+    numberUnit: PropTypes.oneOf([storage.StorageUnits.BIT, storage.StorageUnits.BYTE]),
   }
 
   static defaultProps = {

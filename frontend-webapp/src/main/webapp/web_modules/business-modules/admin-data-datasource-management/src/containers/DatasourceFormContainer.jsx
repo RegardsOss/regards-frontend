@@ -18,6 +18,8 @@
  **/
 import { browserHistory } from 'react-router'
 import find from 'lodash/find'
+import reject from 'lodash/reject'
+import get from 'lodash/get'
 import forEach from 'lodash/forEach'
 import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
@@ -30,6 +32,7 @@ import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
 import { fragmentSelectors } from './../clients/FragmentClient'
 import messages from '../i18n'
+import { findParam, hasParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
 
 const states = {
   FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',
@@ -129,7 +132,7 @@ export class DatasourceFormContainer extends React.Component {
    * @param newDatasource
    */
   handleUpdate = (updatedDatasource) => {
-    Promise.resolve(this.props.updateDatasource(updatedDatasource.content.pluginConfigurationId, updatedDatasource.content))
+    Promise.resolve(this.props.updateDatasource(updatedDatasource.content.id, updatedDatasource.content))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -160,15 +163,36 @@ export class DatasourceFormContainer extends React.Component {
   saveAttributes = (values) => {
     const { isCreating, currentDatasource } = this.state
     if (isCreating) {
+      const { pluginId } = find(this.props.pluginMetaDataList, pluginMetaData =>
+        pluginMetaData.content.pluginClassName === values.pluginClassName,
+      ).content
       const newValues = {
         content: {
           label: values.label,
-          pluginConfigurationConnectionId: this.props.params.connectionId,
           pluginClassName: values.pluginClassName,
-          refreshRate: values.refreshRate,
-          mapping: {
-            model: values.model,
-          },
+          pluginId,
+          interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin'],
+          parameters: [
+            {
+              name: IDBDatasourceParamsEnum.CONNECTION,
+              pluginConfiguration: {
+                id: this.props.params.connectionId,
+              },
+            },
+            {
+              name: IDBDatasourceParamsEnum.MODEL,
+              value: {
+                model: values.model,
+                attributesMapping: [],
+              },
+            },
+            {
+              name: IDBDatasourceParamsEnum.REFRESH_RATE,
+              value: values.refreshRate,
+              dynamic: false,
+              dynamicsValues: [],
+            },
+          ],
         },
       }
       this.setState({
@@ -176,10 +200,23 @@ export class DatasourceFormContainer extends React.Component {
         currentDatasource: newValues,
       })
     } else {
-      currentDatasource.content.label = values.label
-      currentDatasource.content.refreshRate = values.refreshRate
+      // Recompute the parameters array, without refreshRate
+      const parametersWithNewRefreshRate = reject(currentDatasource.content.parameters, parameter =>
+        parameter.name === IDBDatasourceParamsEnum.REFRESH_RATE,
+      )
+      // Add the refresh rate
+      parametersWithNewRefreshRate.push({
+        name: IDBDatasourceParamsEnum.REFRESH_RATE,
+        value: values.refreshRate,
+        dynamic: false,
+        dynamicsValues: [],
+      })
       this.setState({
-        currentDatasource,
+        currentDatasource: {
+          ...currentDatasource,
+          parameters: parametersWithNewRefreshRate,
+          label: values.label,
+        },
         state: states.FORM_MAPPING_CONNECTION,
       })
     }
@@ -191,7 +228,12 @@ export class DatasourceFormContainer extends React.Component {
    * @param values
    */
   saveMapping = (formValuesSubset, modelAttributeList, tableAttributeList) => {
+    const { currentDatasource } = this.state
     const attributesMapping = []
+    const newParameters = []
+    newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION))
+    newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.REFRESH_RATE))
+    const modelId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.model')
     forEach(formValuesSubset.attributes, (attribute, attributeName) => {
       const modelAttr = find(modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attributeName)
       const newAttributeMapping = {
@@ -207,20 +249,37 @@ export class DatasourceFormContainer extends React.Component {
         attributesMapping.push(newAttributeMapping)
       }
     })
-    const { currentDatasource } = this.state
     if (formValuesSubset.table) {
-      currentDatasource.content.tableName = formValuesSubset.table
-      currentDatasource.content.fromClause = null
+      newParameters.push({
+        name: IDBDatasourceParamsEnum.TABLE,
+        value: formValuesSubset.table,
+        dynamic: false,
+        dynamicsValues: [],
+      })
     } else if (formValuesSubset.fromClause) {
-      currentDatasource.content.fromClause = formValuesSubset.fromClause
-      currentDatasource.content.tableName = null
+      newParameters.push({
+        name: IDBDatasourceParamsEnum.FROM_CLAUSE,
+        value: formValuesSubset.fromClause,
+        dynamic: false,
+        dynamicsValues: [],
+      })
     }
-    currentDatasource.content.mapping.attributesMapping = attributesMapping
+    newParameters.push({
+      name: IDBDatasourceParamsEnum.MODEL,
+      value: {
+        model: modelId,
+        attributesMapping,
+      },
+      dynamic: false,
+      dynamicsValues: [],
+    })
+    currentDatasource.content.parameters = newParameters
     this.setState({
       currentDatasource,
     })
     if (this.state.isEditing) {
-      currentDatasource.content.pluginConfigurationId = this.props.params.datasourceId
+      //should be useless, right ?
+      //currentDatasource.content.id = this.props.params.datasourceId
       this.handleUpdate(currentDatasource)
     } else {
       this.handleCreate(currentDatasource)
@@ -239,12 +298,13 @@ export class DatasourceFormContainer extends React.Component {
     const {
       isEditing, isCreating, state, currentDatasource,
     } = this.state
+
     switch (state) {
       case states.FORM_ATTRIBUTE:
         return (<DatasourceFormAttributesContainer
           pluginMetaDataList={pluginMetaDataList}
           currentDatasource={currentDatasource}
-          currentConnectionId={isCreating ? parseInt(connectionId, 10) : currentDatasource.content.pluginConfigurationConnectionId}
+          currentConnectionId={isCreating ? parseInt(connectionId, 10) : get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'pluginConfiguration.id')}
           handleSave={this.saveAttributes}
           backUrl={this.getFormAttributeBackUrl()}
         />)
@@ -284,11 +344,13 @@ const mapDispatchToProps = dispatch => ({
   fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
   createDatasource: values => dispatch(datasourceActions.createEntity(values)),
   updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
-  fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
-    microserviceName: 'rs-dam',
-  }, {
-    pluginType: 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin',
-  })),
+  fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList(
+    {
+      microserviceName: 'rs-dam',
+    }, {
+      pluginType: 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDBDataSourcePlugin',
+    },
+  )),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormContainer)

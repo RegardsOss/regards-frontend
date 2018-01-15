@@ -44,8 +44,4 @@ const ConnectionTesterProgress = () => (
     </div>
   </div>)
 
-ConnectionTesterProgress.propTypes = {
-  value: PropTypes.number.isRequired,
-}
-
 export default ConnectionTesterProgress

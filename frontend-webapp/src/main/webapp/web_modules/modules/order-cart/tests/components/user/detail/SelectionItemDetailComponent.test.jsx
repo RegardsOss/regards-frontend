@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PositionedDialog } from '@regardsoss/components'
 import SelectionItemDetailComponent from '../../../../src/components/user/detail/SelectionItemDetailComponent'
-import SelectionDetailResultsTableComponent from '../../../../src/components/user/detail/SelectionDetailResultsTableComponent'
+import SelectionDetailResultsTableContainer from '../../../../src/containers/user/detail/SelectionDetailResultsTableContainer'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -39,6 +39,7 @@ describe('[Order Cart] Testing SelectionItemDetailComponent', () => {
   })
   it('should render correctly when hidden', () => {
     const props = {
+      showDatasets: true,
       visible: false,
       onClose: () => { },
     }
@@ -51,6 +52,7 @@ describe('[Order Cart] Testing SelectionItemDetailComponent', () => {
   })
   it('should render correctly when visible and provide height to sub components', () => {
     const props = {
+      showDatasets: true,
       datasetLabel: 'un-petit-vieux-dataset',
       date: '2017-09-08T16:00:02.625Z',
       openSearchRequest: 'mamie=tropCool',
@@ -64,9 +66,22 @@ describe('[Order Cart] Testing SelectionItemDetailComponent', () => {
     assert.lengthOf(dialogWrapper, 1, 'There should be one and only one dialog')
     assert.isTrue(dialogWrapper.props().open, 'The dialog should be in visible state')
 
-    const tableWrapper = renderWrapper.find(SelectionDetailResultsTableComponent)
+    const tableWrapper = renderWrapper.find(SelectionDetailResultsTableContainer)
     assert.lengthOf(tableWrapper, 1, 'There should be one and only one table to show detail')
     assert.equal(tableWrapper.props().openSearchRequest, props.openSearchRequest, 'The table request should be provided')
     assert.isDefined(tableWrapper.props().availableHeight, 'The table available height should be provided')
+  })
+
+  it('should render correctly when hiding datasets', () => {
+    const props = {
+      showDatasets: false,
+      datasetLabel: 'un-petit-vieux-dataset',
+      date: '2017-09-08T16:00:02.625Z',
+      openSearchRequest: 'mamie=tropCool',
+      visible: true,
+      onClose: () => { },
+    }
+
+    shallow(<SelectionItemDetailComponent {...props} />, { context })
   })
 })
