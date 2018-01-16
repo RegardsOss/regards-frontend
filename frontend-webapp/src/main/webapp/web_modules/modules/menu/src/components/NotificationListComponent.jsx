@@ -113,14 +113,13 @@ class NotificationListComponent extends React.Component {
       }
     }
     this.setState({
-      open: true,
       openedNotification: notification,
     })
   }
 
   handleClose = () => {
     this.props.readNotification(this.state.openedNotification)
-    this.setState({ open: false })
+    this.setState({ openedNotification: undefined })
   }
 
   /**
@@ -203,7 +202,7 @@ class NotificationListComponent extends React.Component {
     const { moduleTheme: { notifications: { dialog } } } = this.context
 
     return this.state.openedNotification ? (
-      <Dialog modal open={this.state.open} onRequestClose={this.handleClose}>
+      <Dialog modal open={!!this.state.openedNotification} onRequestClose={this.handleClose}>
         <div style={dialog.wrapper.style}>
           <div style={dialog.list.style}>
             {this.renderNotificationList(this.props.unreadNotifications, true)}

@@ -61,6 +61,7 @@ export class NotificationListContainer extends React.Component {
 
   componentWillMount = () => {
     this.startTimer()
+    this.newNotifications = []
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -100,14 +101,14 @@ export class NotificationListContainer extends React.Component {
   }
 
   render() {
-    const unreadNotifications = filter(this.props.notifications, notif => notif.status === 'UNREAD')
-    const readNotifications = filter(this.props.notifications, notif => notif.status === 'READ')
+    this.unreadNotifications = filter(this.props.notifications, notif => notif.status === 'UNREAD')
+    this.readNotifications = filter(this.props.notifications, notif => notif.status === 'READ')
 
     return (
       <ShowableAtRender show={this.props.isAuthenticated}>
         <NotificationListComponent
-          unreadNotifications={unreadNotifications}
-          readNotifications={readNotifications}
+          unreadNotifications={this.unreadNotifications}
+          readNotifications={this.readNotifications}
           readAllNotifications={this.readAllNotifications}
           readNotification={this.readNotification}
           newNotifications={this.newNotifications}
