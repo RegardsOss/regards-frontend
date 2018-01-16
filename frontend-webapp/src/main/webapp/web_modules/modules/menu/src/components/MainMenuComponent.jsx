@@ -41,6 +41,7 @@ class MainMenuComponent extends React.Component {
     title: PropTypes.string,
     contacts: PropTypes.string,
     displayAuthentication: PropTypes.bool,
+    displayNotificationsSelector: PropTypes.bool,
     displayCartSelector: PropTypes.bool,
     displayLocaleSelector: PropTypes.bool,
     displayThemeSelector: PropTypes.bool,
@@ -55,7 +56,7 @@ class MainMenuComponent extends React.Component {
 
   render() {
     const {
-      title, displayAuthentication, displayCartSelector,
+      title, displayAuthentication, displayNotificationsSelector, displayCartSelector,
       displayLocaleSelector, displayThemeSelector, projectAboutPage, contacts,
     } = this.props
     const { moduleTheme: { user: { rootStyle, titleGroup, optionsGroup } } } = this.context
@@ -74,7 +75,9 @@ class MainMenuComponent extends React.Component {
         {/* Authentication access, state and options */}
         <AuthenticationMenuContainer display={displayAuthentication} appName={this.props.appName} project={this.props.project} />
         {/* Notifications */}
-        <NotificationListContainer project={this.props.project} />
+        <ShowableAtRender show={displayNotificationsSelector}>
+          <NotificationListContainer project={this.props.project} />
+        </ShowableAtRender>
         {/* User cart stateful link */}
         <ShowableAtRender show={!!displayCartSelector}>
           <CartSelectorContainer project={this.props.project} />

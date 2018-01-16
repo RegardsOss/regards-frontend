@@ -70,6 +70,11 @@ class AdminContainer extends React.Component {
           label={intl.formatMessage({ id: 'menu.form.displaycart' })}
         />
         <Field
+          name="conf.displayNotificationsSelector"
+          component={RenderCheckbox}
+          label={intl.formatMessage({ id: 'menu.form.displaynotifications' })}
+        />
+        <Field
           name="conf.displayLocaleSelector"
           component={RenderCheckbox}
           label={intl.formatMessage({ id: 'menu.form.displaylocale' })}

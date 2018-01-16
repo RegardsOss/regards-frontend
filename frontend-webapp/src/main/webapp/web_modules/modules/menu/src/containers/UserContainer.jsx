@@ -35,6 +35,7 @@ class UserContainer extends React.Component {
       contacts: PropTypes.string,
       displayAuthentication: PropTypes.bool,
       displayCartSelector: PropTypes.bool,
+      displayNotificationsSelector: PropTypes.bool,
       displayLocaleSelector: PropTypes.bool,
       displayThemeSelector: PropTypes.bool,
       projectAboutPage: CommonShapes.URL,
@@ -46,8 +47,8 @@ class UserContainer extends React.Component {
     const {
       project, appName,
       moduleConf: {
-        title, displayAuthentication, displayThemeSelector, displayCartSelector,
-        displayLocaleSelector, projectAboutPage, contacts,
+        title, displayAuthentication, displayThemeSelector, displayNotificationsSelector,
+        displayCartSelector, displayLocaleSelector, projectAboutPage, contacts,
       },
     } = this.props
     return (
@@ -57,6 +58,7 @@ class UserContainer extends React.Component {
 
         title={title}
         displayAuthentication={displayAuthentication}
+        displayNotificationsSelector={displayNotificationsSelector}
         displayCartSelector={displayCartSelector}
         displayThemeSelector={displayThemeSelector}
         displayLocaleSelector={displayLocaleSelector}

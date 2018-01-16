@@ -45,6 +45,7 @@ const messages = {
   'menu.form.contacts': 'Contact',
   'menu.form.projectpage': 'Project about page',
   'menu.form.displayauthentication': 'Display authentication option',
+  'menu.form.displaynotifications': 'Display notification center',
   'menu.form.displaycart': 'Display cart link',
   'menu.form.displaylocale': 'Display Locale selector',
   'menu.form.displaytheme': 'Display Theme selector',

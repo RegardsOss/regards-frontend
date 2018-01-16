@@ -94,6 +94,7 @@ export class AdminLayout extends React.Component {
       conf: {
         title: 'REGARDS admin dashboard',
         displayAuthentication: true,
+        displayNotificationsSelector: true,
         displayLocaleSelector: true,
         displayThemeSelector: true,
       },
