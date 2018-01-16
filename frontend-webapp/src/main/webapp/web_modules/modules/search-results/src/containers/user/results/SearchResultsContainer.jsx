@@ -187,7 +187,6 @@ export class SearchResultsContainer extends React.Component {
       // re initialize selected facets and hidden columns keys
       newState.filters = SearchResultsContainer.DEFAULT_STATE.filters
       newState.hiddenColumnKeys = SearchResultsContainer.DEFAULT_STATE.hiddenColumnKeys
-      newState.displayOnlyQuicklook = SearchResultsContainer.DEFAULT_STATE.displayOnlyQuicklook
 
       // build column models that will hold both attribute and dialogs models (sort, visible....)
       // note: we take here in account the fact that hidden columns and sorting orders could have been reset
@@ -200,6 +199,10 @@ export class SearchResultsContainer extends React.Component {
             newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesConf, newProps.attributesRegroupementsConf, true)
           } else {
             newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesQuicklookConf, newProps.attributesRegroupementsConf, true)
+            // Automatically enable displayOnlyQuicklook on first display
+            if (oldProps.tableDisplayMode !== newProps.tableDisplayMode) {
+              newState.displayOnlyQuicklook = true
+            }
           }
           break
         case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
@@ -237,7 +240,6 @@ export class SearchResultsContainer extends React.Component {
   /**  On show results as quicklook view action  */
   onShowQuicklookView = () => {
     this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.QUICKLOOK)
-    this.updateStateAndQuery({ displayOnlyQuicklook: true })
   }
 
   /** User toggled facettes search */
@@ -325,7 +327,7 @@ export class SearchResultsContainer extends React.Component {
     // check if facettes should be applied
     const facettes = (showingFacettes && showingDataobjects) || showingDocuments ? filters : []
     const facettesQueryPart = showingFacettes || showingDocuments ? facettesQuery : ''
-    const quicklookQuery = displayOnlyQuicklook ? 'onlyQuicklook' : ''
+    const quicklookQuery = displayOnlyQuicklook ? 'exists=files.QUICKLOOK_SD' : ''
 
     let searchActions
     let sorting
