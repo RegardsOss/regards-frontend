@@ -47,7 +47,7 @@ export class ConnectionFormContainer extends React.Component {
     fetchPluginMetaDataList: PropTypes.func,
   }
 
-  static PLUGIN_ATTRS = ['user', 'password', 'dbHost', 'dbPort', 'dbName', 'minPoolSize', 'maxPoolSize']
+  static PLUGIN_ATTRS = ['user', 'password', 'dbHost', 'dbPort', 'dbName']
 
   constructor(props) {
     super(props)

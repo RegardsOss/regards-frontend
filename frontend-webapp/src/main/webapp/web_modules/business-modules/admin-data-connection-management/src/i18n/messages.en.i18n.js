@@ -33,8 +33,6 @@ const messages = Object.assign({
   'connection.form.dbPort': 'Port',
   'connection.form.dbName': 'Database name',
   'connection.form.driver': 'Database type',
-  'connection.form.maxPoolSize': 'Maximum number of simultaneous connections (maxPoolSize)',
-  'connection.form.minPoolSize': 'Number of simultaneous connections continuously maintained (minPoolSize)',
   'connection.form.isActive': 'Connection is active',
   'connection.form.action.save': 'Save',
   'connection.form.action.cancel': 'Cancel',
@@ -56,7 +54,6 @@ const messages = Object.assign({
   'connection.connectionTester.snackbar.success': 'Connection to {label} is working',
   'connection.connectionTester.snackbar.error': 'Connection to {label} failed',
   'connection.connectionTester.pending': 'Trying to connect...',
-  'invalid.maxPoolSizeGreaterThanMinPoolSize': 'The maximum number of connections must be greater than the minimum',
 }, Locales.en)
 
 export default messages
