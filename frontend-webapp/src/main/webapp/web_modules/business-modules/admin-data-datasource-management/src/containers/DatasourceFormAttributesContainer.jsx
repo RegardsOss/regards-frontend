@@ -43,11 +43,8 @@ export class DatasourceFormAttributesContainer extends React.Component {
     fetchConnection: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
 
   componentDidMount() {

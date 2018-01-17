@@ -16,23 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import PluginParameterContent from '../rs-common/Plugin/PluginParameter'
+
 const Datasource = PropTypes.shape({
   content: PropTypes.shape({
-    pluginConfigurationId: PropTypes.number,
-    pluginConfigurationConnectionId: PropTypes.number,
+    id: PropTypes.number,
     pluginClassName: PropTypes.string,
+    pluginId: PropTypes.string,
     label: PropTypes.string,
-    tableName: PropTypes.string,
-    mapping: PropTypes.shape({
-      attributeMapping: PropTypes.arrayOf(PropTypes.shape({
-        namespace: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.string,
-        nameDS: PropTypes.string,
-      })),
-      model: PropTypes.number,
-    }),
-  }).isRequired,
+    version: PropTypes.string,
+    interfaceNames: PropTypes.arrayOf(PropTypes.string),
+    parameters: PropTypes.arrayOf(PluginParameterContent).isRequired,
+  }),
 })
 
 const DatasourceList = PropTypes.objectOf(Datasource)
