@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
+import compose from 'lodash/fp/compose'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
+import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
@@ -27,6 +28,7 @@ import { DamDomain, AccessDomain } from '@regardsoss/domain'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { getTypeRender } from '@regardsoss/attributes-common'
+import { withValueRenderContext } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 import { SelectionPath } from '../../model/graph/SelectionShape'
 import { AttributeModelActions, AttributeModelSelectors } from '../../clients/AttributeModelClient'
@@ -231,8 +233,9 @@ export class UserModuleContainer extends React.Component {
   }
 }
 
-export default connect(
-  UserModuleContainer.mapStateToProps,
-  UserModuleContainer.mapDispatchToProps,
-)(UserModuleContainer)
+// Note: we add here the render cell values context as it avoids connecting cell render one by one (trick used by the infinite
+// tables to enhance render process)
+export default compose(
+  connect(UserModuleContainer.mapStateToProps, UserModuleContainer.mapDispatchToProps),
+  withValueRenderContext)(UserModuleContainer)
 

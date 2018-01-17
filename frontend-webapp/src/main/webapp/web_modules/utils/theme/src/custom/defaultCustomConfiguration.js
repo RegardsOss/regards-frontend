@@ -101,5 +101,7 @@ module.exports = {
     'color.file.DOWNLOADED': '#9E9E9E',
     'color.file.ERROR': '#f44336',
     'color.file.UNKNOWN': '#9E9E9E',
+    // filters (admin only)
+    clearEmailFilterPadding: '7px 16px 7px 8px',
   },
 }

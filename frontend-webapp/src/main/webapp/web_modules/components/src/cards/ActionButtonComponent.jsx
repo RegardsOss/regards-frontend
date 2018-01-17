@@ -38,7 +38,7 @@ class ActionButtonComponent extends React.Component {
     url: PropTypes.string,
     onTouchTap: PropTypes.func,
     isVisible: PropTypes.bool,
-    style: PropTypes.objectOf(PropTypes.string),
+    style: PropTypes.objectOf(PropTypes.any),
     type: PropTypes.string,
     disabled: PropTypes.bool,
     title: PropTypes.string,

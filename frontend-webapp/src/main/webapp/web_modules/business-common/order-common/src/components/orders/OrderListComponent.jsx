@@ -22,6 +22,7 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { OrderClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { HOCUtils } from '@regardsoss/display-control'
 import {
   PageableInfiniteTableContainer, RefreshPageableTableOption, TableColumnBuilder, TableLayout, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
@@ -40,6 +41,7 @@ import ErrorsCountRender from './cells/ErrorsCountRender'
 import StatusRender from './cells/StatusRender'
 
 // Column keys
+const OWNER_KEY = 'owner'
 const NUMBER_KEY = 'number'
 const CREATION_DATE_KEY = 'creation.date'
 const EXPIRATION_DATE_KEY = 'expiration.date'
@@ -74,11 +76,12 @@ class OrderListComponent extends React.Component {
     // columns configuration callback
     onChangeColumnsVisibility: PropTypes.func.isRequired,
     // actions and selectors for table
+    ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     orderStateActions: PropTypes.instanceOf(OrderClient.OrderStateActions).isRequired,
-    // actions for navigation
-    navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired, // used in mapDispatchToProps
+    // actions for navigation, not provided when navigation is disabled
+    navigationActions: PropTypes.instanceOf(OrdersNavigationActions), // used in mapDispatchToProps
     // dialog management callbacks
     // request failed callback: response => ()
     onShowRequestFailedInformation: PropTypes.func.isRequired,
@@ -86,6 +89,11 @@ class OrderListComponent extends React.Component {
     onShowAsynchronousRequestInformation: PropTypes.func.isRequired,
     // shows delete confirmation callback: (completeDelete:boolean, onDelete:function like () => ()) => ()
     onShowDeleteConfirmation: PropTypes.func.isRequired,
+    // optional children, can be used to add rows into orders table header
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
   }
 
   static contextTypes = {
@@ -93,14 +101,29 @@ class OrderListComponent extends React.Component {
     ...themeContextType,
   }
 
-  /** Default columns visibiltiy */
-  static DEFAULT_COLUMNS_VISIBILITY = {
+  /** Default user columns visibiltiy */
+  static DEFAULT_USER_COLUMNS_VISIBILITY = {
+    // owner should not be display in user mode
     [NUMBER_KEY]: true,
     [CREATION_DATE_KEY]: true,
     [EXPIRATION_DATE_KEY]: true,
     [OBJECTS_COUNT_KEY]: true,
     [FILES_SIZE_KEY]: true,
     [ERRORS_COUNT_KEY]: false,
+    [PROGRESS_KEY]: true,
+    [STATUS_KEY]: true,
+    [TableColumnBuilder.optionsColumnKey]: true,
+  }
+
+  /** Default admin columns visibiltiy */
+  static DEFAULT_ADMIN_COLUMNS_VISIBILITY = {
+    [OWNER_KEY]: true,
+    [NUMBER_KEY]: true,
+    [CREATION_DATE_KEY]: true,
+    [EXPIRATION_DATE_KEY]: false,
+    [OBJECTS_COUNT_KEY]: false,
+    [FILES_SIZE_KEY]: true,
+    [ERRORS_COUNT_KEY]: true,
     [PROGRESS_KEY]: true,
     [STATUS_KEY]: true,
     [TableColumnBuilder.optionsColumnKey]: true,
@@ -195,12 +218,14 @@ class OrderListComponent extends React.Component {
       })
     }
 
-    // 4 - Detail
-    options.push({
-      // show order detail (at last position to stay stable on multiple screens)
-      OptionConstructor: ShowOrderDatasetsContainer,
-      optionProps: { navigationActions },
-    })
+    // 4 - Detail (provided only when navigation is enabled)
+    if (navigationActions) {
+      options.push({
+        // show order detail (at last position to stay stable on multiple screens)
+        OptionConstructor: ShowOrderDatasetsContainer,
+        optionProps: { navigationActions },
+      })
+    }
 
     return options
   }
@@ -210,54 +235,62 @@ class OrderListComponent extends React.Component {
    * @return {[*]} table columns list
    */
   buildColumns = () => {
-    const { columnsVisibility } = this.props
+    const { columnsVisibility, displayMode } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
     return [
+      // owner when in admin mode
+      displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ?
+        TableColumnBuilder.buildSimplePropertyColumn(
+          OWNER_KEY, formatMessage({ id: 'order.list.column.owner' }),
+          'content.owner', 0, get(columnsVisibility, OWNER_KEY, true),
+        ) : null,
+
       // number
       TableColumnBuilder.buildSimplePropertyColumn(
         NUMBER_KEY, formatMessage({ id: 'order.list.column.number' }),
-        'content.id', 0, get(columnsVisibility, NUMBER_KEY, true),
+        'content.id', 1, get(columnsVisibility, NUMBER_KEY, true),
       ),
+
       // Progress column
       TableColumnBuilder.buildSimpleColumnWithCell(
         PROGRESS_KEY, formatMessage({ id: 'order.list.column.progress' }),
-        TableColumnBuilder.buildProgressPercentRenderCell(OrderListComponent.getProgress), 1,
+        TableColumnBuilder.buildProgressPercentRenderCell(OrderListComponent.getProgress), 2,
         get(columnsVisibility, PROGRESS_KEY, true),
       ),
       // creation date
       TableColumnBuilder.buildSimplePropertyColumn(
         CREATION_DATE_KEY, formatMessage({ id: 'order.list.column.creation.date' }),
-        'content.creationDate', 2, get(columnsVisibility, CREATION_DATE_KEY, true), DateValueRender,
+        'content.creationDate', 3, get(columnsVisibility, CREATION_DATE_KEY, true), DateValueRender,
       ),
       // expiration date
       TableColumnBuilder.buildSimplePropertyColumn(
         EXPIRATION_DATE_KEY, formatMessage({ id: 'order.list.column.expiration.date' }),
-        'content.expirationDate', 3, get(columnsVisibility, EXPIRATION_DATE_KEY, true), DateValueRender,
+        'content.expirationDate', 4, get(columnsVisibility, EXPIRATION_DATE_KEY, true), DateValueRender,
       ),
       // objects count (as extracted, using getObjectCount)
       TableColumnBuilder.buildSimpleColumnWithCell(
         OBJECTS_COUNT_KEY, formatMessage({ id: 'order.list.column.object.count' }),
-        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 4,
+        TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }]), 5,
         get(columnsVisibility, OBJECTS_COUNT_KEY, true),
       ),
       // total files size  (as extracted, using getFilesSize)
       TableColumnBuilder.buildSimpleColumnWithCell(
         FILES_SIZE_KEY, formatMessage({ id: 'order.list.column.files.size' }),
         TableColumnBuilder.buildValuesRenderCell([{ getValue: OrderListComponent.getFilesSize, RenderConstructor: StorageCapacityRender }]),
-        5, get(columnsVisibility, FILES_SIZE_KEY, true),
+        6, get(columnsVisibility, FILES_SIZE_KEY, true),
       ),
       // error files count
       TableColumnBuilder.buildSimplePropertyColumn(
         ERRORS_COUNT_KEY, formatMessage({ id: 'order.list.column.errors.count' }),
-        'content.filesInErrorCount', 6, get(columnsVisibility, ERRORS_COUNT_KEY, true), ErrorsCountRender,
+        'content.filesInErrorCount', 7, get(columnsVisibility, ERRORS_COUNT_KEY, true), ErrorsCountRender,
       ),
 
       // Status column
       TableColumnBuilder.buildSimpleColumnWithCell(
         STATUS_KEY, formatMessage({ id: 'order.list.column.status' }),
         TableColumnBuilder.buildValuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }]),
-        7, get(columnsVisibility, STATUS_KEY, true),
+        8, get(columnsVisibility, STATUS_KEY, true),
       ),
 
       // Options column
@@ -265,15 +298,15 @@ class OrderListComponent extends React.Component {
         formatMessage({ id: 'order.list.column.options' }),
         this.buildOptions(), get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true), fixedColumnWidth,
       ),
-    ]
+    ].filter(c => !!c) // remove null elements
   }
 
   render() {
     const {
-      displayMode, pageSize, isFetching, totalOrderCount, onChangeColumnsVisibility, ordersActions, ordersSelectors,
+      displayMode, pageSize, isFetching, totalOrderCount, children,
+      onChangeColumnsVisibility, ordersRequestParameters, ordersActions, ordersSelectors,
     } = this.props
     const columns = this.buildColumns()
-
 
     // render headers and table
     return (
@@ -303,9 +336,12 @@ class OrderListComponent extends React.Component {
             </TableHeaderOptionGroup>
           </TableHeaderOptionsArea >
         </TableHeaderLine>
+        {/** Optional additive header lines **/}
+        {HOCUtils.renderChildren(children)}
         {/* the table itself */}
         <PageableInfiniteTableContainer
           // infinite table configuration
+          requestParams={ordersRequestParameters}
           pageActions={ordersActions}
           pageSelectors={ordersSelectors}
           queryPageSize={pageSize}

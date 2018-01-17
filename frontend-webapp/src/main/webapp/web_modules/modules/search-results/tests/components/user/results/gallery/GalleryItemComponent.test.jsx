@@ -61,6 +61,5 @@ describe('[Search Results] Testing GalleryItemComponent', () => {
     }
     const enzymeWrapper = shallow(<GalleryItemComponent name {...props} />, { context })
     expect(enzymeWrapper.find(GalleryParametersComponent)).to.have.length(1)
-    // TODO test
   })
 })

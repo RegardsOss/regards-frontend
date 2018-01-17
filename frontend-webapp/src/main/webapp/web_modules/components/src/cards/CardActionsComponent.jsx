@@ -30,7 +30,7 @@ class CardActionsComponent extends React.Component {
     secondaryHateoasDependency: PropTypes.string,
 
     mainButtonClassName: PropTypes.string,
-    mainButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    mainButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     mainButtonUrl: PropTypes.string,
     mainButtonTouchTap: PropTypes.func,
     mainButtonType: PropTypes.string,
