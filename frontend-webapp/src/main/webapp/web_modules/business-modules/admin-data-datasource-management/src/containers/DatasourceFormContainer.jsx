@@ -32,7 +32,7 @@ import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
 import { fragmentSelectors } from './../clients/FragmentClient'
 import messages from '../i18n'
-import { findParam, hasParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
+import { findParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
 
 const states = {
   FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',
