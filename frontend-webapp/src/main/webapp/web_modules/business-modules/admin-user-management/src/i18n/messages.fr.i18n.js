@@ -20,11 +20,15 @@ const messages = {
   'user.board.tooltip.list': 'Liste',
   'user.board.tooltip.add': 'Ajouter',
 
-  'user.board.project-user.description': 'Tous les utilisateurs du projet',
+  'user.board.project-user.description': 'Consulter et éditer les utilisateurs du projet et les demandes d\'accès',
   'user.board.project-user.title': 'Utilisateurs',
 
-  'user.board.role.description': 'Les différents rôles des utilisateurs',
+  'user.board.role.description': 'Consulter et éditer les fonctionnalités accessibles par rôle utilisateur',
   'user.board.role.title': 'Rôles',
+
+  'user.board.orders.title': 'Commandes',
+  'orders.board.orders.description': 'Consulter et gérer les commandes lancées par les utilisateurs du projet',
+
 }
 
 export default messages

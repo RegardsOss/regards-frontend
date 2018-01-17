@@ -16,19 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'user.board.tooltip.list': 'List',
-  'user.board.tooltip.add': 'Add',
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { orderListActions } from './clients/OrderListClient'
+/**
+ * Module hateoas depencies
+ * @author Sébastien binda
+ */
 
-  'user.board.project-user.description': 'View and manage project users and project access requests',
-  'user.board.project-user.title': 'Users',
+/**
+ * Module hateoas depencies
+ * @author Raphaël Mechali
+ */
 
-  'user.board.role.description': 'View and manage allowed functionalities by user role',
-  'user.board.role.title': 'Roles',
-
-  'user.board.orders.title': 'Orders',
-  'orders.board.orders.description': 'View and manage user orders on the project',
-
+module.exports = {
+  listDependencies: [orderListActions.getDependency(RequestVerbEnum.GET_LIST)],
 }
-
-export default messages

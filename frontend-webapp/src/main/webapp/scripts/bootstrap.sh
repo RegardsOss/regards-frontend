@@ -108,6 +108,7 @@ npm link web_modules/business-modules/admin-data-provider-management
 npm link web_modules/business-modules/admin-ingest-processing-chain-management
 npm link web_modules/business-modules/admin-ingest-sip-management
 npm link web_modules/business-modules/admin-microservice-management
+npm link web_modules/business-modules/admin-order-management
 npm link web_modules/business-modules/admin-project-management
 npm link web_modules/business-modules/admin-storage-management
 npm link web_modules/business-modules/admin-ui-management

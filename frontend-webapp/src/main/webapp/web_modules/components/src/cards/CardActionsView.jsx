@@ -34,7 +34,7 @@ class CardActionsView extends React.Component {
     secondaryHateoasDependency: PropTypes.string,
 
     mainButtonClassName: PropTypes.string,
-    mainButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    mainButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     mainButtonUrl: PropTypes.string,
     mainButtonTouchTap: PropTypes.func,
     mainButtonType: PropTypes.string,
@@ -58,35 +58,38 @@ class CardActionsView extends React.Component {
       flexDirection: 'row',
       justifyContent: 'flex-end',
     }
-    const isVisible = (
-      (this.props.secondaryButtonUrl || this.props.secondaryButtonTouchTap) &&
-      this.props.isSecondaryButtonVisible
-    )
     const secondaryRequiredEndpoints = this.props.secondaryHateoasDependency ? [this.props.secondaryHateoasDependency] : []
-    const secondaryActionButtonComponent = isVisible ? (
-      <SecondaryActionButtonComponentWithResourceDisplayControl
-        resourceDependencies={secondaryRequiredEndpoints}
-        className={this.props.secondaryButtonClassName}
-        label={this.props.secondaryButtonLabel}
-        url={this.props.secondaryButtonUrl}
-        onTouchTap={this.props.secondaryButtonTouchTap}
-        disabled={this.props.isSecondaryButtonDisabled}
-      />
-    ) : null
 
     return (
       <div style={styleCardActions}>
-        {secondaryActionButtonComponent}
-        <MainActionButtonComponentWithResourceDisplayControl
-          resourceDependencies={this.props.mainHateoasDependencies}
-          className={this.props.mainButtonClassName}
-          label={this.props.mainButtonLabel}
-          url={this.props.mainButtonUrl}
-          onTouchTap={this.props.mainButtonTouchTap}
-          type={this.props.mainButtonType}
-          isVisible={this.props.isMainButtonVisible}
-          disabled={this.props.isMainButtonDisabled}
-        />
+        {
+          // secondary button if any
+          (this.props.secondaryButtonUrl || this.props.secondaryButtonTouchTap) &&
+            this.props.isSecondaryButtonVisible ? (
+              <SecondaryActionButtonComponentWithResourceDisplayControl
+                resourceDependencies={secondaryRequiredEndpoints}
+                className={this.props.secondaryButtonClassName}
+                label={this.props.secondaryButtonLabel}
+                url={this.props.secondaryButtonUrl}
+                onTouchTap={this.props.secondaryButtonTouchTap}
+                disabled={this.props.isSecondaryButtonDisabled}
+              />) : null
+        }
+        {
+          // primary if any
+          (this.props.mainButtonUrl || this.props.mainButtonTouchTap) &&
+            this.props.isMainButtonVisible ? (
+              <MainActionButtonComponentWithResourceDisplayControl
+                resourceDependencies={this.props.mainHateoasDependencies}
+                className={this.props.mainButtonClassName}
+                label={this.props.mainButtonLabel}
+                url={this.props.mainButtonUrl}
+                onTouchTap={this.props.mainButtonTouchTap}
+                type={this.props.mainButtonType}
+                isVisible={this.props.isMainButtonVisible}
+                disabled={this.props.isMainButtonDisabled}
+              />) : null
+        }
       </div>
     )
   }

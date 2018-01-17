@@ -24,6 +24,7 @@ import { OrderClient } from '@regardsoss/client'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
+import { HOCUtils } from '@regardsoss/display-control'
 import { ORDER_DISPLAY_MODES } from '../model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../model/OrdersNavigationActions'
 import { OrdersNavigationSelectors } from '../model/OrdersNavigationSelectors'
@@ -32,6 +33,8 @@ import OrderDatasetsContainer from './datasets/OrderDatasetsContainer'
 import DatasetFilesContainer from './files/DatasetFilesContainer'
 import messages from '../i18n'
 import styles from '../styles'
+
+const NO_NAVIGATION_PATH = []
 
 /**
 * Root order display containers (switches sub component based on navigation state )
@@ -46,19 +49,28 @@ export class OrderDisplayContainer extends React.Component {
    */
   static mapStateToProps(state, { navigationActions, navigationSelectors }) {
     return {
-      navigationPath: navigationSelectors.getNavigationPath(state),
+      navigationPath: navigationSelectors ? navigationSelectors.getNavigationPath(state) : NO_NAVIGATION_PATH,
     }
   }
 
   static propTypes = {
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
+    // parameters appying on the orders list request
+    ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
-    orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions).isRequired,
-    orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
-    navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
+    // files actions and selector: if not provided, navigation is disabled
+    orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions),
+    orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors),
+    // navigation actions and selector: if not provided, navigation is disabled
+    navigationActions: PropTypes.instanceOf(OrdersNavigationActions),
     // eslint-disable-next-line react/no-unused-prop-types
-    navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors).isRequired, // used in mapStateToProps
+    navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors), // used in mapStateToProps
+    // optional children, can be used to add rows into orders table header
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
     // from mapStateToProps
     navigationPath: PropTypes.arrayOf(PropTypes.oneOfType([
       OrderShapes.OrderWithContent, // context level 1
@@ -68,8 +80,8 @@ export class OrderDisplayContainer extends React.Component {
 
   render() {
     const {
-      navigationActions, navigationPath, displayMode,
-      ordersActions, ordersSelectors, orderFilesActions, orderFilesSelectors,
+      navigationActions, navigationPath, displayMode, children,
+      ordersRequestParameters, ordersActions, ordersSelectors, orderFilesActions, orderFilesSelectors,
     } = this.props
     switch (navigationPath.length) {
       case 0:
@@ -77,11 +89,15 @@ export class OrderDisplayContainer extends React.Component {
         return (
           <OrderListContainer
             displayMode={displayMode}
+            ordersRequestParameters={ordersRequestParameters}
             ordersActions={ordersActions}
             ordersSelectors={ordersSelectors}
             navigationActions={navigationActions}
-          />)
+          >
+            {HOCUtils.renderChildren(children)}
+          </OrderListContainer>)
       case 1:
+        // cannot be shown when navigation is disabled
         // first level: datasets in selected order
         return (
           <OrderDatasetsContainer
@@ -89,6 +105,7 @@ export class OrderDisplayContainer extends React.Component {
             navigationActions={navigationActions}
           />)
       case 2:
+        // cannot be shown when navigation is disabled
         return (
           <DatasetFilesContainer
             order={navigationPath[0]}

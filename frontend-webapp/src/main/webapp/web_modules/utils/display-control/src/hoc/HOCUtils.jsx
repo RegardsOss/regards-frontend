@@ -69,7 +69,10 @@ function cloneChildrenWith(children = [], newProps = {}) {
  * @param {*} children  children list
  * @return {*} rendered children
  */
-function renderChildren(children = []) {
+function renderChildren(children) {
+  if (!children) {
+    return null
+  }
   switch (children.length) {
     case 0:
       return null

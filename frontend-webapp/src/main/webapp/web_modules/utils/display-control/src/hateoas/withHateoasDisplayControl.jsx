@@ -39,9 +39,9 @@ const withHateoasDisplayControl = (DecoratedComponent) => {
       hateoasKey: PropTypes.string,
       alwaysDisplayforInstanceUser: PropTypes.bool,
       disableInsteadOfHide: PropTypes.bool,
+      displayLogic: PropTypes.func,
       // Set by mapStateToProps
       isInstance: PropTypes.bool,
-      displayLogic: PropTypes.func,
     }
 
     static defaultProps = {

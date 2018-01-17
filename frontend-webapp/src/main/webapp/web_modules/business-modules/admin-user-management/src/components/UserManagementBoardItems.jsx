@@ -20,6 +20,7 @@ import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import { projectUserDependencies } from '@regardsoss/admin-user-projectuser-management'
 import { roleDependencies } from '@regardsoss/admin-user-role-management'
+import { orderDependencies } from '@regardsoss/admin-order-management'
 import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
 
 
@@ -29,6 +30,7 @@ import UsersListWithCountIconContainer from '../containers/UsersListWithCountIco
  * @param intl
  */
 export default (project, intl) => [
+  // user list card
   {
     title: intl.formatMessage({ id: 'user.board.project-user.title' }),
     description: intl.formatMessage({ id: 'user.board.project-user.description' }),
@@ -47,6 +49,7 @@ export default (project, intl) => [
       hateoasDependencies: projectUserDependencies.addDependencies,
     }],
   },
+  // role list card
   {
     title: intl.formatMessage({ id: 'user.board.role.title' }),
     description: intl.formatMessage({ id: 'user.board.role.description' }),
@@ -63,6 +66,19 @@ export default (project, intl) => [
       className: 'selenium-roleCreate',
       tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
       hateoasDependencies: roleDependencies.addDependencies,
+    }],
+  },
+  // orders list card
+  {
+    title: intl.formatMessage({ id: 'user.board.orders.title' }),
+    description: intl.formatMessage({ id: 'orders.board.orders.description' }),
+    advanced: false,
+    actions: [{
+      path: `/admin/${project}/user/order/list`,
+      icon: <ViewLinesIcon />,
+      className: 'selenium-ordersList',
+      tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
+      hateoasDependencies: orderDependencies.listDependencies,
     }],
   },
 ]

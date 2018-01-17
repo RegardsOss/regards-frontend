@@ -25,7 +25,7 @@ import { connect } from '@regardsoss/redux'
 import { OrderClient } from '@regardsoss/client'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
-import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import OrderListComponent from '../../components/orders/OrderListComponent'
@@ -64,9 +64,16 @@ export class OrderListContainer extends React.Component {
 
   static propTypes = {
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
+    ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
-    navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired, // used in mapDispatchToProps
+    // not provided when navigation is disabled
+    navigationActions: PropTypes.instanceOf(OrdersNavigationActions), // used in mapDispatchToProps
+    // optional children, can be used to add rows into orders table header
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
     // from mapStateToProps
     isFetching: PropTypes.bool,
     totalOrderCount: PropTypes.number.isRequired,
@@ -79,8 +86,8 @@ export class OrderListContainer extends React.Component {
 
   /** Default component state */
   static DEFAULT_STATE = {
-    /** columns visibility map (no assertion on child columns keys) */
-    columnsVisibility: OrderListComponent.DEFAULT_COLUMNS_VISIBILITY,
+    /** columns visibility, not initialized to be matched againts display mode at initialization */
+    columnsVisibility: null,
     // enpoints rights management
     hasPauseResume: false,
     hasDeleteSuperficially: false,
@@ -112,6 +119,16 @@ export class OrderListContainer extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const oldState = this.state
     const newState = { ...(isEmpty(oldState) ? OrderListContainer.DEFAULT_STATE : oldState) }
+    // select default visible columns on display mode (mainly initialization)
+    if (oldProps.displayMode !== newProps.displayMode) {
+      if (newProps.displayMode === ORDER_DISPLAY_MODES.USER) {
+        newState.columnsVisibility = OrderListComponent.DEFAULT_USER_COLUMNS_VISIBILITY
+      } else {
+        newState.columnsVisibility = OrderListComponent.DEFAULT_ADMIN_COLUMNS_VISIBILITY
+      }
+    }
+
+    // update options state
     if (!isEqual(oldProps.availableEndpoints, newProps.availableEndpoints)) {
       newState.hasPauseResume = allMatchHateoasDisplayLogic(pauseResumeDependencies, newProps.availableEndpoints)
       newState.hasDeleteSuperficially = allMatchHateoasDisplayLogic(deleteSuperficiallyDependencies, newProps.availableEndpoints)
@@ -157,7 +174,8 @@ export class OrderListContainer extends React.Component {
 
   render() {
     const {
-      displayMode, ordersActions, ordersSelectors, navigationActions, isFetching, totalOrderCount,
+      children, displayMode, isFetching, totalOrderCount, navigationActions,
+      ordersRequestParameters, ordersActions, ordersSelectors,
     } = this.props
     const {
       columnsVisibility, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
@@ -194,6 +212,7 @@ export class OrderListContainer extends React.Component {
           hasDeleteSuperficially={hasDeleteSuperficially}
           hasPauseResume={hasPauseResume}
           onChangeColumnsVisibility={this.onChangeColumnsVisibility}
+          ordersRequestParameters={ordersRequestParameters}
           ordersActions={ordersActions}
           ordersSelectors={ordersSelectors}
           orderStateActions={orderStateActions}
@@ -201,7 +220,9 @@ export class OrderListContainer extends React.Component {
           onShowRequestFailedInformation={this.onShowRequestFailedInformation}
           onShowAsynchronousRequestInformation={this.onShowAsynchronousRequestInformation}
           onShowDeleteConfirmation={this.onShowDeleteConfirmation}
-        />
+        >
+          {HOCUtils.renderChildren(children)}
+        </OrderListComponent>
       </div>
     )
   }

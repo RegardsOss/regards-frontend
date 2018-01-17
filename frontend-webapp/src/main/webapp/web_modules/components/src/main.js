@@ -95,6 +95,7 @@ import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
 import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
 import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 import TableColumnsVisibilityOption from './table/options/TableColumnsVisibilityOption'
+import TableHeaderAutoCompleteFilter from './table/header/TableHeaderAutoCompleteFilter'
 import TableHeaderContentBox from './table/header/TableHeaderContentBox'
 import TableHeaderLine from './table/header/TableHeaderLine'
 import TableHeaderLineLoadingAndResults from './table/header/TableHeaderLineLoadingAndResults'
@@ -196,6 +197,7 @@ export {
   TableColumnConfiguration,
   TableColumnConfigurationController,
   TableColumnsVisibilityOption,
+  TableHeaderAutoCompleteFilter,
   TableHeaderContentBox,
   TableHeaderLine,
   TableHeaderLineLoadingAndResults,

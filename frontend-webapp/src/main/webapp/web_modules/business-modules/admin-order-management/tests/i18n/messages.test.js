@@ -16,19 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const messages = {
-  'user.board.tooltip.list': 'List',
-  'user.board.tooltip.add': 'Add',
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-  'user.board.project-user.description': 'View and manage project users and project access requests',
-  'user.board.project-user.title': 'Users',
+describe('[ADMIN MICROSERVICE MANAGEMENT] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-  'user.board.role.description': 'View and manage allowed functionalities by user role',
-  'user.board.role.title': 'Roles',
-
-  'user.board.orders.title': 'Orders',
-  'orders.board.orders.description': 'View and manage user orders on the project',
-
-}
-
-export default messages
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

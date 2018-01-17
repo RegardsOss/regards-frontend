@@ -15,20 +15,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-const messages = {
-  'user.board.tooltip.list': 'List',
-  'user.board.tooltip.add': 'Add',
+ */
+export default theme => ({
+  orderList: {
+    cardTextStyle: {
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+    clearFilterButton: {
+      style: {
+        width: undefined,
+        height: undefined,
+        padding: theme['module:order-history'].clearEmailFilterPadding,
+      },
+    },
+  },
+})
 
-  'user.board.project-user.description': 'View and manage project users and project access requests',
-  'user.board.project-user.title': 'Users',
-
-  'user.board.role.description': 'View and manage allowed functionalities by user role',
-  'user.board.role.title': 'Roles',
-
-  'user.board.orders.title': 'Orders',
-  'orders.board.orders.description': 'View and manage user orders on the project',
-
-}
-
-export default messages

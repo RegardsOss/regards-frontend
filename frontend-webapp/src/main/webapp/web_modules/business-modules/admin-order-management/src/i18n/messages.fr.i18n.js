@@ -16,19 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Locales } from '@regardsoss/form-utils'
+
 const messages = {
-  'user.board.tooltip.list': 'List',
-  'user.board.tooltip.add': 'Add',
+  'order.management.list.title': 'Commandes',
+  'order.management.list.subtitle': 'Liste des commandes en cours et terminées du projet',
+  'order.list.cancel.button': 'Annuler',
+  'order.list.filters.label': 'Filtrer les résulats',
+  'order.list.filter.by.email.hint': 'Utilisateur',
+  'order.list.clear.filter.tooltip': 'Effacer le filtre',
 
-  'user.board.project-user.description': 'View and manage project users and project access requests',
-  'user.board.project-user.title': 'Users',
-
-  'user.board.role.description': 'View and manage allowed functionalities by user role',
-  'user.board.role.title': 'Roles',
-
-  'user.board.orders.title': 'Orders',
-  'orders.board.orders.description': 'View and manage user orders on the project',
-
+  ...Locales.fr,
 }
 
 export default messages

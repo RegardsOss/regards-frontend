@@ -47,15 +47,6 @@ class OrderListActions extends BasicPageableActions {
       },
     })
   }
-
-  /**
-   * Returns an order page
-   * @param {*} pageNumber page number
-   * @param {*} size  page size
-   */
-  getOrdersPage(pageNumber, size) {
-    return this.fetchPagedEntityList(pageNumber, size)
-  }
 }
 
 export default OrderListActions

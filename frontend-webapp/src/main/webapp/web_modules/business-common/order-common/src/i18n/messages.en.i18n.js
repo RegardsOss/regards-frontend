@@ -34,6 +34,7 @@ const messages = {
   'order.list.admin.commands.header.message': '{count} order(s)',
   'order.list.user.no.command.header.message': 'You have no order',
   'order.list.user.commands.header.message': 'You have {count} order(s)',
+  'order.list.column.owner': 'User',
   'order.list.column.number': 'Number',
   'order.list.column.creation.date': 'Creation',
   'order.list.column.expiration.date': 'Expiration',
