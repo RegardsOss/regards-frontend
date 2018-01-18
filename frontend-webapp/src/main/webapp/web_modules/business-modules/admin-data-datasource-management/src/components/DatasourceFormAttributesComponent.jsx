@@ -27,10 +27,11 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
+import { IDBDatasourceParamsUtils, DATASOURCE_REFRESH_RATE } from '@regardsoss/domain/dam'
 import SelectField from 'material-ui/SelectField'
-import { DATASOURCE_REFRESH_RATE } from '@regardsoss/domain/dam'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
-import { findParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
+
+const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
 
 const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(128)]
 

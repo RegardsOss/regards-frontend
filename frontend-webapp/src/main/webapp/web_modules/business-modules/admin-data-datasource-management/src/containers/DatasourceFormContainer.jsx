@@ -25,6 +25,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
+import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
 import DatasourceFormAttributesContainer from './DatasourceFormAttributesContainer'
@@ -32,7 +33,8 @@ import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
 import { fragmentSelectors } from './../clients/FragmentClient'
 import messages from '../i18n'
-import { findParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
+
+const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
 
 const states = {
   FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',

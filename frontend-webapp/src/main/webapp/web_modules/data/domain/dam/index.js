@@ -31,6 +31,8 @@ import {
 
 import DATASOURCE_REFRESH_RATE from './DatasourceRefreshRate'
 
+import IDBDatasourceParamsUtils from './IDBDatasourceParamsUtils'
+
 module.exports = {
   getAbstractEntityDescription,
   getFullQualifiedAttributeName,
@@ -49,4 +51,6 @@ module.exports = {
   AttributeModelController,
 
   DATASOURCE_REFRESH_RATE,
+
+  IDBDatasourceParamsUtils,
 }
