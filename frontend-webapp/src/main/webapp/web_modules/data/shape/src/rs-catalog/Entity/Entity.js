@@ -44,6 +44,7 @@ const entityFields = {
   geometry: EntityGeoProperties,
   properties: PropTypes.object,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  containsPhysicalData: PropTypes.bool,
   // description file for collections and datasets only
   descriptionFile: PropTypes.shape({
     // URL: external URL file (cannot be present at same time than type)

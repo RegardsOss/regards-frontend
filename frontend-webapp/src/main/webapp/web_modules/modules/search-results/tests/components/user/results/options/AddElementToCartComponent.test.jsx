@@ -36,11 +36,26 @@ describe('[Search Results] Testing AddElementToCartComponent', () => {
   it('should exists', () => {
     assert.isDefined(AddElementToCartComponent)
   })
-  it('should render correctly', () => {
-    const props = { onAddToCart: () => { } }
+  it('should render correctly disabled', () => {
+    const props = {
+      canAddToCart: false,
+      onAddToCart: () => { },
+    }
     const enzymeWrapper = shallow(<AddElementToCartComponent {...props} />, { context })
     const iconButtonWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(iconButtonWrapper, 1, 'There should be a button')
     assert.equal(iconButtonWrapper.props().onTouchTap, props.onAddToCart, 'The callback should be correctly reported')
+    assert.isTrue(iconButtonWrapper.props().disabled, 'The action button should be disabled')
+  })
+  it('should render correctly enabled', () => {
+    const props = {
+      canAddToCart: true,
+      onAddToCart: () => { },
+    }
+    const enzymeWrapper = shallow(<AddElementToCartComponent {...props} />, { context })
+    const iconButtonWrapper = enzymeWrapper.find(IconButton)
+    assert.lengthOf(iconButtonWrapper, 1, 'There should be a button')
+    assert.equal(iconButtonWrapper.props().onTouchTap, props.onAddToCart, 'The callback should be correctly reported')
+    assert.isFalse(iconButtonWrapper.props().disabled, 'The action button should be enabled')
   })
 })

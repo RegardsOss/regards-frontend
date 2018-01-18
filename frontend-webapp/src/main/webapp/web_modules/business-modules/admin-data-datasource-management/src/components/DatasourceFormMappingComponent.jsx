@@ -33,7 +33,7 @@ import StaticAttributeList from './StaticAttributeList'
 import DatasourceFormMappingFromTableComponent from './DatasourceFormMappingFromTableComponent'
 import DatasourceFormMappingCustomComponent from './DatasourceFormMappingCustomComponent'
 import states from './FormMappingStates'
-import { findParam, hasParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
+import { findParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
 
 export class DatasourceFormMappingComponent extends React.Component {
   static propTypes = {
