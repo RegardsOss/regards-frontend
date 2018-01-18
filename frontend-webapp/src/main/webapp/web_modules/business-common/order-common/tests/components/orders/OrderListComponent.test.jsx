@@ -51,7 +51,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
       hasDeleteCompletely: true,
       hasDeleteSuperficially: true,
       hasPauseResume: true,
-      columnsVisibility: OrderListComponent.DEFAULT_COLUMNS_VISIBILITY,
+      columnsVisibility: OrderListComponent.DEFAULT_ADMIN_COLUMNS_VISIBILITY,
       onChangeColumnsVisibility: () => { },
       ordersActions: new OrderClient.OrderListActions('any', true),
       ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
@@ -73,7 +73,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
     assert.deepEqual(tableWrapper.props().pageSelectors, props.ordersSelectors, 'selectors should be correctly reported')
 
     const tableColumns = tableWrapper.props().columns
-    assert.lengthOf(tableColumns, values(OrderListComponent.DEFAULT_COLUMNS_VISIBILITY).length, 'All columns should be defined in default columns visibility')
+    assert.lengthOf(tableColumns, values(OrderListComponent.DEFAULT_ADMIN_COLUMNS_VISIBILITY).length, 'All columns should be defined in default columns visibility for mode')
   })
   it('should render correctly in USER mode', () => {
     const props = {
@@ -84,7 +84,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
       hasDeleteCompletely: false,
       hasDeleteSuperficially: false,
       hasPauseResume: false,
-      columnsVisibility: OrderListComponent.DEFAULT_COLUMNS_VISIBILITY,
+      columnsVisibility: OrderListComponent.DEFAULT_USER_COLUMNS_VISIBILITY,
       onChangeColumnsVisibility: () => { },
       ordersActions: new OrderClient.OrderListActions('any', false),
       ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
@@ -104,6 +104,9 @@ describe('[Order Common] Testing OrderListComponent', () => {
     assert.lengthOf(tableWrapper, 1, 'There should be an infinite table')
     assert.deepEqual(tableWrapper.props().pageActions, props.ordersActions, 'actions should be correctly reported')
     assert.deepEqual(tableWrapper.props().pageSelectors, props.ordersSelectors, 'selectors should be correctly reported')
+
+    const tableColumns = tableWrapper.props().columns
+    assert.lengthOf(tableColumns, values(OrderListComponent.DEFAULT_USER_COLUMNS_VISIBILITY).length, 'All columns should be defined in default columns visibility for mode')
   })
   it('should retrieve correctly data from entities', () => {
     values(SOME_ORDERS.content).forEach((order) => {

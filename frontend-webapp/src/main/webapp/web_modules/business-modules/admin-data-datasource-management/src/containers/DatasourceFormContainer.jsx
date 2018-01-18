@@ -32,7 +32,7 @@ import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
 import { fragmentSelectors } from './../clients/FragmentClient'
 import messages from '../i18n'
-import { findParam, hasParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
+import { findParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
 
 const states = {
   FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',
@@ -188,7 +188,7 @@ export class DatasourceFormContainer extends React.Component {
             },
             {
               name: IDBDatasourceParamsEnum.REFRESH_RATE,
-              value: values.refreshRate,
+              value: parseInt(values.refreshRate, 10),
               dynamic: false,
               dynamicsValues: [],
             },
@@ -207,7 +207,7 @@ export class DatasourceFormContainer extends React.Component {
       // Add the refresh rate
       parametersWithNewRefreshRate.push({
         name: IDBDatasourceParamsEnum.REFRESH_RATE,
-        value: values.refreshRate,
+        value: parseInt(values.refreshRate, 10),
         dynamic: false,
         dynamicsValues: [],
       })

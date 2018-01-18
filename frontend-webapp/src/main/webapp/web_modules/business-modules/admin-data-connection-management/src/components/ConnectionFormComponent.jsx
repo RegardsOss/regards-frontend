@@ -29,8 +29,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 
-const minPoolSizeValidators = [ValidationHelpers.validRequiredNumber, ValidationHelpers.moreThan(3)]
-
 /**
  * React component to list connections.
  */
@@ -97,12 +95,6 @@ export class ConnectionFormComponent extends React.Component {
             break
           case 'dbName':
             initialValues.dbName = parameter.value
-            break
-          case 'maxPoolSize':
-            initialValues.maxPoolSize = parameter.value
-            break
-          case 'minPoolSize':
-            initialValues.minPoolSize = parameter.value
             break
           default:
             break
@@ -203,22 +195,6 @@ export class ConnectionFormComponent extends React.Component {
               validate={ValidationHelpers.validRequiredString}
               normalize={trim}
             />
-            <Field
-              name="minPoolSize"
-              fullWidth
-              component={RenderTextField}
-              type="number"
-              label={this.context.intl.formatMessage({ id: 'connection.form.minPoolSize' })}
-              validate={minPoolSizeValidators}
-            />
-            <Field
-              name="maxPoolSize"
-              fullWidth
-              component={RenderTextField}
-              type="number"
-              label={this.context.intl.formatMessage({ id: 'connection.form.maxPoolSize' })}
-              validate={ValidationHelpers.validRequiredNumber}
-            />
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -246,9 +222,6 @@ function validate(values) {
     // Workaround for redux form bug initial validation:
     // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
     return errors
-  }
-  if (parseInt(values.maxPoolSize, 10) < parseInt(values.minPoolSize, 10)) {
-    errors.maxPoolSize = 'invalid.maxPoolSizeGreaterThanMinPoolSize'
   }
   if (!values.pluginClassName) {
     errors.pluginClassName = ErrorTypes.REQUIRED
