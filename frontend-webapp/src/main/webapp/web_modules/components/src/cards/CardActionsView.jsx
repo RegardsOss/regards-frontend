@@ -77,7 +77,7 @@ class CardActionsView extends React.Component {
         }
         {
           // primary if any
-          (this.props.mainButtonUrl || this.props.mainButtonTouchTap) &&
+          (this.props.mainButtonUrl || this.props.mainButtonTouchTap || this.props.mainButtonType) &&
             this.props.isMainButtonVisible ? (
               <MainActionButtonComponentWithResourceDisplayControl
                 resourceDependencies={this.props.mainHateoasDependencies}

@@ -162,7 +162,11 @@ export class AttributeModelFormComponent extends React.Component {
    * @param input
    */
   handleChange = (event, index, value, input) => {
+    // save the new type of attribute
     input.onChange(value)
+    // Remove any restriction already set up
+    this.props.change('restriction', null)
+    // Fetch corresponding restrictions
     this.props.handleUpdateAttributeModelRestriction(value)
   }
 

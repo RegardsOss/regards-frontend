@@ -45,7 +45,7 @@ const messages = Object.assign({
   'model.form.name': 'Nom',
   'model.form.description': 'Description',
   'model.form.type': 'Type',
-  'model.form.file': 'Ou envoyez un fichier XML contenant le modèle, ses fragments et ses attributs',
+  'model.form.file': 'Ou envoyer un fichier XML contenant le modèle, ses fragments et ses attributs',
   'model.form.action.cancel': 'Annuler',
   'model.form.action.submit': 'Sauvegarder',
 
