@@ -73,7 +73,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
     const props = {
       readNotifications: [],
       unreadNotifications: [],
-      newNotifications: [],
+      registerNotify: () => {},
       readNotification: () => {},
       readAllNotifications: () => {},
     }
@@ -103,7 +103,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
     const props = {
       readNotifications: generateNotifications('READ', 2),
       unreadNotifications: [],
-      newNotifications: [],
+      registerNotify: () => {},
       readNotification: () => {},
       readAllNotifications: () => {},
     }
@@ -140,7 +140,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
     const props = {
       readNotifications: generateNotifications('READ', 2),
       unreadNotifications: generateNotifications('UNREAD', 2, 2),
-      newNotifications: [],
+      registerNotify: () => {},
       readNotification: () => {},
       readAllNotifications: () => {},
     }

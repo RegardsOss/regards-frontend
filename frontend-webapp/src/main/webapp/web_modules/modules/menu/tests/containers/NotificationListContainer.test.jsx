@@ -119,9 +119,9 @@ describe('[Menu] Testing NotificationListContainer', () => {
       'Container should provide read notification method',
     )
     assert.equal(
-      componentWrapper.props().newNotifications,
-      enzymeWrapper.instance().newNotifications,
-      'Container should provide new notificatoins array',
+      componentWrapper.props().registerNotify,
+      enzymeWrapper.instance().registerNotify,
+      'Container should provide register notify method',
     )
   })
 
@@ -168,9 +168,15 @@ describe('[Menu] Testing NotificationListContainer', () => {
       context,
     })
 
-    assert.lengthOf(
-      enzymeWrapper.instance().newNotifications,
-      0,
+    // register a notify method which simply increment a variable
+    enzymeWrapper.instance().registerNotify((notification) => {
+      enzymeWrapper.instance().newNotifCount = enzymeWrapper.instance().newNotifCount
+        ? (enzymeWrapper.instance().newNotifCount += 1)
+        : 1
+    })
+
+    assert.isUndefined(
+      enzymeWrapper.instance().newNotifCount,
       "Container shouln't find any new notification",
     )
 
@@ -181,8 +187,8 @@ describe('[Menu] Testing NotificationListContainer', () => {
     // add 4 because the first one will be equal to the one already in props
     enzymeWrapper.instance().componentWillReceiveProps({ notifications: getNotifications(4, 1) })
 
-    assert.lengthOf(
-      enzymeWrapper.instance().newNotifications,
+    assert.equal(
+      enzymeWrapper.instance().newNotifCount,
       3,
       'Container should find 3 new notifications',
     )
