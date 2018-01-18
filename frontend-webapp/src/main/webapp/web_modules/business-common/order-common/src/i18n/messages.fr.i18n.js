@@ -66,7 +66,7 @@ const messages = {
   'order.list.cell.status.UNKNOWN.text': 'inconnu',
   'order.list.cell.status.UNKNOWN.tooltip': 'L\'état de cette commande est inconnu',
   'order.list.cell.status.WAITING_USER_DOWNLOAD.text': 'attente utilisateur',
-  'order.list.cell.status.WAITING_USER_DOWNLOAD.tooltip': 'La commande est en attente de téléchargement - son espace de stockage est actuellement rempli',
+  'order.list.cell.status.WAITING_USER_DOWNLOAD.tooltip': 'La commande est en attente. Veuillez télécharger les données pour qu\'elle puisse continuer',
   'order.list.option.cell.download.title': 'Télécharger...',
   'order.list.option.cell.download.zip.tooltip': 'Télécharger les fichiers disponibles de la commande en ZIP',
   'order.list.option.cell.download.metalink.tooltip': 'Télécharger le fichier metalink de la commande',
