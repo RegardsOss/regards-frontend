@@ -66,7 +66,7 @@ const messages = {
   'order.list.cell.status.UNKNOWN.text': 'unkown',
   'order.list.cell.status.UNKNOWN.tooltip': 'Order status is unknown',
   'order.list.cell.status.WAITING_USER_DOWNLOAD.text': 'waiting user',
-  'order.list.cell.status.WAITING_USER_DOWNLOAD.tooltip': 'Order is waiting for user download - its storage space is now full',
+  'order.list.cell.status.WAITING_USER_DOWNLOAD.tooltip': 'Order is waiting. Please download data so that it can continue',
   'order.list.option.cell.download.title': 'Download...',
   'order.list.option.cell.download.zip.tooltip': 'Download available order files as zip',
   'order.list.option.cell.download.metalink.tooltip': 'Download order metalink file',
