@@ -18,6 +18,7 @@
  **/
 
 import filter from 'lodash/filter'
+import forEach from 'lodash/forEach'
 import find from 'lodash/find'
 import { AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
@@ -65,11 +66,12 @@ export class NotificationListContainer extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (Object.keys(this.props.notifications).length > 0) {
-      this.newNotifications = filter(
-        nextProps.notifications,
-        el => !find(this.props.notifications, o => o.id === el.id) && el.status === 'UNREAD',
-      )
+    if (Object.keys(this.props.notifications).length > 0 && !!this.notify) {
+      forEach(nextProps.notifications, (notif) => {
+        if (!find(this.props.notifications, o => o.id === notif.id) && notif.status === 'UNREAD') {
+          this.notify(notif)
+        }
+      })
     }
   }
 
@@ -100,6 +102,10 @@ export class NotificationListContainer extends React.Component {
     }
   }
 
+  registerNotify = (notify) => {
+    this.notify = notify
+  }
+
   render() {
     this.unreadNotifications = filter(this.props.notifications, notif => notif.status === 'UNREAD')
     this.readNotifications = filter(this.props.notifications, notif => notif.status === 'READ')
@@ -111,7 +117,7 @@ export class NotificationListContainer extends React.Component {
           readNotifications={this.readNotifications}
           readAllNotifications={this.readAllNotifications}
           readNotification={this.readNotification}
-          newNotifications={this.newNotifications}
+          registerNotify={this.registerNotify}
         />
       </ShowableAtRender>
     )

@@ -205,6 +205,13 @@ const menuStyles = theme => ({
         titleStyle: {
           fontWeight: 'bold',
           marginBottom: 3,
+          maxWidth: 190,
+        },
+        dateStyle: {
+          position: 'absolute',
+          top: 7,
+          right: 7,
+          fontSize: '0.8en',
         },
       },
       style: {

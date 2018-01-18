@@ -47,7 +47,7 @@ class NotificationListComponent extends React.Component {
   static propTypes = {
     readNotifications: AdminShapes.NotificationArray,
     unreadNotifications: AdminShapes.NotificationArray,
-    newNotifications: AdminShapes.NotificationArray,
+    registerNotify: PropTypes.func,
     readNotification: PropTypes.func,
     readAllNotifications: PropTypes.func,
   }
@@ -64,54 +64,25 @@ class NotificationListComponent extends React.Component {
     this.state = {}
   }
 
-  componentWillUpdate = () => {
-    if (this.props.newNotifications) {
-      const {
-        moduleTheme: { notifications: { notificationSystem: notificationSystemStyle } },
-      } = this.context
-      const levels = {
-        FATAL: 'error',
-        ERROR: 'warning',
-        INFO: 'info',
-      }
-      this.props.newNotifications.forEach((notif) => {
-        this.notificationSystem.addNotification({
-          message: (
-            <div
-              style={notificationSystemStyle.message.style}
-              onClick={() => this.handleOpen(notif)}
-            >
-              {this.renderAvatar(notif.type)}
-              <div>
-                <div style={notificationSystemStyle.message.titleStyle}>{notif.title}</div>
-                <div>{notif.message}</div>
-              </div>
-            </div>
-          ),
-          level: levels[notif.type],
-          position: 'br',
-          dismissible: false,
-          autoDismiss: 0,
-        })
-      })
-    }
+  componentDidMount() {
+    this.props.registerNotify(this.notify)
   }
 
   /**
    * Gives a formatted date from a notification
    * @param notif notification
    */
-  getFormattedDate = (notif) => {
+  getFormattedDate = (nDate) => {
     const date = new Date()
-    const notifDate = new Date(notif.date)
+    const notifDate = new Date(nDate)
     const isSameYear = date.getFullYear() === notifDate.getFullYear()
     return date.getDate() === notifDate.getDate() &&
       date.getMonth() === notifDate.getMonth() &&
       date.getFullYear() === notifDate.getFullYear() ? (
-        <FormattedDate value={notif.date} hour="2-digit" minute="2-digit" />
+        <FormattedDate value={nDate} hour="2-digit" minute="2-digit" />
       ) : (
         <FormattedDate
-          value={notif.date}
+          value={nDate}
           year={isSameYear ? undefined : '2-digit'}
           month="short"
           day="numeric"
@@ -119,6 +90,35 @@ class NotificationListComponent extends React.Component {
           minute="2-digit"
         />
       )
+  }
+
+  notify = (notif) => {
+    const {
+      moduleTheme: { notifications: { notificationSystem: notificationSystemStyle } },
+    } = this.context
+    const levels = {
+      FATAL: 'error',
+      ERROR: 'warning',
+      INFO: 'info',
+    }
+    this.notificationSystem.addNotification({
+      message: (
+        <div role="presentation" style={notificationSystemStyle.message.style} onClick={() => this.handleOpen(notif)}>
+          {this.renderAvatar(notif.type)}
+          <div>
+            <div style={notificationSystemStyle.message.titleStyle}>{notif.title}</div>
+            <div>{notif.message}</div>
+            <div style={notificationSystemStyle.message.dateStyle}>
+              {this.getFormattedDate(notif.date)}
+            </div>
+          </div>
+        </div>
+      ),
+      level: levels[notif.type],
+      position: 'br',
+      dismissible: false,
+      autoDismiss: 7,
+    })
   }
 
   handleOpen = (notification) => {
@@ -200,7 +200,7 @@ class NotificationListComponent extends React.Component {
             leftAvatar={this.renderAvatar(notif.type)}
             rightIconButton={
               <div style={notificationStyle.list.item.dateStyle}>
-                {this.getFormattedDate(notif)}
+                {this.getFormattedDate(notif.date)}
               </div>
             }
             primaryText={notif.title}
@@ -234,7 +234,7 @@ class NotificationListComponent extends React.Component {
               avatar={this.renderAvatar(this.state.openedNotification.type)}
             />
             <div style={dialog.details.date.style}>
-              {this.getFormattedDate(this.state.openedNotification)}
+              {this.getFormattedDate(this.state.openedNotification.date)}
             </div>
             <CardText>Message: {this.state.openedNotification.message}</CardText>
             <CardActions style={dialog.details.actions.style}>
