@@ -18,11 +18,13 @@
  **/
 import forEach from 'lodash/forEach'
 import has from 'lodash/has'
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
+import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
 import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetFormAttributesComponent from '../components/DatasetFormAttributesComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
@@ -77,7 +79,7 @@ export class DatasetFormAttributesContainer extends React.Component {
   }
 
   onSubmit = (values) => {
-    const datasourceObjectModelId = this.props.currentDatasource.content.mapping.model
+    const datasourceObjectModelId = get(IDBDatasourceParamsUtils.findParam(this.props.currentDatasource, IDBDatasourceParamsUtils.IDBDatasourceParamsEnum.MODEL), 'value.model')
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
     this.props.handleSave(values.label, values.geometry, values.model, properties, datasourceObjectModelId, values.descriptionFileContent, values.descriptionUrl)
   }

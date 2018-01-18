@@ -91,7 +91,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
               {map(datasourceList, (datasource, id) => (
                 <MenuItem
                   className={`selenium-pickDatasource-${datasource.content.label}`}
-                  value={datasource.content.pluginConfigurationId}
+                  value={datasource.content.id}
                   key={id}
                   primaryText={datasource.content.label}
                 />
