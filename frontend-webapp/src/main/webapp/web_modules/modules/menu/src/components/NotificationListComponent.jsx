@@ -34,7 +34,7 @@ import Divider from 'material-ui/Divider/Divider'
 import map from 'lodash/map'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import { AdminShapes } from '@regardsoss/shape'
-import ReactMaterialUiNotifications from 'react-materialui-notifications'
+import NotificationSystem from 'react-notification-system'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { CardHeader, CardText, CardActions } from 'material-ui/Card'
@@ -66,17 +66,32 @@ class NotificationListComponent extends React.Component {
 
   componentWillUpdate = () => {
     if (this.props.newNotifications) {
+      const {
+        moduleTheme: { notifications: { notificationSystem: notificationSystemStyle } },
+      } = this.context
+      const levels = {
+        FATAL: 'error',
+        ERROR: 'warning',
+        INFO: 'info',
+      }
       this.props.newNotifications.forEach((notif) => {
-        ReactMaterialUiNotifications.showNotification({
-          title: notif.title,
-          additionalText: notif.message,
-          icon: this.renderAvatar(notif.type),
-          onClick: () => this.handleOpen(notif),
-          timestamp: this.getFormattedDate(notif),
-          autoHide: 7000,
-          style: {
-            maxWidth: 325,
-          },
+        this.notificationSystem.addNotification({
+          message: (
+            <div
+              style={notificationSystemStyle.message.style}
+              onClick={() => this.handleOpen(notif)}
+            >
+              {this.renderAvatar(notif.type)}
+              <div>
+                <div style={notificationSystemStyle.message.titleStyle}>{notif.title}</div>
+                <div>{notif.message}</div>
+              </div>
+            </div>
+          ),
+          level: levels[notif.type],
+          position: 'br',
+          dismissible: false,
+          autoDismiss: 0,
         })
       })
     }
@@ -107,6 +122,7 @@ class NotificationListComponent extends React.Component {
   }
 
   handleOpen = (notification) => {
+    this.notificationSystem.clearNotifications()
     if (this.state.openedNotification) {
       if (notification.id !== this.state.openedNotification.id) {
         this.props.readNotification(this.state.openedNotification)
@@ -283,7 +299,12 @@ class NotificationListComponent extends React.Component {
           </div>
         </IconButton>
         {this.renderNotificationDialog()}
-        <ReactMaterialUiNotifications maxNotifications={5} transitionAppear transitionLeave />
+        <NotificationSystem
+          ref={(ref) => {
+            this.notificationSystem = ref
+          }}
+          style={notificationStyle.notificationSystem.style}
+        />
       </div>
     )
   }

@@ -191,6 +191,42 @@ const menuStyles = theme => ({
         },
       },
     },
+    notificationSystem: {
+      message: {
+        style: {
+          paddingTop: 10,
+          paddingBottom: 10,
+          minHeight: 40,
+          width: '100%',
+          cursor: 'pointer',
+          display: 'grid',
+          gridTemplateColumns: '50px 1fr',
+        },
+        titleStyle: {
+          fontWeight: 'bold',
+          marginBottom: 3,
+        },
+      },
+      style: {
+        NotificationItem: {
+          DefaultStyle: {
+            fontFamily: theme.fontFamily,
+            maxHeight: 100,
+            overflow: 'hidden',
+            backgroundColor: theme.palette.canvasColor,
+            color: theme.palette.textColor,
+            textAlign: 'left',
+            paddingTop: 0,
+            paddingBottom: 0,
+          },
+        },
+        Dismiss: {
+          DefaultStyle: {
+            display: 'none',
+          },
+        },
+      },
+    },
   },
 })
 
