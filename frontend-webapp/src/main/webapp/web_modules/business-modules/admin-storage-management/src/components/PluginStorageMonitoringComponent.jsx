@@ -16,7 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Card, CardActions } from 'material-ui/Card'
+import { browserHistory } from 'react-router'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { CardActionsComponent } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
+import messages from '../i18n'
 
 /**
 * Component used to load the regardsoss-modules/storage-monitoring module into the admin app.
@@ -30,8 +35,21 @@ export class PluginStorageMonitoringComponent extends React.Component {
     }),
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  /**
+   * @return back URL
+   */
+  onBack = () => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/board`)
+  }
+
   render() {
     const { params: { project } } = this.props
+    const { intl } = this.context
     const resultsConfiguration = {
       type: modulesManager.AllDynamicModuleTypes.STORAGE_MONITORING,
       active: true,
@@ -40,12 +58,20 @@ export class PluginStorageMonitoringComponent extends React.Component {
     }
 
     return (
-      <LazyModuleComponent
-        project={project}
-        appName="admin"
-        module={resultsConfiguration}
-      />
+      <Card>
+        <LazyModuleComponent
+          project={project}
+          appName="admin"
+          module={resultsConfiguration}
+        />
+        <CardActions>
+          <CardActionsComponent
+            mainButtonLabel={intl.formatMessage({ id: 'storage.back.button' })}
+            mainButtonTouchTap={this.onBack}
+          />
+        </CardActions>
+      </Card>
     )
   }
 }
-export default PluginStorageMonitoringComponent
+export default withI18n(messages)(PluginStorageMonitoringComponent)
