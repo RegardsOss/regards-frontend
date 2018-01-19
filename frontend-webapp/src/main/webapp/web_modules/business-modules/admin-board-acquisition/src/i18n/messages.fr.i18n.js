@@ -43,6 +43,7 @@ const messages = {
   'data.board.storage.description': 'Cette section vous permet de configurer un ou plusieurs espaces de stockage des données ainsi que la stratégie de répartition que le système utilisera.',
   'data.board.action.storages.tooltip': 'Espaces de sockages',
   'data.board.action.allocations.tooltip': 'Stratégies de répartition',
+  'data.board.action.monitoring.tooltip': 'Taux d\'occupation des espaces de stockages',
 }
 
 export default messages
