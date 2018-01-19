@@ -19,7 +19,7 @@
 import { FormattedMessage } from 'react-intl'
 import MenuItem from 'material-ui/MenuItem'
 import LinearScale from 'material-ui/svg-icons/editor/linear-scale'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { DropDownButton } from '@regardsoss/components'
 import { storage } from '@regardsoss/units'
 
@@ -70,4 +70,5 @@ class ScaleSelectorComponent extends React.Component {
     )
   }
 }
-export default ScaleSelectorComponent
+// add storage i18n context to internationalize scales
+export default withI18n(storage.messages, true)(ScaleSelectorComponent)

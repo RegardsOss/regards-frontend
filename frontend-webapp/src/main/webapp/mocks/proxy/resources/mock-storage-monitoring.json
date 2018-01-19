@@ -3,65 +3,35 @@
     "confId": 1,
     "label": "ServerHDD",
     "description": "Main server hard drives",
-    "storageInfo": [
-      {
-        "storagePhysicalId": "Drive Z",
-        "totalSize": "25To",
-        "usedSize": "0.9To"
-      },
-      {
-        "storagePhysicalId": "Drive /opt",
-        "totalSize": "12.5To",
-        "usedSize": "8To"
-      }
-    ]
+    "totalSize": "25To",
+    "usedSize": "0.9To"
   },
   {
     "confId": 2,
     "label": "STAFF",
     "description": "STAFF storage engine",
-    "storageInfo": [
-      {
-        "storagePhysicalId": "A staff archive",
-        "totalSize": "1500tib",
-        "usedSize": "152.85666tib"
-      }
-    ]
+    "totalSize": "1500tib",
+    "usedSize": "152.85666tib"
   },
   {
     "confId": 3,
     "label": "Emergency server HDD",
     "description": "DB Storage with postgreSQL",
-    "storageInfo": [
-      {
-        "storagePhysicalId": "/tmp",
-        "totalSize": "500To",
-        "usedSize": "0b"
-      }
-    ]
+    "totalSize": "12.5To",
+    "usedSize": "8To"
   },
   {
     "confId": 4,
     "label": "FLUT",
     "description": "FLUT - External safe cloud storage",
-    "storageInfo": [
-      {
-        "storagePhysicalId": "The FLUT Quantic drive",
-        "totalSize": "0.5Po",
-        "usedSize": "0boot"
-      }
-    ]
+    "totalSize": "0.5Po",
+    "usedSize": "0boot"
   },
   {
     "confId": 5,
     "label": "Strange plugin",
     "description": "A strange storage plugin with wrong formats",
-    "storageInfo": [
-      {
-        "storagePhysicalId": "Extraterrestrial chrystal drives",
-        "totalSize": "8Txxo",
-        "usedSize": "ddOp"
-      }
-    ]
+    "totalSize": "8Txxo",
+    "usedSize": "ddOp"
   }
 ]

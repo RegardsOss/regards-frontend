@@ -20,7 +20,8 @@ import { FormattedMessage } from 'react-intl'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import messages from './i18n'
 import { StorageCapacityShape } from './StorageCapacity'
-import { StorageUnits } from './StorageUnit'
+import formatStorageCapacity from './formatStorageCapacity'
+
 
 /**
 * Format storage capacity as a react component (react-intl style)
@@ -35,41 +36,10 @@ export class FormattedStorageCapacity extends React.Component {
     ...i18nContextType,
   }
 
-  /** Big units format options (not for bits and bytes) */
-  static BIG_UNITS_FORMAT_OPTIONS = {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }
-
-  /** Small units format options (bits and bytes) */
-  static SMALL_UNITS_FORMAT_OPTIONS = {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }
-
-  static SMALL_UNITS = [StorageUnits.BIT.symbol, StorageUnits.BYTE.symbol]
-
   render() {
     const { capacity } = this.props
     const { intl: { formatMessage, formatNumber } } = this.context
-
-    const formatProperties = {
-      id: 'storage.capacity.monitoring.capacity.unknown',
-    }
-    if (capacity) {
-      formatProperties.id = 'storage.capacity.monitoring.capacity'
-      // unit
-      const unitLabel = formatMessage({ id: capacity.unit.messageKey })
-      // value: when bytes or bits, format without digits
-      const valueLabel = formatNumber(
-        capacity.value,
-        FormattedStorageCapacity.SMALL_UNITS.includes(capacity.unit.symbol) ? FormattedStorageCapacity.SMALL_UNITS : FormattedStorageCapacity.BIG_UNITS_FORMAT_OPTIONS,
-      )
-      formatProperties.values = { valueLabel, unitLabel }
-    }
-    return (
-      <FormattedMessage {...formatProperties} />
-    )
+    return formatStorageCapacity(formatMessage, formatNumber, capacity)
   }
 }
 

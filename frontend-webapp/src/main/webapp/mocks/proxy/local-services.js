@@ -327,7 +327,7 @@ function buildLocalServices(gatewayURL) {
   return {
     GET: {
       // Mock: add missing dependencies
-      // proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
+      proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
       // proxyQuicklook: { url: 'rs-access-project/dataobjects/search', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-access-project/dataobjects/search`, addQuicklook) },
       // getBasket: { url: 'rs-order/order/basket', handler: getBasket },
       // getSessions: {
