@@ -97,7 +97,7 @@ class ActionsMenuCell extends React.Component {
 }
 
 ActionsMenuCell.propTypes = {
-  breakpoints: PropTypes.arrayOf(PropTypes.number).isRequired,
+  breakpoints: PropTypes.arrayOf(PropTypes.number),
   children: PropTypes.node,
 }
 

@@ -18,13 +18,13 @@ export default theme => ({
     body: { padding: '0', overflowY: 'none' },
     card: {
       style: {
-        height: '100%',
-        boxShadow: 'none',
-        borderWidth: '0 0 1px 0',
-        borderColor: theme.toolbar.separatorColor,
-        borderStyle: 'solid',
+        ...growingFlexElement,
+        ...verticalLayout,
       },
-      containerStyle: { height: '100%', ...verticalLayout },
+      containerStyle: {
+        ...growingFlexElement,
+        ...verticalLayout,
+      },
       titleStyle: fixedFlexElement,
       media: {
         rootStyle: growingVerticalLayout,
@@ -45,6 +45,26 @@ export default theme => ({
             },
             descriptionTab: {
               rootStyle: growingFlexElement,
+            },
+            quicklook: {
+              imageContainerZoomOut: {
+                display: 'flex',
+                justifyContent: 'center',
+                maxHeight: '100%',
+                cursor: 'zoom-in',
+              },
+              imageContainerZoomIn: {
+                cursor: 'zoom-out',
+                overflow: 'auto',
+              },
+              imageZoomOut: {
+                maxHeight: '100%',
+                objectFit: 'contain',
+              },
+              imageZoomIn: {
+                display: 'block',
+                margin: 'auto',
+              },
             },
             propertiesTab: {
               rootStyle: {
@@ -78,6 +98,11 @@ export default theme => ({
                 documentsRootStyle: {
                   flexGrow: 1,
                   height: '100%',
+                },
+                horizontalAreaSeparator: {
+                  flexGrow: 0,
+                  minHeight: 1,
+                  backgroundColor: theme.toolbar.separatorColor,
                 },
                 scrollArea: {
                   ...fixedFlexElement,
@@ -132,8 +157,8 @@ export default theme => ({
       padding: '0',
     },
     contentStyles: {
-      width: '100%',
-      height: '100%',
+      flexGrow: 1,
+      flexShrink: 1,
     },
   },
 })

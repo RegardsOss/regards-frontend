@@ -85,7 +85,6 @@ export class DatasetFormAttributesComponent extends React.Component {
       }
     }
     this.state = {
-      isCreating,
       showDescriptionMode,
       disableNoDescription,
       isDisplayAttributeValue: !isCreating,

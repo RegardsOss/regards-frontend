@@ -3,6 +3,7 @@
 **/
 import { connect } from '@regardsoss/redux'
 import { CatalogShapes } from '@regardsoss/shape'
+import { descriptionLevelModel } from '@regardsoss/entities-common'
 import { descriptionLevelActions } from '../../model/description/DescriptionLevelModel'
 import ItemLink from '../../components/user/ItemLink'
 
@@ -71,7 +72,7 @@ export class ItemLinkContainer extends React.Component {
    */
   onDescriptionClicked = () => {
     const { dispatchShowDescription, entity } = this.props
-    dispatchShowDescription(entity)
+    dispatchShowDescription(entity, descriptionLevelModel.DescriptionLevelActions.TABS_ENUM.PROPERTIES)
   }
 
   getNewState = (locked, selected, hover) => {

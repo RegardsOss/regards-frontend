@@ -36,7 +36,16 @@ const allRules = {
   // eslint reconfiguration for operators + and -
   'no-mixed-operators': ['error', { allowSamePrecedence: true }],
   // Do not force array destructuration
-  'prefer-destructuring': ['error', { object: true, array: false }],
+  'prefer-destructuring': ['error', {
+    VariableDeclarator: {
+      array: false,
+      object: true,
+    },
+    AssignmentExpression: {
+      array: false,
+      object: false,
+    },
+  }],
   // let newlines allowed after parenthesis (better for react elements alignment)
   'function-paren-newline': 0,
 
@@ -103,6 +112,13 @@ const allRules = {
   // We do not always return a promise on react component since most of the time nobody consumes them
   'promise/catch-or-return': 0,
   'promise/always-return': 0,
+
+  // Disabling inaccurate jsx ally rules for REGARDS
+  'jsx-a11y/anchor-is-valid': 0,
+  'jsx-a11y/mouse-events-have-key-events': 0,
+  'jsx-a11y/click-events-have-key-events': 0,
+  'jsx-a11y/no-static-element-interactions': 0,
+  'jsx-a11y/label-has-for': 0, // bugged
 }
 
 module.exports = {

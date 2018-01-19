@@ -49,6 +49,7 @@ export class DownloadOrderFilesAsZipContainer extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line camelcase
     const { entity: { content: { id, availableFilesCount = 0, waitingForUser = false } }, authentication: { result: { access_token } } } = this.props
     return (
       <DownloadOrderFilesAsZipComponent

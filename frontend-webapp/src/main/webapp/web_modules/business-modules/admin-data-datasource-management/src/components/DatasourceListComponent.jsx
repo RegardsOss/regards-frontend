@@ -82,7 +82,7 @@ export class DatasourceListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.content.pluginConfigurationId)
+            this.props.handleDelete(this.state.entityToDelete.content.id)
           }}
           onClose={this.closeDeleteDialog}
           title={title}
@@ -137,7 +137,7 @@ export class DatasourceListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={datasource.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onTouchTap={() => handleEdit(datasource.content.pluginConfigurationId)}
+                        onTouchTap={() => handleEdit(datasource.content.id)}
                         title={intl.formatMessage({ id: 'datasource.list.action.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />

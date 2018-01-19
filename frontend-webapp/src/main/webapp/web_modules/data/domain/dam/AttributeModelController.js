@@ -173,7 +173,7 @@ function getAttributeModelFullLabel(attribute) {
 
   if (attributeLabel) {
     fullAttributeLabel = `${fullAttributeLabel}${attributeLabel}`
-  } else if (name) {
+  } else if (attributeName) {
     fullAttributeLabel = `${fullAttributeLabel}${attributeName}`
   } else {
     fullAttributeLabel = `${fullAttributeLabel}undefined`

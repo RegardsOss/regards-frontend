@@ -28,7 +28,7 @@ export class OrderDatasetsContainer extends React.Component {
   static propTypes = {
     // currently selected order
     order: OrderShapes.OrderWithContent,
-    // orders navigation actions (for sub containers)
+    // orders navigation actions (for sub containers), provided only when navigation is enabled
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
   }
 

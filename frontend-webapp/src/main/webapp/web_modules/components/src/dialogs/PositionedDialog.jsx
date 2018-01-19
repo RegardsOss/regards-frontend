@@ -5,6 +5,9 @@ import root from 'window-or-global'
 import get from 'lodash/get'
 import Dialog from 'material-ui/Dialog'
 import { CommonShapes } from '@regardsoss/shape'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { HOCUtils } from '@regardsoss/display-control'
+import styles from './styles'
 
 
 /**
@@ -23,11 +26,15 @@ class PositionedDialog extends React.Component {
     maxHeight: PropTypes.number,
     dialogHeightPercent: CommonShapes.Percent.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
+    bodyStyle: PropTypes.object, // allows locally overriding the styles
+    // eslint-disable-next-line react/forbid-prop-types
     contentStyle: PropTypes.object, // allows locally overriding the styles
+    // eslint-disable-next-line react/forbid-prop-types
+    actionsContainerStyle: PropTypes.object, // allows locally overriding the styles
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
-    ]).isRequired,
+    ]),
   }
 
   static defaultProps = {
@@ -35,6 +42,10 @@ class PositionedDialog extends React.Component {
     maxWidth: Number.MAX_VALUE,
     minHeight: PositionedDialog.DEFAULT_MIN_HEIGHT,
     maxHeight: Number.MAX_VALUE,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   componentWillMount = () => this.updateDimensions()
@@ -86,32 +97,38 @@ class PositionedDialog extends React.Component {
     const { contentStyle = {} } = this.props
     const { width, height } = this.getDialogDimensions()
     this.setState({
-      contentStyle: {
+      layoutStyle: {
         width,
-        maxWidth: 'none',
-        ...contentStyle,
-      },
-      rootContainerStyle: {
-        position: 'relative',
-        width: '100%',
+        maxWidth: width,
         height,
+        ...contentStyle,
       },
     })
   }
 
   render() {
-    const { children, ...dialogProperties } = this.props
-    const { contentStyle, rootContainerStyle } = this.state
+    const {
+      children, bodyStyle: userBodyStyle = {}, actionsContainerStyle: userActionsContainerStyle = {}, ...dialogProperties
+    } = this.props
+    const { layoutStyle } = this.state
+    const { positionedDialog, dialogCommon } = this.context.moduleTheme
+
+    // merge user and local styles
+    const bodyStyle = { ...userBodyStyle, ...positionedDialog.bodyStyle }
+    const actionsContainerStyle = { userActionsContainerStyle, ...dialogCommon.actionsContainerStyle }
+
     return (
       <Dialog
-        contentStyle={contentStyle}
+        paperProps={positionedDialog.paperProps}
+        contentStyle={layoutStyle}
+        bodyStyle={bodyStyle}
+        actionsContainerStyle={actionsContainerStyle}
         {...dialogProperties}
       >
-        <div style={rootContainerStyle} >
-          {children}
-        </div>
+        {HOCUtils.renderChildren(children)}
       </Dialog >
     )
   }
 }
-export default PositionedDialog
+
+export default withModuleStyle(styles, true)(PositionedDialog)

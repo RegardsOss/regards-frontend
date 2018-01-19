@@ -60,9 +60,10 @@ export class DatasetStepperContainer extends React.Component {
   getPluginsStep = () => {
     const text = (<FormattedMessage id="dataset.stepper.plugins" />)
     if (!this.isDisabled(STEPS_ID.PLUGINS) && this.props.stepIndex !== STEPS_ID.PLUGINS) {
-      return (<StepButton onClick={this.handlePluginsClick}>
-        {text}
-      </StepButton>)
+      return (
+        <StepButton onClick={this.handlePluginsClick}>
+          {text}
+        </StepButton>)
     }
     return text
   }
@@ -72,30 +73,35 @@ export class DatasetStepperContainer extends React.Component {
     if (!this.isDisabled(STEPS_ID.ATTRIBUTES)
       && this.props.stepIndex !== STEPS_ID.ATTRIBUTES
       && this.props.stepIndex !== STEPS_ID.SUBSETTING) {
-      return (<StepButton onClick={this.handleAttributesClick}>
-        {text}
-      </StepButton>)
+      return (
+        <StepButton onClick={this.handleAttributesClick}>
+          {text}
+        </StepButton>)
     }
     return text
   }
 
 
   getLinksStep = () => {
-    const text = (<FormattedMessage id="dataset.stepper.links" />)
+    const text = (
+      <FormattedMessage id="dataset.stepper.links" />)
     if (!this.isDisabled(STEPS_ID.LINKS) && this.props.stepIndex !== STEPS_ID.LINKS) {
-      return (<StepButton onClick={this.handleLinksClick}>
-        {text}
-      </StepButton>)
+      return (
+        <StepButton onClick={this.handleLinksClick}>
+          {text}
+        </StepButton>)
     }
     return text
   }
 
   getUIServicesStep = () => {
-    const text = (<FormattedMessage id="dataset.stepper.uiServices" />)
+    const text = (
+      <FormattedMessage id="dataset.stepper.uiServices" />)
     if (!this.isDisabled(STEPS_ID.UI_SERVICES) && this.props.stepIndex !== STEPS_ID.UI_SERVICES) {
-      return (<StepButton onClick={this.handleUIServicesClick}>
-        {text}
-      </StepButton>)
+      return (
+        <StepButton onClick={this.handleUIServicesClick}>
+          {text}
+        </StepButton>)
     }
     return text
   }

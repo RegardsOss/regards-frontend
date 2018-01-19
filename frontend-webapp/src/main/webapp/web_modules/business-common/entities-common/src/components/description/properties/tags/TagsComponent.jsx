@@ -9,6 +9,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CatalogShapes } from '@regardsoss/shape'
 import { ScrollArea } from '@regardsoss/adapters'
+import { EntityIpIdTester } from '@regardsoss/domain/common'
 import DescriptionLevelActions from '../../../../model/description/DescriptionLevelActions'
 import { DescriptionLevelSelectors } from '../../../../model/description/DescriptionLevelSelectors'
 import LoadingDisplayerComponent from '../../LoadingDisplayerComponent'
@@ -50,8 +51,8 @@ class TagsComponent extends React.Component {
   }
 
   updateTagsAndDocuments = (props) => {
-    const tags = filter(props.entityTags, entity => !entity.content.ipId.match(/URN:AIP:DOCUMENT:.*/)) || []
-    const documents = filter(props.entityTags, entity => entity.content.ipId.match(/URN:AIP:DOCUMENT:.*/)) || []
+    const tags = filter(props.entityTags, entity => !EntityIpIdTester.isIpIdADocument(entity.content.ipId)) || []
+    const documents = filter(props.entityTags, entity => EntityIpIdTester.isIpIdADocument(entity.content.ipId)) || []
     this.setState({
       tags,
       documents,
@@ -64,7 +65,10 @@ class TagsComponent extends React.Component {
       loading, levelActions, levelSelectors,
     } = this.props
     const { documents } = this.state
-    const { tags: { sectionStyle, tagsContainer, scrollAreaContent }, loadingContainerStyle, messageContainerStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
+    const {
+      tags: { sectionStyle, tagsContainer, scrollAreaContent },
+      loadingContainerStyle, messageContainerStyle,
+    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab
     const { fullHeight } = this.context.moduleTheme
     return (
       <ScrollArea horizontal={false} vertical contentStyle={scrollAreaContent} style={fullHeight}>
@@ -159,10 +163,16 @@ class TagsComponent extends React.Component {
   }
 
   render() {
-    const { rootStyle, tagsRootStyle, documentsRootStyle } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags
+    const {
+      rootStyle, tagsRootStyle, documentsRootStyle, horizontalAreaSeparator,
+    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.propertiesTab.tags
     return (
       <div style={rootStyle}>
+        {/* tags */}
         <div style={tagsRootStyle}>{this.renderTags()}</div>
+        {/* layout separator */}
+        <div style={horizontalAreaSeparator} />
+        {/* documents */}
         <div style={documentsRootStyle}>{this.renderDocuments()}</div>
       </div>
     )

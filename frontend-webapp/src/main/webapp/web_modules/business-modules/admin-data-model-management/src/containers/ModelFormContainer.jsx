@@ -50,7 +50,6 @@ export class ProjectFormContainer extends React.Component {
       isCreating,
       isLoading: !isCreating,
       isEditing: props.params.mode === 'edit',
-      isDuplicating: props.params.mode === 'duplicate',
     }
   }
 

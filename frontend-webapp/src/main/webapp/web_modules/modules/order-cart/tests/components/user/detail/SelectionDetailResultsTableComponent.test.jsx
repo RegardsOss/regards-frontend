@@ -22,6 +22,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PageableInfiniteTableContainer } from '@regardsoss/components'
+import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../../src/client/SearchDataobjectsClient'
 import SelectionDetailResultsTableComponent from '../../../../src/components/user/detail/SelectionDetailResultsTableComponent'
 import styles from '../../../../src/styles/styles'
 
@@ -40,12 +41,16 @@ describe('[Order Cart] Testing SelectionDetailResultsTableComponent', () => {
   })
   it('should render correctly and link page size with available height', () => {
     const props = {
-      openSearchRequest: 'mamie=nova',
-      availableHeight: 150,
+      pageActions: searchDataobjectsActions,
+      pageSelectors: searchDataobjectsSelectors,
+      pathParams: { q: 'mamie=nova' },
+      resultsCount: 22,
+      isFetching: true,
+      availableHeight: 55,
     }
     const renderWrapper = shallow(<SelectionDetailResultsTableComponent {...props} />, { context })
     const tableContainer = renderWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(tableContainer, 1, 'There should be an infinite table to show results')
-    assert.deepEqual(tableContainer.props().pathParams, { parameters: `q=${props.openSearchRequest}` })
+    assert.deepEqual(tableContainer.props().pathParams, props.pathParams)
   })
 })

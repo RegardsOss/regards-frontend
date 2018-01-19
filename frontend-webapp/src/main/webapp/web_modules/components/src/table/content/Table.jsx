@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
 import isMatch from 'lodash/isMatch'
 import isNumber from 'lodash/isNumber'
 import map from 'lodash/map'
@@ -94,6 +93,8 @@ class Table extends React.Component {
         order: newColumn.order,
         fixedWidth: newColumn.fixedWidth,
         visible: newColumn.visible,
+        // also check runtime width, will be ignored if undefined
+        runtimeWidth: newColumn.runtimeWidth,
       })) {
         // found one different column
         return true
@@ -121,7 +122,7 @@ class Table extends React.Component {
    * @param newProps new properties
    */
   onPropertiesChanged = (oldProps, newProps) => {
-    const oldState = this.state
+    const oldState = this.state || {}
     const newState = oldState ? { ...oldState } : {}
 
     // compute height
@@ -138,7 +139,7 @@ class Table extends React.Component {
       newState.runtimeColumns = this.computeColumnsModelsWithWidth(newProps)
     }
 
-    if (!isEqual(oldState, newState)) {
+    if (oldState.height !== newState.height || Table.areDifferentLayoutColumn(newState.runtimeColumns, oldState.runtimeColumns)) {
       this.setState(newState)
     }
   }

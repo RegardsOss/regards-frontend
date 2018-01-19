@@ -41,6 +41,7 @@ export class ShowDatedItemSelectionDetailContainer extends React.Component {
   }
 
   static propTypes = {
+    disabled: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     datasetLabel: PropTypes.string.isRequired, // used only in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -52,9 +53,9 @@ export class ShowDatedItemSelectionDetailContainer extends React.Component {
   }
 
   render() {
-    const { dispatchShowDetail } = this.props
+    const { disabled, dispatchShowDetail } = this.props
     return (
-      <ShowDatedItemSelectionDetailComponent onShowDetail={dispatchShowDetail} />
+      <ShowDatedItemSelectionDetailComponent disabled={disabled} onShowDetail={dispatchShowDetail} />
     )
   }
 }

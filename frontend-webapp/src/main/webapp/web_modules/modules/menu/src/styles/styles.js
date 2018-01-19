@@ -22,9 +22,10 @@
  * @author Sébastien binda
  */
 const menuStyles = theme => ({
-  admin: {
-    rootStyle: {
-      padding: 10,
+    admin: {
+      rootStyle: {
+        padding: 20,
+      },
     },
   },
   user: {

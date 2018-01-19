@@ -26,6 +26,18 @@ import styles from '../../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
+const basicEntityFields = {
+  id: 1,
+  ipId: 'coucou',
+  sipId: '1',
+  label: 'O.D.I.L',
+  files: {},
+  geometry: null,
+  properties: {},
+  tags: [],
+  services: [],
+}
+
 /**
 * Test AddElementToCartContainer
 * @author Raphaël Mechali
@@ -37,25 +49,98 @@ describe('[Search Results] Testing AddElementToCartContainer', () => {
   it('should exists', () => {
     assert.isDefined(AddElementToCartContainer)
   })
-  it('should render correctly', () => {
+  it('should render correctly and disable action when DATA entity can not be added to basket', () => {
     const props = {
       entity: {
         content: {
-          id: 1,
-          ipId: 'coucou',
-          sipId: '1',
-          label: 'O.D.I.L',
+          ...basicEntityFields,
           entityType: ENTITY_TYPES_ENUM.DATA,
-          files: {},
-          geometry: null,
-          properties: {},
-          tags: [],
-          services: [],
+          containsPhysicalData: false,
         },
       },
       onAddToCart: () => { },
     }
     const enzymeWrapper = shallow(<AddElementToCartContainer {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(AddElementToCartComponent), 1, 'Sub component should be rendered')
+    const componentWrapper = enzymeWrapper.find(AddElementToCartComponent)
+    assert.lengthOf(componentWrapper, 1, 'Sub component should be rendered')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      canAddToCart: false,
+      onAddToCart: enzymeWrapper.instance().onAddToCart,
+    }, 'Add to cart should be disabled for a DATA where containsPhysicalData is false')
+  })
+  it('should render correctly and enable action when DATA entity can be added to basket', () => {
+    const props = {
+      entity: {
+        content: {
+          ...basicEntityFields,
+          entityType: ENTITY_TYPES_ENUM.DATA,
+          containsPhysicalData: true,
+        },
+      },
+      onAddToCart: () => { },
+    }
+    const enzymeWrapper = shallow(<AddElementToCartContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(AddElementToCartComponent)
+    assert.lengthOf(componentWrapper, 1, 'Sub component should be rendered')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      canAddToCart: true,
+      onAddToCart: enzymeWrapper.instance().onAddToCart,
+    }, 'Add to cart should be enabled for a DATA where containsPhysicalData is true')
+  })
+  it('should render correctly and enable action for dataset, no matter the containsPhysicalData value', () => {
+    const props = {
+      entity: {
+        content: {
+          ...basicEntityFields,
+          entityType: ENTITY_TYPES_ENUM.DATASET,
+          containsPhysicalData: null,
+        },
+      },
+      onAddToCart: () => { },
+    }
+    const enzymeWrapper = shallow(<AddElementToCartContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(AddElementToCartComponent)
+    assert.lengthOf(componentWrapper, 1, 'Sub component should be rendered')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      canAddToCart: true,
+      onAddToCart: enzymeWrapper.instance().onAddToCart,
+    }, 'Add to cart should be enabled for a DATASET')
+  })
+  it('should render correctly and disable action for type that is not a DATASET nor a DATA', () => {
+    const props = {
+      entity: {
+        content: {
+          ...basicEntityFields,
+          entityType: ENTITY_TYPES_ENUM.COLLECTION,
+          containsPhysicalData: true,
+        },
+      },
+      onAddToCart: () => { },
+    }
+    const enzymeWrapper = shallow(<AddElementToCartContainer {...props} />, { context })
+    let componentWrapper = enzymeWrapper.find(AddElementToCartComponent)
+    assert.lengthOf(componentWrapper, 1, 'Sub component should be rendered')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      canAddToCart: false,
+      onAddToCart: enzymeWrapper.instance().onAddToCart,
+    }, 'Add to cart should be disabled for collections')
+
+    const props2 = {
+      entity: {
+        content: {
+          ...basicEntityFields,
+          entityType: ENTITY_TYPES_ENUM.DOCUMENT,
+          containsPhysicalData: true,
+        },
+      },
+      onAddToCart: () => { },
+    }
+    enzymeWrapper.setProps(props2)
+    componentWrapper = enzymeWrapper.find(AddElementToCartComponent)
+    assert.lengthOf(componentWrapper, 1, 'Sub component should be rendered')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      canAddToCart: false,
+      onAddToCart: enzymeWrapper.instance().onAddToCart,
+    }, 'Add to cart should be disabled for collections')
   })
 })

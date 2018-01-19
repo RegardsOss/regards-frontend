@@ -29,7 +29,6 @@ import { datasourceDependencies } from '@regardsoss/admin-data-datasource-manage
 import { documentDependencies } from '@regardsoss/admin-data-document-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
 import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
-import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 
 /**
  * BoardItems configuration for ingest module

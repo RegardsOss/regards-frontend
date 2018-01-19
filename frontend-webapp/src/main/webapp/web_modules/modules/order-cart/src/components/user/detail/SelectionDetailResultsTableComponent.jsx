@@ -16,12 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEqual from 'lodash/isEqual'
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
+import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
-import { PageableInfiniteTableContainer, TableLayout } from '@regardsoss/components'
-import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../client/SearchDataobjectsClient'
+import { PageableInfiniteTableContainer, TableLayout, TableHeaderLineLoadingAndResults } from '@regardsoss/components'
 import SelectionDetailNoDataComponent from './SelectionDetailNoDataComponent'
 
 /**
@@ -30,9 +29,13 @@ import SelectionDetailNoDataComponent from './SelectionDetailNoDataComponent'
 */
 class SelectionDetailResultsTableComponent extends React.Component {
   static propTypes = {
-    // details object search request
-    // eslint-disable-next-line react/no-unused-prop-types
-    openSearchRequest: PropTypes.string, // used in onPropertiesChanged
+    pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
+    pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    // request parameters
+    pathParams: PropTypes.objectOf(PropTypes.string).isRequired,
+    // results information
+    resultsCount: PropTypes.number.isRequired,
+    isFetching: PropTypes.bool.isRequired,
     // parent provided available height, to let this component adjust table size depending on current space
     // eslint-disable-next-line react/no-unused-prop-types
     availableHeight: PropTypes.number.isRequired, // used in onPropertiesChanged
@@ -51,12 +54,13 @@ class SelectionDetailResultsTableComponent extends React.Component {
     DamDomain.AttributeModelController.standardAttributes.lastUpdate,
   ].map(({
     key, label, entityPathName, type,
-  }) => ({
-    key,
-    label,
-    attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(key)],
-    enableSorting: false,
-  }))
+  }) =>
+    ({
+      key,
+      label,
+      attributes: [AccessDomain.AttributeConfigurationController.getStandardAttributeConf(key)],
+      enableSorting: false,
+    }))
 
   /** static rendering component (it will update itself with context changes) */
   static NO_DATA_COMPONENT = <SelectionDetailNoDataComponent />
@@ -64,54 +68,36 @@ class SelectionDetailResultsTableComponent extends React.Component {
   /** Min page size for table */
   static MIN_TABLE_PAGE_SIZE = 5
 
-  /** Default component state */
-  static DEFAULT_STATE = {
-    dataobjectsSearchParams: { queryParams: '' },
-    // Default values
-    pageSize: SelectionDetailResultsTableComponent.MIN_TABLE_PAGE_SIZE,
-  }
-
-  /** React lifecycle method: component will mount. Used here to detect properties changed */
-  componentWillMount = () => this.onPropertiesChanged({}, this.props)
-
-  /** React lifecycle method: component will receive new props. Used here to detect properties changed */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
-   * On properties changed:
-   * recompute and store in state transient values that can be extract from properties but should not be
-   * computed at render time for efficiency reasons
-   * @param oldProperties old component properties
-   * @param newProperties new component properties
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
    */
-  onPropertiesChanged = (oldProperties, newProperties) => {
-    const oldState = this.state
-    const newState = {
-      ...(oldState || SelectionDetailResultsTableComponent.DEFAULT_STATE),
-    }
-    // 1 - prepare table search dataobjects request
-    if (oldProperties.openSearchRequest !== newProperties.openSearchRequest) {
-      // TODO : Raphael change client to use requestParams instead of pathParams
-      newState.dataobjectsSearchParams = { parameters: `q=${newProperties.openSearchRequest}` }
-    }
-    // 2 - update table rows count to adjust available size
-    if (oldProperties.availableHeight !== newProperties.availableHeight) {
-      // compute the number of elements that should be visible at same timerow count
-      newState.visibleRowsCount = this.computeVisibleRowsCount(newProperties.availableHeight)
-    }
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
-    if (!isEqual(oldState, newState)) {
-      this.setState(newState)
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    // update table rows count to adjust available size
+    if (oldProps.availableHeight !== newProps.availableHeight) {
+      // compute the number of elements that should be visible at same timerow count
+      this.setState({
+        visibleRowsCount: this.computeVisibleRowsCount(newProps.availableHeight),
+      })
     }
   }
 
   computeVisibleRowsCount(availableHeight) {
-    const lineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
-    const remainingRowsHeight = availableHeight - this.context.muiTheme['components:infinite-table'].minHeaderRowHeight
-    return Math.max(
-      SelectionDetailResultsTableComponent.MIN_TABLE_PAGE_SIZE,
-      Math.floor((remainingRowsHeight / lineHeight) - 1),
-    ) // note: remove one row to take headers line in account
+    const { lineHeight, minHeaderRowHeight } = this.context.muiTheme['components:infinite-table']
+    const remainingRowsHeight = availableHeight - (minHeaderRowHeight * 2)
+    return Math.floor(remainingRowsHeight / lineHeight)
   }
 
   /**
@@ -124,15 +110,19 @@ class SelectionDetailResultsTableComponent extends React.Component {
   }
 
   render() {
-    const { dataobjectsSearchParams, visibleRowsCount } = this.state
+    const {
+      pageActions, pageSelectors, pathParams, resultsCount, isFetching,
+    } = this.props
+    const { visibleRowsCount } = this.state
     return (
       <TableLayout>
+        <TableHeaderLineLoadingAndResults resultsCount={resultsCount} isFetching={isFetching} />
         <PageableInfiniteTableContainer
-          pageActions={searchDataobjectsActions}
-          pageSelectors={searchDataobjectsSelectors}
+          pageActions={pageActions}
+          pageSelectors={pageSelectors}
           displayedRowsCount={visibleRowsCount}
           columns={this.renderColumns()}
-          pathParams={dataobjectsSearchParams}
+          pathParams={pathParams}
           emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}
         />
       </TableLayout>

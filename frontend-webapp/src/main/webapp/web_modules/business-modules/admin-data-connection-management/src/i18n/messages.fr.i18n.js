@@ -33,8 +33,6 @@ const messages = Object.assign({
   'connection.form.dbPort': 'Port',
   'connection.form.dbName': 'Nom de la base de données',
   'connection.form.driver': 'Type de base de données',
-  'connection.form.maxPoolSize': 'Nombre maximum de connexion simultanées (maxPoolSize)',
-  'connection.form.minPoolSize': 'Nombre de connexion simultanées maintenues en permanence (minPoolSize)',
   'connection.form.isActive': 'Connexion active',
   'connection.form.action.save': 'Sauvegarder',
   'connection.form.action.cancel': 'Annuler',
@@ -56,7 +54,6 @@ const messages = Object.assign({
   'connection.connectionTester.snackbar.success': 'La connexion à {label} est fonctionnelle',
   'connection.connectionTester.snackbar.error': 'La connexion à {label} a échoué',
   'connection.connectionTester.pending': 'Tentative de connexion...',
-  'invalid.maxPoolSizeGreaterThanMinPoolSize': 'Le nombre max de connexions doit être supérieur au min',
 }, Locales.fr)
 
 export default messages

@@ -90,7 +90,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     const initialAttributesConf = get(initialFormValues, 'attributes', [])
     const currentAttributesGroupsConf = get(currentFormValues, 'attributesRegroupements', [])
     const initialAttributesGroupsConf = get(initialFormValues, 'attributesRegroupements', [])
-    const dataEnableFacettes = get(currentFormValues, 'enableFacettes', false)
+    const enableFacettes = get(currentFormValues, 'enableFacettes', false)
     const dataEnableQuicklook = get(currentFormValues, 'enableQuicklooks', false)
 
     // Dataset
@@ -118,7 +118,7 @@ class SearchResultsConfigurationComponent extends React.Component {
                   initialAttributesConf,
                   currentAttributesGroupsConf,
                   initialAttributesGroupsConf,
-                  dataEnableFacettes,
+                  enableFacettes,
                 )}
               </Tab>
               <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.quicklook.conf.selection.tab.label' })}>
@@ -136,7 +136,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           initialAttributesConf,
           currentAttributesGroupsConf,
           initialAttributesGroupsConf,
-          dataEnableFacettes,
+          enableFacettes,
         )
       case DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET:
         return (
@@ -147,7 +147,7 @@ class SearchResultsConfigurationComponent extends React.Component {
                 initialAttributesConf,
                 currentAttributesGroupsConf,
                 initialAttributesGroupsConf,
-                dataEnableFacettes,
+                enableFacettes,
               )}
             </Tab>
             {/* Add Quicklook configuration if enabled */}
@@ -171,14 +171,15 @@ class SearchResultsConfigurationComponent extends React.Component {
         return this.renderDocumentsAttributesConfiguration(
           currentDocumentAttributesConf,
           initialDocumentAttributesConf,
+          enableFacettes,
         )
       default:
         throw new Error(`Unknow display type : ${displayMode}`)
     }
   }
-  renderObjectsAttributesConfiguration = (currentAttributesConf, initialAttributesConf, currentAttributesGroupsConf, initialAttributesGroupsConf, dataEnableFacettes) => (
+  renderObjectsAttributesConfiguration = (currentAttributesConf, initialAttributesConf, currentAttributesGroupsConf, initialAttributesGroupsConf, enableFacettes) => (
     <MainAttributesConfigurationComponent
-      allowFacettes={dataEnableFacettes}
+      allowFacettes={enableFacettes}
       allowAttributesRegroupements
       attributesFieldName={SearchResultsConfigurationComponent.MODULE_ATTRIBUTES_CONF}
       regroupementsFieldName={SearchResultsConfigurationComponent.MODULE_REGROUPEMENTS_CONF}
@@ -219,9 +220,9 @@ class SearchResultsConfigurationComponent extends React.Component {
       defaultAttributesConf={initialDatasetAttributesConf}
     />
   )
-  renderDocumentsAttributesConfiguration = (currentDocumentAttributesConf, initialDocumentAttributesConf) => (
+  renderDocumentsAttributesConfiguration = (currentDocumentAttributesConf, initialDocumentAttributesConf, enableFacettes) => (
     <MainAttributesConfigurationComponent
-      allowFacettes={false}
+      allowFacettes={enableFacettes}
       allowAttributesRegroupements={false}
       attributesFieldName={SearchResultsConfigurationComponent.MODULE_DOCUMENT_ATTRIBUTES_CONF}
       changeField={this.props.changeField}
@@ -269,7 +270,6 @@ class SearchResultsConfigurationComponent extends React.Component {
             name={SearchResultsConfigurationComponent.CONF_ENABLE_FACETTES}
             component={RenderCheckbox}
             label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
-            disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
           />
           <Field
             name={SearchResultsConfigurationComponent.CONF_ENABLE_QUICKLOOKS}
@@ -285,6 +285,7 @@ class SearchResultsConfigurationComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
               fullWidth
               normalize={parseIntNormalizer}
+              disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
             />
             <Field
               name={SearchResultsConfigurationComponent.CONF_QUICKLOOKS_SPACING}
@@ -293,6 +294,7 @@ class SearchResultsConfigurationComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
               fullWidth
               normalize={parseIntNormalizer}
+              disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
             />
           </ShowableAtRender>
           <Field

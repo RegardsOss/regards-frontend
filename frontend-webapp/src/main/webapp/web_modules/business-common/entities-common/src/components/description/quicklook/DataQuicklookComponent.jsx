@@ -34,23 +34,51 @@ class DataQuicklookComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+  state = {
+    isZoomed: false,
+  }
+  /**
+   * On user click, toggle the zoom
+   */
+  toggleZoom = () => {
+    const { isZoomed } = this.state
+    this.setState({
+      isZoomed: !isZoomed,
+    })
+  }
 
   render() {
     const {
       entity,
     } = this.props
+    const {
+      isZoomed,
+    } = this.state
+    const {
+      imageContainerZoomOut, imageContainerZoomIn, imageZoomOut, imageZoomIn,
+    } = this.context.moduleTheme.descriptionDialog.card.media.tabs.tab.quicklook
+
     let imageSrc
-    if (has(entity, 'content.files.QUICKLOOK_MD[0].uri')) {
+    if (isZoomed && has(entity, 'content.files.QUICKLOOK_HD[0].uri')) {
+      imageSrc = entity.content.files.QUICKLOOK_HD[0].uri
+    } else if (has(entity, 'content.files.QUICKLOOK_MD[0].uri')) {
       imageSrc = entity.content.files.QUICKLOOK_MD[0].uri
     } else {
       imageSrc = entity.content.files.QUICKLOOK_SD[0].uri
     }
-
+    const imageContainerStyle = isZoomed ? imageContainerZoomIn : imageContainerZoomOut
+    const imageStyle = isZoomed ? imageZoomIn : imageZoomOut
     return (
-      <img
-        src={imageSrc}
-        alt=""
-      />
+      <div
+        style={imageContainerStyle}
+        onTouchTap={this.toggleZoom}
+      >
+        <img
+          src={imageSrc}
+          alt=""
+          style={imageStyle}
+        />
+      </div>
     )
   }
 }

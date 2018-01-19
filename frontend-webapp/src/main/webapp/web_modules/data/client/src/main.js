@@ -24,9 +24,10 @@ import CatalogClient from './rs-catalog'
 import CommonClient from './rs-common'
 import DataManagementClient from './rs-dam'
 import DataProviderClient from './rs-data-provider'
+import IngestClient from './rs-ingest'
 import OrderClient from './rs-order'
 import StorageClient from './rs-storage'
-import IngestClient from './rs-ingest'
+import UIClient from './ui'
 
 
 /**
@@ -50,8 +51,9 @@ module.exports = {
   CommonClient,
   DataManagementClient,
   DataProviderClient,
+  IngestClient,
   OrderClient,
   StorageClient,
-  IngestClient,
+  UIClient,
 }
 

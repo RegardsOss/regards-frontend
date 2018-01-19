@@ -22,13 +22,6 @@ import ActionButtonComponent from './ActionButtonComponent'
 /**
  * Generic back button
  */
-/* interface MainActionButtonProps {
-  label: string | JSX.Element
-  url?: string
-  style?: any
-  onTouchTap?: (event: React.FormEvent) => void
-  isVisible?: boolean
-}*/
 function MainActionButtonComponent(props) {
   return (<ActionButtonComponent
     button={RaisedButton}

@@ -16,13 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { browserHistory } from 'react-router'
+import { modulesManager } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
-import { OrderClient } from '@regardsoss/client'
-import { OrderShapes } from '@regardsoss/shape'
+import { AccessProjectClient, OrderClient } from '@regardsoss/client'
+import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { createOrderActions, createOrderSelectors } from '../../client/CreateOrderClient'
 import SelectionItemDetailContainer from './detail/SelectionItemDetailContainer'
 import OrderCartComponent from '../../components/user/OrderCartComponent'
+
+// get default modules client actions and reducers instances - required to check a basket exists AND is in a dynamic container
+const modulesSelectors = AccessProjectClient.ModuleSelectors()
 
 // get an instance of default actions / selectors (the basket state is shared over all modules)
 const orderBasketActions = new OrderClient.OrderBasketActions()
@@ -45,6 +50,7 @@ export class OrderCartContainer extends React.Component {
       basket: orderBasketSelectors.getOrderBasket(state),
       hasError: orderBasketSelectors.hasError(state),
       isFetching: orderBasketSelectors.isFetching(state) || createOrderSelectors.isFetching(state),
+      modules: modulesSelectors.getList(state),
     }
   }
 
@@ -59,18 +65,19 @@ export class OrderCartContainer extends React.Component {
       dispatchGetBasket: () => dispatch(orderBasketActions.getBasket()),
       dispatchFlushBasket: () => dispatch(orderBasketActions.flushBasket()),
       dispatchClearCart: () => dispatch(orderBasketActions.clearBasket()),
-      // after dispatching an order, clear the basket as it is now empty on server side
-      dispatchStartOrder: () =>
-        dispatch(createOrderActions.order()).then(payload => !payload.error && dispatch(orderBasketActions.flushBasket())),
+      dispatchStartOrder: () => dispatch(createOrderActions.order()),
     }
   }
 
   static propTypes = {
+    project: PropTypes.string.isRequired,
+    showDatasets: PropTypes.bool.isRequired,
     // from mapStateToProps
     isAuthenticated: PropTypes.bool, // used only in properties changed
     basket: OrderShapes.Basket,
     hasError: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    modules: AccessShapes.ModuleList,
     // from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchGetBasket: PropTypes.func.isRequired,
@@ -120,14 +127,36 @@ export class OrderCartContainer extends React.Component {
   onExpandChange = () => this.setExpanded(!this.state.expanded)
 
   /**
+   * On order callback: dispatches order action then redirects user on order list if it was successful
+   */
+  onOrder = () => {
+    const {
+      dispatchStartOrder, dispatchFlushBasket, project, modules,
+    } = this.props
+    // 1 − dispatch start order
+    dispatchStartOrder().then(({ error }) => {
+      if (!error) {
+        // 2 - when there is no error, flush basket (their will be no server call)
+        dispatchFlushBasket()
+        // 3 - redirect user to his orders list if there is an order module
+        const orderHistoryModule = modulesManager.findFirstModuleByType(modules, modulesManager.AllDynamicModuleTypes.ORDER_HISTORY)
+        if (orderHistoryModule) {
+          browserHistory.push(modulesManager.getModuleURL(project, orderHistoryModule.content.id))
+        }
+      }
+    })
+  }
+
+  /**
    * Sets the expanded state
    * @param expanded new expanded state
    */
   setExpanded = expanded => this.setState({ expanded })
 
+
   render() {
     const {
-      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, dispatchStartOrder,
+      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, showDatasets,
     } = this.props
     const { expanded } = this.state
     return (
@@ -135,16 +164,17 @@ export class OrderCartContainer extends React.Component {
         {/* 1 - Add main view */}
         <OrderCartComponent
           basket={basket}
+          showDatasets={showDatasets}
           hasError={hasError}
           isFetching={isFetching}
           isAuthenticated={isAuthenticated}
           expanded={expanded}
           onExpandChange={this.onExpandChange}
           onClearCart={dispatchClearCart}
-          onOrder={dispatchStartOrder}
+          onOrder={this.onOrder}
         />
         {/* 2 - Add detail dialog */}
-        <SelectionItemDetailContainer />
+        <SelectionItemDetailContainer showDatasets={showDatasets} />
       </div>
     )
   }

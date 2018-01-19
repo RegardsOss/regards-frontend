@@ -44,6 +44,7 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly when user is not authenticated', () => {
     const props = {
+      showDatasets: false,
       isAuthenticated: false,
       basket: undefined,
       isFetching: false,
@@ -72,6 +73,7 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly when user is authenticated and basket empty', () => {
     const props = {
+      showDatasets: false,
       isAuthenticated: true,
       basket: undefined,
       isFetching: false,
@@ -99,7 +101,8 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     assert.isFalse(loadableWrapper.props().isLoading, 'Loadable displayer should not be marked loading')
   })
   it('should render correctly when fetching (fetch state SHOULD NEVER show no data)', () => {
-    const props = { // both unauthenticated and no data, but fetching
+    const props = {
+      showDatasets: true,
       isAuthenticated: true,
       basket: undefined,
       isFetching: true,
@@ -119,7 +122,8 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     assert.isTrue(loadableWrapper.props().isLoading, 'Loadable dispayer should  be marked loading')
   })
   it('should render correctly with a basket', () => {
-    const props = { // both unauthenticated and no data, but fetching
+    const props = {
+      showDatasets: false,
       isAuthenticated: true,
       basket: mockBasket1,
       isFetching: false,

@@ -36,7 +36,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
-      additiveLineComponent: <a>Non</a>,
+      additiveLineComponent: <a href="idk">Non</a>,
       onSelect: () => { },
       locked: false,
       selected: false,
@@ -58,7 +58,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
-      additiveLineComponent: <a>Non</a>,
+      additiveLineComponent: <a href="idk">Non</a>,
       onSelect: () => { },
       locked: false,
       selected: false,
@@ -96,7 +96,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
-      additiveLineComponent: <a>Non</a>,
+      additiveLineComponent: <a href="idk">Non</a>,
       onSelect: () => { },
       locked: false,
       selected: true,
@@ -134,7 +134,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
-      additiveLineComponent: <a>Non</a>,
+      additiveLineComponent: <a href="idk">Non</a>,
       onSelect: () => { },
       locked: true,
       selected: false,
@@ -168,7 +168,7 @@ describe('[Search Graph] Testing ItemLinkContainer', () => {
     const props = {
       Icon: () => <div />,
       entity: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
-      additiveLineComponent: <a>Non</a>,
+      additiveLineComponent: <a href="idk">Non</a>,
       onSelect: () => { },
       locked: false,
       selected: false,

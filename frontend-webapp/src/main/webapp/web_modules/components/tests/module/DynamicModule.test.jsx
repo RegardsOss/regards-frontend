@@ -50,6 +50,5 @@ describe('[Components] Testing DynamicModule', () => {
         </DynamicModule>
       ), { context },
     )
-    // TODO-V2 please add LOADS OF TESTS (when time)
   })
 })

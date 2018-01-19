@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import omit from 'lodash/omit'
 import isString from 'lodash/isString'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
@@ -36,7 +37,7 @@ const withResourceDisplayControl = (DecoratedComponent) => {
   class WithResourceDisplayControl extends React.Component {
     static propTypes = {
       // Function taking two arrays of strings as parameters and returning True or False
-      displayLogic: PropTypes.func.isRequired,
+      displayLogic: PropTypes.func,
       // Either the dependency or the array of dependencies we require in order to display the decorated component
       resourceDependencies: PropTypes.oneOfType([
         PropTypes.string,
@@ -59,9 +60,9 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       // Remove from otherProps all props that doesn't need to be reinjected in children
       // eslint-disable-next-line no-unused-vars, react/prop-types
       const {
-        displayLogic, resourceDependencies, availableDependencies, isInstance, theme, i18n, dispatch, ...otherProps
+        displayLogic, resourceDependencies, availableDependencies, isInstance, ...otherProps
       } = this.props
-      const decoratedComponentElement = React.createElement(DecoratedComponent, otherProps)
+      const decoratedComponentElement = React.createElement(DecoratedComponent, omit(otherProps, ['theme', 'i18n', 'dispatch']))
       const requiredDependencies = isString(resourceDependencies) ? [resourceDependencies] : resourceDependencies
       const isDisplayed = requiredDependencies.length === 0 || displayLogic(requiredDependencies, availableDependencies)
 

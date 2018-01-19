@@ -2,7 +2,6 @@
 * LICENSE_PLACEHOLDER
 **/
 import { assert } from 'chai'
-import { TagTypes } from '@regardsoss/domain/catalog'
 import { OrdersNavigationActions } from '../../src/model/OrdersNavigationActions'
 import { getOrdersNavigationReducer } from '../../src/model/OrdersNavigationReducer'
 import { getOrdersNavigationSelectors } from '../../src/model/OrdersNavigationSelectors'

@@ -53,6 +53,7 @@ export class SelectionItemDetailContainer extends React.Component {
   }
 
   static propTypes = {
+    showDatasets: PropTypes.bool.isRequired,
     // from mapStateToProps
     detail: PropTypes.shape({
       visible: PropTypes.bool.isRequired,
@@ -66,12 +67,14 @@ export class SelectionItemDetailContainer extends React.Component {
 
   render() {
     const {
+      showDatasets,
       detail: {
         visible, datasetLabel, date, openSearchRequest,
       }, dispatchHideDetail,
     } = this.props
     return (
       <SelectionItemDetailComponent
+        showDatasets={showDatasets}
         visible={visible}
         datasetLabel={datasetLabel}
         date={date}

@@ -132,6 +132,11 @@ export default (theme) => {
           color: theme.palette.textColor,
         },
       },
+      autocomplete: {
+        textStyle: {
+          height: theme['components:infinite-table'].minHeaderRowHeight - 2,
+        },
+      },
       loading: {
         thickness: 1.5,
         size: 22,

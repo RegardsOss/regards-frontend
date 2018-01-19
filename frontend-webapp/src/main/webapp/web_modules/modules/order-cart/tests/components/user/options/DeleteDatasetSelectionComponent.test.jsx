@@ -35,18 +35,31 @@ describe('[Order Cart] Testing DeleteDatasetSelectionComponent', () => {
   it('should exists', () => {
     assert.isDefined(DeleteDatasetSelectionComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly not disabled', () => {
     const props = {
       onDelete: () => { },
+      disabled: false,
     }
     const enzymeWrapper = shallow(<DeleteDatasetSelectionComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(IconButtonWithConfirmDialog)
     assert.lengthOf(buttonWrapper, 1, 'There should be a button with confirm dialog')
     assert.equal(buttonWrapper.props().onTouchTap, props.onDelete, 'Callback should be correctly reported')
+    assert.isFalse(buttonWrapper.props().disabled, 'Option should be enabled')
 
     // also check the dialog button props are provided
     assert.isDefined(buttonWrapper.props().dialogTitle, 'There should be a dialog title')
     assert.isDefined(buttonWrapper.props().dialogMessage, 'There should be a dialog message')
     assert.isDefined(buttonWrapper.props().title, 'There should be a title')
+  })
+  it('should render correctly disabled', () => {
+    const props = {
+      onDelete: () => { },
+      disabled: true,
+    }
+    const enzymeWrapper = shallow(<DeleteDatasetSelectionComponent {...props} />, { context })
+    const buttonWrapper = enzymeWrapper.find(IconButtonWithConfirmDialog)
+    assert.lengthOf(buttonWrapper, 1, 'There should be a button with confirm dialog')
+    assert.equal(buttonWrapper.props().onTouchTap, props.onDelete, 'Callback should be correctly reported')
+    assert.isTrue(buttonWrapper.props().disabled, 'Option should be disabled')
   })
 })

@@ -16,22 +16,26 @@ class IFrameURLContentDisplayer extends React.Component {
     style: PropTypes.object,
   }
 
+  static LAYOUT_STYLE = { flexGrow: 1, flexShrink: 1 }
+
   /** Default IFrame styles: grab all space available and re-initialize background to white */
   static DEFAULT_STYLES = {
-    height: '100%', width: '100%', position: 'absolute', background: 'white',
+    height: '100%', width: '100%', background: 'white',
   }
 
   render() {
     const { contentURL, onContentLoaded, onContentError } = this.props
     const styles = this.props.style ? this.props.style : IFrameURLContentDisplayer.DEFAULT_STYLES
     return (
-      <iframe
-        title="content-displayer"
-        style={styles}
-        src={contentURL}
-        onLoad={onContentLoaded}
-        onError={onContentError}
-      />
+      <div style={IFrameURLContentDisplayer.LAYOUT_STYLE} >
+        <iframe
+          title="content-displayer"
+          style={styles}
+          src={contentURL}
+          onLoad={onContentLoaded}
+          onError={onContentError}
+        />
+      </div>
     )
   }
 }

@@ -19,6 +19,7 @@
 import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
+import get from 'lodash/get'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -26,12 +27,15 @@ import { ErrorTypes } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
 import ConnectionViewerComponent from './ConnectionViewerComponent'
 import StaticAttributeList from './StaticAttributeList'
 import DatasourceFormMappingFromTableComponent from './DatasourceFormMappingFromTableComponent'
 import DatasourceFormMappingCustomComponent from './DatasourceFormMappingCustomComponent'
 import states from './FormMappingStates'
+
+const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
 
 export class DatasourceFormMappingComponent extends React.Component {
   static propTypes = {
@@ -67,20 +71,22 @@ export class DatasourceFormMappingComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    const currentTableSelected = props.isEditing && props.isSingleTable ? props.currentDatasource.content.tableName : ''
+    const currentTableSelected = props.isEditing && props.isSingleTable ? findParam(props.currentDatasource, IDBDatasourceParamsEnum.TABLE).value : ''
     this.state = {
       currentTableSelected,
     }
   }
 
   componentDidMount() {
-    const { currentTableSelected } = this.state
     // Initialize forms inputs
     if (this.props.isEditing) {
+      const { currentDatasource } = this.props
+      const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.attributesMapping', [])
       if (this.props.isSingleTable) {
-        const { currentDatasource, tableAttributeList } = this.props
+        const { tableAttributeList } = this.props
+        const { currentTableSelected } = this.state
         const attributes = {}
-        forEach(currentDatasource.content.mapping.attributesMapping, (attributeMapping) => {
+        forEach(attributesMapping, (attributeMapping) => {
           // Check if the value provided by attributeMapping.nameDs exists in table attributes
           const existingTable = find(tableAttributeList, tableAttribute => tableAttribute.name === attributeMapping.nameDS)
           attributes[attributeMapping.name] = {
@@ -96,16 +102,16 @@ export class DatasourceFormMappingComponent extends React.Component {
         }
         this.props.initialize(obj)
       } else {
-        const { currentDatasource } = this.props
+        const fromClause = get(findParam(currentDatasource, IDBDatasourceParamsEnum.FROM_CLAUSE), 'value')
         const attributes = {}
-        forEach(currentDatasource.content.mapping.attributesMapping, (attributeMapping) => {
+        forEach(attributesMapping, (attributeMapping) => {
           attributes[attributeMapping.name] = {
             sql: attributeMapping.nameDS,
           }
         })
         const obj = {
           [states.CUSTOM_FROM]: {
-            fromClause: currentDatasource.content.fromClause,
+            fromClause,
             attributes,
           },
         }
@@ -222,7 +228,6 @@ export class DatasourceFormMappingComponent extends React.Component {
                       table={tableList[currentTableSelected]}
                       tableAttributeList={tableAttributeList}
                       modelAttributeList={modelAttributeList}
-                      currentDatasource={currentDatasource}
                       change={change}
                       isEditing={isEditing}
                     />

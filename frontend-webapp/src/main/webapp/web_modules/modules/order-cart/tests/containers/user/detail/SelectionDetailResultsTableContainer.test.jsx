@@ -18,29 +18,34 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AddElementToCartComponent from '../../../../../src/components/user/results/options/AddElementToCartComponent'
-import styles from '../../../../../src/styles/styles'
+import SelectionDetailResultsTableComponent from '../../../../src/components/user/detail/SelectionDetailResultsTableComponent'
+import { SelectionDetailResultsTableContainer } from '../../../../src/containers/user/detail/SelectionDetailResultsTableContainer'
+import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test AddElementToCartComponent
+* Test SelectionDetailResultsTableContainer
 * @author Raphaël Mechali
 */
-describe('[Search Results] Testing AddElementToCartComponent', () => {
+describe('[Order Cart] Testing SelectionDetailResultsTableContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AddElementToCartComponent)
+    assert.isDefined(SelectionDetailResultsTableContainer)
   })
   it('should render correctly', () => {
-    const props = { onAddToCart: () => { } }
-    const enzymeWrapper = shallow(<AddElementToCartComponent {...props} />, { context })
-    const iconButtonWrapper = enzymeWrapper.find(IconButton)
-    assert.lengthOf(iconButtonWrapper, 1, 'There should be a button')
-    assert.equal(iconButtonWrapper.props().onTouchTap, props.onAddToCart, 'The callback should be correctly reported')
+    const props = {
+      openSearchRequest: 'any',
+      availableHeight: 260,
+      resultsCount: 25,
+      isFetching: true,
+    }
+    const enzymeWrapper = shallow(<SelectionDetailResultsTableContainer {...props} />, { context })
+
+    const componentWrapper = enzymeWrapper.find(SelectionDetailResultsTableComponent)
+    assert.lengthOf(componentWrapper, 1, 'There should be the component')
   })
 })
