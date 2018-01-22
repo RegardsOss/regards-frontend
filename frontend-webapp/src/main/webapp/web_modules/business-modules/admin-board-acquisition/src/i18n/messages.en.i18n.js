@@ -43,7 +43,7 @@ const messages = {
   'data.board.storage.description': 'This section allows you to configure one or multiples data storage locations and also the strategy to define wich location system will use.',
   'data.board.action.storages.tooltip': 'Configure locations',
   'data.board.action.allocations.tooltip': 'Configure stratgies',
-
+  'data.board.action.monitoring.tooltip': 'Monitor data storages occupation',
 
 }
 
