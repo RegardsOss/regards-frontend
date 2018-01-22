@@ -369,12 +369,12 @@ function buildLocalServices(gatewayURL) {
       //     }
       //   }
       // },
-      storageMonitoring: {
-        url: 'rs-storage/storages/monitoring', handler: () => {
-          const content = addLinks(JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')))
-          return { content }
-        }
-      },
+      // storageMonitoring: {
+      //   url: 'rs-storage/storages/monitoring', handler: () => {
+      //     const content = addLinks(JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')))
+      //     return { content }
+      //   }
+      // },
     },
     PUT: {
       // pause order

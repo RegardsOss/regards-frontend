@@ -3,18 +3,18 @@
  * List of mocked dependencies
  */
 const MOCK_RESOURCES = [
-  {
-    content: {
-      controllerSimpleName: 'StoragePluginsController',
-      defaultRole: 'PUBLIC',
-      description: 'Storage plugins list',
-      id: 100000,
-      microservice: 'rs-storage',
-      resource: '/storages/monitoring',
-      verb: 'GET',
-    },
-    links: [],
-  },
+  // {
+  //   content: {
+  //     controllerSimpleName: 'StoragePluginsController',
+  //     defaultRole: 'PUBLIC',
+  //     description: 'Storage plugins list',
+  //     id: 100000,
+  //     microservice: 'rs-storage',
+  //     resource: '/storages/monitoring',
+  //     verb: 'GET',
+  //   },
+  //   links: [],
+  // },
 ]
 
 module.exports = {

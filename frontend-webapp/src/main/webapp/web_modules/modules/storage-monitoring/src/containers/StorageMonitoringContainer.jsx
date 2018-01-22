@@ -27,6 +27,7 @@ import StorageMonitoringComponent from '../components/StorageMonitoringComponent
  */
 export class StorageMonitoringContainer extends React.Component {
   static propTypes = {
+    scale: storage.StorageUnitScaleShape.isRequired,
     // from mapStateToProps
     storagePlugins: StorageShapes.StoragePluginList.isRequired,
     isFetching: PropTypes.bool,
@@ -36,20 +37,6 @@ export class StorageMonitoringContainer extends React.Component {
   }
 
   /**
-   * Container default state
-   */
-  static DEFAULT_STATE = {
-    expanded: true,
-    currentScale: storage.StorageUnitScale.bytesScale,
-  }
-
-  /**
-   * Lifecycle method: component will mount.
-   * Initializes the expanded state of module
-   */
-  componentWillMount = () => this.setState(StorageMonitoringContainer.DEFAULT_STATE)
-
-  /**
    * Lifecycle method: component did mount. Fetches module data.
    */
   componentDidMount = () => {
@@ -57,30 +44,18 @@ export class StorageMonitoringContainer extends React.Component {
   }
 
   /**
-  * User callback: on toggle expanded state
-  */
-  onExpandChange = () => this.setState({ expanded: !this.state.expanded })
-
-  /**
-   * User callback: on unit scale changed by user
-   * @param newScale new selected scale
-   */
-  onUnitScaleChanged = newScale => this.setState({ currentScale: newScale })
-
-  /**
    * @returns {React.Component}
    */
   render() {
-    const { isFetching, storagePlugins, hasError } = this.props
-    const { expanded, currentScale } = this.state
+    const {
+      scale, storagePlugins, isFetching, hasError,
+    } = this.props
     return (
       <StorageMonitoringComponent
         isFetching={isFetching}
         hasError={hasError}
-        scale={currentScale}
+        scale={scale}
         storagePlugins={storagePlugins}
-        expanded={expanded}
-        onExpandChange={this.onExpandChange}
         onUnitScaleChanged={this.onUnitScaleChanged}
       />
     )

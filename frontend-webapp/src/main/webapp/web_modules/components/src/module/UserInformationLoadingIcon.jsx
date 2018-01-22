@@ -16,14 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import CircularProgress from 'material-ui/CircularProgress';
+import { themeContextType } from '@regardsoss/theme'
 
-const messages = {
-  'dynamic.module.loading.title': 'Loading...',
-  'dynamic.module.loading.message': 'Loading user data and rights information, please wait...',
-  'dynamic.module.not.authenticated.title': 'Unknown user',
-  'dynamic.module.not.authenticated.message': 'Please log in to access this page',
-  'dynamic.module.unsufficient.rights.title': 'Unsufficient rights',
-  'dynamic.module.unsufficient.rights.message': 'Your user account has not enough rights to access this page',
+/**
+ * User information loading icon for dynamic module
+ * @author Raphaël Mechali
+ */
+class UserInformationLoadingIcon extends React.Component {
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+
+  render() {
+    const { moduleTheme: { loadingIcon: { size, thickness } } } = this.context
+    return <CircularProgress size={size} thickness={thickness} />
+  }
 }
-
-export default messages
+export default UserInformationLoadingIcon

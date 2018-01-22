@@ -61,13 +61,13 @@ module.exports = {
   },
   module: {
     titleBarHeight: '48px',
-    titleMargin: '0 0 0 8px',
-    titleIconMargin: '0',
-    titleIconSize: '24px',
-    titleTextMargin: '0 0 0 8px',
+    titleMarginLeft: 8,
+    titleIconSize: 24,
+    titleTextMarginLeft: 8,
     titleFontSize: '20px',
     titleFontWeight: '500',
     titleTextTransform: undefined,
+    subtitleMarginTop: -4,
   },
   // storage plugins module
   'module:storage-plugins': {

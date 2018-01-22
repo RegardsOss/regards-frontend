@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ModuleIcon from 'material-ui/svg-icons/device/data-usage'
-import moduleContainer from './containers/StorageMonitoringContainer'
+import moduleContainer from './containers/ModuleContainer'
 import styles from './styles/styles'
 import reducer from './reducer'
 import dependencies from './dependencies'

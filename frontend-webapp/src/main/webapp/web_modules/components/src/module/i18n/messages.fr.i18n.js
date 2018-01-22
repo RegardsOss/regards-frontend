@@ -18,6 +18,8 @@
  **/
 
 const messages = {
+  'dynamic.module.loading.title': 'Chargement...',
+  'dynamic.module.loading.message': 'Chargement des informations et droits de l\'utilisateur, veuillez patienter...',
   'dynamic.module.not.authenticated.title': 'Utilisateur inconnu',
   'dynamic.module.not.authenticated.message': 'Veuillez vous authentifier pour accéder à cette page',
   'dynamic.module.unsufficient.rights.title': 'Droits insuffisants',

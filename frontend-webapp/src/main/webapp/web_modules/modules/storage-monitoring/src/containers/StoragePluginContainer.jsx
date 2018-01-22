@@ -84,10 +84,10 @@ export class StoragePluginContainer extends React.Component {
     const {
       content: {
         confId,
-      label,
-      description,
-      totalSize: textTotalSize,
-      usedSize: textUsedSize,
+        label,
+        description,
+        totalSize: textTotalSize,
+        usedSize: textUsedSize,
       },
     } = plugin
     const totalSize = StoragePluginContainer.parseAndConvert(textTotalSize, scale)
