@@ -30,10 +30,12 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
 import DatasourceFormMappingLineComponent from './DatasourceFormMappingLineComponent'
 import StaticAttributeList from './StaticAttributeList'
 import states from './FormMappingStates'
-import { findParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
+
+const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
 
 export class DatasourceFormMappingFromTableComponent extends React.Component {
   static propTypes = {

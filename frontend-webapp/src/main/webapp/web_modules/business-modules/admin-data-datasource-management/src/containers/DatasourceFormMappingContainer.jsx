@@ -21,13 +21,16 @@ import { connect } from '@regardsoss/redux'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
 import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import { connectionTableActions, connectionTableSelectors } from '../clients/ConnectionTableClient'
 import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../clients/ConnectionTableAttributesClient'
 import DatasourceFormMappingEmptyDatabaseComponent from '../components/DatasourceFormMappingEmptyDatabaseComponent'
 import messages from '../i18n'
-import { findParam, hasParam, IDBDatasourceParamsEnum } from '../IDBDatasourceParamsUtils'
+
+const { findParam, hasParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
+
 
 /**
  * Show the datasource form
