@@ -68,6 +68,7 @@ const messages = {
   'user.menu.notification.unread.title': 'Notifications non lues',
   'user.menu.notification.empty': 'Pas de nouvelles notifications',
   'user.menu.notification.details.sentby': 'Envoyé par {sender}',
+  'user.menu.notification.details.message': 'Message',
   'user.menu.notification.clearAll': 'Tout marquer comme lu',
 
   ...Locales.fr,

@@ -22,10 +22,9 @@
  * @author Sébastien binda
  */
 const menuStyles = theme => ({
-    admin: {
-      rootStyle: {
-        padding: 20,
-      },
+  admin: {
+    rootStyle: {
+      padding: 20,
     },
   },
   user: {
@@ -133,13 +132,20 @@ const menuStyles = theme => ({
         style: {
           opacity: 0.5,
         },
+        primaryText: {
+          display: 'grid',
+          gridTemplateColumns: 'auto auto',
+        },
         dateStyle: {
-          display: 'flex',
-          alignItems: 'center',
           fontSize: '0.8em',
-          paddingTop: 16,
-          paddingRight: 16,
+          paddingLeft: 10,
           pointerEvents: 'none',
+          textAlign: 'right',
+        },
+        titleStyle: {
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
         },
       },
       selectedItem: {
@@ -177,10 +183,15 @@ const menuStyles = theme => ({
       details: {
         date: {
           style: {
-            position: 'absolute',
-            right: 24,
-            top: 24,
+            paddingRight: 24,
+            paddingTop: 24,
             fontSize: '0.8em',
+          },
+        },
+        header: {
+          style: {
+            display: 'grid',
+            gridTemplateColumns: 'auto max-content',
           },
         },
         actions: {

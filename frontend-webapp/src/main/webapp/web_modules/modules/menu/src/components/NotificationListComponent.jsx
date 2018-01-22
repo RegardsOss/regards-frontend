@@ -103,7 +103,11 @@ class NotificationListComponent extends React.Component {
     }
     this.notificationSystem.addNotification({
       message: (
-        <div role="presentation" style={notificationSystemStyle.message.style} onClick={() => this.handleOpen(notif)}>
+        <div
+          role="presentation"
+          style={notificationSystemStyle.message.style}
+          onClick={() => this.handleOpen(notif)}
+        >
           {this.renderAvatar(notif.type)}
           <div>
             <div style={notificationSystemStyle.message.titleStyle}>{notif.title}</div>
@@ -198,12 +202,14 @@ class NotificationListComponent extends React.Component {
             style={itemStyle(notif)}
             key={`notification-${notif.id}`}
             leftAvatar={this.renderAvatar(notif.type)}
-            rightIconButton={
+            primaryText={
+              <div style={notificationStyle.list.item.primaryText}>
+                <div style={notificationStyle.list.item.titleStyle}>{notif.title}</div>
               <div style={notificationStyle.list.item.dateStyle}>
                 {this.getFormattedDate(notif.date)}
               </div>
+              </div>
             }
-            primaryText={notif.title}
           />,
           <Divider inset key={`divider-${notif.id}`} />,
         ])}
@@ -225,6 +231,7 @@ class NotificationListComponent extends React.Component {
             {this.renderNotificationList(this.props.readNotifications)}
           </div>
           <div>
+            <div style={dialog.details.header.style}>
             <CardHeader
               title={this.state.openedNotification.title}
               subtitle={this.context.intl.formatMessage(
@@ -236,7 +243,11 @@ class NotificationListComponent extends React.Component {
             <div style={dialog.details.date.style}>
               {this.getFormattedDate(this.state.openedNotification.date)}
             </div>
-            <CardText>Message: {this.state.openedNotification.message}</CardText>
+            </div>
+            <CardText>
+              <FormattedMessage id="user.menu.notification.details.message" />:<br />
+              {this.state.openedNotification.message}
+            </CardText>
             <CardActions style={dialog.details.actions.style}>
               <FlatButton label="Close" key="close" primary onClick={this.handleClose} />
             </CardActions>
