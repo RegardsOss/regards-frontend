@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import messages from './i18n'
 import { StorageCapacityShape } from './StorageCapacity'

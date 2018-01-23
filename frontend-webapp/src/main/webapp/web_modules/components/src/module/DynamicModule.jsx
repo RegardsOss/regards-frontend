@@ -30,7 +30,6 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import UserInformationLoadingIcon from './UserInformationLoadingIcon'
-import ModuleSubtitle from './ModuleSubtitle'
 import styles from './styles'
 import messages from './i18n'
 

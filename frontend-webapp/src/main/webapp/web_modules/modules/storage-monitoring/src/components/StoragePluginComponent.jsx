@@ -20,8 +20,8 @@ import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ParsedStoragePluginShape } from '../model/ParsedStoragePluginShape'
-import PhysicalStorageChartComponent from './PhysicalStorageChartComponent'
-import PhysicalStorageLegendComponent from './PhysicalStorageLegendComponent'
+import StoragePluginChartComponent from './StoragePluginChartComponent'
+import StoragePluginLegendComponent from './StoragePluginLegendComponent'
 
 /**
  * Displays storage plugin capacity information
@@ -49,8 +49,8 @@ class StoragePluginComponent extends React.Component {
           subtitle={description}
         />
         <CardMedia style={pluginCard.media.rootStyle} mediaStyle={pluginCard.media.contentStyle} >
-          <PhysicalStorageChartComponent storagePlugin={storagePlugin} />
-          <PhysicalStorageLegendComponent storagePlugin={storagePlugin} />
+          <StoragePluginChartComponent storagePlugin={storagePlugin} />
+          <StoragePluginLegendComponent storagePlugin={storagePlugin} />
         </CardMedia>
       </Card>
     )

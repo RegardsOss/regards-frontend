@@ -54,6 +54,8 @@ export class PluginStorageMonitoringComponent extends React.Component {
       type: modulesManager.AllDynamicModuleTypes.STORAGE_MONITORING,
       active: true,
       applicationId: 'admin',
+      expandable: false,
+      expanded: true,
       conf: {},
     }
 

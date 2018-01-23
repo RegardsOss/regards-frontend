@@ -26,7 +26,7 @@ import { ParsedStoragePluginShape } from '../model/ParsedStoragePluginShape'
 * the total and used size expressed in the right scale (optimization to avoid multiple conversion accross the sub components)
 * @author Raphaël Mechali
 */
-class PhysicalStorageChartComponent extends React.Component {
+class StoragePluginChartComponent extends React.Component {
   static propTypes = {
     storagePlugin: ParsedStoragePluginShape, // not required, selection may be empty
   }
@@ -90,4 +90,4 @@ class PhysicalStorageChartComponent extends React.Component {
     )
   }
 }
-export default PhysicalStorageChartComponent
+export default StoragePluginChartComponent

@@ -37,11 +37,11 @@ export class StoragePluginContainer extends React.Component {
 
   /**
    * Parses text capacity as parameter then converts it on scale as parameter
-   * @param {*} textCapacity text for capacity
-   * @param {*} scale scale family (bits, bytes...)
+   * @param {string} textCapacity text for capacity
+   * @param {StorageUnitScale} scale scale family (bits, bytes...)
    * @return {storage.StorageCapacity} parsed capacity or null
    */
-  static parseAndConvert(textCapacity, scale) {
+  static parseAndConvert(textCapacity = '', scale) {
     const parsed = storage.StorageCapacity.fromValue(textCapacity)
     return parsed ? parsed.scaleAndConvert(scale) : null
   }

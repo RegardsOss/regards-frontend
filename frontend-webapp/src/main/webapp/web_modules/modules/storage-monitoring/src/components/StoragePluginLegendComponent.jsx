@@ -26,7 +26,7 @@ import { ParsedStoragePluginShape } from '../model/ParsedStoragePluginShape'
  * Displays chart legend to add total size and icons in an unified screen location
  * @author Raphaël Mechali
  */
-class PhysicalStorageLegendComponent extends React.Component {
+export class StoragePluginLegendComponent extends React.Component {
   static propTypes = {
     storagePlugin: ParsedStoragePluginShape, // not required, selection may be empty
   }
@@ -60,8 +60,8 @@ class PhysicalStorageLegendComponent extends React.Component {
             media: {
               legend: {
                 itemRootContainerStyle,
-        legendIcon,
-        itemLabelStyle,
+                legendIcon,
+                itemLabelStyle,
               },
             },
           },
@@ -72,7 +72,7 @@ class PhysicalStorageLegendComponent extends React.Component {
     const capacity = storage.formatStorageCapacity(formatMessage, formatNumber, size)
     let message
     if (percent) { // label for knwon percent
-      const percentLabel = formatNumber(percent, PhysicalStorageLegendComponent.NUMBER_FORMAT_OPTIONS)
+      const percentLabel = formatNumber(percent, StoragePluginLegendComponent.NUMBER_FORMAT_OPTIONS)
       message = formatMessage({ id: 'archival.storage.capacity.monitoring.size.with.percent' }, { label, capacity, percentLabel })
     } else { // no label
       message = formatMessage({ id: 'archival.storage.capacity.monitoring.size.without.percent' }, { label, capacity })
@@ -104,7 +104,7 @@ class PhysicalStorageLegendComponent extends React.Component {
           pluginCard: {
             media: {
               chart: { curves },
-      legend: { rootContainerStyle, firstColumnContainerStyle, secondColumnContainerStyle },
+              legend: { rootContainerStyle, firstColumnContainerStyle, secondColumnContainerStyle },
             },
           },
         },
@@ -138,4 +138,4 @@ class PhysicalStorageLegendComponent extends React.Component {
 }
 
 // add the i18n context from scales to this component to use capacity formatter
-export default withI18n(storage.messages, true)(PhysicalStorageLegendComponent)
+export default withI18n(storage.messages, true)(StoragePluginLegendComponent)

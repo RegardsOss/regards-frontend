@@ -19,27 +19,34 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AnyIcon from 'material-ui/svg-icons/action/accessibility'
-import ModuleTitle from '../../src/module/ModuleTitle'
+import ModuleSubtitle from '../../src/module/ModuleSubtitle'
 import styles from '../../src/module/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test ModuleTitle
-* @author Raphaël Mechali
-*/
-describe('[Components] Testing ModuleTitle', () => {
+ * Test ModuleSubtitle
+ * @author Raphaël Mechali
+ */
+describe('[Components] Testing ModuleSubtitle', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModuleTitle)
+    assert.isDefined(ModuleSubtitle)
   })
-  it('should render correctly with icon', () => {
-    shallow(<ModuleTitle text="IDK" tooltip="IDK" IconConstructor={AnyIcon} />, { context })
+  it('should render correctly with insets', () => {
+    const props = {
+      text: 'test1',
+      iconInsets: true,
+    }
+    shallow(<ModuleSubtitle {...props} />, { context })
   })
-  it('should render correctly without icon', () => {
-    shallow(<ModuleTitle text="IDK" tooltip="IDK" />, { context })
+  it('should render correctly without insets', () => {
+    const props = {
+      text: 'test2',
+      iconInsets: false,
+    }
+    shallow(<ModuleSubtitle {...props} />, { context })
   })
 })

@@ -29,7 +29,7 @@ import { dump } from '../dump/dump'
 
 const context = buildTestContext(styles)
 
-describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () => {
+describe('[Storage Monitoring] Testing StorageMonitoringComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -43,9 +43,6 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
       storagePlugins: dump,
       isFetching: false,
       hasError: false,
-      expanded: true,
-      onExpandChange: () => { },
-      onUnitScaleChanged: () => { },
     }
 
     const enzymeWrapper = shallow(<StorageMonitoringComponent {...props} />, { context })
@@ -74,9 +71,6 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringComponent', () =
       storagePlugins: {},
       isFetching: true,
       hasError: true,
-      expanded: true,
-      onExpandChange: () => { },
-      onUnitScaleChanged: () => { },
     }
     // is rendering ok?
     const enzymeWrapper = shallow(<StorageMonitoringComponent {...props} />, { context })

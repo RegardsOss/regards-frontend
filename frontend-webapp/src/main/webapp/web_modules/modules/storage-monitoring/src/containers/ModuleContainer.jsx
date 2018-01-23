@@ -26,6 +26,7 @@ import ModuleComponent from '../components/ModuleComponent'
  */
 export class ModuleContainer extends React.Component {
   static propTypes = {
+    // default modules properties
     expandable: PropTypes.bool.isRequired,
     expanded: PropTypes.bool.isRequired,
   }

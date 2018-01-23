@@ -31,7 +31,7 @@ const context = buildTestContext(styles)
 * Test StoragePluginContainer
 * @author Raphaël Mechali
 */
-describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginContainer ', () => {
+describe('[Storage Monitoring] Testing StoragePluginContainer ', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -47,35 +47,38 @@ describe('[STORAGE PLUGINS MONITORING] Testing StoragePluginContainer ', () => {
     const subComponent = enzymeWrapper.find(StoragePluginComponent)
     assert.lengthOf(subComponent, 1, 'The sub component should be rendered')
     testSuiteHelpers.assertWrapperProperties(subComponent, {
-      label: dump[1].content.label, // label should come from fetched data
-      description: dump[1].content.description, // description should come from fetched data
-      storageInfo: enzymeWrapper.state().storageInfo,
-      selectedStorageIndex: 0, // should be initialized correctly
-      onStorageRowSelected: enzymeWrapper.instance().onStorageRowSelected,
+      storagePlugin: enzymeWrapper.state().parsedStoragePlugin,
     }, 'Container data is not correctly reported')
   })
-  it('should pre-convert correctly the device data in its state, ignoring non parsable device sizes', () => {
+  it('should pre-convert correctly the plugin data in its state, ignoring non parsable sizes', () => {
+    // first plugin (parsable)
     const props = {
       scale: storage.StorageUnitScale.bytesScale,
       plugin: dump[1],
     }
-    // base on dump info, first device should be correctly parsed, second one should have no size information available
     const enzymeWrapper = shallow(<StoragePluginContainer {...props} />, { context })
-    const convertedInfo = enzymeWrapper.state().storageInfo
-    // note: test remains very light here as we do not test parsing process, that is tested in regardsoss/units
-    // first device (parsable)
-    assert.isOk(convertedInfo[0].storagePhysicalId)
-    assert.isOk(convertedInfo[0].totalSize)
-    assert.isOk(convertedInfo[0].usedSize)
-    assert.isOk(convertedInfo[0].unusedSize)
-    assert.isOk(convertedInfo[0].usedPercent)
-    assert.isOk(convertedInfo[0].unusedPercent)
-    // second device (unparsable)
-    assert.isOk(convertedInfo[1].storagePhysicalId)
-    assert.isNotOk(convertedInfo[1].totalSize)
-    assert.isNotOk(convertedInfo[1].usedSize)
-    assert.isNotOk(convertedInfo[1].unusedSize)
-    assert.isNotOk(convertedInfo[1].usedPercent)
-    assert.isNotOk(convertedInfo[1].unusedPercent)
+    const firstConvertedPlugin = enzymeWrapper.state().parsedStoragePlugin
+    assert.isOk(firstConvertedPlugin.confId)
+    assert.isOk(firstConvertedPlugin.label)
+    assert.isOk(firstConvertedPlugin.description)
+    assert.isOk(firstConvertedPlugin.totalSize)
+    assert.isOk(firstConvertedPlugin.usedSize)
+    assert.isOk(firstConvertedPlugin.unusedSize)
+    assert.isOk(firstConvertedPlugin.usedPercent)
+    assert.isOk(firstConvertedPlugin.unusedPercent)
+    // second plugin (not parsable)
+    enzymeWrapper.setProps({
+      scale: storage.StorageUnitScale.bitsScale,
+      plugin: dump[2],
+    })
+    const secondConvertedPlugin = enzymeWrapper.state().parsedStoragePlugin
+    assert.isOk(secondConvertedPlugin.confId)
+    assert.isOk(secondConvertedPlugin.label)
+    assert.isOk(secondConvertedPlugin.description)
+    assert.isNotOk(secondConvertedPlugin.totalSize)
+    assert.isNotOk(secondConvertedPlugin.usedSize)
+    assert.isNotOk(secondConvertedPlugin.unusedSize)
+    assert.isNotOk(secondConvertedPlugin.usedPercent)
+    assert.isNotOk(secondConvertedPlugin.unusedPercent)
   })
 })
