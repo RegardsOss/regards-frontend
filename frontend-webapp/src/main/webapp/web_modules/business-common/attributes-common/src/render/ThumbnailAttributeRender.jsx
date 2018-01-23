@@ -18,12 +18,13 @@
  **/
 import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
-import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { CatalogDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { FitContentDialog } from '@regardsoss/components'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -43,33 +44,42 @@ export class ThumbnailAttributeRender extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      displayFullSize: false,
-    }
+  state = {
+    displayFullSize: false,
   }
 
   displayFullSize = (uri) => {
     if (this.state.displayFullSize) {
       const { intl: { formatMessage } } = this.context
+      const actions = [
+        <FlatButton
+          key="cancel"
+          label={formatMessage({ id: 'attribute.thumbnail.action.close' })}
+          primary
+          onClick={this.handleToggleDialog}
+        />,
+      ]
       return (
-        <Dialog
+        <FitContentDialog
           modal={false}
-          onRequestClose={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
+          onRequestClose={this.handleToggleDialog}
           open
+          actions={actions}
         >
           <div>
             <img
               src={uri}
               alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-              style={{ maxWidth: 500 }}
             />
           </div>
-        </Dialog>
+        </FitContentDialog>
       )
     }
     return null
+  }
+
+  handleToggleDialog = () => {
+    this.setState({ displayFullSize: !this.state.displayFullSize })
   }
 
   render() {
@@ -83,7 +93,7 @@ export class ThumbnailAttributeRender extends React.Component {
             src={thumbnailURI}
             style={thumbnailCell}
             alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-            onTouchTap={() => this.setState({ displayFullSize: !this.state.displayFullSize })}
+            onTouchTap={this.handleToggleDialog}
           />
           {this.displayFullSize(thumbnailURI)}
         </div>

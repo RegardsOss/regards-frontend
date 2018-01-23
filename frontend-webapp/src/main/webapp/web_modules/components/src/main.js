@@ -52,6 +52,7 @@ import NoContentComponent from './content/NoContentComponent'
 
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
 import PositionedDialog from './dialogs/PositionedDialog'
+import FitContentDialog from './dialogs/FitContentDialog'
 import LoadableContentDialogContainer from './dialogs/LoadableContentDialogContainer'
 import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogContainer'
 import withConfirmDialog from './dialogs/withConfirmDialog'
@@ -163,6 +164,7 @@ export {
   ModuleTitle,
   PageNotFoundComponent,
   PositionedDialog,
+  FitContentDialog,
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
   MarkdownFileContentDisplayer,
