@@ -33,8 +33,8 @@ import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider/Divider'
 import map from 'lodash/map'
 import { FormattedMessage, FormattedDate } from 'react-intl'
-import { AdminShapes } from '@regardsoss/shape'
 import NotificationSystem from 'react-notification-system'
+import { AdminShapes } from '@regardsoss/shape'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { CardHeader, CardText, CardActions } from 'material-ui/Card'
@@ -295,7 +295,7 @@ class NotificationListComponent extends React.Component {
               <Notification style={notificationStyle.icon.style} />
             ) : (
               <NotificationNone style={notificationStyle.icon.style} />
-            )}
+              )}
           </div>
         </IconButton>
         {this.renderNotificationDialog()}

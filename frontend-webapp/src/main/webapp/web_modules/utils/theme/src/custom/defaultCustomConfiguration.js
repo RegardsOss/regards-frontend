@@ -71,9 +71,9 @@ module.exports = {
   },
   // storage plugins module
   'module:storage-plugins': {
-    usedSpaceColor: '#3DC9D5',
-    unusedSpaceColor: '#E0E0E0',
-    chartBorderColor: '#FFFFFF',
+    usedSpaceColor: '#133e63',
+    unusedSpaceColor: '#FFFFFF',
+    chartBorderColor: '#94a4b2',
     chartBorderWidth: '1px',
     legendMarginTop: 16,
     legendItemMarginTop: 8,
