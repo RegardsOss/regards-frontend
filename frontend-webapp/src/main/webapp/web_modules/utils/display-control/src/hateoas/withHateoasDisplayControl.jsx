@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import ShowableAtRender from '../ShowableAtRender'
@@ -38,9 +39,9 @@ const withHateoasDisplayControl = (DecoratedComponent) => {
       hateoasKey: PropTypes.string,
       alwaysDisplayforInstanceUser: PropTypes.bool,
       disableInsteadOfHide: PropTypes.bool,
+      displayLogic: PropTypes.func,
       // Set by mapStateToProps
       isInstance: PropTypes.bool,
-      displayLogic: PropTypes.func,
     }
 
     static defaultProps = {
@@ -53,9 +54,9 @@ const withHateoasDisplayControl = (DecoratedComponent) => {
       // Remove from otherProps all props that doesn't need to be reinjected in children
       // eslint-disable-next-line no-unused-vars, react/prop-types
       const {
-        entityLinks, hateoasKey, alwaysDisplayforInstanceUser, isInstance, theme, i18n, dispatch, disableInsteadOfHide, displayLogic, ...otherProps
+        entityLinks, hateoasKey, alwaysDisplayforInstanceUser, isInstance, disableInsteadOfHide, displayLogic, ...otherProps
       } = this.props
-      const childProps = otherProps
+      const childProps = omit(otherProps, ['theme', 'i18n', 'dispatch'])
       const isDisplayed = displayLogic(hateoasKey, entityLinks, isInstance, alwaysDisplayforInstanceUser)
       if (!isDisplayed && disableInsteadOfHide) {
         childProps.disabled = true

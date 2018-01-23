@@ -34,8 +34,8 @@ class TableHeaderOptionsArea extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
-    SeparatorConstructor: PropTypes.func.isRequired,
-    reducible: PropTypes.bool.isRequired,
+    SeparatorConstructor: PropTypes.func,
+    reducible: PropTypes.bool,
   }
 
   static defaultProps = {

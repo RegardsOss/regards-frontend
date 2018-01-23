@@ -209,18 +209,19 @@ class ApplicationThemeComponent extends React.Component {
       ><Save color={muiTheme.palette.alternateTextColor} />
       </HateoasIconAction>
     )
-    const deleteButton = (<ConfirmableHateoasIconAction
-      entityLinks={editingTheme.links}
-      hateoasKey={HateoasKeys.DELETE}
-      onTouchTap={() => this.onDelete(editingTheme)}
-      tooltip={formatMessage({ id: 'application.theme.remove.tooltip' })}
-      dialogTitle={formatMessage({ id: 'application.theme.remove.confirm' })}
-    >
-      <Delete
-        color={muiTheme.palette.alternateTextColor}
-        hoverColor={muiTheme.palette.accent1Color}
-      />
-                          </ConfirmableHateoasIconAction>)
+    const deleteButton = (
+      <ConfirmableHateoasIconAction
+        entityLinks={editingTheme.links}
+        hateoasKey={HateoasKeys.DELETE}
+        onTouchTap={() => this.onDelete(editingTheme)}
+        tooltip={formatMessage({ id: 'application.theme.remove.tooltip' })}
+        dialogTitle={formatMessage({ id: 'application.theme.remove.confirm' })}
+      >
+        <Delete
+          color={muiTheme.palette.alternateTextColor}
+          hoverColor={muiTheme.palette.accent1Color}
+        />
+      </ConfirmableHateoasIconAction>)
     const createButton = (<HateoasCreateButton
       resourceDependencies={ThemeActions.getDependency(RequestVerbEnum.POST)}
       onCreate={this.onCreate}

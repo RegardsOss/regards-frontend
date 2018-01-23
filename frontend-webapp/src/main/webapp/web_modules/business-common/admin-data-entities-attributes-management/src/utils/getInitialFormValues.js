@@ -51,7 +51,7 @@ const transformArrayIntoObjectValue = (attrValue) => {
  * @returns {null}
  */
 const saveAttributeValueInForm = (formResult, attrValue, modelAttribute) => {
-  const fragment = modelAttribute.content.attribute.fragment
+  const { fragment } = modelAttribute.content.attribute
   // Add the fragment if it was not already there
   if (fragment.name !== DEFAULT_FRAGMENT) {
     // Create the fragment in the properties if not existing

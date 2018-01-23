@@ -48,6 +48,7 @@ describe('[Entities Common] Testing EntityDescriptionComponent', () => {
       // component API
       entity: null,
       open: false,
+      currentTab: DescriptionLevelActions.TABS_ENUM.DESCRIPTION,
 
       // clients and selectors for sub components
       downloadDescriptionClient: new DownloadDescriptionClient('test', ['test']),
@@ -59,6 +60,7 @@ describe('[Entities Common] Testing EntityDescriptionComponent', () => {
       // control callback
       onSearchTag: null,
       onClose: () => { },
+      changeTab: () => { },
     }
     shallow(<EntityDescriptionComponent {...props} />, { context })
   })
@@ -67,6 +69,7 @@ describe('[Entities Common] Testing EntityDescriptionComponent', () => {
       // component API
       entity: testEntity,
       open: true,
+      currentTab: DescriptionLevelActions.TABS_ENUM.DESCRIPTION,
 
       // clients and selectors for sub components
       downloadDescriptionClient: new DownloadDescriptionClient('test', ['test']),
@@ -78,6 +81,7 @@ describe('[Entities Common] Testing EntityDescriptionComponent', () => {
       // control callback
       onSearchTag: null,
       onClose: () => { },
+      changeTab: () => { },
     }
     shallow(<EntityDescriptionComponent {...props} />, { context })
   })

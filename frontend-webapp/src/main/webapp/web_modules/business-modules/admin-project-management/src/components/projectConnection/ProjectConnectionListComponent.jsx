@@ -175,11 +175,12 @@ export class ProjectConnectionListComponent extends React.Component {
         />)
       case ProjectConnectionStateEnum.DISABLED:
       case ProjectConnectionStateEnum.ERROR:
-        return (<IconButton
-          onTouchTap={() => this.props.onReCreateConnection(connection)}
-        >
-          <RefreshIcon hoverColor={this.context.muiTheme.palette.primary1Color} />
-        </IconButton>)
+        return (
+          <IconButton
+            onTouchTap={() => this.props.onReCreateConnection(connection)}
+          >
+            <RefreshIcon hoverColor={this.context.muiTheme.palette.primary1Color} />
+          </IconButton>)
       default:
         return null
     }
@@ -236,9 +237,9 @@ export class ProjectConnectionListComponent extends React.Component {
               showRowHover
             >
               {map(
-STATIC_CONF.MSERVICES,
+                STATIC_CONF.MSERVICES,
                 (microserviceName, i) => this.displayMicroserviceConnection(microserviceName),
-)}
+              )}
             </TableBody>
           </Table>
         </CardText>

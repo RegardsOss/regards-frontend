@@ -85,7 +85,7 @@ export class LicenseDisplayContainer extends React.Component {
 
   render() {
     const { licenseLink, accepted } = this.props
-    const { dialog: { bodyStyle, heightPercent, widthPercent } } = this.context.moduleTheme
+    const { dialog: { heightPercent, widthPercent } } = this.context.moduleTheme
 
     if (licenseLink && !accepted) {
       const actions = this.renderActions()
@@ -95,7 +95,6 @@ export class LicenseDisplayContainer extends React.Component {
           loadingMessage={this.context.intl.formatMessage({ id: 'license.loading.message' })}
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
-          bodyStyle={bodyStyle}
           open
           actions={actions}
         />

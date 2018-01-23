@@ -37,7 +37,7 @@ import OneElementServicesContainer from '../../../containers/user/results/option
 import DownloadEntityFileContainer from '../../../containers/user/results/options/DownloadEntityFileContainer'
 import EmptyTableComponent from './EmptyTableComponent'
 import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
-import GalleryItemComponent from './gallery/GalleryItemComponent'
+import GalleryItemContainer from '../../../containers/user/results/gallery/GalleryItemContainer'
 import DisplayModuleConf from '../../../models/DisplayModuleConf'
 
 const RESULTS_PAGE_SIZE = 500
@@ -234,6 +234,9 @@ class SearchResultsComponent extends React.Component {
   /** @return {boolean} true if currently displaying dataobjects */
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
+  /** @return {boolean} true if currently displaying documents */
+  isDisplayingDocuments = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
+
   /** @return {boolean} true if currently in list view */
   isInListView = () => this.props.tableViewMode === TableDisplayModeEnum.LIST
 
@@ -256,14 +259,13 @@ class SearchResultsComponent extends React.Component {
     } = this.props
 
     let columns
-    let lineHeight
+    let { lineHeight } = tableTheme
     let displayColumnsHeader
     let displayedRowsCount
 
     const tableColumns = this.buildTableColumns()
     if (this.isInTableView()) {
       displayedRowsCount = tableTheme.rowCount
-      lineHeight = tableTheme.lineHeight
       columns = tableColumns
       displayColumnsHeader = true
     } else if (this.isInListView()) { // use list columns
@@ -273,11 +275,10 @@ class SearchResultsComponent extends React.Component {
       displayColumnsHeader = false
     }
 
-    // TODO-V3 do refactor that please
+    // TODO-V3 do refactor to use request parameters instead or path params
     const pathParams = { parameters: searchQuery }
-    const showFacets = this.isDisplayingDataobjects() && allowingFacettes && showingFacettes
+    const showFacets = ((this.isDisplayingDataobjects() && showingFacettes) || this.isDisplayingDocuments()) && allowingFacettes
     const itemProps = { attributePresentationModels, onAddElementToCart, enableDownload }
-
     return (
       <TableLayout>
         {/* First header row :Table tabs and options */}
@@ -321,7 +322,7 @@ class SearchResultsComponent extends React.Component {
         />
         {this.isInQuicklookView() ?
           (<InfiniteGalleryContainer
-            itemComponent={GalleryItemComponent}
+            itemComponent={GalleryItemContainer}
             pageActions={searchActions}
             pageSelectors={searchSelectors}
             columnWidth={displayConf.quicklookColumnWidth}
@@ -346,7 +347,6 @@ class SearchResultsComponent extends React.Component {
             emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
           />)
         }
-
       </TableLayout>
     )
   }

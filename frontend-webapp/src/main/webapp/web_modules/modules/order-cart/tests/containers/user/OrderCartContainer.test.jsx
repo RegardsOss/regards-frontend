@@ -41,6 +41,8 @@ describe('[Order Cart] Testing OrderCartContainer', () => {
   })
   it('should render correctly with different properties sets', () => {
     const propsSets = [{
+      project: 'any',
+      showDatasets: true,
       isAuthenticated: false,
       basket: undefined,
       hasError: false,
@@ -50,6 +52,8 @@ describe('[Order Cart] Testing OrderCartContainer', () => {
       dispatchStartOrder: () => { },
       dispatchClearCart: () => { },
     }, {
+      project: 'any',
+      showDatasets: true,
       isAuthenticated: true,
       basket: emptyBasket,
       hasError: true,
@@ -59,6 +63,8 @@ describe('[Order Cart] Testing OrderCartContainer', () => {
       dispatchStartOrder: () => { },
       dispatchClearCart: () => { },
     }, {
+      project: 'any',
+      showDatasets: false,
       isAuthenticated: true,
       basket: mockBasket1,
       hasError: false,
@@ -79,7 +85,7 @@ describe('[Order Cart] Testing OrderCartContainer', () => {
         isFetching: props.isFetching,
         isAuthenticated: props.isAuthenticated,
         onClearCart: props.dispatchClearCart,
-        onOrder: props.dispatchStartOrder,
+        onOrder: enzymeWrapper.instance().onOrder,
       }, `Properties should be correctly reported to sub component - property set n°${index}`)
 
       const detailContainerWrapper = enzymeWrapper.find(SelectionItemDetailContainer)

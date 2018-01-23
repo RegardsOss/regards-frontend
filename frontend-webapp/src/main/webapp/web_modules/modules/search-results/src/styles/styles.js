@@ -69,8 +69,12 @@ const styles = theme => ({
           paddingRight: 10,
           color: theme.palette.textColor,
         },
-        optionsBarStyles: {
+        optionsBarHorizontalStyles: {
           display: 'flex',
+        },
+        optionsBarVerticalStyles: {
+          display: 'flex',
+          flexDirection: 'column',
         },
         option: {
           buttonStyles: {

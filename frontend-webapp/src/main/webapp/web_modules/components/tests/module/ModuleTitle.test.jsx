@@ -36,7 +36,10 @@ describe('[Components] Testing ModuleTitle', () => {
   it('should exists', () => {
     assert.isDefined(ModuleTitle)
   })
-  it('should render correctly', () => {
+  it('should render correctly with icon', () => {
     shallow(<ModuleTitle text="IDK" tooltip="IDK" IconConstructor={AnyIcon} />, { context })
+  })
+  it('should render correctly without icon', () => {
+    shallow(<ModuleTitle text="IDK" tooltip="IDK" />, { context })
   })
 })

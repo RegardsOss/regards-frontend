@@ -27,6 +27,7 @@ import DownloadDescriptionClient, { DATASET_REDUCER_PATH, COLLECTION_REDUCER_PAT
 import { descriptionLevelReducer } from './clients/DescriptionLevelClient'
 import modelAttributeClient from './clients/ModelAttributeClient'
 import pluginServiceClient from './clients/PluginServiceClient'
+import FeedbackClient from './clients/FeedbackClient'
 import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
 
 /**
@@ -50,6 +51,8 @@ const searchResultsReducers = {
   // services
   runPluginService: runPluginServiceReducer,
   pluginServices: pluginServiceClient.pluginServiceReducer,
+  // UI feedback
+  feedback: FeedbackClient.feedbackReducer,
 }
 
 export default searchResultsReducers

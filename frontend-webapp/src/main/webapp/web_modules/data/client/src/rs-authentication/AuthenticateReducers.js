@@ -22,7 +22,7 @@ import AuthenticateActions from './AuthenticateActions'
 
 class AuthenticateReducers extends BasicSignalReducers {
   constructor(namespace) {
-    super(new AuthenticateActions(namespace))
+    super(new AuthenticateActions(namespace), null)
   }
 
   reduce(state, action) {

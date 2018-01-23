@@ -16,10 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
-import map from 'lodash/map'
-import omit from 'lodash/omit'
-import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
@@ -114,7 +110,7 @@ export class PluginConfigurationComponent extends React.Component {
               <span>{pluginConfiguration.content.label}</span>
               <span style={moduleTheme.pluginConfiguration.version}>Version {pluginConfiguration.content.version}</span>
               <span> -</span>
-              <span style={moduleTheme.pluginConfiguration.version}>Id {pluginConfiguration.content.id}</span>
+              <span style={moduleTheme.pluginConfiguration.version}>ID {pluginConfiguration.content.id}</span>
             </div>
             <div style={moduleTheme.pluginConfiguration.buttonsGroupWrapper}>
               <span style={moduleTheme.pluginConfiguration.version}><FormattedMessage

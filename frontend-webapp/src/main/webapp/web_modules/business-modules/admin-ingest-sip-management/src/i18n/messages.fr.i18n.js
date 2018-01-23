@@ -50,10 +50,10 @@ const messages = Object.assign({
   'sips.stepper.list': 'Afficher SIPs',
   'sips.stepper.session': 'Selectionner session',
 
-  'sip.confirm.delete.title': 'Supression de données (identifiant producteur : {id})',
-  'sip.confirm.delete.message': 'Voulez vous supprimer uniquement la donnée sélectionée ou toutes les données de même identifiant producteur (SIP ID) ?',
-  'sip.confirm.delete.sips': 'Tous supprimer',
-  'sip.confirm.delete.sip': 'Suprrimer',
+  'sip.confirm.delete.title': 'Suppression de données (identifiant producteur : {id})',
+  'sip.confirm.delete.message': 'Voulez-vous supprimer uniquement la donnée sélectionée ou toutes les données de même identifiant producteur (SIP ID) ?',
+  'sip.confirm.delete.sips': 'Tout supprimer',
+  'sip.confirm.delete.sip': 'Supprimer',
   'sip.cancel.delete': 'Annuler',
 
   'sip.details.button.close': 'Fermer',
@@ -80,6 +80,7 @@ const messages = Object.assign({
   'sips.session.refresh.button': 'Rafraîchir',
   'sips.session.clear.filters.button': 'Vider les filtres',
   'sips.session.apply.filters.button': 'Appliquer les filtres',
+  'sips.session.delete.confirm.title': 'Supprimer la session {id} ?',
 
   'sips.submit.title': 'Soumission de données',
   'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format geoson contenant le ou les entités',

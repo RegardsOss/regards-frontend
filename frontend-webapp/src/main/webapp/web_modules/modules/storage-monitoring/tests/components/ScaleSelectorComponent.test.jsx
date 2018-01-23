@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DropDownButton } from '@regardsoss/components'
 import { storage } from '@regardsoss/units'
-import ScaleSelectorComponent from '../../src/components/ScaleSelectorComponent'
+import { ScaleSelectorComponent } from '../../src/components/ScaleSelectorComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -30,7 +30,7 @@ const context = buildTestContext(styles)
 * Test ScaleSelectorComponent
 * @author Raphaël Mechali
 */
-describe('[STORAGE PLUGINS MONITORING] Testing ScaleSelectorComponent', () => {
+describe('[Storage Monitoring] Testing ScaleSelectorComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

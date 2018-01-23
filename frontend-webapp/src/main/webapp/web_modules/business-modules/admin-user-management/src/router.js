@@ -62,6 +62,16 @@ export const roleAdminRouter = {
   },
 }
 
+export const orderAdminRouter = {
+  path: 'order',
+  getChildRoutes(nextState, cb) {
+    const adminOrderManagement = require('@regardsoss/admin-order-management')
+    require.ensure([], (require) => {
+      cb(null, [adminOrderManagement.orderRouter])
+    })
+  },
+}
+
 
 const projectUserManagementRouter = {
   childRoutes: [
@@ -69,6 +79,7 @@ const projectUserManagementRouter = {
     roleResourceAccessAdminRouter,
     projectUserAdminRouter,
     roleAdminRouter,
+    orderAdminRouter,
   ],
 }
 

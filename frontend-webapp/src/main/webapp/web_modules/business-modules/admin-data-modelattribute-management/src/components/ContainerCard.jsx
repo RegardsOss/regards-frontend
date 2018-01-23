@@ -54,14 +54,15 @@ export class ContainerCard extends React.Component {
       styles.border = '1px solid gray'
     }
     const allStyles = { ...style.cardEspaced, ...style.cardFullHeight, ...styles }
-    return connectDropTarget(<div style={style.cardFullHeight}>
-      <Card style={allStyles}>
-        <CardTitle title={title} />
-        <CardText>
-          {children}
-        </CardText>
-      </Card>
-                             </div>)
+    return connectDropTarget(
+      <div style={style.cardFullHeight}>
+        <Card style={allStyles}>
+          <CardTitle title={title} />
+          <CardText>
+            {children}
+          </CardText>
+        </Card>
+      </div>)
   }
 }
 

@@ -30,7 +30,7 @@ const authenticationReducers = AuthenticationClient.AuthenticateReducers(REDUX_A
 const authenticationActions = new AuthenticationClient.AuthenticateActions(REDUX_ACTION_NAMESPACE)
 const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)
 
-const SPECIFIC_ENDPOINT_MARKER = AuthenticationClient.SPECIFIC_ENDPOINT_MARKER
+const { SPECIFIC_ENDPOINT_MARKER } = AuthenticationClient
 module.exports = {
   authenticationReducers,
   authenticationActions,

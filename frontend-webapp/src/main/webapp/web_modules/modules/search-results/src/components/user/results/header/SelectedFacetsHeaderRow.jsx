@@ -19,10 +19,6 @@ class SelectedFacetsHeaderRow extends React.Component {
     onDeleteFilter: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {
-    resultsCount: 0,
-  }
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,

@@ -60,6 +60,8 @@ import ErrorCardComponent from './error/ErrorCardComponent'
 import PageNotFoundComponent from './error/PageNotFoundProvider'
 import FormErrorMessage from './error/FormErrorMessage'
 
+import FeedbackDisplayer from './feedback/FeedbackDisplayer'
+
 import HelpMessageComponent from './help/HelpMessageComponent'
 
 import SVGIconFromString from './icon/SVGIconFromString'
@@ -93,6 +95,7 @@ import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
 import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
 import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 import TableColumnsVisibilityOption from './table/options/TableColumnsVisibilityOption'
+import TableHeaderAutoCompleteFilter from './table/header/TableHeaderAutoCompleteFilter'
 import TableHeaderContentBox from './table/header/TableHeaderContentBox'
 import TableHeaderLine from './table/header/TableHeaderLine'
 import TableHeaderLineLoadingAndResults from './table/header/TableHeaderLineLoadingAndResults'
@@ -149,6 +152,7 @@ export {
   DynamicModule,
   ErrorCardComponent,
   ErrorDecoratorComponent,
+  FeedbackDisplayer,
   FormErrorMessage,
   FileContentDisplayer,
   HorizontalAreasSeparator,
@@ -193,6 +197,7 @@ export {
   TableColumnConfiguration,
   TableColumnConfigurationController,
   TableColumnsVisibilityOption,
+  TableHeaderAutoCompleteFilter,
   TableHeaderContentBox,
   TableHeaderLine,
   TableHeaderLineLoadingAndResults,

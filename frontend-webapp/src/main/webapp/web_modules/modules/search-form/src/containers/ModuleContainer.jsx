@@ -91,7 +91,7 @@ class ModuleContainer extends React.Component {
     let q = this.getInitialQuery()
 
     if (query && query.q) {
-      q = query.q
+      ({ q } = query)
     }
 
     q = q && q.length > 0 ? q : this.createSearchQueryFromCriterion()
@@ -119,7 +119,6 @@ class ModuleContainer extends React.Component {
         searchQuery: query.q,
         expanded: true,
         hasSearched: false,
-        resetCriterion: true,
       })
       this.criterionValues = {}
     } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {

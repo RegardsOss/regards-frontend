@@ -22,13 +22,13 @@ describe('[Entities Common] Test description level reducer', () => {
 
   it('Should reduce show entity', () => {
     let currentState = DescriptionLevelReducer.DEFAULT_STATE
-    let reduced = reduce(currentState, descriptionLevelActions.show('test1'))
-    let nextState = { currentDescriptionPath: ['test1'] }
+    let reduced = reduce(currentState, descriptionLevelActions.show('test1', DescriptionLevelActions.TABS_ENUM.DESCRIPTION))
+    let nextState = { currentDescriptionPath: ['test1'], tab: DescriptionLevelActions.TABS_ENUM.DESCRIPTION }
     assert.deepEqual(reduced, nextState, 'First show action should be correctly reduced')
 
     currentState = nextState
-    reduced = reduce(currentState, descriptionLevelActions.show('test2'))
-    nextState = { currentDescriptionPath: ['test2'] }
+    reduced = reduce(currentState, descriptionLevelActions.show('test2', DescriptionLevelActions.TABS_ENUM.FILES))
+    nextState = { currentDescriptionPath: ['test2'], tab: DescriptionLevelActions.TABS_ENUM.FILES }
     assert.deepEqual(reduced, nextState, 'Second show action should be correctly reduce')
     currentState = reduced
   })
@@ -41,12 +41,12 @@ describe('[Entities Common] Test description level reducer', () => {
   it('Should reduce show related entity when there is a parent path', () => {
     const reduced = reduce(
       reduce(
-        reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test1')),
+        reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test1', DescriptionLevelActions.TABS_ENUM.PROPERTIES)),
         descriptionLevelActions.showRelatedEntity('test2'),
       ),
       descriptionLevelActions.showRelatedEntity('test3'),
     )
-    assert.deepEqual(reduced, { currentDescriptionPath: ['test1', 'test2', 'test3'] }, 'The reduced path is invalid')
+    assert.deepEqual(reduced, { currentDescriptionPath: ['test1', 'test2', 'test3'], tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES }, 'The reduced path is invalid')
   })
 
   it('Should fail reducing jump to level action when there is no path', () => {
@@ -54,7 +54,7 @@ describe('[Entities Common] Test description level reducer', () => {
   })
 
   it('Should fail reducing jump to level action when level index is invalid', () => {
-    const initialState = reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test'))
+    const initialState = reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test', DescriptionLevelActions.TABS_ENUM.PROPERTIES))
     assert.throws(reduce.bind(null, initialState, descriptionLevelActions.jumpToLevel(1)))
     assert.throws(reduce.bind(null, initialState, descriptionLevelActions.jumpToLevel(-1)))
   })
@@ -65,7 +65,7 @@ describe('[Entities Common] Test description level reducer', () => {
       reduce(
         reduce(
           reduce(
-            reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test1')),
+            reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test1', DescriptionLevelActions.TABS_ENUM.PROPERTIES)),
             descriptionLevelActions.showRelatedEntity('test2'),
           ),
           descriptionLevelActions.showRelatedEntity('test3'),
@@ -73,20 +73,20 @@ describe('[Entities Common] Test description level reducer', () => {
         descriptionLevelActions.showRelatedEntity('test4'),
       )
 
-    assert.deepEqual(state, { currentDescriptionPath: ['test1', 'test2', 'test3', 'test4'] }, 'Initially reduced path is invalid')
+    assert.deepEqual(state, { currentDescriptionPath: ['test1', 'test2', 'test3', 'test4'], tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES }, 'Initially reduced path is invalid')
     // check that jump to last level (current), does'nt change anything
     assert.deepEqual(
       reduce(state, descriptionLevelActions.jumpToLevel(3)),
-      { currentDescriptionPath: ['test1', 'test2', 'test3', 'test4'] }, 'Initially reduced path is invalid',
+      { currentDescriptionPath: ['test1', 'test2', 'test3', 'test4'], tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES }, 'Initially reduced path is invalid',
     )
     // check that jump to second level clears levels after
     assert.deepEqual(
-      reduce(state, descriptionLevelActions.jumpToLevel(1)), { currentDescriptionPath: ['test1', 'test2'] },
+      reduce(state, descriptionLevelActions.jumpToLevel(1)), { currentDescriptionPath: ['test1', 'test2'], tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES },
       'Jump to level 2 reducing is wrong',
     )
     // check that jump to first level clears levels after
     assert.deepEqual(
-      reduce(state, descriptionLevelActions.jumpToLevel(0)), { currentDescriptionPath: ['test1'] },
+      reduce(state, descriptionLevelActions.jumpToLevel(0)), { currentDescriptionPath: ['test1'], tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES },
       'Jump to level 1 reducing is wrong',
     )
   })
@@ -96,7 +96,7 @@ describe('[Entities Common] Test description level reducer', () => {
       reduce(
         reduce(
           reduce(
-            reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test1')),
+            reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test1', DescriptionLevelActions.TABS_ENUM.PROPERTIES)),
             descriptionLevelActions.showRelatedEntity('test2'),
           ),
           descriptionLevelActions.showRelatedEntity('test3'),
@@ -104,8 +104,16 @@ describe('[Entities Common] Test description level reducer', () => {
         descriptionLevelActions.showRelatedEntity('test4'),
       )
 
-    assert.deepEqual(state, { currentDescriptionPath: ['test1', 'test2', 'test3', 'test4'] }, 'Initially reduced path is invalid')
+    assert.deepEqual(state, { currentDescriptionPath: ['test1', 'test2', 'test3', 'test4'], tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES }, 'Initially reduced path is invalid')
     // check that hide clears the path
-    assert.deepEqual(reduce(state, descriptionLevelActions.hide(3)), { currentDescriptionPath: null }, 'Hide action reducing is invalid')
+    assert.deepEqual(reduce(state, descriptionLevelActions.hide(3)), { currentDescriptionPath: null, tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES }, 'Hide action reducing is invalid')
+  })
+  it('should reduce change tab action', () => {
+    const state = reduce(DescriptionLevelReducer.DEFAULT_STATE, descriptionLevelActions.show('test1', DescriptionLevelActions.TABS_ENUM.PROPERTIES))
+
+
+    assert.deepEqual(state, { currentDescriptionPath: ['test1'], tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES }, 'Initially reduced path is invalid')
+    // check that hide clears the path
+    assert.deepEqual(reduce(state, descriptionLevelActions.changeTab(DescriptionLevelActions.TABS_ENUM.FILES)), { currentDescriptionPath: ['test1'], tab: DescriptionLevelActions.TABS_ENUM.FILES }, 'Change tab action reducing is invalid')
   })
 })

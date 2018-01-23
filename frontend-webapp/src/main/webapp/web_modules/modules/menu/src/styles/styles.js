@@ -24,7 +24,7 @@
 const menuStyles = theme => ({
   admin: {
     rootStyle: {
-      padding: 10,
+        padding: 20,
     },
   },
   user: {

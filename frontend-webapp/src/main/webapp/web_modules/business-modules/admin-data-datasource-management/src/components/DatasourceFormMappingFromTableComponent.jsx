@@ -20,6 +20,7 @@ import some from 'lodash/some'
 import find from 'lodash/find'
 import flow from 'lodash/flow'
 import map from 'lodash/map'
+import get from 'lodash/get'
 import fpmap from 'lodash/fp/map'
 import fpsortBy from 'lodash/fp/sortBy'
 import { CardTitle, CardText } from 'material-ui/Card'
@@ -29,9 +30,12 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
 import DatasourceFormMappingLineComponent from './DatasourceFormMappingLineComponent'
 import StaticAttributeList from './StaticAttributeList'
 import states from './FormMappingStates'
+
+const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
 
 export class DatasourceFormMappingFromTableComponent extends React.Component {
   static propTypes = {
@@ -67,7 +71,8 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
   getIsEditingSQL = (modelAttribute) => {
     const { currentDatasource, tableAttributeList, isEditing } = this.props
     if (isEditing) {
-      const currentAttributeMapping = find(currentDatasource.content.mapping.attributesMapping, attributeMapping => attributeMapping.name === modelAttribute.content.attribute.name)
+      const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.attributesMapping', [])
+      const currentAttributeMapping = find(attributesMapping, attributeMapping => attributeMapping.name === modelAttribute.content.attribute.name)
       if (currentAttributeMapping) {
         return !some(tableAttributeList, tableAttribute => currentAttributeMapping.nameDS === tableAttribute.name)
       }

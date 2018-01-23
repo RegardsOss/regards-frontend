@@ -44,8 +44,10 @@ describe('[Entities Common] Testing EntityDescriptionContainer', () => {
       levelActions: new DescriptionLevelActions('test'),
       levelSelectors: getDescriptionLevelSelectors([]),
       downloadDescriptionClient: new DownloadDescriptionClient('test', []),
+      currentTab: DescriptionLevelActions.TABS_ENUM.DESCRIPTION,
       shownEntity: null, // NO DATA
       onClose: () => { },
+      changeTab: () => { },
     }
 
     shallow(<EntityDescriptionContainer {...props} />, { context })
@@ -58,6 +60,7 @@ describe('[Entities Common] Testing EntityDescriptionContainer', () => {
       levelActions: new DescriptionLevelActions('test'),
       levelSelectors: getDescriptionLevelSelectors([]),
       downloadDescriptionClient: new DownloadDescriptionClient('test', []),
+      currentTab: DescriptionLevelActions.TABS_ENUM.DESCRIPTION,
       shownEntity: {
         content: {
           ipId: 'URN:helloooooooooooooo Nanny!',
@@ -70,6 +73,7 @@ describe('[Entities Common] Testing EntityDescriptionContainer', () => {
         },
       },
       onClose: () => { },
+      changeTab: () => { },
     }
     shallow(<EntityDescriptionContainer {...props} />, { context })
   })

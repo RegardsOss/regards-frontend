@@ -23,6 +23,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
 import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
+import { TableDisplayModeEnum } from '../../../../src/models/navigation/TableDisplayModeEnum'
 import { OrderCartContainer } from '../../../../src/containers/user/results/OrderCartContainer'
 
 const context = buildTestContext()
@@ -78,6 +79,7 @@ describe('[Search Results] Testing OrderCartContainer', () => {
     selectionMode: TableSelectionModes.excludeSelected,
     toggledElements: {},
     dispatchAddToCart: () => { },
+    tableViewMode: TableDisplayModeEnum.LIST,
   }
 
   // combine all use cases to get component appliable properties
@@ -122,9 +124,10 @@ describe('[Search Results] Testing OrderCartContainer', () => {
     const testLabel = `should show the sub component ${expectAddElementCallback ? 'with add element callback' : 'without add element callback'} and \
 ${expectAddSelectionCallback ? 'with add selection callback' : 'without add selection callback'} when:${propsLabel}`
     it(testLabel, () => {
-      const enzymeWrapper = shallow(<OrderCartContainer {...testProperties} >
-        <TestComponent />
-                                    </OrderCartContainer>, { context })
+      const enzymeWrapper = shallow(
+        <OrderCartContainer {...testProperties} >
+          <TestComponent />
+        </OrderCartContainer>, { context })
       const componentWrapper = enzymeWrapper.find(TestComponent)
       // verify component was drawn
       assert.lengthOf(componentWrapper, 1, 'There must be the sub component')
@@ -133,7 +136,7 @@ ${expectAddSelectionCallback ? 'with add selection callback' : 'without add sele
       if (expectAddElementCallback) {
         // assert the right callback is set up for mode
         if (testProperties.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
-          assert.equal(onAddElementToCart, enzymeWrapper.instance().onAddDataOjbectToBasketHandler, 'The add element callback should be set to dataobject callback')
+          assert.equal(onAddElementToCart, enzymeWrapper.instance().onAddDataObjectToBasketHandler, 'The add element callback should be set to dataobject callback')
         } else {
           assert.equal(onAddElementToCart, enzymeWrapper.instance().onAddDatasetToBasketHandler, 'The add element callback should be set to dataset callback')
         }
@@ -143,7 +146,7 @@ ${expectAddSelectionCallback ? 'with add selection callback' : 'without add sele
       if (expectAddSelectionCallback) {
         // only one possible callback here
         assert.equal(
-          onAddSelectionToCart, enzymeWrapper.instance().onAddDataOjbectsSelectionToBasketHandler,
+          onAddSelectionToCart, enzymeWrapper.instance().onAddDataObjectsSelectionToBasketHandler,
           'The add selection callback should be set to dataobjects selection callback',
         )
       } else {

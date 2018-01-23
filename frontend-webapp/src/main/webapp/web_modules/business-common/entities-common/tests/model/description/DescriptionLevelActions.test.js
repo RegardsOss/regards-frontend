@@ -23,9 +23,10 @@ describe('[Entities Common] Test description level actions', () => {
     const entity = 'jesuisuntest'
     const expectedAction = {
       type: descriptionLevelActions.SHOW,
+      tab: DescriptionLevelActions.TABS_ENUM.DESCRIPTION,
       entity,
     }
-    dispatchAndCheck(descriptionLevelActions.show(entity), expectedAction, buildMockStore({}))
+    dispatchAndCheck(descriptionLevelActions.show(entity, DescriptionLevelActions.TABS_ENUM.DESCRIPTION), expectedAction, buildMockStore({}))
   })
 
   it('It should dispatch show related entity action', () => {
@@ -50,5 +51,14 @@ describe('[Entities Common] Test description level actions', () => {
       type: descriptionLevelActions.HIDE,
     }
     dispatchAndCheck(descriptionLevelActions.hide(), expectedAction, buildMockStore({}))
+  })
+
+
+  it('It should dispatch change tab action', () => {
+    const expectedAction = {
+      type: descriptionLevelActions.CHANGE_TAB,
+      tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES,
+    }
+    dispatchAndCheck(descriptionLevelActions.changeTab(DescriptionLevelActions.TABS_ENUM.PROPERTIES), expectedAction, buildMockStore({}))
   })
 })

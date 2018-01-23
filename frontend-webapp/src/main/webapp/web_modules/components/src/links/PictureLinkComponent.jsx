@@ -114,8 +114,8 @@ class PictureLinkComponent extends React.Component {
       <div
         className={className}
         style={{
- display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer',
-}}
+          display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer',
+        }}
         onClick={this.onAction}
         onMouseOut={this.onMouseOut}
         onMouseOver={this.onMouseOver}

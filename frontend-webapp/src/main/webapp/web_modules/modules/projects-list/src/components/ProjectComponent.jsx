@@ -109,10 +109,7 @@ class ProjectComponent extends React.Component {
       return this.renderProject()
     }
     return (
-      <Link
-        to={this.getProjectUrl()}
-        style={moduleTheme.linkWithoutDecoration}
-      >
+      <Link to={this.getProjectUrl()} style={moduleTheme.linkWithoutDecoration} >
         {this.renderProject()}
       </Link>
     )

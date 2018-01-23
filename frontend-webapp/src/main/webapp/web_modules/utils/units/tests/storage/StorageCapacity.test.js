@@ -22,7 +22,7 @@ import { StorageUnitScale } from '../../src/storage/StorageUnit'
 import { StorageCapacity } from '../../src/storage/StorageCapacity'
 
 // Test capacity functions a components rendering
-describe('[STORAGE PLUGINS MONITORING] Testing capacity object', () => {
+describe('[Storage Monitoring] Testing capacity object', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

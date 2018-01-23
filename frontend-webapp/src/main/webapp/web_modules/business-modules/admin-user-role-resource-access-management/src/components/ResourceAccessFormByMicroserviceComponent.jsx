@@ -200,10 +200,9 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
   render() {
     const { controllerList, resourceListFetching } = this.props
     const { isControllerOpen } = this.state
-    const items = resourceListFetching ? [<ListItem
-      key={1}
-    ><LoadingComponent />
-    </ListItem>] : this.getResourceListItems()
+    const items = resourceListFetching ? [
+      <ListItem key={1} ><LoadingComponent />
+      </ListItem>] : this.getResourceListItems()
 
     return (
       <List>

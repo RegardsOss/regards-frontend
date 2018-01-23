@@ -66,7 +66,6 @@ export class AuthenticationModuleContainer extends React.Component {
         this.setState({
           initialViewMode: initialModes.loginForm,
           initialEmail: this.state.initialEmail,
-          token: null,
         })
         routeHelpers.doRedirection()
       }

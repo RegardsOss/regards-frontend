@@ -18,12 +18,14 @@
  **/
 import AccountCreationActions from './AccountCreationActions'
 
+const CreateUserActions = new AccountCreationActions('createUser')
+
 module.exports = {
   /**
    * Actions to create a project user (requires an existing REGARDS account).
    * @type {createUserActions}
    */
-  CreateUserActions: new AccountCreationActions('createUser'),
+  CreateUserActions,
   /**
    * Sends create account request (project is hold by the token)
    * @param email account mail

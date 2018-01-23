@@ -116,7 +116,7 @@ class ProjectAboutPageContainer extends React.Component {
     const {
       moduleTheme: {
         dialog: {
-          bodyStyle, heightPercent, widthPercent, button,
+          heightPercent, widthPercent, button,
         },
       }, intl: { formatMessage },
     } = this.context
@@ -124,16 +124,15 @@ class ProjectAboutPageContainer extends React.Component {
     // render: is there a button provided or should we used module default one?
     const runtimeButton = buttonComponent ?
       // use provided button with added callback
-      React.cloneElement(buttonComponent, { onTouchTap: this.forceOpen }) :
-      // create default button
-      (<FloatingActionButton
-        style={button}
-        mini
-        title={formatMessage({ id: 'module.defaault.button.tooltip' })}
-        onTouchTap={this.forceOpen}
-      >
-        <HomeIcone />
-      </FloatingActionButton>)
+      React.cloneElement(buttonComponent, { onTouchTap: this.forceOpen }) : ( // create default button
+        <FloatingActionButton
+          style={button}
+          mini
+          title={formatMessage({ id: 'module.defaault.button.tooltip' })}
+          onTouchTap={this.forceOpen}
+        >
+          <HomeIcone />
+        </FloatingActionButton>)
 
     return (
       <div>
@@ -145,7 +144,6 @@ class ProjectAboutPageContainer extends React.Component {
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}
-          bodyStyle={bodyStyle}
           actions={this.renderActionButtons()}
         />
       </div >

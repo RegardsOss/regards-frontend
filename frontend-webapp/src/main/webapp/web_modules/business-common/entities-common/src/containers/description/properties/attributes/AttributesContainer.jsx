@@ -107,7 +107,7 @@ export class AttributesContainer extends React.Component {
   */
   resolveEntityAttributes = (nextEntity, newModelAttributes) => {
     // 1 - resolve standard attributes
-    const standardAttributes = DamDomain.AttributeModelController.standardAttributes
+    const { standardAttributes } = DamDomain.AttributeModelController
     const descriptionStandardAttributes = DamDomain.AttributeModelController.descriptionStandardAttributes.map((attrKey, index) => {
       // retrieve attribute
       const {

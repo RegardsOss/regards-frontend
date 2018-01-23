@@ -187,7 +187,6 @@ export class SearchResultsContainer extends React.Component {
       // re initialize selected facets and hidden columns keys
       newState.filters = SearchResultsContainer.DEFAULT_STATE.filters
       newState.hiddenColumnKeys = SearchResultsContainer.DEFAULT_STATE.hiddenColumnKeys
-      newState.displayOnlyQuicklook = SearchResultsContainer.DEFAULT_STATE.displayOnlyQuicklook
 
       // build column models that will hold both attribute and dialogs models (sort, visible....)
       // note: we take here in account the fact that hidden columns and sorting orders could have been reset
@@ -198,8 +197,14 @@ export class SearchResultsContainer extends React.Component {
         case DamDomain.ENTITY_TYPES_ENUM.DATA:
           if (newProps.tableDisplayMode !== TableDisplayModeEnum.QUICKLOOK) {
             newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesConf, newProps.attributesRegroupementsConf, true)
+            // Remove in the query the onlyQuicklook as we are not displaying quicklook anymore
+            newState.displayOnlyQuicklook = false
           } else {
             newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesQuicklookConf, newProps.attributesRegroupementsConf, true)
+            // Automatically enable displayOnlyQuicklook on first display
+            if (oldProps.tableDisplayMode !== newProps.tableDisplayMode) {
+              newState.displayOnlyQuicklook = true
+            }
           }
           break
         case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
@@ -237,7 +242,6 @@ export class SearchResultsContainer extends React.Component {
   /**  On show results as quicklook view action  */
   onShowQuicklookView = () => {
     this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.QUICKLOOK)
-    this.updateStateAndQuery({ displayOnlyQuicklook: true })
   }
 
   /** User toggled facettes search */
@@ -320,11 +324,12 @@ export class SearchResultsContainer extends React.Component {
     },
   ) => {
     const showingDataobjects = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
+    const showingDocuments = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
 
     // check if facettes should be applied
-    const facettes = showingFacettes && showingDataobjects ? filters : []
-    const facettesQueryPart = showingFacettes ? facettesQuery : ''
-    const quicklookQuery = displayOnlyQuicklook ? 'onlyQuicklook' : ''
+    const facettes = (showingFacettes && showingDataobjects) || showingDocuments ? filters : []
+    const facettesQueryPart = showingFacettes || showingDocuments ? facettesQuery : ''
+    const quicklookQuery = displayOnlyQuicklook ? 'exists=files.QUICKLOOK_SD' : ''
 
     let searchActions
     let sorting
@@ -405,7 +410,7 @@ export class SearchResultsContainer extends React.Component {
       attributePresentationModels, hiddenColumnKeys, searchActions, showingFacettes,
       facets, filters, openSearchQuery, fullSearchQuery, displayOnlyQuicklook,
     } = this.state
-
+    const tableViewMode = tableDisplayMode || TableDisplayModeEnum.LIST
     return (
       <ModuleStyleProvider module={moduleStyles}>
         {/* enable the services functionnalities */}
@@ -419,6 +424,7 @@ export class SearchResultsContainer extends React.Component {
             viewObjectType={viewObjectType}
             initialSearchQuery={initialSearchQuery}
             openSearchQuery={openSearchQuery}
+            tableViewMode={tableViewMode}
           >
             {/** Render a default search results component with common properties (sub elements will clone it with added properties)*/}
             <SearchResultsComponent
@@ -434,7 +440,7 @@ export class SearchResultsContainer extends React.Component {
               searchSelectors={searchSelectors}
 
               viewObjectType={viewObjectType}
-              tableViewMode={tableDisplayMode || TableDisplayModeEnum.LIST}
+              tableViewMode={tableViewMode}
 
               displayOnlyQuicklook={displayOnlyQuicklook}
 

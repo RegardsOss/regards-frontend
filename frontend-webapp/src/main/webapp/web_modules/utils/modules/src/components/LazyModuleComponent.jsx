@@ -160,6 +160,9 @@ class LazyModuleComponent extends React.Component {
         moduleProps = merge({}, defaultModuleProps, {
           moduleConf: this.props.module.conf,
           description: this.props.module.description,
+          // handle common module initialization and configuration
+          expandable: get(this, 'props.module.expandable', true),
+          expanded: get(this, 'props.module.expanded', true),
         })
       }
 

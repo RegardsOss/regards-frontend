@@ -160,13 +160,13 @@ class DatabaseConnectionTester extends React.Component {
 
     const pendingProgress = <ConnectionTesterProgress value={this.state.completed} />
 
-    const snackbar =
-      (<Snackbar
+    const snackbar = (
+      <Snackbar
         open={this.state.snackBarOpen}
-        message={this.context.intl.formatMessage({ id: 'this.state.snackBarMessageId' }, {
- microservice: projectConnection.content.microservice,
+        message={this.context.intl.formatMessage({ id: this.state.snackBarMessageId }, {
+          microservice: projectConnection.content.microservice,
           driverClassName: projectConnection.content.driverClassName,
-})}
+        })}
         autoHideDuration={4000}
         onRequestClose={this.handleSnackbarRequestClose}
         onActionClick={this.handleSnackbarActionTouchTap}

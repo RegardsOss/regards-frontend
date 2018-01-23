@@ -20,6 +20,7 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import PluginMetaDataListContainer from '../src/containers/PluginMetaDataListContainer'
+import PluginStorageMonitoringComponent from '../src/components/PluginStorageMonitoringComponent'
 
 /**
  * @author Sébastien Binda
@@ -30,12 +31,19 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(1)
+    expect(Routes.childRoutes).to.have.length(2)
     expect(Routes.childRoutes[0].path).to.eq(':pluginType')
+    expect(Routes.childRoutes[1].path).to.eq('storages/monitoring')
   })
   it('board should return PluginMetaDataListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(PluginMetaDataListContainer)
+      done()
+    })
+  })
+  it('board should return PluginStorageMonitoringComponent', (done) => {
+    Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(PluginStorageMonitoringComponent)
       done()
     })
   })

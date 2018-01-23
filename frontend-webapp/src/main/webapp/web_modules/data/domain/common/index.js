@@ -19,6 +19,7 @@
 
 import { relativeURLRegexp, validURLRegexp } from './URLRegex'
 import PluginParamType from './PluginParamType'
+import EntityIpIdTester from './EntityIpIdTester'
 
 module.exports = {
   // Plugin
@@ -28,4 +29,5 @@ module.exports = {
   relativeURLRegexp,
   validURLRegexp,
 
+  EntityIpIdTester,
 }

@@ -36,7 +36,7 @@ const options = {}
 
 const entityTester = new ReduxEntityTester(storagePluginsActions, storagePluginsReducer, storagePluginsSelectors, StorageShapes.StoragePluginList.isRequired, backendServerResultList, options)
 
-describe('[STORAGE PLUGINS MONITORING] Testing model StoragePlugin', () => {
+describe('[Storage Monitoring] Testing model StoragePlugin', () => {
   before(() => {
     entityTester.beforeAll()
   })

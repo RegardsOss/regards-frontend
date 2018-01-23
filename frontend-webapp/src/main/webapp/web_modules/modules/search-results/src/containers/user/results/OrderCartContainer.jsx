@@ -18,20 +18,24 @@
  **/
 import find from 'lodash/find'
 import get from 'lodash/get'
+import forEach from 'lodash/forEach'
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
 import { OpenSearchQuery } from '@regardsoss/domain/catalog'
+import { EntityIpIdTester } from '@regardsoss/domain/common'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AccessShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
 import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
+import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import TableClient from '../../../clients/TableClient'
 import { selectors as searchSelectors } from '../../../clients/SearchEntitiesClient'
+import { FEEDBACK_TYPES_ENUM, feedbackActions } from '../../../clients/FeedbackClient'
 
 // get default modules client actions and reducers instances - we will use it to verify if a basket exists AND if it is in a dynamic container
 const modulesSelectors = AccessProjectClient.ModuleSelectors()
@@ -44,8 +48,7 @@ const basketDependencies = [
 ]
 
 /**
- * Container to add order basket functionality (allows to split a little the SearchResultsContainer code and separate
- * responsabilities)
+ * Container for cart management functionalities and related feedback
  * @author Raphaël Mechali
  */
 export class OrderCartContainer extends React.Component {
@@ -80,13 +83,18 @@ export class OrderCartContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       /**
-       * Dispatches add to cart action (sends add to cart command to server)
+       * Dispatches add to cart action (sends add to cart command to server), showing then hiding feedback
        * @param ipIds IP ID list to add to cart, when request is null, or to exclude from add request when it isn't
        * @param selectAllOpenSearchRequest request to retrieve elements to add, when not null
        * @return {Promise} add to cart promise
        */
-      dispatchAddToCart: (ipIds = [], selectAllOpenSearchRequest = null) =>
-        dispatch(defaultBasketActions.addToBasket(ipIds, selectAllOpenSearchRequest)),
+      dispatchAddToCart: (ipIds = [], selectAllOpenSearchRequest = null) => {
+        // show user feedback
+        dispatch(feedbackActions.showFeedback(FEEDBACK_TYPES_ENUM.ADD_TO_BASKET))
+        // run network processing action then hide feedback
+        dispatch(defaultBasketActions.addToBasket(ipIds, selectAllOpenSearchRequest))
+          .then(() => dispatch(feedbackActions.hideFeedback()))
+      },
     }
   }
 
@@ -104,6 +112,7 @@ export class OrderCartContainer extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
+    tableViewMode: PropTypes.oneOf(TableDisplayModeValues).isRequired, // Display mode
     // from mapStateToProps
     // cart availability related
     // eslint-disable-next-line react/no-unused-prop-types
@@ -165,9 +174,9 @@ export class OrderCartContainer extends React.Component {
       if (newState.basketAvailaible) {
         // set up the right callbacks for current state
         if (newProps.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
-          newState.onAddElementToBasket = this.onAddDataOjbectToBasketHandler
+          newState.onAddElementToBasket = this.onAddDataObjectToBasketHandler
           // enable selection add only when there is a selection
-          newState.onAddSelectionToBasket = newProps.emptySelection ? null : this.onAddDataOjbectsSelectionToBasketHandler
+          newState.onAddSelectionToBasket = newProps.emptySelection ? null : this.onAddDataObjectsSelectionToBasketHandler
         } else {
           newState.onAddElementToBasket = this.onAddDatasetToBasketHandler
           newState.onAddSelectionToBasket = null // user cannot add a dataset selection to basket
@@ -186,6 +195,7 @@ export class OrderCartContainer extends React.Component {
       // pre render children (attempt to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         ...HOCUtils.getOnlyNonDeclaredProps(this, newProps), // this will report injected service data
+        // report cart information
         onAddElementToCart: newState.onAddElementToBasket,
         onAddSelectionToCart: newState.onAddSelectionToBasket,
       })
@@ -196,19 +206,29 @@ export class OrderCartContainer extends React.Component {
   /**
   * Callback: user adds a dataobject to his basket
   */
-  onAddDataOjbectToBasket = (dataobjectEntity) => {
+  onAddDataObjectToBasket = (dataobjectEntity) => {
     const { dispatchAddToCart } = this.props
     const ipIds = [get(dataobjectEntity, 'content.ipId')]
+    // On quicklook table display mode, the Add button has a different behavior than in Table or List mode
+    if (this.props.tableViewMode === TableDisplayModeEnum.QUICKLOOK) {
+      // Add linked dataobject of the added dataobject to the basket too
+      const tags = get(dataobjectEntity, 'content.tags')
+      forEach(tags, (tag) => {
+        if (EntityIpIdTester.isIpIdAData(tag)) {
+          ipIds.push(tag)
+        }
+      })
+    }
     dispatchAddToCart(ipIds)
   }
 
   /** Corresponding handler */
-  onAddDataOjbectToBasketHandler = this.onAddDataOjbectToBasket.bind(this)
+  onAddDataObjectToBasketHandler = this.onAddDataObjectToBasket.bind(this)
 
   /**
    * Callback: user adds a dataobjects selection to basket
    */
-  onAddDataOjbectsSelectionToBasket = () => {
+  onAddDataObjectsSelectionToBasket = () => {
     const {
       openSearchQuery: currentQuery, selectionMode, toggledElements, dispatchAddToCart,
     } = this.props
@@ -219,7 +239,7 @@ export class OrderCartContainer extends React.Component {
   }
 
   /** Corresponding handler */
-  onAddDataOjbectsSelectionToBasketHandler = this.onAddDataOjbectsSelectionToBasket.bind(this)
+  onAddDataObjectsSelectionToBasketHandler = this.onAddDataObjectsSelectionToBasket.bind(this)
 
   /**
    * User adds a dataset to basket (ie: every dataset dataobjects)
@@ -239,10 +259,12 @@ export class OrderCartContainer extends React.Component {
  * @param {*} properties this component properties
  * @return {boolean} true if basket is available
  */
-  isBasketAvailable = ({ isAuthenticated, modules, availableDependencies }) => {
+  isBasketAvailable = ({
+    isAuthenticated, modules, availableDependencies, viewObjectType,
+  }) => {
     // Available if...
-    // A - User is logged in
-    if (isAuthenticated) {
+    // A - User is logged in - and not displaying documents
+    if (isAuthenticated && viewObjectType !== DamDomain.ENTITY_TYPES_ENUM.DOCUMENT) {
       // B - There is / are active Order cart module(s)
       const hasOrderCartModule = find((modules || {}), module =>
         (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART &&

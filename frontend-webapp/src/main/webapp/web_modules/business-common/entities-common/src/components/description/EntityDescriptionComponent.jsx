@@ -46,6 +46,7 @@ class EntityDescriptionComponent extends React.Component {
   static propTypes = {
     // component API
     entity: CatalogShapes.Entity,
+    currentTab: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
 
     // clients and selectors for sub components
@@ -58,6 +59,7 @@ class EntityDescriptionComponent extends React.Component {
     // control callback
     onSearchTag: PropTypes.func,
     onClose: PropTypes.func.isRequired,
+    changeTab: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -72,7 +74,11 @@ class EntityDescriptionComponent extends React.Component {
 
   state = {
     isDocument: false,
-    selectedTab: EntityDescriptionComponent.PROPERTIES_TAB,
+    isDataObject: false,
+    isDataset: false,
+    isCollection: false,
+    hasQuicklook: false,
+    hasDescription: false,
   }
 
   componentWillMount() {
@@ -85,18 +91,11 @@ class EntityDescriptionComponent extends React.Component {
     }
   }
 
-  onChangeTab = (value) => {
-    this.setState({
-      selectedTab: value,
-    })
-  }
-
-
   updateEntityType = (props) => {
-    const isDocument = !!(get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DOCUMENT)
-    const isDataset = !!(get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DATASET)
-    const isCollection = !!(get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.COLLECTION)
-    const isDataObject = !!(get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DATA)
+    const isDocument = get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DOCUMENT
+    const isDataset = get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DATASET
+    const isCollection = get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.COLLECTION
+    const isDataObject = get(props.entity, 'content.entityType') === ENTITY_TYPES_ENUM.DATA
     const hasQuicklook = has(props.entity, 'content.files.QUICKLOOK_SD[0]') &&
       has(props.entity, 'content.files.QUICKLOOK_SD[0].imageWidth') && has(props.entity, 'content.files.QUICKLOOK_SD[0].imageHeight')
 
@@ -108,7 +107,6 @@ class EntityDescriptionComponent extends React.Component {
       isCollection,
       hasQuicklook,
       hasDescription,
-      selectedTab: isDocument ? EntityDescriptionComponent.FILES_TAB : EntityDescriptionComponent.PROPERTIES_TAB,
     })
   }
 
@@ -136,7 +134,7 @@ class EntityDescriptionComponent extends React.Component {
       <Tab
         key="properties"
         label={this.context.intl.formatMessage({ id: 'entities.common.properties.tabs' })}
-        value={EntityDescriptionComponent.PROPERTIES_TAB}
+        value={DescriptionLevelActions.TABS_ENUM.PROPERTIES}
       >
         <PropertiesTabComponent
           entity={entity}
@@ -152,7 +150,7 @@ class EntityDescriptionComponent extends React.Component {
         <Tab
           key="description"
           label={this.context.intl.formatMessage({ id: 'entities.common.description.tabs' })}
-          value={EntityDescriptionComponent.DESCRIPTION_TAB}
+          value={DescriptionLevelActions.TABS_ENUM.DESCRIPTION}
         >
           <DescriptionFileContainer
             entity={entity}
@@ -165,7 +163,7 @@ class EntityDescriptionComponent extends React.Component {
         <Tab
           key="files"
           label={this.context.intl.formatMessage({ id: 'entities.common.files.tabs' })}
-          value={EntityDescriptionComponent.FILES_TAB}
+          value={DescriptionLevelActions.TABS_ENUM.FILES}
         >
           <DocumentFilesContainer
             entity={entity}
@@ -176,7 +174,7 @@ class EntityDescriptionComponent extends React.Component {
         <Tab
           key="quicklook"
           label={this.context.intl.formatMessage({ id: 'entities.common.quicklook.tabs' })}
-          value={EntityDescriptionComponent.QUICKLOOK_TAB}
+          value={DescriptionLevelActions.TABS_ENUM.QUICKLOOK}
         >
           <DataQuicklookComponent
             entity={entity}
@@ -188,9 +186,8 @@ class EntityDescriptionComponent extends React.Component {
 
   render() {
     const {
-      open, onClose, levelActions, levelSelectors, ...otherDialogProperties
+      open, onClose, levelActions, levelSelectors, changeTab, currentTab, ...otherDialogProperties
     } = this.props
-    const { selectedTab } = this.state
     const { moduleTheme: { descriptionDialog } } = this.context
     const breadcrumb = <DescriptionBreadcrumbContainer levelActions={levelActions} levelSelectors={levelSelectors} />
     const actions = [<FlatButton
@@ -218,8 +215,8 @@ class EntityDescriptionComponent extends React.Component {
                 contentContainerStyle={descriptionDialog.card.media.tabs.contentContainerStyle}
                 tabTemplate={this.renderTab}
                 tabTemplateStyle={descriptionDialog.card.media.tabs.tabTemplateStyle}
-                value={selectedTab}
-                onChange={this.onChangeTab}
+                value={currentTab}
+                onChange={changeTab}
               >
                 {this.renderTabs()}
               </Tabs>
