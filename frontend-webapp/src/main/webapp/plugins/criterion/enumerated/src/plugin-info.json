@@ -1,0 +1,20 @@
+{
+  "name": "enumerated",
+  "description": "Provides to user an auto-completion field for enumerated values of an attribute model",
+  "version" : 1.0,
+  "author" : "Raphaël Mechali",
+  "company" : "C-S",
+  "email" : "raphael.mechali@c-s.fr",
+  "url" : "",
+  "license": "GPL-V3",
+  "type" : "CRITERIA",
+  "conf" : {
+    "attributes": [
+      {
+        "name":"searchField",
+        "description": "Attribute to search",
+        "type":"string"
+      }
+    ]
+  }
+}

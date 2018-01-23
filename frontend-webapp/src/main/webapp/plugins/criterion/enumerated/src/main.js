@@ -16,13 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const webpackConfigurator = require('@regardsoss/webpack-config-front')
+import { initPlugin } from '@regardsoss/plugins-api'
+import SampleCriteria from './components/SampleCriteria'
+import messages from './i18n'
+import styles from './styles'
+import pluginInfo from './plugin-info.json'
+import reducer from './reducer'
 
-const conf = webpackConfigurator
-  .generateConfig({
-    mode: 'pkg_test',
-    projectContextPath: __dirname,
-  })
-  .get()
-
-module.exports = conf
+initPlugin(SampleCriteria, pluginInfo, reducer, messages, styles)

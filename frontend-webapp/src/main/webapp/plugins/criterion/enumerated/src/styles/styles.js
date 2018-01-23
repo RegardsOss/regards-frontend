@@ -16,13 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const webpackConfigurator = require('@regardsoss/webpack-config-front')
 
-const conf = webpackConfigurator
-  .generateConfig({
-    mode: 'pkg_test',
-    projectContextPath: __dirname,
-  })
-  .get()
+/**
+ * Styles for plugin
+ * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
+ */
+const pluginStyles = theme => ({
+  rootStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  labelSpanStyle: {
+    margin: '0px 10px',
+  },
+  textFieldStyle: {
+    top: -13,
+    maxWidth: 80,
+    margin: '0px 10px',
+  },
+  buttonStyle: {},
+})
 
-module.exports = conf
+export default pluginStyles

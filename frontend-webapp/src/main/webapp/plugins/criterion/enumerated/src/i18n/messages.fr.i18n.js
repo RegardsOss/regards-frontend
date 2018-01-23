@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const webpackConfigurator = require('@regardsoss/webpack-config-front')
 
-const conf = webpackConfigurator
-  .generateConfig({
-    mode: 'pkg_test',
-    projectContextPath: __dirname,
-  })
-  .get()
+/**
+ * i18n messages French language
+ * @type {*}
+ */
+const messages = {
+  'criterion.search.field.label': 'Champ de recherche ...',
+}
 
-module.exports = conf
+export default messages
