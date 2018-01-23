@@ -58,6 +58,18 @@ const styles = theme => ({
       flexGrow: 1,
     },
   },
+  fitContentDialog: {
+    paperProps: {
+      style: {
+        height: '100%',
+        display: 'table',
+      },
+    },
+    contentStyle: {
+      display: 'table',
+      width: 'auto',
+    },
+  },
   urlContentDialog: {
     bodyStyle: {
       padding: 0,

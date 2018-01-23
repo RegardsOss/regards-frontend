@@ -23,6 +23,7 @@
 */
 const messages = {
   'attribute.thumbnail.alt': 'No thumbnail',
+  'attribute.thumbnail.action.close': 'Close',
 }
 
 export default messages
