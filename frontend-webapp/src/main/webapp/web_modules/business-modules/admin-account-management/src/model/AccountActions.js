@@ -23,7 +23,7 @@ export class AccountActions extends BasicPageableActions {
   constructor(namespace = 'admin-account-management/accounts') {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accounts`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts`,
       schemaTypes: {
         ENTITY: Schemas.ACCOUNT,
         ENTITY_ARRAY: Schemas.ACCOUNT_ARRAY,
