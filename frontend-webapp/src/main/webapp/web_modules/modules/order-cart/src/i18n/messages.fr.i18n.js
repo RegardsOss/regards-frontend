@@ -33,7 +33,7 @@ const messages = {
   'order-cart.module.order.label': 'Commander',
   'order-cart.module.order.tooltip': 'Finaliser la commande du contenu du panier',
   'order-cart.module.order.confirmation.title': 'Commander',
-  'order-cart.module.order.confirmation.message': 'Cette action démarrera la commande et videra le panier. Vos commandes seront ensuite affichées. Voulez vous continuer?',
+  'order-cart.module.order.confirmation.message': 'Cette action démarrera la commande et videra le panier. Vos commandes seront ensuite affichées. Voulez-vous continuer?',
   'order-cart.module.clear.label': 'Effacer',
   'order-cart.module.clear.tooltip': 'Effacer le contenu du panier',
   'order-cart.module.clear.confirmation.title': 'Vider le panier',

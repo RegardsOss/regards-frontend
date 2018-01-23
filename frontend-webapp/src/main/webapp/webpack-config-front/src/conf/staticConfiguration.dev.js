@@ -39,6 +39,7 @@ STATIC_CONF = {
     INGEST: 'rs-ingest',
   },
   IMSERVICES: {
+    ADMIN_INSTANCE: 'rs-admin-instance',
     ACCESS_INSTANCE: 'rs-access-instance',
   },
   // Default driver used to create a project connection (see module admin-database-management)

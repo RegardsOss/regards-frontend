@@ -27,7 +27,7 @@ export default class AccountPasswordActions extends BasicSignalActions {
   }
 
   constructor(namespace) {
-    super({ namespace, entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accounts/password` })
+    super({ namespace, entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/password` })
   }
 
   fetchPasswordRules() {

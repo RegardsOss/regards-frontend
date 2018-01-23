@@ -68,7 +68,7 @@ const messages = Object.assign({
   'generation-chain.form.create.metaFile.mimeType.label': 'Type de fichiers (*)',
   'generation-chain.form.create.metaFile.mimeType.hint': 'Type de fichiers',
   'generation-chain.form.create.metaFile.comment': 'Description',
-  'generation-chain.create.metaFile.delete.confirm.title': 'Voulez vous supprimer le type de fichier {index} ?',
+  'generation-chain.create.metaFile.delete.confirm.title': 'Voulez-vous supprimer le type de fichier {index} ?',
   'generation-chain.form.plugins.select.label': 'Sélectionner un plugin ...',
   'generation-chain.form.plugins.scan.label': 'Détection des données (*)',
   'generation-chain.form.plugins.check.label': 'Vérification des données (*)',

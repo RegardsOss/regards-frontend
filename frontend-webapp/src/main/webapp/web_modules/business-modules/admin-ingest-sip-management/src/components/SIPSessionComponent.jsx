@@ -346,7 +346,7 @@ class SIPSessionComponent extends React.Component {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={this.context.intl.formatMessage({ id: 'sip.session.delete.confirm.title' }, { id: this.state.sessionToDelete.content.id })}
+          title={this.context.intl.formatMessage({ id: 'sips.session.delete.confirm.title' }, { id: this.state.sessionToDelete.content.id })}
           onConfirm={this.onConfirmDelete}
           onClose={this.closeDeleteDialog}
         />
