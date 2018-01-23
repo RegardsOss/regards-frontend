@@ -15,22 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
+import { CommonShapes } from '@regardsoss/shape'
+import { storage } from '@regardsoss/units'
 
 /**
- * English local messages for module. Note: we also merge the storage unit messages to
- * internationalize 'expicitely' units in charts
+ * Describes storage plugin shape after it has been completed with computed data
  * @author Raphaël Mechali
  */
-const messages = {
-  // module messages
-  'archival.storage.capacity.monitoring.title': 'Storage plugin capacities',
-  // chart
-  'archival.storage.capacity.monitoring.size.without.percent': '{label}: {capacity}',
-  'archival.storage.capacity.monitoring.size.with.percent': '{label}: {capacity} - {percentLabel}%',
-  'archival.storage.capacity.monitoring.chart.total.label': 'Total',
-  'archival.storage.capacity.monitoring.chart.used.label': 'Used',
-  'archival.storage.capacity.monitoring.chart.free.label': 'Free',
-}
-
-export default messages
+export const ParsedStoragePluginShape = PropTypes.shape({
+  // from default plugin
+  confId: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  // parsed and completed data
+  totalSize: PropTypes.instanceOf(storage.StorageCapacity),
+  usedSize: PropTypes.instanceOf(storage.StorageCapacity),
+  unusedSize: PropTypes.instanceOf(storage.StorageCapacity),
+  usedPercent: CommonShapes.Percent,
+  unusedPercent: CommonShapes.Percent,
+})

@@ -33,15 +33,15 @@ const styles = theme => ({
     },
     element: {
       style: {
-        margin: theme.module.titleMargin,
+        marginLeft: theme.module.titleMarginLeft,
       },
       iconStyle: {
+        margin: 0,
         width: theme.module.titleIconSize,
         height: theme.module.titleIconSize,
-        margin: theme.module.titleIconMargin,
       },
       labelStyle: {
-        margin: theme.module.titleTextMargin,
+        marginLeft: theme.module.titleTextMarginLeft,
         fontSize: theme.module.titleFontSize,
         fontWeight: theme.module.titleFontWeight,
         textTransform: theme.module.textTransform,

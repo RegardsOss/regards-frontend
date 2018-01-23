@@ -61,22 +61,24 @@ module.exports = {
   },
   module: {
     titleBarHeight: '48px',
-    titleMargin: '0 0 0 8px',
-    titleIconMargin: '0',
-    titleIconSize: '24px',
-    titleTextMargin: '0 0 0 8px',
+    titleMarginLeft: 8,
+    titleIconSize: 24,
+    titleTextMarginLeft: 8,
     titleFontSize: '20px',
     titleFontWeight: '500',
     titleTextTransform: undefined,
+    subtitleMarginTop: -4,
   },
   // storage plugins module
   'module:storage-plugins': {
-    tableRowHeight: '24px',
-    tableCellPadding: '0 5px 0 0',
     usedSpaceColor: '#3DC9D5',
     unusedSpaceColor: '#E0E0E0',
     chartBorderColor: '#FFFFFF',
     chartBorderWidth: '1px',
+    legendMarginTop: 16,
+    legendItemMarginTop: 8,
+    legendItemIconToText: 10,
+    circleIconSize: 12,
   },
   'module:order-history': {
     // common

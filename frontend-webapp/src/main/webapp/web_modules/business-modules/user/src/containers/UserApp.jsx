@@ -96,9 +96,8 @@ export class UserApp extends React.Component {
       })
     }
 
-    // when user has a new role (and is is authenticated). ie: at first connection then at role update
-    if (this.props.currentRole !== nextProps.currentRole && nextProps.isAuthenticated) {
-      // ... refresh availables endpoints
+    // authentication state changes or user role changes, refresh endpoints
+    if (this.props.isAuthenticated !== nextProps.isAuthenticated || this.props.currentRole !== nextProps.currentRole) {
       this.props.fetchEndpoints()
     }
   }

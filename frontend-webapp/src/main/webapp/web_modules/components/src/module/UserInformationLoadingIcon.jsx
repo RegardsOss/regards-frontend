@@ -15,22 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
+import CircularProgress from 'material-ui/CircularProgress'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * English local messages for module. Note: we also merge the storage unit messages to
- * internationalize 'expicitely' units in charts
+ * User information loading icon for dynamic module
  * @author Raphaël Mechali
  */
-const messages = {
-  // module messages
-  'archival.storage.capacity.monitoring.title': 'Storage plugin capacities',
-  // chart
-  'archival.storage.capacity.monitoring.size.without.percent': '{label}: {capacity}',
-  'archival.storage.capacity.monitoring.size.with.percent': '{label}: {capacity} - {percentLabel}%',
-  'archival.storage.capacity.monitoring.chart.total.label': 'Total',
-  'archival.storage.capacity.monitoring.chart.used.label': 'Used',
-  'archival.storage.capacity.monitoring.chart.free.label': 'Free',
-}
+class UserInformationLoadingIcon extends React.Component {
+  static contextTypes = {
+    ...themeContextType,
+  }
 
-export default messages
+
+  render() {
+    const { moduleTheme: { loadingIcon: { size, thickness } } } = this.context
+    return <CircularProgress size={size} thickness={thickness} />
+  }
+}
+export default UserInformationLoadingIcon

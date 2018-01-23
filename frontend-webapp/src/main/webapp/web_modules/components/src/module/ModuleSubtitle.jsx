@@ -16,18 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import styles from './styles'
+import Subheader from 'material-ui/Subheader/Subheader'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
-* Common dynamic modules title (when not using a breadcrumb)
-* @author Raphaël Mechali
-*/
-export class ModuleTitle extends React.Component {
+ * Common dynamic modules sub title (use iconInsets: true to align subtitle with title when module has an icon)
+ * @author Raphaël Mechali
+ */
+class ModuleSubtitle extends React.Component {
   static propTypes = {
-    IconConstructor: PropTypes.func,
+    // subtitle text
     text: PropTypes.string.isRequired,
-    tooltip: PropTypes.string,
+    // icons insets: set it to true when using an icon in title (made to work with ModuleTitle)
+    iconInsets: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    iconInsets: true,
   }
 
   static contextTypes = {
@@ -35,19 +40,11 @@ export class ModuleTitle extends React.Component {
   }
 
   render() {
-    const { IconConstructor, text, tooltip } = this.props
-    const { moduleTheme: { moduleTitle } } = this.context
+    const { text, iconInsets } = this.props
+    const { moduleTheme: { moduleSubTitle: { styleWithoutInset, styleWithIconInsets } } } = this.context
     return (
-      <div style={moduleTitle.style} title={tooltip}>
-        {
-          IconConstructor ? (
-            <IconConstructor style={moduleTitle.iconStyle} />) : null
-        }
-        <div style={moduleTitle.labelStyle}>
-          {text}
-        </div >
-      </div>
+      <Subheader style={iconInsets ? styleWithIconInsets : styleWithoutInset}>{text}</Subheader>
     )
   }
 }
-export default withModuleStyle(styles)(ModuleTitle)
+export default ModuleSubtitle

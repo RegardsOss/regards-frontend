@@ -18,13 +18,14 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { storage } from '@regardsoss/units'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { StorageMonitoringContainer } from '../../src/containers/StorageMonitoringContainer'
 import StorageMonitoringComponent from '../../src/components/StorageMonitoringComponent'
 import { dump } from '../dump/dump'
 
 // Test a component rendering
-describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringContainer', () => {
+describe('[Storage Monitoring] Testing StorageMonitoringContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -32,6 +33,7 @@ describe('[STORAGE PLUGINS MONITORING] Testing StorageMonitoringContainer', () =
     assert.isDefined(StorageMonitoringContainer)
   })
   const props = {
+    scale: storage.StorageUnitScale.bytesScale,
     isFetching: false, // from mapStateToProps
     hasError: false,
     storagePlugins: dump, // from mapDispatchToProps

@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import formatStorageCapacity from './formatStorageCapacity'
 import FormattedStorageCapacity from './FormattedStorageCapacity'
 import messages from './i18n'
 import StorageCapacity from './StorageCapacity'
 import StorageUnit from './StorageUnit'
 
 module.exports = {
+  formatStorageCapacity,
   FormattedStorageCapacity,
   ...StorageCapacity,
   ...StorageUnit,

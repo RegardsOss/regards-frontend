@@ -61,29 +61,13 @@ const styles = theme => ({
           flexShrink: 1,
           display: 'flex',
           flexDirection: 'column',
-        },
-        table: {
-          rootStyle: {
-            flexGrow: 1,
-            flexShrink: 0,
-            marginBottom: theme[MODULE_THEME_KEY].tableRowHeight,
-            paddingBottom: theme[MODULE_THEME_KEY].tableRowHeight,
-            borderColor: theme.toolbar.separatorColor,
-            borderWidth: '0 0 1px 0',
-            borderStyle: 'solid',
-          },
-          headerRow: {
-            height: theme[MODULE_THEME_KEY].tableRowHeight,
-          },
-          row: {
-            height: theme[MODULE_THEME_KEY].tableRowHeight,
-          },
-          cell: {
-            height: theme[MODULE_THEME_KEY].tableRowHeight,
-            padding: theme[MODULE_THEME_KEY].tableCellPadding,
-          },
+          alignItems: 'stretch',
         },
         chart: {
+          root: {
+            flexGrow: 1,
+            flexShrink: 1,
+          },
           curves: {
             usedSizeColor: theme[MODULE_THEME_KEY].usedSpaceColor,
             unusedSizeColor: theme[MODULE_THEME_KEY].unusedSpaceColor,
@@ -93,11 +77,58 @@ const styles = theme => ({
           options: {
             segmentShowStroke: false,
             legend: {
-              position: 'right',
-              labels: {
-                fontColor: theme.card.subtitleColor,
-              },
+              display: false,
             },
+            tooltips: {
+              enabled: false,
+            },
+          },
+        },
+        legend: {
+          rootContainerStyle: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+            flexGrow: 0,
+            flexShrink: 0,
+            marginTop: theme[MODULE_THEME_KEY].legendMarginTop,
+          },
+          firstColumnContainerStyle: {
+            flexGrow: 1,
+            flexShrink: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+          },
+          secondColumnContainerStyle: {
+            flexGrow: 1,
+            flexShrink: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end',
+          },
+          itemRootContainerStyle: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            marginTop: theme[MODULE_THEME_KEY].legendItemMarginTop,
+          },
+          legendIcon: {
+            style: {
+              width: theme[MODULE_THEME_KEY].circleIconSize,
+              height: theme[MODULE_THEME_KEY].circleIconSize,
+            },
+            svgData: {
+              center: theme[MODULE_THEME_KEY].circleIconSize / 2,
+              radius: (theme[MODULE_THEME_KEY].circleIconSize / 2) - 1,
+            },
+          },
+          itemLabelStyle: {
+            lineHeight: 1,
+            paddingLeft: theme[MODULE_THEME_KEY].legendItemIconToText,
           },
         },
       },
