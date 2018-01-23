@@ -16,20 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { borrowRoleReducer } from './clients/BorrowRoleClient'
-import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
-import { myUserReducer } from './clients/MyUserClient'
-import { notificationReducer } from './clients/NotificationClient'
-import { readNotificationReducer } from './clients/ReadNotificationClient'
-import profileDialogReducer from './model/ProfileDialogReducer'
+const Notification = PropTypes.shape({
+  id: PropTypes.number,
+  date: PropTypes.date,
+  message: PropTypes.string,
+  title: PropTypes.string,
+  sender: PropTypes.string,
+  status: PropTypes.string,
+  type: PropTypes.string,
+  projectUserRecipients: PropTypes.array,
+  roleRecipients: PropTypes.array,
+})
 
-module.exports = {
-  // web consuming clients (redux API actions / reducers)
-  borrowRole: borrowRoleReducer,
-  borrowableRoles: borrowableRolesReducer,
-  myUser: myUserReducer,
-  notification: notificationReducer,
-  readNotification: readNotificationReducer,
-  // local actions / reducers
-  profileDialog: profileDialogReducer,
-}
+const NotificationList = PropTypes.objectOf(Notification)
+const NotificationArray = PropTypes.arrayOf(Notification)
+
+module.exports = { Notification, NotificationList, NotificationArray }

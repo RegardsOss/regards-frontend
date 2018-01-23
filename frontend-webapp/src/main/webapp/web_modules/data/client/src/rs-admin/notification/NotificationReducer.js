@@ -16,20 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { borrowRoleReducer } from './clients/BorrowRoleClient'
-import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
-import { myUserReducer } from './clients/MyUserClient'
-import { notificationReducer } from './clients/NotificationClient'
-import { readNotificationReducer } from './clients/ReadNotificationClient'
-import profileDialogReducer from './model/ProfileDialogReducer'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { NotificationConfiguration } from '@regardsoss/api'
+import NotificationActions from './NotificationActions'
 
-module.exports = {
-  // web consuming clients (redux API actions / reducers)
-  borrowRole: borrowRoleReducer,
-  borrowableRoles: borrowableRolesReducer,
-  myUser: myUserReducer,
-  notification: notificationReducer,
-  readNotification: readNotificationReducer,
-  // local actions / reducers
-  profileDialog: profileDialogReducer,
+/**
+ * Redux Reducer for NotificationActions actions.
+ *
+ * To user thoses actions, you need to pass the <namespace> parameter
+ *
+ * namespace : String, must be the same namespace defined in the associated Reducer.
+ *
+ * @author Maxime Bouveron
+ */
+class NotificationReducer extends BasicListReducers {
+  constructor(namespace) {
+    super(NotificationConfiguration, new NotificationActions(namespace))
+  }
+}
+
+export default (namespace) => {
+  const instance = new NotificationReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

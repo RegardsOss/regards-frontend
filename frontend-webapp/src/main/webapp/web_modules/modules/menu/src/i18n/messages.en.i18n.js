@@ -45,6 +45,7 @@ const messages = {
   'menu.form.contacts': 'Contact',
   'menu.form.projectpage': 'Project about page',
   'menu.form.displayauthentication': 'Display authentication option',
+  'menu.form.displaynotifications': 'Display notification center',
   'menu.form.displaycart': 'Display cart link',
   'menu.form.displaylocale': 'Display Locale selector',
   'menu.form.displaytheme': 'Display Theme selector',
@@ -56,6 +57,18 @@ const messages = {
   'edit.profile.form.lastName': 'Last name',
   'edit.profile.form.confirm': 'Confirm',
   'edit.profile.form.cancel': 'Cancel',
+  // notifications
+  'user.menu.notification.max.count': '{maxCount}+',
+  'user.menu.notification.elements.count.tooltip': `You have {elementsCount, plural,
+    =0 {no new notifications}
+    one {a new notification}
+    other {{elementsCount} new notifications}
+  }`,
+  'user.menu.notification.title': 'Old notifications',
+  'user.menu.notification.unread.title': 'New notifications',
+  'user.menu.notification.empty': 'No new notifications',
+  'user.menu.notification.details.sentby': 'Sent by {sender}',
+  'user.menu.notification.clearAll': 'Clear all new notifications',
 
   ...Locales.en,
   ...MetadataLocales.en,

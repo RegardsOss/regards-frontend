@@ -23,7 +23,7 @@
 const _ = require('lodash')
 const fetch = require('node-fetch')
 const { MOCK_RESOURCES } = require('./resources/mock-resources')
-const { addLinks, loadFile, logMessage } = require('./utils')
+const { addLinks, loadFile, writeFile, logMessage } = require('./utils')
 
 function findServiceWithType(type, condition) {
   const services = _.flowRight([_.flatten, _.values])(catalogServices)
@@ -375,6 +375,10 @@ function buildLocalServices(gatewayURL) {
       //     return { content }
       //   }
       // },
+      getNotifications: { url: 'rs-admin/notifications', handler: () => {
+        const content = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
+        return { content }
+      }},
     },
     PUT: {
       // pause order
@@ -401,6 +405,19 @@ function buildLocalServices(gatewayURL) {
       //     }
       //   },
       // }
+      readNotification: {
+        url: 'rs-admin/notifications/{notificationId}/read',
+        handler: (req, resp, { notificationId }) => {
+          const notifs = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
+          const notifIndex = notifs.findIndex(el => el.id === parseInt(notificationId, 10))
+          notifs[notifIndex].status = "READ"
+          writeFile('mocks/proxy/resources/mock-notifications.json', JSON.stringify(notifs))
+          return {
+            code: 204,
+            content: {},
+          }
+        }
+      }
     },
     POST: {
       // addInBasket: { url: 'rs-order/order/basket/selection', handler: getPushInBasketHandler(gatewayURL) },

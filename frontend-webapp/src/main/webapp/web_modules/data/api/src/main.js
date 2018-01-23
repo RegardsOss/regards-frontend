@@ -21,6 +21,7 @@ import Project from './schemas/Project'
 import ProjectConnection from './schemas/ProjectConnection'
 import ProjectUser from './schemas/ProjectUser'
 import Role from './schemas/Role'
+import Notification from './schemas/Notification'
 import Model from './schemas/Model'
 import Accesses from './schemas/Accesses'
 import AttributeModel from './dam/AttributeModel'
@@ -73,6 +74,8 @@ module.exports = {
   ...ProjectUser,
 
   ...Role,
+
+  ...Notification,
 
   //TODO WHAT ?
   //STORAGE_PLUGIN: Model.STORAGE_PLUGIN,
