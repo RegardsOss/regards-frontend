@@ -19,7 +19,7 @@
 const messages = {
   'invalid.required': 'Champs requis',
   'invalid.array.required': 'Il doit y avoir au moins un élément dans la liste',
-  'invalid.email': 'Addresse e-mail invalide',
+  'invalid.email': 'Adresse e-mail invalide',
   'invalid.url': 'Url invalide',
   'invalid.only_alphanumeric': 'Utilisez les caractères alphanumériques et "_"',
   'invalid.only_numeric': 'Utilisez les caractères numériques',
@@ -63,7 +63,7 @@ const messages = {
   'render.array-object.delete.button': 'Supprimer',
   'render.array-object.duplicate.button': 'Dupliquer',
   'render.array-object.item.title': 'Element {index}',
-  'render.array-object.delete.confirm.title': 'Voulez vous supprimer l\'élément {index} ?',
+  'render.array-object.delete.confirm.title': 'Voulez-vous supprimer l\'élément {index} ?',
   'render.array-object.add.button': 'Ajouter',
   'render.array-object.cancel.button': 'Annuler',
 

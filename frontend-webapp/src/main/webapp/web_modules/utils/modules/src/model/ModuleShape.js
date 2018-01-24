@@ -29,5 +29,7 @@ export default PropTypes.shape({
   active: PropTypes.bool,
   applicationId: PropTypes.string,
   container: PropTypes.string,
+  expandable: PropTypes.bool,
+  expanded: PropTypes.bool,
   conf: PropTypes.objectOf(PropTypes.any),
 })

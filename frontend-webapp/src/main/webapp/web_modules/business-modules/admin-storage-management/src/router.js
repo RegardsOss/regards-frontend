@@ -35,9 +35,22 @@ export const storagePluginConfRoute = {
   },
 }
 
+export const storagePluginMonitoringRoute = {
+  path: 'storages/monitoring',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./components/PluginStorageMonitoringComponent')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const storageManagementRouter = {
   childRoutes: [
     storagePluginConfRoute,
+    storagePluginMonitoringRoute,
   ],
 }
 

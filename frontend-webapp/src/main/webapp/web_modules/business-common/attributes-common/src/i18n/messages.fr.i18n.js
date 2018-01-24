@@ -23,6 +23,7 @@
  */
 const messages = {
   'attribute.thumbnail.alt': 'Aucune vignette',
+  'attribute.thumbnail.action.close': 'Fermer',
 }
 
 export default messages

@@ -62,7 +62,7 @@ const messages = Object.assign({
 
   // User messages
   'navigation.home.label': 'Catalogue',
-  'navigation.dataobjects.label': 'Objets de données',
+  'navigation.dataobjects.label': 'Données',
   'navigation.datasets.label': 'Jeux de données',
   'navigation.documents.label': 'Documents',
   'navigation.filter.by.facets': 'Filtres',

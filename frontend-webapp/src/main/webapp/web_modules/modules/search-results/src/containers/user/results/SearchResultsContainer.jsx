@@ -197,6 +197,8 @@ export class SearchResultsContainer extends React.Component {
         case DamDomain.ENTITY_TYPES_ENUM.DATA:
           if (newProps.tableDisplayMode !== TableDisplayModeEnum.QUICKLOOK) {
             newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesConf, newProps.attributesRegroupementsConf, true)
+            // Remove in the query the onlyQuicklook as we are not displaying quicklook anymore
+            newState.displayOnlyQuicklook = false
           } else {
             newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesQuicklookConf, newProps.attributesRegroupementsConf, true)
             // Automatically enable displayOnlyQuicklook on first display

@@ -64,14 +64,14 @@ const standardAttributes = {
   [standardAttributesKeys.ipId]: {
     key: standardAttributesKeys.ipId,
     id: -1, // use negative index to not conflict with DB attribute models
-    label: 'IP Identifier',
+    label: 'Internal ID',
     type: ATTRIBUTE_TYPES.STRING,
     entityPathName: 'ipId',
   },
   [standardAttributesKeys.sipId]: {
     key: standardAttributesKeys.sipId,
     id: -2,
-    label: 'SIP identifier',
+    label: 'Provider ID',
     type: ATTRIBUTE_TYPES.STRING,
     entityPathName: 'sipId',
   },

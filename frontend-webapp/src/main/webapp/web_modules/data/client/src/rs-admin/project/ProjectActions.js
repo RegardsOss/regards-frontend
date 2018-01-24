@@ -41,7 +41,7 @@ export default class ProjectActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/projects`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/projects`,
       schemaTypes: {
         ENTITY: Schemas.PROJECT,
         ENTITY_ARRAY: Schemas.PROJECT_ARRAY,

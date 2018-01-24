@@ -26,7 +26,7 @@ class ProjectsAction extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'projects-list/projects',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/projects/public`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/projects/public`,
       schemaTypes: {
         ENTITY: Schemas.PROJECT,
         ENTITY_ARRAY: Schemas.PROJECT_ARRAY,

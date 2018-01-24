@@ -93,7 +93,7 @@ const messages = Object.assign({
 
   'database.form.edit.title': 'Connecter {microservice} à une base de données du projet {project}',
   'database.form.input.driverClassName': 'Driver',
-  'database.form.input.address': 'Addresse de la base de données',
+  'database.form.input.address': 'Adresse de la base de données',
   'database.form.input.port': 'Port de la base de données',
   'database.form.input.db_name': 'Nom de la base de données',
   'database.form.input.userName': 'Utilisateur',

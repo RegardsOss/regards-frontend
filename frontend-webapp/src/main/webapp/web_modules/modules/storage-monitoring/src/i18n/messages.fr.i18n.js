@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { storage } from '@regardsoss/units'
 
 /**
  * French local messages for module. Note: we also merge the storage unit messages to
@@ -24,19 +23,14 @@ import { storage } from '@regardsoss/units'
  * @author Raphaël Mechali
  */
 const messages = {
-  ...storage.messages.fr,
   // module messages
   'archival.storage.capacity.monitoring.title': 'Capacité des plugins de stockages',
-  // table
-  'archival.storage.capacity.monitoring.table.total.size': 'Total',
-  'archival.storage.capacity.monitoring.table.used.size': 'Utilisé',
-  'archival.storage.capacity.monitoring.table.unused.size': 'Libre',
   // chart
-  'archival.storage.capacity.monitoring.table.device.id': 'Volume',
-  'archival.storage.capacity.monitoring.chart.total.size': 'Total en {unitLabel}',
-  'archival.storage.capacity.monitoring.chart.used.size': 'Utilisé (%)',
-  'archival.storage.capacity.monitoring.chart.unused.size': 'Libre (%)',
-  'archival.storage.capacity.monitoring.chart.unknown.size': 'Pas d\'information',
+  'archival.storage.capacity.monitoring.size.without.percent': '{label}: {capacity}',
+  'archival.storage.capacity.monitoring.size.with.percent': '{label}: {capacity} - {percentLabel}%',
+  'archival.storage.capacity.monitoring.chart.total.label': 'Total',
+  'archival.storage.capacity.monitoring.chart.used.label': 'Utilisé',
+  'archival.storage.capacity.monitoring.chart.free.label': 'Libre',
 }
 
 export default messages

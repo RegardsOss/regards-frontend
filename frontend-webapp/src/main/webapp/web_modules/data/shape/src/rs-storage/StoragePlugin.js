@@ -20,11 +20,8 @@ const StoragePluginContent = PropTypes.shape({
   confId: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  storageInfo: PropTypes.arrayOf(PropTypes.shape({
-    storagePhysicalId: PropTypes.string.isRequired,
-    totalSize: PropTypes.string,
-    usedSize: PropTypes.string,
-  })).isRequired,
+  totalSize: PropTypes.string,
+  usedSize: PropTypes.string,
 }).isRequired
 
 const StoragePlugin = PropTypes.shape({

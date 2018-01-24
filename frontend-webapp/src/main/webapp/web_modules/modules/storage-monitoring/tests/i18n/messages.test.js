@@ -22,7 +22,7 @@ import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MessagesEN from '../../src/i18n/messages.en.i18n'
 import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
-describe('[STORAGE PLUGINS MONITORING] Testing i18n', () => {
+describe('[Storage Monitoring] Testing i18n', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
