@@ -18,7 +18,7 @@
 **/
 const messages = {
   'invalid.required': 'Required',
-  'invalid.array.required': 'There should be one element at least in this list',
+  'invalid.array.required': 'There should be at least one item in this list',
   'invalid.email': 'Invalid email address',
   'invalid.url': 'Invalid url',
   'invalid.only_alphanumeric': 'Use alphanumeric characters and "_"',

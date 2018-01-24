@@ -95,7 +95,7 @@ const messages = Object.assign({
   'sips.submition-summary.back.button': 'Ok',
 
   'sips.submission.not.ready.title': 'Configuration is needed before data submission',
-  'sips.submission.not.ready.information.message': 'Your system is not configured to allow data submission. Please ensure that you have well configured your data storages.',
+  'sips.submission.not.ready.information.message': 'Your system is not configured to allows data submission. Please ensure that you have well configured your data storages.',
   'sips.submission.not.ready.server.message': 'The storage service unavaibility response message is : ',
   'sips.submission.not.ready.config.allocations.link.button': 'Configure allocation strategies',
   'sips.submission.not.ready.config.storages.link.button': 'Configure storage locations',

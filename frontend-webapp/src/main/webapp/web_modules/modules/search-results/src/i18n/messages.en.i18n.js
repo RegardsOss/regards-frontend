@@ -37,7 +37,7 @@ const messages = Object.assign({
   'form.configuration.result.width.quicklooks.label': 'Quicklook width',
   'form.configuration.result.spacing.quicklooks.label': 'Quicklook spacing',
   'form.attributes.regroupement.form.title': 'Add new attributes clustering',
-  'form.attributes.regroupement.description': 'A clustering of attributes allow you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
+  'form.attributes.regroupement.description': 'A clustering of attributes allows you to display multiples attributes of a search result object into the same column of the results list.<br/>' +
     ' Please enter the new clustering label (that must be unique) and select attributes to cluster.',
   'form.attributes.regroupement.form.label': 'Label',
   'form.attributes.regroupement.form.save': 'Add',
@@ -77,9 +77,9 @@ const messages = Object.assign({
   'no.download.tooltip': 'No download available',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
-  'add.to.cart.tooltip': 'Add element to my cart',
+  'add.to.cart.tooltip': 'Add item to my cart',
   'add.selection.to.cart.label': 'Add to basket',
-  'add.selection.to.cart.tooltip': 'Add selected elements to my cart',
+  'add.selection.to.cart.tooltip': 'Add selected items to my cart',
   'table.filter.only.quicklook.label': 'Only quicklook',
   'table.filter.select.only.quicklook.tooltip': 'Click to display only objects containing a quicklook',
   'table.filter.deselect.only.quicklook.label': 'Click to display all entities',
