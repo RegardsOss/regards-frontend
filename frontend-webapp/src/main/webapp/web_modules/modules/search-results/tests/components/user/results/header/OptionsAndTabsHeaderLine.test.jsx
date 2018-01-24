@@ -66,7 +66,7 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
         rowCellDefinition: { Constructor: TestRender },
         visible: true,
       }],
-      allowingFacettes: true,
+      displayFacettesButton: true,
       showingFacettes: false,
       enableQuicklooks: false,
       displayOnlyQuicklook: false,
