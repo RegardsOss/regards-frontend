@@ -24,16 +24,22 @@ import CodeFileDisplayer from './CodeFileDisplayer'
 import ImageFileDisplayer from './ImageFileDisplayer'
 import messages from './i18n'
 import styles from './styles'
+import NoPreviewDisplayer from './NoPreviewDisplayer'
 
 /**
  * Shows file content through the adequate content displayer, if any, or relies on a local URL iFrame renderer
  * to display the file. Provides i18n and theme to sub components
  * @author Raphaël Mechali
-*/
+ */
 class FileContentDisplayer extends React.Component {
   static buildLocalAccessURL(blob) {
     return root.URL.createObjectURL(blob)
   }
+
+  static isSupportedMIMEType = file =>
+    CodeFileDisplayer.isSupportedType(file.contentType) ||
+    ImageFileDisplayer.isSupportedType(file.contentType) ||
+    IFrameURLContentDisplayer.isSupportedType(file.contentType)
 
   static propTypes = {
     file: PropTypes.shape({
@@ -53,6 +59,7 @@ class FileContentDisplayer extends React.Component {
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
   componentWillUnmount = () => this.onPropertiesChanged(this.props, {})
+
 
   /**
    * Handles properties changed: frees the object URL if required, build the new URL if required and stores the URL to use in state
@@ -89,11 +96,16 @@ class FileContentDisplayer extends React.Component {
                 return <ImageFileDisplayer imageURL={localAccessURL} />
               }
               // 3 - render through an iFrame, using access URL
+              if (IFrameURLContentDisplayer.isSupportedType(file.contentType)) {
+                return (
+                  <IFrameURLContentDisplayer
+                    style={style}
+                    contentURL={localAccessURL}
+                  />)
+              }
               return (
-                <IFrameURLContentDisplayer
-                  style={style}
-                  contentURL={localAccessURL}
-                />)
+                <NoPreviewDisplayer />
+              )
             })()
           }
         </ModuleStyleProvider>

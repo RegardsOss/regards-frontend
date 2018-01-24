@@ -25,21 +25,31 @@ import { i18nContextType } from '@regardsoss/i18n'
 */
 class DownloadResultButton extends React.Component {
   static propTypes = {
+    fileName: PropTypes.string,
     localAccessURL: PropTypes.string.isRequired, // Not URL as it may be local URL (prefixed by blob)
+    forcedownload: PropTypes.bool,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
+  componentDidMount() {
+    if (this.props.forcedownload) {
+      this.downloadButton.forceDownload()
+    }
+  }
+
   render() {
-    const { localAccessURL } = this.props
+    const { localAccessURL, fileName } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <DownloadButton
+        ref={(input) => { this.downloadButton = input }}
         label={formatMessage({ id: 'entities.common.services.download.service.result' })}
         tooltip={formatMessage({ id: 'entities.common.services.download.service.result' })}
         downloadURL={localAccessURL}
+        downloadName={fileName}
       />)
   }
 }
