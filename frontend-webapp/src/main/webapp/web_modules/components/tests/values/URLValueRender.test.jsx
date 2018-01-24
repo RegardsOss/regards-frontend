@@ -18,8 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { LinkComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import LinkComponent from '../../src/links/LinkComponent'
 import URLValueRender from '../../src/values/URLValueRender'
 import styles from '../../src/values/styles'
 

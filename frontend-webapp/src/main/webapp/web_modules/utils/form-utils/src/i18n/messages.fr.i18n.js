@@ -67,7 +67,7 @@ const messages = {
   'render.array-object.add.button': 'Ajouter',
   'render.array-object.cancel.button': 'Annuler',
 
-  'render.map-object.add.new.dialog.title': 'Ajouter un nouvel élément au paramètre {parameter}',
+  'render.map-object.add.new.dialog.title': 'Ajouter un nouvel élément au paramètre «{parameter}»',
   'render.map-object.add.new.dialog.key.label': 'Clef du nouvel élément ... ',
   'render.map-object.key.already.exists.error': 'La valeur existe déjà.',
   'render.map-object.duplicate.key.not.exists': 'L\'élément à dupliquer n\'éxiste plus',

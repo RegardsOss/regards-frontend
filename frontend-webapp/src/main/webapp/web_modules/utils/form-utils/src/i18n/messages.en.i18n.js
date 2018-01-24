@@ -67,7 +67,7 @@ const messages = {
   'render.array-object.add.button': 'Add',
   'render.array-object.cancel.button': 'Cancel',
 
-  'render.map-object.add.new.dialog.title': 'Add new element to the map parameter {parameter}',
+  'render.map-object.add.new.dialog.title': 'Add new element to the map parameter «{parameter}»',
   'render.map-object.add.new.dialog.key.label': 'New element key',
   'render.map-object.key.already.exists.error': 'Selected value already exists.',
   'render.map-object.duplicate.key.not.exists': 'Element to duplicate does not exists anymore',
