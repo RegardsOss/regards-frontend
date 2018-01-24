@@ -1,1 +1,193 @@
-[{"date":"2018-01-03T14:01:13.445Z","id":456,"message":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed magna turpis. Curabitur ultrices scelerisque magna pretium mollis. Sed suscipit, ligula eu tempus pretium, lorem quam vehicula urna, vel efficitur leo mauris quis mauris. Pellentesque ac ullamcorper lectus. Aliquam sed tempor massa. Proin ex massa, sodales vel turpis non, sodales rhoncus lacus. Maecenas a convallis nisi. Aliquam felis justo, pellentesque id vestibulum id, tempus sit amet dui. Quisque quis lacus vehicula, gravida lectus a, elementum erat. In vitae venenatis turpis, et venenatis lacus. Phasellus facilisis pellentesque elit, in lacinia enim placerat quis.","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"READ","type":"FATAL","title":"test"},{"date":"2017-04-19T14:01:13.435Z","id":455,"message":"2018","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"UNREAD","type":"ERROR","title":"test"},{"date":"2018-01-03T14:01:13.403Z","id":453,"message":"Bonne","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"READ","type":"FATAL","title":"test"},{"date":"2018-01-03T14:01:13.419Z","id":454,"message":"Année","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"UNREAD","type":"INFO","title":"test"},{"date":"2018-01-03T14:05:13.419Z","id":458,"message":"Je suis lue","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"READ","type":"INFO","title":"Coucou"},{"date":"2018-01-03T14:05:13.419Z","id":908,"message":"Je suis lue","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"READ","type":"ERROR","title":"Coucou"},{"date":"2018-01-03T14:05:13.419Z","id":234,"message":"Je suis lue","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"READ","type":"FATAL","title":"Coucou"},{"date":"2018-01-03T14:05:13.419Z","id":987,"message":"Je suis lue","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"READ","type":"INFO","title":"Coucou"},{"date":"2018-01-03T14:05:13.419Z","id":345,"message":"Je suis lue","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"READ","type":"ERROR","title":"Coucou"},{"date":"2018-01-03T14:05:13.419Z","id":532,"message":"Je suis lue","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"READ","type":"INFO","title":"Coucou"},{"date":"2018-01-03T14:05:13.419Z","id":500,"message":"Je suis lue","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"READ","type":"INFO","title":"Coucou"},{"date":"2018-01-08T02:05:13.419Z","id":89347,"message":"Je suis une notification basique","projectUserRecipients":[],"roleRecipients":[{"id":4,"name":"PROJECT_ADMIN","authorizedAddresses":[],"isDefault":false,"isNative":true}],"sender":"microservice","status":"UNREAD","type":"WARNING","title":"Salut"}]
+[
+  {
+    "date": "2018-01-03T14:01:13.445Z",
+    "id": 456,
+    "message":
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed magna turpis. Curabitur ultrices scelerisque magna pretium mollis. Sed suscipit, ligula eu tempus pretium, lorem quam vehicula urna, vel efficitur leo mauris quis mauris. Pellentesque ac ullamcorper lectus. Aliquam sed tempor massa. Proin ex massa, sodales vel turpis non, sodales rhoncus lacus. Maecenas a convallis nisi. Aliquam felis justo, pellentesque id vestibulum id, tempus sit amet dui. Quisque quis lacus vehicula, gravida lectus a, elementum erat. In vitae venenatis turpis, et venenatis lacus. Phasellus facilisis pellentesque elit, in lacinia enim placerat quis.",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "FATAL",
+    "title": "test"
+  },
+  {
+    "date": "2017-04-19T14:01:13.435Z",
+    "id": 455,
+    "message": "2018",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "ERROR",
+    "title": "test"
+  },
+  {
+    "date": "2018-01-03T14:01:13.403Z",
+    "id": 453,
+    "message": "Bonne",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "FATAL",
+    "title": "test"
+  },
+  {
+    "date": "2018-01-03T14:01:13.419Z",
+    "id": 454,
+    "message": "Année",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "INFO",
+    "title": "test"
+  },
+  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 458,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "INFO",
+    "title": "Coucou"
+  },
+  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 908,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "ERROR",
+    "title": "Coucou"
+  },
+  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 234,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "FATAL",
+    "title": "Coucou"
+  },
+  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 987,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "INFO",
+    "title": "Coucou"
+  },
+  {
+    "date": "2018-01-03T14:05:13.419Z",
+    "id": 345,
+    "message": "Je suis lue",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "ERROR",
+    "title": "Coucou"
+  },
+  {
+    "date": "2017-01-18T14:05:13.419Z",
+    "id": 532,
+    "message": "Je suis lue et j'ai un contenu qui fait environ deux lignes",
+    "projectUserRecipients": [],
+    "roleRecipients": [
+      {
+        "id": 4,
+        "name": "PROJECT_ADMIN",
+        "authorizedAddresses": [],
+        "isDefault": false,
+        "isNative": true
+      }
+    ],
+    "sender": "microservice",
+    "status": "READ",
+    "type": "INFO",
+    "title": "Coucou mais pas un trop long coucou quand même"
+  }
+]

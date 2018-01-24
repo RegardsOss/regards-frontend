@@ -32,6 +32,7 @@ import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider/Divider'
 import map from 'lodash/map'
+import truncate from 'lodash/truncate'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import NotificationSystem from 'react-notification-system'
 import { AdminShapes } from '@regardsoss/shape'
@@ -103,11 +104,17 @@ class NotificationListComponent extends React.Component {
     }
     this.notificationSystem.addNotification({
       message: (
-        <div role="presentation" style={notificationSystemStyle.message.style} onClick={() => this.handleOpen(notif)}>
+        <div
+          role="presentation"
+          style={notificationSystemStyle.message.style}
+          onClick={() => this.handleOpen(notif)}
+        >
           {this.renderAvatar(notif.type)}
           <div>
             <div style={notificationSystemStyle.message.titleStyle}>{notif.title}</div>
-            <div>{notif.message}</div>
+            <div style={notificationSystemStyle.message.messageStyle}>
+              {truncate(notif.message, { length: 100 })}
+            </div>
             <div style={notificationSystemStyle.message.dateStyle}>
               {this.getFormattedDate(notif.date)}
             </div>
@@ -198,12 +205,14 @@ class NotificationListComponent extends React.Component {
             style={itemStyle(notif)}
             key={`notification-${notif.id}`}
             leftAvatar={this.renderAvatar(notif.type)}
-            rightIconButton={
-              <div style={notificationStyle.list.item.dateStyle}>
-                {this.getFormattedDate(notif.date)}
+            primaryText={
+              <div style={notificationStyle.list.item.primaryText}>
+                <div style={notificationStyle.list.item.titleStyle}>{notif.title}</div>
+                <div style={notificationStyle.list.item.dateStyle}>
+                  {this.getFormattedDate(notif.date)}
+                </div>
               </div>
             }
-            primaryText={notif.title}
           />,
           <Divider inset key={`divider-${notif.id}`} />,
         ])}
@@ -225,18 +234,23 @@ class NotificationListComponent extends React.Component {
             {this.renderNotificationList(this.props.readNotifications)}
           </div>
           <div>
-            <CardHeader
-              title={this.state.openedNotification.title}
-              subtitle={this.context.intl.formatMessage(
-                { id: 'user.menu.notification.details.sentby' },
-                { sender: this.state.openedNotification.sender },
-              )}
-              avatar={this.renderAvatar(this.state.openedNotification.type)}
-            />
-            <div style={dialog.details.date.style}>
-              {this.getFormattedDate(this.state.openedNotification.date)}
+            <div style={dialog.details.header.style}>
+              <CardHeader
+                title={this.state.openedNotification.title}
+                subtitle={this.context.intl.formatMessage(
+                  { id: 'user.menu.notification.details.sentby' },
+                  { sender: this.state.openedNotification.sender },
+                )}
+                avatar={this.renderAvatar(this.state.openedNotification.type)}
+              />
+              <div style={dialog.details.date.style}>
+                {this.getFormattedDate(this.state.openedNotification.date)}
+              </div>
             </div>
-            <CardText>Message: {this.state.openedNotification.message}</CardText>
+            <CardText style={dialog.details.message.style}>
+              <FormattedMessage id="user.menu.notification.details.message" />:<br />
+              {this.state.openedNotification.message}
+            </CardText>
             <CardActions style={dialog.details.actions.style}>
               <FlatButton label="Close" key="close" primary onClick={this.handleClose} />
             </CardActions>
@@ -295,7 +309,7 @@ class NotificationListComponent extends React.Component {
               <Notification style={notificationStyle.icon.style} />
             ) : (
               <NotificationNone style={notificationStyle.icon.style} />
-              )}
+            )}
           </div>
         </IconButton>
         {this.renderNotificationDialog()}
