@@ -194,6 +194,13 @@ const menuStyles = theme => ({
             gridTemplateColumns: 'auto max-content',
           },
         },
+        message: {
+          style: {
+            wordBreak: 'break-all',
+            hyphens: 'auto',
+            textAlign: 'justify',
+          },
+        },
         actions: {
           style: {
             position: 'absolute',
@@ -217,7 +224,12 @@ const menuStyles = theme => ({
         titleStyle: {
           fontWeight: 'bold',
           marginBottom: 3,
-          maxWidth: 190,
+          maxWidth: 150,
+        },
+        messageStyle: {
+          wordBreak: 'break-all',
+          hyphens: 'auto',
+          textAlign: 'justify',
         },
         dateStyle: {
           position: 'absolute',
@@ -230,7 +242,6 @@ const menuStyles = theme => ({
         NotificationItem: {
           DefaultStyle: {
             fontFamily: theme.fontFamily,
-            maxHeight: 100,
             overflow: 'hidden',
             backgroundColor: theme.palette.canvasColor,
             color: theme.palette.textColor,

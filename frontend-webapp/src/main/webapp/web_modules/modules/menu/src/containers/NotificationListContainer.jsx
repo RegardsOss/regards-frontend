@@ -20,6 +20,7 @@
 import filter from 'lodash/filter'
 import forEach from 'lodash/forEach'
 import find from 'lodash/find'
+import isEqual from 'lodash/isEqual'
 import { AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
@@ -63,15 +64,34 @@ export class NotificationListContainer extends React.Component {
   componentWillMount = () => {
     this.startTimer()
     this.newNotifications = []
+    this.unreadNotifications = []
+    this.readNotifications = []
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (Object.keys(this.props.notifications).length > 0 && !!this.notify) {
-      forEach(nextProps.notifications, (notif) => {
-        if (!find(this.props.notifications, o => o.id === notif.id) && notif.status === 'UNREAD') {
-          this.notify(notif)
-        }
-      })
+    if (!isEqual(this.props.notifications, nextProps.notifications)) {
+      const sortNotificationByDate = (a, b) => new Date(b.date) - new Date(a.date)
+
+      this.unreadNotifications = filter(
+        nextProps.notifications,
+        notif => notif.status === 'UNREAD',
+      ).sort(sortNotificationByDate)
+
+      this.readNotifications = filter(
+        nextProps.notifications,
+        notif => notif.status === 'READ',
+      ).sort(sortNotificationByDate)
+
+      if (Object.keys(this.props.notifications).length > 0 && !!this.notify) {
+        forEach(nextProps.notifications, (notif) => {
+          if (
+            !find(this.props.notifications, o => o.id === notif.id) &&
+            notif.status === 'UNREAD'
+          ) {
+            this.notify(notif)
+          }
+        })
+      }
     }
   }
 
@@ -80,8 +100,10 @@ export class NotificationListContainer extends React.Component {
   }
 
   startTimer = () => {
-    // A - refresh list
-    this.props.fetchNotifications()
+    if (this.props.isAuthenticated) {
+      // A - refresh list only if authenticated
+      this.props.fetchNotifications()
+    }
     // B - restart timer
     this.refreshTimer = setTimeout(() => this.startTimer(), refreshTimerMS)
   }
@@ -107,9 +129,6 @@ export class NotificationListContainer extends React.Component {
   }
 
   render() {
-    this.unreadNotifications = filter(this.props.notifications, notif => notif.status === 'UNREAD')
-    this.readNotifications = filter(this.props.notifications, notif => notif.status === 'READ')
-
     return (
       <ShowableAtRender show={this.props.isAuthenticated}>
         <NotificationListComponent
