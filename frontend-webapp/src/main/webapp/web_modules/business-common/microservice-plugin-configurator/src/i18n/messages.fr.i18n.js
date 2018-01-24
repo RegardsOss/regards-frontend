@@ -37,6 +37,7 @@ const messages = Object.assign({
   'plugin.parameter.static.field': 'Fixer la valeur du paramètre',
   'plugin.parameter.dynamic.field': 'Paramètre dynamqiue',
   'plugin.parameter.dynamicvalues.title': 'Valeurs possibles du paramètre',
+  'plugin.parameter.default.value.label': '(Valeur par défaut : {defaultValue})',
 
   'plugin.parameter.plugin.choose': 'Choisir un plugin',
   'plugin.parameter.plugin.empty.menu.item': 'Aucun',

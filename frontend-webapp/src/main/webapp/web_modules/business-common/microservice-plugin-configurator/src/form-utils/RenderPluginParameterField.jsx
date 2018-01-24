@@ -73,7 +73,6 @@ export class RenderPluginParameterField extends React.PureComponent {
       input.onChange({
         dynamic: false,
         dynamicValues: null,
-        value: pluginParameterType.defaultValue,
         name: pluginParameterType.name,
       })
     }
@@ -127,8 +126,8 @@ export class RenderPluginParameterField extends React.PureComponent {
    * @param {*} fieldParams: additional field parameters
    */
   renderParamConfiguration = (name, dynamic, forceHideDynamicConf, component, label, disabled, validators, displayDynamicValues, fieldParams = {}) => {
-    const { moduleTheme: { dynamicParameter, pluginParameter: { headerStyle } } } = this.context
-    const { hideDynamicParameterConf, pluginParameterType: { description } } = this.props
+    const { moduleTheme: { dynamicParameter, pluginParameter: { headerStyle } }, intl: { formatMessage } } = this.context
+    const { hideDynamicParameterConf, pluginParameterType: { description, defaultValue } } = this.props
     const parameters = (
       <div style={dynamicParameter.layout}>
         {!forceHideDynamicConf ? this.renderDynamicRadioButton(name) : null}
@@ -138,9 +137,10 @@ export class RenderPluginParameterField extends React.PureComponent {
     // Display parameter header with his own label if dynamic configuration is enabled
     let header
     if ((!hideDynamicParameterConf && !forceHideDynamicConf) || component === RenderObjectParameterField || component === RenderMapParameterField) {
+      const devaultValueLabel = defaultValue ? formatMessage({ id: 'plugin.parameter.default.value.label' }, { defaultValue }) : null
       header = (
         <div style={headerStyle}>
-          <SubHeader key="label">{label}</SubHeader>
+          <SubHeader key="label">{label} {devaultValueLabel}</SubHeader>
           {description ? <IconButton onClick={this.handleOpenDescription}><HelpCircle /></IconButton> : null}
           {description ? this.renderDescriptionDialog() : null}
         </div>
@@ -290,7 +290,7 @@ export class RenderPluginParameterField extends React.PureComponent {
 
     let label = pluginParameterType.label || pluginParameterType.name
     const validators = []
-    if (pluginParameterType && !pluginParameterType.optional) {
+    if (pluginParameterType && !pluginParameterType.optional && !pluginParameterType.defaultValue) {
       label += ' (*)'
       switch (pluginParameterType.paramType) {
         case 'PRIMITIVE':
