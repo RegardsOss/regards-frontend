@@ -38,7 +38,7 @@ module.exports = function (projectContextPath) {
         manifest: require(`${projectContextPath}/../../../dist/dev/core-manifest.json`),
         context: path.join(projectContextPath, '/../../../'),
       }),
-      new StatsPlugin(`dev-plugins-${Date.now()}-profile.json`, {
+      new StatsPlugin(`../dev-plugins-${Date.now()}-profile.json`, {
         chunkModules: true,
       }),
     ],
