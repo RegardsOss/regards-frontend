@@ -22,7 +22,7 @@ import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field, FieldArray, ValidationHelpers, RenderArrayTextField } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -86,12 +86,14 @@ export class DatasourceFormAttributesComponent extends React.Component {
       const { currentDatasource } = this.props
       const refreshRate = get(findParam(currentDatasource, IDBDatasourceParamsEnum.REFRESH_RATE), 'value')
       const modelId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.model')
+      const tags = get(findParam(currentDatasource, IDBDatasourceParamsEnum.TAGS), 'value', [])
 
       const initialValues = {
         label: currentDatasource.content.label,
         model: modelId,
         pluginClassName: currentDatasource.content.pluginClassName,
         refreshRate,
+        tags,
       }
       this.props.initialize(initialValues)
     } else {
@@ -177,6 +179,11 @@ export class DatasourceFormAttributesComponent extends React.Component {
                 />
               ))}
             </Field>
+            <FieldArray
+              name="tags"
+              component={RenderArrayTextField}
+              fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.tags' })}
+            />
           </CardText>
           <CardActions>
             <CardActionsComponent

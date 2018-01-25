@@ -24,6 +24,7 @@ import FileContentDisplayer from '../../src/content/FileContentDisplayer'
 import CodeFileDisplayer from '../../src/content/CodeFileDisplayer'
 import ImageFileDisplayer from '../../src/content/ImageFileDisplayer'
 import IFrameURLContentDisplayer from '../../src/content/IFrameURLContentDisplayer'
+import NoPreviewDisplayer from '../../src/content/NoPreviewDisplayer'
 import styles from '../../src/content/styles/styles'
 import { TestBlob } from './TestBlob'
 import { TestFileReader } from './TestFileReader'
@@ -65,9 +66,14 @@ describe('[Components] Testing FileContentDisplayer', () => {
     expectedComponent: ImageFileDisplayer,
     message: 'should render image MIME types through ImageFileDisplayer for type',
   }, {
-    contentTypes: ['application/pdf', 'plop/desmontagnes'],
+    contentTypes: IFrameURLContentDisplayer.getSupportedMIMETypes(),
     expectedComponent: IFrameURLContentDisplayer,
-    message: 'should render any other MIME type through IFrameURLContentDisplayer for type',
+    message: 'should render pdf and html MIME type through IFrameURLContentDisplayer for type',
+  },
+  {
+    contentTypes: ['invalid/mimeType'],
+    expectedComponent: NoPreviewDisplayer,
+    message: 'should render any other MIME type through NoPreviewDisplayer for type',
   }]
 
   testCases.forEach(({ contentTypes, expectedComponent, message }) =>

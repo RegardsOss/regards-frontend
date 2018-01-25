@@ -194,6 +194,12 @@ export class DatasourceFormContainer extends React.Component {
               dynamic: false,
               dynamicsValues: [],
             },
+            {
+              name: IDBDatasourceParamsEnum.TAGS,
+              value: values.tags,
+              dynamic: false,
+              dynamicsValues: [],
+            },
           ],
         },
       }
@@ -202,10 +208,10 @@ export class DatasourceFormContainer extends React.Component {
         currentDatasource: newValues,
       })
     } else {
-      // Recompute the parameters array, without refreshRate
-      const parametersWithNewRefreshRate = reject(currentDatasource.content.parameters, parameter =>
-        parameter.name === IDBDatasourceParamsEnum.REFRESH_RATE,
-      )
+      // Recompute the parameters array, without refreshRate nor tags
+      const parametersWithNewRefreshRate = reject(currentDatasource.content.parameters, parameter => (
+        parameter.name === IDBDatasourceParamsEnum.REFRESH_RATE || parameter.name === IDBDatasourceParamsEnum.TAGS
+      ))
       // Add the refresh rate
       parametersWithNewRefreshRate.push({
         name: IDBDatasourceParamsEnum.REFRESH_RATE,
@@ -213,11 +219,20 @@ export class DatasourceFormContainer extends React.Component {
         dynamic: false,
         dynamicsValues: [],
       })
+      // Add tags list
+      parametersWithNewRefreshRate.push({
+        name: IDBDatasourceParamsEnum.TAGS,
+        value: values.tags,
+        dynamic: false,
+        dynamicsValues: [],
+      })
       this.setState({
         currentDatasource: {
-          ...currentDatasource,
-          parameters: parametersWithNewRefreshRate,
-          label: values.label,
+          content: {
+            ...currentDatasource.content,
+            parameters: parametersWithNewRefreshRate,
+            label: values.label,
+          },
         },
         state: states.FORM_MAPPING_CONNECTION,
       })
@@ -235,6 +250,7 @@ export class DatasourceFormContainer extends React.Component {
     const newParameters = []
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION))
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.REFRESH_RATE))
+    newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.TAGS))
     const modelId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.model')
     forEach(formValuesSubset.attributes, (attribute, attributeName) => {
       const modelAttr = find(modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attributeName)

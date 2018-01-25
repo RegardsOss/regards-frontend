@@ -18,13 +18,7 @@
  **/
 import find from 'lodash/find'
 
-const findParam = (datasource, parameterName) => {
-  const param = find(datasource.content.parameters, parameter => parameter.name === parameterName)
-  if (!param) {
-    console.error('Failed to find the param', parameterName, 'on the datasource', datasource)
-  }
-  return param
-}
+const findParam = (datasource, parameterName) => find(datasource.content.parameters, parameter => parameter.name === parameterName)
 const hasParam = (datasource, parameterName) => {
   const param = find(datasource.content.parameters, parameter => parameter.name === parameterName)
   return !!param
@@ -35,6 +29,7 @@ const IDBDatasourceParamsEnum = {
   REFRESH_RATE: 'refreshRate',
   FROM_CLAUSE: 'fromClause',
   TABLE: 'table',
+  TAGS: 'tags',
 }
 
 module.exports = {

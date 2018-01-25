@@ -38,7 +38,7 @@ const messages = Object.assign({
   'generation-chain.form.informations-1': 'To be operational a generation chain must be associated to the elemnts here under. Note : The properties with (*) are mandatory.',
   'generation-chain.form.informations-2': '1. One Dataset. All acquired data will be associated to this Dataset.',
   'generation-chain.form.informations-3': '2. One Processing Chain. This chain will be used to generated archived files.',
-  'generation-chain.form.informations-4': '3. One or many MetaFiles. A MetaFile allow to configure where and how retrieve files to acquire.',
+  'generation-chain.form.informations-4': '3. One or many MetaFiles. A MetaFile allows to configure where and how retrieve files to acquire.',
   'generation-chain.form.edit.title': 'Edit generation chain : {name}',
   'generation-chain.form.create.general.section': 'General',
   'generation-chain.form.create.metafiles.section': 'File types',

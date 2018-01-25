@@ -289,7 +289,7 @@ class SearchResultsComponent extends React.Component {
           searchSelectors={searchSelectors}
           attributePresentationModels={attributePresentationModels}
           tableColumns={tableColumns}
-          allowingFacettes={allowingFacettes}
+          displayFacettesButton={allowingFacettes}
           displayOnlyQuicklook={displayOnlyQuicklook}
           enableQuicklooks={enableQuicklooks}
           showingFacettes={showingFacettes}
@@ -316,7 +316,7 @@ class SearchResultsComponent extends React.Component {
         />
         {/* Third header row (only with facets enabled):  */}
         <SelectedFacetsHeaderRow
-          showingFacettes={showingFacettes}
+          showingFacettes={showFacets}
           filters={filters}
           onDeleteFilter={onDeleteFacet}
         />

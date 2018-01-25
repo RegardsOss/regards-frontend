@@ -160,9 +160,11 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       this.setState({ step: RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_ERROR })
     } else {
       const resultFile = payload
+      const fileName = (resultFile.contentDisposition || '').split('filename=')[1]
       this.setState({
         step: RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT,
         localAccessURL: resultFile && resultFile.content ? FileContentDisplayer.buildLocalAccessURL(resultFile.content) : null,
+        fileName,
         resultFile,
       })
     }
@@ -187,7 +189,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   renderCurrentStep = () => {
     const { intl: { formatMessage } } = this.context
     const {
-      step, resolvedParameters, userParametersValues, resultFile, localAccessURL,
+      step, resolvedParameters, userParametersValues, resultFile, localAccessURL, fileName,
     } = this.state
     switch (step) {
       // loading states
@@ -216,7 +218,12 @@ export class RunCatalogPluginServiceContainer extends React.Component {
         // 1 - if there is some usable result, provide a result displaying step
         if (localAccessURL) {
           return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer fileAccessURL={localAccessURL} file={resultFile} />, [
-            <DownloadResultButton key="download.button" localAccessURL={localAccessURL} />, // custom options: download
+            <DownloadResultButton
+              key="download.button"
+              localAccessURL={localAccessURL}
+              fileName={fileName}
+              forcedownload={!FileContentDisplayer.isSupportedMIMEType(resultFile)}
+            />, // custom options: download
             this.renderPreviousOption()]) // custom options: previous
         }
         // 2 - No: just provide a message step saying everything went right

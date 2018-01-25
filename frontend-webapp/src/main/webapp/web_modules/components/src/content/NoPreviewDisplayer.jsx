@@ -16,10 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import ImageOff from 'mdi-material-ui/ImageOff'
+import { i18nContextType } from '@regardsoss/i18n'
+import NoContentComponent from './NoContentComponent'
 
-const messages = {
-  'image.file.not.displayed': 'L\'image ne peut pas être affichée',
-  'file.displayer.no.preview.message': 'Aucune prévisualisation disponible',
+/**
+* Displays picture files
+* @author Sébastien Binda
+*/
+class NoPreviewDisplayer extends React.Component {
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    return (
+      <NoContentComponent
+        title={this.context.intl.formatMessage({ id: 'file.displayer.no.preview.message' })}
+        Icon={ImageOff}
+      />
+    )
+  }
 }
 
-export default messages
+export default NoPreviewDisplayer

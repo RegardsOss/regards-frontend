@@ -55,7 +55,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
     tableColumns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
 
     // facet state
-    allowingFacettes: PropTypes.bool.isRequired,
+    displayFacettesButton: PropTypes.bool.isRequired,
     showingFacettes: PropTypes.bool.isRequired,
 
     // quicklook
@@ -100,7 +100,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { user: { viewModeButton } } } = this.context
     const {
       attributePresentationModels, displayMode, searchSelectors, tableColumns,
-      allowingFacettes, showingFacettes, enableQuicklooks, selectionServices, onAddSelectionToCart,
+      displayFacettesButton, showingFacettes, enableQuicklooks, selectionServices, onAddSelectionToCart,
       onChangeColumnsVisibility, onShowListView, onShowTableView, onShowDatasets, onShowQuicklookView, displayOnlyQuicklook,
       onShowDataobjects, onSortByAttribute, onStartSelectionService, onToggleShowFacettes, onToggleDisplayOnlyQuicklook,
     } = this.props
@@ -139,11 +139,11 @@ class OptionsAndTabsHeaderLine extends React.Component {
             }
           </TableHeaderOptionGroup>
           {/* 1.b.2 Extended options: add to basket and facets */}
-          <TableHeaderOptionGroup show={!!onAddSelectionToCart || (allowingFacettes && this.isDisplayingDataobjects())}>
+          <TableHeaderOptionGroup show={!!onAddSelectionToCart || (displayFacettesButton && this.isDisplayingDataobjects())}>
             <ShowableAtRender show={!!onAddSelectionToCart} key="add.selection.to.cart">
               <AddSelectionToCartComponent onAddSelectionToCart={onAddSelectionToCart} />
             </ShowableAtRender>
-            <ShowableAtRender show={allowingFacettes && this.isDisplayingDataobjects()}>
+            <ShowableAtRender show={displayFacettesButton && this.isDisplayingDataobjects()}>
               <FlatButton
                 label={formatMessage({ id: 'navigation.filter.by.facets' })}
                 onTouchTap={onToggleShowFacettes}

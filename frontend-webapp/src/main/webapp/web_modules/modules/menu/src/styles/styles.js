@@ -132,13 +132,20 @@ const menuStyles = theme => ({
         style: {
           opacity: 0.5,
         },
+        primaryText: {
+          display: 'grid',
+          gridTemplateColumns: 'auto auto',
+        },
         dateStyle: {
-          display: 'flex',
-          alignItems: 'center',
           fontSize: '0.8em',
-          paddingTop: 16,
-          paddingRight: 16,
+          paddingLeft: 10,
           pointerEvents: 'none',
+          textAlign: 'right',
+        },
+        titleStyle: {
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
         },
       },
       selectedItem: {
@@ -176,10 +183,22 @@ const menuStyles = theme => ({
       details: {
         date: {
           style: {
-            position: 'absolute',
-            right: 24,
-            top: 24,
+            paddingRight: 24,
+            paddingTop: 24,
             fontSize: '0.8em',
+          },
+        },
+        header: {
+          style: {
+            display: 'grid',
+            gridTemplateColumns: 'auto max-content',
+          },
+        },
+        message: {
+          style: {
+            wordBreak: 'break-all',
+            hyphens: 'auto',
+            textAlign: 'justify',
           },
         },
         actions: {
@@ -205,7 +224,12 @@ const menuStyles = theme => ({
         titleStyle: {
           fontWeight: 'bold',
           marginBottom: 3,
-          maxWidth: 190,
+          maxWidth: 150,
+        },
+        messageStyle: {
+          wordBreak: 'break-all',
+          hyphens: 'auto',
+          textAlign: 'justify',
         },
         dateStyle: {
           position: 'absolute',
@@ -218,7 +242,6 @@ const menuStyles = theme => ({
         NotificationItem: {
           DefaultStyle: {
             fontFamily: theme.fontFamily,
-            maxHeight: 100,
             overflow: 'hidden',
             backgroundColor: theme.palette.canvasColor,
             color: theme.palette.textColor,

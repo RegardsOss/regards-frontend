@@ -30,6 +30,7 @@ class DownloadButton extends React.Component {
     label: PropTypes.string, // not mandatory, can use a simple icon
     tooltip: PropTypes.string,
     downloadURL: PropTypes.string.isRequired,
+    downloadName: PropTypes.string,
     // ... other button properties, provided at runtime to the button
   }
 
@@ -42,12 +43,21 @@ class DownloadButton extends React.Component {
     textDecoration: 'none',
   }
 
+  forceDownload = () => {
+    this.button.click()
+  }
+
   render() {
     const {
-      ButtonConstructor, ButtonIcon, label, tooltip, downloadURL, ...otherProperties
+      ButtonConstructor, ButtonIcon, label, tooltip, downloadURL, downloadName, ...otherProperties
     } = this.props
     return (
-      <a download href={downloadURL} style={DownloadButton.UNDECORATED_LINK_STYLE} >
+      <a
+        ref={(input) => { this.button = input }}
+        download={downloadName || true}
+        href={downloadURL}
+        style={DownloadButton.UNDECORATED_LINK_STYLE}
+      >
         <ButtonConstructor
           label={label}
           icon={ButtonIcon && <ButtonIcon />}
