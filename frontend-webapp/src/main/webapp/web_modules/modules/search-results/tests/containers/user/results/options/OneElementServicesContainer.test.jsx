@@ -60,7 +60,7 @@ describe('[Search Results] Testing OneElementServicesContainer', () => {
     const component = enzymeWrapper.find(OneElementServicesComponent)
     assert.lengthOf(component, 1, 'There should be the rendered component')
   })
-  it('should filter appliable services', () => {
+  it('should filter appliable services only', () => {
     const props = {
       entity: {
         content: {
@@ -73,7 +73,61 @@ describe('[Search Results] Testing OneElementServicesContainer', () => {
           geometry: null,
           properties: {},
           tags: [],
-          services: [],
+          services: [{ // this service should always be returned
+            content: {
+              configId: 1,
+              label: 'test1',
+              applicationModes: [
+                'ONE',
+              ],
+              entityTypes: [
+                'DATA',
+                'DATASET',
+              ],
+              type: 'CATALOG',
+            },
+            links: [],
+          }, { // this service should never be returned
+            content: {
+              configId: 2,
+              label: 'test2',
+              applicationModes: [
+                'MANY',
+              ],
+              entityTypes: [
+                'DATA',
+                'DATASET',
+              ],
+              type: 'CATALOG',
+            },
+            links: [],
+          }, { // this service should be returned for DATA
+            content: {
+              configId: 3,
+              label: 'test3',
+              applicationModes: [
+                'ONE',
+              ],
+              entityTypes: [
+                'DATA',
+              ],
+              type: 'UI',
+            },
+            links: [],
+          }, { // this service should not be returned for DATA
+            content: {
+              configId: 4,
+              label: 'test4',
+              applicationModes: [
+                'ONE',
+              ],
+              entityTypes: [
+                'DATASET',
+              ],
+              type: 'UI',
+            },
+            links: [],
+          }],
         },
       },
       // from mapDispatchToProps
@@ -82,5 +136,10 @@ describe('[Search Results] Testing OneElementServicesContainer', () => {
     const enzymeWrapper = shallow(<OneElementServicesContainer {...props} />, { context })
     const component = enzymeWrapper.find(OneElementServicesComponent)
     assert.lengthOf(component, 1, 'There should be the rendered component')
+    const providedServices = component.props().services
+    assert.isOk(providedServices.find(s => s.content.label === 'test1'), 'The test1 service, available for ONE use case, should be present')
+    assert.isNotOk(providedServices.find(s => s.content.label === 'test2'), 'The test2 service, not available for ONE use case, should not be present')
+    assert.isOk(providedServices.find(s => s.content.label === 'test3'), 'The test3 service, available for DATA, should be present')
+    assert.isNotOk(providedServices.find(s => s.content.label === 'test4'), 'The test4 service, available for DATASET only, should not be present')
   })
 })

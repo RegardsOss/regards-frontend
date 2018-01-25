@@ -71,9 +71,14 @@ export class OneElementServicesContainer extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     // detect entity change to update the available services (the service that can be applied to one entity)
     if (oldProps.entity !== newProps.entity) {
+      const entityType = get(newProps.entity, 'content.entityType')
       this.setState({
         services: get(newProps.entity, 'content.services', [])
-          .filter(service => service.content.applicationModes.includes(AccessDomain.applicationModes.ONE)),
+          // keep only services that have one element application mode and
+          // entity type as target
+          .filter(({ content: { applicationModes, entityTypes } }) =>
+            applicationModes.includes(AccessDomain.applicationModes.ONE) &&
+            entityTypes.includes(entityType)),
       })
     }
   }
