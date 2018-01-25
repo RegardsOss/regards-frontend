@@ -42,7 +42,7 @@ This file is used by the plugin loader to define the configuration needed by the
 ```json
 {
   "name": "enumerated",
-  "description": "Provides to user an auto-completion field for enumerated values of an attribute model",
+  "description": "Enumerated values criteria plugin for Regards search forms",
   "version" : 1.0,
   "author" : "Raphaël Mechali",
   "company" : "C-S",

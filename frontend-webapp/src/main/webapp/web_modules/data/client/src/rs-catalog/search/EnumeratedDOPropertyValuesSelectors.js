@@ -16,12 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { enumeratedDOPropertyValuesReducer } from './clients/EnumeratedDOPropertyValuesClient'
+import { BasicArraySelectors } from '@regardsoss/store-utils'
 
 /**
- * Exports plugin Redux reducers
+ * Builder for enumerated dataobjects values selectors
+ * @param storePath path in redux store
+ * @author Raphaël Mechali
  */
-export default {
-  filteredValues: enumeratedDOPropertyValuesReducer,
-}
-
+export default storePath => new BasicArraySelectors(storePath)

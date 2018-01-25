@@ -32,7 +32,7 @@ const pluginStyles = theme => ({
   },
   textFieldStyle: {
     top: -13,
-    maxWidth: 80,
+    width: 180,
     margin: '0px 10px',
   },
   buttonStyle: {},

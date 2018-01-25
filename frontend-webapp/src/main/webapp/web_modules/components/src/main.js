@@ -71,9 +71,10 @@ import Breadcrumb from './links/Breadcrumb'
 import PictureLinkComponent from './links/PictureLinkComponent'
 import LinkComponent from './links/LinkComponent'
 
-import PageableListContainer from './list/PageableListContainer'
-import ListContainer from './list/ListContainer'
+import AutoCompleteTextField from './list/AutoCompleteTextField'
 import ChipList from './list/ChipList'
+import ListContainer from './list/ListContainer'
+import PageableListContainer from './list/PageableListContainer'
 import SelectableList from './list/SelectableList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
@@ -137,6 +138,7 @@ export {
   ActionButtonComponent,
   ActionIconWithNotifications,
   ApplicationErrorComponent,
+  AutoCompleteTextField,
   BaseBoardComponent,
   BaseBoardItemComponent,
   BoardComponent,

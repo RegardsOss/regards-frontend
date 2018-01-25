@@ -1,7 +1,7 @@
 {
   "name": "<%= name %>",
   "description": "<%= description %>",
-  "version": 1.0,
+  "version": "1.0.0",
   "author": "<%= author %>",
   "company": "<%= company %>",
   "email": "<%= email %>",
@@ -13,8 +13,10 @@
     "viewBox": "0 0 94.5 94.5"
   },
   "conf": {
-  "applicationModes": [
-<%- applicationModes.reduce((text, mode) => `${text}${text ?',\n': ''}      "${mode}"`, '') %>
+    "applicationModes": [
+<%- applicationModes.reduce((text, mode) => `${text
+      }${text ?',\n': ''
+      }      "${mode}"`, '') %>
     ],
     "entityTypes": [
       "DATA"

@@ -21,7 +21,7 @@ const webpack = require('webpack')
 
 
 const PLUGIN_TYPE = 'criterion'
-const PLUGIN_NAME = 'string'
+const PLUGIN_NAME = 'enumerated'
 
 const conf = webpackConfigurator
   .generateConfig({

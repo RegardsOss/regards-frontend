@@ -19,17 +19,17 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SampleCriteria } from '../../src/components/SampleCriteria'
+import { EnumeratedCriteria } from '../../src/components/EnumeratedCriteria'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test case for {@link StringCriteriaComponent}
+ * Test case for {@link SampleCriteria}
  *
  * @author Xavier-Alexandre Brochard
  */
-describe('[PLUGIN SampleCriteria CRITERIA] Testing the criteria component', () => {
+describe('[enumerated criteria plugin] Testing SampleCriteria', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {

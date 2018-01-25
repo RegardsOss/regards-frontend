@@ -60,4 +60,27 @@ describe('[Search Results] Testing OneElementServicesContainer', () => {
     const component = enzymeWrapper.find(OneElementServicesComponent)
     assert.lengthOf(component, 1, 'There should be the rendered component')
   })
+  it('should filter appliable services', () => {
+    const props = {
+      entity: {
+        content: {
+          id: 1,
+          ipId: 'coucou',
+          sipId: '1',
+          label: 'O.D.I.L',
+          entityType: ENTITY_TYPES_ENUM.DATA,
+          files: {},
+          geometry: null,
+          properties: {},
+          tags: [],
+          services: [],
+        },
+      },
+      // from mapDispatchToProps
+      dispatchRunService: () => { },
+    }
+    const enzymeWrapper = shallow(<OneElementServicesContainer {...props} />, { context })
+    const component = enzymeWrapper.find(OneElementServicesComponent)
+    assert.lengthOf(component, 1, 'There should be the rendered component')
+  })
 })

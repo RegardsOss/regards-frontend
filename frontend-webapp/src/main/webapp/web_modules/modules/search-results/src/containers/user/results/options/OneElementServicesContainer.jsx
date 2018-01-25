@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
+import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
 import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
@@ -51,6 +53,32 @@ export class OneElementServicesContainer extends React.Component {
   }
 
   /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    // detect entity change to update the available services (the service that can be applied to one entity)
+    if (oldProps.entity !== newProps.entity) {
+      this.setState({
+        services: get(newProps.entity, 'content.services', [])
+          .filter(service => service.content.applicationModes.includes(AccessDomain.applicationModes.ONE)),
+      })
+    }
+  }
+
+  /**
    * Callback: on service started by user. Dispatches run service event
    * @param service service wrapped in content
    */
@@ -63,11 +91,11 @@ export class OneElementServicesContainer extends React.Component {
   }
 
   render() {
-    const { entity } = this.props
     const subComponentProperties = omit(this.props, keys(OneElementServicesContainer.propTypes))
+    const { services } = this.state
     return (
       <OneElementServicesComponent
-        services={entity.content.services}
+        services={services}
         onServiceStarted={this.onServiceStarted}
         {...subComponentProperties}
       />

@@ -16,12 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { enumeratedDOPropertyValuesReducer } from './clients/EnumeratedDOPropertyValuesClient'
+import { BasicArrayReducers } from '@regardsoss/store-utils'
+import EnumeratedDOPropertyValuesActions from './EnumeratedDOPropertyValuesActions'
 
 /**
- * Exports plugin Redux reducers
+ * Redux store reducer for enumerated dataobjects values requests
+ * @author Raphaël Mechali
  */
-export default {
-  filteredValues: enumeratedDOPropertyValuesReducer,
+class EnumeratedDOPropertyValuesReducer extends BasicArrayReducers {
+  /**
+   * Constructor
+   * @param {*} namespace actions namespace
+   */
+  constructor(namespace) {
+    super(new EnumeratedDOPropertyValuesActions(namespace))
+  }
 }
 
+/** Export reduce function closure on namespace */
+export default (namespace) => {
+  const instance = new EnumeratedDOPropertyValuesReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}
