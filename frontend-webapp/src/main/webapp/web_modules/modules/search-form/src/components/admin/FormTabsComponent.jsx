@@ -37,6 +37,9 @@ class FormTabsComponent extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     project: PropTypes.string,
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),

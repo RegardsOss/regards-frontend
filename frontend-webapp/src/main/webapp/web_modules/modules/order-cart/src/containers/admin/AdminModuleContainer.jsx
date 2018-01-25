@@ -26,14 +26,22 @@ import { ModuleConfigurationShape } from '../../model/ModuleConfigurationShape'
 export class AdminModuleContainer extends React.Component {
   static propTypes = {
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
+      // Function to change a field value
       changeField: PropTypes.func.isRequired,
+      // Current values of the form
       form: ModuleConfigurationShape,
     }),
   }
 
   render() {
-    const { changeField, form } = this.props.adminForm
-    return <ModuleConfigurationComponent changeField={changeField} moduleForm={form} />
+    const { changeField, isCreating } = this.props.adminForm
+    return (<ModuleConfigurationComponent
+      changeField={changeField}
+      isCreating={isCreating}
+    />)
   }
 }
 export default AdminModuleContainer

@@ -37,6 +37,9 @@ describe('[Search Results] Testing AdminContainer', () => {
       appName: 'any',
       project: 'any',
       adminForm: {
+        isCreating: true,
+        isDuplicating: false,
+        isEditing: false,
         changeField: () => { },
         form: {},
       },

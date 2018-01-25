@@ -44,6 +44,7 @@ const messages = {
   'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.visibility.label': 'Display',
   'form.attributes.filter.label': 'Filter',
+  'form.attributes.facetable.label': 'Enable filter',
   // user
   'search.graph.title': 'Graph browsing',
   'search.graph.subtitle': 'Data browsing by collections and datasets objects display',

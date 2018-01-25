@@ -44,6 +44,9 @@ describe('[SEARCH FORM] Testing FormTabsComponent', () => {
       project: 'test',
       appName: 'test',
       adminForm: {
+        isCreating: true,
+        isDuplicating: false,
+        isEditing: false,
         changeField: () => { },
         form: {
           id: 1,

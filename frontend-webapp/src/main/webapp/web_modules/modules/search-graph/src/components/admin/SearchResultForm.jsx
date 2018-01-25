@@ -13,6 +13,9 @@ class SearchResultFormComponent extends React.Component {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
@@ -28,7 +31,7 @@ class SearchResultFormComponent extends React.Component {
       applicationId: this.props.appName,
       conf: {
         resultType: ENTITY_TYPES_ENUM.DATA,
-        onlyAllowDataConfiguration: true,
+        preventAdminToPickDocumentView: true,
       },
     }
 

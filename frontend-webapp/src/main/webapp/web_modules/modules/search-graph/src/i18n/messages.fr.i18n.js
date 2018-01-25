@@ -44,6 +44,7 @@ const messages = {
   'form.attributes.initialSort.label': 'Trier les résultats sur cet attribut',
   'form.attributes.visibility.label': 'Afficher',
   'form.attributes.filter.label': 'Filtrer',
+  'form.attributes.facetable.label': 'Activer le filtrage sur cet attribut',
   // user
   'search.graph.title': 'Navigation par graphe',
   'search.graph.subtitle': 'Parcours des données par collections et affichage des objets contenus dans les jeux de données',

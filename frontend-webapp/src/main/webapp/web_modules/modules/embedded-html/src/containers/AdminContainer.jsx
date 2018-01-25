@@ -31,6 +31,9 @@ class AdminContainer extends React.Component {
   static propTypes = {
     // Form parameters
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       // Function to change a field value
       changeField: PropTypes.func,
       // Current values of the form

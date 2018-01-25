@@ -47,6 +47,9 @@ export class AdminContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     project: PropTypes.string,
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func.isRequired,
       form: PropTypes.shape({
         // Specific current module configuration for the current AdminContainer
@@ -89,6 +92,7 @@ export class AdminContainer extends React.Component {
           documentAttributeModels={this.props.documentAttributeModels}
           currentFormValues={this.props.adminForm.form.conf}
           initialFormValues={this.props.moduleConf}
+          isCreating={this.props.adminForm.isCreating}
           changeField={this.props.adminForm.changeField}
         />
       )
