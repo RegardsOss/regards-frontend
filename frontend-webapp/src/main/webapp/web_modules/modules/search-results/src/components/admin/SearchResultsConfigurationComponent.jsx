@@ -56,6 +56,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     documentAttributeModels: AccessShapes.AttributeConfigurationList,
     currentFormValues: ModuleConfiguration,
     initialFormValues: ModuleConfiguration.isRequired,
+    isCreating: PropTypes.bool,
     // Redux form
     changeField: PropTypes.func.isRequired,
   }
@@ -67,12 +68,13 @@ class SearchResultsConfigurationComponent extends React.Component {
 
   componentDidMount() {
     // Set a default value for display mode
-    if (!this.props.currentFormValues) {
+    if (this.props.isCreating) {
       this.props.changeField(SearchResultsConfigurationComponent.MODULE_DISPLAY_MODE, DISPLAY_MODE_ENUM.DISPLAY_DATA)
       this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_WIDTH, 400)
-      this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_WIDTH, 400)
+      this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_SPACING, 20)
     }
   }
+
   changeDisplayMode = (event, value) => {
     this.props.changeField(SearchResultsConfigurationComponent.MODULE_DISPLAY_MODE, value)
     if (value === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT) {
@@ -235,7 +237,7 @@ class SearchResultsConfigurationComponent extends React.Component {
 
   render() {
     const { topOptions } = this.context.moduleTheme.configuration
-    const onlyAllowDataConfiguration = get(this.props.initialFormValues, 'onlyAllowDataConfiguration', false)
+    const preventAdminToPickDocumentView = get(this.props.initialFormValues, 'preventAdminToPickDocumentView', false)
     const displayMode = get(this.props.currentFormValues, 'displayMode', DISPLAY_MODE_ENUM.DISPLAY_DATA)
     const enableQuicklooks = get(this.props.currentFormValues, 'enableQuicklooks', false)
 
@@ -258,12 +260,11 @@ class SearchResultsConfigurationComponent extends React.Component {
             <RadioButton
               value={DISPLAY_MODE_ENUM.DISPLAY_DATA_DATASET}
               label={this.context.intl.formatMessage({ id: 'form.configuration.result.type.data_datasets' })}
-              disabled={onlyAllowDataConfiguration}
             />
             <RadioButton
               value={DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
               label={this.context.intl.formatMessage({ id: 'form.configuration.result.type.documents' })}
-              disabled={onlyAllowDataConfiguration}
+              disabled={preventAdminToPickDocumentView}
             />
           </RadioButtonGroup>
           <Field

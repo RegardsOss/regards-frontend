@@ -38,7 +38,6 @@ const messages = {
   'table.delete.option.tooltip': 'Delete this item',
   'table.progress.percent.cell.message': '{percent}%',
   'table.actions.more': 'More options',
-  'table.header.autocomplete.filter.loading': 'Loading...',
 }
 
 export default messages

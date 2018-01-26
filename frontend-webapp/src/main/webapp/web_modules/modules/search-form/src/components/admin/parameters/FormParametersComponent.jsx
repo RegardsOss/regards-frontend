@@ -28,6 +28,9 @@ class FormParametersComponent extends React.Component {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
@@ -43,7 +46,7 @@ class FormParametersComponent extends React.Component {
       attributesRegroupementsConf: this.props.attributesRegroupements,
       selectableAttributes: this.props.selectableAttributes,
       resultType: this.props.resultType,
-      onlyAllowDataConfiguration: false,
+      preventAdminToPickDocumentView: true,
     }
 
     const module = {

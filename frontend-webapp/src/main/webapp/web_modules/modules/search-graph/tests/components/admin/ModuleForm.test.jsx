@@ -40,6 +40,9 @@ describe('[Search Graph] Testing ModuleForm', () => {
       project: 'any',
       appName: 'any',
       adminForm: {
+        isCreating: true,
+        isDuplicating: false,
+        isEditing: false,
         changeField: () => { },
         form: {
           conf: {

@@ -24,6 +24,8 @@
  */
 const messages = {
   'chip.add.button': 'Add',
+  'autocomplete.filter.loading': 'Loading...',
+  'autocomplete.filter.empty': 'No value available',
 }
 
 export default messages

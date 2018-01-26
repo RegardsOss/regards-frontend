@@ -1,19 +1,19 @@
 {
   "name": "<%= name %>",
   "description": "<%= description %>",
-  "version" : 1.0,
-  "author" : "<%= author %>",
-  "company" : "<%= company %>",
-  "email" : "<%= email %>",
-  "url" : "<%= url %>",
+  "version": "1.0.0",
+  "author": "<%= author %>",
+  "company": "<%= company %>",
+  "email": "<%= email %>",
+  "url": "<%= url %>",
   "license": "<%= licence %>",
-  "type" : "<%= type %>",
-  "conf" : {
+  "type": "<%= type %>",
+  "conf": {
     "attributes": [
       {
-        "name":"searchField",
+        "name": "searchField",
         "description": "Attribute to search",
-        "type":"string"
+        "type": "string"
       }
     ]
   }

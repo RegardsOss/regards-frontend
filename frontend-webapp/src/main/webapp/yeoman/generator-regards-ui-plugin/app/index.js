@@ -24,7 +24,6 @@
 const Generator = require('yeoman-generator')
 
 module.exports = class extends Generator {
-
   prompting() {
     return this.prompt([{
       type: 'input',
@@ -92,5 +91,4 @@ module.exports = class extends Generator {
       this.destinationPath(`${this.answers.name}-regards-ui-plugin`),
       this.answers)
   }
-
 }

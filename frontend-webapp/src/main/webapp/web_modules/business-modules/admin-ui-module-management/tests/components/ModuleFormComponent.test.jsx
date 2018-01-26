@@ -22,7 +22,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent } from '@regardsoss/components'
 import Styles from '../../src/styles/styles'
 import { UnconnectedModuleFormComponent } from '../../src/components/ModuleFormComponent'
 import DynamicModuleFormComponent from '../../src/components/DynamicModuleFormComponent'
@@ -86,6 +86,11 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
       pristine: false,
       handleSubmit: () => { },
       initialize: () => { },
+      adminForm: {
+        isEditing: false,
+        isCreating: true,
+        isDuplicating: false,
+      },
     }
     const wrapper = shallow(
       <UnconnectedModuleFormComponent {...props} />
@@ -94,7 +99,6 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
 
     // Check form static fields
     const staticFields = wrapper.find({ id: 'staticFields' })
-    assert.equal(staticFields.find(ShowableAtRender).prop('show'), true, 'Static field name should be displayed')
     assert.isDefined(staticFields.find(Field).find({ name: 'name' }), 'Name field should be displayed')
     assert.isDefined(staticFields.find(Field).find({ name: 'description' }), 'Description field should be displayed')
     assert.isDefined(staticFields.find(Field).find({ name: 'container' }), 'Container field should be displayed')
@@ -138,15 +142,22 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
       pristine: false,
       handleSubmit: () => { },
       initialize: () => { },
+      adminForm: {
+        isEditing: false,
+        isCreating: true,
+        isDuplicating: false,
+      },
     }
     const wrapper = shallow(
       <UnconnectedModuleFormComponent {...props} />
       , options,
     )
+    wrapper.setState({
+      moduleSelected: true,
+    })
 
     // Check form static fields
     const staticFields = wrapper.find({ id: 'staticFields' })
-    assert.equal(staticFields.find(ShowableAtRender).prop('show'), false, 'Static field name should not be displayed')
     assert.isDefined(staticFields.find(Field).find({ name: 'name' }), 'Name field should be displayed')
     assert.isDefined(staticFields.find(Field).find({ name: 'description' }), 'Description field should be displayed')
     assert.isDefined(staticFields.find(Field).find({ name: 'container' }), 'Container field should be displayed')

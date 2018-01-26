@@ -54,6 +54,9 @@ class LazyModuleComponent extends React.Component {
     // Form information for admin container. Admin container is a part of the upper redux-form Form.
     // This parameter contains the redux-form form and the changeField function.
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       // eslint-disable-next-line react/forbid-prop-types
       form: PropTypes.object,
@@ -61,11 +64,9 @@ class LazyModuleComponent extends React.Component {
     onLoadAction: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoaded: false,
-    }
+  state = {
+    isLoaded: false,
+    module: null,
   }
 
   /**

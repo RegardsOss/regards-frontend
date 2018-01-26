@@ -39,6 +39,9 @@ describe('[Order Cart] Testing AdminModuleContainer', () => {
   it('should render correctly', () => {
     const props = {
       adminForm: {
+        isCreating: true,
+        isDuplicating: false,
+        isEditing: false,
         changeField: () => { },
         form: {},
       },
