@@ -17,12 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import React from 'react'
-import replace from 'lodash/replace'
 import { MenuItem } from 'material-ui/IconMenu'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DataManagementShapes } from '@regardsoss/shape'
-import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { AutoCompleteTextField } from '@regardsoss/components'
 
 /**
@@ -45,8 +42,6 @@ export class EnumeratedCriteriaComponent extends React.Component {
     onUpdateTextFilter: PropTypes.func.isRequired,
     // callback: user selected an hint or typed enter in the text field
     onFilterSelected: PropTypes.func.isRequired,
-    // callback: user cleared the field
-    onFilterCleared: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -86,16 +81,18 @@ export class EnumeratedCriteriaComponent extends React.Component {
   render() {
     const {
       attributeLabel, text, isInError, isFetching,
-      onUpdateTextFilter, onFilterSelected, onFilterCleared,
+      onUpdateTextFilter, onFilterSelected,
     } = this.props
     const { currentHints } = this.state
     const { intl: { formatMessage }, moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
 
     return (
       <div style={rootStyle} >
+        {/* attribute label */}
         <span style={labelSpanStyle} >
           {attributeLabel}
         </span>
+        {/* Autocomplete text field */}
         <AutoCompleteTextField
           hintText={formatMessage({ id: 'criterion.search.field.label' })}
           currentHintText={text}
@@ -104,10 +101,8 @@ export class EnumeratedCriteriaComponent extends React.Component {
           isInError={isInError}
           onUpdateInput={onUpdateTextFilter}
           onFilterSelected={onFilterSelected}
+          textFieldStyle={textFieldStyle}
         />
-        {
-          // TODO reset button
-        }
       </div>
     )
   }

@@ -103,11 +103,11 @@ class AutoCompleteTextField extends React.Component {
   static ERROR_EMPTY_MESSAGE = ' '
 
   /**
-   * Lifecycle method: component will mount. Used here to request initial hints list
+   * Lifecycle method: component did mount. Used here to request initial hints list
    */
-  componentWillMount = () => {
-    this.setState(AutoCompleteTextField.DEFAULT_STATE)
-    this.props.onUpdateInput()
+  componentDidMount = () => {
+    const { onUpdateInput, currentHintText } = this.props
+    onUpdateInput(currentHintText)
   }
 
   /**

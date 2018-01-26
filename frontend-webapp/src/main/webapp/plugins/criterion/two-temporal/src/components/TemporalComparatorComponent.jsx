@@ -33,7 +33,6 @@ import EnumTemporalComparator from '../model/EnumTemporalComparator'
  * @author Xavier-Alexandre Brochard
  */
 export class TemporalComparatorComponent extends React.Component {
-
   static propTypes = {
     /**
      * Signature:

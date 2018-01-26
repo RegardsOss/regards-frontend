@@ -24,14 +24,11 @@ import { ChartAdapter } from '@regardsoss/adapters'
 * @author Raphaël Mechali
 */
 class ExampleChartContainer extends React.Component {
-
   static propTypes = {
     beforeDateCount: PropTypes.number.isRequired,
     afterDateCount: PropTypes.number.isRequired,
     unknown: PropTypes.number.isRequired,
   }
-
-  static defaultProps = {}
 
   render() {
     const { beforeDateCount, afterDateCount, unknown } = this.props

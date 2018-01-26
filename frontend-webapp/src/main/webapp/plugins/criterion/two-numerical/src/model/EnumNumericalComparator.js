@@ -22,11 +22,11 @@ export default {
   GE: 'GE',
   getLabel: (value) => {
     switch (value) {
-      case 'EQ' :
+      case 'EQ':
         return '='
-      case 'LE' :
+      case 'LE':
         return '<'
-      case 'GE' :
+      case 'GE':
         return '>'
       default:
         throw new Error(`Unknown comparator value ${value}`)

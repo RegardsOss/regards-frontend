@@ -21,6 +21,7 @@ import get from 'lodash/get'
 import isBoolean from 'lodash/isBoolean'
 import isDate from 'lodash/isDate'
 import isNumber from 'lodash/isNumber'
+import isNaN from 'lodash/isNaN'
 import isString from 'lodash/isString'
 import map from 'lodash/map'
 import Subheader from 'material-ui/Subheader'
@@ -44,7 +45,6 @@ import ExampleChartDisplayer from '../components/ExampleChartDisplayer'
  * @author Leo Mieulet
  */
 export class ExampleContainer extends React.Component {
-
   /**
    * Redux connector to state: allows retrieving store elements. Used here to demo how to some fetched data from central store
    * @param {*} state redux dispatch function
@@ -157,9 +157,7 @@ export class ExampleContainer extends React.Component {
       this.setState({ currentIndex: index, lastLoadedEntity: entity.label })// react is cool,ithe will only change those fields in state!
       // R.2 - check if STOP_DATE, from TIME_PERIOD fragment is before or after this date pameter. Note
       // that all fragments are set up in properties attribute. Also note that dates, in backend model, are actually saved as string
-      let beforeDateCount = previousResult.beforeDateCount
-      let afterDateCount = previousResult.afterDateCount
-      let unknown = previousResult.unknown
+      let { beforeDateCount, afterDateCount, unknown } = previousResult.beforeDateCount
       const entityStopDate = get(entity, 'properties.TIME_PERIOD.STOP_DATE')
       if (!entityStopDate) {
         unknown += 1 // model date is not set
@@ -288,7 +286,9 @@ export class ExampleContainer extends React.Component {
    * const { moduleTheme } = this.context (styles function results is in moduleTheme variable)
    */
   render() {
-    const { loading, currentIndex, totalElements, lastLoadedEntity, errorMessage, results } = this.state
+    const {
+      loading, currentIndex, totalElements, lastLoadedEntity, errorMessage, results,
+    } = this.state
     const { configuration, runtimeTarget, user } = this.props
     // here we render the whole content in vertical scrollable area, to not assert the client screen height is sufficient
     // please note that scroll area requires a height constraints when in vertical mode (height: '100%' here)

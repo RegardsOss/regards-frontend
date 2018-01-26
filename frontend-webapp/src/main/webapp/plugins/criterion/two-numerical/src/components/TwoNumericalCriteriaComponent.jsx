@@ -33,7 +33,6 @@ import TwoNumericalCriteriaComposedComponent from './TwoNumericalCriteriaCompose
  * @author Xavier-Alexandre Brochard
  */
 export class TwoNumericalCriteriaComponent extends React.Component {
-
   static propTypes = {
     // container props (propagated to children)
     ...PluginCriterionContainer.propTypes,

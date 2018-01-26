@@ -26,12 +26,13 @@ const pluginStyles = theme => ({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
+    height: 72,
   },
   labelSpanStyle: {
     margin: '0px 10px',
   },
   textFieldStyle: {
-    top: -13,
+    top: -6,
     width: 180,
     margin: '0px 10px',
   },
