@@ -16,16 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import omit from 'lodash/omit'
-import AutoComplete from 'material-ui/AutoComplete'
-import MenuItem from 'material-ui/MenuItem'
-import LoadingIcon from 'material-ui/svg-icons/av/loop'
-import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import AutoCompleteTextField from '../../list/AutoCompleteTextField'
-
-/** Default filter method: doesn't filter (let the parent filter the current hint text) */
-const NO_FILTER = () => true
 
 /**
  * Table header auto complete filter: It uses the AutoCompleteTextField and customizes styles for table header.

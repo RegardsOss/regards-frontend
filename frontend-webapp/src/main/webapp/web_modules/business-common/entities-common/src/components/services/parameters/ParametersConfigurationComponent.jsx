@@ -23,6 +23,7 @@ import BooleanParameterField from './BooleanParameterField'
 import ChoiceParameterField from './ChoiceParameterField'
 import DateParameterField from './DateParameterField'
 import TextParameterField from './TextParameterField'
+import ParameterPresentation from './ParameterPresentation'
 
 
 /**
@@ -59,27 +60,38 @@ class ParametersConfigurationComponent extends React.Component {
       <div>
         {
           parameters.map(({
- editorType, name, required, choices, valueValidator, label,
+ editorType, name, required, choices, valueValidator, label, description,
 }) => {
             // prepare field label
             const fieldLabel = required ?
               formatMessage({ id: 'entities.common.services.parameter.required' }, { label }) : label
             switch (editorType) {
               case Parameter.EditorTypes.CHECKBOX:
-                return <BooleanParameterField key={name} name={name} label={fieldLabel} />
+                return (
+                  <ParameterPresentation key={name} label={label} description={description}>
+                    <BooleanParameterField name={name} label={fieldLabel} />
+                  </ParameterPresentation>)
               case Parameter.EditorTypes.CHOICE:
-                return <ChoiceParameterField key={name} name={name} label={fieldLabel} choices={choices} />
+                return (
+                  <ParameterPresentation key={name} label={label} description={description}>
+                    <ChoiceParameterField name={name} label={fieldLabel} choices={choices} />
+                  </ParameterPresentation>)
               case Parameter.EditorTypes.DATE_SELECTOR:
-                return <DateParameterField key={name} name={name} label={fieldLabel} required={required} />
+                return (
+                  <ParameterPresentation key={name} label={label} description={description}>
+                    <DateParameterField name={name} label={fieldLabel} required={required} />
+                  </ParameterPresentation>)
               case Parameter.EditorTypes.TEXTFIELD:
                 return (
-                  <TextParameterField
-                    key={name}
-                    name={name}
-                    label={fieldLabel}
-                    validator={valueValidator}
-                    required={required}
-                  />)
+                  <ParameterPresentation key={name} label={label} description={description}>
+                    <TextParameterField
+                      name={name}
+                      label={fieldLabel}
+                      description={description}
+                      validator={valueValidator}
+                      required={required}
+                    />
+                  </ParameterPresentation>)
               default: // should never happen at runtime, only for dev.
                 throw new Error(`Unknown parameter editor type  ${editorType}`)
             }

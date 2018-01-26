@@ -58,6 +58,8 @@ const messages = {
   'entities.common.services.plugin.parameters.error': 'Service configuration contains errors',
   'entities.common.services.loading.results': 'Service processing',
   'entities.common.services.parameter.required': '{label} (*)',
+  'entities.common.services.parameter.description.dialog.title': '{parameter} description',
+  'entities.common.services.parameter.description.dialog.close': 'Close',
   'entities.common.services.plugin.run.failed': 'Service processing failed',
   'entities.common.services.plugin.run.empty': 'Service processing is successful. It produced no file',
   'entities.common.services.submit.parameters': 'Next',
