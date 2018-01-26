@@ -15,12 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { initPlugin } from '@regardsoss/plugins-api'
-import EnumeratedCriteriaContainer from './containers/EnumeratedCriteriaContainer'
-import messages from './i18n'
-import styles from './styles'
-import pluginInfo from './plugin-info.json'
-import reducer from './reducer'
+ */
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-initPlugin(EnumeratedCriteriaContainer, pluginInfo, reducer, messages, styles)
+describe('[PLUGIN STRING CRITERIA] Testing i18n', () => {
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

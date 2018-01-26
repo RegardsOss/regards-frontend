@@ -74,12 +74,12 @@ for rootFolder in "${buildFolders[@]}"; do
           echo "        -------------------------------------"
           echo ""
           cd plugins/${rootFolder}/${pluginFolder}
-          if [ -d "node_modules/@regardsoss" ]; then
-            rm -rf "node_modules/@regardsoss"
-          fi
+##          if [ -d "node_modules/@regardsoss" ]; then
+##            rm -rf "node_modules/@regardsoss"
+##          fi
           pwd
-          npm prune
-          npm install
+##          npm prune
+##          npm install
           npm run test:mocha
           cd ${home}
       fi

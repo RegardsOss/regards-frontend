@@ -23,7 +23,7 @@ import { enumeratedDOPropertyValuesActions, enumeratedDOPropertyValuesSelectors 
 import EnumeratedCriteriaComponent from '../components/EnumeratedCriteriaComponent'
 
 /** Max number of values shown to user at same time */
-const MAX_VALUES_COUNT = 20
+const MAX_VALUES_COUNT = 10
 
 /** Search field Id in state (see plugin-info.json) */
 const SEARCH_FIELD_ID = 'searchField'
@@ -88,7 +88,8 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
     // A - update parameter and text field value
     this.setState({ [SEARCH_FIELD_ID]: text })
     // B - dipatch get values for that filter text
-    this.props.dispatchGetPropertyValues(this.getAttributeName(SEARCH_FIELD_ID), text)
+    const { dispatchGetPropertyValues, initialQuery } = this.props
+    dispatchGetPropertyValues(this.getAttributeName(SEARCH_FIELD_ID), text, initialQuery)
   }
 
   /**

@@ -59,6 +59,17 @@ class PluginCriterionContainer extends React.Component {
      * Save the current state in order to retrieve it at initialization with getDefaultState
      */
     savePluginState: PropTypes.func.isRequired,
+    /**
+     * Initial values if any
+     */
+    // eslint-disable-next-line react/no-unused-prop-types
+    initialValues: PropTypes.objectOf(PropTypes.string),
+    /**
+     * Initial search query (datasets and models restrictions) for plugins using it
+     */
+    // eslint-disable-next-line react/no-unused-prop-types
+    initialQuery: PropTypes.string,
+
   }
 
   componentWillMount() {
@@ -138,7 +149,7 @@ class PluginCriterionContainer extends React.Component {
    */
   getAttributeInitValue = (configuredAttributeName, props) => {
     const attributeName = this.getAttributeName(configuredAttributeName, props)
-    return get(props, `initialValues["${attributeName}"]`)
+    return get(props, `initialValues.["${attributeName}"]`)
   }
 
   getAttributeLabel = configuredAttributeName => get(this.props, `attributes["${configuredAttributeName}"].label`, get(this.props, `attributes["${configuredAttributeName}"].name`, 'Undefined attribute'))
