@@ -44,4 +44,3 @@ export default class EnumeratedDOPropertyValuesActions extends BasicArrayActions
   fetchValues = (name, partialText, maxCount, q) => this.fetchEntityList({ name }, { partialText, maxCount, q })
 }
 
-
