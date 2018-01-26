@@ -224,7 +224,7 @@ const menuStyles = theme => ({
         titleStyle: {
           fontWeight: 'bold',
           marginBottom: 3,
-          maxWidth: 150,
+          maxWidth: 165,
         },
         messageStyle: {
           wordBreak: 'break-all',
