@@ -33,6 +33,9 @@ class DynamicModuleFormComponent extends React.Component {
     appName: PropTypes.string.isRequired,
     module: AccessShapes.Module,
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
       // eslint-disable-next-line react/forbid-prop-types
@@ -42,7 +45,9 @@ class DynamicModuleFormComponent extends React.Component {
     styles: PropTypes.object,
   }
 
-  state = {}
+  state = {
+    module: null,
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (!this.props.adminForm.form || !this.props.adminForm.form.conf) {

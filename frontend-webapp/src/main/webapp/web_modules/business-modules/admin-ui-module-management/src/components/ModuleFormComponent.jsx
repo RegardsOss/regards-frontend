@@ -18,14 +18,13 @@
  **/
 import find from 'lodash/find'
 import map from 'lodash/map'
-import isNil from 'lodash/isNil'
 import merge from 'lodash/merge'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { reduxForm } from 'redux-form'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ShowableAtRender, CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent } from '@regardsoss/components'
 import { RenderTextField, RenderSelectField, Field, RenderCheckbox, ErrorTypes } from '@regardsoss/form-utils'
 import { AccessShapes } from '@regardsoss/shape'
 import DynamicModuleFormComponent from './DynamicModuleFormComponent'
@@ -44,8 +43,10 @@ class ModuleFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     applicationId: PropTypes.string.isRequired,
-    duplication: PropTypes.bool,
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
       form: PropTypes.object,
@@ -63,23 +64,27 @@ class ModuleFormComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static defaultProps = {
+    module: {
+      active: false,
+      conf: {},
+    },
+  }
+
   constructor(props) {
     super(props)
-    let dynamicContainerSelected = false
-    if (this.props.module) {
+    let dynamicContainerSelected
+    const moduleSelected = props.adminForm.isEditing || props.adminForm.isDuplicating
+    if (moduleSelected) {
       dynamicContainerSelected = find(
         this.props.containers,
         container => container.id === this.props.module.container && container.dynamicContent,
       )
     }
     this.state = {
-      creation: this.props.duplication || isNil(this.props.module),
-      moduleSelected: !isNil(this.props.module),
+      moduleSelected,
       dynamicContainerSelected,
-      module: this.props.module ? this.props.module : {
-        active: false,
-        conf: {},
-      },
+      module: this.props.module,
     }
   }
 
@@ -88,17 +93,15 @@ class ModuleFormComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    if (this.props.module) {
-      const initializeModule = Object.assign(
-        {},
-        {
-          applicationId: this.props.applicationId,
-          active: false,
-          defaultDynamicModule: false,
-        }, this.state.module,
-      )
-      this.props.initialize(initializeModule)
-    }
+    const initializeModule = Object.assign(
+      {},
+      {
+        applicationId: this.props.applicationId,
+        active: false,
+        defaultDynamicModule: false,
+      }, this.state.module,
+    )
+    this.props.initialize(initializeModule)
   }
 
   selectContainer = (event, index, containerId, input) => {
@@ -134,25 +137,24 @@ class ModuleFormComponent extends React.Component {
     const containerFieldStyle = { marginBottom: 15 }
     return (
       <div>
-        <ShowableAtRender show={this.state.creation}>
-          <Field
-            name="type"
-            fullWidth
-            component={RenderSelectField}
-            type="text"
-            onSelect={this.selectModuleType}
-            label={this.context.intl.formatMessage({ id: 'module.form.name' })}
-          >
-            {map(this.props.availableModuleTypes, (module, id) => (
-              <MenuItem
-                value={module}
-                key={id}
-                primaryText={module}
-              />
-            ))
-            }
-          </Field>
-        </ShowableAtRender>
+        <Field
+          name="type"
+          fullWidth
+          component={RenderSelectField}
+          type="text"
+          onSelect={this.selectModuleType}
+          label={this.context.intl.formatMessage({ id: 'module.form.name' })}
+          disabled={!this.props.adminForm.isCreating}
+        >
+          {map(this.props.availableModuleTypes, (module, id) => (
+            <MenuItem
+              value={module}
+              key={id}
+              primaryText={module}
+            />
+          ))
+          }
+        </Field>
         <Field
           name="description"
           fullWidth
@@ -194,12 +196,12 @@ class ModuleFormComponent extends React.Component {
   render() {
     const { pristine, submitting, invalid } = this.props
     const style = Styles(this.context.muiTheme)
-
+    const { isDuplicating, isCreating } = this.props.adminForm
 
     let title = 'module.form.title.update'
-    if (this.props.duplication) {
+    if (isDuplicating) {
       title = 'module.form.title.duplicate'
-    } else if (this.state.creation) {
+    } else if (isCreating) {
       title = 'module.form.title.create'
     }
 
@@ -222,7 +224,7 @@ class ModuleFormComponent extends React.Component {
           <Card style={style.cardEspaced}>
             <CardActions>
               <CardActionsComponent
-                mainButtonLabel={this.context.intl.formatMessage({ id: this.state.creation ? 'module.form.submit.button' : 'module.form.update.button' })}
+                mainButtonLabel={this.context.intl.formatMessage({ id: isCreating ? 'module.form.submit.button' : 'module.form.update.button' })}
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || invalid}
                 secondaryButtonLabel={this.context.intl.formatMessage({ id: 'module.form.cancel.button' })}

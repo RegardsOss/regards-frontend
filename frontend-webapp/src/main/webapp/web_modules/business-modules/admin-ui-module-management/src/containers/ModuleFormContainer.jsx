@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
+import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
+import isNil from 'lodash/isNil'
 import { browserHistory } from 'react-router'
 import { getFormValues, change } from 'redux-form'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -56,9 +58,7 @@ class ModuleFormContainer extends React.Component {
     form: FormShape,
     changeField: PropTypes.func,
     // Set by mapStateToProps
-    isFetching: PropTypes.bool,
     module: AccessShapes.Module,
-    duplicatedModule: AccessShapes.Module,
     layout: AccessShapes.Layout,
     // eslint-disable-next-line react/no-unused-prop-types
     availableEndpoints: PropTypes.arrayOf(PropTypes.string),
@@ -73,43 +73,52 @@ class ModuleFormContainer extends React.Component {
     return allMatchHateoasDisplayLogic(moduleDependencies, endpoints)
   }
 
-  componentWillMount() {
-    if (this.props.params.module_id && !this.props.module) {
-      this.props.fetchModule(this.props.params.applicationId, this.props.params.module_id)
+  constructor(props) {
+    super(props)
+
+    const isDuplicating = !isNil(props.params.duplicate_module_id)
+    const isCreating = isDuplicating || isNil(this.props.params.module_id)
+    const isEditing = !isDuplicating && !isNil(this.props.module)
+    this.state = {
+      availableModuleTypes: [],
+      isLoading: true,
+      isDuplicating,
+      isCreating,
+      isEditing,
     }
-
-    if (this.props.params.duplicate_module_id && !this.props.module) {
-      this.props.fetchModule(this.props.params.applicationId, this.props.params.duplicate_module_id)
-    }
-
-    this.props.fetchLayout(this.props.params.applicationId)
-
-    // initialize as property change
-    this.setState({ availableModuleTypes: [] })
-    this.onPropertiesUpdate({}, this.props)
   }
 
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
-
-  onPropertiesUpdate = (oldProps, newProps) => {
-    // should we reload the available modules list?
-    if (!isEqual(oldProps.availableEndpoints, newProps.availableEndpoints) ||
-      !isEqual(oldProps.isInstance, newProps.isInstance)) {
-      // reinit module list
-      // load available modules (asynchronously recovered)
-      const filterModules = ModuleFormContainer.filterAllowedModules.bind(null, newProps.isInstance, newProps.availableEndpoints)
-      return modulesManager.getAvailableVisibleModuleTypes(filterModules)
-        .then(availableModuleTypes => this.setState({ availableModuleTypes }))
+  componentDidMount() {
+    const { isDuplicating, isEditing } = this.state
+    const tasks = [
+      this.props.fetchLayout(this.props.params.applicationId),
+    ]
+    // Fetch the module we are editing or duplicating
+    if (isDuplicating || isEditing) {
+      const moduleId = isDuplicating ? this.props.params.duplicate_module_id : this.props.params.module_id
+      tasks.push(this.props.fetchModule(this.props.params.applicationId, moduleId))
     }
-    return null
+    // Initialize module list
+    const filterModules = ModuleFormContainer.filterAllowedModules.bind(null, this.props.isInstance, this.props.availableEndpoints)
+    tasks.push(
+      modulesManager.getAvailableVisibleModuleTypes(filterModules)
+        .then((availableModuleTypes) => {
+          this.setState({ availableModuleTypes })
+          return availableModuleTypes
+        }),
+    )
+    Promise.all(tasks).then((results) => {
+      this.setState({ isLoading: false })
+    })
   }
 
   handleSubmit = (values) => {
+    const { isEditing } = this.state
     const valuesToSave = Object.assign({}, values)
     if (valuesToSave.conf) {
       valuesToSave.conf = JSON.stringify(values.conf)
     }
-    if (this.props.params.module_id) {
+    if (isEditing) {
       return this.handleUpdate(valuesToSave)
     }
     return this.handleCreate(valuesToSave)
@@ -168,28 +177,19 @@ class ModuleFormContainer extends React.Component {
   }
 
   renderComponent() {
-    if (this.props.params.module_id && !this.props.module && this.props.isFetching) {
+    const {
+      isEditing, isCreating, isDuplicating, isLoading,
+    } = this.state
+    if (isLoading) {
       return (<FormLoadingComponent />)
     }
 
-    if (this.props.params.duplicate_module_id && !this.props.duplicatedModule && this.props.isFetching) {
-      return (<FormLoadingComponent />)
-    }
-
-    if (this.props.params.module_id && !this.props.module) {
+    if ((isEditing || isDuplicating) && !this.props.module) {
       return (<FormEntityNotFoundComponent />)
     }
 
-    if ((this.props.params.duplicate_module_id && !this.props.duplicatedModule) || !this.state.availableModuleTypes.length) {
+    if (isEmpty(this.state.availableModuleTypes)) {
       return (<FormEntityNotFoundComponent />)
-    }
-
-    let module = null
-    if (this.props.params.duplicate_module_id !== undefined) {
-      module = Object.assign({}, this.props.duplicatedModule)
-      module.id = null
-    } else {
-      ({ module } = this.props)
     }
 
     let availablecontainers = []
@@ -197,17 +197,27 @@ class ModuleFormContainer extends React.Component {
       availablecontainers = ContainerHelper.getAvailableContainersInLayout(this.props.layout.layout, true)
     }
 
-    if (availablecontainers.length === 0) {
+    if (isEmpty(availablecontainers)) {
       return (<NoContainerAvailables
         goToLayoutConfiguration={this.goToLayoutConfiguration}
       />)
     }
 
+    let module
+    if (isDuplicating || isEditing) {
+      module = cloneDeep(this.props.module)
+      if (isDuplicating) {
+        delete module.id
+      }
+    }
+
     const adminForm = {
       form: this.props.form,
       changeField: this.props.changeField,
+      isCreating,
+      isEditing,
+      isDuplicating,
     }
-
     return (
       <ModuleFormComponent
         project={this.props.params.project}
@@ -216,7 +226,6 @@ class ModuleFormContainer extends React.Component {
         onBack={this.handleBack}
         module={module}
         availableModuleTypes={this.state.availableModuleTypes}
-        duplication={this.props.params.duplicate_module_id !== undefined}
         containers={availablecontainers}
         adminForm={adminForm}
       />
@@ -233,10 +242,8 @@ class ModuleFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  module: ownProps.params.module_id ? ownProps.moduleSelectors.getContentById(state, ownProps.params.module_id) : null,
-  duplicatedModule: ownProps.params.duplicate_module_id ? ownProps.moduleSelectors.getContentById(state, ownProps.params.duplicate_module_id) : null,
+  module: ownProps.moduleSelectors.getContentById(state, ownProps.params.module_id),
   layout: ownProps.params.applicationId ? ownProps.layoutSelectors.getContentById(state, ownProps.params.applicationId) : null,
-  isFetching: ownProps.moduleSelectors.isFetching(state),
   form: getFormValues('edit-module-form')(state),
   availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
 })

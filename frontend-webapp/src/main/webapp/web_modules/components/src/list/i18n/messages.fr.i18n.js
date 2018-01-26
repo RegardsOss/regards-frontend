@@ -18,12 +18,14 @@
  **/
 
 /**
- * i18n messages English language
+ * i18n messages French language
  * @type {*}
  * @author Sébastien Binda
  */
 const messages = {
   'chip.add.button': 'Ajouter',
+  'autocomplete.filter.loading': 'Chargement...',
+  'autocomplete.filter.empty': 'Pas de valeur disponible',
 }
 
 export default messages

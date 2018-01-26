@@ -18,46 +18,63 @@
  **/
 import { RadioButtonGroup } from 'material-ui/RadioButton'
 import { themeContextType } from '@regardsoss/theme'
+import isNil from 'lodash/isNil'
 
-const RenderRadio = ({
-  input, onSelect, defaultSelected, children, meta: { touched, error }, intl,
-}, { muiTheme }) => (
-  <div>
-    <RadioButtonGroup
-      {...input}
-      defaultSelected={defaultSelected}
-      valueSelected={(input.value || input.value === false) ? input.value : undefined}
-      onChange={(event, value) => {
-          if (onSelect) {
-            onSelect(event, value, input)
-          }
-          return input.onChange(value)
-        }}
-    >
-      {children}
-    </RadioButtonGroup>
-    {touched && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
-  </div>
-)
-RenderRadio.contextTypes = {
-  ...themeContextType,
+class RenderRadio extends React.Component {
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+  static propTypes = {
+    input: PropTypes.shape({
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+      name: PropTypes.string,
+      onChange: PropTypes.func,
+    }),
+    meta: PropTypes.shape({
+      error: PropTypes.string,
+      touched: PropTypes.bool,
+    }),
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func,
+    }),
+    // eslint-disable-next-line react/forbid-prop-types
+    defaultSelected: PropTypes.any,
+    onSelect: PropTypes.func,
+    children: PropTypes.arrayOf(PropTypes.element),
+  }
+
+  componentDidMount() {
+    const { defaultSelected, input } = this.props
+    if (isNil(input.value) || input.value === '') {
+      input.onChange(defaultSelected)
+    }
+  }
+
+  render() {
+    const {
+      input, onSelect, defaultSelected, children, meta: { touched, error }, intl,
+    } = this.props
+    const { muiTheme } = this.context
+    return (
+      <div>
+        <RadioButtonGroup
+          {...input}
+          defaultSelected={defaultSelected}
+          valueSelected={(input.value || input.value === false) ? input.value : undefined}
+          onChange={(event, value) => {
+            if (onSelect) {
+              onSelect(event, value, input)
+            }
+            return input.onChange(value)
+          }}
+        >
+          {children}
+        </RadioButtonGroup>
+        {touched && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
+      </div>
+    )
+  }
 }
-RenderRadio.propTypes = {
-  input: PropTypes.shape({
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    name: PropTypes.string,
-    onChange: PropTypes.func,
-  }),
-  meta: PropTypes.shape({
-    error: PropTypes.string,
-    touched: PropTypes.bool,
-  }),
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }),
-  // eslint-disable-next-line react/forbid-prop-types
-  defaultSelected: PropTypes.any,
-  onSelect: PropTypes.func,
-  children: PropTypes.arrayOf(PropTypes.element),
-}
+
 export default RenderRadio

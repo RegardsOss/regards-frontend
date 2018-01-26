@@ -34,6 +34,9 @@ describe('[Search Graph] Testing AdminModuleContainer', () => {
       project: 'any',
       appName: 'any',
       adminForm: {
+        isCreating: true,
+        isDuplicating: false,
+        isEditing: false,
         changeField: () => { },
         form: {},
       },

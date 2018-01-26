@@ -73,6 +73,9 @@ class AdminContainer extends React.Component {
       // Project name
       project: PropTypes.string,
       adminForm: PropTypes.shape({
+        isCreating: PropTypes.bool,
+        isDuplicating: PropTypes.bool,
+        isEditing: PropTypes.bool,
         // ReduxForm function to dynamicaly change a field value
         changeField: PropTypes.func,
         // Current module configuration. Values from the redux-form

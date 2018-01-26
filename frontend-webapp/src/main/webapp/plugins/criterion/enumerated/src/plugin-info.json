@@ -1,0 +1,20 @@
+{
+  "name": "enumerated-criteria",
+  "description": "Enumerated values criteria plugin for Regards search forms",
+  "version": "1.0.0",
+  "author": "Raphaël Mechali",
+  "company": "C-S",
+  "email": "raphael.mechali@c-s.fr",
+  "url": "",
+  "license": "GPL-V3",
+  "type": "CRITERIA",
+  "conf": {
+    "attributes": [
+      {
+        "name": "searchField",
+        "description": "Attribute to search",
+        "type": "string"
+      }
+    ]
+  }
+}

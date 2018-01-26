@@ -51,7 +51,7 @@ const Form = PropTypes.shape({
   displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
 
   // For modules that only displays DataObjects (never Dataset or Documents) - used by AdminForm
-  onlyAllowDataConfiguration: PropTypes.bool,
+  preventAdminToPickDocumentView: PropTypes.bool,
 
   displayConf: DisplayModuleConf,
 })

@@ -50,8 +50,8 @@ const messages = Object.assign({
   'sips.stepper.list': 'View SIPs',
   'sips.stepper.session': 'Select session',
 
-  'sip.confirm.delete.title': 'Deletion of data (Provider identifier : {id})',
-  'sip.confirm.delete.message': 'Do you want to delete the selected data only or all the data with the same provider identifier (SIP ID) ?',
+  'sip.confirm.delete.title': 'Data deletion (SIP ID : {id})',
+  'sip.confirm.delete.message': 'Do you want to delete only the selected data or all the data with the same SIP ID ?',
   'sip.confirm.delete.sips': 'Delete all',
   'sip.confirm.delete.sip': 'Delete only selected one',
   'sip.cancel.delete': 'Cancel',
@@ -82,16 +82,16 @@ const messages = Object.assign({
   'sips.session.apply.filters.button': 'Apply filters',
   'sips.session.delete.confirm.title': 'Delete session {id}?',
 
-  'sips.submit.title': 'Data submition',
+  'sips.submit.title': 'Data submission',
   'sips.submit.subtitle': 'This section allows you to run a data submission thought a local file (geoson format) containing entities to submit',
-  'sips.submit.error.message': 'An error occured during submition of your data. Please check the format of your provided entities.',
+  'sips.submit.error.message': 'An error occured during submission of your data. Please check the format of your provided entities.',
   'sips.submit.select.file.button': 'Select file containing data to submit (SIPs)',
   'sips.submit.change.file.button': 'Change selected file',
   'sips.submit.back.button': 'Back',
   'sips.submit.submit.button': 'Submit',
 
-  'sips.submition-summary.title': 'Data submition summary',
-  'sips.submition-summary.subtitle': 'This summary let you know accepted entities by the system. If yours data are accepted, so they will be handle for storage soon.',
+  'sips.submition-summary.title': 'Data submission summary',
+  'sips.submition-summary.subtitle': 'This summary allows you know accepted entities by the system. If yours data are accepted, so they will be handled for storage soon.',
   'sips.submition-summary.back.button': 'Ok',
 
   'sips.submission.not.ready.title': 'Configuration is needed before data submission',

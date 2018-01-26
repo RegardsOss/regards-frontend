@@ -38,6 +38,9 @@ class AdminContainer extends React.Component {
     appName: PropTypes.string,
     project: PropTypes.string,
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
       form: PropTypes.shape({
@@ -67,16 +70,13 @@ class AdminContainer extends React.Component {
     selectableDataObjectsAttributesFetching: false,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      attributesLoading: true,
-      criterionLoading: true,
-    }
+  state = {
+    attributesLoading: true,
+    criterionLoading: true,
   }
 
   componentWillMount() {
-    if (get(this.props, 'adminForm.form.conf.datasets', null)) {
+    if (!this.props.adminForm.isCreating) {
       this.updateselectableDataObjectsAttributes(
         this.props.adminForm.form.conf.datasets.type,
         this.props.adminForm.form.conf.datasets.selectedModels,
@@ -143,19 +143,16 @@ class AdminContainer extends React.Component {
   }
 
   render() {
-    if (this.props.adminForm.form) {
-      const props = this.initEmptyProps()
-      return (
-        <LoadableContentDisplayDecorator
-          isLoading={this.state.attributesLoading || this.state.criterionLoading}
-        >
-          <FormTabsComponent
-            {...props}
-          />
-        </LoadableContentDisplayDecorator>
-      )
-    }
-    return null
+    const props = this.initEmptyProps()
+    return (
+      <LoadableContentDisplayDecorator
+        isLoading={this.state.attributesLoading || this.state.criterionLoading}
+      >
+        <FormTabsComponent
+          {...props}
+        />
+      </LoadableContentDisplayDecorator>
+    )
   }
 }
 

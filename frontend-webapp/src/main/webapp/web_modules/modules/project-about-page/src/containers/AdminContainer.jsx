@@ -39,6 +39,25 @@ const defaultHomepagePath = '/html/regards-homepage.html'
  * @author Xavier-Alexandre Brochard
  */
 class AdminContainer extends React.Component {
+  static propTypes = {
+    adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
+      changeField: PropTypes.func,
+      // Current module configuration. Values from the redux-form
+      form: PropTypes.shape({
+        // Specific current module configuration for the current AdminContainer
+        conf: ModuleConfiguration,
+      }),
+    }),
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
   state = {
     isLoading: false,
     path: defaultHomepagePath,
@@ -136,22 +155,6 @@ class AdminContainer extends React.Component {
       </div >
     )
   }
-}
-
-AdminContainer.propTypes = {
-  adminForm: PropTypes.shape({
-    changeField: PropTypes.func,
-    // Current module configuration. Values from the redux-form
-    form: PropTypes.shape({
-      // Specific current module configuration for the current AdminContainer
-      conf: ModuleConfiguration,
-    }),
-  }),
-}
-
-AdminContainer.contextTypes = {
-  ...themeContextType,
-  ...i18nContextType,
 }
 
 export default AdminContainer
