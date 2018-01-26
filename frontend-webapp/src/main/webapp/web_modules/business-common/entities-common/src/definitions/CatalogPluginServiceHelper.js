@@ -52,8 +52,10 @@ const validatorByJavaType = {
  * @param metadataParameter corresponding metadata parameter
  * @return Parameter converted
  */
-function convertParameter({ name, value: adminValue, dynamicsValues }, {
-  type, paramType, defaultValue: devValue, optional,
+function convertParameter({
+  name, value: adminValue, dynamicsValues,
+}, {
+  type, paramType, defaultValue: devValue, optional, label, description,
 }) {
   // 1 - check that the parameter type is not plugin (strictly forbidden in plugin service)
   if (paramType !== PluginParameterTypes.PRIMITIVE) {
@@ -65,13 +67,13 @@ function convertParameter({ name, value: adminValue, dynamicsValues }, {
   // A boolean parameter
   if (type === JavaPrimitiveTypes.BOOLEAN) {
     // default value: make sure it some boolean (false when not specified)
-    return Parameter.buildBooleanEditor(name, !!specDefaultValue, !optional)
+    return Parameter.buildBooleanEditor(name, !!specDefaultValue, !optional, label, description)
   }
 
   // a choice parameter (ie. restricted to a given choice list)
   if (dynamicsValues && dynamicsValues.length) {
     // default value: make sure it is one of the choices
-    return Parameter.buildChoiceEditor(name, !dynamicsValues.includes(specDefaultValue) ? dynamicsValues[0] : specDefaultValue, dynamicsValues, !optional)
+    return Parameter.buildChoiceEditor(name, !dynamicsValues.includes(specDefaultValue) ? dynamicsValues[0] : specDefaultValue, dynamicsValues, !optional, label, description)
   }
 
   // a text parameter, free or not, depending on type
@@ -79,7 +81,7 @@ function convertParameter({ name, value: adminValue, dynamicsValues }, {
   if (isUndefined(validator)) {
     throw new Error(`Parameter input  management impossible, unknown type ${type}`)
   }
-  return Parameter.buildTextEditor(name, specDefaultValue, validator, !optional)
+  return Parameter.buildTextEditor(name, specDefaultValue, validator, !optional, label, description)
 }
 
 /**

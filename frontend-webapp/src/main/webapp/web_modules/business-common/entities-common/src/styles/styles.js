@@ -160,5 +160,12 @@ export default theme => ({
       flexGrow: 1,
       flexShrink: 1,
     },
+    parameterPresentation: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    parameterDescriptionIcon: {
+      marginTop: '12px',
+    },
   },
 })

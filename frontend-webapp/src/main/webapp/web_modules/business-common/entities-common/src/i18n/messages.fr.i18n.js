@@ -58,6 +58,8 @@ const messages = {
   'entities.common.services.plugin.parameters.error': 'La configuration du service contient des erreurs',
   'entities.common.services.loading.results': 'Traitement en cours',
   'entities.common.services.parameter.required': '{label} (*)',
+  'entities.common.services.parameter.description.dialog.title': 'Description du paramètre {parameter}',
+  'entities.common.services.parameter.description.dialog.close': 'Fermer',
   'entities.common.services.plugin.run.failed': 'Le traitement du service a échoué',
   'entities.common.services.plugin.run.empty': 'Le traitement du service s\'est correctement terminé. Il n\'a produit aucun fichier',
   'entities.common.services.submit.parameters': 'Suivant',
