@@ -30,12 +30,12 @@ import NotificationActions from './NotificationActions'
  * @author Maxime Bouveron
  */
 class NotificationReducer extends BasicListReducers {
-  constructor(namespace) {
-    super(NotificationConfiguration, new NotificationActions(namespace))
+  constructor(namespace, instance) {
+    super(NotificationConfiguration, new NotificationActions(namespace, instance))
   }
 }
 
-export default (namespace) => {
-  const instance = new NotificationReducer(namespace)
-  return (state, action) => instance.reduce(state, action)
+export default (namespace, instance = false) => {
+  const reducerInstance = new NotificationReducer(namespace, instance)
+  return (state, action) => reducerInstance.reduce(state, action)
 }
