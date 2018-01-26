@@ -22,10 +22,12 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * Actions to send a read notification request
  */
 export default class ReadNotificationActions extends BasicSignalActions {
-  constructor(namespace) {
+  constructor(namespace, instance = false) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/notifications/{notificationId}/read`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${
+        instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN
+      }/notifications/{notificationId}/read`,
     })
   }
 

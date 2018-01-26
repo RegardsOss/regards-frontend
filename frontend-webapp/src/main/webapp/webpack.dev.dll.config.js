@@ -73,6 +73,7 @@ const conf = webpackConfigurator
         'intl',
         'intl-locales-supported',
         'react-ace',
+        'react-notification-system',
         'brace',
       ],
     },
