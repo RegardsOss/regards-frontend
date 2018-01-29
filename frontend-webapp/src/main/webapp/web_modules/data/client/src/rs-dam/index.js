@@ -86,6 +86,10 @@ import DatasetActions from './dataset/DatasetActions'
 import DatasetReducer from './dataset/DatasetReducer'
 import DatasetSelectors from './dataset/DatasetSelectors'
 
+import DatasetWithAccessRightActions from './accessRight/DatasetWithAccessRightActions'
+import getDatasetWithAccessRightReducer from './accessRight/DatasetWithAccessRightReducer'
+import getDatasetWithAccessRightSelectors from './accessRight/DatasetWithAccessRightSelectors'
+
 import DocumentActions from './document/DocumentActions'
 import getDocumentReducer from './document/DocumentReducer'
 import getDocumentSelectors from './document/DocumentSelectors'
@@ -177,6 +181,10 @@ module.exports = {
   DatasetActions,
   DatasetReducer,
   DatasetSelectors,
+
+  DatasetWithAccessRightActions,
+  getDatasetWithAccessRightReducer,
+  getDatasetWithAccessRightSelectors,
 
   DocumentActions,
   getDocumentReducer,

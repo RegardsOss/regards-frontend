@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,14 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import PluginParameterDynamicValue from './PluginParameterDynamicValue'
+ */
+import Schemas from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-const PluginParameterContent = PropTypes.shape({
-  name: PropTypes.string,
-  value: PropTypes.any,
-  dynamic: PropTypes.bool,
-  dynamicsValues: PropTypes.arrayOf(PluginParameterDynamicValue),
-})
-
-export default PluginParameterContent
+/**
+ * Redux actions to handle DatasetWithAccessRight entities from backend server.
+ * @author Sébastien Binda
+ */
+export default class DatasetWithAccessRightActions extends BasicPageableActions {
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/access-rights/group/{accessGroupName}`,
+      schemaTypes: {
+        ENTITY: Schemas.DATASET_WITH_ACCESS_RIGHT,
+        ENTITY_ARRAY: Schemas.DATASET_WITH_ACCESS_RIGHT_ARRAY,
+      },
+    })
+  }
+}

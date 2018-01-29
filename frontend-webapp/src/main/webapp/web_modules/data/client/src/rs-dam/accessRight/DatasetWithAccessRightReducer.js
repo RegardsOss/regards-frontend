@@ -16,13 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginParameterDynamicValue from './PluginParameterDynamicValue'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { DatasetWithAccessRightConfiguration } from '@regardsoss/api'
+import DatasetWithAccessRightActions from './DatasetWithAccessRightActions'
+/**
+ * Redux store reducer for
+ */
+/**
+ * Redux Reducer for  DatasetWithAccessRight entities
+ * @author Sébastien Binda
+ */
+class DatasetWithAccessRightReducer extends BasicPageableReducers {
+  constructor(namespace) {
+    super(DatasetWithAccessRightConfiguration, new DatasetWithAccessRightActions(namespace))
+  }
+}
 
-const PluginParameterContent = PropTypes.shape({
-  name: PropTypes.string,
-  value: PropTypes.any,
-  dynamic: PropTypes.bool,
-  dynamicsValues: PropTypes.arrayOf(PluginParameterDynamicValue),
-})
-
-export default PluginParameterContent
+export default (namespace) => {
+  const instance = new DatasetWithAccessRightReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

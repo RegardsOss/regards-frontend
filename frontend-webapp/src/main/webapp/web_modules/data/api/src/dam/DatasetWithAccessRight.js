@@ -16,13 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginParameterDynamicValue from './PluginParameterDynamicValue'
 
-const PluginParameterContent = PropTypes.shape({
-  name: PropTypes.string,
-  value: PropTypes.any,
-  dynamic: PropTypes.bool,
-  dynamicsValues: PropTypes.arrayOf(PluginParameterDynamicValue),
+
+import { Schema, arrayOf } from 'normalizr'
+
+const DatasetWithAccessRightConfiguration = {
+  entityKey: 'datasetIpId',
+  normalizrKey: 'dataset-with-accessright',
+}
+
+const datasetWithAccessRight = new Schema(DatasetWithAccessRightConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[DatasetWithAccessRightConfiguration.entityKey]
+  ,
 })
 
-export default PluginParameterContent
+// Schemas for API responses.
+module.exports = {
+  DATASET_WITH_ACCESS_RIGHT: datasetWithAccessRight,
+  DATASET_WITH_ACCESS_RIGHT_ARRAY: arrayOf(datasetWithAccessRight),
+  DatasetWithAccessRightConfiguration,
+}

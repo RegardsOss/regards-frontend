@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 import keys from 'lodash/keys'
 import { createSelector } from 'reselect'
 import { BasicSelector } from '@regardsoss/store-utils'
@@ -91,6 +92,14 @@ export class TableSelectors extends BasicSelector {
    */
   getToggledElements(state) {
     return this.uncombineStore(state).toggledElements
+  }
+
+  /**
+   * @param state redux store
+   * @return currently toggled elements
+   */
+  getToggledElementsAsList(state) {
+    return values(this.uncombineStore(state).toggledElements)
   }
 }
 

@@ -16,13 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginParameterDynamicValue from './PluginParameterDynamicValue'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-const PluginParameterContent = PropTypes.shape({
-  name: PropTypes.string,
-  value: PropTypes.any,
-  dynamic: PropTypes.bool,
-  dynamicsValues: PropTypes.arrayOf(PluginParameterDynamicValue),
-})
-
-export default PluginParameterContent
+/**
+ * Store selector to Attribute entities.
+ * @author Sébastien Binda
+ */
+export default storePath => new BasicPageableSelectors(storePath)

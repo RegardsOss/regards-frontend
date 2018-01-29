@@ -34,6 +34,7 @@ import Plugin from './access/Plugin'
 import UIPluginConf from './access/UIPluginConf'
 import Fragment from './dam/Fragment'
 import Dataset from './dam/Dataset'
+import DatasetWithAccessRight from './dam/DatasetWithAccessRight'
 import AccessRight from './dam/AccessRight'
 import AccessGroup from './dam/AccessGroup'
 import CrawlerDatasource from './dam/CrawlerDatasource'
@@ -105,6 +106,7 @@ module.exports = {
   ...Entity,
 
   ...Dataset,
+  ...DatasetWithAccessRight,
 
   ...ResourceAccess,
 

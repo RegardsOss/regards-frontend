@@ -16,13 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginParameterDynamicValue from './PluginParameterDynamicValue'
+import { DatasetContent } from './Dataset'
+import { AccessRightContent } from './AccessRight'
 
-const PluginParameterContent = PropTypes.shape({
-  name: PropTypes.string,
-  value: PropTypes.any,
-  dynamic: PropTypes.bool,
-  dynamicsValues: PropTypes.arrayOf(PluginParameterDynamicValue),
+/**
+ * Shape for DatasetWithAccessRight entities
+ * @author Sébastien Binda
+ */
+const DatasetWithAccessRightContent = PropTypes.shape({
+  dataset: DatasetContent,
+  accessRight: AccessRightContent,
 })
 
-export default PluginParameterContent
+const DatasetWithAccessRight = PropTypes.shape({
+  content: DatasetWithAccessRightContent.isRequired,
+})
+
+const DatasetWithAccessRightList = PropTypes.objectOf(DatasetWithAccessRight)
+
+
+module.exports = {
+  DatasetWithAccessRight,
+  DatasetWithAccessRightContent,
+  DatasetWithAccessRightList,
+}
