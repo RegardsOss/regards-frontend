@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import has from 'lodash/has'
+import get from 'lodash/get'
 import { Card, CardText } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -31,6 +33,7 @@ class AdminContainer extends React.Component {
   static propTypes = {
     // Form parameters
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
       isCreating: PropTypes.bool,
       isDuplicating: PropTypes.bool,
       isEditing: PropTypes.bool,
@@ -48,16 +51,24 @@ class AdminContainer extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.CONF_HEIGHT = `${props.adminForm.currentNamespace}.cssHeight`
+    this.CONF_WIDTH = `${props.adminForm.currentNamespace}.cssWidth`
+    this.CONF_URL = `${props.adminForm.currentNamespace}.htmlUrl`
+  }
+
+
   renderHTML() {
-    if (this.props.adminForm.form.conf && this.props.adminForm.form.conf.htmlUrl) {
+    if (has(this.props.adminForm.form, this.CONF_URL)) {
       const renderStyle = {
-        width: this.props.adminForm.form.conf.cssWidth || '100%',
-        height: this.props.adminForm.form.conf.cssHeight || 100,
+        width: get(this.props.adminForm.form, this.CONF_WIDTH, '100%'),
+        height: get(this.props.adminForm.form, this.CONF_HEIGHT, 100),
       }
       return (
         <div>
           <IFrameURLContentDisplayer
-            contentURL={this.props.adminForm.form.conf.htmlUrl}
+            contentURL={get(this.props.adminForm.form, this.CONF_URL)}
             style={renderStyle}
           />
         </div>
@@ -72,21 +83,21 @@ class AdminContainer extends React.Component {
       <Card>
         <CardText>
           <Field
-            name="conf.cssHeight"
+            name={this.CONF_HEIGHT}
             fullWidth
             component={RenderTextField}
             type="text"
             label={intl.formatMessage({ id: 'admin.css.height.label' })}
           />
           <Field
-            name="conf.cssWidth"
+            name={this.CONF_WIDTH}
             fullWidth
             component={RenderTextField}
             type="text"
             label={intl.formatMessage({ id: 'admin.css.width.label' })}
           />
           <Field
-            name="conf.htmlUrl"
+            name={this.CONF_URL}
             fullWidth
             component={RenderTextField}
             type="text"

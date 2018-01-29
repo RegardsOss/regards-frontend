@@ -62,7 +62,7 @@ class FormCriteriaComponent extends React.Component {
    * @param props
    */
   constructor(props) {
-    super()
+    super(props)
     this.state = {
       selectedCriteria: props.criteria ? props.criteria.pluginId : null,
     }

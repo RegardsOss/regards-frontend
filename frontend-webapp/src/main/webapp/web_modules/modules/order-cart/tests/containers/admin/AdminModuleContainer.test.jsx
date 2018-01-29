@@ -42,6 +42,7 @@ describe('[Order Cart] Testing AdminModuleContainer', () => {
         isCreating: true,
         isDuplicating: false,
         isEditing: false,
+        currentNamespace: 'conf',
         changeField: () => { },
         form: {},
       },

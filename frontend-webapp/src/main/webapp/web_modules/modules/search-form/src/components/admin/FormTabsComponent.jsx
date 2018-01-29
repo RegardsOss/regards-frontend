@@ -20,7 +20,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
-import FormParametersComponent from './parameters/FormParametersComponent'
+import SearchResultsComponent from './results/SearchResultsComponent'
 import FormDatasetsConfigurationComponent from './datasets/FormDatasetsConfigurationComponent'
 import FormLayoutComponent from './layout/FormLayoutComponent'
 import FromCriterionComponent from './criterion/FormCriterionComponent'
@@ -37,6 +37,7 @@ class FormTabsComponent extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     project: PropTypes.string,
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
       isCreating: PropTypes.bool,
       isDuplicating: PropTypes.bool,
       isEditing: PropTypes.bool,
@@ -48,7 +49,7 @@ class FormTabsComponent extends React.Component {
     defaultConf: ModuleConfiguration.isRequired,
 
     selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
-    selectableDataObjectsAttributesFectching: PropTypes.bool,
+    selectableDataObjectsAttributesFetching: PropTypes.bool,
     disableChangeDatasets: PropTypes.bool,
     availableCriterion: AccessShapes.UIPluginDefinitionList,
     criterionFetching: PropTypes.bool,
@@ -59,7 +60,7 @@ class FormTabsComponent extends React.Component {
   }
 
   renderCriterionTab = () => {
-    if (!this.props.criterionFetching && !this.props.selectableDataObjectsAttributesFectching && this.props.adminForm.form.conf) {
+    if (!this.props.criterionFetching && !this.props.selectableDataObjectsAttributesFetching && this.props.adminForm.form.conf) {
       return (
         <FromCriterionComponent
           defaultCriterion={this.props.defaultConf.criterion}
@@ -68,23 +69,12 @@ class FormTabsComponent extends React.Component {
           selectableAttributes={this.props.selectableDataObjectsAttributes}
           changeField={this.props.adminForm.changeField}
           availableCriterion={this.props.availableCriterion}
+          currentNamespace={this.props.adminForm.currentNamespace}
         />
       )
     }
     return null
   }
-
-  renderAttributesParameterTab = () => (
-    <FormParametersComponent
-      project={this.props.project}
-      appName={this.props.appName}
-      adminForm={this.props.adminForm}
-      attributes={this.props.defaultConf.attributes}
-      attributesRegroupements={this.props.defaultConf.attributesRegroupements}
-      selectableAttributes={this.props.selectableDataObjectsAttributes}
-      resultType={this.props.defaultConf.resultType}
-    />
-  )
 
   render() {
     return (
@@ -96,12 +86,14 @@ class FormTabsComponent extends React.Component {
             defaultSelectedDatasets={this.props.defaultConf.datasets.selectedDatasets}
             defaultSelectedDatasetModels={this.props.defaultConf.datasets.selectedModels}
             disableChangeDatasets={this.props.disableChangeDatasets}
+            currentNamespace={this.props.adminForm.currentNamespace}
           />
         </Tab>
         <Tab label={this.context.intl.formatMessage({ id: 'form.layout.tab.label' })}>
           <FormLayoutComponent
             defaultLayout={this.props.defaultConf.layout}
             changeField={this.props.adminForm.changeField}
+            currentNamespace={this.props.adminForm.currentNamespace}
           />
         </Tab>
         <Tab label={this.context.intl.formatMessage({ id: 'form.criterions.tab.label' })}>
@@ -111,10 +103,17 @@ class FormTabsComponent extends React.Component {
           <FormPreviewComponent
             project={this.props.project}
             module={this.props.adminForm.form}
+            currentNamespace={this.props.adminForm.currentNamespace}
           />
         </Tab>
         <Tab label={this.context.intl.formatMessage({ id: 'form.configuration.tab.label' })}>
-          {this.renderAttributesParameterTab()}
+          <SearchResultsComponent
+            project={this.props.project}
+            appName={this.props.appName}
+            adminForm={this.props.adminForm}
+            selectableDataObjectsAttributes={this.props.selectableDataObjectsAttributes}
+            initialDisplayMode={this.props.defaultConf.searchResult.displayMode}
+          />
         </Tab>
       </Tabs>
     )

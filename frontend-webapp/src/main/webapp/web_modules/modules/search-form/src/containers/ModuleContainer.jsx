@@ -339,28 +339,15 @@ class ModuleContainer extends React.Component {
     }
     const { intl: { formatMessage } } = this.context
 
-    // is single dataset?
-    const { type, selectedDatasets } = this.props.moduleConf.datasets || {}
-    const singleDatasetIpId = (type === DatasetSelectionType.DATASET_TYPE && null && selectedDatasets && selectedDatasets.length === 1 &&
-      selectedDatasets[0]) || null
-
     const module = {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: this.props.appName,
       description: this.props.description,
       conf: {
-        resultType: this.props.moduleConf.resultType,
-        attributes: this.props.moduleConf.attributes,
-        attributesRegroupements: this.props.moduleConf.attributesRegroupements,
-        datasetAttributes: this.props.moduleConf.datasetAttributes,
-        selectableAttributes: this.props.attributeModels,
-        enableFacettes: this.props.moduleConf.enableFacettes,
-        displayDatasets: this.props.moduleConf.displayDatasets,
-        displayMode: this.props.moduleConf.displayMode,
+        ...this.props.moduleConf.searchResult,
         searchQuery: this.state.searchQuery,
         breadcrumbInitialContextLabel: formatMessage({ id: 'results.module.title' }),
-        singleDatasetIpId,
       },
     }
 
