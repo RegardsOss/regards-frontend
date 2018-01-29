@@ -47,7 +47,8 @@ export class SIPSessionContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     deleteSession: session => dispatch(sessionActions.deleteEntity(session.id)),
-    fetchPage: (pageIndex, pageSize, queryParams) => dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
+    fetchPage: (pageIndex, pageSize, queryParams) =>
+      dispatch(sessionActions.fetchPagedEntityList(pageIndex, pageSize, {}, queryParams)),
   })
 
   static propTypes = {
@@ -103,10 +104,10 @@ export class SIPSessionContainer extends React.Component {
       appliedFilters.id = filters.nameFilter
     }
     if (filters.fromFilter) {
-      appliedFilters.from = filters.fromFilter.toISOString()
+      appliedFilters.from = encodeURIComponent(filters.fromFilter.toISOString())
     }
     if (filters.toFilter) {
-      appliedFilters.to = filters.toFilter.toISOString()
+      appliedFilters.to = encodeURIComponent(filters.toFilter.toISOString())
     }
     this.setState({
       appliedFilters,

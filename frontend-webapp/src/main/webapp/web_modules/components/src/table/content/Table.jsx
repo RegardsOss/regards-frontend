@@ -93,6 +93,7 @@ class Table extends React.Component {
         order: newColumn.order,
         fixedWidth: newColumn.fixedWidth,
         visible: newColumn.visible,
+        label: newColumn.label,
         // also check runtime width, will be ignored if undefined
         runtimeWidth: newColumn.runtimeWidth,
       })) {

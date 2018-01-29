@@ -292,7 +292,7 @@ class SIPSessionComponent extends React.Component {
         DateValueRender,
       ),
       TableColumnBuilder.buildOptionsColumn(
-        '',
+        'options',
         [
           {
             OptionConstructor: TableDeleteOption,
@@ -357,7 +357,6 @@ class SIPSessionComponent extends React.Component {
 
   render() {
     const { intl } = this.context
-
     return (
       <Card>
         <CardTitle

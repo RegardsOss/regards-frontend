@@ -152,7 +152,7 @@ export class SIPListContainer extends React.Component {
       newFilters.processing = chainFilter
     }
     if (dateFilter) {
-      newFilters.from = dateFilter.toISOString()
+      newFilters.from = encodeURIComponent(dateFilter.toISOString())
     }
     if (stateFilter) {
       newFilters.state = stateFilter
