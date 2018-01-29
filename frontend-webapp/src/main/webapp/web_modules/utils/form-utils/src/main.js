@@ -23,7 +23,6 @@ import RenderMapField from './render/RenderMapField'
 import RenderSelectField from './render/RenderSelectField'
 import RenderCheckbox from './render/RenderCheckbox'
 import RenderRadio from './render/RenderRadio'
-import RenderFileField from './render/RenderFileField'
 import RenderFileFieldWithMui from './render/RenderFileFieldWithMui'
 import RenderToggle from './render/RenderToggle'
 import RenderDoubleLabelToggle from './render/RenderDoubleLabelToggle'
@@ -57,7 +56,6 @@ module.exports = {
   RenderSelectField,
   RenderCheckbox,
   RenderRadio,
-  RenderFileField,
   RenderFileFieldWithMui,
   RenderDateTimeField,
   RenderSlider,
