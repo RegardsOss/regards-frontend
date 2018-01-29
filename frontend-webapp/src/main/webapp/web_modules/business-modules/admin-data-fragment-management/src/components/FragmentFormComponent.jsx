@@ -19,12 +19,12 @@
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
-import { RenderTextField, RenderFileField, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
+import { RenderTextField, RenderFileFieldWithMui, Field, ValidationHelpers, reduxForm } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
-const nameValidators = [ValidationHelpers.required, ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
+const nameValidators = [ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
 
 /**
  * Form component to edit and create fragment
@@ -110,7 +110,7 @@ export class FragmentFormComponent extends React.Component {
                 <Field
                   name="file"
                   fullWidth
-                  component={RenderFileField}
+                  component={RenderFileFieldWithMui}
                   accept=".xml"
                 />
               </div>
