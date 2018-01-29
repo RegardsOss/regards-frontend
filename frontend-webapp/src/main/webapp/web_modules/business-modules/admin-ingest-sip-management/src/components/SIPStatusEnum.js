@@ -22,6 +22,7 @@
  */
 const sipStatus = {
   CREATED: 'CREATED',
+  DELETED: 'DELETED',
   REJECTED: 'REJECTED',
   QUEUED: 'QUEUED',
   VALID: 'VALID',
