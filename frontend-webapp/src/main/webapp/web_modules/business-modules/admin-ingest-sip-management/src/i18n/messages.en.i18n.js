@@ -102,6 +102,7 @@ const messages = Object.assign({
   'sips.submission.not.ready.back.button': 'Back',
 
   CREATED: 'CREATED',
+  DELETED: 'DELETED',
   REJECTED: 'REJECTED',
   QUEUED: 'QUEUED',
   VALID: 'VALID',

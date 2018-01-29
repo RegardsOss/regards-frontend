@@ -41,6 +41,7 @@ const defaultHomepagePath = '/html/regards-homepage.html'
 class AdminContainer extends React.Component {
   static propTypes = {
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
       isCreating: PropTypes.bool,
       isDuplicating: PropTypes.bool,
       isEditing: PropTypes.bool,
@@ -58,15 +59,20 @@ class AdminContainer extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.CONF_HTML_PATH = `${props.adminForm.currentNamespace}.htmlPath`
+  }
+
   state = {
     isLoading: false,
     path: defaultHomepagePath,
   }
 
   componentDidMount() {
-    const path = get(this.props.adminForm, 'form.conf.htmlPath')
+    const path = get(this.props.adminForm.form, this.CONF_HTML_PATH)
     if (isNil(path) || isEmpty(path)) {
-      this.props.adminForm.changeField('conf.htmlPath', defaultHomepagePath)
+      this.props.adminForm.changeField(this.CONF_HTML_PATH, defaultHomepagePath)
     }
     this.startTest(null)
   }
@@ -84,7 +90,7 @@ class AdminContainer extends React.Component {
   }
 
   startTest = (event) => {
-    const path = this.getFullPath(get(this.props.adminForm, 'form.conf.htmlPath'))
+    const path = this.getFullPath(get(this.props.adminForm.form, this.CONF_HTML_PATH))
     if (path) {
       this.setState({
         isLoading: true,
@@ -122,7 +128,7 @@ class AdminContainer extends React.Component {
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Field
-            name="conf.htmlPath"
+            name={this.CONF_HTML_PATH}
             fullWidth
             component={RenderTextField}
             type="text"

@@ -28,6 +28,7 @@ import DatasetSelectionTypes from '../../../models/datasets/DatasetSelectionType
  */
 class FormDatasetsTypeSelection extends React.Component {
   static propTypes = {
+    currentNamespace: PropTypes.string,
     defaultSelected: PropTypes.string,
     onSelectType: PropTypes.func,
     disabled: PropTypes.bool,
@@ -38,10 +39,11 @@ class FormDatasetsTypeSelection extends React.Component {
   }
 
   render() {
+    const { currentNamespace } = this.props
     return (
       <Field
         key={this.props.defaultSelected}
-        name="conf.datasets.type"
+        name={`${currentNamespace}.datasets.type`}
         onSelect={this.props.onSelectType}
         component={RenderRadio}
         defaultSelected={DatasetSelectionTypes.ALL_CATALOG_TYPE}

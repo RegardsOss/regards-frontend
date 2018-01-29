@@ -46,9 +46,14 @@ describe('[Search Results] Testing SearchResultsConfigurationComponent', () => {
       documentAttributeModels: {},
       currentFormValues: {},
       initialFormValues: {},
+      isCreating: true,
+      adminConf: {
 
+      },
+      currentNamespace: 'conf',
       changeField: () => { },
     }
+
     const wrapper = shallow(<SearchResultsConfigurationComponent {...props} />, options)
 
     const showDatasetsField = wrapper.find(Field).find({ name: 'conf.enableDownload' })

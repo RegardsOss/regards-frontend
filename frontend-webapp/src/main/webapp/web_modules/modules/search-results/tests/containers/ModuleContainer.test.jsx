@@ -60,8 +60,6 @@ describe('[Search Results] Testing ModuleContainer', () => {
         searchQuery: '',
         attributes: [],
         attributesRegroupements: [],
-        resultType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-        singleDatasetIpId: null,
         breadcrumbInitialContextLabel: 'hello home',
       },
     }

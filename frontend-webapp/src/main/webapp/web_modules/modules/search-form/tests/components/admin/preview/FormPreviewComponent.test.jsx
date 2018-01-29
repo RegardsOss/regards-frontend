@@ -37,6 +37,7 @@ describe('[SEARCH FORM] Testing FormPreviewComponent', () => {
   it('Should render a FormPreviewComponent', () => {
     const props = {
       project: 'test',
+      currentNamespace: 'conf',
       module: {
         id: 12,
         type: 'formModule',

@@ -212,6 +212,7 @@ class ModuleFormContainer extends React.Component {
     }
 
     const adminForm = {
+      currentNamespace: 'conf',
       form: this.props.form,
       changeField: this.props.changeField,
       isCreating,

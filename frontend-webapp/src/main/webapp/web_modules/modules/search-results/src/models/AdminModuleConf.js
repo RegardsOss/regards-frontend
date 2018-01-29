@@ -16,26 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes } from '@regardsoss/shape'
-import DatasetsConfShape from './datasets/DatasetsConfShape'
-/**
- * Form entity description
- * @author Sébastien binda
- */
-const ModuleConfiguration = PropTypes.shape({
-  conf: PropTypes.shape({
-    // Search form datasets configuration
-    datasets: DatasetsConfShape,
-    // Search form Layout configuration
-    layout: AccessShapes.ContainerContent,
-    // Search form criterion configuration
-    criterion: AccessShapes.UIPluginConfArray,
-    // Does search form render for preview or for full use
-    preview: PropTypes.bool,
+import { DataManagementShapes } from '@regardsoss/shape'
+import { DISPLAY_MODE_VALUES } from '../definitions/DisplayModeEnum'
 
-    // Save a search-result configuration
-    searchResult: PropTypes.object,
-  }),
+/**
+ * Search results admin conf (adminForm.conf)
+ * Used by other modules that depends on search-results
+ * @author Léo Mieulet
+ */
+const AdminModuleConf = PropTypes.shape({
+  // Default display mode
+  initialDisplayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
+  // Special configuration given if the module is not load as a independent module
+  selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
+  // For modules that only displays DataObjects (never Dataset or Documents) - used by AdminForm
+  preventAdminToPickDocumentView: PropTypes.bool,
 })
 
-export default ModuleConfiguration
+export default AdminModuleConf

@@ -28,6 +28,7 @@ import { Field, RenderCheckbox, RenderTextField } from '@regardsoss/form-utils'
 import { MainAttributesConfigurationComponent } from '@regardsoss/attributes-common'
 import { themeContextType } from '@regardsoss/theme'
 import ModuleConfiguration from '../../models/ModuleConfiguration'
+import AdminModuleConf from '../../models/AdminModuleConf'
 import { DISPLAY_MODE_ENUM } from '../../definitions/DisplayModeEnum'
 
 
@@ -38,25 +39,15 @@ const parseIntNormalizer = value => parseInt(value, 10)
  * @author Léo Mieulet
  */
 class SearchResultsConfigurationComponent extends React.Component {
-  // Redux form
-  static MODULE_ATTRIBUTES_CONF = 'conf.attributes'
-  static MODULE_ATTRIBUTES_QUICKLOOK_CONF = 'conf.attributesQuicklook'
-  static MODULE_DATASET_ATTRIBUTES_CONF = 'conf.datasetAttributes'
-  static MODULE_DOCUMENT_ATTRIBUTES_CONF = 'conf.documentAttributes'
-  static MODULE_REGROUPEMENTS_CONF = 'conf.attributesRegroupements'
-  static MODULE_DISPLAY_MODE = 'conf.displayMode'
-  static CONF_ENABLE_FACETTES = 'conf.enableFacettes'
-  static CONF_ENABLE_QUICKLOOKS = 'conf.enableQuicklooks'
-  static CONF_QUICKLOOKS_WIDTH = 'conf.displayConf.quicklookColumnWidth'
-  static CONF_QUICKLOOKS_SPACING = 'conf.displayConf.quicklookColumnSpacing'
-
   static propTypes = {
     dataAttributeModels: AccessShapes.AttributeConfigurationList,
     datasetAttributeModels: AccessShapes.AttributeConfigurationList,
     documentAttributeModels: AccessShapes.AttributeConfigurationList,
     currentFormValues: ModuleConfiguration,
+    adminConf: AdminModuleConf,
     initialFormValues: ModuleConfiguration.isRequired,
     isCreating: PropTypes.bool,
+    currentNamespace: PropTypes.string,
     // Redux form
     changeField: PropTypes.func.isRequired,
   }
@@ -66,28 +57,49 @@ class SearchResultsConfigurationComponent extends React.Component {
     ...themeContextType,
   }
 
+  constructor(props) {
+    super(props)
+
+    // Redux form fields name
+    this.MODULE_ATTRIBUTES_CONF = `${props.currentNamespace}.attributes`
+    this.MODULE_ATTRIBUTES_QUICKLOOK_CONF = `${props.currentNamespace}.attributesQuicklook`
+    this.MODULE_DATASET_ATTRIBUTES_CONF = `${props.currentNamespace}.datasetAttributes`
+    this.MODULE_DOCUMENT_ATTRIBUTES_CONF = `${props.currentNamespace}.documentAttributes`
+    this.MODULE_REGROUPEMENTS_CONF = `${props.currentNamespace}.attributesRegroupements`
+    this.MODULE_DISPLAY_MODE = `${props.currentNamespace}.displayMode`
+    this.CONF_ENABLE_FACETTES = `${props.currentNamespace}.enableFacettes`
+    this.CONF_ENABLE_QUICKLOOKS = `${props.currentNamespace}.enableQuicklooks`
+    this.CONF_QUICKLOOKS_WIDTH = `${props.currentNamespace}.displayConf.quicklookColumnWidth`
+    this.CONF_QUICKLOOKS_SPACING = `${props.currentNamespace}.displayConf.quicklookColumnSpacing`
+    this.CONF_ENABLE_DOWNLOAD = `${props.currentNamespace}.enableDownload`
+  }
+
   componentDidMount() {
-    // Set a default value for display mode
+    // Set a default value
     if (this.props.isCreating) {
-      this.props.changeField(SearchResultsConfigurationComponent.MODULE_DISPLAY_MODE, DISPLAY_MODE_ENUM.DISPLAY_DATA)
-      this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_WIDTH, 400)
-      this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_SPACING, 20)
+      // Display mode is either provided by the parent module either fallback to default value
+      this.props.changeField(this.MODULE_DISPLAY_MODE, get(this.props.adminConf, 'initialDisplayMode', DISPLAY_MODE_ENUM.DISPLAY_DATA))
+      this.props.changeField(this.CONF_ENABLE_QUICKLOOKS, false)
+      this.props.changeField(this.CONF_QUICKLOOKS_WIDTH, 400)
+      this.props.changeField(this.CONF_QUICKLOOKS_SPACING, 20)
     }
   }
 
   changeDisplayMode = (event, value) => {
-    this.props.changeField(SearchResultsConfigurationComponent.MODULE_DISPLAY_MODE, value)
+    this.props.changeField(this.MODULE_DISPLAY_MODE, value)
     if (value === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT) {
-      this.props.changeField(SearchResultsConfigurationComponent.CONF_ENABLE_FACETTES, false)
-      this.props.changeField(SearchResultsConfigurationComponent.CONF_ENABLE_QUICKLOOKS, 400)
-      this.props.changeField(SearchResultsConfigurationComponent.CONF_QUICKLOOKS_SPACING, 20)
+      this.props.changeField(this.CONF_ENABLE_FACETTES, false)
+      this.props.changeField(this.CONF_ENABLE_QUICKLOOKS, 400)
+      this.props.changeField(this.CONF_QUICKLOOKS_SPACING, 20)
     }
   }
 
   renderAttributesConfiguration = () => {
-    const { currentFormValues, initialFormValues } = this.props
+    const { currentFormValues, initialFormValues, adminConf } = this.props
     const displayMode = get(currentFormValues, 'displayMode', DISPLAY_MODE_ENUM.DISPLAY_DATA)
     // Data
+    // Uses the parent module list of available attributes if available, otherwise use the global list of data object attributes
+    const selectableDataObjectsAttributes = get(adminConf, 'selectableDataObjectsAttributes', this.props.dataAttributeModels)
     const currentAttributesConf = get(currentFormValues, 'attributes', [])
     const initialAttributesConf = get(initialFormValues, 'attributes', [])
     const currentAttributesGroupsConf = get(currentFormValues, 'attributesRegroupements', [])
@@ -116,6 +128,7 @@ class SearchResultsConfigurationComponent extends React.Component {
             <Tabs>
               <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.conf.selection.tab.label' })}>
                 {this.renderObjectsAttributesConfiguration(
+                  selectableDataObjectsAttributes,
                   currentAttributesConf,
                   initialAttributesConf,
                   currentAttributesGroupsConf,
@@ -134,6 +147,7 @@ class SearchResultsConfigurationComponent extends React.Component {
         }
         // Only return attr HMI
         return this.renderObjectsAttributesConfiguration(
+          selectableDataObjectsAttributes,
           currentAttributesConf,
           initialAttributesConf,
           currentAttributesGroupsConf,
@@ -145,6 +159,7 @@ class SearchResultsConfigurationComponent extends React.Component {
           <Tabs>
             <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.conf.selection.tab.label' })}>
               {this.renderObjectsAttributesConfiguration(
+                selectableDataObjectsAttributes,
                 currentAttributesConf,
                 initialAttributesConf,
                 currentAttributesGroupsConf,
@@ -179,14 +194,14 @@ class SearchResultsConfigurationComponent extends React.Component {
         throw new Error(`Unknow display type : ${displayMode}`)
     }
   }
-  renderObjectsAttributesConfiguration = (currentAttributesConf, initialAttributesConf, currentAttributesGroupsConf, initialAttributesGroupsConf, enableFacettes) => (
+  renderObjectsAttributesConfiguration = (selectableDataObjectAttributes, currentAttributesConf, initialAttributesConf, currentAttributesGroupsConf, initialAttributesGroupsConf, enableFacettes) => (
     <MainAttributesConfigurationComponent
       allowFacettes={enableFacettes}
       allowAttributesRegroupements
-      attributesFieldName={SearchResultsConfigurationComponent.MODULE_ATTRIBUTES_CONF}
-      regroupementsFieldName={SearchResultsConfigurationComponent.MODULE_REGROUPEMENTS_CONF}
+      attributesFieldName={this.MODULE_ATTRIBUTES_CONF}
+      regroupementsFieldName={this.MODULE_REGROUPEMENTS_CONF}
       changeField={this.props.changeField}
-      selectableAttributes={this.props.dataAttributeModels}
+      selectableAttributes={selectableDataObjectAttributes}
 
       attributesConf={currentAttributesConf}
       defaultAttributesConf={initialAttributesConf}
@@ -201,7 +216,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     <MainAttributesConfigurationComponent
       allowFacettes={false}
       allowAttributesRegroupements={false}
-      attributesFieldName={SearchResultsConfigurationComponent.MODULE_ATTRIBUTES_QUICKLOOK_CONF}
+      attributesFieldName={this.MODULE_ATTRIBUTES_QUICKLOOK_CONF}
       changeField={this.props.changeField}
       selectableAttributes={this.props.dataAttributeModels}
 
@@ -214,7 +229,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     <MainAttributesConfigurationComponent
       allowFacettes={false}
       allowAttributesRegroupements={false}
-      attributesFieldName={SearchResultsConfigurationComponent.MODULE_DATASET_ATTRIBUTES_CONF}
+      attributesFieldName={this.MODULE_DATASET_ATTRIBUTES_CONF}
       changeField={this.props.changeField}
       selectableAttributes={this.props.datasetAttributeModels}
 
@@ -226,7 +241,7 @@ class SearchResultsConfigurationComponent extends React.Component {
     <MainAttributesConfigurationComponent
       allowFacettes={enableFacettes}
       allowAttributesRegroupements={false}
-      attributesFieldName={SearchResultsConfigurationComponent.MODULE_DOCUMENT_ATTRIBUTES_CONF}
+      attributesFieldName={this.MODULE_DOCUMENT_ATTRIBUTES_CONF}
       changeField={this.props.changeField}
       selectableAttributes={this.props.documentAttributeModels}
 
@@ -237,10 +252,9 @@ class SearchResultsConfigurationComponent extends React.Component {
 
   render() {
     const { topOptions } = this.context.moduleTheme.configuration
-    const preventAdminToPickDocumentView = get(this.props.initialFormValues, 'preventAdminToPickDocumentView', false)
-    const displayMode = get(this.props.currentFormValues, 'displayMode', DISPLAY_MODE_ENUM.DISPLAY_DATA)
+    const preventAdminToPickDocumentView = get(this.props.adminConf, 'preventAdminToPickDocumentView', false)
+    const displayMode = get(this.props.currentFormValues, 'displayMode')
     const enableQuicklooks = get(this.props.currentFormValues, 'enableQuicklooks', false)
-
     return (
       <CardText>
         <Title
@@ -268,19 +282,19 @@ class SearchResultsConfigurationComponent extends React.Component {
             />
           </RadioButtonGroup>
           <Field
-            name={SearchResultsConfigurationComponent.CONF_ENABLE_FACETTES}
+            name={this.CONF_ENABLE_FACETTES}
             component={RenderCheckbox}
             label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.facettes.label' })}
           />
           <Field
-            name={SearchResultsConfigurationComponent.CONF_ENABLE_QUICKLOOKS}
+            name={this.CONF_ENABLE_QUICKLOOKS}
             component={RenderCheckbox}
             label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.quicklooks.label' })}
             disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
           />
           <ShowableAtRender show={enableQuicklooks}>
             <Field
-              name={SearchResultsConfigurationComponent.CONF_QUICKLOOKS_WIDTH}
+              name={this.CONF_QUICKLOOKS_WIDTH}
               component={RenderTextField}
               type="number"
               label={this.context.intl.formatMessage({ id: 'form.configuration.result.width.quicklooks.label' })}
@@ -289,7 +303,7 @@ class SearchResultsConfigurationComponent extends React.Component {
               disabled={displayMode === DISPLAY_MODE_ENUM.DISPLAY_DOCUMENT}
             />
             <Field
-              name={SearchResultsConfigurationComponent.CONF_QUICKLOOKS_SPACING}
+              name={this.CONF_QUICKLOOKS_SPACING}
               component={RenderTextField}
               type="number"
               label={this.context.intl.formatMessage({ id: 'form.configuration.result.spacing.quicklooks.label' })}
@@ -299,7 +313,7 @@ class SearchResultsConfigurationComponent extends React.Component {
             />
           </ShowableAtRender>
           <Field
-            name="conf.enableDownload"
+            name={this.CONF_ENABLE_DOWNLOAD}
             component={RenderCheckbox}
             label={this.context.intl.formatMessage({ id: 'form.configuration.result.enable.download.label' })}
           />

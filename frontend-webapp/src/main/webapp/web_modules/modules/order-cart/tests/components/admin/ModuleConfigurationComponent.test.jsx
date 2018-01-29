@@ -38,9 +38,8 @@ describe('[Order Cart] Testing ModuleConfigurationComponent', () => {
   it('should render correctly', () => {
     const props = {
       changeField: () => { },
-      moduleForm: {
-        showDatasets: false,
-      },
+      currentNamespace: 'conf',
+      isCreating: true,
     }
     shallow(<ModuleConfigurationComponent {...props} />, { context })
   })
