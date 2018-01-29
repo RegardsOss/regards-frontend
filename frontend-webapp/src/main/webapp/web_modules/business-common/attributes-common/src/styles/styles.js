@@ -18,10 +18,19 @@
  **/
 
 export default theme => ({
+  thumbnailRoot: {
+    height: '100%',
+    width: '100%',
+  },
   thumbnailCell: {
     display: 'block',
     cursor: 'pointer',
     width: '100%',
     padding: theme['components:infinite-table'].thumbnailPadding,
+  },
+  noThumbnailIcon: {
+    padding: 5,
+    height: '100%',
+    width: '100%',
   },
 })

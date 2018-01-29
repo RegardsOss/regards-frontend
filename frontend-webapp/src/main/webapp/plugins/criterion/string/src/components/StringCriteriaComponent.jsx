@@ -24,7 +24,6 @@ import { FormattedMessage } from 'react-intl'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
-import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { ClearFieldButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -36,11 +35,9 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Xavier-Alexandre Brochard
  */
 export class StringCriteriaComponent extends PluginCriterionContainer {
-
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
-    attributes: DataManagementShapes.AttributeModelList,
   }
 
   static contextTypes = {
@@ -101,7 +98,11 @@ export class StringCriteriaComponent extends PluginCriterionContainer {
   render() {
     const attributeLabel = this.getAttributeLabel('searchField')
     const clearButtonDisplayed = this.state.searchField !== ''
-    const { moduleTheme: { rootStyle, labelSpanStyle, checkboxStyle, textFieldStyle } } = this.context
+    const {
+      moduleTheme: {
+        rootStyle, labelSpanStyle, checkboxStyle, textFieldStyle,
+      },
+    } = this.context
 
     return (
       <div style={rootStyle} >

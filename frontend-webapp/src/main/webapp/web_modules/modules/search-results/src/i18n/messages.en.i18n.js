@@ -77,6 +77,7 @@ const messages = Object.assign({
   'no.download.tooltip': 'No download available',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
+  'search.related.objects': 'View dataset content',
   'add.to.cart.tooltip': 'Add item to my cart',
   'add.selection.to.cart.label': 'Add to basket',
   'add.selection.to.cart.tooltip': 'Add selected items to my cart',
@@ -88,7 +89,6 @@ const messages = Object.assign({
   'results.selection.column.label': 'Selection column',
   'results.options.column.label': 'Options and services',
   'results.download': 'Download',
-  'results.search.entity': 'Search for related data',
   'results.cell.multiple.values.separator': ', ',
 
   'search.facets.no.facet.found': 'No facet for current result',

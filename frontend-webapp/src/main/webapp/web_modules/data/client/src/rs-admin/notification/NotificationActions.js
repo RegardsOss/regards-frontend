@@ -34,10 +34,12 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * @author Maxime Bouveron
  */
 export default class NotificationActions extends BasicListActions {
-  constructor(namespace) {
+  constructor(namespace, instance = false) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/notifications`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${
+        instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN
+      }/notifications`,
       schemaTypes: {
         ENTITY: Schemas.NOTIFICATION,
         ENTITY_ARRAY: Schemas.NOTIFICATION_ARRAY,

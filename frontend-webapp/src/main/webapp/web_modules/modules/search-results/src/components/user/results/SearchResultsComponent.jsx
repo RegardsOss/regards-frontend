@@ -27,18 +27,19 @@ import { FacetArray } from '../../../models/facets/FacetShape'
 import { FilterListShape } from '../../../models/facets/FilterShape'
 import TableClient from '../../../clients/TableClient'
 import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
-import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
-import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
-import SelectedFacetsHeaderRow from './header/SelectedFacetsHeaderRow'
+import DisplayModuleConf from '../../../models/DisplayModuleConf'
+import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
 import ListViewEntityCellContainer, { packThumbnailRenderData, packGridAttributesRenderData } from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
 import EntityDescriptionContainer from '../../../containers/user/results/options/EntityDescriptionContainer'
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
 import DownloadEntityFileContainer from '../../../containers/user/results/options/DownloadEntityFileContainer'
-import EmptyTableComponent from './EmptyTableComponent'
-import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
 import GalleryItemContainer from '../../../containers/user/results/gallery/GalleryItemContainer'
-import DisplayModuleConf from '../../../models/DisplayModuleConf'
+import EmptyTableComponent from './EmptyTableComponent'
+import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
+import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
+import SelectedFacetsHeaderRow from './header/SelectedFacetsHeaderRow'
+import SearchRelatedEntitiesComponent from './options/SearchRelatedEntitiesComponent'
 
 const RESULTS_PAGE_SIZE = 500
 const QUICKLOOK_PAGE_SIZE = 60
@@ -110,25 +111,26 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
-   * Has object type as parameter the services option
+   * Should services be enabled for object type as parameter
    * @param {objectType} entity type
-   * @return true if services are available for that type, false otherwise
+   * @return true if services should be enabled
    */
   static hasServices = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /**
-   * Has selection for current view type
+   * Should selection be enabled for object type as parameter
    * @param {objectType} entity type
-   * @return true if selection should be available
+   * @return true if selection should be enabled
    */
   static hasSelection = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /**
-   * Can search related elements in the given view object type ? (ie: set the element as tag)
+   * Should navigate to be enabled for object type as parameter. Note: navigate to is used to apply an element
+   * as filter for results
    * @param {objectType} entity type
-   * @return true if user can search related elements
+   * @return true if navigate to should be enabled
    */
-  static canSearchRelated = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATASET
+  static hasNavigateTo = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATASET
 
   /**
    * Stores reference on the static empty component
@@ -141,13 +143,15 @@ class SearchResultsComponent extends React.Component {
    */
   buildTableColumns = () => {
     const {
-      searchSelectors, attributePresentationModels, onSortByAttribute, onAddElementToCart, viewObjectType, enableDownload,
+      searchSelectors, attributePresentationModels, onSortByAttribute, onSetEntityAsTag,
+      onAddElementToCart, viewObjectType, enableDownload,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
     const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
+    const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
 
     return [
       // selection column
@@ -167,7 +171,7 @@ class SearchResultsComponent extends React.Component {
       // Options in current context
       TableColumnBuilder.buildOptionsColumn(
         formatMessage({ id: 'results.options.column.label' }),
-        this.buildTableOptions(enableServices, onAddElementToCart, enableDownload),
+        this.buildTableOptions(onAddElementToCart, onSetEntityAsTag, enableServices, enableDownload, enableNavigateTo),
         this.isColumnVisible(TableColumnBuilder.optionsColumnKey),
         fixedColumnWidth,
       ),
@@ -176,15 +180,20 @@ class SearchResultsComponent extends React.Component {
 
   /**
    * Builds table options
-   * @param {boolean} enableServices are services enabled in current context?
    * @param {function} onAddElementToCart callback to add element to cart (element) => (). Null if not available in context
-   * @param {boolean} enableDownload is download available in the table ?
+   * @param {function} onSearchEntity callback to add element to cart (element) => (). Null if not available in context
+   * @param {boolean} enableServices should enable services in options?
+   * @param {boolean} enableDownload should enable download in options?
+   * @param {boolean} enableNavigateTo should enable navigate to in options?
+   * @return [{OptionConstructor: function, optionProps: {*}}] table options
    */
-  buildTableOptions = (enableServices, onAddToCart, enableDownload) => [
+  buildTableOptions = (onAddToCart, onSearchEntity, enableServices, enableDownload, enableNavigateTo) => [
     // Download file description
     enableDownload ? { OptionConstructor: DownloadEntityFileContainer } : null,
     // Entity description
     { OptionConstructor: EntityDescriptionContainer },
+    // Search entity
+    enableNavigateTo ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
     // Entity services, only when enabled
     enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
     // Add to cart, only when enabled
@@ -206,7 +215,7 @@ class SearchResultsComponent extends React.Component {
     } = this.props
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
-    const enableSearchRelated = SearchResultsComponent.canSearchRelated(viewObjectType)
+    const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
 
     // build column. Note: label is ignored here as the columns button will get removed
     return TableColumnBuilder.buildColumn('single.list.column', 'single.list.column', null, {
@@ -217,7 +226,7 @@ class SearchResultsComponent extends React.Component {
         gridAttributesRenderData: packGridAttributesRenderData(attributePresentationModels),
         selectionEnabled: enableSelection,
         servicesEnabled: enableServices,
-        onSearchEntity: enableSearchRelated ? onSetEntityAsTag : null,
+        onSearchEntity: enableNavigateTo ? onSetEntityAsTag : null,
         onAddToCart: onAddElementToCart,
         enableDownload,
       },

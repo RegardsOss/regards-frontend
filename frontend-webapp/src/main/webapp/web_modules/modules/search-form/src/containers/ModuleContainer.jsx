@@ -310,6 +310,7 @@ class ModuleContainer extends React.Component {
       const pluginsProps = {
         onChange: this.onCriteriaChange,
         initialValues: this.getInitialValues(),
+        initialQuery: this.getInitialQuery(),
       }
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (

@@ -20,17 +20,14 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
 import { connect } from 'react-redux'
-import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
 export class ExampleCriteriaComponent extends PluginCriterionContainer {
-
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
-    attributes: DataManagementShapes.AttributeModelList,
     // From mapStateToProps
     test: PropTypes.bool,
     // From mapDispatchToProps

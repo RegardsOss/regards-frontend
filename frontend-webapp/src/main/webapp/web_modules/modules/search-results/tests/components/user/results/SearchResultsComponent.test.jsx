@@ -125,7 +125,7 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     assert.lengthOf(wrapper.find(PageableInfiniteTableContainer), 1, 'There should be a TableContainer rendered')
   }))
 
-  it('should render selection services, indepently of view modes and types', () => {
+  it('should render selection services, independently of view modes and types', () => {
     const props = {
       ...commonProperties,
       ...testCases[1].caseProperties,

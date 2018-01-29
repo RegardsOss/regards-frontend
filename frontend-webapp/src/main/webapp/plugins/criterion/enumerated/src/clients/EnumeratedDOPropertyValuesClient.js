@@ -23,10 +23,10 @@ import { CatalogClient } from '@regardsoss/client'
  * @author Raphaël Mechali
  */
 
-const namespace = 'namespace'
+const namespace = 'enumerated-criteria/values'
 const enumeratedDOPropertyValuesActions = new CatalogClient.EnumeratedDOPropertyValuesActions(namespace)
 const enumeratedDOPropertyValuesReducer = CatalogClient.getEnumeratedDOPropertyValuesReducer(namespace)
-// store path for plugin is always: 
+// store path for plugin is always:
 // 1 - "plugins."{pluginName}
 // 2 - field configured in plugin reducer.js file
 const enumeratedDOPropertyValuesSelectors = CatalogClient.getEnumeratedDOPropertyValuesSelectors(['plugins.enumerated-criteria', 'filteredValues'])

@@ -23,4 +23,4 @@ import styles from './styles'
 import pluginInfo from './plugin-info.json'
 import reducer from './reducer'
 
-initPlugin(EnumeratedCriteriaContainer, pluginInfo, reducer, messages, styles) 
+initPlugin(EnumeratedCriteriaContainer, pluginInfo, reducer, messages, styles)

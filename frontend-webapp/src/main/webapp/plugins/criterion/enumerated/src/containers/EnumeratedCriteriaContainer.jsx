@@ -17,14 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import React from 'react'
-import replace from 'lodash/replace'
 import { connect } from '@regardsoss/redux'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { enumeratedDOPropertyValuesActions, enumeratedDOPropertyValuesSelectors } from '../clients/EnumeratedDOPropertyValuesClient'
 import EnumeratedCriteriaComponent from '../components/EnumeratedCriteriaComponent'
 
 /** Max number of values shown to user at same time */
-const MAX_VALUES_COUNT = 20
+const MAX_VALUES_COUNT = 10
+
+/** Search field Id in state (see plugin-info.json) */
+const SEARCH_FIELD_ID = 'searchField'
 
 /**
  * Root container for enumerated criteria: it fetches parameter possible values, ensures the value selection is
@@ -55,7 +57,7 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
   static mapDispatchToProps(dispatch) {
     return {
       // dispatches a request to get property values
-      dispatchGetPropertyValues: (name, filterText, maxCount, q) =>
+      dispatchGetPropertyValues: (name, filterText = '', q = '') =>
         dispatch(enumeratedDOPropertyValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT, q)),
     }
   }
@@ -70,9 +72,11 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
     dispatchGetPropertyValues: PropTypes.func.isRequired,
   }
 
-  /** Initial component state */
+  /** Initial state */
   state = {
-    value: '',
+    // as expected by parent container, this field, using plugin-info.json key, holds the search field text value
+    [SEARCH_FIELD_ID]: '',
+    // current error state (switched to true when user enters some unknown value)
     isInError: false,
   }
 
@@ -80,69 +84,60 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
    * User updated the text field
    * @param {string} value text field value
    */
-  onUpdateTextFilter = (value = '') => {
+  onUpdateTextFilter = (text = '') => {
     // A - update parameter and text field value
-    this.setState({ value })
+    this.setState({ [SEARCH_FIELD_ID]: text })
     // B - dipatch get values for that filter text
-    this.props.dispatchGetPropertyValues(value)
+    const { dispatchGetPropertyValues, initialQuery } = this.props
+    dispatchGetPropertyValues(this.getAttributeName(SEARCH_FIELD_ID), text, initialQuery)
   }
 
   /**
    * Callback: the user selected a value or typed in some text (validated with return key)
-   * @param {string} value selected parameter value or validated text field value
+   * @param {string} test selected parameter value or validated text field value
    * @param {string} isInList did user select a strict value in list? (or did he type some unknown value)
    */
-  onFilterSelected = (value, isInList) => {
+  onFilterSelected = (text, isInList) => {
     // Update parameter and value text field, also store the error state (if user typed something unknown,
     // we show him an error as their will be no result)
-    this.setState({ value, isInError: !isInList })
+    this.setState({ [SEARCH_FIELD_ID]: text, isInError: !isInList })
   }
-
-  /**
-   * Callback: user cleared the filter
-   */
-  onFilterCleared = () => this.onFilterSelected('', true) // empty user is considered part of the list
-
 
   /**
    * Method to create openSearch request associated to the current criteria
    *
-   * @param state
-   * @returns {string}
+   * @param state current state
+   * @returns {string} query for current state
    */
-  getPluginSearchQuery = (state) => { // TODO
-    const attributeName = this.getAttributeName('searchField')
-    let openSearchQuery = ''
-    if (state.value && state.value.length > 0) {
-      // Create openSearch query by adding " characters around the requested value
-      openSearchQuery = `${attributeName}:"${state.value}"`
-    }
-    return openSearchQuery
-  }
+  getPluginSearchQuery = state =>
+    // return query only when there is a value
+    state[SEARCH_FIELD_ID] ? `${this.getAttributeName(SEARCH_FIELD_ID)}:"${state[SEARCH_FIELD_ID]}"` : ''
 
-  parseOpenSearchQuery = (parameterName, openSearchQuery) => // TODO
-    // Return the value without the additional " characters
-    replace(openSearchQuery, /"/g)
-
+  /**
+   * Parses, in open search query for this plugin attribute, the value set
+   * @param {string} parameterName parameter name
+   * @param {string} openSearchQuery query value for the parameterName previously mentioned
+   * @return {string} parsed value without quote characters, added by getPluginSearchQuery
+   */
+  parseOpenSearchQuery = (parameterName, openSearchQuery) => openSearchQuery.replace(/"/g, '')
 
   /**
    * Method to display search criteria
    */
   render() {
     const { isFetching, availablePropertyValues } = this.props
-    const { value, isInError } = this.state
-    const attributeLabel = this.getAttributeLabel('searchField')
-
+    const { isInError } = this.state
+    const attributeLabel = this.getAttributeLabel(SEARCH_FIELD_ID)
+    const attributeEditionValue = this.state[SEARCH_FIELD_ID]
     return (
       <EnumeratedCriteriaComponent
         attributeLabel={attributeLabel}
-        text={value}
+        text={attributeEditionValue}
         availablePropertyValues={availablePropertyValues}
         isInError={isInError}
         isFetching={isFetching}
         onUpdateTextFilter={this.onUpdateTextFilter}
         onFilterSelected={this.onFilterSelected}
-        onFilterCleared={this.onFilterCleared}
       />)
   }
 }

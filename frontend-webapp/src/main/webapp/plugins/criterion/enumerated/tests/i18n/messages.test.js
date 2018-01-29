@@ -15,28 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-const webpackConfigurator = require('@regardsoss/webpack-config-front')
-const webpack = require('webpack')
+ */
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
-
-const PLUGIN_TYPE = 'criterion'
-const PLUGIN_NAME = 'enumerated'
-
-const conf = webpackConfigurator
-  .generateConfig({
-    mode: 'pkg_build_dev',
-    projectContextPath: __dirname,
+describe('[PLUGIN STRING CRITERIA] Testing i18n', () => {
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
   })
-  // Save the plugin into the webpack dev server public folder (dist/dev)
-  .saveDevPlugin(PLUGIN_TYPE, PLUGIN_NAME)
-  .merge({
-    plugins: [
-      new webpack.DefinePlugin({
-        GATEWAY_HOSTNAME: JSON.stringify('http://localhost:3000'),
-      }),
-    ],
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
   })
-  .get()
-
-module.exports = conf
+})

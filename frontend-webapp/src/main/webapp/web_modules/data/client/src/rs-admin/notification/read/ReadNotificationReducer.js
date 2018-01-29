@@ -20,14 +20,14 @@ import { BasicSignalReducers } from '@regardsoss/store-utils'
 import ReadNotificationActions from './ReadNotificationActions'
 
 class ReadNotificationReducer extends BasicSignalReducers {
-  constructor(namespace) {
-    super(new ReadNotificationActions(namespace))
+  constructor(namespace, instance) {
+    super(new ReadNotificationActions(namespace, instance))
   }
 }
 
 /** Closure builder for reducer function */
-export default (namespace) => {
-  const reducerInstance = new ReadNotificationReducer(namespace)
+export default (namespace, instance = false) => {
+  const reducerInstance = new ReadNotificationReducer(namespace, instance)
   return (state, action) => reducerInstance.reduce(state, action)
 }
 

@@ -26,8 +26,15 @@ import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import NotificationListComponent from '../components/NotificationListComponent'
-import { notificationActions, notificationSelectors } from '../clients/NotificationClient'
-import { readNotificationActions } from '../clients/ReadNotificationClient'
+import {
+  notificationActions,
+  notificationInstanceActions,
+  notificationSelectors,
+} from '../clients/NotificationClient'
+import {
+  readNotificationActions,
+  readNotificationInstanceActions,
+} from '../clients/ReadNotificationClient'
 
 /** Refresh time in milliseconds */
 const refreshTimerMS = 2000
@@ -46,13 +53,23 @@ export class NotificationListContainer extends React.Component {
 
   static mapDispatchToProps(dispatch) {
     return {
-      fetchNotifications: () => dispatch(notificationActions.fetchEntityList()),
-      sendReadNotification: notificationId =>
-        dispatch(readNotificationActions.readNotification(notificationId)),
+      fetchNotifications: (instance = false) =>
+        dispatch(
+          instance
+            ? notificationInstanceActions.fetchEntityList()
+            : notificationActions.fetchEntityList(),
+        ),
+      sendReadNotification: (notificationId, instance = false) =>
+        dispatch(
+          instance
+            ? readNotificationInstanceActions.readNotification(notificationId)
+            : readNotificationActions.readNotification(notificationId),
+        ),
     }
   }
 
   static propTypes = {
+    project: PropTypes.string,
     // from mapStateToProps
     notifications: AdminShapes.NotificationList,
     isAuthenticated: PropTypes.bool,
@@ -102,7 +119,7 @@ export class NotificationListContainer extends React.Component {
   startTimer = () => {
     if (this.props.isAuthenticated) {
       // A - refresh list only if authenticated
-      this.props.fetchNotifications()
+      this.props.fetchNotifications(this.props.project === 'instance')
     }
     // B - restart timer
     this.refreshTimer = setTimeout(() => this.startTimer(), refreshTimerMS)
@@ -120,7 +137,9 @@ export class NotificationListContainer extends React.Component {
 
   readNotification = (notification) => {
     if (notification.status === 'UNREAD') {
-      this.props.sendReadNotification(notification.id).then(() => this.props.fetchNotifications())
+      this.props
+        .sendReadNotification(notification.id, this.props.project === 'instance')
+        .then(() => this.props.fetchNotifications(this.props.project === 'instance'))
     }
   }
 

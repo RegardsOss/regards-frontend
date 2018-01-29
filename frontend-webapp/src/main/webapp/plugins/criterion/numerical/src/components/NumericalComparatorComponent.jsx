@@ -31,7 +31,6 @@ import EnumNumericalComparator from '../model/EnumNumericalComparator'
  * @author Xavier-Alexandre Brochard
  */
 export class NumericalComparatorComponent extends React.Component {
-
   static propTypes = {
     /**
      * Signature:

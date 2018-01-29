@@ -98,6 +98,7 @@ export class DynamicModule extends React.Component {
   static defaultProps = {
     // API
     options: [],
+    expandable: true,
     requiresAuthentication: false,
     requiredDependencies: [],
     // map state to props
