@@ -88,6 +88,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     const changeFieldCallback = spy()
     const props = {
       changeField: changeFieldCallback,
+      currentNamespace: 'conf',
       defaultCriterion: [],
       criterion: [{
         id: 0,

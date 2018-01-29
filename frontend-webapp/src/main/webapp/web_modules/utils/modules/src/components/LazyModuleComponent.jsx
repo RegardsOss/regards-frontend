@@ -52,12 +52,20 @@ class LazyModuleComponent extends React.Component {
     module: AccessShapes.Module.isRequired,
     admin: PropTypes.bool,
     // Form information for admin container. Admin container is a part of the upper redux-form Form.
-    // This parameter contains the redux-form form and the changeField function.
     adminForm: PropTypes.shape({
+      // While creating the module, every fields shall be created in the redux form using that namespace
+      // which allows us to launch a module from another module
+      currentNamespace: PropTypes.string,
+      // Current module status
       isCreating: PropTypes.bool,
       isDuplicating: PropTypes.bool,
       isEditing: PropTypes.bool,
+      // Form changeField function.
       changeField: PropTypes.func,
+      // Configuration from another admin module
+      // eslint-disable-next-line react/forbid-prop-types
+      conf: PropTypes.object,
+      // This parameter contains the entire redux-form form
       // eslint-disable-next-line react/forbid-prop-types
       form: PropTypes.object,
     }),

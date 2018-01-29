@@ -16,13 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderCheckbox, Field } from '@regardsoss/form-utils'
-import { ModuleConfigurationShape } from '../../model/ModuleConfigurationShape'
-
-const SHOW_DATASETS_FIELD = 'conf.showDatasets'
 
 /**
  * Module configuration form
@@ -36,15 +32,24 @@ class ModuleConfigurationComponent extends React.Component {
 
   static propTypes = {
     changeField: PropTypes.func.isRequired,
-    moduleForm: ModuleConfigurationShape,
+    currentNamespace: PropTypes.string.isRequired,
+    isCreating: PropTypes.bool.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+    this.SHOW_DATASETS_FIELD = `${props.currentNamespace}.showDatasets`
   }
 
   /**
-   * Lifecycle method component will mount. Used here to initialize field values to default or restore values in edition
+   * Lifecycle method component will mount.
+   * Used here to initialize field values to default
    */
   componentWillMount() {
-    const { moduleForm, changeField } = this.props
-    changeField(SHOW_DATASETS_FIELD, get(moduleForm, SHOW_DATASETS_FIELD, true))
+    const { changeField, isCreating } = this.props
+    if (isCreating) {
+      changeField(this.SHOW_DATASETS_FIELD, true)
+    }
   }
 
 
@@ -53,7 +58,7 @@ class ModuleConfigurationComponent extends React.Component {
     return (
       <div style={admin.rootStyle}>
         <Field
-          name={SHOW_DATASETS_FIELD}
+          name={this.SHOW_DATASETS_FIELD}
           component={RenderCheckbox}
           label={intl.formatMessage({ id: 'order.cart.configuration.show.datasets' })}
         />

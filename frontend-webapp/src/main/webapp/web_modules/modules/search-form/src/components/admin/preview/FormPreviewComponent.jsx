@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import has from 'lodash/has'
+import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
 import { CardText } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Title } from '@regardsoss/components'
@@ -28,6 +31,7 @@ import { AccessShapes } from '@regardsoss/shape'
  */
 class FormPreviewComponent extends React.Component {
   static propTypes = {
+    currentNamespace: PropTypes.string,
     project: PropTypes.string.isRequired,
     module: AccessShapes.Module,
   }
@@ -37,9 +41,9 @@ class FormPreviewComponent extends React.Component {
   }
 
   render() {
-    if (this.props.module && this.props.module.type && this.props.module.conf && this.props.module.conf.layout) {
+    if (this.props.module && this.props.module.type && has(this.props.module, `${this.props.currentNamespace}.layout`)) {
       // Add the preview option to the module conf to not display results, just form
-      const conf = Object.assign({}, this.props.module.conf)
+      const conf = cloneDeep(get(this.props.module, this.props.currentNamespace))
       conf.preview = true
       const previewModule = Object.assign({}, this.props.module, { active: true, conf })
       if (!previewModule.description) {

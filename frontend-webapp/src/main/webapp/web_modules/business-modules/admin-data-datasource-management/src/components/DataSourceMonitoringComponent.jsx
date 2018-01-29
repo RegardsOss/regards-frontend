@@ -62,6 +62,8 @@ class DataSourceMonitoringComponent extends React.Component {
       TableColumnBuilder.buildSimplePropertyColumn('nextPlannedIngestDate', intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }), 'content.nextPlannedIngestDate', 0, true, DateValueRender),
     ]
 
+    console.error('render for ', crawlerDatasources)
+
     return (
       <Card>
         <CardTitle
@@ -85,6 +87,7 @@ class DataSourceMonitoringComponent extends React.Component {
               columns={columns}
               entities={crawlerDatasources}
               displayedRowsCount={10}
+              entitiesCount={crawlerDatasources.length}
             />
           </TableLayout>
         </CardText>

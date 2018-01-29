@@ -44,6 +44,7 @@ class ModuleFormComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     applicationId: PropTypes.string.isRequired,
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
       isCreating: PropTypes.bool,
       isDuplicating: PropTypes.bool,
       isEditing: PropTypes.bool,

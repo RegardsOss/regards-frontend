@@ -37,6 +37,14 @@ describe('[Search Graph] Testing SearchResultForm', () => {
     const props = {
       project: 'any',
       appName: 'any',
+      adminForm: {
+        currentNamespace: 'conf',
+        isCreating: true,
+        isDuplicating: false,
+        isEditing: false,
+        changeField: () => { },
+        form: {},
+      },
     }
     const enzymeWrapper = shallow(<SearchResultForm {...props} />, { context })
     // assert the component delegates to search results module configuration pane
