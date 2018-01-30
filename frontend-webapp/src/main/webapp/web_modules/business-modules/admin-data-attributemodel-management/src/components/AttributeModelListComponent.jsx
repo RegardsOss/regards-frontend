@@ -127,6 +127,7 @@ export class AttributeModelListComponent extends React.Component {
               <TableRow>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.fragment" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.name" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.label" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.description" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.type" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.actions" /></TableHeaderColumn>
@@ -141,6 +142,7 @@ export class AttributeModelListComponent extends React.Component {
                 <TableRow key={attrmodel.content.id}>
                   <TableRowColumn>{this.getFragmentName(attrmodel)}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.name}</TableRowColumn>
+                  <TableRowColumn>{attrmodel.content.label}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.description}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.type}</TableRowColumn>
                   <TableRowColumn>
