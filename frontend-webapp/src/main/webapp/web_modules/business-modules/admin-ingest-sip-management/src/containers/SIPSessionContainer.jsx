@@ -104,10 +104,10 @@ export class SIPSessionContainer extends React.Component {
       appliedFilters.id = filters.nameFilter
     }
     if (filters.fromFilter) {
-      appliedFilters.from = encodeURIComponent(filters.fromFilter.toISOString())
+      appliedFilters.from = filters.fromFilter.toISOString()
     }
     if (filters.toFilter) {
-      appliedFilters.to = encodeURIComponent(filters.toFilter.toISOString())
+      appliedFilters.to = filters.toFilter.toISOString()
     }
     this.setState({
       appliedFilters,
