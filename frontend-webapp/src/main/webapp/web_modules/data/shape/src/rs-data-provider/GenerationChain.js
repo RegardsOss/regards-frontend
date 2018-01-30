@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
-import { MetaProductContent } from './MetaProduct'
+import { AcquisitionFileInfoContent } from './AcquisitionFileInfo'
 
 /**
- * Describes a basket shape and related sub objects
- * @author Raphaël Mechali
+ * Describes a GenerationChain shape and related sub objects
+ * @author Sébastien Binda
  */
 
 /** A dated selection item shape */
@@ -29,15 +29,16 @@ const GenerationChainContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
+  mode: PropTypes.string.isRequired,
+  session: PropTypes.string,
   running: PropTypes.bool,
   lastDateActivation: PropTypes.string,
   periodicity: PropTypes.number.isRequired,
-  metaProduct: MetaProductContent.isrequired,
+  ingestChain: PropTypes.string.isRequired,
   dataSetIpId: PropTypes.string.isRequired,
-  session: PropTypes.string,
-  comment: PropTypes.string,
-  scanAcquisitionPluginConf: PluginConfigurationContent.isRequired,
-  checkAcquisitionPluginConf: PluginConfigurationContent.isRequired,
+  fileInfos: PropTypes.arrayOf(AcquisitionFileInfoContent),
+  validationPluginConf: PluginConfigurationContent.isRequired,
+  productPluginConf: PluginConfigurationContent.isRequired,
   generateSipPluginConf: PluginConfigurationContent.isRequired,
   postProcessSipPluginConf: PluginConfigurationContent.isRequired,
 })

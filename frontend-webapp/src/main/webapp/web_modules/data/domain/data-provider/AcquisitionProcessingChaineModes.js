@@ -16,33 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ScanDirectoryContent } from './ScanDirectory'
+import values from 'lodash/values'
 
 /**
- * Describes a MetaFile shape and related sub objects
+ * Possible acqisition processing chain
  * @author Sébastien Binda
  */
-
-/** A dated selection item shape */
-const MetaFileContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  mandatory: PropTypes.bool.isRequired,
-  fileNamePattern: PropTypes.string.isRequired,
-  scanDirectories: PropTypes.arrayOf(ScanDirectoryContent),
-  invalidFolder: PropTypes.string.isRequired,
-  fileType: PropTypes.string, // mime type
-  comment: PropTypes.string,
-})
-
-const MetaFile = PropTypes.shape({
-  content: MetaFileContent,
-})
-const MetaFileList = PropTypes.objectOf(MetaFile)
-const MetaFileArray = PropTypes.arrayOf(MetaFile)
+const AcquisitionProcessingChainModeEnum = {
+  AUTO: 'AUTO',
+  MANUAL: 'MANUAL',
+}
 
 module.exports = {
-  MetaFileList,
-  MetaFileArray,
-  MetaFileContent,
-  MetaFile,
+  AcquisitionProcessingChainModeEnum,
+  AcquisitionProcessingChainModes: values(AcquisitionProcessingChainModeEnum),
 }

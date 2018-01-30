@@ -30,6 +30,7 @@ const messages = Object.assign({
   'microservice-management.rs-storage.description': 'Configure the service that handle system AIPs storage of physical files',
   'microservice-management.rs-ingest.description': 'Configure the service that handle processing of new datas through SIPs.',
   'microservice-management.rs-order.description': 'Configure the service that handle users orders.',
+  'microservice-management.rs-dataprovider.description': 'Configure the data provider service. This service generate SIPs from new files scaned and sent them to the rs-ingest microservice.',
 
   'microservice-management.configuration.tooltip': 'Configure',
   'microservice-management.plugins.tooltip': 'Plugins',

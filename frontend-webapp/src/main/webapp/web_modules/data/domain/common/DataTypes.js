@@ -16,32 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { MetaFileContent } from './MetaFile'
+import values from 'lodash/values'
 
 /**
- * Describes a MetaProduct shape and related sub objects
- * @author Sébastien Binda
+ * Possible data types
  */
-
-/** A dated selection item shape */
-const MetaProductContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
-  checksumAlgorithm: PropTypes.string.isRequired,
-  cleanOriginalFile: PropTypes.bool.isRequired,
-  metaFiles: PropTypes.arrayOf(MetaFileContent).isRequired,
-  ingestChain: PropTypes.string.isRequired,
-})
-
-const MetaProduct = PropTypes.shape({
-  content: MetaProductContent,
-})
-const MetaProductList = PropTypes.objectOf(MetaProduct)
-const MetaProductArray = PropTypes.arrayOf(MetaProduct)
+const DataTypesEnum = {
+  RAWDATA: 'RAWDATA',
+  QUICKLOOK_SD: 'QUICKLOOK_SD',
+  QUICKLOOK_MD: 'QUICKLOOK_MD',
+  QUICKLOOK_HD: 'QUICKLOOK_HD',
+  DOCUMENT: 'DOCUMENT',
+  THUMBNAIL: 'THUMBNAIL',
+  OTHER: 'OTHER',
+  AIP: 'AIP',
+}
 
 module.exports = {
-  MetaProductList,
-  MetaProductArray,
-  MetaProductContent,
-  MetaProduct,
+  DataTypesEnum,
+  DataTypes: values(DataTypesEnum),
 }

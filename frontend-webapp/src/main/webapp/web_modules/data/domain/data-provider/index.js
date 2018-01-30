@@ -17,26 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-/**
- * Describes a ScanDirectory shape and related sub objects
- * @author Sébastien Binda
- */
-
-/** A dated selection item shape */
-const ScanDirectoryContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  scanDir: PropTypes.string.isRequired,
-})
-
-const ScanDirectory = PropTypes.shape({
-  content: ScanDirectoryContent,
-})
-const ScanDirectoryList = PropTypes.objectOf(ScanDirectory)
-const ScanDirectoryArray = PropTypes.arrayOf(ScanDirectory)
+import AcquisitionProcessingChaineModes from './AcquisitionProcessingChaineModes'
 
 module.exports = {
-  ScanDirectoryList,
-  ScanDirectoryArray,
-  ScanDirectoryContent,
-  ScanDirectory,
+  ...AcquisitionProcessingChaineModes,
 }
