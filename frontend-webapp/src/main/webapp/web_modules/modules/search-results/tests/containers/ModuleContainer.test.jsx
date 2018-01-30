@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DamDomain } from '@regardsoss/domain'
 import ModuleComponent from '../../src/components/user/ModuleComponent'
 import URLManagementContainer from '../../src/containers/user/URLManagementContainer'
 import { ModuleContainer } from '../../src/containers/ModuleContainer'

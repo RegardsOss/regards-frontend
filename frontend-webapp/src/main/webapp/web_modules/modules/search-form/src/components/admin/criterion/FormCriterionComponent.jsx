@@ -146,7 +146,7 @@ class FormCriterionComponent extends React.Component {
     const { currentNamespace, changeField } = this.props
 
     const criterion = filter(this.props.criterion, (crit, index) => idx !== index)
-    this.props.changeField(`${currentNamespace}.criterion`, criterion)
+    changeField(`${currentNamespace}.criterion`, criterion)
   }
 
   /**
@@ -154,7 +154,7 @@ class FormCriterionComponent extends React.Component {
    */
   resetCriterion = () => {
     const { currentNamespace, changeField } = this.props
-    this.props.changeField(`${currentNamespace}.criterion`, this.props.defaultCriterion)
+    changeField(`${currentNamespace}.criterion`, this.props.defaultCriterion)
   }
 
   /**
