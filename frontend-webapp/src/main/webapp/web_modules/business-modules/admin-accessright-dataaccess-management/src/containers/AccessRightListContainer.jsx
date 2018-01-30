@@ -135,7 +135,6 @@ export class AccessRightListContainer extends React.Component {
   refresh = () => {
     const { meta, fetchDatasetWithAccessRightPage } = this.props
     const { filters } = this.state
-    console.error('REfresh filters', filters)
     const curentPage = get(meta, 'number', 0)
     const accessGroupName = get(this.props.accessGroup, 'content.name', null)
     if (accessGroupName) {
