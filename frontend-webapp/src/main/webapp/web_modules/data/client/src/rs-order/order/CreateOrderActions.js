@@ -26,7 +26,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 class CreateOrderActions extends BasicSignalActions {
   /**
    * Constructor
-   * @param {*} namespace  actions namespace
+   * @param {*} namespace actions namespace
    */
   constructor(namespace) {
     super({
@@ -36,10 +36,11 @@ class CreateOrderActions extends BasicSignalActions {
   }
 
   /**
-   * @return {type:string} redux action to dispatch the create order command
+   * @param {string} onSuccessOrderUrl Url used by the email to redirect the user on its new order
+   * @return {type:{string}} redux action to dispatch the create order command
    */
-  order() {
-    return this.sendSignal('POST')
+  order(onSuccessOrderUrl = '') {
+    return this.sendSignal('POST', { onSuccessUrl: onSuccessOrderUrl })
   }
 }
 
