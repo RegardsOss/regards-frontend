@@ -23,7 +23,7 @@ import { fieldInputPropTypes } from 'redux-form'
 import HelpCircle from 'mdi-material-ui/HelpCircle'
 import { RadioButton } from 'material-ui/RadioButton'
 import SubHeader from 'material-ui/Subheader'
-import RasiedButton from 'material-ui/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -267,7 +267,7 @@ export class RenderPluginParameterField extends React.PureComponent {
     const { intl: { formatMessage } } = this.context
     const { pluginParameterType } = this.props
     const actions = [
-      <RasiedButton
+      <RaisedButton
         key="close"
         label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
         primary
