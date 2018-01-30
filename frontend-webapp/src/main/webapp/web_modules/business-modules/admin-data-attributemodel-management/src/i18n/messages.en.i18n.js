@@ -25,6 +25,7 @@ const messages = Object.assign({
   'attrmodel.list.subtitle': 'All atttribute models for the project',
   'attrmodel.list.table.fragment': 'Fragment',
   'attrmodel.list.table.name': 'Name',
+  'attrmodel.list.table.label': 'Label',
   'attrmodel.list.table.description': 'Description',
   'attrmodel.list.table.type': 'Type',
   'attrmodel.list.table.actions': 'Actions',
