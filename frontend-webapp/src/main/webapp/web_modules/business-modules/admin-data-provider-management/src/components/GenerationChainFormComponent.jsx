@@ -69,8 +69,24 @@ class GenerationChainFormComponent extends React.PureComponent {
     const { chain, mode } = this.props
     if (chain) {
       if (mode === 'duplicate') {
-        const duplicatedChain = omit(chain.content, ['id', 'running', 'lastDateActivation', 'fileInfos'])
+        const duplicatedChain = omit(chain.content, [
+          'id', 'label', 'running', 'lastDateActivation', 'fileInfos',
+          'productPluginConf', 'generatePluginConf', 'validationPluginConf',
+          'postProcessSipPluginConf',
+        ])
         duplicatedChain.fileInfos = map(chain.content.fileInfos, this.duplicateFileInfo)
+        if (chain.content.validationPluginConf) {
+          duplicatedChain.validationPluginConf = this.duplicatePluginConf(chain.content.validationPluginConf)
+        }
+        if (chain.content.productPluginConf) {
+          duplicatedChain.productPluginConf = this.duplicatePluginConf(chain.content.productPluginConf)
+        }
+        if (chain.content.generateSipPluginConf) {
+          duplicatedChain.generateSipPluginConf = this.duplicatePluginConf(chain.content.generateSipPluginConf)
+        }
+        if (chain.content.postProcessSipPluginConf) {
+          duplicatedChain.postProcessSipPluginConf = this.duplicatePluginConf(chain.content.postProcessSipPluginConf)
+        }
         this.props.initialize(duplicatedChain)
       } else {
         this.props.initialize(chain.content)
@@ -88,14 +104,23 @@ class GenerationChainFormComponent extends React.PureComponent {
     mandatory: true,
   })
 
-  duplicateFileInfo = fileInfo => omit(fileInfo, ['id'])
+  duplicateFileInfo = (fileInfo) => {
+    const duplicatedFileInfo = omit(fileInfo, ['id', 'scanPlugin'])
+    return duplicatedFileInfo
+  }
+
+  duplicatePluginConf = (plugin) => {
+    const duplicatedPluginConf = omit(plugin, ['id', 'label'])
+    duplicatedPluginConf.label = plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now()
+    return duplicatedPluginConf
+  }
 
   renderActionButtons = () => {
     const { intl: { formatMessage } } = this.context
     const {
-      chain, invalid, submitting, onBack,
+      invalid, submitting, onBack, mode,
     } = this.props
-    const label = !chain ?
+    const label = mode === 'create' || mode === 'duplicate' ?
       formatMessage({ id: 'generation-chain.form.create.action.create' }) :
       formatMessage({ id: 'generation-chain.form.edit.action.save' })
     return (

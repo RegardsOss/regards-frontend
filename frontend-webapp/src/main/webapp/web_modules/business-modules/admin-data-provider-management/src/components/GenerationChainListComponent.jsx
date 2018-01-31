@@ -140,13 +140,14 @@ class GenerationChainListComponent extends React.Component {
         optionProps: { onEdit: this.props.onEdit },
       }, {
         OptionConstructor: GenerationChainTableDuplicateAction,
-        optionProps: { onEdit: this.props.onDuplicate },
+        optionProps: { onDuplicate: this.props.onDuplicate },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
           fetchPage: this.props.fetchPage,
           onDelete: this.onDelete,
           queryPageSize: this.props.queryPageSize,
+          handleHateoas: true,
         },
       }], true, fixedColumnWidth),
     ]

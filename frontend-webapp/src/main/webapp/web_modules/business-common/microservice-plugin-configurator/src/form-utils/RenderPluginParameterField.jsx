@@ -69,13 +69,22 @@ export class RenderPluginParameterField extends React.PureComponent {
 
   componentWillMount() {
     const { input, pluginParameterType, complexParameter } = this.props
+    let initParamValues = {}
     if (complexParameter && (isNil(get(input, 'value.value') || isNil(get(input, 'value.dynamic'))))) {
-      input.onChange({
+      initParamValues = {
         dynamic: get(input, 'value.dynamic', false),
         dynamicValues: get(input, 'value.dynamicValues', null),
         name: pluginParameterType.name,
-      })
+      }
+    } else {
+      initParamValues = {
+        name: pluginParameterType.name,
+      }
     }
+    if (get(input, 'value.value', null) !== null) {
+      initParamValues.value = input.value.value
+    }
+    input.onChange(initParamValues)
   }
 
   handleCloseDescription = () => {

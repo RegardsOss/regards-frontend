@@ -5,7 +5,7 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import root from 'window-or-global'
 import { CatalogShapes } from '@regardsoss/shape'
-import { CatalogDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import File from 'material-ui/svg-icons/editor/insert-drive-file'
@@ -41,7 +41,7 @@ export class DocumentFilesComponent extends React.Component {
     if (this.nbDownloadeableFiles() === 0) {
       return null
     }
-    const downloadLink = get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}[0].uri`)
+    const downloadLink = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}[0].uri`)
     return this.addAuthToURI(downloadLink)
   }
 
@@ -50,7 +50,7 @@ export class DocumentFilesComponent extends React.Component {
    */
   getAllDownloadeableFiles = () => {
     const { entity } = this.props
-    return get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}`, [])
+    return get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, [])
   }
 
   /**
@@ -58,7 +58,7 @@ export class DocumentFilesComponent extends React.Component {
    */
   nbDownloadeableFiles = () => {
     const { entity } = this.props
-    return get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}`, []).length
+    return get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []).length
   }
 
   /**
