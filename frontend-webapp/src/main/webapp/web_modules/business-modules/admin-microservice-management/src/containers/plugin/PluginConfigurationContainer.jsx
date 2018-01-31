@@ -80,7 +80,11 @@ export class PluginConfigurationContainer extends React.Component {
   handleCopy = () => {
     const { params: { project, microserviceName, pluginId }, pluginConfiguration } = this.props
     const pluginConfigurationId = pluginConfiguration.content.id
-    const url = `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/${pluginConfigurationId}/copy`
+    let url = `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/${pluginConfigurationId}/copy`
+    const { query } = browserHistory.getCurrentLocation()
+    if (query.backUrl && query.backUrl !== '') {
+      url = `${url}?backUrl=${query.backUrl}`
+    }
     browserHistory.push(url)
   }
 
@@ -92,7 +96,11 @@ export class PluginConfigurationContainer extends React.Component {
   handleEdit = () => {
     const { params: { project, microserviceName, pluginId }, pluginConfiguration } = this.props
     const pluginConfigurationId = pluginConfiguration.content.id
-    const url = `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/${pluginConfigurationId}/edit`
+    let url = `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/${pluginConfigurationId}/edit`
+    const { query } = browserHistory.getCurrentLocation()
+    if (query.backUrl && query.backUrl !== '') {
+      url = `${url}?backUrl=${query.backUrl}`
+    }
     browserHistory.push(url)
   }
 
