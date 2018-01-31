@@ -49,6 +49,7 @@ import messages from '../i18n/Locales'
 class RenderArrayObjectField extends React.Component {
   static propTypes = {
     label: PropTypes.string, // List label
+    displayLabel: PropTypes.bool,
     elementLabel: PropTypes.string, // Each element prefix label
     fieldComponent: PropTypes.func.isRequired, // redux-form Field component to render an object of the list
     // eslint-disable-next-line react/forbid-prop-types
@@ -64,6 +65,7 @@ class RenderArrayObjectField extends React.Component {
   }
 
   static defaultProps = {
+    displayLabel: true,
     disabled: false,
     canBeEmpty: true,
     fieldProps: {},
@@ -227,7 +229,7 @@ class RenderArrayObjectField extends React.Component {
       },
     } = this.context
     const {
-      canBeEmpty, fields, fieldComponent, fieldProps, meta, label,
+      canBeEmpty, fields, fieldComponent, fieldProps, meta, label, displayLabel,
     } = this.props
     const { displayedFieldIdx, listContentStyle } = this.state
     const entity = fields.get(displayedFieldIdx)
@@ -247,7 +249,7 @@ class RenderArrayObjectField extends React.Component {
     return (
       <Card>
         <CardMedia>
-          {label ? <SubHeader inset={false}>{label}</SubHeader> : null}
+          {label && displayLabel ? <SubHeader inset={false}>{label}</SubHeader> : null}
           {meta.error && isString(meta.error) ?
             <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
             : null}

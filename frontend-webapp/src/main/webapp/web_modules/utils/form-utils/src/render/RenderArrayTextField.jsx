@@ -42,6 +42,7 @@ class RenderArrayTextField extends React.Component {
   static propTypes = {
     newFieldLabel: PropTypes.string,
     fieldsListLabel: PropTypes.string,
+    displayFieldsListLabel: PropTypes.bool,
     addButtonLabel: PropTypes.string,
     // If the list is not a list of string but a list of objects this field is used to know the key of the object
     // where to set te value
@@ -54,6 +55,7 @@ class RenderArrayTextField extends React.Component {
 
   static defaultProps = {
     disabled: false,
+    displayFieldsListLabel: true,
   }
 
   static contextTypes = {
@@ -150,14 +152,20 @@ class RenderArrayTextField extends React.Component {
 
   render() {
     const {
-      fields, fieldsListLabel, addButtonLabel, meta, disabled,
+      fields, fieldsListLabel, addButtonLabel, meta, disabled, displayFieldsListLabel,
     } = this.props
     const { moduleTheme: { arrayField }, intl: { formatMessage }, intl } = this.context
+    const header = displayFieldsListLabel ? (
+      <div>
+        <Subheader>{fieldsListLabel || formatMessage({ id: 'render.array-field.values.title' })}</Subheader>
+        <Divider />
+      </div>
+    ) : null
     return (
       <div style={arrayField.layout} >
         <Paper style={arrayField.list} >
-          <Subheader>{fieldsListLabel || formatMessage({ id: 'render.array-field.values.title' })}</Subheader>
-          <Divider />
+          {header}
+
           {meta.error && isString(meta.error) ?
             <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
             : null}
