@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import * as ReactDOM from 'react-dom'
-import injectTapEventPlugin from 'react-tap-event-plugin'
 import { Router, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import { configureStore } from '@regardsoss/store'
