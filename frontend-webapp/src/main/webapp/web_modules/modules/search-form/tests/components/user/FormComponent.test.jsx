@@ -54,8 +54,8 @@ describe('[FORM MODULE] Testing Form User component', () => {
     assert.isTrue(button.length === 1, 'There should be a button to run search')
 
     assert(handleSearchCallback.notCalled)
-    button.simulate('touchTap')
-    assert(handleSearchCallback.calledOnce)
+    button.simulate('click')
+    assert(handleSearchCallback.d)
   })
 })
 
