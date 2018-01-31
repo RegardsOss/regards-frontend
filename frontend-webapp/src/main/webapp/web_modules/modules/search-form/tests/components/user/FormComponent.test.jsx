@@ -55,7 +55,7 @@ describe('[FORM MODULE] Testing Form User component', () => {
 
     assert(handleSearchCallback.notCalled)
     button.simulate('click')
-    assert(handleSearchCallback.d)
+    assert(handleSearchCallback.calledOnce)
   })
 })
 
