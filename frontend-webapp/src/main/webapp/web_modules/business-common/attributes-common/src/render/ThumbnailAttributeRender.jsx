@@ -20,7 +20,7 @@ import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import FlatButton from 'material-ui/FlatButton'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
-import { CatalogDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -85,7 +85,7 @@ export class ThumbnailAttributeRender extends React.Component {
   render() {
     // in resolved attributes, get the first data, if any
     const { intl: { formatMessage }, moduleTheme: { thumbnailRoot, thumbnailCell, noThumbnailIcon } } = this.context
-    const thumbnailURI = get(this.props.value, `${CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL}[0].uri`, null)
+    const thumbnailURI = get(this.props.value, `${CommonDomain.DataTypesEnum.THUMBNAIL}[0].uri`, null)
     return (
       <div
         style={thumbnailRoot}

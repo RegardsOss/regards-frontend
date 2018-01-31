@@ -36,10 +36,10 @@ class CreateOrderActions extends BasicSignalActions {
   }
 
   /**
-   * @param {string} onSuccessOrderUrl Url used by the email to redirect the user on its new order
+   * @param {string} onSuccessOrderUrl Url used by the email to redirect the user on its orders
    * @return {type:{string}} redux action to dispatch the create order command
    */
-  order(onSuccessOrderUrl = '') {
+  order(onSuccessOrderUrl) {
     return this.sendSignal('POST', { onSuccessUrl: onSuccessOrderUrl })
   }
 }

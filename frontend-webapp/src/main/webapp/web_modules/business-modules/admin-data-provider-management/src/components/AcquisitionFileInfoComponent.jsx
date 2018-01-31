@@ -90,7 +90,7 @@ class AcquisitionFileInfoComponent extends React.PureComponent {
       />,
       <Field
         key="mimeType"
-        name={`${name}.fileType`}
+        name={`${name}.mimeType`}
         fullWidth
         component={RenderAutoCompleteField}
         hintText={formatMessage({ id: 'generation-chain.form.create.fileInfo.mimeType.hint' })}

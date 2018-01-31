@@ -65,7 +65,7 @@ export class OrderCartContainer extends React.Component {
       dispatchGetBasket: () => dispatch(orderBasketActions.getBasket()),
       dispatchFlushBasket: () => dispatch(orderBasketActions.flushBasket()),
       dispatchClearCart: () => dispatch(orderBasketActions.clearBasket()),
-      dispatchStartOrder: () => dispatch(createOrderActions.order()),
+      dispatchStartOrder: onSucceedOrderURL => dispatch(createOrderActions.order(onSucceedOrderURL)),
     }
   }
 
@@ -133,10 +133,11 @@ export class OrderCartContainer extends React.Component {
     const {
       dispatchStartOrder, dispatchFlushBasket, project, modules,
     } = this.props
+    const onSucceedOrderURL = this.getOnSucceedOrderURL()
     // 1 − dispatch start order
-    dispatchStartOrder().then(({ error }) => {
+    dispatchStartOrder(onSucceedOrderURL).then(({ error }) => {
       if (!error) {
-        // 2 - when there is no error, flush basket (their will be no server call)
+        // 2 - when there is no error, flush basket (without server call)
         dispatchFlushBasket()
         // 3 - redirect user to his orders list if there is an order module
         const orderHistoryModule = modulesManager.findFirstModuleByType(modules, modulesManager.AllDynamicModuleTypes.ORDER_HISTORY)
@@ -145,6 +146,16 @@ export class OrderCartContainer extends React.Component {
         }
       }
     })
+  }
+
+  /**
+   * Generate the URL that will be used in the mail sent by the server to the user
+   */
+  getOnSucceedOrderURL = () => {
+    const {
+      project,
+    } = this.props
+    return `/user/${project}/redirect?module=order-history`
   }
 
   /**
