@@ -158,14 +158,14 @@ class ServiceConfigurationListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={uiPluginConfiguration.links}
                       hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(uiPluginConfiguration.content.id)}
+                      onClick={() => handleEdit(uiPluginConfiguration.content.id)}
                       title={formatMessage({ id: 'service.listconf.tooltip.edit' })}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
                     <ResourceIconAction
                       resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)}
-                      onTouchTap={() => handleDuplicate(uiPluginConfiguration.content.id)}
+                      onClick={() => handleDuplicate(uiPluginConfiguration.content.id)}
                       title={formatMessage({ id: 'service.listconf.tooltip.duplicate' })}
                     >
                       <ContentCopy hoverColor={style.hoverButtonDuplicate} />
@@ -173,7 +173,7 @@ class ServiceConfigurationListComponent extends React.Component {
                     <ConfirmableHateoasIconAction
                       entityLinks={uiPluginConfiguration.links}
                       hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => handleDelete(uiPluginConfiguration.content.id)}
+                      onClick={() => handleDelete(uiPluginConfiguration.content.id)}
                       title={formatMessage({ id: 'service.listconf.tooltip.delete' })}
                       dialogTitle={formatMessage({ id: 'service.listconf.delete.confirm.title' })}
                     >

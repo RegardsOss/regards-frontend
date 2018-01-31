@@ -130,7 +130,7 @@ class GenerationChainFormComponent extends React.PureComponent {
           mainButtonType="submit"
           isMainButtonDisabled={submitting || invalid}
           secondaryButtonLabel={formatMessage({ id: 'generation-chain.form.create.action.cancel' })}
-          secondaryButtonTouchTap={onBack}
+          secondaryButtonClick={onBack}
         />
       </CardActions>
     )

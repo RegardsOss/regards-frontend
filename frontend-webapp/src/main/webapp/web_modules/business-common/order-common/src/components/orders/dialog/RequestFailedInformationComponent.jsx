@@ -51,6 +51,9 @@ class RequestFailedInformationComponent extends React.Component {
     'ORDER_NOT_COMPLETELY_STOPPED',
     'ORDER_NOT_COMPLETELY_PAUSED',
     'ORDER_MUST_BE_DELETED',
+    'ORDER_MUST_NOT_BE_RUNNING',
+    'ORDER_MUST_BE_PENDING_OR_RUNNING',
+    'ONLY_PAUSED_ORDER_CAN_BE_RESUMED',
   ]
 
   static UNKNOWN_TYPE = 'UNKNOWN'

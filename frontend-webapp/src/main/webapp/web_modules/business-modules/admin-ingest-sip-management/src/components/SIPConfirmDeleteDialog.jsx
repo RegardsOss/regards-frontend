@@ -50,19 +50,19 @@ class SIPConfirmDeleteDialog extends React.Component {
         label={formatMessage({ id: 'sip.cancel.delete' })}
         primary
         keyboardFocused
-        onTouchTap={onClose}
+        onClick={onClose}
       />,
       <FlatButton
         key="deleteSIP"
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: 'sip.confirm.delete.sip' })}
-        onTouchTap={() => this.handleDelete(this.props.onDeleteSip)}
+        onClick={() => this.handleDelete(this.props.onDeleteSip)}
       />,
       <FlatButton
         key="deleteSIPS"
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: 'sip.confirm.delete.sips' })}
-        onTouchTap={() => this.handleDelete(this.props.onDeleteSips)}
+        onClick={() => this.handleDelete(this.props.onDeleteSips)}
       />,
     ]
   }

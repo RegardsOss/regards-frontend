@@ -241,10 +241,10 @@ export class DatasourceFormMappingComponent extends React.Component {
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.save' })}
-              mainButtonTouchTap={this.props.handleSubmit(this.handleSave)}
+              mainButtonClick={this.props.handleSubmit(this.handleSave)}
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.cancel' })}
-              secondaryButtonTouchTap={handleBack}
+              secondaryButtonClick={handleBack}
             />
           </CardActions>
         </Card>

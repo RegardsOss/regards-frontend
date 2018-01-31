@@ -76,7 +76,7 @@ export class NumericalComparatorComponent extends React.Component {
       <div>
         <RaisedButton
           label={<FormattedMessage id={`comparator.${this.props.value}`} />}
-          onTouchTap={this.handleOpenMenu}
+          onClick={this.handleOpenMenu}
           style={comparatorButtonStyle}
         />
         <IconMenu

@@ -158,7 +158,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.action.next' })}
-            mainButtonTouchTap={this.handleSubmit}
+            mainButtonClick={this.handleSubmit}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.uiservices.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

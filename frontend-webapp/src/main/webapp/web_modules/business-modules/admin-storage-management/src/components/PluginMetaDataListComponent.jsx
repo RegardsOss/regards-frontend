@@ -138,7 +138,7 @@ export default class PluginMetaDataListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={intl.formatMessage({ id: 'storage.back.button' })}
-            mainButtonTouchTap={this.props.onBack}
+            mainButtonClick={this.props.onBack}
           />
         </CardActions>
       </Card>

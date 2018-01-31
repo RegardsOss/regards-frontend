@@ -254,7 +254,7 @@ export class AccountListComponent extends React.Component {
                           <HateoasIconAction
                             className="selenium-editButton"
                             title={intl.formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
-                            onTouchTap={() => onEdit(account.content.id)}
+                            onClick={() => onEdit(account.content.id)}
                             disabled={isFetchingActions}
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.UPDATE}
@@ -265,7 +265,7 @@ export class AccountListComponent extends React.Component {
                           <HateoasIconAction
                             className="selenium-acceptButton"
                             title={intl.formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
-                            onTouchTap={() => onAccept(account.content.email)}
+                            onClick={() => onAccept(account.content.email)}
                             disabled={isFetchingActions || !this.canAcceptAccount(account)}
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.ACCEPT}
@@ -276,7 +276,7 @@ export class AccountListComponent extends React.Component {
                           <HateoasIconAction
                             className="selenium-refuseButton"
                             title={intl.formatMessage({ id: 'account.list.table.action.refuse.tooltip' })}
-                            onTouchTap={() => this.openRefuseDialog(account)}
+                            onClick={() => this.openRefuseDialog(account)}
                             disabled={isFetchingActions || !this.canRefuseAccount(account)}
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.REFUSE}
@@ -287,7 +287,7 @@ export class AccountListComponent extends React.Component {
                           <HateoasIconAction
                             className="selenium-deleteButton"
                             title={intl.formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
-                            onTouchTap={() => this.openDeleteDialog(account)}
+                            onClick={() => this.openDeleteDialog(account)}
                             disabled={isFetchingActions}
                             entityLinks={account.links}
                             hateoasKey={HateoasKeys.DELETE}

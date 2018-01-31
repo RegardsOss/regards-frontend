@@ -117,7 +117,7 @@ export class DatasourceFormMappingLineComponent extends React.Component {
         <Checkbox
           label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
           checked={showAdvanced}
-          onTouchTap={this.handleToggleAdvanced}
+          onClick={this.handleToggleAdvanced}
           className={`selenium-useSQL-${modelAttribute.content.attribute.name}`}
         />
         <ShowableAtRender

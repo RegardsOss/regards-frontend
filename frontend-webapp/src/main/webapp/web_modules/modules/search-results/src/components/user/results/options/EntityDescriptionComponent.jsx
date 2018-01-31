@@ -40,7 +40,7 @@ class EntityDescriptionComponent extends React.Component {
     return (
       <IconButton
         title={formatMessage({ id: 'show.description.tooltip' })}
-        onTouchTap={onShowDescription}
+        onClick={onShowDescription}
         {...otherProperties}
       >
         <InfoIcon />

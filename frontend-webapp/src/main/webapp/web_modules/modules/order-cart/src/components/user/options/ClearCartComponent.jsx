@@ -44,7 +44,7 @@ class ClearCartComponent extends React.Component {
     const { disabled, empty, onClearCart } = this.props
     return (
       <ButtonWithConfirmDialog
-        onTouchTap={onClearCart}
+        onClick={onClearCart}
         dialogTitle={formatMessage({ id: 'order-cart.module.clear.confirmation.title' })}
         dialogMessage={formatMessage({ id: 'order-cart.module.clear.confirmation.message' })}
 

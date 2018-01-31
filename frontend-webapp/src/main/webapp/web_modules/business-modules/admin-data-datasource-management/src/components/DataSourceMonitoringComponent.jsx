@@ -93,7 +93,7 @@ class DataSourceMonitoringComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={onBack}
+            mainButtonClick={onBack}
             mainButtonLabel={intl.formatMessage({ id: 'crawler.list.back.button' })}
           />
         </CardActions>

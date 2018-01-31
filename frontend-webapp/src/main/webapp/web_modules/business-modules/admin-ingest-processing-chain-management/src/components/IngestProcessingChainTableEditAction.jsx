@@ -56,7 +56,7 @@ class IngestProcessingChainTableEditAction extends React.Component {
         title={formatMessage({ id: 'processing-chain.edit.tooltip' })}
         iconStyle={IngestProcessingChainTableEditAction.iconStyle}
         style={IngestProcessingChainTableEditAction.buttonStyle}
-        onTouchTap={() => this.props.onEdit(chain.name)}
+        onClick={() => this.props.onEdit(chain.name)}
         disabled={!this.isEditable()}
       >
         <Edit />

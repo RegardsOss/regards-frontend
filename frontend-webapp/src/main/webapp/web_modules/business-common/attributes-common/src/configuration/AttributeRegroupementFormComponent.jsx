@@ -152,7 +152,7 @@ class AttributeRegroupementFormComponent extends React.Component {
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.cancel' })}
-              secondaryButtonTouchTap={this.props.onClose}
+              secondaryButtonClick={this.props.onClose}
             />
           </CardActions>
         </Card>

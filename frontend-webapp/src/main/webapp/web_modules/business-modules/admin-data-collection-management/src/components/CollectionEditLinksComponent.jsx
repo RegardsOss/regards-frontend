@@ -91,7 +91,7 @@ export class CollectionEditLinksComponent extends React.Component {
                     key={id}
                     primaryText={collection.content.label}
                     rightIconButton={
-                      <IconButton onTouchTap={() => handleAdd(collection.content.ipId)}>
+                      <IconButton onClick={() => handleAdd(collection.content.ipId)}>
                         <Add />
                       </IconButton>
                     }
@@ -108,7 +108,7 @@ export class CollectionEditLinksComponent extends React.Component {
                     key={id}
                     primaryText={collection.content.label}
                     rightIconButton={
-                      <IconButton onTouchTap={() => handleDelete(collection.content.ipId)}>
+                      <IconButton onClick={() => handleDelete(collection.content.ipId)}>
                         <Clear />
                       </IconButton>
                     }

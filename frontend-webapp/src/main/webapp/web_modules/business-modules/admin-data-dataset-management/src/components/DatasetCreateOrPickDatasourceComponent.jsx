@@ -100,7 +100,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonTouchTap={() => { handleDone(currentDatasource) }}
+              mainButtonClick={() => { handleDone(currentDatasource) }}
               mainButtonLabel={
                 <FormattedMessage
                   id="dataset.form.create.action.next"
@@ -118,7 +118,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'dataset.form.create.action.datasource' })}
               secondary
               style={styleButton}
-              onTouchTap={this.goToDatasource}
+              onClick={this.goToDatasource}
             />
           </div>
         </Card>

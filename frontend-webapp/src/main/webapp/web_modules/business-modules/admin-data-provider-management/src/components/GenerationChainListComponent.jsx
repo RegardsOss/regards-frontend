@@ -176,12 +176,12 @@ class GenerationChainListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={this.props.onCreate}
+            mainButtonClick={this.props.onCreate}
             // TODO : Set hateoas dependencies for data-provider
             // mainHateoasDependencies={addDependencies}
             mainButtonLabel={intl.formatMessage({ id: 'generation-chain.addnew.button' })}
             secondaryButtonLabel={intl.formatMessage({ id: 'generation-chain.back.button' })}
-            secondaryButtonTouchTap={this.props.onBack}
+            secondaryButtonClick={this.props.onBack}
           />
         </CardActions>
         {this.renderDeleteConfirmDialog()}

@@ -142,7 +142,7 @@ class AdminContainer extends React.Component {
               label={formatMessage({ id: 'project.about.page.admin.test' })}
               primary
               disabled={isLoading || !path}
-              onTouchTap={this.startTest}
+              onClick={this.startTest}
             />
           </LoadableContentDisplayDecorator>
         </div>

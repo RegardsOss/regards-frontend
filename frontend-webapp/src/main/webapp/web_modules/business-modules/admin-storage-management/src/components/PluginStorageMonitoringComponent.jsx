@@ -69,7 +69,7 @@ export class PluginStorageMonitoringComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={intl.formatMessage({ id: 'storage.back.button' })}
-            mainButtonTouchTap={this.onBack}
+            mainButtonClick={this.onBack}
           />
         </CardActions>
       </Card>

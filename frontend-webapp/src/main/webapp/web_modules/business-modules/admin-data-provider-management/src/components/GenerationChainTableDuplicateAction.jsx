@@ -54,7 +54,7 @@ class GenerationChainTableDuplicateAction extends React.Component {
         title={formatMessage({ id: 'generation-chain.edit.tooltip' })}
         iconStyle={GenerationChainTableDuplicateAction.iconStyle}
         style={GenerationChainTableDuplicateAction.buttonStyle}
-        onTouchTap={() => this.props.onDuplicate(chain.id)}
+        onClick={() => this.props.onDuplicate(chain.id)}
         resourceDependencies={addDependencies}
         displayLogic={allMatchHateoasDisplayLogic}
       >

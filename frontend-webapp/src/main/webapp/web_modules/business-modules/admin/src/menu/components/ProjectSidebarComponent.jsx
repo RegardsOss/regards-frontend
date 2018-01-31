@@ -186,7 +186,7 @@ class ProjectSidebarComponent extends React.Component {
           leftIcon={<Back
             color={this.context.muiTheme.svgIcon.color}
           />}
-          onTouchTap={this.handleRedirectToInstanceAdminDashboard}
+          onClick={this.handleRedirectToInstanceAdminDashboard}
         />
       </Drawer>
     )

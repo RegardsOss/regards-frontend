@@ -129,7 +129,7 @@ class FormComponent extends React.Component {
             primary
             icon={<SearchIcon />}
             style={this.context.moduleTheme.user.searchButton}
-            onTouchTap={this.onHandleSearch}
+            onClick={this.onHandleSearch}
           />
         </div>
       </DynamicModule>)

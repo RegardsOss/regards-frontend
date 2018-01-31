@@ -116,7 +116,7 @@ export class StringCriteriaComponent extends PluginCriterionContainer {
           onChange={this.handleChange}
           style={textFieldStyle}
         />
-        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         <Checkbox
           label={<FormattedMessage id="criterion.search.field.word.checkbox.label" />}
           labelPosition="right"

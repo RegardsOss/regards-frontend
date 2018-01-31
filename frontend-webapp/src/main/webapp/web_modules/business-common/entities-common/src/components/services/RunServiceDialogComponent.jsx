@@ -138,7 +138,7 @@ export class RunServiceDialogComponent extends React.Component {
             disabled={invalid}
             label={formatMessage({ id: 'entities.common.services.submit.parameters' })}
             type="submit"
-            onTouchTap={handleSubmit(this.onSubmit)} // it is required here to handle manually the submit button (tested)
+            onClick={handleSubmit(this.onSubmit)} // it is required here to handle manually the submit button (tested)
           />]
         break
       // previous options (should be used after parameters configuration)
@@ -158,7 +158,7 @@ export class RunServiceDialogComponent extends React.Component {
         icon={<CloseIcon />}
         label={formatMessage({ id: 'entities.common.services.close.service' })}
         title={formatMessage({ id: 'entities.common.services.close.service' })}
-        onTouchTap={onClose}
+        onClick={onClose}
       />,
     ]
   }

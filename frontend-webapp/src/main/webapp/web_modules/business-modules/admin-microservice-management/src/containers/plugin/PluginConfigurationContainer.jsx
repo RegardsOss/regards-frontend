@@ -123,14 +123,14 @@ export class PluginConfigurationContainer extends React.Component {
         key="cancel"
         label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.delete.cancel' })}
         primary
-        onTouchTap={this.closeDeleteDialog}
+        onClick={this.closeDeleteDialog}
       />,
       <FlatButton
         key="delete"
         label={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.delete' })}
         primary
         keyboardFocused
-        onTouchTap={this.handleDeleteClick}
+        onClick={this.handleDeleteClick}
       />,
     ]
     return (

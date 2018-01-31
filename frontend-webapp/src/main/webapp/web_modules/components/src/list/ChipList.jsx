@@ -100,7 +100,7 @@ class ChipList extends React.Component {
     return (
       <I18nProvider messages={messages}>
         <div>
-          <Chip style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
+          <Chip style={this.style.chip} onClick={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
             <Avatar
               backgroundColor={this.style.avatarBackground}
               size={32}
@@ -123,7 +123,7 @@ class ChipList extends React.Component {
                     <MenuItem
                       key={key}
                       primaryText={key}
-                      onTouchTap={() => {
+                      onClick={() => {
                         this.props.onAddEntity(entity)
                         this.handlePopoverClose()
                       }}

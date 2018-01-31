@@ -146,14 +146,14 @@ export class AccessGroupListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'group.list.table.actions.edit' })}
                         entityLinks={accessGroup.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onTouchTap={() => handleEdit(accessGroup.content.name)}
+                        onClick={() => handleEdit(accessGroup.content.name)}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
                       <ResourceIconAction
                         title={intl.formatMessage({ id: 'group.list.table.actions.accessrights' })}
                         resourceDependencies={accessRightDependencies.listAccessGroupAccessRightsDeps}
-                        onTouchTap={() => handleEditAccessRights(accessGroup.content.name)}
+                        onClick={() => handleEditAccessRights(accessGroup.content.name)}
                       >
                         <Settings hoverColor={style.hoverButtonEdit} />
                       </ResourceIconAction>
@@ -161,7 +161,7 @@ export class AccessGroupListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'group.list.table.actions.duplicate' })}
                         entityLinks={accessGroup.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onTouchTap={() => handleDuplicate(accessGroup.content.name)}
+                        onClick={() => handleDuplicate(accessGroup.content.name)}
                       >
                         <ContentCopy hoverColor={style.hoverButtonDuplicate} />
                       </HateoasIconAction>
@@ -169,7 +169,7 @@ export class AccessGroupListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'group.list.table.actions.delete' })}
                         entityLinks={accessGroup.links}
                         hateoasKey={HateoasKeys.DELETE}
-                        onTouchTap={() => this.openDeleteDialog(accessGroup)}
+                        onClick={() => this.openDeleteDialog(accessGroup)}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
                       </HateoasIconAction>

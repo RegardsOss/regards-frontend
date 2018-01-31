@@ -205,7 +205,7 @@ export class DynamicModule extends React.Component {
                 {options}
                 { // add expand collapse option when available
                   expandable ? (
-                    <IconButton key="expand.collapse" onTouchTap={onExpandChange}>
+                    <IconButton key="expand.collapse" onClick={onExpandChange}>
                       {
                         expanded ? <ExpandedIcon /> : <CollapsedIcon />
                       }

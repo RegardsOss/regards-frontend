@@ -164,7 +164,7 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
       <RaisedButton
         key="button"
         label={selectedPluginConfiguration ? selectedPluginConfiguration.content.label : intl.formatMessage({ id: 'plugin.parameter.plugin.choose' })}
-        onTouchTap={this.handleOpenMenu}
+        onClick={this.handleOpenMenu}
         style={pluginParameter.pluginButton}
       />,
       <IconMenu
@@ -190,7 +190,7 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
                   (<MenuItem
                     key={pc.content.id}
                     primaryText={this.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
-                    onTouchTap={() => this.handleChange(pc.content.id)}
+                    onClick={() => this.handleChange(pc.content.id)}
                     checked={pc.content.id === this.state.value}
                   />))
               }
@@ -201,7 +201,7 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
         <MenuItem
           key="none"
           primaryText={intl.formatMessage({ id: 'plugin.parameter.plugin.empty.menu.item' })}
-          onTouchTap={() => this.handleChange(undefined)}
+          onClick={() => this.handleChange(undefined)}
           rightIcon={<Delete />}
         />
       </IconMenu>,

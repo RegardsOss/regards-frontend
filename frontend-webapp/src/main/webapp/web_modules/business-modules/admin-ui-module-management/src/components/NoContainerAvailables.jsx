@@ -51,7 +51,7 @@ class NoContainerAvailables extends React.PureComponent {
           <RaisedButton
             label={<FormattedMessage id="module.no.container.available.configure.layout" />}
             primary
-            onTouchTap={this.props.goToLayoutConfiguration}
+            onClick={this.props.goToLayoutConfiguration}
             style={NoContainerAvailables.buttonStyle}
           />
         </CardText>

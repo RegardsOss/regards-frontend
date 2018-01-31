@@ -41,7 +41,7 @@ class ShowDatedItemSelectionDetailComponent extends React.Component {
     return (
       <IconButton
         disabled={disabled}
-        onTouchTap={onShowDetail}
+        onClick={onShowDetail}
         title={formatMessage({ id: 'order-cart.module.basket.table.show.selection.detail.tooltip' })}
       >
         <DetailIcon />

@@ -43,7 +43,7 @@ class RefreshButtonComponent extends React.Component {
         label={formatMessage({ id: 'table.option.refresh.label' })}
         title={formatMessage({ id: 'table.option.refresh.tooltip' })}
         disabled={!canFetch}
-        onTouchTap={onRefresh}
+        onClick={onRefresh}
       />
     )
   }

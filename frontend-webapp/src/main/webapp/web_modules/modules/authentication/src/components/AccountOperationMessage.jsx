@@ -65,7 +65,7 @@ class AccountOperationMessage extends React.Component {
         </CardText>
         <CardActions style={moduleTheme.action}>
           <RaisedButton
-            onTouchTap={operationAction}
+            onClick={operationAction}
             label={<FormattedMessage id={`${operationId}.option`} />}
             primary
             type="submit"

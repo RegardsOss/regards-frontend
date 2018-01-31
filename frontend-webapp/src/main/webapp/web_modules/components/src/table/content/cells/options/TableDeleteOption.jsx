@@ -83,7 +83,7 @@ class TableDeleteOption extends React.Component {
         hateoasKey={HateoasKeys.DELETE}
         alwaysDisplayforInstanceUser={false}
         title={formatMessage({ id: 'table.delete.option.tooltip' })}
-        onTouchTap={this.onDelete}
+        onClick={this.onDelete}
         {...omit(this.props, keys(TableDeleteOption.propTypes))}
       >
         <DeleteIcon />
@@ -100,7 +100,7 @@ class TableDeleteOption extends React.Component {
     return (
       <IconButton
         title={formatMessage({ id: 'table.delete.option.tooltip' })}
-        onTouchTap={this.onDelete}
+        onClick={this.onDelete}
         {...omit(this.props, keys(TableDeleteOption.propTypes))}
       >
         <DeleteIcon />

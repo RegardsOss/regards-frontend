@@ -97,7 +97,7 @@ export class ThumbnailAttributeRender extends React.Component {
               src={thumbnailURI}
               style={thumbnailCell}
               alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-              onTouchTap={this.handleToggleDialog}
+              onClick={this.handleToggleDialog}
             />) : (
               <NoDataIcon
                 style={noThumbnailIcon}

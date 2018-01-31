@@ -128,7 +128,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContain
             hideAttributeName
             hideComparator
           />
-          <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+          <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )

@@ -113,7 +113,7 @@ class PluginConfigurationPickerComponent extends React.Component {
       <div>
         <RaisedButton
           label={currentPluginConfiguration ? currentPluginConfiguration.label : <FormattedMessage id="component.plugin-parameter.action.choose-plugin" />}
-          onTouchTap={this.handleOpenMenu}
+          onClick={this.handleOpenMenu}
           style={styles.pluginButton}
           disabled={hasNoPlugin}
           title={hasNoPlugin ? this.context.intl.formatMessage({ id: 'component.plugin-parameter.no-plugin-available' }) : null}
@@ -140,7 +140,7 @@ class PluginConfigurationPickerComponent extends React.Component {
                     (<MenuItem
                       key={pluginConfiguration.content.id}
                       primaryText={this.buildMenuItemPrimaryText(pluginConfiguration.content.label, pluginConfiguration.content.version)}
-                      onTouchTap={() => this.handleChange(pluginConfiguration.content.id)}
+                      onClick={() => this.handleChange(pluginConfiguration.content.id)}
                       checked={currentPluginConfiguration && pluginConfiguration.content.id === currentPluginConfiguration.id}
                     />))
                 }
@@ -152,7 +152,7 @@ class PluginConfigurationPickerComponent extends React.Component {
             <MenuItem
               key="none"
               primaryText={this.context.intl.formatMessage({ id: 'component.plugin-parameter.action.reset' })}
-              onTouchTap={() => this.handleChange(null)}
+              onClick={() => this.handleChange(null)}
               rightIcon={<Delete />}
             />
           </ShowableAtRender>

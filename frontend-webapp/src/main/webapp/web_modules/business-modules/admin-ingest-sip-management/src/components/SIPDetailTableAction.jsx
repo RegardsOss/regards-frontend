@@ -49,7 +49,7 @@ class SIPDetailTableAction extends React.Component {
         title={formatMessage({ id: 'sips.list.sip-details.title' })}
         iconStyle={SIPDetailTableAction.iconStyle}
         style={SIPDetailTableAction.buttonStyle}
-        onTouchTap={() => this.props.onViewDetail(sip.sip)}
+        onClick={() => this.props.onViewDetail(sip.sip)}
       >
         <Code />
       </IconButton>

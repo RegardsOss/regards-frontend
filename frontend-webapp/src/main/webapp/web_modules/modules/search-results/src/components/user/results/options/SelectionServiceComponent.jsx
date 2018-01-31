@@ -59,7 +59,7 @@ class SelectionServiceComponent extends React.Component {
     return (
       <FlatButton
         label={service.content.label}
-        onTouchTap={this.onClick}
+        onClick={this.onClick}
         icon={serviceIconComponent}
       />
     )

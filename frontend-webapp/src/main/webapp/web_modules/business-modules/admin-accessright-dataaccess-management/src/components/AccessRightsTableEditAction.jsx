@@ -55,7 +55,7 @@ class AccessRightsTableEditAction extends React.Component {
         title={formatMessage({ id: 'accessright.edit.tooltip' })}
         iconStyle={AccessRightsTableEditAction.iconStyle}
         style={AccessRightsTableEditAction.buttonStyle}
-        onTouchTap={this.onEdit}
+        onClick={this.onEdit}
       >
         <Edit />
       </IconButton>

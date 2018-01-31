@@ -120,11 +120,11 @@ class AttributeConfigurationComponent extends React.Component {
         >
           <MenuItem
             primaryText={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.edit' })}
-            onTouchTap={this.onEditAction}
+            onClick={this.onEditAction}
           />
           <MenuItem
             primaryText={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.remove' })}
-            onTouchTap={this.onDeleteAction}
+            onClick={this.onDeleteAction}
           />
         </IconMenu>
         <CardText

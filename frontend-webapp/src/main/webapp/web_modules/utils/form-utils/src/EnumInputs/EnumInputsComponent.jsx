@@ -109,7 +109,7 @@ export class EnumInputsComponent extends React.Component {
                     type="text"
                     label={this.context.intl.formatMessage({ id: 'form-utils.enumform.valueinput' })}
                   />
-                  <IconButton onTouchTap={() => this.handleDelete(id)}>
+                  <IconButton onClick={() => this.handleDelete(id)}>
                     <Delete />
                   </IconButton>
                 </div>
@@ -134,7 +134,7 @@ export class EnumInputsComponent extends React.Component {
           />
 
           <FlatButton
-            onTouchTap={this.handleCreate}
+            onClick={this.handleCreate}
             secondary
             icon={EnumInputsComponent.addIcon}
           />
