@@ -157,7 +157,7 @@ function BlockHeader(props, context) {
       }}
     >
       <SclAvatar
-        onTouchTap={props.onSelect}
+        onClick={props.onSelect}
         text={props.settingsName}
       />
       <div>

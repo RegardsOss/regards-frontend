@@ -39,6 +39,7 @@ describe('[SEARCH FORM] Testing FormDatasetsTypeSelection', () => {
   it('Should render a FormDatasetsTypeSelection to configure datasets', () => {
     const selectCallback = spy()
     const props = {
+      currentNamespace: 'conf',
       defaultSelected: DATASET_MODEL_TYPE,
       onSelectType: selectCallback,
       disabled: false,

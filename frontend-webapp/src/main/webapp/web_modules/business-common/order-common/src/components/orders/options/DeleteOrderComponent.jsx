@@ -42,7 +42,7 @@ class DeleteSuperficiallyOrderComponent extends React.Component {
     return (
       <IconButton
         disabled={!canDelete}
-        onTouchTap={onDelete}
+        onClick={onDelete}
         title={formatMessage({
           id: isCompleteDelete ?
             'order.list.option.cell.delete.completely.order.tooltip' :

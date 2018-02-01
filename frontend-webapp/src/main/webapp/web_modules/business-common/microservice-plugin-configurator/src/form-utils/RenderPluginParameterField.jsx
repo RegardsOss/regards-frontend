@@ -18,12 +18,13 @@
  **/
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
+import includes from 'lodash/includes'
 import { CommonShapes } from '@regardsoss/shape'
 import { fieldInputPropTypes } from 'redux-form'
 import HelpCircle from 'mdi-material-ui/HelpCircle'
 import { RadioButton } from 'material-ui/RadioButton'
 import SubHeader from 'material-ui/Subheader'
-import RasiedButton from 'material-ui/RaisedButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -69,13 +70,22 @@ export class RenderPluginParameterField extends React.PureComponent {
 
   componentWillMount() {
     const { input, pluginParameterType, complexParameter } = this.props
+    let initParamValues = {}
     if (complexParameter && (isNil(get(input, 'value.value') || isNil(get(input, 'value.dynamic'))))) {
-      input.onChange({
+      initParamValues = {
         dynamic: get(input, 'value.dynamic', false),
         dynamicValues: get(input, 'value.dynamicValues', null),
         name: pluginParameterType.name,
-      })
+      }
+    } else {
+      initParamValues = {
+        name: pluginParameterType.name,
+      }
     }
+    if (get(input, 'value.value', null) !== null) {
+      initParamValues.value = input.value.value
+    }
+    input.onChange(initParamValues)
   }
 
   handleCloseDescription = () => {
@@ -136,7 +146,7 @@ export class RenderPluginParameterField extends React.PureComponent {
     )
     // Display parameter header with his own label if dynamic configuration is enabled
     let header
-    if ((!hideDynamicParameterConf && !forceHideDynamicConf) || component === RenderObjectParameterField || component === RenderMapParameterField) {
+    if ((!hideDynamicParameterConf && !forceHideDynamicConf) || includes([RenderObjectParameterField, RenderMapParameterField, RenderCollectionParameterField], component)) {
       const devaultValueLabel = defaultValue ? formatMessage({ id: 'plugin.parameter.default.value.label' }, { defaultValue }) : null
       header = (
         <div style={headerStyle}>
@@ -267,7 +277,7 @@ export class RenderPluginParameterField extends React.PureComponent {
     const { intl: { formatMessage } } = this.context
     const { pluginParameterType } = this.props
     const actions = [
-      <RasiedButton
+      <RaisedButton
         key="close"
         label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
         primary

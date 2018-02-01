@@ -38,7 +38,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
   })
 
   it('Render properly', () => {
-    const accessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
@@ -46,11 +45,13 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     accessRight.content.dataset.id = dataset.content.id
 
     const props = {
-      onDelete: () => { },
-      onEdit: () => { },
-      accessGroup,
-      accessRights: { accessRight },
-      entity: dataset,
+      entity: {
+        content: {
+          datasetIpId: dataset.content.ipId,
+          dataset: dataset.content,
+          accessRight: accessRight.content,
+        },
+      },
     }
 
     const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })
@@ -58,7 +59,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
   })
 
   it('Render properly a NOT_APPLICABLE value if metadata access is not FULL_ACCESS (NO_ACCESS)', () => {
-    const accessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
@@ -67,11 +67,13 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     accessRight.content.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
 
     const props = {
-      onDelete: () => { },
-      onEdit: () => { },
-      accessGroup,
-      accessRights: { accessRight },
-      entity: dataset,
+      entity: {
+        content: {
+          datasetIpId: dataset.content.ipId,
+          dataset: dataset.content,
+          accessRight: accessRight.content,
+        },
+      },
     }
 
     const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })
@@ -79,7 +81,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
   })
 
   it('Render properly a NOT_APPLICABLE value if metadata access is not FULL_ACCESS (DATASET_ACCESS)', () => {
-    const accessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
@@ -88,11 +89,13 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     accessRight.content.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_ACCESS
 
     const props = {
-      onDelete: () => { },
-      onEdit: () => { },
-      accessGroup,
-      accessRights: { accessRight },
-      entity: dataset,
+      entity: {
+        content: {
+          datasetIpId: dataset.content.ipId,
+          dataset: dataset.content,
+          accessRight: accessRight.content,
+        },
+      },
     }
 
     const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })

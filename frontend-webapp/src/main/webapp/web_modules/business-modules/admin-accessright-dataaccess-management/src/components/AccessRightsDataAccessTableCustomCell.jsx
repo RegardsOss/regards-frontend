@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
 import get from 'lodash/get'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -30,9 +29,8 @@ class AccessRightsDataAccessTableCustomCell extends React.Component {
       label: PropTypes.string,
       id: PropTypes.number,
     }),
-    accessRights: DataManagementShapes.AccessRightList,
     // eslint-disable-next-line react/no-unused-prop-types
-    entity: DataManagementShapes.Dataset,
+    entity: DataManagementShapes.DatasetWithAccessRight,
   }
 
   static contextTypes = {
@@ -43,11 +41,11 @@ class AccessRightsDataAccessTableCustomCell extends React.Component {
   static NOT_APPLICABLE = 'NOT_APPLICABLE'
 
   render() {
-    const accessRight = find(this.props.accessRights, ar => ar.content.dataset.id === this.props.entity.content.id)
-    const metaAccessLevel = get(accessRight, 'content.accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
+    const { accessRight } = this.props.entity.content
+    const metaAccessLevel = get(accessRight, 'accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
     let accessLevel = AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE
     if (metaAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS) {
-      accessLevel = get(accessRight, 'content.dataAccessRight.dataAccessLevel', AccessRightsEnum.DATA_ACCESS_ENUM.NO_ACCESS)
+      accessLevel = get(accessRight, 'dataAccessRight.dataAccessLevel', AccessRightsEnum.DATA_ACCESS_ENUM.NO_ACCESS)
     }
     return (
       <span>{this.context.intl.formatMessage({ id: `accessright.form.data.accessLevel.${accessLevel}` })}</span>

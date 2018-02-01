@@ -56,8 +56,8 @@ class GenerationChainTableEditAction extends React.Component {
         title={formatMessage({ id: 'generation-chain.edit.tooltip' })}
         iconStyle={GenerationChainTableEditAction.iconStyle}
         style={GenerationChainTableEditAction.buttonStyle}
-        onTouchTap={() => this.props.onEdit(chain.id)}
-        disabled={this.isEditable()}
+        onClick={() => this.props.onEdit(chain.id)}
+        disabled={!this.isEditable()}
       >
         <Edit />
       </IconButton>

@@ -106,7 +106,7 @@ class OrderListFiltersComponent extends React.Component {
           <IconButton
             title={formatMessage({ id: 'order.list.clear.filter.tooltip' })}
             style={clearFilterButton.style}
-            onTouchTap={onUserFilterCleared}
+            onClick={onUserFilterCleared}
           >
             <ClearFilter />
           </IconButton>

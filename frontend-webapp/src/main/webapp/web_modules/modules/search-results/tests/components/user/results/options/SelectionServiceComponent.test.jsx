@@ -58,7 +58,7 @@ describe('[Search Results] Testing SelectionServiceComponent', () => {
     assert.equal(innerButton.props().label, props.service.content.label, 'Button label should be service label to render')
     assert.isNotOk(innerButton.props().icon, 'The button should have no icon as the service has none')
     // test events handling
-    assert.equal(innerButton.props().onTouchTap, enzymeWrapper.instance().onClick, 'The button touch tap handler should correcly link')
+    assert.equal(innerButton.props().onClick, enzymeWrapper.instance().onClick, 'The button touch tap handler should correcly link')
     // simulate a click
     enzymeWrapper.instance().onClick()
     assert.equal(spyServiceToRun, props.service, 'Run service event should be correctly propagated')

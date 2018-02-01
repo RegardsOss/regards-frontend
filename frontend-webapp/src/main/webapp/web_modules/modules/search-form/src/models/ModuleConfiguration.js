@@ -30,18 +30,11 @@ const ModuleConfiguration = PropTypes.shape({
     layout: AccessShapes.ContainerContent,
     // Search form criterion configuration
     criterion: AccessShapes.UIPluginConfArray,
-    // Search form resultType configuration
-    resultType: PropTypes.string,
-    // Search form attributes configuration
-    attributes: AccessShapes.AttributeConfigurationArray,
-    // Search form attributes regroupements configuration
-    attributesRegroupements: AccessShapes.AttributesGroupConfigurationArray,
-    // Search results dataset attributes configuration
-    datasetAttributes: AccessShapes.AttributeConfigurationArray,
     // Does search form render for preview or for full use
     preview: PropTypes.bool,
-    // should enable facettes?
-    enableFacettes: PropTypes.bool,
+
+    // Save a search-result configuration
+    searchResult: PropTypes.object,
   }),
 })
 

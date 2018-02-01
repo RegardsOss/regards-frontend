@@ -62,7 +62,7 @@ class FormCriteriaComponent extends React.Component {
    * @param props
    */
   constructor(props) {
-    super()
+    super(props)
     this.state = {
       selectedCriteria: props.criteria ? props.criteria.pluginId : null,
     }
@@ -211,7 +211,7 @@ class FormCriteriaComponent extends React.Component {
           mainButtonType="submit"
           isMainButtonDisabled={pristine || submitting || this.state.pluginLoadError}
           secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.cancel.button.label' })}
-          secondaryButtonTouchTap={this.onCancel}
+          secondaryButtonClick={this.onCancel}
         />
       </form>
     )

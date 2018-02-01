@@ -19,8 +19,9 @@
 
 
 /**
- * Main route to access UI-Confiuration module fonctioanlities
+ * Main route to access UI-Confiuration module fonctionalities
  * @author Sébastien binda
+ * @author Léo Mieulet
  */
 export const dynamicModuleRoot = {
   path: 'modules/:moduleId',
@@ -34,9 +35,24 @@ export const dynamicModuleRoot = {
   },
 }
 
+export const redirectModuleRoute = {
+  path: 'redirect',
+  getComponent(nextState, cb) {
+    require.ensure([], (require) => {
+      const RedirectContainer = require('./containers/RedirectContainer')
+      cb(null, {
+        content: RedirectContainer.default,
+      })
+    })
+  },
+}
+
 const userRouter = {
   path: 'user/:project',
-  childRoutes: [dynamicModuleRoot],
+  childRoutes: [
+    dynamicModuleRoot,
+    redirectModuleRoute,
+  ],
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       const UserApp = require('./containers/UserApp')

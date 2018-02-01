@@ -45,6 +45,7 @@ import FormCriteriaComponent from './FormCriteriaComponent'
  */
 class FormCriterionComponent extends React.Component {
   static propTypes = {
+    currentNamespace: PropTypes.string,
     // Fu,ction to update current redux-form
     changeField: PropTypes.func,
     // Default form criterion list
@@ -110,6 +111,7 @@ class FormCriterionComponent extends React.Component {
    * @param criteria
    */
   updateCriterion = (criteria) => {
+    const { currentNamespace, changeField } = this.props
     let criterion = []
     if (this.state.criteriaToEdit) {
       criterion = concat([], this.props.criterion)
@@ -117,7 +119,7 @@ class FormCriterionComponent extends React.Component {
     } else {
       criterion = this.props.criterion ? concat(this.props.criterion, criteria) : [criteria]
     }
-    this.props.changeField('conf.criterion', criterion)
+    changeField(`${currentNamespace}.criterion`, criterion)
     this.closeCriteriaView()
   }
 
@@ -141,15 +143,18 @@ class FormCriterionComponent extends React.Component {
    * @param criteria
    */
   handleDelete = (criteria, idx) => {
+    const { currentNamespace, changeField } = this.props
+
     const criterion = filter(this.props.criterion, (crit, index) => idx !== index)
-    this.props.changeField('conf.criterion', criterion)
+    changeField(`${currentNamespace}.criterion`, criterion)
   }
 
   /**
    * Reset the criterion configuration
    */
   resetCriterion = () => {
-    this.props.changeField('conf.criterion', this.props.defaultCriterion)
+    const { currentNamespace, changeField } = this.props
+    changeField(`${currentNamespace}.criterion`, this.props.defaultCriterion)
   }
 
   /**
@@ -171,10 +176,10 @@ class FormCriterionComponent extends React.Component {
             <TableRowColumn>{this.getCriteriaAttributes(criteria)}</TableRowColumn>
             <TableRowColumn>{criteria.container}</TableRowColumn>
             <TableRowColumn>
-              <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
+              <IconButton onClick={() => this.handleEdit(criteria, idx)}>
                 <Edit />
               </IconButton>
-              <IconButton onTouchTap={() => this.handleDelete(criteria, idx)}>
+              <IconButton onClick={() => this.handleDelete(criteria, idx)}>
                 <Delete />
               </IconButton>
             </TableRowColumn>
@@ -211,9 +216,9 @@ class FormCriterionComponent extends React.Component {
         </Table>
         <CardActionsComponent
           mainButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.new.button.label' })}
-          mainButtonTouchTap={this.handleNewCriteria}
+          mainButtonClick={this.handleNewCriteria}
           secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.reset.button.label' })}
-          secondaryButtonTouchTap={this.resetCriterion}
+          secondaryButtonClick={this.resetCriterion}
         />
         <Dialog
           title={dialogTitle}
@@ -227,6 +232,7 @@ class FormCriterionComponent extends React.Component {
             layout={this.props.layout}
             selectableAttributes={this.props.selectableAttributes}
             availableCriterion={this.props.availableCriterion}
+            currentNamespace={this.props.currentNamespace}
           />
         </Dialog>
       </CardText>

@@ -77,7 +77,7 @@ export class ParameterArrayAttributeComponent extends React.Component {
         <IconButton
           className="selenium-removeValue"
           title={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.stringarray.action.remove' })}
-          onTouchTap={() => fields.remove(index)}
+          onClick={() => fields.remove(index)}
         >
           <Delete />
         </IconButton>
@@ -94,7 +94,7 @@ export class ParameterArrayAttributeComponent extends React.Component {
         <FlatButton
           className="selenium-addValue"
           icon={ParameterArrayAttributeComponent.iconAdd}
-          onTouchTap={this.addNewValue}
+          onClick={this.addNewValue}
           label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.stringarray.action.add' })}
         />
       </div>)

@@ -41,6 +41,7 @@ const searchFormDefaultLayout = merge({}, DefaultLayout('FormMainContainer'), {
  */
 class FormLayoutComponent extends React.Component {
   static propTypes = {
+    currentNamespace: PropTypes.string,
     defaultLayout: AccessShapes.ContainerContent,
     changeField: PropTypes.func,
   }
@@ -49,12 +50,17 @@ class FormLayoutComponent extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.CONF_LAYOUT = `${props.currentNamespace}.layout`
+  }
+
   componentWillMount() {
     const initialLayout = this.getInitialLayout(this.props.defaultLayout)
     this.setState({
       currentLayout: initialLayout,
     })
-    this.props.changeField('conf.layout', initialLayout)
+    this.props.changeField(this.CONF_LAYOUT, initialLayout)
   }
 
   getInitialLayout = (layout) => {
@@ -63,7 +69,7 @@ class FormLayoutComponent extends React.Component {
   }
 
   changeLayout = (layout) => {
-    this.props.changeField('conf.layout', layout)
+    this.props.changeField(this.CONF_LAYOUT, layout)
     this.setState({
       currentLayout: layout,
     })
@@ -71,7 +77,7 @@ class FormLayoutComponent extends React.Component {
 
   resetLayout = () => {
     const initialLayout = this.getInitialLayout(this.props.defaultLayout)
-    this.props.changeField('conf.layout', initialLayout)
+    this.props.changeField(this.CONF_LAYOUT, initialLayout)
     this.setState({
       currentLayout: initialLayout,
     })
@@ -95,7 +101,7 @@ class FormLayoutComponent extends React.Component {
           <CardActionsComponent
             mainButtonLabel={this.context.intl.formatMessage({ id: 'form.layout.tab.reset' })}
             mainButtonType="reset"
-            mainButtonTouchTap={this.resetLayout}
+            mainButtonClick={this.resetLayout}
           />
         </CardActions>
       </div>

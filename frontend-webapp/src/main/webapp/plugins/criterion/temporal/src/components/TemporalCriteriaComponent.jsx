@@ -241,7 +241,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
           onChange={this.handleChangeMilliseconds}
           style={millisecondsTextFieldStyle}
         />
-        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

@@ -118,7 +118,7 @@ export class EnumerationComponent extends React.Component {
                   fullWidth
                   label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.ENUMERATION.value' })}
                 />
-                <IconButton onTouchTap={() => this.handleDelete(id)}>
+                <IconButton onClick={() => this.handleDelete(id)}>
                   <Delete />
                 </IconButton>
               </div>
@@ -139,7 +139,7 @@ export class EnumerationComponent extends React.Component {
           />
 
           <FlatButton
-            onTouchTap={this.handleCreate}
+            onClick={this.handleCreate}
             secondary
             icon={<Add />}
           />

@@ -347,6 +347,7 @@ class OrderListComponent extends React.Component {
           queryPageSize={pageSize}
           columns={columns}
           emptyComponent={OrderListComponent.EMPTY_COMPONENT}
+          minRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? 0 : null}
         />
       </TableLayout>
     )

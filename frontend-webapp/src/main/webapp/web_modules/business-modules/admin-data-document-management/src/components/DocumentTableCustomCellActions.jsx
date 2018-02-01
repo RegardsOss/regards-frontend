@@ -53,7 +53,7 @@ class DocumentTableCustomCellActions extends React.Component {
             title={this.props.intl.formatMessage({ id: 'document.list.action.delete' })}
             iconStyle={DocumentTableCustomCellActions.iconStyle}
             style={DocumentTableCustomCellActions.buttonStyle}
-            onTouchTap={() => this.props.onDelete(entity, rowIndex, pageSize)}
+            onClick={() => this.props.onDelete(entity, rowIndex, pageSize)}
             entityLinks={entity.links}
             hateoasKey={HateoasKeys.DELETE}
           >
@@ -63,7 +63,7 @@ class DocumentTableCustomCellActions extends React.Component {
             title={this.props.intl.formatMessage({ id: 'document.list.action.edit' })}
             iconStyle={DocumentTableCustomCellActions.iconStyle}
             style={DocumentTableCustomCellActions.buttonStyle}
-            onTouchTap={() => this.props.onEdit(entity.content.id)}
+            onClick={() => this.props.onEdit(entity.content.id)}
             entityLinks={entity.links}
             hateoasKey={HateoasKeys.UPDATE}
           >

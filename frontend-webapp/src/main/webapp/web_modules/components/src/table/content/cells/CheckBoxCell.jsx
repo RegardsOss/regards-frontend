@@ -111,7 +111,7 @@ export class CheckBoxCell extends React.Component {
       <IconButton
         style={styles}
         iconStyle={iconStyle}
-        onTouchTap={this.onToggleRowSelection}
+        onClick={this.onToggleRowSelection}
         title={formatMessage({ id: tooltipKey })}
       >
         <Icon />

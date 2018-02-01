@@ -41,7 +41,7 @@ class AddElementToCartComponent extends React.Component {
     return (
       <IconButton
         title={formatMessage({ id: 'add.to.cart.tooltip' })}
-        onTouchTap={onAddToCart}
+        onClick={onAddToCart}
         disabled={!canAddToCart}
         {...otherProperties}
       >

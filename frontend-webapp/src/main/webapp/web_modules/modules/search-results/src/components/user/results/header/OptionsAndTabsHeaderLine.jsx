@@ -113,14 +113,14 @@ class OptionsAndTabsHeaderLine extends React.Component {
             <FlatButton
               key="datasets.tab"
               label={formatMessage({ id: 'navigation.datasets.label' })}
-              onTouchTap={onShowDatasets}
+              onClick={onShowDatasets}
               icon={<DatasetLibraryIcon />}
               secondary={!this.isDisplayingDataobjects()}
             />
             <FlatButton
               key="dataobjects.tab"
               label={formatMessage({ id: 'navigation.dataobjects.label' })}
-              onTouchTap={onShowDataobjects}
+              onClick={onShowDataobjects}
               icon={<DataLibraryIcon />}
               secondary={this.isDisplayingDataobjects()}
             />
@@ -146,7 +146,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
             <ShowableAtRender show={displayFacettesButton && this.isDisplayingDataobjects()}>
               <FlatButton
                 label={formatMessage({ id: 'navigation.filter.by.facets' })}
-                onTouchTap={onToggleShowFacettes}
+                onClick={onToggleShowFacettes}
                 icon={<ShowFacetsSearchIcon />}
                 secondary={showingFacettes}
               />
@@ -176,7 +176,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
           <TableHeaderOptionGroup>
             <FlatButton
               key="view.type.list"
-              onTouchTap={onShowListView}
+              onClick={onShowListView}
               icon={<ListViewIcon />}
               secondary={this.isInListView()}
               style={viewModeButton}
@@ -184,7 +184,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
             />
             <FlatButton
               key="view.type.table"
-              onTouchTap={onShowTableView}
+              onClick={onShowTableView}
               icon={<TableViewIcon />}
               secondary={this.isInTableView()}
               style={viewModeButton}
@@ -193,7 +193,7 @@ class OptionsAndTabsHeaderLine extends React.Component {
             <ShowableAtRender show={enableQuicklooks && this.isDisplayingDataobjects()}>
               <FlatButton
                 key="view.type.quicklook"
-                onTouchTap={onShowQuicklookView}
+                onClick={onShowQuicklookView}
                 icon={<ImageAlbum />}
                 secondary={this.isInQuicklookView()}
                 style={viewModeButton}

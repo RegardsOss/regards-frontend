@@ -29,7 +29,7 @@ import mapValues from 'lodash/mapValues'
 class OnHoverSwitchIconButton extends React.Component {
   static propTypes = {
     children: PropTypes.element,
-    onTouchTap: PropTypes.arrayOf(PropTypes.func),
+    onClick: PropTypes.arrayOf(PropTypes.func),
   }
 
   constructor(props, context) {
@@ -52,11 +52,11 @@ class OnHoverSwitchIconButton extends React.Component {
   }
 
   render() {
-    const { children, onTouchTap, ...otherProps } = this.props
+    const { children, onClick, ...otherProps } = this.props
     return (
       <span onMouseEnter={this.handleOnMouseEnter} onMouseLeave={this.handleOnMouseLeave}>
         <IconButton
-          onTouchTap={onTouchTap[this.state.usedPropIndex]}
+          onClick={onClick[this.state.usedPropIndex]}
           {...otherProps}
         >
           {children[this.state.usedPropIndex]}

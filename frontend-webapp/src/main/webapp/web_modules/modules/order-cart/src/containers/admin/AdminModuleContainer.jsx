@@ -29,6 +29,7 @@ export class AdminModuleContainer extends React.Component {
       isCreating: PropTypes.bool,
       isDuplicating: PropTypes.bool,
       isEditing: PropTypes.bool,
+      currentNamespace: PropTypes.string,
       // Function to change a field value
       changeField: PropTypes.func.isRequired,
       // Current values of the form
@@ -37,10 +38,11 @@ export class AdminModuleContainer extends React.Component {
   }
 
   render() {
-    const { changeField, isCreating } = this.props.adminForm
+    const { changeField, isCreating, currentNamespace } = this.props.adminForm
     return (<ModuleConfigurationComponent
       changeField={changeField}
       isCreating={isCreating}
+      currentNamespace={currentNamespace}
     />)
   }
 }

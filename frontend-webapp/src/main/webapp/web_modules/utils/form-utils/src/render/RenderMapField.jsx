@@ -19,7 +19,7 @@
 import replace from 'lodash/replace'
 import get from 'lodash/get'
 import isString from 'lodash/isString'
-import remove from 'lodash/remove'
+import filter from 'lodash/filter'
 import find from 'lodash/find'
 import keys from 'lodash/keys'
 import map from 'lodash/map'
@@ -80,7 +80,8 @@ class RenderMapField extends React.Component {
     ...themeContextType,
   }
 
-  static DOT_CHAR = '\\.'
+  static DOT_CHAR_REGEXP = '\\.'
+  static DOT_CHAR = '.'
 
   constructor(props) {
     super(props)
@@ -109,36 +110,35 @@ class RenderMapField extends React.Component {
       })
     } else {
       this.setState({
+        newKeyErrorMessage: null,
         mapKeys: [...mapKeys, newKey],
       })
-      this.displayObject(newKey)
-      this.closeAddDialog()
+      this.onDisplayObject(newKey)
+      this.onCloseAddDialog()
     }
   }
 
   onConfirmDeleteObject = () => {
     const { keyToDelete, mapKeys } = this.state
     const { input } = this.props
-    if (keyToDelete && find(mapKeys, k => k === keyToDelete)) {
+    if (keyToDelete) {
+      const encodedKey = this.getEncodedKey(keyToDelete)
       input.onChange({
-        ...omit(input.value, keyToDelete),
+        ...omit(input.value, encodedKey),
       })
+      const nextKeys = filter(mapKeys, k => k !== encodedKey)
       this.setState({
-        mapKeys: remove(mapKeys, k => k !== keyToDelete),
-      }, () => {
-        if (this.state.mapKeys.length > 0) {
-          this.displayObject(this.state.mapKeys[0])
-        } else {
-          this.displayObject(null)
-        }
+        mapKeys: nextKeys,
+        // update displayed element (select first if there is any after removal)
+        displayedKey: nextKeys.length > 1 ? nextKeys[0] : null,
       })
     }
-    this.closeDeleteDialog()
+    this.onCloseDeleteDialog()
   }
 
   onDeleteObject = (key) => {
     this.setState({
-      keyToDelete: key,
+      keyToDelete: this.getUserReadableKey(key),
     })
   }
 
@@ -158,64 +158,81 @@ class RenderMapField extends React.Component {
       })
     } else {
       this.setState({
+        newKeyErrorMessage: null,
         mapKeys: [...mapKeys, newKey],
       })
       input.onChange({
         ...input.value,
         [newKey]: input.value[keyToDuplicate],
       })
-      this.displayObject(newKey)
-      this.closeDuplicateDialog()
+      this.onDisplayObject(newKey)
+      this.onCloseDuplicateDialog()
     }
   }
 
-  setNewKey = (event, newKey) => this.setState({ newKey: replace(newKey, new RegExp(RenderMapField.DOT_CHAR, 'g'), this.props.charsToReplaceDotsInKeys) })
+  onSetNewKey = (event, newKey) => this.setState({
+    newKey: this.getEncodedKey(newKey),
+  })
 
   /**
    * Callback to display selected object form
    * @param {*} index : Index of the object from the fields props to display
    */
-  displayObject = (key) => {
+  onDisplayObject = (key) => {
     this.setState({
       displayedKey: key,
     })
   }
 
-  openAddDialog = () => {
+  onOpenAddDialog = () => {
     this.setState({
       newKey: null,
       addDialogOpened: true,
     })
   }
 
-  openDuplicateDialog = (keyToDuplicate) => {
+  onOpenDuplicateDialog = (keyToDuplicate) => {
     this.setState({
       keyToDuplicate,
-      newKey: `${keyToDuplicate} (1)`,
+      newKey: `${keyToDuplicate}.1`,
       duplicateDialogOpened: true,
     })
   }
 
-  closeAddDialog = () => {
+  onCloseAddDialog = () => {
     this.setState({
       newKey: null,
       addDialogOpened: false,
     })
   }
 
-  closeDeleteDialog = () => {
+  onCloseDeleteDialog = () => {
     this.setState({
       keyToDelete: null,
     })
   }
 
-  closeDuplicateDialog = () => {
+  onCloseDuplicateDialog = () => {
     this.setState({
       keyToDuplicate: null,
       newKey: null,
       duplicateDialogOpened: false,
     })
   }
+
+  /**
+   * Returns key as it should be shown to user (set back the '.' characters)
+   * @param {string} key key
+   * @return {string} key as shown to user
+   */
+  getUserReadableKey = key => replace(key, new RegExp(this.props.charsToReplaceDotsInKeys, 'g'), RenderMapField.DOT_CHAR)
+
+  /**
+   * Returns encoded key to be used in redux form ('.' chars conflics with the subpath system)
+   * @param {string} key key
+   * @return {string} key as used in forms, without '.' chars
+   */
+  getEncodedKey = key => replace(key, new RegExp(RenderMapField.DOT_CHAR_REGEXP, 'g'), this.props.charsToReplaceDotsInKeys)
 
   renderAddObjectDialog = () => {
     const { newKeyErrorMessage, addDialogOpened, newKey } = this.state
@@ -233,7 +250,7 @@ class RenderMapField extends React.Component {
       <RaisedButton
         key="cancel"
         label={formatMessage({ id: 'render.array-object.cancel.button' })}
-        onClick={this.closeAddDialog}
+        onClick={this.onCloseAddDialog}
       />,
     ]
 
@@ -243,12 +260,14 @@ class RenderMapField extends React.Component {
         actions={actions}
         modal={false}
         open={addDialogOpened}
-        onRequestClose={this.closeAddDialog}
+        onRequestClose={this.onCloseAddDialog}
       >
         <TextField
           type="text"
           hintText={mapKeyLabel || formatMessage({ id: 'render.map-object.add.new.dialog.key.label' })}
-          onChange={this.setNewKey}
+          value={'' || this.getUserReadableKey(newKey)}
+          onChange={this.onSetNewKey}
+          fullWidth
         />
         <FormErrorMessage>{newKeyErrorMessage}</FormErrorMessage>
       </Dialog>
@@ -264,7 +283,7 @@ class RenderMapField extends React.Component {
           dialogType={ConfirmDialogComponentTypes.DELETE}
           title={formatMessage({ id: 'render.array-object.delete.confirm.title' }, { index: keyToDelete })}
           onConfirm={this.onConfirmDeleteObject}
-          onClose={this.closeDeleteDialog}
+          onClose={this.onCloseDeleteDialog}
         />
       )
     }
@@ -287,7 +306,7 @@ class RenderMapField extends React.Component {
       <RaisedButton
         key="cancel"
         label={formatMessage({ id: 'render.array-object.cancel.button' })}
-        onClick={this.closeDuplicateDialog}
+        onClick={this.onCloseDuplicateDialog}
       />,
     ]
 
@@ -297,13 +316,14 @@ class RenderMapField extends React.Component {
         actions={actions}
         modal={false}
         open={duplicateDialogOpened}
-        onRequestClose={this.closeDuplicateDialog}
+        onRequestClose={this.onCloseDuplicateDialog}
       >
         <TextField
           type="text"
           hintText={mapKeyLabel || formatMessage({ id: 'render.map-object.add.new.dialog.key.label' })}
-          onChange={this.setNewKey}
-          defaultValue={newKey}
+          onChange={this.onSetNewKey}
+          value={this.getUserReadableKey(newKey)}
+          fullWidth
         />
         <FormErrorMessage>{newKeyErrorMessage}</FormErrorMessage>
       </Dialog>
@@ -315,13 +335,19 @@ class RenderMapField extends React.Component {
    * @param {*} index : Index of the object from the fields props to render
    */
   renderListItem = (key) => {
-    const { intl: { formatMessage }, moduleTheme: { arrayField: { errorIconStyle } } } = this.context
-    const { meta, disabled, charsToReplaceDotsInKeys } = this.props
+    const {
+      intl: { formatMessage },
+      moduleTheme: {
+        mapField: {
+          item: { textStyle, errorIconStyle },
+        },
+      },
+    } = this.context
+    const { meta, disabled } = this.props
     const iconButtonElement = (
       <IconButton
         touch
-        tooltip={formatMessage({ id: 'render.array-object.options.title' })}
-        tooltipPosition="bottom-left"
+        title={formatMessage({ id: 'render.array-object.options.title' })}
       >
         <MoreVertIcon />
       </IconButton>
@@ -335,7 +361,7 @@ class RenderMapField extends React.Component {
           {formatMessage({ id: 'render.array-object.delete.button' })}
         </MenuItem>
         <MenuItem
-          onClick={() => this.openDuplicateDialog(key)}
+          onClick={() => this.onOpenDuplicateDialog(key)}
         >
           {formatMessage({ id: 'render.array-object.duplicate.button' })}
         </MenuItem>
@@ -346,13 +372,15 @@ class RenderMapField extends React.Component {
     if (get(meta, `error.${key}`, null)) {
       leftIcon = <ErrorIcon color={errorIconStyle.color} />
     }
+    const keyText = this.getUserReadableKey(key)
     return (
       <ListItem
         key={`${key}`}
         value={key}
+        title={keyText}
         rightIconButton={disabled ? null : rightIconMenu}
         leftIcon={leftIcon}
-        primaryText={replace(key, new RegExp(charsToReplaceDotsInKeys, 'g'), '.')}
+        primaryText={<div style={textStyle}>{keyText}</div>}
       />
     )
   }
@@ -370,10 +398,9 @@ class RenderMapField extends React.Component {
 
     const { displayedKey, mapKeys } = this.state
     const {
-      mapValueFieldComponent, input, mapValueFieldProps, meta, disabled, mapKeyLabel, charsToReplaceDotsInKeys,
+      mapValueFieldComponent, input, mapValueFieldProps, meta, disabled, mapKeyLabel,
     } = this.props
-
-    const key = replace(displayedKey, new RegExp(RenderMapField.DOT_CHAR, 'g'), charsToReplaceDotsInKeys)
+    const key = this.getEncodedKey(displayedKey)
     const fieldForm = displayedKey !== null ? (
       <Field
         name={`${input.name}.${key}`}
@@ -381,6 +408,7 @@ class RenderMapField extends React.Component {
         {...mapValueFieldProps}
         validate={ValidationHelpers.required}
         disabled={disabled}
+        fullWidth
       />) : null
     return (
       <Card>
@@ -396,7 +424,7 @@ class RenderMapField extends React.Component {
                 <SelectableList
                   style={leftListStyle}
                   defaultValue={displayedKey}
-                  onSelect={this.displayObject}
+                  onSelect={this.onDisplayObject}
                 >
                   {map(mapKeys, (localKey, idx) => this.renderListItem(localKey))}
                 </SelectableList>
@@ -406,7 +434,7 @@ class RenderMapField extends React.Component {
                     label={formatMessage({ id: 'render.array-object.add.button' })}
                     fullWidth
                     primary
-                    onClick={this.openAddDialog}
+                    onClick={this.onOpenAddDialog}
                     icon={<AddBoxIcon />}
                     style={leftButtonStyle}
                   />

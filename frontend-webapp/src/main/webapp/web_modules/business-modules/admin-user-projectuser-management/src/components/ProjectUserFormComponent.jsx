@@ -191,7 +191,7 @@ export class ProjectUserFormComponent extends React.Component {
             {groupName}
           </Chip>))}
         <ShowableAtRender show={this.state.tempGroups.length !== Object.keys(this.props.groupList).length}>
-          <Chip className="selenium-addChip" style={this.style.chip} onTouchTap={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
+          <Chip className="selenium-addChip" style={this.style.chip} onClick={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
             <Avatar
               backgroundColor={this.style.avatarBackground}
               size={32}
@@ -215,7 +215,7 @@ export class ProjectUserFormComponent extends React.Component {
               >
                 <MenuItem
                   primaryText={group.content.name}
-                  onTouchTap={() => this.handleAddGroup(group.content.name)}
+                  onClick={() => this.handleAddGroup(group.content.name)}
                 />
               </ShowableAtRender>
             ))}

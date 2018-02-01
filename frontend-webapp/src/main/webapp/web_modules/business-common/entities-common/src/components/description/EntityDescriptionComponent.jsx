@@ -193,7 +193,7 @@ class EntityDescriptionComponent extends React.Component {
     const actions = [<FlatButton
       key="close.button"
       label={this.context.intl.formatMessage({ id: 'entities.common.close.button' })}
-      onTouchTap={onClose}
+      onClick={onClose}
     />]
     return (
       <PositionedDialog

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,23 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import values from 'lodash/values'
-
+ */
+import Schemas from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * File entity definition for files associated to each dataobject returned by catalog microservice.
+ * Redux actions to handle DatasetWithAccessRight entities from backend server.
  * @author Sébastien Binda
  */
-const OBJECT_LINKED_FILE_ENUM = {
-  RAWDATA: 'RAWDATA',
-  THUMBNAIL: 'THUMBNAIL',
-  DOCUMENT: 'DOCUMENT',
-}
-
-const OBJECT_LINKED_FILE_TYPES = values(OBJECT_LINKED_FILE_ENUM)
-
-module.exports = {
-  OBJECT_LINKED_FILE_ENUM,
-  OBJECT_LINKED_FILE_TYPES,
+export default class DatasetWithAccessRightActions extends BasicPageableActions {
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/access-rights/group/{accessGroupName}`,
+      schemaTypes: {
+        ENTITY: Schemas.DATASET_WITH_ACCESS_RIGHT,
+        ENTITY_ARRAY: Schemas.DATASET_WITH_ACCESS_RIGHT_ARRAY,
+      },
+    })
+  }
 }

@@ -196,12 +196,12 @@ class SIPSessionComponent extends React.Component {
               label={intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
               icon={<Close />}
               disabled={!this.state.filters.nameFilter && !this.state.filters.toFilter && !this.state.filters.fromFilter}
-              onTouchTap={this.handleClearFilters}
+              onClick={this.handleClearFilters}
             />
             <FlatButton
               label={intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
               icon={<Filter />}
-              onTouchTap={this.handleFilter}
+              onClick={this.handleFilter}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
@@ -274,7 +274,7 @@ class SIPSessionComponent extends React.Component {
                   title={intl.formatMessage({
                     id: 'sips.session.table.actions.errors',
                   })}
-                  onTouchTap={() => this.props.handleOpen(props.entity.content.id, true)}
+                  onClick={() => this.props.handleOpen(props.entity.content.id, true)}
                 >
                   <Error />
                 </IconButton>
@@ -292,7 +292,7 @@ class SIPSessionComponent extends React.Component {
         DateValueRender,
       ),
       TableColumnBuilder.buildOptionsColumn(
-        '',
+        'options',
         [
           {
             OptionConstructor: TableDeleteOption,
@@ -308,7 +308,7 @@ class SIPSessionComponent extends React.Component {
                 title={intl.formatMessage({
                   id: 'sips.session.table.actions.list',
                 })}
-                onTouchTap={() => this.props.handleOpen(props.entity.content.id)}
+                onClick={() => this.props.handleOpen(props.entity.content.id)}
               >
                 <Arrow />
               </IconButton>
@@ -331,7 +331,8 @@ class SIPSessionComponent extends React.Component {
             pageActions={sessionActions}
             pageSelectors={sessionSelectors}
             pageSize={pageSize}
-            displayedRowsCount={12}
+            minRowCount={0}
+            maxRowCount={10}
             columns={columns}
             requestParams={appliedFilters}
             emptyComponent={emptyComponent}
@@ -357,7 +358,6 @@ class SIPSessionComponent extends React.Component {
 
   render() {
     const { intl } = this.context
-
     return (
       <Card>
         <CardTitle
@@ -368,7 +368,7 @@ class SIPSessionComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={intl.formatMessage({ id: 'sips.session.button.back' })}
-            mainButtonTouchTap={this.props.onBack}
+            mainButtonClick={this.props.onBack}
           />
         </CardActions>
         {this.renderDeleteConfirmDialog()}

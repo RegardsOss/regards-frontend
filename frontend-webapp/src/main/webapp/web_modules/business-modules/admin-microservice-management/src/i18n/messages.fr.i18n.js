@@ -30,6 +30,7 @@ const messages = Object.assign({
   'microservice-management.rs-storage.description': 'Configuration du service de stockage des données physiques.',
   'microservice-management.rs-ingest.description': 'Configuration du service de gestion d\'ajouts de données aux travers des SIPs',
   'microservice-management.rs-order.description': 'Configuration du service de gestion des commandes utilisateur',
+  'microservice-management.rs-dataprovider.description': 'Configuration du service d\'ajout automatique de données. Ce service génère des SIPs depuis un emplacement de fourniture de données. Les SIPs ainsi générés, sont ensuite envoyés au microservice rs-ingest.',
 
   'microservice-management.configuration.tooltip': 'Configurer',
   'microservice-management.plugins.tooltip': 'Plugins',

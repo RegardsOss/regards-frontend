@@ -192,7 +192,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={formatMessage({ id: 'processing-chain.form.create.action.cancel' })}
-              secondaryButtonTouchTap={this.props.onBack}
+              secondaryButtonClick={this.props.onBack}
             />
           </CardActions>
         </Card>

@@ -101,7 +101,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonTouchTap={() => { handleDone(currentConnection) }}
+              mainButtonClick={() => { handleDone(currentConnection) }}
               mainButtonLabel={
                 <FormattedMessage
                   id="datasource.form.create.action.next"
@@ -119,7 +119,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'datasource.form.create.action.connection' })}
               secondary
               style={styleButton}
-              onTouchTap={this.goToConnection}
+              onClick={this.goToConnection}
             />
           </div>
         </Card>

@@ -41,6 +41,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   static propTypes = {
+    currentNamespace: PropTypes.string,
     // Callback to update the list of selected entities
     changeField: PropTypes.func,
     // Current type (dataset, models, all)
@@ -53,6 +54,15 @@ class FormDatasetsConfigurationComponent extends React.Component {
     disableChangeDatasets: PropTypes.bool,
   }
 
+  constructor(props) {
+    super(props)
+    const { currentNamespace } = props
+
+    this.CONF_SELECTED_DATASETS = `${currentNamespace}.datasets.selectedDatasets`
+    this.CONF_SELECTED_MODELS = `${currentNamespace}.datasets.selectedModels`
+    this.CONF_TYPE = `${currentNamespace}.datasets.type`
+  }
+
   state = {
     type: this.props.defaultType ? this.props.defaultType : DatasetSelectionTypes.ALL_CATALOG_TYPE,
     selectedDataset: this.props.defaultSelectedDatasets,
@@ -60,19 +70,21 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }
 
   onDatasetSelection = (dataset) => {
+    const { changeField } = this.props
     const newSelectedDatasets = xor(this.state.selectedDataset, [dataset.ipId])
     this.setState({
       selectedDataset: newSelectedDatasets,
     })
-    this.props.changeField('conf.datasets.selectedDatasets', newSelectedDatasets)
+    changeField(this.CONF_SELECTED_DATASETS, newSelectedDatasets)
   }
 
   onDatasetModelSelection = (model) => {
+    const { changeField } = this.props
     const newSelectedModels = xor(this.state.selectedDatasetModels, [model.id])
     this.setState({
       selectedDatasetModels: newSelectedModels,
     })
-    this.props.changeField('conf.datasets.selectedModels', newSelectedModels)
+    changeField(this.CONF_SELECTED_MODELS, newSelectedModels)
   }
 
   getSelectedDatasetsObjects = () => map(this.state.selectedDataset, dataset => ({
@@ -84,45 +96,52 @@ class FormDatasetsConfigurationComponent extends React.Component {
   }))
 
   selectType = (event, value, input) => {
+    const { changeField } = this.props
     this.setState({
       type: value,
     })
-    this.props.changeField('conf.datasets.type', value)
+    changeField(this.CONF_TYPE, value)
   }
 
   unselectAll = () => {
+    const { changeField } = this.props
     this.setState({
       selectedDataset: [],
     })
-    this.props.changeField('conf.datasets.selectedDatasets', [])
+    changeField(this.CONF_SELECTED_DATASETS, [])
   }
 
   unselectAllModels = () => {
+    const { changeField } = this.props
     this.setState({
       selectedDatasetModels: [],
     })
-    this.props.changeField('conf.datasets.selectedModels', [])
+    changeField(this.CONF_SELECTED_MODELS, [])
   }
 
   resetSelection = () => {
+    const { changeField } = this.props
     this.setState({
       selectedDataset: this.props.defaultSelectedDatasets,
     })
-    this.props.changeField('conf.datasets.selectedDatasets', this.props.defaultSelectedDatasets)
+    changeField(this.CONF_SELECTED_DATASETS, this.props.defaultSelectedDatasets)
   }
 
   resetModelsSelection = () => {
+    const { changeField } = this.props
+
     this.setState({
       selectedDatasetModels: this.props.defaultSelectedDatasetModels,
     })
-    this.props.changeField('conf.datasets.selectedModels', this.props.defaultSelectedDatasetModels)
+    changeField(this.CONF_SELECTED_MODELS, this.props.defaultSelectedDatasetModels)
   }
 
   resetAll = () => {
+    const { changeField } = this.props
     this.resetSelection()
     this.resetModelsSelection()
     this.selectType(null, DatasetSelectionTypes.ALL_CATALOG_TYPE)
-    this.props.changeField('conf.datasets.type', DatasetSelectionTypes.ALL_CATALOG_TYPE)
+    changeField(this.CONF_TYPE, DatasetSelectionTypes.ALL_CATALOG_TYPE)
   }
 
   renderType() {
@@ -178,7 +197,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   renderResetAllSelection = () => (
     <RaisedButton
       label={this.context.intl.formatMessage({ id: 'form.datasets.reset.all' })}
-      onTouchTap={this.resetAll}
+      onClick={this.resetAll}
       secondary
     />
   )
@@ -195,6 +214,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
           defaultSelected={this.state.type}
           onSelectType={this.selectType}
           disabled={this.props.disableChangeDatasets}
+          currentNamespace={this.props.currentNamespace}
         />
         {this.renderType()}
       </CardText>

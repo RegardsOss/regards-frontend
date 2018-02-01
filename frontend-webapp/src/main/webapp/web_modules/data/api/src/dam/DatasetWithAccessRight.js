@@ -16,33 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ScanDirectoryContent } from './ScanDirectory'
 
-/**
- * Describes a MetaFile shape and related sub objects
- * @author Sébastien Binda
- */
 
-/** A dated selection item shape */
-const MetaFileContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  mandatory: PropTypes.bool.isRequired,
-  fileNamePattern: PropTypes.string.isRequired,
-  scanDirectories: PropTypes.arrayOf(ScanDirectoryContent),
-  invalidFolder: PropTypes.string.isRequired,
-  fileType: PropTypes.string, // mime type
-  comment: PropTypes.string,
+import { Schema, arrayOf } from 'normalizr'
+
+const DatasetWithAccessRightConfiguration = {
+  entityKey: 'datasetIpId',
+  normalizrKey: 'dataset-with-accessright',
+}
+
+const datasetWithAccessRight = new Schema(DatasetWithAccessRightConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[DatasetWithAccessRightConfiguration.entityKey]
+  ,
 })
 
-const MetaFile = PropTypes.shape({
-  content: MetaFileContent,
-})
-const MetaFileList = PropTypes.objectOf(MetaFile)
-const MetaFileArray = PropTypes.arrayOf(MetaFile)
-
+// Schemas for API responses.
 module.exports = {
-  MetaFileList,
-  MetaFileArray,
-  MetaFileContent,
-  MetaFile,
+  DATASET_WITH_ACCESS_RIGHT: datasetWithAccessRight,
+  DATASET_WITH_ACCESS_RIGHT_ARRAY: arrayOf(datasetWithAccessRight),
+  DatasetWithAccessRightConfiguration,
 }

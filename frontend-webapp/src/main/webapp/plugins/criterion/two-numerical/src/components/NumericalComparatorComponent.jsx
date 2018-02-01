@@ -98,7 +98,7 @@ export class NumericalComparatorComponent extends React.Component {
       <div>
         <RaisedButton
           label={EnumNumericalComparator.getLabel(this.props.value)}
-          onTouchTap={this.handleOpenMenu}
+          onClick={this.handleOpenMenu}
           style={comparatorButtonStyle}
         />
         <IconMenu

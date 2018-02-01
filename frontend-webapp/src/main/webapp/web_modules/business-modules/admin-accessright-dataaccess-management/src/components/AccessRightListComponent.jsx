@@ -16,6 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import Refresh from 'material-ui/svg-icons/navigation/refresh'
+import Filter from 'mdi-material-ui/Filter'
+import Close from 'mdi-material-ui/Close'
+import TextField from 'material-ui/TextField'
+import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
@@ -26,26 +31,26 @@ import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import {
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
-  MainActionButtonComponent,
   NoContentComponent,
+  TableColumnBuilder, TableHeaderLine, TableLayout, TableHeaderOptionsArea, TableHeaderOptionGroup,
   PageableInfiniteTableContainer,
   ShowableAtRender,
-  TableColumnBuilder,
-  TableLayout,
   CardActionsComponent,
 } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { tableActions, tableSelectors } from '../clients/TableClient'
-import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
+import { datasetWithAccessRightActions, datasetWithAccessRightSelectors } from '../clients/DatasetWithAccessRightClient'
 import AccessRightsMetadataAccessTableCustomCell from './AccessRightsMetadataAccessTableCustomCell'
 import AccessRightsDataAccessTableCustomCell from './AccessRightsDataAccessTableCustomCell'
 import AccessRightsTableEditAction from './AccessRightsTableEditAction'
 import AccessRightsTableDeleteAction from './AccessRightsTableDeleteAction'
 import AccessRightFormComponent from './AccessRightFormComponent'
+import messages from '../i18n'
+import styles from '../styles'
 
 const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
@@ -54,12 +59,10 @@ const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButt
  *
  * @author Sébastien Binda
  */
-class AccessRightListComponent extends React.Component {
+export class AccessRightListComponent extends React.Component {
   static propTypes = {
     // Access group to configure.
-    accessGroup: DataManagementShapes.AccessGroup.isRequired,
-    // Access rights for the given access group
-    accessRights: DataManagementShapes.AccessRightList,
+    accessGroup: DataManagementShapes.AccessGroupContent.isRequired,
     // Availables plugin configuration for custom access rights delegated to plugins
     pluginConfigurationList: CommonShapes.PluginConfigurationList.isRequired,
     // Availables plugin definitions for custom access rights delegated to plugins
@@ -68,11 +71,12 @@ class AccessRightListComponent extends React.Component {
     deleteAccessRight: PropTypes.func.isRequired,
     // Callback to submit AccessRight(s) configuration (updates and creation)
     submitAccessRights: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    selectedDatasets: PropTypes.objectOf(PropTypes.object).isRequired,
+    selectedDatasetsWithAccessright: PropTypes.objectOf(PropTypes.object).isRequired,
     // Callback to navigate to dataset creation
     navigateToCreateDataset: PropTypes.func.isRequired,
     backURL: PropTypes.string.isRequired,
+    setFilters: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -94,6 +98,8 @@ class AccessRightListComponent extends React.Component {
     // Set to define a new AccessRight for the given dataset into the AccessRight configuration dialog.
     datasetAccessRightToEdit: null,
     submitError: false,
+    entityToDelete: null,
+    filters: {},
   }
 
 
@@ -130,7 +136,7 @@ class AccessRightListComponent extends React.Component {
   openDeleteDialog = (entity) => {
     this.setState({
       deleteDialogOpened: true,
-      entityToDelete: entity.content,
+      entityToDelete: entity,
     })
   }
 
@@ -148,6 +154,15 @@ class AccessRightListComponent extends React.Component {
       accessRightToEdit: accessRight,
       datasetAccessRightToEdit: dataset,
     })
+  }
+
+
+  handleClearFilters = () => {
+    const clearedFilters = {}
+    this.setState({
+      filters: clearedFilters,
+    })
+    this.props.setFilters(clearedFilters, true)
   }
 
   handleSubmitResult = (result) => {
@@ -171,15 +186,24 @@ class AccessRightListComponent extends React.Component {
       this.props.submitAccessRights([this.state.datasetAccessRightToEdit], accessRightValues).then(this.handleSubmitResult)
     } else {
       // Many accessRight to submit. One for each selected datasets.
-      this.props.submitAccessRights(values(this.props.selectedDatasets), accessRightValues).then(this.handleSubmitResult)
+      this.props.submitAccessRights(values(this.props.selectedDatasetsWithAccessright), accessRightValues).then(this.handleSubmitResult)
     }
+  }
+
+  changeDatasetFilter = (event, newValue) => {
+    const filters = {
+      ...this.state.filters,
+      datasetLabel: newValue,
+    }
+    this.props.setFilters(filters)
+    this.setState({ filters })
   }
 
   /**
    * Render the dialog containing the AccessRight Configuration form.
    */
   renderAccessRightFormDialog = () => {
-    const selectedDatasets = this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : values(this.props.selectedDatasets)
+    const selectedDatasetsWithAccessright = this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : values(this.props.selectedDatasetsWithAccessright)
     return (
       <ShowableAtRender
         show={this.state.editAccessDialogOpened}
@@ -195,8 +219,7 @@ class AccessRightListComponent extends React.Component {
             onCancel={this.closeEditDialog}
             onSubmit={this.handleSubmitAccessRights}
             errorMessage={this.state.submitError ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
-            // If a unique accessright is in edition only submit the one. Else, submit for all selected datasets
-            selectedDatasets={selectedDatasets}
+            selectedDatasetsWithAccessright={selectedDatasetsWithAccessright}
             currentAccessRight={this.state.accessRightToEdit}
             pluginConfigurationList={this.props.pluginConfigurationList}
             pluginMetaDataList={this.props.pluginMetaDataList}
@@ -227,9 +250,70 @@ class AccessRightListComponent extends React.Component {
     )
   }
 
+  renderFilters = () => {
+    const { intl, moduleTheme: { filter } } = this.context
+    return (
+      <TableHeaderLine>
+        <TableHeaderOptionsArea reducible>
+          <TableHeaderOptionGroup>
+            <TextField
+              style={filter.fieldStyle}
+              hintText={intl.formatMessage({ id: 'accessright.table.filter.dataset.label' })}
+              value={get(this.state, 'filters.datasetLabel', '')}
+              onChange={this.changeDatasetFilter}
+            />
+            <FlatButton
+              label={this.context.intl.formatMessage({ id: 'accessright.table.filter.clear.button' })}
+              icon={<Close />}
+              disabled={!get(this.state, 'filters.datasetLabel', undefined)}
+              onClick={this.handleClearFilters}
+            />
+            <FlatButton
+              label={this.context.intl.formatMessage({ id: 'accessright.table.filter.button' })}
+              icon={<Filter />}
+              onClick={this.props.onRefresh}
+            />
+          </TableHeaderOptionGroup>
+        </TableHeaderOptionsArea>
+      </TableHeaderLine>
+    )
+  }
+
+  renderActionsLine = () => {
+    const { selectedDatasetsWithAccessright } = this.props
+    const { intl: { formatMessage } } = this.context
+    let configureButton = null
+    if (selectedDatasetsWithAccessright && selectedDatasetsWithAccessright.length > 0) {
+      configureButton = (
+        <FlatButton
+          icon={<Edit />}
+          disabled={values(selectedDatasetsWithAccessright).length === 0}
+          label={formatMessage({ id: 'accessright.edit.multiples.button.label' })}
+          onClick={() => this.openEditDialog()}
+        />
+      )
+    }
+    return (
+      <TableHeaderLine>
+        <TableHeaderOptionsArea>
+          {configureButton}
+        </TableHeaderOptionsArea>
+        <TableHeaderOptionsArea>
+          <TableHeaderOptionGroup>
+            <FlatButton
+              label={this.context.intl.formatMessage({ id: 'accessright.table.refresh.button' })}
+              icon={<Refresh />}
+              onClick={this.props.onRefresh}
+            />
+          </TableHeaderOptionGroup>
+        </TableHeaderOptionsArea>
+      </TableHeaderLine>
+    )
+  }
+
   render() {
     const {
-      accessRights, accessGroup, navigateToCreateDataset, selectedDatasets, backURL,
+      accessGroup, navigateToCreateDataset, backURL,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
@@ -237,26 +321,24 @@ class AccessRightListComponent extends React.Component {
     // Table columns to display
     const columns = [
       // 1 - selection column
-      TableColumnBuilder.buildSelectionColumn('', false, datasetSelectors, tableActions, tableSelectors, true, fixedColumnWidth),
+      TableColumnBuilder.buildSelectionColumn('', false, datasetWithAccessRightSelectors, tableActions, tableSelectors, true, fixedColumnWidth),
       // 2 - label column
-      TableColumnBuilder.buildSimplePropertyColumn('column.label', formatMessage({ id: 'accessright.table.dataset.label' }), 'content.label'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.label', formatMessage({ id: 'accessright.table.dataset.label' }), 'content.dataset.label'),
       // 3 - Meta access level column
       TableColumnBuilder.buildSimpleColumnWithCell('column.meta.access.level', formatMessage({ id: 'accessright.form.meta.accessLevel' }), {
         Constructor: AccessRightsMetadataAccessTableCustomCell, // custom cell
-        props: { accessRights },
       }),
       // 4 - Data access level
       TableColumnBuilder.buildSimpleColumnWithCell('column.data.access.level', formatMessage({ id: 'accessright.form.data.accessLevel' }), {
         Constructor: AccessRightsDataAccessTableCustomCell, // custom cell
-        props: { accessRights },
       }),
       // 5 - Options
       TableColumnBuilder.buildOptionsColumn('', [{
         OptionConstructor: AccessRightsTableEditAction,
-        optionProps: { accessRights, onEdit: this.openEditDialog },
+        optionProps: { onEdit: this.openEditDialog },
       }, {
         OptionConstructor: AccessRightsTableDeleteAction,
-        optionProps: { accessRights, onDelete: this.openDeleteDialog },
+        optionProps: { onDelete: this.openDeleteDialog },
       }], true, fixedColumnWidth),
     ]
 
@@ -264,7 +346,7 @@ class AccessRightListComponent extends React.Component {
       <FlatButtonWithResourceDisplayControl
         resourceDependencies={datasetDependencies.addDependencies}
         label={formatMessage({ id: 'accessright.no.dataset.subtitle' })}
-        onTouchTap={navigateToCreateDataset}
+        onClick={navigateToCreateDataset}
         primary
       />
     )
@@ -276,28 +358,31 @@ class AccessRightListComponent extends React.Component {
       />
     )
 
+    const pathParams = {
+      accessGroupName: this.props.accessGroup.name,
+    }
+
     return (
       <Card>
         <CardTitle
-          title={formatMessage({ id: 'accessright.title' }, { name: accessGroup.content.name })}
-          subtitle={formatMessage({ id: 'accessright.subtitle' }, { name: accessGroup.content.name })}
+          title={formatMessage({ id: 'accessright.title' }, { name: accessGroup.name })}
+          subtitle={formatMessage({ id: 'accessright.subtitle' }, { name: accessGroup.name })}
         />
         <CardText>
           {this.renderAccessRightFormDialog()}
           {this.renderDeleteConfirmDialog()}
-          <MainActionButtonComponent
-            disabled={values(selectedDatasets).length === 0}
-            label={formatMessage({ id: 'accessright.edit.multiples.button.label' })}
-            onTouchTap={() => this.openEditDialog()}
-          />
           <TableLayout>
+            {this.renderFilters()}
+            {this.renderActionsLine()}
             <PageableInfiniteTableContainer
               name="access-rights-datasets-table"
-              pageActions={datasetActions}
-              pageSelectors={datasetSelectors}
+              minRowCount={0}
+              pageActions={datasetWithAccessRightActions}
+              pageSelectors={datasetWithAccessRightSelectors}
               tableActions={tableActions}
               pageSize={AccessRightListComponent.PAGE_SIZE}
               columns={columns}
+              pathParams={pathParams}
               emptyComponent={emptyComponent}
               displayColumnsHeader
             />
@@ -319,4 +404,4 @@ class AccessRightListComponent extends React.Component {
   }
 }
 
-export default AccessRightListComponent
+export default withModuleStyle(styles)(withI18n(messages)(AccessRightListComponent))

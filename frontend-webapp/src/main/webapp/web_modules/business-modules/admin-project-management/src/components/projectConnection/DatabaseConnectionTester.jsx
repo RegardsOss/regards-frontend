@@ -97,7 +97,7 @@ class DatabaseConnectionTester extends React.Component {
     })
   }
 
-  handleSnackbarActionTouchTap = () => {
+  handleSnackbarActionClick = () => {
     this.setState({
       snackBarOpen: false,
     })
@@ -110,7 +110,7 @@ class DatabaseConnectionTester extends React.Component {
     const testButton = (<FlatButton
       label={this.context.intl.formatMessage({ id: 'database.connectionTester.start' })}
       icon={<PlayArrow />}
-      onTouchTap={this.handleTouchTap}
+      onClick={this.handleTouchTap}
     />)
 
     const switchLabels = [
@@ -127,7 +127,7 @@ class DatabaseConnectionTester extends React.Component {
         label={switchLabels}
         icon={switchIcons}
         primary={switchPrimary}
-        onTouchTap={switchActions}
+        onClick={switchActions}
       />)
 
     const switchWarnLabels = [
@@ -141,7 +141,7 @@ class DatabaseConnectionTester extends React.Component {
         label={switchWarnLabels}
         icon={switchWarnIcons}
         labelStyle={switchWarnStyles}
-        onTouchTap={switchActions}
+        onClick={switchActions}
       />)
 
     const switchErrorLabels = [
@@ -155,7 +155,7 @@ class DatabaseConnectionTester extends React.Component {
         label={switchErrorLabels}
         icon={switchErrorIcons}
         secondary={switchPrimary}
-        onTouchTap={switchActions}
+        onClick={switchActions}
       />)
 
     const pendingProgress = <ConnectionTesterProgress value={this.state.completed} />
@@ -169,7 +169,7 @@ class DatabaseConnectionTester extends React.Component {
         })}
         autoHideDuration={4000}
         onRequestClose={this.handleSnackbarRequestClose}
-        onActionClick={this.handleSnackbarActionTouchTap}
+        onActionClick={this.handleSnackbarActionClick}
         action="OK"
       />)
 

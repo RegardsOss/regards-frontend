@@ -40,9 +40,14 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessRightsTableEditAction', (
     const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
 
     const props = {
-      entity: dataset,
       onEdit: () => { },
-      accessRights: { accessRight },
+      entity: {
+        content: {
+          datasetIpId: dataset.content.ipId,
+          dataset: dataset.content,
+          accessRight: accessRight.content,
+        },
+      },
     }
     shallow(<AccessRightsTableEditAction {...props} />, { context })
   })

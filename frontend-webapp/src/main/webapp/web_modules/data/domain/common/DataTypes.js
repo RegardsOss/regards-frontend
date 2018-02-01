@@ -16,27 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
 /**
- * Describes a ScanDirectory shape and related sub objects
- * @author Sébastien Binda
+ * Possible data types
  */
-
-/** A dated selection item shape */
-const ScanDirectoryContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  scanDir: PropTypes.string.isRequired,
-})
-
-const ScanDirectory = PropTypes.shape({
-  content: ScanDirectoryContent,
-})
-const ScanDirectoryList = PropTypes.objectOf(ScanDirectory)
-const ScanDirectoryArray = PropTypes.arrayOf(ScanDirectory)
+const DataTypesEnum = {
+  RAWDATA: 'RAWDATA',
+  QUICKLOOK_SD: 'QUICKLOOK_SD',
+  QUICKLOOK_MD: 'QUICKLOOK_MD',
+  QUICKLOOK_HD: 'QUICKLOOK_HD',
+  DOCUMENT: 'DOCUMENT',
+  THUMBNAIL: 'THUMBNAIL',
+  OTHER: 'OTHER',
+  AIP: 'AIP',
+}
 
 module.exports = {
-  ScanDirectoryList,
-  ScanDirectoryArray,
-  ScanDirectoryContent,
-  ScanDirectory,
+  DataTypesEnum,
+  DataTypes: values(DataTypesEnum),
 }

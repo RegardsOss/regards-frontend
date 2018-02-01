@@ -18,7 +18,6 @@
  **/
 import flatMap from 'lodash/flatMap'
 import get from 'lodash/get'
-import FlatButton from 'material-ui/FlatButton'
 import Checkbox from 'material-ui/Checkbox'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
@@ -28,6 +27,7 @@ import AddElementToCartContainer from '../../../../containers/user/results/optio
 import EntityDescriptionContainer from '../../../../containers/user/results/options/EntityDescriptionContainer'
 import DownloadEntityFileContainer from '../../../../containers/user/results/options/DownloadEntityFileContainer'
 import OneElementServicesContainer from '../../../../containers/user/results/options/OneElementServicesContainer'
+import SearchRelatedEntitiesComponent from '../options/SearchRelatedEntitiesComponent'
 
 /**
  * Shape for render data properties (packed to be efficient at render time)
@@ -80,7 +80,7 @@ class ListViewEntityCellComponent extends React.Component {
       entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, onSelectEntity, onSearchEntity, onAddToCart,
       displayLabel, displayVertically,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme } = this.context
+    const { moduleTheme } = this.context
     const {
       rootStyles, labelGroup, checkboxStyles, labelStyles, optionsBarVerticalStyles, optionsBarHorizontalStyles, option,
     } = moduleTheme.user.listViewStyles.title
@@ -98,15 +98,10 @@ class ListViewEntityCellComponent extends React.Component {
               style={checkboxStyles}
             />) : null}
           <ShowableAtRender show={displayLabel}>
-            <FlatButton
-              label={entity.content.label}
-              title={onSearchEntity ? formatMessage({ id: 'results.search.entity' }) : null}
-              labelStyle={labelStyles}
-              onTouchTap={onSearchEntity}
-              disabled={!onSearchEntity}
-            />
+            <h2 style={labelStyles}>
+              {entity.content.label}
+            </h2>
           </ShowableAtRender>
-
         </div>
         {/* B. Options bar */}
         <div style={optionsBarStyles}>
@@ -124,7 +119,16 @@ class ListViewEntityCellComponent extends React.Component {
             style={option.buttonStyles}
             iconStyle={option.iconStyles}
           />
-          {/* B-3. services, when enabled */}
+          {/* B-3 Show dataset content when enabled */}
+          <ShowableAtRender show={!!onSearchEntity}>
+            <SearchRelatedEntitiesComponent
+              entity={entity}
+              onSearchEntity={onSearchEntity}
+              style={option.buttonStyles}
+              iconStyle={option.iconStyles}
+            />
+          </ShowableAtRender>
+          {/* B-4. services, when enabled */}
           <ShowableAtRender show={servicesEnabled && !!services.length}>
             <OneElementServicesContainer
               entity={entity}
@@ -132,7 +136,7 @@ class ListViewEntityCellComponent extends React.Component {
               iconStyle={option.iconStyles}
             />
           </ShowableAtRender>
-          {/* B-4. add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
+          {/* B-5. add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
           {onAddToCart ? (
             <AddElementToCartContainer
               entity={entity}
@@ -170,7 +174,7 @@ class ListViewEntityCellComponent extends React.Component {
   renderAsColumns = (gridAttributeModels) => {
     const { muiTheme, moduleTheme } = this.context
     const { labelCellStyle, valueCellStyle } = moduleTheme.user.listViewStyles
-    const { listRowsByColumnCount } = muiTheme['components:infinite-table']
+    const { listRowsByColumnCount } = muiTheme['module:search-results']
     return gridAttributeModels.reduce((columnsAcc, model, index) => {
       // 1 - Render label and value
       const labelCell = <div key={model.key} style={labelCellStyle}>{model.label}</div>

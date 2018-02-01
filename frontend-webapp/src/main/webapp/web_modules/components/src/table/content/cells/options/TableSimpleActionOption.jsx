@@ -50,7 +50,7 @@ class TableSimpleActionOption extends React.Component {
     return (
       <IconButton
         title={title || null}
-        onTouchTap={this.onClick}
+        onClick={this.onClick}
       >
         <Icon />
       </IconButton>

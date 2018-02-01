@@ -32,7 +32,11 @@ describe('[Menu] Testing AdminContainer', () => {
     assert.isDefined(AdminContainer)
   })
   it('should render properly', () => {
-    const props = {}
+    const props = {
+      adminForm: {
+        currentNamespace: 'conf',
+      },
+    }
     shallow(<AdminContainer {...props} />, { context })
   })
 })

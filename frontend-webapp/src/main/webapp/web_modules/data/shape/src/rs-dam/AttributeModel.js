@@ -21,7 +21,7 @@ import { FragmentContent } from './Fragment'
 const AttributeModelContent = PropTypes.shape({
   id: PropTypes.number,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   // only provided when fetching attrModel list
   jsonPath: PropTypes.string,
   description: PropTypes.string,

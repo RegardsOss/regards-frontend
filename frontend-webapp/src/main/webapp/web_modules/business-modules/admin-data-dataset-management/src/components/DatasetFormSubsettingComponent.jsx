@@ -136,9 +136,9 @@ export class DatasetFormSubsettingComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.action.next' })}
-            mainButtonTouchTap={() => { onSubmit(this.state.subsetting) }}
+            mainButtonClick={() => { onSubmit(this.state.subsetting) }}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.action.cancel' })}
-            secondaryButtonTouchTap={handleBack}
+            secondaryButtonClick={handleBack}
           />
         </CardActions>
       </Card>

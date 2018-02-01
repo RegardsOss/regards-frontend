@@ -23,19 +23,8 @@ import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/te
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccessGroupAccessRightsContainer } from '../../src/containers/AccessGroupAccessRightsContainer'
 import AccessRightListContainer from '../../src/containers/AccessRightListContainer'
-import AccessRightEnum from '../../src/components/AccessRightsEnum'
 
 const context = buildTestContext()
-
-const formValues = {
-  access: AccessRightEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS,
-  dataAccess: AccessRightEnum.DATA_ACCESS_ENUM.AUTHORIZED,
-  quality: {
-    max: 0,
-    min: 0,
-    level: AccessRightEnum.QUALITY_LEVEL_ENUM.ACCEPTED,
-  },
-}
 
 /**
  * Tests
@@ -52,7 +41,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
   })
 
   it('Render properly a loading component', () => {
-    const fetchAccessRightsSpy = stub().returns({})
     const fetchAccessGroupSpy = stub().returns({})
     const fetchPluginConfsSpy = stub().returns({})
     const fetchPluginMetaSpy = stub().returns({})
@@ -64,21 +52,13 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       // from mapStateToProps
       accessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
-      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
       pluginConfigurationList: {},
       pluginMetaDataList: {},
 
       // from mapDispatchToProps
-      fetchAccessRights: fetchAccessRightsSpy,
       fetchAccessGroup: fetchAccessGroupSpy,
       fetchPluginConfigurationList: fetchPluginConfsSpy,
       fetchPluginMetaDataList: fetchPluginMetaSpy,
-      updateAccessRight: () => {
-      },
-      createAccessRight: () => {
-      },
-      deleteAccessRight: () => {
-      },
     }
     const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, {
       context,
@@ -94,7 +74,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
   })
 
   it('Render properly', () => {
-    const fetchAccessRightsSpy = stub().returns({})
     const fetchAccessGroupSpy = stub().returns({})
     const fetchPluginConfsSpy = stub().returns({})
     const fetchPluginMetaSpy = stub().returns({})
@@ -106,21 +85,13 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       },
       // from mapStateToProps
       accessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
-      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
       pluginConfigurationList: {},
       pluginMetaDataList: {},
 
       // from mapDispatchToProps
-      fetchAccessRights: fetchAccessRightsSpy,
       fetchAccessGroup: fetchAccessGroupSpy,
       fetchPluginConfigurationList: fetchPluginConfsSpy,
       fetchPluginMetaDataList: fetchPluginMetaSpy,
-      updateAccessRight: () => {
-      },
-      createAccessRight: () => {
-      },
-      deleteAccessRight: () => {
-      },
     }
 
     const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, {
@@ -140,186 +111,5 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
     const component = loader.find(AccessRightListContainer)
     assert.isTrue(component.length === 1, 'There should be a AccessRightListContainer rendered')
     assert.equal(component.props().accessGroup, props.accessGroup, 'The accessGroup passed to AccessRightListContainer should the same as AccessGroupAccessRightsContainer')
-  })
-
-
-  it('Check submit a new accessRight', () => {
-    const fetchAccessRightsSpy = stub().returns({})
-    const createSpy = stub().returns({})
-    const updateSpy = stub().returns({})
-
-    const testAccessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
-    const props = {
-      // from router
-      params: {
-        project: 'lambda',
-        accessgroup: 'test',
-      },
-      // from mapStateToProps
-      accessGroup: testAccessGroup,
-      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
-
-      // from mapDispatchToProps
-      fetchAccessRights: fetchAccessRightsSpy,
-      fetchAccessGroup: () => {
-      },
-      fetchPluginConfigurationList: () => {
-      },
-      fetchPluginMetaDataList: () => {
-      },
-      updateAccessRight: updateSpy,
-      createAccessRight: createSpy,
-      deleteAccessRight: () => {
-      },
-    }
-
-    const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, {
-      context,
-      lifecycleExperimental: true,
-    })
-
-    const dataset = {
-      content: {
-        id: 10000,
-        label: 'test',
-      },
-    }
-
-    // Test create a new accessRightForm by using a dataset no defined in the datasets of the dump accessGroups
-    assert.isFalse(createSpy.calledOnce, 'No creation should be fired at this state')
-    assert.isFalse(updateSpy.calledOnce, 'No update should be fired at this state')
-    enzymeWrapper.instance().onSubmit([dataset], formValues)
-    assert.isTrue(createSpy.calledOnce, 'There should a creation of a new accessRights')
-    assert.isFalse(updateSpy.calledOnce, 'No update should be fired at this state')
-  })
-
-  it('Check submit a update of an existing accessRight', () => {
-    const fetchAccessRightsSpy = stub().returns({})
-    const createSpy = stub().returns({})
-    const updateSpy = stub().returns({})
-
-    const testAccessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
-    const props = {
-      // from router
-      params: {
-        project: 'lambda',
-        accessgroup: 'test',
-      },
-      // from mapStateToProps
-      accessGroup: testAccessGroup,
-      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
-
-      // from mapDispatchToProps
-      fetchAccessRights: fetchAccessRightsSpy,
-      fetchAccessGroup: () => {
-      },
-      fetchPluginConfigurationList: () => {
-      },
-      fetchPluginMetaDataList: () => {
-      },
-      updateAccessRight: updateSpy,
-      createAccessRight: createSpy,
-      deleteAccessRight: () => {
-      },
-    }
-
-    const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, {
-      context,
-      lifecycleExperimental: true,
-    })
-
-    const dataset = {
-      content: {
-        id: 1,
-        label: 'test',
-      },
-    }
-
-    // Test create a new accessRightForm by using a dataset no defined in the datasets of the dump accessGroups
-    assert.isFalse(createSpy.calledOnce, 'No creation should be fired at this state')
-    assert.isFalse(updateSpy.calledOnce, 'No update should be fired at this state')
-    enzymeWrapper.instance().onSubmit([dataset], formValues)
-    assert.isFalse(createSpy.calledOnce, 'There should a creation of a new accessRights')
-    assert.isTrue(updateSpy.calledOnce, 'No update should be fired at this state')
-  })
-
-
-  it('Check submit a bundle of accessRights with updates and creations', () => {
-    const fetchAccessRightsSpy = stub().returns({})
-    const createSpy = stub().returns({})
-    const updateSpy = stub().returns({})
-
-    const testAccessGroup = DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup')
-    const props = {
-      // from router
-      params: {
-        project: 'lambda',
-        accessgroup: 'test',
-      },
-      // from mapStateToProps
-      accessGroup: testAccessGroup,
-      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
-      pluginConfigurationList: {},
-      pluginMetaDataList: {},
-
-      // from mapDispatchToProps
-      fetchAccessGroup: () => {
-      },
-      fetchPluginConfigurationList: () => {
-      },
-      fetchPluginMetaDataList: () => {
-      },
-      fetchAccessRights: fetchAccessRightsSpy,
-      updateAccessRight: updateSpy,
-      createAccessRight: createSpy,
-      deleteAccessRight: () => {
-      },
-    }
-
-    const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, {
-      context,
-      lifecycleExperimental: true,
-    })
-
-    const datasets = [{
-      content: {
-        id: 1,
-        label: 'test',
-      },
-    }, {
-      content: {
-        id: 4,
-        label: 'test',
-      },
-    },
-    {
-      content: {
-        id: 10000,
-        label: 'newTest',
-      },
-    },
-    {
-      content: {
-        id: 10001,
-        label: 'newTest',
-      },
-    },
-    {
-      content: {
-        id: 10002,
-        label: 'newTest',
-      },
-    }]
-
-    // Test create a new accessRightForm by using a dataset no defined in the datasets of the dump accessGroups
-    assert.isFalse(createSpy.calledOnce, 'No creation should be fired at this state')
-    assert.isFalse(updateSpy.calledOnce, 'No update should be fired at this state')
-    enzymeWrapper.instance().onSubmit(datasets, formValues)
-    assert.equal(createSpy.callCount, 3, 'There should 3 creation of a new accessRights')
-    assert.equal(updateSpy.callCount, 2, 'There should 2 updates of existing accessRights')
   })
 })

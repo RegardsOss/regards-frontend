@@ -44,6 +44,7 @@ class ModuleFormComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     applicationId: PropTypes.string.isRequired,
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
       isCreating: PropTypes.bool,
       isDuplicating: PropTypes.bool,
       isEditing: PropTypes.bool,
@@ -228,7 +229,7 @@ class ModuleFormComponent extends React.Component {
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || invalid}
                 secondaryButtonLabel={this.context.intl.formatMessage({ id: 'module.form.cancel.button' })}
-                secondaryButtonTouchTap={this.props.onBack}
+                secondaryButtonClick={this.props.onBack}
               />
             </CardActions>
           </Card>

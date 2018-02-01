@@ -44,7 +44,7 @@ export class TableSelectAllOption extends React.Component {
       [<CheckBoxIcon key="1" />, 'table.filter.deselect.only.quicklook.label']
     return (
       <FlatButton
-        onTouchTap={onToggleDisplayOnlyQuicklook}
+        onClick={onToggleDisplayOnlyQuicklook}
         icon={icon}
         title={this.context.intl.formatMessage({ id: titleKey })}
         label={this.context.intl.formatMessage({ id: 'table.filter.only.quicklook.label' })}

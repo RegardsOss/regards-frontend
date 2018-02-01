@@ -87,7 +87,7 @@ class SIPListComponent extends React.Component {
         chainFilter: null,
         dateFilter: undefined,
         stateFilter: null,
-        sipIdFilter: null,
+        sipIdFilter: '',
       },
       sipToView: null,
       sipToDelete: null,
@@ -166,7 +166,7 @@ class SIPListComponent extends React.Component {
       dateFilter: undefined,
       chainFilter: undefined,
       stateFilter: undefined,
-      sipIdFilter: undefined,
+      sipIdFilter: '',
     }
     this.setState({
       filters: clearedFilters,
@@ -296,7 +296,8 @@ class SIPListComponent extends React.Component {
             pageActions={sipActions}
             pageSelectors={sipSelectors}
             pageSize={pageSize}
-            displayedRowsCount={12}
+            minRowCount={0}
+            maxRowCount={10}
             columns={columns}
             requestParams={this.props.appliedFilters}
             emptyComponent={emptyComponent}
@@ -325,9 +326,10 @@ class SIPListComponent extends React.Component {
               {map(chains, chain => <MenuItem key={chain.content.name} value={chain.content.name} primaryText={chain.content.name} />)}
             </SelectField>
             <TextField
-              style={filter.fieldStyle}
-              hintText={intl.formatMessage({ id: 'sips.list.filters.sipid.label' })}
+              value={get(this.state, 'filters.sipIdFilter', '')}
               onChange={this.changeSipIdFilter}
+              hintText={intl.formatMessage({ id: 'sips.list.filters.sipid.label' })}
+              style={filter.fieldStyle}
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
@@ -369,13 +371,18 @@ class SIPListComponent extends React.Component {
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
             icon={<Close />}
-            disabled={!get(this.state, 'filters.dateFilter', undefined) && !get(this.state, 'filters.stateFilter', undefined) && !get(this.state, 'filters.chainFilter', undefined)}
-            onTouchTap={this.handleClearFilters}
+            disabled={
+              !get(this.state, 'filters.dateFilter') &&
+              !get(this.state, 'filters.stateFilter') &&
+              !get(this.state, 'filters.chainFilter') &&
+              !get(this.state, 'filters.sipIdFilter')
+            }
+            onClick={this.handleClearFilters}
           />
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
             icon={<Filter />}
-            onTouchTap={this.handleFilter}
+            onClick={this.handleFilter}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>

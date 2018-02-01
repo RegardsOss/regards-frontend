@@ -16,32 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { MetaFileContent } from './MetaFile'
-
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { DatasetWithAccessRightConfiguration } from '@regardsoss/api'
+import DatasetWithAccessRightActions from './DatasetWithAccessRightActions'
 /**
- * Describes a MetaProduct shape and related sub objects
+ * Redux store reducer for
+ */
+/**
+ * Redux Reducer for  DatasetWithAccessRight entities
  * @author Sébastien Binda
  */
+class DatasetWithAccessRightReducer extends BasicPageableReducers {
+  constructor(namespace) {
+    super(DatasetWithAccessRightConfiguration, new DatasetWithAccessRightActions(namespace))
+  }
+}
 
-/** A dated selection item shape */
-const MetaProductContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
-  checksumAlgorithm: PropTypes.string.isRequired,
-  cleanOriginalFile: PropTypes.bool.isRequired,
-  metaFiles: PropTypes.arrayOf(MetaFileContent).isRequired,
-  ingestChain: PropTypes.string.isRequired,
-})
-
-const MetaProduct = PropTypes.shape({
-  content: MetaProductContent,
-})
-const MetaProductList = PropTypes.objectOf(MetaProduct)
-const MetaProductArray = PropTypes.arrayOf(MetaProduct)
-
-module.exports = {
-  MetaProductList,
-  MetaProductArray,
-  MetaProductContent,
-  MetaProduct,
+export default (namespace) => {
+  const instance = new DatasetWithAccessRightReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

@@ -71,7 +71,7 @@ class DataQuicklookComponent extends React.Component {
     return (
       <div
         style={imageContainerStyle}
-        onTouchTap={this.toggleZoom}
+        onClick={this.toggleZoom}
       >
         <img
           src={imageSrc}

@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessGroup, AccessGroupList } from './AccessGroup'
+import { AccessGroup, AccessGroupContent, AccessGroupList } from './AccessGroup'
 import { AccessRight, AccessRightContent, AccessRightList } from './AccessRight'
 import { AttributeModelContent, AttributeModel, AttributeModelList, AttributeModelArray } from './AttributeModel'
 import { Collection, CollectionList, CollectionArray } from './Collection'
 import { Connection, ConnectionList } from './Connection'
 import { Dataset, DatasetContent, DatasetList } from './Dataset'
+import { DatasetWithAccessRight, DatasetWithAccessRightContent, DatasetWithAccessRightList } from './DatasetWithAccessRight'
 import { Datasource, DatasourceList } from './Datasource'
 import { DataFile } from './DataFile'
 import Entity from './Entity'
@@ -35,6 +36,7 @@ import { CrawlerDatasource, CrawlerDatasourceContent, CrawlerDatasourceList, Cra
 
 module.exports = {
   AccessGroup,
+  AccessGroupContent,
   AccessGroupList,
 
   AccessRight,
@@ -58,6 +60,10 @@ module.exports = {
   Dataset,
   DatasetContent,
   DatasetList,
+
+  DatasetWithAccessRight,
+  DatasetWithAccessRightContent,
+  DatasetWithAccessRightList,
 
   Document,
   DocumentContent,

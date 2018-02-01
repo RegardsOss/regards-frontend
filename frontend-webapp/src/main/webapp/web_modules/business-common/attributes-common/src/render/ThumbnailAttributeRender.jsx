@@ -20,7 +20,7 @@ import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import FlatButton from 'material-ui/FlatButton'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
-import { CatalogDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -84,22 +84,28 @@ export class ThumbnailAttributeRender extends React.Component {
 
   render() {
     // in resolved attributes, get the first data, if any
-    const { intl: { formatMessage }, moduleTheme: { thumbnailCell } } = this.context
-    const thumbnailURI = get(this.props.value, `${CatalogDomain.OBJECT_LINKED_FILE_ENUM.THUMBNAIL}[0].uri`, null)
-    if (thumbnailURI) {
-      return (
-        <div>
-          <img
-            src={thumbnailURI}
-            style={thumbnailCell}
-            alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-            onTouchTap={this.handleToggleDialog}
-          />
-          {this.displayFullSize(thumbnailURI)}
-        </div>
-      )
-    }
-    return <NoDataIcon />
+    const { intl: { formatMessage }, moduleTheme: { thumbnailRoot, thumbnailCell, noThumbnailIcon } } = this.context
+    const thumbnailURI = get(this.props.value, `${CommonDomain.DataTypesEnum.THUMBNAIL}[0].uri`, null)
+    return (
+      <div
+        style={thumbnailRoot}
+        title={thumbnailURI ? null : formatMessage({ id: 'attribute.thumbnail.alt' })}
+      >
+        {
+          thumbnailURI ? (
+            <img
+              src={thumbnailURI}
+              style={thumbnailCell}
+              alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
+              onClick={this.handleToggleDialog}
+            />) : (
+              <NoDataIcon
+                style={noThumbnailIcon}
+              />)
+        }
+        {this.displayFullSize(thumbnailURI)}
+      </div>
+    )
   }
 }
 

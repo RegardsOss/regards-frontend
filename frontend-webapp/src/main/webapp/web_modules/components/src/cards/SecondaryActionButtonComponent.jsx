@@ -33,7 +33,7 @@ SecondaryActionButtonComponent.propTypes = {
   url: PropTypes.string,
 
   style: PropTypes.objectOf(PropTypes.string),
-  onTouchTap: PropTypes.func,
+  onClick: PropTypes.func,
   isVisible: PropTypes.bool,
   disabled: PropTypes.bool,
 }

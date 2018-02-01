@@ -80,7 +80,7 @@ class SelectionItemDetailComponent extends React.Component {
     const actions = [<FlatButton
       key="close.button"
       label={this.context.intl.formatMessage({ id: 'order-cart.module.basket.items.group.selection.detail.close' })}
-      onTouchTap={onClose}
+      onClick={onClose}
     />]
 
     // prepare title acording with configuration

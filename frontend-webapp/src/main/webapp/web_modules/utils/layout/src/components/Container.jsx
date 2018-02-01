@@ -174,7 +174,7 @@ class Container extends React.Component {
       if (this.props.mainContainer === false) {
         deleteAction = (<MenuItem
           key="delete"
-          onTouchTap={() => {
+          onClick={() => {
             this.props.onContainerClick(DELETE_ACTION, this.props.container)
           }}
           primaryText={<FormattedMessage id="container.configuration.delete.section" />}
@@ -201,14 +201,14 @@ class Container extends React.Component {
                 >
                   <MenuItem
                     key="add"
-                    onTouchTap={() => {
+                    onClick={() => {
                       this.props.onContainerClick(ADD_ACTION, this.props.container)
                     }}
                     primaryText={<FormattedMessage id="container.configuration.add.subsection" />}
                   />
                   <MenuItem
                     key="edit"
-                    onTouchTap={() => {
+                    onClick={() => {
                       this.props.onContainerClick(EDIT_ACTION, this.props.container)
                     }}
                     primaryText={<FormattedMessage id="container.configuration.edit.section" />}

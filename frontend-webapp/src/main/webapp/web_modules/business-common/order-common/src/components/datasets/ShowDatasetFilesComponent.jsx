@@ -39,7 +39,7 @@ class ShowDatasetFilesComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        onTouchTap={onShowDatasetFiles}
+        onClick={onShowDatasetFiles}
         title={formatMessage({ id: 'datasets.list.option.cell.detail.title' })}
       >
         <DetailIcon />

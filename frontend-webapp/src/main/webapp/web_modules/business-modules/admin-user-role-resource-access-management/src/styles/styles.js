@@ -56,6 +56,41 @@ const styles = theme => ({
     },
     class: 'col-sm-75',
   },
+  microserviceSplitPanel: {
+    layoutStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      border: '1px solid',
+      borderColor: theme.palette.borderColor,
+    },
+    titleStyle: {
+      width: '100%',
+    },
+    contentStyle: {
+      display: 'flex',
+      flexDirection: 'row',
+      minHeight: '196px',
+      maxHeight: '484px',
+      width: '100%',
+    },
+    leftColumnStyle: {
+      borderRight: '1px solid',
+      borderColor: theme.palette.borderColor,
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    leftListStyle: {
+      flexGrow: '1',
+      overflow: 'auto',
+    },
+    leftButtonStyle: {
+      flexGrow: '0',
+    },
+    rightColumnStyle: {
+      overflow: 'auto',
+    },
+  },
 })
 
 export default styles

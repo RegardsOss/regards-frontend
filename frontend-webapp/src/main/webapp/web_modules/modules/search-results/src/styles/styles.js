@@ -64,9 +64,7 @@ const styles = theme => ({
         },
         labelStyles: {
           fontSize: '1.3em',
-          textTransform: 'none',
-          paddingLeft: 8,
-          paddingRight: 10,
+          padding: '8px 8px',
           color: theme.palette.textColor,
         },
         optionsBarHorizontalStyles: {

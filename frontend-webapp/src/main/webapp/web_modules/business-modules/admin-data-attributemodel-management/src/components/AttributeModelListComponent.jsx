@@ -127,6 +127,7 @@ export class AttributeModelListComponent extends React.Component {
               <TableRow>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.fragment" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.name" /></TableHeaderColumn>
+                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.label" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.description" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.type" /></TableHeaderColumn>
                 <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.actions" /></TableHeaderColumn>
@@ -141,12 +142,13 @@ export class AttributeModelListComponent extends React.Component {
                 <TableRow key={attrmodel.content.id}>
                   <TableRowColumn>{this.getFragmentName(attrmodel)}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.name}</TableRowColumn>
+                  <TableRowColumn>{attrmodel.content.label}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.description}</TableRowColumn>
                   <TableRowColumn>{attrmodel.content.type}</TableRowColumn>
                   <TableRowColumn>
                     <HateoasIconAction
                       entityLinks={attrmodel.links}
-                      onTouchTap={() => handleEdit(attrmodel.content.id)}
+                      onClick={() => handleEdit(attrmodel.content.id)}
                       hateoasKey={HateoasKeys.UPDATE}
                       title={intl.formatMessage({ id: 'attrmodel.list.action.edit' })}
                     >
@@ -155,7 +157,7 @@ export class AttributeModelListComponent extends React.Component {
 
                     <HateoasIconAction
                       entityLinks={attrmodel.links}
-                      onTouchTap={() => this.openDeleteDialog(attrmodel)}
+                      onClick={() => this.openDeleteDialog(attrmodel)}
                       hateoasKey={HateoasKeys.DELETE}
                       title={intl.formatMessage({ id: 'attrmodel.list.action.delete' })}
                     >

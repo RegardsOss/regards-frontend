@@ -73,13 +73,13 @@ export class LicenseDisplayContainer extends React.Component {
     <FlatButton
       key="license.refuse"
       label={this.context.intl.formatMessage({ id: 'license.refuse' })}
-      onTouchTap={this.onRefuse}
+      onClick={this.onRefuse}
     />,
     <FlatButton
       key="license.accept"
       label={this.context.intl.formatMessage({ id: 'license.accept' })}
       primary
-      onTouchTap={this.onAccept}
+      onClick={this.onAccept}
     />,
   ]
 

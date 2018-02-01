@@ -92,20 +92,20 @@ class ProjectAboutPageContainer extends React.Component {
       actionButtons.push(<FlatButton
         key="project.about.page.display"
         label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
-        onTouchTap={this.onCacheProjectAboutPageDisplayed}
+        onClick={this.onCacheProjectAboutPageDisplayed}
       />)
     } else {
       actionButtons.push(<FlatButton
         key="project.about.page.hide"
         label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
-        onTouchTap={this.onCacheProjectAboutPageHidden}
+        onClick={this.onCacheProjectAboutPageHidden}
       />)
     }
     actionButtons.push(<FlatButton
       key="project.about.page.ok"
       label={this.context.intl.formatMessage({ id: 'project.about.page.ok' })}
       primary
-      onTouchTap={this.onClose}
+      onClick={this.onClose}
     />)
     return actionButtons
   }
@@ -124,12 +124,12 @@ class ProjectAboutPageContainer extends React.Component {
     // render: is there a button provided or should we used module default one?
     const runtimeButton = buttonComponent ?
       // use provided button with added callback
-      React.cloneElement(buttonComponent, { onTouchTap: this.forceOpen }) : ( // create default button
+      React.cloneElement(buttonComponent, { onClick: this.forceOpen }) : ( // create default button
         <FloatingActionButton
           style={button}
           mini
           title={formatMessage({ id: 'module.defaault.button.tooltip' })}
-          onTouchTap={this.forceOpen}
+          onClick={this.forceOpen}
         >
           <HomeIcone />
         </FloatingActionButton>)

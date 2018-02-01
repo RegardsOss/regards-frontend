@@ -18,10 +18,9 @@
  **/
 import PluginParameterDynamicValue from './PluginParameterDynamicValue'
 
-
 const PluginParameterContent = PropTypes.shape({
   name: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.object]),
+  value: PropTypes.any,
   dynamic: PropTypes.bool,
   dynamicsValues: PropTypes.arrayOf(PluginParameterDynamicValue),
 })

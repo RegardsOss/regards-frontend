@@ -75,6 +75,7 @@ const messages = Object.assign({
   'no.download.tooltip': 'Aucun téléchargement disponible',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Détail',
+  'search.related.objects': 'Voir le contenu du jeu',
   'add.to.cart.tooltip': 'Ajouter l\'élément à mon panier',
   'add.selection.to.cart.label': 'Ajouter au panier',
   'add.selection.to.cart.tooltip': 'Ajouter les éléments sélectionnés à mon panier',
@@ -86,7 +87,6 @@ const messages = Object.assign({
   'results.selection.column.label': 'Colonne de sélection',
   'results.options.column.label': 'Options et services',
   'results.download': 'Télécharger',
-  'results.search.entity': 'Rechercher les données liées',
   'results.cell.multiple.values.separator': ', ',
 
   'search.facets.no.facet.found': 'Pas de facette pour le résultat courant',
