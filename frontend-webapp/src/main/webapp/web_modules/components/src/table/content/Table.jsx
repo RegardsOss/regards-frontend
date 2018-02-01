@@ -212,9 +212,6 @@ class Table extends React.Component {
   }) => {
     // If total number of entities is too small don't display all the lines.
     const rowCount = this.getRowCount(entitiesCount, minRowCount, maxRowCount)
-    console.error('I said him I wanted to show ', rowCount)
-    console.error('Then it would be an height of ', (lineHeight * rowCount) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0))
-
     return (lineHeight * rowCount) + RESERVED_BORDERS_HEIGHT + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
   }
 
