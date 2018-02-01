@@ -43,7 +43,7 @@ class LoginButton extends React.Component {
         icon={<LoginIcon />}
         label={formatMessage({ id: 'loginButtonLabel' })}
         title={formatMessage({ id: 'loginButtonTooltip' })}
-        onTouchTap={this.props.onLoginAction}
+        onClick={this.props.onLoginAction}
         labelStyle={optionsLabelStyle}
       />
     )

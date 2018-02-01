@@ -43,6 +43,6 @@ describe('[Search Results] Testing AddSelectionToCartComponent', () => {
     const enzymeWrapper = shallow(<AddSelectionToCartComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(FlatButton)
     assert.lengthOf(buttonWrapper, 1, 'There should a button')
-    assert.equal(buttonWrapper.props().onTouchTap, props.onAddSelectionToCart, 'The callback should be correctly reported')
+    assert.equal(buttonWrapper.props().onClick, props.onAddSelectionToCart, 'The callback should be correctly reported')
   })
 })

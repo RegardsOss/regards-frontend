@@ -21,7 +21,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import get from 'lodash/get'
 import concat from 'lodash/concat'
 import DownloadIcon from 'material-ui/svg-icons/file/file-download'
-import { CatalogDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { DropDownButton } from '@regardsoss/components'
@@ -76,8 +76,8 @@ class DownloadEntityFileComponent extends React.Component {
    */
   getFirstDownloadeableLink = () => {
     const { entity } = this.props
-    return get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}[0].uri`) ||
-      get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}[0].uri`)
+    return get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}[0].uri`) ||
+      get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}[0].uri`)
   }
 
   /**
@@ -86,8 +86,8 @@ class DownloadEntityFileComponent extends React.Component {
   getAllDownloadeableFiles = () => {
     const { entity } = this.props
     return concat(
-      get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}`, []),
-      get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}`, []),
+      get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []),
+      get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []),
     )
   }
 
@@ -110,8 +110,8 @@ class DownloadEntityFileComponent extends React.Component {
    */
   nbDownloadeableFiles = () => {
     const { entity } = this.props
-    return get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.RAWDATA}`, []).length +
-      get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}`, []).length
+    return get(entity, `content.files.${CommonDomain.DataTypesEnum.RAWDATA}`, []).length +
+      get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []).length
   }
 
   render() {

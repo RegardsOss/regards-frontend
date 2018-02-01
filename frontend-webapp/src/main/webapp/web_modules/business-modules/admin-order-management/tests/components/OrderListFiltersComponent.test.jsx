@@ -75,7 +75,7 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
     const clearButtonWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(clearButtonWrapper, 1, 'There should be a clear button')
     testSuiteHelpers.assertWrapperProperties(clearButtonWrapper, {
-      onTouchTap: props.onUserFilterCleared,
+      onClick: props.onUserFilterCleared,
     })
 
     // change list to empty

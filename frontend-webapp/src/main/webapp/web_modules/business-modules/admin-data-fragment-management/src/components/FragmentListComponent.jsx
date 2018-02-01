@@ -156,7 +156,7 @@ export class FragmentListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={fragment.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onTouchTap={() => handleEdit(fragment.content.id)}
+                        onClick={() => handleEdit(fragment.content.id)}
                         title={intl.formatMessage({ id: 'fragment.list.action.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
@@ -164,7 +164,7 @@ export class FragmentListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={fragment.links}
                         hateoasKey={HateoasKeys.DELETE}
-                        onTouchTap={() => this.openDeleteDialog(fragment)}
+                        onClick={() => this.openDeleteDialog(fragment)}
                         title={intl.formatMessage({ id: 'fragment.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

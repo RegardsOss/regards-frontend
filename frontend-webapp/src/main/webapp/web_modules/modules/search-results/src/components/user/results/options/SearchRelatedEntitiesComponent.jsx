@@ -55,7 +55,7 @@ class SearchRelatedEntitiesComponent extends React.Component {
     const buttonProperties = pick(this.props, SearchRelatedEntitiesComponent.SUBCOMPONENT_PROPS_KEYS)
     return (
       <IconButton
-        onTouchTap={this.onSearchEntity}
+        onClick={this.onSearchEntity}
         title={formatMessage({ id: 'search.related.objects' })}
         {...buttonProperties}
       >

@@ -67,8 +67,8 @@ class ListHeaderComponent extends React.Component {
               </IconButton>
             }
           >
-            <MenuItem primaryText="Unselect all" onTouchTap={this.props.onUnselecteddAll} />
-            <MenuItem primaryText="Reset" onTouchTap={this.props.onReset} />
+            <MenuItem primaryText="Unselect all" onClick={this.props.onUnselecteddAll} />
+            <MenuItem primaryText="Reset" onClick={this.props.onReset} />
           </IconMenu>
         </ToolbarGroup>
       </Toolbar>

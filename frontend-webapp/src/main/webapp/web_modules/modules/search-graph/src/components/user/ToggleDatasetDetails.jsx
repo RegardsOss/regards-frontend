@@ -44,10 +44,12 @@ class ToggleDatasetDetails extends React.Component {
 
   render() {
     const { datasetAttributesVisible, areDatasetAttributesAvailable } = this.props
+    const { moduleTheme: { user: { toggle } } } = this.context
     return (
       <ShowableAtRender show={areDatasetAttributesAvailable}>
         <Toggle
           toggled={datasetAttributesVisible}
+          style={toggle}
           label={this.context.intl.formatMessage({ id: 'search.graph.show.details' })}
           onToggle={this.toggleDatasetAttributesVisible}
         />

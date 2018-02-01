@@ -16,27 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
 /**
- * Describes a ScanDirectory shape and related sub objects
+ * Possible acqisition processing chain
  * @author Sébastien Binda
  */
-
-/** A dated selection item shape */
-const ScanDirectoryContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  scanDir: PropTypes.string.isRequired,
-})
-
-const ScanDirectory = PropTypes.shape({
-  content: ScanDirectoryContent,
-})
-const ScanDirectoryList = PropTypes.objectOf(ScanDirectory)
-const ScanDirectoryArray = PropTypes.arrayOf(ScanDirectory)
+const AcquisitionProcessingChainModeEnum = {
+  AUTO: 'AUTO',
+  MANUAL: 'MANUAL',
+}
 
 module.exports = {
-  ScanDirectoryList,
-  ScanDirectoryArray,
-  ScanDirectoryContent,
-  ScanDirectory,
+  AcquisitionProcessingChainModeEnum,
+  AcquisitionProcessingChainModes: values(AcquisitionProcessingChainModeEnum),
 }

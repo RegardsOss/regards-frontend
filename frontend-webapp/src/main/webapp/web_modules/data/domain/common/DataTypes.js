@@ -18,20 +18,21 @@
  **/
 import values from 'lodash/values'
 
-
 /**
- * File entity definition for files associated to each dataobject returned by catalog microservice.
- * @author Sébastien Binda
+ * Possible data types
  */
-const OBJECT_LINKED_FILE_ENUM = {
+const DataTypesEnum = {
   RAWDATA: 'RAWDATA',
-  THUMBNAIL: 'THUMBNAIL',
+  QUICKLOOK_SD: 'QUICKLOOK_SD',
+  QUICKLOOK_MD: 'QUICKLOOK_MD',
+  QUICKLOOK_HD: 'QUICKLOOK_HD',
   DOCUMENT: 'DOCUMENT',
+  THUMBNAIL: 'THUMBNAIL',
+  OTHER: 'OTHER',
+  AIP: 'AIP',
 }
 
-const OBJECT_LINKED_FILE_TYPES = values(OBJECT_LINKED_FILE_ENUM)
-
 module.exports = {
-  OBJECT_LINKED_FILE_ENUM,
-  OBJECT_LINKED_FILE_TYPES,
+  DataTypesEnum,
+  DataTypes: values(DataTypesEnum),
 }

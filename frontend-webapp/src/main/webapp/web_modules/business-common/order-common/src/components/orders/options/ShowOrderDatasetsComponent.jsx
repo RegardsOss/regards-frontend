@@ -39,7 +39,7 @@ class ShowOrderDatasetsComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        onTouchTap={onSelectOrder}
+        onClick={onSelectOrder}
         title={formatMessage({ id: 'order.list.option.cell.detail.title' })}
       >
         <DetailIcon />

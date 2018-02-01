@@ -17,16 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import GenerationChain from './GenerationChain'
-import MetaFile from './MetaFile'
-import MetaProduct from './MetaProduct'
-import ScanDirectory from './ScanDirectory'
+import AcquisitionFileInfo from './AcquisitionFileInfo'
 
 /**
  * @author Sébastien Binda
  */
 module.exports = {
   ...GenerationChain,
-  ...MetaFile,
-  ...MetaProduct,
-  ...ScanDirectory,
+  ...AcquisitionFileInfo,
 }

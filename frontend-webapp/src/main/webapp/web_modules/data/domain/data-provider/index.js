@@ -16,32 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { MetaFileContent } from './MetaFile'
 
-/**
- * Describes a MetaProduct shape and related sub objects
- * @author Sébastien Binda
- */
-
-/** A dated selection item shape */
-const MetaProductContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
-  checksumAlgorithm: PropTypes.string.isRequired,
-  cleanOriginalFile: PropTypes.bool.isRequired,
-  metaFiles: PropTypes.arrayOf(MetaFileContent).isRequired,
-  ingestChain: PropTypes.string.isRequired,
-})
-
-const MetaProduct = PropTypes.shape({
-  content: MetaProductContent,
-})
-const MetaProductList = PropTypes.objectOf(MetaProduct)
-const MetaProductArray = PropTypes.arrayOf(MetaProduct)
+import AcquisitionProcessingChaineModes from './AcquisitionProcessingChaineModes'
 
 module.exports = {
-  MetaProductList,
-  MetaProductArray,
-  MetaProductContent,
-  MetaProduct,
+  ...AcquisitionProcessingChaineModes,
 }

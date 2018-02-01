@@ -16,33 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ScanDirectoryContent } from './ScanDirectory'
+import { CommonDomain } from '@regardsoss/domain'
+import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfiguration'
 
 /**
- * Describes a MetaFile shape and related sub objects
+ * Describes a AcquisitionFileInfo shape and related sub objects
  * @author Sébastien Binda
  */
 
 /** A dated selection item shape */
-const MetaFileContent = PropTypes.shape({
+const AcquisitionFileInfoContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   mandatory: PropTypes.bool.isRequired,
-  fileNamePattern: PropTypes.string.isRequired,
-  scanDirectories: PropTypes.arrayOf(ScanDirectoryContent),
-  invalidFolder: PropTypes.string.isRequired,
-  fileType: PropTypes.string, // mime type
+  scanPlugin: PluginConfigurationContent.isRequired,
+  lastModificationDate: PropTypes.string,
+  mimeType: PropTypes.string.isRequired,
+  dataType: PropTypes.oneOf(CommonDomain.DataTypes),
   comment: PropTypes.string,
 })
 
-const MetaFile = PropTypes.shape({
-  content: MetaFileContent,
+const AcquisitionFileInfo = PropTypes.shape({
+  content: AcquisitionFileInfoContent,
 })
-const MetaFileList = PropTypes.objectOf(MetaFile)
-const MetaFileArray = PropTypes.arrayOf(MetaFile)
+const AcquisitionFileInfoList = PropTypes.objectOf(AcquisitionFileInfo)
+const AcquisitionFileInfoArray = PropTypes.arrayOf(AcquisitionFileInfo)
 
 module.exports = {
-  MetaFileList,
-  MetaFileArray,
-  MetaFileContent,
-  MetaFile,
+  AcquisitionFileInfoList,
+  AcquisitionFileInfoArray,
+  AcquisitionFileInfoContent,
+  AcquisitionFileInfo,
 }

@@ -43,7 +43,8 @@ describe('[Order Common] Testing DeleteOrderContainer', () => {
   // all test cases, with the fact they can be deleted or not and should superficially or completely deleted
   const testCases = [{
     status: OrderDomain.ORDER_STATUS_ENUM.PENDING,
-    canDelete: false,
+    canDelete: true,
+    isSuperficial: true,
   }, {
     status: OrderDomain.ORDER_STATUS_ENUM.RUNNING,
     canDelete: false,
@@ -54,19 +55,19 @@ describe('[Order Common] Testing DeleteOrderContainer', () => {
   }, {
     status: OrderDomain.ORDER_STATUS_ENUM.EXPIRED,
     canDelete: true,
-    isSuperficial: true,
+    isSuperficial: false,
   }, {
     status: OrderDomain.ORDER_STATUS_ENUM.FAILED,
     canDelete: true,
-    isSuperficial: true,
+    isSuperficial: false,
   }, {
     status: OrderDomain.ORDER_STATUS_ENUM.DONE_WITH_WARNING,
     canDelete: true,
-    isSuperficial: true,
+    isSuperficial: false,
   }, {
     status: OrderDomain.ORDER_STATUS_ENUM.DONE,
     canDelete: true,
-    isSuperficial: true,
+    isSuperficial: false,
   }, {
     status: OrderDomain.ORDER_STATUS_ENUM.DELETED,
     canDelete: true,

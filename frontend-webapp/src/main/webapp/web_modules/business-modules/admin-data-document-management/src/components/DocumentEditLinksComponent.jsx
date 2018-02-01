@@ -116,7 +116,7 @@ export class DocumentEditLinksComponent extends React.Component {
                     primaryText={collection.content.label}
                     rightIconButton={
                       <IconButton
-                        onTouchTap={() => handleAdd(collection.content.ipId, false)}
+                        onClick={() => handleAdd(collection.content.ipId, false)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.remainingcollection.add.button' })}
                       >
                         <Add />
@@ -138,7 +138,7 @@ export class DocumentEditLinksComponent extends React.Component {
                     primaryText={collection.content.label}
                     rightIconButton={
                       <IconButton
-                        onTouchTap={() => handleDelete(collection.content.ipId, false)}
+                        onClick={() => handleDelete(collection.content.ipId, false)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.collection.remove.button' })}
                       >
                         <Clear />
@@ -169,7 +169,7 @@ export class DocumentEditLinksComponent extends React.Component {
                     <div>
                       <br />
                       <IconButton
-                        onTouchTap={this.handleCreateTag}
+                        onClick={this.handleCreateTag}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.tag.add.button' })}
                       >
                         <Add />
@@ -184,7 +184,7 @@ export class DocumentEditLinksComponent extends React.Component {
                     primaryText={tag}
                     rightIconButton={
                       <IconButton
-                        onTouchTap={() => handleDelete(tag, true)}
+                        onClick={() => handleDelete(tag, true)}
                         tooltip={this.context.intl.formatMessage({ id: 'document.form.links.tag.remove.button' })}
                       >
                         <Clear />

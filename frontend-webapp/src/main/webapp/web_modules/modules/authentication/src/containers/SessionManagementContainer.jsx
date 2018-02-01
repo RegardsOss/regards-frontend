@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import root from 'window-or-global'
 import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
@@ -24,32 +25,64 @@ export class SessionManagementContainer extends React.Component {
     dispatchSessionLocked: PropTypes.func.isRequired,
   }
 
+  /**
+   * Lifecycle method component will mount: used here to listen for window focus events (broken timers workaround)
+   */
+  componentWillMount() {
+    root.window.addEventListener('focus', this.onWindowFocused, false)
+  }
+
+  /**
+   * Lifecle method Component will receive props: used here to detect authentication state changes
+   */
   componentWillReceiveProps = (nextProps) => {
     // check: if the authentication state changes, set up a timer to handle expiration
     const currentAuthData = this.props.authentication || {}
     const nextAuthData = nextProps.authentication || {}
     if (currentAuthData.authenticateDate !== nextAuthData.authenticateDate) {
-      // get back transient data from this attributes (not stored in state, as they are useless for graphics)
-      if (this.sessionLockTimer) {
-        clearTimeout(this.sessionLockTimer)
-        this.sessionLockTimer = null
-      }
-      // is login in or changing role?
-      const nextAuthResponse = nextAuthData.result
-      if (nextAuthData.authenticateDate && !isEmpty(nextAuthResponse)) {
-        // Is in past? - note that such case is not supposed to happen, except maybe for auto log in systems
-        // current authentication date is expressed using Date.now(), Date.now() is express in ms, expires_in is expressed in seconds, see
-        // http://docs.spring.io/spring-security/oauth/apidocs/org/springframework/security/oauth2/common/OAuth2AccessToken.html#EXPIRES_IN
-        const expiresInMS = nextAuthResponse.expires_in * 1000
-        if (nextAuthData.authenticateDate + expiresInMS <= Date.now()) {
-          // immediate time out
-          this.onSessionTimeout()
-        } else {
-          // later time out
-          this.sessionLockTimer = setTimeout(() => this.onSessionTimeout(), expiresInMS)
-        }
+      this.onAuthenticationStateChanged(nextProps)
+    }
+  }
+
+  /**
+   * Component will unmount: remove the focus listener (broken timers workaround)
+   */
+  componentWillUnmount() {
+    root.window.removeEventListener('focus', this.onWindowFocused, false)
+  }
+
+
+  /**
+   * On focus gained detected. Check the locked state when focus change, as many browsers do not keep the timers accurate when
+   * they are no longer focused
+   */
+  onWindowFocused = () => this.onAuthenticationStateChanged(this.props)
+
+  /**
+   * On authentication state changed (or focus state changed): check again the token validity
+   * @param {*} properties component properties to consider
+   */
+  onAuthenticationStateChanged = ({ authentication }) => {
+    // get back transient data from this attributes (not stored in state, as they are useless for graphics)
+    if (this.sessionLockTimer) {
+      clearTimeout(this.sessionLockTimer)
+      this.sessionLockTimer = null
+    }
+    // is login in or changing role?
+    const authenticationResponse = authentication.result
+    if (authentication.authenticateDate && !isEmpty(authenticationResponse)) {
+      // Is in past? - note that such case may happen, due to inactive windows systems
+      const expiresInMS = authenticationResponse.expires_in * 1000 // backend unit is seconds
+      const expiresIn = authentication.authenticateDate + expiresInMS - Date.now()
+      if (expiresIn < 0) {
+        // immediate time out
+        this.onSessionTimeout()
+      } else {
+        // later time out
+        this.sessionLockTimer = setTimeout(() => this.onSessionTimeout(), expiresIn)
       }
     }
+    // else: not authentified, no session lock for the unknown user =D
   }
 
   onSessionTimeout = () => {
@@ -62,6 +95,7 @@ export class SessionManagementContainer extends React.Component {
     // fetch authentication (will unlock session when it returns successfully )
     fetchAuthenticate(sub, formValues.password, scope)
   }
+
 
   render() {
     const {

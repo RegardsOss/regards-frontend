@@ -75,7 +75,7 @@ class FullTextCriteriaComponent extends PluginCriterionContainer {
           }}
           style={textFieldStyle}
         />
-        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

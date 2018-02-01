@@ -145,7 +145,7 @@ class ContainerConfigurationComponent extends React.Component {
             </Field> : null}
           {!this.props.hideDynamicContentOption && hasDynamicOptions ?
             <DynamicContentField change={this.props.change} /> : null}
-          <ShowHideAdvancedOptions advanced={advanced} onTouchTap={this.onAdvancedClick} />
+          <ShowHideAdvancedOptions advanced={advanced} onClick={this.onAdvancedClick} />
           <ShowableAtRender
             show={advanced}
           >
@@ -171,7 +171,7 @@ class ContainerConfigurationComponent extends React.Component {
             mainButtonType="submit"
             isMainButtonDisabled={pristine || submitting || invalid}
             secondaryButtonLabel={formatMessage({ id: 'container.form.cancel.button' })}
-            secondaryButtonTouchTap={onCancel}
+            secondaryButtonClick={onCancel}
           />
         </div>
       </form >

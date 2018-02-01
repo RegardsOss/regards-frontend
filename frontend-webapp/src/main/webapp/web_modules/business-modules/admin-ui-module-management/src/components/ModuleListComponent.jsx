@@ -152,14 +152,14 @@ class ModuleListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'modules.list.table.action.edit.tooltip' })}
                         entityLinks={module.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onTouchTap={() => this.props.onEdit(module.content)}
+                        onClick={() => this.props.onEdit(module.content)}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
                       <ResourceIconAction
                         title={intl.formatMessage({ id: 'modules.list.table.action.duplicate.tooltip' })}
                         resourceDependencies={moduleActions.getDependency(RequestVerbEnum.POST)}
-                        onTouchTap={() => this.props.onDuplicate(module.content)}
+                        onClick={() => this.props.onDuplicate(module.content)}
                       >
                         <Copy hoverColor={style.hoverButtonEdit} />
                       </ResourceIconAction>
@@ -167,7 +167,7 @@ class ModuleListComponent extends React.Component {
                         title={intl.formatMessage({ id: 'modules.list.table.action.delete.tooltip' })}
                         entityLinks={module.links}
                         hateoasKey={HateoasKeys.DELETE}
-                        onTouchTap={() => this.openDeleteDialog(module.content)}
+                        onClick={() => this.openDeleteDialog(module.content)}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
                       </HateoasIconAction>
@@ -180,7 +180,7 @@ class ModuleListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={this.props.onCreate}
+            mainButtonClick={this.props.onCreate}
             mainButtonLabel={
               <FormattedMessage
                 id="modules.list.action.add"

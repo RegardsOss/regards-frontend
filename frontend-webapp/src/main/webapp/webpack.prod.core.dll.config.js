@@ -47,7 +47,6 @@ const conf = webpackConfigurator
         'react-redux',
         'react-resizable',
         'react-router',
-        'react-tap-event-plugin',
         'redux',
         'redux-api-middleware',
         'redux-form',

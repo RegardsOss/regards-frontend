@@ -137,7 +137,7 @@ export class DatasourceListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={datasource.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onTouchTap={() => handleEdit(datasource)}
+                        onClick={() => handleEdit(datasource)}
                         title={intl.formatMessage({ id: 'datasource.list.action.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
@@ -145,7 +145,7 @@ export class DatasourceListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={datasource.links}
                         hateoasKey={HateoasKeys.DELETE}
-                        onTouchTap={() => this.openDeleteDialog(datasource)}
+                        onClick={() => this.openDeleteDialog(datasource)}
                         title={intl.formatMessage({ id: 'datasource.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

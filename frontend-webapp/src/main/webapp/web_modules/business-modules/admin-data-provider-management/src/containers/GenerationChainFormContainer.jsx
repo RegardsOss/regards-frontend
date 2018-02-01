@@ -38,7 +38,7 @@ export class GenerationChainFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      chain: get(ownProps, 'params.chainId', false) ? generationChainSelectors.getById(ownProps.params.chainId) : undefined,
+      chain: get(ownProps, 'params.chainId', false) ? generationChainSelectors.getById(state, ownProps.params.chainId) : undefined,
     }
   }
 
@@ -72,6 +72,7 @@ export class GenerationChainFormContainer extends React.Component {
 
   constructor(props) {
     super(props)
+    console.error('props', props)
     const isLoading = !(props.params.chainId === undefined)
     this.state = {
       isLoading,
@@ -113,11 +114,27 @@ export class GenerationChainFormContainer extends React.Component {
    */
   onSubmit = (values) => {
     const { params: { mode } } = this.props
+    let action
     if (mode === 'edit') {
-      this.props.update(values.id, values)
+      action = this.props.update(values.id, values)
     } else {
-      this.props.create(values)
+      action = this.props.create(values)
     }
+    // Set loading action
+    this.setState({
+      isLoading: true,
+    }, () => {
+      // Then check results for error.
+      // If no error, return to list view, else display error
+      action.then((actionResults) => {
+        if (!actionResults.error) {
+          this.onBack()
+        }
+        this.setState({
+          isLoading: false,
+        })
+      })
+    })
   }
 
   render() {

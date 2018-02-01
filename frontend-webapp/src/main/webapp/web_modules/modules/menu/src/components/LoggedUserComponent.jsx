@@ -89,7 +89,7 @@ class LoggedUserComponent extends React.Component {
                 key="profile.edition"
                 primaryText={formatMessage({ id: 'accountLabel' })}
                 leftIcon={accountIcon}
-                onTouchTap={onShowProfileEdition}
+                onClick={onShowProfileEdition}
                 value={null}
               />) :
               null
@@ -106,7 +106,7 @@ class LoggedUserComponent extends React.Component {
                   map(borrowableRoles, (role) => {
                     const roleName = role.content.name
                     return (<MenuItem
-                      onTouchTap={() => onBorrowRole(roleName)}
+                      onClick={() => onBorrowRole(roleName)}
                       key={roleName}
                       primaryText={roleName}
                       checked={roleName === currentRole}
@@ -128,7 +128,7 @@ class LoggedUserComponent extends React.Component {
             key="loggout"
             primaryText={formatMessage({ id: 'logoutLabel' })}
             leftIcon={ActionExit}
-            onTouchTap={onLogout}
+            onClick={onLogout}
           />
         </DropDownButton>
       </div>

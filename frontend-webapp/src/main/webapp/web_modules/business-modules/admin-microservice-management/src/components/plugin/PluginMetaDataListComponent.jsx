@@ -193,7 +193,7 @@ export default class PluginMetaDataListComponent extends React.Component {
           }
           iconElementRight={
             <IconButton
-              onTouchTap={this.handleFilterSwitch}
+              onClick={this.handleFilterSwitch}
               tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.filter.tooltip' })}
             >
               <Filter />
@@ -211,7 +211,7 @@ export default class PluginMetaDataListComponent extends React.Component {
           open={this.state.filterOpen}
         >
           <AppBar
-            iconElementLeft={<IconButton onTouchTap={this.handleFilterSwitch}><Close /></IconButton>}
+            iconElementLeft={<IconButton onClick={this.handleFilterSwitch}><Close /></IconButton>}
             title={this.context.intl.formatMessage({ id: 'microservice-management.plugin.list.filter.title' })}
           />
           <List>

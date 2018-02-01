@@ -43,7 +43,7 @@ class BoardItemAction extends React.Component {
     return (
       <IconButton
         tooltip={action.tooltipMsg}
-        onTouchTap={action.confirmMessage ? () => openConfirmDialog(action) : action.touchTapAction}
+        onClick={action.confirmMessage ? () => openConfirmDialog(action) : action.touchTapAction}
         className={action.className}
       >
         {action.icon}

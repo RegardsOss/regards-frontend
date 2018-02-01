@@ -44,7 +44,7 @@ describe('[Order Cart] Testing ClearCartComponent', () => {
     const enzymeWrapper = shallow(<ClearCartComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(ButtonWithConfirmDialog)
     assert.lengthOf(buttonWrapper, 1, 'There should be a button with confirm dialog')
-    assert.equal(buttonWrapper.props().onTouchTap, props.onClearCart, 'Callback should be correctly reported')
+    assert.equal(buttonWrapper.props().onClick, props.onClearCart, 'Callback should be correctly reported')
     assert.isTrue(buttonWrapper.props().disabled, 'The button should be disabled')
 
     // also check the dialog button props are provided
@@ -62,7 +62,7 @@ describe('[Order Cart] Testing ClearCartComponent', () => {
     const enzymeWrapper = shallow(<ClearCartComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(ButtonWithConfirmDialog)
     assert.lengthOf(buttonWrapper, 1, 'There should be a button with confirm dialog')
-    assert.equal(buttonWrapper.props().onTouchTap, props.onClearCart, 'Callback should be correctly reported')
+    assert.equal(buttonWrapper.props().onClick, props.onClearCart, 'Callback should be correctly reported')
     assert.isTrue(buttonWrapper.props().disabled, 'The button should be disabled')
   })
   it('should render correctly when not empty', () => {
@@ -74,7 +74,7 @@ describe('[Order Cart] Testing ClearCartComponent', () => {
     const enzymeWrapper = shallow(<ClearCartComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(ButtonWithConfirmDialog)
     assert.lengthOf(buttonWrapper, 1, 'There should be a button with confirm dialog')
-    assert.equal(buttonWrapper.props().onTouchTap, props.onClearCart, 'Callback should be correctly reported')
+    assert.equal(buttonWrapper.props().onClick, props.onClearCart, 'Callback should be correctly reported')
     assert.isFalse(buttonWrapper.props().disabled, 'The button should be disabled')
   })
 })

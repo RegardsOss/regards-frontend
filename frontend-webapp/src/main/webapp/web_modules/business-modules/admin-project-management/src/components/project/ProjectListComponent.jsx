@@ -201,21 +201,21 @@ export class ProjectListComponent extends React.Component {
                     >
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.openbutton' })}
-                        onTouchTap={() => handleOpen(project.content.name)}
+                        onClick={() => handleOpen(project.content.name)}
                         className="selenium-openbutton"
                       >
                         <Open hoverColor={style.hoverButtonView} />
                       </IconButton>
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.editbutton' })}
-                        onTouchTap={() => handleEdit(project.content.name)}
+                        onClick={() => handleEdit(project.content.name)}
                         className="selenium-editbutton"
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </IconButton>
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.edit.connections.button' })}
-                        onTouchTap={() => handleConfigureConnections(project.content.name)}
+                        onClick={() => handleConfigureConnections(project.content.name)}
                         className="selenium-editconnections"
                       >
                         <Settings hoverColor={style.hoverButtonEdit} />
@@ -223,7 +223,7 @@ export class ProjectListComponent extends React.Component {
 
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.licenseUpdateButton' })}
-                        onTouchTap={() => this.onLicenseUpdate(project.content.name)}
+                        onClick={() => this.onLicenseUpdate(project.content.name)}
                         disabled={!!project.content.license}
                         className="selenium-licenseUpdateButton"
                       >
@@ -231,7 +231,7 @@ export class ProjectListComponent extends React.Component {
                       </IconButton>
                       <IconButton
                         title={intl.formatMessage({ id: 'project.list.action.deletebutton' })}
-                        onTouchTap={() => this.onDelete(project.content.name)}
+                        onClick={() => this.onDelete(project.content.name)}
                         className="selenium-deletebutton"
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

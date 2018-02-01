@@ -141,7 +141,7 @@ export class RenderPluginConfField extends React.PureComponent {
             />
             <IconButton
               tooltip="Display icon"
-              onTouchTap={this.loadIcon}
+              onClick={this.loadIcon}
             >
               <SearchIcon />
             </IconButton>

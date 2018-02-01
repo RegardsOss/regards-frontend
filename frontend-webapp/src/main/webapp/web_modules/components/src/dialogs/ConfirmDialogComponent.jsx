@@ -74,13 +74,13 @@ class ConfirmDialogComponent extends React.Component {
         label={formatMessage({ id: 'confirm.dialog.cancel' })}
         primary
         keyboardFocused
-        onTouchTap={onClose}
+        onClick={onClose}
       />,
       <FlatButton
         key={confirmMessageKey}
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: confirmMessageKey })}
-        onTouchTap={this.handleDelete}
+        onClick={this.handleDelete}
       />,
     ]
   }

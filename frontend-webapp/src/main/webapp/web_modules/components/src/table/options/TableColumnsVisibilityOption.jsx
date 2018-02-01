@@ -118,12 +118,12 @@ export class TableColumnsVisibilityOption extends React.Component {
         label={intl.formatMessage({ id: 'table.column.visibility.filter.cancel' })}
         primary
         keyboardFocused
-        onTouchTap={this.onCancel}
+        onClick={this.onCancel}
       />,
       <FlatButton
         key="OK"
         label={intl.formatMessage({ id: 'table.column.visibility.filter.confirm' })}
-        onTouchTap={this.onConfirm}
+        onClick={this.onConfirm}
         disabled={allColumnsHidden}
       />,
     ]
@@ -133,7 +133,7 @@ export class TableColumnsVisibilityOption extends React.Component {
         icon={<ColumnsIcon />}
         label={intl.formatMessage({ id: 'table.column.visibility.filter.option' })}
         secondary={dialogVisible}
-        onTouchTap={this.onShowDialog}
+        onClick={this.onShowDialog}
       >
         <Dialog
           title={intl.formatMessage({ id: 'table.column.visibility.filter.dialog' })}

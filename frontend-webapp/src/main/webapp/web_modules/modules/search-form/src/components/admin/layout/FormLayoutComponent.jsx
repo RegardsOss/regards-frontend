@@ -101,7 +101,7 @@ class FormLayoutComponent extends React.Component {
           <CardActionsComponent
             mainButtonLabel={this.context.intl.formatMessage({ id: 'form.layout.tab.reset' })}
             mainButtonType="reset"
-            mainButtonTouchTap={this.resetLayout}
+            mainButtonClick={this.resetLayout}
           />
         </CardActions>
       </div>

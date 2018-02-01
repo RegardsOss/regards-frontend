@@ -144,7 +144,7 @@ class ItemLink extends React.Component {
           title={formatMessage({ id: 'search.graph.entity.detail.tooltip' })}
           iconStyle={informationButton.iconStyles}
           style={informationButton.styles}
-          onTouchTap={onDescriptionClicked}
+          onClick={onDescriptionClicked}
         >
           <InformationIcon />
         </IconButton>

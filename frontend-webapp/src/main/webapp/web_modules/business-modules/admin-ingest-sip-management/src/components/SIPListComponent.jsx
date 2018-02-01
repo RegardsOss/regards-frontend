@@ -296,7 +296,8 @@ class SIPListComponent extends React.Component {
             pageActions={sipActions}
             pageSelectors={sipSelectors}
             pageSize={pageSize}
-            displayedRowsCount={12}
+            minRowCount={0}
+            maxRowCount={10}
             columns={columns}
             requestParams={this.props.appliedFilters}
             emptyComponent={emptyComponent}
@@ -376,12 +377,12 @@ class SIPListComponent extends React.Component {
               !get(this.state, 'filters.chainFilter') &&
               !get(this.state, 'filters.sipIdFilter')
             }
-            onTouchTap={this.handleClearFilters}
+            onClick={this.handleClearFilters}
           />
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
             icon={<Filter />}
-            onTouchTap={this.handleFilter}
+            onClick={this.handleFilter}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>

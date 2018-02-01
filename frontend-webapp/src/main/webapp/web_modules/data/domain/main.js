@@ -22,6 +22,7 @@ import ArchivalStorageDomain from './archival-storage'
 import CatalogDomain from './catalog'
 import CommonDomain from './common'
 import DamDomain from './dam'
+import DataProviderDomain from './data-provider'
 import OrderDomain from './order'
 
 module.exports = {
@@ -31,5 +32,6 @@ module.exports = {
   CatalogDomain,
   CommonDomain,
   DamDomain,
+  DataProviderDomain,
   OrderDomain,
 }

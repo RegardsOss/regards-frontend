@@ -54,7 +54,7 @@ class ExpandCollapseComponent extends React.Component {
       <IconButton
         style={expandButton.style}
         iconStyle={expandIcon.style}
-        onTouchTap={this.onToggleExpanded}
+        onClick={this.onToggleExpanded}
       >
         {
           rowModel.expanded ? <CollapseIcon /> : <ExpandIcon />

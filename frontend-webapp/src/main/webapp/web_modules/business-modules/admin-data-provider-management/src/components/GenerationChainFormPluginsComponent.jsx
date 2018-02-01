@@ -42,7 +42,7 @@ class GenerationChainFormPluginsComponent extends React.PureComponent {
 
   static defaultProps = {}
 
-  getPluginConfigurator = (index, title, selectLabel, pluginType, pluginConf, fieldNamePrefix) => {
+  getPluginConfigurator = (index, title, selectLabel, pluginType, pluginConf, fieldNamePrefix, validate) => {
     const { moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
     const defaultPluginLabel = `${fieldNamePrefix}-${Date.now()}`
     return (
@@ -61,8 +61,8 @@ class GenerationChainFormPluginsComponent extends React.PureComponent {
           selectLabel={selectLabel}
           pluginType={pluginType}
           defaultPluginConfLabel={defaultPluginLabel}
-          validate={ValidationHelpers.required}
-          microserviceName={STATIC_CONF.MSERVICES.DATAPROVIDER}
+          validate={validate}
+          microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
           hideDynamicParameterConf
           hideGlobalParameterConf
         />
@@ -74,27 +74,29 @@ class GenerationChainFormPluginsComponent extends React.PureComponent {
     const { chain } = this.props
     const { intl: { formatMessage } } = this.context
 
-    const scanPlugin = get(chain, 'scanAcquisitionPluginConf', null)
-    const checkPlugin = get(chain, 'checkAcquisitionPluginConf', null)
+    const validationPlugin = get(chain, 'validationPluginConf', null)
+    const productPlugin = get(chain, 'productPluginConf', null)
     const genPlugin = get(chain, 'generateSipPluginConf', null)
     const postProcessPlugin = get(chain, 'postProcessSipPluginConf', null)
 
     const plugins = [
       this.getPluginConfigurator(
         1,
-        formatMessage({ id: 'generation-chain.form.plugins.scan.label' }),
+        formatMessage({ id: 'generation-chain.form.plugins.validation.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
-        generationChainPluginTypes.SCAN,
-        scanPlugin,
-        'scanAcquisitionPluginConf',
+        generationChainPluginTypes.VALIDATION,
+        validationPlugin,
+        'validationPluginConf',
+        ValidationHelpers.required,
       ),
       this.getPluginConfigurator(
         2,
-        formatMessage({ id: 'generation-chain.form.plugins.check.label' }),
+        formatMessage({ id: 'generation-chain.form.plugins.product.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
-        generationChainPluginTypes.CHECK,
-        checkPlugin,
-        'checkAcquisitionPluginConf',
+        generationChainPluginTypes.PRODUCT,
+        productPlugin,
+        'productPluginConf',
+        ValidationHelpers.required,
       ),
       this.getPluginConfigurator(
         3,
@@ -103,6 +105,7 @@ class GenerationChainFormPluginsComponent extends React.PureComponent {
         generationChainPluginTypes.GENERATE_SIP,
         genPlugin,
         'generateSipPluginConf',
+        ValidationHelpers.required,
       ),
       this.getPluginConfigurator(
         4,

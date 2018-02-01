@@ -174,7 +174,7 @@ class ListViewEntityCellComponent extends React.Component {
   renderAsColumns = (gridAttributeModels) => {
     const { muiTheme, moduleTheme } = this.context
     const { labelCellStyle, valueCellStyle } = moduleTheme.user.listViewStyles
-    const { listRowsByColumnCount } = muiTheme['components:infinite-table']
+    const { listRowsByColumnCount } = muiTheme['module:search-results']
     return gridAttributeModels.reduce((columnsAcc, model, index) => {
       // 1 - Render label and value
       const labelCell = <div key={model.key} style={labelCellStyle}>{model.label}</div>

@@ -44,7 +44,7 @@ class OrderComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <ButtonWithConfirmDialog
-        onTouchTap={onOrder}
+        onClick={onOrder}
         dialogTitle={formatMessage({ id: 'order-cart.module.order.confirmation.title' })}
         dialogMessage={formatMessage({ id: 'order-cart.module.order.confirmation.message' })}
 

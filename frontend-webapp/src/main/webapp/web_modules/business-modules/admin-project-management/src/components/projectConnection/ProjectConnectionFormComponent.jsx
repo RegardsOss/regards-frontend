@@ -127,7 +127,7 @@ export class ProjectConnectionFormComponent extends React.Component {
         this.context.intl.formatMessage({ id: 'database.form.action.cancel' })
       return (<SecondaryActionButtonComponent
         label={cancelLabel}
-        onTouchTap={this.props.onCancel}
+        onClick={this.props.onCancel}
       />)
     }
     return null
@@ -209,7 +209,7 @@ export class ProjectConnectionFormComponent extends React.Component {
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 20 }}>
           <SecondaryActionButtonComponent
             label={this.context.intl.formatMessage({ id: 'database.form.reset' })}
-            onTouchTap={this.handleInitialize}
+            onClick={this.handleInitialize}
           />
           {this.renderCancelButton()}
           <MainActionButtonComponent

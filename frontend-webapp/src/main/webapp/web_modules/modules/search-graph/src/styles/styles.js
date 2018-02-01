@@ -90,6 +90,9 @@ const menuStyles = (theme) => {
       },
     },
     user: {
+      toggle: {
+        width: 'auto', // prevent material UI 100% width behavior........
+      },
       // scrolling definition
       scrolling: {
         width: '100%',
@@ -182,15 +185,15 @@ const menuStyles = (theme) => {
           },
           detailsLabel: {
             styles: {
-              fontSize: '0.75em',
-              padding: '0 0 0 14px',
+              fontSize: '0.85em',
+              padding: '2px 0 0 14px',
               display: 'table-cell',
             },
           },
           detailsValue: {
             commonStyles: {
               fontSize: '0.75em',
-              padding: '0 0 0 15px',
+              padding: '2px 0 0 15px',
               display: 'table-cell',
               color: theme.palette.textColor,
             },
@@ -209,7 +212,9 @@ const menuStyles = (theme) => {
           commonStyles: {
             width: 20,
             height: 20,
-            transform: 'rotate(-90deg)',
+            transform: 'rotate(-90deg) ',
+            marginRight: 2,
+            translateY: 2,
             flexShrink: 0,
             flexGrow: 0,
           },
@@ -241,11 +246,11 @@ const menuStyles = (theme) => {
         iconsOverlay: {
           styles: {
             position: 'relative',
-            height: 16,
-            width: 16,
+            height: 20,
+            width: 20,
             flexShrink: 0,
             flexGrow: 0,
-            margin: '2px 6px 0 0',
+            margin: '0 8px 0 0',
           },
         },
         icon: {
@@ -253,8 +258,8 @@ const menuStyles = (theme) => {
           commonStyles: {
             position: 'absolute',
             zIndex: '0',
-            height: 16,
-            width: 16,
+            height: 20,
+            width: 20,
             top: 0,
             left: 0,
           },
@@ -275,8 +280,8 @@ const menuStyles = (theme) => {
           styles: {
             position: 'absolute',
             zIndex: '1',
-            width: 12,
-            height: 12,
+            width: 14,
+            height: 14,
             right: 0,
             bottom: 0,
             color: theme.palette.accent1Color,
@@ -285,8 +290,7 @@ const menuStyles = (theme) => {
         text: {
           // common styles for all states
           commonStyles: {
-            margin: '2px 0 0 0',
-            fontSize: '0.95em',
+            margin: '3px 0 0 0',
             wordWrap: 'break-word',
             flexShrink: 1,
             flexGrow: 1,
@@ -308,11 +312,11 @@ const menuStyles = (theme) => {
           styles: {
             width: 20,
             height: 20,
-            padding: 2,
+            padding: 0,
           },
           iconStyles: {
-            width: 16,
-            height: 16,
+            width: 18,
+            height: 18,
             color: theme.palette.accent2Color,
             opacity: 0.7,
           },

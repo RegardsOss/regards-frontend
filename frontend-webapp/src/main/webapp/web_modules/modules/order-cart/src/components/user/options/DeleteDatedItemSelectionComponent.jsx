@@ -43,7 +43,7 @@ class DeleteDatedItemSelectionComponent extends React.Component {
     return (
       <IconButtonWithConfirmDialog
         disabled={disabled}
-        onTouchTap={onDelete}
+        onClick={onDelete}
         title={formatMessage({ id: 'order-cart.module.basket.table.delete.selection.tooltip' })}
         dialogTitle={formatMessage({ id: 'order-cart.module.basket.table.delete.selection.confirm.title' })}
         dialogMessage={formatMessage({ id: 'order-cart.module.basket.table.delete.selection.confirm.message' })}

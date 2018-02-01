@@ -98,11 +98,11 @@ export class DocumentEditFilesComponent extends React.Component {
       <ShowableAtRender show={(inputId === this.state.nbInputs - 1)}>
         <div>
           <ShowableAtRender show={(inputId > 0)}>
-            <IconButton onTouchTap={this.deleteFileInput}>
+            <IconButton onClick={this.deleteFileInput}>
               <Remove />
             </IconButton>
           </ShowableAtRender>
-          <IconButton onTouchTap={this.addFileInput}>
+          <IconButton onClick={this.addFileInput}>
             <Add />
           </IconButton>
         </div>
@@ -144,7 +144,7 @@ export class DocumentEditFilesComponent extends React.Component {
                           <a href={this.getDocumentUrlWithToken(file)} target="_black" rel="noopener noreferrer">
                             <Download />
                           </a>
-                          <IconButton onTouchTap={() => handleDeleteDocFile(file.checksum)}>
+                          <IconButton onClick={() => handleDeleteDocFile(file.checksum)}>
                             <Remove />
                           </IconButton>
                         </div>

@@ -74,7 +74,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     const addNewButton = buttons.find('Connect(WithResourceDisplayControl(MainActionButtonComponent))')
     assert.equal(addNewButton.length, 1, 'There should be a add new button')
 
-    addNewButton.simulate('touchTap')
+    addNewButton.simulate('click')
     wrapper.update()
     editDialog = wrapper.find(Dialog)
     assert.equal(editDialog.prop('open'), true, 'The edit criterion dialog should be opened')
@@ -130,7 +130,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
     const deleteButton = tableRows.first().find(Delete).parent()
 
     // Simulate edit on a given criteria
-    editButton.simulate('touchTap')
+    editButton.simulate('click')
     wrapper.update()
     editDialog = wrapper.find(Dialog)
     assert.equal(editDialog.prop('open'), true, 'The edit criterion dialog should be opened')
@@ -141,7 +141,7 @@ describe('[SEARCH FORM] Testing FormCriterionComponent', () => {
 
     // Simulate delete on a given criteria
     assert(changeFieldCallback.notCalled, 'The change callback should not been called here')
-    deleteButton.simulate('touchTap')
+    deleteButton.simulate('click')
     wrapper.update()
     tableRows = wrapper.find(TableBody).find(TableRow)
     assert(changeFieldCallback.calledOnce, 'The change callback should have been called here')

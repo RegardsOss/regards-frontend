@@ -137,7 +137,7 @@ class GalleryItemComponent extends React.PureComponent {
           src={entity.content.files.QUICKLOOK_SD[0].uri}
           alt=""
           style={imageStyle}
-          onTouchTap={onShowQuicklook}
+          onClick={onShowQuicklook}
         />)
       imageContainerStyle = imageContainer
     }

@@ -34,7 +34,7 @@ MainActionButtonComponent.propTypes = {
   url: PropTypes.string,
   type: PropTypes.string,
   style: PropTypes.objectOf(PropTypes.string),
-  onTouchTap: PropTypes.func,
+  onClick: PropTypes.func,
   isVisible: PropTypes.bool,
   disabled: PropTypes.bool,
   title: PropTypes.string,

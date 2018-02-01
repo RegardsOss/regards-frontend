@@ -211,7 +211,7 @@ class FormCriteriaComponent extends React.Component {
           mainButtonType="submit"
           isMainButtonDisabled={pristine || submitting || this.state.pluginLoadError}
           secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.criteria.cancel.button.label' })}
-          secondaryButtonTouchTap={this.onCancel}
+          secondaryButtonClick={this.onCancel}
         />
       </form>
     )

@@ -151,7 +151,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
           onChange={this.handleChangeValue}
           style={textFieldStyle}
         />
-        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

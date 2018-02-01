@@ -49,7 +49,7 @@ export class DatasourceFormMappingEmptyDatabaseComponent extends React.Component
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.cancel' })}
-              mainButtonTouchTap={handleBack}
+              mainButtonClick={handleBack}
             />
           </CardActions>
         </Card>

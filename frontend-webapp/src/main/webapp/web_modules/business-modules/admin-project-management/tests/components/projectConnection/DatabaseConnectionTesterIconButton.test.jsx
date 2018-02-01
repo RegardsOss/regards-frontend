@@ -39,7 +39,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
   it('should render the test button if connectivity is NOT_TESTED', () => {
     const props = {
       testConnection: () => ({ error: false }),
-      refreshConnection: () => {},
+      refreshConnection: () => { },
       projectConnection: {
         content: {
           id: 0,
@@ -63,7 +63,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
   it('should render the test button at render', () => {
     const props = {
       testConnection: () => ({ error: false }),
-      refreshConnection: () => {},
+      refreshConnection: () => { },
       projectConnection: {
         content: {
           id: 0,
@@ -83,7 +83,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTesterIconButton'
     expect(enzymeWrapper.find(IconButton)).to.have.length(1)
     expect(enzymeWrapper.find(PlayArrow)).to.have.length(1)
 
-    enzymeWrapper.find(IconButton).simulate('touchTap')
+    enzymeWrapper.find(IconButton).simulate('click')
 
     expect(enzymeWrapper.find(ConnectionTesterProgress)).to.have.length(1)
   })

@@ -259,7 +259,7 @@ export class ProjectUserListComponent extends React.Component {
                             <HateoasIconAction
                               className="selenium-editButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
-                              onTouchTap={() => onEdit(projectUser.content.id)}
+                              onClick={() => onEdit(projectUser.content.id)}
                               disabled={isFetchingActions}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.UPDATE}
@@ -269,7 +269,7 @@ export class ProjectUserListComponent extends React.Component {
                             <HateoasIconAction
                               className="selenium-acceptButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.accept.tooltip' })}
-                              onTouchTap={() => onValidate(projectUser.content.id)}
+                              onClick={() => onValidate(projectUser.content.id)}
                               disabled={isFetchingActions || !canAcceptUser(projectUser)}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.ACCEPT}
@@ -279,7 +279,7 @@ export class ProjectUserListComponent extends React.Component {
                             <HateoasIconAction
                               className="selenium-denyButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.deny.tooltip' })}
-                              onTouchTap={() => onDeny(projectUser.content.id)}
+                              onClick={() => onDeny(projectUser.content.id)}
                               disabled={isFetchingActions || !canDenyUser(projectUser)}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.DENY}
@@ -289,7 +289,7 @@ export class ProjectUserListComponent extends React.Component {
                             <HateoasIconAction
                               className="selenium-activeButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.active.tooltip' })}
-                              onTouchTap={() => onActive(projectUser.content.id)}
+                              onClick={() => onActive(projectUser.content.id)}
                               disabled={isFetchingActions}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.ACTIVE}
@@ -299,7 +299,7 @@ export class ProjectUserListComponent extends React.Component {
                             <HateoasIconAction
                               className="selenium-inactiveButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.inactive.tooltip' })}
-                              onTouchTap={() => onInactive(projectUser.content.id)}
+                              onClick={() => onInactive(projectUser.content.id)}
                               disabled={isFetchingActions}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.INACTIVE}
@@ -309,7 +309,7 @@ export class ProjectUserListComponent extends React.Component {
                             <HateoasIconAction
                               className="selenium-deleteButton"
                               title={intl.formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
-                              onTouchTap={() => this.openDeleteDialog(projectUser)}
+                              onClick={() => this.openDeleteDialog(projectUser)}
                               disabled={isFetchingActions}
                               entityLinks={projectUser.links}
                               hateoasKey={HateoasKeys.DELETE}
@@ -329,7 +329,7 @@ export class ProjectUserListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonUrl={tabContent.mainButtonUrl}
-            mainButtonTouchTap={tabContent.mainButtonAction}
+            mainButtonClick={tabContent.mainButtonAction}
             mainButtonClassName={tabContent.mainButtonClassName}
             mainHateoasDependencies={addDependencies}
             isMainButtonDisabled={tabContent.mainButtonDisabled}

@@ -99,7 +99,7 @@ class ConnectionTesterIconButton extends React.Component {
     })
   }
 
-  handleSnackbarActionTouchTap = () => {
+  handleSnackbarActionClick = () => {
     this.setState({
       snackBarOpen: false,
     })
@@ -110,7 +110,7 @@ class ConnectionTesterIconButton extends React.Component {
     const testButton = (
       <IconButton
         label={this.context.intl.formatMessage({ id: 'database.connectionTester.start' })}
-        onTouchTap={this.handleTouchTap}
+        onClick={this.handleTouchTap}
         className="selenium-testButton"
       >
         <PlayArrow hoverColor={this.context.muiTheme.palette.primary1Color} />
@@ -120,7 +120,7 @@ class ConnectionTesterIconButton extends React.Component {
     const switchActions = [this.handleTouchTap, this.handleTouchTap]
     const successButton = (
       <OnHoverSwitchIconButton
-        onTouchTap={switchActions}
+        onClick={switchActions}
       >
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
@@ -128,7 +128,7 @@ class ConnectionTesterIconButton extends React.Component {
 
     const errorButton = (
       <OnHoverSwitchIconButton
-        onTouchTap={switchActions}
+        onClick={switchActions}
       >
         <Error color={this.context.muiTheme.palette.accent1Color} />
         <PlayArrow />
@@ -141,7 +141,7 @@ class ConnectionTesterIconButton extends React.Component {
       message={this.context.intl.formatMessage({ id: this.getSnackBarMessageId(this.state.status) }, { label: connection.content.label })}
       autoHideDuration={4000}
       onRequestClose={this.handleSnackbarRequestClose}
-      onActionClick={this.handleSnackbarActionTouchTap}
+      onActionClick={this.handleSnackbarActionClick}
       action="OK"
     />)
 

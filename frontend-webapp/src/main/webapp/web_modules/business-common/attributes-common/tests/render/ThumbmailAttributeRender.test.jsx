@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { OBJECT_LINKED_FILE_ENUM } from '@regardsoss/domain/catalog'
+import { CommonDomain } from '@regardsoss/domain'
 import { ThumbnailAttributeRender } from '../../src/render/ThumbnailAttributeRender'
 import styles from '../../src/styles'
 
@@ -47,7 +47,7 @@ describe('[ATTRIBUTES COMMON] Testing ThumbnailAttributeRender', () => {
     assert.lengthOf(wrapper.find(NoDataIcon), 1, 'no file ==>  no data icon')
     // No thumbnail file in files array
     const files = {
-      [OBJECT_LINKED_FILE_ENUM.RAWDATA]: [{ uri: 'http://idk.com' }],
+      [CommonDomain.DataTypesEnum.RAWDATA]: [{ uri: 'http://idk.com' }],
     }
     wrapper = shallow(<ThumbnailAttributeRender value={files} />, { context })
     assert.lengthOf(wrapper.find(NoDataIcon), 1, 'no thumbnail file ==>  no data icon')
@@ -56,8 +56,8 @@ describe('[ATTRIBUTES COMMON] Testing ThumbnailAttributeRender', () => {
   it('Should render the first available Thumbmail file', () => {
     // No thumbnail file in files array
     const files = {
-      [OBJECT_LINKED_FILE_ENUM.THUMBNAIL]: [{ uri: 'http://rd1.com' }],
-      [OBJECT_LINKED_FILE_ENUM.THUMBNAIL]: [{ uri: 'http://th1.com' }, { uri: 'http://th2.com' }],
+      [CommonDomain.DataTypesEnum.THUMBNAIL]: [{ uri: 'http://rd1.com' }],
+      [CommonDomain.DataTypesEnum.THUMBNAIL]: [{ uri: 'http://th1.com' }, { uri: 'http://th2.com' }],
     }
     const wrapper = shallow(<ThumbnailAttributeRender value={files} />, { context })
     assert.lengthOf(wrapper.findWhere(n => n.props().src === 'http://th1.com'), 1, 'There should be an image with first thubnail as source')

@@ -94,7 +94,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
           style={listStyles}
           key={id}
           innerDivStyle={styles.listItem}
-          onTouchTap={() => {
+          onClick={() => {
             this.handleShowDialog(resource)
           }}
           rightIconButton={
@@ -133,7 +133,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
         <HateoasIconAction
           disableInsteadOfHide
           style={iconStyle}
-          onTouchTap={() => {
+          onClick={() => {
             this.props.handleToggleResourceAccess(resource, !!roleResource)
             return false
           }}
@@ -151,7 +151,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     return (
       <IconButton
         style={iconStyle}
-        onTouchTap={() => {
+        onClick={() => {
           this.props.handleToggleResourceAccess(resource, !!roleResource)
           return false
         }}

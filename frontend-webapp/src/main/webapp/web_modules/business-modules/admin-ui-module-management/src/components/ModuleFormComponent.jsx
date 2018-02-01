@@ -229,7 +229,7 @@ class ModuleFormComponent extends React.Component {
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || invalid}
                 secondaryButtonLabel={this.context.intl.formatMessage({ id: 'module.form.cancel.button' })}
-                secondaryButtonTouchTap={this.props.onBack}
+                secondaryButtonClick={this.props.onBack}
               />
             </CardActions>
           </Card>

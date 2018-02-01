@@ -44,6 +44,6 @@ describe('[Order Common] Testing ShowOrderDatasetsComponent', () => {
     const buttonWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(buttonWrapper, 1, 'There should be a button')
     assert.isDefined(buttonWrapper.props().title, 'There should be a tooltip')
-    assert.equal(buttonWrapper.props().onTouchTap, props.onSelectOrder, 'Calback should be correctly reported')
+    assert.equal(buttonWrapper.props().onClick, props.onSelectOrder, 'Calback should be correctly reported')
   })
 })
