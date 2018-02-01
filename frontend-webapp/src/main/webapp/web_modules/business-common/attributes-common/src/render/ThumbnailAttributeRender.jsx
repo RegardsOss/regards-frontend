@@ -101,7 +101,6 @@ export class ThumbnailAttributeRender extends React.Component {
             />) : (
               <NoDataIcon
                 style={noThumbnailIcon}
-
               />)
         }
         {this.displayFullSize(thumbnailURI)}
