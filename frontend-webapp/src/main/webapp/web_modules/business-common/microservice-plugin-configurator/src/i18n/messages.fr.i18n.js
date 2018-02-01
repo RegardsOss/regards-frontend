@@ -35,7 +35,7 @@ const messages = Object.assign({
   'plugin.parameter.description.dialog.title': 'Description du paramètre {parameter}',
   'plugin.parameter.description.dialog.close': 'Fermer',
   'plugin.parameter.static.field': 'Fixer la valeur du paramètre',
-  'plugin.parameter.dynamic.field': 'Paramètre dynamqiue',
+  'plugin.parameter.dynamic.field': 'Paramètre dynamique',
   'plugin.parameter.dynamicvalues.title': 'Valeurs possibles du paramètre',
   'plugin.parameter.default.value.label': '(Valeur par défaut : {defaultValue})',
 

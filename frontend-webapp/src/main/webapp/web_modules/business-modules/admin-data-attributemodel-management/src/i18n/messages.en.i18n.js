@@ -42,7 +42,7 @@ const messages = Object.assign({
   'attrmodel.form.fragment': 'Fragment',
   'attrmodel.form.description': 'Description',
   'attrmodel.form.alterable': 'Alterable',
-  'attrmodel.form.optional': 'Optionnel',
+  'attrmodel.form.optional': 'Optional',
   'attrmodel.form.type': 'Type',
   'attrmodel.form.action.cancel': 'Cancel',
   'attrmodel.form.action.submit': 'Save',
