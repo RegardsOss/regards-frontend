@@ -258,6 +258,7 @@ class SearchResultsComponent extends React.Component {
   render() {
     const { muiTheme } = this.context
     const tableTheme = muiTheme['components:infinite-table']
+    const resultsTheme = muiTheme['module:search-results']
 
     const {
       allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
@@ -270,16 +271,19 @@ class SearchResultsComponent extends React.Component {
     let columns
     let { lineHeight } = tableTheme
     let displayColumnsHeader
-    let displayedRowsCount
+    let minRowCount
+    let maxRowCount
 
     const tableColumns = this.buildTableColumns()
     if (this.isInTableView()) {
-      displayedRowsCount = tableTheme.rowCount
       columns = tableColumns
       displayColumnsHeader = true
+      minRowCount = tableTheme.minRowCount
+      maxRowCount = tableTheme.maxRowCount
     } else if (this.isInListView()) { // use list columns
-      displayedRowsCount = tableTheme.listRowCount
-      lineHeight = tableTheme.listLineHeight
+      minRowCount = resultsTheme.minListRowCount
+      maxRowCount = resultsTheme.maxListRowCount
+      lineHeight = resultsTheme.listLineHeight
       columns = [this.buildListColumn()]
       displayColumnsHeader = false
     }
@@ -349,7 +353,8 @@ class SearchResultsComponent extends React.Component {
 
             displayColumnsHeader={displayColumnsHeader}
             lineHeight={lineHeight}
-            displayedRowsCount={displayedRowsCount}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
             columns={columns}
             queryPageSize={RESULTS_PAGE_SIZE}
             pathParams={pathParams}

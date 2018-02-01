@@ -32,10 +32,8 @@ module.exports = {
   'components:infinite-table': {
     lineHeight: 50,
     fixedColumnsWidth: 42,
-    rowCount: 13,
-    listLineHeight: 160,
-    listRowCount: 4,
-    listRowsByColumnCount: 4,
+    minRowCount: 13,
+    maxRowCount: 13,
     minHeaderRowHeight: 40,
     multipleValuesSeparatorMargin: '0 10px',
     multipleValuesSeparatorHeight: 14,
@@ -68,6 +66,13 @@ module.exports = {
     titleFontWeight: '500',
     titleTextTransform: undefined,
     subtitleMarginTop: -4,
+  },
+  // search results module
+  'module:search-results': {
+    minListRowCount: 4,
+    maxListRowCount: 4,
+    listLineHeight: 160,
+    listRowsByColumnCount: 4,
   },
   // storage plugins module
   'module:storage-plugins': {

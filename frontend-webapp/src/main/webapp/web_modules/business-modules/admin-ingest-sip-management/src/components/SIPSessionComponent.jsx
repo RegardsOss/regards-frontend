@@ -331,7 +331,8 @@ class SIPSessionComponent extends React.Component {
             pageActions={sessionActions}
             pageSelectors={sessionSelectors}
             pageSize={pageSize}
-            displayedRowsCount={12}
+            minRowCount={0}
+            maxRowCount={10}
             columns={columns}
             requestParams={appliedFilters}
             emptyComponent={emptyComponent}

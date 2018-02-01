@@ -120,7 +120,8 @@ class SelectionDetailResultsTableComponent extends React.Component {
         <PageableInfiniteTableContainer
           pageActions={pageActions}
           pageSelectors={pageSelectors}
-          displayedRowsCount={visibleRowsCount}
+          minRowCount={visibleRowsCount}
+          maxRowCount={visibleRowsCount}
           columns={this.renderColumns()}
           pathParams={pathParams}
           emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}

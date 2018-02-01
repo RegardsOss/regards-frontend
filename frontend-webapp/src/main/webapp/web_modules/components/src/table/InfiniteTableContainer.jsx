@@ -18,6 +18,7 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isNumber from 'lodash/isNumber'
 import Measure from 'react-measure'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
@@ -59,7 +60,10 @@ class InfiniteTableContainer extends React.Component {
     // table configuration properties
     displayColumnsHeader: PropTypes.bool,
     lineHeight: PropTypes.number, // defaults to theme when not provided
-    displayedRowsCount: PropTypes.number, // default to theme when not provided
+    // min visible rows count
+    minRowCount: PropTypes.number, // default to theme when not provided
+    // max visible rows count
+    maxRowCount: PropTypes.number, // default to theme when not provided
     columns: PropTypes.arrayOf(TableColumnConfiguration).isRequired,
     // configures when the loading should start when user scrolls in page: this is a number in ]0; 1[ standing for
     // "after half", "after 2/3" (default), ... Adapt it to your queryPageSize
@@ -175,12 +179,14 @@ class InfiniteTableContainer extends React.Component {
     if (entities.length < this.getCurrentTotalEntities() && !this.props.entitiesFetching) {
       // The table is not yet complete, check if we should fetch
       // the scroll offset is the first element to fetch if it is missing
-      const defaultLineHeight = this.context.muiTheme['components:infinite-table'].lineHeight
+      const tableTheme = this.context.muiTheme['components:infinite-table']
+
+      const defaultLineHeight = tableTheme.lineHeight
       const { lineHeight = defaultLineHeight, queryPageSize } = this.props
 
       // when the last visible index is at 2/3 of the last loaded page, start loading next page
       const firstVisibleIndex = Math.floor(scrollEndOffset / lineHeight)
-      const actualRowCount = this.props.displayedRowsCount || this.context.muiTheme['components:infinite-table'].rowCount
+      const actualRowCount = isNumber(this.props.maxRowCount) ? this.props.maxRowCount : tableTheme.maxRowCount
       const lastVisibleIndex = firstVisibleIndex + actualRowCount
       const totalPages = Math.floor(entities.length / queryPageSize)
 
@@ -234,12 +240,14 @@ class InfiniteTableContainer extends React.Component {
 
   render() {
     const {
-      displayColumnsHeader, lineHeight, displayedRowsCount, columns, entitiesFetching,
+      displayColumnsHeader, lineHeight, columns, entitiesFetching,
       loadingComponent, emptyComponent, entitiesCount,
     } = this.props
     const { tableWidth = 0, entities } = this.state // cached render entities
-    const actualLineHeight = lineHeight || this.context.muiTheme['components:infinite-table'].lineHeight
-    const actualRowCount = displayedRowsCount || this.context.muiTheme['components:infinite-table'].rowCount
+    const tableTheme = this.context.muiTheme['components:infinite-table']
+    const actualLineHeight = lineHeight || tableTheme.lineHeight
+    const minRowCount = isNumber(this.props.minRowCount) ? this.props.minRowCount : tableTheme.minRowCount
+    const maxRowCount = isNumber(this.props.maxRowCount) ? this.props.maxRowCount : tableTheme.maxRowCount
 
     const currentTotalEntities = this.getCurrentTotalEntities()
     return (
@@ -254,7 +262,8 @@ class InfiniteTableContainer extends React.Component {
             <Table
               displayColumnsHeader={displayColumnsHeader}
               lineHeight={actualLineHeight}
-              displayedRowsCount={actualRowCount}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
 
               entities={entities}
               entitiesCount={entitiesCount}

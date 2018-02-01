@@ -376,6 +376,7 @@ export class AccessRightListComponent extends React.Component {
             {this.renderActionsLine()}
             <PageableInfiniteTableContainer
               name="access-rights-datasets-table"
+              minRowCount={0}
               pageActions={datasetWithAccessRightActions}
               pageSelectors={datasetWithAccessRightSelectors}
               tableActions={tableActions}

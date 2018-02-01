@@ -169,7 +169,8 @@ class GenerationChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              displayedRowsCount={10}
+              minRowCount={0}
+              maxRowCount={10}
               queryPageSize={this.props.queryPageSize}
             />
           </TableLayout>

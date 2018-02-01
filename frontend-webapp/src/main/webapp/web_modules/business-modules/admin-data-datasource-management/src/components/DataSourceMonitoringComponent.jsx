@@ -86,7 +86,8 @@ class DataSourceMonitoringComponent extends React.Component {
             <InfiniteTableContainer
               columns={columns}
               entities={crawlerDatasources}
-              displayedRowsCount={10}
+              minRowCount={0}
+              maxRowCount={10}
               entitiesCount={crawlerDatasources.length}
             />
           </TableLayout>

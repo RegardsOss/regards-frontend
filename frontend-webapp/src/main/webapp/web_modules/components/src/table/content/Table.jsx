@@ -26,7 +26,11 @@ import ColumnHeaderWrapper from './columns/ColumnHeaderWrapper'
 import CellWrapper from './cells/CellWrapper'
 import TableColumnConfiguration from './columns/model/TableColumnConfiguration'
 
+/** Minimal width for a column */
 const MIN_COL_WIDTH = 150
+/** Protects from undesired vertical scrollbar (due to the component CSS borders) */
+const RESERVED_BORDERS_HEIGHT = 2
+/** CSS scrollbar size (taken in account when computing the available width for columns) */
 const SCROLLBAR_SIZE = 17
 /**
  * Fixed data table from facebook library integrated with material ui theme
@@ -51,7 +55,9 @@ class Table extends React.Component {
     displayColumnsHeader: PropTypes.bool,
     lineHeight: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    displayedRowsCount: PropTypes.number.isRequired, // use in graphics computing
+    minRowCount: PropTypes.number.isRequired, // use in graphics computing
+    // eslint-disable-next-line react/no-unused-prop-types
+    maxRowCount: PropTypes.number.isRequired,
 
     // dynamic properties
     entities: PropTypes.arrayOf(PropTypes.object), // Current fetched entities
@@ -131,8 +137,8 @@ class Table extends React.Component {
 
     // compute columns with width, BUT AVOID updating it when entities change (do update only
     // when the scroll is visible and wasnt before)
-    const wasShowingScroll = (oldProps.entities || []).length > (oldProps.displayedRowsCount || 0)
-    const willShowScroll = (newProps.entities || []).length > (oldProps.displayedRowsCount || 0)
+    const wasShowingScroll = (oldProps.entities || []).length > (oldProps.maxRowCount || 0)
+    const willShowScroll = (newProps.entities || []).length > newProps.maxRowCount
 
     // update columns when: scroll state changed, width changed or columns list changed
     if (wasShowingScroll !== willShowScroll || oldProps.width !== newProps.width ||
@@ -172,6 +178,23 @@ class Table extends React.Component {
   getEntity = rowIndex => rowIndex < 0 || rowIndex >= this.props.entities.length ? null : this.props.entities[rowIndex]
 
   /**
+   * Returns the rows count to consider to show table
+   * @param {number} entitiesCount entities count
+   * @param {number} minRowCount min number of rows to show
+   * @param {number} maxRowCount max number of row to show
+   * @return {number} selected row count
+   */
+  getRowCount = (entitiesCount, minRowCount, maxRowCount) => {
+    if (entitiesCount < minRowCount) {
+      return minRowCount
+    }
+    if (entitiesCount > maxRowCount) {
+      return maxRowCount
+    }
+    return entitiesCount
+  }
+
+  /**
    * Is there an entity on specified row index?
    * Note: it happens that a row have no entity, because of the min row count being sometimes greater than the entities count
    * @param {number} rowIndex row index
@@ -185,13 +208,14 @@ class Table extends React.Component {
    * @return component height
    */
   computeHeight = ({
-    lineHeight, displayedRowsCount, displayColumnsHeader, entitiesCount,
+    lineHeight, minRowCount, maxRowCount, displayColumnsHeader, entitiesCount,
   }) => {
     // If total number of entities is too small don't display all the lines.
-    if (entitiesCount < displayedRowsCount) {
-      return (lineHeight * (entitiesCount + 1)) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
-    }
-    return (lineHeight * displayedRowsCount) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
+    const rowCount = this.getRowCount(entitiesCount, minRowCount, maxRowCount)
+    console.error('I said him I wanted to show ', rowCount)
+    console.error('Then it would be an height of ', (lineHeight * rowCount) + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0))
+
+    return (lineHeight * rowCount) + RESERVED_BORDERS_HEIGHT + (displayColumnsHeader ? this.getDefaultHeaderHeight() : 0)
   }
 
   /**
@@ -200,7 +224,7 @@ class Table extends React.Component {
    * runtime columns (default table columns enriched with required runtime data and filtered on visible state)
    */
   computeColumnsModelsWithWidth = ({
-    displayedRowsCount, entities, width, columns = [],
+    minRowCount, maxRowCount, entities, width, columns = [],
   }) => {
     // 2 - Update columns width related data
     // 2.a - prepare columns (filter unvisible and sort on order)
@@ -212,9 +236,10 @@ class Table extends React.Component {
     let lastFloatingColumnWidth = 0
     if (floatingColumnsCount > 0) {
       // 2.c - There are floarting columns, compute how many space they have (refuse column width less than MIN_COL_WIDTH)
-      const rowsCount = get(entities, 'length', 0)
+      const entitiesCount = get(entities, 'length', 0)
       // consider total width, but remove right scrollbar size if shown
-      const availableWidth = width - (rowsCount > displayedRowsCount ? SCROLLBAR_SIZE : 0)
+      const displayedRowsCount = this.getRowCount(get(entities, 'length', 0), minRowCount, maxRowCount)
+      const availableWidth = width - (entitiesCount > displayedRowsCount ? SCROLLBAR_SIZE : 0)
       const fixedColumnsWidth = renderColumns.reduce((acc, column) =>
         isNumber(column.fixedWidth) ? acc + column.fixedWidth : acc, 0)
       const floatingWidth = availableWidth - fixedColumnsWidth
