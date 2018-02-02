@@ -11,7 +11,7 @@ import styles from './styles'
 
 
 /**
-* A positioned dialog: with and height can be specified as percents. It reports any other
+* A positioned dialog: width and height can be specified as percents. It reports any other
 * property to material UI dialog instance
 */
 class PositionedDialog extends React.Component {
