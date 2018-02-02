@@ -23,7 +23,7 @@ import Chip from 'material-ui/Chip'
 import Dialog from 'material-ui/Dialog/Dialog'
 import { ListItem, List } from 'material-ui/List'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ShowableAtRender } from '@regardsoss/components'
+import { ShowableAtRender, PositionedDialog } from '@regardsoss/components'
 import NotificationListComponent from '../../src/components/NotificationListComponent'
 import styles from '../../src/styles/styles'
 
@@ -73,9 +73,9 @@ describe('[Menu] Testing NotificationListComponent', () => {
     const props = {
       readNotifications: [],
       unreadNotifications: [],
-      registerNotify: () => {},
-      readNotification: () => {},
-      readAllNotifications: () => {},
+      registerNotify: () => { },
+      readNotification: () => { },
+      readAllNotifications: () => { },
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 
@@ -103,9 +103,9 @@ describe('[Menu] Testing NotificationListComponent', () => {
     const props = {
       readNotifications: generateNotifications('READ', 2),
       unreadNotifications: [],
-      registerNotify: () => {},
-      readNotification: () => {},
-      readAllNotifications: () => {},
+      registerNotify: () => { },
+      readNotification: () => { },
+      readAllNotifications: () => { },
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 
@@ -124,7 +124,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
     enzymeWrapper.setState({ openedNotification: props.readNotifications[0] })
 
     // check that dialog is opened
-    const dialogWrapper = enzymeWrapper.find(Dialog)
+    const dialogWrapper = enzymeWrapper.find(PositionedDialog)
     assert.lengthOf(dialogWrapper, 1, 'There should be the notification dialog')
 
     // check that unread list is hidden
@@ -140,9 +140,9 @@ describe('[Menu] Testing NotificationListComponent', () => {
     const props = {
       readNotifications: generateNotifications('READ', 2),
       unreadNotifications: generateNotifications('UNREAD', 2, 2),
-      registerNotify: () => {},
-      readNotification: () => {},
-      readAllNotifications: () => {},
+      registerNotify: () => { },
+      readNotification: () => { },
+      readAllNotifications: () => { },
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 
@@ -166,7 +166,7 @@ describe('[Menu] Testing NotificationListComponent', () => {
     enzymeWrapper.setState({ openedNotification: props.unreadNotifications[0] })
 
     // check that dialog is opened
-    const dialogWrapper = enzymeWrapper.find(Dialog)
+    const dialogWrapper = enzymeWrapper.find(PositionedDialog)
     assert.lengthOf(dialogWrapper, 1, 'There should be the notification dialog')
 
     // check that unread list is hidden
