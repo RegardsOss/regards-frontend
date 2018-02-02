@@ -111,4 +111,10 @@ module.exports = {
     // filters (admin only)
     clearEmailFilterPadding: '7px 16px 7px 8px',
   },
+  'components:button-anchor-scroll-top': {
+    iconColor: '#303030',
+    buttonColor: '#2196f3',
+    buttonRight: '10px',
+    buttonBottom: '10px',
+  },
 }

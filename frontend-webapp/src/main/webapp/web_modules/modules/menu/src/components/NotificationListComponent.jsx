@@ -234,7 +234,7 @@ class NotificationListComponent extends React.Component {
         modal
         open={!!this.state.openedNotification}
         onRequestClose={this.handleClose}
-        bodyStyle={{ height: '100%' }}
+        bodyStyle={dialog.style}
         dialogHeightPercent={60}
         dialogWidthPercent={78}
       >

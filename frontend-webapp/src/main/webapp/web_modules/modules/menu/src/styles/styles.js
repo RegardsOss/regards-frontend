@@ -171,6 +171,9 @@ const menuStyles = theme => ({
       },
     },
     dialog: {
+      style: {
+        height: '100%',
+      },
       wrapper: {
         style: {
           margin: '-24px 0 -24px -24px',
