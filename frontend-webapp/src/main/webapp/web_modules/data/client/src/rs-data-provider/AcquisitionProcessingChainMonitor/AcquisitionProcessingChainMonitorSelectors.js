@@ -15,25 +15,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
+/**
+ * Generation chains list selectors
+ * @author Sébastien Binda
+ */
 
-import { Schema, arrayOf } from 'normalizr'
+/**
+ * Selectors instance builders
+ * @param {[string]} storePath path to access state in redux store
+ * @return selectors instance
+ */
+const getAcquisitionProcessingChainMonitorSelectors = storePath => new BasicPageableSelectors(storePath)
 
-const GenerationChainConfiguration = {
-  entityKey: 'id',
-  normalizrKey: 'generationChain',
-}
-
-const generationChain = new Schema(GenerationChainConfiguration.normalizrKey, {
-  idAttribute: entity =>
-    entity.content[GenerationChainConfiguration.entityKey]
-  ,
-})
-
-// Schemas for API responses.
-module.exports = {
-  GENERATION_CHAIN: generationChain,
-  GENERATION_CHAIN_ARRAY: arrayOf(generationChain),
-  GenerationChainConfiguration,
-}
+export default getAcquisitionProcessingChainMonitorSelectors

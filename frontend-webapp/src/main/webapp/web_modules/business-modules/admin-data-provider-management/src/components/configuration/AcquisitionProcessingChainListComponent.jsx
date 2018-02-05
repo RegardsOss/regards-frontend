@@ -31,17 +31,17 @@ import {
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { tableActions } from '../clients/TableClient'
-import { generationChainActions, generationChainSelectors } from '../clients/GenerationChainClient'
-import GenerationChainTableEditAction from './GenerationChainTableEditAction'
-import GenerationChainTableDuplicateAction from './GenerationChainTableDuplicateAction'
-import styles from '../styles'
-import messages from '../i18n'
+import { tableActions } from '../../clients/TableClient'
+import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
+import AcquisitionProcessingChainTableEditAction from './AcquisitionProcessingChainTableEditAction'
+import AcquisitionProcessingChainTableDuplicateAction from './AcquisitionProcessingChainTableDuplicateAction'
+import styles from '../../styles'
+import messages from '../../i18n'
 /**
-* GenerationChainListComponent
+* AcquisitionProcessingChainListComponent
 * @author Sébastien Binda
 */
-class GenerationChainListComponent extends React.Component {
+class AcquisitionProcessingChainListComponent extends React.Component {
   static propTypes = {
     fetchPage: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -100,7 +100,7 @@ class GenerationChainListComponent extends React.Component {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={this.context.intl.formatMessage({ id: 'generation-chain.delete.confirm.title' }, { label: this.state.chainToDelete.content.label })}
+          title={this.context.intl.formatMessage({ id: 'generation-chain.list.delete.confirm.title' }, { label: this.state.chainToDelete.content.label })}
           onConfirm={this.onConfirmDelete}
           onClose={this.closeDeleteDialog}
         />
@@ -110,43 +110,40 @@ class GenerationChainListComponent extends React.Component {
   }
 
   render() {
-    const { intl, muiTheme } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
+    const {
+      onBack, onDuplicate, onEdit, fetchPage, queryPageSize, onCreate,
+    } = this.props
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
     const emptyComponent = (
       <NoContentComponent
-        title={intl.formatMessage({ id: 'generation-chain.empty.title' })}
+        title={formatMessage({ id: 'generation-chain.list.empty.title' })}
         Icon={AddToPhotos}
       />
     )
 
     const infoMessage = (
       <span>
-        {intl.formatMessage({ id: 'generation-chain.info.message' })}
-        <ul>
-          <li>{intl.formatMessage({ id: 'generation-chain.info.message.step1' })}</li>
-          <li>{intl.formatMessage({ id: 'generation-chain.info.message.step2' })}</li>
-          <li>{intl.formatMessage({ id: 'generation-chain.info.message.step3' })}</li>
-          <li>{intl.formatMessage({ id: 'generation-chain.info.message.step4' })}</li>
-        </ul>
+        {formatMessage({ id: 'generation-chain.list.info.message' })}
       </span>
     )
 
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', 'label', 'content.label'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.description', 'description', 'content.description'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'generation-chain.list.table.label' }), 'content.label'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.mode', formatMessage({ id: 'generation-chain.list.table.mode' }), 'content.mode'),
       TableColumnBuilder.buildOptionsColumn('', [{
-        OptionConstructor: GenerationChainTableEditAction,
-        optionProps: { onEdit: this.props.onEdit },
+        OptionConstructor: AcquisitionProcessingChainTableEditAction,
+        optionProps: { onEdit },
       }, {
-        OptionConstructor: GenerationChainTableDuplicateAction,
-        optionProps: { onDuplicate: this.props.onDuplicate },
+        OptionConstructor: AcquisitionProcessingChainTableDuplicateAction,
+        optionProps: { onDuplicate },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
-          fetchPage: this.props.fetchPage,
+          fetchPage,
           onDelete: this.onDelete,
-          queryPageSize: this.props.queryPageSize,
+          queryPageSize,
           handleHateoas: true,
         },
       }], true, fixedColumnWidth),
@@ -155,33 +152,33 @@ class GenerationChainListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={intl.formatMessage({ id: 'generation-chain.list.title' })}
-          subtitle={intl.formatMessage({ id: 'generation-chain.list.subtitle' })}
+          title={formatMessage({ id: 'generation-chain.list.title' })}
+          subtitle={formatMessage({ id: 'generation-chain.list.subtitle' })}
         />
         <CardText>
           <HelpMessageComponent message={infoMessage} />
           <TableLayout>
             <PageableInfiniteTableContainer
               name="generation-chain-table"
-              pageActions={generationChainActions}
-              pageSelectors={generationChainSelectors}
+              pageActions={AcquisitionProcessingChainActions}
+              pageSelectors={AcquisitionProcessingChainSelectors}
               tableActions={tableActions}
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
               displayedRowsCount={10}
-              queryPageSize={this.props.queryPageSize}
+              queryPageSize={queryPageSize}
             />
           </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={this.props.onCreate}
+            mainButtonTouchTap={onCreate}
             // TODO : Set hateoas dependencies for data-provider
             // mainHateoasDependencies={addDependencies}
-            mainButtonLabel={intl.formatMessage({ id: 'generation-chain.addnew.button' })}
-            secondaryButtonLabel={intl.formatMessage({ id: 'generation-chain.back.button' })}
-            secondaryButtonTouchTap={this.props.onBack}
+            mainButtonLabel={formatMessage({ id: 'generation-chain.list.addnew.button' })}
+            secondaryButtonLabel={formatMessage({ id: 'generation-chain.list.back.button' })}
+            secondaryButtonTouchTap={onBack}
           />
         </CardActions>
         {this.renderDeleteConfirmDialog()}
@@ -189,4 +186,4 @@ class GenerationChainListComponent extends React.Component {
     )
   }
 }
-export default withI18n(messages)(withModuleStyle(styles)(GenerationChainListComponent))
+export default withI18n(messages)(withModuleStyle(styles)(AcquisitionProcessingChainListComponent))

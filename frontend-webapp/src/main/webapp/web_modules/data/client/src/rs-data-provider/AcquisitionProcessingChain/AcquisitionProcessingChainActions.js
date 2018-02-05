@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,22 +15,31 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { DataProviderClient } from '@regardsoss/client'
+ **/
+
+
+import { BasicPageableActions } from '@regardsoss/store-utils'
+import Schemas from '@regardsoss/api'
 
 /**
- * Dataprovider generation chain entities client.
+ * Actions to get generation chain list
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'chain']
-const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/chains'
-
-const generationChainActions = new DataProviderClient.GenerationChainActions(REDUX_ACTION_NAMESPACE)
-const generationChainReducer = DataProviderClient.getGenerationChainReducer(REDUX_ACTION_NAMESPACE)
-const generationChainSelectors = DataProviderClient.getGenerationChainSelectors(ENTITIES_STORE_PATH)
-
-module.exports = {
-  generationChainActions,
-  generationChainReducer,
-  generationChainSelectors,
+class AcquisitionProcessingChainActions extends BasicPageableActions {
+  /**
+   * constructor
+   * @param {*} namespace namespace
+   */
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/chains`,
+      namespace,
+      schemaTypes: {
+        ENTITY: Schemas.ACQUISITION_PROCESSING_CHAIN,
+        ENTITY_ARRAY: Schemas.ACQUISITION_PROCESSING_CHAIN_ARRAY,
+      },
+    })
+  }
 }
+
+export default AcquisitionProcessingChainActions

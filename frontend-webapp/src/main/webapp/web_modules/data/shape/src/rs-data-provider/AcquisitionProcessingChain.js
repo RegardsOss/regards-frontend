@@ -20,12 +20,12 @@ import { PluginConfigurationContent } from '../rs-common/Plugin/PluginConfigurat
 import { AcquisitionFileInfoContent } from './AcquisitionFileInfo'
 
 /**
- * Describes a GenerationChain shape and related sub objects
+ * Describes a AcquisitionProcessingChain shape and related sub objects
  * @author Sébastien Binda
  */
 
 /** A dated selection item shape */
-const GenerationChainContent = PropTypes.shape({
+const AcquisitionProcessingChainContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
@@ -35,7 +35,7 @@ const GenerationChainContent = PropTypes.shape({
   lastDateActivation: PropTypes.string,
   periodicity: PropTypes.number.isRequired,
   ingestChain: PropTypes.string.isRequired,
-  dataSetIpId: PropTypes.string.isRequired,
+  datasetIpId: PropTypes.string.isRequired,
   fileInfos: PropTypes.arrayOf(AcquisitionFileInfoContent),
   validationPluginConf: PluginConfigurationContent.isRequired,
   productPluginConf: PluginConfigurationContent.isRequired,
@@ -43,15 +43,15 @@ const GenerationChainContent = PropTypes.shape({
   postProcessSipPluginConf: PluginConfigurationContent.isRequired,
 })
 
-const GenerationChain = PropTypes.shape({
-  content: GenerationChainContent,
+const AcquisitionProcessingChain = PropTypes.shape({
+  content: AcquisitionProcessingChainContent,
 })
-const GenerationChainList = PropTypes.objectOf(GenerationChain)
-const GenerationChainArray = PropTypes.arrayOf(GenerationChain)
+const AcquisitionProcessingChainList = PropTypes.objectOf(AcquisitionProcessingChain)
+const AcquisitionProcessingChainArray = PropTypes.arrayOf(AcquisitionProcessingChain)
 
 module.exports = {
-  GenerationChainList,
-  GenerationChainArray,
-  GenerationChainContent,
-  GenerationChain,
+  AcquisitionProcessingChainList,
+  AcquisitionProcessingChainArray,
+  AcquisitionProcessingChainContent,
+  AcquisitionProcessingChain,
 }

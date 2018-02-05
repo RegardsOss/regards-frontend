@@ -29,6 +29,7 @@ const messages = {
   'data-provider.board.title': 'Automatisation',
   'data-provider.board.description': 'Cette fonctionalité vous permet de configurer des processus d\'ajout automatique des nouvelles données détectées. Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour soumission.',
   'data-provider.board.action.chain.list.tooltip': 'Configurer les chaînes de traitements',
+  'data-provider.board.action.monitoring.tooltip': 'Suivre l\'activité des chaînes de traitements',
 
   'ingest.board.external.datasources.title': 'Aspiration',
   'ingest.board.external.datasources.description': 'Cette fonctionnalité vous permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',

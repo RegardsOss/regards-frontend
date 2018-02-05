@@ -24,15 +24,15 @@ import { DataProviderShapes } from '@regardsoss/shape'
 import { Field } from 'redux-form'
 import { ValidationHelpers } from '@regardsoss/form-utils'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
-import generationChainPluginTypes from './GenerationChainPluginTypes'
+import AcquisitionProcessingChainPluginTypes from './AcquisitionProcessingChainPluginTypes'
 
 /**
 * Component to configure plugins of a generation chain of DataProvider microservice
 * @author Sébastien Binda
 */
-class GenerationChainFormPluginsComponent extends React.PureComponent {
+class AcquisitionProcessingChainFormPluginsComponent extends React.PureComponent {
   static propTypes = {
-    chain: DataProviderShapes.GenerationChain,
+    chain: DataProviderShapes.AcquisitionProcessingChain,
   }
 
   static contextTypes = {
@@ -84,7 +84,7 @@ class GenerationChainFormPluginsComponent extends React.PureComponent {
         1,
         formatMessage({ id: 'generation-chain.form.plugins.validation.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
-        generationChainPluginTypes.VALIDATION,
+        AcquisitionProcessingChainPluginTypes.VALIDATION,
         validationPlugin,
         'validationPluginConf',
         ValidationHelpers.required,
@@ -93,7 +93,7 @@ class GenerationChainFormPluginsComponent extends React.PureComponent {
         2,
         formatMessage({ id: 'generation-chain.form.plugins.product.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
-        generationChainPluginTypes.PRODUCT,
+        AcquisitionProcessingChainPluginTypes.PRODUCT,
         productPlugin,
         'productPluginConf',
         ValidationHelpers.required,
@@ -102,7 +102,7 @@ class GenerationChainFormPluginsComponent extends React.PureComponent {
         3,
         formatMessage({ id: 'generation-chain.form.plugins.gen-sip.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
-        generationChainPluginTypes.GENERATE_SIP,
+        AcquisitionProcessingChainPluginTypes.GENERATE_SIP,
         genPlugin,
         'generateSipPluginConf',
         ValidationHelpers.required,
@@ -111,7 +111,7 @@ class GenerationChainFormPluginsComponent extends React.PureComponent {
         4,
         formatMessage({ id: 'generation-chain.form.plugins.post-processing.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
-        generationChainPluginTypes.POST_PROCESSING,
+        AcquisitionProcessingChainPluginTypes.POST_PROCESSING,
         postProcessPlugin,
         'postProcessSipPluginConf',
       ),
@@ -119,4 +119,4 @@ class GenerationChainFormPluginsComponent extends React.PureComponent {
     return plugins
   }
 }
-export default GenerationChainFormPluginsComponent
+export default AcquisitionProcessingChainFormPluginsComponent

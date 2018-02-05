@@ -22,14 +22,14 @@ import { connect } from '@regardsoss/redux'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ErrorCardComponent } from '@regardsoss/components'
-import GenerationChainFormComponent from '../components/GenerationChainFormComponent'
-import { generationChainActions, generationChainSelectors } from '../clients/GenerationChainClient'
+import AcquisitionProcessingChainFormComponent from '../../components/configuration/AcquisitionProcessingChainFormComponent'
+import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
 
 /**
-* Container to display a form of GenerationChain entity
+* Container to display a form of AcquisitionProcessingChain entity
 * @author Sébastien Binda
 */
-export class GenerationChainFormContainer extends React.Component {
+export class AcquisitionProcessingChainFormContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -38,7 +38,7 @@ export class GenerationChainFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      chain: get(ownProps, 'params.chainId', false) ? generationChainSelectors.getById(state, ownProps.params.chainId) : undefined,
+      chain: get(ownProps, 'params.chainId', false) ? AcquisitionProcessingChainSelectors.getById(state, ownProps.params.chainId) : undefined,
     }
   }
 
@@ -50,9 +50,9 @@ export class GenerationChainFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetch: id => dispatch(generationChainActions.fetchEntity(id)),
-      create: values => dispatch(generationChainActions.createEntity(values)),
-      update: (id, values) => dispatch(generationChainActions.updateEntity(id, values)),
+      fetch: id => dispatch(AcquisitionProcessingChainActions.fetchEntity(id)),
+      create: values => dispatch(AcquisitionProcessingChainActions.createEntity(values)),
+      update: (id, values) => dispatch(AcquisitionProcessingChainActions.updateEntity(id, values)),
     }
   }
 
@@ -63,7 +63,7 @@ export class GenerationChainFormContainer extends React.Component {
       mode: PropTypes.string,
     }),
     // from mapStateToProps
-    chain: DataProviderShapes.GenerationChain,
+    chain: DataProviderShapes.AcquisitionProcessingChain,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
     create: PropTypes.func.isRequired,
@@ -110,7 +110,7 @@ export class GenerationChainFormContainer extends React.Component {
 
   /**
    * Callback to submit form values
-   * @param {*} values : generationChain object to submit (update or create)
+   * @param {*} values : AcquisitionProcessingChain object to submit (update or create)
    */
   onSubmit = (values) => {
     const { params: { mode } } = this.props
@@ -146,7 +146,7 @@ export class GenerationChainFormContainer extends React.Component {
         isContentError={isLoadingError}
         contentErrorComponent={<ErrorCardComponent />}
       >
-        <GenerationChainFormComponent
+        <AcquisitionProcessingChainFormComponent
           chain={chain}
           mode={mode || 'create'}
           onSubmit={this.onSubmit}
@@ -157,6 +157,6 @@ export class GenerationChainFormContainer extends React.Component {
   }
 }
 export default connect(
-  GenerationChainFormContainer.mapStateToProps,
-  GenerationChainFormContainer.mapDispatchToProps,
-)(GenerationChainFormContainer)
+  AcquisitionProcessingChainFormContainer.mapStateToProps,
+  AcquisitionProcessingChainFormContainer.mapDispatchToProps,
+)(AcquisitionProcessingChainFormContainer)

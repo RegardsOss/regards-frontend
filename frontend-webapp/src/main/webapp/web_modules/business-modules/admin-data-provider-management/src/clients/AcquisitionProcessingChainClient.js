@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,18 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { DataProviderClient } from '@regardsoss/client'
 
 /**
- * Generation chains list selectors
+ * Dataprovider generation chain entities client.
  * @author Sébastien Binda
  */
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'chain']
+const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/chains'
 
-/**
- * Selectors instance builders
- * @param {[string]} storePath path to access state in redux store
- * @return selectors instance
- */
-const getGenerationchainSelectors = storePath => new BasicPageableSelectors(storePath)
+const AcquisitionProcessingChainActions = new DataProviderClient.AcquisitionProcessingChainActions(REDUX_ACTION_NAMESPACE)
+const AcquisitionProcessingChainReducer = DataProviderClient.getAcquisitionProcessingChainReducer(REDUX_ACTION_NAMESPACE)
+const AcquisitionProcessingChainSelectors = DataProviderClient.getAcquisitionProcessingChainSelectors(ENTITIES_STORE_PATH)
 
-export default getGenerationchainSelectors
+module.exports = {
+  AcquisitionProcessingChainActions,
+  AcquisitionProcessingChainReducer,
+  AcquisitionProcessingChainSelectors,
+}

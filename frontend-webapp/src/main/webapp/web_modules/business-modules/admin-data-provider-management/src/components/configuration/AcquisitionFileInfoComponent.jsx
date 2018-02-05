@@ -26,8 +26,8 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { mimeTypes } from '@regardsoss/mime-types'
 import { CommonDomain } from '@regardsoss/domain'
-import generationChainPluginTypes from './GenerationChainPluginTypes'
-import messages from '../i18n'
+import AcquisitionProcessingChainPluginTypes from './AcquisitionProcessingChainPluginTypes'
+import messages from '../../i18n'
 
 const {
   required, validStringSize,
@@ -65,7 +65,7 @@ class AcquisitionFileInfoComponent extends React.PureComponent {
         fullWidth
         component={RenderTextField}
         type="text"
-        label={formatMessage({ id: 'generation-chain.form.create.fileInfo.comment' })}
+        label={formatMessage({ id: 'generation-chain.form.fileInfo.comment' })}
         validate={validString255}
       />,
       <Field
@@ -73,15 +73,15 @@ class AcquisitionFileInfoComponent extends React.PureComponent {
         name={`${name}.mandatory`}
         fullWidth
         component={RenderCheckbox}
-        label={formatMessage({ id: 'generation-chain.form.create.fileInfo.mandatory' })}
+        label={formatMessage({ id: 'generation-chain.form.fileInfo.mandatory' })}
       />,
       <Field
         key="scanPlugin"
         name={`${name}.scanPlugin`}
         component={RenderPluginField}
-        title={formatMessage({ id: 'generation-chain.form.plugins.scan.label' })}
-        selectLabel={formatMessage({ id: 'generation-chain.form.plugins.select.label' })}
-        pluginType={generationChainPluginTypes.SCAN}
+        title={formatMessage({ id: 'generation-chain.form.fileInfo.plugin.scan.label' })}
+        selectLabel={formatMessage({ id: 'generation-chain.form.fileInfo.plugin.scan.label' })}
+        pluginType={AcquisitionProcessingChainPluginTypes.SCAN}
         defaultPluginConfLabel={`scanPlugin-${Date.now()}`}
         validate={ValidationHelpers.required}
         microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
@@ -93,8 +93,8 @@ class AcquisitionFileInfoComponent extends React.PureComponent {
         name={`${name}.mimeType`}
         fullWidth
         component={RenderAutoCompleteField}
-        hintText={formatMessage({ id: 'generation-chain.form.create.fileInfo.mimeType.hint' })}
-        floatingLabelText={formatMessage({ id: 'generation-chain.form.create.fileInfo.mimeType.label' })}
+        hintText={formatMessage({ id: 'generation-chain.form.fileInfo.mimeType' })}
+        floatingLabelText={formatMessage({ id: 'generation-chain.form.fileInfo.mimeType' })}
         dataSource={mimeTypes}
         dataSourceConfig={mimeTypesConfig}
         filter={AutoComplete.caseInsensitiveFilter}
@@ -105,8 +105,8 @@ class AcquisitionFileInfoComponent extends React.PureComponent {
         name={`${name}.dataType`}
         fullWidth
         component={RenderAutoCompleteField}
-        hintText={formatMessage({ id: 'generation-chain.form.create.fileInfo.dataType.hint' })}
-        floatingLabelText={formatMessage({ id: 'generation-chain.form.create.fileInfo.dataType.label' })}
+        hintText={formatMessage({ id: 'generation-chain.form.fileInfo.dataType' })}
+        floatingLabelText={formatMessage({ id: 'generation-chain.form.fileInfo.dataType' })}
         dataSource={CommonDomain.DataTypes}
         filter={AutoComplete.caseInsensitiveFilter}
         validate={required}

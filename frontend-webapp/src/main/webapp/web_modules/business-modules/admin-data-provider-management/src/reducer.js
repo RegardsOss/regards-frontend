@@ -17,14 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
-import { generationChainReducer } from './clients/GenerationChainClient'
-import { tableReducer } from './clients/TableClient'
+import { AcquisitionProcessingChainReducer } from './clients/AcquisitionProcessingChainClient'
+import { AcquisitionProcessingChainMonitorReducer } from './clients/AcquisitionProcessingChainMonitorClient'
+import { tableReducer, tableMonitorReducer } from './clients/TableClient'
 /**
  * @author Sébastien Binda
  */
 const dataProviderManagementReducer = combineReducers({
-  chain: generationChainReducer,
+  chain: AcquisitionProcessingChainReducer,
+  chainMonitor: AcquisitionProcessingChainMonitorReducer,
   processingChainTable: tableReducer,
+  processingChainMonitorTable: tableMonitorReducer,
 })
 
 export default dataProviderManagementReducer

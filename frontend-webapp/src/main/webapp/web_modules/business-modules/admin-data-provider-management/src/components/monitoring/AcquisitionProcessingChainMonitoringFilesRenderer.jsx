@@ -1,0 +1,85 @@
+/**
+ * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { DataProviderShapes } from '@regardsoss/shape'
+
+/**
+* Component to render the activity indicator for ne chain into the chain monitoring list
+* @author Sébastien Binda
+*/
+class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Component {
+  static propTypes = {
+    entity: PropTypes.shape({
+      content: DataProviderShapes.AcquisitionProcessingChainContent,
+      links: PropTypes.array,
+    }),
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
+
+  static defaultProps = {}
+
+  renderTotal = () => {
+    const { entity: { content } } = this.props
+    const { intl: { formatMessage }, moduleTheme: { monitoring: { totalStyle } } } = this.context
+    return (
+      <span style={totalStyle} title={formatMessage({ id: 'generation-chain.monitor.list.total-files.tooltip' })}>
+        {content.nbFiles}
+      </span >
+    )
+  }
+
+  renderError = () => {
+    const { entity: { content } } = this.props
+    const { intl: { formatMessage }, moduleTheme: { monitoring: { errorStyle } } } = this.context
+    if (content.nbFileErrors >= 0) {
+      return (
+        <span style={errorStyle} title={formatMessage({ id: 'generation-chain.monitor.list.error-nb-files.tooltip' })}>
+          {content.nbFileErrors}
+        </span >
+      )
+    }
+    return null
+  }
+
+  renderInProgress = () => {
+    const { entity: { content } } = this.props
+    const { intl: { formatMessage }, moduleTheme: { monitoring: { inProgressStyle } } } = this.context
+    if (content.nbFilesInProgress >= 0) {
+      return (
+        <span style={inProgressStyle} title={formatMessage({ id: 'generation-chain.monitor.list.inprogress-nb-files.tooltip' })}>
+          {content.nbFilesInProgress}
+        </span >
+      )
+    }
+    return null
+  }
+  render() {
+    return [
+      this.renderTotal(),
+      this.renderInProgress(),
+      this.renderError(),
+    ]
+  }
+}
+export default AcquisitionProcessingChainMonitoringProductsRenderer

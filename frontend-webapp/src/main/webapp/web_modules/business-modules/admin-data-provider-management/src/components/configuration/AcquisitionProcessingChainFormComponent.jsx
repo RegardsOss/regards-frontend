@@ -31,12 +31,12 @@ import {
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain } from '@regardsoss/domain'
-import { datasetActions, datasetEntitiesKey } from '../clients/DatasetClient'
-import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../clients/IngestProcessingChainClient'
-import GenerationChainFormPluginsComponent from './GenerationChainFormPluginsComponent'
+import { datasetActions, datasetEntitiesKey } from '../../clients/DatasetClient'
+import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
+import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
-import styles from '../styles'
-import messages from '../i18n'
+import styles from '../../styles'
+import messages from '../../i18n'
 
 const {
   required, validStringSize,
@@ -44,12 +44,12 @@ const {
 const validRequiredString255 = [required, validStringSize(1, 255)]
 
 /**
-* Component to display a form of GenerationChain entity
+* Component to display a form of AcquisitionProcessingChain entity
 * @author Sébastien Binda
 */
-class GenerationChainFormComponent extends React.PureComponent {
+class AcquisitionProcessingChainFormComponent extends React.PureComponent {
   static propTypes = {
-    chain: DataProviderShapes.GenerationChain,
+    chain: DataProviderShapes.AcquisitionProcessingChain,
     mode: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
@@ -121,15 +121,15 @@ class GenerationChainFormComponent extends React.PureComponent {
       invalid, submitting, onBack, mode,
     } = this.props
     const label = mode === 'create' || mode === 'duplicate' ?
-      formatMessage({ id: 'generation-chain.form.create.action.create' }) :
-      formatMessage({ id: 'generation-chain.form.edit.action.save' })
+      formatMessage({ id: 'generation-chain.form.create.button' }) :
+      formatMessage({ id: 'generation-chain.form.update.button' })
     return (
       <CardActions>
         <CardActionsComponent
           mainButtonLabel={label}
           mainButtonType="submit"
           isMainButtonDisabled={submitting || invalid}
-          secondaryButtonLabel={formatMessage({ id: 'generation-chain.form.create.action.cancel' })}
+          secondaryButtonLabel={formatMessage({ id: 'generation-chain.form.cancel.button' })}
           secondaryButtonTouchTap={onBack}
         />
       </CardActions>
@@ -149,6 +149,10 @@ class GenerationChainFormComponent extends React.PureComponent {
           <li>{formatMessage({ id: 'generation-chain.form.informations-2' })}</li>
           <li>{formatMessage({ id: 'generation-chain.form.informations-3' })}</li>
           <li>{formatMessage({ id: 'generation-chain.form.informations-4' })}</li>
+          <li>{formatMessage({ id: 'generation-chain.form.informations-5' })}</li>
+          <li>{formatMessage({ id: 'generation-chain.form.informations-6' })}</li>
+          <li>{formatMessage({ id: 'generation-chain.form.informations-7' })}</li>
+          <li>{formatMessage({ id: 'generation-chain.form.informations-8' })}</li>
         </ul>
       </span>
     )
@@ -177,28 +181,28 @@ class GenerationChainFormComponent extends React.PureComponent {
             <HelpMessageComponent message={infoMessage} />
             <br />
             <Tabs>
-              <Tab label={formatMessage({ id: 'generation-chain.form.create.general.section' })} >
+              <Tab label={formatMessage({ id: 'generation-chain.form.general.section.title' })} >
                 <Field
                   name="label"
                   fullWidth
                   component={RenderTextField}
                   type="text"
                   validate={validRequiredString255}
-                  label={formatMessage({ id: 'generation-chain.form.create.input.label' })}
+                  label={formatMessage({ id: 'generation-chain.form.general.section.label' })}
                 />
                 <Field
                   name="active"
                   fullWidth
                   component={RenderCheckbox}
-                  label={formatMessage({ id: 'generation-chain.form.create.input.active' })}
+                  label={formatMessage({ id: 'generation-chain.form.general.section.active' })}
                 />
                 <Field
                   key="mode"
                   name="mode"
                   fullWidth
                   component={RenderAutoCompleteField}
-                  hintText={formatMessage({ id: 'generation-chain.form.create.mode.hint' })}
-                  floatingLabelText={formatMessage({ id: 'generation-chain.form.create.mode.label' })}
+                  hintText={formatMessage({ id: 'generation-chain.form.general.section.mode' })}
+                  floatingLabelText={formatMessage({ id: 'generation-chain.form.general.section.mode' })}
                   dataSource={DataProviderDomain.AcquisitionProcessingChainModes}
                   filter={AutoComplete.caseInsensitiveFilter}
                   validate={required}
@@ -208,21 +212,21 @@ class GenerationChainFormComponent extends React.PureComponent {
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  label={formatMessage({ id: 'generation-chain.form.create.input.session' })}
+                  label={formatMessage({ id: 'generation-chain.form.general.section.session' })}
                 />
                 <Field
                   name="periodicity"
                   fullWidth
                   component={RenderTextField}
                   type="number"
-                  label={formatMessage({ id: 'generation-chain.form.create.input.periodicity' })}
+                  label={formatMessage({ id: 'generation-chain.form.general.section.periodicity' })}
                 />
                 <Field
                   name="ingestChain"
                   fullWidth
                   component={RenderPageableAutoCompleteField}
-                  floatingLabelText={formatMessage({ id: 'generation-chain.form.create.input.ingestChain.select' })}
-                  hintText={formatMessage({ id: 'generation-chain.form.create.input.ingestChain.select.hint' })}
+                  floatingLabelText={formatMessage({ id: 'generation-chain.form.general.section.ingestChain.select' })}
+                  hintText={formatMessage({ id: 'generation-chain.form.general.section.ingestChain.select.hint' })}
                   pageSize={50}
                   entitiesFilterProperty="name"
                   entityActions={ingestProcessingChainActions}
@@ -234,8 +238,8 @@ class GenerationChainFormComponent extends React.PureComponent {
                   name="datasetIpId"
                   fullWidth
                   component={RenderPageableAutoCompleteField}
-                  floatingLabelText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select' })}
-                  hintText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select.hint' })}
+                  floatingLabelText={formatMessage({ id: 'generation-chain.form.general.section.dataset.select' })}
+                  hintText={formatMessage({ id: 'generation-chain.form.general.section.dataset.select.hint' })}
                   pageSize={50}
                   entitiesFilterProperty="label"
                   entityActions={datasetActions}
@@ -244,11 +248,11 @@ class GenerationChainFormComponent extends React.PureComponent {
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'generation-chain.form.create.fileInfos.section' })} >
+              <Tab label={formatMessage({ id: 'generation-chain.form.fileInfos.section' })} >
                 <FieldArray
                   name="fileInfos"
                   component={RenderArrayObjectField}
-                  elementLabel={formatMessage({ id: 'generation-chain.form.create.fileInfos.list.item.title' })}
+                  elementLabel={formatMessage({ id: 'generation-chain.form.fileInfos.list.item.title' })}
                   fieldComponent={AcquisitionFileInfoComponent}
                   getEmptyObject={this.getEmptyMetaFile}
                   duplicationTransfromation={this.duplicateMetaFile}
@@ -257,8 +261,8 @@ class GenerationChainFormComponent extends React.PureComponent {
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'generation-chain.form.create.plugins.section' })} >
-                <GenerationChainFormPluginsComponent
+              <Tab label={formatMessage({ id: 'generation-chain.form.plugins.section' })} >
+                <AcquisitionProcessingChainFormPluginsComponent
                   chain={chain}
                 />
               </Tab>
@@ -282,6 +286,6 @@ function validate(fieldValues) {
 const connectedReduxForm = reduxForm({
   form: 'generation-chain-form',
   validate,
-})(GenerationChainFormComponent)
+})(AcquisitionProcessingChainFormComponent)
 
 export default withI18n(messages)(withModuleStyle(styles)(connectedReduxForm))

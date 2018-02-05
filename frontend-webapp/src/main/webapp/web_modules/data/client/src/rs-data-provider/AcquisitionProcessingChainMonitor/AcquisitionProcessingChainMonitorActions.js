@@ -16,13 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AcquisitionProcessingChain from './AcquisitionProcessingChain'
-import AcquisitionFileInfo from './AcquisitionFileInfo'
+
+
+import { BasicPageableActions } from '@regardsoss/store-utils'
+import Schemas from '@regardsoss/api'
 
 /**
+ * Actions to get generation chain list
  * @author Sébastien Binda
  */
-module.exports = {
-  ...AcquisitionProcessingChain,
-  ...AcquisitionFileInfo,
+class AcquisitionProcessingChainMonitorActions extends BasicPageableActions {
+  /**
+   * constructor
+   * @param {*} namespace namespace
+   */
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/chain-monitoring`,
+      namespace,
+      schemaTypes: {
+        ENTITY: Schemas.ACQUISITION_PROCESSING_CHAIN_MONITOR,
+        ENTITY_ARRAY: Schemas.ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY,
+      },
+    })
+  }
 }
+
+export default AcquisitionProcessingChainMonitorActions

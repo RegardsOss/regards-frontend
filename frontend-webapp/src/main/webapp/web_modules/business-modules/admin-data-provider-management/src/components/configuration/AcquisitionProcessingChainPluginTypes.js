@@ -20,7 +20,7 @@
 /**
  * List of plugin types available for configuration in every ingest processing chain
  */
-const generationChainPluginTypes = {
+const AcquisitionProcessingChainPluginTypes = {
   VALIDATION: 'fr.cnes.regards.modules.acquisition.plugins.IValidationPlugin',
   SCAN: 'fr.cnes.regards.modules.acquisition.plugins.IScanPlugin',
   PRODUCT: 'fr.cnes.regards.modules.acquisition.plugins.IProductPlugin',
@@ -28,4 +28,4 @@ const generationChainPluginTypes = {
   POST_PROCESSING: 'fr.cnes.regards.modules.acquisition.plugins.ISipPostProcessingPlugin',
 }
 
-export default generationChainPluginTypes
+export default AcquisitionProcessingChainPluginTypes

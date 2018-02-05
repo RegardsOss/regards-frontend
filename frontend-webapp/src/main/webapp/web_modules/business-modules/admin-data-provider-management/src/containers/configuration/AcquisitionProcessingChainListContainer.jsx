@@ -18,14 +18,14 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import GenerationChainListComponent from '../components/GenerationChainListComponent'
-import { generationChainActions } from '../clients/GenerationChainClient'
+import AcquisitionProcessingChainListComponent from '../../components/configuration/AcquisitionProcessingChainListComponent'
+import { AcquisitionProcessingChainActions } from '../../clients/AcquisitionProcessingChainClient'
 
 /**
-* GenerationChainListContainer
+* AcquisitionProcessingChainListContainer
 * @author Sébastien Binda
 */
-export class GenerationChainListContainer extends React.Component {
+export class AcquisitionProcessingChainListContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -44,8 +44,8 @@ export class GenerationChainListContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      deleteChain: id => dispatch(generationChainActions.deleteEntity(id)),
-      fetchPage: (pageIndex, pageSize) => dispatch(generationChainActions.fetchPagedEntityList(pageIndex, pageSize)),
+      deleteChain: id => dispatch(AcquisitionProcessingChainActions.deleteEntity(id)),
+      fetchPage: (pageIndex, pageSize) => dispatch(AcquisitionProcessingChainActions.fetchPagedEntityList(pageIndex, pageSize)),
     }
   }
 
@@ -108,19 +108,19 @@ export class GenerationChainListContainer extends React.Component {
 
   render() {
     return (
-      <GenerationChainListComponent
+      <AcquisitionProcessingChainListComponent
         fetchPage={this.props.fetchPage}
         onDelete={this.onDelete}
         onEdit={this.onEdit}
         onDuplicate={this.onDuplicate}
         onCreate={this.onCreate}
         onBack={this.onBack}
-        queryPageSize={GenerationChainListContainer.PAGE_SIZE}
+        queryPageSize={AcquisitionProcessingChainListContainer.PAGE_SIZE}
       />
     )
   }
 }
 export default connect(
-  GenerationChainListContainer.mapStateToProps,
-  GenerationChainListContainer.mapDispatchToProps,
-)(GenerationChainListContainer)
+  AcquisitionProcessingChainListContainer.mapStateToProps,
+  AcquisitionProcessingChainListContainer.mapDispatchToProps,
+)(AcquisitionProcessingChainListContainer)

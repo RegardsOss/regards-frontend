@@ -20,11 +20,11 @@
 /**
  * @author Sébastien Binda
  */
-export const generationChainRoute = {
+export const AcquisitionProcessingChainRoute = {
   path: 'chain/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/GenerationChainListContainer')
+      const container = require('./containers/configuration/AcquisitionProcessingChainListContainer')
       cb(null, {
         content: container.default,
       })
@@ -32,11 +32,11 @@ export const generationChainRoute = {
   },
 }
 
-export const generationChainCreateRoute = {
+export const AcquisitionProcessingChainCreateRoute = {
   path: 'chain/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/GenerationChainFormContainer')
+      const container = require('./containers/configuration/AcquisitionProcessingChainFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -44,11 +44,23 @@ export const generationChainCreateRoute = {
   },
 }
 
-export const generationChainEditOrDuplicateRoute = {
+export const AcquisitionProcessingChainEditOrDuplicateRoute = {
   path: 'chain/:chainId/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/GenerationChainFormContainer')
+      const container = require('./containers/configuration/AcquisitionProcessingChainFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const AcquisitionProcessingChainMonitoringRoute = {
+  path: 'monitoring',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/monitoring/AcquisitionProcessingChainMonitorListContainer')
       cb(null, {
         content: container.default,
       })
@@ -58,9 +70,10 @@ export const generationChainEditOrDuplicateRoute = {
 
 const dataProviderManagementRouter = {
   childRoutes: [
-    generationChainRoute,
-    generationChainCreateRoute,
-    generationChainEditOrDuplicateRoute,
+    AcquisitionProcessingChainRoute,
+    AcquisitionProcessingChainCreateRoute,
+    AcquisitionProcessingChainEditOrDuplicateRoute,
+    AcquisitionProcessingChainMonitoringRoute,
   ],
 }
 

@@ -19,63 +19,93 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'generation-chain.empty.title': 'Aucune chaîne définie',
+  // 1. Chains list
+  // 1.1 Headers
   'generation-chain.list.title': 'Configuration des chaînes de génération',
   'generation-chain.list.subtitle': 'Les chaînes de générations correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectée avant leur ajout dans le catalogue de données.',
-  'generation-chain.addnew.button': 'Ajouter',
-  'generation-chain.back.button': 'Retour',
-  'generation-chain.edit.tooltip': 'Editer',
+  'generation-chain.list.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement un fonctionnement spécifique grâce aux plugins suivants.',
+  'generation-chain.list.empty.title': 'Aucune chaîne définie',
+  // 1.2 table headers
+  'generation-chain.list.table.label': 'Nom',
+  'generation-chain.list.table.mode': 'Mode de déclanchement',
+  // 1.3 actions
+  'generation-chain.list.addnew.button': 'Ajouter',
+  'generation-chain.list.back.button': 'Retour',
+  'generation-chain.list.edit.tooltip': 'Editer',
+  'generation-chain.list.duplicate.tooltip': 'Dupliquer',
+  'generation-chain.list.delete.confirm.title': 'Etes-vous sûr de vouloir suppriler la chaîne de traitement : {label}',
 
-  'generation-chain.delete.confirm.title': 'Etes-vous sûr de vouloir suppriler la chaîne de traitement : {label}',
-
-  'generation-chain.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement spécifique grâce aux plugins suivants.',
-  'generation-chain.info.message.step1': '1 - Scan plugin: Comment chercher les nouvelles données à acquérir.',
-  'generation-chain.info.message.step2': '2 - Check plugin: Comment vérifier la validité des nouvelles données à acquérir.',
-  'generation-chain.info.message.step3': '3 - Generate SIP plugin: Comment générer les métadonnées associées aux nouvelles données à acquérir.',
-  'generation-chain.info.message.step4': '4 - Post processing plugin: Traitement à réaliser après la génération des données à acquérir.',
-
+  // 2 Chain creation/edition form
+  // 2.1 Header section
   'generation-chain.form.create.title': 'Créer une nouvelle chaîne de génération',
-  'generation-chain.form.informations-1': 'Une chaîne de génération doit pour fonctionner être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
-  'generation-chain.form.informations-2': '1. Un jeu de données. Toutes les données acquises grâce à cette chaîne seront alors associées à ce jeu de données.',
-  'generation-chain.form.informations-3': '2. Une chaîne de traitement. La chaine de traitement sélectionnée sera utilisée pour générer les fichiers tels qu\'ils seront archivés.',
-  'generation-chain.form.informations-4': '3. Un ou plusieurs types de fichiers. Un type de fichier permet de configurer où et comment trouver les fichiers à acquérir.',
   'generation-chain.form.edit.title': 'Edition de la chaine : {name}',
-  'generation-chain.form.create.general.section': 'Général',
-  'generation-chain.form.create.fileInfos.section': 'Fichiers',
-  'generation-chain.form.create.plugins.section': 'Plugins',
-  'generation-chain.form.create.fileInfos.list.item.title': 'Fichier',
-  'generation-chain.form.create.fileInfos.options.title': 'Actions',
-  'generation-chain.form.create.fileInfos.list.add.button': 'Ajouter',
-  'generation-chain.form.create.fileInfos.list.delete.button': 'Supprimer',
-  'generation-chain.form.create.fileInfos.list.duplicate.button': 'Dupliquer',
-  'generation-chain.form.create.input.label': 'Libellé (*)',
-  'generation-chain.form.create.input.active': 'Activer la chaîne de génération',
-  'generation-chain.form.create.input.periodicity': 'Période d\'activation (secondes)',
-  'generation-chain.form.create.input.dataset.select.hint': 'Filter sur les jeux existants ...',
-  'generation-chain.form.create.input.dataset.select': 'Jeu de données (*)',
-  'generation-chain.form.create.input.session': 'Nom de session d\'ingestion',
-  'generation-chain.form.create.mode.hint': 'Mode',
-  'generation-chain.form.create.mode.label': 'Mode',
-  'generation-chain.form.create.input.ingestChain.select': 'Chaîne de traitement (*)',
-  'generation-chain.form.create.input.ingestChain.select.hint': 'Sélectionner une chaîne de traitement ... ',
-
-  'generation-chain.form.create.fileInfo.comment': 'Description',
-  'generation-chain.form.create.fileInfo.mandatory': 'Le fichier est-il obligatoire à la construction du produit ?',
-  'generation-chain.form.create.fileInfo.mimeType.hint': 'Mime-type',
-  'generation-chain.form.create.fileInfo.mimeType.label': 'Mime-type',
-  'generation-chain.form.create.fileInfo.dataType.hint': 'Type de donnée à générer',
-  'generation-chain.form.create.fileInfo.dataType.label': 'Type de donnée à générer',
-
-  'generation-chain.create.fileInfos.delete.confirm.title': 'Voulez-vous supprimer le fichier {index} ?',
+  'generation-chain.form.informations-1': 'Une chaîne de génération doit pour fonctionner être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
+  'generation-chain.form.informations-2': '1. Un jeu de données. Toutes les données acquises grâce à cette chaîne seront alors associées à ce jeu de données. (*)',
+  'generation-chain.form.informations-3': '2. Une chaîne de traitement. (*)',
+  'generation-chain.form.informations-4': '3. Un ou plusieurs types de fichiers. Un type de fichier permet de configurer où et comment trouver les fichiers à acquérir. (*)',
+  'generation-chain.form.informations-5': '4. Un plugin de validation des données. (*)',
+  'generation-chain.form.informations-6': '5. Un plugin de génération des produits associés aux fichiers détectés. (*)',
+  'generation-chain.form.informations-7': '6. Un plugin de génération des méta données à partir des fichiers détectés.',
+  'generation-chain.form.informations-8': '7. Un plugin de post-traitement.',
+  // 2.2 General configuration section
+  'generation-chain.form.general.section.title': 'Général',
+  'generation-chain.form.general.section.label': 'Libellé (*)',
+  'generation-chain.form.general.section.active': 'Activer la chaîne de génération',
+  'generation-chain.form.general.section.periodicity': 'Période d\'activation (secondes)',
+  'generation-chain.form.general.section.dataset.select.hint': 'Filter sur les jeux existants ...',
+  'generation-chain.form.general.section.dataset.select': 'Jeu de données (*)',
+  'generation-chain.form.general.section.session': 'Nom de session d\'ingestion',
+  'generation-chain.form.general.section.mode': 'Mode',
+  'generation-chain.form.general.section.ingestChain.select': 'Chaîne de traitement (*)',
+  'generation-chain.form.general.section.ingestChain.select.hint': 'Sélectionner une chaîne de traitement ... ',
+  // 2.3 Files configuration section
+  'generation-chain.form.fileInfos.section': 'Fichiers',
+  'generation-chain.form.fileInfos.list.item.title': 'Fichier',
+  'generation-chain.form.fileInfos.options.title': 'Actions',
+  'generation-chain.form.fileInfos.list.add.button': 'Ajouter',
+  'generation-chain.form.fileInfos.list.delete.button': 'Supprimer',
+  'generation-chain.form.fileInfos.list.duplicate.button': 'Dupliquer',
+  'generation-chain.form.fileInfo.comment': 'Description',
+  'generation-chain.form.fileInfo.plugin.scan.label': 'Méthode de détection des données (*)',
+  'generation-chain.form.fileInfo.mandatory': 'Le fichier est-il obligatoire à la construction du produit ?',
+  'generation-chain.form.fileInfo.mimeType': 'Mime-type',
+  'generation-chain.form.fileInfo.dataType': 'Type de donnée à générer',
+  // 2.4 Plugins configuration section
+  'generation-chain.form.plugins.section': 'Plugins',
   'generation-chain.form.plugins.select.label': 'Sélectionner un plugin ...',
   'generation-chain.form.plugins.validation.label': 'Méthode de validation des données (*)',
-  'generation-chain.form.plugins.scan.label': 'Méthode de détection des données (*)',
   'generation-chain.form.plugins.product.label': 'Construction du produit (*)',
   'generation-chain.form.plugins.gen-sip.label': 'Génération des métadonnées (*)',
   'generation-chain.form.plugins.post-processing.label': 'Post traitement',
-  'generation-chain.form.create.action.create': 'Créer',
-  'generation-chain.form.edit.action.save': 'Mettre à jour',
-  'generation-chain.form.create.action.cancel': 'Annuler',
+
+  // 2.5 Actions
+  'generation-chain.form.create.button': 'Créer',
+  'generation-chain.form.update.button': 'Mettre à jour',
+  'generation-chain.form.cancel.button': 'Annuler',
+
+  // 3. Monitoring
+  // 3.1 Chain list
+  // 3.1.1 Header
+  'generation-chain.monitor.list.title': 'Suivit des chaînes de génération de données.',
+  'generation-chain.monitor.list.subtitle': 'Cette écran vous permet de suivre l\'avancement des chaînes de génération de données, de consulter les erreurs de génération et d\'activer les chaînes à déclamenent manuel',
+  'generation-chain.monitor.empty.title': 'Aucune chaine configurée',
+
+  // 3.1.2 Table header
+  'generation-chain.monitor.list.label': 'Libellé',
+  'generation-chain.monitor.list.running': 'Etat',
+  'generation-chain.monitor.list.activity.not.running': 'Arrêtée',
+  'generation-chain.monitor.list.total-nb-products': 'Produits',
+  'generation-chain.monitor.list.total-products.tooltip': 'Produits',
+  'generation-chain.monitor.list.error-nb-products.tooltip': 'Produits en erreur',
+  'generation-chain.monitor.list.inprogress-nb-products.tooltip': 'Produits en cours',
+  'generation-chain.monitor.list.total-nb-files': 'Fichiers',
+  'generation-chain.monitor.list.total-files.tooltip': 'Total des Fichiers générés par la chaîne',
+  'generation-chain.monitor.list.error-nb-files.tooltip': 'Fichiers en erreur',
+  'generation-chain.monitor.list.inprogress-nb-files.tooltip': 'Fichiers en cours',
+
+  // 3.1.2.3 Table actions
+  'generation-chain.monitor.list.run.tooltip': 'Lancer la chaîne',
+  'generation-chain.monitor.list.run.error': 'Erreur durant le lancement de la chaîne de traitement',
 
 }, Locales.fr)
 

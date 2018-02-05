@@ -22,11 +22,17 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
  * Infinite table actions client.
  * @author Sébastien Binda
  */
-const NAMESPACE = 'admin-ingest-management/generation-chain-table'
-const STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'processingChainTable']
+const ACQUISITION_PROCESSING_CHAIN_NAMESPACE = 'admin-ingest-management/acquisition-processing-chain-table'
+const ACQUISITION_PROCESSING_CHAIN_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'processingChainTable']
 
+const ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE = 'admin-ingest-management/acquisition-processing-chain-monitor-table'
+const ACQUISITION_PROCESSING_CHAIN_MONITOR_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'processingChainMonitorTable']
 module.exports = {
-  tableActions: new TableActions(NAMESPACE),
-  tableReducer: getTableReducer(NAMESPACE),
-  tableSelectors: getTableSelectors(STORE_PATH),
+  tableActions: new TableActions(ACQUISITION_PROCESSING_CHAIN_NAMESPACE),
+  tableReducer: getTableReducer(ACQUISITION_PROCESSING_CHAIN_NAMESPACE),
+  tableSelectors: getTableSelectors(ACQUISITION_PROCESSING_CHAIN_STORE_PATH),
+
+  tableMonitorActions: new TableActions(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE),
+  tableMonitorReducer: getTableReducer(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE),
+  tableMonitorSelectors: getTableSelectors(ACQUISITION_PROCESSING_CHAIN_MONITOR_STORE_PATH),
 }

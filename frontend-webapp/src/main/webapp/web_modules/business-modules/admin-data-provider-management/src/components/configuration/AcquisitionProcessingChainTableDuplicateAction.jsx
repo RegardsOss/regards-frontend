@@ -21,7 +21,7 @@ import IconButton from 'material-ui/IconButton'
 import { IngestShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
-import { addDependencies } from '../dependencies'
+import { addDependencies } from '../../dependencies'
 
 const IconButtonWithResourceDisplayControl = withResourceDisplayControl(IconButton)
 
@@ -29,7 +29,7 @@ const IconButtonWithResourceDisplayControl = withResourceDisplayControl(IconButt
 * Edit button action cell for the infinite table used to display ingest processing chains
 * @author Sébastien Binda
 */
-class GenerationChainTableDuplicateAction extends React.Component {
+class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
@@ -51,9 +51,9 @@ class GenerationChainTableDuplicateAction extends React.Component {
     return (
       <IconButtonWithResourceDisplayControl
         className={`selenium-edit-${chain.id}`}
-        title={formatMessage({ id: 'generation-chain.edit.tooltip' })}
-        iconStyle={GenerationChainTableDuplicateAction.iconStyle}
-        style={GenerationChainTableDuplicateAction.buttonStyle}
+        title={formatMessage({ id: 'generation-chain.list.duplicate.tooltip' })}
+        iconStyle={AcquisitionProcessingChainTableDuplicateAction.iconStyle}
+        style={AcquisitionProcessingChainTableDuplicateAction.buttonStyle}
         onTouchTap={() => this.props.onDuplicate(chain.id)}
         resourceDependencies={addDependencies}
         displayLogic={allMatchHateoasDisplayLogic}
@@ -63,4 +63,4 @@ class GenerationChainTableDuplicateAction extends React.Component {
     )
   }
 }
-export default GenerationChainTableDuplicateAction
+export default AcquisitionProcessingChainTableDuplicateAction

@@ -26,7 +26,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 * Edit button action cell for the infinite table used to display ingest processing chains
 * @author Sébastien Binda
 */
-class GenerationChainTableEditAction extends React.Component {
+class AcquisitionProcessingChainTableEditAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
@@ -53,9 +53,9 @@ class GenerationChainTableEditAction extends React.Component {
     return (
       <IconButton
         className={`selenium-edit-${chain.id}`}
-        title={formatMessage({ id: 'generation-chain.edit.tooltip' })}
-        iconStyle={GenerationChainTableEditAction.iconStyle}
-        style={GenerationChainTableEditAction.buttonStyle}
+        title={formatMessage({ id: 'generation-chain.list.edit.tooltip' })}
+        iconStyle={AcquisitionProcessingChainTableEditAction.iconStyle}
+        style={AcquisitionProcessingChainTableEditAction.buttonStyle}
         onTouchTap={() => this.props.onEdit(chain.id)}
         disabled={!this.isEditable()}
       >
@@ -64,4 +64,4 @@ class GenerationChainTableEditAction extends React.Component {
     )
   }
 }
-export default GenerationChainTableEditAction
+export default AcquisitionProcessingChainTableEditAction

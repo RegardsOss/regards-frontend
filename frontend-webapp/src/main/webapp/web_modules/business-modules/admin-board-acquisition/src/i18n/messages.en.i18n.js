@@ -29,6 +29,7 @@ const messages = {
   'data-provider.board.title': 'Automation',
   'data-provider.board.description': 'This fonctionality allows you to configure automatic processus to add new detected datas. Those processus generate Submission Information Package (SIP) to be provided to the system for submission.',
   'data-provider.board.action.chain.list.tooltip': 'Configure processing chains',
+  'data-provider.board.action.monitoring.tooltip': 'Monitor processing chains activity',
 
   'ingest.board.external.datasources.title': 'Crawling',
   'ingest.board.external.datasources.description': 'This fonctionality allows you to configure data crawling procesus. A data crawing processus correspond with adding datas throught external data sources.',

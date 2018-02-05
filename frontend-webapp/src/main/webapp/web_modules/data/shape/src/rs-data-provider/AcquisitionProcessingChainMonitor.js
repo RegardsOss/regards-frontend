@@ -16,30 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { AcquisitionProcessingChainActions } from './clients/AcquisitionProcessingChainClient'
+import { AcquisitionProcessingChainContent } from './AcquisitionProcessingChain'
+
 /**
- * Module hateoas dependencies
+ * Describes a AcquisitionProcessingChain shape and related sub objects
  * @author Sébastien Binda
  */
 
-/**
- * Mandatory Dependencies to display module in parent board
- * @type {Array}
- */
-const listDependencies = [
-  AcquisitionProcessingChainActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+/** A dated selection item shape */
+const AcquisitionProcessingChainMonitorContent = PropTypes.shape({
+  chain: AcquisitionProcessingChainContent.isRequired,
 
-/**
- * Mandatory Dependencies to display module in parent board
- * @type {Array}
- */
-const addDependencies = [
-  AcquisitionProcessingChainActions.getDependency(RequestVerbEnum.POST),
-]
+})
+
+const AcquisitionProcessingChainMonitor = PropTypes.shape({
+  content: AcquisitionProcessingChainMonitorContent,
+})
+const AcquisitionProcessingChainMonitorList = PropTypes.objectOf(AcquisitionProcessingChainMonitor)
+const AcquisitionProcessingChainMonitorArray = PropTypes.arrayOf(AcquisitionProcessingChainMonitor)
 
 module.exports = {
-  listDependencies,
-  addDependencies,
+  AcquisitionProcessingChainMonitorList,
+  AcquisitionProcessingChainMonitorArray,
+  AcquisitionProcessingChainMonitorContent,
+  AcquisitionProcessingChainMonitor,
 }

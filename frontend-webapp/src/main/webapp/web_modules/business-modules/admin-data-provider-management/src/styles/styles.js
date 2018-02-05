@@ -56,6 +56,23 @@ const styles = theme => ({
       overflow: 'auto',
     },
   },
+  monitoring: {
+    totalStyle: {
+      color: theme['forms-extension:validation'].validColor,
+    },
+    errorStyle: {
+      borderLeft: `1px solid ${theme.palette.borderColor}`,
+      paddingLeft: '4px',
+      marginLeft: '4px',
+      color: theme['forms-extension:validation'].errorColor,
+    },
+    inProgressStyle: {
+      borderLeft: `1px solid ${theme.palette.borderColor}`,
+      paddingLeft: '4px',
+      marginLeft: '4px',
+      color: theme['forms-extension:validation'].warningColor,
+    },
+  },
 })
 
 export default styles

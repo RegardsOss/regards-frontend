@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,31 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-
-
-import { BasicPageableActions } from '@regardsoss/store-utils'
-import Schemas from '@regardsoss/api'
+ */
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { AcquisitionProcessingChainConfiguration } from '@regardsoss/api'
+import AcquisitionProcessingChainActions from './AcquisitionProcessingChainActions'
 
 /**
- * Actions to get generation chain list
+ * Generation chains reducer
  * @author Sébastien Binda
  */
-class GenerationChainActions extends BasicPageableActions {
-  /**
-   * constructor
-   * @param {*} namespace namespace
-   */
-  constructor(namespace) {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/chains`,
-      namespace,
-      schemaTypes: {
-        ENTITY: Schemas.GENERATION_CHAIN,
-        ENTITY_ARRAY: Schemas.GENERATION_CHAIN_ARRAY,
-      },
-    })
-  }
-}
 
-export default GenerationChainActions
+/**
+ * Exports the reducer builder on namespace
+ * @param {*} namespace namespace
+ * @return {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new BasicPageableReducers(AcquisitionProcessingChainConfiguration, new AcquisitionProcessingChainActions(namespace))
+  return (state, action) => instance.reduce(state, action)
+}
