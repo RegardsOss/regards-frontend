@@ -29,7 +29,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
-      content: DataProviderShapes.AcquisitionProcessingChainContent,
+      content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
       links: PropTypes.array,
     }),
     onRunChain: PropTypes.func.isRequired,
@@ -44,19 +44,19 @@ class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component
 
   isRunnable = () => {
     const { links } = this.props.entity
-    return find(links, l => l.rel === 'start', false) !== false
+    return !!find(links, l => l.rel === 'start')
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const chain = this.props.entity.content
+    const { chain } = this.props.entity.content
     return (
       <IconButton
         className={`selenium-run-${chain.id}`}
-        title={formatMessage({ id: 'generation-chain.monitor.list.run.tooltip' })}
+        title={formatMessage({ id: 'acquisition-chain.monitor.list.run.tooltip' })}
         iconStyle={AcquisitionProcessingChainMonitoringTableRunAction.iconStyle}
         style={AcquisitionProcessingChainMonitoringTableRunAction.buttonStyle}
-        onTouchTap={() => this.props.onRunChain(chain.id)}
+        onTouchTap={() => this.props.onRunChain(chain.label, chain.id)}
         disabled={!this.isRunnable()}
       >
         <RunIcon />

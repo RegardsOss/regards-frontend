@@ -27,7 +27,7 @@ import { DataProviderShapes } from '@regardsoss/shape'
 class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
-      content: DataProviderShapes.AcquisitionProcessingChainContent,
+      content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
       links: PropTypes.array,
     }),
   }
@@ -48,7 +48,6 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
   render() {
     const { entity: { content } } = this.props
     const { intl: { formatMessage } } = this.context
-    console.error('content', content)
     if (content.running) {
       return (
         <RefreshIndicator
@@ -62,7 +61,7 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
     }
     return (
       <div>
-        {formatMessage({ id: 'generation-chain.monitor.list.activity.not.running' })}
+        {formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running' })}
       </div>
     )
   }

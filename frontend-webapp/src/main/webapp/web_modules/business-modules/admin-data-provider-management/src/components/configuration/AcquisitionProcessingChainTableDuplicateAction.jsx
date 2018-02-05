@@ -51,7 +51,7 @@ class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
     return (
       <IconButtonWithResourceDisplayControl
         className={`selenium-edit-${chain.id}`}
-        title={formatMessage({ id: 'generation-chain.list.duplicate.tooltip' })}
+        title={formatMessage({ id: 'acquisition-chain.list.duplicate.tooltip' })}
         iconStyle={AcquisitionProcessingChainTableDuplicateAction.iconStyle}
         style={AcquisitionProcessingChainTableDuplicateAction.buttonStyle}
         onTouchTap={() => this.props.onDuplicate(chain.id)}

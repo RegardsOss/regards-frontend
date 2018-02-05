@@ -72,7 +72,6 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
 
   constructor(props) {
     super(props)
-    console.error('props', props)
     const isLoading = !(props.params.chainId === undefined)
     this.state = {
       isLoading,

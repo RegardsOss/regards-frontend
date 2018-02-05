@@ -16,8 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { AcquisitionProcessingChainMonitorActions } from '../../clients/AcquisitionProcessingChainMonitorClient'
+import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors } from '../../clients/AcquisitionProcessingChainMonitorClient'
+import { RunAcquisitionProcessingChainActions } from '../../clients/AcquisitionProcessingChainClient'
 import AcquisitionProcessingChainMonitorListComponent from '../../components/monitoring/AcquisitionProcessingChainMonitorListComponent'
 
 /**
@@ -32,7 +35,10 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state) {
-    return {}
+    return {
+      meta: AcquisitionProcessingChainMonitorSelectors.getMetaData(state),
+      entitiesLoading: AcquisitionProcessingChainMonitorSelectors.isFetching(state),
+    }
   }
 
   /**
@@ -43,46 +49,60 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchPage: (pageIndex, pageSize) => dispatch(AcquisitionProcessingChainMonitorActions.fetchPagedEntityList(pageIndex, pageSize)),
-      runChain: chainId => dispatch(),
+      fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainMonitorActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
+      runChain: chainId => dispatch(RunAcquisitionProcessingChainActions.run(chainId)),
     }
   }
 
   static propTypes = {
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
     // from mapStateToProps
+    meta: PropTypes.shape({ // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
+    entitiesLoading: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
     runChain: PropTypes.func.isRequired,
   }
 
-  state = {
-    errorMessage: null,
+  static defaultProps = {
+    meta: {
+      totalElements: 0,
+    },
   }
 
-  runChainAction = (chainId) => {
-    const { runChain, fetchPage } = this.props
-    runChain.then((actionResult) => {
-      if (actionResult.error) {
-        this.setState({
-          errorMessage: 'generation-chain.monitor.list.run.error',
-        })
-      } else {
-        fetchPage()
-        this.setState({
-          errorMessage: null,
-        })
-      }
-    })
+  static PAGE_SIZE = 100
+
+  /**
+   * Callback to return to the acquisition board
+   */
+  onBack = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/board`
+    browserHistory.push(url)
+  }
+
+  onRefresh = (filters) => {
+    const { meta, fetchPage } = this.props
+    const curentPage = get(meta, 'number', 0)
+    return fetchPage(0, AcquisitionProcessingChainMonitorListContainer.PAGE_SIZE * (curentPage + 1), filters)
   }
 
   render() {
-    const { fetchPage } = this.props
-    const { errorMessage } = this.state
+    const { meta, entitiesLoading, runChain } = this.props
     return (
       <AcquisitionProcessingChainMonitorListComponent
-        errorMessage={errorMessage}
-        fetchPage={fetchPage}
-        onRunChain={this.runChainAction}
+        onRefresh={this.onRefresh}
+        onBack={this.onBack}
+        onRunChain={runChain}
+        pageSize={AcquisitionProcessingChainMonitorListContainer.PAGE_SIZE}
+        resultsCount={meta.totalElements}
+        entitiesLoading={entitiesLoading}
       />
     )
   }

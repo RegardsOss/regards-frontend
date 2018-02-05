@@ -65,7 +65,7 @@ class AcquisitionFileInfoComponent extends React.PureComponent {
         fullWidth
         component={RenderTextField}
         type="text"
-        label={formatMessage({ id: 'generation-chain.form.fileInfo.comment' })}
+        label={formatMessage({ id: 'acquisition-chain.form.fileInfo.comment' })}
         validate={validString255}
       />,
       <Field
@@ -73,14 +73,14 @@ class AcquisitionFileInfoComponent extends React.PureComponent {
         name={`${name}.mandatory`}
         fullWidth
         component={RenderCheckbox}
-        label={formatMessage({ id: 'generation-chain.form.fileInfo.mandatory' })}
+        label={formatMessage({ id: 'acquisition-chain.form.fileInfo.mandatory' })}
       />,
       <Field
         key="scanPlugin"
         name={`${name}.scanPlugin`}
         component={RenderPluginField}
-        title={formatMessage({ id: 'generation-chain.form.fileInfo.plugin.scan.label' })}
-        selectLabel={formatMessage({ id: 'generation-chain.form.fileInfo.plugin.scan.label' })}
+        title={formatMessage({ id: 'acquisition-chain.form.fileInfo.plugin.scan.label' })}
+        selectLabel={formatMessage({ id: 'acquisition-chain.form.fileInfo.plugin.scan.label' })}
         pluginType={AcquisitionProcessingChainPluginTypes.SCAN}
         defaultPluginConfLabel={`scanPlugin-${Date.now()}`}
         validate={ValidationHelpers.required}
@@ -93,8 +93,8 @@ class AcquisitionFileInfoComponent extends React.PureComponent {
         name={`${name}.mimeType`}
         fullWidth
         component={RenderAutoCompleteField}
-        hintText={formatMessage({ id: 'generation-chain.form.fileInfo.mimeType' })}
-        floatingLabelText={formatMessage({ id: 'generation-chain.form.fileInfo.mimeType' })}
+        hintText={formatMessage({ id: 'acquisition-chain.form.fileInfo.mimeType' })}
+        floatingLabelText={formatMessage({ id: 'acquisition-chain.form.fileInfo.mimeType' })}
         dataSource={mimeTypes}
         dataSourceConfig={mimeTypesConfig}
         filter={AutoComplete.caseInsensitiveFilter}
@@ -105,8 +105,8 @@ class AcquisitionFileInfoComponent extends React.PureComponent {
         name={`${name}.dataType`}
         fullWidth
         component={RenderAutoCompleteField}
-        hintText={formatMessage({ id: 'generation-chain.form.fileInfo.dataType' })}
-        floatingLabelText={formatMessage({ id: 'generation-chain.form.fileInfo.dataType' })}
+        hintText={formatMessage({ id: 'acquisition-chain.form.fileInfo.dataType' })}
+        floatingLabelText={formatMessage({ id: 'acquisition-chain.form.fileInfo.dataType' })}
         dataSource={CommonDomain.DataTypes}
         filter={AutoComplete.caseInsensitiveFilter}
         validate={required}

@@ -33,14 +33,14 @@ const AcquisitionProcessingChainContent = PropTypes.shape({
   session: PropTypes.string,
   running: PropTypes.bool,
   lastDateActivation: PropTypes.string,
-  periodicity: PropTypes.number.isRequired,
+  periodicity: PropTypes.number,
   ingestChain: PropTypes.string.isRequired,
   datasetIpId: PropTypes.string.isRequired,
   fileInfos: PropTypes.arrayOf(AcquisitionFileInfoContent),
   validationPluginConf: PluginConfigurationContent.isRequired,
   productPluginConf: PluginConfigurationContent.isRequired,
   generateSipPluginConf: PluginConfigurationContent.isRequired,
-  postProcessSipPluginConf: PluginConfigurationContent.isRequired,
+  postProcessSipPluginConf: PluginConfigurationContent,
 })
 
 const AcquisitionProcessingChain = PropTypes.shape({

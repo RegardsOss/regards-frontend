@@ -53,7 +53,7 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
     return (
       <IconButton
         className={`selenium-edit-${chain.id}`}
-        title={formatMessage({ id: 'generation-chain.list.edit.tooltip' })}
+        title={formatMessage({ id: 'acquisition-chain.list.edit.tooltip' })}
         iconStyle={AcquisitionProcessingChainTableEditAction.iconStyle}
         style={AcquisitionProcessingChainTableEditAction.buttonStyle}
         onTouchTap={() => this.props.onEdit(chain.id)}

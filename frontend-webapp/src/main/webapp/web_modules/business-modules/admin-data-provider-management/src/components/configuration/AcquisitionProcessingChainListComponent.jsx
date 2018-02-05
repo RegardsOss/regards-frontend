@@ -24,7 +24,6 @@ import {
   TableLayout,
   NoContentComponent,
   PageableInfiniteTableContainer,
-  HelpMessageComponent,
   CardActionsComponent,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
@@ -100,7 +99,7 @@ class AcquisitionProcessingChainListComponent extends React.Component {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={this.context.intl.formatMessage({ id: 'generation-chain.list.delete.confirm.title' }, { label: this.state.chainToDelete.content.label })}
+          title={this.context.intl.formatMessage({ id: 'acquisition-chain.list.delete.confirm.title' }, { label: this.state.chainToDelete.content.label })}
           onConfirm={this.onConfirmDelete}
           onClose={this.closeDeleteDialog}
         />
@@ -118,20 +117,14 @@ class AcquisitionProcessingChainListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'generation-chain.list.empty.title' })}
+        title={formatMessage({ id: 'acquisition-chain.list.empty.title' })}
         Icon={AddToPhotos}
       />
     )
 
-    const infoMessage = (
-      <span>
-        {formatMessage({ id: 'generation-chain.list.info.message' })}
-      </span>
-    )
-
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'generation-chain.list.table.label' }), 'content.label'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.mode', formatMessage({ id: 'generation-chain.list.table.mode' }), 'content.mode'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'acquisition-chain.list.table.label' }), 'content.label'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.mode', formatMessage({ id: 'acquisition-chain.list.table.mode' }), 'content.mode'),
       TableColumnBuilder.buildOptionsColumn('', [{
         OptionConstructor: AcquisitionProcessingChainTableEditAction,
         optionProps: { onEdit },
@@ -152,14 +145,13 @@ class AcquisitionProcessingChainListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={formatMessage({ id: 'generation-chain.list.title' })}
-          subtitle={formatMessage({ id: 'generation-chain.list.subtitle' })}
+          title={formatMessage({ id: 'acquisition-chain.list.title' })}
+          subtitle={formatMessage({ id: 'acquisition-chain.list.subtitle' })}
         />
         <CardText>
-          <HelpMessageComponent message={infoMessage} />
           <TableLayout>
             <PageableInfiniteTableContainer
-              name="generation-chain-table"
+              name="acquisition-chain-table"
               pageActions={AcquisitionProcessingChainActions}
               pageSelectors={AcquisitionProcessingChainSelectors}
               tableActions={tableActions}
@@ -176,8 +168,8 @@ class AcquisitionProcessingChainListComponent extends React.Component {
             mainButtonTouchTap={onCreate}
             // TODO : Set hateoas dependencies for data-provider
             // mainHateoasDependencies={addDependencies}
-            mainButtonLabel={formatMessage({ id: 'generation-chain.list.addnew.button' })}
-            secondaryButtonLabel={formatMessage({ id: 'generation-chain.list.back.button' })}
+            mainButtonLabel={formatMessage({ id: 'acquisition-chain.list.addnew.button' })}
+            secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.list.back.button' })}
             secondaryButtonTouchTap={onBack}
           />
         </CardActions>

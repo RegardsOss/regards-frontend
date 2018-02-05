@@ -27,7 +27,7 @@ import { DataProviderShapes } from '@regardsoss/shape'
 class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
-      content: DataProviderShapes.AcquisitionProcessingChainContent,
+      content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
       links: PropTypes.array,
     }),
   }
@@ -43,7 +43,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
     const { entity: { content } } = this.props
     const { intl: { formatMessage }, moduleTheme: { monitoring: { totalStyle } } } = this.context
     return (
-      <span style={totalStyle} title={formatMessage({ id: 'generation-chain.monitor.list.total-files.tooltip' })}>
+      <span key="all" style={totalStyle} title={formatMessage({ id: 'acquisition-chain.monitor.list.total-files.tooltip' })}>
         {content.nbFiles}
       </span >
     )
@@ -54,7 +54,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
     const { intl: { formatMessage }, moduleTheme: { monitoring: { errorStyle } } } = this.context
     if (content.nbFileErrors >= 0) {
       return (
-        <span style={errorStyle} title={formatMessage({ id: 'generation-chain.monitor.list.error-nb-files.tooltip' })}>
+        <span key="error" style={errorStyle} title={formatMessage({ id: 'acquisition-chain.monitor.list.error-nb-files.tooltip' })}>
           {content.nbFileErrors}
         </span >
       )
@@ -67,7 +67,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
     const { intl: { formatMessage }, moduleTheme: { monitoring: { inProgressStyle } } } = this.context
     if (content.nbFilesInProgress >= 0) {
       return (
-        <span style={inProgressStyle} title={formatMessage({ id: 'generation-chain.monitor.list.inprogress-nb-files.tooltip' })}>
+        <span key="progress" style={inProgressStyle} title={formatMessage({ id: 'acquisition-chain.monitor.list.inprogress-nb-files.tooltip' })}>
           {content.nbFilesInProgress}
         </span >
       )

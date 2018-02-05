@@ -82,8 +82,8 @@ class AcquisitionProcessingChainFormPluginsComponent extends React.PureComponent
     const plugins = [
       this.getPluginConfigurator(
         1,
-        formatMessage({ id: 'generation-chain.form.plugins.validation.label' }),
-        formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
+        formatMessage({ id: 'acquisition-chain.form.plugins.validation.label' }),
+        formatMessage({ id: 'acquisition-chain.form.plugins.select.label' }),
         AcquisitionProcessingChainPluginTypes.VALIDATION,
         validationPlugin,
         'validationPluginConf',
@@ -91,8 +91,8 @@ class AcquisitionProcessingChainFormPluginsComponent extends React.PureComponent
       ),
       this.getPluginConfigurator(
         2,
-        formatMessage({ id: 'generation-chain.form.plugins.product.label' }),
-        formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
+        formatMessage({ id: 'acquisition-chain.form.plugins.product.label' }),
+        formatMessage({ id: 'acquisition-chain.form.plugins.select.label' }),
         AcquisitionProcessingChainPluginTypes.PRODUCT,
         productPlugin,
         'productPluginConf',
@@ -100,8 +100,8 @@ class AcquisitionProcessingChainFormPluginsComponent extends React.PureComponent
       ),
       this.getPluginConfigurator(
         3,
-        formatMessage({ id: 'generation-chain.form.plugins.gen-sip.label' }),
-        formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
+        formatMessage({ id: 'acquisition-chain.form.plugins.gen-sip.label' }),
+        formatMessage({ id: 'acquisition-chain.form.plugins.select.label' }),
         AcquisitionProcessingChainPluginTypes.GENERATE_SIP,
         genPlugin,
         'generateSipPluginConf',
@@ -109,8 +109,8 @@ class AcquisitionProcessingChainFormPluginsComponent extends React.PureComponent
       ),
       this.getPluginConfigurator(
         4,
-        formatMessage({ id: 'generation-chain.form.plugins.post-processing.label' }),
-        formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
+        formatMessage({ id: 'acquisition-chain.form.plugins.post-processing.label' }),
+        formatMessage({ id: 'acquisition-chain.form.plugins.select.label' }),
         AcquisitionProcessingChainPluginTypes.POST_PROCESSING,
         postProcessPlugin,
         'postProcessSipPluginConf',

@@ -19,7 +19,7 @@
 import map from 'lodash/map'
 import omit from 'lodash/omit'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import AutoComplete from 'material-ui/AutoComplete'
+import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { reduxForm } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -27,7 +27,7 @@ import { DataProviderShapes } from '@regardsoss/shape'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
 import {
-  RenderTextField, RenderPageableAutoCompleteField, RenderAutoCompleteField,
+  RenderTextField, RenderPageableAutoCompleteField, RenderSelectField,
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain } from '@regardsoss/domain'
@@ -115,21 +115,25 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
     return duplicatedPluginConf
   }
 
+  handleModeChange = (event, index, value, input) => {
+    input.onChange(value)
+  }
+
   renderActionButtons = () => {
     const { intl: { formatMessage } } = this.context
     const {
       invalid, submitting, onBack, mode,
     } = this.props
     const label = mode === 'create' || mode === 'duplicate' ?
-      formatMessage({ id: 'generation-chain.form.create.button' }) :
-      formatMessage({ id: 'generation-chain.form.update.button' })
+      formatMessage({ id: 'acquisition-chain.form.create.button' }) :
+      formatMessage({ id: 'acquisition-chain.form.update.button' })
     return (
       <CardActions>
         <CardActionsComponent
           mainButtonLabel={label}
           mainButtonType="submit"
           isMainButtonDisabled={submitting || invalid}
-          secondaryButtonLabel={formatMessage({ id: 'generation-chain.form.cancel.button' })}
+          secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.form.cancel.button' })}
           secondaryButtonTouchTap={onBack}
         />
       </CardActions>
@@ -144,22 +148,22 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
 
     const infoMessage = (
       <span>
-        {formatMessage({ id: 'generation-chain.form.informations-1' })}
+        {formatMessage({ id: 'acquisition-chain.form.informations-1' })}
         <ul>
-          <li>{formatMessage({ id: 'generation-chain.form.informations-2' })}</li>
-          <li>{formatMessage({ id: 'generation-chain.form.informations-3' })}</li>
-          <li>{formatMessage({ id: 'generation-chain.form.informations-4' })}</li>
-          <li>{formatMessage({ id: 'generation-chain.form.informations-5' })}</li>
-          <li>{formatMessage({ id: 'generation-chain.form.informations-6' })}</li>
-          <li>{formatMessage({ id: 'generation-chain.form.informations-7' })}</li>
-          <li>{formatMessage({ id: 'generation-chain.form.informations-8' })}</li>
+          <li>{formatMessage({ id: 'acquisition-chain.form.informations-2' })}</li>
+          <li>{formatMessage({ id: 'acquisition-chain.form.informations-3' })}</li>
+          <li>{formatMessage({ id: 'acquisition-chain.form.informations-4' })}</li>
+          <li>{formatMessage({ id: 'acquisition-chain.form.informations-5' })}</li>
+          <li>{formatMessage({ id: 'acquisition-chain.form.informations-6' })}</li>
+          <li>{formatMessage({ id: 'acquisition-chain.form.informations-7' })}</li>
+          <li>{formatMessage({ id: 'acquisition-chain.form.informations-8' })}</li>
         </ul>
       </span>
     )
 
     const title = !chain ?
-      formatMessage({ id: 'generation-chain.form.create.title' }) :
-      formatMessage({ id: 'generation-chain.form.edit.title' }, { name: chain.name })
+      formatMessage({ id: 'acquisition-chain.form.create.title' }) :
+      formatMessage({ id: 'acquisition-chain.form.edit.title' }, { name: chain.name })
 
     const ingestProcessingChainConfig = {
       text: 'name',
@@ -181,52 +185,59 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
             <HelpMessageComponent message={infoMessage} />
             <br />
             <Tabs>
-              <Tab label={formatMessage({ id: 'generation-chain.form.general.section.title' })} >
+              <Tab label={formatMessage({ id: 'acquisition-chain.form.general.section.title' })} >
                 <Field
                   name="label"
                   fullWidth
                   component={RenderTextField}
                   type="text"
                   validate={validRequiredString255}
-                  label={formatMessage({ id: 'generation-chain.form.general.section.label' })}
+                  label={formatMessage({ id: 'acquisition-chain.form.general.section.label' })}
                 />
                 <Field
                   name="active"
                   fullWidth
                   component={RenderCheckbox}
-                  label={formatMessage({ id: 'generation-chain.form.general.section.active' })}
+                  label={formatMessage({ id: 'acquisition-chain.form.general.section.active' })}
                 />
                 <Field
                   key="mode"
                   name="mode"
                   fullWidth
-                  component={RenderAutoCompleteField}
-                  hintText={formatMessage({ id: 'generation-chain.form.general.section.mode' })}
-                  floatingLabelText={formatMessage({ id: 'generation-chain.form.general.section.mode' })}
-                  dataSource={DataProviderDomain.AcquisitionProcessingChainModes}
-                  filter={AutoComplete.caseInsensitiveFilter}
+                  component={RenderSelectField}
+                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.mode' })}
+                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.mode' })}
                   validate={required}
-                />
+                >
+                  {map(DataProviderDomain.AcquisitionProcessingChainModes, (mode, key) => (
+                    <MenuItem
+                      className={`selenium-pick-mode-${mode}`}
+                      value={mode}
+                      key={key}
+                      primaryText={formatMessage({ id: `acquisition-chain.form.general.section.mode.${mode}` })}
+                    />
+                  ))}
+                </Field>
                 <Field
                   name="session"
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  label={formatMessage({ id: 'generation-chain.form.general.section.session' })}
+                  label={formatMessage({ id: 'acquisition-chain.form.general.section.session' })}
                 />
                 <Field
                   name="periodicity"
                   fullWidth
                   component={RenderTextField}
                   type="number"
-                  label={formatMessage({ id: 'generation-chain.form.general.section.periodicity' })}
+                  label={formatMessage({ id: 'acquisition-chain.form.general.section.periodicity' })}
                 />
                 <Field
                   name="ingestChain"
                   fullWidth
                   component={RenderPageableAutoCompleteField}
-                  floatingLabelText={formatMessage({ id: 'generation-chain.form.general.section.ingestChain.select' })}
-                  hintText={formatMessage({ id: 'generation-chain.form.general.section.ingestChain.select.hint' })}
+                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.ingestChain.select' })}
+                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.ingestChain.select.hint' })}
                   pageSize={50}
                   entitiesFilterProperty="name"
                   entityActions={ingestProcessingChainActions}
@@ -238,8 +249,8 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
                   name="datasetIpId"
                   fullWidth
                   component={RenderPageableAutoCompleteField}
-                  floatingLabelText={formatMessage({ id: 'generation-chain.form.general.section.dataset.select' })}
-                  hintText={formatMessage({ id: 'generation-chain.form.general.section.dataset.select.hint' })}
+                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.dataset.select' })}
+                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.dataset.select.hint' })}
                   pageSize={50}
                   entitiesFilterProperty="label"
                   entityActions={datasetActions}
@@ -248,11 +259,11 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'generation-chain.form.fileInfos.section' })} >
+              <Tab label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })} >
                 <FieldArray
                   name="fileInfos"
                   component={RenderArrayObjectField}
-                  elementLabel={formatMessage({ id: 'generation-chain.form.fileInfos.list.item.title' })}
+                  elementLabel={formatMessage({ id: 'acquisition-chain.form.fileInfos.list.item.title' })}
                   fieldComponent={AcquisitionFileInfoComponent}
                   getEmptyObject={this.getEmptyMetaFile}
                   duplicationTransfromation={this.duplicateMetaFile}
@@ -261,7 +272,7 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
                   validate={required}
                 />
               </Tab>
-              <Tab label={formatMessage({ id: 'generation-chain.form.plugins.section' })} >
+              <Tab label={formatMessage({ id: 'acquisition-chain.form.plugins.section' })} >
                 <AcquisitionProcessingChainFormPluginsComponent
                   chain={chain}
                 />
@@ -284,7 +295,7 @@ function validate(fieldValues) {
 }
 
 const connectedReduxForm = reduxForm({
-  form: 'generation-chain-form',
+  form: 'acquisition-chain-form',
   validate,
 })(AcquisitionProcessingChainFormComponent)
 

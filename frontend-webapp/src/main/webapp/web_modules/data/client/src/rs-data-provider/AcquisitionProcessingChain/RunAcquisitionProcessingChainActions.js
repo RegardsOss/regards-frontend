@@ -16,15 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AcquisitionProcessingChain from './AcquisitionProcessingChain'
-import AcquisitionProcessingChainMonitor from './AcquisitionProcessingChainMonitor'
-import AcquisitionFileInfo from './AcquisitionFileInfo'
+
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
+ * Specific actions to run an acquisition processing chain
  * @author Sébastien Binda
  */
-module.exports = {
-  ...AcquisitionProcessingChain,
-  ...AcquisitionProcessingChainMonitor,
-  ...AcquisitionFileInfo,
+class RunAcquisitionProcessingChainActions extends BasicSignalActions {
+  /**
+   * Constructor
+   * @param {*} namespace actions namespace
+   */
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/chains/{chainId}/start`,
+      namespace,
+    })
+  }
+
+  /**
+   * @param {string} onSuccessUrl callback on success
+   * @return {type:{string}} redux action to dispatch the create order command
+   */
+  run(chainId) {
+    return this.sendSignal('GET', null, { chainId })
+  }
 }
+
+export default RunAcquisitionProcessingChainActions

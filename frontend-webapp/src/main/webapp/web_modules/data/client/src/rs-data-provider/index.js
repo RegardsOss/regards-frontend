@@ -20,6 +20,8 @@ import AcquisitionProcessingChainActions from './AcquisitionProcessingChain/Acqu
 import getAcquisitionProcessingChainReducer from './AcquisitionProcessingChain/AcquisitionProcessingChainReducer'
 import getAcquisitionProcessingChainSelectors from './AcquisitionProcessingChain/AcquisitionProcessingChainSelectors'
 
+import RunAcquisitionProcessingChainActions from './AcquisitionProcessingChain/RunAcquisitionProcessingChainActions'
+
 import AcquisitionProcessingChainMonitorActions from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorActions'
 import getAcquisitionProcessingChainMonitorReducer from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorReducer'
 import getAcquisitionProcessingChainMonitorSelectors from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorSelectors'
@@ -33,7 +35,11 @@ module.exports = {
   getAcquisitionProcessingChainReducer,
   getAcquisitionProcessingChainSelectors,
 
+  RunAcquisitionProcessingChainActions,
+
   AcquisitionProcessingChainMonitorActions,
   getAcquisitionProcessingChainMonitorReducer,
   getAcquisitionProcessingChainMonitorSelectors,
+
+
 }

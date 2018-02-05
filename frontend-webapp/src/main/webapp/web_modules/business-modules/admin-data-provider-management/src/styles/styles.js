@@ -72,6 +72,12 @@ const styles = theme => ({
       marginLeft: '4px',
       color: theme['forms-extension:validation'].warningColor,
     },
+    filters: {
+      fieldStyle: {
+        width: '190px',
+        margin: '0px 10px',
+      },
+    },
   },
 })
 
