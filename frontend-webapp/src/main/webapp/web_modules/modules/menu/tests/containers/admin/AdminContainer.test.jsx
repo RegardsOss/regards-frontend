@@ -15,30 +15,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-
-/**
- * Module hateoas depencies
- * @author Sébastien binda
  */
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { moduleActions } from './clients/ModulesListClient'
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import AdminContainer from '../../../src/containers/admin/AdminContainer'
+import styles from '../../../src/styles/styles'
 
-/**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = []
+const context = buildTestContext(styles)
 
-/**
- * Mandatory Dependencies to display module in admin interface
- * @type {Array}
- */
-const admin = [
-  moduleActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+describe('[Menu] Testing AdminContainer', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-module.exports = {
-  user,
-  admin,
-}
+  it('should exists', () => {
+    assert.isDefined(AdminContainer)
+  })
+  it('should render properly', () => {
+    const props = {
+      adminForm: {
+        currentNamespace: 'conf',
+      },
+    }
+    shallow(<AdminContainer {...props} />, { context })
+  })
+})

@@ -15,30 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-
-/**
- * Module hateoas depencies
- * @author Sébastien binda
  */
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { moduleActions } from './clients/ModulesListClient'
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import LoginButton from '../../../src/components/user/LoginButton'
+import styles from '../../../src/styles/styles'
 
-/**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = []
+const context = buildTestContext(styles)
 
-/**
- * Mandatory Dependencies to display module in admin interface
- * @type {Array}
- */
-const admin = [
-  moduleActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+describe('[Menu] Testing LoginButton', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-module.exports = {
-  user,
-  admin,
-}
+  it('should exists', () => {
+    assert.isDefined(LoginButton)
+  })
+  it('should render properly', () => {
+    const props = {
+      onLoginAction: () => { },
+    }
+    shallow(<LoginButton {...props} />, { context })
+  })
+})

@@ -20,14 +20,14 @@ import { borrowRoleReducer } from './clients/BorrowRoleClient'
 import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
 import { myUserReducer } from './clients/MyUserClient'
 import { notificationReducer, notificationInstanceReducer } from './clients/NotificationClient'
-import {
-  readNotificationReducer,
-  readNotificationInstanceReducer,
-} from './clients/ReadNotificationClient'
+import { readNotificationReducer, readNotificationInstanceReducer } from './clients/ReadNotificationClient'
+import { moduleReducer } from './clients/ModulesListClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
 
 module.exports = {
-  // web consuming clients (redux API actions / reducers)
+  // admin reducers
+  moduleList: moduleReducer,
+  // user reducers
   borrowRole: borrowRoleReducer,
   borrowableRoles: borrowableRolesReducer,
   myUser: myUserReducer,

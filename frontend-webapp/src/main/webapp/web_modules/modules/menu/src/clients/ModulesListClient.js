@@ -16,29 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessProjectClient } from '@regardsoss/client'
 
-/**
- * Module hateoas depencies
- * @author Sébastien binda
- */
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { moduleActions } from './clients/ModulesListClient'
-
-/**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = []
-
-/**
- * Mandatory Dependencies to display module in admin interface
- * @type {Array}
- */
-const admin = [
-  moduleActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+const namespace = 'ADMIN/MENU/MODULES'
+const moduleActions = new AccessProjectClient.ModuleActions(namespace)
+const moduleReducer = AccessProjectClient.ModuleReducers(namespace)
+const moduleSelectors = AccessProjectClient.ModuleSelectors(['modules.menu', 'moduleList'])
 
 module.exports = {
-  user,
-  admin,
+  moduleActions,
+  moduleReducer,
+  moduleSelectors,
 }

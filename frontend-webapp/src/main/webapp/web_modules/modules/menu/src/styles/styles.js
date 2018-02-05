@@ -34,26 +34,53 @@ const menuStyles = theme => ({
       flexDirection: 'row',
       justifyContent: 'flexStart',
       alignItems: 'center',
-      background: theme.appBar.color,
-      borderWidth: '0 0 1px 0',
-      borderColor: theme.toolbar.separatorColor,
-      borderStyle: 'solid',
-    },
-    optionsGroup: {
-      flexGrow: 0,
-      flexShrink: 0,
-    },
-    optionsLabelStyle: {
-      textTransform: undefined,
+      background: theme['module:menu'].background,
+      borderWidth: theme['module:menu'].borderWidth,
+      borderColor: theme['module:menu'].borderColor,
+      borderStyle: theme['module:menu'].borderStyle,
     },
     titleGroup: {
-      flexGrow: 1,
-      flexShrink: 1,
+      flexGrow: 0,
+      flexShrink: 0,
       fontSize: theme.flatButton.fontSize,
       fontFamily: theme.fontFamily,
       textAlign: 'center',
       color: theme.palette.textColor,
       fontWeight: 'bold',
+    },
+    navigationGroup: {
+      flexGrow: 1,
+      flexShrink: 1,
+      maxHeight: theme['module:menu'].navigationBarMaxHeight, // TODO default theme!
+      overflowY: 'hidden',
+    },
+    navigationItem: {
+      displayStyle: {
+        display: 'inline-block',
+      },
+      hiddenStyle: {
+        display: 'none',
+      },
+      defaultTextStyle: {
+        textTransform: theme['module:menu'].navigationItemTextTransform,
+      },
+      selectedTextStyle: {
+        color: theme['module:menu'].selectedNavigationItemTextColor,
+        textDecoration: theme['module:menu'].selectedNavigationItemTextDecoration,
+        textTransform: theme['module:menu'].navigationItemTextTransform,
+      },
+    },
+    moreOption: {
+      labelPosition: 'before',
+    },
+    optionsGroup: {
+      flexGrow: 0,
+      flexShrink: 0,
+      display: 'flex',
+      alignItems: 'center',
+    },
+    optionsLabelStyle: {
+      textTransform: undefined,
     },
     profile: {
       dialog: {

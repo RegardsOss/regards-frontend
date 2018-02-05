@@ -24,6 +24,9 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
  * @author Sébastien binda
  */
 const messages = {
+  // navigation
+  'navigation.more.option': 'More...',
+  // login and options
   loginFormTitle: 'Login to project interface',
   loginButtonLabel: 'Login',
   loginButtonTooltip: 'Login',
@@ -39,8 +42,6 @@ const messages = {
   'user.menu.displaycart.empty.tooltip': 'empty',
   'user.menu.displaycart.elements.count.tooltip': '{elementsCount} object(s)',
   'user.menu.cart.max.count': '{maxCount}+',
-  'menu.modules.list.button.label': 'Browse',
-  'menu.modules.list.button.tooltip': 'Browse within the site pages',
   'menu.form.title': 'Menu Title',
   'menu.form.contacts': 'Contact',
   'menu.form.projectpage': 'Project about page',

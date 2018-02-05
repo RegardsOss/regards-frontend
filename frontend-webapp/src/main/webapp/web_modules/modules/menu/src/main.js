@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ModuleIcon from 'material-ui/svg-icons/navigation/menu'
-import UserContainer from './containers/UserContainer'
-import AdminContainer from './containers/AdminContainer'
+import UserContainer from './containers/user/UserContainer'
+import AdminContainer from './containers/admin/AdminContainer'
 import styles from './styles/styles'
 import reducer from './reducer'
 import dependencies from './dependencies'

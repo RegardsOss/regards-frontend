@@ -67,6 +67,17 @@ module.exports = {
     titleTextTransform: undefined,
     subtitleMarginTop: -4,
   },
+  // menu module
+  'module:menu': {
+    background: 'transparent',
+    borderWidth: '0 0 1px 0',
+    borderColor: 'rgba(255, 255, 255, 0.175)',
+    borderStyle: 'solid',
+    navigationBarMaxHeight: 36,
+    navigationItemTextTransform: 'none',
+    selectedNavigationItemTextColor: 'rgb(255, 109, 0)',
+    selectedNavigationItemTextDecoration: 'underline',
+  },
   // search results module
   'module:search-results': {
     minListRowCount: 4,
