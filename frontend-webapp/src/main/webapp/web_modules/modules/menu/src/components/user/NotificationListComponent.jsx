@@ -27,7 +27,7 @@ import ClearAll from 'material-ui/svg-icons/communication/clear-all'
 import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ShowableAtRender } from '@regardsoss/components'
+import { ShowableAtRender, PositionedDialog } from '@regardsoss/components'
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider/Divider'
@@ -36,7 +36,6 @@ import truncate from 'lodash/truncate'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import NotificationSystem from 'react-notification-system'
 import { AdminShapes } from '@regardsoss/shape'
-import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { CardHeader, CardText, CardActions } from 'material-ui/Card'
 
@@ -214,7 +213,11 @@ class NotificationListComponent extends React.Component {
               </div>
             }
           />,
-          <Divider inset key={`divider-${notif.id}`} />,
+          <Divider
+            inset
+            style={notificationStyle.list.divider.style}
+            key={`divider-${notif.id}`}
+          />,
         ])}
       </List>
     ) : null
@@ -227,13 +230,20 @@ class NotificationListComponent extends React.Component {
     const { moduleTheme: { notifications: { dialog } } } = this.context
 
     return this.state.openedNotification ? (
-      <Dialog modal open={!!this.state.openedNotification} onRequestClose={this.handleClose}>
+      <PositionedDialog
+        modal
+        open={!!this.state.openedNotification}
+        onRequestClose={this.handleClose}
+        bodyStyle={dialog.style}
+        dialogHeightPercent={60}
+        dialogWidthPercent={78}
+      >
         <div style={dialog.wrapper.style}>
-          <div style={dialog.list.style}>
+          <div style={dialog.list.style} className="col-xs-35 col-lg-25">
             {this.renderNotificationList(this.props.unreadNotifications, true)}
             {this.renderNotificationList(this.props.readNotifications)}
           </div>
-          <div>
+          <div className="col-xs-65 col-lg-75" style={dialog.details.container.style}>
             <div style={dialog.details.header.style}>
               <CardHeader
                 title={this.state.openedNotification.title}
@@ -251,12 +261,12 @@ class NotificationListComponent extends React.Component {
               <FormattedMessage id="user.menu.notification.details.message" />:<br />
               {this.state.openedNotification.message}
             </CardText>
-            <CardActions style={dialog.details.actions.style}>
-              <FlatButton label="Close" key="close" primary onClick={this.handleClose} />
-            </CardActions>
           </div>
         </div>
-      </Dialog>
+        <CardActions style={dialog.details.actions.style}>
+          <FlatButton label="Close" key="close" primary onClick={this.handleClose} />
+        </CardActions>
+      </PositionedDialog>
     ) : null
   }
 
@@ -309,7 +319,7 @@ class NotificationListComponent extends React.Component {
               <Notification style={notificationStyle.icon.style} />
             ) : (
               <NotificationNone style={notificationStyle.icon.style} />
-            )}
+              )}
           </div>
         </IconButton>
         {this.renderNotificationDialog()}

@@ -66,6 +66,10 @@ export class UserApp extends React.Component {
     fetchEndpoints: PropTypes.func,
   }
 
+  static applicationStyle = {
+    minHeight: '100vh',
+  }
+
   /**
    * At first render, fetch application layout and modules
    */
@@ -104,7 +108,6 @@ export class UserApp extends React.Component {
 
   renderLayout(modulesList) {
     if (this.props.layout && this.props.layout.content) {
-      const styles = { minHeight: '100vh' }
       return (
         <ApplicationLayout
           appName="user"
@@ -112,7 +115,7 @@ export class UserApp extends React.Component {
           modules={modulesList}
           project={this.props.params.project}
           dynamicContent={this.props.content}
-          style={styles}
+          style={UserApp.applicationStyle}
         />
       )
     }

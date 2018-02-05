@@ -70,6 +70,7 @@ import SVGIconFromString from './icon/SVGIconFromString'
 import Breadcrumb from './links/Breadcrumb'
 import PictureLinkComponent from './links/PictureLinkComponent'
 import LinkComponent from './links/LinkComponent'
+import AnchorComponent from './links/AnchorComponent'
 
 import AutoCompleteTextField from './list/AutoCompleteTextField'
 import ChipList from './list/ChipList'
@@ -184,6 +185,7 @@ export {
   PluginConfigurationPickerComponent,
   SVGIconFromString,
   LinkComponent,
+  AnchorComponent,
   HelpMessageComponent,
   NoContentComponent,
   SelectableList,

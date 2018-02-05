@@ -68,6 +68,7 @@ export class ThemeProvider extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      isLoading: true,
       mergedTheme: ThemeProvider.getCustomMuiTheme(props.currentTheme.configuration),
     }
   }
@@ -86,6 +87,7 @@ export class ThemeProvider extends React.Component {
         activeTheme = find(actionResult.payload.entities.theme, theme => theme.content.active) || defaultTheme
       }
       this.setState({
+        isLoading: false,
         mergedTheme: ThemeProvider.getCustomMuiTheme(activeTheme.content.configuration),
       })
       return dispatchSetCurrentTheme(activeTheme.content.id)
@@ -104,10 +106,10 @@ export class ThemeProvider extends React.Component {
   }
 
   render() {
-    const { mergedTheme } = this.state
+    const { mergedTheme, isLoading } = this.state
     return (
       <MuiThemeProvider muiTheme={mergedTheme}>
-        {this.props.children}
+        {isLoading ? null : this.props.children}
       </MuiThemeProvider>
     )
   }
