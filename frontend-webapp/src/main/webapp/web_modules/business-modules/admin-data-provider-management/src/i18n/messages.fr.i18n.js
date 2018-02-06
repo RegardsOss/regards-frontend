@@ -96,6 +96,7 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.label': 'Libellé',
   'acquisition-chain.monitor.list.running': 'Etat',
   'acquisition-chain.monitor.list.activity.not.running': 'Arrêtée',
+  'acquisition-chain.monitor.list.activity.not.running.date': 'Arrêtée depuis le {date}',
   'acquisition-chain.monitor.list.total-nb-products': 'Produits',
   'acquisition-chain.monitor.list.total-products.tooltip': 'Total des produits',
   'acquisition-chain.monitor.list.error-nb-products.tooltip': 'Produits en erreur',

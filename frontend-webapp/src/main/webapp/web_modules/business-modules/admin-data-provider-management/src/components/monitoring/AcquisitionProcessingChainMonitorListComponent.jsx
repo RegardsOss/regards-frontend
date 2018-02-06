@@ -66,6 +66,8 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
     ...themeContextType,
   }
 
+  static AUTO_REFRESH_PERIOD = 20000
+
   state = {
     errorMessage: null,
     filters: {},
@@ -90,8 +92,11 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
    * Use javascript setTimeout to run auto refresh of acquisition chains
    */
   autoRefresh = () => {
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+    }
     this.handleRefresh().then((ActionResult) => {
-      this.timeout = setTimeout(this.autoRefresh, 5000)
+      this.timeout = setTimeout(this.autoRefresh, AcquisitionProcessingChainMonitorMonitorComponent.AUTO_REFRESH_PERIOD)
     })
   }
 
@@ -173,7 +178,7 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
     this.props.onRunChain(chainId).then(
       (ActionResult) => {
         if (!ActionResult.error) {
-          this.handleRefresh()
+          this.autoRefresh()
         } else {
           this.setState({
             errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.run.error' }, { label, chainId }),

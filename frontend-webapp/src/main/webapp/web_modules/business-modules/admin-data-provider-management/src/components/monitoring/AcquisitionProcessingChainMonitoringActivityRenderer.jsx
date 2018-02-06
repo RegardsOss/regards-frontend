@@ -43,12 +43,20 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
       display: 'inline-block',
       position: 'relative',
     },
-  };
+  }
+
+  static DATETIME_OPTIONS = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }
 
   render() {
-    const { entity: { content } } = this.props
-    const { intl: { formatMessage } } = this.context
-    if (content.running) {
+    const { entity: { content: { chain } } } = this.props
+    const { intl: { formatMessage, formatDate } } = this.context
+    if (chain.running) {
       return (
         <RefreshIndicator
           size={25}
@@ -59,10 +67,12 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
         />
       )
     }
+    const label = chain.lastActivationDate ?
+      formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running.date' },
+        { date: formatDate(chain.lastActivationDate, AcquisitionProcessingChainMonitoringActivityRenderer.DATETIME_OPTIONS) },
+      ) : formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running' })
     return (
-      <div>
-        {formatMessage({ id: 'acquisition-chain.monitor.list.activity.not.running' })}
-      </div>
+      <div> {label} </div>
     )
   }
 }
