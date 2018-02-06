@@ -16,32 +16,45 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SvgIcon from 'material-ui/SvgIcon'
+import ReactSVG from 'react-svg'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from './styles'
 
 /**
- * A React component to display a SVG element
+ * Shows an URL SVG icon conntected to material UI, because MUI is not able to load and display SVG (................)
+ * @author Raphaël Mechali
  */
-class SVGIconFromString extends React.Component {
+class SVGURLIcon extends React.Component {
   static propTypes = {
-    icon: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    iconStyle: PropTypes.object,
-    iconViewBox: PropTypes.string,
+    style: PropTypes.object,
+    path: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
-    iconStyle: { width: '150px', height: '150px' },
-    iconViewBox: '0 0 94.5 94.5',
+    style: {},
   }
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   render() {
-    const { iconStyle, icon, iconViewBox } = this.props
+    const { style: userStyle, path } = this.props
+    // pick up in theme the icon elements
+    const { moduleTheme: { svgURLIconStyle } } = this.context
+    // merge with provided style
+    const renderStyle = {
+      ...svgURLIconStyle,
+      ...userStyle,
+    }
     return (
-      <SvgIcon viewBox={iconViewBox} style={iconStyle}>
-        {/* eslint-disable react/no-danger */}
-        <g dangerouslySetInnerHTML={{ __html: icon }} />
-      </SvgIcon>
+      <ReactSVG
+        path={path}
+        style={renderStyle}
+      />
     )
   }
 }
 
-export default SVGIconFromString
+export default withModuleStyle(styles)(SVGURLIcon)

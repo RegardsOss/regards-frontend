@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ModuleIcon from 'material-ui/svg-icons/action/lightbulb-outline'
 import ProjectAboutPageContainer from './containers/ProjectAboutPageContainer'
 import adminContainer from './containers/AdminContainer'
 import messages from './i18n'
 import styles from './styles/styles'
 import dependencies from './dependencies'
+
+// ensure the default module icon is present in bundle
+import '../default-icon.svg'
 
 /**
  * Module main file to expose public interface
@@ -31,6 +33,5 @@ module.exports = {
   adminContainer,
   styles,
   messages,
-  ModuleIcon,
   dependencies,
 }

@@ -15,22 +15,33 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
+import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import keys from 'lodash/keys'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import MessagesEN from '../../src/i18n/messages.en.i18n'
-import MessagesFR from '../../src/i18n/messages.fr.i18n'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import SVGURLIcon from '../../src/picture/SVGURLIcon'
+import styles from '../../src/picture/styles'
 
-describe('[ARCHIVAL STORAGE AIP STATUS] Testing i18n', () => {
+const context = buildTestContext(styles)
+
+/**
+ * Test SVGURLIcon
+ * @author Raphaël Mechali
+ */
+describe('[ Module name] Testing SVGURLIcon', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should exist', () => {
-    assert.isDefined(MessagesEN)
-    assert.isDefined(MessagesFR)
+  it('should exists', () => {
+    assert.isDefined(SVGURLIcon)
   })
-  it('should define same sentences', () => {
-    assert.deepEqual(keys(MessagesFR), keys(MessagesEN))
+  it('should render correctly', () => {
+    const props = {
+      //  TODO properties
+    }
+    assert.fail('To implement')
+    const enzymeWrapper = shallow(<SVGURLIcon {...props} />, { context })
+    // TODO test
   })
+
 })

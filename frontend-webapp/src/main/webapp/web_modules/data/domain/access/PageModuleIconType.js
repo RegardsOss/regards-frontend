@@ -15,9 +15,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import values from 'lodash/values'
+
+/**
+ * Possible icon types for page modules (== dynamic modules)
+ * @author Raphaël Mechali
  */
-const messages = {
-  'archival.storage.aip.status.monitoring.title': 'AIP status monitoring',
+
+export const PAGE_MODULE_ICON_TYPES_ENUM = {
+  /** No page module icon */
+  NONE: 'NONE',
+  /** Use default icon */
+  DEFAULT: 'DEFAULT',
+  /** User custom URL icon */
+  CUSTOM: 'CUSTOM',
 }
 
-export default messages
+export const PAGE_MODULE_ICON_TYPES = values(PAGE_MODULE_ICON_TYPES_ENUM)

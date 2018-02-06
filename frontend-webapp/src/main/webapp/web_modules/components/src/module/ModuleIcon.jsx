@@ -17,17 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import { AccessDomain } from '@regardsoss/domain'
+import SVGURLIcon from '../picture/SVGURLIcon'
 import styles from './styles'
 
 /**
-* Common dynamic modules title (when not using a breadcrumb)
-* @author Raphaël Mechali
-*/
-export class ModuleTitle extends React.Component {
+ * Default module icon component: handles display mode and distant URLs
+ * @author Raphaël Mechali
+ */
+class ModuleIcon extends React.Component {
   static propTypes = {
-    icon: PropTypes.node,
-    text: PropTypes.string.isRequired,
-    tooltip: PropTypes.string,
+    iconDisplayMode: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES).isRequired,
+    defaultIconURL: PropTypes.string,
+    customIconURL: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -35,18 +37,24 @@ export class ModuleTitle extends React.Component {
   }
 
   render() {
-    const { icon, text, tooltip } = this.props
+    const { iconDisplayMode, defaultIconURL, customIconURL } = this.props
     const { moduleTheme: { moduleTitle } } = this.context
-    return (
-      <div style={moduleTitle.style} title={tooltip}>
-        { // icon if any
-          icon || null
-        }
-        <div style={moduleTitle.labelStyle}>
-          {text}
-        </div >
-      </div>
+    let iconURL
+    switch (iconDisplayMode) {
+      case AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM:
+        iconURL = customIconURL
+        break
+      case AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT:
+        iconURL = defaultIconURL
+        break
+      default:
+        // No icon
+        return null
+    }
+
+    return ( // TODO-NOW handle Non SVG icons
+      <SVGURLIcon style={moduleTitle.iconStyle} path={iconURL} />
     )
   }
 }
-export default withModuleStyle(styles)(ModuleTitle)
+export default withModuleStyle(styles)(ModuleIcon)

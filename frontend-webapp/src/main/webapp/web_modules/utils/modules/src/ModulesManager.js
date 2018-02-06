@@ -47,7 +47,6 @@ const VisibleModuleTypes = {
  * Dynamic module types that cannot be instantiated by administrator (their UI needs external activation)
  */
 const HiddenModuleTypes = {
-  AIP_STATUS: 'aip-status', // XXX-V3 visible
   AUTHENTICATION: 'authentication',
   NEWS: 'news', // XXX-V3 visible
 }
@@ -119,6 +118,14 @@ function getModuleURL(project, moduleId) {
   return `/user/${project}/modules/${moduleId}`
 }
 
+/**
+ * Returns module default icon path
+ * @param {string} moduleType module type
+ */
+function getModuleDefaultIconURL(moduleType) {
+  return `/modules-icon/${moduleType}.svg`
+}
+
 module.exports = {
   VisibleModuleTypes,
   HiddenModuleTypes,
@@ -127,5 +134,6 @@ module.exports = {
   loadModule,
   getAvailableVisibleModuleTypes,
   getModuleURL,
+  getModuleDefaultIconURL,
 }
 

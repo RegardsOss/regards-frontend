@@ -15,9 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-const messages = {
-  'archival.storage.aip.status.monitoring.title': 'Suivi du stockage AIP',
-}
+ **/
 
-export default messages
+export default ({ palette: { textColor, canvasColor }, spacing: { iconSize } }) => ({
+  svgURLIconStyle: {
+    display: 'inline-block',
+    fill: textColor,
+    height: iconSize,
+    width: iconSize,
+    background: canvasColor,
+  },
+})

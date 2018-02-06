@@ -18,7 +18,8 @@ This module is a dynamic configurable module for the configurable interfaces. It
  |   ├── reducer.js      : Redux reducers  
  |   └── router.js       : React-router configuration  
  ├── tests  
- ├── package.json    : Npm module description file  
+ ├── default-icon.svg    : Default module icon as svg, mandatory
+ ├── package.json        : Npm module description file  
  └── README.md  
 
 ## Route

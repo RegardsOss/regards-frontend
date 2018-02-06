@@ -18,7 +18,8 @@ This module is a dynamic configurable module for the configurable interfaces. Th
  |   ├── reducer.js      : Redux reducers  
  |   └── router.js       : React-router configuration  
  ├── tests  
- ├── package.json    : Npm module description file  
+ ├── default-icon.svg    : Default module icon as svg, mandatory
+ ├── package.json        : Npm module description file  
  └── README.md  
 
 ## Route
@@ -35,7 +36,6 @@ This module as a dynamic configurable module exposes is own :
   - reducer          : To configure the general Redux Store.
   - styles           : Styles of the module
   - messages         : Messages and labels internationalization objcet (default : imported index.js from messages/)
-  - ModuleIcon       : Default module icon (used when displaying a dynamic module)
   - dependencies     : The needed resources (backend enpoints) to display each part of the module
 
 # Internationalization

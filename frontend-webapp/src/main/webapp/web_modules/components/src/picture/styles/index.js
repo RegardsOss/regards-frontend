@@ -15,32 +15,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import React, { Component } from 'react'
-import ModuleIcon from 'material-ui/svg-icons/device/storage'
-import { DynamicModule, ModuleTitle } from '@regardsoss/components'
+ **/
 
-class AIPStatus extends Component {
-  static propTypes = {
-    // expanded state management
-    expanded: PropTypes.bool.isRequired,
-    onExpandChange: PropTypes.func.isRequired,
-  }
+import styles from './styles'
 
-  render() {
-    const { onExpandChange, expanded } = this.props
-    return (
-      <DynamicModule
-        title={<ModuleTitle IconConstructor={ModuleIcon} text="TODO TITLE" />} // TODO
-        onExpandChange={onExpandChange}
-        expanded={expanded}
-      >
-        {/* TODO implement me */}
-        <div />
-      </DynamicModule>
-    )
-  }
-}
-
-
-export default AIPStatus
+export default { styles }

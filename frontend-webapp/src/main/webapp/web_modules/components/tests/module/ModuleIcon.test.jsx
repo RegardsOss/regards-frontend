@@ -16,24 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import ModuleIcon from '../../src/module/ModuleIcon'
+import styles from '../../src/module/styles'
+
+const context = buildTestContext(styles)
 
 /**
- * Module hateoas depencies
- * @author Sébastien binda
+ * Test ModuleIcon
+ * @author Raphaël Mechali
  */
-/**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = []
+describe('[ Module name] Testing ModuleIcon', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-/**
- * Mandatory Dependencies to display module in admin interface
- * @type {Array}
- */
-const admin = []
-
-module.exports = {
-  user,
-  admin,
-}
+  it('should exists', () => {
+    assert.isDefined(ModuleIcon)
+  })
+  it('should render correctly', () => {
+    const props = {
+      //  TODO properties
+    }
+    assert.fail('TODO implement')
+    const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
+    // TODO test
+  })
+})
