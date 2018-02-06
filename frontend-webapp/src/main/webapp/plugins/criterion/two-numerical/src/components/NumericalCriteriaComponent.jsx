@@ -31,7 +31,6 @@ import EnumNumericalComparator from '../model/EnumNumericalComparator'
  * @author Xavier-Alexandre Brochard
  */
 export class NumericalCriteriaComponent extends React.Component {
-
   static propTypes = {
     /**
      * Callback to change the current criteria values in form
@@ -125,7 +124,9 @@ export class NumericalCriteriaComponent extends React.Component {
   format = value => value || ''
 
   render() {
-    const { label, comparator, value, reversed, hideAttributeName, hideComparator, fixedComparator } = this.props
+    const {
+      label, comparator, value, reversed, hideAttributeName, hideComparator, fixedComparator,
+    } = this.props
     const { moduleTheme: { labelSpanStyle, textFieldStyle, lineStyle } } = this.context
 
     // Store the content in an array because we need to maybe reverse to order

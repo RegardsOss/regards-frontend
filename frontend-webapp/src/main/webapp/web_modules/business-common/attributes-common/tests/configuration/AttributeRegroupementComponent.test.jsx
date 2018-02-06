@@ -75,10 +75,10 @@ describe('[ATTRIBUTES COMMON] Testing AttributeRegroupementComponent', () => {
     const items = wrapper.find(MenuItem)
     assert.lengthOf(items, 2, 'There should be two menu options')
 
-    items.at(0).simulate('touchTap')
+    items.at(0).simulate('click')
     assert(onEditSpy.calledWith(attributeConfProp))
 
-    items.at(1).simulate('touchTap')
+    items.at(1).simulate('click')
     assert(onDeleteSpy.calledWith(attributeConfProp))
   })
 })

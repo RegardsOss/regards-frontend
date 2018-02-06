@@ -33,6 +33,9 @@ class DynamicModuleFormComponent extends React.Component {
     appName: PropTypes.string.isRequired,
     module: AccessShapes.Module,
     adminForm: PropTypes.shape({
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
       // eslint-disable-next-line react/forbid-prop-types
@@ -43,8 +46,7 @@ class DynamicModuleFormComponent extends React.Component {
   }
 
   state = {
-    moduleLoading: true,
-    noAdminComp: false,
+    module: null,
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -66,7 +68,7 @@ class DynamicModuleFormComponent extends React.Component {
     if (!this.props.module && !this.props.module.type) {
       return null
     }
-    let styles = this.props.styles
+    let { styles } = this.props
     if (this.state.module && !this.state.module.adminContainer) {
       // Hide Card element if there is no adminContainer to display for the module specific configuration
       styles = merge({}, styles, { display: 'none' })

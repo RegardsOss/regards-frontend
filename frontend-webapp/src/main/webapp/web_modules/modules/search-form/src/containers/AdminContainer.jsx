@@ -38,6 +38,10 @@ class AdminContainer extends React.Component {
     appName: PropTypes.string,
     project: PropTypes.string,
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
       form: PropTypes.shape({
@@ -69,18 +73,24 @@ class AdminContainer extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      attributesLoading: true,
-      criterionLoading: true,
-    }
+    this.CONF_DATASETS = `${props.adminForm.currentNamespace}.datasets`
+    this.CONF_DATASETS_TYPES = `${props.adminForm.currentNamespace}.datasets.type`
+    this.CONF_DATASETS_SELECTED_MODELS = `${props.adminForm.currentNamespace}.datasets.selectedModels`
+    this.CONF_DATASETS_SELECTED_DATASETS = `${props.adminForm.currentNamespace}.datasets.selectedDatasets`
+    this.CONF_SEARCH_RESULT = `${props.adminForm.currentNamespace}.searchResult`
+  }
+
+  state = {
+    attributesLoading: true,
+    criterionLoading: true,
   }
 
   componentWillMount() {
-    if (get(this.props, 'adminForm.form.conf.datasets', null)) {
+    if (!this.props.adminForm.isCreating) {
       this.updateselectableDataObjectsAttributes(
-        this.props.adminForm.form.conf.datasets.type,
-        this.props.adminForm.form.conf.datasets.selectedModels,
-        this.props.adminForm.form.conf.datasets.selectedDatasets,
+        get(this.props.adminForm.form, this.CONF_DATASETS_TYPES),
+        get(this.props.adminForm.form, this.CONF_DATASETS_SELECTED_MODELS),
+        get(this.props.adminForm.form, this.CONF_DATASETS_SELECTED_DATASETS),
       )
     } else {
       this.updateselectableDataObjectsAttributes()
@@ -93,8 +103,8 @@ class AdminContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Check if the selectable attributes have to be updated
-    const datasetsConf = get(this.props, 'adminForm.form.conf.datasets', null)
-    const newDatasetsConf = get(nextProps, 'adminForm.form.conf.datasets', null)
+    const datasetsConf = get(this.props.adminForm.form, this.CONF_DATASETS, null)
+    const newDatasetsConf = get(nextProps.adminForm.form, this.CONF_DATASETS, null)
     if (datasetsConf && newDatasetsConf && !isEqual(datasetsConf, newDatasetsConf)) {
       this.updateselectableDataObjectsAttributes(
         newDatasetsConf.type,
@@ -122,17 +132,17 @@ class AdminContainer extends React.Component {
       appName: this.props.appName,
       project: this.props.project,
       adminForm: this.props.adminForm,
+      currentNamespace: this.props.adminForm.currentNamespace,
       changeField: this.props.adminForm.changeField,
       defaultConf: {
-        enableFacettes: this.props.moduleConf.enableFacettes,
-        resultType: this.props.moduleConf.resultType ? this.props.moduleConf.resultType : 'datasets',
         datasets: this.props.moduleConf.datasets ? this.props.moduleConf.datasets : {
           type: 'all',
         },
         criterion: this.props.moduleConf.criterion ? this.props.moduleConf.criterion : [],
         layout: this.props.moduleConf.layout,
-        attributes: this.props.moduleConf.attributes ? this.props.moduleConf.attributes : [],
-        attributesRegroupements: this.props.moduleConf.attributesRegroupements ? this.props.moduleConf.attributesRegroupements : [],
+        searchResult: {
+          displayMode: get(this.props.moduleConf, `${this.CONF_SEARCH_RESULT}.displayMode`, 'data_dataset'),
+        },
       },
       selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
       selectableDataObjectsAttributesFetching: this.state.attributesLoading,
@@ -143,19 +153,16 @@ class AdminContainer extends React.Component {
   }
 
   render() {
-    if (this.props.adminForm.form) {
-      const props = this.initEmptyProps()
-      return (
-        <LoadableContentDisplayDecorator
-          isLoading={this.state.attributesLoading || this.state.criterionLoading}
-        >
-          <FormTabsComponent
-            {...props}
-          />
-        </LoadableContentDisplayDecorator>
-      )
-    }
-    return null
+    const props = this.initEmptyProps()
+    return (
+      <LoadableContentDisplayDecorator
+        isLoading={this.state.attributesLoading || this.state.criterionLoading}
+      >
+        <FormTabsComponent
+          {...props}
+        />
+      </LoadableContentDisplayDecorator>
+    )
   }
 }
 

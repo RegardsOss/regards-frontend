@@ -22,13 +22,6 @@ import ActionButtonComponent from './ActionButtonComponent'
 /**
  * Generic back button
  */
-/* interface MainActionButtonProps {
-  label: string | JSX.Element
-  url?: string
-  style?: any
-  onTouchTap?: (event: React.FormEvent) => void
-  isVisible?: boolean
-}*/
 function MainActionButtonComponent(props) {
   return (<ActionButtonComponent
     button={RaisedButton}
@@ -41,7 +34,7 @@ MainActionButtonComponent.propTypes = {
   url: PropTypes.string,
   type: PropTypes.string,
   style: PropTypes.objectOf(PropTypes.string),
-  onTouchTap: PropTypes.func,
+  onClick: PropTypes.func,
   isVisible: PropTypes.bool,
   disabled: PropTypes.bool,
   title: PropTypes.string,

@@ -32,10 +32,8 @@ module.exports = {
   'components:infinite-table': {
     lineHeight: 50,
     fixedColumnsWidth: 42,
-    rowCount: 13,
-    listLineHeight: 160,
-    listRowCount: 4,
-    listRowsByColumnCount: 4,
+    minRowCount: 13,
+    maxRowCount: 13,
     minHeaderRowHeight: 40,
     multipleValuesSeparatorMargin: '0 10px',
     multipleValuesSeparatorHeight: 14,
@@ -61,22 +59,31 @@ module.exports = {
   },
   module: {
     titleBarHeight: '48px',
-    titleMargin: '0 0 0 8px',
-    titleIconMargin: '0',
-    titleIconSize: '24px',
-    titleTextMargin: '0 0 0 8px',
+    titleMarginLeft: 8,
+    titleIconSize: 24,
+    titleTextMarginLeft: 8,
     titleFontSize: '20px',
     titleFontWeight: '500',
     titleTextTransform: undefined,
+    subtitleMarginTop: -4,
+  },
+  // search results module
+  'module:search-results': {
+    minListRowCount: 4,
+    maxListRowCount: 4,
+    listLineHeight: 160,
+    listRowsByColumnCount: 4,
   },
   // storage plugins module
   'module:storage-plugins': {
-    tableRowHeight: '24px',
-    tableCellPadding: '0 5px 0 0',
-    usedSpaceColor: '#3DC9D5',
-    unusedSpaceColor: '#E0E0E0',
-    chartBorderColor: '#FFFFFF',
+    usedSpaceColor: '#133e63',
+    unusedSpaceColor: '#FFFFFF',
+    chartBorderColor: '#94a4b2',
     chartBorderWidth: '1px',
+    legendMarginTop: 16,
+    legendItemMarginTop: 8,
+    legendItemIconToText: 10,
+    circleIconSize: 12,
   },
   'module:order-history': {
     // common
@@ -101,5 +108,13 @@ module.exports = {
     'color.file.DOWNLOADED': '#9E9E9E',
     'color.file.ERROR': '#f44336',
     'color.file.UNKNOWN': '#9E9E9E',
+    // filters (admin only)
+    clearEmailFilterPadding: '7px 16px 7px 8px',
+  },
+  'components:button-anchor-scroll-top': {
+    iconColor: '#303030',
+    buttonColor: '#2196f3',
+    buttonRight: '10px',
+    buttonBottom: '10px',
   },
 }

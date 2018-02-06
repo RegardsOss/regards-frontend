@@ -16,6 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import EnumeratedDOPropertyValuesActions from './search/EnumeratedDOPropertyValuesActions'
+import getEnumeratedDOPropertyValuesReducer from './search/EnumeratedDOPropertyValuesReducer'
+import getEnumeratedDOPropertyValuesSelectors from './search/EnumeratedDOPropertyValuesSelectors'
+
 
 import LinkPluginDatasetActions from './linkPluginDataset/LinkPluginDatasetActions'
 import getLinkPluginDatasetReducer from './linkPluginDataset/LinkPluginDatasetReducer'
@@ -34,6 +38,10 @@ import SearchEntityActions from './search/SearchEntityActions'
 import CatalogPluginServiceResultActions from './services/CatalogPluginServiceResultActions'
 
 module.exports = {
+  EnumeratedDOPropertyValuesActions,
+  getEnumeratedDOPropertyValuesReducer,
+  getEnumeratedDOPropertyValuesSelectors,
+
   LinkPluginDatasetActions,
   getLinkPluginDatasetReducer,
   getLinkPluginDatasetSelectors,

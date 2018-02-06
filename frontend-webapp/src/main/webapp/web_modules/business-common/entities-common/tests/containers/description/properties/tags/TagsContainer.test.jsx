@@ -27,7 +27,7 @@ import getDescriptionLevelSelectors from '../../../../../src/model/description/D
 
 const context = buildTestContext()
 
-describe('[ Module name] Testing TagsContainer', () => {
+describe('[Entities Common] Testing TagsContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

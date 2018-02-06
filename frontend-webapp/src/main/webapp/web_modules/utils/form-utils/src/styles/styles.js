@@ -96,6 +96,17 @@ export default function styles(theme) {
         color: theme['forms-extension:validation'].errorColor,
       },
     },
+    mapField: {
+      item: {
+        textStyle: {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+        errorIconStyle: {
+          color: theme['forms-extension:validation'].errorColor,
+        },
+      },
+    },
     arrayObject: {
       layoutStyle: {
         display: 'flex',
@@ -110,22 +121,28 @@ export default function styles(theme) {
       contentStyle: {
         display: 'flex',
         flexDirection: 'row',
-        height: '250px',
+        minHeight: '196px',
+        maxHeight: '484px',
         width: '100%',
       },
       leftColumnStyle: {
-        width: '18%',
+        width: '33%',
         borderRight: '1px solid',
         borderColor: theme.palette.borderColor,
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      leftListStyle: {
+        flexGrow: '1',
+        overflow: 'auto',
+      },
+      leftButtonStyle: {
+        flexGrow: '0',
       },
       rightColumnStyle: {
         width: '82%',
         overflow: 'auto',
         margin: '0px 15px',
-      },
-      typeListStyle: {
-        height: '215px',
-        overflow: 'auto',
       },
     },
   }

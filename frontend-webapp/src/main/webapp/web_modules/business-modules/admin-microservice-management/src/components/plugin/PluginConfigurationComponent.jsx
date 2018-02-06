@@ -34,7 +34,9 @@ import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RenderPluginConfField } from '@regardsoss/microservice-plugin-configurator'
 import { pluginConfigurationByTypeActions } from '../../clients/PluginConfigurationClient'
+import PluginView from './PluginView'
 import styles from '../../styles'
+
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const HateoasToggle = withHateoasDisplayControl(Toggle)
@@ -82,21 +84,18 @@ export class PluginConfigurationComponent extends React.Component {
     } = this.props
     const { moduleTheme } = this.context
 
-    const ConfForm = reduxForm({ form: `view-plugin-conf-${pluginConfiguration.content.id}` })(RenderPluginConfField)
-    const input = {
-      value: pluginConfiguration,
-    }
+    const ConfForm = reduxForm({
+      form: `view-plugin-conf-${pluginConfiguration.content.id}`,
+      initialValues: { pluginConfiguration: pluginConfiguration.content },
+    })(PluginView)
 
     // Simulate a redux form to use the same component RenderPluginConfField to display a non editable form of plugin configuration.
     const conf = (
       <ConfForm
         microserviceName={microserviceName}
         pluginMetaData={get(pluginMetaData, 'content', {})}
-        disabled
-        hideGlobalParameterConf
-        hideDynamicParameterConf
-        // Workaround to simulate redux form
-        input={input}
+        name="pluginConfiguration"
+        component={RenderPluginConfField}
       />)
 
 
@@ -111,7 +110,7 @@ export class PluginConfigurationComponent extends React.Component {
               <span>{pluginConfiguration.content.label}</span>
               <span style={moduleTheme.pluginConfiguration.version}>Version {pluginConfiguration.content.version}</span>
               <span> -</span>
-              <span style={moduleTheme.pluginConfiguration.version}>Id {pluginConfiguration.content.id}</span>
+              <span style={moduleTheme.pluginConfiguration.version}>ID {pluginConfiguration.content.id}</span>
             </div>
             <div style={moduleTheme.pluginConfiguration.buttonsGroupWrapper}>
               <span style={moduleTheme.pluginConfiguration.version}><FormattedMessage
@@ -122,7 +121,7 @@ export class PluginConfigurationComponent extends React.Component {
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.UPDATE}
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.increment.priorityOrder' })}
-                onTouchTap={onUpwardClick}
+                onClick={onUpwardClick}
               >
                 <ArrowUpward />
               </HateoasIconAction>
@@ -130,7 +129,7 @@ export class PluginConfigurationComponent extends React.Component {
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.UPDATE}
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.decrement.priorityOrder' })}
-                onTouchTap={onDownwardClick}
+                onClick={onDownwardClick}
               >
                 <ArrowDownward />
               </HateoasIconAction>
@@ -138,14 +137,14 @@ export class PluginConfigurationComponent extends React.Component {
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.UPDATE}
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.edit' })}
-                onTouchTap={onEditClick}
+                onClick={onEditClick}
               >
                 <ModeEdit />
               </HateoasIconAction>
               <ResourceIconAction
                 resourceDependencies={pluginConfigurationByTypeActions.getMsDependency('POST', this.props.microserviceName)}
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.copy' })}
-                onTouchTap={onCopyClick}
+                onClick={onCopyClick}
               >
                 <ContentCopy />
               </ResourceIconAction>
@@ -153,7 +152,7 @@ export class PluginConfigurationComponent extends React.Component {
                 entityLinks={pluginConfiguration.links}
                 hateoasKey={HateoasKeys.DELETE}
                 tooltip={this.context.intl.formatMessage({ id: 'microservice-management.plugin.configuration.delete' })}
-                onTouchTap={onDeleteClick}
+                onClick={onDeleteClick}
               >
                 <Delete />
               </HateoasIconAction>

@@ -45,7 +45,7 @@ export class TableSelectAllOption extends React.Component {
     return (
       <FlatButton
         disabled={disabled}
-        onTouchTap={onToggleSelectAll}
+        onClick={onToggleSelectAll}
         icon={icon}
         title={this.context.intl.formatMessage({ id: titleKey })}
         label={this.context.intl.formatMessage({ id: labelKey })}

@@ -48,6 +48,18 @@ const styles = theme => ({
       width: '6px',
     },
   },
+  noPreview: {
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      margin: 'auto',
+      width: '256px',
+    },
+    text: { width: '256px', textAlign: 'center' },
+    icon: {
+      width: '256px',
+    },
+  },
 })
 
 export default styles

@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { Card } from 'material-ui/Card'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DynamicModule } from '../../src/module/DynamicModule'
 import styles from '../../src/module/styles/styles'
@@ -35,21 +36,44 @@ describe('[Components] Testing DynamicModule', () => {
   it('should exists', () => {
     assert.isDefined(DynamicModule)
   })
-  it('should render correctly', () => {
+  it('should render correctly expanded', () => {
     const props = {
       title: <div>The title</div>,
       options: [<div key="an.option">An option </div>],
       onExpandChange: () => { },
+      expandable: true,
       expanded: true,
       isAuthenticated: true,
     }
-    shallow(
+    const wrapper = shallow(
       (
         <DynamicModule {...props} >
           <div>Some content</div>
         </DynamicModule>
       ), { context },
     )
-    // TODO-V2 please add LOADS OF TESTS (when time)
+    const cardWrapper = wrapper.find(Card)
+    assert.lengthOf(cardWrapper, 1, 'There should be the card')
+    assert.isTrue(cardWrapper.props().expanded, 'It should be expanded')
+  })
+  it('should render correctly collapsed', () => {
+    const props = {
+      title: <div>The title</div>,
+      options: [<div key="an.option">An option </div>],
+      onExpandChange: () => { },
+      expandable: true,
+      expanded: false,
+      isAuthenticated: false,
+    }
+    const wrapper = shallow(
+      (
+        <DynamicModule {...props} >
+          <div>Some content</div>
+        </DynamicModule>
+      ), { context },
+    )
+    const cardWrapper = wrapper.find(Card)
+    assert.lengthOf(cardWrapper, 1, 'There should be the card')
+    assert.isFalse(cardWrapper.props().expanded, 'It should be collapsed')
   })
 })

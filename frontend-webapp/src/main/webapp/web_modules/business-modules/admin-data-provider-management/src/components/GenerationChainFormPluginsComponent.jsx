@@ -21,7 +21,8 @@ import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
-import { Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { Field } from 'redux-form'
+import { ValidationHelpers } from '@regardsoss/form-utils'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import generationChainPluginTypes from './GenerationChainPluginTypes'
 
@@ -29,7 +30,7 @@ import generationChainPluginTypes from './GenerationChainPluginTypes'
 * Component to configure plugins of a generation chain of DataProvider microservice
 * @author Sébastien Binda
 */
-class GenerationChainFormPluginsComponent extends React.Component {
+class GenerationChainFormPluginsComponent extends React.PureComponent {
   static propTypes = {
     chain: DataProviderShapes.GenerationChain,
   }
@@ -41,10 +42,11 @@ class GenerationChainFormPluginsComponent extends React.Component {
 
   static defaultProps = {}
 
-  getPluginConfigurator = (index, title, selectLabel, ingestPluginType, pluginConf, fieldNamePrefix) => {
+  getPluginConfigurator = (index, title, selectLabel, pluginType, pluginConf, fieldNamePrefix, validate) => {
     const { moduleTheme: { pluginStyles, avatarStyles }, muiTheme: { palette } } = this.context
+    const defaultPluginLabel = `${fieldNamePrefix}-${Date.now()}`
     return (
-      <div key={ingestPluginType}>
+      <div key={pluginType} style={pluginStyles}>
         <Avatar
           size={30}
           style={avatarStyles}
@@ -57,10 +59,10 @@ class GenerationChainFormPluginsComponent extends React.Component {
           component={RenderPluginField}
           title={title}
           selectLabel={selectLabel}
-          ingestPluginType={ingestPluginType}
-          defaultPluginConfLabel="TODO CONF !!!!!!"
-          validate={ValidationHelpers.required}
-          microserviceName={STATIC_CONF.MSERVICES.DATAPROVIDER}
+          pluginType={pluginType}
+          defaultPluginConfLabel={defaultPluginLabel}
+          validate={validate}
+          microserviceName={STATIC_CONF.MSERVICES.DATA_PROVIDER}
           hideDynamicParameterConf
           hideGlobalParameterConf
         />
@@ -72,27 +74,29 @@ class GenerationChainFormPluginsComponent extends React.Component {
     const { chain } = this.props
     const { intl: { formatMessage } } = this.context
 
-    const scanPlugin = get(chain, 'scanAcquisitionPluginConf', null)
-    const checkPlugin = get(chain, 'checkAcquisitionPluginConf', null)
+    const validationPlugin = get(chain, 'validationPluginConf', null)
+    const productPlugin = get(chain, 'productPluginConf', null)
     const genPlugin = get(chain, 'generateSipPluginConf', null)
     const postProcessPlugin = get(chain, 'postProcessSipPluginConf', null)
 
     const plugins = [
       this.getPluginConfigurator(
         1,
-        formatMessage({ id: 'generation-chain.form.plugins.scan.label' }),
+        formatMessage({ id: 'generation-chain.form.plugins.validation.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
-        generationChainPluginTypes.SCAN,
-        scanPlugin,
-        'scanAcquisitionPluginConf',
+        generationChainPluginTypes.VALIDATION,
+        validationPlugin,
+        'validationPluginConf',
+        ValidationHelpers.required,
       ),
       this.getPluginConfigurator(
         2,
-        formatMessage({ id: 'generation-chain.form.plugins.check.label' }),
+        formatMessage({ id: 'generation-chain.form.plugins.product.label' }),
         formatMessage({ id: 'generation-chain.form.plugins.select.label' }),
-        generationChainPluginTypes.CHECK,
-        checkPlugin,
-        'checkAcquisitionPluginConf',
+        generationChainPluginTypes.PRODUCT,
+        productPlugin,
+        'productPluginConf',
+        ValidationHelpers.required,
       ),
       this.getPluginConfigurator(
         3,
@@ -101,6 +105,7 @@ class GenerationChainFormPluginsComponent extends React.Component {
         generationChainPluginTypes.GENERATE_SIP,
         genPlugin,
         'generateSipPluginConf',
+        ValidationHelpers.required,
       ),
       this.getPluginConfigurator(
         4,

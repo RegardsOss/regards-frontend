@@ -18,6 +18,10 @@
  */
 const microserviceManagementStyles = theme => ({
   pluginParameter: {
+    headerStyle: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
     pluginButton: {
       marginLeft: 10,
     },

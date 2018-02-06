@@ -17,10 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Measure from 'react-measure'
+import FlatButton from 'material-ui/FlatButton'
 import { PositionedDialog } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import SelectionDetailResultsTableComponent from './SelectionDetailResultsTableComponent'
+import SelectionDetailResultsTableContainer from '../../../containers/user/detail/SelectionDetailResultsTableContainer'
 
 
 /**
@@ -29,6 +30,7 @@ import SelectionDetailResultsTableComponent from './SelectionDetailResultsTableC
 */
 class SelectionItemDetailComponent extends React.Component {
   static propTypes = {
+    showDatasets: PropTypes.bool.isRequired,
     visible: PropTypes.bool.isRequired,
     datasetLabel: PropTypes.string,
     date: PropTypes.string,
@@ -53,7 +55,7 @@ class SelectionItemDetailComponent extends React.Component {
   }
 
   /** Expand all styles (used to measure available table height) */
-  static EXPAND_ALL_STYLES = { width: '100%', height: '100%' }
+  static EXPAND_ALL_STYLES = { flexGrow: 1, flexShrink: 1, overflowY: 'hidden' }
 
   /** Default component state */
   static DEFAULT_STATE = {
@@ -68,27 +70,43 @@ class SelectionItemDetailComponent extends React.Component {
 
   render() {
     const {
-      visible, date, datasetLabel, openSearchRequest, onClose,
+      showDatasets, visible, date, datasetLabel, openSearchRequest, onClose,
     } = this.props
     const { availableHeight } = this.state
     const { intl: { formatDate, formatMessage } } = this.context
     const { moduleTheme: { user: { content: { detail } } } } = this.context
 
+    // prepare dialog actions
+    const actions = [<FlatButton
+      key="close.button"
+      label={this.context.intl.formatMessage({ id: 'order-cart.module.basket.items.group.selection.detail.close' })}
+      onClick={onClose}
+    />]
+
+    // prepare title acording with configuration
     const dateLabel = date ? formatDate(new Date(Date.parse(date)), SelectionItemDetailComponent.SELECTION_DATE_OPTIONS) : null
+    const title = formatMessage({
+      id: showDatasets ?
+        'order-cart.module.basket.items.group.selection.detail.title.with.dataset' :
+        'order-cart.module.basket.items.group.selection.detail.title.without.dataset',
+    }, { dataset: datasetLabel, date: dateLabel })
+
     return (
       <PositionedDialog
-        title={formatMessage({ id: 'order-cart.module.basket.items.group.selection.detail.title' }, { dataset: datasetLabel, date: dateLabel })}
+        title={title}
         dialogWidthPercent={detail.widthPercent}
         dialogHeightPercent={detail.heightPercent}
+        bodyStyle={detail.dialogBodyStyle}
         onRequestClose={onClose}
+        actions={actions}
         open={visible}
       >
         <Measure onMeasure={this.onComponentResized}>
           <div style={SelectionItemDetailComponent.EXPAND_ALL_STYLES}>
-            <SelectionDetailResultsTableComponent availableHeight={availableHeight} openSearchRequest={openSearchRequest} />
+            <SelectionDetailResultsTableContainer availableHeight={availableHeight} openSearchRequest={openSearchRequest} />
           </div>
-        </Measure>
-      </PositionedDialog>
+        </Measure >
+      </PositionedDialog >
     )
   }
 }

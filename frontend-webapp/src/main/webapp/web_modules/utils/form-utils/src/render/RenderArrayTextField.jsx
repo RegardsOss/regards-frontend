@@ -42,13 +42,20 @@ class RenderArrayTextField extends React.Component {
   static propTypes = {
     newFieldLabel: PropTypes.string,
     fieldsListLabel: PropTypes.string,
+    displayFieldsListLabel: PropTypes.bool,
     addButtonLabel: PropTypes.string,
     // If the list is not a list of string but a list of objects this field is used to know the key of the object
     // where to set te value
     valueField: PropTypes.string,
+    disabled: PropTypes.bool,
     // From redux form
     fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
     meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
+  }
+
+  static defaultProps = {
+    disabled: false,
+    displayFieldsListLabel: true,
   }
 
   static contextTypes = {
@@ -131,7 +138,7 @@ class RenderArrayTextField extends React.Component {
   }
 
   renderField = (field, index) => {
-    const { valueField } = this.props
+    const { valueField, disabled } = this.props
     const label = valueField ? this.props.fields.get(index)[valueField] : this.props.fields.get(index)
     const rightIconButton = (
       <IconButton onClick={() => this.props.fields.remove(index)}>
@@ -139,35 +146,44 @@ class RenderArrayTextField extends React.Component {
       </IconButton>
     )
     return (
-      <ListItem key={index} primaryText={label} rightIconButton={rightIconButton} />
+      <ListItem key={index} primaryText={label} rightIconButton={disabled ? null : rightIconButton} />
     )
   }
 
   render() {
     const {
-      fields, fieldsListLabel, addButtonLabel, meta,
+      fields, fieldsListLabel, addButtonLabel, meta, disabled, displayFieldsListLabel,
     } = this.props
     const { moduleTheme: { arrayField }, intl: { formatMessage }, intl } = this.context
+    const header = displayFieldsListLabel ? (
+      <div>
+        <Subheader>{fieldsListLabel || formatMessage({ id: 'render.array-field.values.title' })}</Subheader>
+        <Divider />
+      </div>
+    ) : null
     return (
       <div style={arrayField.layout} >
         <Paper style={arrayField.list} >
-          <Subheader>{fieldsListLabel || formatMessage({ id: 'render.array-field.values.title' })}</Subheader>
-          <Divider />
+          {header}
+
           {meta.error && isString(meta.error) ?
             <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
             : null}
           <List style={arrayField.listContent}>
             {fields.map(this.renderField)}
           </List>
-          <RaisedButton
-            onClick={this.openAddDialog}
-            label={addButtonLabel || formatMessage({ id: 'render.array-field.add.new.value.button' })}
-            fullWidth
-            primary
-            icon={<AddBoxIcon />}
-          />
+          {disabled ?
+            null :
+            <RaisedButton
+              onClick={this.openAddDialog}
+              label={addButtonLabel || formatMessage({ id: 'render.array-field.add.new.value.button' })}
+              fullWidth
+              primary
+              icon={<AddBoxIcon />}
+            />
+          }
         </Paper>
-        {this.renderNewValueDialog()}
+        {disabled ? null : this.renderNewValueDialog()}
       </div>
     )
   }

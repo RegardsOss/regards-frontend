@@ -50,7 +50,7 @@ class PluginCriterionContainer extends React.Component {
      * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
-    attributes: PropTypes.objectOf(DataManagementShapes.AttributeModelList),
+    attributes: DataManagementShapes.AttributeModelList,
     /**
      * Function to get initial plugin state saved by the next props savePluginState
      */
@@ -59,6 +59,17 @@ class PluginCriterionContainer extends React.Component {
      * Save the current state in order to retrieve it at initialization with getDefaultState
      */
     savePluginState: PropTypes.func.isRequired,
+    /**
+     * Initial values if any
+     */
+    // eslint-disable-next-line react/no-unused-prop-types
+    initialValues: PropTypes.objectOf(PropTypes.string),
+    /**
+     * Initial search query (datasets and models restrictions) for plugins using it
+     */
+    // eslint-disable-next-line react/no-unused-prop-types
+    initialQuery: PropTypes.string,
+
   }
 
   componentWillMount() {
@@ -75,7 +86,6 @@ class PluginCriterionContainer extends React.Component {
         [key]: this.parseOpenSearchQuery(key, initValue),
       } : result
     }, {})
-
     this.setState(initValues)
   }
 
@@ -139,7 +149,7 @@ class PluginCriterionContainer extends React.Component {
    */
   getAttributeInitValue = (configuredAttributeName, props) => {
     const attributeName = this.getAttributeName(configuredAttributeName, props)
-    return get(props, `initialValues["${attributeName}"]`)
+    return get(props, `initialValues.["${attributeName}"]`)
   }
 
   getAttributeLabel = configuredAttributeName => get(this.props, `attributes["${configuredAttributeName}"].label`, get(this.props, `attributes["${configuredAttributeName}"].name`, 'Undefined attribute'))

@@ -23,50 +23,52 @@ const dump = {
   1: {
     content: {
       confId: 1,
-      label: 'Test plugin',
-      description: 'This is a test plugin',
-      storageInfo: [{
-        storagePhysicalId: 'Quantic drive ZqO+',
-        totalSize: '80To',
-        usedSize: '10To',
-      },
-      {
-        storagePhysicalId: 'Non parsable data plugin',
-        totalSize: '80Txxo',
-        usedSize: '10biomen',
-      }],
+      label: 'ServerHDD',
+      description: 'Main server hard drives',
+      totalSize: '25To',
+      usedSize: '0.9To',
+    },
+  },
+  2: {
+    content: {
+      confId: 1,
+      label: 'ServerHDD',
+      description: 'Main server hard drives',
+      totalSize: '25Txxxx',
     },
   },
 }
 
-// devices as converted by the Storage plugin container
+// some plugins sampes, as they are parsed an converted by corresponding container
 
-const convertedParsableDevice = {
-  storagePhysicalId: 'Quantic drive ZqO+',
+const convertedParsablePlugin = {
+  confId: 1,
+  label: 'Quantic drive ZqO+',
+  description: 'Ultimate storage technology',
   totalSize: StoragePluginContainer.parseAndConvert('100To', storage.StorageUnitScale.bytesScale),
   usedSize: StoragePluginContainer.parseAndConvert('10To', storage.StorageUnitScale.bytesScale),
+  unusedSize: StoragePluginContainer.parseAndConvert('90To', storage.StorageUnitScale.bytesScale),
   usedPercent: 10,
   unusedPercent: 90,
 }
-const convertedPartiallyParsableDevice = {
-  storagePhysicalId: 'Quantic potatoes of the death',
+
+
+const convertedPartiallyParsablePlugin = {
+  confId: 2,
+  label: 'Quantic potatoes of the death',
+  description: 'Really cool, ain\'t it?',
   totalSize: StoragePluginContainer.parseAndConvert('50MB', storage.StorageUnitScale.bytesScale),
-  usedSize: null,
-  usedPercent: null,
-  unusedPercent: null,
 }
 
-const convertedNonParsableDevice = {
-  storagePhysicalId: 'Non parsable data plugin',
-  totalSize: null,
-  usedSize: null,
-  usedPercent: null,
-  unusedPercent: null,
+const convertedNonParsablePlugin = {
+  confId: 5555555,
+  label: 'Boring plugin',
+  description: 'Really cool, ain\'t it?',
 }
 
 module.exports = {
   dump,
-  convertedParsableDevice,
-  convertedPartiallyParsableDevice,
-  convertedNonParsableDevice,
+  convertedParsablePlugin,
+  convertedPartiallyParsablePlugin,
+  convertedNonParsablePlugin,
 }

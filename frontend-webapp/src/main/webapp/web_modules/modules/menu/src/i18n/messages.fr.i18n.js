@@ -45,6 +45,7 @@ const messages = {
   'menu.form.contacts': 'Contacts',
   'menu.form.projectpage': 'Page "à propos" du projet',
   'menu.form.displayauthentication': 'Afficher l\'option d\'authentification',
+  'menu.form.displaynotifications': 'Afficher le centre de notifications',
   'menu.form.displaycart': 'Afficher le lien vers le panier',
   'menu.form.displaylocale': 'Afficher le sélecteur de langues',
   'menu.form.displaytheme': 'Afficher le sélecteur de thèmes',
@@ -56,6 +57,19 @@ const messages = {
   'edit.profile.form.lastName': 'Nom',
   'edit.profile.form.confirm': 'Confirmer',
   'edit.profile.form.cancel': 'Annuler',
+  // notifications
+  'user.menu.notification.max.count': '{maxCount}+',
+  'user.menu.notification.elements.count.tooltip': `{elementsCount, plural,
+    =0 {Vous n'avez aucune nouvelle notification}
+    one {Vous avez une nouvelle notification}
+    other {Vous avez {elementsCount} nouvelles notifications}
+  }`,
+  'user.menu.notification.title': 'Notifications lues',
+  'user.menu.notification.unread.title': 'Notifications non lues',
+  'user.menu.notification.empty': 'Pas de nouvelles notifications',
+  'user.menu.notification.details.sentby': 'Envoyé par {sender}',
+  'user.menu.notification.details.message': 'Message',
+  'user.menu.notification.clearAll': 'Tout marquer comme lu',
 
   ...Locales.fr,
   ...MetadataLocales.fr,

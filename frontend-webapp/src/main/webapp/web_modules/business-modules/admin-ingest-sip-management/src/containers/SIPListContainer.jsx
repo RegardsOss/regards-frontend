@@ -61,6 +61,7 @@ export class SIPListContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
       session: PropTypes.string,
+      sip: PropTypes.string,
     }),
     meta: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
@@ -87,9 +88,7 @@ export class SIPListContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      appliedFilters: {
-        sessionId: props.params.session,
-      },
+      appliedFilters: this.getInitialFilters(props),
     }
   }
 
@@ -98,24 +97,56 @@ export class SIPListContainer extends React.Component {
     this.props.fetchProcessingChains()
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.sip !== this.props.params.sip || nextProps.params.session !== this.props.params.session) {
+      this.setState({
+        appliedFilters: this.getInitialFilters(nextProps),
+      })
+    }
+  }
+
   onRefresh = () => {
     const { meta, fetchPage } = this.props
     const curentPage = get(meta, 'number', 0)
     fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
   }
 
-  getInitialFilters = () => ({
-    sessionId: this.props.params.session,
-  })
+
+  getInitialFilters = (props) => {
+    const { params: { session, sip } } = props
+    const filters = {}
+    if (sip) {
+      filters.sipId = sip
+    } else if (session) {
+      filters.sessionId = session
+    }
+
+    return filters
+  }
 
   handleGoBack = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/session`
+    const { params: { project, session, sip } } = this.props
+    let url
+    if (session && sip) {
+      // Go back to sips of the given session
+      url = `/admin/${project}/data/acquisition/sip/${session}/list`
+    } else {
+      // Go back to sessions
+      url = `/admin/${project}/data/acquisition/sip/session`
+    }
+    browserHistory.push(url)
+  }
+
+  goToSipHistory = (sipId) => {
+    const { params: { project, session } } = this.props
+    const url = `/admin/${project}/data/acquisition/sip/${session}/${sipId}/history`
     browserHistory.push(url)
   }
 
   handleFilter = (filters) => {
-    const { chainFilter, dateFilter, stateFilter } = filters
+    const {
+      chainFilter, dateFilter, stateFilter, sipIdFilter,
+    } = filters
     const newFilters = {}
     if (chainFilter) {
       newFilters.processing = chainFilter
@@ -126,9 +157,12 @@ export class SIPListContainer extends React.Component {
     if (stateFilter) {
       newFilters.state = stateFilter
     }
+    if (sipIdFilter) {
+      newFilters.sipId = sipIdFilter
+    }
     this.setState({
       appliedFilters: {
-        ...this.getInitialFilters(),
+        ...this.getInitialFilters(this.props),
         ...newFilters,
       },
     })
@@ -136,11 +170,13 @@ export class SIPListContainer extends React.Component {
 
   render() {
     const {
-      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId,
+      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId, params: { session, sip },
     } = this.props
     return (
       <SIPListComponent
         chains={this.props.chains}
+        session={session}
+        sip={sip}
         pageSize={SIPListContainer.PAGE_SIZE}
         resultsCount={meta.totalElements}
         appliedFilters={this.state.appliedFilters}
@@ -150,6 +186,7 @@ export class SIPListContainer extends React.Component {
         onDeleteByIpId={deleteSIPByIpId}
         onDeleteBySipId={deleteSIPBySipId}
         fetchPage={fetchPage}
+        goToSipHistory={this.goToSipHistory}
       />
     )
   }

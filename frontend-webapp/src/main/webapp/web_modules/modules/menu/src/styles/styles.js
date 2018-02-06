@@ -21,85 +21,258 @@
  * Styles for menu module
  * @author Sébastien binda
  */
-const menuStyles = theme => (
-  {
-    admin: {
-      rootStyle: {
-        padding: 10,
+const menuStyles = theme => ({
+  admin: {
+    rootStyle: {
+      padding: 20,
+    },
+  },
+  user: {
+    rootStyle: {
+      display: 'flex',
+      flexWrap: 'nowrap',
+      flexDirection: 'row',
+      justifyContent: 'flexStart',
+      alignItems: 'center',
+      background: theme.appBar.color,
+      borderWidth: '0 0 1px 0',
+      borderColor: theme.toolbar.separatorColor,
+      borderStyle: 'solid',
+    },
+    optionsGroup: {
+      flexGrow: 0,
+      flexShrink: 0,
+    },
+    optionsLabelStyle: {
+      textTransform: undefined,
+    },
+    titleGroup: {
+      flexGrow: 1,
+      flexShrink: 1,
+      fontSize: theme.flatButton.fontSize,
+      fontFamily: theme.fontFamily,
+      textAlign: 'center',
+      color: theme.palette.textColor,
+      fontWeight: 'bold',
+    },
+    profile: {
+      dialog: {
+        styles: {
+          padding: '0',
+          overflowY: 'none',
+        },
+      },
+      scrollArea: {
+        styles: {
+          height: '55vh',
+        },
+      },
+      actions: {
+        styles: {
+          display: 'flex',
+          justifyContent: 'flex-end',
+        },
       },
     },
-    user: {
-      rootStyle: {
-        display: 'flex',
-        flexWrap: 'nowrap',
-        flexDirection: 'row',
-        justifyContent: 'flexStart',
-        alignItems: 'center',
-        background: theme.appBar.color,
-        borderWidth: '0 0 1px 0',
-        borderColor: theme.toolbar.separatorColor,
-        borderStyle: 'solid',
-      },
-      optionsGroup: {
-        flexGrow: 0,
-        flexShrink: 0,
-      },
-      optionsLabelStyle: {
-        textTransform: undefined,
-      },
-      titleGroup: {
-        flexGrow: 1,
-        flexShrink: 1,
-        fontSize: theme.flatButton.fontSize,
-        fontFamily: theme.fontFamily,
-        textAlign: 'center',
-        color: theme.palette.textColor,
+  },
+  overlay: {
+    style: {
+      position: 'absolute',
+      bottom: '0',
+      left: '0',
+      width: '100%',
+      zIndex: '1',
+      display: 'flex',
+    },
+    chip: {
+      labelStyle: {
+        fontSize: '10px',
+        padding: 3,
+        lineHeight: undefined,
         fontWeight: 'bold',
       },
-      profile: {
-        dialog: {
-          styles: {
-            padding: '0',
-            overflowY: 'none',
+      style: { opacity: '0.9', backgroundColor: theme.palette.accent1Color, margin: 'auto' },
+    },
+  },
+  cart: {
+    iconButton: {
+      style: { padding: 0 },
+      iconStyle: {
+        position: 'relative',
+        width: theme.button.iconButtonSize,
+        height: theme.button.iconButtonSize,
+      },
+    },
+    icon: {
+      style: {
+        position: 'absolute',
+        left: theme.spacing.iconSize / 2,
+        top: theme.spacing.iconSize / 2,
+      },
+    },
+  },
+  notifications: {
+    iconButton: {
+      style: { padding: 0 },
+      iconStyle: {
+        position: 'relative',
+        width: theme.button.iconButtonSize,
+        height: theme.button.iconButtonSize,
+      },
+    },
+    icon: {
+      style: {
+        position: 'absolute',
+        left: theme.spacing.iconSize / 2,
+        top: theme.spacing.iconSize / 2,
+      },
+    },
+    list: {
+      item: {
+        style: {
+          opacity: 0.5,
+        },
+        primaryText: {
+          display: 'flex',
+        },
+        dateStyle: {
+          fontSize: '0.8em',
+          paddingLeft: 10,
+          pointerEvents: 'none',
+          textAlign: 'right',
+        },
+        titleStyle: {
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+      },
+      selectedItem: {
+        style: {
+          backgroundColor: theme.palette.primary3Color,
+        },
+      },
+      subHeader: {
+        style: {
+          display: 'flex',
+          justifyContent: 'space-between',
+        },
+      },
+      icons: {
+        color: '#ffffff',
+        infoColor: '#2196F3',
+        errorColor: '#FF9800',
+        fatalColor: '#f44336',
+      },
+      divider: {
+        style: {
+          marginLeft: '0',
+        },
+      },
+    },
+    dialog: {
+      style: {
+        height: '100%',
+      },
+      wrapper: {
+        style: {
+          margin: '-24px 0 -24px -24px',
+          position: 'absolute',
+          height: '100%',
+          display: 'flex',
+        },
+      },
+      list: {
+        style: {
+          overflowY: 'scroll',
+        },
+      },
+      details: {
+        date: {
+          style: {
+            paddingRight: 24,
+            paddingTop: 24,
+            fontSize: '0.8em',
           },
         },
-        scrollArea: {
-          styles: {
-            height: '55vh',
+        header: {
+          style: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexShrink: 0,
+          },
+        },
+        message: {
+          style: {
+            wordBreak: 'break-all',
+            hyphens: 'auto',
+            textAlign: 'justify',
+            overflowY: 'auto',
           },
         },
         actions: {
-          styles: {
+          style: {
+            position: 'absolute',
+            bottom: 10,
+            right: 10,
+          },
+        },
+        container: {
+          style: {
             display: 'flex',
-            justifyContent: 'flex-end',
+            flexDirection: 'column',
+            margin: '0 0 70px 0',
           },
         },
       },
     },
-    cart: {
-      iconButton: {
-        style: { padding: 0 },
-        iconStyle: { position: 'relative', width: theme.button.iconButtonSize, height: theme.button.iconButtonSize },
-      },
-      overlay: {
+    notificationSystem: {
+      message: {
         style: {
-          position: 'absolute',
-          bottom: '0',
-          left: '0',
+          paddingTop: 10,
+          paddingBottom: 10,
+          minHeight: 40,
           width: '100%',
-          zIndex: '1',
+          cursor: 'pointer',
+          display: 'flex',
         },
-        chip: {
-          labelStyle: {
-            fontSize: '10px', padding: 3, lineHeight: undefined, fontWeight: 'bold',
-          },
-          style: { opacity: '0.9', backgroundColor: theme.palette.accent1Color, margin: 'auto' },
+        titleStyle: {
+          fontWeight: 'bold',
+          marginBottom: 3,
+          maxWidth: 165,
+        },
+        messageStyle: {
+          wordBreak: 'break-all',
+          hyphens: 'auto',
+          textAlign: 'justify',
+        },
+        dateStyle: {
+          position: 'absolute',
+          top: 7,
+          right: 7,
+          fontSize: '0.8en',
         },
       },
-      icon: {
-        style: { position: 'absolute', left: theme.spacing.iconSize / 2, top: theme.spacing.iconSize / 2 },
+      style: {
+        NotificationItem: {
+          DefaultStyle: {
+            fontFamily: theme.fontFamily,
+            overflow: 'hidden',
+            backgroundColor: theme.palette.canvasColor,
+            color: theme.palette.textColor,
+            textAlign: 'left',
+            paddingTop: 0,
+            paddingBottom: 0,
+          },
+        },
+        Dismiss: {
+          DefaultStyle: {
+            display: 'none',
+          },
+        },
       },
     },
-  })
+  },
+})
 
 export default menuStyles

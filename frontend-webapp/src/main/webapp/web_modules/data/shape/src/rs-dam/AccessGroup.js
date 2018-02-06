@@ -17,21 +17,23 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-const AccessGroup = PropTypes.shape({
-  content: PropTypes.shape({
+const AccessGroupContent = PropTypes.shape({
+  id: PropTypes.number,
+  name: PropTypes.string,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    email: PropTypes.string,
+  })),
+  accessRights: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
-    name: PropTypes.string,
-    users: PropTypes.arrayOf(PropTypes.shape({
-      email: PropTypes.string,
-    })),
-    accessRights: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
-    })),
-    isPrivate: PropTypes.bool,
-  }).isRequired,
+  })),
+  isPrivate: PropTypes.bool,
+})
+
+const AccessGroup = PropTypes.shape({
+  content: AccessGroupContent.isRequired,
 })
 
 const AccessGroupList = PropTypes.objectOf(AccessGroup)
 
 
-module.exports = { AccessGroup, AccessGroupList }
+module.exports = { AccessGroup, AccessGroupContent, AccessGroupList }

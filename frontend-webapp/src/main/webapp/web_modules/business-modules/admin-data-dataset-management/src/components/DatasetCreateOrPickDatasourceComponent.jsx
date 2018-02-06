@@ -91,7 +91,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
               {map(datasourceList, (datasource, id) => (
                 <MenuItem
                   className={`selenium-pickDatasource-${datasource.content.label}`}
-                  value={datasource.content.pluginConfigurationId}
+                  value={datasource.content.id}
                   key={id}
                   primaryText={datasource.content.label}
                 />
@@ -100,7 +100,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonTouchTap={() => { handleDone(currentDatasource) }}
+              mainButtonClick={() => { handleDone(currentDatasource) }}
               mainButtonLabel={
                 <FormattedMessage
                   id="dataset.form.create.action.next"
@@ -118,7 +118,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'dataset.form.create.action.datasource' })}
               secondary
               style={styleButton}
-              onTouchTap={this.goToDatasource}
+              onClick={this.goToDatasource}
             />
           </div>
         </Card>

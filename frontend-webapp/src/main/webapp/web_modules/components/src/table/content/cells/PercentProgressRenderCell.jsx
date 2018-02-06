@@ -28,7 +28,7 @@ class PercentProgressRenderCell extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     entity: PropTypes.any.isRequired,
     getProgressPercent: PropTypes.func.isRequired,
-    showLabel: PropTypes.bool.isRequired,
+    showLabel: PropTypes.bool,
   }
 
   static contextTypes = {

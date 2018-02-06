@@ -66,8 +66,7 @@ export class NavigableSearchResultsContainer extends React.Component {
       active: true,
       applicationId: appName,
       conf: {
-        showDatasets: false,
-        ...moduleConf, // results re use a part of this module configuration
+        ...moduleConf.searchResult, // results re use a part of this module configuration
         // configure query, label and dataset context if any
         ...NavigableSearchResultsContainer.getResultsConfigurationForTag(newSearchTag),
       },

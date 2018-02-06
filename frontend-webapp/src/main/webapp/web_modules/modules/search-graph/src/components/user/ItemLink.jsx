@@ -109,7 +109,6 @@ class ItemLink extends React.Component {
       intl: { formatMessage },
     } = this.context
 
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
       <div
         style={rootStyles}
@@ -145,13 +144,12 @@ class ItemLink extends React.Component {
           title={formatMessage({ id: 'search.graph.entity.detail.tooltip' })}
           iconStyle={informationButton.iconStyles}
           style={informationButton.styles}
-          onTouchTap={onDescriptionClicked}
+          onClick={onDescriptionClicked}
         >
           <InformationIcon />
         </IconButton>
       </div>
     )
-    /* eslint-enable jsx-a11y/no-static-element-interactions */
   }
 }
 export default ItemLink

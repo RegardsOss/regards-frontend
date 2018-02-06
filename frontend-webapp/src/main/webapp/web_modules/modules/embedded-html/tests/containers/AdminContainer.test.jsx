@@ -41,7 +41,10 @@ describe('[Embedded-html] Testing AdminContainer', () => {
       appName: 'test',
       project: 'test',
       adminForm: {
-        changeField: () => {},
+        isCreating: true,
+        isDuplicating: false,
+        isEditing: false,
+        changeField: () => { },
         form: {},
       },
       moduleConf: {},

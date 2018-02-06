@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNaN from 'lodash/isNaN'
 import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -32,16 +32,9 @@ import EnumNumericalComparator from '../model/EnumNumericalComparator'
  * @author Xavier-Alexandre Brochard
  */
 export class NumericalCriteriaComponent extends PluginCriterionContainer {
-
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
-    /**
-     * List of attributes associated to the plugin.
-     * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
-     * Value of each keys are the attribute id (retrieved from the server) associated
-     */
-    attributes: DataManagementShapes.AttributeModelList,
   }
 
   static contextTypes = {
@@ -158,7 +151,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
           onChange={this.handleChangeValue}
           style={textFieldStyle}
         />
-        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

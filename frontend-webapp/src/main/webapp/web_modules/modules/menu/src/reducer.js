@@ -19,6 +19,11 @@
 import { borrowRoleReducer } from './clients/BorrowRoleClient'
 import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
 import { myUserReducer } from './clients/MyUserClient'
+import { notificationReducer, notificationInstanceReducer } from './clients/NotificationClient'
+import {
+  readNotificationReducer,
+  readNotificationInstanceReducer,
+} from './clients/ReadNotificationClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
 
 module.exports = {
@@ -26,6 +31,10 @@ module.exports = {
   borrowRole: borrowRoleReducer,
   borrowableRoles: borrowableRolesReducer,
   myUser: myUserReducer,
+  notification: notificationReducer,
+  readNotification: readNotificationReducer,
+  notificationInstance: notificationInstanceReducer,
+  readNotificationInstance: readNotificationInstanceReducer,
   // local actions / reducers
   profileDialog: profileDialogReducer,
 }

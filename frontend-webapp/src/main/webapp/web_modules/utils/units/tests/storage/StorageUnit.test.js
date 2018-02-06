@@ -21,7 +21,7 @@ import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { StorageUnitScale } from '../../src/storage/StorageUnit'
 
 // Test unit functions
-describe('[STORAGE PLUGINS MONITORING] Testing units', () => {
+describe('[Storage Monitoring] Testing units', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

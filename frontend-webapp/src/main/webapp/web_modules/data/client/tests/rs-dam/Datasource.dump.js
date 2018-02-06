@@ -19,58 +19,112 @@
 export default [{
   content: {
     label: 'Ma datasource simple',
-    pluginConfigurationId: 1357,
-    pluginConfigurationConnectionId: 1359,
-    mapping: {
-      model: 5,
-      attributesMapping: [
-        {
-          name: 'Attribute_0_0',
-          type: 'STRING',
-          nameSpace: 'Fragment 1',
-          isPrimaryKey: true,
-          typeDS: 'int8',
-          nameDS: 'id',
-        },
-        {
-          name: 'Attribute_4',
-          type: 'STRING',
-          nameSpace: 'Fragment 2',
-          isPrimaryKey: false,
-          nameDS: 'count(*)',
-        },
-      ],
-    },
-    tableName: 't_fragment',
-    fromClause: '',
+    id: 1357,
+    version: '0.0',
+    priorityOrder: 0,
+    active: true,
+    pluginClassName: 'fr.cnes.regards.modules.datasources.plugins.PostgreDataSourceFromSingleTablePlugin',
+    interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDBDataSourceFromSingleTablePlugin', 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin'],
+    parameters: [{
+      id: 59,
+      name: 'connection',
+      pluginConfiguration: {
+        id: 159,
+      },
+    }, {
+      id: 60,
+      name: 'table',
+      value: 't_fragment',
+      dynamic: false,
+      dynamicsValues: [],
+    }, {
+      id: 61,
+      name: 'model',
+      value: {
+        model: 1,
+        attributesMapping: [{
+          model: 5,
+          attributesMapping: [
+            {
+              name: 'Attribute_0_0',
+              type: 'STRING',
+              nameSpace: 'Fragment 1',
+              isPrimaryKey: true,
+              typeDS: 'int8',
+              nameDS: 'id',
+            },
+            {
+              name: 'Attribute_4',
+              type: 'STRING',
+              nameSpace: 'Fragment 2',
+              isPrimaryKey: false,
+              nameDS: 'count(*)',
+            },
+          ],
+        }],
+      },
+    }, {
+      id: 854,
+      name: 'refreshRate',
+      value: 864000,
+      dynamic: false,
+      dynamicsValues: [],
+    }],
   },
-  links: [],
-}, {
+},
+{
   content: {
     label: 'Ma datasource complexe',
-    pluginConfigurationId: 1355,
-    pluginConfigurationConnectionId: 1352,
-    mapping: {
-      model: 5,
-      attributesMapping: [
-        {
-          name: 'Attribute_0_0',
-          type: 'STRING',
-          nameSpace: 'Fragment 1',
-          isPrimaryKey: true,
-          nameDS: 'T1.id',
-        },
-        {
-          name: 'Attribute_4',
-          type: 'STRING',
-          nameSpace: 'Fragment 2',
-          isPrimaryKey: false,
-          nameDS: 'count(*)',
-        },
-      ],
-    },
-    fromClause: 'FROM T1, T2, T3\nWHERE T1.tazerty = T2.poiuy\nAND T2.xcvbn = T3.uyjhntg',
-    tableName: '',
+    id: 1355,
+    version: '0.0',
+    priorityOrder: 0,
+    active: true,
+    pluginClassName: 'fr.cnes.regards.modules.datasources.plugins.PostgreDataSourceFromSingleTablePlugin',
+    interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDBDataSourceFromSingleTablePlugin', 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin'],
+    parameters: [{
+      id: 59,
+      name: 'connection',
+      pluginConfiguration: {
+        id: 1352,
+      },
+    }, {
+      id: 60,
+      name: 'fromClause',
+      value: 'FROM T1, T2, T3\nWHERE T1.tazerty = T2.poiuy\nAND T2.xcvbn = T3.uyjhntg',
+      dynamic: false,
+      dynamicsValues: [],
+    }, {
+      id: 854,
+      name: 'refreshRate',
+      value: 864000,
+      dynamic: false,
+      dynamicsValues: [],
+    }, {
+      id: 61,
+      name: 'model',
+      value: {
+        model: 1,
+        attributesMapping: [{
+          model: 5,
+          attributesMapping: [
+            {
+              name: 'Attribute_0_0',
+              type: 'STRING',
+              nameSpace: 'Fragment 1',
+              isPrimaryKey: true,
+              nameDS: 'T1.id',
+            },
+            {
+              name: 'Attribute_4',
+              type: 'STRING',
+              nameSpace: 'Fragment 2',
+              isPrimaryKey: false,
+              nameDS: 'count(*)',
+            },
+          ],
+        }],
+      },
+    }],
   },
-  links: [],
-}]
+},
+]

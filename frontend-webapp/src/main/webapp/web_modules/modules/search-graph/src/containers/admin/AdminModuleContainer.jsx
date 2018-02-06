@@ -35,6 +35,10 @@ export class AdminModuleContainer extends React.Component {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
@@ -47,7 +51,9 @@ export class AdminModuleContainer extends React.Component {
     fetchSelectableAttributes: PropTypes.func.isRequired,
   }
 
-  componentWillMount = () => this.setState({ loading: true })
+  state = {
+    loading: true,
+  }
 
 
   componentDidMount = () => {

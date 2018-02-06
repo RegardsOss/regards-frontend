@@ -108,7 +108,7 @@ class ModuleListComponent extends React.Component {
                   {module.content.description}
                 </div>
               }
-              onTouchTap={() => that.onModuleSelection(module)}
+              onClick={() => that.onModuleSelection(module)}
             />
           )
 

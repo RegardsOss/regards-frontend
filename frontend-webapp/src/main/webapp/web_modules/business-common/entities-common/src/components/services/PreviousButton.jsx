@@ -41,7 +41,7 @@ class PreviousButtonComponent extends React.Component {
         icon={<PreviousIcon />}
         label={formatMessage({ id: 'entities.common.services.change.parameters' })}
         title={formatMessage({ id: 'entities.common.services.change.parameters' })}
-        onTouchTap={onPrevious}
+        onClick={onPrevious}
       />
     )
   }

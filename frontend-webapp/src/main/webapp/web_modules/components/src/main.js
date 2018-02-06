@@ -52,6 +52,7 @@ import NoContentComponent from './content/NoContentComponent'
 
 import ConfirmDialogComponent, { ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
 import PositionedDialog from './dialogs/PositionedDialog'
+import FitContentDialog from './dialogs/FitContentDialog'
 import LoadableContentDialogContainer from './dialogs/LoadableContentDialogContainer'
 import SingleContentURLDialogContainer from './dialogs/SingleContentURLDialogContainer'
 import withConfirmDialog from './dialogs/withConfirmDialog'
@@ -60,6 +61,8 @@ import ErrorCardComponent from './error/ErrorCardComponent'
 import PageNotFoundComponent from './error/PageNotFoundProvider'
 import FormErrorMessage from './error/FormErrorMessage'
 
+import FeedbackDisplayer from './feedback/FeedbackDisplayer'
+
 import HelpMessageComponent from './help/HelpMessageComponent'
 
 import SVGIconFromString from './icon/SVGIconFromString'
@@ -67,10 +70,12 @@ import SVGIconFromString from './icon/SVGIconFromString'
 import Breadcrumb from './links/Breadcrumb'
 import PictureLinkComponent from './links/PictureLinkComponent'
 import LinkComponent from './links/LinkComponent'
+import AnchorComponent from './links/AnchorComponent'
 
-import PageableListContainer from './list/PageableListContainer'
-import ListContainer from './list/ListContainer'
+import AutoCompleteTextField from './list/AutoCompleteTextField'
 import ChipList from './list/ChipList'
+import ListContainer from './list/ListContainer'
+import PageableListContainer from './list/PageableListContainer'
 import SelectableList from './list/SelectableList'
 
 import LoadingPaneComponent from './loading/LoadingPaneComponent'
@@ -93,6 +98,7 @@ import TableColumnBuilder from './table/content/columns/TableColumnBuilder'
 import TableColumnConfiguration from './table/content/columns/model/TableColumnConfiguration'
 import TableColumnConfigurationController from './table/content/columns/model/ColumnConfigurationController'
 import TableColumnsVisibilityOption from './table/options/TableColumnsVisibilityOption'
+import TableHeaderAutoCompleteFilter from './table/header/TableHeaderAutoCompleteFilter'
 import TableHeaderContentBox from './table/header/TableHeaderContentBox'
 import TableHeaderLine from './table/header/TableHeaderLine'
 import TableHeaderLineLoadingAndResults from './table/header/TableHeaderLineLoadingAndResults'
@@ -103,6 +109,7 @@ import TableHeaderOptionsSeparator from './table/header/TableHeaderOptionsSepara
 import TableHeaderText from './table/header/TableHeaderText'
 import TableLayout from './table/TableLayout'
 import TableDeleteOption from './table/content/cells/options/TableDeleteOption'
+import TableSimpleActionOption from './table/content/cells/options/TableSimpleActionOption'
 import TableSelectAllOption from './table/options/TableSelectAllOption'
 import TableSelectionModes from './table/model/TableSelectionModes'
 import { TableSortOrders } from './table/model/TableSortOrders'
@@ -125,10 +132,14 @@ import StringValueRender from './values/StringValueRender'
 import URLValueRender from './values/URLValueRender'
 import withValueRenderContext from './values/withValueRenderContext'
 
+import InfiniteGalleryContainer from './gallery/InfiniteGalleryContainer'
+
+
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,
   ApplicationErrorComponent,
+  AutoCompleteTextField,
   BaseBoardComponent,
   BaseBoardItemComponent,
   BoardComponent,
@@ -145,6 +156,7 @@ export {
   DynamicModule,
   ErrorCardComponent,
   ErrorDecoratorComponent,
+  FeedbackDisplayer,
   FormErrorMessage,
   FileContentDisplayer,
   HorizontalAreasSeparator,
@@ -155,6 +167,7 @@ export {
   ModuleTitle,
   PageNotFoundComponent,
   PositionedDialog,
+  FitContentDialog,
   SingleContentURLDialogContainer,
   MainActionButtonComponent,
   MarkdownFileContentDisplayer,
@@ -172,6 +185,7 @@ export {
   PluginConfigurationPickerComponent,
   SVGIconFromString,
   LinkComponent,
+  AnchorComponent,
   HelpMessageComponent,
   NoContentComponent,
   SelectableList,
@@ -189,6 +203,7 @@ export {
   TableColumnConfiguration,
   TableColumnConfigurationController,
   TableColumnsVisibilityOption,
+  TableHeaderAutoCompleteFilter,
   TableHeaderContentBox,
   TableHeaderLine,
   TableHeaderLineLoadingAndResults,
@@ -199,6 +214,7 @@ export {
   TableHeaderText,
   TableLayout,
   TableDeleteOption,
+  TableSimpleActionOption,
   TableSelectAllOption,
   TableSelectionModes,
   TableSortOrders,
@@ -223,4 +239,6 @@ export {
   StringValueRender,
   URLValueRender,
   withValueRenderContext, // use it in values render parent to connect with their context (stacking)
+
+  InfiniteGalleryContainer,
 }

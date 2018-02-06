@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
+import isNaN from 'lodash/isNaN'
 import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
@@ -34,7 +35,6 @@ import EnumTemporalComparator from '../model/EnumTemporalComparator'
  * @author Xavier-Alexandre Brochard
  */
 export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer {
-
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
@@ -144,7 +144,9 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
   }
 
   render() {
-    const { firstField, secondField, operator1, operator2 } = this.state
+    const {
+      firstField, secondField, operator1, operator2,
+    } = this.state
     const { moduleTheme: { rootStyle, lineStyle } } = this.context
     const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
 
@@ -166,7 +168,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
             value={secondField}
             onChange={this.changeValue2}
           />
-          <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+          <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )

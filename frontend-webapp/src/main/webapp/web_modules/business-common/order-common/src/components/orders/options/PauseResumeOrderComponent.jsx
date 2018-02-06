@@ -46,7 +46,7 @@ class PauseResultOrderComponent extends React.Component {
     return (
       <IconButton
         disabled={!canUpdate}
-        onTouchTap={isPaused ? onResume : onPause}
+        onClick={isPaused ? onResume : onPause}
         title={
           isPaused ?
             formatMessage({ id: 'order.list.option.cell.resume.order.tooltip' }) :

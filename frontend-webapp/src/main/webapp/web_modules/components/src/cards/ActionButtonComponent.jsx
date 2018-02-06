@@ -26,7 +26,7 @@ import { ShowableAtRender } from '@regardsoss/display-control'
  *
  * It can handle actions defined as:
  * - a url => it will use a <Link> component
- * - a onTouchTap callback
+ * - a onClick callback
  */
 class ActionButtonComponent extends React.Component {
   static propTypes = {
@@ -36,9 +36,9 @@ class ActionButtonComponent extends React.Component {
     primary: PropTypes.bool,
     secondary: PropTypes.bool,
     url: PropTypes.string,
-    onTouchTap: PropTypes.func,
+    onClick: PropTypes.func,
     isVisible: PropTypes.bool,
-    style: PropTypes.objectOf(PropTypes.string),
+    style: PropTypes.objectOf(PropTypes.any),
     type: PropTypes.string,
     disabled: PropTypes.bool,
     title: PropTypes.string,
@@ -61,10 +61,10 @@ class ActionButtonComponent extends React.Component {
   componentWillReceiveProps(props) {
     if (props.type === 'submit') {
       // Clicking on this button will submit the parent form
-    } else if (props.url === undefined && props.onTouchTap === undefined) {
-      throw new Error('No behavior specified. Please specify props.url or props.onTouchTap')
-    } else if (props.url && props.url.length > 0 && isFunction(props.onTouchTap)) {
-      throw new Error('Too many behavior specified. Please specify either props.url or props.onTouchTap')
+    } else if (props.url === undefined && props.onClick === undefined) {
+      throw new Error('No behavior specified. Please specify props.url or props.onClick')
+    } else if (props.url && props.url.length > 0 && isFunction(props.onClick)) {
+      throw new Error('Too many behavior specified. Please specify either props.url or props.onClick')
     }
   }
 
@@ -74,17 +74,14 @@ class ActionButtonComponent extends React.Component {
 
   render() {
     const {
-      className, button, isVisible, disabled, url, style, label, primary, secondary, onTouchTap, type, title,
+      className, button, isVisible, disabled, url, style, label, primary, secondary, onClick, type, title,
     } = this.props
     return (
       <ShowableAtRender show={isVisible}>
         {(() => {
           if (url) {
             return (
-              <Link
-                to={url}
-                style={style}
-              >
+              <Link to={url} style={style}>
                 {this.getComponent(button, {
                   className,
                   label,
@@ -103,7 +100,7 @@ class ActionButtonComponent extends React.Component {
               label,
               primary,
               secondary,
-              onTouchTap,
+              onClick,
               type,
               disabled,
               title,

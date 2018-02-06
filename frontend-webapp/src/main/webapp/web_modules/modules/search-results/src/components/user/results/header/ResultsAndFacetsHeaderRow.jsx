@@ -26,10 +26,6 @@ class ResultsAndFacetsHeaderRow extends React.Component {
     resultsCount: PropTypes.number.isRequired,
   }
 
-  static defaultProps = {
-    resultsCount: 0,
-  }
-
   static contextTypes = {
     ...i18nContextType,
   }

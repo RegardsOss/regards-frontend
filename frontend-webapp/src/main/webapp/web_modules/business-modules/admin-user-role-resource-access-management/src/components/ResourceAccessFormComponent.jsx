@@ -20,11 +20,13 @@ import map from 'lodash/map'
 import values from 'lodash/values'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FormattedMessage } from 'react-intl'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import { ListItem } from 'material-ui/List'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CardActionsComponent } from '@regardsoss/components'
+import { themeContextType } from '@regardsoss/theme'
+import { SelectableList, CardActionsComponent } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import ResourceAccessFormByMicroserviceContainer from './../containers/ResourceAccessFormByMicroserviceContainer'
+import moduleStyles from '../styles/styles'
 
 /**
  * React container to edit resource access allowed for the
@@ -41,6 +43,7 @@ export class ResourceAccessFormComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   state = {
@@ -53,22 +56,15 @@ export class ResourceAccessFormComponent extends React.Component {
     })
   }
 
-  renderTab = (microserviceName) => {
-    if (microserviceName === this.state.activeMicroservice) {
-      return (
-        <ResourceAccessFormByMicroserviceContainer
-          microserviceName={this.state.activeMicroservice}
-          currentRole={this.props.currentRole}
-          roleResources={this.props.roleResources}
-          editRoleResources={this.props.editRoleResources}
-        />
-      )
-    }
-    return null
-  }
-
   render() {
     const { backUrl, microserviceList, currentRole } = this.props
+    const styles = moduleStyles(this.context.muiTheme)
+    const { activeMicroservice } = this.state
+    const {
+      microserviceSplitPanel: {
+        layoutStyle, leftColumnStyle, rightColumnStyle, leftListStyle, titleStyle, contentStyle,
+      },
+    } = styles
     return (
       <Card>
         <CardTitle
@@ -76,17 +72,35 @@ export class ResourceAccessFormComponent extends React.Component {
           subtitle={this.context.intl.formatMessage({ id: 'role.list.subtitle' })}
         />
         <CardText>
-          <Tabs >
-            {map(microserviceList, (microserviceName, id) => (
-              <Tab
-                label={microserviceName}
-                key={id}
-                onActive={() => this.activateTab(microserviceName)}
-              >
-                {this.renderTab(microserviceName)}
-              </Tab>
-            ))}
-          </Tabs>
+          <div style={layoutStyle}>
+            <div style={titleStyle} />
+            <div style={contentStyle}>
+              <div style={leftColumnStyle} className="col-xs-33 col-lg-25">
+                <SelectableList
+                  style={leftListStyle}
+                  defaultValue={activeMicroservice}
+                  onSelect={this.activateTab}
+                >
+                  {map(microserviceList, (microserviceName, id) => (
+                    <ListItem
+                      key={`${microserviceName}`}
+                      value={microserviceName}
+                      primaryText={microserviceName}
+                    />
+                  ))}
+                </SelectableList>
+              </div>
+              <div style={rightColumnStyle} className="col-xs-67 col-lg-75">
+                <ResourceAccessFormByMicroserviceContainer
+                  key={activeMicroservice}
+                  microserviceName={activeMicroservice}
+                  currentRole={this.props.currentRole}
+                  roleResources={this.props.roleResources}
+                  editRoleResources={this.props.editRoleResources}
+                />
+              </div>
+            </div>
+          </div>
         </CardText>
         <CardActions>
           <CardActionsComponent

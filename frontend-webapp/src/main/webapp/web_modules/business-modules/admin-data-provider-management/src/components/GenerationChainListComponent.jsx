@@ -35,7 +35,6 @@ import { tableActions } from '../clients/TableClient'
 import { generationChainActions, generationChainSelectors } from '../clients/GenerationChainClient'
 import GenerationChainTableEditAction from './GenerationChainTableEditAction'
 import GenerationChainTableDuplicateAction from './GenerationChainTableDuplicateAction'
-import { addDependencies } from '../dependencies'
 import styles from '../styles'
 import messages from '../i18n'
 /**
@@ -141,13 +140,14 @@ class GenerationChainListComponent extends React.Component {
         optionProps: { onEdit: this.props.onEdit },
       }, {
         OptionConstructor: GenerationChainTableDuplicateAction,
-        optionProps: { onEdit: this.props.onDuplicate },
+        optionProps: { onDuplicate: this.props.onDuplicate },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
           fetchPage: this.props.fetchPage,
           onDelete: this.onDelete,
           queryPageSize: this.props.queryPageSize,
+          handleHateoas: true,
         },
       }], true, fixedColumnWidth),
     ]
@@ -169,18 +169,20 @@ class GenerationChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              displayedRowsCount={10}
+              minRowCount={0}
+              maxRowCount={10}
               queryPageSize={this.props.queryPageSize}
             />
           </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={this.props.onCreate}
-            mainHateoasDependencies={addDependencies}
+            mainButtonClick={this.props.onCreate}
+            // TODO : Set hateoas dependencies for data-provider
+            // mainHateoasDependencies={addDependencies}
             mainButtonLabel={intl.formatMessage({ id: 'generation-chain.addnew.button' })}
             secondaryButtonLabel={intl.formatMessage({ id: 'generation-chain.back.button' })}
-            secondaryButtonTouchTap={this.props.onBack}
+            secondaryButtonClick={this.props.onBack}
           />
         </CardActions>
         {this.renderDeleteConfirmDialog()}

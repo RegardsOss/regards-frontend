@@ -18,6 +18,7 @@
  **/
 import keys from 'lodash/keys'
 import omit from 'lodash/omit'
+import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import AddElementToCartComponent from '../../../../components/user/results/options/AddElementToCartComponent'
 
@@ -38,13 +39,28 @@ export class AddElementToCartContainer extends React.Component {
 
   onAddToCart = () => {
     const { entity, onAddToCart } = this.props
-    onAddToCart(entity)
+    if (this.canAddToCart()) {
+      onAddToCart(entity)
+    }
+  }
+
+  /**
+   * Is add to cart possible with current entity ?
+   * @return {boolean} true when add to cart is possible for entity
+   */
+  canAddToCart() {
+    const { entity: { content: { entityType, containsPhysicalData } } } = this.props
+    // add to cart is allowed when:
+    // the object is a dataset (A)
+    // Or : the object is a data object and containsPhysicalData (B)
+    return entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET || // (A)
+      (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA && !!containsPhysicalData) // (B)
   }
 
   render() {
     const subComponentProperties = omit(this.props, keys(AddElementToCartContainer.propTypes))
     return (
-      <AddElementToCartComponent onAddToCart={this.onAddToCart} {...subComponentProperties} />
+      <AddElementToCartComponent canAddToCart={this.canAddToCart()} onAddToCart={this.onAddToCart} {...subComponentProperties} />
     )
   }
 }

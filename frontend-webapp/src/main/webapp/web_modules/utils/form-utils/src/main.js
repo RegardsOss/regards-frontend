@@ -23,12 +23,12 @@ import RenderMapField from './render/RenderMapField'
 import RenderSelectField from './render/RenderSelectField'
 import RenderCheckbox from './render/RenderCheckbox'
 import RenderRadio from './render/RenderRadio'
-import RenderFileField from './render/RenderFileField'
 import RenderFileFieldWithMui from './render/RenderFileFieldWithMui'
 import RenderToggle from './render/RenderToggle'
 import RenderDoubleLabelToggle from './render/RenderDoubleLabelToggle'
 import RenderDateTimeField from './render/RenderDateTimeField'
 import RenderJsonCodeEditorField from './render/RenderJsonCodeEditorField'
+import RenderSlider from './render/RenderSlider'
 import ErrorTypes from './ErrorTypes'
 import Locales from './i18n/Locales'
 import Field from './Field'
@@ -56,9 +56,9 @@ module.exports = {
   RenderSelectField,
   RenderCheckbox,
   RenderRadio,
-  RenderFileField,
   RenderFileFieldWithMui,
   RenderDateTimeField,
+  RenderSlider,
   ErrorTypes,
   Locales,
   Field,

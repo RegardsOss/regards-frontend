@@ -28,7 +28,7 @@ import { FormattedMessage } from 'react-intl'
 import { HateoasKeys, withHateoasDisplayControl, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, ActionsMenuCell } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-dataaccess-management'
@@ -36,6 +36,7 @@ import { accessGroupActions } from '../clients/AccessGroupClient'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const ResourceIconAction = withResourceDisplayControl(IconButton)
+const actionsBreakpoints = [360, 510, 900, 900]
 
 /**
  * React component to list accessgroups.
@@ -140,37 +141,39 @@ export class AccessGroupListComponent extends React.Component {
                   <TableRowColumn>{accessGroup.content.name}</TableRowColumn>
                   <TableRowColumn>{accessGroup.content.users.length}</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      title={intl.formatMessage({ id: 'group.list.table.actions.edit' })}
-                      entityLinks={accessGroup.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(accessGroup.content.name)}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-                    <ResourceIconAction
-                      title={intl.formatMessage({ id: 'group.list.table.actions.accessrights' })}
-                      resourceDependencies={accessRightDependencies.listAccessGroupAccessRightsDeps}
-                      onTouchTap={() => handleEditAccessRights(accessGroup.content.name)}
-                    >
-                      <Settings hoverColor={style.hoverButtonEdit} />
-                    </ResourceIconAction>
-                    <HateoasIconAction
-                      title={intl.formatMessage({ id: 'group.list.table.actions.duplicate' })}
-                      entityLinks={accessGroup.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleDuplicate(accessGroup.content.name)}
-                    >
-                      <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                    </HateoasIconAction>
-                    <HateoasIconAction
-                      title={intl.formatMessage({ id: 'group.list.table.actions.delete' })}
-                      entityLinks={accessGroup.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => this.openDeleteDialog(accessGroup)}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
+                    <ActionsMenuCell breakpoints={actionsBreakpoints}>
+                      <HateoasIconAction
+                        title={intl.formatMessage({ id: 'group.list.table.actions.edit' })}
+                        entityLinks={accessGroup.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        onClick={() => handleEdit(accessGroup.content.name)}
+                      >
+                        <Edit hoverColor={style.hoverButtonEdit} />
+                      </HateoasIconAction>
+                      <ResourceIconAction
+                        title={intl.formatMessage({ id: 'group.list.table.actions.accessrights' })}
+                        resourceDependencies={accessRightDependencies.listAccessGroupAccessRightsDeps}
+                        onClick={() => handleEditAccessRights(accessGroup.content.name)}
+                      >
+                        <Settings hoverColor={style.hoverButtonEdit} />
+                      </ResourceIconAction>
+                      <HateoasIconAction
+                        title={intl.formatMessage({ id: 'group.list.table.actions.duplicate' })}
+                        entityLinks={accessGroup.links}
+                        hateoasKey={HateoasKeys.UPDATE}
+                        onClick={() => handleDuplicate(accessGroup.content.name)}
+                      >
+                        <ContentCopy hoverColor={style.hoverButtonDuplicate} />
+                      </HateoasIconAction>
+                      <HateoasIconAction
+                        title={intl.formatMessage({ id: 'group.list.table.actions.delete' })}
+                        entityLinks={accessGroup.links}
+                        hateoasKey={HateoasKeys.DELETE}
+                        onClick={() => this.openDeleteDialog(accessGroup)}
+                      >
+                        <Delete hoverColor={style.hoverButtonDelete} />
+                      </HateoasIconAction>
+                    </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
               ))}

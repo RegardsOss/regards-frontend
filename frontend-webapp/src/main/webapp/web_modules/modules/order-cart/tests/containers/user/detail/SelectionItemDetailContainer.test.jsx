@@ -38,6 +38,7 @@ describe('[Order Cart] Testing SelectionItemDetailContainer', () => {
   })
   it('should render correctly without detail', () => {
     const props = {
+      showDatasets: true,
       detail: {
         visible: false,
         date: undefined,
@@ -56,6 +57,7 @@ describe('[Order Cart] Testing SelectionItemDetailContainer', () => {
   })
   it('should render correctly with detail', () => {
     const props = {
+      showDatasets: false,
       detail: {
         visible: true,
         date: '2017-09-08T15:59:57.664Z',
@@ -74,6 +76,7 @@ describe('[Order Cart] Testing SelectionItemDetailContainer', () => {
   })
   it('should render correctly after detail were hidden', () => {
     const props = {
+      showDatasets: false,
       detail: {
         visible: false,
         date: '2017-09-08T15:59:57.664Z',

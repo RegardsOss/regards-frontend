@@ -35,7 +35,6 @@ import TwoTemporalCriteriaComposedComponent from './TwoTemporalCriteriaComposedC
  * @author Xavier-Alexandre Brochard
  */
 export class TwoTemporalCriteriaComponent extends React.Component {
-
   static propTypes = {
     /**
      * List of attributes associated to the plugin.

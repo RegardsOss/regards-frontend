@@ -17,14 +17,21 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import OrderCartContainer from './OrderCartContainer'
+import { ModuleConfigurationShape } from '../../model/ModuleConfigurationShape'
 
 /**
  * User module container
  * @author Raphaël Mechali
  */
 class UserModuleContainer extends React.Component {
+  static propTypes = {
+    project: PropTypes.string.isRequired,
+    moduleConf: ModuleConfigurationShape.isRequired,
+  }
+
   render() {
-    return <OrderCartContainer />
+    const { project, moduleConf: { showDatasets } } = this.props
+    return <OrderCartContainer project={project} showDatasets={showDatasets} />
   }
 }
 

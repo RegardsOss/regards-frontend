@@ -19,13 +19,18 @@
 
 import { relativeURLRegexp, validURLRegexp } from './URLRegex'
 import PluginParamType from './PluginParamType'
+import EntityIpIdTester from './EntityIpIdTester'
+import DataTypes from './DataTypes'
 
 module.exports = {
   // Plugin
   ...PluginParamType,
+  // Data types
+  ...DataTypes,
 
   // URL
   relativeURLRegexp,
   validURLRegexp,
 
+  EntityIpIdTester,
 }

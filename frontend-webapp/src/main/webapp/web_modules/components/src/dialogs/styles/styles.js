@@ -25,16 +25,55 @@
 const styles = theme => ({
   loading: {
     styles: {
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
+      flexGrow: 1,
+      flexShrink: 1,
     },
     progressSize: 256,
     messageStyles: { marginTop: '2em' },
+  },
+  dialogCommon: {
+    actionsContainerStyle: {
+      borderWidth: '1px 0 0 0',
+      borderColor: theme.toolbar.separatorColor,
+      borderStyle: 'solid',
+    },
+  },
+  positionedDialog: {
+    paperProps: {
+      style: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+      },
+    },
+    bodyStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      flexGrow: 1,
+    },
+  },
+  fitContentDialog: {
+    paperProps: {
+      style: {
+        height: '100%',
+        display: 'table',
+      },
+    },
+    contentStyle: {
+      display: 'table',
+      width: 'auto',
+    },
+  },
+  urlContentDialog: {
+    bodyStyle: {
+      padding: 0,
+    },
   },
 })
 

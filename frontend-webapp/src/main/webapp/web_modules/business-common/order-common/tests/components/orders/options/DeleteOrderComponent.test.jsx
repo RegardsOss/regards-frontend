@@ -58,7 +58,7 @@ describe('[Order Common] Testing DeleteOrderComponent', () => {
     assert.lengthOf(iconWrapper, 1, 'There should be a button')
     assert.isFalse(iconWrapper.props().disabled, 'it should be enabled')
     assert.equal(iconWrapper.props().title, 'order.list.option.cell.delete.superficially.order.tooltip', 'superficial delete tooltip should be shown')
-    assert.equal(iconWrapper.props().onTouchTap, props.onDelete, 'callback should be correctly provided')
+    assert.equal(iconWrapper.props().onClick, props.onDelete, 'callback should be correctly provided')
   })
   it('should render correctly for complete delete', () => {
     const props = {
@@ -71,6 +71,6 @@ describe('[Order Common] Testing DeleteOrderComponent', () => {
     assert.lengthOf(iconWrapper, 1, 'There should be a button')
     assert.isFalse(iconWrapper.props().disabled, 'it should be enabled')
     assert.equal(iconWrapper.props().title, 'order.list.option.cell.delete.completely.order.tooltip', 'superficial delete tooltip should be shown')
-    assert.equal(iconWrapper.props().onTouchTap, props.onDelete, 'callback should be correctly provided')
+    assert.equal(iconWrapper.props().onClick, props.onDelete, 'callback should be correctly provided')
   })
 })

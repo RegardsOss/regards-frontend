@@ -52,9 +52,10 @@ class DownloadFileActions extends BasicSignalActions {
    */
   buildResults = (res) => {
     const contentType = res.headers.get('Content-Type')
+    const contentDisposition = res.headers.get('Content-Disposition')
     return res.blob().then((b) => {
       const content = b.size ? b : null // handle empty response
-      return { contentType, content }
+      return { contentType, contentDisposition, content }
     })
   }
 }

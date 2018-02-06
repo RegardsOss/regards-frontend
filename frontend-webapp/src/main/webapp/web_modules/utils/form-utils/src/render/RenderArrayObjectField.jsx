@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import omit from 'lodash/omit'
 import isString from 'lodash/isString'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
@@ -24,6 +25,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
+import SubHeader from 'material-ui/Subheader'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardMedia } from 'material-ui/Card'
 import { ListItem } from 'material-ui/List'
@@ -46,18 +48,25 @@ import messages from '../i18n/Locales'
 */
 class RenderArrayObjectField extends React.Component {
   static propTypes = {
-    label: PropTypes.string.isRequired,
-    fieldComponent: PropTypes.func.isRequired,
+    label: PropTypes.string, // List label
+    displayLabel: PropTypes.bool,
+    elementLabel: PropTypes.string, // Each element prefix label
+    fieldComponent: PropTypes.func.isRequired, // redux-form Field component to render an object of the list
     // eslint-disable-next-line react/forbid-prop-types
-    fieldProps: PropTypes.object,
-    getEmptyObject: PropTypes.func,
-    duplicationTransfromation: PropTypes.func,
-    canBeEmpty: PropTypes.bool,
+    fieldProps: PropTypes.object, // additional props to pass to the fieldComponent
+    getEmptyObject: PropTypes.func, // Function to generate a new empty object value
+    duplicationTransfromation: PropTypes.func, // Function to transform object value when dulicating an element of the list
+    canBeEmpty: PropTypes.bool, // If false, the list is not displayed if there is no element in it
+    listHeight: PropTypes.string,
+    disabled: PropTypes.bool,
+    // From redux-form
     fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
     meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
   }
 
   static defaultProps = {
+    displayLabel: true,
+    disabled: false,
     canBeEmpty: true,
     fieldProps: {},
     getEmptyObject: () => ({}),
@@ -72,6 +81,19 @@ class RenderArrayObjectField extends React.Component {
   state = {
     displayedFieldIdx: null,
     fieldIndexToDelete: null,
+  }
+
+  componentWillMount() {
+    const { moduleTheme: { arrayObject: { contentStyle } } } = this.context
+    this.setState({
+      listContentStyle: this.props.listHeight ? { ...omit(contentStyle, ['height']), height: this.props.listHeight } : contentStyle,
+    })
+  }
+
+  componentDidMount() {
+    if (this.props.fields && this.props.fields.length > 0) {
+      this.displayObject(0)
+    }
   }
 
   /**
@@ -140,7 +162,9 @@ class RenderArrayObjectField extends React.Component {
    */
   renderListItem = (index) => {
     const { intl: { formatMessage } } = this.context
-    const { label, canBeEmpty } = this.props
+    const {
+      elementLabel, canBeEmpty, disabled,
+    } = this.props
     const isDeletable = canBeEmpty ? true : this.props.fields.length > 1
     const iconButtonElement = (
       <IconButton
@@ -168,18 +192,20 @@ class RenderArrayObjectField extends React.Component {
       </IconMenu>
     )
 
+    const itemLabel = elementLabel ? `${elementLabel} ${index}` : formatMessage({ id: 'render.array-object.item.title' }, { index })
+
     return (
       <ListItem
-        key={`${label}-${index}`}
+        key={`${index}`}
         value={index}
-        rightIconButton={rightIconMenu}
-        primaryText={formatMessage({ id: 'render.array-object.item.title' }, { index })}
+        rightIconButton={disabled ? null : rightIconMenu}
+        primaryText={itemLabel}
       />
     )
   }
 
   renderDeleteConfirmDialog = () => {
-    if (!isNil(this.state.fieldIndexToDelete) && this.state.fieldIndexToDelete >= 0) {
+    if (!isNil(this.state.fieldIndexToDelete) && this.state.fieldIndexToDelete >= 0 && !this.props.disabled) {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
@@ -198,14 +224,14 @@ class RenderArrayObjectField extends React.Component {
       intl: { formatMessage },
       moduleTheme: {
         arrayObject: {
-          layoutStyle, leftColumnStyle, rightColumnStyle, typeListStyle, titleStyle, contentStyle,
+          layoutStyle, leftColumnStyle, rightColumnStyle, leftListStyle, leftButtonStyle, titleStyle,
         },
       },
     } = this.context
     const {
-      canBeEmpty, fields, fieldComponent, fieldProps, meta,
+      canBeEmpty, fields, fieldComponent, fieldProps, meta, label, displayLabel,
     } = this.props
-    const { displayedFieldIdx } = this.state
+    const { displayedFieldIdx, listContentStyle } = this.state
     const entity = fields.get(displayedFieldIdx)
     const EntityComponent = fieldComponent
 
@@ -215,6 +241,7 @@ class RenderArrayObjectField extends React.Component {
 
     const fieldForm = !isNil(displayedFieldIdx) ? (
       <EntityComponent
+        key={`${fields.name}[${displayedFieldIdx}]`}
         name={`${fields.name}[${displayedFieldIdx}]`}
         entity={entity}
         {...fieldProps}
@@ -222,27 +249,30 @@ class RenderArrayObjectField extends React.Component {
     return (
       <Card>
         <CardMedia>
+          {label && displayLabel ? <SubHeader inset={false}>{label}</SubHeader> : null}
+          {meta.error && isString(meta.error) ?
+            <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
+            : null}
           <div style={layoutStyle}>
             <div style={titleStyle} />
-            <div style={contentStyle}>
+            <div style={listContentStyle}>
               <div style={leftColumnStyle}>
                 <SelectableList
-                  style={typeListStyle}
+                  style={leftListStyle}
                   defaultValue={displayedFieldIdx}
                   onSelect={this.displayObject}
                 >
-                  {meta.error && isString(meta.error) ?
-                    <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
-                    : null}
                   {map(fields, (object, idx) => this.renderListItem(idx))}
                 </SelectableList>
-                <RaisedButton
-                  label={formatMessage({ id: 'render.array-object.add.button' })}
-                  fullWidth
-                  primary
-                  onClick={this.onAddNewObject}
-                  icon={<AddBoxIcon />}
-                />
+                {!this.props.disabled ?
+                  <RaisedButton
+                    label={formatMessage({ id: 'render.array-object.add.button' })}
+                    fullWidth
+                    primary
+                    onClick={this.onAddNewObject}
+                    icon={<AddBoxIcon />}
+                    style={leftButtonStyle}
+                  /> : null}
               </div>
               <div style={rightColumnStyle}>
                 {fieldForm}

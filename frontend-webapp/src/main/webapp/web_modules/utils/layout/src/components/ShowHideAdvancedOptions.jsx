@@ -24,7 +24,7 @@ import { themeContextType } from '@regardsoss/theme'
 /**
  * @author Xavier-Alexaandre Brochard
  */
-const ShowHideAdvancedOptions = ({ advanced = false, onTouchTap = () => {} }, { muiTheme, intl: { formatMessage } }) => {
+const ShowHideAdvancedOptions = ({ advanced = false, onClick = () => {} }, { muiTheme, intl: { formatMessage } }) => {
   const iconToggleAdvanced = advanced ?
     <KeyboardArrowUp color={muiTheme.palette.primary1Color} /> :
     <KeyboardArrowDown color={muiTheme.palette.primary1Color} />
@@ -34,7 +34,7 @@ const ShowHideAdvancedOptions = ({ advanced = false, onTouchTap = () => {} }, { 
 
   return (
     <span
-      onTouchTap={onTouchTap}
+      onClick={onClick}
       style={{
         cursor: 'pointer',
         display: 'flex',
@@ -53,7 +53,7 @@ const ShowHideAdvancedOptions = ({ advanced = false, onTouchTap = () => {} }, { 
 
 ShowHideAdvancedOptions.propTypes = {
   advanced: PropTypes.bool,
-  onTouchTap: PropTypes.func,
+  onClick: PropTypes.func,
 }
 
 ShowHideAdvancedOptions.contextTypes = {

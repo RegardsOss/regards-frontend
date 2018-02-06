@@ -58,9 +58,10 @@ export class DocumentStepperContainer extends React.Component {
   getFilesStep = () => {
     const text = (<FormattedMessage id="document.stepper.files" />)
     if (!this.isDisabled(STEPS_ID.FILES) && this.props.stepIndex !== STEPS_ID.PLUGINS) {
-      return (<StepButton onClick={this.handleFilesClick}>
-        {text}
-      </StepButton>)
+      return (
+        <StepButton onClick={this.handleFilesClick}>
+          {text}
+        </StepButton>)
     }
     return text
   }
@@ -70,9 +71,10 @@ export class DocumentStepperContainer extends React.Component {
     if (!this.isDisabled(STEPS_ID.ATTRIBUTES)
       && this.props.stepIndex !== STEPS_ID.ATTRIBUTES
       && this.props.stepIndex !== STEPS_ID.SUBSETTING) {
-      return (<StepButton onClick={this.handleAttributesClick}>
-        {text}
-      </StepButton>)
+      return (
+        <StepButton onClick={this.handleAttributesClick}>
+          {text}
+        </StepButton>)
     }
     return text
   }
@@ -81,9 +83,10 @@ export class DocumentStepperContainer extends React.Component {
   getLinksStep = () => {
     const text = (<FormattedMessage id="document.stepper.links" />)
     if (!this.isDisabled(STEPS_ID.LINKS) && this.props.stepIndex !== STEPS_ID.LINKS) {
-      return (<StepButton onClick={this.handleLinksClick}>
-        {text}
-      </StepButton>)
+      return (
+        <StepButton onClick={this.handleLinksClick}>
+          {text}
+        </StepButton>)
     }
     return text
   }

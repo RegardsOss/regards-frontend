@@ -32,12 +32,18 @@ const messages = Object.assign({
   'plugin.configuration.form.action.submit.save': 'Sauvegarder',
   'plugin.configuration.form.action.cancel': 'Annuler',
 
+  'plugin.parameter.description.dialog.title': 'Description du paramètre {parameter}',
+  'plugin.parameter.description.dialog.close': 'Fermer',
   'plugin.parameter.static.field': 'Fixer la valeur du paramètre',
-  'plugin.parameter.dynamic.field': 'Paramètre dynamqiue',
+  'plugin.parameter.dynamic.field': 'Paramètre dynamique',
   'plugin.parameter.dynamicvalues.title': 'Valeurs possibles du paramètre',
+  'plugin.parameter.default.value.label': '(Valeur par défaut : {defaultValue})',
 
   'plugin.parameter.plugin.choose': 'Choisir un plugin',
   'plugin.parameter.plugin.empty.menu.item': 'Aucun',
+
+  'plugin.parameter.map.new.key.dialog.title': 'Enter a new value for {key}',
+  'plugin.parameter.map.new.value.label': 'Value for {value}',
 
 }, Locales.fr)
 

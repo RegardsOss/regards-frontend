@@ -37,14 +37,14 @@ describe('[Components] Testing ClearFieldButton', () => {
   it('should render correctly not visible', () => {
     const props = {
       displayed: false,
-      onTouchTap: () => { },
+      onClick: () => { },
     }
     shallow(<ClearFieldButton {...props} />, { context })
   })
   it('should render correctly visible', () => {
     const props = {
       displayed: true,
-      onTouchTap: () => { },
+      onClick: () => { },
     }
     shallow(<ClearFieldButton {...props} />, { context })
   })

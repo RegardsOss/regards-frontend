@@ -32,7 +32,7 @@ import getDisplayName from '../getDisplayName'
 const withConfirmDialog = (DecoratedComponent) => {
   class WithConfirmDialog extends React.Component {
     static propTypes = {
-      onTouchTap: PropTypes.func.isRequired,
+      onClick: PropTypes.func.isRequired,
       dialogTitle: PropTypes.string.isRequired,
       dialogMessage: PropTypes.string,
     }
@@ -49,8 +49,8 @@ const withConfirmDialog = (DecoratedComponent) => {
       // A - close dialog
       this.handleClose()
       // B - run action
-      const { onTouchTap } = this.props
-      onTouchTap(evt)
+      const { onClick } = this.props
+      onClick(evt)
     }
 
     handleClose = () => {
@@ -60,7 +60,7 @@ const withConfirmDialog = (DecoratedComponent) => {
     render() {
       const { dialogTitle, dialogMessage, ...otherProps } = this.props
       const { open } = this.state
-      otherProps.onTouchTap = this.handleOpen
+      otherProps.onClick = this.handleOpen
       const decoratedComponentElement = React.createElement(DecoratedComponent, otherProps)
 
       return (

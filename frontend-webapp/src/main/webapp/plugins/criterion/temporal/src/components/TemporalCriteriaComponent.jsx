@@ -21,7 +21,6 @@ import areIntlLocalesSupported from 'intl-locales-supported'
 import DatePicker from 'material-ui/DatePicker'
 import TextField from 'material-ui/TextField'
 import TimePicker from 'material-ui/TimePicker'
-import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -54,11 +53,9 @@ if (areIntlLocalesSupported(['fr'])) {
  *  @author Xavier-Alexandre Brochard
  */
 export class TemporalCriteriaComponent extends PluginCriterionContainer {
-
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
-    attributes: DataManagementShapes.AttributeModelList,
   }
 
   static contextTypes = {
@@ -192,8 +189,12 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
   }
 
   render() {
-    const { moduleTheme: { rootStyle, labelSpanStyle, datePickerTextFieldStyle,
-      datePickerStyle, timePickerStyles, secondsTextFieldStyle, millisecondsTextFieldStyle } } = this.context
+    const {
+      moduleTheme: {
+        rootStyle, labelSpanStyle, datePickerTextFieldStyle,
+        datePickerStyle, timePickerStyles, secondsTextFieldStyle, millisecondsTextFieldStyle,
+      },
+    } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField, comparator } = this.state
     const clearButtonDisplayed = searchField !== undefined
@@ -240,7 +241,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
           onChange={this.handleChangeMilliseconds}
           style={millisecondsTextFieldStyle}
         />
-        <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

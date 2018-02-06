@@ -34,7 +34,7 @@ import {
   searchDocumentsActions,
   selectors as searchSelectors,
 } from '../../../clients/SearchEntitiesClient'
-import TableDisplayModeEnum from '../../../models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
 import { FacetArray } from '../../../models/facets/FacetShape'
 import navigationContextActions from '../../../models/navigation/NavigationContextActions'
 import navigationContextSelectors from '../../../models/navigation/NavigationContextSelectors'
@@ -45,6 +45,7 @@ import OrderCartContainer from './OrderCartContainer'
 import SearchResultsComponent from '../../../components/user/results/SearchResultsComponent'
 import styles from '../../../styles/styles'
 import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
+import DisplayModuleConf from '../../../models/DisplayModuleConf'
 
 const moduleStyles = { styles }
 
@@ -77,27 +78,32 @@ export class SearchResultsContainer extends React.Component {
     searchQuery: PropTypes.string, // initial search query, as provided by module configuration
     enableFacettes: PropTypes.bool.isRequired, // are facettes enabled
     enableDownload: PropTypes.bool.isRequired, // is download enable directly from the table
+    enableQuicklooks: PropTypes.bool.isRequired, // are quicklook available on data items
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
+    displayConf: DisplayModuleConf,
+
     // eslint-disable-next-line react/no-unused-prop-types
     facettesQuery: PropTypes.string, // facettes query to be added to search query in order to get the facettes
     // Attributes configurations for results columns
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    attributesConf: AccessShapes.AttributeConfigurationArray,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributesRegroupementsConf: PropTypes.arrayOf(AccessShapes.AttributesGroupConfigurationContent),
+    attributesQuicklookConf: AccessShapes.AttributeConfigurationArray,
     // eslint-disable-next-line react/no-unused-prop-types
-    datasetAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    attributesRegroupementsConf: AccessShapes.AttributesGroupConfigurationArray,
     // eslint-disable-next-line react/no-unused-prop-types
-    documentAttributesConf: PropTypes.arrayOf(AccessShapes.AttributeConfigurationContent),
+    datasetAttributesConf: AccessShapes.AttributeConfigurationArray,
     // eslint-disable-next-line react/no-unused-prop-types
-    attributeModels: PropTypes.objectOf(DataManagementShapes.AttributeModel),
+    documentAttributesConf: AccessShapes.AttributeConfigurationArray,
+    // eslint-disable-next-line react/no-unused-prop-types
+    attributeModels: DataManagementShapes.AttributeModelList,
     // From map state to props
     // eslint-disable-next-line react/no-unused-prop-types
     facets: FacetArray,
     isFetching: PropTypes.bool.isRequired,
     resultsCount: PropTypes.number.isRequired,
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
-    tableDisplayMode: PropTypes.oneOf([TableDisplayModeEnum.LIST, TableDisplayModeEnum.TABLE]).isRequired, // Display mode
+    tableDisplayMode: PropTypes.oneOf(TableDisplayModeValues).isRequired, // Display mode
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
     // From map dispatch to props
@@ -125,6 +131,8 @@ export class SearchResultsContainer extends React.Component {
     fullSearchQuery: null,
     // request actioner depends on entities to search
     searchActions: null,
+    // is currently displaying only data with quicklook
+    displayOnlyQuicklook: false,
   }
 
   componentWillMount = () => this.onPropertiesChanged({}, this.props)
@@ -155,7 +163,7 @@ export class SearchResultsContainer extends React.Component {
     // recompute facets when results facets or attribute models changed
     if (!isEqual(oldProps.facets, newProps.facets) || !isEqual(oldProps.attributeModels, newProps.attributeModels)) {
       // Resolve all facets with their label, removing all empty values and facet without values
-      const attributeModels = newProps.attributeModels
+      const { attributeModels } = newProps
       newState.facets = (newProps.facets || []).reduce((acc, { attributeName, type, values }) => {
         // Clear empty values, check if the facet should be filtered
         const filteredValues = values.filter(value => value.count)
@@ -174,10 +182,11 @@ export class SearchResultsContainer extends React.Component {
     }
 
     // prepare columns models for search results component, according with configuration, models and view object type
-    if (!isEqual(oldProps.attributeModels, newProps.attributeModels) || oldProps.viewObjectType !== newProps.viewObjectType) {
+    if (!isEqual(oldProps.attributeModels, newProps.attributeModels) || oldProps.viewObjectType !== newProps.viewObjectType ||
+      oldProps.tableDisplayMode !== newProps.tableDisplayMode) {
       // re initialize selected facets and hidden columns keys
-      newState.filters = []
-      newState.hiddenColumnKeys = []
+      newState.filters = SearchResultsContainer.DEFAULT_STATE.filters
+      newState.hiddenColumnKeys = SearchResultsContainer.DEFAULT_STATE.hiddenColumnKeys
 
       // build column models that will hold both attribute and dialogs models (sort, visible....)
       // note: we take here in account the fact that hidden columns and sorting orders could have been reset
@@ -186,7 +195,17 @@ export class SearchResultsContainer extends React.Component {
           newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.datasetAttributesConf, [], false)
           break
         case DamDomain.ENTITY_TYPES_ENUM.DATA:
-          newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesConf, newProps.attributesRegroupementsConf, true)
+          if (newProps.tableDisplayMode !== TableDisplayModeEnum.QUICKLOOK) {
+            newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesConf, newProps.attributesRegroupementsConf, true)
+            // Remove in the query the onlyQuicklook as we are not displaying quicklook anymore
+            newState.displayOnlyQuicklook = false
+          } else {
+            newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.attributesQuicklookConf, newProps.attributesRegroupementsConf, true)
+            // Automatically enable displayOnlyQuicklook on first display
+            if (oldProps.tableDisplayMode !== newProps.tableDisplayMode) {
+              newState.displayOnlyQuicklook = true
+            }
+          }
           break
         case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
           newState.attributePresentationModels = AttributesPresentationHelper.buildAttributesPresentationModels(newProps.attributeModels, newProps.documentAttributesConf, [], false)
@@ -204,7 +223,12 @@ export class SearchResultsContainer extends React.Component {
 
 
   /** On show datasets */
-  onShowDatasets = () => this.props.dispatchChangeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATASET)
+  onShowDatasets = () => {
+    this.props.dispatchChangeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATASET)
+    if (this.props.tableDisplayMode === TableDisplayModeEnum.QUICKLOOK) {
+      this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.LIST)
+    }
+  }
 
   /** On show dataobjects */
   onShowDataobjects = () => this.props.dispatchChangeViewObjectType(DamDomain.ENTITY_TYPES_ENUM.DATA)
@@ -215,8 +239,16 @@ export class SearchResultsContainer extends React.Component {
   /**  On show results as table view action  */
   onShowTableView = () => this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.TABLE)
 
+  /**  On show results as quicklook view action  */
+  onShowQuicklookView = () => {
+    this.props.dispatchChangeTableDisplayMode(TableDisplayModeEnum.QUICKLOOK)
+  }
+
   /** User toggled facettes search */
   onToggleShowFacettes = () => this.updateStateAndQuery({ showingFacettes: !this.state.showingFacettes })
+
+  /** User toggled filter that display only object having quicklook */
+  onToggleDisplayOnlyQuicklook = () => this.updateStateAndQuery({ displayOnlyQuicklook: !this.state.displayOnlyQuicklook })
 
   /**
    * On user selected a facet
@@ -259,7 +291,7 @@ export class SearchResultsContainer extends React.Component {
   onSortByAttribute = (modelKey, type) => this.updateStateAndQuery({
     // update presentation models to hold the new sorting
     attributePresentationModels: this.state.attributePresentationModels.map((attrModel) => {
-      let sortOrder = attrModel.sortOrder
+      let { sortOrder } = attrModel
       if (attrModel.key === modelKey) {
         sortOrder = type // update the modified column
       } else if (this.props.tableDisplayMode === TableDisplayModeEnum.LIST) {
@@ -288,14 +320,16 @@ export class SearchResultsContainer extends React.Component {
       viewObjectType, searchQuery, facettesQuery, levels,
     },
     {
-      showingFacettes, filters, attributePresentationModels, initialSortAttributesPath,
+      showingFacettes, filters, attributePresentationModels, initialSortAttributesPath, displayOnlyQuicklook,
     },
   ) => {
     const showingDataobjects = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
+    const showingDocuments = viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
 
     // check if facettes should be applied
-    const facettes = showingFacettes && showingDataobjects ? filters : []
-    const facettesQueryPart = showingFacettes ? facettesQuery : ''
+    const facettes = (showingFacettes && showingDataobjects) || showingDocuments ? filters : []
+    const facettesQueryPart = showingFacettes || showingDocuments ? facettesQuery : ''
+    const quicklookQuery = displayOnlyQuicklook ? 'exists=files.QUICKLOOK_SD' : ''
 
     let searchActions
     let sorting
@@ -331,7 +365,7 @@ export class SearchResultsContainer extends React.Component {
     }
     const openSearchQuery = QueriesHelper.getOpenSearchQuery(initialSearchQuery, facettes, parameters).toQueryString()
 
-    let fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart).toQueryString()
+    let fullSearchQuery = QueriesHelper.getURLQuery(openSearchQuery, sorting, facettesQueryPart, quicklookQuery).toQueryString()
     // Add threshold if request is datasets from dataobjects
     if (searchActions === searchDatasetsFromDataObjectsActions) {
       fullSearchQuery = `${fullSearchQuery}&threshold=${STATIC_CONF.CATALOG_SEARCH_THRESHOLD}`
@@ -369,14 +403,14 @@ export class SearchResultsContainer extends React.Component {
   render() {
     const {
       displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode, enableDownload,
-      facettesQuery, dispatchSetEntityAsTag, searchQuery: initialSearchQuery,
+      enableQuicklooks, facettesQuery, dispatchSetEntityAsTag, searchQuery: initialSearchQuery, displayConf,
     } = this.props
 
     const {
       attributePresentationModels, hiddenColumnKeys, searchActions, showingFacettes,
-      facets, filters, openSearchQuery, fullSearchQuery,
+      facets, filters, openSearchQuery, fullSearchQuery, displayOnlyQuicklook,
     } = this.state
-
+    const tableViewMode = tableDisplayMode || TableDisplayModeEnum.LIST
     return (
       <ModuleStyleProvider module={moduleStyles}>
         {/* enable the services functionnalities */}
@@ -390,12 +424,15 @@ export class SearchResultsContainer extends React.Component {
             viewObjectType={viewObjectType}
             initialSearchQuery={initialSearchQuery}
             openSearchQuery={openSearchQuery}
+            tableViewMode={tableViewMode}
           >
             {/** Render a default search results component with common properties (sub elements will clone it with added properties)*/}
             <SearchResultsComponent
               enableDownload={enableDownload}
+              enableQuicklooks={enableQuicklooks}
               allowingFacettes={enableFacettes && !!facettesQuery}
               displayMode={displayMode}
+              displayConf={displayConf}
 
               resultsCount={resultsCount}
               isFetching={isFetching}
@@ -403,7 +440,9 @@ export class SearchResultsContainer extends React.Component {
               searchSelectors={searchSelectors}
 
               viewObjectType={viewObjectType}
-              tableViewMode={tableDisplayMode || TableDisplayModeEnum.LIST}
+              tableViewMode={tableViewMode}
+
+              displayOnlyQuicklook={displayOnlyQuicklook}
 
               showingFacettes={showingFacettes}
               facets={facets}
@@ -422,9 +461,10 @@ export class SearchResultsContainer extends React.Component {
               onShowDataobjects={this.onShowDataobjects}
               onShowListView={this.onShowListView}
               onShowTableView={this.onShowTableView}
+              onShowQuicklookView={this.onShowQuicklookView}
               onSortByAttribute={this.onSortByAttribute}
               onToggleShowFacettes={this.onToggleShowFacettes}
-
+              onToggleDisplayOnlyQuicklook={this.onToggleDisplayOnlyQuicklook}
             />
           </OrderCartContainer>
         </PluginServicesContainer>

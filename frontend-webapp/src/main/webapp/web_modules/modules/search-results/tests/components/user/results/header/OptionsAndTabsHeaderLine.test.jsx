@@ -22,7 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
 import { TableSortOrders } from '@regardsoss/components'
 import { selectors as searchSelectors } from '../../../../../src/clients/SearchEntitiesClient'
-import TableDisplayModeEnum from '../../../../../src/models/navigation/TableDisplayModeEnum'
+import { TableDisplayModeEnum } from '../../../../../src/models/navigation/TableDisplayModeEnum'
 import OptionsAndTabsHeaderLine from '../../../../../src/components/user/results/header/OptionsAndTabsHeaderLine'
 import styles from '../../../../../src/styles/styles'
 import { DISPLAY_MODE_ENUM } from '../../../../../src/definitions/DisplayModeEnum'
@@ -66,8 +66,10 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
         rowCellDefinition: { Constructor: TestRender },
         visible: true,
       }],
-      allowingFacettes: true,
+      displayFacettesButton: true,
       showingFacettes: false,
+      enableQuicklooks: false,
+      displayOnlyQuicklook: false,
       selectionServices: [],
       onAddSelectionToCart: null,
       onChangeColumnsVisibility: () => { },
@@ -75,9 +77,11 @@ describe('[Search Results] Testing OptionsAndTabsHeaderLine', () => {
       onShowDatasets: () => { },
       onShowListView: () => { },
       onShowTableView: () => { },
+      onShowQuicklookView: () => { },
       onSortByAttribute: () => { },
       onStartSelectionService: () => { },
       onToggleShowFacettes: () => { },
+      onToggleDisplayOnlyQuicklook: () => { },
     }
     shallow(<OptionsAndTabsHeaderLine {...props} />, { context })
   })

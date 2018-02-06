@@ -36,6 +36,12 @@ const styles = theme => ({
       marginTop: '20px',
     },
   },
+  filter: {
+    fieldStyle: {
+      width: '190px',
+      margin: '0px 10px',
+    },
+  },
 })
 
 export default styles

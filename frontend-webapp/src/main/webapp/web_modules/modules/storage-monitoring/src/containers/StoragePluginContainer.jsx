@@ -31,16 +31,17 @@ export class StoragePluginContainer extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     scale: storage.StorageUnitScaleShape.isRequired, // used only in onPropertiesChanged
-    plugin: StorageShapes.StoragePlugin.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    plugin: StorageShapes.StoragePlugin.isRequired, // used only in onPropertiesChanged
   }
 
   /**
    * Parses text capacity as parameter then converts it on scale as parameter
-   * @param {*} textCapacity text for capacity
-   * @param {*} scale scale family (bits, bytes...)
+   * @param {string} textCapacity text for capacity
+   * @param {StorageUnitScale} scale scale family (bits, bytes...)
    * @return {storage.StorageCapacity} parsed capacity or null
    */
-  static parseAndConvert(textCapacity, scale) {
+  static parseAndConvert(textCapacity = '', scale) {
     const parsed = storage.StorageCapacity.fromValue(textCapacity)
     return parsed ? parsed.scaleAndConvert(scale) : null
   }
@@ -80,46 +81,44 @@ export class StoragePluginContainer extends React.Component {
    * @param newProps new props
    */
   onPropertiesChanged = ({ scale, plugin }) => {
-    const storageInfo = plugin.content.storageInfo.map(({ storagePhysicalId, totalSize: textTotalSize, usedSize: textUsedSize }) => {
-      const totalSize = StoragePluginContainer.parseAndConvert(textTotalSize, scale)
-      const usedSize = StoragePluginContainer.parseAndConvert(textUsedSize, scale)
-      let unusedSize = null
-      let usedPercent = null
-      let unusedPercent = null
+    const {
+      content: {
+        confId,
+        label,
+        description,
+        totalSize: textTotalSize,
+        usedSize: textUsedSize,
+      },
+    } = plugin
+    const totalSize = StoragePluginContainer.parseAndConvert(textTotalSize, scale)
+    const usedSize = StoragePluginContainer.parseAndConvert(textUsedSize, scale)
+    let unusedSize = null
+    let usedPercent = null
+    let unusedPercent = null
 
-      if (totalSize && usedSize) {
-        unusedSize = totalSize.subtract(usedSize)
-        usedPercent = StoragePluginContainer.computePercents(totalSize, usedSize)
-        unusedPercent = StoragePluginContainer.TOTAL_PERCENT - usedPercent
-      }
-      return {
-        storagePhysicalId, totalSize, usedSize, unusedSize, usedPercent, unusedPercent,
-      }
-    })
+    if (totalSize && usedSize) {
+      unusedSize = totalSize.subtract(usedSize)
+      usedPercent = StoragePluginContainer.computePercents(totalSize, usedSize)
+      unusedPercent = StoragePluginContainer.TOTAL_PERCENT - usedPercent
+    }
     this.setState({
-      storageInfo,
-      selectedStorageIndex: storageInfo.length ? 0 : null,
+      parsedStoragePlugin: {
+        confId,
+        label,
+        description,
+        totalSize,
+        usedSize,
+        unusedSize,
+        usedPercent,
+        unusedPercent,
+      },
     })
-  }
-
-  /**
-   * User callback: on storage row selected (used only when multiple row)
-   */
-  onStorageRowSelected = (rowIndex) => {
-    this.setState({ selectedStorageIndex: rowIndex })
   }
 
   render() {
-    const { plugin: { content: { label, description } } } = this.props
-    const { storageInfo, selectedStorageIndex } = this.state
+    const { parsedStoragePlugin } = this.state
     return (
-      <StoragePluginComponent
-        label={label}
-        description={description}
-        storageInfo={storageInfo}
-        selectedStorageIndex={selectedStorageIndex}
-        onStorageRowSelected={this.onStorageRowSelected}
-      />
+      <StoragePluginComponent storagePlugin={parsedStoragePlugin} />
     )
   }
 }

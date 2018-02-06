@@ -38,7 +38,7 @@ class TagComponent extends React.Component {
         <div style={actionStyle}>
           <IconButton
             title={formatMessage({ id: 'entities.common.properties.tag.search.tooltip' })}
-            onTouchTap={onSearchTag}
+            onClick={onSearchTag}
             style={buttonStyle}
             iconStyle={iconStyle}
           >
@@ -74,7 +74,7 @@ class TagComponent extends React.Component {
             <div style={actionStyle}>
               <IconButton
                 title={formatMessage({ id: 'entities.common.properties.tag.show.description.tooltip' })}
-                onTouchTap={onShowDescription}
+                onClick={onShowDescription}
                 style={buttonStyle}
                 iconStyle={infoIconStyle}
               >

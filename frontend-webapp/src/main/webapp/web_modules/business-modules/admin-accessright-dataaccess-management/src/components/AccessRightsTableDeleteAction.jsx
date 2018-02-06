@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
+import get from 'lodash/get'
 import Reset from 'material-ui/svg-icons/action/highlight-off'
 import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -29,9 +29,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 class AccessRightsTableDeleteAction extends React.Component {
   static propTypes = {
     // from table cell API
-    entity: DataManagementShapes.Dataset.isRequired,
+    entity: DataManagementShapes.DatasetWithAccessRight.isRequired,
     onDelete: PropTypes.func.isRequired,
-    accessRights: DataManagementShapes.AccessRightList,
   }
 
   static contextTypes = {
@@ -43,14 +42,14 @@ class AccessRightsTableDeleteAction extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const accessRight = find(this.props.accessRights, ar => ar.content.dataset.id === this.props.entity.content.id)
+    const accessRight = get(this.props.entity, 'content.accessRight', null)
     return (
       <IconButton
         title={formatMessage({ id: 'accessright.delete.tooltip' })}
         iconStyle={AccessRightsTableDeleteAction.iconStyle}
         style={AccessRightsTableDeleteAction.buttonStyle}
-        onTouchTap={() => this.props.onDelete(accessRight)}
-        disabled={!accessRight || !accessRight.content}
+        onClick={() => this.props.onDelete(accessRight)}
+        disabled={!accessRight}
       >
         <Reset />
       </IconButton>

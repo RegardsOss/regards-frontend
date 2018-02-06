@@ -1,4 +1,4 @@
-#./bin/bash
+#!/usr/bin/env bash
 
 # Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
 #
@@ -74,12 +74,12 @@ for rootFolder in "${buildFolders[@]}"; do
           echo "        -------------------------------------"
           echo ""
           cd plugins/${rootFolder}/${pluginFolder}
-          if [ -d "node_modules/@regardsoss" ]; then
-            rm -rf "node_modules/@regardsoss"
-          fi
+##          if [ -d "node_modules/@regardsoss" ]; then
+##            rm -rf "node_modules/@regardsoss"
+##          fi
           pwd
-          npm prune
-          npm install
+##          npm prune
+##          npm install
           npm run lint
           cd ${home}
       fi

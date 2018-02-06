@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import FormTabsComponent from '../../../src/components/admin/FormTabsComponent'
 import Styles from '../../../src/styles/styles'
-import FormParametersComponent from '../../../src/components/admin/parameters/FormParametersComponent'
+import SearchResultsComponent from '../../../src/components/admin/results/SearchResultsComponent'
 import FormDatasetsConfigurationComponent from '../../../src/components/admin/datasets/FormDatasetsConfigurationComponent'
 import FormLayoutComponent from '../../../src/components/admin/layout/FormLayoutComponent'
 import FormCriterionComponent from '../../../src/components/admin/criterion/FormCriterionComponent'
@@ -44,6 +44,10 @@ describe('[SEARCH FORM] Testing FormTabsComponent', () => {
       project: 'test',
       appName: 'test',
       adminForm: {
+        currentNamespace: 'conf',
+        isCreating: false,
+        isDuplicating: false,
+        isEditing: true,
         changeField: () => { },
         form: {
           id: 1,
@@ -61,23 +65,28 @@ describe('[SEARCH FORM] Testing FormTabsComponent', () => {
         },
       },
       defaultConf: {
-        datasets: {},
+        datasets: {
+          type: 'all',
+        },
         criterion: [],
         layout: {
           id: 'main',
           type: 'letype',
         },
-        enableFacettes: false,
-        resultType: null,
+        searchResult: {
+          displayMode: 'data',
+        },
       },
-      selectableAttributes: {},
+      selectableDataObjectsAttributes: {},
+      selectableDataObjectsAttributesFetching: false,
       disableChangeDatasets: false,
       availableCriterion: {},
       criterionFetching: false,
     }
+
     const wrapper = shallow(<FormTabsComponent {...props} />, options)
 
-    const paramTab = wrapper.find(FormParametersComponent)
+    const paramTab = wrapper.find(SearchResultsComponent)
     const datasetTab = wrapper.find(FormDatasetsConfigurationComponent)
     const layoutTab = wrapper.find(FormLayoutComponent)
     const criterionTab = wrapper.find(FormCriterionComponent)

@@ -77,12 +77,12 @@ class DynamicContentField extends React.Component {
       <FlatButton
         key="cancel"
         label={formatMessage({ id: 'container.form.dynamicContent.modal.cancel' })}
-        onTouchTap={this.handleCancel}
+        onClick={this.handleCancel}
       />,
       <FlatButton
         key="confirm"
         label={formatMessage({ id: 'container.form.dynamicContent.modal.ok' })}
-        onTouchTap={this.handleConfirm}
+        onClick={this.handleConfirm}
       />,
     ]
 

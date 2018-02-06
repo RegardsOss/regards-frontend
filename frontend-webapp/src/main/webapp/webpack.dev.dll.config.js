@@ -53,7 +53,6 @@ const conf = webpackConfigurator
         'react-responsive',
         'react-resizable',
         'react-router',
-        'react-tap-event-plugin',
         'redux',
         'redux-api-middleware',
         'redux-form',
@@ -73,6 +72,8 @@ const conf = webpackConfigurator
         'intl',
         'intl-locales-supported',
         'react-ace',
+        'react-notification-system',
+        'brace',
       ],
     },
     plugins: [

@@ -21,10 +21,11 @@
  * List of plugin types available for configuration in every ingest processing chain
  */
 const generationChainPluginTypes = {
-  SCAN: 'fr.cnes.regards.modules.acquisition.plugins.IAcquisitionScanPlugin',
-  CHECK: 'fr.cnes.regards.modules.acquisition.plugins.ICheckFilePlugin',
-  GENERATE_SIP: 'fr.cnes.regards.modules.acquisition.plugins.IGenerateSIPPlugin',
-  POST_PROCESSING: 'fr.cnes.regards.modules.acquisition.plugins.IPostProcessSipPlugin',
+  VALIDATION: 'fr.cnes.regards.modules.acquisition.plugins.IValidationPlugin',
+  SCAN: 'fr.cnes.regards.modules.acquisition.plugins.IScanPlugin',
+  PRODUCT: 'fr.cnes.regards.modules.acquisition.plugins.IProductPlugin',
+  GENERATE_SIP: 'fr.cnes.regards.modules.acquisition.plugins.ISipGenerationPlugin',
+  POST_PROCESSING: 'fr.cnes.regards.modules.acquisition.plugins.ISipPostProcessingPlugin',
 }
 
 export default generationChainPluginTypes

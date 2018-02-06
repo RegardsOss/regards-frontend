@@ -29,6 +29,7 @@ export const IconButtonWithConfirmDialog = withConfirmDialog(IconButton)
 */
 class DeleteDatedItemSelectionComponent extends React.Component {
   static propTypes = {
+    disabled: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
   }
 
@@ -38,10 +39,11 @@ class DeleteDatedItemSelectionComponent extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { onDelete } = this.props
+    const { disabled, onDelete } = this.props
     return (
       <IconButtonWithConfirmDialog
-        onTouchTap={onDelete}
+        disabled={disabled}
+        onClick={onDelete}
         title={formatMessage({ id: 'order-cart.module.basket.table.delete.selection.tooltip' })}
         dialogTitle={formatMessage({ id: 'order-cart.module.basket.table.delete.selection.confirm.title' })}
         dialogMessage={formatMessage({ id: 'order-cart.module.basket.table.delete.selection.confirm.message' })}

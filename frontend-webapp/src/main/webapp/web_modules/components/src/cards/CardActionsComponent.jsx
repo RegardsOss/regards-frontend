@@ -24,15 +24,15 @@ class CardActionsComponent extends React.Component {
     secondaryButtonClassName: PropTypes.string,
     secondaryButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     secondaryButtonUrl: PropTypes.string,
-    secondaryButtonTouchTap: PropTypes.func,
+    secondaryButtonClick: PropTypes.func,
     isSecondaryButtonDisabled: PropTypes.bool,
     isSecondaryButtonVisible: PropTypes.bool,
     secondaryHateoasDependency: PropTypes.string,
 
     mainButtonClassName: PropTypes.string,
-    mainButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+    mainButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     mainButtonUrl: PropTypes.string,
-    mainButtonTouchTap: PropTypes.func,
+    mainButtonClick: PropTypes.func,
     mainButtonType: PropTypes.string,
     isMainButtonVisible: PropTypes.bool,
     isMainButtonDisabled: PropTypes.bool,
@@ -50,7 +50,7 @@ class CardActionsComponent extends React.Component {
           secondaryButtonClassName={this.props.secondaryButtonClassName}
           secondaryButtonLabel={this.props.secondaryButtonLabel}
           secondaryButtonUrl={this.props.secondaryButtonUrl}
-          secondaryButtonTouchTap={this.props.secondaryButtonTouchTap}
+          secondaryButtonClick={this.props.secondaryButtonClick}
           isSecondaryButtonDisabled={this.props.isSecondaryButtonDisabled}
           isSecondaryButtonVisible={this.props.isSecondaryButtonVisible}
           secondaryHateoasDependency={this.props.secondaryHateoasDependency}
@@ -58,7 +58,7 @@ class CardActionsComponent extends React.Component {
           mainButtonClassName={this.props.mainButtonClassName}
           mainButtonUrl={this.props.mainButtonUrl}
           mainButtonLabel={this.props.mainButtonLabel}
-          mainButtonTouchTap={this.props.mainButtonTouchTap}
+          mainButtonClick={this.props.mainButtonClick}
           mainButtonType={this.props.mainButtonType}
           isMainButtonVisible={this.props.isMainButtonVisible}
           isMainButtonDisabled={this.props.isMainButtonDisabled}

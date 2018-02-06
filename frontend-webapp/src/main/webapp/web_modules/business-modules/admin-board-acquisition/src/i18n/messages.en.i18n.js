@@ -32,8 +32,8 @@ const messages = {
 
   'ingest.board.external.datasources.title': 'Crawling',
   'ingest.board.external.datasources.description': 'This fonctionality allows you to configure data crawling procesus. A data crawing processus correspond with adding datas throught external data sources.',
-  'ingest.board.action.external.datasources.list.tooltip': 'Map data sources to interl models',
-  'ingest.board.action.connection.list.tooltip': 'Configure datasources',
+  'ingest.board.action.external.datasources.list.tooltip': 'Map data sources to internal models',
+  'ingest.board.action.connection.list.tooltip': 'Configure connections to datasources',
   'ingest.board.action.datasource.monitor.tooltip': 'Monitor data crawling',
 
   'data.board.document.title': 'Documents',
@@ -42,8 +42,8 @@ const messages = {
   'data.board.storage.title': 'Storage',
   'data.board.storage.description': 'This section allows you to configure one or multiples data storage locations and also the strategy to define wich location system will use.',
   'data.board.action.storages.tooltip': 'Configure locations',
-  'data.board.action.allocations.tooltip': 'Configure stratgies',
-
+  'data.board.action.allocations.tooltip': 'Configure strategies',
+  'data.board.action.monitoring.tooltip': 'Monitor data storages occupation',
 
 }
 

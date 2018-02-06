@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementShapes } from '@regardsoss/shape'
+import isNaN from 'lodash/isNaN'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -34,16 +34,9 @@ import EnumNumericalComparator from '../model/EnumNumericalComparator'
  * @author Xavier-Alexandre Brochard
  */
 export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContainer {
-
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
-    /**
-     * List of attributes associated to the plugin.
-     * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
-     * Value of each keys are the attribute id (retrieved from the server) associated
-     */
-    attributes: DataManagementShapes.AttributeModelList,
   }
 
   static contextTypes = {
@@ -75,7 +68,9 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
   }
 
   getPluginSearchQuery = (state) => {
-    const { firstField, secondField, operator1, operator2 } = state
+    const {
+      firstField, secondField, operator1, operator2,
+    } = state
     let searchQuery = ''
     if (firstField) {
       searchQuery = this.criteriaToOpenSearchFormat('firstField', firstField, operator1)
@@ -151,7 +146,9 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
   }
 
   render() {
-    const { firstField, secondField, operator1, operator2 } = this.state
+    const {
+      firstField, secondField, operator1, operator2,
+    } = this.state
     const { moduleTheme: { rootStyle, lineStyle } } = this.context
     return (
       <div style={rootStyle}>
@@ -172,7 +169,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
             onChange={this.changeValue2}
             fixedComparator={false}
           />
-          <ClearFieldButton onTouchTap={this.handleClear} displayed={!!(firstField || secondField)} />
+          <ClearFieldButton onClick={this.handleClear} displayed={!!(firstField || secondField)} />
         </div>
       </div>
     )

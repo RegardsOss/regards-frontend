@@ -73,6 +73,10 @@ class AdminContainer extends React.Component {
       // Project name
       project: PropTypes.string,
       adminForm: PropTypes.shape({
+        currentNamespace: PropTypes.string,
+        isCreating: PropTypes.bool,
+        isDuplicating: PropTypes.bool,
+        isEditing: PropTypes.bool,
         // ReduxForm function to dynamicaly change a field value
         changeField: PropTypes.func,
         // Current module configuration. Values from the redux-form
@@ -81,11 +85,8 @@ class AdminContainer extends React.Component {
           active : PropTypes.bool,
           // Application name "user" or "portal"
           applicationId: PropTypes.string,
-          // Current form values
-          conf: PropTypes.shape({
-            myParameter: PropTypes.string,
-            myParameter2: PropTypes.bool,
-          }),
+          // Current form values - use currentNamespace when you want to access to your data
+          conf: PropTypes.any,
           // Layout container where the module is displayed in the application
           container : PropTypes.string,
           // Is the module a dynamic one ?
@@ -97,6 +98,9 @@ class AdminContainer extends React.Component {
           // Module type
           type : PropTypes.string,
         }),
+        conf: PropTypes.shape({
+          anotherParameter: PropTypes.string,
+        }),
       }),
   }
 
@@ -104,19 +108,25 @@ class AdminContainer extends React.Component {
     ...i18nContextType,
   }
 
+  constructor (props) {
+    super(props)
+    this.CONF_MY_PARAMETER = `${props.namespace}.myParameter`
+    this.CONF_MY_PARAMETER2 = `${props.namespace}.myParameter2`
+  }
+
   render() {
     const { intl } = this.context
     return (
       <div>
         <Field
-          name="conf.myParameter"
+          name={this.CONF_MY_PARAMETER}
           fullWidth
           component={RenderTextField}
           type="text"
           label={intl.formatMessage({ id: 'admin.example.my.parameter.label' })}
         />
         <Field
-          name="conf.myParameter2"
+          name={this.CONF_MY_PARAMETER2}
           component={RenderCheckbox}
           label={intl.formatMessage({ id: 'admin.example.my.parameter2.label' })}
         />

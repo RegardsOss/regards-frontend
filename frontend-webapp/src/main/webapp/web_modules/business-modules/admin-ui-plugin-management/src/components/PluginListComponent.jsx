@@ -126,7 +126,7 @@ class PluginListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => this.props.onEdit(plugin.content)}
+                      onClick={() => this.props.onEdit(plugin.content)}
                       title={this.context.intl.formatMessage({ id: 'plugin.form.edit' })}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
@@ -134,7 +134,7 @@ class PluginListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => this.openDeleteDialog(plugin.content)}
+                      onClick={() => this.openDeleteDialog(plugin.content)}
                       title={this.context.intl.formatMessage({ id: 'plugin.form.delete' })}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
@@ -147,7 +147,7 @@ class PluginListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={this.props.onCreate}
+            mainButtonClick={this.props.onCreate}
             mainButtonLabel={
               <FormattedMessage
                 id="plugins.list.action.add"

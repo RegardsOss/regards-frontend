@@ -16,16 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
 import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import { connectionTableActions, connectionTableSelectors } from '../clients/ConnectionTableClient'
 import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../clients/ConnectionTableAttributesClient'
 import DatasourceFormMappingEmptyDatabaseComponent from '../components/DatasourceFormMappingEmptyDatabaseComponent'
 import messages from '../i18n'
+
+const { findParam, hasParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
+
 
 /**
  * Show the datasource form
@@ -57,21 +62,22 @@ export class DatasourceFormMappingContainer extends React.Component {
     fetchModelAttributeList: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
+
   componentDidMount() {
     const { isEditing, currentDatasource } = this.props
+    const pluginConfConnectionId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'pluginConfiguration.id')
+    const modelId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.model')
     const tasks = [
-      this.props.fetchTable(currentDatasource.content.pluginConfigurationConnectionId),
-      this.props.fetchModelAttributeList(currentDatasource.content.mapping.model),
+      this.props.fetchTable(pluginConfConnectionId),
+      this.props.fetchModelAttributeList(modelId),
     ]
     // If we edit a datasource and that datasource has a tableName, fetch the list of attributes from that table
-    if (isEditing && currentDatasource.content.tableName) {
-      tasks.push(this.props.fetchTableAttributes(currentDatasource.content.pluginConfigurationConnectionId, currentDatasource.content.tableName))
+    if (isEditing && hasParam(currentDatasource, IDBDatasourceParamsEnum.TABLE)) {
+      const tableName = get(findParam(currentDatasource, IDBDatasourceParamsEnum.TABLE), 'value')
+      tasks.push(this.props.fetchTableAttributes(pluginConfConnectionId, tableName))
     }
     Promise.all(tasks)
       .then(() => {
@@ -103,14 +109,16 @@ export class DatasourceFormMappingContainer extends React.Component {
     const { currentDatasource } = this.props
     // Do not fetch table attributes if table is empty
     if (tableName.length > 0) {
+      const pluginConfConnectionId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'pluginConfiguration.id')
+
       this.props.flushTableAttributes()
-      this.props.fetchTableAttributes(currentDatasource.content.pluginConfigurationConnectionId, tableName)
+      this.props.fetchTableAttributes(pluginConfConnectionId, tableName)
     }
   }
 
   isSingleTable = () => {
     const { currentPluginMetaData } = this.props
-    return currentPluginMetaData.content.interfaceNames.includes('fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourceFromSingleTablePlugin')
+    return currentPluginMetaData.content.interfaceNames.includes('fr.cnes.regards.modules.datasources.plugins.interfaces.IDBDataSourceFromSingleTablePlugin')
   }
 
   render() {

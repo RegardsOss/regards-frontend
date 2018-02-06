@@ -17,18 +17,21 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { reduxForm } from 'redux-form'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, RenderSelectField, Field, FieldArray, ValidationHelpers, RenderArrayTextField } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
+import { IDBDatasourceParamsUtils, DATASOURCE_REFRESH_RATE } from '@regardsoss/domain/dam'
 import SelectField from 'material-ui/SelectField'
-import { DATASOURCE_REFRESH_RATE } from '@regardsoss/domain/dam'
 import DatasourceStepperComponent from './DatasourceStepperComponent'
+
+const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
 
 const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(128)]
 
@@ -81,11 +84,16 @@ export class DatasourceFormAttributesComponent extends React.Component {
   handleInitialize = () => {
     if (!this.state.isCreating) {
       const { currentDatasource } = this.props
+      const refreshRate = get(findParam(currentDatasource, IDBDatasourceParamsEnum.REFRESH_RATE), 'value')
+      const modelId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.model')
+      const tags = get(findParam(currentDatasource, IDBDatasourceParamsEnum.TAGS), 'value', [])
+
       const initialValues = {
         label: currentDatasource.content.label,
-        model: currentDatasource.content.mapping.model,
+        model: modelId,
         pluginClassName: currentDatasource.content.pluginClassName,
-        refreshRate: currentDatasource.content.refreshRate,
+        refreshRate,
+        tags,
       }
       this.props.initialize(initialValues)
     } else {
@@ -171,6 +179,11 @@ export class DatasourceFormAttributesComponent extends React.Component {
                 />
               ))}
             </Field>
+            <FieldArray
+              name="tags"
+              component={RenderArrayTextField}
+              fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.tags' })}
+            />
           </CardText>
           <CardActions>
             <CardActionsComponent

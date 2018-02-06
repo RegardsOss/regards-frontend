@@ -19,6 +19,7 @@
 
 const messages = {
   'image.file.not.displayed': 'Image can not be displayed',
+  'file.displayer.no.preview.message': 'No preview available',
 }
 
 export default messages

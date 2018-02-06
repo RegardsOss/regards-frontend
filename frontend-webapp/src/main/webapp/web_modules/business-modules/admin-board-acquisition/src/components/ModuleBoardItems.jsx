@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Build from 'material-ui/svg-icons/action/build'
+import PieChart from 'material-ui/svg-icons/editor/pie-chart'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
@@ -24,12 +25,15 @@ import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
 import CallSplit from 'mdi-material-ui/CallSplit'
 
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
 import { documentDependencies } from '@regardsoss/admin-data-document-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
 import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
-import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
+import { StorageClient } from '@regardsoss/client'
+
+const storageDependencies = [new StorageClient.StoragePluginsActions().getDependency(RequestVerbEnum.GET_LIST)]
 
 /**
  * BoardItems configuration for ingest module
@@ -71,7 +75,8 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/dataprovider/chain/list`,
         icon: <Build />,
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.chain.list.tooltip' }),
-        hateoasDependencies: dataProviderDependencies.listDependencies,
+        // TODO : Set hateoas dependencies
+        // hateoasDependencies: dataProviderDependencies.listDependencies,
       },
     ],
   },
@@ -81,16 +86,16 @@ const items = (projectName, intl) => [
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/datasource/list`,
-        icon: <Build />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.external.datasources.list.tooltip' }),
-        hateoasDependencies: datasourceDependencies.listDependencies,
-      },
-      {
         path: `/admin/${projectName}/data/acquisition/connection/list`,
         icon: <Database />,
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.connection.list.tooltip' }),
         hateoasDependencies: connectionDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/datasource/list`,
+        icon: <Build />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.external.datasources.list.tooltip' }),
+        hateoasDependencies: datasourceDependencies.listDependencies,
       },
       {
         path: `/admin/${projectName}/data/acquisition/datasource/monitor`,
@@ -135,6 +140,12 @@ const items = (projectName, intl) => [
         icon: <CallSplit />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.allocations.tooltip' }),
         hateoasDependencies: documentDependencies.addDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
+        icon: <PieChart />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
+        hateoasDependencies: storageDependencies,
       },
     ],
   },

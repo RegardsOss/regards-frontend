@@ -33,19 +33,38 @@ class AdminContainer extends React.Component {
   static validateOptionalEmail = value => value && ValidationHelpers.email(value)
   static validateOptionalUrl = value => value && ValidationHelpers.url(value)
 
+  static propTypes = {
+    // Form parameters
+    adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
+    }).isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+    this.CONF_TITLE = `${props.adminForm.currentNamespace}.title`
+    this.CONF_CONTACTS = `${props.adminForm.currentNamespace}.contacts`
+    this.CONF_ABOUT_PAGE = `${props.adminForm.currentNamespace}.projectAboutPage`
+    this.CONF_AUTH = `${props.adminForm.currentNamespace}.displayAuthentication`
+    this.CONF_NOTIF = `${props.adminForm.currentNamespace}.displayNotificationsSelector`
+    this.CONF_LOCALE = `${props.adminForm.currentNamespace}.displayLocaleSelector`
+    this.CONF_THEME = `${props.adminForm.currentNamespace}.displayThemeSelector`
+  }
+
+
   render() {
     const { intl, moduleTheme: { admin } } = this.context
     return (
       <div style={admin.rootStyle}>
         <Field
-          name="conf.title"
+          name={this.CONF_TITLE}
           fullWidth
           component={RenderTextField}
           type="text"
           label={intl.formatMessage({ id: 'menu.form.title' })}
         />
         <Field
-          name="conf.contacts"
+          name={this.CONF_CONTACTS}
           fullWidth
           component={RenderTextField}
           type="text"
@@ -53,29 +72,34 @@ class AdminContainer extends React.Component {
           validate={AdminContainer.validateOptionalEmail}
         />
         <Field
-          name="conf.projectAboutPage"
+          name={this.CONF_ABOUT_PAGE}
           fullWidth
           component={RenderTextField}
           label={intl.formatMessage({ id: 'menu.form.projectpage' })}
           validate={AdminContainer.validateOptionalUrl}
         />
         <Field
-          name="conf.displayAuthentication"
+          name={this.CONF_AUTH}
           component={RenderCheckbox}
           label={intl.formatMessage({ id: 'menu.form.displayauthentication' })}
         />
         <Field
-          name="conf.displayCartSelector"
+          name={this.CONF_CART}
           component={RenderCheckbox}
           label={intl.formatMessage({ id: 'menu.form.displaycart' })}
         />
         <Field
-          name="conf.displayLocaleSelector"
+          name={this.CONF_NOTIF}
+          component={RenderCheckbox}
+          label={intl.formatMessage({ id: 'menu.form.displaynotifications' })}
+        />
+        <Field
+          name={this.CONF_LOCALE}
           component={RenderCheckbox}
           label={intl.formatMessage({ id: 'menu.form.displaylocale' })}
         />
         <Field
-          name="conf.displayThemeSelector"
+          name={this.CONF_THEME}
           component={RenderCheckbox}
           label={intl.formatMessage({ id: 'menu.form.displaytheme' })}
         />

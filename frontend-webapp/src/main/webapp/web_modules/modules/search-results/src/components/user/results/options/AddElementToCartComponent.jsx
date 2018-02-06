@@ -26,6 +26,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class AddElementToCartComponent extends React.Component {
   static propTypes = {
+    canAddToCart: PropTypes.bool.isRequired,
     onAddToCart: PropTypes.func,
     // other properties are reported to the button
   }
@@ -35,12 +36,13 @@ class AddElementToCartComponent extends React.Component {
   }
 
   render() {
-    const { onAddToCart, ...otherProperties } = this.props
+    const { onAddToCart, canAddToCart, ...otherProperties } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
         title={formatMessage({ id: 'add.to.cart.tooltip' })}
-        onTouchTap={onAddToCart}
+        onClick={onAddToCart}
+        disabled={!canAddToCart}
         {...otherProperties}
       >
         <AddIcon />

@@ -18,13 +18,13 @@
  **/
 import React from 'react'
 import replace from 'lodash/replace'
-import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 
 export class SampleCriteria extends PluginCriterionContainer {
-
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
@@ -34,6 +34,11 @@ export class SampleCriteria extends PluginCriterionContainer {
      * Value of each keys are the attribute id (retrieved from the server) associated
      */
     attributes: DataManagementShapes.AttributeModelList,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   /**
@@ -81,7 +86,7 @@ export class SampleCriteria extends PluginCriterionContainer {
    */
   render() {
     const attributeLabel = this.getAttributeLabel('searchField')
-    const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
 
     return (
       <div style={rootStyle} >
@@ -90,7 +95,7 @@ export class SampleCriteria extends PluginCriterionContainer {
         </span>
         <TextField
           id="search"
-          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
+          floatingLabelText={formatMessage({ id: 'criterion.search.field.label' })}
           value={this.state.value}
           onChange={(event, value) => {
             this.changeValue(value)

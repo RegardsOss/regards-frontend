@@ -17,14 +17,24 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { shallow } from 'enzyme'
+import root from 'window-or-global'
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AuthenticationDialogComponent from '../../src/components/AuthenticationDialogComponent'
 import { SessionManagementContainer } from '../../src/containers/SessionManagementContainer'
 
 describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
+  before(() => {
+    testSuiteHelpers.before()
+    root.window = {
+      addEventListener: () => { },
+      removeEventListener: () => { },
+    }
+  })
+  after(() => {
+    testSuiteHelpers.after()
+    delete root.window
+  })
 
   it('should exists', () => {
     assert.isDefined(SessionManagementContainer)

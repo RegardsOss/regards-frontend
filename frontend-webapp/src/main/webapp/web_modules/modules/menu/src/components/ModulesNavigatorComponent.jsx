@@ -51,7 +51,7 @@ class ModulesNavigatorComponent extends React.Component {
           icon={<MenuIcon />}
           label={formatMessage({ id: 'menu.modules.list.button.label' })}
           title={formatMessage({ id: 'menu.modules.list.button.tooltip' })}
-          onTouchTap={onToggleMenu}
+          onClick={onToggleMenu}
           labelStyle={optionsLabelStyle}
         />
         <ModuleListContainer

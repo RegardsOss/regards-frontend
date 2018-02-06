@@ -11,19 +11,20 @@ const growingVerticalLayout = { ...growingFlexElement, ...verticalLayout }
  * Builds module style on theme
  */
 export default theme => ({
+  fullHeight: { height: '100%' },
   descriptionDialog: {
     widthPercent: 88,
     heightPercent: 68,
     body: { padding: '0', overflowY: 'none' },
     card: {
       style: {
-        height: '100%',
-        boxShadow: 'none',
-        borderWidth: '0 0 1px 0',
-        borderColor: theme.toolbar.separatorColor,
-        borderStyle: 'solid',
+        ...growingFlexElement,
+        ...verticalLayout,
       },
-      containerStyle: { height: '100%', ...verticalLayout },
+      containerStyle: {
+        ...growingFlexElement,
+        ...verticalLayout,
+      },
       titleStyle: fixedFlexElement,
       media: {
         rootStyle: growingVerticalLayout,
@@ -45,6 +46,26 @@ export default theme => ({
             descriptionTab: {
               rootStyle: growingFlexElement,
             },
+            quicklook: {
+              imageContainerZoomOut: {
+                display: 'flex',
+                justifyContent: 'center',
+                maxHeight: '100%',
+                cursor: 'zoom-in',
+              },
+              imageContainerZoomIn: {
+                cursor: 'zoom-out',
+                overflow: 'auto',
+              },
+              imageZoomOut: {
+                maxHeight: '100%',
+                objectFit: 'contain',
+              },
+              imageZoomIn: {
+                display: 'block',
+                margin: 'auto',
+              },
+            },
             propertiesTab: {
               rootStyle: {
                 display: 'flex', flexDirection: 'row', alignItems: 'stretch', ...growingFlexElement,
@@ -57,11 +78,32 @@ export default theme => ({
                 attributesContainer: {
                   rootStyle: { display: 'table', padding: '0 15px 0 20px' },
                   rowStyle: { display: 'table-row' },
-                  labelStyle: { display: 'table-cell', padding: '0 20px 0.4em 0', textDecoration: 'underline' },
+                  labelStyle: {
+                    display: 'table-cell',
+                    padding: '0 20px 0.4em 0',
+                    textDecoration: 'underline',
+                  },
                   valueStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
                 },
               },
               tags: {
+                rootStyle: {
+                  display: 'flex',
+                  flexDirection: 'column',
+                },
+                tagsRootStyle: {
+                  flexGrow: 1,
+                  height: '100%',
+                },
+                documentsRootStyle: {
+                  flexGrow: 1,
+                  height: '100%',
+                },
+                horizontalAreaSeparator: {
+                  flexGrow: 0,
+                  minHeight: 1,
+                  backgroundColor: theme.toolbar.separatorColor,
+                },
                 scrollArea: {
                   ...fixedFlexElement,
                 },
@@ -71,7 +113,7 @@ export default theme => ({
                   borderStyle: 'solid',
                   minHeight: '100%',
                 },
-                rootStyle: {
+                sectionStyle: {
                   ...verticalLayout,
                   padding: '0 12px 0 12px',
                 },
@@ -84,7 +126,12 @@ export default theme => ({
                     height: '24px', width: '24px', color: theme.palette.accent2Color, opacity: 0.7,
                   },
                   buttonStyle: { height: '24px', width: '24px', padding: 0 },
-                  labelStyle: { display: 'table-cell', padding: '0 20px 0.4em 10px' },
+                  labelStyle: {
+                    display: 'table-cell',
+                    padding: '0 20px 0.4em 10px',
+                    maxWidth: '350px',
+                    overflowWrap: 'break-word',
+                  },
                   actionStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
                 },
               },
@@ -110,8 +157,15 @@ export default theme => ({
       padding: '0',
     },
     contentStyles: {
-      width: '100%',
-      height: '100%',
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+    parameterPresentation: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    parameterDescriptionIcon: {
+      marginTop: '12px',
     },
   },
 })

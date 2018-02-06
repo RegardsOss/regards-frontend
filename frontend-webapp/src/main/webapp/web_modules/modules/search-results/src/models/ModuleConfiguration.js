@@ -18,13 +18,13 @@
  **/
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { DISPLAY_MODE_VALUES } from '../definitions/DisplayModeEnum'
+import DisplayModuleConf from './DisplayModuleConf'
+
 /**
  * Form entity description
  * @author Sébastien binda
  */
 const Form = PropTypes.shape({
-  // Default Target of results
-  resultType: PropTypes.string,
   // Search form attributes configuration
   attributes: AccessShapes.AttributeConfigurationArray,
   // Search form attributes regroupements configuration
@@ -36,8 +36,6 @@ const Form = PropTypes.shape({
   // Special configuration given if the module is not load as a independent module
   selectableAttributes: DataManagementShapes.AttributeModelList,
 
-  // Initial single dataset ipId
-  singleDatasetIpId: PropTypes.string,
   // Initial search query
   searchQuery: PropTypes.string,
   // Fixed breadcrumb depending on search current context.
@@ -48,8 +46,7 @@ const Form = PropTypes.shape({
   // Display mode
   displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
 
-  // For modules that only displays DataObjects (never Dataset or Documents) - used by AdminForm
-  onlyAllowDataConfiguration: PropTypes.bool,
+  displayConf: DisplayModuleConf,
 })
 
 export default Form

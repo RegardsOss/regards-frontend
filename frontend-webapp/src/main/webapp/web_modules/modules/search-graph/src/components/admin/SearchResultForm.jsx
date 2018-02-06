@@ -2,7 +2,6 @@
 * LICENSE_PLACEHOLDER
 **/
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
-import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
 
 /**
@@ -13,6 +12,10 @@ class SearchResultFormComponent extends React.Component {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
@@ -26,9 +29,13 @@ class SearchResultFormComponent extends React.Component {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: this.props.appName,
+    }
+    const adminFormForSearchResult = {
+      ...adminForm,
+      currentNamespace: `${adminForm.currentNamespace}.searchResult`,
       conf: {
-        resultType: ENTITY_TYPES_ENUM.DATA,
-        onlyAllowDataConfiguration: true,
+        displayMode: 'data',
+        preventAdminToPickDocumentView: true,
       },
     }
 
@@ -38,7 +45,7 @@ class SearchResultFormComponent extends React.Component {
         appName={appName}
         module={module}
         admin
-        adminForm={adminForm}
+        adminForm={adminFormForSearchResult}
       />
     )
   }

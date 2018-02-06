@@ -41,6 +41,18 @@ export const sipListRoute = {
   },
 }
 
+export const sipHistoryListRoute = {
+  path: ':session/:sip/history',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/SIPListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 export const sipSumitionRoute = {
   path: 'submition',
   getComponents(nextState, cb) {
@@ -70,6 +82,7 @@ const sipManagementRouter = {
   childRoutes: [
     sipSessionRoute,
     sipListRoute,
+    sipHistoryListRoute,
     sipSumitionRoute,
     sipSumitionSummaryRoute,
   ],

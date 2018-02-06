@@ -161,6 +161,7 @@ class DocumentListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
+              minRowCount={0}
             />
           </TableLayout>
 

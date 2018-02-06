@@ -22,15 +22,15 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * Actions to find an entity by its IP ID (unlike search entities, it will always provide a single entity as result)
  */
 export default class SearchEntityActions extends BasicSignalActions {
-  constructor(namespace) {
+  constructor(namespace, bypassErrorMiddleware = false) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/entities/{ipId}`,
-      bypassErrorMiddleware: false,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/search/entities/{urn}`,
+      bypassErrorMiddleware,
     })
   }
 
-  getEntity(ipId) {
-    return this.sendSignal('GET', null, { ipId })
+  getEntity(urn) {
+    return this.sendSignal('GET', null, { urn })
   }
 }

@@ -91,11 +91,17 @@ export class DeleteOrderContainer extends React.Component {
 
   /** States in which the order can be superficially deleted */
   static SUPERFICIALLY_DELETABLE_STATES = [
+    OrderDomain.ORDER_STATUS_ENUM.PENDING,
     OrderDomain.ORDER_STATUS_ENUM.PAUSED,
+  ]
+
+  /** States that can be completely deleted */
+  static COMPLETELY_DELETABLE_STATES = [
     OrderDomain.ORDER_STATUS_ENUM.EXPIRED,
     OrderDomain.ORDER_STATUS_ENUM.FAILED,
     OrderDomain.ORDER_STATUS_ENUM.DONE_WITH_WARNING,
     OrderDomain.ORDER_STATUS_ENUM.DONE,
+    OrderDomain.ORDER_STATUS_ENUM.DELETED,
   ]
 
   static DEFAULT_STATE = { isFetching: false }
@@ -157,7 +163,7 @@ export class DeleteOrderContainer extends React.Component {
    */
   canDeleteCompletely = () => {
     const { entity: { content: { status } }, hasDeleteCompletely } = this.props
-    return status === OrderDomain.ORDER_STATUS_ENUM.DELETED && hasDeleteCompletely
+    return DeleteOrderContainer.COMPLETELY_DELETABLE_STATES.includes(status) && hasDeleteCompletely
   }
 
   /**

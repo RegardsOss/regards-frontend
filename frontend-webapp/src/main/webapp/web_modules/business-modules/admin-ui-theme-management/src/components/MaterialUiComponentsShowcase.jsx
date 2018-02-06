@@ -78,13 +78,13 @@ class ThemesPage extends React.Component {
         key="Cancel"
         label="Cancel"
         keyboardFocused
-        onTouchTap={this.handleRequestCloseDialog}
+        onClick={this.handleRequestCloseDialog}
         primary
       />,
       <FlatButton
         key="Submit"
         label="Submit"
-        onTouchTap={this.handleRequestCloseDialog}
+        onClick={this.handleRequestCloseDialog}
         primary
       />,
     ]
@@ -223,14 +223,14 @@ class ThemesPage extends React.Component {
               Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
             </CardText>
             <CardActions>
-              <FlatButton label="Expand" onTouchTap={this.handleExpand} />
-              <FlatButton label="Reduce" onTouchTap={this.handleReduce} />
+              <FlatButton label="Expand" onClick={this.handleExpand} />
+              <FlatButton label="Reduce" onClick={this.handleReduce} />
             </CardActions>
           </Card>
         </div>
         <div style={styles.showcase.group}>
           <div style={styles.showcase.containerCentered}>
-            <FlatButton label="View Dialog" onTouchTap={this.handleTouchTapDialog} />
+            <FlatButton label="View Dialog" onClick={this.handleTouchTapDialog} />
             <Dialog
               open={this.state.dialogOpen}
               title="Dialog With Standard Actions"
@@ -245,7 +245,7 @@ class ThemesPage extends React.Component {
         <div style={styles.showcase.group}>
           <div style={styles.showcase.containerCentered}>
             <FlatButton
-              onTouchTap={this.handleTouchTapSnackbar}
+              onClick={this.handleTouchTapSnackbar}
               label="Snackbar"
             />
           </div>
@@ -254,7 +254,7 @@ class ThemesPage extends React.Component {
             onRequestClose={this.handleRequestCloseSnackbar}
             message="This is a snackbar"
             action="Got It!"
-            onActionTouchTap={this.handleRequestCloseSnackbar}
+            onActionClick={this.handleRequestCloseSnackbar}
           />
         </div>
       </ClearFix>

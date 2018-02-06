@@ -105,7 +105,7 @@ class CheckboxColumnHeaderCell extends React.Component {
           style={styles}
           title={formatMessage({ id: tooltipKey })}
           iconStyle={iconStyle}
-          onTouchTap={this.onToggleSelectAll}
+          onClick={this.onToggleSelectAll}
         >
           <Icon />
         </IconButton> : null

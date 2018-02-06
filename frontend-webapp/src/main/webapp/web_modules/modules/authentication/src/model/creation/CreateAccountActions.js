@@ -18,12 +18,14 @@
  **/
 import AccountCreationActions from './AccountCreationActions'
 
+const CreateAccountActions = new AccountCreationActions('createAccount')
+
 module.exports = {
   /**
    * Actions to create a REGARDS account (linked with the global instance)
    * @type {CreateAccountActions}
    */
-  CreateAccountActions: new AccountCreationActions('createAccount'),
+  CreateAccountActions,
   /**
    * Sends create account request
    * @param email account mail

@@ -91,7 +91,7 @@ class ModuleContainer extends React.Component {
     let q = this.getInitialQuery()
 
     if (query && query.q) {
-      q = query.q
+      ({ q } = query)
     }
 
     q = q && q.length > 0 ? q : this.createSearchQueryFromCriterion()
@@ -119,7 +119,6 @@ class ModuleContainer extends React.Component {
         searchQuery: query.q,
         expanded: true,
         hasSearched: false,
-        resetCriterion: true,
       })
       this.criterionValues = {}
     } else if (!query.q && this.state.searchQuery !== this.getInitialQuery()) {
@@ -311,6 +310,7 @@ class ModuleContainer extends React.Component {
       const pluginsProps = {
         onChange: this.onCriteriaChange,
         initialValues: this.getInitialValues(),
+        initialQuery: this.getInitialQuery(),
       }
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (
@@ -339,27 +339,15 @@ class ModuleContainer extends React.Component {
     }
     const { intl: { formatMessage } } = this.context
 
-    // is single dataset?
-    const { type, selectedDatasets } = this.props.moduleConf.datasets || {}
-    const singleDatasetIpId = (type === DatasetSelectionType.DATASET_TYPE && null && selectedDatasets && selectedDatasets.length === 1 &&
-      selectedDatasets[0]) || null
-
     const module = {
       type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
       active: true,
       applicationId: this.props.appName,
       description: this.props.description,
       conf: {
-        resultType: this.props.moduleConf.resultType,
-        attributes: this.props.moduleConf.attributes,
-        attributesRegroupements: this.props.moduleConf.attributesRegroupements,
-        datasetAttributes: this.props.moduleConf.datasetAttributes,
-        selectableAttributes: this.props.attributeModels,
-        enableFacettes: this.props.moduleConf.enableFacettes,
-        displayDatasets: this.props.moduleConf.displayDatasets,
+        ...this.props.moduleConf.searchResult,
         searchQuery: this.state.searchQuery,
         breadcrumbInitialContextLabel: formatMessage({ id: 'results.module.title' }),
-        singleDatasetIpId,
       },
     }
 

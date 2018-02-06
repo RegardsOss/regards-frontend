@@ -116,10 +116,13 @@ export class CartSelectorContainer extends React.Component {
       newState.cartModuleId = this.getCartModuleId(newProps)
     }
 
-    // 2 - When a new module ID is found, fetch initial cart content then update state
+    // 2 - When a new module ID is found:
     if (!isEqual(oldState, newState)) {
-      newProps.dispatchGetBasket()
-      // we ignore the fetching time here, might be handled in next versions...
+      // A - fetch cart content if the module could be found
+      if (newState.cartModuleId) {
+        newProps.dispatchGetBasket()
+      }
+      // B - update state locally to hold module ID
       this.setState(newState)
     }
   }

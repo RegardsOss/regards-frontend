@@ -23,6 +23,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { RenderMapField } from '@regardsoss/form-utils'
 import { getPrimitiveJavaTypeRenderParameters } from './JavaPrimitiveTypesTool'
 import RenderObjectParameterField from './RenderObjectParameterField'
+import PluginFormUtils from '../tools/PluginFormUtils'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -30,16 +31,19 @@ import messages from '../i18n'
 * Render a plugin parameter form for a MAP parameter.
 * @author Sébastien Binda
 */
-export class RenderMapParameterField extends React.Component {
+export class RenderMapParameterField extends React.PureComponent {
   static propTypes = {
-    microserviceName: PropTypes.string.isRequired,
-    pluginParameterType: CommonShapes.PluginParameterType.isRequired,
+    microserviceName: PropTypes.string.isRequired, // microservice name of the plugin
+    pluginParameterType: CommonShapes.PluginParameterType.isRequired, // Parameter definition to configure
+    disabled: PropTypes.bool, // Disable all fields
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    disabled: false,
+  }
 
   static contextTypes = {
     ...themeContextType,
@@ -63,8 +67,9 @@ export class RenderMapParameterField extends React.Component {
    */
   initialize = () => {
     const {
-      pluginParameterType, microserviceName,
+      pluginParameterType, microserviceName, disabled,
     } = this.props
+    const { intl: { formatMessage } } = this.context
 
     // There should be two parameterized subtypes
     if (!pluginParameterType.parameterizedSubTypes || pluginParameterType.parameterizedSubTypes.length !== 2) {
@@ -81,6 +86,8 @@ export class RenderMapParameterField extends React.Component {
         fieldProps: {
           // Props of the component renderer
           type: primitiveParameters.type,
+          floatingLabelText: formatMessage({ id: 'plugin.parameter.map.new.value.label' }, { value: pluginParameterType.label }),
+          disabled,
         },
         // Component renderer (exemple : RenderTextField)
         component: primitiveParameters.component,
@@ -93,6 +100,7 @@ export class RenderMapParameterField extends React.Component {
           microserviceName,
           pluginParameterType,
           complexParameter: false,
+          disabled,
         },
         component: RenderObjectParameterField,
         defaultValue: {},
@@ -101,19 +109,31 @@ export class RenderMapParameterField extends React.Component {
   }
 
   render() {
-    const { fieldProps, component, defaultValue } = this.state
-    const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
-    const { input, meta } = this.props
+    const {
+      fieldProps, component, defaultValue,
+    } = this.state
+    const { moduleTheme: { renderer: { fullWidthStyle } }, intl: { formatMessage } } = this.context
+    const {
+      input, meta, disabled, pluginParameterType,
+    } = this.props
     if (component === null) {
       return null
     }
+
+    const newValueDialogLabel = pluginParameterType.keyLabel ?
+      formatMessage({ id: 'plugin.parameter.map.new.key.dialog.title' }, { key: pluginParameterType.keyLabel }) :
+      null
     return (
-      <div style={fullWidthStyle}>
+      <div style={fullWidthStyle} >
         <RenderMapField
-          component={RenderMapField}
           mapValueFieldComponent={component}
           mapValueFieldProps={fieldProps}
+          charsToReplaceDotsInKeys={PluginFormUtils.DOT_CHAR_REPLACEMENT}
           defaultValue={defaultValue}
+          newValueDialogLabel={newValueDialogLabel}
+          mapKeyLabel={pluginParameterType.keyLabel}
+          mapLabel={pluginParameterType.label}
+          disabled={disabled}
           input={input}
           meta={meta}
         />

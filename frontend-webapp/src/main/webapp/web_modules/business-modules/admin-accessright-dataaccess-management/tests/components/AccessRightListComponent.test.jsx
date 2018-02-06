@@ -21,10 +21,11 @@ import { assert } from 'chai'
 import { spy } from 'sinon'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { ConfirmDialogComponent, PageableInfiniteTableContainer } from '@regardsoss/components'
-import AccessRightListComponent from '../../src/components/AccessRightListComponent'
+import { AccessRightListComponent } from '../../src/components/AccessRightListComponent'
 import AccessRightFormComponent from '../../src/components/AccessRightFormComponent'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 /**
  * Tests for component AccessRightListComponent
@@ -42,13 +43,15 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
   it('Render properly', () => {
     const props = {
       accessGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
-      accessRights: DumpProvider.get('DataManagementClient', 'AccessRight'),
-      selectedDatasets: {},
+      selectedDatasetsWithAccessright: {},
       pluginConfigurationList: {},
       pluginMetaDataList: {},
       deleteAccessRight: () => { },
       submitAccessRights: () => { },
       navigateToCreateDataset: spy(),
+      backURL: '#test',
+      setFilters: () => { },
+      onRefresh: () => { },
     }
 
     const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context, lifecycleExperimental: true })

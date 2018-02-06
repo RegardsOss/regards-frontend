@@ -33,14 +33,14 @@ function UserDialog(props) {
       key="projects.cancel.button"
       label={this.context.intl.formatMessage({ id: 'projects.cancel.button' })}
       primary
-      onTouchTap={props.onClose}
+      onClick={props.onClose}
     />,
     <FlatButton
       key="projects.submit.button"
       label={this.context.intl.formatMessage({ id: 'projects.submit.button' })}
       primary
       keyboardFocused
-      onTouchTap={props.onSave}
+      onClick={props.onSave}
     />,
   ]
 

@@ -56,6 +56,7 @@ const messages = Object.assign({
   'datasource.form.pluginConfiguration': 'Type de plugin',
   'datasource.form.table.input': 'Valeur de l\'attribut',
   'datasource.form.subtitle': 'Gestion des attributs d\'une source de données',
+  'datasource.form.tags': 'Liste des tags',
 
   'datasource.edit.title': 'Edition de la source de données {name}',
   'datasource.create.title': 'Création d\'une source de données',

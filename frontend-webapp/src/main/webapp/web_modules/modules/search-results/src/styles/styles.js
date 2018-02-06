@@ -64,13 +64,15 @@ const styles = theme => ({
         },
         labelStyles: {
           fontSize: '1.3em',
-          textTransform: 'none',
-          paddingLeft: 8,
-          paddingRight: 10,
+          padding: '8px 8px',
           color: theme.palette.textColor,
         },
-        optionsBarStyles: {
+        optionsBarHorizontalStyles: {
           display: 'flex',
+        },
+        optionsBarVerticalStyles: {
+          display: 'flex',
+          flexDirection: 'column',
         },
         option: {
           buttonStyles: {
@@ -126,6 +128,11 @@ const styles = theme => ({
         width: '110px',
         display: 'block',
         padding: '5px 0px 10px 10px',
+      },
+    },
+    galleryViewStyles: {
+      descriptionContainer: {
+        padding: '0 5px',
       },
     },
   },

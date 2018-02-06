@@ -68,7 +68,7 @@ class ActionsMenuCell extends React.Component {
             open={open}
             iconButtonElement={
               <IconButton
-                onTouchTap={this.handleOpen}
+                onClick={this.handleOpen}
                 className="selenium-moreButton"
                 title={intl.formatMessage({ id: 'table.actions.more' })}
               >
@@ -97,7 +97,7 @@ class ActionsMenuCell extends React.Component {
 }
 
 ActionsMenuCell.propTypes = {
-  breakpoints: PropTypes.arrayOf(PropTypes.number).isRequired,
+  breakpoints: PropTypes.arrayOf(PropTypes.number),
   children: PropTypes.node,
 }
 

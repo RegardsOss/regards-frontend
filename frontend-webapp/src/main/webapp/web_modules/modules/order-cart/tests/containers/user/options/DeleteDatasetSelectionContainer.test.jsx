@@ -38,6 +38,7 @@ describe('[Order Cart] Testing DeleteDatasetSelectionContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
+      disabled: false,
       datasetSelectionId: 5,
       dispatchDelete: () => { },
     }
@@ -45,5 +46,6 @@ describe('[Order Cart] Testing DeleteDatasetSelectionContainer', () => {
     const componentWrapper = enzymeWrapper.find(DeleteDatasetSelectionComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     assert.equal(componentWrapper.props().onDelete, props.dispatchDelete, 'The component callback should be correctly set up')
+    assert.equal(componentWrapper.props().disabled, props.disabled, 'The component disabled state should be correctly reported')
   })
 })

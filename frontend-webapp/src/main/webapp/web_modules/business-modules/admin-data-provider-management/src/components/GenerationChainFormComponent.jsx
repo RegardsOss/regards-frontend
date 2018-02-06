@@ -18,46 +18,46 @@
  **/
 import map from 'lodash/map'
 import omit from 'lodash/omit'
-import Divider from 'material-ui/Divider'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { connect } from '@regardsoss/redux'
+import AutoComplete from 'material-ui/AutoComplete'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { formValueSelector } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, HelpMessageComponent } from '@regardsoss/components'
-import { Field, FieldArray, RenderTextField, RenderPageableAutoCompleteField, RenderCheckbox, reduxForm, ValidationHelpers } from '@regardsoss/form-utils'
+import {
+  RenderTextField, RenderPageableAutoCompleteField, RenderAutoCompleteField,
+  RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
+} from '@regardsoss/form-utils'
+import { DataProviderDomain } from '@regardsoss/domain'
 import { datasetActions, datasetEntitiesKey } from '../clients/DatasetClient'
+import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../clients/IngestProcessingChainClient'
 import GenerationChainFormPluginsComponent from './GenerationChainFormPluginsComponent'
-import MetaProductFormComponent from './MetaProductFormComponent'
-import MetaFilesListFormComponent from './MetaFilesListFormComponent'
+import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
 import styles from '../styles'
 import messages from '../i18n'
 
 const {
   required, validStringSize,
 } = ValidationHelpers
-const validString255 = [validStringSize(0, 255)]
 const validRequiredString255 = [required, validStringSize(1, 255)]
 
 /**
 * Component to display a form of GenerationChain entity
 * @author Sébastien Binda
 */
-class GenerationChainFormComponent extends React.Component {
+class GenerationChainFormComponent extends React.PureComponent {
   static propTypes = {
     chain: DataProviderShapes.GenerationChain,
     mode: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     // from reduxForm
-    change: PropTypes.func,
     initialize: PropTypes.func,
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func,
-    getField: PropTypes.func,
   }
 
   static contextTypes = {
@@ -65,13 +65,28 @@ class GenerationChainFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { chain, mode } = this.props
     if (chain) {
       if (mode === 'duplicate') {
-        const duplicatedChain = omit(chain.content, ['id', 'metaProduct', 'metaFiles'])
-        duplicatedChain.metaProduct = omit(chain.content.metaProduct, ['id'])
-        duplicatedChain.metaFiles = map(chain.content.metaFiles, mf => omit(mf, ['id']))
+        const duplicatedChain = omit(chain.content, [
+          'id', 'label', 'running', 'lastDateActivation', 'fileInfos',
+          'productPluginConf', 'generatePluginConf', 'validationPluginConf',
+          'postProcessSipPluginConf',
+        ])
+        duplicatedChain.fileInfos = map(chain.content.fileInfos, this.duplicateFileInfo)
+        if (chain.content.validationPluginConf) {
+          duplicatedChain.validationPluginConf = this.duplicatePluginConf(chain.content.validationPluginConf)
+        }
+        if (chain.content.productPluginConf) {
+          duplicatedChain.productPluginConf = this.duplicatePluginConf(chain.content.productPluginConf)
+        }
+        if (chain.content.generateSipPluginConf) {
+          duplicatedChain.generateSipPluginConf = this.duplicatePluginConf(chain.content.generateSipPluginConf)
+        }
+        if (chain.content.postProcessSipPluginConf) {
+          duplicatedChain.postProcessSipPluginConf = this.duplicatePluginConf(chain.content.postProcessSipPluginConf)
+        }
         this.props.initialize(duplicatedChain)
       } else {
         this.props.initialize(chain.content)
@@ -79,27 +94,33 @@ class GenerationChainFormComponent extends React.Component {
     } else {
       const initialValues = {
         active: true,
-        metaProduct: {
-          checksumAlgorithm: '',
-          cleanOriginalFile: false,
-          metaFiles: [
-            {
-              fileNamePattern: '',
-              scanDirectory: '',
-            },
-          ],
-        },
+        fileInfos: [this.getEmptyFileInfo()],
       }
       this.props.initialize(initialValues)
     }
   }
 
+  getEmptyFileInfo = () => ({
+    mandatory: true,
+  })
+
+  duplicateFileInfo = (fileInfo) => {
+    const duplicatedFileInfo = omit(fileInfo, ['id', 'scanPlugin'])
+    return duplicatedFileInfo
+  }
+
+  duplicatePluginConf = (plugin) => {
+    const duplicatedPluginConf = omit(plugin, ['id', 'label'])
+    duplicatedPluginConf.label = plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now()
+    return duplicatedPluginConf
+  }
+
   renderActionButtons = () => {
     const { intl: { formatMessage } } = this.context
     const {
-      chain, invalid, submitting, onBack,
+      invalid, submitting, onBack, mode,
     } = this.props
-    const label = !chain ?
+    const label = mode === 'create' || mode === 'duplicate' ?
       formatMessage({ id: 'generation-chain.form.create.action.create' }) :
       formatMessage({ id: 'generation-chain.form.edit.action.save' })
     return (
@@ -109,7 +130,7 @@ class GenerationChainFormComponent extends React.Component {
           mainButtonType="submit"
           isMainButtonDisabled={submitting || invalid}
           secondaryButtonLabel={formatMessage({ id: 'generation-chain.form.create.action.cancel' })}
-          secondaryButtonTouchTap={onBack}
+          secondaryButtonClick={onBack}
         />
       </CardActions>
     )
@@ -117,7 +138,7 @@ class GenerationChainFormComponent extends React.Component {
 
   render() {
     const {
-      chain, onSubmit, handleSubmit, change, initialize, getField,
+      chain, onSubmit, handleSubmit,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -135,6 +156,11 @@ class GenerationChainFormComponent extends React.Component {
     const title = !chain ?
       formatMessage({ id: 'generation-chain.form.create.title' }) :
       formatMessage({ id: 'generation-chain.form.edit.title' }, { name: chain.name })
+
+    const ingestProcessingChainConfig = {
+      text: 'name',
+      value: 'name',
+    }
 
     const datasetsConfig = {
       text: 'label',
@@ -161,15 +187,51 @@ class GenerationChainFormComponent extends React.Component {
                   label={formatMessage({ id: 'generation-chain.form.create.input.label' })}
                 />
                 <Field
-                  name="comment"
+                  name="active"
+                  fullWidth
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'generation-chain.form.create.input.active' })}
+                />
+                <Field
+                  key="mode"
+                  name="mode"
+                  fullWidth
+                  component={RenderAutoCompleteField}
+                  hintText={formatMessage({ id: 'generation-chain.form.create.mode.hint' })}
+                  floatingLabelText={formatMessage({ id: 'generation-chain.form.create.mode.label' })}
+                  dataSource={DataProviderDomain.AcquisitionProcessingChainModes}
+                  filter={AutoComplete.caseInsensitiveFilter}
+                  validate={required}
+                />
+                <Field
+                  name="session"
                   fullWidth
                   component={RenderTextField}
                   type="text"
-                  validate={validString255}
-                  label={formatMessage({ id: 'generation-chain.form.create.input.comment' })}
+                  label={formatMessage({ id: 'generation-chain.form.create.input.session' })}
                 />
                 <Field
-                  name="dataSetIpId"
+                  name="periodicity"
+                  fullWidth
+                  component={RenderTextField}
+                  type="number"
+                  label={formatMessage({ id: 'generation-chain.form.create.input.periodicity' })}
+                />
+                <Field
+                  name="ingestChain"
+                  fullWidth
+                  component={RenderPageableAutoCompleteField}
+                  floatingLabelText={formatMessage({ id: 'generation-chain.form.create.input.ingestChain.select' })}
+                  hintText={formatMessage({ id: 'generation-chain.form.create.input.ingestChain.select.hint' })}
+                  pageSize={50}
+                  entitiesFilterProperty="name"
+                  entityActions={ingestProcessingChainActions}
+                  entitiesPayloadKey={ingestProcessingChainEntitiesKey}
+                  entitiesConfig={ingestProcessingChainConfig}
+                  validate={required}
+                />
+                <Field
+                  name="datasetIpId"
                   fullWidth
                   component={RenderPageableAutoCompleteField}
                   floatingLabelText={formatMessage({ id: 'generation-chain.form.create.input.dataset.select' })}
@@ -181,37 +243,23 @@ class GenerationChainFormComponent extends React.Component {
                   entitiesConfig={datasetsConfig}
                   validate={required}
                 />
-                <Field
-                  name="periodicity"
-                  fullWidth
-                  component={RenderTextField}
-                  type="number"
-                  label={formatMessage({ id: 'generation-chain.form.create.input.periodicity' })}
-                />
-                <MetaProductFormComponent />
-                <Field
-                  name="active"
-                  fullWidth
-                  component={RenderCheckbox}
-                  label={formatMessage({ id: 'generation-chain.form.create.input.active' })}
-                />
-                <br />
-                <Divider />
-                <br />
               </Tab>
-              <Tab label={formatMessage({ id: 'generation-chain.form.create.metafiles.section' })} >
+              <Tab label={formatMessage({ id: 'generation-chain.form.create.fileInfos.section' })} >
                 <FieldArray
-                  name="metaProduct.metaFiles"
-                  component={MetaFilesListFormComponent}
+                  name="fileInfos"
+                  component={RenderArrayObjectField}
+                  elementLabel={formatMessage({ id: 'generation-chain.form.create.fileInfos.list.item.title' })}
+                  fieldComponent={AcquisitionFileInfoComponent}
+                  getEmptyObject={this.getEmptyMetaFile}
+                  duplicationTransfromation={this.duplicateMetaFile}
+                  canBeEmpty={false}
+                  listHeight="600px"
                   validate={required}
                 />
               </Tab>
               <Tab label={formatMessage({ id: 'generation-chain.form.create.plugins.section' })} >
                 <GenerationChainFormPluginsComponent
                   chain={chain}
-                  change={change}
-                  initialize={initialize}
-                  getField={getField}
                 />
               </Tab>
             </Tabs>
@@ -231,16 +279,9 @@ function validate(fieldValues) {
   return errors
 }
 
-const selector = formValueSelector('plugin-configuration-form')
-const mapStateToProps = state => ({
-  getField: field => selector(state, field),
-})
-
-const ConnectedComponent = connect(mapStateToProps)(GenerationChainFormComponent)
-
 const connectedReduxForm = reduxForm({
   form: 'generation-chain-form',
   validate,
-})(ConnectedComponent)
+})(GenerationChainFormComponent)
 
 export default withI18n(messages)(withModuleStyle(styles)(connectedReduxForm))

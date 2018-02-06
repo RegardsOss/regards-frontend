@@ -33,7 +33,6 @@ import EnumTemporalComparator from '../model/EnumTemporalComparator'
  * @author Xavier-Alexandre Brochard
  */
 export class TemporalComparatorComponent extends React.Component {
-
   static propTypes = {
     /**
      * Signature:
@@ -86,7 +85,7 @@ export class TemporalComparatorComponent extends React.Component {
       <div>
         <RaisedButton
           label={value}
-          onTouchTap={this.handleOpenMenu}
+          onClick={this.handleOpenMenu}
           style={comparatorButtonStyle}
         />
         <IconMenu

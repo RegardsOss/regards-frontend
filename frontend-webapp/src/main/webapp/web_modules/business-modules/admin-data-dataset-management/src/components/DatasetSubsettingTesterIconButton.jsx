@@ -99,7 +99,7 @@ class ConnectionTesterIconButton extends React.Component {
     })
   }
 
-  handleSnackbarActionTouchTap = () => {
+  handleSnackbarActionClick = () => {
     this.setState({
       snackBarOpen: false,
     })
@@ -111,21 +111,21 @@ class ConnectionTesterIconButton extends React.Component {
       <RaisedButton
         label={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.testSubsetQuery' })}
         secondary
-        onTouchTap={this.handleTouchTap}
+        onClick={this.handleTouchTap}
       />)
 
     const successButton = (<RaisedButton
       label={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.testSubsetQuery' })}
       icon={<Check color={this.context.muiTheme.palette.primary3Color} />}
       secondary
-      onTouchTap={this.handleTouchTap}
+      onClick={this.handleTouchTap}
     />)
 
     const errorButton = (<RaisedButton
       label={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.testSubsetQuery' })}
       icon={<Error color={this.context.muiTheme.palette.accent1Color} />}
       secondary
-      onTouchTap={this.handleTouchTap}
+      onClick={this.handleTouchTap}
     />)
 
     const pendingProgress = <DatasetSubsettingTesterProgress />
@@ -135,7 +135,7 @@ class ConnectionTesterIconButton extends React.Component {
       message={this.context.intl.formatMessage({ id: this.getSnackBarMessageId(this.state.status) }, { label: currentDataset.content.label })}
       autoHideDuration={4000}
       onRequestClose={this.handleSnackbarRequestClose}
-      onActionTouchTap={this.handleSnackbarActionTouchTap}
+      onActionClick={this.handleSnackbarActionClick}
       action="OK"
     />)
 

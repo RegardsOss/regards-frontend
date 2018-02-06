@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
+import get from 'lodash/get'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -29,10 +29,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 class AccessRightsTableEditAction extends React.Component {
   static propTypes = {
     // from table cell API
-    entity: DataManagementShapes.Dataset.isRequired,
+    entity: DataManagementShapes.DatasetWithAccessRight.isRequired,
     // props
     onEdit: PropTypes.func.isRequired,
-    accessRights: DataManagementShapes.AccessRightList,
   }
 
   static contextTypes = {
@@ -43,9 +42,8 @@ class AccessRightsTableEditAction extends React.Component {
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   onEdit = () => {
-    const { accessRights, entity, onEdit } = this.props
-    const accessRight = find(accessRights, ar => ar.content.dataset.id === entity.content.id)
-    const accessRightToEdit = accessRight && accessRight.content ? accessRight.content : null
+    const { entity, onEdit } = this.props
+    const accessRightToEdit = get(entity, 'content.accessRight', null)
     onEdit(accessRightToEdit, entity)
   }
 
@@ -57,7 +55,7 @@ class AccessRightsTableEditAction extends React.Component {
         title={formatMessage({ id: 'accessright.edit.tooltip' })}
         iconStyle={AccessRightsTableEditAction.iconStyle}
         style={AccessRightsTableEditAction.buttonStyle}
-        onTouchTap={this.onEdit}
+        onClick={this.onEdit}
       >
         <Edit />
       </IconButton>

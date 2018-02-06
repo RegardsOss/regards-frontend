@@ -149,7 +149,7 @@ export class ConnectionListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onTouchTap={() => handleEdit(connection.content.id)}
+                        onClick={() => handleEdit(connection.content.id)}
                         title={intl.formatMessage({ id: 'connection.list.action.edit' })}
                         className="selenium-editButton"
                       >
@@ -158,7 +158,7 @@ export class ConnectionListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.DELETE}
-                        onTouchTap={() => this.openDeleteDialog(connection)}
+                        onClick={() => this.openDeleteDialog(connection)}
                         title={intl.formatMessage({ id: 'connection.list.action.delete' })}
                         className="selenium-deleteButton"
                       >

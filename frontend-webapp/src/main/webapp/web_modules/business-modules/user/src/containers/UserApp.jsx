@@ -66,6 +66,10 @@ export class UserApp extends React.Component {
     fetchEndpoints: PropTypes.func,
   }
 
+  static applicationStyle = {
+    minHeight: '100vh',
+  }
+
   /**
    * At first render, fetch application layout and modules
    */
@@ -96,16 +100,14 @@ export class UserApp extends React.Component {
       })
     }
 
-    // when user has a new role (and is is authenticated). ie: at first connection then at role update
-    if (this.props.currentRole !== nextProps.currentRole && nextProps.isAuthenticated) {
-      // ... refresh availables endpoints
+    // authentication state changes or user role changes, refresh endpoints
+    if (this.props.isAuthenticated !== nextProps.isAuthenticated || this.props.currentRole !== nextProps.currentRole) {
       this.props.fetchEndpoints()
     }
   }
 
   renderLayout(modulesList) {
     if (this.props.layout && this.props.layout.content) {
-      const styles = { minHeight: '100vh' }
       return (
         <ApplicationLayout
           appName="user"
@@ -113,7 +115,7 @@ export class UserApp extends React.Component {
           modules={modulesList}
           project={this.props.params.project}
           dynamicContent={this.props.content}
-          style={styles}
+          style={UserApp.applicationStyle}
         />
       )
     }

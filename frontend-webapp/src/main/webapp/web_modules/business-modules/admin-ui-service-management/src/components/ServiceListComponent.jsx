@@ -69,14 +69,14 @@ class ServiceListComponent extends React.Component {
             <ResourceIconAction
               resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST)}
               tooltip={this.context.intl.formatMessage({ id: 'service.list.open.tooltip' })}
-              onTouchTap={() => handleOpen(uiPluginDefinition.content.id)}
+              onClick={() => handleOpen(uiPluginDefinition.content.id)}
             >
               <IconList />
             </ResourceIconAction>
             <ResourceIconAction
               resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)}
               tooltip={this.context.intl.formatMessage({ id: 'service.list.create.tooltip' })}
-              onTouchTap={() => handleCreate(uiPluginDefinition.content.id)}
+              onClick={() => handleCreate(uiPluginDefinition.content.id)}
             >
               <IconAdd />
             </ResourceIconAction>
@@ -93,7 +93,7 @@ class ServiceListComponent extends React.Component {
       <div>
         <AppBar
           title={this.context.intl.formatMessage({ id: 'service.list.title' })}
-          iconElementLeft={<IconButton onTouchTap={handleBack}><Back /></IconButton>}
+          iconElementLeft={<IconButton onClick={handleBack}><Back /></IconButton>}
         />
         <div style={styles.plugins.root}>
           <div style={styles.plugins.grid}>

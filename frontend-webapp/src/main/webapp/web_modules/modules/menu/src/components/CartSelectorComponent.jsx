@@ -50,7 +50,7 @@ class CartSelectorComponent extends React.Component {
 
   render() {
     const { objectsCount, onCartClicked } = this.props
-    const { intl: { formatMessage }, moduleTheme: { cart } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { cart, overlay } } = this.context
 
     // compute label for current count
     const elementsCountLabel = objectsCount < CartSelectorComponent.MAX_ELEMENTS_COUNT ? objectsCount :
@@ -72,10 +72,10 @@ class CartSelectorComponent extends React.Component {
         { /*Create a free position chip over the icon */}
         <div>
           <ShowableAtRender show={!!objectsCount}>
-            <div style={cart.overlay.style}>
+            <div style={overlay.style}>
               <Chip
-                labelStyle={cart.overlay.chip.labelStyle}
-                style={cart.overlay.chip.style}
+                labelStyle={overlay.chip.labelStyle}
+                style={overlay.chip.style}
               >
                 {elementsCountLabel}
               </Chip>

@@ -39,7 +39,7 @@ const requiredNumberValidator = [number, required]
 * Redux-form compatible field component to display a PluginConfiguration form.
 * @author Sébastien Binda
 */
-export class RenderPluginConfField extends React.Component {
+export class RenderPluginConfField extends React.PureComponent {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // Name of the microservice of the plugin
     pluginMetaData: CommonShapes.PluginMetaDataContent.isRequired, // PluginMetadata used to configure new plugin configuration
@@ -141,7 +141,7 @@ export class RenderPluginConfField extends React.Component {
             />
             <IconButton
               tooltip="Display icon"
-              onTouchTap={this.loadIcon}
+              onClick={this.loadIcon}
             >
               <SearchIcon />
             </IconButton>

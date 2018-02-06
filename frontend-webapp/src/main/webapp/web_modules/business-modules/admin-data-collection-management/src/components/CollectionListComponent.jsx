@@ -143,14 +143,14 @@ export class CollectionListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={collection.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onTouchTap={() => handleEdit(collection.content.id)}
+                        onClick={() => handleEdit(collection.content.id)}
                         title={intl.formatMessage({ id: 'collection.list.action.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
                       <ResourceIconAction
                         resourceDependencies={CollectionListComponent.DEPENDENCY}
-                        onTouchTap={() => handleDuplicate(collection.content.id)}
+                        onClick={() => handleDuplicate(collection.content.id)}
                         title={intl.formatMessage({ id: 'collection.list.action.duplicate' })}
                       >
                         <ContentCopy hoverColor={style.hoverButtonDuplicate} />
@@ -158,7 +158,7 @@ export class CollectionListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={collection.links}
                         hateoasKey={HateoasKeys.DELETE}
-                        onTouchTap={() => this.openDeleteDialog(collection)}
+                        onClick={() => this.openDeleteDialog(collection)}
                         title={intl.formatMessage({ id: 'collection.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />

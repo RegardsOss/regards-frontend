@@ -21,6 +21,7 @@ import Project from './schemas/Project'
 import ProjectConnection from './schemas/ProjectConnection'
 import ProjectUser from './schemas/ProjectUser'
 import Role from './schemas/Role'
+import Notification from './schemas/Notification'
 import Model from './schemas/Model'
 import Accesses from './schemas/Accesses'
 import AttributeModel from './dam/AttributeModel'
@@ -33,6 +34,7 @@ import Plugin from './access/Plugin'
 import UIPluginConf from './access/UIPluginConf'
 import Fragment from './dam/Fragment'
 import Dataset from './dam/Dataset'
+import DatasetWithAccessRight from './dam/DatasetWithAccessRight'
 import AccessRight from './dam/AccessRight'
 import AccessGroup from './dam/AccessGroup'
 import CrawlerDatasource from './dam/CrawlerDatasource'
@@ -74,6 +76,8 @@ module.exports = {
 
   ...Role,
 
+  ...Notification,
+
   //TODO WHAT ?
   //STORAGE_PLUGIN: Model.STORAGE_PLUGIN,
 
@@ -102,6 +106,7 @@ module.exports = {
   ...Entity,
 
   ...Dataset,
+  ...DatasetWithAccessRight,
 
   ...ResourceAccess,
 

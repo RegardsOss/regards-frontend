@@ -52,7 +52,6 @@ if (areIntlLocalesSupported(['fr'])) {
  *  @author Xavier-Alexandre Brochard
  */
 export class TemporalCriteriaComponent extends React.Component {
-
   static propTypes = {
     /**
      * Callback to change the current criteria values in form
@@ -193,9 +192,15 @@ export class TemporalCriteriaComponent extends React.Component {
   formatMilliseconds = date => date ? date.getMilliseconds() : ''
 
   render() {
-    const { label, comparator, value, reversed, hideAttributeName, hideComparator } = this.props
-    const { moduleTheme: { datePickerTextFieldStyle, datePickerStyle, timePickerStyles,
-      secondsTextFieldStyle, millisecondsTextFieldStyle } } = this.context
+    const {
+      label, comparator, value, reversed, hideAttributeName, hideComparator,
+    } = this.props
+    const {
+      moduleTheme: {
+        datePickerTextFieldStyle, datePickerStyle, timePickerStyles,
+        secondsTextFieldStyle, millisecondsTextFieldStyle,
+      },
+    } = this.context
 
     // Store the content in an array because we need to maybe reverse to order
     const content = []

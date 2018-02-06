@@ -11,6 +11,7 @@ import DescriptionLevelActions from './DescriptionLevelActions'
 export class DescriptionLevelReducer {
   static DEFAULT_STATE = {
     currentDescriptionPath: null,
+    tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES,
   }
 
   constructor(namespace) {
@@ -27,6 +28,7 @@ export class DescriptionLevelReducer {
         // shows the root entity
         return {
           currentDescriptionPath: [action.entity],
+          tab: action.tab,
         }
       case this.actionsModel.SHOW_RELATED_ENTITY:
         if (!state.currentDescriptionPath) {
@@ -34,6 +36,12 @@ export class DescriptionLevelReducer {
         }
         return {
           currentDescriptionPath: [...state.currentDescriptionPath, action.entity],
+          tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES,
+        }
+      case this.actionsModel.CHANGE_TAB:
+        return {
+          currentDescriptionPath: state.currentDescriptionPath,
+          tab: action.tab,
         }
       case this.actionsModel.JUMP_TO_LEVEL:
         if (action.levelIndex === state.currentDescriptionPath.length - 1) {
@@ -48,6 +56,7 @@ export class DescriptionLevelReducer {
         }
         return { // remove the levels that are after selected one
           currentDescriptionPath: state.currentDescriptionPath.slice(0, action.levelIndex + 1),
+          tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES,
         }
       case this.actionsModel.HIDE:
         return DescriptionLevelReducer.DEFAULT_STATE

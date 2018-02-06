@@ -18,7 +18,6 @@
  **/
 import isNil from 'lodash/isNil'
 import { FormattedMessage } from 'react-intl'
-import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -36,16 +35,9 @@ import EnumNumericalComparator from '../model/EnumNumericalComparator'
  * @author Xavier-Alexandre Brochard
  */
 export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContainer {
-
   static propTypes = {
     // parent props
     ...PluginCriterionContainer.propTypes,
-    /**
-     * List of attributes associated to the plugin.
-     * Keys of this object are the "name" props of the attributes defined in the plugin-info.json
-     * Value of each keys are the attribute id (retrieved from the server) associated
-     */
-    attributes: DataManagementShapes.AttributeModelList,
   }
 
   static contextTypes = {
@@ -138,7 +130,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
             hideComparator
             fixedComparator
           />
-          <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+          <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )

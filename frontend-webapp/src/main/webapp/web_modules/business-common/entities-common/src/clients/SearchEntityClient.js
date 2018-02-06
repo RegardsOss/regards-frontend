@@ -21,7 +21,7 @@ import { CatalogClient } from '@regardsoss/client'
 const REDUX_ACTION_NAMESPACE = 'entities-common/search-entity'
 const REDUX_DS_ACTION_NAMESPACE = 'entities-common/search-dataset'
 
-const actions = new CatalogClient.SearchEntityActions(REDUX_ACTION_NAMESPACE)
+const actions = new CatalogClient.SearchEntityActions(REDUX_ACTION_NAMESPACE, true)
 const datasetSelectorAction = new CatalogClient.SearchDatasetsActions(REDUX_DS_ACTION_NAMESPACE)
 
 /**

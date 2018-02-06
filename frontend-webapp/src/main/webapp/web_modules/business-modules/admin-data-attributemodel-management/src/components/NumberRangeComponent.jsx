@@ -35,7 +35,10 @@ export class NumberRangeComponent extends React.Component {
   }
 
   onTextFieldChange = (event) => {
-    this.props.change(`restriction.${this.props.type}.active`, true)
+    // Avoid that change on the TextInput mount
+    if (event.type === 'change') {
+      this.props.change(`restriction.${this.props.type}.active`, true)
+    }
   }
 
   render() {

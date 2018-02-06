@@ -31,6 +31,7 @@ class ClearCartComponent extends React.Component {
   static propTypes = {
     onClearCart: PropTypes.func.isRequired,
     empty: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -40,17 +41,17 @@ class ClearCartComponent extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { empty, onClearCart } = this.props
+    const { disabled, empty, onClearCart } = this.props
     return (
       <ButtonWithConfirmDialog
-        onTouchTap={onClearCart}
+        onClick={onClearCart}
         dialogTitle={formatMessage({ id: 'order-cart.module.clear.confirmation.title' })}
         dialogMessage={formatMessage({ id: 'order-cart.module.clear.confirmation.message' })}
 
         label={formatMessage({ id: 'order-cart.module.clear.label' })} // button properties
         title={formatMessage({ id: 'order-cart.module.clear.tooltip' })}
         icon={<ClearCartIcon />}
-        disabled={empty}
+        disabled={disabled || empty}
       />
     )
   }

@@ -2,6 +2,7 @@
 * LICENSE_PLACEHOLDER
 **/
 import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { CardTitle } from 'material-ui/Card'
@@ -18,13 +19,14 @@ import SearchResultForm from './SearchResultForm'
 * Module form component for admin instance
 */
 class ModuleForm extends React.Component {
-  static LEVELS_FIELD_NAME = 'conf.graphLevels'
-  static DATASET_ATTRIBUTES_FIELD_NAME = 'conf.graphDatasetAttributes'
-
   static propTypes = {
     project: PropTypes.string.isRequired,
     appName: PropTypes.string.isRequired,
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       form: ModuleConfiguration,
     }),
@@ -39,13 +41,19 @@ class ModuleForm extends React.Component {
     ...i18nContextType,
   }
 
+  constructor(props) {
+    super(props)
+    this.LEVELS_FIELD_NAME = `${props.adminForm.currentNamespace}.graphLevels`
+    this.DATASET_ATTRIBUTES_FIELD_NAME = `${props.adminForm.currentNamespace}.graphDatasetAttributes`
+  }
+
   validateSelectedLevels = selectedLevels => isEmpty(selectedLevels) ? 'search.graph.levels.selection.none.selected.error' : null
 
   render() {
     const {
       collectionModels, appName, project, adminForm, selectableAttributes,
     } = this.props
-    const formConf = adminForm.form.conf
+    const formConf = get(adminForm.form, adminForm.currentNamespace)
     const currentAttributesConfiguration = formConf && formConf.graphDatasetAttributes ? formConf.graphDatasetAttributes : []
     return (
       <Tabs>
@@ -56,7 +64,7 @@ class ModuleForm extends React.Component {
           />
           <Divider />
           <FieldArray
-            name={ModuleForm.LEVELS_FIELD_NAME}
+            name={this.LEVELS_FIELD_NAME}
             component={SelectedLevelFormRender}
             validate={this.validateSelectedLevels}
             collectionModels={collectionModels}
@@ -69,7 +77,7 @@ class ModuleForm extends React.Component {
           <MainAttributesConfigurationComponent
             allowFacettes={false}
             allowAttributesRegroupements={false}
-            attributesFieldName={ModuleForm.DATASET_ATTRIBUTES_FIELD_NAME}
+            attributesFieldName={this.DATASET_ATTRIBUTES_FIELD_NAME}
             attributesConf={currentAttributesConfiguration}
             selectableAttributes={selectableAttributes}
             changeField={adminForm.changeField}

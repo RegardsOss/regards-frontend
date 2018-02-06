@@ -25,10 +25,11 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class NewsListContainer extends React.Component {
   static propTypes = {
-    newsList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
+    // TODO-V3 use it
+    // newsList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
   }
 
-  static contextTypes= {
+  static contextTypes = {
     ...themeContextType,
   }
 

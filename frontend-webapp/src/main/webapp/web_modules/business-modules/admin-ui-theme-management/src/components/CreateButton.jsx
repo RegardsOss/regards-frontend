@@ -57,7 +57,7 @@ class CreateButton extends React.Component {
     return (
       <div>
         <IconButton
-          onTouchTap={this.onOpen}
+          onClick={this.onOpen}
           tooltip={this.context.intl.formatMessage({ id: 'application.theme.create.tooltip' })}
         >
           <AddCircle color={style.toolbar.icon.color} />

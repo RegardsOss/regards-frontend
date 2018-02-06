@@ -3,8 +3,9 @@
 **/
 import get from 'lodash/get'
 import map from 'lodash/map'
+import root from 'window-or-global'
 import { CatalogShapes } from '@regardsoss/shape'
-import { CatalogDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import File from 'material-ui/svg-icons/editor/insert-drive-file'
@@ -40,7 +41,7 @@ export class DocumentFilesComponent extends React.Component {
     if (this.nbDownloadeableFiles() === 0) {
       return null
     }
-    const downloadLink = get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}[0].uri`)
+    const downloadLink = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}[0].uri`)
     return this.addAuthToURI(downloadLink)
   }
 
@@ -49,7 +50,7 @@ export class DocumentFilesComponent extends React.Component {
    */
   getAllDownloadeableFiles = () => {
     const { entity } = this.props
-    return get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}`, [])
+    return get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, [])
   }
 
   /**
@@ -57,7 +58,7 @@ export class DocumentFilesComponent extends React.Component {
    */
   nbDownloadeableFiles = () => {
     const { entity } = this.props
-    return get(entity, `content.files.${CatalogDomain.OBJECT_LINKED_FILE_ENUM.DOCUMENT}`, []).length
+    return get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}`, []).length
   }
 
   /**
@@ -65,10 +66,12 @@ export class DocumentFilesComponent extends React.Component {
    */
   addAuthToURI = (downloadLink) => {
     const { isAuthenticated, scope, accessToken } = this.props
+    // add request origin for X-Frame-Options bypass. WARN: bad security workaround
+    const requestOrigin = `${root.location.protocol}//${root.location.host}`
     if (isAuthenticated) {
-      return `${downloadLink}?token=${accessToken}`
+      return `${downloadLink}?origin=${requestOrigin}&token=${accessToken}`
     }
-    return `${downloadLink}?scope=${scope}`
+    return `${downloadLink}?origin=${requestOrigin}&scope=${scope}`
   }
 
   /**
@@ -97,10 +100,11 @@ export class DocumentFilesComponent extends React.Component {
               style={DocumentFilesComponent.resetLinkStyle}
             >
               <ListItem
-                primaryText={(<div>
-                  {`${file.name}, `}
-                  {this.transformBytesIntoReadeableSize(file.size)}
-                </div>)}
+                primaryText={(
+                  <div>
+                    {`${file.name}, `}
+                    {this.transformBytesIntoReadeableSize(file.size)}
+                  </div>)}
                 leftIcon={<File />}
               />
             </a>

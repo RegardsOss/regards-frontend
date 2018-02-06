@@ -62,7 +62,6 @@ class pluginFormComponent extends React.Component {
     this.state = {
       path: null,
       creation: isNil(this.props.plugin),
-      pluginSelected: !isNil(this.props.plugin),
       plugin: this.props.plugin ? this.props.plugin : {},
     }
   }
@@ -215,7 +214,7 @@ class pluginFormComponent extends React.Component {
                 />
                 <IconButton
                   tooltip="Search plugin"
-                  onTouchTap={this.searchPlugin}
+                  onClick={this.searchPlugin}
                   disabled={!this.props.pathField || this.props.pathField === ''}
                 >
                   <SearchIcon />
@@ -236,7 +235,7 @@ class pluginFormComponent extends React.Component {
                 />
                 <IconButton
                   tooltip="Display icon"
-                  onTouchTap={this.loadIcon}
+                  onClick={this.loadIcon}
                 >
                   <SearchIcon />
                 </IconButton>
@@ -253,7 +252,7 @@ class pluginFormComponent extends React.Component {
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || !this.state.pluginIsValid || this.state.path !== this.props.pathField}
                 secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugin.form.cancel.button' })}
-                secondaryButtonTouchTap={this.props.onBack}
+                secondaryButtonClick={this.props.onBack}
               />
             </CardActions>
           </Card>

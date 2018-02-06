@@ -16,10 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import omit from 'lodash/omit'
-import map from 'lodash/map'
 import forEach from 'lodash/forEach'
-import cloneDeep from 'lodash/cloneDeep'
 import { Card, CardText, CardTitle, CardActions } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { reduxForm, Field } from 'redux-form'
@@ -27,6 +24,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import RenderPluginConfField from '../form-utils/RenderPluginConfField'
+import PluginFormUtils from '../tools/PluginFormUtils'
 import messages from '../i18n'
 
 /**
@@ -67,13 +65,11 @@ export class PluginFormComponent extends React.Component {
   }
 
   onSubmit = (values) => {
-    const cloneValues = cloneDeep(values[PluginFormComponent.confFieldName])
-    cloneValues.parameters = map(cloneValues.parameters, p => ({
-      ...omit(p, 'value'),
-      value: JSON.stringify(p.value),
-    }))
-    this.props.onSubmit(cloneValues)
+    // 1. Check if there is MapParameter to reformat before sending
+    const formatedValues = PluginFormUtils.formatPluginConfForReduxFormSubmit(values[PluginFormComponent.confFieldName], this.props.pluginMetaData)
+    this.props.onSubmit(formatedValues)
   }
+
 
   /**
    * Initialize redux-form values with the given pluginConfiguration if any or with an new empty one.
@@ -83,21 +79,18 @@ export class PluginFormComponent extends React.Component {
       pluginConfiguration, pluginMetaData, initialize, isEditing,
     } = this.props
     // The values are serialized by the backend. So deseralize it all here
-    const deserializedPluginConf = pluginConfiguration ? cloneDeep(pluginConfiguration) : null
-    if (deserializedPluginConf) {
-      deserializedPluginConf.parameters = map(deserializedPluginConf.parameters, p => ({
-        ...omit(p, 'value'),
-        value: JSON.parse(p.value),
-      }))
-    }
+
+    const formatedConf = pluginConfiguration ?
+      PluginFormUtils.formatPluginConfForReduxFormInit(pluginConfiguration, pluginMetaData, true) : null
+
     let initialValues
     if (isEditing) {
       // Edition mode
-      initialValues = deserializedPluginConf
-    } else if (deserializedPluginConf) {
+      initialValues = formatedConf
+    } else if (formatedConf) {
       // Duplication mode
       // Deep copy pluginConfiguration
-      initialValues = deserializedPluginConf
+      initialValues = formatedConf
       // In copy mode remove id of the duplicated pluginConfiguration
       delete initialValues.id
       // In copy mode remove id of each pluginParameters
@@ -161,7 +154,7 @@ export class PluginFormComponent extends React.Component {
             />
           </CardActions>
         </Card>
-      </form >
+      </form>
     )
   }
 }

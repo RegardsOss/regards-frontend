@@ -25,7 +25,7 @@ const messages = {
   // 1.a - Graph levels
   'search.graph.configuration.levels.title': 'Browsing levels',
   'search.graph.configuration.levels.subtitle': 'Select below the graph browsing levels',
-  'search.graph.levels.selection.none.selected.error': 'Select at least 1 element for the graph search',
+  'search.graph.levels.selection.none.selected.error': 'Select at least 1 item for the graph search',
   'search.graph.levels.selection.no.selection.hint': 'No selection. You can select levels by clicking on "Add level button"',
   'search.graph.add.level': 'Add level',
   'search.graph.collection.model.label': '{name} - {description}',
@@ -44,6 +44,7 @@ const messages = {
   'form.attributes.initialSort.label': 'Sort results on this attribute',
   'form.attributes.visibility.label': 'Display',
   'form.attributes.filter.label': 'Filter',
+  'form.attributes.facetable.label': 'Enable filter',
   // user
   'search.graph.title': 'Graph browsing',
   'search.graph.subtitle': 'Data browsing by collections and datasets objects display',

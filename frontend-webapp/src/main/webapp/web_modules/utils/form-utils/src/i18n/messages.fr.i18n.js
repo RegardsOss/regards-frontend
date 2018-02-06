@@ -19,7 +19,7 @@
 const messages = {
   'invalid.required': 'Champs requis',
   'invalid.array.required': 'Il doit y avoir au moins un élément dans la liste',
-  'invalid.email': 'Addresse e-mail invalide',
+  'invalid.email': 'Adresse e-mail invalide',
   'invalid.url': 'Url invalide',
   'invalid.only_alphanumeric': 'Utilisez les caractères alphanumériques et "_"',
   'invalid.only_numeric': 'Utilisez les caractères numériques',
@@ -63,11 +63,11 @@ const messages = {
   'render.array-object.delete.button': 'Supprimer',
   'render.array-object.duplicate.button': 'Dupliquer',
   'render.array-object.item.title': 'Element {index}',
-  'render.array-object.delete.confirm.title': 'Voulez vous supprimer l\'élément {index} ?',
+  'render.array-object.delete.confirm.title': 'Voulez-vous supprimer l\'élément {index} ?',
   'render.array-object.add.button': 'Ajouter',
   'render.array-object.cancel.button': 'Annuler',
 
-  'render.map-object.add.new.dialog.title': 'Ajouter un nouvel élément au paramètre {parameter}',
+  'render.map-object.add.new.dialog.title': 'Ajouter un nouvel élément au paramètre «{parameter}»',
   'render.map-object.add.new.dialog.key.label': 'Clef du nouvel élément ... ',
   'render.map-object.key.already.exists.error': 'La valeur existe déjà.',
   'render.map-object.duplicate.key.not.exists': 'L\'élément à dupliquer n\'éxiste plus',

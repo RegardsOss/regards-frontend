@@ -36,7 +36,7 @@ describe('[Components] Testing DownloadButton', () => {
   it('should exists', () => {
     assert.isDefined(DownloadButton)
   })
-  it('should render correctly', () => {
+  it('should render correctly enabled (by default)', () => {
     const props = {
       ButtonConstructor: IconButton,
       ButtonIcon: DownloadIcon, // not mandatory, can use a simple label
@@ -47,5 +47,26 @@ describe('[Components] Testing DownloadButton', () => {
     const enzymeWrapper = shallow(<DownloadButton {...props} />, { context })
     const iconButtonWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(iconButtonWrapper, 1, 'The icon button should be rendered')
+    assert.isNotOk(iconButtonWrapper.props().disabled, 'Button should not be disabled')
+    const link = enzymeWrapper.find('a')
+    assert.lengthOf(link, 1, 'There should be an HTML link')
+    assert.isOk(link.props().download, 'it should be marked downloadable')
+    assert.equal(link.props().href, props.downloadURL, 'it should have right URL')
+  })
+  it('should render correctly disabled ', () => {
+    const props = {
+      ButtonConstructor: IconButton,
+      ButtonIcon: DownloadIcon, // not mandatory, can use a simple label
+      tooltip: 'say something',
+      downloadURL: './local',
+      disabled: true,
+      primary: true,
+    }
+    const enzymeWrapper = shallow(<DownloadButton {...props} />, { context })
+    const iconButtonWrapper = enzymeWrapper.find(IconButton)
+    assert.lengthOf(iconButtonWrapper, 1, 'The icon button should be rendered')
+    assert.isTrue(iconButtonWrapper.props().disabled, 'Button should be disabled')
+    const link = enzymeWrapper.find('a')
+    assert.lengthOf(link, 0, 'There should be no HTML link')
   })
 })

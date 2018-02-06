@@ -35,8 +35,9 @@ const messages = {
   'table.column.visibility.filter.cancel': 'Cancel',
   'table.column.visibility.filter.confirm': 'Confirm',
   'table.loading.message': 'Loading content',
-  'table.delete.option.tooltip': 'Delete this element',
+  'table.delete.option.tooltip': 'Delete this item',
   'table.progress.percent.cell.message': '{percent}%',
+  'table.actions.more': 'More options',
 }
 
 export default messages

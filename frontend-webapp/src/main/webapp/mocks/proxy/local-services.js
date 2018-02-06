@@ -23,7 +23,7 @@
 const _ = require('lodash')
 const fetch = require('node-fetch')
 const { MOCK_RESOURCES } = require('./resources/mock-resources')
-const { addLinks, loadFile, logMessage } = require('./utils')
+const { addLinks, loadFile, writeFile, logMessage } = require('./utils')
 
 function findServiceWithType(type, condition) {
   const services = _.flowRight([_.flatten, _.values])(catalogServices)
@@ -60,6 +60,56 @@ function withProxyFetcher(proxiedURL, handler) {
         }
       })
     }).catch(error => resolve({ code: 500, content: error }))
+  }
+}
+
+function addQuicklook({ content, links, metadata }, pathParams, queryParams, bodyParams) {
+  const contentWithQuicklook = content.map((entityContent) => {
+    if (Math.floor(Math.random() * 2) + 1 === -1) {
+
+      if (!entityContent.content.files) {
+        entityContent.content.files = {}
+      }
+
+      const hdW = Math.floor(Math.random() * 400) + 500
+      const hdH = Math.floor(Math.random() * 700) + 1000
+      entityContent.content.files.QUICKLOOK_HD = [{
+        uri: `http://lorempicsum.com/futurama/${hdW}/${hdH}/4`,
+        imageHeight: hdH,
+        imageWidth: hdW,
+      }]
+
+      const mdW = Math.floor(Math.random() * 300) + 200
+      const mdH = Math.floor(Math.random() * 300) + 400
+      entityContent.content.files.QUICKLOOK_MD = [{
+        uri: `http://lorempicsum.com/futurama/${mdW}/${mdH}/4`,
+        imageHeight: mdH,
+        imageWidth: mdW,
+      }]
+
+      const sdW = Math.floor(Math.random() * 250) + 100
+      const sdH = Math.floor(Math.random() * 250) + 50
+      entityContent.content.files.QUICKLOOK_SD = [{
+        uri: `http://lorempicsum.com/futurama/${sdW}/${sdH}/4`,
+        imageHeight: sdH,
+        imageWidth: sdW,
+      }]
+    }
+    return entityContent
+  })
+  return {
+    content: {
+      content: contentWithQuicklook,
+      // content: [],
+      links,
+      metadata
+      // metadata: {
+      //   number: 0,
+      //   size: 500,
+      //   totalElements: 0,
+      //   totalPages: 1,
+      // }
+    }
   }
 }
 
@@ -278,118 +328,146 @@ function buildLocalServices(gatewayURL) {
     GET: {
       // Mock: add missing dependencies
       proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
-      getBasket: { url: 'rs-order/order/basket', handler: getBasket },
-      getSessions: {
-        url: 'rs-ingest/sessions', handler: () => {
-          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
+      // proxyQuicklook: { url: 'rs-access-project/dataobjects/search', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-access-project/dataobjects/search`, addQuicklook) },
+      // getBasket: { url: 'rs-order/order/basket', handler: getBasket },
+      getNotifications: {
+        url: 'rs-admin/notifications', handler: () => {
+          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
           return { content }
         }
       },
-      userOrders: {
-        url: 'user/orders', handler: (req, resp, pathParameters, { page, size }) => {
-          const pageIndex = parseInt(page, 10)
-          const ordersList = MOCKED_ORDERS_LIST.slice(pageIndex * size, Math.min((pageIndex + 1) * size, MOCKED_ORDERS_LIST.length))
+      getEnumeratedValues: {
+        url: 'rs-catalog/search/dataobjects/properties/{name}/values',
+        handler: (req, resp, { name }, { partialText, maxCount, q }) => {
           return {
-            content: {
-              content: ordersList,
-              metadata: {
-                number: pageIndex,
-                size: ordersList.length,
-                totalElements: MOCKED_ORDERS_LIST.length,
-              },
-            }
+            content: new Array(parseInt(maxCount)).fill('').map((value, index) => `${partialText}-${name}-${index}`)
           }
         }
       },
-      userOderFiles: {
-        url: 'rs-order/orders/{orderId}/dataset/{datasetId}/files',
-        handler: (req, resp, { orderId, datasetId }, { page, size }) => {
-          const pageIndex = parseInt(page, 10)
-          const filesList = MOCKED_ORDER_DS_FILES_LIST.slice(pageIndex * size, Math.min((pageIndex + 1) * size, MOCKED_ORDER_DS_FILES_LIST.length))
-          return {
-            content: {
-              content: filesList,
-              metadata: {
-                number: pageIndex,
-                size: filesList.length,
-                totalElements: MOCKED_ORDER_DS_FILES_LIST.length,
-              },
-            }
-          }
-        }
-      },
-      storageMonitoring: {
-        url: 'rs-storage/storages/monitoring', handler: () => {
-          const content = addLinks(JSON.parse(loadFile('mocks/proxy/resources/mock-storage-monitoring.json')))
+      // getSessions: {
+      //   url: 'rs-ingest/sessions', handler: () => {
+      //     const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
+      //     return { content }
+      //   }
+      // },
+      // userOrders: {
+      //   url: 'user/orders', handler: (req, resp, pathParameters, { page, size }) => {
+      //     const pageIndex = parseInt(page, 10)
+      //     const ordersList = MOCKED_ORDERS_LIST.slice(pageIndex * size, Math.min((pageIndex + 1) * size, MOCKED_ORDERS_LIST.length))
+      //     return {
+      //       content: {
+      //         content: ordersList,
+      //         metadata: {
+      //           number: pageIndex,
+      //           size: ordersList.length,
+      //           totalElements: MOCKED_ORDERS_LIST.length,
+      //         },
+      //       }
+      //     }
+      //   }
+      // },
+      // userOderFiles: {
+      //   url: 'rs-order/orders/{orderId}/dataset/{datasetId}/files',
+      //   handler: (req, resp, { orderId, datasetId }, { page, size }) => {
+      //     const pageIndex = parseInt(page, 10)
+      //     const filesList = MOCKED_ORDER_DS_FILES_LIST.slice(pageIndex * size, Math.min((pageIndex + 1) * size, MOCKED_ORDER_DS_FILES_LIST.length))
+      //     return {
+      //       content: {
+      //         content: filesList,
+      //         metadata: {
+      //           number: pageIndex,
+      //           size: filesList.length,
+      //           totalElements: MOCKED_ORDER_DS_FILES_LIST.length,
+      //         },
+      //       }
+      //     }
+      //   }
+      // },
+      getNotifications: {
+        url: 'rs-admin/notifications', handler: () => {
+          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
           return { content }
         }
       },
     },
     PUT: {
       // pause order
-      pauseOrder: {
-        url: 'rs-order/user/orders/pause/{orderId}',
-        handler: () => {
+      // pauseOrder: {
+      //   url: 'rs-order/user/orders/pause/{orderId}',
+      //   handler: () => {
+      //     return {
+      //       code: 200,
+      //       content: {},
+      //       //   messages: ['ORDER_NOT_COMPLETELY_PAUSED'],
+      //       // },
+      //     }
+      //   },
+      // },
+      // // resume order
+      // resumeOrder: {
+      //   url: 'rs-order/user/orders/resume/{orderId}',
+      //   handler: () => {
+      //     return {
+      //       code: 200,
+      //       content: {},
+      //       //   messages: ['ORDER_MUST_BE_DELETED'],
+      //       // },
+      //     }
+      //   },
+      // }
+      readNotification: {
+        url: 'rs-admin/notifications/{notificationId}/read',
+        handler: (req, resp, { notificationId }) => {
+          const notifs = JSON.parse(loadFile('mocks/proxy/resources/mock-notifications.json'))
+          const notifIndex = notifs.findIndex(el => el.id === parseInt(notificationId, 10))
+          notifs[notifIndex].status = "READ"
+          writeFile('mocks/proxy/resources/mock-notifications.json', JSON.stringify(notifs))
           return {
-            code: 200,
+            code: 204,
             content: {},
-            //   messages: ['ORDER_NOT_COMPLETELY_PAUSED'],
-            // },
           }
-        },
-      },
-      // resume order
-      resumeOrder: {
-        url: 'rs-order/user/orders/resume/{orderId}',
-        handler: () => {
-          return {
-            code: 200,
-            content: {},
-            //   messages: ['ORDER_MUST_BE_DELETED'],
-            // },
-          }
-        },
+        }
       }
     },
     POST: {
-      addInBasket: { url: 'rs-order/order/basket/selection', handler: getPushInBasketHandler(gatewayURL) },
-      order: { url: 'rs-order/user/orders', handler: orderBasket },
+      // addInBasket: { url: 'rs-order/order/basket/selection', handler: getPushInBasketHandler(gatewayURL) },
+      // order: { url: 'rs-order/user/orders', handler: orderBasket },
     },
     DELETE: {
-      clearBasket: { url: 'rs-order/order/basket', handler: clearBasket },
-      removeBasketDataset: { url: 'rs-order/order/basket/dataset/{datasetSelectionId}', handler: removeBasketDataset },
-      removeBasketItem: { url: 'rs-order/order/basket/dataset/{datasetSelectionId}/{itemsSelectionDate}', handler: removeBasketItem },
-      deletePartiallyOrder: {
-        url: 'rs-order/user/orders/{orderId}',
-        handler: (req, resp, { orderId }) => {
-          const idAsNumber = parseInt(orderId, 10)
-          const foundIndex = MOCKED_ORDERS_LIST.findIndex(order => order.content.id === idAsNumber)
-          console.error('Found index is then ', foundIndex)
-          if (foundIndex === -1) {
-            return { code: 404, content: [{ messages: 'Order not found' }] }
-          }
-          // mutate the list to hold the new state
-          MOCKED_ORDERS_LIST[foundIndex].content.status = 'DELETED'
-          return { code: 204 }
-        }
-      },
-      deleteCompletelyOrder: {
-        url: 'rs-order/user/orders/remove/{orderId}',
-        handler: (req, resp, { orderId }) => {
-          const idAsNumber = parseInt(orderId, 10)
-          const oldMockedOrderList = MOCKED_ORDERS_LIST
-          MOCKED_ORDERS_LIST = MOCKED_ORDERS_LIST.filter(order => order.content.id !== idAsNumber)
-          if (MOCKED_ORDERS_LIST.length === oldMockedOrderList.length - 1) {
-            return { code: 204 }
-          }
-          if (MOCKED_ORDERS_LIST.length === oldMockedOrderList) {
-            return { code: 404, content: [{ messages: 'Order not found' }] }
-          }
-          // roll back
-          MOCKED_ORDERS_LIST = oldMockedOrderList
-          return { code: 500, content: [{ messages: 'Order not found' }] }
-        }
-      },
+      // clearBasket: { url: 'rs-order/order/basket', handler: clearBasket },
+      // removeBasketDataset: { url: 'rs-order/order/basket/dataset/{datasetSelectionId}', handler: removeBasketDataset },
+      // removeBasketItem: { url: 'rs-order/order/basket/dataset/{datasetSelectionId}/{itemsSelectionDate}', handler: removeBasketItem },
+      // deletePartiallyOrder: {
+      //   url: 'rs-order/user/orders/{orderId}',
+      //   handler: (req, resp, { orderId }) => {
+      //     const idAsNumber = parseInt(orderId, 10)
+      //     const foundIndex = MOCKED_ORDERS_LIST.findIndex(order => order.content.id === idAsNumber)
+      //     console.error('Found index is then ', foundIndex)
+      //     if (foundIndex === -1) {
+      //       return { code: 404, content: [{ messages: 'Order not found' }] }
+      //     }
+      //     // mutate the list to hold the new state
+      //     MOCKED_ORDERS_LIST[foundIndex].content.status = 'DELETED'
+      //     return { code: 204 }
+      //   }
+      // },
+      // deleteCompletelyOrder: {
+      //   url: 'rs-order/user/orders/remove/{orderId}',
+      //   handler: (req, resp, { orderId }) => {
+      //     const idAsNumber = parseInt(orderId, 10)
+      //     const oldMockedOrderList = MOCKED_ORDERS_LIST
+      //     MOCKED_ORDERS_LIST = MOCKED_ORDERS_LIST.filter(order => order.content.id !== idAsNumber)
+      //     if (MOCKED_ORDERS_LIST.length === oldMockedOrderList.length - 1) {
+      //       return { code: 204 }
+      //     }
+      //     if (MOCKED_ORDERS_LIST.length === oldMockedOrderList) {
+      //       return { code: 404, content: [{ messages: 'Order not found' }] }
+      //     }
+      //     // roll back
+      //     MOCKED_ORDERS_LIST = oldMockedOrderList
+      //     return { code: 500, content: [{ messages: 'Order not found' }] }
+      //   }
+      // },
     }
   }
 }

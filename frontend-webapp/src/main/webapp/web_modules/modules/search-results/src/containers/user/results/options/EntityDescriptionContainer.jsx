@@ -18,8 +18,11 @@
  **/
 import keys from 'lodash/keys'
 import omit from 'lodash/omit'
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
+import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+import { descriptionLevelModel } from '@regardsoss/entities-common'
 import { descriptionLevelActions } from '../../../../clients/DescriptionLevelClient'
 import EntityDescriptionComponent from '../../../../components/user/results/options/EntityDescriptionComponent'
 
@@ -36,7 +39,7 @@ export class EntityDescriptionContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      dispatchShowDescription: entity => dispatch(descriptionLevelActions.show(entity)),
+      dispatchShowDescription: (entity, tab) => dispatch(descriptionLevelActions.show(entity, tab)),
     }
   }
 
@@ -55,7 +58,10 @@ export class EntityDescriptionContainer extends React.Component {
   onShowDescription = () => {
     // dispatch show description event
     const { entity, dispatchShowDescription } = this.props
-    dispatchShowDescription(entity)
+    // The tab we display depends of the entity
+    const isDocument = get(entity, 'content.entityType') === ENTITY_TYPES_ENUM.DOCUMENT
+    const tab = isDocument ? descriptionLevelModel.DescriptionLevelActions.TABS_ENUM.FILES : descriptionLevelModel.DescriptionLevelActions.TABS_ENUM.PROPERTIES
+    dispatchShowDescription(entity, tab)
   }
 
   render() {

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
 import get from 'lodash/get'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -26,9 +25,7 @@ import AccessRightsEnum from './AccessRightsEnum'
 class AccessRightsMetadataAcccessTableCustomCell extends React.Component {
   static propTypes = {
     // from table cell API
-    entity: DataManagementShapes.Dataset,
-    // This configuration properties
-    accessRights: DataManagementShapes.AccessRightList,
+    entity: DataManagementShapes.DatasetWithAccessRight,
   }
 
   static contextTypes = {
@@ -37,8 +34,7 @@ class AccessRightsMetadataAcccessTableCustomCell extends React.Component {
   }
 
   render() {
-    const accessRight = find(this.props.accessRights, ar => ar.content.dataset.id === this.props.entity.content.id)
-    const accessLevel = get(accessRight, 'content.accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
+    const accessLevel = get(this.props.entity, 'content.accessRight.accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
     return (
       <span>{this.context.intl.formatMessage({ id: `accessright.form.meta.accessLevel.${accessLevel}` })}</span>
     )

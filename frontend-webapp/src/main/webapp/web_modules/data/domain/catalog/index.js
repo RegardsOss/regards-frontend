@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { OBJECT_LINKED_FILE_ENUM, OBJECT_LINKED_FILE_TYPES } from './ObjectLinkedFileTypes'
 import { isURNTag, TagTypes } from './Tags'
 import Geometry from './geo/Geometry'
 import StaticQueryParameter from './query/common/StaticQueryParameter'
@@ -30,8 +29,6 @@ module.exports = {
   Geometry,
   isURNTag,
   TagTypes,
-  OBJECT_LINKED_FILE_ENUM,
-  OBJECT_LINKED_FILE_TYPES,
   StaticQueryParameter,
   OpenSearchQuery,
   OpenSearchQueryParameter,

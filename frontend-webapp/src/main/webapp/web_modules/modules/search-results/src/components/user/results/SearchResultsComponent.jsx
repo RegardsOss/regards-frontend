@@ -18,7 +18,7 @@
  **/
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { PageableInfiniteTableContainer, TableLayout, TableColumnBuilder } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableLayout, TableColumnBuilder, InfiniteGalleryContainer } from '@regardsoss/components'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicFacetsPageableActions, BasicFacetsPageableSelectors } from '@regardsoss/store-utils'
@@ -26,19 +26,23 @@ import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import { FacetArray } from '../../../models/facets/FacetShape'
 import { FilterListShape } from '../../../models/facets/FilterShape'
 import TableClient from '../../../clients/TableClient'
-import TableDisplayModeEnum from '../../../models/navigation/TableDisplayModeEnum'
-import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
-import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
-import SelectedFacetsHeaderRow from './header/SelectedFacetsHeaderRow'
+import { TableDisplayModeEnum, TableDisplayModeValues } from '../../../models/navigation/TableDisplayModeEnum'
+import DisplayModuleConf from '../../../models/DisplayModuleConf'
+import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
 import ListViewEntityCellContainer, { packThumbnailRenderData, packGridAttributesRenderData } from '../../../containers/user/results/cells/ListViewEntityCellContainer'
 import AddElementToCartContainer from '../../../containers/user/results/options/AddElementToCartContainer'
 import EntityDescriptionContainer from '../../../containers/user/results/options/EntityDescriptionContainer'
 import OneElementServicesContainer from '../../../containers/user/results/options/OneElementServicesContainer'
 import DownloadEntityFileContainer from '../../../containers/user/results/options/DownloadEntityFileContainer'
+import GalleryItemContainer from '../../../containers/user/results/gallery/GalleryItemContainer'
 import EmptyTableComponent from './EmptyTableComponent'
-import { DISPLAY_MODE_VALUES } from '../../../definitions/DisplayModeEnum'
+import OptionsAndTabsHeaderLine from './header/OptionsAndTabsHeaderLine'
+import ResultsAndFacetsHeaderRow from './header/ResultsAndFacetsHeaderRow'
+import SelectedFacetsHeaderRow from './header/SelectedFacetsHeaderRow'
+import SearchRelatedEntitiesComponent from './options/SearchRelatedEntitiesComponent'
 
 const RESULTS_PAGE_SIZE = 500
+const QUICKLOOK_PAGE_SIZE = 60
 
 /**
  * React component to manage search requests and display results. It handles locally the columns visible state, considered
@@ -50,7 +54,9 @@ class SearchResultsComponent extends React.Component {
     // static module configuration
     allowingFacettes: PropTypes.bool.isRequired,
     enableDownload: PropTypes.bool.isRequired,
+    enableQuicklooks: PropTypes.bool.isRequired, // are quicklook available on data items
     displayMode: PropTypes.oneOf(DISPLAY_MODE_VALUES),
+    displayConf: DisplayModuleConf,
 
     // results related
     resultsCount: PropTypes.number.isRequired,
@@ -64,12 +70,15 @@ class SearchResultsComponent extends React.Component {
 
     // dynamic display control
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired, // current view object type
-    tableViewMode: PropTypes.oneOf([TableDisplayModeEnum.LIST, TableDisplayModeEnum.TABLE]), // current mode
+    tableViewMode: PropTypes.oneOf(TableDisplayModeValues), // current mode
 
     // facets control
     showingFacettes: PropTypes.bool.isRequired,
     facets: FacetArray.isRequired,
     filters: FilterListShape.isRequired,
+
+    // quicklook search filter
+    displayOnlyQuicklook: PropTypes.bool.isRequired,
 
     // request control
     searchQuery: PropTypes.string.isRequired,
@@ -85,8 +94,10 @@ class SearchResultsComponent extends React.Component {
     onShowDataobjects: PropTypes.func.isRequired,
     onShowListView: PropTypes.func.isRequired,
     onShowTableView: PropTypes.func.isRequired,
+    onShowQuicklookView: PropTypes.func.isRequired,
     onSortByAttribute: PropTypes.func.isRequired,
     onToggleShowFacettes: PropTypes.func.isRequired,
+    onToggleDisplayOnlyQuicklook: PropTypes.func.isRequired,
     // from PluginServicesContainer HOC
     onStartSelectionService: PropTypes.func, // callback to start a selection service
     // from OrderCartContainer HOC
@@ -100,25 +111,26 @@ class SearchResultsComponent extends React.Component {
   }
 
   /**
-   * Has object type as parameter the services option
+   * Should services be enabled for object type as parameter
    * @param {objectType} entity type
-   * @return true if services are available for that type, false otherwise
+   * @return true if services should be enabled
    */
   static hasServices = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /**
-   * Has selection for current view type
+   * Should selection be enabled for object type as parameter
    * @param {objectType} entity type
-   * @return true if selection should be available
+   * @return true if selection should be enabled
    */
   static hasSelection = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
   /**
-   * Can search related elements in the given view object type ? (ie: set the element as tag)
+   * Should navigate to be enabled for object type as parameter. Note: navigate to is used to apply an element
+   * as filter for results
    * @param {objectType} entity type
-   * @return true if user can search related elements
+   * @return true if navigate to should be enabled
    */
-  static canSearchRelated = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATASET
+  static hasNavigateTo = objectType => objectType === DamDomain.ENTITY_TYPES_ENUM.DATASET
 
   /**
    * Stores reference on the static empty component
@@ -131,13 +143,15 @@ class SearchResultsComponent extends React.Component {
    */
   buildTableColumns = () => {
     const {
-      searchSelectors, attributePresentationModels, onSortByAttribute, onAddElementToCart, viewObjectType, enableDownload,
+      searchSelectors, attributePresentationModels, onSortByAttribute, onSetEntityAsTag,
+      onAddElementToCart, viewObjectType, enableDownload,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
     const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
+    const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
 
     return [
       // selection column
@@ -157,7 +171,7 @@ class SearchResultsComponent extends React.Component {
       // Options in current context
       TableColumnBuilder.buildOptionsColumn(
         formatMessage({ id: 'results.options.column.label' }),
-        this.buildTableOptions(enableServices, onAddElementToCart, enableDownload),
+        this.buildTableOptions(onAddElementToCart, onSetEntityAsTag, enableServices, enableDownload, enableNavigateTo),
         this.isColumnVisible(TableColumnBuilder.optionsColumnKey),
         fixedColumnWidth,
       ),
@@ -166,15 +180,20 @@ class SearchResultsComponent extends React.Component {
 
   /**
    * Builds table options
-   * @param {boolean} enableServices are services enabled in current context?
    * @param {function} onAddElementToCart callback to add element to cart (element) => (). Null if not available in context
-   * @param {boolean} enableDownload is download available in the table ?
+   * @param {function} onSearchEntity callback to add element to cart (element) => (). Null if not available in context
+   * @param {boolean} enableServices should enable services in options?
+   * @param {boolean} enableDownload should enable download in options?
+   * @param {boolean} enableNavigateTo should enable navigate to in options?
+   * @return [{OptionConstructor: function, optionProps: {*}}] table options
    */
-  buildTableOptions = (enableServices, onAddToCart, enableDownload) => [
+  buildTableOptions = (onAddToCart, onSearchEntity, enableServices, enableDownload, enableNavigateTo) => [
     // Download file description
     enableDownload ? { OptionConstructor: DownloadEntityFileContainer } : null,
     // Entity description
     { OptionConstructor: EntityDescriptionContainer },
+    // Search entity
+    enableNavigateTo ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
     // Entity services, only when enabled
     enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
     // Add to cart, only when enabled
@@ -196,7 +215,7 @@ class SearchResultsComponent extends React.Component {
     } = this.props
     const enableSelection = SearchResultsComponent.hasSelection(viewObjectType)
     const enableServices = SearchResultsComponent.hasServices(viewObjectType)
-    const enableSearchRelated = SearchResultsComponent.canSearchRelated(viewObjectType)
+    const enableNavigateTo = SearchResultsComponent.hasNavigateTo(viewObjectType)
 
     // build column. Note: label is ignored here as the columns button will get removed
     return TableColumnBuilder.buildColumn('single.list.column', 'single.list.column', null, {
@@ -207,7 +226,7 @@ class SearchResultsComponent extends React.Component {
         gridAttributesRenderData: packGridAttributesRenderData(attributePresentationModels),
         selectionEnabled: enableSelection,
         servicesEnabled: enableServices,
-        onSearchEntity: enableSearchRelated ? onSetEntityAsTag : null,
+        onSearchEntity: enableNavigateTo ? onSetEntityAsTag : null,
         onAddToCart: onAddElementToCart,
         enableDownload,
       },
@@ -224,46 +243,55 @@ class SearchResultsComponent extends React.Component {
   /** @return {boolean} true if currently displaying dataobjects */
   isDisplayingDataobjects = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA
 
+  /** @return {boolean} true if currently displaying documents */
+  isDisplayingDocuments = () => this.props.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DOCUMENT
+
   /** @return {boolean} true if currently in list view */
   isInListView = () => this.props.tableViewMode === TableDisplayModeEnum.LIST
 
   /** @return {boolean} true if currently in table view */
   isInTableView = () => this.props.tableViewMode === TableDisplayModeEnum.TABLE
 
+  /** @return {boolean} true if currently in table view */
+  isInQuicklookView = () => this.props.tableViewMode === TableDisplayModeEnum.QUICKLOOK
 
   render() {
     const { muiTheme } = this.context
     const tableTheme = muiTheme['components:infinite-table']
+    const resultsTheme = muiTheme['module:search-results']
 
     const {
       allowingFacettes, attributePresentationModels, displayMode, resultsCount, isFetching, searchActions, searchSelectors,
       viewObjectType, tableViewMode, showingFacettes, facets, filters, searchQuery, selectionServices, onChangeColumnsVisibility, onDeleteFacet,
       onSelectFacet, onShowDatasets, onShowDataobjects, onShowListView, onShowTableView, onSortByAttribute, onToggleShowFacettes,
-      onStartSelectionService, onAddSelectionToCart,
+      onStartSelectionService, onAddSelectionToCart, onShowQuicklookView, enableQuicklooks, displayConf, onToggleDisplayOnlyQuicklook, displayOnlyQuicklook,
+      onAddElementToCart, enableDownload,
     } = this.props
 
     let columns
-    let lineHeight
+    let { lineHeight } = tableTheme
     let displayColumnsHeader
-    let displayedRowsCount
+    let minRowCount
+    let maxRowCount
 
     const tableColumns = this.buildTableColumns()
     if (this.isInTableView()) {
-      displayedRowsCount = tableTheme.rowCount
-      lineHeight = tableTheme.lineHeight
       columns = tableColumns
       displayColumnsHeader = true
-    } else { // use list columns
-      displayedRowsCount = tableTheme.listRowCount
-      lineHeight = tableTheme.listLineHeight
+      minRowCount = tableTheme.minRowCount
+      maxRowCount = tableTheme.maxRowCount
+    } else if (this.isInListView()) { // use list columns
+      minRowCount = resultsTheme.minListRowCount
+      maxRowCount = resultsTheme.maxListRowCount
+      lineHeight = resultsTheme.listLineHeight
       columns = [this.buildListColumn()]
       displayColumnsHeader = false
     }
 
-    // TODO-V3 do refactor that please
+    // TODO-V3 do refactor to use request parameters instead or path params
     const pathParams = { parameters: searchQuery }
-    const showFacets = this.isDisplayingDataobjects() && allowingFacettes && showingFacettes
-
+    const showFacets = ((this.isDisplayingDataobjects() && showingFacettes) || this.isDisplayingDocuments()) && allowingFacettes
+    const itemProps = { attributePresentationModels, onAddElementToCart, enableDownload }
     return (
       <TableLayout>
         {/* First header row :Table tabs and options */}
@@ -274,7 +302,9 @@ class SearchResultsComponent extends React.Component {
           searchSelectors={searchSelectors}
           attributePresentationModels={attributePresentationModels}
           tableColumns={tableColumns}
-          allowingFacettes={allowingFacettes}
+          displayFacettesButton={allowingFacettes}
+          displayOnlyQuicklook={displayOnlyQuicklook}
+          enableQuicklooks={enableQuicklooks}
           showingFacettes={showingFacettes}
           selectionServices={selectionServices}
           onAddSelectionToCart={onAddSelectionToCart}
@@ -283,9 +313,11 @@ class SearchResultsComponent extends React.Component {
           onShowDatasets={onShowDatasets}
           onShowListView={onShowListView}
           onShowTableView={onShowTableView}
+          onShowQuicklookView={onShowQuicklookView}
           onSortByAttribute={onSortByAttribute}
           onStartSelectionService={onStartSelectionService}
           onToggleShowFacettes={onToggleShowFacettes}
+          onToggleDisplayOnlyQuicklook={onToggleDisplayOnlyQuicklook}
         />
         {/* Second header row: results, loading, and optionally facets */}
         <ResultsAndFacetsHeaderRow
@@ -297,26 +329,38 @@ class SearchResultsComponent extends React.Component {
         />
         {/* Third header row (only with facets enabled):  */}
         <SelectedFacetsHeaderRow
-          showingFacettes={showingFacettes}
+          showingFacettes={showFacets}
           filters={filters}
           onDeleteFilter={onDeleteFacet}
         />
-        {/* Table content */}
-        <PageableInfiniteTableContainer
-          key={viewObjectType} // unmount the table when change entity type (using key trick)
-          // infinite table configuration
-          pageActions={searchActions}
-          pageSelectors={searchSelectors}
-          tableActions={TableClient.tableActions}
+        {this.isInQuicklookView() ?
+          (<InfiniteGalleryContainer
+            itemComponent={GalleryItemContainer}
+            pageActions={searchActions}
+            pageSelectors={searchSelectors}
+            columnWidth={displayConf.quicklookColumnWidth}
+            columnGutter={displayConf.quicklookColumnSpacing}
+            pathParams={pathParams}
+            queryPageSize={QUICKLOOK_PAGE_SIZE}
+            emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
+            itemProps={itemProps}
+          />) : (<PageableInfiniteTableContainer
+            key={viewObjectType} // unmount the table when change entity type (using key trick)
+            // infinite table configuration
+            pageActions={searchActions}
+            pageSelectors={searchSelectors}
+            tableActions={TableClient.tableActions}
 
-          displayColumnsHeader={displayColumnsHeader}
-          lineHeight={lineHeight}
-          displayedRowsCount={displayedRowsCount}
-          columns={columns}
-          queryPageSize={RESULTS_PAGE_SIZE}
-          pathParams={pathParams}
-          emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
-        />
+            displayColumnsHeader={displayColumnsHeader}
+            lineHeight={lineHeight}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
+            columns={columns}
+            queryPageSize={RESULTS_PAGE_SIZE}
+            pathParams={pathParams}
+            emptyComponent={SearchResultsComponent.EMPTY_COMPONENT}
+          />)
+        }
       </TableLayout>
     )
   }

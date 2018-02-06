@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ENTITY_TYPES } from '@regardsoss/domain/dam'
-import { OBJECT_LINKED_FILE_TYPES } from '@regardsoss/domain/catalog'
+import { CommonDomain } from '@regardsoss/domain'
 import EntityGeoProperties from './EntityGeoProperties'
 import { DataFile } from '../../rs-dam/DataFile'
 import URL from '../../rs-common/URL'
@@ -28,7 +28,7 @@ import URL from '../../rs-common/URL'
  */
 
 /* Entity files attribute as key: file type, value: file array */
-const entityFiles = PropTypes.shape(OBJECT_LINKED_FILE_TYPES.reduce((acc, fileType) => ({
+const entityFiles = PropTypes.shape(CommonDomain.DataTypes.reduce((acc, fileType) => ({
   ...acc,
   [fileType]: PropTypes.arrayOf(DataFile),
 }), {}))
@@ -44,6 +44,7 @@ const entityFields = {
   geometry: EntityGeoProperties,
   properties: PropTypes.object,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  containsPhysicalData: PropTypes.bool,
   // description file for collections and datasets only
   descriptionFile: PropTypes.shape({
     // URL: external URL file (cannot be present at same time than type)

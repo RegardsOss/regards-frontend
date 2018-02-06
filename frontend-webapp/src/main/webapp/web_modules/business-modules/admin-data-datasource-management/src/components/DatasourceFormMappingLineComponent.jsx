@@ -80,16 +80,17 @@ export class DatasourceFormMappingLineComponent extends React.Component {
     const { modelAttribute, tableAttributeList, onlyAdvancedConfiguration } = this.props
     const { showAdvanced, prefix } = this.state
     if (onlyAdvancedConfiguration) {
-      return (<div>
-        <Field
-          name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.sql`}
-          fullWidth
-          component={RenderTextField}
-          type="text"
-          label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.input' })}
-          multiLine
-        />
-      </div>)
+      return (
+        <div>
+          <Field
+            name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.sql`}
+            fullWidth
+            component={RenderTextField}
+            type="text"
+            label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.input' })}
+            multiLine
+          />
+        </div>)
     }
 
     const items = [
@@ -111,39 +112,40 @@ export class DatasourceFormMappingLineComponent extends React.Component {
         )),
       )(tableAttributeList),
     ]
-    return (<div>
-      <Checkbox
-        label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
-        checked={showAdvanced}
-        onTouchTap={this.handleToggleAdvanced}
-        className={`selenium-useSQL-${modelAttribute.content.attribute.name}`}
-      />
-      <ShowableAtRender
-        show={showAdvanced}
-      >
-        <Field
-          name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.sql`}
-          fullWidth
-          component={RenderTextField}
-          type="text"
-          label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.input' })}
-          multiLine
+    return (
+      <div>
+        <Checkbox
+          label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
+          checked={showAdvanced}
+          onClick={this.handleToggleAdvanced}
+          className={`selenium-useSQL-${modelAttribute.content.attribute.name}`}
         />
-      </ShowableAtRender>
-      <ShowableAtRender
-        show={!showAdvanced}
-      >
-        <Field
-          name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.tableAttribute`}
-          fullWidth
-          component={RenderSelectField}
-          type="text"
-          label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.select' })}
+        <ShowableAtRender
+          show={showAdvanced}
         >
-          {items}
-        </Field>
-      </ShowableAtRender>
-    </div>)
+          <Field
+            name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.sql`}
+            fullWidth
+            component={RenderTextField}
+            type="text"
+            label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.input' })}
+            multiLine
+          />
+        </ShowableAtRender>
+        <ShowableAtRender
+          show={!showAdvanced}
+        >
+          <Field
+            name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.tableAttribute`}
+            fullWidth
+            component={RenderSelectField}
+            type="text"
+            label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.select' })}
+          >
+            {items}
+          </Field>
+        </ShowableAtRender>
+      </div>)
   }
 
   renderFragmentName = () => {

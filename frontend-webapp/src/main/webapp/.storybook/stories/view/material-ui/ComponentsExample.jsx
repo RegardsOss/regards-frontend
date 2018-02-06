@@ -230,7 +230,7 @@ class ThemesPage extends React.Component {
             onRequestClose={this.handleRequestCloseSnackbar}
             message="This is a snackbar"
             action="Got It!"
-            onActionTouchTap={this.handleRequestCloseSnackbar}
+            onActionClick={this.handleRequestCloseSnackbar}
           />
         </div>
       </ClearFix>

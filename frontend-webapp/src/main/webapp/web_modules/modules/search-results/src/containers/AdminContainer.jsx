@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
@@ -32,7 +33,7 @@ import {
   DocumentAttributeModelSelectors,
 } from '../clients/DocumentAttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
-
+import AdminModuleConf from '../models/AdminModuleConf'
 
 /**
  * Main container to display administration view of the module form.
@@ -47,7 +48,12 @@ export class AdminContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     project: PropTypes.string,
     adminForm: PropTypes.shape({
+      currentNamespace: PropTypes.string,
+      isCreating: PropTypes.bool,
+      isDuplicating: PropTypes.bool,
+      isEditing: PropTypes.bool,
       changeField: PropTypes.func.isRequired,
+      conf: AdminModuleConf,
       form: PropTypes.shape({
         // Specific current module configuration for the current AdminContainer
         conf: ModuleConfiguration,
@@ -81,15 +87,20 @@ export class AdminContainer extends React.Component {
   }
 
   render() {
+    const currentFormValues = get(this.props.adminForm.form, this.props.adminForm.currentNamespace)
+    const adminConf = get(this.props.adminForm, 'conf', {})
     if (this.props.adminForm.form && !this.state.isLoading) {
       return (
         <SearchResultsConfigurationComponent
           dataAttributeModels={this.props.dataAttributeModels}
           datasetAttributeModels={this.props.datasetAttributeModels}
           documentAttributeModels={this.props.documentAttributeModels}
-          currentFormValues={this.props.adminForm.form.conf}
+          currentFormValues={currentFormValues}
           initialFormValues={this.props.moduleConf}
+          isCreating={this.props.adminForm.isCreating}
+          adminConf={adminConf}
           changeField={this.props.adminForm.changeField}
+          currentNamespace={this.props.adminForm.currentNamespace}
         />
       )
     }

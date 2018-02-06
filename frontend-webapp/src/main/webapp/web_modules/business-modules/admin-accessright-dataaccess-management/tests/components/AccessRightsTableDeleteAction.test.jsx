@@ -43,9 +43,14 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessRightsTableDeleteAction',
     accessRight.content.dataset.id = dataset.content.id
 
     const props = {
-      entity: dataset,
       onDelete: () => { },
-      accessRights: { accessRight },
+      entity: {
+        content: {
+          datasetIpId: dataset.content.ipId,
+          dataset: dataset.content,
+          accessRight: accessRight.content,
+        },
+      },
     }
     shallow(<AccessRightsTableDeleteAction {...props} />, { context })
   })

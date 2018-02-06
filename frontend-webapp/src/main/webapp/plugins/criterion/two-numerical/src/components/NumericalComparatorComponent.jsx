@@ -32,7 +32,6 @@ import EnumNumericalComparator from '../model/EnumNumericalComparator'
  * @author Xavier-Alexandre Brochard
  */
 export class NumericalComparatorComponent extends React.Component {
-
   static propTypes = {
     /**
      * Signature:
@@ -99,7 +98,7 @@ export class NumericalComparatorComponent extends React.Component {
       <div>
         <RaisedButton
           label={EnumNumericalComparator.getLabel(this.props.value)}
-          onTouchTap={this.handleOpenMenu}
+          onClick={this.handleOpenMenu}
           style={comparatorButtonStyle}
         />
         <IconMenu
