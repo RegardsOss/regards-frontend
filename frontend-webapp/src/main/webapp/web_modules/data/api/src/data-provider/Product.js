@@ -16,19 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AcquisitionProcessingChain from './AcquisitionProcessingChain'
-import AcquisitionProcessingChainMonitor from './AcquisitionProcessingChainMonitor'
-import AcquisitionFileInfo from './AcquisitionFileInfo'
-import Product from './Product'
-import AcquisitionFile from './AcquisitionFile'
 
-/**
- * @author Sébastien Binda
- */
+
+import { Schema, arrayOf } from 'normalizr'
+
+const ProductConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'product',
+}
+
+const Product = new Schema(ProductConfiguration.normalizrKey, {
+  idAttribute: entity =>
+    entity.content[ProductConfiguration.entityKey]
+  ,
+})
+
+// Schemas for API responses.
 module.exports = {
-  ...AcquisitionProcessingChain,
-  ...AcquisitionProcessingChainMonitor,
-  ...AcquisitionFileInfo,
-  ...Product,
-  ...AcquisitionFile,
+  PRODUCT: Product,
+  PRODUCT_ARRAY: arrayOf(Product),
+  ProductConfiguration,
 }

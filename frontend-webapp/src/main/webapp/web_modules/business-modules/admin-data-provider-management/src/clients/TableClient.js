@@ -22,11 +22,18 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
  * Infinite table actions client.
  * @author Sébastien Binda
  */
-const ACQUISITION_PROCESSING_CHAIN_NAMESPACE = 'admin-ingest-management/acquisition-processing-chain-table'
+const ACQUISITION_PROCESSING_CHAIN_NAMESPACE = 'data-provider-management/acquisition-processing-chain-table'
 const ACQUISITION_PROCESSING_CHAIN_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'processingChainTable']
 
-const ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE = 'admin-ingest-management/acquisition-processing-chain-monitor-table'
+const ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE = 'data-provider-management/acquisition-processing-chain-monitor-table'
 const ACQUISITION_PROCESSING_CHAIN_MONITOR_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'processingChainMonitorTable']
+
+const PRODUCT_NAMESPACE = 'data-provider-management/acquisition-product-table'
+const PRODUCT_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'product']
+
+const ACQUISITION_FILE_NAMESPACE = 'data-provider-management/acquisition-file-table'
+const ACQUISITION_FILE_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'acquisitionFile']
+
 module.exports = {
   tableActions: new TableActions(ACQUISITION_PROCESSING_CHAIN_NAMESPACE),
   tableReducer: getTableReducer(ACQUISITION_PROCESSING_CHAIN_NAMESPACE),
@@ -35,4 +42,12 @@ module.exports = {
   tableMonitorActions: new TableActions(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE),
   tableMonitorReducer: getTableReducer(ACQUISITION_PROCESSING_CHAIN_MONITOR_NAMESPACE),
   tableMonitorSelectors: getTableSelectors(ACQUISITION_PROCESSING_CHAIN_MONITOR_STORE_PATH),
+
+  tableProductActions: new TableActions(PRODUCT_NAMESPACE),
+  tableProductReducer: getTableReducer(PRODUCT_NAMESPACE),
+  tableProductSelectors: getTableSelectors(PRODUCT_STORE_PATH),
+
+  tableAcquisitionFileActions: new TableActions(ACQUISITION_FILE_NAMESPACE),
+  tableAcquisitionFileReducer: getTableReducer(ACQUISITION_FILE_NAMESPACE),
+  tableAcquisitionFileSelectors: getTableSelectors(ACQUISITION_FILE_STORE_PATH),
 }

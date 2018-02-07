@@ -68,12 +68,25 @@ export const AcquisitionProcessingChainMonitoringRoute = {
   },
 }
 
+export const ProductRoute = {
+  path: 'monitoring/chains/:chainId/products',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/monitoring/ProductListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const dataProviderManagementRouter = {
   childRoutes: [
     AcquisitionProcessingChainRoute,
     AcquisitionProcessingChainCreateRoute,
     AcquisitionProcessingChainEditOrDuplicateRoute,
     AcquisitionProcessingChainMonitoringRoute,
+    ProductRoute,
   ],
 }
 

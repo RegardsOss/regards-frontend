@@ -16,19 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AcquisitionProcessingChain from './AcquisitionProcessingChain'
-import AcquisitionProcessingChainMonitor from './AcquisitionProcessingChainMonitor'
-import AcquisitionFileInfo from './AcquisitionFileInfo'
-import Product from './Product'
-import AcquisitionFile from './AcquisitionFile'
+
+
+import { BasicPageableActions } from '@regardsoss/store-utils'
+import Schemas from '@regardsoss/api'
 
 /**
+ * Actions to get products list
  * @author Sébastien Binda
  */
-module.exports = {
-  ...AcquisitionProcessingChain,
-  ...AcquisitionProcessingChainMonitor,
-  ...AcquisitionFileInfo,
-  ...Product,
-  ...AcquisitionFile,
+class ProductActions extends BasicPageableActions {
+  /**
+   * constructor
+   * @param {*} namespace namespace
+   */
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/products`,
+      namespace,
+      schemaTypes: {
+        ENTITY: Schemas.PRODUCT,
+        ENTITY_ARRAY: Schemas.PRODUCT_ARRAY,
+      },
+    })
+  }
 }
+
+export default ProductActions

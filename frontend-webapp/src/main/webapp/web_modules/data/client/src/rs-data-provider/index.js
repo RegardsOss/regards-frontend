@@ -26,6 +26,14 @@ import AcquisitionProcessingChainMonitorActions from './AcquisitionProcessingCha
 import getAcquisitionProcessingChainMonitorReducer from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorReducer'
 import getAcquisitionProcessingChainMonitorSelectors from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorSelectors'
 
+import ProductActions from './Product/ProductActions'
+import getProductReducer from './Product/ProductReducer'
+import getProductSelectors from './Product/ProductSelectors'
+
+import AcquisitionFileActions from './AcquisitionFile/AcquisitionFileActions'
+import getAcquisitionFileReducer from './AcquisitionFile/AcquisitionFileReducer'
+import getAcquisitionFileSelectors from './AcquisitionFile/AcquisitionFileSelectors'
+
 /**
  * Index for all data provider microservice clients.
  * @author Sébastien Binda
@@ -41,5 +49,12 @@ module.exports = {
   getAcquisitionProcessingChainMonitorReducer,
   getAcquisitionProcessingChainMonitorSelectors,
 
+  ProductActions,
+  getProductReducer,
+  getProductSelectors,
+
+  AcquisitionFileActions,
+  getAcquisitionFileReducer,
+  getAcquisitionFileSelectors,
 
 }

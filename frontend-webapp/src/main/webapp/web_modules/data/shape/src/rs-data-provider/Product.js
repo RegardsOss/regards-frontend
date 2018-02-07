@@ -17,18 +17,33 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import AcquisitionProcessingChain from './AcquisitionProcessingChain'
-import AcquisitionProcessingChainMonitor from './AcquisitionProcessingChainMonitor'
-import AcquisitionFileInfo from './AcquisitionFileInfo'
-import Product from './Product'
 import AcquisitionFile from './AcquisitionFile'
 
 /**
+ * Describes a Product shape and related sub objects
  * @author Sébastien Binda
  */
+
+/** A dated selection item shape */
+const ProductContent = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  ipId: PropTypes.string.isRequired,
+  state: PropTypes.string.isRequired,
+  sipState: PropTypes.string,
+  productName: PropTypes.string.isRequired,
+  processingChain: AcquisitionProcessingChain.AcquisitionProcessingChainContent,
+  fileList: AcquisitionFile.AcquisitionFileArray,
+})
+
+const Product = PropTypes.shape({
+  content: ProductContent,
+})
+const ProductList = PropTypes.objectOf(Product)
+const ProductArray = PropTypes.arrayOf(Product)
+
 module.exports = {
-  ...AcquisitionProcessingChain,
-  ...AcquisitionProcessingChainMonitor,
-  ...AcquisitionFileInfo,
-  ...Product,
-  ...AcquisitionFile,
+  ProductList,
+  ProductArray,
+  ProductContent,
+  Product,
 }

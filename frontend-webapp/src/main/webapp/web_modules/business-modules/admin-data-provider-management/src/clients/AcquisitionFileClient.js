@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,20 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import AcquisitionProcessingChain from './AcquisitionProcessingChain'
-import AcquisitionProcessingChainMonitor from './AcquisitionProcessingChainMonitor'
-import AcquisitionFileInfo from './AcquisitionFileInfo'
-import Product from './Product'
-import AcquisitionFile from './AcquisitionFile'
+ */
+import { DataProviderClient } from '@regardsoss/client'
 
 /**
+ * Dataprovider acquisition file entities client.
  * @author Sébastien Binda
  */
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'acquisitionFile']
+const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/acquisition-files'
+
+const AcquisitionFileActions = new DataProviderClient.AcquisitionFileActions(REDUX_ACTION_NAMESPACE)
+const AcquisitionFileReducer = DataProviderClient.getAcquisitionFileReducer(REDUX_ACTION_NAMESPACE)
+const AcquisitionFileSelectors = DataProviderClient.getAcquisitionFileSelectors(ENTITIES_STORE_PATH)
+
 module.exports = {
-  ...AcquisitionProcessingChain,
-  ...AcquisitionProcessingChainMonitor,
-  ...AcquisitionFileInfo,
-  ...Product,
-  ...AcquisitionFile,
+  AcquisitionFileActions,
+  AcquisitionFileReducer,
+  AcquisitionFileSelectors,
 }

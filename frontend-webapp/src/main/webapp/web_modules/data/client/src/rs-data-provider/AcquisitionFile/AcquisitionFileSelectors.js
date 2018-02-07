@@ -15,20 +15,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import AcquisitionProcessingChain from './AcquisitionProcessingChain'
-import AcquisitionProcessingChainMonitor from './AcquisitionProcessingChainMonitor'
-import AcquisitionFileInfo from './AcquisitionFileInfo'
-import Product from './Product'
-import AcquisitionFile from './AcquisitionFile'
+ */
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
+ * Generation chains list selectors
  * @author Sébastien Binda
  */
-module.exports = {
-  ...AcquisitionProcessingChain,
-  ...AcquisitionProcessingChainMonitor,
-  ...AcquisitionFileInfo,
-  ...Product,
-  ...AcquisitionFile,
-}
+
+/**
+ * Selectors instance builders
+ * @param {[string]} storePath path to access state in redux store
+ * @return selectors instance
+ */
+const getAcquisitionFileSelectors = storePath => new BasicPageableSelectors(storePath)
+
+export default getAcquisitionFileSelectors

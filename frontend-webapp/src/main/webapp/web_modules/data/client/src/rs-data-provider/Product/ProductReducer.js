@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,20 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import AcquisitionProcessingChain from './AcquisitionProcessingChain'
-import AcquisitionProcessingChainMonitor from './AcquisitionProcessingChainMonitor'
-import AcquisitionFileInfo from './AcquisitionFileInfo'
-import Product from './Product'
-import AcquisitionFile from './AcquisitionFile'
+ */
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { ProductConfiguration } from '@regardsoss/api'
+import ProductActions from './ProductActions'
 
 /**
+ * Generation chains reducer
  * @author Sébastien Binda
  */
-module.exports = {
-  ...AcquisitionProcessingChain,
-  ...AcquisitionProcessingChainMonitor,
-  ...AcquisitionFileInfo,
-  ...Product,
-  ...AcquisitionFile,
+
+/**
+ * Exports the reducer builder on namespace
+ * @param {*} namespace namespace
+ * @return {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new BasicPageableReducers(ProductConfiguration, new ProductActions(namespace))
+  return (state, action) => instance.reduce(state, action)
 }
