@@ -16,11 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
-import AcquisitionProcessingChaineModes from './AcquisitionProcessingChaineModes'
-import ProductStateEnum from './ProductStateEnum'
+/**
+ * Possible acqisition processing chain
+ * @author Sébastien Binda
+ */
+const ProductStateEnum = {
+  ACQUIRING: 'ACQUIRING',
+  COMPLETED: 'COMPLETED',
+  FINISHED: 'FINISHED',
+  ERROR: 'ERROR',
+}
 
 module.exports = {
-  ...AcquisitionProcessingChaineModes,
-  ...ProductStateEnum,
+  ProductStateEnum,
+  ProductStateValues: values(ProductStateEnum),
 }

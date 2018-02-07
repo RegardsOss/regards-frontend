@@ -94,9 +94,12 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
   }
 
   render() {
-    const { meta, entitiesLoading, runChain } = this.props
+    const {
+      meta, entitiesLoading, runChain, params: { project },
+    } = this.props
     return (
       <AcquisitionProcessingChainMonitorListComponent
+        project={project}
         onRefresh={this.onRefresh}
         onBack={this.onBack}
         onRunChain={runChain}

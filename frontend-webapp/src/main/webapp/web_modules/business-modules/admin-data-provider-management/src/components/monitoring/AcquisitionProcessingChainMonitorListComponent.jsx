@@ -51,6 +51,7 @@ import styles from '../../styles'
 */
 class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
@@ -295,7 +296,7 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
   render() {
     const { intl: { formatMessage }, muiTheme } = this.context
     const {
-      onBack, pageSize, resultsCount, entitiesLoading,
+      onBack, pageSize, resultsCount, entitiesLoading, project,
     } = this.props
     const { appliedFilters, errorMessage } = this.state
 
@@ -315,6 +316,7 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
       }),
       TableColumnBuilder.buildSimpleColumnWithCell('column.products', formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-products' }), {
         Constructor: AcquisitionProcessingChainMonitoringProductsRenderer,
+        props: { project },
       }),
       TableColumnBuilder.buildSimpleColumnWithCell('column.files', formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-files' }), {
         Constructor: AcquisitionProcessingChainMonitoringFilesRenderer,

@@ -23,6 +23,7 @@ import CatalogDomain from './catalog'
 import CommonDomain from './common'
 import DamDomain from './dam'
 import DataProviderDomain from './data-provider'
+import IngestDomin from './ingest'
 import OrderDomain from './order'
 
 module.exports = {
@@ -33,5 +34,6 @@ module.exports = {
   CommonDomain,
   DamDomain,
   DataProviderDomain,
+  IngestDomin,
   OrderDomain,
 }

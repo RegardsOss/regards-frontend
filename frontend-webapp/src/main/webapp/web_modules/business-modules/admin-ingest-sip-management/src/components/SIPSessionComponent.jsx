@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import values from 'lodash/values'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
@@ -58,14 +59,12 @@ class SIPSessionComponent extends React.Component {
   static propTypes = {
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    appliedFilters: PropTypes.object.isRequired,
     handleOpen: PropTypes.func,
     onBack: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
-    handleFilter: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
+    initialFilters: PropTypes.object,
   }
 
   static contextTypes = {
@@ -79,15 +78,24 @@ class SIPSessionComponent extends React.Component {
     resultsCount: 0,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      filters: {
-        fromFilter: undefined,
-        toFilter: undefined,
-        nameFilter: '',
-      },
-      sessionToDelete: null,
+  state = {
+    filters: {},
+    appliedFilters: {},
+    sessionToDelete: null,
+  }
+
+  componentWillMount() {
+    const { initialFilters } = this.props
+    if (initialFilters) {
+      this.setState({
+        filters: initialFilters,
+      })
+    }
+  }
+
+  componentDidMount() {
+    if (values(this.state.filters).length > 0) {
+      this.handleFilter()
     }
   }
 
@@ -125,43 +133,57 @@ class SIPSessionComponent extends React.Component {
   }
 
 
-  changeNameFilter = (event, newValue) => {
+  changename = (event, newValue) => {
     this.setState({
       filters: {
         ...this.state.filters,
-        nameFilter: newValue,
+        name: newValue,
       },
     })
   }
 
-  changeFromFilter = (event, newDate) => {
+  changefrom = (event, newDate) => {
     newDate.setHours(0, 0, 0, 0)
     this.setState({
       filters: {
         ...this.state.filters,
-        fromFilter: newDate,
+        from: newDate,
       },
     })
   }
 
-  changeToFilter = (event, newDate) => {
+  changeto = (event, newDate) => {
     newDate.setHours(23, 59, 59, 999)
     this.setState({
       filters: {
         ...this.state.filters,
-        toFilter: newDate,
+        to: newDate,
       },
     })
   }
 
+  /**
+    * Clear all filters
+    */
   handleClearFilters = () => {
-    const newFilters = { filters: { fromFilter: undefined, toFilter: undefined, nameFilter: '' } }
-    this.setState({ filters: newFilters })
-    this.props.handleFilter(newFilters)
+    this.setState({ filters: {}, appliedFilters: {} })
   }
 
   handleFilter = () => {
-    this.props.handleFilter(this.state.filters)
+    const { filters } = this.state
+    const appliedFilters = {}
+    if (filters.name && filters.name !== '') {
+      appliedFilters.id = filters.name
+    }
+    if (filters.from) {
+      appliedFilters.from = filters.from.toISOString()
+    }
+    if (filters.to) {
+      appliedFilters.to = filters.to.toISOString()
+    }
+    this.setState({
+      appliedFilters,
+    })
   }
 
   renderFilters = () => {
@@ -175,27 +197,27 @@ class SIPSessionComponent extends React.Component {
               hintText={intl.formatMessage({
                 id: 'sips.session.filter.name.label',
               })}
-              onChange={this.changeNameFilter}
-              value={get(this.state, 'filters.nameFilter', '')}
+              onChange={this.changename}
+              value={get(this.state, 'filters.name', '')}
             />
             <DatePicker
-              value={this.state.filters.fromFilter}
+              value={this.state.filters.from}
               textFieldStyle={filter.dateStyle}
               hintText={intl.formatMessage({ id: 'sips.session.filter.from.label' })}
-              defaultDate={get(this.state, 'filters.fromFilter', undefined)}
-              onChange={this.changeFromFilter}
+              defaultDate={get(this.state, 'filters.from', undefined)}
+              onChange={this.changefrom}
             />
             <DatePicker
-              value={this.state.filters.toFilter}
+              value={this.state.filters.to}
               textFieldStyle={filter.dateStyle}
               hintText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
-              defaultDate={get(this.state, 'filters.toFilter', undefined)}
-              onChange={this.changeToFilter}
+              defaultDate={get(this.state, 'filters.to', undefined)}
+              onChange={this.changeto}
             />
             <FlatButton
               label={intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
               icon={<Close />}
-              disabled={!this.state.filters.nameFilter && !this.state.filters.toFilter && !this.state.filters.fromFilter}
+              disabled={!this.state.filters.name && !this.state.filters.to && !this.state.filters.from}
               onTouchTap={this.handleClearFilters}
             />
             <FlatButton
@@ -232,9 +254,10 @@ class SIPSessionComponent extends React.Component {
   }
 
   renderTable = () => {
-    const { pageSize, resultsCount, appliedFilters } = this.props
+    const { pageSize, resultsCount } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
+    const { appliedFilters } = this.state
 
     const emptyComponent = (
       <NoContentComponent

@@ -58,25 +58,38 @@ const styles = theme => ({
   },
   monitoring: {
     totalStyle: {
+      fontSize: '1.2em',
+      textDecoration: 'underline',
       color: theme['forms-extension:validation'].validColor,
+      cursor: 'pointer',
     },
     errorStyle: {
+      fontSize: '1.2em',
+      textDecoration: 'underline',
       borderLeft: `1px solid ${theme.palette.borderColor}`,
       paddingLeft: '4px',
       marginLeft: '4px',
       color: theme['forms-extension:validation'].errorColor,
+      cursor: 'pointer',
     },
     inProgressStyle: {
+      fontSize: '1.2em',
+      textDecoration: 'underline',
       borderLeft: `1px solid ${theme.palette.borderColor}`,
       paddingLeft: '4px',
       marginLeft: '4px',
       color: theme['forms-extension:validation'].warningColor,
+      cursor: 'pointer',
     },
     filters: {
       fieldStyle: {
-        width: '190px',
+        width: '210px',
         margin: '0px 10px',
       },
+    },
+    productSessionLink: {
+      textDecoration: 'underline',
+      cursor: 'pointer',
     },
   },
 })

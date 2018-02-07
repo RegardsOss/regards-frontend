@@ -16,11 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
-import AcquisitionProcessingChaineModes from './AcquisitionProcessingChaineModes'
-import ProductStateEnum from './ProductStateEnum'
+/**
+ * Possible acqisition processing chain
+ * @author Sébastien Binda
+ */
+const SIPStateEnum = {
+  CREATED: 'CREATED',
+  VALID: 'VALID',
+  AIP_CREATED: 'AIP_CREATED',
+  QUEUED: 'QUEUED',
+  STORED: 'STORED',
+  INDEXED: 'INDEXED',
+  REJECTED: 'REJECTED',
+  INVALID: 'INVALID',
+  AIP_GEN_ERROR: 'AIP_GEN_ERROR',
+  STORE_ERROR: 'STORE_ERROR',
+  INCOMPLETE: 'INCOMPLETE',
+  DELETED: 'DELETED',
+}
 
 module.exports = {
-  ...AcquisitionProcessingChaineModes,
-  ...ProductStateEnum,
+  SIPStateEnum,
+  SIPStateValues: values(SIPStateEnum),
 }

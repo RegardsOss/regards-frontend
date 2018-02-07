@@ -79,7 +79,7 @@ const items = (projectName, intl) => [
         hateoasDependencies: dataProviderDependencies.listDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/dataprovider/monitoring`,
+        path: `/admin/${projectName}/data/acquisition/dataprovider/monitoring/chains`,
         icon: <PageView />,
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.monitoring.tooltip' }),
         hateoasDependencies: dataProviderDependencies.listDependencies,

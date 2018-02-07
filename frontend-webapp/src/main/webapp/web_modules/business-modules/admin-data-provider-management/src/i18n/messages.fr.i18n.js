@@ -106,11 +106,11 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.error-nb-files.tooltip': 'Fichiers en erreur',
   'acquisition-chain.monitor.list.inprogress-nb-files.tooltip': 'Fichiers en cours',
 
-  // 3.1.2.3 Table actions
+  // 3.1.3 Table actions
   'acquisition-chain.monitor.list.run.tooltip': 'Lancer la chaîne',
   'acquisition-chain.monitor.list.run.error': 'Erreur durant le lancement de la chaîne de traitement {label} ({chainId})',
 
-  // 3.1.2.4 Table filters
+  // 3.1.4 Table filters
   'acquisition-chain.monitor.list.filters.label': 'Libellé',
   'acquisition-chain.monitor.list.filters.running': 'Etat d\'activation',
   'acquisition-chain.monitor.list.filters.mode': 'Mode d\'activation',
@@ -125,6 +125,47 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.refresh.button': 'Raffraîchir',
   'acquisition-chain.monitor.list.back.button': 'Retour',
 
+  // 4. Products list
+  // 4.1 Headers
+  'acquisition-product.list.title': 'Liste des produits de la chaîne d\'acquisition {chain}',
+  'acquisition-product.empty.title': 'Aucun produit',
+  'acquisition-product.list.productName': 'Produit',
+  'acquisition-product.list.lastUpdate': 'Date de mise à jour',
+  'acquisition-product.list.state': 'Etat',
+  'acquisition-product.list.sipState': 'Etat du SIP',
+  'acquisition-product.list.session': 'Session',
+
+
+  //4.2 Filters
+  'acquisition.product.list.filters.state': 'Etat des produits',
+  'acquisition-product.list.subtitle': '',
+  'acquisition.product.list.filters.sipState': 'Etat des SIPs',
+  'acquisition.product.list.filters.state.ACQUIRING': 'En cours',
+  'acquisition.product.list.filters.state.COMPLETED': 'En cours (complet)',
+  'acquisition.product.list.filters.state.FINISHED': 'Terminé',
+  'acquisition.product.list.filters.state.ERROR': 'Erreur',
+  'acquisition.product.list.filters.sipState.CREATED': 'En cours (créé)',
+  'acquisition.product.list.filters.sipState.REJECTED': 'Refusé',
+  'acquisition.product.list.filters.sipState.QUEUED': 'En attente',
+  'acquisition.product.list.filters.sipState.VALID': 'En cours (Valide)',
+  'acquisition.product.list.filters.sipState.INVALID': 'Invalide',
+  'acquisition.product.list.filters.sipState.AIP_GEN_ERROR': 'Erreur AIP génération',
+  'acquisition.product.list.filters.sipState.AIP_CREATED': 'En cours (AIP généré)',
+  'acquisition.product.list.filters.sipState.STORED': 'Stocké',
+  'acquisition.product.list.filters.sipState.STORE_ERROR': 'Erreur de stockage',
+  'acquisition.product.list.filters.sipState.INDEXED': 'Indexé',
+  'acquisition.product.list.filters.sipState.INCOMPLETE': 'Incompet',
+  'acquisition.product.list.filters.sipState.DELETED': 'Supprimé',
+  'acquisition-product.list.filters.productName': 'Nom du produit',
+  'acquisition.product.list.filters.session': 'Session d\'ingestion',
+  'acquisition.product.list.filters.from': 'Acquis depuis le ...',
+
+  // 4.3 actions
+  'acquisition-product.list.back.button': 'Retour',
+  'acquisition.product.list.filters.clear.button': 'Vider',
+  'acquisition.product.list.filters.apply.button': 'Appliquer les filtres',
+  'acquisition.product.list.refresh.button': 'Raffraîchir',
+  'acquisition.product.list.sip.session.link.title': 'Visualiser l\'état de la session',
 
 }, Locales.fr)
 

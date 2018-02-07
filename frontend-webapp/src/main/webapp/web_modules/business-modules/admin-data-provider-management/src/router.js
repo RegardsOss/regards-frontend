@@ -57,7 +57,7 @@ export const AcquisitionProcessingChainEditOrDuplicateRoute = {
 }
 
 export const AcquisitionProcessingChainMonitoringRoute = {
-  path: 'monitoring',
+  path: 'monitoring/chains',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const container = require('./containers/monitoring/AcquisitionProcessingChainMonitorListContainer')
@@ -80,6 +80,18 @@ export const ProductRoute = {
   },
 }
 
+export const AcquisitionFileRoute = {
+  path: 'monitoring/chains/:chainId/files',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/monitoring/AcquisitionFileListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const dataProviderManagementRouter = {
   childRoutes: [
     AcquisitionProcessingChainRoute,
@@ -87,6 +99,7 @@ const dataProviderManagementRouter = {
     AcquisitionProcessingChainEditOrDuplicateRoute,
     AcquisitionProcessingChainMonitoringRoute,
     ProductRoute,
+    AcquisitionFileRoute,
   ],
 }
 

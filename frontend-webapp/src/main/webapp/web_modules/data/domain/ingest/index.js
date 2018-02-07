@@ -17,10 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import AcquisitionProcessingChaineModes from './AcquisitionProcessingChaineModes'
-import ProductStateEnum from './ProductStateEnum'
+import SIPStateEnum from './SIPStateEnum'
 
 module.exports = {
-  ...AcquisitionProcessingChaineModes,
-  ...ProductStateEnum,
+  ...SIPStateEnum,
 }

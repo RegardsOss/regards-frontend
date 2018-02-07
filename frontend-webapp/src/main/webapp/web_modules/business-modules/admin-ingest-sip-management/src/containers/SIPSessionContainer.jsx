@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import SIPSessionComponent from '../components/SIPSessionComponent'
@@ -73,11 +74,12 @@ export class SIPSessionContainer extends React.Component {
 
   static PAGE_SIZE = 20
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      appliedFilters: {},
-    }
+  state = {
+    initialFilters: {},
+  }
+
+  componentWillMount() {
+    this.initializeFiltersFromURL()
   }
 
   onBack = () => {
@@ -98,24 +100,16 @@ export class SIPSessionContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleFilter = (filters) => {
-    const appliedFilters = {}
-    if (filters.nameFilter && filters.nameFilter !== '') {
-      appliedFilters.id = filters.nameFilter
+  initializeFiltersFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    if (values(query).length > 0) {
+      this.setState({ initialFilters: query })
     }
-    if (filters.fromFilter) {
-      appliedFilters.from = filters.fromFilter.toISOString()
-    }
-    if (filters.toFilter) {
-      appliedFilters.to = filters.toFilter.toISOString()
-    }
-    this.setState({
-      appliedFilters,
-    })
   }
 
   render() {
     const { meta, deleteSession, fetchPage } = this.props
+    const { initialFilters } = this.state
     return (
       <SIPSessionComponent
         pageSize={SIPSessionContainer.PAGE_SIZE}
@@ -125,9 +119,7 @@ export class SIPSessionContainer extends React.Component {
         onRefresh={this.onRefresh}
         deleteSession={deleteSession}
         fetchPage={fetchPage}
-        appliedFilters={this.state.appliedFilters}
-        handleFilter={this.handleFilter}
-        handleClearFilters={this.handleClearFilters}
+        initialFilters={initialFilters}
       />
     )
   }
