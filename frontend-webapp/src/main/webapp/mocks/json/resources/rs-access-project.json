@@ -59,12 +59,10 @@
       "applicationId": "user",
       "container": "header",
       "active": true,
-      "defaultDynamicModule": false,
       "conf": "{\"title\":\"Regards user interface\",\"displayAuthentication\":true,\"displayLocaleSelector\":true,\"displayThemeSelector\":true}"
     },
     {
       "active": true,
-      "defaultDynamicModule": false,
       "conf": "{}",
       "type": "archival-storage-plugins-monitoring",
       "description": "Storage plugins overview",
@@ -93,7 +91,6 @@
     {
       "applicationId": "user",
       "active": true,
-      "defaultDynamicModule": false,
       "conf": "{\"cssHeight\":\"140px\",\"cssWidth\":\"100%\",\"htmlUrl\":\"/html/cdpp-header.html\"}",
       "type": "embedded-html",
       "description": "Application header",
@@ -103,7 +100,6 @@
     {
       "applicationId": "user",
       "active": true,
-      "defaultDynamicModule": false,
       "conf": "{\"cssHeight\":\"110px\",\"cssWidth\":\"100%\",\"htmlUrl\":\"/html/cdpp-footer.html\"}",
       "type": "embedded-html",
       "description": "Application footer",
@@ -113,7 +109,6 @@
     {
       "applicationId": "user",
       "active": true,
-      "defaultDynamicModule": true,
       "conf": "{\"displayDatasets\":true,\"enableFacettes\":true,\"attributes\":[{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":2},{\"attributeFullQualifiedName\":\"creationDate\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":3},{\"attributeFullQualifiedName\":\"thumbnail\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":1},{\"attributeFullQualifiedName\":\"download\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":4}],\"datasetAttributes\":[{\"attributeFullQualifiedName\":\"label\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":2},{\"attributeFullQualifiedName\":\"creationDate\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":3},{\"attributeFullQualifiedName\":\"thumbnail\",\"visibility\":true,\"facetable\":false,\"initialSort\":false,\"order\":1}]}",
       "type": "search-results",
       "description": "Catalogue",

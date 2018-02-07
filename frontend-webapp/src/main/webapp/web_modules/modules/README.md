@@ -81,23 +81,24 @@ class AdminContainer extends React.Component {
         changeField: PropTypes.func,
         // Current module configuration. Values from the redux-form
         form: PropTypes.shape({
-          // Form is activated ?
-          active : PropTypes.bool,
-          // Application name "user" or "portal"
-          applicationId: PropTypes.string,
-          // Current form values - use currentNamespace when you want to access to your data
-          conf: PropTypes.any,
-          // Layout container where the module is displayed in the application
-          container : PropTypes.string,
-          // Is the module a dynamic one ?
-          defaultDynamicModule: PropTypes.bool,
-          // Description of the module
-          description: PropTypes.string,
-          // Unique identifier of the current module
           id: PropTypes.number,
-          // Module type
-          type : PropTypes.string,
+          applicationId: PropTypes.string,
+          type: PropTypes.string.isRequired,
+          description: PropTypes.string,
+          active: PropTypes.bool,
+          container: PropTypes.string,
+          page: PropTypes.shape({
+            home: PropTypes.bool,
+            iconType: PropTypes.oneOf([AccessDomain.PAGE_MODULE_ICON_TYPES]),
+            customIconURL: PropTypes.string,
+            // module titles by locale
+            title: PropTypes.objectOf(PropTypes.string),
+          }),
+          // module configuration
+          // Note: not necessary in "conf" field but in currentNamespace field (depends on driving module module)
+          conf: PropTypes.objectOf(PropTypes.any),
         }),
+        // provided conf, when another module drives this one
         conf: PropTypes.shape({
           anotherParameter: PropTypes.string,
         }),

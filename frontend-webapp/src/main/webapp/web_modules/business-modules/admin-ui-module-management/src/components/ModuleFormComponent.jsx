@@ -33,10 +33,6 @@ import { AccessShapes } from '@regardsoss/shape'
 import DynamicModuleFormComponent from './DynamicModuleFormComponent'
 import Styles from '../styles/styles'
 
-import values from 'lodash/values'
-import { SVGURLIcon } from '@regardsoss/components'
-import { modulesManager } from '@regardsoss/modules'
-
 /**
  * React component to display and configure a given layout
  * @author Sébastien binda
@@ -103,14 +99,13 @@ class ModuleFormComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    const initializeModule = Object.assign(
-      {},
-      {
-        applicationId: this.props.applicationId,
-        active: false,
-        defaultDynamicModule: false,
-      }, this.state.module,
-    )
+    const initializeModule = Object.assign({
+      applicationId: this.props.applicationId,
+      active: false,
+      page: {
+        home: false,
+      },
+    }, this.state.module)
     this.props.initialize(initializeModule)
   }
 
@@ -206,16 +201,16 @@ class ModuleFormComponent extends React.Component {
    * Renders page configuration part, when module is dynamic
    */
   renderModulePageConfiguration = () => (
-    <div>
+    <div >
       {/* is default page? */}
       <Field
-        name="defaultDynamicModule"
+        name="page.home"
         component={RenderCheckbox}
-        label={this.context.intl.formatMessage({ id: 'module.form.isDefault' })}
+        label={this.context.intl.formatMessage({ id: 'module.form.page.home' })}
       />
       {/* icon mode and value */}
       <Field
-        name="pageIconType"
+        name="page.iconType"
         component={RenderRadio}
         defaultSelected={AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT}
       >
@@ -234,7 +229,7 @@ class ModuleFormComponent extends React.Component {
       </Field>
       {/* page custom icon */}
       <Field
-        name="pageCustomIconURL"
+        name="page.customIconURL"
         disabled={this.props.currentPageIconType !== AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM}
         component={RenderTextField}
         fullWidth
@@ -244,7 +239,7 @@ class ModuleFormComponent extends React.Component {
       />
       {/* page english title */}
       <Field
-        name="pageTitleEN"
+        name="page.title.en"
         component={RenderTextField}
         fullWidth
         type="text"
@@ -253,7 +248,7 @@ class ModuleFormComponent extends React.Component {
       />
       {/* page french title */}
       <Field
-        name="pageTitleFR"
+        name="page.title.fr"
         component={RenderTextField}
         fullWidth
         type="text"
@@ -264,21 +259,19 @@ class ModuleFormComponent extends React.Component {
   )
 
   /** Renders dynamic module configuration part */
-  renderDynamicModuleConfiguration = (style) => {
-    if (this.state.moduleSelected) {
-      return (<DynamicModuleFormComponent
-        project={this.props.project}
-        appName={this.props.applicationId}
-        adminForm={this.props.adminForm}
-        module={this.state.module}
-        styles={style.cardEspaced}
-      />)
-    }
-    return null
-  }
+  renderDynamicModuleConfiguration = () => (
+    <DynamicModuleFormComponent
+      project={this.props.project}
+      appName={this.props.applicationId}
+      adminForm={this.props.adminForm}
+      module={this.state.module}
+    />)
 
   render() {
-    const { pristine, submitting, invalid } = this.props
+    const {
+      pristine, submitting, handleSubmit, onSubmit, onBack, invalid,
+    } = this.props
+    const { module, dynamicContainerSelected, moduleSelected } = this.state
     const style = Styles(this.context.muiTheme)
     const { isDuplicating, isCreating } = this.props.adminForm
 
@@ -291,13 +284,13 @@ class ModuleFormComponent extends React.Component {
 
     return (
       <form
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div>
           {/* 1. render common modules configuration */}
           <Card>
             <CardTitle
-              title={this.context.intl.formatMessage({ id: title }, { name: this.state.module.name })}
+              title={this.context.intl.formatMessage({ id: title })}
               style={style.cardTitleLessSpaced}
             />
             <CardText id="staticFields" style={style.cardContentLessSpaced}>
@@ -306,11 +299,11 @@ class ModuleFormComponent extends React.Component {
           </Card>
 
           {/* 2. render dynamic modules page configuration */
-            this.state.dynamicContainerSelected ? (
+            dynamicContainerSelected ? (
               <Card style={style.cardEspaced}>
                 <CardTitle
                   style={style.cardTitleLessSpaced}
-                  title={this.context.intl.formatMessage({ id: 'module.form.page.settings.title' }, { name: this.state.module.name })}
+                  title={this.context.intl.formatMessage({ id: 'module.form.page.settings.title' })}
                 />
                 <CardText id="pageFields" style={style.cardContentLessSpaced}>
                   {this.renderModulePageConfiguration(style)}
@@ -318,8 +311,18 @@ class ModuleFormComponent extends React.Component {
               </Card>) : null
           }
 
-          {/* 3. render specific dynamic module configuration */}
-          {this.renderDynamicModuleConfiguration(style)}
+          {/* 3. render specific dynamic module configuration */
+            moduleSelected ? (
+              <Card style={style.cardEspaced}>
+                <CardTitle
+                  style={style.cardTitleLessSpaced}
+                  title={this.context.intl.formatMessage({ id: 'module.form.module.settings.title' })}
+                />
+                <CardText id="pageFields">
+                  {this.renderDynamicModuleConfiguration()}
+                </CardText>
+              </Card>) : null
+          }
 
           {/* 4. render buttons */}
           <Card style={style.cardEspaced}>
@@ -329,7 +332,7 @@ class ModuleFormComponent extends React.Component {
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || invalid}
                 secondaryButtonLabel={this.context.intl.formatMessage({ id: 'module.form.cancel.button' })}
-                secondaryButtonClick={this.props.onBack}
+                secondaryButtonClick={onBack}
               />
             </CardActions>
           </Card>
@@ -349,4 +352,4 @@ const formName = 'edit-module-form'
 const form = reduxForm({ form: formName })(ModuleFormComponent)
 // apply selector: page icon type
 const selector = formValueSelector(formName)
-export default connect(state => ({ currentPageIconType: selector(state, 'pageIconType') }))(form)
+export default connect(state => ({ currentPageIconType: selector(state, 'page.iconType') }))(form)

@@ -26,25 +26,32 @@ module.exports = {
     {
       content: {
         id: 1,
-        name: 'menu',
+        type: 'menu',
         description: 'Header menu module',
         applicationId: 'user',
         container: 'header',
         active: true,
-        defaultDynamicModule: false,
         conf: '{"title":"Regards user interface","displayAuthentication":true,"displayLocaleSelector":true,"displayThemeSelector":true}',
       },
       links: [],
     },
     {
       content: {
+        id: 6,
         active: false,
-        defaultDynamicModule: false,
-        name: 'news',
+        type: 'news',
         description: 'Flux atom',
         container: 'content',
         applicationId: 'user',
-        id: 6,
+        page: {
+          home: true,
+          iconType: 'DEFAULT',
+          customIconURL: null,
+          title: {
+            en: 'hello',
+            fr: 'bonjour',
+          },
+        },
       },
       links: [],
     },
