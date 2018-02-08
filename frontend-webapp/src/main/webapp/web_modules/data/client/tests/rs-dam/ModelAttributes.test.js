@@ -26,7 +26,7 @@ import ModelAttributesDump from './ModelAttribute.dump'
 const backendServerResultList = ModelAttributesDump
 
 const options = {
-  urlParams: { pModelId: '1' },
+  urlParams: { modelName: 'VALIDATION_MODEL_1' },
 }
 
 const modelAttributesActions = new ModelAttributesActions('test/action')

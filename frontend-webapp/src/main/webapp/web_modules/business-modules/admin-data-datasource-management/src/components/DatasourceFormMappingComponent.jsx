@@ -81,7 +81,7 @@ export class DatasourceFormMappingComponent extends React.Component {
     // Initialize forms inputs
     if (this.props.isEditing) {
       const { currentDatasource } = this.props
-      const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.attributesMapping', [])
+      const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MAPPING), 'value', [])
       if (this.props.isSingleTable) {
         const { tableAttributeList } = this.props
         const { currentTableSelected } = this.state

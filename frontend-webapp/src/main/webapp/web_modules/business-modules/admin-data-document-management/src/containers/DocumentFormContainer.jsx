@@ -203,7 +203,7 @@ const mapDispatchToProps = dispatch => ({
   createDocument: values => dispatch(documentActions.createEntity(values)),
   updateDocument: (id, values) => dispatch(documentActions.updateEntity(id, values)),
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.DOCUMENT })),
-  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
+  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 

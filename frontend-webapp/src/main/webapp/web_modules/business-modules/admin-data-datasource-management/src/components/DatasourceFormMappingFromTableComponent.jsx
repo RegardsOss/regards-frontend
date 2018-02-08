@@ -71,7 +71,7 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
   getIsEditingSQL = (modelAttribute) => {
     const { currentDatasource, tableAttributeList, isEditing } = this.props
     if (isEditing) {
-      const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.attributesMapping', [])
+      const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MAPPING), 'value', [])
       const currentAttributeMapping = find(attributesMapping, attributeMapping => attributeMapping.name === modelAttribute.content.attribute.name)
       if (currentAttributeMapping) {
         return !some(tableAttributeList, tableAttribute => currentAttributeMapping.nameDS === tableAttribute.name)

@@ -78,7 +78,7 @@ export class CollectionFormContainer extends React.Component {
           if (!actionResult.error) {
             // We extract the collection id from the action
             const collection = this.extractCollectionFromActionResult(actionResult)
-            this.props.fetchModelAttributeList(collection.model.id)
+            this.props.fetchModelAttributeList(collection.model.name)
           }
         })
     }
@@ -219,7 +219,7 @@ const mapDispatchToProps = dispatch => ({
   createCollection: (values, files) => dispatch(collectionActions.createEntityUsingMultiPart(values, files)),
   updateCollection: (id, values, files) => dispatch(collectionActions.updateEntityUsingMultiPart(id, values, files)),
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.COLLECTION })),
-  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
+  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })
 

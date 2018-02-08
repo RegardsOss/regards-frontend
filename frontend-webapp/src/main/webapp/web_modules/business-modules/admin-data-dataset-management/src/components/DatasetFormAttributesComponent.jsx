@@ -142,7 +142,7 @@ export class DatasetFormAttributesComponent extends React.Component {
       const initialValues = {
         label: currentDataset.content.label,
         geometry: currentDataset.content.geometry,
-        model: currentDataset.content.model.id,
+        model: currentDataset.content.model.name,
         descriptionUrl: get(currentDataset.content, 'descriptionFile.url', undefined),
         properties,
       }
@@ -276,7 +276,7 @@ export class DatasetFormAttributesComponent extends React.Component {
               {map(modelList, (model, id) => (
                 <MenuItem
                   className={`selenium-pickModel-${model.content.name}`}
-                  value={model.content.id}
+                  value={model.content.name}
                   key={id}
                   primaryText={model.content.name}
                 />

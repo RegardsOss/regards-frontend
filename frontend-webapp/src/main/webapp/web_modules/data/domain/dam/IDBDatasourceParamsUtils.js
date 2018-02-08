@@ -25,7 +25,8 @@ const hasParam = (datasource, parameterName) => {
 }
 const IDBDatasourceParamsEnum = {
   CONNECTION: 'connection',
-  MODEL: 'model',
+  MODEL: 'modelName',
+  MAPPING: 'mapping',
   REFRESH_RATE: 'refreshRate',
   FROM_CLAUSE: 'fromClause',
   TABLE: 'table',
