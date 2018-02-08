@@ -47,10 +47,11 @@ export class PluginConfigurationFormContainer extends React.Component {
   getBackUrl = () => {
     const { params: { project, microserviceName, pluginId } } = this.props
     const { query } = browserHistory.getCurrentLocation()
+    let url = `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/list`
     if (query.backUrl && query.backUrl !== '') {
-      return `/admin/${project}/${query.backUrl}`
+      url = `${url}?backUrl=${query.backUrl}`
     }
-    return `/admin/${project}/microservice/${microserviceName}/plugin/${pluginId}/configuration/list`
+    return url
   }
 
   render() {

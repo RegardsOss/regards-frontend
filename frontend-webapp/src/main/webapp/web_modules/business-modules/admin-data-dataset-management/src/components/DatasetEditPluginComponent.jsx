@@ -149,7 +149,7 @@ export class DatasetEditPluginComponent extends React.Component {
                 id="dataset.form.plugin.action.next"
               />
             }
-            mainButtonTouchTap={() => { this.props.onSubmit(this.state.currentLinkPluginDataset) }}
+            mainButtonClick={() => { this.props.onSubmit(this.state.currentLinkPluginDataset) }}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.plugin.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />

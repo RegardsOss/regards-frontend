@@ -149,14 +149,14 @@ export class ProjectConnectionListComponent extends React.Component {
       return (
         <IconButton
           title={formatMessage({ id: 'database.connection.edit.tooltip' })}
-          onTouchTap={() => onEdit(connection.content.id)}
+          onClick={() => onEdit(connection.content.id)}
         >
           <Edit hoverColor={this.context.muiTheme.palette.primary1Color} />
         </IconButton>
       )
     }
     return (
-      <IconButton onTouchTap={() => onCreate(microserviceName)}>
+      <IconButton onClick={() => onCreate(microserviceName)}>
         <Edit hoverColor={this.context.muiTheme.palette.primary1Color} />
       </IconButton>
     )
@@ -177,7 +177,7 @@ export class ProjectConnectionListComponent extends React.Component {
       case ProjectConnectionStateEnum.ERROR:
         return (
           <IconButton
-            onTouchTap={() => this.props.onReCreateConnection(connection)}
+            onClick={() => this.props.onReCreateConnection(connection)}
           >
             <RefreshIcon hoverColor={this.context.muiTheme.palette.primary1Color} />
           </IconButton>)

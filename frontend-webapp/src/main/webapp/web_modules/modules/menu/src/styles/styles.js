@@ -133,8 +133,7 @@ const menuStyles = theme => ({
           opacity: 0.5,
         },
         primaryText: {
-          display: 'grid',
-          gridTemplateColumns: 'auto auto',
+          display: 'flex',
         },
         dateStyle: {
           fontSize: '0.8em',
@@ -165,18 +164,26 @@ const menuStyles = theme => ({
         errorColor: '#FF9800',
         fatalColor: '#f44336',
       },
+      divider: {
+        style: {
+          marginLeft: '0',
+        },
+      },
     },
     dialog: {
+      style: {
+        height: '100%',
+      },
       wrapper: {
         style: {
-          margin: -24,
-          display: 'grid',
-          gridTemplateColumns: '350px 1fr',
+          margin: '-24px 0 -24px -24px',
+          position: 'absolute',
+          height: '100%',
+          display: 'flex',
         },
       },
       list: {
         style: {
-          maxHeight: 500,
           overflowY: 'scroll',
         },
       },
@@ -190,8 +197,9 @@ const menuStyles = theme => ({
         },
         header: {
           style: {
-            display: 'grid',
-            gridTemplateColumns: 'auto max-content',
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexShrink: 0,
           },
         },
         message: {
@@ -199,6 +207,7 @@ const menuStyles = theme => ({
             wordBreak: 'break-all',
             hyphens: 'auto',
             textAlign: 'justify',
+            overflowY: 'auto',
           },
         },
         actions: {
@@ -206,6 +215,13 @@ const menuStyles = theme => ({
             position: 'absolute',
             bottom: 10,
             right: 10,
+          },
+        },
+        container: {
+          style: {
+            display: 'flex',
+            flexDirection: 'column',
+            margin: '0 0 70px 0',
           },
         },
       },
@@ -218,8 +234,7 @@ const menuStyles = theme => ({
           minHeight: 40,
           width: '100%',
           cursor: 'pointer',
-          display: 'grid',
-          gridTemplateColumns: '50px 1fr',
+          display: 'flex',
         },
         titleStyle: {
           fontWeight: 'bold',

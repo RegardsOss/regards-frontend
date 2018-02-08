@@ -197,7 +197,7 @@ class FormDatasetsConfigurationComponent extends React.Component {
   renderResetAllSelection = () => (
     <RaisedButton
       label={this.context.intl.formatMessage({ id: 'form.datasets.reset.all' })}
-      onTouchTap={this.resetAll}
+      onClick={this.resetAll}
       secondary
     />
   )

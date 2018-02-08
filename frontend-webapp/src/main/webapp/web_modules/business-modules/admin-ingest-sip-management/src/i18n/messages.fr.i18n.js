@@ -60,7 +60,7 @@ const messages = Object.assign({
 
   'sips.session.title': 'Sessions',
   'sips.session.sips.title': 'Session {session}',
-  'sips.session.subtitle': 'Visualisation des sessions d\'acquisitions. Une session est un regroupement de paquets de d\'information de données (SIP).',
+  'sips.session.subtitle': 'Visualisation des sessions d\'acquisitions. Une session est un regroupement de paquets d\'information de données (SIP).',
   'sips.session.filter.name': 'Nom de la session : ',
   'sips.session.filter.name.label': 'Nom',
   'sips.session.filter.date': 'Plage temporelle : ',
@@ -95,7 +95,7 @@ const messages = Object.assign({
   'sips.submission-summary.back.button': 'Retour',
 
   'sips.submission.not.ready.title': 'Configuration manquante pour la soumission de données',
-  'sips.submission.not.ready.information.message': 'Votre configuration du système est incomplète et vous interdit de soumettre de nouvelles données. Merci de vous assurer que vous avez bien configurer votre ou vos sysstèmes de stockage des données. Le système nécessite au moins un espace de stockage et une stratégie de répartition pour pouvoir stocker les données soumises.',
+  'sips.submission.not.ready.information.message': 'Votre configuration du système est incomplète et vous interdit de soumettre de nouvelles données. Merci de vous assurer que vous avez bien configuré votre ou vos systèmes de stockage des données. Le système nécessite au moins un espace de stockage et une stratégie de répartition pour pouvoir stocker les données soumises.',
   'sips.submission.not.ready.server.message': 'Le service de stockage indique : ',
   'sips.submission.not.ready.config.allocations.link.button': 'Configurer la répartition',
   'sips.submission.not.ready.config.storages.link.button': 'Configurer les espaces de stockage',

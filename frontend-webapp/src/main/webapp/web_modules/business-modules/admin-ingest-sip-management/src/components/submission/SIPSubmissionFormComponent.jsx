@@ -78,7 +78,7 @@ export class SIPSubmissionFormComponent extends React.Component {
                 mainButtonType="submit"
                 isMainButtonDisabled={isLoading}
                 secondaryButtonLabel={intl.formatMessage({ id: 'sips.submit.back.button' })}
-                secondaryButtonTouchTap={onBack}
+                secondaryButtonClick={onBack}
                 isSecondaryButtonDisabled={isLoading}
               />
             </CardActions>

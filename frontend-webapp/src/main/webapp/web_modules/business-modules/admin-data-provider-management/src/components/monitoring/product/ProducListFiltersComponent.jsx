@@ -187,12 +187,12 @@ class ProductListFiltersComponent extends React.Component {
               !get(this.state, 'filters.session') &&
               !get(this.state, 'filters.from')
             }
-            onTouchTap={this.handleClearFilters}
+            onClick={this.handleClearFilters}
           />
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'acquisition.product.list.filters.apply.button' })}
             icon={<Filter />}
-            onTouchTap={this.handleFilter}
+            onClick={this.handleFilter}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>

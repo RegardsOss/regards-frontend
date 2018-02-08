@@ -23,6 +23,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
+import { AnchorComponent } from '@regardsoss/components'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
 import NotificationsManagerContainer from './NotificationsManagerContainer'
@@ -104,24 +105,26 @@ export class AdminLayout extends React.Component {
     const { project } = this.props
     return (
       <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard} >
-        <div className={`selenium-adminLayout ${style.app.classes}`} style={style.app.styles}>
-          <div className={style.menu.classes}>
-            <LazyModuleComponent
-              appName="admin"
-              project={project}
-              module={menuModule}
-            />
-          </div>
-          <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
-            <I18nProvider messages={messages}>
-              {this.getSidebar(isOnInstanceDashboard)}
-            </I18nProvider>
-            <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
-              {content}
+        <AnchorComponent>
+          <div className={`selenium-adminLayout ${style.app.classes}`} style={style.app.styles}>
+            <div className={style.menu.classes}>
+              <LazyModuleComponent
+                appName="admin"
+                project={project}
+                module={menuModule}
+              />
+            </div>
+            <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
+              <I18nProvider messages={messages}>
+                {this.getSidebar(isOnInstanceDashboard)}
+              </I18nProvider>
+              <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
+                {content}
+              </div>
             </div>
           </div>
-        </div>
-        <ApplicationErrorContainer />
+          <ApplicationErrorContainer />
+        </AnchorComponent>
       </NotificationsManagerContainer>
     )
   }

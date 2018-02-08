@@ -85,12 +85,12 @@ export class DatasourceFormAttributesComponent extends React.Component {
     if (!this.state.isCreating) {
       const { currentDatasource } = this.props
       const refreshRate = get(findParam(currentDatasource, IDBDatasourceParamsEnum.REFRESH_RATE), 'value')
-      const modelId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.model')
+      const modelName = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value')
       const tags = get(findParam(currentDatasource, IDBDatasourceParamsEnum.TAGS), 'value', [])
 
       const initialValues = {
         label: currentDatasource.content.label,
-        model: modelId,
+        model: modelName,
         pluginClassName: currentDatasource.content.pluginClassName,
         refreshRate,
         tags,
@@ -155,7 +155,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
             >
               {map(modelList, (model, id) => (
                 <MenuItem
-                  value={model.content.id}
+                  value={model.content.name}
                   key={id}
                   primaryText={model.content.name}
                   className={`selenium-pickModel-${model.content.name}`}

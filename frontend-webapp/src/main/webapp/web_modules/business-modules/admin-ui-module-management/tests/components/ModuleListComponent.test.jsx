@@ -127,17 +127,17 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
     assert.lengthOf(rbuttons, keys(testModules).length * numberOfResourceIconByModule, `There should be ${keys(testModules).length * numberOfResourceIconByModule} ResourceIconAction buttons available in the module form page`)
 
     const editButton = buttons.first()
-    editButton.simulate('touchTap')
+    editButton.simulate('click')
     assert.isTrue(onEditCallback.calledOnce, 'After click on the edit button, the edit callback function should be called')
 
     const duplicateButton = rbuttons.at(0)
-    duplicateButton.simulate('touchTap')
+    duplicateButton.simulate('click')
     assert.isTrue(onDuplicateCallBack.calledOnce, 'After click on the duplicate button, the duplicate callback function should be called')
 
     const deleteButton = buttons.at(1)
     assert.isDefined(deleteButton)
     assert.equal(wrapper.find(ShowableAtRender).prop('show'), false, 'Confirm dialog should not be displayed')
-    deleteButton.simulate('touchTap')
+    deleteButton.simulate('click')
     assert.equal(wrapper.find(ShowableAtRender).prop('show'), true, 'Confirm dialog should be displayed')
 
     assert.equal(wrapper.find('Connect(WithHateoasDisplayControl(Toggle))').find({ toggled: true }).length, 2, 'There should be two active modules')

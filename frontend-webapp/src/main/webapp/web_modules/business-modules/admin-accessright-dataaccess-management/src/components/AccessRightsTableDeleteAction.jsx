@@ -48,7 +48,7 @@ class AccessRightsTableDeleteAction extends React.Component {
         title={formatMessage({ id: 'accessright.delete.tooltip' })}
         iconStyle={AccessRightsTableDeleteAction.iconStyle}
         style={AccessRightsTableDeleteAction.buttonStyle}
-        onTouchTap={() => this.props.onDelete(accessRight)}
+        onClick={() => this.props.onDelete(accessRight)}
         disabled={!accessRight}
       >
         <Reset />

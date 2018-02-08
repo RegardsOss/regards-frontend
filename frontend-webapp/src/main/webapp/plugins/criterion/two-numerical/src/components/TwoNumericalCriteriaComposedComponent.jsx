@@ -130,7 +130,7 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
             hideComparator
             fixedComparator
           />
-          <ClearFieldButton onTouchTap={this.handleClear} displayed={clearButtonDisplayed} />
+          <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )

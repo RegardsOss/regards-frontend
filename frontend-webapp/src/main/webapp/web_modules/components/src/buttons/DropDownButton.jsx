@@ -83,15 +83,15 @@ class DropDownButton extends React.Component {
     if (element.type.muiName !== 'MenuItem') { // element to ignore?
       return element
     }
-    const { menuItems: subItems, onTouchTap: initialCallback, ...otherItemProps } = element.props
+    const { menuItems: subItems, onClick: initialCallback, ...otherItemProps } = element.props
     let menuItems = subItems
-    let onTouchTap = initialCallback
+    let onClick = initialCallback
     if (subItems && subItems.length) {
       // A sub menus container: we need to set up the hack in all sub items (and successively)
       menuItems = subItems.map(item => this.buildAutoClosingMenuItem(item))
     } else {
       // a last level menu item: we need to fix the callback to close this menu
-      onTouchTap = () => {
+      onClick = () => {
         this.onCloseMenu() // close the menu
         if (initialCallback) { // run the callback if any
           initialCallback()
@@ -99,7 +99,7 @@ class DropDownButton extends React.Component {
       }
     }
     // clone the menu item with computed properties
-    return React.cloneElement(element, { ...otherItemProps, menuItems, onTouchTap })
+    return React.cloneElement(element, { ...otherItemProps, menuItems, onClick })
   }
 
   /**
@@ -131,7 +131,7 @@ class DropDownButton extends React.Component {
       <div>
         <ButtonConstructor
           label={getLabel(value)}
-          onTouchTap={this.onOpenMenu}
+          onClick={this.onOpenMenu}
           icon={<DrowDownIcon />}
           disabled={disabled}
           {...otherButtonProperties}

@@ -139,7 +139,7 @@ class SelectedLevelFormRender extends React.Component {
           {description}
         </TableRowColumn>
         <TableRowColumn >
-          <IconButton onTouchTap={() => this.onLevelRemoved(index)} title={formatMessage({ id: 'search.graph.selected.levels.column.actions.remove.tooltip' })}>
+          <IconButton onClick={() => this.onLevelRemoved(index)} title={formatMessage({ id: 'search.graph.selected.levels.column.actions.remove.tooltip' })}>
             <RemoveLevel />
           </IconButton>
         </TableRowColumn>
@@ -209,7 +209,7 @@ class SelectedLevelFormRender extends React.Component {
           label={this.context.intl.formatMessage({ id: 'search.graph.add.level' })}
           labelPosition={graphLevelsRender.addButton.labelPosition}
           icon={<PopupMenuIcon />}
-          onTouchTap={this.onShowMenu}
+          onClick={this.onShowMenu}
           disabled={!selectableLevels.length}
         />
         <Popover

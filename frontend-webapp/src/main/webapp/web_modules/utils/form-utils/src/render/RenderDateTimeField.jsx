@@ -181,7 +181,7 @@ export class RenderDateTimeField extends React.Component {
             <IconButton
               tooltip={intl.formatMessage({ id: 'form.datetimepicker.clear' })}
             >
-              <Clear onTouchTap={this.onClearInput} />
+              <Clear onClick={this.onClearInput} />
             </IconButton>) : null
         }
       </div>

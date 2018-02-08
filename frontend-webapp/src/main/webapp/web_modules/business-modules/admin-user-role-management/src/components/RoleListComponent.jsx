@@ -172,7 +172,7 @@ export class RoleListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={role.links}
                       hateoasKey="manage-resource-access"
-                      onTouchTap={() => handleEditResourceAccess(role.content.name)}
+                      onClick={() => handleEditResourceAccess(role.content.name)}
                       title={linkRoleResourceIconTitle}
                     >
                       <Settings />
@@ -181,7 +181,7 @@ export class RoleListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={role.links}
                       hateoasKey={HateoasKeys.UPDATE}
-                      onTouchTap={() => handleEdit(role.content.name)}
+                      onClick={() => handleEdit(role.content.name)}
                       title={editRoleIconTitle}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
@@ -190,7 +190,7 @@ export class RoleListComponent extends React.Component {
                     <HateoasIconAction
                       entityLinks={role.links}
                       hateoasKey={HateoasKeys.DELETE}
-                      onTouchTap={() => this.openDeleteDialog(role)}
+                      onClick={() => this.openDeleteDialog(role)}
                       title={deleteRoleIconTitle}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />

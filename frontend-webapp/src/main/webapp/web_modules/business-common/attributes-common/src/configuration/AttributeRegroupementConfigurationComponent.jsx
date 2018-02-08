@@ -167,7 +167,7 @@ class AttributeRegroupementConfigurationComponent extends React.Component {
       <RaisedButton
         label={this.context.intl.formatMessage({ id: 'form.attributes.regroupement.form.add.regroupement.button' })}
         secondary
-        onTouchTap={this.handleOpenDialog}
+        onClick={this.handleOpenDialog}
       />
       <div
         style={{

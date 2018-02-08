@@ -115,6 +115,7 @@ export class RenderCollectionParameterField extends React.PureComponent {
           name={name}
           component={component}
           fieldsListLabel={pluginParameterType.label}
+          displayFieldsListLabel={false}
           type={type}
           validate={validators}
           disabled={disabled}
@@ -126,6 +127,7 @@ export class RenderCollectionParameterField extends React.PureComponent {
           name={name}
           component={RenderArrayObjectField}
           label={pluginParameterType.label || pluginParameterType.name}
+          displayLabel={false}
           fieldComponent={component}
           fieldProps={fieldProps}
           validate={validators}

@@ -66,7 +66,7 @@ class SIPDetailComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={intl.formatMessage({ id: 'sip.details.button.close' })}
-            mainButtonTouchTap={this.props.onClose}
+            mainButtonClick={this.props.onClose}
           />
         </CardActions>
       </Card>

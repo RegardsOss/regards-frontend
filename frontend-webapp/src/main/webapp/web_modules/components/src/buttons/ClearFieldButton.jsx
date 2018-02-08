@@ -27,7 +27,7 @@ import messages from './i18n'
 */
 export class ClearFieldButton extends React.Component {
   static propTypes = {
-    onTouchTap: PropTypes.func,
+    onClick: PropTypes.func,
     displayed: PropTypes.bool,
   }
 
@@ -39,13 +39,13 @@ export class ClearFieldButton extends React.Component {
   static HIDDEN_STYLES = { transform: 'scale(0)' }
 
   render() {
-    const { onTouchTap, displayed } = this.props
+    const { onClick, displayed } = this.props
     const { formatMessage } = this.context.intl
     return (
       <IconButton
         title={formatMessage({ id: 'clear.button.tooltip' })}
         style={displayed ? ClearFieldButton.DISPLAYED_STYLES : ClearFieldButton.HIDDEN_STYLES}
-        onTouchTap={onTouchTap}
+        onClick={onClick}
       >
         <Clear />
       </IconButton>

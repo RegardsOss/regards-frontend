@@ -273,12 +273,12 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
             label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.clear.button' })}
             icon={<Close />}
             disabled={!get(this.state, 'filters.running') && !get(this.state, 'filters.label') && !get(this.state, 'filters.mode')}
-            onTouchTap={this.handleClearFilters}
+            onClick={this.handleClearFilters}
           />
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.apply.button' })}
             icon={<Filter />}
-            onTouchTap={this.handleFilter}
+            onClick={this.handleFilter}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>
@@ -350,14 +350,15 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              displayedRowsCount={10}
+              minRowCount={0}
+              maxRowCount={10}
               queryPageSize={pageSize}
             />
           </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={onBack}
+            mainButtonClick={onBack}
             mainButtonLabel={formatMessage({ id: 'acquisition-chain.monitor.list.back.button' })}
           />
         </CardActions>

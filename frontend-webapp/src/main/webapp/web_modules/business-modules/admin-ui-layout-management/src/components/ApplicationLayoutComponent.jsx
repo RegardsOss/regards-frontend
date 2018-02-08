@@ -102,7 +102,7 @@ class ApplicationLayoutComponent extends React.Component {
               mainHateoasDependencies={ApplicationLayoutComponent.UPDATE_DEPENDENCIES}
               isMainButtonDisabled={pristine || submitting}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
-              secondaryButtonTouchTap={this.props.onCancel}
+              secondaryButtonClick={this.props.onCancel}
             />
           </CardActions>
         </Card>

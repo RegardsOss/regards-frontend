@@ -42,7 +42,7 @@ export class AddSelectionToCartComponent extends React.Component {
         label={formatMessage({ id: 'add.selection.to.cart.label' })}
         title={formatMessage({ id: 'add.selection.to.cart.tooltip' })}
         icon={<AddIcon />}
-        onTouchTap={onAddSelectionToCart}
+        onClick={onAddSelectionToCart}
       />
 
     )

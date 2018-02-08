@@ -86,14 +86,15 @@ class DataSourceMonitoringComponent extends React.Component {
             <InfiniteTableContainer
               columns={columns}
               entities={crawlerDatasources}
-              displayedRowsCount={10}
+              minRowCount={0}
+              maxRowCount={10}
               entitiesCount={crawlerDatasources.length}
             />
           </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={onBack}
+            mainButtonClick={onBack}
             mainButtonLabel={intl.formatMessage({ id: 'crawler.list.back.button' })}
           />
         </CardActions>

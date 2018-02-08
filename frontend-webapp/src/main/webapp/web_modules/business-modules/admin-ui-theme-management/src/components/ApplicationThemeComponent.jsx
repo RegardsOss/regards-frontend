@@ -134,7 +134,7 @@ class ApplicationThemeComponent extends React.Component {
     })
   }
 
-  onSnackbarActionTouchTap = () => {
+  onSnackbarActionClick = () => {
     this.setState({
       snackBarOpen: false,
     })
@@ -204,7 +204,7 @@ class ApplicationThemeComponent extends React.Component {
       <HateoasIconAction
         entityLinks={editingTheme.links}
         hateoasKey={HateoasKeys.UPDATE}
-        onTouchTap={() => this.onSave(editingTheme)}
+        onClick={() => this.onSave(editingTheme)}
         tooltip={formatMessage({ id: 'application.theme.save' })}
       ><Save color={muiTheme.palette.alternateTextColor} />
       </HateoasIconAction>
@@ -213,7 +213,7 @@ class ApplicationThemeComponent extends React.Component {
       <ConfirmableHateoasIconAction
         entityLinks={editingTheme.links}
         hateoasKey={HateoasKeys.DELETE}
-        onTouchTap={() => this.onDelete(editingTheme)}
+        onClick={() => this.onDelete(editingTheme)}
         tooltip={formatMessage({ id: 'application.theme.remove.tooltip' })}
         dialogTitle={formatMessage({ id: 'application.theme.remove.confirm' })}
       >
@@ -254,7 +254,7 @@ class ApplicationThemeComponent extends React.Component {
         <ShowableAtRender show={!isThemeListEmpty}>
           <Toolbar style={style.toolbar.root}>
             <ToolbarGroup firstChild>
-              <IconButton onTouchTap={onClose}><Back color={style.toolbar.icon.color} /></IconButton>
+              <IconButton onClick={onClose}><Back color={style.toolbar.icon.color} /></IconButton>
               <ToolbarTitle text={toolbarTitle} style={style.toolbar.title} />
               {themeSelect}
             </ToolbarGroup>
@@ -269,7 +269,7 @@ class ApplicationThemeComponent extends React.Component {
         <ShowableAtRender show={isThemeListEmpty}>
           <Toolbar style={style.toolbar.root}>
             <ToolbarGroup firstChild>
-              <IconButton onTouchTap={onClose}><Close color={style.toolbar.icon.color} /></IconButton>
+              <IconButton onClick={onClose}><Close color={style.toolbar.icon.color} /></IconButton>
               <ToolbarTitle text={toolbarTitle} />
             </ToolbarGroup>
             <ToolbarGroup lastChild>
@@ -303,7 +303,7 @@ class ApplicationThemeComponent extends React.Component {
           message={<FormattedMessage id={snackBarMessageId} />}
           autoHideDuration={4000}
           onRequestClose={this.onSnackbarRequestClose}
-          onActionClick={this.onSnackbarActionTouchTap}
+          onActionClick={this.onSnackbarActionClick}
           action="OK"
         />
       </Paper>

@@ -75,7 +75,7 @@ export class ThemeCreateComponent extends React.Component {
         <FlatButton
           label={intl.formatMessage({ id: 'application.theme.create.form.cancel' })}
           primary
-          onTouchTap={onRequestClose}
+          onClick={onRequestClose}
         />
         <FlatButton
           type="submit"

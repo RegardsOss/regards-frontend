@@ -134,7 +134,7 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
           mainButtonType="submit"
           isMainButtonDisabled={submitting || invalid}
           secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.form.cancel.button' })}
-          secondaryButtonTouchTap={onBack}
+          secondaryButtonTouchClick={onBack}
         />
       </CardActions>
     )

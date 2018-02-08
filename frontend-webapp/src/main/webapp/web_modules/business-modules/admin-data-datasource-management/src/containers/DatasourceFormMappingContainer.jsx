@@ -69,10 +69,10 @@ export class DatasourceFormMappingContainer extends React.Component {
   componentDidMount() {
     const { isEditing, currentDatasource } = this.props
     const pluginConfConnectionId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'pluginConfiguration.id')
-    const modelId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.model')
+    const modelName = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value')
     const tasks = [
       this.props.fetchTable(pluginConfConnectionId),
-      this.props.fetchModelAttributeList(modelId),
+      this.props.fetchModelAttributeList(modelName),
     ]
     // If we edit a datasource and that datasource has a tableName, fetch the list of attributes from that table
     if (isEditing && hasParam(currentDatasource, IDBDatasourceParamsEnum.TABLE)) {
@@ -156,7 +156,7 @@ const mapDispatchToProps = dispatch => ({
     tableName,
   })),
   flushTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.flush()),
-  fetchModelAttributeList: id => dispatch(modelAttributesActions.fetchEntityList({ pModelId: id })),
+  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormMappingContainer)

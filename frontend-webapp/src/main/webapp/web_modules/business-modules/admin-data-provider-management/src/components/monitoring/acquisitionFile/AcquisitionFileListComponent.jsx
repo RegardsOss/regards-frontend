@@ -144,14 +144,15 @@ class AcquisitionFileListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              displayedRowsCount={10}
+              minRowCount={0}
+              maxRowCount={10}
               queryPageSize={pageSize}
             />
           </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={onBack}
+            mainButtonClick={onBack}
             mainButtonLabel={formatMessage({ id: 'acquisition.file.list.back.button' })}
           />
         </CardActions>

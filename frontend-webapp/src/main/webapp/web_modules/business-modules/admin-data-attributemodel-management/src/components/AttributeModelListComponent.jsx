@@ -148,7 +148,7 @@ export class AttributeModelListComponent extends React.Component {
                   <TableRowColumn>
                     <HateoasIconAction
                       entityLinks={attrmodel.links}
-                      onTouchTap={() => handleEdit(attrmodel.content.id)}
+                      onClick={() => handleEdit(attrmodel.content.id)}
                       hateoasKey={HateoasKeys.UPDATE}
                       title={intl.formatMessage({ id: 'attrmodel.list.action.edit' })}
                     >
@@ -157,7 +157,7 @@ export class AttributeModelListComponent extends React.Component {
 
                     <HateoasIconAction
                       entityLinks={attrmodel.links}
-                      onTouchTap={() => this.openDeleteDialog(attrmodel)}
+                      onClick={() => this.openDeleteDialog(attrmodel)}
                       hateoasKey={HateoasKeys.DELETE}
                       title={intl.formatMessage({ id: 'attrmodel.list.action.delete' })}
                     >

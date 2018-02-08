@@ -38,7 +38,7 @@ export class ModelAttributeFormContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-      model_id: PropTypes.string,
+      modelName: PropTypes.string,
     }),
     // from mapStateToProps
     model: DataManagementShapes.Model,
@@ -62,8 +62,8 @@ export class ModelAttributeFormContainer extends React.Component {
   componentDidMount() {
     Promise.all([
       this.props.fetchAttributeModelList(),
-      this.props.fetchModelAttributeList(this.props.params.model_id),
-      this.props.fetchModel(this.props.params.model_id),
+      this.props.fetchModelAttributeList(this.props.params.modelName),
+      this.props.fetchModel(this.props.params.modelName),
       this.props.fetchModelAttributeComputationTypesList(),
     ]).then(() => {
       this.setState({
@@ -91,21 +91,21 @@ export class ModelAttributeFormContainer extends React.Component {
   }
 
   handleCreateFragment = (fragment) => {
-    Promise.resolve(this.props.bindFragment(fragment, [this.props.model.content.id]))
+    Promise.resolve(this.props.bindFragment(fragment, [this.props.model.content.name]))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          this.props.fetchModelAttributeList(this.props.params.model_id)
+          this.props.fetchModelAttributeList(this.props.params.modelName)
         }
       })
   }
 
   handleDeleteFragment = (fragment) => {
-    Promise.resolve(this.props.unbindFragment(fragment.id, [this.props.model.content.id]))
+    Promise.resolve(this.props.unbindFragment(fragment.id, [this.props.model.content.name]))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          this.props.fetchModelAttributeList(this.props.params.model_id)
+          this.props.fetchModelAttributeList(this.props.params.modelName)
         }
       })
   }
@@ -114,12 +114,12 @@ export class ModelAttributeFormContainer extends React.Component {
     this.props.createModelAttribute({
       attribute: attributeModel.content,
       model: this.props.model.content,
-    }, this.props.model.content.id)
+    }, this.props.model.content.name)
   }
 
   handleDeleteAttributeModel = (attributeModel) => {
     const modelAttributeToDelete = find(this.props.modelAttributeList, modelAttribute => (modelAttribute.content.attribute.id === attributeModel.content.id))
-    this.props.deleteModelAttribute(modelAttributeToDelete.content.id, this.props.model.content.id)
+    this.props.deleteModelAttribute(modelAttributeToDelete.content.id, this.props.model.content.name)
   }
 
   isNotInFragment = attribute => (
@@ -194,18 +194,18 @@ export class ModelAttributeFormContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   attributeModelList: attributeModelSelectors.getList(state),
   modelAttributeList: modelAttributesSelectors.getList(state),
-  model: modelSelectors.getById(state, ownProps.params.model_id),
+  model: modelSelectors.getById(state, ownProps.params.modelName),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchAttributeModelList: () => dispatch(attributeModelActions.fetchEntityList()),
-  fetchModelAttributeList: modelId => dispatch(modelAttributesActions.fetchEntityList({ pModelId: modelId })),
-  createModelAttribute: (modelAttribute, modelId) => dispatch(modelAttributesActions.createEntity(modelAttribute, { pModelId: modelId })),
-  deleteModelAttribute: (id, modelId) => dispatch(modelAttributesActions.deleteEntity(id, { pModelId: modelId })),
-  fetchModel: id => dispatch(modelActions.fetchEntity(id)),
+  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  createModelAttribute: (modelAttribute, modelName) => dispatch(modelAttributesActions.createEntity(modelAttribute, { modelName })),
+  deleteModelAttribute: (id, modelName) => dispatch(modelAttributesActions.deleteEntity(id, { modelName })),
+  fetchModel: modelName => dispatch(modelActions.fetchEntity(modelName)),
 
-  bindFragment: (fragment, modelId) => dispatch(modelAttributesFragmentActions.createEntities(fragment, { pModelId: modelId })),
-  unbindFragment: (fragmentId, modelId) => dispatch(modelAttributesFragmentActions.deleteEntity(fragmentId, { pModelId: modelId })),
+  bindFragment: (fragment, modelName) => dispatch(modelAttributesFragmentActions.createEntities(fragment, { modelName })),
+  unbindFragment: (fragmentId, modelName) => dispatch(modelAttributesFragmentActions.deleteEntity(fragmentId, { modelName })),
   fetchModelAttributeComputationTypesList: () => dispatch(modelAttributeComputationTypesActions.fetchEntityList()),
 })
 

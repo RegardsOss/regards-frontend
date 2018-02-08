@@ -176,10 +176,10 @@ class FormCriterionComponent extends React.Component {
             <TableRowColumn>{this.getCriteriaAttributes(criteria)}</TableRowColumn>
             <TableRowColumn>{criteria.container}</TableRowColumn>
             <TableRowColumn>
-              <IconButton onTouchTap={() => this.handleEdit(criteria, idx)}>
+              <IconButton onClick={() => this.handleEdit(criteria, idx)}>
                 <Edit />
               </IconButton>
-              <IconButton onTouchTap={() => this.handleDelete(criteria, idx)}>
+              <IconButton onClick={() => this.handleDelete(criteria, idx)}>
                 <Delete />
               </IconButton>
             </TableRowColumn>
@@ -216,9 +216,9 @@ class FormCriterionComponent extends React.Component {
         </Table>
         <CardActionsComponent
           mainButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.new.button.label' })}
-          mainButtonTouchTap={this.handleNewCriteria}
+          mainButtonClick={this.handleNewCriteria}
           secondaryButtonLabel={this.context.intl.formatMessage({ id: 'form.criterion.reset.button.label' })}
-          secondaryButtonTouchTap={this.resetCriterion}
+          secondaryButtonClick={this.resetCriterion}
         />
         <Dialog
           title={dialogTitle}

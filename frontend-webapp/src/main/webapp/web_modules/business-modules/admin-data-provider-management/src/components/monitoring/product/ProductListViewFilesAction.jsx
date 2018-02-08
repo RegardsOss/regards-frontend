@@ -50,7 +50,7 @@ class ProductListViewFilesAction extends React.Component {
         title={formatMessage({ id: 'acquisition-product.view.files.tooltip' })}
         iconStyle={ProductListViewFilesAction.iconStyle}
         style={ProductListViewFilesAction.buttonStyle}
-        onTouchTap={() => this.props.onClick(id)}
+        onClick={() => this.props.onClick(id)}
       >
         <FilesIcon />
       </IconButton>

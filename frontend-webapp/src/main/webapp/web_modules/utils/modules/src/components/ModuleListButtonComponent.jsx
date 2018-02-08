@@ -61,7 +61,7 @@ class ModuleListButtonComponent extends React.Component {
         style={styles.moduleListButtonsGroup}
       >
         <FloatingActionButton
-          onTouchTap={this.handleToggle}
+          onClick={this.handleToggle}
           secondary
         >
           <FilterList />

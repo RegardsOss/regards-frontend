@@ -81,7 +81,7 @@ export class DatasourceFormMappingComponent extends React.Component {
     // Initialize forms inputs
     if (this.props.isEditing) {
       const { currentDatasource } = this.props
-      const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.attributesMapping', [])
+      const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MAPPING), 'value', [])
       if (this.props.isSingleTable) {
         const { tableAttributeList } = this.props
         const { currentTableSelected } = this.state
@@ -241,10 +241,10 @@ export class DatasourceFormMappingComponent extends React.Component {
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.save' })}
-              mainButtonTouchTap={this.props.handleSubmit(this.handleSave)}
+              mainButtonClick={this.props.handleSubmit(this.handleSave)}
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.cancel' })}
-              secondaryButtonTouchTap={handleBack}
+              secondaryButtonClick={handleBack}
             />
           </CardActions>
         </Card>

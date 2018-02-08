@@ -145,9 +145,10 @@ class AcquisitionFileListFiltersComponent extends React.Component {
 
   renderActionsLine = () => (
     <TableHeaderLine key="actions">
-      <TableHeaderOptionsArea>
+      <TableHeaderOptionsArea key="actions-1">
         <TableHeaderOptionGroup>
           <FlatButton
+            key="clear"
             label={this.context.intl.formatMessage({ id: 'acquisition.file.list.filters.clear.button' })}
             icon={<Close />}
             disabled={
@@ -155,16 +156,17 @@ class AcquisitionFileListFiltersComponent extends React.Component {
               !get(this.state, 'filters.filePath') &&
               !get(this.state, 'filters.from')
             }
-            onTouchTap={this.handleClearFilters}
+            onClick={this.handleClearFilters}
           />
           <FlatButton
+            key="apply"
             label={this.context.intl.formatMessage({ id: 'acquisition.file.list.filters.apply.button' })}
             icon={<Filter />}
-            onTouchTap={this.handleFilter}
+            onClick={this.handleFilter}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>
-      <TableHeaderOptionsArea>
+      <TableHeaderOptionsArea key="actions-2">
         <TableHeaderOptionGroup>
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'acquisition.file.list.refresh.button' })}
@@ -184,6 +186,7 @@ class AcquisitionFileListFiltersComponent extends React.Component {
         <TableHeaderOptionsArea reducible>
           <TableHeaderOptionGroup>
             <SelectField
+              key="state"
               multiple
               style={filters.fieldStyle}
               hintText={formatMessage({
@@ -194,6 +197,7 @@ class AcquisitionFileListFiltersComponent extends React.Component {
             >
               {map(DataProviderDomain.AcquisitionFileStateValues, state =>
                 (<MenuItem
+                  key={state}
                   value={state}
                   insetChildren
                   checked={stateValues && stateValues.includes(state)}
@@ -204,6 +208,7 @@ class AcquisitionFileListFiltersComponent extends React.Component {
               )}
             </SelectField>
             <TextField
+              key="filePath"
               hintText={formatMessage({
                 id: 'acquisition.file.list.filters.filePath',
               })}
@@ -212,6 +217,7 @@ class AcquisitionFileListFiltersComponent extends React.Component {
               onChange={this.changeFilePathFilter}
             />
             <DatePicker
+              key="from"
               value={get(this.state, 'filters.from', undefined)}
               textFieldStyle={filters.dateStyle}
               hintText={formatMessage({ id: 'acquisition.file.list.filters.from' })}

@@ -266,12 +266,12 @@ export class AccessRightListComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'accessright.table.filter.clear.button' })}
               icon={<Close />}
               disabled={!get(this.state, 'filters.datasetLabel', undefined)}
-              onTouchTap={this.handleClearFilters}
+              onClick={this.handleClearFilters}
             />
             <FlatButton
               label={this.context.intl.formatMessage({ id: 'accessright.table.filter.button' })}
               icon={<Filter />}
-              onTouchTap={this.props.onRefresh}
+              onClick={this.props.onRefresh}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
@@ -289,7 +289,7 @@ export class AccessRightListComponent extends React.Component {
           icon={<Edit />}
           disabled={values(selectedDatasetsWithAccessright).length === 0}
           label={formatMessage({ id: 'accessright.edit.multiples.button.label' })}
-          onTouchTap={() => this.openEditDialog()}
+          onClick={() => this.openEditDialog()}
         />
       )
     }
@@ -346,7 +346,7 @@ export class AccessRightListComponent extends React.Component {
       <FlatButtonWithResourceDisplayControl
         resourceDependencies={datasetDependencies.addDependencies}
         label={formatMessage({ id: 'accessright.no.dataset.subtitle' })}
-        onTouchTap={navigateToCreateDataset}
+        onClick={navigateToCreateDataset}
         primary
       />
     )
@@ -376,6 +376,7 @@ export class AccessRightListComponent extends React.Component {
             {this.renderActionsLine()}
             <PageableInfiniteTableContainer
               name="access-rights-datasets-table"
+              minRowCount={0}
               pageActions={datasetWithAccessRightActions}
               pageSelectors={datasetWithAccessRightSelectors}
               tableActions={tableActions}

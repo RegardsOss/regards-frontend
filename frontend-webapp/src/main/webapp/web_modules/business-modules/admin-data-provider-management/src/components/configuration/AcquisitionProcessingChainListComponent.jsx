@@ -165,7 +165,7 @@ class AcquisitionProcessingChainListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={onCreate}
+            mainButtonClick={onCreate}
             // TODO : Set hateoas dependencies for data-provider
             // mainHateoasDependencies={addDependencies}
             mainButtonLabel={formatMessage({ id: 'acquisition-chain.list.addnew.button' })}

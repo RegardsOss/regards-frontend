@@ -169,7 +169,7 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
             onChange={this.changeValue2}
             fixedComparator={false}
           />
-          <ClearFieldButton onTouchTap={this.handleClear} displayed={!!(firstField || secondField)} />
+          <ClearFieldButton onClick={this.handleClear} displayed={!!(firstField || secondField)} />
         </div>
       </div>
     )

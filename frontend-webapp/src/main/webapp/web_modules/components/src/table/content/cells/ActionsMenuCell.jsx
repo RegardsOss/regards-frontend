@@ -68,7 +68,7 @@ class ActionsMenuCell extends React.Component {
             open={open}
             iconButtonElement={
               <IconButton
-                onTouchTap={this.handleOpen}
+                onClick={this.handleOpen}
                 className="selenium-moreButton"
                 title={intl.formatMessage({ id: 'table.actions.more' })}
               >

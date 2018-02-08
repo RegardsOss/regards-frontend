@@ -19,6 +19,7 @@
 import merge from 'lodash/merge'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
+import { AnchorComponent } from '@regardsoss/components'
 import Container from './Container'
 
 /**
@@ -70,16 +71,18 @@ class ApplicationLayout extends React.Component {
     bodyStyles = merge({}, bodyStyles, this.props.style)
     return (
       <div style={bodyStyles}>
-        <Container
-          appName={this.props.appName}
-          project={this.props.project}
-          container={this.props.layout}
-          modules={this.props.modules}
-          plugins={this.props.plugins}
-          pluginProps={this.props.pluginProps}
-          dynamicContent={this.props.dynamicContent}
-          mainContainer
-        />
+        <AnchorComponent>
+          <Container
+            appName={this.props.appName}
+            project={this.props.project}
+            container={this.props.layout}
+            modules={this.props.modules}
+            plugins={this.props.plugins}
+            pluginProps={this.props.pluginProps}
+            dynamicContent={this.props.dynamicContent}
+            mainContainer
+          />
+        </AnchorComponent>
       </div>
 
     )

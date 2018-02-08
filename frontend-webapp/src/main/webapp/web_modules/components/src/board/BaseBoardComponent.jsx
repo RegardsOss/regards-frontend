@@ -108,7 +108,7 @@ class BaseBoardComponent extends React.Component {
           label={labelToggleAdvanced}
           primary
           icon={iconToggleAdvanced}
-          onTouchTap={this.handleToggleAdvanced}
+          onClick={this.handleToggleAdvanced}
         />
       </div>
     )

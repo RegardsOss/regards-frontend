@@ -170,7 +170,7 @@ export class AccessRightFormComponent extends React.Component {
         <RaisedButton
           label={labelToggleAdvanced}
           icon={iconToggleAdvanced}
-          onTouchTap={this.handleToggleAdvanced}
+          onClick={this.handleToggleAdvanced}
         />
       </div>
     )
@@ -307,7 +307,7 @@ export class AccessRightFormComponent extends React.Component {
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'accessright.form.action.cancel' })}
-              secondaryButtonTouchTap={this.props.onCancel}
+              secondaryButtonClick={this.props.onCancel}
             />
           </CardActions>
         </div>

@@ -30,7 +30,7 @@ export class ProjectFormContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-      model_id: PropTypes.string,
+      modelName: PropTypes.string,
       mode: PropTypes.string,
     }),
     // from mapStateToProps
@@ -45,7 +45,7 @@ export class ProjectFormContainer extends React.Component {
 
   constructor(props) {
     super(props)
-    const isCreating = props.params.model_id === undefined
+    const isCreating = props.params.modelName === undefined
     this.state = {
       isCreating,
       isLoading: !isCreating,
@@ -55,7 +55,7 @@ export class ProjectFormContainer extends React.Component {
 
   componentDidMount() {
     if (!this.state.isCreating) {
-      this.props.fetchModel(this.props.params.model_id)
+      this.props.fetchModel(this.props.params.modelName)
         .then(() => {
           this.setState({
             isLoading: false,
@@ -73,7 +73,7 @@ export class ProjectFormContainer extends React.Component {
     const updatedProject = Object.assign({}, this.props.model.content, {
       description: values.description,
     })
-    Promise.resolve(this.props.updateModel(this.props.model.content.id, updatedProject))
+    Promise.resolve(this.props.updateModel(this.props.model.content.name, updatedProject))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -108,7 +108,7 @@ export class ProjectFormContainer extends React.Component {
 
   handleDuplicate = (values) => {
     const { model } = this.props
-    Promise.resolve(this.props.duplicateModel(model.content.id, {
+    Promise.resolve(this.props.duplicateModel(model.content.name, {
       type: model.content.type,
       name: values.name,
       description: values.description,
@@ -151,7 +151,7 @@ export class ProjectFormContainer extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  model: ownProps.params.model_id ? modelSelectors.getById(state, ownProps.params.model_id) : null,
+  model: ownProps.params.modelName ? modelSelectors.getById(state, ownProps.params.modelName) : null,
 })
 
 const mapDispatchToProps = dispatch => ({

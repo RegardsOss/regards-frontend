@@ -71,7 +71,7 @@ class SortableColumnHeaderCell extends React.Component {
             <IconButton
               iconStyle={sortIconStyle}
               style={sortButtonStyle}
-              onTouchTap={this.onSort}
+              onClick={this.onSort}
             >
               {(() => {
                 switch (sortingOrder) {

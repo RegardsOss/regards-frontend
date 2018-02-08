@@ -68,6 +68,7 @@ class ListSortingComponent extends React.Component {
           checked={!sortingModel}
           primaryText={formatMessage({ id: 'list.sort.none.label' })}
           insetChildren
+          value={null}
         />
         { /* Map all available items for sorting */
           sortableModels.map((model, key) => (

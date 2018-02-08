@@ -154,18 +154,19 @@ export class ProcessingChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              displayedRowsCount={15}
+              minRowCount={0}
+              maxRowCount={10}
               queryPageSize={this.props.queryPageSize}
             />
           </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonTouchTap={this.props.onCreate}
+            mainButtonClick={this.props.onCreate}
             mainHateoasDependencies={addDependencies}
             mainButtonLabel={intl.formatMessage({ id: 'processing-chain.addnew.button' })}
             secondaryButtonLabel={intl.formatMessage({ id: 'processing-chain.back.button' })}
-            secondaryButtonTouchTap={this.props.onBack}
+            secondaryButtonClick={this.props.onBack}
           />
         </CardActions>
         {this.renderDeleteConfirmDialog()}

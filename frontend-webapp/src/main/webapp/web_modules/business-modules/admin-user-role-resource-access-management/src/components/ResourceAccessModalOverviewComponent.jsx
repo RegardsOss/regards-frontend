@@ -78,7 +78,7 @@ class ResourceAccessModalOverviewComponent extends React.Component {
               id="role.modal.action.back"
             />
           }
-          mainButtonTouchTap={this.props.onClose}
+          mainButtonClick={this.props.onClose}
         />}
         autoScrollBodyContent
         modal={false}
@@ -99,7 +99,7 @@ class ResourceAccessModalOverviewComponent extends React.Component {
                   {map(this.props.roles, role => (
                     <Chip
                       style={styles.chipItem}
-                      onTouchTap={() => this.handleEditRoleResources(role)}
+                      onClick={() => this.handleEditRoleResources(role)}
                       key={role.content.id}
                     >{role.content.name}
                     </Chip>

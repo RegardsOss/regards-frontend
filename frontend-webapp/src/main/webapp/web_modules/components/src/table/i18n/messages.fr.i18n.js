@@ -18,8 +18,8 @@
  **/
 
 const messages = {
-  'table.results.no.data': 'Aucun resultat',
-  'table.results.one.element': '1 resultat',
+  'table.results.no.data': 'Aucun résultat',
+  'table.results.one.element': '1 résultat',
   'table.results.count': '{count} résultats',
   'table.option.refresh.label': 'Rafraîchir',
   'table.option.refresh.tooltip': 'Mettre à jour les données du tableau',

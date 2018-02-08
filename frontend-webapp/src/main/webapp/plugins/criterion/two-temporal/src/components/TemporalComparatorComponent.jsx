@@ -85,7 +85,7 @@ export class TemporalComparatorComponent extends React.Component {
       <div>
         <RaisedButton
           label={value}
-          onTouchTap={this.handleOpenMenu}
+          onClick={this.handleOpenMenu}
           style={comparatorButtonStyle}
         />
         <IconMenu

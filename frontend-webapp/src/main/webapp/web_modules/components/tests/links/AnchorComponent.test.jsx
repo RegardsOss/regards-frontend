@@ -15,35 +15,33 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ShowOrderDatasetsComponent from '../../../../src/components/orders/options/ShowOrderDatasetsComponent'
-import styles from '../../../../src/styles/styles'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import AnchorComponent from '../../src/links/AnchorComponent'
 
-const context = buildTestContext(styles)
+const context = buildTestContext(() => { })
 
-/**
-* Test ShowOrderDatasetsComponent
-* @author Raphaël Mechali
-*/
-describe('[Order Common] Testing ShowOrderDatasetsComponent', () => {
+describe('[Components] Testing AnchorComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ShowOrderDatasetsComponent)
+    assert.isDefined(AnchorComponent)
   })
-  it('should render correctly', () => {
+
+  it('should render properly', () => {
     const props = {
-      onSelectOrder: () => { },
+      children: (<span />),
     }
-    const enzymeWrapper = shallow(<ShowOrderDatasetsComponent {...props} />, { context })
-    const buttonWrapper = enzymeWrapper.find(IconButton)
-    assert.lengthOf(buttonWrapper, 1, 'There should be a button')
-    assert.isDefined(buttonWrapper.props().title, 'There should be a tooltip')
-    assert.equal(buttonWrapper.props().onClick, props.onSelectOrder, 'Calback should be correctly reported')
+    const enzymeWrapper = shallow(<AnchorComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(FloatingActionButton), 0, 'The anchor shall not be visible')
+    assert.lengthOf(enzymeWrapper.find('span'), 1, 'The component display its children')
+    enzymeWrapper.setState({
+      isVisible: true,
+    })
+    assert.lengthOf(enzymeWrapper.find(FloatingActionButton), 1, 'The anchor shall be visible')
   })
 })

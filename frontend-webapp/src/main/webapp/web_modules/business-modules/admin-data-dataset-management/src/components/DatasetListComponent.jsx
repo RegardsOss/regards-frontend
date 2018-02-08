@@ -137,7 +137,7 @@ export class DatasetListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={dataset.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onTouchTap={() => handleEdit(dataset.content.id)}
+                        onClick={() => handleEdit(dataset.content.id)}
                         title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
@@ -145,7 +145,7 @@ export class DatasetListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={dataset.links}
                         hateoasKey={HateoasKeys.DELETE}
-                        onTouchTap={() => this.openDeleteDialog(dataset)}
+                        onClick={() => this.openDeleteDialog(dataset)}
                         title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
