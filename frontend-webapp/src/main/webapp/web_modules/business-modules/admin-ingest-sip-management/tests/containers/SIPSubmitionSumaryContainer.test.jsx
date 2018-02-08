@@ -19,22 +19,22 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SIPSubmitionSummaryComponent from '../../src/components/SIPSubmitionSummaryComponent'
-import { SIPSubmitionSummaryContainer } from '../../src/containers/SIPSubmitionSummaryContainer'
+import SIPSubmissionSummaryComponent from '../../src/components/submission/SIPSubmissionSummaryComponent'
+import { SIPSubmissionSummaryContainer } from '../../src/containers/SIPSubmissionSummaryContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test SIPSubmitionSummaryContainer
+* Test SIPsubmissionSummaryContainer
 * @author Sébastien Binda
 */
-describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPSubmitionSummaryContainer', () => {
+describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPsubmissionSummaryContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSubmitionSummaryContainer)
+    assert.isDefined(SIPSubmissionSummaryContainer)
   })
   it('should render correctly', () => {
     const props = {
@@ -56,7 +56,7 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing SIPSubmitionSummaryContainer', (
         },
       ],
     }
-    const enzymeWrapper = shallow(<SIPSubmitionSummaryContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(SIPSubmitionSummaryComponent).length, 1, 'There should have a SIPSubmitionSummaryContainer rendered')
+    const enzymeWrapper = shallow(<SIPSubmissionSummaryContainer {...props} />, { context })
+    assert.equal(enzymeWrapper.find(SIPSubmissionSummaryComponent).length, 1, 'There should have a SIPsubmissionSummaryContainer rendered')
   })
 })

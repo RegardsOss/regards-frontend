@@ -16,13 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import GenerationChain from './GenerationChain'
+import AcquisitionProcessingChain from './AcquisitionProcessingChain'
+import AcquisitionProcessingChainMonitor from './AcquisitionProcessingChainMonitor'
 import AcquisitionFileInfo from './AcquisitionFileInfo'
+import Product from './Product'
+import AcquisitionFile from './AcquisitionFile'
 
 /**
  * @author Sébastien Binda
  */
 module.exports = {
-  ...GenerationChain,
+  ...AcquisitionProcessingChain,
+  ...AcquisitionProcessingChainMonitor,
   ...AcquisitionFileInfo,
+  ...Product,
+  ...AcquisitionFile,
 }

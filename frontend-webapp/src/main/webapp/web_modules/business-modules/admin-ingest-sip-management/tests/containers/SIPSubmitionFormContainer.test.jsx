@@ -19,24 +19,24 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SIPSubmitionFormComponent from '../../src/components/SIPSubmitionFormComponent'
-import SIPSubmissionNotReadyComponent from '../../src/components/SIPSubmissionNotReadyComponent'
-import { SIPSubmitionFormContainer } from '../../src/containers/SIPSubmitionFormContainer'
+import SIPsubmissionFormComponent from '../../src/components/submission/SIPSubmissionFormComponent'
+import SIPSubmissionNotReadyComponent from '../../src/components/submission/SIPSubmissionNotReadyComponent'
+import { SIPSubmissionFormContainer } from '../../src/containers/SIPSubmissionFormContainer'
 
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test  SIPSubmitionFormContainer
+* Test  SIPSubmissionFormContainer
 * @author Sébastien Binda
 */
-describe('[ADMIN INGEST SIP MANAGEMENT] Testing  SIPSubmitionFormContainer', () => {
+describe('[ADMIN INGEST SIP MANAGEMENT] Testing  SIPSubmissionFormContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SIPSubmitionFormContainer)
+    assert.isDefined(SIPSubmissionFormContainer)
   })
   it('should render correctly', () => {
     const props = {
@@ -47,8 +47,8 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing  SIPSubmitionFormContainer', () 
       flushSips: () => new Promise(() => { }),
       isStorageReady: () => new Promise(() => { }),
     }
-    const enzymeWrapper = shallow(<SIPSubmitionFormContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(SIPSubmitionFormComponent).length, 0, 'The SIPSubmitionFormComponent should be rendered')
+    const enzymeWrapper = shallow(<SIPSubmissionFormContainer {...props} />, { context })
+    assert.equal(enzymeWrapper.find(SIPsubmissionFormComponent).length, 0, 'The SIPsubmissionFormComponent should be rendered')
     // Simulate return from isStorageReady
     enzymeWrapper.instance().setState({
       isError: false,
@@ -56,7 +56,7 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing  SIPSubmitionFormContainer', () 
       storageReady: true,
     })
     enzymeWrapper.update()
-    assert.equal(enzymeWrapper.find(SIPSubmitionFormComponent).length, 1, 'The SIPSubmitionFormComponent should be rendered')
+    assert.equal(enzymeWrapper.find(SIPsubmissionFormComponent).length, 1, 'The SIPsubmissionFormComponent should be rendered')
     // Simulate return from isStorageReady with not ready response
     enzymeWrapper.instance().setState({
       isError: false,

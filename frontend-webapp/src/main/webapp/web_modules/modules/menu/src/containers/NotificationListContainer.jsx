@@ -37,7 +37,7 @@ import {
 } from '../clients/ReadNotificationClient'
 
 /** Refresh time in milliseconds */
-const refreshTimerMS = 2000
+const refreshTimerMS = 30000
 
 /**
  * Notification list container, shows the number of unread notifications.
