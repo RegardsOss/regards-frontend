@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import {
@@ -34,6 +35,7 @@ import ProductStateRender from './ProductStateRender'
 import ProductSIPStateRender from './ProductSIPStateRender'
 import ProductSessionRender from './ProductSessionRender'
 import ProducListFiltersComponent from './ProducListFiltersComponent'
+import ProductListViewFilesAction from './ProductListViewFilesAction'
 import { TableProductActions } from '../../../clients/TableClient'
 import { ProductActions, ProductSelectors } from '../../../clients/ProductClient'
 import messages from '../../../i18n'
@@ -48,6 +50,7 @@ class ProductListComponent extends React.Component {
     project: PropTypes.string.isRequired,
     chain: DataProviderShapes.AcquisitionProcessingChain,
     initialFilters: PropTypes.objectOf(PropTypes.string),
+    contextFilters: PropTypes.objectOf(PropTypes.string),
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
@@ -62,8 +65,24 @@ class ProductListComponent extends React.Component {
     ...themeContextType,
   }
 
+  static AUTO_REFRESH_PERIOD = 10000
+
   state = {
     appliedFilters: {},
+  }
+
+  /**
+   * At component mount, run acquisition chains auto refresh
+   */
+  componentDidMount = () => {
+    this.setState({
+      appliedFilters: this.props.contextFilters,
+    })
+    this.autoRefresh()
+  }
+
+  componentWillUnmount = () => {
+    clearTimeout(this.timeout)
   }
 
   /**
@@ -75,11 +94,31 @@ class ProductListComponent extends React.Component {
    * Callback to apply specific filters for Product search
    */
   applyFilters = (filters) => {
-    this.setState({ appliedFilters: filters })
+    const { contextFilters } = this.props
+    const appliedFilters = { ...filters, ...contextFilters }
+    this.setState({ appliedFilters })
+  }
+
+  /**
+   * Use javascript setTimeout to run auto refresh of acquisition chains
+   */
+  autoRefresh = () => {
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+    }
+    this.handleRefresh().then((ActionResult) => {
+      this.timeout = setTimeout(this.autoRefresh, ProductListComponent.AUTO_REFRESH_PERIOD)
+    })
+  }
+
+  viewFiles = (productId) => {
+    const { project, chain } = this.props
+    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${chain.content.id}/products/${productId}/files`
+    browserHistory.push(url)
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
     const {
       onBack, pageSize, resultsCount, entitiesLoading, chain, project, initialFilters,
     } = this.props
@@ -90,6 +129,7 @@ class ProductListComponent extends React.Component {
         Icon={AddToPhotos}
       />
     )
+    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
     const columns = [
       TableColumnBuilder.buildSimplePropertyColumn('column.productName', formatMessage({ id: 'acquisition-product.list.productName' }), 'content.productName', 1),
       TableColumnBuilder.buildSimplePropertyColumn('column.lastUpdate', formatMessage({ id: 'acquisition-product.list.lastUpdate' }), 'content.lastUpdate', 2, true, DateValueRender),
@@ -99,6 +139,11 @@ class ProductListComponent extends React.Component {
         Constructor: ProductSessionRender,
         props: { project },
       }),
+      TableColumnBuilder.buildOptionsColumn('column.files.actions', [{
+        OptionConstructor: ProductListViewFilesAction,
+        optionProps: { onClick: this.viewFiles },
+      },
+      ], true, fixedColumnWidth),
     ]
     return (
       <Card>

@@ -85,10 +85,12 @@ export class ProductListContainer extends React.Component {
 
   state = {
     initialFilters: {},
+    contextFilters: {},
   }
 
   componentWillMount() {
     this.props.fetchAcquisitionProcessingChain(this.props.params.chainId)
+    this.initializeContextFilters()
     this.initializeFiltersFromURL()
   }
 
@@ -114,16 +116,26 @@ export class ProductListContainer extends React.Component {
     }
   }
 
+  initializeContextFilters = () => {
+    const { params: { chainId } } = this.props
+    const contextFilters = {}
+    if (chainId) {
+      contextFilters.chainId = chainId
+    }
+    return this.setState({ contextFilters })
+  }
+
   render() {
     const {
       params: { project }, meta, entitiesLoading, chain,
     } = this.props
-    const { initialFilters } = this.state
+    const { initialFilters, contextFilters } = this.state
     return (
       <ProductListComponent
         project={project}
         chain={chain}
         initialFilters={initialFilters}
+        contextFilters={contextFilters}
         onRefresh={this.onRefresh}
         onBack={this.onBack}
         pageSize={ProductListContainer.PAGE_SIZE}

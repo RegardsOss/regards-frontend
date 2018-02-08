@@ -31,7 +31,7 @@ const AcquisitionProcessingChainContent = PropTypes.shape({
   active: PropTypes.bool.isRequired,
   mode: PropTypes.string.isRequired,
   session: PropTypes.string,
-  running: PropTypes.bool,
+  locked: PropTypes.bool,
   lastDateActivation: PropTypes.string,
   periodicity: PropTypes.number,
   ingestChain: PropTypes.string.isRequired,

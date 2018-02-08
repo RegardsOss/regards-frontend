@@ -35,13 +35,14 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(6)
+    expect(Routes.childRoutes).to.have.length(7)
     expect(Routes.childRoutes[0].path).to.eq('chain/list')
     expect(Routes.childRoutes[1].path).to.eq('chain/create')
     expect(Routes.childRoutes[2].path).to.eq('chain/:chainId/:mode')
     expect(Routes.childRoutes[3].path).to.eq('monitoring/chains')
     expect(Routes.childRoutes[4].path).to.eq('monitoring/chains/:chainId/products')
-    expect(Routes.childRoutes[5].path).to.eq('monitoring/chains/:chainId/files')
+    expect(Routes.childRoutes[5].path).to.eq('monitoring/chains/:chainId/products/:productId/files')
+    expect(Routes.childRoutes[6].path).to.eq('monitoring/chains/:chainId/files')
   })
   it('list should return AcquisitionProcessingChainListContainer for listing of existing chains', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -67,14 +68,20 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('monitoring/chains/:chainId/products should return ProductListContainer for listing of existing chains', (done) => {
+  it('monitoring/chains/:chainId/products should return ProductListContainer for listing of existing products', (done) => {
     Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ProductListContainer)
       done()
     })
   })
-  it('monitoring/chains/:chainId/files should return AcquisitionFileListContainer for listing of existing chains', (done) => {
+  it('monitoring/chains/:chainId/products/:productId/files should return AcquisitionFileListContainer for listing of existing files', (done) => {
     Routes.childRoutes[5].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(AcquisitionFileListContainer)
+      done()
+    })
+  })
+  it('monitoring/chains/:chainId/files should return AcquisitionFileListContainer for listing of existing files', (done) => {
+    Routes.childRoutes[6].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(AcquisitionFileListContainer)
       done()
     })

@@ -43,7 +43,7 @@ class AcquisitionProcessingChainMonitoringProductsRenderer extends React.Compone
 
   goToSIPSessionMonitoring = () => {
     const { project, entity: { content: { session } } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/session?name=${session}`
+    const url = `/admin/${project}/data/acquisition/sip/session?id=${session}`
     browserHistory.push(url)
   }
 

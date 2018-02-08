@@ -164,6 +164,7 @@ const messages = Object.assign({
   'acquisition.product.list.filters.from': 'Acquis depuis le ...',
 
   // 4.3 actions
+  'acquisition-product.list.view.files.tooltip': 'Voir les fichiers associés',
   'acquisition-product.list.back.button': 'Retour',
   'acquisition.product.list.filters.clear.button': 'Vider',
   'acquisition.product.list.filters.apply.button': 'Appliquer les filtres',
@@ -174,6 +175,7 @@ const messages = Object.assign({
   // 5.1 Headers
   'acquisition.file.empty.title': 'Aucun fichiers acquis',
   'acquisition.file.list.title': 'Liste des fichiers acquis ou en cours d\'acquisition',
+  'acquisition.file.list.product.title': 'Liste des fichiers acquis ou en cours d\'acquisition du produit {product}',
   'acquisition.file.list.subtitle': '-',
   'acquisition.file.list.back.button': 'Retour',
   'acquisition.file.list.filePath': 'Fichier',

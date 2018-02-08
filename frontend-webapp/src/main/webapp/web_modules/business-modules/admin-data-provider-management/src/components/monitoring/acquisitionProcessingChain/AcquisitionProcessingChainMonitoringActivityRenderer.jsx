@@ -54,9 +54,15 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
   }
 
   render() {
-    const { entity: { content: { chain } } } = this.props
+    const {
+      entity: {
+        content: {
+          chain, nbProductAcquisitionJob, nbSIPGenerationJobs, nbSIPSubmissionJobs,
+        },
+      },
+    } = this.props
     const { intl: { formatMessage, formatDate } } = this.context
-    if (chain.running) {
+    if (nbProductAcquisitionJob > 0 || nbSIPGenerationJobs > 0 || nbSIPSubmissionJobs > 0) {
       return (
         <RefreshIndicator
           size={25}

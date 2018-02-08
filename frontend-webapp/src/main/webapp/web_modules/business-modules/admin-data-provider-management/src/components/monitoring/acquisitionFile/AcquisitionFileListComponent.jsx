@@ -25,6 +25,7 @@ import {
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import AcquisitionFileListFiltersComponent from './AcquisitionFileListFiltersComponent'
+import AcquisitionFileStateRender from './AcquisitionFileStateRender'
 import { TableAcquisitionFileActions } from '../../../clients/TableClient'
 import { AcquisitionFileActions, AcquisitionFileSelectors } from '../../../clients/AcquisitionFileClient'
 import messages from '../../../i18n'
@@ -37,6 +38,7 @@ import styles from '../../../styles'
 class AcquisitionFileListComponent extends React.Component {
   static propTypes = {
     initialFilters: PropTypes.objectOf(PropTypes.string),
+    contextFilters: PropTypes.objectOf(PropTypes.string),
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
@@ -51,8 +53,21 @@ class AcquisitionFileListComponent extends React.Component {
     ...themeContextType,
   }
 
+  static AUTO_REFRESH_PERIOD = 10000
+
   state = {
     appliedFilters: {},
+  }
+
+  componentWillMount() {
+    this.setState({
+      appliedFilters: this.props.contextFilters,
+    })
+    this.autoRefresh()
+  }
+
+  componentWillUnmount = () => {
+    clearTimeout(this.timeout)
   }
 
   /**
@@ -61,10 +76,24 @@ class AcquisitionFileListComponent extends React.Component {
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
   /**
+  * Use javascript setTimeout to run auto refresh of acquisition chains
+  */
+  autoRefresh = () => {
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+    }
+    this.handleRefresh().then((ActionResult) => {
+      this.timeout = setTimeout(this.autoRefresh, AcquisitionFileListComponent.AUTO_REFRESH_PERIOD)
+    })
+  }
+
+  /**
    * Callback to apply specific filters for Product search
    */
   applyFilters = (filters) => {
-    this.setState({ appliedFilters: filters })
+    const { contextFilters } = this.props
+    const appliedFilters = { ...filters, ...contextFilters }
+    this.setState({ appliedFilters })
   }
 
   render() {
@@ -87,12 +116,15 @@ class AcquisitionFileListComponent extends React.Component {
       TableColumnBuilder.buildSimplePropertyColumn('column.acqDate',
         formatMessage({ id: 'acquisition.file.list.acqDate' }), 'content.acqDate', 2, true, DateValueRender),
       TableColumnBuilder.buildSimplePropertyColumn('column.state',
-        formatMessage({ id: 'acquisition.file.list.state' }), 'content.state', 3),
+        formatMessage({ id: 'acquisition.file.list.state' }), 'content.state', 3, true, AcquisitionFileStateRender),
     ]
+    const title = appliedFilters.productId ?
+      formatMessage({ id: 'acquisition.file.list.product.title' }, { product: appliedFilters.productId }) :
+      formatMessage({ id: 'acquisition.file.list.title' })
     return (
       <Card>
         <CardTitle
-          title={formatMessage({ id: 'acquisition.file.list.title' })}
+          title={title}
           subtitle={formatMessage({ id: 'acquisition.file.list.subtitle' })}
         />
         <CardText>

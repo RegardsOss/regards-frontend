@@ -57,6 +57,7 @@ export class AcquisitionFileListContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
       chainId: PropTypes.string,
+      productId: PropTypes.string,
     }),
     // from mapStateToProps
     meta: PropTypes.shape({ // use only in onPropertiesUpdate
@@ -79,18 +80,29 @@ export class AcquisitionFileListContainer extends React.Component {
 
   state = {
     initialFilters: {},
+    contextFilters: {},
   }
 
   componentWillMount() {
+    this.initializeContextFilters()
     this.initializeFiltersFromURL()
+  }
+
+  componentWillUnmount = () => {
+    clearTimeout(this.timeout)
   }
 
   /**
    * Callback to return to the acquisition board
    */
   onBack = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains`
+    const { params: { project, productId, chainId } } = this.props
+
+    console.error('props', this.props.params)
+    const url = productId && chainId ?
+      `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${chainId}/products` :
+      `/admin/${project}/data/acquisition/dataprovider/monitoring/chains`
+
     browserHistory.push(url)
   }
 
@@ -107,9 +119,21 @@ export class AcquisitionFileListContainer extends React.Component {
     }
   }
 
+  initializeContextFilters = () => {
+    const { params: { productId, chainId } } = this.props
+    const contextFilters = {}
+    if (productId) {
+      contextFilters.productId = productId
+    }
+    if (chainId) {
+      contextFilters.chainId = chainId
+    }
+    return this.setState({ contextFilters })
+  }
+
   render() {
     const { meta, entitiesLoading } = this.props
-    const { initialFilters } = this.state
+    const { initialFilters, contextFilters } = this.state
     return (
       <AcquisitionFileListComponent
         onRefresh={this.onRefresh}
@@ -118,6 +142,7 @@ export class AcquisitionFileListContainer extends React.Component {
         resultsCount={meta.totalElements}
         entitiesLoading={entitiesLoading}
         initialFilters={initialFilters}
+        contextFilters={contextFilters}
       />
     )
   }
