@@ -36,14 +36,15 @@ import {
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors } from '../../clients/AcquisitionProcessingChainMonitorClient'
-import { tableActions } from '../../clients/TableClient'
 import AcquisitionProcessingChainMonitoringTableRunAction from './AcquisitionProcessingChainMonitoringTableRunAction'
 import AcquisitionProcessingChainMonitoringActivityRenderer from './AcquisitionProcessingChainMonitoringActivityRenderer'
 import AcquisitionProcessingChainMonitoringProductsRenderer from './AcquisitionProcessingChainMonitoringProductsRenderer'
 import AcquisitionProcessingChainMonitoringFilesRenderer from './AcquisitionProcessingChainMonitoringFilesRenderer'
-import messages from '../../i18n'
-import styles from '../../styles'
+import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
+  from '../../../clients/AcquisitionProcessingChainMonitorClient'
+import { tableActions } from '../../../clients/TableClient'
+import messages from '../../../i18n'
+import styles from '../../../styles'
 
 /**
 * Component to display list of acquisition processing chains monitoring
@@ -320,6 +321,7 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
       }),
       TableColumnBuilder.buildSimpleColumnWithCell('column.files', formatMessage({ id: 'acquisition-chain.monitor.list.total-nb-files' }), {
         Constructor: AcquisitionProcessingChainMonitoringFilesRenderer,
+        props: { project },
       }),
       TableColumnBuilder.buildOptionsColumn('column.files.actions', [{
         OptionConstructor: AcquisitionProcessingChainMonitoringTableRunAction,

@@ -21,14 +21,14 @@ import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
 import { withI18n } from '@regardsoss/i18n'
 import SIPImportClient from '../clients/SIPImportClient'
-import SIPSubmitionSummaryComponent from '../components/SIPSubmitionSummaryComponent'
+import SIPsubmissionSummaryComponent from '../components/submission/SIPSubmissionSummaryComponent'
 import messages from '../i18n'
 
 /**
-* Container to display sip submition synchrone results from server. May contain rejected or handled SIP.
+* Container to display sip submission synchrone results from server. May contain rejected or handled SIP.
 * @author Sébastien Binda
 */
-export class SIPSubmitionSummaryContainer extends React.Component {
+export class SIPSubmissionSummaryContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -69,7 +69,7 @@ export class SIPSubmitionSummaryContainer extends React.Component {
 
   render() {
     return (
-      <SIPSubmitionSummaryComponent
+      <SIPsubmissionSummaryComponent
         submitedSips={this.props.submitedSips}
         onBack={this.onBack}
       />
@@ -77,6 +77,6 @@ export class SIPSubmitionSummaryContainer extends React.Component {
   }
 }
 export default connect(
-  SIPSubmitionSummaryContainer.mapStateToProps,
-  SIPSubmitionSummaryContainer.mapDispatchToProps,
-)(withI18n(messages)(SIPSubmitionSummaryContainer))
+  SIPSubmissionSummaryContainer.mapStateToProps,
+  SIPSubmissionSummaryContainer.mapDispatchToProps,
+)(withI18n(messages)(SIPSubmissionSummaryContainer))

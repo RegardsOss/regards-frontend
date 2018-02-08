@@ -29,7 +29,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  * Component to start an ingest process
  * @author Sébastien Binda
  */
-export class SIPSubmitionFormComponent extends React.Component {
+export class SIPSubmissionFormComponent extends React.Component {
   static propTypes = {
     submitSips: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -91,6 +91,6 @@ export class SIPSubmitionFormComponent extends React.Component {
 
 const connectedReduxForm = reduxForm({
   form: 'suip-submit-form',
-})(SIPSubmitionFormComponent)
+})(SIPSubmissionFormComponent)
 
 export default connectedReduxForm

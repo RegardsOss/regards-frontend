@@ -25,9 +25,11 @@ const messages = Object.assign({
   'acquisition-chain.list.subtitle': 'Les chaînes d\'acquisition de données correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectée avant leur ajout dans le catalogue de données.',
   'acquisition-chain.list.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement un fonctionnement spécifique grâce aux plugins suivants.',
   'acquisition-chain.list.empty.title': 'Aucune chaîne définie',
+
   // 1.2 table headers
   'acquisition-chain.list.table.label': 'Nom',
   'acquisition-chain.list.table.mode': 'Mode de déclanchement',
+
   // 1.3 actions
   'acquisition-chain.list.addnew.button': 'Ajouter',
   'acquisition-chain.list.back.button': 'Retour',
@@ -47,6 +49,7 @@ const messages = Object.assign({
   'acquisition-chain.form.informations-6': '5. Un plugin de génération des produits associés aux fichiers détectés. (*)',
   'acquisition-chain.form.informations-7': '6. Un plugin de génération des méta données à partir des fichiers détectés.',
   'acquisition-chain.form.informations-8': '7. Un plugin de post-traitement.',
+
   // 2.2 General configuration section
   'acquisition-chain.form.general.section.title': 'Général',
   'acquisition-chain.form.general.section.label': 'Libellé (*)',
@@ -60,6 +63,7 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manuel',
   'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne de traitement (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Sélectionner une chaîne de traitement ... ',
+
   // 2.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Fichiers',
   'acquisition-chain.form.fileInfos.list.item.title': 'Fichier',
@@ -135,10 +139,9 @@ const messages = Object.assign({
   'acquisition-product.list.sipState': 'Etat du SIP',
   'acquisition-product.list.session': 'Session',
 
-
   //4.2 Filters
   'acquisition.product.list.filters.state': 'Etat des produits',
-  'acquisition-product.list.subtitle': '',
+  'acquisition-product.list.subtitle': '-',
   'acquisition.product.list.filters.sipState': 'Etat des SIPs',
   'acquisition.product.list.filters.state.ACQUIRING': 'En cours',
   'acquisition.product.list.filters.state.COMPLETED': 'En cours (complet)',
@@ -154,7 +157,7 @@ const messages = Object.assign({
   'acquisition.product.list.filters.sipState.STORED': 'Stocké',
   'acquisition.product.list.filters.sipState.STORE_ERROR': 'Erreur de stockage',
   'acquisition.product.list.filters.sipState.INDEXED': 'Indexé',
-  'acquisition.product.list.filters.sipState.INCOMPLETE': 'Incompet',
+  'acquisition.product.list.filters.sipState.INCOMPLETE': 'Incomplet',
   'acquisition.product.list.filters.sipState.DELETED': 'Supprimé',
   'acquisition-product.list.filters.productName': 'Nom du produit',
   'acquisition.product.list.filters.session': 'Session d\'ingestion',
@@ -166,6 +169,32 @@ const messages = Object.assign({
   'acquisition.product.list.filters.apply.button': 'Appliquer les filtres',
   'acquisition.product.list.refresh.button': 'Raffraîchir',
   'acquisition.product.list.sip.session.link.title': 'Visualiser l\'état de la session',
+
+  // 5. Acquisition file list
+  // 5.1 Headers
+  'acquisition.file.empty.title': 'Aucun fichiers acquis',
+  'acquisition.file.list.title': 'Liste des fichiers acquis ou en cours d\'acquisition',
+  'acquisition.file.list.subtitle': '-',
+  'acquisition.file.list.back.button': 'Retour',
+  'acquisition.file.list.filePath': 'Fichier',
+  'acquisition.file.list.acqDate': 'Date d\'acquisition',
+  'acquisition.file.list.state': 'Etat',
+
+  //5.2 Filters
+  'acquisition.file.list.filters.state': 'Etat',
+  'acquisition.file.list.filters.state.IN_PROGRESS': 'En cours',
+  'acquisition.file.list.filters.state.VALID': 'En cours (validé)',
+  'acquisition.file.list.filters.state.ACQUIRED': 'Acquis',
+  'acquisition.file.list.filters.state.SUPERSEDED': 'Remplacé',
+  'acquisition.file.list.filters.state.INVALID': 'Invalide',
+  'acquisition.file.list.filters.state.ERROR': 'Erreur',
+  'acquisition.file.list.filters.filePath': 'Fichier',
+  'acquisition.file.list.filters.from': 'Acquis depuis ...',
+
+  //5.3 actions
+  'acquisition.file.list.filters.clear.button': 'Vider',
+  'acquisition.file.list.filters.apply.button': 'Appliquer les filtres',
+  'acquisition.file.list.refresh.button': 'Raffraîchir',
 
 }, Locales.fr)
 

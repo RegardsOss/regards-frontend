@@ -20,14 +20,14 @@ import get from 'lodash/get'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import SIPSessionComponent from '../components/SIPSessionComponent'
+import SIPSessionListComponent from '../components/monitoring/session/SIPSessionListComponent'
 import { sessionActions, sessionSelectors } from '../clients/SessionClient'
 
 /**
 * Displays the selection of session in order to list SIPs
 * @author Maxime Bouveron
 */
-export class SIPSessionContainer extends React.Component {
+export class SIPSessionListContainer extends React.Component {
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state
@@ -91,7 +91,7 @@ export class SIPSessionContainer extends React.Component {
   onRefresh = () => {
     const { meta, fetchPage } = this.props
     const curentPage = get(meta, 'number', 0)
-    fetchPage(0, SIPSessionContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
+    fetchPage(0, SIPSessionListContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
   }
 
   handleOpen = (session, isError = false) => {
@@ -111,8 +111,8 @@ export class SIPSessionContainer extends React.Component {
     const { meta, deleteSession, fetchPage } = this.props
     const { initialFilters } = this.state
     return (
-      <SIPSessionComponent
-        pageSize={SIPSessionContainer.PAGE_SIZE}
+      <SIPSessionListComponent
+        pageSize={SIPSessionListContainer.PAGE_SIZE}
         resultsCount={meta.totalElements}
         handleOpen={this.handleOpen}
         onBack={this.onBack}
@@ -125,4 +125,5 @@ export class SIPSessionContainer extends React.Component {
   }
 }
 
-export default connect(SIPSessionContainer.mapStateToProps, SIPSessionContainer.mapDispatchToProps)(SIPSessionContainer)
+export default connect(SIPSessionListContainer.mapStateToProps,
+  SIPSessionListContainer.mapDispatchToProps)(SIPSessionListContainer)

@@ -21,13 +21,13 @@ import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import { i18nContextType } from '@regardsoss/i18n'
 import { IngestShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
-import SIPSubmitionComponent from './SIPSubmitionComponent'
+import SIPsubmissionComponent from './SIPSubmissionComponent'
 
 /**
-* Component to display sip submition synchrone results from server. May contain rejected or handled SIP.
+* Component to display sip submission synchrone results from server. May contain rejected or handled SIP.
 * @author Sébastien Binda
 */
-class SIPSubmitionSummaryComponent extends React.Component {
+class SIPsubmissionSummaryComponent extends React.Component {
   static propTypes = {
     submitedSips: PropTypes.arrayOf(IngestShapes.SIPSubmited),
     onBack: PropTypes.func.isRequired,
@@ -42,19 +42,19 @@ class SIPSubmitionSummaryComponent extends React.Component {
   render = () => (
     <Card>
       <CardTitle
-        title={this.context.intl.formatMessage({ id: 'sips.submition-summary.title' })}
-        subtitle={this.context.intl.formatMessage({ id: 'sips.submition-summary.subtitle' })}
+        title={this.context.intl.formatMessage({ id: 'sips.submission-summary.title' })}
+        subtitle={this.context.intl.formatMessage({ id: 'sips.submission-summary.subtitle' })}
       />
       <CardText>
-        {map(this.props.submitedSips, sip => <SIPSubmitionComponent key={sip.id} sip={sip} />)}
+        {map(this.props.submitedSips, sip => <SIPsubmissionComponent key={sip.id} sip={sip} />)}
       </CardText>
       <CardActions>
         <CardActionsComponent
-          mainButtonLabel={this.context.intl.formatMessage({ id: 'sips.submition-summary.back.button' })}
+          mainButtonLabel={this.context.intl.formatMessage({ id: 'sips.submission-summary.back.button' })}
           mainButtonTouchTap={this.props.onBack}
         />
       </CardActions>
     </Card>
   )
 }
-export default SIPSubmitionSummaryComponent
+export default SIPsubmissionSummaryComponent

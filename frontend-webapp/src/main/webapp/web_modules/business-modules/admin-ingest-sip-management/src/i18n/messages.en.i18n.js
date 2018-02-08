@@ -90,9 +90,9 @@ const messages = Object.assign({
   'sips.submit.back.button': 'Back',
   'sips.submit.submit.button': 'Submit',
 
-  'sips.submition-summary.title': 'Data submission summary',
-  'sips.submition-summary.subtitle': 'This summary allows you know accepted entities by the system. If yours data are accepted, so they will be handled for storage soon.',
-  'sips.submition-summary.back.button': 'Ok',
+  'sips.submission-summary.title': 'Data submission summary',
+  'sips.submission-summary.subtitle': 'This summary allows you know accepted entities by the system. If yours data are accepted, so they will be handled for storage soon.',
+  'sips.submission-summary.back.button': 'Ok',
 
   'sips.submission.not.ready.title': 'Configuration is needed before data submission',
   'sips.submission.not.ready.information.message': 'Your system is not configured to allows data submission. Please ensure that you have well configured your data storages.',

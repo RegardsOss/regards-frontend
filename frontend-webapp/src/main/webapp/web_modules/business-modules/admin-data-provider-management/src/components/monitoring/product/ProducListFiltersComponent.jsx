@@ -19,10 +19,8 @@
 import map from 'lodash/map'
 import get from 'lodash/get'
 import values from 'lodash/values'
-import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import FlatButton from 'material-ui/FlatButton'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
@@ -30,39 +28,21 @@ import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField/TextField'
 import DatePicker from 'material-ui/DatePicker'
 import {
-  PageableInfiniteTableContainer,
-  TableColumnBuilder,
-  TableHeaderLine, TableLayout, TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
-  NoContentComponent,
-  CardActionsComponent,
-  DateValueRender,
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
 } from '@regardsoss/components'
-import { DataProviderShapes } from '@regardsoss/shape'
 import { DataProviderDomain, IngestDomin } from '@regardsoss/domain'
-import { withI18n, i18nContextType } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import ProductStateRender from './ProductStateRender'
-import ProductSIPStateRender from './ProductSIPStateRender'
-import ProductSessionRender from './ProductSessionRender'
-import { TableProductActions } from '../../clients/TableClient'
-import { ProductActions, ProductSelectors } from '../../clients/ProductClient'
-import messages from '../../i18n'
-import styles from '../../styles'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
-* Component to display the list of products of a given acquisition processing chain
+* Component to display filter and refresh actions of ProductListComponent
 * @author Sébastien Binda
 */
-class ProductListComponent extends React.Component {
+class ProductListFiltersComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
-    chain: DataProviderShapes.AcquisitionProcessingChain,
-    initialFilters: PropTypes.object,
-    pageSize: PropTypes.number.isRequired,
-    resultsCount: PropTypes.number.isRequired,
-    entitiesLoading: PropTypes.bool.isRequired,
-    onRefresh: PropTypes.func.isRequired,
-    onBack: PropTypes.func.isRequired,
+    initialFilters: PropTypes.objectOf(PropTypes.string),
+    applyFilters: PropTypes.func.isRequired,
+    handleRefresh: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -74,7 +54,6 @@ class ProductListComponent extends React.Component {
 
   state = {
     filters: {},
-    appliedFilters: {},
   }
 
   componentWillMount() {
@@ -161,12 +140,13 @@ class ProductListComponent extends React.Component {
   * Clear all filters
   */
   handleClearFilters = () => {
-    this.setState({ filters: {}, appliedFilters: {} })
+    this.setState({ filters: {} })
+    this.props.applyFilters({})
   }
 
   /**
-   * Callback to apply selected filters
-   */
+  * Callback to apply selected filters
+  */
   handleFilter = () => {
     const state = get(this.state.filters, 'state', null)
     const sipState = get(this.state.filters, 'sipState', null)
@@ -190,15 +170,11 @@ class ProductListComponent extends React.Component {
       filters.from = from.toISOString()
     }
 
-    this.setState({
-      appliedFilters: filters,
-    })
+    this.props.applyFilters(filters)
   }
 
-  handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
-
   renderActionsLine = () => (
-    <TableHeaderLine>
+    <TableHeaderLine key="actions">
       <TableHeaderOptionsArea>
         <TableHeaderOptionGroup>
           <FlatButton
@@ -225,18 +201,18 @@ class ProductListComponent extends React.Component {
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'acquisition.product.list.refresh.button' })}
             icon={<Refresh />}
-            onClick={this.handleRefresh}
+            onClick={this.props.handleRefresh}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>
     </TableHeaderLine>
   )
 
-  renderFilters = () => {
+  renderFilters() {
     const { intl: { formatMessage }, moduleTheme: { monitoring: { filters } } } = this.context
     const stateValues = get(this.state, 'filters.state', [])
     return (
-      <TableHeaderLine>
+      <TableHeaderLine key="filters">
         <TableHeaderOptionsArea reducible>
           <TableHeaderOptionGroup>
             <SelectField
@@ -305,64 +281,10 @@ class ProductListComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
-    const {
-      onBack, pageSize, resultsCount, entitiesLoading, chain, project,
-    } = this.props
-    const { appliedFilters } = this.state
-
-
-    const emptyComponent = (
-      <NoContentComponent
-        title={formatMessage({ id: 'acquisition-product.empty.title' })}
-        Icon={AddToPhotos}
-      />
-    )
-
-    const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.productName', formatMessage({ id: 'acquisition-product.list.productName' }), 'content.productName', 1),
-      TableColumnBuilder.buildSimplePropertyColumn('column.lastUpdate', formatMessage({ id: 'acquisition-product.list.lastUpdate' }), 'content.lastUpdate', 2, true, DateValueRender),
-      TableColumnBuilder.buildSimplePropertyColumn('column.state', formatMessage({ id: 'acquisition-product.list.state' }), 'content.state', 3, true, ProductStateRender),
-      TableColumnBuilder.buildSimplePropertyColumn('column.sipState', formatMessage({ id: 'acquisition-product.list.sipState' }), 'content.sipState', 4, true, ProductSIPStateRender),
-      TableColumnBuilder.buildSimplePropertyColumn('column.session', formatMessage({ id: 'acquisition-product.list.session' }), 'content.session', 5),
-      TableColumnBuilder.buildSimpleColumnWithCell('column.session', formatMessage({ id: 'acquisition-product.list.session' }), {
-        Constructor: ProductSessionRender,
-        props: { project },
-      }),
+    return [
+      this.renderFilters(),
+      this.renderActionsLine(),
     ]
-    return (
-      <Card>
-        <CardTitle
-          title={formatMessage({ id: 'acquisition-product.list.title' }, { chain: get(chain, 'content.label', null) })}
-          subtitle={formatMessage({ id: 'acquisition-product.list.subtitle' })}
-        />
-        <CardText>
-          <TableLayout>
-            {this.renderFilters()}
-            {this.renderActionsLine()}
-            <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
-            <PageableInfiniteTableContainer
-              name="acquisition-product-table"
-              pageActions={ProductActions}
-              pageSelectors={ProductSelectors}
-              tableActions={TableProductActions}
-              requestParams={appliedFilters}
-              columns={columns}
-              emptyComponent={emptyComponent}
-              displayColumnsHeader
-              displayedRowsCount={10}
-              queryPageSize={pageSize}
-            />
-          </TableLayout>
-        </CardText>
-        <CardActions>
-          <CardActionsComponent
-            mainButtonTouchTap={onBack}
-            mainButtonLabel={formatMessage({ id: 'acquisition-product.list.back.button' })}
-          />
-        </CardActions>
-      </Card>
-    )
   }
 }
-export default withModuleStyle(styles)(withI18n(messages)(ProductListComponent))
+export default ProductListFiltersComponent

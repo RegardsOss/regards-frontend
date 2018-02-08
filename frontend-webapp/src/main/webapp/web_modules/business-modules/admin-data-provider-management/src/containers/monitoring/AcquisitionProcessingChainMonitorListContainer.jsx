@@ -19,9 +19,11 @@
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors } from '../../clients/AcquisitionProcessingChainMonitorClient'
+import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
+  from '../../clients/AcquisitionProcessingChainMonitorClient'
 import { RunAcquisitionProcessingChainActions } from '../../clients/AcquisitionProcessingChainClient'
-import AcquisitionProcessingChainMonitorListComponent from '../../components/monitoring/AcquisitionProcessingChainMonitorListComponent'
+import AcquisitionProcessingChainMonitorListComponent
+  from '../../components/monitoring/acquisitionProcessingChain/AcquisitionProcessingChainMonitorListComponent'
 
 /**
 * Container to handle monitoring AcquisitionProcessingChains.

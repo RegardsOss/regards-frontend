@@ -27,14 +27,14 @@ import messages from '../i18n'
 import styles from '../styles/styles'
 import { sipImportActions } from '../clients/SIPImportClient'
 import { storageReadyActions } from '../clients/StorageReadyClient'
-import SIPSubmitionFormComponent from '../components/SIPSubmitionFormComponent'
-import SIPSubmissionNotReadyComponent from '../components/SIPSubmissionNotReadyComponent'
+import SIPsubmissionFormComponent from '../components/submission/SIPSubmissionFormComponent'
+import SIPSubmissionNotReadyComponent from '../components/submission/SIPSubmissionNotReadyComponent'
 
 /**
-* Displays the SIPSubmitionForm
+* Displays the SIPsubmissionForm
 * @author Sébastien Binda
 */
-export class SIPSubmitionFormContainer extends React.Component {
+export class SIPSubmissionFormContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -100,7 +100,7 @@ export class SIPSubmitionFormContainer extends React.Component {
 
   onSucceed = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/submition-summary`
+    const url = `/admin/${project}/data/acquisition/sip/submission-summary`
     browserHistory.push(url)
   }
 
@@ -147,7 +147,7 @@ export class SIPSubmitionFormContainer extends React.Component {
   renderSIPSubmissionForm = () => {
     if (this.state.storageReady) {
       return (
-        <SIPSubmitionFormComponent
+        <SIPsubmissionFormComponent
           isError={this.state.isError}
           isLoading={this.state.isLoading}
           submitSips={this.onSubmit}
@@ -182,4 +182,5 @@ export class SIPSubmitionFormContainer extends React.Component {
   }
 }
 
-export default connect(SIPSubmitionFormContainer.mapStateToProps, SIPSubmitionFormContainer.mapDispatchToProps)(SIPSubmitionFormContainer)
+export default connect(SIPSubmissionFormContainer.mapStateToProps,
+  SIPSubmissionFormContainer.mapDispatchToProps)(SIPSubmissionFormContainer)

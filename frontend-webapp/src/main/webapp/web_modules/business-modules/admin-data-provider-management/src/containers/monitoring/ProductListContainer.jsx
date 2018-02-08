@@ -23,7 +23,7 @@ import { connect } from '@regardsoss/redux'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { ProductSelectors, ProductActions } from '../../clients/ProductClient'
 import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
-import ProductListComponent from '../../components/monitoring/ProductListComponent'
+import ProductListComponent from '../../components/monitoring/product/ProductListComponent'
 
 /**
 * Container to list all products for a given acquisition processing chain

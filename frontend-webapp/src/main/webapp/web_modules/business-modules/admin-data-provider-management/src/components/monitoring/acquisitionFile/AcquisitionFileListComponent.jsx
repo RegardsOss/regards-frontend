@@ -19,19 +19,16 @@
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import {
-  PageableInfiniteTableContainer,
-  TableColumnBuilder,
-  TableHeaderLine, TableLayout, TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
-  NoContentComponent,
-  CardActionsComponent,
-  FormErrorMessage,
+  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
+  NoContentComponent, CardActionsComponent, DateValueRender,
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { TableAcquisitionFileActions } from '../../clients/TableClient'
-import { AcquisitionFileActions, AcquisitionFileSelectors } from '../../clients/AcquisitionFileClient'
-import messages from '../../i18n'
-import styles from '../../styles'
+import AcquisitionFileListFiltersComponent from './AcquisitionFileListFiltersComponent'
+import { TableAcquisitionFileActions } from '../../../clients/TableClient'
+import { AcquisitionFileActions, AcquisitionFileSelectors } from '../../../clients/AcquisitionFileClient'
+import messages from '../../../i18n'
+import styles from '../../../styles'
 
 /**
 * Component to display the list of AcquisitionFiles of a given acquisition processing chain
@@ -39,6 +36,7 @@ import styles from '../../styles'
 */
 class AcquisitionFileListComponent extends React.Component {
   static propTypes = {
+    initialFilters: PropTypes.objectOf(PropTypes.string),
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
@@ -54,46 +52,59 @@ class AcquisitionFileListComponent extends React.Component {
   }
 
   state = {
-    filters: {},
     appliedFilters: {},
   }
 
-  renderActionsLine = () => null
+  /**
+  * Handle refresh action
+  */
+  handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
-  renderFilters = () => null
+  /**
+   * Callback to apply specific filters for Product search
+   */
+  applyFilters = (filters) => {
+    this.setState({ appliedFilters: filters })
+  }
 
   render() {
-    const { intl: { formatMessage }, muiTheme } = this.context
+    const { intl: { formatMessage } } = this.context
     const {
-      onBack, pageSize, resultsCount, entitiesLoading,
+      onBack, pageSize, resultsCount, entitiesLoading, initialFilters,
     } = this.props
     const { appliedFilters } = this.state
 
-    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
-
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'acquisition-AcquisitionFile.empty.title' })}
+        title={formatMessage({ id: 'acquisition.file.empty.title' })}
         Icon={AddToPhotos}
       />
     )
 
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.filePath', formatMessage({ id: 'acquisition-AcquisitionFile.list.AcquisitionFileName' }), 'content.filePath'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.filePath',
+        formatMessage({ id: 'acquisition.file.list.filePath' }), 'content.filePath', 1),
+      TableColumnBuilder.buildSimplePropertyColumn('column.acqDate',
+        formatMessage({ id: 'acquisition.file.list.acqDate' }), 'content.acqDate', 2, true, DateValueRender),
+      TableColumnBuilder.buildSimplePropertyColumn('column.state',
+        formatMessage({ id: 'acquisition.file.list.state' }), 'content.state', 3),
     ]
     return (
       <Card>
         <CardTitle
-          title={formatMessage({ id: 'acquisition-AcquisitionFile.list.title' })}
-          subtitle={formatMessage({ id: 'acquisition-AcquisitionFile.list.subtitle' })}
+          title={formatMessage({ id: 'acquisition.file.list.title' })}
+          subtitle={formatMessage({ id: 'acquisition.file.list.subtitle' })}
         />
         <CardText>
           <TableLayout>
-            {this.renderFilters()}
-            {this.renderActionsLine()}
+            <AcquisitionFileListFiltersComponent
+              initialFilters={initialFilters}
+              applyFilters={this.applyFilters}
+              handleRefresh={this.handleRefresh}
+            />
             <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
             <PageableInfiniteTableContainer
-              name="acquisition-AcquisitionFile-table"
+              name="file-table"
               pageActions={AcquisitionFileActions}
               pageSelectors={AcquisitionFileSelectors}
               tableActions={TableAcquisitionFileActions}
@@ -109,7 +120,7 @@ class AcquisitionFileListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonTouchTap={onBack}
-            mainButtonLabel={formatMessage({ id: 'acquisition-AcquisitionFile.list.back.button' })}
+            mainButtonLabel={formatMessage({ id: 'acquisition.file.list.back.button' })}
           />
         </CardActions>
       </Card>

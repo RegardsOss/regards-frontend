@@ -110,11 +110,11 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.error-nb-files.tooltip': 'Files in error',
   'acquisition-chain.monitor.list.inprogress-nb-files.tooltip': 'Files in progress',
 
-  // 3.1.2.3 Table actions
+  // 3.1.3 Table actions
   'acquisition-chain.monitor.list.run.tooltip': 'Run acquisition chain',
   'acquisition-chain.monitor.list.run.error': 'Error running acquisition chain',
 
-  // 3.1.2.4 Table filters
+  // 3.1.4 Table filters
   'acquisition-chain.monitor.list.filters.label': 'Label',
   'acquisition-chain.monitor.list.filters.running': 'Status',
   'acquisition-chain.monitor.list.filters.mode': 'Activation mode',
@@ -129,6 +129,72 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.refresh.button': 'Refresh',
   'acquisition-chain.monitor.list.back.button': 'Cancel',
 
+  // 4. Products list
+  // 4.1 Headers
+  'acquisition-product.list.title': 'Products acquired by acquisition processing chain {chain}',
+  'acquisition-product.empty.title': 'No products found',
+  'acquisition-product.list.productName': 'Product',
+  'acquisition-product.list.lastUpdate': 'Update date',
+  'acquisition-product.list.state': 'State',
+  'acquisition-product.list.sipState': 'SIP State',
+  'acquisition-product.list.session': 'Session',
+
+  //4.2 Filters
+  'acquisition.product.list.filters.state': 'Products state',
+  'acquisition-product.list.subtitle': '-',
+  'acquisition.product.list.filters.sipState': 'SIPs state',
+  'acquisition.product.list.filters.state.ACQUIRING': 'Acquiring ...',
+  'acquisition.product.list.filters.state.COMPLETED': 'Acquiring ... (Completed)',
+  'acquisition.product.list.filters.state.FINISHED': 'Finished',
+  'acquisition.product.list.filters.state.ERROR': 'Error',
+  'acquisition.product.list.filters.sipState.CREATED': 'Acquiring ... (Created)',
+  'acquisition.product.list.filters.sipState.REJECTED': 'Rejected',
+  'acquisition.product.list.filters.sipState.QUEUED': 'Queued',
+  'acquisition.product.list.filters.sipState.VALID': 'Acquiring ... (Valid)',
+  'acquisition.product.list.filters.sipState.INVALID': 'Invalid',
+  'acquisition.product.list.filters.sipState.AIP_GEN_ERROR': 'AIP generation error',
+  'acquisition.product.list.filters.sipState.AIP_CREATED': 'Acquiring ... (AIP generated)',
+  'acquisition.product.list.filters.sipState.STORED': 'Stored',
+  'acquisition.product.list.filters.sipState.STORE_ERROR': 'Storage error',
+  'acquisition.product.list.filters.sipState.INDEXED': 'Indexed',
+  'acquisition.product.list.filters.sipState.INCOMPLETE': 'Incomplete',
+  'acquisition.product.list.filters.sipState.DELETED': 'Deleted',
+  'acquisition-product.list.filters.productName': 'Product name',
+  'acquisition.product.list.filters.session': 'Ingest session',
+  'acquisition.product.list.filters.from': 'Acquired since ...',
+
+  // 4.3 actions
+  'acquisition-product.list.back.button': 'Back',
+  'acquisition.product.list.filters.clear.button': 'Clear',
+  'acquisition.product.list.filters.apply.button': 'Apply filters',
+  'acquisition.product.list.refresh.button': 'Refresh',
+  'acquisition.product.list.sip.session.link.title': 'View session monitoring',
+
+  // 5. Acquisition file list
+  // 5.1 Headers
+  'acquisition.file.empty.title': 'No files found',
+  'acquisition.file.list.title': 'Acquisition files list',
+  'acquisition.file.list.subtitle': '-',
+  'acquisition.file.list.back.button': 'Back',
+  'acquisition.file.list.filePath': 'Files',
+  'acquisition.file.list.acqDate': 'Acquistion date',
+  'acquisition.file.list.state': 'State',
+
+  //5.2 Filters
+  'acquisition.file.list.filters.state': 'Sstate',
+  'acquisition.file.list.filters.state.IN_PROGRESS': 'Acquiring ...',
+  'acquisition.file.list.filters.state.VALID': 'Acquiring ... (Valid)',
+  'acquisition.file.list.filters.state.ACQUIRED': 'Acquired',
+  'acquisition.file.list.filters.state.SUPERSEDED': 'Replaced',
+  'acquisition.file.list.filters.state.INVALID': 'Invalid',
+  'acquisition.file.list.filters.state.ERROR': 'Error',
+  'acquisition.file.list.filters.filePath': 'File',
+  'acquisition.file.list.filters.from': 'Acquired since ...',
+
+  //5.3 actions
+  'acquisition.file.list.filters.clear.button': 'Clear',
+  'acquisition.file.list.filters.apply.button': 'Apply filters',
+  'acquisition.file.list.refresh.button': 'Refresh',
 
 }, Locales.en)
 

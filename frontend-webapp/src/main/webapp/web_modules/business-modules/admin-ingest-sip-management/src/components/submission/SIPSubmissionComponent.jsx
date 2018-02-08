@@ -23,12 +23,12 @@ import Avatar from 'material-ui/Avatar'
 import { Card, CardHeader, CardText } from 'material-ui/Card'
 import { IngestShapes } from '@regardsoss/shape'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import styles from '../styles'
+import styles from '../../styles'
 /**
-* Component to display a SIP submition result from server.
+* Component to display a SIP submission result from server.
 * @author Sébastien Binda
 */
-export class SIPSubmitionComponent extends React.Component {
+export class SIPSubmissionComponent extends React.Component {
   static propTypes = {
     sip: IngestShapes.SIPSubmited,
   }
@@ -73,7 +73,7 @@ export class SIPSubmitionComponent extends React.Component {
     const { sip } = this.props
     const { moduleTheme } = this.context
     let avatar
-    if (sip.state === SIPSubmitionComponent.VALID_STATE) {
+    if (sip.state === SIPSubmissionComponent.VALID_STATE) {
       avatar = (<Avatar
         icon={<CheckCircle />}
         backgroundColor={moduleTheme.import.validColor}
@@ -86,7 +86,7 @@ export class SIPSubmitionComponent extends React.Component {
     }
 
     return (
-      <Card style={SIPSubmitionComponent.cardStyles}>
+      <Card style={SIPSubmissionComponent.cardStyles}>
         <CardHeader
           title={sip.id}
           subtitle={sip.state}
@@ -99,4 +99,4 @@ export class SIPSubmitionComponent extends React.Component {
     )
   }
 }
-export default withModuleStyle(styles)(SIPSubmitionComponent)
+export default withModuleStyle(styles)(SIPSubmissionComponent)

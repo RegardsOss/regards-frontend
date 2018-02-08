@@ -16,46 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import values from 'lodash/values'
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import Filter from 'mdi-material-ui/Filter'
-import Close from 'mdi-material-ui/Close'
-import FlatButton from 'material-ui/FlatButton'
 import { Card, CardTitle, CardActions, CardMedia } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
-import DatePicker from 'material-ui/DatePicker'
-import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import Error from 'material-ui/svg-icons/alert/error'
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import {
-  Breadcrumb,
-  CardActionsComponent,
-  ConfirmDialogComponent,
-  ConfirmDialogComponentTypes,
-  ShowableAtRender,
-  PageableInfiniteTableContainer,
-  TableDeleteOption,
-  TableLayout,
-  TableColumnBuilder,
-  DateValueRender,
-  NoContentComponent,
-  TableHeaderLine, TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  Breadcrumb, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
+  ShowableAtRender, PageableInfiniteTableContainer, TableDeleteOption, TableLayout,
+  TableColumnBuilder, DateValueRender, NoContentComponent, TableHeaderLineLoadingAndResults,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { sessionActions, sessionSelectors } from '../clients/SessionClient'
-import messages from '../i18n'
-import styles from '../styles'
+import SIPSessionListFiltersComponent from './SIPSessionListFiltersComponent'
+import { sessionActions, sessionSelectors } from '../../../clients/SessionClient'
+import messages from '../../../i18n'
+import styles from '../../../styles'
 
 /**
- * SIP list test
+ * Component to display SIP sessions list with filters.
  * @author Maxime Bouveron
  * @author Sébastien Binda
  */
-class SIPSessionComponent extends React.Component {
+class SIPSessionListComponent extends React.Component {
   static propTypes = {
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
@@ -64,13 +48,11 @@ class SIPSessionComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
-    initialFilters: PropTypes.object,
+    initialFilters: PropTypes.objectOf(PropTypes.string),
   }
 
   static contextTypes = {
-    // enable plugin theme access through this.context
     ...themeContextType,
-    // enable i18n access trhough this.context
     ...i18nContextType,
   }
 
@@ -79,24 +61,8 @@ class SIPSessionComponent extends React.Component {
   }
 
   state = {
-    filters: {},
     appliedFilters: {},
     sessionToDelete: null,
-  }
-
-  componentWillMount() {
-    const { initialFilters } = this.props
-    if (initialFilters) {
-      this.setState({
-        filters: initialFilters,
-      })
-    }
-  }
-
-  componentDidMount() {
-    if (values(this.state.filters).length > 0) {
-      this.handleFilter()
-    }
   }
 
   onConfirmDelete = () => {
@@ -115,129 +81,25 @@ class SIPSessionComponent extends React.Component {
   getProgressLabel = step => (entity) => {
     const progress = entity.content[`${step}SipsCount`]
     const total = entity.content.sipsCount
-
     return `${progress} / ${total}`
   }
 
   getProgressPercent = step => (entity) => {
     const progress = entity.content[`${step}SipsCount`]
     const total = entity.content.sipsCount
-
     return progress / total * 100
   }
+
+  applyFilters = (filters) => {
+    this.setState({ appliedFilters: filters })
+  }
+
+  handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
   closeDeleteDialog = () => {
     this.setState({
       sessionToDelete: null,
     })
-  }
-
-
-  changename = (event, newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        name: newValue,
-      },
-    })
-  }
-
-  changefrom = (event, newDate) => {
-    newDate.setHours(0, 0, 0, 0)
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        from: newDate,
-      },
-    })
-  }
-
-  changeto = (event, newDate) => {
-    newDate.setHours(23, 59, 59, 999)
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        to: newDate,
-      },
-    })
-  }
-
-  /**
-    * Clear all filters
-    */
-  handleClearFilters = () => {
-    this.setState({ filters: {}, appliedFilters: {} })
-  }
-
-  handleFilter = () => {
-    const { filters } = this.state
-    const appliedFilters = {}
-    if (filters.name && filters.name !== '') {
-      appliedFilters.id = filters.name
-    }
-    if (filters.from) {
-      appliedFilters.from = filters.from.toISOString()
-    }
-    if (filters.to) {
-      appliedFilters.to = filters.to.toISOString()
-    }
-    this.setState({
-      appliedFilters,
-    })
-  }
-
-  renderFilters = () => {
-    const { intl, moduleTheme: { filter } } = this.context
-    return (
-      <TableHeaderLine>
-        <TableHeaderOptionsArea reducible>
-          <TableHeaderOptionGroup>
-            <TextField
-              style={filter.fieldStyle}
-              hintText={intl.formatMessage({
-                id: 'sips.session.filter.name.label',
-              })}
-              onChange={this.changename}
-              value={get(this.state, 'filters.name', '')}
-            />
-            <DatePicker
-              value={this.state.filters.from}
-              textFieldStyle={filter.dateStyle}
-              hintText={intl.formatMessage({ id: 'sips.session.filter.from.label' })}
-              defaultDate={get(this.state, 'filters.from', undefined)}
-              onChange={this.changefrom}
-            />
-            <DatePicker
-              value={this.state.filters.to}
-              textFieldStyle={filter.dateStyle}
-              hintText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
-              defaultDate={get(this.state, 'filters.to', undefined)}
-              onChange={this.changeto}
-            />
-            <FlatButton
-              label={intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
-              icon={<Close />}
-              disabled={!this.state.filters.name && !this.state.filters.to && !this.state.filters.from}
-              onTouchTap={this.handleClearFilters}
-            />
-            <FlatButton
-              label={intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
-              icon={<Filter />}
-              onTouchTap={this.handleFilter}
-            />
-          </TableHeaderOptionGroup>
-        </TableHeaderOptionsArea>
-        <TableHeaderOptionsArea>
-          <TableHeaderOptionGroup>
-            <FlatButton
-              label={intl.formatMessage({ id: 'sips.session.refresh.button' })}
-              icon={<Refresh />}
-              onClick={this.props.onRefresh}
-            />
-          </TableHeaderOptionGroup>
-        </TableHeaderOptionsArea>
-      </TableHeaderLine >
-    )
   }
 
   renderBreadCrump = () => {
@@ -254,7 +116,7 @@ class SIPSessionComponent extends React.Component {
   }
 
   renderTable = () => {
-    const { pageSize, resultsCount } = this.props
+    const { pageSize, resultsCount, initialFilters } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
     const { appliedFilters } = this.state
@@ -347,7 +209,11 @@ class SIPSessionComponent extends React.Component {
     return (
       <CardMedia>
         <TableLayout>
-          {this.renderFilters()}
+          <SIPSessionListFiltersComponent
+            initialFilters={initialFilters}
+            applyFilters={this.applyFilters}
+            handleRefresh={this.handleRefresh}
+          />
           <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={resultsCount} />
           <PageableInfiniteTableContainer
             name="sip-management-session-table"
@@ -398,4 +264,4 @@ class SIPSessionComponent extends React.Component {
     )
   }
 }
-export default withModuleStyle(styles)(withI18n(messages)(SIPSessionComponent))
+export default withModuleStyle(styles)(withI18n(messages)(SIPSessionListComponent))

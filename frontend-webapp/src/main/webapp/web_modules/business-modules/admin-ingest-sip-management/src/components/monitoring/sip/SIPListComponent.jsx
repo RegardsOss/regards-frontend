@@ -16,39 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import map from 'lodash/map'
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import Filter from 'mdi-material-ui/Filter'
-import Close from 'mdi-material-ui/Close'
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
-import TextField from 'material-ui/TextField'
 import Dialog from 'material-ui/Dialog'
 import HistoryIcon from 'material-ui/svg-icons/action/history'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
-import DatePicker from 'material-ui/DatePicker'
-import FlatButton from 'material-ui/FlatButton'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import {
-  DateValueRender,
-  NoContentComponent,
-  TableColumnBuilder, TableDeleteOption, TableSimpleActionOption,
-  TableHeaderLine, TableLayout, TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
-  PageableInfiniteTableContainer,
-  Breadcrumb,
+  DateValueRender, NoContentComponent, TableColumnBuilder, TableDeleteOption, TableSimpleActionOption,
+  TableLayout, TableHeaderLineLoadingAndResults, PageableInfiniteTableContainer, Breadcrumb,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { IngestShapes } from '@regardsoss/shape'
-import { sipActions, sipSelectors } from '../clients/SIPClient'
 import SIPDetailComponent from './SIPDetailComponent'
 import SIPDetailTableAction from './SIPDetailTableAction'
-import SIPStatusEnum from './SIPStatusEnum'
 import SIPConfirmDeleteDialog from './SIPConfirmDeleteDialog'
-import messages from '../i18n'
-import styles from '../styles'
+import SIPListFiltersComponent from './SIPListFiltersComponent'
+import { sipActions, sipSelectors } from '../../../clients/SIPClient'
+import messages from '../../../i18n'
+import styles from '../../../styles'
 
 /**
  * SIP list
@@ -61,37 +47,32 @@ class SIPListComponent extends React.Component {
     sip: PropTypes.string, // Not mandatory. If a SIP is set (sipId) then display only SIPs with the same sipId
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    appliedFilters: PropTypes.object.isRequired,
     onBack: PropTypes.func.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
     fetchPage: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
-    handleFilter: PropTypes.func.isRequired,
     onDeleteByIpId: PropTypes.func.isRequired,
     onDeleteBySipId: PropTypes.func.isRequired,
     goToSipHistory: PropTypes.func.isRequired,
+    initialFilters: PropTypes.objectOf(PropTypes.string),
+    contextFilters: PropTypes.objectOf(PropTypes.string),
   }
 
   static contextTypes = {
-    // enable plugin theme access through this.context
     ...themeContextType,
-    // enable i18n access trhough this.context
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      filters: {
-        chainFilter: null,
-        dateFilter: undefined,
-        stateFilter: null,
-        sipIdFilter: '',
-      },
-      sipToView: null,
-      sipToDelete: null,
-    }
+  state = {
+    appliedFilters: {},
+    sipToView: null,
+    sipToDelete: null,
+  }
+
+  componentWillMount() {
+    this.setState({
+      appliedFilters: this.props.contextFilters,
+    })
   }
 
   onCloseDetails = () => {
@@ -161,53 +142,10 @@ class SIPListComponent extends React.Component {
       }], true, fixedColumnWidth)
   }
 
-  handleClearFilters = () => {
-    const clearedFilters = {
-      dateFilter: undefined,
-      chainFilter: undefined,
-      stateFilter: undefined,
-      sipIdFilter: '',
-    }
-    this.setState({
-      filters: clearedFilters,
-    })
-    this.props.handleFilter(clearedFilters)
-  }
-
-  changeChainFilter = (event, key, newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        chainFilter: newValue,
-      },
-    })
-  }
-
-  changeDateFilter = (event, newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        dateFilter: newValue,
-      },
-    })
-  }
-
-  changeStateFilter = (event, key, newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        stateFilter: newValue,
-      },
-    })
-  }
-
-  changeSipIdFilter = (event, newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        sipIdFilter: newValue,
-      },
-    })
+  applyFilters = (filters) => {
+    const { contextFilters } = this.props
+    const appliedFilters = { ...filters, ...contextFilters }
+    this.setState({ appliedFilters })
   }
 
   closeDeleteDialog = () => {
@@ -216,14 +154,11 @@ class SIPListComponent extends React.Component {
     })
   }
 
-
   goToSipHistory = (entity, index) => {
     this.props.goToSipHistory(entity.content.sipId)
   }
 
-  handleFilter = () => {
-    this.props.handleFilter(this.state.filters)
-  }
+  handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
 
   renderDeleteConfirmDialog = () => {
     const { sipToDelete } = this.state
@@ -242,7 +177,9 @@ class SIPListComponent extends React.Component {
 
   renderTable = () => {
     const { intl, muiTheme } = this.context
-    const { pageSize, resultsCount } = this.props
+    const {
+      pageSize, resultsCount, initialFilters, chains,
+    } = this.props
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
     const emptyComponent = (
@@ -288,8 +225,12 @@ class SIPListComponent extends React.Component {
     return (
       <CardMedia>
         <TableLayout>
-          {this.renderFilters()}
-          {this.renderRefreshLine()}
+          <SIPListFiltersComponent
+            initialFilters={initialFilters}
+            applyFilters={this.applyFilters}
+            handleRefresh={this.handleRefresh}
+            chains={chains}
+          />
           <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={resultsCount} />
           <PageableInfiniteTableContainer
             name="sip-management-session-table"
@@ -298,7 +239,7 @@ class SIPListComponent extends React.Component {
             pageSize={pageSize}
             displayedRowsCount={12}
             columns={columns}
-            requestParams={this.props.appliedFilters}
+            requestParams={this.state.appliedFilters}
             emptyComponent={emptyComponent}
           />
         </TableLayout>
@@ -306,96 +247,6 @@ class SIPListComponent extends React.Component {
     )
   }
 
-  renderFilters = () => {
-    const { intl, moduleTheme: { filter } } = this.context
-    const { chains } = this.props
-    return (
-      <TableHeaderLine>
-        <TableHeaderOptionsArea reducible>
-          <TableHeaderOptionGroup>
-            <SelectField
-              style={filter.fieldStyle}
-              hintText={intl.formatMessage({
-                id: 'sips.list.filters.chain.label',
-              })}
-              value={get(this.state, 'filters.chainFilter', undefined)}
-              onChange={this.changeChainFilter}
-            >
-              <MenuItem value={null} primaryText="" />
-              {map(chains, chain => <MenuItem key={chain.content.name} value={chain.content.name} primaryText={chain.content.name} />)}
-            </SelectField>
-            <TextField
-              value={get(this.state, 'filters.sipIdFilter', '')}
-              onChange={this.changeSipIdFilter}
-              hintText={intl.formatMessage({ id: 'sips.list.filters.sipid.label' })}
-              style={filter.fieldStyle}
-            />
-          </TableHeaderOptionGroup>
-          <TableHeaderOptionGroup>
-            <SelectField
-              style={filter.fieldStyle}
-              hintText={intl.formatMessage({
-                id: 'sips.list.filters.status.label',
-              })}
-              value={get(this.state, 'filters.stateFilter', undefined)}
-              onChange={this.changeStateFilter}
-            >
-              <MenuItem value={null} primaryText="" />
-              {map(SIPStatusEnum, status => (<MenuItem
-                key={status}
-                value={status}
-                primaryText={intl.formatMessage({
-                  id: status,
-                })}
-              />))}
-            </SelectField>
-            <DatePicker
-              value={get(this.state, 'filters.dateFilter', undefined)}
-              textFieldStyle={filter.dateStyle}
-              hintText={intl.formatMessage({
-                id: 'sips.list.filters.date.label',
-              })}
-              onChange={this.changeDateFilter}
-            />
-          </TableHeaderOptionGroup>
-        </TableHeaderOptionsArea>
-      </TableHeaderLine>
-    )
-  }
-
-  renderRefreshLine = () => (
-    <TableHeaderLine>
-      <TableHeaderOptionsArea>
-        <TableHeaderOptionGroup>
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
-            icon={<Close />}
-            disabled={
-              !get(this.state, 'filters.dateFilter') &&
-              !get(this.state, 'filters.stateFilter') &&
-              !get(this.state, 'filters.chainFilter') &&
-              !get(this.state, 'filters.sipIdFilter')
-            }
-            onTouchTap={this.handleClearFilters}
-          />
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
-            icon={<Filter />}
-            onTouchTap={this.handleFilter}
-          />
-        </TableHeaderOptionGroup>
-      </TableHeaderOptionsArea>
-      <TableHeaderOptionsArea>
-        <TableHeaderOptionGroup>
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'sips.session.refresh.button' })}
-            icon={<Refresh />}
-            onClick={this.props.onRefresh}
-          />
-        </TableHeaderOptionGroup>
-      </TableHeaderOptionsArea>
-    </TableHeaderLine>
-  )
 
   renderSIPDetail = () => {
     const { intl } = this.context

@@ -16,13 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
-import AcquisitionProcessingChaineModes from './AcquisitionProcessingChaineModes'
-import ProductStateEnum from './ProductStateEnum'
-import AcquisitionfileStateEnum from './AcquisitionfileStateEnum'
+/**
+ * Possible acqisition file status
+ * @author Sébastien Binda
+ */
+const AcquisitionFileStateEnum = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  VALID: 'VALID',
+  ACQUIRED: 'ACQUIRED',
+  SUPERSEDED: 'SUPERSEDED',
+  INVALID: 'INVALID',
+  ERROR: 'ERROR',
+}
 
 module.exports = {
-  ...AcquisitionProcessingChaineModes,
-  ...ProductStateEnum,
-  ...AcquisitionfileStateEnum,
+  AcquisitionFileStateEnum,
+  AcquisitionFileStateValues: values(AcquisitionFileStateEnum),
 }

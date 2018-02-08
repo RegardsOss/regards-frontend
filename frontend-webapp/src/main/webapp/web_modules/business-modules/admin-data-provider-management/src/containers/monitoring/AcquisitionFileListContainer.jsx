@@ -17,10 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { AcquisitionFileSelectors, AcquisitionFileActions } from '../../clients/AcquisitionFileClient'
-import AcquisitionFileListComponent from '../../components/monitoring/AcquisitionFileListComponent'
+import AcquisitionFileListComponent from '../../components/monitoring/acquisitionFile/AcquisitionFileListComponent'
 
 /**
 * Container to list all AcquisitionFiles for a given acquisition processing chain
@@ -76,12 +77,20 @@ export class AcquisitionFileListContainer extends React.Component {
 
   static PAGE_SIZE = 100
 
+  state = {
+    initialFilters: {},
+  }
+
+  componentWillMount() {
+    this.initializeFiltersFromURL()
+  }
+
   /**
    * Callback to return to the acquisition board
    */
   onBack = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/board`
+    const url = `/admin/${project}/data/acquisition/dataprovider/monitoring/chains`
     browserHistory.push(url)
   }
 
@@ -91,9 +100,16 @@ export class AcquisitionFileListContainer extends React.Component {
     return fetchPage(0, AcquisitionFileListContainer.PAGE_SIZE * (curentPage + 1), filters)
   }
 
+  initializeFiltersFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    if (values(query).length > 0) {
+      this.setState({ initialFilters: query })
+    }
+  }
 
   render() {
     const { meta, entitiesLoading } = this.props
+    const { initialFilters } = this.state
     return (
       <AcquisitionFileListComponent
         onRefresh={this.onRefresh}
@@ -101,6 +117,7 @@ export class AcquisitionFileListContainer extends React.Component {
         pageSize={AcquisitionFileListContainer.PAGE_SIZE}
         resultsCount={meta.totalElements}
         entitiesLoading={entitiesLoading}
+        initialFilters={initialFilters}
       />
     )
   }
