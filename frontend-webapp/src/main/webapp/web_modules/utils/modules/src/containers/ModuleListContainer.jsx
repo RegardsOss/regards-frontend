@@ -20,10 +20,14 @@ import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
-import ModulesSelector from '../model/ModulesSelector'
+import { AccessProjectClient } from '@regardsoss/client'
 import LayoutSelector from '../model/LayoutSelector'
 import ModuleListComponent from '../components/ModuleListComponent'
 import messages from '../i18n'
+
+const moduleSelectors = AccessProjectClient.ModuleSelectors()
+
+// TODO delete me
 
 /**
  * Display the menu with all modules of the dynamic container.
@@ -57,7 +61,7 @@ class ModuleListContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  modules: ModulesSelector.getList(state),
+  modules: moduleSelectors.getList(state),
   container: LayoutSelector.getDynamicContainer(state, 'user'),
 })
 

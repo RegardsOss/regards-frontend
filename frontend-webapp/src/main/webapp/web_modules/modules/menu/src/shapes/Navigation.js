@@ -16,54 +16,50 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessDomain } from '@regardsoss/domain'
+import { NAVIGATION_ITEM_TYPES_ENUM } from '../model/NavigationItemTypes'
 
 /**
  * Navigation related shapes
  * @author Raphaël Mechali
  */
 
-/** Common to navigation items  */
-const commonFields = {
-  icon: PropTypes.string,
-  labelFR: PropTypes.string.isRequired,
-  labelEN: PropTypes.string.isRequired,
+const commonItemFields = {
+  // map of title by locale
+  key: PropTypes.number.isRequired,
+  title: PropTypes.objectOf(PropTypes.string).isRequired,
+  iconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
+  customIconURL: PropTypes.string,
 }
 
-/** Fields for a configurated navigation item */
-const navigationItemFields = {
-  ...commonFields,
-  moduleId: PropTypes.number.isRequired,
-}
-
-/** Navigation item as configured in admnistration */
-export const NavigationItemShape = PropTypes.shape(navigationItemFields)
-
-/** Navigation section as configured in administration */
-const PartialNavigationSectionShape = PropTypes.shape(commonFields)
-export const NavigationSectionShape = PropTypes.shape({
-  ...commonFields,
-  // Note: this definition is recurive, so we cannot setup here correctly the sub type
-  items: PropTypes.arrayOf(PropTypes.oneOfType([PartialNavigationSectionShape, NavigationItemShape])),
+/** Module item */
+export const ModuleNavigationItem = PropTypes.shape({
+  ...commonItemFields,
+  type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.MODULE]).isRequired,
+  module: PropTypes.shape({
+    // fields from Module shape
+    id: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    home: PropTypes.bool,
+  }),
 })
 
-/** Navigation model */
-export const NavigationModel = PropTypes.shape({
-  items: PropTypes.arrayOf(PropTypes.oneOfType([NavigationSectionShape, NavigationItemShape])),
+/**
+ * Section item
+ * we need here to apply some lazy system to define the recursive section item
+ * https://stackoverflow.com/questions/32063297/can-a-react-prop-type-be-defined-recursively
+ */
+let LazySectionNavigationItem
+const lazy = f => () => f(...arguments)
+const lazyNavigationItem = lazy(() => LazySectionNavigationItem)
+
+LazySectionNavigationItem = PropTypes.shape({
+  ...commonItemFields,
+  type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.SECTION]).isRequired,
+  children: PropTypes.arrayOf(PropTypes.oneOfType([lazyNavigationItem, ModuleNavigationItem]).isRequired).isRequired,
 })
 
-// Corresponding items definitions at runtime
-export const DynamicNavigationItemShape = PropTypes.shape({
-  ...navigationItemFields,
-  // runtime added data
-  key: PropTypes.string,
-  selected: PropTypes.bool.isRequired,
-  defaultIcon: PropTypes.func.isRequired,
-})
+export const SectionNavigationItem = LazySectionNavigationItem
 
-export const DynamicNavigationNavigationShape = PropTypes.shape({
-  ...commonFields,
-  key: PropTypes.string,
-  // runtime sections should be always filtered to show only those with items (same recursivity problem here)
-  items: PropTypes.arrayOf(NavigationSectionShape).isRequired,
-})
-
+export const NavigationItem = PropTypes.oneOfType([ModuleNavigationItem, SectionNavigationItem])

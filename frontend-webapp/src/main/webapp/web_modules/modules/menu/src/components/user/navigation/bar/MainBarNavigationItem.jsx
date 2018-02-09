@@ -16,9 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import Measure from 'react-measure'
-import FlatButton from 'material-ui/FlatButton/FlatButton'
 import { themeContextType } from '@regardsoss/theme'
+import { ModuleTitleText } from '@regardsoss/components'
+import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../model/NavigationItemTypes'
+import { NavigationItem } from '../../../../shapes/Navigation'
+import MainBarModuleLink from './MainBarModuleLink'
+import MainBarSectionButton from './MainBarSectionButton'
 
 /**
  * Item to display a navigation item (with or without subsections) in main app bar
@@ -26,17 +31,11 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class MainBarNavigationItem extends React.Component {
   static propTypes = {
-    item: PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      selected: PropTypes.bool.isRequired,
-      moduleId: PropTypes.number.isRequired,
-    }),
+    item: NavigationItem.isRequired,
     displayed: PropTypes.bool.isRequired,
+    locale: PropTypes.string,
+    buildModuleURL: PropTypes.func.isRequired,
     onItemResized: PropTypes.func.isRequired,
-
-    // TODO icon
-    // TODO sub elements
   }
 
   static contextTypes = {
@@ -54,16 +53,33 @@ class MainBarNavigationItem extends React.Component {
     }
   }
 
+  /**
+   * @return this button label
+   */
+  getLabel = () => {
+    const { item, locale } = this.props
+    // fallback description available for old modules definitions (sections should not enter this case!)
+    const fallbackDescription = get(item, 'module.description', '')
+    return ModuleTitleText.selectTitle(item.title, fallbackDescription, locale)
+  }
+
   render() {
-    const { item, displayed } = this.props
+    const { item, displayed, buildModuleURL } = this.props
     const { moduleTheme: { user: { navigationItem } } } = this.context
     return (
+      /* handle locally the resizing management */
       <div style={displayed ? navigationItem.displayStyle : navigationItem.hiddenStyle} >
         <Measure onMeasure={this.onComponentResized} >
-          <FlatButton
-            label={item.label}
-            labelStyle={item.selected ? navigationItem.selectedTextStyle : navigationItem.defaultTextStyle}
-          />
+          { /* delegate link buttons rendering */
+            item.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE ? (
+              <MainBarModuleLink
+                item={item}
+                buildModuleURL={buildModuleURL}
+              />) : (
+                <MainBarSectionButton
+                  item={item}
+                />)
+          }
         </Measure>
       </div >
     )

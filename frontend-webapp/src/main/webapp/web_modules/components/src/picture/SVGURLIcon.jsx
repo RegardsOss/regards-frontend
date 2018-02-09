@@ -28,6 +28,7 @@ class SVGURLIcon extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.object,
+    color: PropTypes.string,
     path: PropTypes.string.isRequired,
   }
 
@@ -40,7 +41,7 @@ class SVGURLIcon extends React.Component {
   }
 
   render() {
-    const { style: userStyle, path } = this.props
+    const { style: userStyle, color: userColor, path } = this.props
     // pick up in theme the icon elements
     const { moduleTheme: { svgURLIconStyle } } = this.context
     // merge with provided style
@@ -48,11 +49,23 @@ class SVGURLIcon extends React.Component {
       ...svgURLIconStyle,
       ...userStyle,
     }
+    // workaround: provide runtime color to this element (MUI components send that property separately)
+    if (userColor) {
+      renderStyle.fill = userColor
+    }
+    // workaround: ensure the icon will display correctly in material UI components
+    // as MUI does not support the root ReactSVG div without display in its layout
+    const rootStyle = {
+      display: renderStyle.display,
+    }
+
     return (
-      <ReactSVG
-        path={path}
-        style={renderStyle}
-      />
+      <div style={rootStyle}>
+        <ReactSVG
+          path={path}
+          style={renderStyle}
+        />
+      </div>
     )
   }
 }

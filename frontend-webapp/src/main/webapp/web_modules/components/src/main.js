@@ -82,6 +82,7 @@ import DynamicModule from './module/DynamicModule'
 import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
 import ModuleIcon from './module/ModuleIcon'
 import ModuleTitle from './module/ModuleTitle'
+import ModuleTitleText from './module/ModuleTitleText'
 
 import SVGURLIcon from './picture/SVGURLIcon'
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
@@ -166,6 +167,7 @@ export {
   LoadableContentDialogContainer,
   ModuleIcon,
   ModuleTitle,
+  ModuleTitleText,
   PageNotFoundComponent,
   PositionedDialog,
   FitContentDialog,

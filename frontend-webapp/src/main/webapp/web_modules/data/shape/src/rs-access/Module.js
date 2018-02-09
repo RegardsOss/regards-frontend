@@ -31,6 +31,8 @@ const Module = PropTypes.shape({
     description: PropTypes.string,
     active: PropTypes.bool,
     container: PropTypes.string,
+    expandable: PropTypes.bool,
+    expanded: PropTypes.bool,
     page: PropTypes.shape({
       home: PropTypes.bool,
       iconType: PropTypes.oneOf([AccessDomain.PAGE_MODULE_ICON_TYPES]),

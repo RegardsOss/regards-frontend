@@ -16,9 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { browserHistory } from 'react-router'
+import { AccessProjectClient } from '@regardsoss/client'
 import { CommonShapes } from '@regardsoss/shape'
+import { modulesManager } from '@regardsoss/modules'
+import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
 import MainMenuComponent from '../../components/user/MainMenuComponent'
 
+// default user modules selectors
+const moduleSelectors = AccessProjectClient.ModuleSelectors()
 
 /**
  * Main component of module menu (user part)
@@ -51,20 +57,28 @@ class UserContainer extends React.Component {
         displayCartSelector, displayLocaleSelector, projectAboutPage, contacts,
       },
     } = this.props
+    const currentModuleId = modulesManager.getPathModuleId(browserHistory.getCurrentLocation().pathname)
     return (
-      <MainMenuComponent
-        project={project}
-        appName={appName}
+      // Resolve the list of active dynamic modules for breadcrumb and navigation
+      <DynamicModulesProviderContainer moduleSelectors={moduleSelectors} keepOnlyActive >
+        {/* Insert main render component */}
+        <MainMenuComponent
+          project={project}
+          appName={appName}
 
-        title={title}
-        displayAuthentication={displayAuthentication}
-        displayNotificationsSelector={displayNotificationsSelector}
-        displayCartSelector={displayCartSelector}
-        displayThemeSelector={displayThemeSelector}
-        displayLocaleSelector={displayLocaleSelector}
-        projectAboutPage={projectAboutPage}
-        contacts={contacts}
-      />)
+          title={title}
+          displayAuthentication={displayAuthentication}
+          displayNotificationsSelector={displayNotificationsSelector}
+          displayCartSelector={displayCartSelector}
+          displayThemeSelector={displayThemeSelector}
+          displayLocaleSelector={displayLocaleSelector}
+          projectAboutPage={projectAboutPage}
+          contacts={contacts}
+
+          currentModuleId={currentModuleId}
+        />
+      </DynamicModulesProviderContainer>
+    )
   }
 }
 

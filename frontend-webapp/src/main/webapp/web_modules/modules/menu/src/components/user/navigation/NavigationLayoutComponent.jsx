@@ -17,99 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
+import isNumber from 'lodash/isNumber'
 import Measure from 'react-measure'
 import { themeContextType } from '@regardsoss/theme'
-import MainBarNavigationItem from './MainBarNavigationItem'
-import MoreNavigationButton from './MoreNavigationButton'
-
-
-const TEMP_NAV_MODEL = [{
-  key: 'item.1',
-  label: 'A test',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.2',
-  label: 'Another test',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.3',
-  label: 'Some page',
-  selected: true,
-  moduleId: 0,
-}, {
-  key: 'item.4',
-  label: 'Some other',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.5',
-  label: 'Toilets',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.6',
-  label: 'Patatoes',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.7',
-  label: 'Burger',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.8',
-  label: 'One long page',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.9',
-  label: 'Bad idea',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.10',
-  label: 'Broken server',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.11',
-  label: 'PopCorn',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.12',
-  label: 'External site',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.13',
-  label: 'VDM',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.14',
-  label: 'Le mulot!',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.15',
-  label: 'Pas toucher',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.16',
-  label: 'Banana',
-  selected: false,
-  moduleId: 0,
-}, {
-  key: 'item.17',
-  label: 'Cup cake',
-  selected: false,
-  moduleId: 0,
-},
-]
+import { NavigationItem } from '../../../shapes/Navigation'
+import MainBarNavigationItem from './bar/MainBarNavigationItem'
+import MainBarMoreNavigationButton from './bar/MainBarMoreNavigationButton'
 
 /**
  * Navigation layout component: displays navigation elements and more menu according with available width
@@ -117,17 +30,14 @@ const TEMP_NAV_MODEL = [{
  */
 class NavigationLayoutComponent extends React.Component {
   static propTypes = {
-    // TODO better shape
-    navigationModel: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      selected: PropTypes.bool.isRequired,
-    })).isRequired,
+    navigationElements: PropTypes.arrayOf(NavigationItem),
+    locale: PropTypes.string,
+    buildModuleURL: PropTypes.func.isRequired,
   }
 
-  // TODO remove that
   static defaultProps = {
-    navigationModel: TEMP_NAV_MODEL,
+    // ensure at list an empty array will be provided
+    navigationElements: [],
   }
 
   static contextTypes = {
@@ -135,19 +45,41 @@ class NavigationLayoutComponent extends React.Component {
   }
 
 
-  /** Initial state */
-  state = {
-    // Count of bar items shown (at start, we display all items once to get their width)
+  /** Non initialized state */
+  static NON_INITIALIZE_STATE = {
+    // Count of bar items shown (at start and after reinitialization, we display all items once to get their width)
     shownBarItemsCount: Number.MAX_SAFE_INTEGER,
-    // should show MORE button (shown by default to get its initial width)
-    showMoreButton: true,
+    //force showing more button to get its width
+    forceMoreButton: true,
+    // more elements items
+    moreButtonItems: [],
   }
 
-  componentWillMount() {
-    // we initialize here transient graphics data that should not provoke redrawing
-    this.layoutWidth = 0 // This layout element available width
-    this.barItemsWidths = {} // bar items width (key is the item key)
-    this.moreButtonWidth = 0 // more button width
+  /**
+   * Lifecycle method: component will mount. Used here to detect properties changes
+   * @param {*} nextProps next component properties
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    // check if the state has been computed on current properties (or if some modules where added / removed)
+    // or if the locale changed (we need in such case to recompute all the sizes)
+    const oldElements = oldProps.navigationElements || []
+    if (oldProps.locale !== newProps.locale || oldElements.length !== newProps.navigationElements.length) {
+      // we need here to reinitialize completely the layout data and computed state
+      this.onReinitializeLayoutData(newProps.navigationElements)
+    }
   }
 
   /**
@@ -160,7 +92,7 @@ class NavigationLayoutComponent extends React.Component {
       ...this.barItemsWidths,
       [itemKey]: newWidth,
     }
-    this.onLayoutUpdate(this.props.navigationModel)
+    this.onLayoutUpdate(this.props.navigationElements)
   }
 
   /**
@@ -169,7 +101,7 @@ class NavigationLayoutComponent extends React.Component {
    */
   onMoreButtonResized = (newWidth) => {
     this.moreButtonWidth = newWidth
-    this.onLayoutUpdate(this.props.navigationModel)
+    this.onLayoutUpdate(this.props.navigationElements)
   }
 
   /**
@@ -178,44 +110,70 @@ class NavigationLayoutComponent extends React.Component {
    */
   onComponentResized = ({ width }) => {
     this.layoutWidth = width
-    this.onLayoutUpdate(this.props.navigationModel)
+    this.onLayoutUpdate(this.props.navigationElements)
+  }
+
+  /**
+   * Event: layout data re-initialization is required (happens initialy, then after locale / items changes)
+   */
+  onReinitializeLayoutData = () => {
+    // we initialize here transient graphics data that should not provoke redrawing
+    this.layoutWidth = null // This layout element available width
+    this.barItemsWidths = {} // bar items width (key is the item key)
+    this.moreButtonWidth = null // more button width
+    this.onLayoutUpdate(this.props.navigationElements)
   }
 
   /**
    * On layout update
-   * @param [NavigationItem] navigationModel navigation model
+   * @param [NavigationItem] navigationElements navigation model
    */
-  onLayoutUpdate = (navigationModel) => {
-    const totalItemsCount = navigationModel.length
+  onLayoutUpdate = (navigationElements) => {
+    // 0 - check if initialized (if not, show all)
+    let nextState = NavigationLayoutComponent.NON_INITIALIZE_STATE
+    const isInitialized = isNumber(this.layoutWidth) && isNumber(this.moreButtonWidth) &&
+      navigationElements.reduce((acc, navigationElement) =>
+        acc && isNumber(this.barItemsWidths[navigationElement.key]), true)
+    if (isInitialized) {
+      // 1 - consume this width to show more possible elements
+      let shownBarItemsCount = 0
+      let consumedWidth = 0
+      let exceededWidth = false
+      navigationElements.forEach((element) => {
+        // already exceed available width?
+        if (!exceededWidth) {
+          const elementWidth = this.barItemsWidths[element.key]
+          const nextWidth = elementWidth + consumedWidth
+          if (nextWidth > this.layoutWidth) {
+            // this item and following ones will not be shown in main bar
+            exceededWidth = true
+          } else {
+            // this item will be shown (if next algorithm doesn't remove it)
+            consumedWidth = nextWidth
+            shownBarItemsCount += 1
+          }
+        }
+      })
 
-    // 1 - consume this width to show more possible elements (never less than one)
-    let shownBarItemsCount
-    let consumedWidth = 0
-    for (shownBarItemsCount = 0; shownBarItemsCount < totalItemsCount; shownBarItemsCount += 1) {
-      // recover corresponding model
-      const currentItemModel = navigationModel[shownBarItemsCount]
-      // compute next width
-      const nextWidth = this.barItemsWidths[currentItemModel.key] + consumedWidth
-      if (nextWidth > this.layoutWidth) {
-        // this item doesn't fit the layout
-        break
+      // 2 - insert the more button in this layout if required
+      // 2.a - retrieve the first item that should be hidden
+      const showMoreButton = shownBarItemsCount < navigationElements.length
+      if (showMoreButton) {
+        // algorithm: we remove items previously considered in width until it remains enough space to set the more button
+        // in layout. If there is not enough space, only the more button will be displayed (we cannot hide it)
+        let remainingWidth = this.layoutWidth - consumedWidth
+        for (; shownBarItemsCount > 0 && remainingWidth < this.moreButtonWidth; shownBarItemsCount -= 1) {
+          const itemToRemove = navigationElements[shownBarItemsCount - 1]
+          remainingWidth += this.barItemsWidths[itemToRemove.key]
+        }
       }
-      consumedWidth = nextWidth
-    }
-    // 2 - insert the more button in this layout if required
-    const showMoreButton = shownBarItemsCount < totalItemsCount
-    if (showMoreButton) {
-      // algorithm: we remove items previously considered in width until it remains enough space to set the more button
-      // in layout. If there is not enough space, only the more button will be displayed (we cannot hide it)
-      let remainingWidth = this.layoutWidth - consumedWidth
-      for (; shownBarItemsCount > 0 && remainingWidth < this.moreButtonWidth; shownBarItemsCount -= 1) {
-        const itemToRemove = navigationModel[shownBarItemsCount - 1]
-        remainingWidth += this.barItemsWidths[itemToRemove.key]
+      // 2.b - publish the new  in state
+      nextState = {
+        shownBarItemsCount,
+        // empty when shown count is the exact items count
+        forceMoreButton: false,
+        moreButtonItems: navigationElements.slice(shownBarItemsCount),
       }
-    }
-    const nextState = {
-      shownBarItemsCount,
-      showMoreButton,
     }
 
     if (!isEqual(this.state, nextState)) {
@@ -225,27 +183,32 @@ class NavigationLayoutComponent extends React.Component {
 
 
   render() {
-    const { navigationModel } = this.props
-    const { shownBarItemsCount, showMoreButton } = this.state
+    const { navigationElements, locale, buildModuleURL } = this.props
+    const { shownBarItemsCount, moreButtonItems, forceMoreButton } = this.state
     const { moduleTheme: { user: { navigationGroup } } } = this.context
+
     return (
       <Measure onMeasure={this.onComponentResized} >
         <div style={navigationGroup}>
-          {
-            navigationModel.map((item, index) => (
+          { /** main bar items */
+            navigationElements.map((navigationElement, index) => (
               <MainBarNavigationItem
-                key={item.key}
-                item={item}
+                key={navigationElement.key}
+                item={navigationElement}
                 displayed={index < shownBarItemsCount}
+                locale={locale}
+                buildModuleURL={buildModuleURL}
                 onItemResized={this.onBarItemResized}
               />
             ))
           }
-          <MoreNavigationButton
-            visible={showMoreButton}
+          {/* More elements button  */}
+          <MainBarMoreNavigationButton
+            displayed={forceMoreButton || moreButtonItems.length > 0}
+            items={moreButtonItems}
+            locale={locale}
+            buildModuleURL={buildModuleURL}
             onResized={this.onMoreButtonResized}
-            navigationModel={navigationModel}
-            firstMenuElementIndex={shownBarItemsCount}
           />
         </div>
       </Measure>

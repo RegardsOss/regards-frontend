@@ -108,6 +108,7 @@ function getAvailableVisibleModuleTypes(dependenciesFilter = trueFunction) {
     }, []))
 }
 
+
 /**
  * Returns UI URL to reach a project module
  * @param {string} project project
@@ -116,6 +117,16 @@ function getAvailableVisibleModuleTypes(dependenciesFilter = trueFunction) {
  */
 function getModuleURL(project, moduleId) {
   return `/user/${project}/modules/${moduleId}`
+}
+
+/**
+ * Returns modules ID in user application path
+ * @param {string} path path
+ * @return {number} module id if any could be found in path
+ */
+function getPathModuleId(path) {
+  const matchedElements = path.match(/modules\/([0-9]+)/)
+  return matchedElements && matchedElements.length > 1 ? parseInt(matchedElements[1], 10) : null
 }
 
 /**
@@ -134,6 +145,7 @@ module.exports = {
   loadModule,
   getAvailableVisibleModuleTypes,
   getModuleURL,
+  getPathModuleId,
   getModuleDefaultIconURL,
 }
 

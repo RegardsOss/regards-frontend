@@ -39,19 +39,24 @@ const menuStyles = theme => ({
       borderColor: theme['module:menu'].borderColor,
       borderStyle: theme['module:menu'].borderStyle,
     },
+    menuSeparator: {
+      borderColor: theme.palette.textColor,
+      alignSelf: 'stretch',
+      margin: theme['module:menu'].separatorMargin,
+      borderWidth: theme['module:menu'].separatorBorderWidth,
+      borderStyle: theme['module:menu'].separatorBorderStyle,
+      borderRadius: theme['module:menu'].separatorBorderRadius,
+    },
     titleGroup: {
       flexGrow: 0,
       flexShrink: 0,
-      fontSize: theme.flatButton.fontSize,
-      fontFamily: theme.fontFamily,
-      textAlign: 'center',
-      color: theme.palette.textColor,
-      fontWeight: 'bold',
+      display: 'flex',
+      alignItems: 'center',
     },
     navigationGroup: {
       flexGrow: 1,
       flexShrink: 1,
-      maxHeight: theme['module:menu'].navigationBarMaxHeight, // TODO default theme!
+      maxHeight: theme['module:menu'].navigationBarMaxHeight,
       overflowY: 'hidden',
     },
     navigationItem: {
@@ -64,14 +69,6 @@ const menuStyles = theme => ({
       defaultTextStyle: {
         textTransform: theme['module:menu'].navigationItemTextTransform,
       },
-      selectedTextStyle: {
-        color: theme['module:menu'].selectedNavigationItemTextColor,
-        textDecoration: theme['module:menu'].selectedNavigationItemTextDecoration,
-        textTransform: theme['module:menu'].navigationItemTextTransform,
-      },
-    },
-    moreOption: {
-      labelPosition: 'before',
     },
     optionsGroup: {
       flexGrow: 0,

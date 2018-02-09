@@ -37,6 +37,7 @@ export class ModuleTitle extends React.Component {
   render() {
     const { icon, text, tooltip } = this.props
     const { moduleTheme: { moduleTitle } } = this.context
+    // TODO enforce icon style
     return (
       <div style={moduleTitle.style} title={tooltip}>
         { // icon if any

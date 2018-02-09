@@ -37,6 +37,8 @@ class ModulesNavigatorComponent extends React.Component {
     onToggleMenu: PropTypes.func.isRequired,
   }
 
+  // TODO delete me!
+
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,

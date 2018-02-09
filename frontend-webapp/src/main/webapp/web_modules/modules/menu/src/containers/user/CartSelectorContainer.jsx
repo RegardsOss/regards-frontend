@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import filter from 'lodash/filter'
-import find from 'lodash/find'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
@@ -45,14 +44,13 @@ const basketActions = new OrderClient.OrderBasketActions()
 * @author Raphaël Mechali
 */
 export class CartSelectorContainer extends React.Component {
-  static USER_LAYOUT_NAME = 'user'
-
+  /** Basket dependencies */
   static BASKET_DEPENDENCIES = basketActions.getDependencies('GET')
 
   static mapStateToProps(state) {
     return {
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-      userLayout: layoutSelectors.getById(state, CartSelectorContainer.USER_LAYOUT_NAME),
+      dynamicContainerId: layoutSelectors.getDynamicContainerId(state),
       modules: modulesSelectors.getList(state),
       availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
       objectsCount: basketSelector.getObjectsCount(state),
@@ -73,7 +71,7 @@ export class CartSelectorContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     isAuthenticated: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
-    userLayout: AccessShapes.Layout,
+    dynamicContainerId: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
     modules: AccessShapes.ModuleList,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -110,7 +108,7 @@ export class CartSelectorContainer extends React.Component {
     const newState = { ...(oldState || CartSelectorContainer.DEFAULT_STATE) }
     // 1 - Attempt to retrieve the corresponding order cart dynamic module
     if (!isEqual(oldProps.isAuthenticated, newProps.isAuthenticated) ||
-      !isEqual(oldProps.userLayout, newProps.userLayout) ||
+      !isEqual(oldProps.dynamicContainerId, newProps.dynamicContainerId) ||
       !isEqual(oldProps.modules, newProps.modules) ||
       !isEqual(oldProps.availableEndpoints, newProps.availableEndpoints)) {
       newState.cartModuleId = this.getCartModuleId(newProps)
@@ -143,16 +141,13 @@ export class CartSelectorContainer extends React.Component {
    * @return {number} retrieved ID or null when not found or state not matching
    */
   getCartModuleId = ({
-    isAuthenticated, modules, userLayout, moduleConf, availableEndpoints,
+    isAuthenticated, modules, dynamicContainerId, moduleConf, availableEndpoints,
   }) => {
     // 0 - pre: don't show cart to non logged users or users that do not have enough rights
     if (!isAuthenticated || !allMatchHateoasDisplayLogic(CartSelectorContainer.BASKET_DEPENDENCIES, availableEndpoints)) {
       return null
     }
-    // 1 - Find the dynamic container (avoid computing it for each module)
-    const allContainers = get(userLayout, 'content.layout.containers', [])
-    const dynamicContainerId = get(find(allContainers, ({ dynamicContent = false, id }) => dynamicContent), 'id')
-    // 2 - Is there one or more order cart modules set up in a dynamic container?
+    // 1 - Is there one or more order cart modules set up in a dynamic container?
     const dynamicOrderCartModules = filter((modules || {}), (module) => {
       const containerId = get(module, 'content.container', '')
       const moduleType = get(module, 'content.type', '')

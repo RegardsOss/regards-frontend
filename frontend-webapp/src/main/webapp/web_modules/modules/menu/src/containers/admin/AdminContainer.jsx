@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { moduleActions, moduleSelectors } from '../../clients/ModulesListClient'
-import DynamicModulesResolutionContainer from '../common/DynamicModulesResolutionContainer'
+import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
 import ModuleFormComponent from '../../components/admin/ModuleFormComponent'
 
 /**
@@ -37,13 +37,13 @@ class AdminContainer extends React.Component {
   render() {
     const { appName } = this.props
     return (
-      <DynamicModulesResolutionContainer
+      <DynamicModulesProviderContainer
         applicationId={appName}
         moduleActions={moduleActions}
         moduleSelectors={moduleSelectors}
       >
         <ModuleFormComponent currentNamespace={this.props.adminForm.currentNamespace} />
-      </DynamicModulesResolutionContainer>)
+      </DynamicModulesProviderContainer>)
   }
 }
 

@@ -75,8 +75,10 @@ module.exports = {
     borderStyle: 'solid',
     navigationBarMaxHeight: 36,
     navigationItemTextTransform: 'none',
-    selectedNavigationItemTextColor: 'rgb(255, 109, 0)',
-    selectedNavigationItemTextDecoration: 'underline',
+    separatorBorderWidth: 2,
+    separatorBorderRadius: 2,
+    separatorBorderStyle: 'solid',
+    separatorMargin: '12px 10px',
   },
   // search results module
   'module:search-results': {

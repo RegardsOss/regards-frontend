@@ -22,14 +22,16 @@ import SVGURLIcon from '../picture/SVGURLIcon'
 import styles from './styles'
 
 /**
- * Default module icon component: handles display mode and distant URLs
+ * Default module icon component: handles display mode and distant URLs.
+ * Note this component reports style, color and such properties below (problem of integration between MUI and ReactSVG,
+ * requires to customize SVG box at runtime)
  * @author Raphaël Mechali
  */
 class ModuleIcon extends React.Component {
   static propTypes = {
     iconDisplayMode: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES).isRequired,
-    defaultIconURL: PropTypes.string,
-    customIconURL: PropTypes.string.isRequired,
+    defaultIconURL: PropTypes.string.isRequired,
+    customIconURL: PropTypes.string,
   }
 
   static contextTypes = {
@@ -37,12 +39,13 @@ class ModuleIcon extends React.Component {
   }
 
   render() {
-    const { iconDisplayMode, defaultIconURL, customIconURL } = this.props
-    const { moduleTheme: { moduleTitle } } = this.context
+    const {
+      iconDisplayMode, defaultIconURL, customIconURL, ...otherProps
+    } = this.props
     let iconURL
     switch (iconDisplayMode) {
       case AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM:
-        iconURL = customIconURL
+        iconURL = customIconURL || defaultIconURL
         break
       case AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT:
         iconURL = defaultIconURL
@@ -52,8 +55,10 @@ class ModuleIcon extends React.Component {
         return null
     }
 
-    return ( // TODO-NOW handle Non SVG icons
-      <SVGURLIcon style={moduleTitle.iconStyle} path={iconURL} />
+    // TODO-NOW handle non local URLs
+    // TODO-NOW handle non SVG pictures
+    return (
+      <SVGURLIcon path={iconURL} {...otherProps} />
     )
   }
 }

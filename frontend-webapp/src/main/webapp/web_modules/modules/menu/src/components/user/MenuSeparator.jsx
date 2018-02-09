@@ -16,16 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Redux store selectors for Module Entities
+ * Menu separator
+ * @author Raphaël Mechali
  */
-class ModulesSelector extends BasicPageableSelectors {
-  constructor() {
-    super(['user', 'layout.modules'])
+class MenuSeparator extends React.Component {
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+  render() {
+    const { moduleTheme: { user: { menuSeparator } } } = this.context
+    return (
+      <div style={menuSeparator} />
+    )
   }
 }
-
-const instance = new ModulesSelector()
-export default instance
+export default MenuSeparator

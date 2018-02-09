@@ -17,21 +17,29 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-// TODO delete me?
-
-/**
- * Definition of type DecoratorShape. Decorator are used in LazyModuleComponent to add a decorator element to modules
- * @author Sébastien Binda
- */
-export default PropTypes.shape({
-  id: PropTypes.number,
-  // Type available from AvailableModules.js
-  type: PropTypes.string,
-  description: PropTypes.string,
-  active: PropTypes.bool,
-  applicationId: PropTypes.string,
-  container: PropTypes.string,
-  expandable: PropTypes.bool,
-  expanded: PropTypes.bool,
-  conf: PropTypes.objectOf(PropTypes.any),
-})
+/** Super light modules (AccessShapes/Module) dump to test modules manager */
+export const someModulesWithDoubles = {
+  1: {
+    content: {
+      id: 1,
+      type: 'search-graph',
+      active: true,
+    },
+  },
+  2: {
+    content: {
+      id: 2,
+      type: 'order-cart',
+      active: true,
+    },
+  },
+  3: {
+    content: {
+      content: {
+        id: 3,
+        type: 'order-cart',
+        active: true,
+      },
+    },
+  }
+}

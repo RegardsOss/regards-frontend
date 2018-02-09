@@ -20,15 +20,16 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { SelectLocaleContainer } from '@regardsoss/i18n-ui'
 import { SelectThemeContainer } from '@regardsoss/theme-ui'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import AuthenticationMenuContainer from '../../containers/user/AuthenticationMenuContainer'
 import NotificationListContainer from '../../containers/user/NotificationListContainer'
 import CartSelectorContainer from '../../containers/user/CartSelectorContainer'
-import ModulesNavigatorContainer from '../../containers/user/ModulesNavigatorContainer'
 import ProjectAboutPageLinkContainer from '../../containers/user/ProjectAboutPageLinkContainer'
 import NavigationMenuContainer from '../../containers/user/navigation/NavigationMenuContainer'
 import ContactComponent from './ContactComponent'
+import MenuSeparator from './MenuSeparator'
+import { ApplicationBreadcrumbContainer } from '../../containers/user/breadcrumb/ApplicationBreadcrumbContainer'
 
 /**
 * Main menu module component
@@ -47,6 +48,16 @@ class MainMenuComponent extends React.Component {
     displayLocaleSelector: PropTypes.bool,
     displayThemeSelector: PropTypes.bool,
     projectAboutPage: CommonShapes.URL,
+
+    // provided by root container
+    currentModuleId: PropTypes.number,
+
+    // provided by DynamicModuleProvider HOC
+    dynamicModules: PropTypes.arrayOf(AccessShapes.Module),
+  }
+
+  static defaultProps = {
+    dynamicModules: [],
   }
 
   static contextTypes = {
@@ -57,36 +68,46 @@ class MainMenuComponent extends React.Component {
 
   render() {
     const {
-      title, displayAuthentication, displayNotificationsSelector, displayCartSelector,
-      displayLocaleSelector, displayThemeSelector, projectAboutPage, contacts,
+      appName, project, title, displayAuthentication, displayNotificationsSelector,
+      displayCartSelector, displayLocaleSelector, displayThemeSelector,
+      projectAboutPage, contacts, currentModuleId, dynamicModules,
     } = this.props
-    const { moduleTheme: { user: { rootStyle, titleGroup, optionsGroup } } } = this.context
+    const { moduleTheme: { user: { rootStyle, optionsGroup } } } = this.context
 
     return (
       <div style={rootStyle}>
-        <div style={titleGroup} >
-          { /* Title */
-            title
-          }
-        </div>
+        {/* Application breadcrumb */}
+        <ApplicationBreadcrumbContainer
+          title={title}
+          project={project}
+          currentModuleId={currentModuleId}
+          dynamicModules={dynamicModules}
+        />
+        {/* separator mark */}
+        <MenuSeparator />
         {/* Navigation */}
-        <NavigationMenuContainer />
+        <NavigationMenuContainer
+          project={project}
+          dynamicModules={dynamicModules}
+        />
+        {/* separator mark */}
+        <MenuSeparator />
         {/* Right options */}
         <div style={optionsGroup}>
           {/* Authentication access, state and options */}
-          <AuthenticationMenuContainer display={displayAuthentication} appName={this.props.appName} project={this.props.project} />
+          <AuthenticationMenuContainer display={displayAuthentication} appName={appName} project={project} />
           {/* Notifications */}
           <ShowableAtRender show={displayNotificationsSelector}>
-            <NotificationListContainer project={this.props.project} />
+            <NotificationListContainer project={project} />
           </ShowableAtRender>
           {/* User cart stateful link */}
           <ShowableAtRender show={!!displayCartSelector}>
-            <CartSelectorContainer project={this.props.project} />
+            <CartSelectorContainer project={project} />
           </ShowableAtRender>
           {/* Contact project team */}
           <ContactComponent contacts={contacts} />
           {/* About project if any (display should be in container) */}
-          <ProjectAboutPageLinkContainer projectAboutPage={projectAboutPage} appName={this.props.appName} project={this.props.project} />
+          <ProjectAboutPageLinkContainer projectAboutPage={projectAboutPage} appName={appName} project={project} />
           {/* UI Options: theme  */}
           <ShowableAtRender show={displayThemeSelector} >
             <SelectThemeContainer />

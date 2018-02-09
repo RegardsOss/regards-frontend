@@ -38,6 +38,7 @@ const messages = {
   resetRole: 'Rôle par défaut',
   contactTooltip: 'Nous contacter...',
   AboutPageTooltip: 'A propos...',
+  'user.menu.navigate.to.home': 'Afficher la page d\'accueil du projet',
   'user.menu.displaycart.tooltip': 'Mon panier: {elementsCountTooltip}',
   'user.menu.displaycart.empty.tooltip': 'vide',
   'user.menu.displaycart.elements.count.tooltip': '{elementsCount} objet(s)',

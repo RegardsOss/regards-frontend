@@ -17,21 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { AccessShapes } from '@regardsoss/shape'
+import { modulesManager } from '@regardsoss/modules'
+import { i18nSelectors } from '@regardsoss/i18n'
+import NavigationModelResolutionContainer from '../../../containers/common/NavigationModelResolutionContainer'
 import NavigationLayoutComponent from '../../../components/user/navigation/NavigationLayoutComponent'
 
 
-// TODO delete me when useless
-// const TEMP_NAV_MODEL = [{
-//   key: 'item.1',
-//   icon: null,
-//   labelFR: 'Patates',
-//   labelEN: 'Potatoes',
-// }
-
-// ]
-
 /**
- * Comment Here
+ * Navigation menu container
  * @author Raphaël Mechali
  */
 export class NavigationMenuContainer extends React.Component {
@@ -42,32 +36,41 @@ export class NavigationMenuContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state) {
-    return {}
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch) {
-    return {}
+    return {
+      locale: i18nSelectors.getLocale(state),
+    }
   }
 
   static propTypes = {
+    project: PropTypes.string,
+    dynamicModules: PropTypes.arrayOf(AccessShapes.Module).isRequired,
     // from mapStateToProps
-    // from mapDispatchToProps
+    locale: PropTypes.string.isRequired,
   }
 
+  /**
+   * Builds module URL
+   * @param {number} moduleId module ID
+   * @return {string} link URL to module
+   */
+  buildModuleURL = (moduleId) => {
+    const { project } = this.props
+    return modulesManager.getModuleURL(project, moduleId)
+  }
+
+
   render() {
-    const { maProp } = this.props
-    // TODO compute sections and sub sections
+    const { dynamicModules, locale } = this.props
+    // TODO-NOW return null when in admin
     return (
-      <NavigationLayoutComponent />
+      // insert the modules to navigation module resolution container
+      <NavigationModelResolutionContainer dynamicModules={dynamicModules} clearNonNavigable>
+        {/* main navigation view component */}
+        <NavigationLayoutComponent buildModuleURL={this.buildModuleURL} locale={locale} />
+      </NavigationModelResolutionContainer>
     )
   }
 }
-export default connect(
-  NavigationMenuContainer.mapStateToProps,
-  NavigationMenuContainer.mapDispatchToProps)(NavigationMenuContainer)
+
+export default connect(NavigationMenuContainer.mapStateToProps)(NavigationMenuContainer)
+

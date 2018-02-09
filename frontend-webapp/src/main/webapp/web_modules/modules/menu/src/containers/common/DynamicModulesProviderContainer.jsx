@@ -16,27 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import filter from 'lodash/filter'
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
+import { AccessProjectClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
-import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { HOCUtils } from '@regardsoss/display-control'
+import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
+
+// TODO-NOW should inject as prop?
+// TODO-NOW should fetch initially?
+// default layout selectors
+const layoutSelectors = AccessProjectClient.LayoutSelectors()
 
 /**
- * Provides resolved dynamic modules list to children as follow:
- * 1 - Loads / selects the currently known dynamic modules list
- * 2 - Resolves module bundle
- * 3 - Provides, for each dynamic module the following fields:
- * {
- *   id: number, // module id
- *   default: boolean, // is the default module?
- *   type: string, // module type
- *   description: string, // description
- *   defaultIcon: function, // default module icon as a react component
- * }
+ * Dynamic modules provider: provides to children the list of resolved dynamic modules
  * @author Raphaël Mechali
  */
-export class DynamicModulesResolutionContainer extends React.Component {
+export class DynamicModulesProviderContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -46,7 +44,8 @@ export class DynamicModulesResolutionContainer extends React.Component {
   static mapStateToProps(state, { moduleSelectors }) {
     return {
       modules: moduleSelectors.getList(state),
-      isFetching: moduleSelectors.isFetching(state),
+      dynamicContainerId: layoutSelectors.getDynamicContainerId(state),
+      isFetching: moduleSelectors.isFetching(state) || layoutSelectors.isFetching(state),
     }
   }
 
@@ -72,15 +71,18 @@ export class DynamicModulesResolutionContainer extends React.Component {
     // selectors for modules results
     // eslint-disable-next-line react/no-unused-prop-types
     moduleSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // used only in map state to props
+    // should keep only active dynamic modules?
+    // eslint-disable-next-line react/no-unused-prop-types
+    keepOnlyActive: PropTypes.bool.isRequired, // used only in onPropertiesUpdated
     // from mapStateToProps
-    modules: AccessShapes.ModuleList,
-    isFetching: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
+    dynamicContainerId: PropTypes.string, // used only in onPropertiesUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
+    modules: AccessShapes.ModuleList, // used only in onPropertiesUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
+    isFetching: PropTypes.bool, // used only in onPropertiesUpdated
     // from mapDispatchToProps
     fetchModules: PropTypes.func.isRequired,
-  }
-
-  state = {
-    childrenWithProps: [],
   }
 
   /**
@@ -105,17 +107,29 @@ export class DynamicModulesResolutionContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    // detect children or modules list changes
     if (!isEqual(oldProps.modules, newProps.modules) ||
-      !isEqual(oldProps.children, newProps.children)) {
-      const modulesDefinitions = [] // TODO resolve modules here
-      // set up definitions in children
+      !isEqual(oldProps.dynamicContainerId, newProps.dynamicContainerId) ||
+      oldProps.children !== newProps.children) {
+      const {
+        modules, dynamicContainerId, keepOnlyActive, children,
+      } = newProps
+      const dynamicModules = modules && filter(modules, module =>
+        this.filterModule(module, dynamicContainerId, keepOnlyActive))
       this.setState({
-        children: HOCUtils.cloneChildrenWith(newProps.children, { modulesDefinitions }),
+        children: HOCUtils.cloneChildrenWith(children, {
+          dynamicModules,
+        }),
       })
     }
   }
 
+  /**
+   * Filters module list
+   */
+  filterModule = (module, dynamicContainerId, keepOnlyActive) =>
+    // must be dynamic  && active when keepOnlyActive
+    get(module, 'content.container') === dynamicContainerId &&
+    (!keepOnlyActive || get(module, 'content.active'))
 
   render() {
     const { isFetching } = this.props
@@ -128,5 +142,5 @@ export class DynamicModulesResolutionContainer extends React.Component {
   }
 }
 export default connect(
-  DynamicModulesResolutionContainer.mapStateToProps,
-  DynamicModulesResolutionContainer.mapDispatchToProps)(DynamicModulesResolutionContainer)
+  DynamicModulesProviderContainer.mapStateToProps,
+  DynamicModulesProviderContainer.mapDispatchToProps)(DynamicModulesProviderContainer)

@@ -17,12 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export default ({ palette: { textColor, canvasColor }, spacing: { iconSize } }) => ({
+export default ({ palette: { textColor }, spacing: { iconSize } }) => ({
   svgURLIconStyle: {
     display: 'inline-block',
     fill: textColor,
     height: iconSize,
     width: iconSize,
-    background: canvasColor,
   },
 })
