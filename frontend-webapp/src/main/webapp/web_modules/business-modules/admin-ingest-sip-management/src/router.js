@@ -21,7 +21,7 @@ export const sipSessionRoute = {
   path: 'session',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/SIPSessionContainer')
+      const container = require('./containers/SIPSessionListContainer')
       cb(null, {
         content: container.default,
       })
@@ -54,10 +54,10 @@ export const sipHistoryListRoute = {
 }
 
 export const sipSumitionRoute = {
-  path: 'submition',
+  path: 'submission',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/SIPSubmitionFormContainer')
+      const container = require('./containers/SIPSubmissionFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -66,10 +66,10 @@ export const sipSumitionRoute = {
 }
 
 export const sipSumitionSummaryRoute = {
-  path: 'submition-summary',
+  path: 'submission-summary',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/SIPSubmitionSummaryContainer.jsx')
+      const container = require('./containers/SIPSubmissionSummaryContainer')
       cb(null, {
         content: container.default,
       })

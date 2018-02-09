@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { generationChainActions } from './clients/GenerationChainClient'
+import { AcquisitionProcessingChainActions } from './clients/AcquisitionProcessingChainClient'
 /**
  * Module hateoas dependencies
  * @author Sébastien Binda
@@ -28,7 +28,7 @@ import { generationChainActions } from './clients/GenerationChainClient'
  * @type {Array}
  */
 const listDependencies = [
-  generationChainActions.getDependency(RequestVerbEnum.GET_LIST),
+  AcquisitionProcessingChainActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 /**
@@ -36,7 +36,7 @@ const listDependencies = [
  * @type {Array}
  */
 const addDependencies = [
-  generationChainActions.getDependency(RequestVerbEnum.POST),
+  AcquisitionProcessingChainActions.getDependency(RequestVerbEnum.POST),
 ]
 
 module.exports = {

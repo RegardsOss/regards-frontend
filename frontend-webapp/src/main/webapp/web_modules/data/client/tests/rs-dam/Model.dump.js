@@ -19,7 +19,7 @@
 export default [{
   content: {
     id: 1,
-    name: 'Deuxieme Modele',
+    name: 'DeuxiemeModele',
     description: 'Description du deuxieme modele de jeux de données',
     type: 'DATASET',
   },

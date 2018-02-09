@@ -194,7 +194,7 @@ export class ModelListComponent extends React.Component {
 
                       <ResourceIconAction
                         resourceDependencies={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
-                        onClick={() => handleBindAttributes(model.content.id)}
+                        onClick={() => handleBindAttributes(model.content.name)}
                         title={intl.formatMessage({ id: 'model.list.action.bind' })}
                       >
                         <Settings hoverColor={style.hoverButtonBindAttribute} />
@@ -203,7 +203,7 @@ export class ModelListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={model.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onClick={() => handleEdit(model.content.id)}
+                        onClick={() => handleEdit(model.content.name)}
                         title={intl.formatMessage({ id: 'model.list.action.edit' })}
                         className="selenium-editButton"
                       >
@@ -212,7 +212,7 @@ export class ModelListComponent extends React.Component {
 
                       <ResourceIconAction
                         resourceDependencies={modelActions.getDependency(RequestVerbEnum.POST)}
-                        onClick={() => handleDuplicate(model.content.id)}
+                        onClick={() => handleDuplicate(model.content.name)}
                         title={intl.formatMessage({ id: 'model.list.action.duplicate' })}
                       >
                         <ContentCopy hoverColor={style.hoverButtonDuplicate} />

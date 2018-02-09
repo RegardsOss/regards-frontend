@@ -138,7 +138,7 @@ export class DatasetFormContainer extends React.Component {
    * @param attributes
    * @param modelObjectId
    */
-  saveAttributes = (label, geometry, modelDatasetId, properties, modelObjectId, descriptionFileContent, descriptionUrl) => {
+  saveAttributes = (label, geometry, modelDatasetName, properties, modelObjectName, descriptionFileContent, descriptionUrl) => {
     const { isCreating, currentDataset } = this.state
     const descriptionFile = getAbstractEntityDescription(descriptionFileContent, descriptionUrl)
     // Save the file in the state if there is
@@ -155,9 +155,9 @@ export class DatasetFormContainer extends React.Component {
           properties,
           descriptionFile,
           model: {
-            id: modelDatasetId,
+            name: modelDatasetName,
           },
-          dataModel: modelObjectId,
+          dataModel: modelObjectName,
           plgConfDataSource: {
             id: parseInt(this.props.params.datasourceId, 10),
           },

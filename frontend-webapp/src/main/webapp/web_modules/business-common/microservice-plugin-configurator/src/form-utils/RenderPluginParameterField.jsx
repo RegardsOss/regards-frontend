@@ -70,20 +70,27 @@ export class RenderPluginParameterField extends React.PureComponent {
 
   componentWillMount() {
     const { input, pluginParameterType, complexParameter } = this.props
-    let initParamValues = {}
+    let initParamValues = ''
     if (complexParameter && (isNil(get(input, 'value.value') || isNil(get(input, 'value.dynamic'))))) {
       initParamValues = {
         dynamic: get(input, 'value.dynamic', false),
         dynamicValues: get(input, 'value.dynamicValues', null),
         name: pluginParameterType.name,
       }
-    } else {
+    } else if (complexParameter) {
       initParamValues = {
         name: pluginParameterType.name,
       }
     }
-    if (get(input, 'value.value', null) !== null) {
-      initParamValues.value = input.value.value
+    // Not complex parameter does not need the name,value properties.
+    // They only have the value and not a structure like {value,name,dynamic,dynamicValues}
+    if (complexParameter && get(input, 'value.value', null) !== null) {
+      initParamValues = {
+        ...initParamValues,
+        value: input.value.value,
+      }
+    } else if (!complexParameter && get(input, 'value', null) !== null) {
+      initParamValues = input.value
     }
     input.onChange(initParamValues)
   }
@@ -214,8 +221,8 @@ export class RenderPluginParameterField extends React.PureComponent {
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(pluginParameterType.type)
     const parameters = {
       type: primitiveParameters.type,
-      normalize: primitiveParameters.type === 'number' ? val => parseInt(val, 10) : null,
-      format: primitiveParameters.type === 'number' ? val => parseInt(val, 10) : null,
+      normalize: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
+      format: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
       floatingLabelText: this.props.hideDynamicParameterConf ? label : null,
       hintText: label,
       label: this.props.hideDynamicParameterConf ? label : null,

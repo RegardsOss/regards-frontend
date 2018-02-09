@@ -18,7 +18,11 @@
  **/
 
 import AcquisitionProcessingChaineModes from './AcquisitionProcessingChaineModes'
+import ProductStateEnum from './ProductStateEnum'
+import AcquisitionfileStateEnum from './AcquisitionfileStateEnum'
 
 module.exports = {
   ...AcquisitionProcessingChaineModes,
+  ...ProductStateEnum,
+  ...AcquisitionfileStateEnum,
 }

@@ -33,6 +33,7 @@ import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
 import { fragmentSelectors } from './../clients/FragmentClient'
 import messages from '../i18n'
+import StaticAttributeList from './../components/StaticAttributeList'
 
 const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
 
@@ -183,10 +184,7 @@ export class DatasourceFormContainer extends React.Component {
             },
             {
               name: IDBDatasourceParamsEnum.MODEL,
-              value: {
-                model: values.model,
-                attributesMapping: [],
-              },
+              value: values.model,
             },
             {
               name: IDBDatasourceParamsEnum.REFRESH_RATE,
@@ -251,13 +249,18 @@ export class DatasourceFormContainer extends React.Component {
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION))
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.REFRESH_RATE))
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.TAGS))
-    const modelId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value.model')
+    newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL))
     forEach(formValuesSubset.attributes, (attribute, attributeName) => {
       const modelAttr = find(modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attributeName)
+      // Is this a static attribute ?
+      const modelAttrStatic = find(StaticAttributeList, modelAttribute => modelAttribute.content.attribute.name === attributeName)
+
       const newAttributeMapping = {
         name: attributeName,
         type: modelAttr.content.attribute.type,
         namespace: this.getNamespaceUsingFragmentName(modelAttr),
+        // Add the Java type ¯\_(ツ)_/¯
+        attributeType: modelAttrStatic ? 'STATIC' : 'DYNAMIC',
       }
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql
@@ -283,11 +286,8 @@ export class DatasourceFormContainer extends React.Component {
       })
     }
     newParameters.push({
-      name: IDBDatasourceParamsEnum.MODEL,
-      value: {
-        model: modelId,
-        attributesMapping,
-      },
+      name: IDBDatasourceParamsEnum.MAPPING,
+      value: attributesMapping,
       dynamic: false,
       dynamicsValues: [],
     })

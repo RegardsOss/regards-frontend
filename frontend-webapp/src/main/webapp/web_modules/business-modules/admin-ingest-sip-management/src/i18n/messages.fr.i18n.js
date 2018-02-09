@@ -90,9 +90,9 @@ const messages = Object.assign({
   'sips.submit.back.button': 'Retour',
   'sips.submit.submit.button': 'Soumettre',
 
-  'sips.submition-summary.title': 'Compte rendu de soumission de vos données',
-  'sips.submition-summary.subtitle': 'Ce compte rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alors elles seront prisent en compte prochainement pour être stockées',
-  'sips.submition-summary.back.button': 'Retour',
+  'sips.submission-summary.title': 'Compte rendu de soumition de vos données',
+  'sips.submission-summary.subtitle': 'Ce compte rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alos elles seront prisent en compte prochainement pour être stockées',
+  'sips.submission-summary.back.button': 'Retour',
 
   'sips.submission.not.ready.title': 'Configuration manquante pour la soumission de données',
   'sips.submission.not.ready.information.message': 'Votre configuration du système est incomplète et vous interdit de soumettre de nouvelles données. Merci de vous assurer que vous avez bien configuré votre ou vos systèmes de stockage des données. Le système nécessite au moins un espace de stockage et une stratégie de répartition pour pouvoir stocker les données soumises.',

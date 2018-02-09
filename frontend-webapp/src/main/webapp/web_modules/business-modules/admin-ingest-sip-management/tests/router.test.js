@@ -19,10 +19,10 @@
 import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
-import SIPSessionContainer from '../src/containers/SIPSessionContainer'
+import SIPSessionListContainer from '../src/containers/SIPSessionListContainer'
 import SIPListContainer from '../src/containers/SIPListContainer'
-import SIPSubmitionFormContainer from '../src/containers/SIPSubmitionFormContainer'
-import SIPSubmitionSummaryContainer from '../src/containers/SIPSubmitionSummaryContainer'
+import SIPSubmissionFormContainer from '../src/containers/SIPSubmissionFormContainer'
+import SIPSubmissionSummaryContainer from '../src/containers/SIPSubmissionSummaryContainer'
 
 /**
  * @author Sébastien Binda
@@ -37,12 +37,12 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes[0].path).to.eq('session')
     expect(Routes.childRoutes[1].path).to.eq(':session/list')
     expect(Routes.childRoutes[2].path).to.eq(':session/:sip/history')
-    expect(Routes.childRoutes[3].path).to.eq('submition')
-    expect(Routes.childRoutes[4].path).to.eq('submition-summary')
+    expect(Routes.childRoutes[3].path).to.eq('submission')
+    expect(Routes.childRoutes[4].path).to.eq('submission-summary')
   })
   it('session should return SIPSessionContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(SIPSessionContainer)
+      expect(component.content).to.eq(SIPSessionListContainer)
       done()
     })
   })
@@ -58,15 +58,15 @@ describe('[ADMIN INGEST SIP MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it(':submition should return SIPSubmitionFormContainer', (done) => {
+  it(':submission should return SIPsubmissionFormContainer', (done) => {
     Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(SIPSubmitionFormContainer)
+      expect(component.content).to.eq(SIPSubmissionFormContainer)
       done()
     })
   })
-  it('submition-summary should return SIPSubmitionSummaryContainer', (done) => {
+  it('submission-summary should return SIPsubmissionSummaryContainer', (done) => {
     Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(SIPSubmitionSummaryContainer)
+      expect(component.content).to.eq(SIPSubmissionSummaryContainer)
       done()
     })
   })

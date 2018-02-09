@@ -30,6 +30,7 @@ import { connectionDependencies } from '@regardsoss/admin-data-connection-manage
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
 import { documentDependencies } from '@regardsoss/admin-data-document-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
+import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
 import { StorageClient } from '@regardsoss/client'
 
@@ -75,8 +76,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/dataprovider/chain/list`,
         icon: <Build />,
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.chain.list.tooltip' }),
-        // TODO : Set hateoas dependencies
-        // hateoasDependencies: dataProviderDependencies.listDependencies,
+        hateoasDependencies: dataProviderDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/dataprovider/monitoring/chains`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.monitoring.tooltip' }),
+        hateoasDependencies: dataProviderDependencies.listDependencies,
       },
     ],
   },

@@ -33,7 +33,7 @@ export default class ModelActions extends BasicListActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models`,
-      entityPathVariable: 'pModelId',
+      entityPathVariable: 'modelName',
       schemaTypes: {
         ENTITY: Schemas.MODEL,
         ENTITY_ARRAY: Schemas.MODEL_ARRAY,
@@ -43,16 +43,16 @@ export default class ModelActions extends BasicListActions {
 
   /**
    * Alter the entityEndpoint before sending the request, then get back to initial entityEndpoint
-   * @param modelId Model id you want to duplicate
+   * @param modelName Model name you want to duplicate
    * @param values Model new name and new description
    * @param queryParams
    * @returns {{}|*}
    */
-  duplicateModel(modelId, values, queryParams) {
+  duplicateModel(modelName, values, queryParams) {
     const savedEntityEndpoint = this.entityEndpoint
-    this.entityEndpoint = `${this.entityEndpoint}/{pModelId}/duplicate`
+    this.entityEndpoint = `${this.entityEndpoint}/{modelName}/duplicate`
     const resultingAction = super.createEntity(values, {
-      pModelId: modelId,
+      modelName,
     }, queryParams)
     this.entityEndpoint = savedEntityEndpoint
     return resultingAction
