@@ -38,7 +38,7 @@ export class PluginMetaDataListContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-      pluginType: PropTypes.string,
+      pluginType: PropTypes.oneOf(['storages', 'allocations', 'security']),
     }),
     // from mapStateToProps
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
@@ -90,6 +90,8 @@ export class PluginMetaDataListContainer extends React.Component {
     let pluginType = ''
     if (this.props.params.pluginType === 'storages') {
       pluginType = 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage'
+    } else if (this.props.params.pluginType === 'security') {
+      pluginType = 'fr.cnes.regards.modules.storage.domain.plugin.ISecurityDelegation'
     } else {
       pluginType = 'fr.cnes.regards.modules.storage.domain.plugin.IAllocationStrategy'
     }
@@ -133,7 +135,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName: MICROSERVICE })),
+  fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName: MICROSERVICE })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginMetaDataListContainer)

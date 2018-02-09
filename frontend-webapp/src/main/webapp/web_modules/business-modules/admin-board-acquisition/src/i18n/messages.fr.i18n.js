@@ -45,6 +45,7 @@ const messages = {
   'data.board.action.storages.tooltip': 'Espaces de stockage',
   'data.board.action.allocations.tooltip': 'Stratégies de répartition',
   'data.board.action.monitoring.tooltip': 'Taux d\'occupation des espaces de stockage',
+  'data.board.action.security.tooltip': 'Configurer la sécurité ...(TODO)',
 }
 
 export default messages

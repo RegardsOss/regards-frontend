@@ -20,6 +20,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import map from 'lodash/map'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
+import { HOCUtils } from '@regardsoss/display-control'
 import styles from './styles/styles'
 
 /**
@@ -47,7 +48,10 @@ class BaseBoardItemComponent extends React.Component {
     const {
       title, subtitle, description, actions,
     } = this.props
-    const keyedActions = map(actions, (action, index) => <div key={index}>{action}</div>)
+
+    const keyedActions = map(actions, (action, index) => (HOCUtils.cloneChildrenWith(action, {
+      key: index,
+    })))
     const computedStyles = styles(this.context.muiTheme)
 
     const titleStyle = {
