@@ -43,7 +43,6 @@
   "author": "CS-SI",
   "license": "GPL-3.0",
   "dependencies": {
-    "@regardsoss-modules/aip-status": "0.0.1",
     "@regardsoss-modules/authentication": "0.0.1",
     "@regardsoss-modules/embedded-html": "1.0.0",
     "@regardsoss-modules/licenses": "0.0.1",
@@ -153,6 +152,7 @@
     "react-responsive": "^4.0.3",
     "react-router": "^3.0.5",
     "react-scrollbar": "^0.5.1",
+    "react-svg": "^2.2.11",
     "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-api-middleware": "~2.0.1",

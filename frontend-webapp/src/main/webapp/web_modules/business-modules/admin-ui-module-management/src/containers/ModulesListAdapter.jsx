@@ -72,9 +72,7 @@ export class ModulesListAdapter extends React.Component {
 
 
   render() {
-    return (<ModulesListContainer
-      {...this.getChildProps()}
-    />)
+    return (<ModulesListContainer {...this.getChildProps()} />)
   }
 }
 

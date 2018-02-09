@@ -41,6 +41,15 @@ module.exports = function (projectContextPath, mode = 'dev') {
           // the cache is different depending of the value of NODE_ENV
           loader: 'babel-loader?cacheDirectory',
         },
+        { // @regardsoss-modules icon handler
+          test: /default-icon\.svg$/,
+          loader: 'file-loader',
+          options: {
+            regExp: /modules\/([\w-]+)\/default-icon\.svg$/,
+            name: '[1].[ext]',
+            outputPath: './modules-icon/',
+          },
+        },
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
@@ -54,11 +63,8 @@ module.exports = function (projectContextPath, mode = 'dev') {
           loader: 'file-loader?name=staticConfiguration.js&outputPath=./conf/',
         },
         {
-          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'url-loader?name=/img/[name].[ext]&limit=10000&minetype=application/font-woff',
-        },
-        {
-          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          test: /\.(svg|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          exclude: /default-icon.svg/,
           loader: 'file-loader?name=/img/[name].[ext]',
         },
         {
@@ -133,7 +139,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-ui-layout-management/src/main.js'),
 
       // All modules
-      new webpack.PrefetchPlugin('./web_modules/modules/aip-status/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/authentication/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/licenses/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/order-cart/src/main.js'),

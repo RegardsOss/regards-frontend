@@ -26,6 +26,12 @@ const formStyles = theme => ({
   cardEspaced: {
     marginTop: '20px',
   },
+  cardContentLessSpaced: {
+    paddingTop: 0,
+  },
+  cardTitleLessSpaced: {
+    paddingBottom: 0,
+  },
 })
 
 export default formStyles

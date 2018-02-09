@@ -16,7 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import find from 'lodash/find'
+import get from 'lodash/get'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { createSelector } from 'reselect'
+
+const EMPTY_ARRAY = []
+
+class LayoutSelectors extends BasicPageableSelectors {
+  static USER_LAYOUT_ID = 'user'
+
+  /**
+   * @param state redux state
+   * @return user layout
+   */
+  getUserLayout = state => this.getById(state, LayoutSelectors.USER_LAYOUT_ID)
+
+
+  /**
+   * @param state redux state
+   * @return dynamic container
+   */
+  getDynamicContainer = createSelector(
+    [state => this.getUserLayout(state)],
+    (userLayout) => {
+      const allContainers = get(userLayout, 'content.layout.containers', EMPTY_ARRAY)
+      return find(allContainers, ({ dynamicContent = false, id }) => dynamicContent)
+    })
+
+  /**
+   * @param state redux state
+   * @return dynamic container
+   */
+  getDynamicContainerId = createSelector(
+    [state => this.getDynamicContainer(state)],
+    dynamicContainer => get(dynamicContainer, 'id'))
+}
 
 /**
  * Store selector to access layout entities.
@@ -29,4 +64,4 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * @param storePath selectors store path, leave empty for default client selectors
  * @author Sébastien Binda
  */
-export default (storePath = ['user', 'layout']) => new BasicPageableSelectors(storePath)
+export default (storePath = ['user', 'layout']) => new LayoutSelectors(storePath)

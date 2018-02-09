@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessDomain } from '@regardsoss/domain'
 
 /**
  * Definition of type DecoratorShape.
@@ -25,12 +26,21 @@
 const Module = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
+    applicationId: PropTypes.string,
     type: PropTypes.string.isRequired,
-    name: PropTypes.string,
     description: PropTypes.string,
     active: PropTypes.bool,
-    applicationId: PropTypes.string,
     container: PropTypes.string,
+    expandable: PropTypes.bool,
+    expanded: PropTypes.bool,
+    page: PropTypes.shape({
+      home: PropTypes.bool,
+      iconType: PropTypes.oneOf([AccessDomain.PAGE_MODULE_ICON_TYPES]),
+      customIconURL: PropTypes.string,
+      // module titles by locale, as a json string
+      title: PropTypes.objectOf(PropTypes.string),
+    }),
+    // module configuration, as a json string
     conf: PropTypes.objectOf(PropTypes.any),
   }),
 })

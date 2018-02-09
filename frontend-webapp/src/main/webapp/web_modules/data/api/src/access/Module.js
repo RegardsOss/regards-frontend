@@ -29,13 +29,23 @@ const moduleSchema = new Schema(ModuleConfiguration.normalizrKey, {
   idAttribute: module =>
     module.content[ModuleConfiguration.entityKey],
   assignEntity(output, key, value, input) {
-    if (value && value.conf) {
-      try {
+    if (value) {
+      if (value.conf) {
+        try {
+          // parse configuration in output (avoid later parsing in code)
+          // eslint-disable-next-line no-param-reassign
+          output.content.conf = JSON.parse(value.conf)
+        } catch (e) {
+          console.error(`Invalid Module configuration for module ${value.id}`)
+          console.error(`Conf: ${value.conf}`)
+        }
+      }
+      if (value.page && value.page.title) {
+        const { page } = value
+        // parse title in output (avoid later parsing in code)
+        page.title = JSON.parse(page.title)
         // eslint-disable-next-line no-param-reassign
-        output.content.conf = JSON.parse(value.conf)
-      } catch (e) {
-        console.error(`Invalid Module configuration for module ${value.id}`)
-        console.error(`Conf: ${value.conf}`)
+        output.content.page = page
       }
     }
   },

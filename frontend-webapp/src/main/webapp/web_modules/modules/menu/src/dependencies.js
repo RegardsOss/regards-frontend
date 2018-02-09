@@ -21,6 +21,9 @@
  * Module hateoas depencies
  * @author Sébastien binda
  */
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { moduleActions } from './clients/ModulesListClient'
+
 /**
  * Mandatory Dependencies to display module in user interface
  * @type {Array}
@@ -31,7 +34,9 @@ const user = []
  * Mandatory Dependencies to display module in admin interface
  * @type {Array}
  */
-const admin = []
+const admin = [
+  moduleActions.getDependency(RequestVerbEnum.GET_LIST),
+]
 
 module.exports = {
   user,

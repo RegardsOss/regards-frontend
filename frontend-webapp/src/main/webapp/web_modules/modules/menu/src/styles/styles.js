@@ -34,26 +34,50 @@ const menuStyles = theme => ({
       flexDirection: 'row',
       justifyContent: 'flexStart',
       alignItems: 'center',
-      background: theme.appBar.color,
-      borderWidth: '0 0 1px 0',
-      borderColor: theme.toolbar.separatorColor,
-      borderStyle: 'solid',
+      background: theme['module:menu'].background,
+      borderWidth: theme['module:menu'].borderWidth,
+      borderColor: theme['module:menu'].borderColor,
+      borderStyle: theme['module:menu'].borderStyle,
+    },
+    menuSeparator: {
+      borderColor: theme.palette.textColor,
+      alignSelf: 'stretch',
+      margin: theme['module:menu'].separatorMargin,
+      borderWidth: theme['module:menu'].separatorBorderWidth,
+      borderStyle: theme['module:menu'].separatorBorderStyle,
+      borderRadius: theme['module:menu'].separatorBorderRadius,
+    },
+    titleGroup: {
+      flexGrow: 0,
+      flexShrink: 0,
+      display: 'flex',
+      alignItems: 'center',
+    },
+    navigationGroup: {
+      flexGrow: 1,
+      flexShrink: 1,
+      maxHeight: theme['module:menu'].navigationBarMaxHeight,
+      overflowY: 'hidden',
+    },
+    navigationItem: {
+      displayStyle: {
+        display: 'inline-block',
+      },
+      hiddenStyle: {
+        display: 'none',
+      },
+      defaultTextStyle: {
+        textTransform: theme['module:menu'].navigationItemTextTransform,
+      },
     },
     optionsGroup: {
       flexGrow: 0,
       flexShrink: 0,
+      display: 'flex',
+      alignItems: 'center',
     },
     optionsLabelStyle: {
       textTransform: undefined,
-    },
-    titleGroup: {
-      flexGrow: 1,
-      flexShrink: 1,
-      fontSize: theme.flatButton.fontSize,
-      fontFamily: theme.fontFamily,
-      textAlign: 'center',
-      color: theme.palette.textColor,
-      fontWeight: 'bold',
     },
     profile: {
       dialog: {

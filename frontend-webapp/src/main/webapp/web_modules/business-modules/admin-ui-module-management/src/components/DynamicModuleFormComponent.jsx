@@ -16,11 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import merge from 'lodash/merge'
 import isEqual from 'lodash/isEqual'
-import { Card } from 'material-ui/Card'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { AccessShapes } from '@regardsoss/shape'
+import { FormattedMessage } from 'react-intl'
 
 /**
  * React component to display and configure dynamic module configuration
@@ -41,8 +40,6 @@ class DynamicModuleFormComponent extends React.Component {
       // eslint-disable-next-line react/forbid-prop-types
       form: PropTypes.object,
     }),
-    // eslint-disable-next-line react/forbid-prop-types
-    styles: PropTypes.object,
   }
 
   state = {
@@ -68,14 +65,14 @@ class DynamicModuleFormComponent extends React.Component {
     if (!this.props.module && !this.props.module.type) {
       return null
     }
-    let { styles } = this.props
-    if (this.state.module && !this.state.module.adminContainer) {
-      // Hide Card element if there is no adminContainer to display for the module specific configuration
-      styles = merge({}, styles, { display: 'none' })
-    }
-
     return (
-      <Card id="dynamicFields" style={styles}>
+      <div>
+        { /* No configuration common message */
+          this.state.module && !this.state.module.adminContainer ?
+            <FormattedMessage id="module.form.module.no.setting.message" /> :
+            null
+        }
+        {/* Module loader */}
         <LazyModuleComponent
           project={this.props.project}
           module={this.props.module}
@@ -84,7 +81,7 @@ class DynamicModuleFormComponent extends React.Component {
           appName={this.props.appName}
           onLoadAction={this.moduleLoaded}
         />
-      </Card>
+      </div>
     )
   }
 }

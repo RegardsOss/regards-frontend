@@ -25,7 +25,7 @@ import styles from './styles'
 */
 export class ModuleTitle extends React.Component {
   static propTypes = {
-    IconConstructor: PropTypes.func,
+    icon: PropTypes.node,
     text: PropTypes.string.isRequired,
     tooltip: PropTypes.string,
   }
@@ -35,13 +35,13 @@ export class ModuleTitle extends React.Component {
   }
 
   render() {
-    const { IconConstructor, text, tooltip } = this.props
+    const { icon, text, tooltip } = this.props
     const { moduleTheme: { moduleTitle } } = this.context
+    // TODO enforce icon style
     return (
       <div style={moduleTitle.style} title={tooltip}>
-        {
-          IconConstructor ? (
-            <IconConstructor style={moduleTitle.iconStyle} />) : null
+        { // icon if any
+          icon || null
         }
         <div style={moduleTitle.labelStyle}>
           {text}

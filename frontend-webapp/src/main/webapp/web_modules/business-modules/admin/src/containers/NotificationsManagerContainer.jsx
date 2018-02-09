@@ -40,7 +40,10 @@ class NotificationsManager extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     isOnInstanceDashboard: PropTypes.bool.isRequired,
-    children: PropTypes.arrayOf(PropTypes.node),
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
     // from mapStateTopProps
     authentication: AuthenticateShape,
     availableEndpoints: PropTypes.arrayOf(PropTypes.string),

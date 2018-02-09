@@ -65,8 +65,6 @@ import FeedbackDisplayer from './feedback/FeedbackDisplayer'
 
 import HelpMessageComponent from './help/HelpMessageComponent'
 
-import SVGIconFromString from './icon/SVGIconFromString'
-
 import Breadcrumb from './links/Breadcrumb'
 import PictureLinkComponent from './links/PictureLinkComponent'
 import LinkComponent from './links/LinkComponent'
@@ -82,8 +80,11 @@ import LoadingPaneComponent from './loading/LoadingPaneComponent'
 
 import DynamicModule from './module/DynamicModule'
 import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
+import ModuleIcon from './module/ModuleIcon'
 import ModuleTitle from './module/ModuleTitle'
+import ModuleTitleText from './module/ModuleTitleText'
 
+import SVGURLIcon from './picture/SVGURLIcon'
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
@@ -164,7 +165,9 @@ export {
   ListContainer,
   LoadingPaneComponent,
   LoadableContentDialogContainer,
+  ModuleIcon,
   ModuleTitle,
+  ModuleTitleText,
   PageNotFoundComponent,
   PositionedDialog,
   FitContentDialog,
@@ -183,12 +186,12 @@ export {
   SecondaryActionButtonComponent,
   ShowableAtRender,
   PluginConfigurationPickerComponent,
-  SVGIconFromString,
   LinkComponent,
   AnchorComponent,
   HelpMessageComponent,
   NoContentComponent,
   SelectableList,
+  SVGURLIcon,
 
   // Table
   ActionsMenuCell,

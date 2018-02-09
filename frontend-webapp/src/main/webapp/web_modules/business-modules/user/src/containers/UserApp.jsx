@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
+import get from 'lodash/get'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
@@ -92,7 +93,7 @@ export class UserApp extends React.Component {
     // If there is no dynamic content display the default module
     if (!nextProps.content && nextProps.modules && nextProps.layout) {
       forEach(nextProps.modules, (module, idx) => {
-        if (module.content.defaultDynamicModule) {
+        if (get(module, 'content.page.home', false)) {
           if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
             browserHistory.replace(`/user/${this.props.params.project}/modules/${module.content.id}`)
           }
