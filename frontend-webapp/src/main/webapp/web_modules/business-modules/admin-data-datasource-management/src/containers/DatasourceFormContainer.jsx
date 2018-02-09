@@ -260,7 +260,7 @@ export class DatasourceFormContainer extends React.Component {
         type: modelAttr.content.attribute.type,
         namespace: this.getNamespaceUsingFragmentName(modelAttr),
         // Add the Java type ¯\_(ツ)_/¯
-        attributeType: modelAttrStatic ? 'static' : 'dynamic',
+        attributeType: modelAttrStatic ? 'STATIC' : 'DYNAMIC',
       }
       if (attribute.sql && attribute.sql.length > 0) {
         newAttributeMapping.nameDS = attribute.sql
