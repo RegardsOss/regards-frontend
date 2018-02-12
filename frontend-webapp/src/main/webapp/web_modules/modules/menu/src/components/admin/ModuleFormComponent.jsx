@@ -44,6 +44,7 @@ class ModuleFormComponent extends React.Component {
     this.CONF_CONTACTS = `${props.currentNamespace}.contacts`
     this.CONF_ABOUT_PAGE = `${props.currentNamespace}.projectAboutPage`
     this.CONF_AUTH = `${props.currentNamespace}.displayAuthentication`
+    this.CONF_CART = `${props.currentNamespace}.displayCartSelector`
     this.CONF_NOTIF = `${props.currentNamespace}.displayNotificationsSelector`
     this.CONF_LOCALE = `${props.currentNamespace}.displayLocaleSelector`
     this.CONF_THEME = `${props.currentNamespace}.displayThemeSelector`
