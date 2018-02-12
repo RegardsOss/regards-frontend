@@ -54,7 +54,7 @@ class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
         title={formatMessage({ id: 'acquisition-chain.list.duplicate.tooltip' })}
         iconStyle={AcquisitionProcessingChainTableDuplicateAction.iconStyle}
         style={AcquisitionProcessingChainTableDuplicateAction.buttonStyle}
-        onTouchTap={() => this.props.onDuplicate(chain.id)}
+        onClick={() => this.props.onDuplicate(chain.id)}
         resourceDependencies={addDependencies}
         displayLogic={allMatchHateoasDisplayLogic}
       >

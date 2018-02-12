@@ -299,7 +299,7 @@ class SIPListComponent extends React.Component {
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={intl.formatMessage({ id: 'sips.session.button.back' })}
-              mainButtonTouchTap={this.props.onBack}
+              mainButtonClick={this.props.onBack}
             />
           </CardActions>
         </Card>

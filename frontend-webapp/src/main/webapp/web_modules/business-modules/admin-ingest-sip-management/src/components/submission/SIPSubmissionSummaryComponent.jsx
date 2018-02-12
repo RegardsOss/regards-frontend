@@ -51,7 +51,7 @@ class SIPsubmissionSummaryComponent extends React.Component {
       <CardActions>
         <CardActionsComponent
           mainButtonLabel={this.context.intl.formatMessage({ id: 'sips.submission-summary.back.button' })}
-          mainButtonTouchTap={this.props.onBack}
+          mainButtonClick={this.props.onBack}
         />
       </CardActions>
     </Card>

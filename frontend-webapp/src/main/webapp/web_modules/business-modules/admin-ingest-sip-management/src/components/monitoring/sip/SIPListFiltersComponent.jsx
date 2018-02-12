@@ -205,12 +205,12 @@ class SIPListFiltersComponent extends React.Component {
               !get(this.state, 'filters.processing') &&
               !get(this.state, 'filters.sipId')
             }
-            onTouchTap={this.handleClearFilters}
+            onClick={this.handleClearFilters}
           />
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
             icon={<Filter />}
-            onTouchTap={this.handleFilter}
+            onClick={this.handleFilter}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>

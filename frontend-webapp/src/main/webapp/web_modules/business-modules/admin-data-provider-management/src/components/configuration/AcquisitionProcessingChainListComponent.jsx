@@ -170,7 +170,7 @@ class AcquisitionProcessingChainListComponent extends React.Component {
             // mainHateoasDependencies={addDependencies}
             mainButtonLabel={formatMessage({ id: 'acquisition-chain.list.addnew.button' })}
             secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.list.back.button' })}
-            secondaryButtonTouchTap={onBack}
+            secondaryButtonClick={onBack}
           />
         </CardActions>
         {this.renderDeleteConfirmDialog()}

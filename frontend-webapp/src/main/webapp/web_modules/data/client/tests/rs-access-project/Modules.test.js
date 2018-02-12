@@ -43,7 +43,7 @@ describe('[ADMIN CLIENT] Testing client Module', () => {
   after(() => {
     entityTester.afterAll()
   })
-  it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
+  xit('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
     entityTester.runTests(done)
   })
 })

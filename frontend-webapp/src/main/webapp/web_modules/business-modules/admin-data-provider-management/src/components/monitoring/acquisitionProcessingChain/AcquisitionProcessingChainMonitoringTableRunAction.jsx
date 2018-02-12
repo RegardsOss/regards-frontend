@@ -56,7 +56,7 @@ class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component
         title={formatMessage({ id: 'acquisition-chain.monitor.list.run.tooltip' })}
         iconStyle={AcquisitionProcessingChainMonitoringTableRunAction.iconStyle}
         style={AcquisitionProcessingChainMonitoringTableRunAction.buttonStyle}
-        onTouchTap={() => this.props.onRunChain(chain.label, chain.id)}
+        onClick={() => this.props.onRunChain(chain.label, chain.id)}
         disabled={!this.isRunnable()}
       >
         <RunIcon />

@@ -56,7 +56,7 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
         title={formatMessage({ id: 'acquisition-chain.list.edit.tooltip' })}
         iconStyle={AcquisitionProcessingChainTableEditAction.iconStyle}
         style={AcquisitionProcessingChainTableEditAction.buttonStyle}
-        onTouchTap={() => this.props.onEdit(chain.id)}
+        onClick={() => this.props.onEdit(chain.id)}
         disabled={!this.isEditable()}
       >
         <Edit />
