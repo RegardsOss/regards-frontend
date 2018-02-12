@@ -21,6 +21,7 @@ import PieChart from 'material-ui/svg-icons/editor/pie-chart'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import Security from 'material-ui/svg-icons/hardware/security'
 import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
 import CallSplit from 'mdi-material-ui/CallSplit'
@@ -151,6 +152,12 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
         icon: <PieChart />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
+        hateoasDependencies: storageDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/security`,
+        icon: <Security />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.security.tooltip' }),
         hateoasDependencies: storageDependencies,
       },
     ],

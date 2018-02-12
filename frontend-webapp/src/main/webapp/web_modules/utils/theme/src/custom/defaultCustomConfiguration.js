@@ -69,7 +69,7 @@ module.exports = {
   },
   // menu module
   'module:menu': {
-    background: 'transparent',
+    background: 'rgba(0,0,0,0.75)',
     borderWidth: '0 0 1px 0',
     borderColor: 'rgba(255, 255, 255, 0.175)',
     borderStyle: 'solid',

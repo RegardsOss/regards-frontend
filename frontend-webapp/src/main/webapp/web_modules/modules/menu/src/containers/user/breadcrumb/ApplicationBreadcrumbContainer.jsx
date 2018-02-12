@@ -81,9 +81,8 @@ export class ApplicationBreadcrumbContainer extends React.Component {
       const homeModule = dynamicModules.find(module => get(module, 'content.page.home')) || head(dynamicModules)
       const homeURL = homeModule ? modulesManager.getModuleURL(project, homeModule.content.id) : null
 
-      // 2 - retrieve current module (do not show it if it is home)
-      const homeModuleId = get(homeModule, 'content.id')
-      const selectedModule = currentModuleId && currentModuleId !== homeModuleId ?
+      // 2 - retrieve current module
+      const selectedModule = currentModuleId ?
         dynamicModules.find(module => get(module, 'content.id') === currentModuleId) : null
 
       const newState = { homeURL, selectedModule }

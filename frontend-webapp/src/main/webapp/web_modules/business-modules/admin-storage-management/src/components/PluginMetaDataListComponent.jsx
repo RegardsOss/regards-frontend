@@ -32,6 +32,8 @@ import { CommonShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
 import moduleStyles from '../styles/styles'
 import { pluginConfigurationActions, pluginConfigurationByTypeActions } from '../clients/PluginConfigurationClient'
+import PluginSecurityActiveTesterContainer from '../containers/PluginSecurityActiveTesterContainer'
+
 
 const ResourceLink = withResourceDisplayControl(Link)
 
@@ -39,7 +41,7 @@ const ResourceLink = withResourceDisplayControl(Link)
  * Displays the list of plugins for the current microservice (in route) as a {@link GridList} of {@link Card}s sorted by
  * plugin type.
  *
- * @autor Xavier-Alexandre Brochard
+ * @author Xavier-Alexandre Brochard
  * @author Léo Mieulet
  */
 export default class PluginMetaDataListComponent extends React.Component {
@@ -116,20 +118,48 @@ export default class PluginMetaDataListComponent extends React.Component {
     </div>
   )
 
+  getSecurityIssuePanel = (checkSecurity) => {
+    const { pluginType } = this.props
+    if (checkSecurity) {
+      return (
+        <PluginSecurityActiveTesterContainer
+          pluginType={pluginType}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
     const { intl } = this.context
-    const title = this.props.pluginType === 'fr.cnes.regards.modules.storage.plugin.datastorage.IDataStorage' ?
-      intl.formatMessage({ id: 'storage.locations.configuration.title' }) :
-      intl.formatMessage({ id: 'storage.allocations.configuration.title' })
-    const subtitle = this.props.pluginType === 'fr.cnes.regards.modules.storage.plugin.datastorage.IDataStorage' ?
-      intl.formatMessage({ id: 'storage.locations.configuration.subtitle' }) :
-      intl.formatMessage({ id: 'storage.allocations.configuration.subtitle' })
+    let title
+    let subtitle
+    let checkSecurity = false
+    switch (this.props.pluginType) {
+      case 'fr.cnes.regards.modules.storage.plugin.datastorage.IDataStorage':
+        title = intl.formatMessage({ id: 'storage.locations.configuration.title' })
+        subtitle = intl.formatMessage({ id: 'storage.locations.configuration.subtitle' })
+        break
+      case 'fr.cnes.regards.modules.storage.domain.plugin.ISecurityDelegation':
+        title = intl.formatMessage({ id: 'storage.security.configuration.title' })
+        subtitle = intl.formatMessage({ id: 'storage.security.configuration.subtitle' })
+        checkSecurity = true
+        break
+      case 'fr.cnes.regards.modules.storage.domain.plugin.IAllocationStrategy':
+        title = intl.formatMessage({ id: 'storage.allocations.configuration.title' })
+        subtitle = intl.formatMessage({ id: 'storage.allocations.configuration.subtitle' })
+        break
+      default:
+        title = 'Plugin not supported'
+        subtitle = 'Plugin not supported'
+    }
     return (
       <Card>
         <CardTitle
           title={title}
           subtitle={subtitle}
         />
+        {this.getSecurityIssuePanel(checkSecurity)}
         <CardText style={this.styles.root}>
           <div style={this.styles.grid}>
             {this.getGrid()}
