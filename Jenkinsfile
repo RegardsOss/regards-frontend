@@ -43,6 +43,14 @@ pipeline {
                             -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build \
                             rs_node ./build_webapp.sh'
                     },
+                    plugin_criterion_enumerated: {
+                        sh 'docker run \
+                            --rm -i \
+                            -v ${WORKSPACE}/global_node_modules/@regardsoss:/usr/local/lib/node_modules/@regardsoss \
+                            -v ${WORKSPACE}/global_node_modules/@regardsoss-modules:/usr/local/lib/node_modules/@regardsoss-modules \
+                            -v ${WORKSPACE}/frontend-webapp/src/main/webapp:/app_to_build \
+                            rs_node ./build_plugin.sh criterion/enumerated'
+                    },
                     plugin_criterion_example: {
                         sh 'docker run \
                             --rm -i \
