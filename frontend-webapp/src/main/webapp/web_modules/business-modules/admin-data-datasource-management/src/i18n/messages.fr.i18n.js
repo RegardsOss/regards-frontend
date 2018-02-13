@@ -28,6 +28,9 @@ const messages = Object.assign({
   'crawler.list.status.column.header': 'Etat',
   'crawler.list.duration.column.header': 'Durée',
   'crawler.list.refresh.button': 'Rafraîchir',
+  'crawler.list.show.stacktrace.tooltip': 'Afficher la stacktrace',
+  'crawler.list.stacktrace.title': 'Stacktrace',
+  'crawler.list.stacktrace.action.close': 'Fermer',
 
   'datasource.list.action.add': 'Ajouter',
   'datasource.list.action.cancel': 'Annuler',
