@@ -85,10 +85,10 @@ export class AttributesContainer extends React.Component {
     const newState = { ...(oldState || AttributesContainer.DEFAULT_STATE) }
 
     // 1 - detect entity model change to fetch attributes
-    const oldModelId = get(oldEntity, 'content.model.id')
-    const newModelId = get(newEntity, 'content.model.id')
-    if (oldModelId !== newModelId && !isUndefined(newModelId)) {
-      dispatchFetchModelAttributes(newModelId)
+    const oldModelName = get(oldEntity, 'content.model.name')
+    const newModelName = get(newEntity, 'content.model.name')
+    if (oldModelName !== newModelName && !isUndefined(newModelName)) {
+      dispatchFetchModelAttributes(newModelName)
     }
 
     // 2 - detect model attributes change to resolve attributes
