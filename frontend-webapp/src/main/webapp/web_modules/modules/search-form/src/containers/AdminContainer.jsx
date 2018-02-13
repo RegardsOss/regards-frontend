@@ -22,10 +22,10 @@ import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import ModuleConfiguration from '../models/ModuleConfiguration'
+import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import { datasetDataAttributesActions, datasetDataAttributesSelectors } from '../clients/DatasetDataAttributesClient'
 import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
-import DatasetSelectionTypes from '../models/datasets/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../domain/DatasetSelectionTypes'
 import FormTabsComponent from '../components/admin/FormTabsComponent'
 
 /**
@@ -50,7 +50,7 @@ class AdminContainer extends React.Component {
       }),
     }),
 
-    // Initial module configuration given by LayModuleComponent
+    // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapStateToProps and mapDispatchToProps

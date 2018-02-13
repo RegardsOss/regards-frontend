@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import RaisedButton from 'material-ui/RaisedButton'
-import SearchIcon from 'material-ui/svg-icons/action/search'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
-import { Container } from '@regardsoss/layout'
 import { themeContextType } from '@regardsoss/theme'
-import { DynamicModule, ModuleTitle } from '@regardsoss/components'
+import { DynamicModule } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
+import FormLayout from './FormLayout'
 
 /**
  * Component to display a configured Search form module
@@ -31,9 +30,10 @@ import { dependencies } from '../../user-dependencies'
  */
 class FormComponent extends React.Component {
   static propTypes = {
-    expanded: PropTypes.bool,
-    description: PropTypes.string.isRequired,
-    layout: AccessShapes.ContainerContent.isRequired,
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
+    moduleConf: ModuleConfiguration.isRequired,
     plugins: AccessShapes.UIPluginConfArray,
     pluginsProps: PropTypes.shape({
       onChange: PropTypes.func.isRequired,
@@ -49,22 +49,22 @@ class FormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      expanded: props.expanded,
+      expanded: true,
     }
     this.pluginStates = {}
   }
 
-  onHandleSearch = () => {
+  onKeyPress = (e) => {
+    if (e.charCode === 13) {
+      this.onSearch()
+    }
+  }
+
+  onSearch = () => {
     this.props.handleSearch()
     this.setState({
       expanded: false,
     })
-  }
-
-  onKeyPress = (e) => {
-    if (e.charCode === 13) {
-      this.onHandleSearch()
-    }
   }
 
   /**
@@ -92,46 +92,35 @@ class FormComponent extends React.Component {
   }
 
   render() {
+    const {
+      plugins, pluginsProps: initialPluginProps, moduleConf, ...moduleProperties
+    } = this.props
+
     const pluginsProps = {
-      ...this.props.pluginsProps,
+      ...initialPluginProps,
       getDefaultState: this.getPluginDefaultState,
       savePluginState: this.savePluginState,
     }
 
     // Workround - Container type changed between version 1 and version 1.1. So, to avoid changing every configuration saved, we force container type with the new value.
     const retroCompatibleLayout = {
-      ...this.props.layout,
+      ...moduleConf.layout,
       type: 'FormMainContainer',
     }
-    this.props.layout.type = 'FormMainContainer'
 
     return (
       <DynamicModule
-        title={<ModuleTitle IconConstructor={SearchIcon} text={this.props.description} />}
-        onExpandChange={this.handleExpand}
+        {...moduleProperties}
         expanded={this.state.expanded}
         onKeyPress={this.onKeyPress}
         requiredDependencies={dependencies}
       >
-        <Container
-          appName="user"
-          container={retroCompatibleLayout}
-          plugins={this.props.plugins}
-          pluginProps={pluginsProps}
-          formHeader
+        <FormLayout
+          layout={retroCompatibleLayout}
+          plugins={plugins}
+          pluginsProps={pluginsProps}
+          onSearch={this.onSearch}
         />
-        <div
-          style={this.context.moduleTheme.user.searchButtonContainer}
-        >
-          <RaisedButton
-            label={this.context.intl.formatMessage({ id: 'form.search.button.label' })}
-            labelPosition="before"
-            primary
-            icon={<SearchIcon />}
-            style={this.context.moduleTheme.user.searchButton}
-            onClick={this.onHandleSearch}
-          />
-        </div>
       </DynamicModule>)
   }
 }

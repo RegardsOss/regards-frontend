@@ -22,6 +22,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien Binda
  */
 const messages = Object.assign({
+  'storage.locations.size.title': 'Taux d\'utilisation des espaces de stockage',
   'storage.locations.configuration.title': 'Configuration des espaces de stockage',
   'storage.locations.configuration.subtitle': 'Cette section vous permet de configurer les espaces de stockage utilisés par le système pour stocker les données soumises. Ci-dessous sont listés les types d\'espaces de stockage que vous pouvez utiliser. Vous pouvez pour chaque type lister les configurations existantes ou en ajouter une nouvelle. Une fois vos esapces de stockage configurés, veuillez configurer une stratégie de répartition des données depuis l\'écran précédent',
   'storage.allocations.configuration.title': 'Configuration des stratégies de répartition des données',

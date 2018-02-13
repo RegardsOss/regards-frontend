@@ -21,6 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien Binda
  */
 const messages = Object.assign({
+  'storage.locations.size.title': 'Data storage locations occupancy rate',
   'storage.locations.configuration.title': 'Configure data storage locations',
   'storage.locations.configuration.subtitle': 'This section allows you to configure storage locations',
   'storage.allocations.configuration.title': 'Configure data storage allocation stategy',

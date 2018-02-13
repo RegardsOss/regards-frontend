@@ -144,45 +144,33 @@ class LazyModuleComponent extends React.Component {
       // The module exposes its messages
       const moduleMessages = get(module, 'messages', {})
 
-      const defaultModuleProps = {
-        appName: this.props.appName,
-        project: this.props.project,
-      }
 
-      // Display module with admin or normal container ?
-      let moduleElt = null
-      let moduleContainer = null
+      let ModuleContainer = null
       let moduleDependencies = []
-      let moduleProps = {}
 
+      // Display module with admin or normal container ? (take dependencies in account)
       if (this.props.admin && module.adminContainer) {
-        moduleContainer = module.adminContainer
+        ModuleContainer = module.adminContainer
         moduleDependencies = get(module, 'dependencies.admin', [])
-        moduleProps = merge({}, defaultModuleProps, {
-          moduleConf: this.props.module.conf,
-          description: this.props.module.description,
-        }, { adminForm: this.props.adminForm })
       } else if (!this.props.admin && module.moduleContainer) {
         // eslint-disable-next-line prefer-destructuring
-        moduleContainer = module.moduleContainer
+        ModuleContainer = module.moduleContainer
         moduleDependencies = get(module, 'dependencies.user', [])
-        moduleProps = merge({}, defaultModuleProps, {
-          moduleConf: this.props.module.conf,
-          description: this.props.module.description,
-          // handle common module initialization and configuration
-          expandable: get(this, 'props.module.expandable', true),
-          expanded: get(this, 'props.module.expanded', true),
-        })
       }
 
-      moduleElt = React.createElement(moduleContainer, moduleProps)
       return (
         <I18nProvider messages={moduleMessages}>
           <ModuleStyleProvider module={module}>
             <WithResourceDisplayControl
               resourceDependencies={moduleDependencies}
             >
-              {moduleElt}
+              <ModuleContainer
+                appName={this.props.appName}
+                project={this.props.project}
+                adminForm={this.props.adminForm}
+                moduleConf={this.props.module.conf}
+                {...this.props.module}
+              />
             </WithResourceDisplayControl>
           </ModuleStyleProvider>
         </I18nProvider>

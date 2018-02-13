@@ -18,35 +18,82 @@
  **/
 import { AccessDomain } from '@regardsoss/domain'
 
+const ModulePage = PropTypes.shape({
+  home: PropTypes.bool,
+  iconType: PropTypes.oneOf([AccessDomain.PAGE_MODULE_ICON_TYPES]),
+  customIconURL: PropTypes.string,
+  // module titles by locale, as a json string
+  title: PropTypes.objectOf(PropTypes.string),
+})
+
+// loaded module fields
+const moduleFields = {
+  id: PropTypes.number,
+  applicationId: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  active: PropTypes.bool,
+  container: PropTypes.string,
+  expandable: PropTypes.bool,
+  expanded: PropTypes.bool,
+  page: ModulePage,
+  // module configuration, as a json string
+  conf: PropTypes.objectOf(PropTypes.any),
+}
+
 /**
  * Definition of type DecoratorShape.
  * Decorator are used in LazyModuleComponent to add a decorator element to modules
  * @author Sébastien Binda
  */
 const Module = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    applicationId: PropTypes.string,
-    type: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    active: PropTypes.bool,
-    container: PropTypes.string,
-    expandable: PropTypes.bool,
-    expanded: PropTypes.bool,
-    page: PropTypes.shape({
-      home: PropTypes.bool,
-      iconType: PropTypes.oneOf([AccessDomain.PAGE_MODULE_ICON_TYPES]),
-      customIconURL: PropTypes.string,
-      // module titles by locale, as a json string
-      title: PropTypes.objectOf(PropTypes.string),
-    }),
-    // module configuration, as a json string
-    conf: PropTypes.objectOf(PropTypes.any),
-  }),
+  content: PropTypes.shape(moduleFields),
 })
 
 const ModuleList = PropTypes.objectOf(Module)
 const ModuleArray = PropTypes.arrayOf(Module)
 
+/**
+ * Fields for a runtime display module (ie: userContainer in dynamic module)
+ */
+const runtimeDispayModuleFields = {
+  appName: PropTypes.string.isRequired,
+  project: PropTypes.string.isRequired,
+  // module configuration
+  moduleConf: PropTypes.object,
+  ...moduleFields,
+}
 
-module.exports = { ModuleList, Module, ModuleArray }
+/**
+ * Fields for a runtime configuration module (ie: adminContainer in dynamic module)
+ */
+const runtimeConfigurationModuleFields = {
+  ...runtimeDispayModuleFields,
+  adminForm: PropTypes.shape({
+    // While creating the module, every fields shall be created in the redux form using that namespace
+    // which allows us to launch a module from another module
+    currentNamespace: PropTypes.string,
+    // Current module status
+    isCreating: PropTypes.bool,
+    isDuplicating: PropTypes.bool,
+    isEditing: PropTypes.bool,
+    // Form changeField function.
+    changeField: PropTypes.func,
+    // Configuration from another admin module
+    // eslint-disable-next-line react/forbid-prop-types
+    conf: PropTypes.object,
+    // This parameter contains the entire redux-form form
+    // eslint-disable-next-line react/forbid-prop-types
+    form: PropTypes.object,
+  }),
+}
+
+
+module.exports = {
+  ModuleList,
+  Module,
+  ModulePage,
+  ModuleArray,
+  runtimeDispayModuleFields,
+  runtimeConfigurationModuleFields,
+}

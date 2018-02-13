@@ -81,7 +81,6 @@ import LoadingPaneComponent from './loading/LoadingPaneComponent'
 import DynamicModule from './module/DynamicModule'
 import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
 import ModuleIcon from './module/ModuleIcon'
-import ModuleTitle from './module/ModuleTitle'
 import ModuleTitleText from './module/ModuleTitleText'
 
 import SVGURLIcon from './picture/SVGURLIcon'
@@ -166,7 +165,6 @@ export {
   LoadingPaneComponent,
   LoadableContentDialogContainer,
   ModuleIcon,
-  ModuleTitle,
   ModuleTitleText,
   PageNotFoundComponent,
   PositionedDialog,

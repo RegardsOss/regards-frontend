@@ -18,12 +18,10 @@
  **/
 import { Link } from 'react-router'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
-import { modulesManager } from '@regardsoss/modules'
+import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { ModuleIcon, ModuleTitleText } from '@regardsoss/components'
 import { ModuleNavigationItem } from '../../../../shapes/Navigation'
-
-import TEMP from 'material-ui/svg-icons/action/accessibility'
 
 /**
  * Main bar module link
@@ -59,7 +57,7 @@ class MainBarModuleLink extends React.Component {
           icon={
             <ModuleIcon
               iconDisplayMode={iconType}
-              defaultIconURL={modulesManager.getModuleDefaultIconURL(type)}
+              defaultIconURL={UIDomain.getModuleDefaultIconURL(type)}
               customIconURL={customIconURL}
             />
           }

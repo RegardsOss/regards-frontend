@@ -16,26 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes } from '@regardsoss/shape'
-import ModuleConfigurationComponent from '../../components/admin/ModuleConfigurationComponent'
+import values from 'lodash/values'
+import DatasetSelectionType from '../domain/DatasetSelectionTypes'
 
 /**
- * Admin module container for module configuration
- * @author Raphaël Mechali
+ * Form entity description
+ * @author Sébastien binda
  */
-export class AdminModuleContainer extends React.Component {
-  static propTypes = {
-    // default modules properties
-    ...AccessShapes.runtimeConfigurationModuleFields,
-  }
+const DatasetsConfShape = PropTypes.shape({
+  type: PropTypes.oneOf(values(DatasetSelectionType)),
+  selectedDatasets: PropTypes.arrayOf(PropTypes.string),
+  selectedModels: PropTypes.arrayOf(PropTypes.number),
+})
 
-  render() {
-    const { changeField, isCreating, currentNamespace } = this.props.adminForm
-    return (<ModuleConfigurationComponent
-      changeField={changeField}
-      isCreating={isCreating}
-      currentNamespace={currentNamespace}
-    />)
-  }
-}
-export default AdminModuleContainer
+export default DatasetsConfShape

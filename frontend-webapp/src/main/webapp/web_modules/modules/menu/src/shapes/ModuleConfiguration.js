@@ -16,17 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
-import DatasetSelectionType from '../../models/datasets/DatasetSelectionTypes'
+import { CommonShapes } from '@regardsoss/shape'
 
-/**
- * Form entity description
- * @author Sébastien binda
- */
-const DatasetsConfShape = PropTypes.shape({
-  type: PropTypes.oneOf(values(DatasetSelectionType)),
-  selectedDatasets: PropTypes.arrayOf(PropTypes.string),
-  selectedModels: PropTypes.arrayOf(PropTypes.number),
+export const ModuleConfiguration = PropTypes.shape({
+  title: PropTypes.string,
+  contacts: PropTypes.string,
+  displayAuthentication: PropTypes.bool,
+  displayCartSelector: PropTypes.bool,
+  displayNotificationsSelector: PropTypes.bool,
+  displayLocaleSelector: PropTypes.bool,
+  displayThemeSelector: PropTypes.bool,
+  projectAboutPage: CommonShapes.URL,
 })
-
-export default DatasetsConfShape

@@ -29,7 +29,7 @@ import { AttributesGroupConfigurationContent, AttributesGroupConfigurationArray 
 import { AttributePresentationModel, AttributePresentationModelArray } from './AttributePresentationModelShape'
 import ContainerContent from './ContainerContent'
 import { Layout, LayoutContent, LayoutList } from './Layout'
-import { Module, ModuleList, ModuleArray } from './Module'
+import { Module, ModulePage, ModuleList, ModuleArray, runtimeDispayModuleFields, runtimeConfigurationModuleFields } from './Module'
 import { Project, ProjectList, ProjectArray } from './Project'
 import { ThemeContent, Theme, ThemeList } from './Theme'
 
@@ -65,8 +65,11 @@ module.exports = {
   LayoutList,
 
   Module,
+  ModulePage,
   ModuleList,
   ModuleArray,
+  runtimeDispayModuleFields,
+  runtimeConfigurationModuleFields,
 
   Project,
   ProjectList,

@@ -61,7 +61,6 @@ const messages = Object.assign({
   'form.attribute.quicklook.conf.selection.tab.label': 'Attributs des imagettes',
 
   // User messages
-  'navigation.home.label': 'Catalogue',
   'navigation.dataobjects.label': 'Données',
   'navigation.datasets.label': 'Jeux de données',
   'navigation.documents.label': 'Documents',

@@ -61,26 +61,26 @@ export default function getStyles(theme) {
         alignItems: 'center',
         marginRight: -48, // This is a hack to take the place of the default collapse button as MUI is not able to hide it... Bullsh**!
       },
-    },
-    moduleTitle: {
-      style: {
-        marginLeft: theme.module.titleMarginLeft,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        height: theme.module.titleBarHeight,
-      },
-      iconStyle: {
-        width: theme.module.titleIconSize,
-        height: theme.module.titleIconSize,
-      },
-      labelStyle: {
-        color: theme.palette.textColor,
-        marginLeft: theme.module.titleTextMarginLeft,
-        fontSize: theme.module.titleFontSize,
-        fontWeight: theme.module.titleFontWeight,
-        textTransform: theme.module.textTransform,
+      moduleTitle: {
+        style: {
+          marginLeft: theme.module.titleMarginLeft,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          height: theme.module.titleBarHeight,
+        },
+        iconStyle: {
+          width: theme.module.titleIconSize,
+          height: theme.module.titleIconSize,
+        },
+        labelStyle: {
+          color: theme.palette.textColor,
+          marginLeft: theme.module.titleTextMarginLeft,
+          fontSize: theme.module.titleFontSize,
+          fontWeight: theme.module.titleFontWeight,
+          textTransform: theme.module.textTransform,
+        },
       },
     },
     moduleSubTitle: {

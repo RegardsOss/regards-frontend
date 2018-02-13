@@ -42,7 +42,4 @@ describe('[Modules] Testing ModulesManager', () => {
   it('should retrieve the right module ID in path', () => {
     assert.equal(modulesManager.getPathModuleId('http://myDomain:888/user/anyProject/modules/208'), 208, 'The right ID should be found')
   })
-  it('should provide a type module default icon URL', () => {
-    assert.equal(modulesManager.getModuleDefaultIconURL('my-module'), '/modules-icon/my-module.svg')
-  })
 })

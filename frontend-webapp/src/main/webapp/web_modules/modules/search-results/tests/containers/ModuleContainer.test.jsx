@@ -59,7 +59,6 @@ describe('[Search Results] Testing ModuleContainer', () => {
         searchQuery: '',
         attributes: [],
         attributesRegroupements: [],
-        breadcrumbInitialContextLabel: 'hello home',
       },
     }
     const enzymeWrapper = shallow(<ModuleContainer {...props} />, { context })

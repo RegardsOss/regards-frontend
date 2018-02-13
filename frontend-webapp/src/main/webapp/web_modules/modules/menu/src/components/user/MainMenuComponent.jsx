@@ -20,8 +20,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { SelectLocaleContainer } from '@regardsoss/i18n-ui'
 import { SelectThemeContainer } from '@regardsoss/theme-ui'
-import { CommonShapes, AccessShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
+import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import AuthenticationMenuContainer from '../../containers/user/AuthenticationMenuContainer'
 import NotificationListContainer from '../../containers/user/NotificationListContainer'
 import CartSelectorContainer from '../../containers/user/CartSelectorContainer'
@@ -37,17 +38,10 @@ import { ApplicationBreadcrumbContainer } from '../../containers/user/breadcrumb
 */
 class MainMenuComponent extends React.Component {
   static propTypes = {
-    appName: PropTypes.string,
-    project: PropTypes.string,
-
-    title: PropTypes.string,
-    contacts: PropTypes.string,
-    displayAuthentication: PropTypes.bool,
-    displayNotificationsSelector: PropTypes.bool,
-    displayCartSelector: PropTypes.bool,
-    displayLocaleSelector: PropTypes.bool,
-    displayThemeSelector: PropTypes.bool,
-    projectAboutPage: CommonShapes.URL,
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
+    moduleConf: ModuleConfiguration,
 
     // provided by root container
     currentModuleId: PropTypes.number,
@@ -68,9 +62,20 @@ class MainMenuComponent extends React.Component {
 
   render() {
     const {
-      appName, project, title, displayAuthentication, displayNotificationsSelector,
-      displayCartSelector, displayLocaleSelector, displayThemeSelector,
-      projectAboutPage, contacts, currentModuleId, dynamicModules,
+      appName,
+      project,
+      currentModuleId,
+      dynamicModules,
+      moduleConf: {
+        title,
+        displayAuthentication,
+        displayNotificationsSelector,
+        displayCartSelector,
+        displayLocaleSelector,
+        displayThemeSelector,
+        projectAboutPage,
+        contacts,
+      },
     } = this.props
     const { moduleTheme: { user: { rootStyle, optionsGroup } } } = this.context
 

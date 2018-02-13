@@ -63,7 +63,6 @@ const messages = Object.assign({
   'form.attribute.quicklook.conf.selection.tab.label': 'Quicklook attributes configuration',
 
   // User messages
-  'navigation.home.label': 'Catalog',
   'navigation.dataobjects.label': 'Dataobjects',
   'navigation.datasets.label': 'Datasets',
   'navigation.documents.label': 'Documents',

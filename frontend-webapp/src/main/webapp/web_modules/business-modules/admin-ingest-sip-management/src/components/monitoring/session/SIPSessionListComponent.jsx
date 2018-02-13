@@ -107,7 +107,7 @@ class SIPSessionListComponent extends React.Component {
     const elements = [formatMessage({ id: 'sips.session.title' })]
     return (
       <Breadcrumb
-        RootIconConstructor={PageView}
+        RootIconConstructor={<PageView />}
         elements={elements}
         labelGenerator={label => label}
         onAction={() => null}

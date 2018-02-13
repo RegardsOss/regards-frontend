@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
+import pick from 'lodash/pick'
 import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
 import join from 'lodash/join'
 import { connect } from '@regardsoss/redux'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent } from '@regardsoss/display-control'
 import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
@@ -38,13 +40,18 @@ import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
  */
 export class ModuleContainer extends React.Component {
   static propTypes = {
-    // Default props given to the form
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
 
     // Set by mapDispatchToProps
     fetchAllModelsAttributes: PropTypes.func,
     attributeModels: DataManagementShapes.AttributeModelList,
   }
+
+  /** Module properties, to be reported to component */
+  static MODULE_PROPERTIES = keys(AccessShapes.runtimeDispayModuleFields)
 
   constructor(props) {
     super(props)
@@ -59,15 +66,12 @@ export class ModuleContainer extends React.Component {
       value.facetable ? [...result, value.attributeFullQualifiedName] : result, [])
 
     this.state = {
-      expanded: true,
       attributesFetching: true,
       facettesQuery: facettes && facettes.length > 0 ? `facets=${join(facettes, ',')}` : null,
     }
   }
 
   componentDidMount = () => Promise.resolve(this.props.fetchAllModelsAttributes()).then(() => this.setState({ attributesFetching: false }))
-
-  onExpandChange = () => this.setState({ expanded: !this.state.expanded })
 
   getInitialViewObjectType = (displayMode) => {
     switch (displayMode) {
@@ -83,27 +87,10 @@ export class ModuleContainer extends React.Component {
     }
   }
 
-
   render() {
-    const {
-      attributeModels,
-      moduleConf: {
-        enableDownload,
-        enableFacettes,
-        enableQuicklooks,
-        searchQuery,
-        attributes,
-        attributesQuicklook,
-        datasetAttributes,
-        documentAttributes,
-        attributesRegroupements,
-        breadcrumbInitialContextLabel,
-        displayMode,
-        displayConf,
-      },
-    } = this.props
-    const { expanded, attributesFetching, facettesQuery } = this.state
-    const initialViewObjectType = this.getInitialViewObjectType(displayMode)
+    const { moduleConf } = this.props
+    const { attributesFetching, facettesQuery } = this.state
+    const initialViewObjectType = this.getInitialViewObjectType(moduleConf.displayMode)
     if (!attributesFetching) {
       return (
         <div>
@@ -118,24 +105,10 @@ export class ModuleContainer extends React.Component {
             initialViewObjectType={initialViewObjectType}
             initialTableDisplayMode={TableDisplayModeEnum.LIST}
           >
-            { /* View : module */}
+            { /* View : module (report all module properties) */}
             <ModuleComponent
-              expanded={expanded}
-              onExpandChange={this.onExpandChange}
-              resultsTitle={breadcrumbInitialContextLabel}
-              enableFacettes={!!enableFacettes}
-              enableQuicklooks={!!enableQuicklooks}
-              enableDownload={!!enableDownload}
-              searchQuery={searchQuery}
               facettesQuery={facettesQuery}
-              attributesConf={attributes}
-              attributesQuicklookConf={attributesQuicklook}
-              attributesRegroupementsConf={attributesRegroupements}
-              datasetAttributesConf={datasetAttributes}
-              documentAttributesConf={documentAttributes}
-              attributeModels={attributeModels}
-              displayMode={displayMode}
-              displayConf={displayConf}
+              {...pick(this.props, ModuleContainer.MODULE_PROPERTIES)}
             />
           </URLManagementContainer>
         </div>

@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import SearchResultsConfigurationComponent from '../components/admin/SearchResultsConfigurationComponent'
 import {
   DataAttributeModelActions,
@@ -33,7 +33,6 @@ import {
   DocumentAttributeModelSelectors,
 } from '../clients/DocumentAttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
-import AdminModuleConf from '../models/AdminModuleConf'
 
 /**
  * Main container to display administration view of the module form.
@@ -42,24 +41,9 @@ import AdminModuleConf from '../models/AdminModuleConf'
  */
 export class AdminContainer extends React.Component {
   static propTypes = {
-    // Props supplied by LazyModuleComponent
-    // eslint-disable-next-line react/no-unused-prop-types
-    appName: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
-    project: PropTypes.string,
-    adminForm: PropTypes.shape({
-      currentNamespace: PropTypes.string,
-      isCreating: PropTypes.bool,
-      isDuplicating: PropTypes.bool,
-      isEditing: PropTypes.bool,
-      changeField: PropTypes.func.isRequired,
-      conf: AdminModuleConf,
-      form: PropTypes.shape({
-        // Specific current module configuration for the current AdminContainer
-        conf: ModuleConfiguration,
-      }),
-    }).isRequired,
-    // Default props given to the form
+    // default module properties
+    ...AccessShapes.runtimeConfigurationModuleFields,
+    // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
     // Set by mapStateToProps
     dataAttributeModels: DataManagementShapes.AttributeModelList,

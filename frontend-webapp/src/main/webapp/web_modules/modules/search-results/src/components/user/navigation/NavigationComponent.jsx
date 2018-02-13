@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DefaultModuleIcon from 'material-ui/svg-icons/image/style'
-import { i18nContextType } from '@regardsoss/i18n'
-import { Breadcrumb } from '@regardsoss/components'
+import get from 'lodash/get'
+import { AccessShapes } from '@regardsoss/shape'
+import { Breadcrumb, ModuleTitleText, ModuleIcon } from '@regardsoss/components'
 import { Tag } from '../../../models/navigation/Tag'
 
 const ROOT_PLACEHOLDER = {}
@@ -30,34 +30,45 @@ const ROOT_PLACEHOLDER = {}
  */
 class NavigationComponent extends React.Component {
   static propTypes = {
-    resultsTitle: PropTypes.string,
+    locale: PropTypes.string,
+    // module description
+    description: PropTypes.string,
+    // module page definition
+    page: AccessShapes.ModulePage,
+    defaultIconURL: PropTypes.string.isRequired,
     navigationLevels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired,
     onLevelSelected: PropTypes.func.isRequired, // on level selected in breadcrumb: (level, index) => void
   }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
+  /**
+   * @param {*} levelTag level tag (or null) repects Tag shape
+   * @param {number} index level
+   * @return {string} level label
+   **/
   getLevelLabel = (levelTag, index) => {
-    const { resultsTitle } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { locale, description, page } = this.props
     if (index === 0) {
       // root level may have no label (use home then)
-      return resultsTitle || formatMessage({ id: 'navigation.home.label' })
+      return ModuleTitleText.selectTitle(page && page.title, description, locale)
     }
     return levelTag.label
   }
 
   render() {
-    const { navigationLevels, onLevelSelected } = this.props
+    const {
+      page, defaultIconURL, navigationLevels, onLevelSelected,
+    } = this.props
     const breadcrumbElements = [
       ROOT_PLACEHOLDER, // add root (as a placeholder)
       ...navigationLevels,
     ]
     return (
       <Breadcrumb
-        RootIconConstructor={DefaultModuleIcon}
+        rootIcon={<ModuleIcon
+          iconDisplayMode={get(page, 'iconType')}
+          defaultIconURL={defaultIconURL}
+          customIconURL={get(page, 'customIconURL')}
+        />}
         elements={breadcrumbElements}
         labelGenerator={this.getLevelLabel}
         onAction={onLevelSelected}

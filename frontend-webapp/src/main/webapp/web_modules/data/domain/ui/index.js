@@ -16,26 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes } from '@regardsoss/shape'
-import DatasetsConfShape from './datasets/DatasetsConfShape'
-/**
- * Form entity description
- * @author Sébastien binda
- */
-const ModuleConfiguration = PropTypes.shape({
-  conf: PropTypes.shape({
-    // Search form datasets configuration
-    datasets: DatasetsConfShape,
-    // Search form Layout configuration
-    layout: AccessShapes.ContainerContent,
-    // Search form criterion configuration
-    criterion: AccessShapes.UIPluginConfArray,
-    // Does search form render for preview or for full use
-    preview: PropTypes.bool,
+import { getModuleDefaultIconURL } from './Module'
 
-    // Save a search-result configuration
-    searchResult: PropTypes.object,
-  }),
-})
-
-export default ModuleConfiguration
+module.exports = {
+  getModuleDefaultIconURL,
+}

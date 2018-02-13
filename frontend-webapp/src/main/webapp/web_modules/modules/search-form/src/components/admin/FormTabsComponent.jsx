@@ -19,7 +19,7 @@
 import { i18nContextType } from '@regardsoss/i18n'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
-import ModuleConfiguration from '../../models/ModuleConfiguration'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import SearchResultsComponent from './results/SearchResultsComponent'
 import FormDatasetsConfigurationComponent from './datasets/FormDatasetsConfigurationComponent'
 import FormLayoutComponent from './layout/FormLayoutComponent'

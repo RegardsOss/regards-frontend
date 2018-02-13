@@ -17,25 +17,25 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessShapes } from '@regardsoss/shape'
-import ModuleConfigurationComponent from '../../components/admin/ModuleConfigurationComponent'
-
+import DatasetsConfShape from './DatasetsConfShape'
 /**
- * Admin module container for module configuration
- * @author Raphaël Mechali
+ * Form entity description
+ * @author Sébastien binda
  */
-export class AdminModuleContainer extends React.Component {
-  static propTypes = {
-    // default modules properties
-    ...AccessShapes.runtimeConfigurationModuleFields,
-  }
+const ModuleConfiguration = PropTypes.shape({
+  conf: PropTypes.shape({
+    // Search form datasets configuration
+    datasets: DatasetsConfShape,
+    // Search form Layout configuration
+    layout: AccessShapes.ContainerContent,
+    // Search form criterion configuration
+    criterion: AccessShapes.UIPluginConfArray,
+    // Does search form render for preview or for full use
+    preview: PropTypes.bool,
 
-  render() {
-    const { changeField, isCreating, currentNamespace } = this.props.adminForm
-    return (<ModuleConfigurationComponent
-      changeField={changeField}
-      isCreating={isCreating}
-      currentNamespace={currentNamespace}
-    />)
-  }
-}
-export default AdminModuleContainer
+    // Save a search-result configuration
+    searchResult: PropTypes.object,
+  }),
+})
+
+export default ModuleConfiguration
