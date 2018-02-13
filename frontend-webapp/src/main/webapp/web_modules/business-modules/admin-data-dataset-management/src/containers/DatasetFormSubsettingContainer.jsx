@@ -90,7 +90,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
-  testSubsetting: (dataModelId, subsetting) => dispatch(datasetValidSubsettingTestActions.sendSignal('POST', { query: subsetting }, null, { dataModelId })),
+  testSubsetting: (dataModelName, subsetting) => dispatch(datasetValidSubsettingTestActions.sendSignal('POST', { query: subsetting }, null, { dataModelName })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormSubsettingContainer)
