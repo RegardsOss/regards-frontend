@@ -64,6 +64,10 @@ export class RenderPluginParameterField extends React.PureComponent {
     hideDynamicParameterConf: false,
   }
 
+  static wrapperPreserveWhitespace = {
+    whiteSpace: 'pre-wrap',
+  }
+
   state = {
     descriptionOpened: false,
   }
@@ -297,7 +301,9 @@ export class RenderPluginParameterField extends React.PureComponent {
         modal
         open={this.state.descriptionOpened}
       >
-        {pluginParameterType.description}
+        <div style={RenderPluginParameterField.wrapperPreserveWhitespace}>
+          {pluginParameterType.description}
+        </div>
       </Dialog>
     )
   }
