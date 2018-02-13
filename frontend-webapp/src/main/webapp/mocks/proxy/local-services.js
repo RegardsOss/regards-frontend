@@ -336,14 +336,6 @@ function buildLocalServices(gatewayURL) {
       //     return { content }
       //   }
       // },
-      getEnumeratedValues: {
-        url: 'rs-catalog/search/dataobjects/properties/{name}/values',
-        handler: (req, resp, { name }, { partialText, maxCount, q }) => {
-          return {
-            content: new Array(parseInt(maxCount)).fill('').map((value, index) => `${partialText}-${name}-${index}`)
-          }
-        }
-      },
       // getSessions: {
       //   url: 'rs-ingest/sessions', handler: () => {
       //     const content = JSON.parse(loadFile('mocks/proxy/resources/mock-ingest-sessions.json'))
