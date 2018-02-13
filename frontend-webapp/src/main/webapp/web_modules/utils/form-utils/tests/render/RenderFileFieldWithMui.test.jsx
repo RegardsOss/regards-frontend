@@ -54,7 +54,7 @@ describe('[FORM UTILS] Testing RenderFileFieldWithMui', () => {
       changeLabel: 'change label',
     }
     const enzymeWrapper = shallow(<RenderFileFieldWithMui {...props} />, { context })
-    assert.equal(enzymeWrapper.find(storage.FormattedStorageCapacity).length, 1, 'The SIPSubmitionFormComponent should be rendered')
+    assert.equal(enzymeWrapper.find(storage.FormattedStorageCapacity).length, 1, 'The SIPSubmissionFormComponent should be rendered')
     assert.equal(enzymeWrapper.find("input[type='file']").length, 1, 'There should have a input type file rendered')
   })
 
@@ -71,7 +71,7 @@ describe('[FORM UTILS] Testing RenderFileFieldWithMui', () => {
       changeLabel: 'change label',
     }
     const enzymeWrapper = shallow(<RenderFileFieldWithMui {...props} />, { context })
-    assert.equal(enzymeWrapper.find(storage.FormattedStorageCapacity).length, 0, 'The SIPSubmitionFormComponent should be rendered')
+    assert.equal(enzymeWrapper.find(storage.FormattedStorageCapacity).length, 0, 'The SIPSubmissionFormComponent should be rendered')
     assert.equal(enzymeWrapper.find("input[type='file']").length, 1, 'There should have a input type file rendered')
   })
 })

@@ -16,52 +16,58 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import { DataManagementShapes } from '@regardsoss/shape'
+import get from 'lodash/get'
+import Report from 'material-ui/svg-icons/content/report'
 import IconButton from 'material-ui/IconButton'
-import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Edit button action cell for the infinite table used to display ingest processing chains
-* @author Sébastien Binda
-*/
-class AcquisitionProcessingChainTableEditAction extends React.Component {
+  * @author Léo Mieulet
+  * Display the Status of the corresponding ingestion - with a link to open the Stacktrace modal
+  */
+
+class DatasourceStatusTableCell extends React.Component {
   static propTypes = {
-    entity: PropTypes.shape({
-      content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
-    }),
-    onEdit: PropTypes.func.isRequired,
+    // from table cell API
+    entity: DataManagementShapes.CrawlerDatasource.isRequired,
+    onShow: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
+  static lineWrapper = {
+    display: 'flex',
+    alignItems: 'center',
+  }
+
   static iconStyle = { height: 23, width: 23 }
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
-  isEditable = () => {
-    const { links } = this.props.entity
-    return find(links, l => l.rel === 'update', false) !== false
-  }
-
   render() {
     const { intl: { formatMessage } } = this.context
-    const chain = this.props.entity.content
-    return (
+    const { entity } = this.props
+    const status = get(entity, 'content.status', null)
+    // display an icon when the status is error
+    const icon = status === 'ERROR' ? (
       <IconButton
-        className={`selenium-edit-${chain.id}`}
-        title={formatMessage({ id: 'acquisition-chain.list.edit.tooltip' })}
-        iconStyle={AcquisitionProcessingChainTableEditAction.iconStyle}
-        style={AcquisitionProcessingChainTableEditAction.buttonStyle}
-        onClick={() => this.props.onEdit(chain.id)}
-        disabled={!this.isEditable()}
+        title={formatMessage({ id: 'crawler.list.show.stacktrace.tooltip' })}
+        iconStyle={DatasourceStatusTableCell.iconStyle}
+        style={DatasourceStatusTableCell.buttonStyle}
+        onClick={() => this.props.onShow(entity)}
       >
-        <Edit />
+        <Report />
       </IconButton>
+    ) : null
+    return (
+      <div style={DatasourceStatusTableCell.lineWrapper}>
+        {status}
+        {icon}
+      </div>
     )
   }
 }
-export default AcquisitionProcessingChainTableEditAction
+
+export default DatasourceStatusTableCell

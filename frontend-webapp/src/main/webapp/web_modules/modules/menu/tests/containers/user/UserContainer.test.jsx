@@ -31,7 +31,7 @@ describe('[Menu] Testing UserContainer', () => {
   it('should exists', () => {
     assert.isDefined(UserContainer)
   })
-  it('should render properly', () => {
+  xit('should render properly', () => {
     const props = {
       project: 'any',
       appName: 'any',

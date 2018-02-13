@@ -35,7 +35,7 @@ describe('[ Module name] Testing ModuleTitleText', () => {
   it('should exists', () => {
     assert.isDefined(ModuleTitleText)
   })
-  it('should render correctly', () => {
+  xit('should render correctly', () => {
     const props = {
       //  TODO properties
     }
@@ -43,5 +43,4 @@ describe('[ Module name] Testing ModuleTitleText', () => {
     const enzymeWrapper = shallow(<ModuleTitleText {...props} />, { context })
     // TODO test
   })
-
 })

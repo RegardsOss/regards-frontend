@@ -20,8 +20,8 @@ import size from 'lodash/size'
 import filter from 'lodash/filter'
 import { connect } from '@regardsoss/redux'
 import { CardTitle } from 'material-ui/Card'
-import IssueIcon from 'material-ui/svg-icons/action/assignment-late'
-import OkIcon from 'material-ui/svg-icons/action/assignment-turned-in'
+import IssueIcon from 'mdi-material-ui/CloseCircle'
+import OkIcon from 'mdi-material-ui/CheckCircle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
@@ -46,8 +46,8 @@ export class PluginMetaDataListContainer extends React.Component {
     ...themeContextType,
   }
   static iconStyle = {
-    width: '158',
-    height: '158',
+    width: '100',
+    height: '100',
   }
   static wrapperStyle = {
     display: 'flex',

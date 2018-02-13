@@ -131,6 +131,7 @@ import StringArrayValueRender from './values/StringArrayValueRender'
 import StringValueRender from './values/StringValueRender'
 import URLValueRender from './values/URLValueRender'
 import withValueRenderContext from './values/withValueRenderContext'
+import DurationValueRender from './values/DurationValueRender'
 
 import InfiniteGalleryContainer from './gallery/InfiniteGalleryContainer'
 
@@ -240,6 +241,7 @@ export {
   StringValueRender,
   URLValueRender,
   withValueRenderContext, // use it in values render parent to connect with their context (stacking)
+  DurationValueRender,
 
   InfiniteGalleryContainer,
 }

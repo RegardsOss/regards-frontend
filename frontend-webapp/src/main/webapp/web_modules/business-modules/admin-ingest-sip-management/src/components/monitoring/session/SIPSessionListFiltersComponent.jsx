@@ -154,12 +154,12 @@ class SIPSessionListFiltersComponent extends React.Component {
               label={intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
               icon={<Close />}
               disabled={!this.state.filters.id && !this.state.filters.to && !this.state.filters.from}
-              onTouchTap={this.handleClearFilters}
+              onClick={this.handleClearFilters}
             />
             <FlatButton
               label={intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
               icon={<Filter />}
-              onTouchTap={this.handleFilter}
+              onClick={this.handleFilter}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>

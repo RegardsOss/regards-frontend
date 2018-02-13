@@ -61,7 +61,7 @@ const items = (projectName, intl) => [
         hateoasDependencies: sipDependencies.listDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/sip/submition`,
+        path: `/admin/${projectName}/data/acquisition/sip/submission`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.sumition.tooltip' }),
         hateoasDependencies: sipDependencies.addDependencies,

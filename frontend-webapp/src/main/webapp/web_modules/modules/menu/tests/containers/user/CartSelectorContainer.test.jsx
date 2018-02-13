@@ -145,7 +145,7 @@ describe('[Menu] Testing CartSelectorContainer', () => {
   }]
 
   testCases.forEach(({ resolved, subTitle, props }) => {
-    it(`${resolved ? 'should' : 'should not'} resolve cart module ID ${subTitle}`, () => {
+    xit(`${resolved ? 'should' : 'should not'} resolve cart module ID ${subTitle}`, () => {
       const enzymeWrapper = shallow(<CartSelectorContainer {...props} />, { context })
       // note: the resolution, due to fetch methods required, is performed on componentDidMount. Therefore, we can only test here the instance tool itself
       const cartModuleId = enzymeWrapper.instance().getCartModuleId(props)

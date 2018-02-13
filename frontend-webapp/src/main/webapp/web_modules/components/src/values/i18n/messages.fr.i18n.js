@@ -28,6 +28,13 @@ const messages = {
   'value.render.range.full.label': '[{lower}, {upper}]',
   'value.render.range.upper.only.label': ']-∞, {upper}]',
   'value.render.range.lower.only.label': '[{lower}, +∞[',
+
+  'value.render.duration.year': '{year, plural, one {{year} an} other {{year} ans}}',
+  'value.render.duration.month': ' {month} mois',
+  'value.render.duration.day': ' {day, plural, one {{day} jour} other {{day} jours}}',
+  'value.render.duration.hour': ' {hour, plural, one {{hour} heure} other {{hour} heures}}',
+  'value.render.duration.minute': ' {minute, plural, one {{minute} minute} other {{minute} minutes}}',
+  'value.render.duration.second': ' {second} seconde(s)',
 }
 
 export default messages

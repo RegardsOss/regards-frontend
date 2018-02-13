@@ -33,6 +33,7 @@ describe('[Menu] Testing AdminContainer', () => {
   })
   it('should render properly', () => {
     const props = {
+      appName: 'project1',
       adminForm: {
         currentNamespace: 'conf',
       },

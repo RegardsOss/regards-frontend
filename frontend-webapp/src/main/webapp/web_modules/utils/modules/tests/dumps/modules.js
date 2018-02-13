@@ -41,5 +41,5 @@ export const someModulesWithDoubles = {
         active: true,
       },
     },
-  }
+  },
 }

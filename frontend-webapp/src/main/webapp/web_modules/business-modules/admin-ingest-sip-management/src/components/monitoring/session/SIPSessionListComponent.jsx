@@ -159,7 +159,7 @@ class SIPSessionListComponent extends React.Component {
                   title={intl.formatMessage({
                     id: 'sips.session.table.actions.errors',
                   })}
-                  onTouchTap={() => this.props.handleOpen(props.entity.content.id, true)}
+                  onClick={() => this.props.handleOpen(props.entity.content.id, true)}
                 >
                   <Error />
                 </IconButton>
@@ -193,7 +193,7 @@ class SIPSessionListComponent extends React.Component {
                 title={intl.formatMessage({
                   id: 'sips.session.table.actions.list',
                 })}
-                onTouchTap={() => this.props.handleOpen(props.entity.content.id)}
+                onClick={() => this.props.handleOpen(props.entity.content.id)}
               >
                 <Arrow />
               </IconButton>
@@ -256,7 +256,7 @@ class SIPSessionListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={intl.formatMessage({ id: 'sips.session.button.back' })}
-            mainButtonTouchTap={this.props.onBack}
+            mainButtonClick={this.props.onBack}
           />
         </CardActions>
         {this.renderDeleteConfirmDialog()}

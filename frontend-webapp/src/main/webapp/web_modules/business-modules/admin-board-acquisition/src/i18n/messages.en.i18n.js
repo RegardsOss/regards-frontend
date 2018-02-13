@@ -45,8 +45,7 @@ const messages = {
   'data.board.action.storages.tooltip': 'Configure locations',
   'data.board.action.allocations.tooltip': 'Configure strategies',
   'data.board.action.monitoring.tooltip': 'Monitor data storages occupation',
-  'data.board.action.security.tooltip': 'Configurer la sécurité ...(TODO)',
-
+  'data.board.action.security.tooltip': 'Configure archived files access rights',
 }
 
 export default messages

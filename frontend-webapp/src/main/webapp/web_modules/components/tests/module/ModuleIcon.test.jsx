@@ -35,7 +35,7 @@ describe('[ Module name] Testing ModuleIcon', () => {
   it('should exists', () => {
     assert.isDefined(ModuleIcon)
   })
-  it('should render correctly', () => {
+  xit('should render correctly', () => {
     const props = {
       //  TODO properties
     }
