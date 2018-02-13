@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import isObject from 'lodash/isObject'
+import isString from 'lodash/isString'
 import forEach from 'lodash/forEach'
 import replace from 'lodash/replace'
 import split from 'lodash/split'
@@ -108,10 +110,13 @@ class BasicActions {
     }
     if (queryParams) {
       forEach(queryParams, (param, key) => {
-        if (endpoint.includes('?')) {
-          endpoint = `${endpoint}&${key}=${param}`
-        } else {
-          endpoint = `${endpoint}?${key}=${param}`
+        // remove null / undefined / empty strings
+        if (!isNil(param) && (!isString(param) || !!param)) {
+          if (endpoint.includes('?')) {
+            endpoint = `${endpoint}&${key}=${param}`
+          } else {
+            endpoint = `${endpoint}?${key}=${param}`
+          }
         }
       })
     }

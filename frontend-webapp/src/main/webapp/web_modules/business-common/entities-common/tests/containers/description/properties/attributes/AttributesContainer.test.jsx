@@ -103,7 +103,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
           entityType: 'DATA',
           ipId: 'URN:AIP:DATA:0',
           label: 'ça',
-          model: { id: 0 },
+          model: { name: 'NEW_MODEL' },
           descriptionFile: { type: 'text/markdown' },
           tags: [],
         },
@@ -122,7 +122,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
       entity: {
         content: {
           entityType: ENTITY_TYPES_ENUM.DATASET,
-          model: { id: 1 },
+          model: { name: 'MODEL_1' },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
           // standard attributes
           ipId: 'urn:child',
@@ -182,7 +182,7 @@ describe('[Entities Common] Testing AttributesContainer', () => {
           entityType: ENTITY_TYPES_ENUM.DATASET,
           ipId: 'urn:entity2',
           label: 'thelabel2',
-          model: { id: 1 },
+          model: { name: 'MODEL_1' },
           descriptionFile: { type: 'jenexistepas/onnemevoitpas' },
           tags: [],
         },

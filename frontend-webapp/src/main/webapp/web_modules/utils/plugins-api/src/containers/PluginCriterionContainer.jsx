@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import merge from 'lodash/merge'
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
+import merge from 'lodash/merge'
 import reduce from 'lodash/reduce'
 import React from 'react'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -102,22 +103,21 @@ class PluginCriterionContainer extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
-    // If initial value change from this props to new ones, update state with the new attribute values
-    let toUpdate = false
-    const initValues = reduce(nextProps.attributes, (result, attribute, key) => {
-      const initValue = this.getAttributeInitValue(key, nextProps)
-      if (initValue && initValue !== this.props[this.getAttributeName(key)]) {
-        toUpdate = true
-        return {
-          ...result,
-          [key]: this.parseOpenSearchQuery(key, initValue),
+    if (!isEqual(get(this.props, 'initialValues'), nextProps.initialValues)) {
+      // If initial value change from this props to new ones, update state with the new attribute values
+      const initValues = reduce(nextProps.attributes, (result, attribute, key) => {
+        const initValue = this.getAttributeInitValue(key, nextProps)
+        if (initValue && initValue !== this.props[this.getAttributeName(key)]) {
+          return {
+            ...result,
+            [key]: this.parseOpenSearchQuery(key, initValue),
+          }
         }
-      }
-      return result
-    }, {})
-
-    if (toUpdate) {
+        return result
+      }, {})
       this.setState(initValues)
+    } else {
+      console.error('Let me ignore you!')
     }
   }
 
