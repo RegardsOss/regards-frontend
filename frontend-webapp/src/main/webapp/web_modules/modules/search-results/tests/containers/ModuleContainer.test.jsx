@@ -50,6 +50,7 @@ describe('[Search Results] Testing ModuleContainer', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      type: 'any',
       fetchAllModelsAttributes: () => { },
       attributeModels: {},
       moduleConf: {

@@ -33,6 +33,7 @@ describe('[Search Graph] Testing AdminModuleContainer', () => {
     const props = {
       project: 'any',
       appName: 'any',
+      type: 'any',
       adminForm: {
         isCreating: true,
         isDuplicating: false,

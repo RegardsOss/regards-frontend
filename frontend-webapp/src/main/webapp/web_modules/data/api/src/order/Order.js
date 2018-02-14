@@ -31,7 +31,7 @@ const order = new Schema(OrderConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   ORDER: order,
   ORDER_ARRAY: arrayOf(order),
   OrderConfiguration,

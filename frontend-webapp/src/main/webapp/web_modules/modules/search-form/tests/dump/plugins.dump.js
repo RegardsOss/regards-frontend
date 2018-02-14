@@ -16,15 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import OrderListClient from './client/OrderListClient'
-import OrderFilesClient from './client/OrderFilesClient'
-import OrdersNavigationClient from './client/OrdersNavigationClient'
 
 /**
- * Module reducer (configures there combined path at module level)
+ * exposes some plugin dumps for tests
+ * @author Raphaël Mechali
  */
-module.exports = {
-  orderList: OrderListClient.orderListReducer,
-  orderFiles: OrderFilesClient.orderFilesReducer,
-  navigation: OrdersNavigationClient.ordersNavigationReducer,
-}
+
+export const DUMP = [{
+  id: 1,
+  active: true,
+  label: 'a plugin criterion instance',
+  conf: {
+    static: {},
+    dynamic: {},
+  },
+  pluginDefinition: {
+    id: 1,
+    name: 'a plugin criterion',
+    type: 'CRITERIA',
+    sourcePath: './idontexist',
+    iconUrl: './eitherdonti',
+  },
+}]

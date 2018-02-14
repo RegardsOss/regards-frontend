@@ -22,25 +22,49 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import UserContainer from '../../../src/containers/user/UserContainer'
 import styles from '../../../src/styles/styles'
 
+const router = require('react-router')
+
 const context = buildTestContext(styles)
 
 describe('[Menu] Testing UserContainer', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
+  before(() => {
+    // mocking router browser history
+    router.browserHistory = {
+      getCurrentLocation: () => ({ query: {}, pathname: 'hello/world' }),
+    }
+    testSuiteHelpers.before()
+  })
+  after(() => {
+    delete router.browserHistory
+    testSuiteHelpers.after()
+  })
 
   it('should exists', () => {
     assert.isDefined(UserContainer)
   })
-  xit('should render properly', () => {
+  it('should render correctly with complete conf', () => {
     const props = {
       project: 'any',
       appName: 'any',
+      type: 'any',
       moduleConf: {
         title: 'any',
+        contacts: 'any@any.fr',
         displayAuthentication: true,
+        displayCartSelector: true,
+        displayNotificationsSelector: true,
         displayLocaleSelector: true,
         displayThemeSelector: true,
+        projectAboutPage: 'www.any.com',
       },
+    }
+    shallow(<UserContainer {...props} />, { context })
+  })
+  it('should render correctly with no conf', () => {
+    const props = {
+      project: 'any',
+      appName: 'any',
+      type: 'any',
     }
     shallow(<UserContainer {...props} />, { context })
   })

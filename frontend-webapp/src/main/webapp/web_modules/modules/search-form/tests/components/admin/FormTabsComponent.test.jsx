@@ -57,10 +57,11 @@ describe('[SEARCH FORM] Testing FormTabsComponent', () => {
           applicationId: 'test',
           container: 'content',
           enableFacettes: true,
-          conf: {},
-          layout: {
-            id: 'main',
-            type: 'letype',
+          conf: {
+            layout: {
+              id: 'main',
+              type: 'letype',
+            },
           },
         },
       },

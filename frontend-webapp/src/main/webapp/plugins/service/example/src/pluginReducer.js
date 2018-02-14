@@ -18,4 +18,4 @@
  **/
 // this service plugin example does not demonstrate the redux reducer principles
 
-export default {}
+module.exports = {}

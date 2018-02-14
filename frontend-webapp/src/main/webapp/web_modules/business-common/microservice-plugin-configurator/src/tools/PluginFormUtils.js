@@ -101,7 +101,7 @@ const formatPluginConfForReduxFormInit = (pluginConfiguration, pluginMetaData) =
  */
 const formatPluginConfForReduxFormSubmit = (pluginConfiguration, pluginMetaData) => formatPluginConf(pluginConfiguration, pluginMetaData, false)
 
-export default {
+module.exports = {
   formatPluginConfForReduxFormInit,
   formatPluginConfForReduxFormSubmit,
   DOT_CHAR_REPLACEMENT,

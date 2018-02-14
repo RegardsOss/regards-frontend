@@ -35,12 +35,12 @@ describe('[ Module name] Testing SVGURLIcon', () => {
   it('should exists', () => {
     assert.isDefined(SVGURLIcon)
   })
-  xit('should render correctly', () => {
+  it('should render correctly', () => {
     const props = {
-      //  TODO properties
+      style: {},
+      color: '',
+      path: 'any.svg',
     }
-    assert.fail('To implement')
-    const enzymeWrapper = shallow(<SVGURLIcon {...props} />, { context })
-    // TODO test
+    shallow(<SVGURLIcon {...props} />, { context })
   })
 })

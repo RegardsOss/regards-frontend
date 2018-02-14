@@ -38,6 +38,9 @@ describe('[Storage Monitoring] Testing ModuleContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       expandable: true,
       expanded: true,
     }

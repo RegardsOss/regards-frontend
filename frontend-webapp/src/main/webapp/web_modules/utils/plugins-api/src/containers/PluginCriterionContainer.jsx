@@ -116,8 +116,6 @@ class PluginCriterionContainer extends React.Component {
         return result
       }, {})
       this.setState(initValues)
-    } else {
-      console.error('Let me ignore you!')
     }
   }
 

@@ -24,6 +24,7 @@ import CollapsedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import ModuleTitleText from './ModuleTitleText'
+import ModuleSubtitle from './ModuleSubtitle'
 import ModuleIcon from './ModuleIcon'
 
 /**
@@ -41,7 +42,7 @@ export class ModuleTitle extends React.Component {
     // module page (from module fields)
     page: PropTypes.shape({
       home: PropTypes.bool,
-      iconType: PropTypes.oneOf([AccessDomain.PAGE_MODULE_ICON_TYPES]),
+      iconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
       customIconURL: PropTypes.string,
       title: PropTypes.objectOf(PropTypes.string),
     }),
@@ -121,10 +122,7 @@ export class ModuleTitle extends React.Component {
             }
           </div>
         }
-        subtitle={
-          // TODO why is there style if not used??
-          subtitle
-        }
+        subtitle={<ModuleSubtitle text={subtitle} />}
       />
     )
   }

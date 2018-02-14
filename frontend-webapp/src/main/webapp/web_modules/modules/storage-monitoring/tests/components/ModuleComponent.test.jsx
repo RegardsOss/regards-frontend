@@ -38,22 +38,29 @@ describe('[Storage Monitoring] Testing ModuleComponent', () => {
   it('should exists', () => {
     assert.isDefined(ModuleComponent)
   })
+
+  const commonProps = {
+    appName: 'x',
+    project: 'y',
+    type: 'any',
+  }
+
   const testCases = [{
     label: 'expandable and expanded',
     props: {
+      ...commonProps,
       scale: storage.StorageUnitScale.bitsScale,
       expandable: true,
       expanded: true,
-      onExpandChange: () => { },
       onUnitScaleChanged: () => { },
     },
   }, {
     label: 'not expandable and collapsed',
     props: {
+      ...commonProps,
       scale: storage.StorageUnitScale.bytesSIPrefixScale,
       expandable: false,
       expanded: false,
-      onExpandChange: () => { },
       onUnitScaleChanged: () => { },
     },
   }]

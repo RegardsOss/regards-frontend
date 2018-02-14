@@ -38,8 +38,9 @@ describe('[Embedded-html] Testing MenuContainer', () => {
   })
   it('should render properly', () => {
     const props = {
-      project: 'any',
-      appName: 'any',
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       moduleConf: {
         htmlUrl: '/html/test.html',
       },

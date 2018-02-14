@@ -18,9 +18,15 @@
  **/
 import { AccessDomain } from '@regardsoss/domain'
 
+/**
+ * UI Module related shapes
+ * @author Sébastien Binda
+ * @author Raphaël Mechali
+ */
+
 const ModulePage = PropTypes.shape({
   home: PropTypes.bool,
-  iconType: PropTypes.oneOf([AccessDomain.PAGE_MODULE_ICON_TYPES]),
+  iconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
   customIconURL: PropTypes.string,
   // module titles by locale, as a json string
   title: PropTypes.objectOf(PropTypes.string),
@@ -41,13 +47,12 @@ const moduleFields = {
   conf: PropTypes.objectOf(PropTypes.any),
 }
 
-/**
- * Definition of type DecoratorShape.
- * Decorator are used in LazyModuleComponent to add a decorator element to modules
- * @author Sébastien Binda
- */
+const ModuleWithoutContent = PropTypes.shape({
+  ...moduleFields,
+})
+
 const Module = PropTypes.shape({
-  content: PropTypes.shape(moduleFields),
+  content: ModuleWithoutContent,
 })
 
 const ModuleList = PropTypes.objectOf(Module)
@@ -90,6 +95,7 @@ const runtimeConfigurationModuleFields = {
 
 
 module.exports = {
+  ModuleWithoutContent,
   ModuleList,
   Module,
   ModulePage,

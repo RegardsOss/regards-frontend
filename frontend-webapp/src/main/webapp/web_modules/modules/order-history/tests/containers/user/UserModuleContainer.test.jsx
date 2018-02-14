@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import UserModuleContainer from '../../../src/containers/user/UserModuleContainer'
+import { UserModuleContainer } from '../../../src/containers/user/UserModuleContainer'
 import OrderHistoryComponent from '../../../src/components/user/OrderHistoryComponent'
 
 import styles from '../../../src/styles/styles'
@@ -39,6 +39,9 @@ describe('[Order History] Testing UserModuleContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'z',
       description: 'Some module name',
     }
     const wrapper = shallow(<UserModuleContainer name {...props} />, { context })

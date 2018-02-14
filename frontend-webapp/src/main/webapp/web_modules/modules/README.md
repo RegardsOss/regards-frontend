@@ -89,7 +89,7 @@ class AdminContainer extends React.Component {
           container: PropTypes.string,
           page: PropTypes.shape({
             home: PropTypes.bool,
-            iconType: PropTypes.oneOf([AccessDomain.PAGE_MODULE_ICON_TYPES]),
+            iconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
             customIconURL: PropTypes.string,
             // module titles by locale
             title: PropTypes.objectOf(PropTypes.string),

@@ -19,29 +19,41 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ModulesNavigatorComponent from '../../../src/components/user/ModulesNavigatorComponent'
-import styles from '../../../src/styles/styles'
+import { Field } from '@regardsoss/form-utils'
+import ModuleFormComponent from '../../../src/components/admin/ModuleFormComponent'
+import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test ModulesNavigatorComponent
-* @author Raphaël Mechali
-*/
-describe('[Menu] Testing ModulesNavigatorComponent', () => {
+ * Test ModuleFormComponent
+ * @author Raphaël Mechali
+ */
+describe('[ Module name] Testing ModuleFormComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ModulesNavigatorComponent)
+    assert.isDefined(ModuleFormComponent)
   })
   it('should render correctly', () => {
-    const props = {
-      project: 'hello-world',
-      menuOpen: false,
-      onCloseMenu: () => { },
-      onToggleMenu: () => { },
-    }
-    shallow(<ModulesNavigatorComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ModuleFormComponent />, { context })
+    const wrapperInstance = enzymeWrapper.instance()
+    // check presence of each field by its name
+    const searchedFields = [
+      wrapperInstance.CONF_TITLE,
+      wrapperInstance.CONF_CONTACTS,
+      wrapperInstance.CONF_ABOUT_PAGE,
+      wrapperInstance.CONF_AUTH,
+      wrapperInstance.CONF_CART,
+      wrapperInstance.CONF_NOTIF,
+      wrapperInstance.CONF_LOCALE,
+      wrapperInstance.CONF_THEME,
+    ]
+    const fields = enzymeWrapper.find(Field)
+    searchedFields.forEach((fieldName) => {
+      const found = fields.findWhere(n => n.props().name === fieldName)
+      assert.lengthOf(found, 1, `There should be a field with name "${fieldName}"`)
+    })
   })
 })

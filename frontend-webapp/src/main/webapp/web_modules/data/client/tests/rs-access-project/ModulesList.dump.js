@@ -47,10 +47,7 @@ module.exports = {
           home: true,
           iconType: 'DEFAULT',
           customIconURL: null,
-          title: {
-            en: 'hello',
-            fr: 'bonjour',
-          },
+          title: '{"en": "hello", "fr": "bonjour" }',
         },
       },
       links: [],

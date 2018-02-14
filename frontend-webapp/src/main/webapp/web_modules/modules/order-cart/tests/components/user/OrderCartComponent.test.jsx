@@ -44,12 +44,14 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly when user is not authenticated', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       showDatasets: false,
       isAuthenticated: false,
       basket: undefined,
       isFetching: false,
       expanded: true,
-      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
@@ -73,12 +75,14 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly when user is authenticated and basket empty', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       showDatasets: false,
       isAuthenticated: true,
       basket: undefined,
       isFetching: false,
       expanded: true,
-      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
@@ -102,12 +106,14 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly when fetching (fetch state SHOULD NEVER show no data)', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       showDatasets: true,
       isAuthenticated: true,
       basket: undefined,
       isFetching: true,
       expanded: true,
-      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }
@@ -123,12 +129,14 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
   })
   it('should render correctly with a basket', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       showDatasets: false,
       isAuthenticated: true,
       basket: mockBasket1,
       isFetching: false,
       expanded: true,
-      onExpandChange: () => { },
       onClearCart: () => { },
       onOrder: () => { },
     }

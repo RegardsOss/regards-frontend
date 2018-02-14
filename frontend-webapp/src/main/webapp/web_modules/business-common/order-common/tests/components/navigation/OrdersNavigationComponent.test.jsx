@@ -41,7 +41,7 @@ describe('[Order Common] Testing OrdersNavigationComponent', () => {
   it('should render correctly an empty path (root only)', () => {
     const props = {
       title: 'temp',
-      RootIconConstructor: HandySport,
+      rootIcon: <HandySport />,
       navigationPath: [OrdersNavigationComponent.ROOT_MARKER],
       onResetTolevel: () => { },
     }
@@ -54,7 +54,7 @@ describe('[Order Common] Testing OrdersNavigationComponent', () => {
     const order = SOME_ORDERS.content[0]
     const props = {
       title: 'temp',
-      RootIconConstructor: HandySport,
+      rootIcon: <HandySport />,
       navigationPath: [OrdersNavigationComponent.ROOT_MARKER, order],
       onResetTolevel: () => { },
     }
@@ -68,7 +68,7 @@ describe('[Order Common] Testing OrdersNavigationComponent', () => {
     const dataset = order.content.datasetTasks[0]
     const props = {
       title: 'temp',
-      RootIconConstructor: HandySport,
+      rootIcon: <HandySport />,
       navigationPath: [OrdersNavigationComponent.ROOT_MARKER, order, dataset],
       onResetTolevel: () => { },
     }

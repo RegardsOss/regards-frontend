@@ -27,7 +27,7 @@ const ModuleConfiguration = PropTypes.shape({
     // Search form datasets configuration
     datasets: DatasetsConfShape,
     // Search form Layout configuration
-    layout: AccessShapes.ContainerContent,
+    layout: AccessShapes.ContainerContent.isRequired,
     // Search form criterion configuration
     criterion: AccessShapes.UIPluginConfArray,
     // Does search form render for preview or for full use

@@ -43,7 +43,12 @@ const moduleSchema = new Schema(ModuleConfiguration.normalizrKey, {
       if (value.page && value.page.title) {
         const { page } = value
         // parse title in output (avoid later parsing in code)
-        page.title = JSON.parse(page.title)
+        try {
+          page.title = JSON.parse(page.title)
+        } catch (e) {
+          console.error(`Invalid Module page title for module ${value.id}`)
+          console.error(`Conf: ${value.page.title}`)
+        }
         // eslint-disable-next-line no-param-reassign
         output.content.page = page
       }

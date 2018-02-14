@@ -37,7 +37,10 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing plugin configuration form cont
     }
     testSuiteHelpers.before()
   })
-  after(testSuiteHelpers.after)
+  after(() => {
+    delete router.browserHistory
+    testSuiteHelpers.after()
+  })
 
   it('should exists', () => {
     assert.isDefined(PluginConfigurationFormContainer)

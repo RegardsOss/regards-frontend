@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import merge from 'lodash/merge'
 import get from 'lodash/get'
 import { I18nProvider } from '@regardsoss/i18n'
 import { getReducerRegistry, configureReducers } from '@regardsoss/store'
@@ -49,7 +48,7 @@ class LazyModuleComponent extends React.Component {
   static propTypes = {
     appName: PropTypes.string.isRequired,
     project: PropTypes.string.isRequired,
-    module: AccessShapes.Module.isRequired,
+    module: AccessShapes.ModuleWithoutContent.isRequired,
     admin: PropTypes.bool,
     // Form information for admin container. Admin container is a part of the upper redux-form Form.
     adminForm: PropTypes.shape({

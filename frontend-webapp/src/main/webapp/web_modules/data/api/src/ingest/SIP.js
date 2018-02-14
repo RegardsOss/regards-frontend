@@ -29,7 +29,7 @@ const sip = new Schema(SIPConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   SIP: sip,
   SIP_ARRAY: arrayOf(sip),
   SIPConfiguration,
