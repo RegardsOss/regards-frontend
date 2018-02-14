@@ -33,20 +33,8 @@ const context = buildTestContext(styles)
 const resolvedProps = {
   project: 'any',
   objectsCount: 10,
-  dispatchGetBasket: () => { },
   isAuthenticated: true, // user must be logged
-  userLayout: { // there must be the dynamic module
-    content: {
-      id: 0,
-      applicationId: 'any',
-      layout: {
-        id: '0',
-        type: 'any',
-        // we just add here one dynamic container, as we want to have a fake order-cart module in a dynamic container
-        containers: [{ id: 'my-container', type: 'any', dynamicContent: true }],
-      },
-    },
-  },
+  dynamicContainerId: 'my-container',
   modules: { // set up many modules, only the module 3 should be resolved
     // another module (just to test we are truely searching in list) - should be ignored
     0: {
@@ -74,6 +62,7 @@ const resolvedProps = {
     },
   },
   availableEndpoints: ['rs-order@/order/basket@GET'],
+  dispatchGetBasket: () => { },
 }
 
 /**
@@ -119,10 +108,10 @@ describe('[Menu] Testing CartSelectorContainer', () => {
     },
   }, {
     resolved: false,
-    subTitle: 'when no layout is defined',
+    subTitle: 'when no dynamic container is known',
     props: {
       ...resolvedProps,
-      userLayout: {},
+      dynamicContainerId: null,
     },
   }, {
     resolved: false,
@@ -145,7 +134,7 @@ describe('[Menu] Testing CartSelectorContainer', () => {
   }]
 
   testCases.forEach(({ resolved, subTitle, props }) => {
-    xit(`${resolved ? 'should' : 'should not'} resolve cart module ID ${subTitle}`, () => {
+    it(`${resolved ? 'should' : 'should not'} resolve cart module ID ${subTitle}`, () => {
       const enzymeWrapper = shallow(<CartSelectorContainer {...props} />, { context })
       // note: the resolution, due to fetch methods required, is performed on componentDidMount. Therefore, we can only test here the instance tool itself
       const cartModuleId = enzymeWrapper.instance().getCartModuleId(props)

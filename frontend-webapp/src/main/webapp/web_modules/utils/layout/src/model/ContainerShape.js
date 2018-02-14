@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ModuleShape } from '@regardsoss/modules'
+import { AccessShapes } from '@regardsoss/shape'
 
 /**
  * Definition of type DecoratorShape. Decorator are used in LazyModuleComponent to add a decorator element to modules
@@ -26,7 +26,7 @@ const ContainerShape = PropTypes.shape({
   type: PropTypes.string,
   classes: PropTypes.arrayOf(PropTypes.string),
   styles: PropTypes.object,
-  modules: PropTypes.arrayOf(ModuleShape),
+  modules: PropTypes.arrayOf(AccessShapes.ModuleWithoutContent),
   containers: PropTypes.arrayOf(PropTypes.object),
   dynamicContent: PropTypes.bool,
   mainContainer: PropTypes.bool,

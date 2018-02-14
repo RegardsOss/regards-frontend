@@ -277,7 +277,7 @@ class SIPListComponent extends React.Component {
     }
     return (
       <Breadcrumb
-        RootIconConstructor={PageView}
+        rootIcon={<PageView />}
         elements={elements}
         labelGenerator={label => label}
         onAction={onBack}

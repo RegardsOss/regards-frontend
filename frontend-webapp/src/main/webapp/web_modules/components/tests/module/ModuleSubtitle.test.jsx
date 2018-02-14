@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import Subheader from 'material-ui/Subheader/Subheader'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ModuleSubtitle from '../../src/module/ModuleSubtitle'
 import styles from '../../src/module/styles/styles'
@@ -40,13 +41,23 @@ describe('[Components] Testing ModuleSubtitle', () => {
       text: 'test1',
       iconInsets: true,
     }
-    shallow(<ModuleSubtitle {...props} />, { context })
+    const wrapper = shallow(<ModuleSubtitle {...props} />, { context })
+    const subheader = wrapper.find(Subheader)
+    assert.lengthOf(subheader, 1, 'There should be a subheader')
+    assert.include(subheader.debug(), props.text, 'Subheader text should be correctly reported')
   })
   it('should render correctly without insets', () => {
     const props = {
       text: 'test2',
       iconInsets: false,
     }
-    shallow(<ModuleSubtitle {...props} />, { context })
+    const wrapper = shallow(<ModuleSubtitle {...props} />, { context })
+    const subheader = wrapper.find(Subheader)
+    assert.lengthOf(subheader, 1, 'There should be a subheader')
+    assert.include(subheader.debug(), props.text, 'Subheader text should be correctly reported')
+  })
+  it('should render null without text', () => {
+    const wrapper = shallow(<ModuleSubtitle />, { context })
+    assert.lengthOf(wrapper.find(Subheader), 0, 'There should be no subheader')
   })
 })

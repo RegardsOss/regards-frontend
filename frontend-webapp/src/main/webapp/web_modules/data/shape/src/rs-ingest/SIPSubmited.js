@@ -30,6 +30,6 @@ const SIPSubmited = PropTypes.shape({
   state: PropTypes.string.isRequired,
 })
 
-export default {
+module.exports = {
   SIPSubmited,
 }

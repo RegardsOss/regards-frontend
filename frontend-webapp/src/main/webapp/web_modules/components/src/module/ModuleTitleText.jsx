@@ -30,8 +30,7 @@ class ModuleTitleText extends React.Component {
    * @param {string} locale current local if any
    */
   static selectTitle(title, description, locale) {
-    // basically: title cannot have a field 'undefined'
-    return get(title, locale, description)
+    return get(title, locale, description || null)
   }
 
   static propTypes = {

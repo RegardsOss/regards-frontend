@@ -26,7 +26,7 @@ import { themeContextType } from '@regardsoss/theme'
 class ModuleSubtitle extends React.Component {
   static propTypes = {
     // subtitle text
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string,
     // icons insets: set it to true when using an icon in title (made to work with ModuleTitle)
     iconInsets: PropTypes.bool,
   }
@@ -43,7 +43,7 @@ class ModuleSubtitle extends React.Component {
     const { text, iconInsets } = this.props
     const { moduleTheme: { moduleSubTitle: { styleWithoutInset, styleWithIconInsets } } } = this.context
     return (
-      <Subheader style={iconInsets ? styleWithIconInsets : styleWithoutInset}>{text}</Subheader>
+      text ? <Subheader style={iconInsets ? styleWithIconInsets : styleWithoutInset}>{text}</Subheader> : null
     )
   }
 }

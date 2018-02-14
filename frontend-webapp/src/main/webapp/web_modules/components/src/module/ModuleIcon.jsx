@@ -27,11 +27,15 @@ import styles from './styles'
  * requires to customize SVG box at runtime)
  * @author Raphaël Mechali
  */
-class ModuleIcon extends React.Component {
+export class ModuleIcon extends React.Component {
   static propTypes = {
-    iconDisplayMode: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES).isRequired,
+    iconDisplayMode: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
     defaultIconURL: PropTypes.string.isRequired,
     customIconURL: PropTypes.string,
+  }
+
+  static defaultProps = {
+    iconDisplayMode: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
   }
 
   static contextTypes = {

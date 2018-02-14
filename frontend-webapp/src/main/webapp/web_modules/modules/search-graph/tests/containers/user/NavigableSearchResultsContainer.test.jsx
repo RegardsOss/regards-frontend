@@ -38,6 +38,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      type: 'any',
       searchQuery: null, // search query if a dataset is selected
       // Module configuration
       moduleConf: {},
@@ -52,6 +53,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
     const props = {
       appName: 'any',
       project: 'any',
+      type: 'any',
       moduleConf: {},
       searchTag: {
         type: TagTypes.WORD,
@@ -63,7 +65,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
     assert.lengthOf(lazyModules, 1, 'There should be one lazy module for results')
     assert.equal(lazyModules.props().module.conf.searchQuery, 'tags:unemobilette', 'The configured search query should be provided for tag')
     assert.isNull(lazyModules.props().module.conf.singleDatasetIpId, 'When searching anything but a Dataset, there should be no single dataset IP ID in results')
-    assert.equal(lazyModules.props().module.conf.breadcrumbInitialContextLabel, 'unemobilette', 'The breadcrumb should worth first search label')
+    assert.equal(lazyModules.props().module.description, 'unemobilette', 'The breadcrumb should worth first search label')
 
     render.setProps({
       searchTag: {
@@ -82,6 +84,6 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
     assert.lengthOf(lazyModules, 1, 'There should be one lazy module for results')
     assert.equal(lazyModules.props().module.conf.searchQuery, 'tags:"URN:dataset1"', 'The configured search query should be provider AND ESCAPED for dataset')
     assert.equal(lazyModules.props().module.conf.singleDatasetIpId, 'URN:dataset1', 'When searching a dataset tag, it should be prvided as single dataset IP ID in results')
-    assert.equal(lazyModules.props().module.conf.breadcrumbInitialContextLabel, 'dslabel', 'The breadcrumb should worth second search label')
+    assert.equal(lazyModules.props().module.description, 'dslabel', 'The breadcrumb should worth second search label')
   })
 })

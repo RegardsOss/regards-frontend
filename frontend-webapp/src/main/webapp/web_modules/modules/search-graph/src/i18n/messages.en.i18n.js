@@ -47,7 +47,6 @@ const messages = {
   'form.attributes.facetable.label': 'Enable filter',
   // user
   'search.graph.title': 'Graph browsing',
-  'search.graph.subtitle': 'Data browsing by collections and datasets objects display',
   'search.graph.show.details': 'Details',
   'search.graph.entity.detail.tooltip': 'Details',
   'search.graph.level.fetch.model.failed': 'Failed retrieving collections and datasets',

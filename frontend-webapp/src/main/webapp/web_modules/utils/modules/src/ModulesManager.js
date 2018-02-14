@@ -129,14 +129,6 @@ function getPathModuleId(path) {
   return matchedElements && matchedElements.length > 1 ? parseInt(matchedElements[1], 10) : null
 }
 
-/**
- * Returns module default icon path
- * @param {string} moduleType module type
- */
-function getModuleDefaultIconURL(moduleType) {
-  return `/modules-icon/${moduleType}.svg`
-}
-
 module.exports = {
   VisibleModuleTypes,
   HiddenModuleTypes,
@@ -146,6 +138,5 @@ module.exports = {
   getAvailableVisibleModuleTypes,
   getModuleURL,
   getPathModuleId,
-  getModuleDefaultIconURL,
 }
 

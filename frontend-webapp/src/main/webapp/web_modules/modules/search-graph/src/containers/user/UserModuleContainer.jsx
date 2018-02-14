@@ -21,12 +21,14 @@ import filter from 'lodash/filter'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import keys from 'lodash/keys'
+import pick from 'lodash/pick'
 import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { DamDomain, AccessDomain } from '@regardsoss/domain'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { withValueRenderContext } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
@@ -68,14 +70,13 @@ export class UserModuleContainer extends React.Component {
         dispatch(patitionTypeActions.onDataLoadingDone(getLevelPartitionKey(levelIndex), results))
       } // ignore empty objects, due to initilization case
     },
-    dispatchSetModuleCollapsed: collapsed => dispatch(graphContextActions.setModuleCollapsed(collapsed)),
   })
 
   static propTypes = {
-    // supplied by LazyModuleComponent
-    appName: PropTypes.string,
-    project: PropTypes.string,
-    moduleConf: ModuleConfiguration.isRequired, // Module configuration
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
+    moduleConf: ModuleConfiguration.isRequired,
     // from map state to props
     // eslint-disable-next-line react/no-unused-prop-types
     selectionPath: SelectionPath.isRequired,
@@ -92,8 +93,9 @@ export class UserModuleContainer extends React.Component {
     dispatchClearLevelSelection: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchLevelDataLoaded: PropTypes.func.isRequired,
-    dispatchSetModuleCollapsed: PropTypes.func.isRequired,
   }
+
+  static MODULE_PROPS = keys(AccessShapes.runtimeDispayModuleFields)
 
   componentWillMount = () => {
     this.onPropertiesChanged(undefined, this.props)
@@ -158,13 +160,6 @@ export class UserModuleContainer extends React.Component {
     }
   }
 
-  /** User callback: toggles expanded / collapsed state for module */
-  onExpandChange = () => {
-    const { dispatchSetModuleCollapsed, moduleCollapsed } = this.props
-    dispatchSetModuleCollapsed(!moduleCollapsed)
-  }
-
-
   /**
    * Refreshes the complete graph, computes recursively the new visible content by level, tries to restore each level
    * selection and content or reset selection at the level where selected element is no longer available
@@ -209,25 +204,22 @@ export class UserModuleContainer extends React.Component {
   }
 
   render() {
-    const {
-      appName, project, moduleCollapsed, moduleConf,
-    } = this.props
+    const { moduleCollapsed } = this.props
     const { graphDatasetAttributes } = this.state
 
+    const reportedModuleProps = pick(this.props, UserModuleContainer.MODULE_PROPS)
     return (
       <div>
         { /* Description handling */}
         <DescriptionContainer />
         <SearchGraph
           graphDatasetAttributes={graphDatasetAttributes}
-          moduleConf={moduleConf}
-          expanded={!moduleCollapsed}
-          onExpandChange={this.onExpandChange}
+          {...reportedModuleProps}
+          expanded={!moduleCollapsed // overrides the initial module expanded state value
+          }
         />
         <NavigableSearchResultsContainer
-          appName={appName}
-          project={project}
-          moduleConf={moduleConf}
+          {...reportedModuleProps}
         />
       </div>)
   }

@@ -16,22 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CommonShapes } from '@regardsoss/shape'
 
-// TODO delete me?
-
-/**
- * Definition of type DecoratorShape. Decorator are used in LazyModuleComponent to add a decorator element to modules
- * @author Sébastien Binda
- */
-export default PropTypes.shape({
-  id: PropTypes.number,
-  // Type available from AvailableModules.js
-  type: PropTypes.string,
-  description: PropTypes.string,
-  active: PropTypes.bool,
-  applicationId: PropTypes.string,
-  container: PropTypes.string,
-  expandable: PropTypes.bool,
-  expanded: PropTypes.bool,
-  conf: PropTypes.objectOf(PropTypes.any),
+export const ModuleConfiguration = PropTypes.shape({
+  title: PropTypes.string,
+  contacts: PropTypes.string,
+  displayAuthentication: PropTypes.bool,
+  displayCartSelector: PropTypes.bool,
+  displayNotificationsSelector: PropTypes.bool,
+  displayLocaleSelector: PropTypes.bool,
+  displayThemeSelector: PropTypes.bool,
+  projectAboutPage: CommonShapes.URL,
 })

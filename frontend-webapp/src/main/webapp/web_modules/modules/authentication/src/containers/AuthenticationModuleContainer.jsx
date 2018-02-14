@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-
+import { AccessShapes } from '@regardsoss/shape'
 import {
   AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticationClient, routeHelpers,
 } from '@regardsoss/authentication-manager'
@@ -32,8 +32,9 @@ import SessionManagementContainer from '../containers/SessionManagementContainer
  */
 export class AuthenticationModuleContainer extends React.Component {
   static propTypes = {
-    // current project (undefined or empty if admin)
-    project: PropTypes.string.isRequired,
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
     moduleConf: PropTypes.shape({
       // externally controlled login window state
       showLoginWindow: PropTypes.bool.isRequired,

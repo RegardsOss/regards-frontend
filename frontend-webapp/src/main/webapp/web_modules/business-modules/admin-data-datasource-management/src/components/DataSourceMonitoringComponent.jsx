@@ -18,8 +18,6 @@
  **/
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import FlatButton from 'material-ui/FlatButton'
-import isEmpty from 'lodash/isEmpty'
-import map from 'lodash/map'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -28,7 +26,6 @@ import {
   TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DurationValueRender, ShowableAtRender,
   FitContentDialog,
 } from '@regardsoss/components'
-import Dialog from 'material-ui/Dialog'
 import messages from '../i18n'
 import DatasourceStatusTableCell from './DatasourceStatusTableCell'
 

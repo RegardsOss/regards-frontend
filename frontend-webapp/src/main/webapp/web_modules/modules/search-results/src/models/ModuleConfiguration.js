@@ -38,8 +38,6 @@ const Form = PropTypes.shape({
 
   // Initial search query
   searchQuery: PropTypes.string,
-  // Fixed breadcrumb depending on search current context.
-  breadcrumbInitialContextLabel: PropTypes.string,
 
   // should enable facettes?
   enableFacettes: PropTypes.bool,

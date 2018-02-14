@@ -38,6 +38,7 @@ describe('[Search Graph] Testing UserModuleContainer', () => {
       // supplied by LazyModuleComponent
       appName: 'any',
       project: 'any',
+      type: 'any',
       moduleConf: {}, // Module configuration
       // from map state to props
       selectionPath: [],

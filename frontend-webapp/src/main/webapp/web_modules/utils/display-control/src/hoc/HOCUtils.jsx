@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isArray from 'lodash/isArray'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
+import isNil from 'lodash/isNil'
 import omit from 'lodash/omit'
 
 /**
@@ -57,8 +59,16 @@ function shouldCloneChildren(thatElement, oldProps, newProps) {
  * @return [React.element] clone children list
  */
 function cloneChildrenWith(children = [], newProps = {}) {
-  const childrenArray = Array.isArray(children) ? children : [children]
-  return childrenArray.map(child => React.cloneElement(child, {
+  if (isNil(children)) {
+    return children
+  }
+  if (!isArray(children)) {
+    return React.cloneElement(children, {
+      ...children.props,
+      ...newProps,
+    })
+  }
+  return children.map(child => React.cloneElement(child, {
     ...child.props,
     ...newProps,
   }))

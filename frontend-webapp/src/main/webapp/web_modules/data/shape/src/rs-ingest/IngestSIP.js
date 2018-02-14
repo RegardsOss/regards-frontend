@@ -69,6 +69,6 @@ const IngestSIP = PropTypes.shape({
   }),
 })
 
-export default {
+module.exports = {
   IngestSIP,
 }

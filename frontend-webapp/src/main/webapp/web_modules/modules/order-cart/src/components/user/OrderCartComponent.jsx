@@ -19,10 +19,10 @@
 import isEmpty from 'lodash/isEmpty'
 import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
-import { OrderShapes } from '@regardsoss/shape'
+import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DynamicModule, ModuleTitle, NoContentMessageInfo } from '@regardsoss/components'
+import { DynamicModule, NoContentMessageInfo } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { dependencies } from '../../user-dependencies'
 import OrderComponent from './options/OrderComponent'
@@ -35,15 +35,15 @@ import OrderCartTableComponent from './OrderCartTableComponent'
  */
 class OrderCartComponent extends React.Component {
   static propTypes = {
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+
     basket: OrderShapes.Basket,
     showDatasets: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool,
     isFetching: PropTypes.bool.isRequired,
     onClearCart: PropTypes.func.isRequired,
     onOrder: PropTypes.func.isRequired,
-    // expanded state management
-    expanded: PropTypes.bool.isRequired,
-    onExpandChange: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -53,19 +53,21 @@ class OrderCartComponent extends React.Component {
 
   /**
    * Renders module options
+   * @param {function} onClearCart on clear cart callback
+   * @param {function} onOrder on order callback
+   * @param {boolean} isFetching is fetching?
+   * @param {boolean} isNoContent is no content?
    * @return [React.Element] options list
    */
-  renderOptions = (isNoContent) => {
-    const { isFetching, onClearCart, onOrder } = this.props
-    return [
-      <OrderComponent key="options.order" disabled={isFetching} empty={isNoContent} onOrder={onOrder} />,
-      <ClearCartComponent key="options.clear.cart" disabled={isFetching} empty={isNoContent} onClearCart={onClearCart} />,
-    ]
-  }
+  renderOptions = (onClearCart, onOrder, isFetching, isNoContent) => [
+    <OrderComponent key="options.order" disabled={isFetching} empty={isNoContent} onOrder={onOrder} />,
+    <ClearCartComponent key="options.clear.cart" disabled={isFetching} empty={isNoContent} onClearCart={onClearCart} />,
+  ]
 
   render() {
     const {
-      isAuthenticated, basket, isFetching, onExpandChange, expanded, showDatasets,
+      isAuthenticated, basket, isFetching, onClearCart, onOrder, showDatasets,
+      ...moduleProperties
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -79,28 +81,24 @@ class OrderCartComponent extends React.Component {
 
     return (
       <DynamicModule
-        title={<ModuleTitle IconConstructor={CartIcon} text={formatMessage({ id: 'order-cart.module.title' })} />}
-        onExpandChange={onExpandChange}
-        expanded={expanded}
-        options={this.renderOptions(isNoContent)}
+        options={this.renderOptions(onClearCart, onOrder, isFetching, isNoContent)}
         requiresAuthentication
         requiredDependencies={dependencies}
+        {...moduleProperties}
       >
-        <div>
-          {/* 2.a - Empty basket display */}
-          <NoContentMessageInfo
-            noContent={isNoContent}
-            title={formatMessage({ id: noContentTitleKey })}
-            message={formatMessage({ id: noContentMesageKey })}
-            Icon={NoContentIconConstructor}
-          >
-            {/* 2.b - content  */}
-            <OrderCartTableComponent disableOptions={isFetching} basket={basket} showDatasets={showDatasets} />
-            {/* 2.c - loading (content is not inside, as we need the table to not be
+        {/* 2.a - Empty basket display */}
+        <NoContentMessageInfo
+          noContent={isNoContent}
+          title={formatMessage({ id: noContentTitleKey })}
+          message={formatMessage({ id: noContentMesageKey })}
+          Icon={NoContentIconConstructor}
+        >
+          {/* 2.b - content  */}
+          <OrderCartTableComponent disableOptions={isFetching} basket={basket} showDatasets={showDatasets} />
+          {/* 2.c - loading (content is not inside, as we need the table to not be
               unmounted. Indeed the table uses previous props to restore the rows expanded state  */}
-            <LoadableContentDisplayDecorator isLoading={isFetching} />
-          </NoContentMessageInfo>
-        </div>
+          <LoadableContentDisplayDecorator isLoading={isFetching} />
+        </NoContentMessageInfo>
       </DynamicModule>
     )
   }

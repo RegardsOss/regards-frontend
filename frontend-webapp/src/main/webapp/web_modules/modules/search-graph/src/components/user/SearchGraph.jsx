@@ -2,10 +2,10 @@
 * LICENSE_PLACEHOLDER
 **/
 import Measure from 'react-measure'
-import ModuleIcon from 'material-ui/svg-icons/hardware/device-hub'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DynamicModule, ModuleTitle } from '@regardsoss/components'
+import { DynamicModule } from '@regardsoss/components'
 import { ScrollArea } from '@regardsoss/adapters'
 import { dependencies } from '../../user-dependencies'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
@@ -18,10 +18,11 @@ import ToggleDatasetDetailsContainer from '../../containers/user/ToggleDatasetDe
 */
 class SearchGraph extends React.Component {
   static propTypes = {
-    graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
-    onExpandChange: PropTypes.func.isRequired,
-    expanded: PropTypes.bool.isRequired, // is module expanded
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
+    graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
   }
 
   static contextTypes = {
@@ -59,10 +60,11 @@ class SearchGraph extends React.Component {
 
   render() {
     const {
-      moduleConf: { graphLevels }, onExpandChange, expanded, graphDatasetAttributes,
+      moduleConf: { graphLevels }, expanded, graphDatasetAttributes,
+      ...moduleProps
     } = this.props
     const { viewportStyles } = this.state
-    const { moduleTheme: { user }, intl: { formatMessage } } = this.context
+    const { moduleTheme: { user } } = this.context
 
     // header options
     const headerOptionsComponents = [
@@ -73,52 +75,43 @@ class SearchGraph extends React.Component {
 
     return (
       <DynamicModule
-        title={
-          <ModuleTitle
-            IconConstructor={ModuleIcon}
-            text={formatMessage({ id: 'search.graph.title' })}
-            tooltip={formatMessage({ id: 'search.graph.subtitle' })}
-          />
-        }
-        options={headerOptionsComponents}
-        onExpandChange={onExpandChange}
+        {...moduleProps}
         expanded={expanded}
+        options={headerOptionsComponents}
         requiredDependencies={dependencies}
       >
-        <div>
-          { /* Graph horizontal scroll area, holding columns */}
-          <ScrollArea
-            horizontal
-            vertical={false}
-            smoothScrolling
-            contentStyle={viewportStyles}
-            ref={(scrollArea) => { this.scrollArea = scrollArea }}
-          >
-            <Measure onMeasure={this.onLevelsResized}>
-              <div style={user.levels.styles}>
-                {graphLevels.map((levelModelName, index) => (
-                  <GraphLevelDisplayerContainer
-                    graphDatasetAttributes={graphDatasetAttributes}
-                    key={levelModelName}
-                    levelModelName={levelModelName}
-                    levelIndex={index}
-                    isFirstLevel={index === 0}
-                    isLastLevel={false}
-                  />
-                ))}
-                {/* Last level to show datasets */}
+        { /* Graph horizontal scroll area, holding columns */}
+        <ScrollArea
+          horizontal
+          vertical={false}
+          smoothScrolling
+          contentStyle={viewportStyles}
+          ref={(scrollArea) => { this.scrollArea = scrollArea }}
+        >
+          <Measure onMeasure={this.onLevelsResized}>
+            <div style={user.levels.styles}>
+              {graphLevels.map((levelModelName, index) => (
                 <GraphLevelDisplayerContainer
                   graphDatasetAttributes={graphDatasetAttributes}
-                  key="last.level.datasets.only"
-                  levelModelName={null}
-                  levelIndex={graphLevels.length}
-                  isFirstLevel={graphLevels.length === 0}
-                  isLastLevel
+                  key={levelModelName}
+                  levelModelName={levelModelName}
+                  levelIndex={index}
+                  isFirstLevel={index === 0}
+                  isLastLevel={false}
                 />
-              </div>
-            </Measure>
-          </ScrollArea>
-        </div>
+              ))}
+              {/* Last level to show datasets */}
+              <GraphLevelDisplayerContainer
+                graphDatasetAttributes={graphDatasetAttributes}
+                key="last.level.datasets.only"
+                levelModelName={null}
+                levelIndex={graphLevels.length}
+                isFirstLevel={graphLevels.length === 0}
+                isLastLevel
+              />
+            </div>
+          </Measure>
+        </ScrollArea>
       </DynamicModule>
     )
   }

@@ -18,8 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { CardHeader } from 'material-ui/Card'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AnyIcon from 'material-ui/svg-icons/action/accessibility'
 import ModuleTitle from '../../src/module/ModuleTitle'
 import styles from '../../src/module/styles/styles'
 
@@ -36,10 +36,78 @@ describe('[Components] Testing ModuleTitle', () => {
   it('should exists', () => {
     assert.isDefined(ModuleTitle)
   })
-  it('should render correctly with icon', () => {
-    shallow(<ModuleTitle text="IDK" tooltip="IDK" IconConstructor={AnyIcon} />, { context })
+  it('should render correctly', () => {
+    const props = {
+      type: 'any',
+      locale: 'en',
+      description: 'any-module',
+      page: {
+        home: true,
+        iconType: 'DEFAULT',
+        customIconURL: 'any.svg',
+        title: {
+          en: 'any',
+          fr: 'quelconque',
+        },
+      },
+      titleComponent: null,
+      expandable: true,
+      expanded: true,
+      subtitle: 'a subtitle',
+      // module title bar options
+      options: [<div key="1" id="option.1" />, <div key="2" id="option.2" />],
+      onExpandChange: () => { },
+    }
+    const enzymeWrapper = shallow(<ModuleTitle {...props} />, { context })
+    const cardHeader = enzymeWrapper.find(CardHeader)
+    assert.lengthOf(cardHeader, 1, 'There should be a card header')
+
+    // render title component
+    assert.isOk(cardHeader.props().title, 'There should be a title prop in card header')
+    // note: MUI forbids further tests here (context issue)
+    // test expandable change
+    enzymeWrapper.setProps({
+      ...props,
+      expandable: false,
+    })
+    // test expanded change
+    enzymeWrapper.setProps({
+      ...props,
+      expandable: true,
+    })
   })
-  it('should render correctly without icon', () => {
-    shallow(<ModuleTitle text="IDK" tooltip="IDK" />, { context })
+
+  it('should render correctly in minimal mode (no option / page / subtitle / locale / description)', () => {
+    const props = {
+      type: 'any',
+      expandable: true,
+      expanded: true,
+      onExpandChange: () => { },
+    }
+    shallow(<ModuleTitle {...props} />, { context })
+  })
+  it('should render correctly with component title', () => {
+    const props = {
+      type: 'any',
+      locale: 'en',
+      description: 'any-module',
+      page: {
+        home: true,
+        iconType: 'DEFAULT',
+        customIconURL: 'any.svg',
+        title: {
+          en: 'any',
+          fr: 'quelconque',
+        },
+      },
+      titleComponent: <div id="title" />,
+      expandable: true,
+      expanded: true,
+      subtitle: 'a subtitle',
+      // module title bar options
+      options: [<div key="1" id="option.1" />, <div key="2" id="option.2" />],
+      onExpandChange: () => { },
+    }
+    shallow(<ModuleTitle {...props} />, { context })
   })
 })

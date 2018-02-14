@@ -19,7 +19,7 @@
 import { RadioButton } from 'material-ui/RadioButton'
 import { Field, RenderRadio } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import DatasetSelectionTypes from '../../../models/datasets/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../../../domain/DatasetSelectionTypes'
 
 /**
  * React component to display a radio group box to select the search form dataset assocation type

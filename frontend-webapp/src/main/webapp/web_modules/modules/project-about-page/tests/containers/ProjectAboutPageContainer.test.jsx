@@ -46,7 +46,9 @@ describe('[PROJECT ABOUT PAGE MODULE] Testing ProjectAboutPageContainer', () => 
   it('should render self and subcomponents', () => {
     // simple render test (should not output warn nor cause errors)
     const props = {
-      project: 'any',
+      appName: 'x',
+      project: 'y',
+      type: 'z',
       moduleConf: {
         htmlPath: 'http://www.viedemerde.fr',
       },

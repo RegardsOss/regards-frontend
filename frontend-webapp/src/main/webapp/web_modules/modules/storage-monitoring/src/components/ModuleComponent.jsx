@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ModuleIcon from 'material-ui/svg-icons/device/data-usage'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { storage } from '@regardsoss/units'
-import { DynamicModule, ModuleTitle } from '@regardsoss/components'
+import { DynamicModule } from '@regardsoss/components'
 import { dependencies } from '../user-dependencies'
 import StorageMonitoringContainer from '../containers/StorageMonitoringContainer'
 import ScaleSelectorComponent from './ScaleSelectorComponent'
@@ -31,10 +31,8 @@ import ScaleSelectorComponent from './ScaleSelectorComponent'
  */
 class ModuleComponent extends React.Component {
   static propTypes = {
-    // expanded state management
-    expandable: PropTypes.bool.isRequired,
-    expanded: PropTypes.bool.isRequired,
-    onExpandChange: PropTypes.func.isRequired,
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
     // scale state management
     scale: storage.StorageUnitScaleShape.isRequired,
     onUnitScaleChanged: PropTypes.func.isRequired,
@@ -45,28 +43,20 @@ class ModuleComponent extends React.Component {
   }
 
   /**
- * @return {[React.element]} module options
- */
-  renderOptions = () => {
-    const { scale, onUnitScaleChanged } = this.props
-    return [<ScaleSelectorComponent key="selector" scale={scale} onUnitScaleChanged={onUnitScaleChanged} />]
-  }
+   * Renders module options
+   * @param scale current scale
+   * @param onUnitScaleChanged unit scale changed callback
+   * @return {[React.element]} module options
+   */
+  renderOptions = (scale, onUnitScaleChanged) =>
+    [<ScaleSelectorComponent key="selector" scale={scale} onUnitScaleChanged={onUnitScaleChanged} />]
 
   render() {
-    const {
-      expandable, expanded, scale, onExpandChange,
-    } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { scale, onUnitScaleChanged, ...moduleProperties } = this.props
     return (
       <DynamicModule
-        title={<ModuleTitle
-          IconConstructor={ModuleIcon}
-          text={formatMessage({ id: 'archival.storage.capacity.monitoring.title' })}
-        />}
-        expandable={expandable}
-        expanded={expanded}
-        onExpandChange={onExpandChange}
-        options={this.renderOptions()}
+        {...moduleProperties}
+        options={this.renderOptions(scale, onUnitScaleChanged)}
         requiredDependencies={dependencies}
       >
         <StorageMonitoringContainer scale={scale} />

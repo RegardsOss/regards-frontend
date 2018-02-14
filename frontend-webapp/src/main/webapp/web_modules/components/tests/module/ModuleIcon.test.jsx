@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ModuleIcon from '../../src/module/ModuleIcon'
+import { ModuleIcon } from '../../src/module/ModuleIcon'
 import styles from '../../src/module/styles'
 
 const context = buildTestContext(styles)
@@ -28,19 +28,61 @@ const context = buildTestContext(styles)
  * Test ModuleIcon
  * @author Raphaël Mechali
  */
-describe('[ Module name] Testing ModuleIcon', () => {
+describe('[Components] Testing ModuleIcon', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(ModuleIcon)
   })
-  xit('should render correctly', () => {
+  it('should render correctly with no icon', () => {
     const props = {
-      //  TODO properties
+      iconDisplayMode: 'NONE',
+      defaultIconURL: 'any',
     }
-    assert.fail('TODO implement')
     const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
-    // TODO test
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to search for the node due to multiple context layers
+    assert.lengthOf(iconWrapper, 0, 'The component should not render in no icon mode')
+  })
+  it('should render correctly with default icon', () => {
+    const props = {
+      iconDisplayMode: 'DEFAULT',
+      defaultIconURL: 'any',
+      customIconURL: 'customIcon',
+    }
+    const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to search for the node due to multiple context layers
+    assert.lengthOf(iconWrapper, 1, 'The component should render in default mode')
+    assert.equal(iconWrapper.props().path, props.defaultIconURL, 'default icon should be rendered')
+  })
+  it('should render correctly with custom icon', () => {
+    const props = {
+      iconDisplayMode: 'CUSTOM',
+      defaultIconURL: 'any',
+      customIconURL: 'customIcon',
+    }
+    const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to search for the node due to multiple context layers
+    assert.lengthOf(iconWrapper, 1, 'The component should render in custom mode')
+    assert.equal(iconWrapper.props().path, props.customIconURL, 'custom icon should be rendered')
+  })
+  it('should render default icon when not specified', () => {
+    const props = {
+      defaultIconURL: 'any',
+    }
+    const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to search for the node due to multiple context layers
+    assert.lengthOf(iconWrapper, 1, 'The component should render in default mode')
+    assert.equal(iconWrapper.props().path, props.defaultIconURL, 'default icon should be rendered')
+  })
+  it('should render default icon when custom icon is missing', () => {
+    const props = {
+      iconDisplayMode: 'CUSTOM',
+      defaultIconURL: 'any',
+    }
+    const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to evaluate the property due to multiple context layers
+    assert.lengthOf(iconWrapper, 1, 'The component should render in default mode')
+    assert.equal(iconWrapper.props().path, props.defaultIconURL, 'default icon should be rendered')
   })
 })

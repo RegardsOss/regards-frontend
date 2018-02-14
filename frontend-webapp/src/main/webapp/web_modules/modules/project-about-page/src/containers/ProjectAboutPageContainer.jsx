@@ -22,6 +22,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import HomeIcone from 'material-ui/svg-icons/action/home'
+import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
 
@@ -34,7 +35,9 @@ require('../../html/regards-homepage.html')
  */
 class ProjectAboutPageContainer extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
     moduleConf: PropTypes.shape({
       htmlPath: PropTypes.string.isRequired,
       buttonComponent: PropTypes.node,

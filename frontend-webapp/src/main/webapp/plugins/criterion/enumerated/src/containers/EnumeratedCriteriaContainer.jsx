@@ -58,7 +58,7 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
     return {
       // dispatches a request to get property values
       dispatchGetPropertyValues: (name, filterText = '', q = '') =>
-        dispatch(enumeratedDOPropertyValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT, q)),
+        dispatch(enumeratedDOPropertyValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT)), // make sure not add q parameter when empty / null
     }
   }
 

@@ -51,7 +51,6 @@ class ModuleFormComponent extends React.Component {
   }
 
   render() {
-    const { maProp } = this.props
     const { intl, moduleTheme: { admin } } = this.context
     return (
       <div style={admin.rootStyle}>

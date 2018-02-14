@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ModuleIcon from 'material-ui/svg-icons/notification/folder-special'
 import { OrderClient } from '@regardsoss/client'
+import { AccessShapes } from '@regardsoss/shape'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
-import { DynamicModule } from '@regardsoss/components'
+import { DynamicModule, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
 import {
   ORDER_DISPLAY_MODES, OrdersNavigationActions, OrdersNavigationSelectors,
   OrderDisplayContainer, OrdersNavigationContainer,
@@ -32,38 +32,43 @@ import { dependencies } from '../../user-dependencies'
  */
 class OrderHistoryComponent extends React.Component {
   static propTypes = {
+    locale: PropTypes.string,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions).isRequired,
     orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
     navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors).isRequired,
-    title: PropTypes.string.isRequired,
-    // expanded state management
-    expanded: PropTypes.bool.isRequired,
-    onExpandChange: PropTypes.func.isRequired,
+    defaultIconURL: PropTypes.string.isRequired,
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
   }
 
   render() {
     const {
-      ordersActions, ordersSelectors, orderFilesActions, orderFilesSelectors,
-      navigationActions, navigationSelectors, title, onExpandChange, expanded,
+      locale, description, page, defaultIconURL,
+      ordersActions, ordersSelectors, orderFilesActions,
+      orderFilesSelectors, navigationActions, navigationSelectors,
     } = this.props
     return (
       <DynamicModule
-        title={
+        titleComponent={/* custom title component: breadcrumb */
           <OrdersNavigationContainer
-            title={title}
+            title={ModuleTitleText.selectTitle(page && page.title, description, locale)}
             displayMode={ORDER_DISPLAY_MODES.USER}
-            RootIconConstructor={ModuleIcon}
+            rootIcon={
+              <ModuleIcon
+                iconDisplayMode={page && page.iconType}
+                defaultIconURL={defaultIconURL}
+                customIconURL={page && page.customIconURL}
+              />}
             navigationActions={navigationActions}
             navigationSelectors={navigationSelectors}
           />
         }
-        onExpandChange={onExpandChange}
-        expanded={expanded}
         requiresAuthentication
         requiredDependencies={dependencies}
+        {...this.props}
       >
         <OrderDisplayContainer
           ordersActions={ordersActions}

@@ -18,8 +18,9 @@
  **/
 import { browserHistory } from 'react-router'
 import { AccessProjectClient } from '@regardsoss/client'
-import { CommonShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
+import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
 import MainMenuComponent from '../../components/user/MainMenuComponent'
 
@@ -32,51 +33,20 @@ const moduleSelectors = AccessProjectClient.ModuleSelectors()
  **/
 class UserContainer extends React.Component {
   static propTypes = {
-    // Set by module loader (LazyModuleComponent)
-    project: PropTypes.string,
-    appName: PropTypes.string.isRequired,
-    // Module configuration.
-    moduleConf: PropTypes.shape({
-      title: PropTypes.string,
-      contacts: PropTypes.string,
-      displayAuthentication: PropTypes.bool,
-      displayCartSelector: PropTypes.bool,
-      displayNotificationsSelector: PropTypes.bool,
-      displayLocaleSelector: PropTypes.bool,
-      displayThemeSelector: PropTypes.bool,
-      projectAboutPage: CommonShapes.URL,
-    }),
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // redefines expected configuration shape
+    moduleConf: ModuleConfiguration,
   }
 
 
   render() {
-    const {
-      project, appName,
-      moduleConf: {
-        title, displayAuthentication, displayThemeSelector, displayNotificationsSelector,
-        displayCartSelector, displayLocaleSelector, projectAboutPage, contacts,
-      },
-    } = this.props
     const currentModuleId = modulesManager.getPathModuleId(browserHistory.getCurrentLocation().pathname)
     return (
       // Resolve the list of active dynamic modules for breadcrumb and navigation
       <DynamicModulesProviderContainer moduleSelectors={moduleSelectors} keepOnlyActive >
         {/* Insert main render component */}
-        <MainMenuComponent
-          project={project}
-          appName={appName}
-
-          title={title}
-          displayAuthentication={displayAuthentication}
-          displayNotificationsSelector={displayNotificationsSelector}
-          displayCartSelector={displayCartSelector}
-          displayThemeSelector={displayThemeSelector}
-          displayLocaleSelector={displayLocaleSelector}
-          projectAboutPage={projectAboutPage}
-          contacts={contacts}
-
-          currentModuleId={currentModuleId}
-        />
+        <MainMenuComponent {...this.props} currentModuleId={currentModuleId} />
       </DynamicModulesProviderContainer>
     )
   }

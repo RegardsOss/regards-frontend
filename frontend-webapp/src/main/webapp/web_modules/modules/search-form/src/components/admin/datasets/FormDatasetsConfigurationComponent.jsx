@@ -27,7 +27,7 @@ import DatasetLineComponent from './DatasetLineComponent'
 import DatasetModelLineComponent from './DatasetModelLineComponent'
 import { datasetActions, datasetSelectors } from '../../../clients/DatasetClient'
 import { modelActions, modelSelectors } from '../../../clients/ModelClient'
-import DatasetSelectionTypes from '../../../models/datasets/DatasetSelectionTypes'
+import DatasetSelectionTypes from '../../../domain/DatasetSelectionTypes'
 import FormDatasetsTypeSelection from './FormDatasetsTypeSelection'
 
 /**

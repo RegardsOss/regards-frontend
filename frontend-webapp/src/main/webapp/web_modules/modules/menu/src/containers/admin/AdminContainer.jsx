@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessShapes } from '@regardsoss/shape'
 import { moduleActions, moduleSelectors } from '../../clients/ModulesListClient'
 import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
 import ModuleFormComponent from '../../components/admin/ModuleFormComponent'
@@ -26,12 +27,8 @@ import ModuleFormComponent from '../../components/admin/ModuleFormComponent'
  */
 class AdminContainer extends React.Component {
   static propTypes = {
-    // common parameters
-    appName: PropTypes.string.isRequired,
-    // Form parameters
-    adminForm: PropTypes.shape({
-      currentNamespace: PropTypes.string,
-    }).isRequired,
+    // default module properties
+    ...AccessShapes.runtimeConfigurationModuleFields,
   }
 
   render() {

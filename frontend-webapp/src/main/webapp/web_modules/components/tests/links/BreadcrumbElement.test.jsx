@@ -35,7 +35,7 @@ describe('[Components] Testing BreadcrumbElement', () => {
     const props = {
       label: 'l1',
       onAction: () => { },
-      RootIconConstructor: () => <div />,
+      rootIcon: <div />,
     }
     shallow(<BreadcrumbElement {...props} />, { context })
   })

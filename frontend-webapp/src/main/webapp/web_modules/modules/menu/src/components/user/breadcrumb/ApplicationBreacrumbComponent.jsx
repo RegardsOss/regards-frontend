@@ -22,8 +22,7 @@ import HomeIcon from 'material-ui/svg-icons/action/home'
 import SubLevelIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import FlatButton from 'material-ui/FlatButton'
 import { AccessShapes } from '@regardsoss/shape'
-import { AccessDomain } from '@regardsoss/domain'
-import { modulesManager } from '@regardsoss/modules'
+import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ModuleTitleText, ModuleIcon } from '@regardsoss/components'
@@ -70,7 +69,7 @@ class ApplicationBreacrumbComponent extends React.Component {
               icon={
                 <ModuleIcon
                   iconDisplayMode={get(selectedModule, 'content.page.iconType', AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT)}
-                  defaultIconURL={modulesManager.getModuleDefaultIconURL(selectedModule.content.type)}
+                  defaultIconURL={UIDomain.getModuleDefaultIconURL(selectedModule.content.type)}
                   customIconURL={get(selectedModule, 'content.page.customIconURL')}
                 />
               }

@@ -21,8 +21,7 @@ import { Link } from 'react-router'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
 import SectionDefaultIcon from 'material-ui/svg-icons/navigation/menu'
-import { AccessDomain } from '@regardsoss/domain'
-import { modulesManager } from '@regardsoss/modules'
+import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { DropDownButton, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../model/NavigationItemTypes'
@@ -79,7 +78,7 @@ class MainBarDropMenuButton extends React.Component {
           <SectionDefaultIcon /> :
           <ModuleIcon
             iconDisplayMode={iconType}
-            defaultIconURL={modulesManager.getModuleDefaultIconURL(module.type)}
+            defaultIconURL={UIDomain.getModuleDefaultIconURL(module.type)}
             customIconURL={customIconURL}
           />
       }

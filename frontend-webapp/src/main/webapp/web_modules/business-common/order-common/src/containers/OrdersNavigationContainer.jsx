@@ -61,7 +61,7 @@ export class OrdersNavigationContainer extends React.Component {
     // root element title in navigation
     title: PropTypes.string.isRequired,
     // Root navigation icon
-    RootIconConstructor: PropTypes.func,
+    rootIcon: PropTypes.node,
     // eslint-disable-next-line react/no-unused-prop-types
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired, // used in mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -102,12 +102,12 @@ export class OrdersNavigationContainer extends React.Component {
   }
 
   render() {
-    const { RootIconConstructor, title, dispatchResetToLevel } = this.props
+    const { rootIcon, title, dispatchResetToLevel } = this.props
     const { navigationPath } = this.state
     return (
       <OrdersNavigationComponent
         title={title}
-        RootIconConstructor={RootIconConstructor}
+        rootIcon={rootIcon}
         navigationPath={navigationPath}
         onResetTolevel={dispatchResetToLevel}
       />

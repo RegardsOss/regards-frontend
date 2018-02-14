@@ -15,37 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { i18nContextType, I18nProvider } from '@regardsoss/i18n'
+ **/
 import { AccessShapes } from '@regardsoss/shape'
-import ModuleListButtonComponent from './ModuleListButtonComponent'
-import messages from '../i18n'
-
+import DatasetsConfShape from './DatasetsConfShape'
 /**
- * Component to display all available modules for a given container
- * with messages internationalisation provider
- * @author Sébastien Binda
+ * Form entity description
+ * @author Sébastien binda
  */
-class ModuleListProvider extends React.Component {
-  static propTypes = {
-    container: PropTypes.string,
-    modules: AccessShapes.ModuleArray,
-  }
+const ModuleConfiguration = PropTypes.shape({
+  conf: PropTypes.shape({
+    // Search form datasets configuration
+    datasets: DatasetsConfShape,
+    // Search form Layout configuration
+    layout: AccessShapes.ContainerContent.isRequired,
+    // Search form criterion configuration
+    criterion: AccessShapes.UIPluginConfArray,
+    // Does search form render for preview or for full use
+    preview: PropTypes.bool,
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
+    // Save a search-result configuration
+    searchResult: PropTypes.object,
+  }),
+})
 
-  render() {
-    return (
-      <I18nProvider messages={messages}>
-        <ModuleListButtonComponent
-          container={this.props.container}
-          modules={this.props.modules}
-        />
-      </I18nProvider>
-    )
-  }
-}
-
-export default ModuleListProvider
+export default ModuleConfiguration

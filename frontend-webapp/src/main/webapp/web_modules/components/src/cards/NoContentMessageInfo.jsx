@@ -15,7 +15,7 @@ class NoContentMessageInfo extends React.Component {
     title: PropTypes.node.isRequired,
     message: PropTypes.node,
     Icon: PropTypes.func,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     // eslint-disable-next-line react/forbid-prop-types
     rootStyles: PropTypes.object,
   }

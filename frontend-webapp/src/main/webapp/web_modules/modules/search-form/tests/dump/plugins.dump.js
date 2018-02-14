@@ -16,26 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessShapes } from '@regardsoss/shape'
-import DatasetsConfShape from './datasets/DatasetsConfShape'
+
 /**
- * Form entity description
- * @author Sébastien binda
+ * exposes some plugin dumps for tests
+ * @author Raphaël Mechali
  */
-const ModuleConfiguration = PropTypes.shape({
-  conf: PropTypes.shape({
-    // Search form datasets configuration
-    datasets: DatasetsConfShape,
-    // Search form Layout configuration
-    layout: AccessShapes.ContainerContent,
-    // Search form criterion configuration
-    criterion: AccessShapes.UIPluginConfArray,
-    // Does search form render for preview or for full use
-    preview: PropTypes.bool,
 
-    // Save a search-result configuration
-    searchResult: PropTypes.object,
-  }),
-})
-
-export default ModuleConfiguration
+export const DUMP = [{
+  id: 1,
+  active: true,
+  label: 'a plugin criterion instance',
+  conf: {
+    static: {},
+    dynamic: {},
+  },
+  pluginDefinition: {
+    id: 1,
+    name: 'a plugin criterion',
+    type: 'CRITERIA',
+    sourcePath: './idontexist',
+    iconUrl: './eitherdonti',
+  },
+}]

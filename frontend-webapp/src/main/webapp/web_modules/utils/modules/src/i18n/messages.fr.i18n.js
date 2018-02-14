@@ -23,13 +23,7 @@
  * @author Sébastien Binda
  */
 const messages = {
-  'modules.list.menu.label': 'Navigation',
-  'section.order-cart': 'Paniers',
-  'section.order-history': 'Commandes',
-  'section.search-form': 'Formulaires de recherche',
-  'section.search-results': 'Catalogues de données',
-  'section.search-graph': 'Arbres de recherche',
-  'section.storage-monitoring': 'Etats de stockage',
+  // no message
 }
 
 export default messages

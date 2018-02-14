@@ -19,9 +19,12 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import UserModuleContainer from '../../../src/containers/user/UserModuleContainer'
-import OrderCartContainer from '../../../src/containers/user/OrderCartContainer'
+import OrderCartComponent from '../../../src/components/user/OrderCartComponent'
+import SelectionItemDetailContainer from '../../../src/containers/user/detail/SelectionItemDetailContainer'
+import { UserModuleContainer } from '../../../src/containers/user/UserModuleContainer'
 import styles from '../../../src/styles/styles'
+
+import { emptyBasket, mockBasket1 } from '../../BasketMocks'
 
 const context = buildTestContext(styles)
 
@@ -36,14 +39,69 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
   it('should exists', () => {
     assert.isDefined(UserModuleContainer)
   })
-  it('should render correctly', () => {
-    const props = {
-      project: 'any',
+  it('should render correctly with different properties sets', () => {
+    const propsSets = [{
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      moduleConf: {
+        showDatasets: true,
+      },
+      isAuthenticated: false,
+      basket: undefined,
+      hasError: false,
+      isFetching: false,
+      dispatchGetBasket: () => { },
+      dispatchFlushBasket: () => { },
+      dispatchStartOrder: () => { },
+      dispatchClearCart: () => { },
+    }, {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      moduleConf: {
+        showDatasets: true,
+      },
+      isAuthenticated: true,
+      basket: emptyBasket,
+      hasError: true,
+      isFetching: true,
+      dispatchGetBasket: () => { },
+      dispatchFlushBasket: () => { },
+      dispatchStartOrder: () => { },
+      dispatchClearCart: () => { },
+    }, {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       moduleConf: {
         showDatasets: false,
       },
-    }
-    const renderWrapper = shallow(<UserModuleContainer {...props} />, { context })
-    assert.lengthOf(renderWrapper.find(OrderCartContainer), 1, 'There should be the sub container (this one does\'t do anything')
+      isAuthenticated: true,
+      basket: mockBasket1,
+      hasError: false,
+      isFetching: false,
+      dispatchGetBasket: () => { },
+      dispatchFlushBasket: () => { },
+      dispatchStartOrder: () => { },
+      dispatchClearCart: () => { },
+    }]
+
+    propsSets.forEach((props, index) => {
+      const enzymeWrapper = shallow(<UserModuleContainer {...props} />, { context })
+      const componentWrapper = enzymeWrapper.find(OrderCartComponent)
+      assert.lengthOf(componentWrapper, 1, `There should be the sub component - property set n°${index}`)
+      testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+        basket: props.basket,
+        hasError: props.hasError,
+        isFetching: props.isFetching,
+        isAuthenticated: props.isAuthenticated,
+        onClearCart: props.dispatchClearCart,
+        onOrder: enzymeWrapper.instance().onOrder,
+      }, `Properties should be correctly reported to sub component - property set n°${index}`)
+
+      const detailContainerWrapper = enzymeWrapper.find(SelectionItemDetailContainer)
+      assert.lengthOf(detailContainerWrapper, 1, `This container should also add detail functionnality, using a detail container - property set n°${index}`)
+    })
   })
 })

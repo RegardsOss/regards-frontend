@@ -29,7 +29,7 @@ const session = new Schema(SessionConfiguration.normalizrKey, {
 })
 
 // Schemas for API responses.
-export default {
+module.exports = {
   SESSION: session,
   SESSION_ARRAY: arrayOf(session),
   SessionConfiguration,

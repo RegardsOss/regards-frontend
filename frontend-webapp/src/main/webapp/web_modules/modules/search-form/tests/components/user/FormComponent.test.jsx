@@ -19,12 +19,10 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import { spy } from 'sinon'
-import RaisedButton from 'material-ui/RaisedButton'
-import { Container } from '@regardsoss/layout'
 import FormComponent from '../../../src/components/user/FormComponent'
+import FormLayout from '../../../src/components/user/FormLayout'
 import Styles from '../../../src/styles/styles'
-
+import { DUMP } from '../../dump/plugins.dump'
 
 const options = {
   context: buildTestContext(Styles),
@@ -33,29 +31,39 @@ const options = {
  * Tests form FomComponent
  * @author Sébastien binda
  */
-describe('[FORM MODULE] Testing Form User component', () => {
+describe('[FORM MODULE] Testing FormComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
+  it('should exists', () => {
+    assert.isDefined(FormComponent)
+  })
   it('Should render form configured layout with given plugins', () => {
-    const handleSearchCallback = spy()
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'search-form',
       description: 'Test',
+      moduleConf: {
+        layout: {
+          id: 'my-container',
+          type: 'idk',
+        },
+      },
+      plugins: DUMP,
+      pluginsProps: {
+        onChange: () => { },
+      },
+
       layout: {
         id: 'main',
         type: 'type',
       },
-      handleSearch: handleSearchCallback,
+      handleSearch: () => { },
     }
 
-    const wrapper = shallow(<FormComponent {...props} />, options)
-
-    const button = wrapper.find(RaisedButton)
-    assert.isTrue(wrapper.find(Container).length === 1, 'Form module should render configured layout')
-    assert.isTrue(button.length === 1, 'There should be a button to run search')
-
-    assert(handleSearchCallback.notCalled)
-    button.simulate('click')
-    assert(handleSearchCallback.calledOnce)
+    const enzymeWrapper = shallow(<FormComponent {...props} />, options)
+    const layoutWrapper = enzymeWrapper.find(FormLayout)
+    assert.lengthOf(layoutWrapper, 1, 'There should be the layout wrapper')
   })
 })
 

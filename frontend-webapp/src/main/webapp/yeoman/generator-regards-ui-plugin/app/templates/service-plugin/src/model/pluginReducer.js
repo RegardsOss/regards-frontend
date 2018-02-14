@@ -17,4 +17,4 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export default {}
+module.exports = {}

@@ -23,13 +23,13 @@ import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import Styles from '../../src/styles/styles'
 import { UnconnectedModuleContainer } from '../../src/containers/ModuleContainer'
 import FormComponent from '../../src/components/user/FormComponent'
-import { DATASET_TYPE } from '../../src/models/datasets/DatasetSelectionTypes'
+import { DATASET_TYPE } from '../../src/domain/DatasetSelectionTypes'
 
 /**
  * Tests for ModuleContainer
  * @author Sébastien binda
  */
-describe('[SEARCH FORM] Testing User Container', () => {
+describe('[SEARCH FORM] Testing ModuleContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -70,6 +70,7 @@ describe('[SEARCH FORM] Testing User Container', () => {
     const props = {
       project: 'test',
       appName: 'test',
+      type: 'any',
       description: 'Test',
       moduleConf: {
         enableFacettes: false,
@@ -101,7 +102,6 @@ describe('[SEARCH FORM] Testing User Container', () => {
     // Check parameters passed to FormComponent
     const formComponent = wrapper.find(FormComponent)
     assert.isTrue(formComponent.length === 1, 'There should be one FormComponent rendered')
-    assert.equal(formComponent.prop('layout'), props.moduleConf.layout, ' Invalid layout passed to FormComponent')
     const expectedPlugins =
       [
         {

@@ -17,14 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { NewsItemComponent } from '@regardsoss/components'
+import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
+import { NewsItemComponent } from '@regardsoss/components'
 
 /**
  * Show the list of public visible projects
  */
 class NewsListContainer extends React.Component {
   static propTypes = {
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
     // TODO-V3 use it
     // newsList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
   }

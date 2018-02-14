@@ -34,8 +34,10 @@ describe('[Search Graph] Testing SearchGraph', () => {
   })
   it('should render when module is expanded', () => {
     const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
       graphDatasetAttributes: [],
-      onExpandChange: () => { },
       expanded: true,
       moduleConf: {
         graphLevels: [

@@ -1,7 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-import DefaultRootIconConstructor from 'material-ui/svg-icons/communication/location-on'
+import DefaultRootIcon from 'material-ui/svg-icons/communication/location-on'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import BreadcrumbElement from './BreadcrumbElement'
 import styles from './styles'
@@ -22,12 +22,12 @@ class Breadcrumb extends React.Component {
     /** On breadcrumb element action callback: (element, index) => void */
     // eslint-disable-next-line react/no-unused-prop-types
     onAction: PropTypes.func.isRequired,
-    /** Root icon constructor (optional, replaced by default if not provided) */
-    RootIconConstructor: PropTypes.func,
+    /** Root icon (optional, replaced by default if not provided) */
+    rootIcon: PropTypes.node,
   }
 
   static defaultProps = {
-    RootIconConstructor: DefaultRootIconConstructor,
+    rootIcon: <DefaultRootIcon />,
   }
 
   static contextTypes = {
@@ -38,7 +38,9 @@ class Breadcrumb extends React.Component {
 
   componentWillReceiveProps = nextProps => this.onPropertiesChanged(nextProps)
 
-  onPropertiesChanged = ({ elements, labelGenerator, onAction }) => {
+  onPropertiesChanged = ({
+    elements, labelGenerator, onAction,
+  }) => {
     // recompute the dynamic list of elements to show
     this.setState({
       elements: (elements || []).map(this.packElementModel.bind(this, labelGenerator, onAction)),
@@ -56,7 +58,7 @@ class Breadcrumb extends React.Component {
 
   render() {
     const { elements } = this.state
-    const { RootIconConstructor } = this.props
+    const { rootIcon } = this.props
     const { moduleTheme: { breadcrumb: { style } } } = this.context
     return (
       <div style={style}>
@@ -69,7 +71,7 @@ class Breadcrumb extends React.Component {
               key={label}
               label={label}
               onAction={onAction}
-              RootIconConstructor={RootIconConstructor}
+              rootIcon={rootIcon}
             />))
         }
       </div>

@@ -21,7 +21,7 @@ import { enumeratedDOPropertyValuesReducer } from './clients/EnumeratedDOPropert
 /**
  * Exports plugin Redux reducers
  */
-export default {
+module.exports = {
   filteredValues: enumeratedDOPropertyValuesReducer,
 }
 

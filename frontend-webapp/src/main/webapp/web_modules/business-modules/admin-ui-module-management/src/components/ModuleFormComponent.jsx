@@ -271,7 +271,7 @@ class ModuleFormComponent extends React.Component {
     const {
       pristine, submitting, handleSubmit, onSubmit, onBack, invalid,
     } = this.props
-    const { module, dynamicContainerSelected, moduleSelected } = this.state
+    const { dynamicContainerSelected, moduleSelected } = this.state
     const style = Styles(this.context.muiTheme)
     const { isDuplicating, isCreating } = this.props.adminForm
 

@@ -30,6 +30,6 @@ function reducer(state = {
   }
 }
 
-export default {
+module.exports = {
   pluginTest: reducer,
 }

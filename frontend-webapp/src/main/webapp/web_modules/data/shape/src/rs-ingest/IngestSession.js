@@ -35,6 +35,6 @@ const IngestSession = PropTypes.shape({
   }),
 })
 
-export default {
+module.exports = {
   IngestSession,
 }
