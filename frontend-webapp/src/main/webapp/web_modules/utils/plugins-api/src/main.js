@@ -23,7 +23,7 @@ import { initPlugin } from './utils/InitPlugin'
  * Main interface to expose plugins utils
  * @author Sébastien Binda
  */
-export {
+module.exports = {
   PluginCriterionContainer,
   initPlugin,
 }

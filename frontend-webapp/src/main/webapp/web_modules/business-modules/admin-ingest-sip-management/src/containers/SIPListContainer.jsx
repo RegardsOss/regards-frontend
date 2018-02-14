@@ -106,10 +106,10 @@ export class SIPListContainer extends React.Component {
     }
   }
 
-  onRefresh = () => {
+  onRefresh = (currentFilters) => {
     const { meta, fetchPage } = this.props
     const curentPage = get(meta, 'number', 0)
-    fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
+    fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
   handleGoBack = () => {
@@ -133,7 +133,7 @@ export class SIPListContainer extends React.Component {
     } else if (session) {
       contextFilters.sessionId = session
     }
-    return this.setState({ contextFilters })
+    this.setState({ contextFilters })
   }
 
   initializeFiltersFromURL = () => {
