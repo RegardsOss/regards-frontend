@@ -106,7 +106,7 @@ module.exports = {
         name: '',
       },
       attribute: {
-        name: 'raw data',
+        name: 'rawdata',
         label: 'Raw data',
         type: '',
         optional: true,
@@ -126,7 +126,7 @@ module.exports = {
         name: '',
       },
       attribute: {
-        name: 'raw data size',
+        name: 'rawdata_size',
         label: 'Raw data size',
         type: '',
         optional: true,
