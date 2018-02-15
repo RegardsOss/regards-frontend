@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import keys from 'lodash/keys'
-import pick from 'lodash/pick'
 import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
 import join from 'lodash/join'
@@ -25,6 +24,7 @@ import { connect } from '@regardsoss/redux'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadingComponent } from '@regardsoss/display-control'
+import { modulesHelper } from '@regardsoss/modules-api'
 import { AttributeModelActions, AttributeModelSelectors } from '../clients/AttributeModelClient'
 import ModuleConfiguration from '../models/ModuleConfiguration'
 import URLManagementContainer from './user/URLManagementContainer'
@@ -33,6 +33,7 @@ import ModuleComponent from '../components/user/ModuleComponent'
 import FeedbackDisplayComponent from '../components/user/feedback/FeedbackDisplayComponent'
 import { TableDisplayModeEnum } from '../models/navigation/TableDisplayModeEnum'
 import { DISPLAY_MODE_ENUM } from '../definitions/DisplayModeEnum'
+
 
 /**
  * Main container to display module form.
@@ -108,7 +109,7 @@ export class ModuleContainer extends React.Component {
             { /* View : module (report all module properties) */}
             <ModuleComponent
               facettesQuery={facettesQuery}
-              {...pick(this.props, ModuleContainer.MODULE_PROPERTIES)}
+              {...modulesHelper.getReportedUserModuleProps(this.props)}
             />
           </URLManagementContainer>
         </div>

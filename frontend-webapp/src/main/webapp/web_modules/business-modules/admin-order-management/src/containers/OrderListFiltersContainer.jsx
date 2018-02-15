@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AdminShapes } from '@regardsoss/shape'
@@ -29,7 +30,8 @@ const allFiltersDependencies = [
 ]
 // a default page size
 const PAGE_SIZE = 50
-
+// throttle delay for users list request
+const THROTTLE_DELAY_MS = 300
 // Sub components with added rights
 export const OrderListFiltersComponentWithRights = withResourceDisplayControl(OrderListFiltersComponent)
 
@@ -59,7 +61,11 @@ export class OrderListFiltersContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      dispatchGetUsers: partialEmail => dispatch(projectUserActions.fetchPagedEntityList(0, PAGE_SIZE, null, { partialEmail })),
+      // Note: we throttle here the emitted network requests to avoid dispatching for each key entered
+      dispatchGetUsers:
+        throttle(
+          partialEmail => dispatch(projectUserActions.fetchPagedEntityList(0, PAGE_SIZE, null, { partialEmail })),
+          THROTTLE_DELAY_MS, { leading: true }),
     }
   }
 
