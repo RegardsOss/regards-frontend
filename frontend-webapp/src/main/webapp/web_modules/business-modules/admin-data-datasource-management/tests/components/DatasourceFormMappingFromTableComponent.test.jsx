@@ -39,9 +39,9 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormMappingLineCo
       table: DumpProvider.get('DataManagementClient', 'ConnectionTable').t_fragment,
       currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
       isEditing: false,
-      change: () => { },
+      change: () => {},
     }
     const enzymeWrapper = shallow(<DatasourceFormMappingFromTableComponent {...props} />, { context })
-    expect(enzymeWrapper.find(DatasourceFormMappingLineComponent)).to.have.length(9)
+    expect(enzymeWrapper.find(DatasourceFormMappingLineComponent)).to.have.length(8)
   })
 })

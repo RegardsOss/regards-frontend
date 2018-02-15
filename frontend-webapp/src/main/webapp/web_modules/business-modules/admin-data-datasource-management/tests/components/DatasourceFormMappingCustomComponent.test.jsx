@@ -39,11 +39,11 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormMappingCustom
       table: DumpProvider.getFirstEntity('DataManagementClient', 'ConnectionTable'),
       currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
       isEditing: false,
-      change: () => { },
+      change: () => {},
     }
 
 
     const enzymeWrapper = shallow(<DatasourceFormMappingCustomComponent {...props} />, { context })
-    expect(enzymeWrapper.find(DatasourceFormMappingLineComponent)).to.have.length(9)
+    expect(enzymeWrapper.find(DatasourceFormMappingLineComponent)).to.have.length(8)
   })
 })
