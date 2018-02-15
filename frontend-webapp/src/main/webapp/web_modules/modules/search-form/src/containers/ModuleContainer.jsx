@@ -26,13 +26,13 @@ import isEqual from 'lodash/isEqual'
 import isInteger from 'lodash/isInteger'
 import keys from 'lodash/keys'
 import merge from 'lodash/merge'
-import pick from 'lodash/pick'
 import reduce from 'lodash/reduce'
 import uniq from 'lodash/fp/uniq'
 import values from 'lodash/values'
 import unionBy from 'lodash/unionBy'
 import { browserHistory } from 'react-router'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
+import { modulesHelper } from '@regardsoss/modules-api'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
@@ -311,7 +311,6 @@ class ModuleContainer extends React.Component {
         initialQuery: this.getInitialQuery(),
       }
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
-      const moduleProperties = pick(this.props, ModuleContainer.MODULE_PROPS)
       return (
         <LoadableContentDisplayDecorator
           isLoading={this.props.attributesLoading}
@@ -321,7 +320,7 @@ class ModuleContainer extends React.Component {
             plugins={criterionWithAttributes}
             pluginsProps={pluginsProps}
             handleSearch={this.handleSearch}
-            {...moduleProperties}
+            {...modulesHelper.getReportedUserModuleProps(this.props)}
           />
         </LoadableContentDisplayDecorator>
       )

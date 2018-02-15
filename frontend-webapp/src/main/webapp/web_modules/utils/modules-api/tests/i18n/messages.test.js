@@ -16,14 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import LazyModuleComponent from './components/LazyModuleComponent'
-import modulesManager from './ModulesManager'
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesEN from '../../src/i18n/messages.en.i18n'
+import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
 /**
- * Main module file to expose public interface
+ * Tests for i18n messages
  * @author Sébastien Binda
  */
-module.exports = {
-  LazyModuleComponent,
-  modulesManager,
-}
+describe('[SEARCH UTILS] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exist', () => {
+    assert.isDefined(MessagesEN)
+    assert.isDefined(MessagesFR)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFR), keys(MessagesEN))
+  })
+})

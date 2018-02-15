@@ -70,7 +70,7 @@ import PictureLinkComponent from './links/PictureLinkComponent'
 import LinkComponent from './links/LinkComponent'
 import AnchorComponent from './links/AnchorComponent'
 
-import AutoCompleteTextField from './list/AutoCompleteTextField'
+import AutoCompleteTextField, { throttleAutocompleteFetch } from './list/AutoCompleteTextField'
 import ChipList from './list/ChipList'
 import ListContainer from './list/ListContainer'
 import PageableListContainer from './list/PageableListContainer'
@@ -226,6 +226,8 @@ export {
 
   TreeTableComponent,
   TreeTableRow,
+
+  throttleAutocompleteFetch,
 
   withConfirmDialog,
 

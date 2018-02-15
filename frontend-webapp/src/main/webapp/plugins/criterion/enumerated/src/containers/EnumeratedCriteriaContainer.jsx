@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import React from 'react'
+import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { enumeratedDOPropertyValuesActions, enumeratedDOPropertyValuesSelectors } from '../clients/EnumeratedDOPropertyValuesClient'
@@ -27,6 +28,9 @@ const MAX_VALUES_COUNT = 10
 
 /** Search field Id in state (see plugin-info.json) */
 const SEARCH_FIELD_ID = 'searchField'
+
+/** Throttle delay for values list queries (avoids flooding the network) */
+const THROTTLE_DELAY_MS = 300
 
 /**
  * Root container for enumerated criteria: it fetches parameter possible values, ensures the value selection is
@@ -57,8 +61,12 @@ export class EnumeratedCriteriaContainer extends PluginCriterionContainer {
   static mapDispatchToProps(dispatch) {
     return {
       // dispatches a request to get property values
-      dispatchGetPropertyValues: (name, filterText = '', q = '') =>
-        dispatch(enumeratedDOPropertyValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT)), // make sure not add q parameter when empty / null
+      dispatchGetPropertyValues:
+        // Note: we throttle here the emitted network requests to avoid dispatching for each key entered
+        throttle(
+          (name, filterText = '', q = '') => dispatch(enumeratedDOPropertyValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT)),
+          THROTTLE_DELAY_MS, { leading: true }),
+      // make sure not add q parameter when empty / null
     }
   }
 

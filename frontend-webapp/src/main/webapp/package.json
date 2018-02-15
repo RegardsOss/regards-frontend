@@ -109,6 +109,7 @@
     "@regardsoss/microservice-plugin-configurator": "1.0.0",
     "@regardsoss/mime-types": "1.0.0",
     "@regardsoss/modules": "0.0.1",
+    "@regardsoss/modules-api": "0.0.1",
     "@regardsoss/order-common": "0.0.1",
     "@regardsoss/plugins": "0.0.1",
     "@regardsoss/plugins-api": "0.0.1",

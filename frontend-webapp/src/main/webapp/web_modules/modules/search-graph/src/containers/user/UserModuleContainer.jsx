@@ -22,13 +22,13 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
-import pick from 'lodash/pick'
 import sortBy from 'lodash/sortBy'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-manager'
 import { DamDomain, AccessDomain } from '@regardsoss/domain'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { modulesHelper } from '@regardsoss/modules-api'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { withValueRenderContext } from '@regardsoss/components'
 import ModuleConfiguration from '../../model/ModuleConfiguration'
@@ -206,20 +206,18 @@ export class UserModuleContainer extends React.Component {
   render() {
     const { moduleCollapsed } = this.props
     const { graphDatasetAttributes } = this.state
-
-    const reportedModuleProps = pick(this.props, UserModuleContainer.MODULE_PROPS)
     return (
       <div>
         { /* Description handling */}
         <DescriptionContainer />
         <SearchGraph
           graphDatasetAttributes={graphDatasetAttributes}
-          {...reportedModuleProps}
+          {...modulesHelper.getReportedUserModuleProps(this.props)}
           expanded={!moduleCollapsed // overrides the initial module expanded state value
           }
         />
         <NavigableSearchResultsContainer
-          {...reportedModuleProps}
+          {...modulesHelper.getReportedUserModuleProps(this.props)}
         />
       </div>)
   }

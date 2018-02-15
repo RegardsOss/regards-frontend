@@ -17,10 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import keys from 'lodash/keys'
-import pick from 'lodash/pick'
 import { browserHistory } from 'react-router'
-import { modulesManager } from '@regardsoss/modules'
 import { connect } from '@regardsoss/redux'
+import { modulesManager } from '@regardsoss/modules'
+import { modulesHelper } from '@regardsoss/modules-api'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
 import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
@@ -157,7 +157,6 @@ export class UserModuleContainer extends React.Component {
     const {
       basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets = true },
     } = this.props
-    const moduleProperties = pick(this.props, UserModuleContainer.MODULE_PROPS)
     return (
       <div>
         {/* 1 - Add main view */}
@@ -169,7 +168,7 @@ export class UserModuleContainer extends React.Component {
           isAuthenticated={isAuthenticated}
           onClearCart={dispatchClearCart}
           onOrder={this.onOrder}
-          {...moduleProperties}
+          {...modulesHelper.getReportedUserModuleProps(this.props)}
         />
         {/* 2 - Add detail dialog */}
         <SelectionItemDetailContainer showDatasets={showDatasets} />
