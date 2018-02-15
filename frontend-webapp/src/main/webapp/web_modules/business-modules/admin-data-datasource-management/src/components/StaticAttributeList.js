@@ -97,7 +97,7 @@ module.exports = {
       },
     },
   },
-  'raw data': {
+  rawdata: {
     content: {
       mode: '',
       model: {
@@ -108,26 +108,6 @@ module.exports = {
       attribute: {
         name: 'rawdata',
         label: 'Raw data',
-        type: '',
-        optional: true,
-        fragment: {
-          id: -1,
-          name: '',
-        },
-      },
-    },
-  },
-  'raw data size': {
-    content: {
-      mode: '',
-      model: {
-        type: '',
-        description: '',
-        name: '',
-      },
-      attribute: {
-        name: 'rawdata_size',
-        label: 'Raw data size',
         type: '',
         optional: true,
         fragment: {
