@@ -1,7 +1,7 @@
 /**
  * LICENSE_PLACEHOLDER
  **/
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { DynamicModule } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
@@ -18,6 +18,8 @@ class ModuleComponent extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
+
+    attributeModels: DataManagementShapes.AttributeModelList,
 
     // request configuration
     searchQuery: PropTypes.string,
