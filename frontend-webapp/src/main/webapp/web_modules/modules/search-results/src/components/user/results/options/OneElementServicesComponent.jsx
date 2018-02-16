@@ -23,7 +23,7 @@ import OptionsIcon from 'material-ui/svg-icons/action/settings'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DropDownButton } from '@regardsoss/components'
+import { DropDownButton, URLPictureResolver } from '@regardsoss/components'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
 const IconButtonConstructorWrapper = props => (
@@ -48,7 +48,7 @@ class OneElementServicesComponent extends React.Component {
 
   render() {
     const { services, onServiceStarted, ...otherButtonProperties } = this.props
-    const { muiTheme, intl: { formatMessage } } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
       <DropDownButton
         title={formatMessage({ id: 'show.entity.services.tooltip' })}
@@ -63,10 +63,11 @@ class OneElementServicesComponent extends React.Component {
             <MenuItem
               key={`${service.content.type}-${service.content.configId}`}
               value={service}
-              leftIcon={service.content.iconUrl ?
+              leftIcon={
                 // render the icon only when service has one
-                <img src={service.content.iconUrl} alt="" width={muiTheme.spacing.iconSize} height={muiTheme.spacing.iconSize} />
-                : null}
+                service.content.iconUrl ?
+                  <URLPictureResolver url={service.content.iconUrl} /> :
+                  null}
               primaryText={service.content.label}
             />))
         }

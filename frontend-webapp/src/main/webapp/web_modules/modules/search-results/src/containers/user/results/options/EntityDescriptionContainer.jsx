@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
@@ -44,17 +43,20 @@ export class EntityDescriptionContainer extends React.Component {
   }
 
   static propTypes = {
-    // from table cell API, mentionned here only to be excluded from children properties
-    rowIndex: PropTypes.number,
     // Entity. Note: when used in options column, this is provided by the table cell API
     entity: AccessShapes.EntityWithServices.isRequired,
+    // from table cell API, mentionned here only to be excluded from children properties
+    rowIndex: PropTypes.number,
     // from mapDispatchToProps
     dispatchShowDescription: PropTypes.func.isRequired,
   }
 
+  /** Properties that will not be reported to sub component */
+  static NON_REPORTED_PROPS = ['entity', 'rowIndex', 'dispatchShowDescription']
+
   /**
- * Callback when user asks description
- */
+   * Callback when user asks description
+   */
   onShowDescription = () => {
     // dispatch show description event
     const { entity, dispatchShowDescription } = this.props
@@ -65,7 +67,7 @@ export class EntityDescriptionContainer extends React.Component {
   }
 
   render() {
-    const subComponentProperties = omit(this.props, keys(EntityDescriptionContainer.propTypes))
+    const subComponentProperties = omit(this.props, EntityDescriptionContainer.NON_REPORTED_PROPS)
     return <EntityDescriptionComponent onShowDescription={this.onShowDescription} {...subComponentProperties} />
   }
 }

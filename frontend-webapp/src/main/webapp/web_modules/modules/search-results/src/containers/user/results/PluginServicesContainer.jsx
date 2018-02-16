@@ -4,6 +4,7 @@
 import filter from 'lodash/filter'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
+import omit from 'lodash/omit'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { TableSelectionModes } from '@regardsoss/components'
@@ -89,8 +90,8 @@ export class PluginServicesContainer extends React.Component {
         // note: we remove doubles here to lower later complexity
         const [{ content: { services: allFirstEntityServices = [] } }, ...otherSelectedElements] = values(toggledElements)
         const filteredFirstEntityServices = allFirstEntityServices.filter(service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies) &&
-            !selectionServices.some(({ content: { configId, type } }) =>
-              configId === service.content.configId && type === service.content.type))
+          !selectionServices.some(({ content: { configId, type } }) =>
+            configId === service.content.configId && type === service.content.type))
 
         // compute next selected entities valid services intersection (contains only usable services in context since first element services have been filtered)
         const commonEntitiesSelectionServices = otherSelectedElements.reduce(
@@ -186,6 +187,25 @@ export class PluginServicesContainer extends React.Component {
     // ...sub component properties
   }
 
+  /** Keys of properties that should not be reported to this children */
+  static NON_REPORTED_PROPS = [
+    'viewObjectType',
+    'initialDatasetIpId',
+    'openSearchQuery',
+    'children',
+    'selectedDatasetIpId',
+    'toggledElements',
+    'selectionMode',
+    'emptySelection',
+    'pageMetadata',
+    'serviceRunModel',
+    'contextSelectionServices',
+    'availableDependencies',
+    'dispatchFetchPluginServices',
+    'dispatchRunService',
+    'dispatchCloseService',
+  ]
+
   static DEFAULT_STATE = {
     children: [], // pre rendered children
     // lists of gathered selection services
@@ -228,10 +248,10 @@ export class PluginServicesContainer extends React.Component {
 
     // when children changed or selection services changed, recompute children
     if (!isEqual(oldState.selectionServices, newState.selectionServices) ||
-      HOCUtils.shouldCloneChildren(this, oldProps, newProps)) {
+      HOCUtils.shouldCloneChildren(oldProps, newProps, PluginServicesContainer.NON_REPORTED_PROPS)) {
       // pre render children (attempts to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
-        ...HOCUtils.getOnlyNonDeclaredProps(this, newProps),
+        ...omit(newProps, PluginServicesContainer.NON_REPORTED_PROPS),
         selectionServices: newState.selectionServices,
         onStartSelectionService: this.onStartSelectionService,
       })

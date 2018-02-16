@@ -20,7 +20,6 @@ import compose from 'lodash/fp/compose'
 import flatMap from 'lodash/flatMap'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 import { Table, TableBody, TableHeader, TableRow, TableRowColumn, TableHeaderColumn } from 'material-ui/Table'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -51,6 +50,14 @@ export class TreeTableComponent extends React.Component {
     columns: PropTypes.arrayOf(PropTypes.element),
     // ... other Material UI table properties
   }
+
+  /** List of property keys that should not be reported to sub component */
+  static NON_REPORTED_PROPS = [
+    'model',
+    'buildTreeTableRows',
+    'buildCellComponent',
+    'columns',
+  ]
 
   static contextTypes = {
     ...i18nContextType,
@@ -173,7 +180,7 @@ export class TreeTableComponent extends React.Component {
     const { columns } = this.props
     const { moduleTheme: { expandCell } } = this.context
     // report to table any property that is not specific to this component
-    const tableProperties = omit(this.props, keys(TreeTableComponent.propTypes))
+    const tableProperties = omit(this.props, TreeTableComponent.NON_REPORTED_PROPS)
     const { tableRootRow } = this.state
 
     return (

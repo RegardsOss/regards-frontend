@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
@@ -36,6 +35,13 @@ export class AddElementToCartContainer extends React.Component {
     onAddToCart: PropTypes.func.isRequired,
     //... other properties reported to sub-componentt
   }
+
+  /** List of property keys that should not be reported to sub component */
+  static NON_REPORTED_PROPS = [
+    'rowIndex',
+    'entity',
+    'onAddToCart',
+  ]
 
   onAddToCart = () => {
     const { entity, onAddToCart } = this.props
@@ -58,7 +64,7 @@ export class AddElementToCartContainer extends React.Component {
   }
 
   render() {
-    const subComponentProperties = omit(this.props, keys(AddElementToCartContainer.propTypes))
+    const subComponentProperties = omit(this.props, AddElementToCartContainer.NON_REPORTED_PROPS)
     return (
       <AddElementToCartComponent canAddToCart={this.canAddToCart()} onAddToCart={this.onAddToCart} {...subComponentProperties} />
     )
