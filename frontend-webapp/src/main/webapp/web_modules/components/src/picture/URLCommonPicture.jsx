@@ -16,20 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ReactSVG from 'react-svg'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import styles from './styles'
 
 /**
- * Shows an URL SVG icon conntected to material UI, because MUI is not able to load and display SVG (................)
+ * Displays a comon type picture (any MIME type except SVG) and reports appliable styles
  * @author Raphaël Mechali
  */
-class SVGURLIcon extends React.Component {
+export class URLCommonPicture extends React.Component {
+  /** Supported MIME types */
+  static SUPPORTED_MIME_TYPES = [
+    'image/gif',
+    'image/jpeg',
+    'image/png',
+    'image/tiff',
+  ]
+
   static propTypes = {
+    alt: PropTypes.string,
+    url: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.object,
-    color: PropTypes.string,
-    path: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -41,33 +48,23 @@ class SVGURLIcon extends React.Component {
   }
 
   render() {
-    const { style: userStyle, color: userColor, path } = this.props
-    // pick up in theme the icon elements
-    const { moduleTheme: { svgURLIconStyle } } = this.context
-    // merge with provided style
+    const { alt, style: userStyle, url } = this.props
+    const { moduleTheme: { commonURLIconStyle } } = this.context
+
+    // merge with provided style (some MUI components)
     const renderStyle = {
-      ...svgURLIconStyle,
+      ...commonURLIconStyle,
       ...userStyle,
-    }
-    // workaround: provide runtime color to this element (MUI components send that property separately)
-    if (userColor) {
-      renderStyle.fill = userColor
-    }
-    // workaround: ensure the icon will display correctly in material UI components
-    // as MUI does not support the root ReactSVG div without display in its layout
-    const rootStyle = {
-      display: renderStyle.display,
     }
 
     return (
-      <div style={rootStyle}>
-        <ReactSVG
-          path={path}
-          style={renderStyle}
-        />
-      </div>
+      <img
+        src={url}
+        alt={alt || url}
+        style={renderStyle}
+      />
     )
   }
 }
 
-export default withModuleStyle(styles)(SVGURLIcon)
+export default withModuleStyle(styles)(URLCommonPicture)

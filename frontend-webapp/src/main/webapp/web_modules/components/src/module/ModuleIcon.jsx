@@ -18,7 +18,7 @@
  **/
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { AccessDomain } from '@regardsoss/domain'
-import SVGURLIcon from '../picture/SVGURLIcon'
+import URLPictureResolver from '../picture/URLPictureResolver'
 import styles from './styles'
 
 /**
@@ -58,12 +58,7 @@ export class ModuleIcon extends React.Component {
         // No icon
         return null
     }
-
-    // TODO-NOW handle non local URLs
-    // TODO-NOW handle non SVG pictures
-    return (
-      <SVGURLIcon path={iconURL} {...otherProps} />
-    )
+    return <URLPictureResolver url={iconURL} {...otherProps} />
   }
 }
 export default withModuleStyle(styles)(ModuleIcon)

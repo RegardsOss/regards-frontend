@@ -20,10 +20,10 @@ import PluginCriterionContainer from './containers/PluginCriterionContainer'
 import { initPlugin } from './utils/InitPlugin'
 
 /**
- * Main interface to expose plugins utils
+ * Main interface to write modules
  * @author Sébastien Binda
  */
-export {
+module.exports = {
   PluginCriterionContainer,
   initPlugin,
 }

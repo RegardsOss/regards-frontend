@@ -28,7 +28,7 @@ const context = buildTestContext(styles)
  * Test ModuleTitleText
  * @author Raphaël Mechali
  */
-describe('[ Module name] Testing ModuleTitleText', () => {
+describe('[Components] Testing ModuleTitleText', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

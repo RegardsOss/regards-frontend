@@ -19,28 +19,35 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SVGURLIcon from '../../src/picture/SVGURLIcon'
+import BrokenPictureIcon from 'mdi-material-ui/ImageBroken'
+import { BrokenPicturePlaceholder } from '../../src/picture/BrokenPicturePlaceholder'
 import styles from '../../src/picture/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SVGURLIcon
+ * Test BrokenPicturePlaceholder
  * @author Raphaël Mechali
  */
-describe('[ Module name] Testing SVGURLIcon', () => {
+describe('[Components] Testing BrokenPicturePlaceholder', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SVGURLIcon)
+    assert.isDefined(BrokenPicturePlaceholder)
   })
   it('should render correctly', () => {
     const props = {
-      style: {},
-      color: '',
-      path: 'any.svg',
+      color: 'red',
+      style: {
+        width: 250,
+      },
     }
-    shallow(<SVGURLIcon {...props} />, { context })
+    const enzymeWrapper = shallow(<BrokenPicturePlaceholder {...props} />, { context })
+    const iconWrapper = enzymeWrapper.find(BrokenPictureIcon)
+    assert.lengthOf(iconWrapper, 1, 'Broken picture icon should be shown')
+    assert.equal(iconWrapper.props().style.width, 250, 'Styles should be correctly merged with user styles')
+    assert.equal(iconWrapper.props().style.fill, props.color, 'SVG props should be correctly reported in style')
+    assert.isOk(iconWrapper.props().style.height, 'Missing styles should be completed from theme')
   })
 })

@@ -83,7 +83,8 @@ import HorizontalAreasSeparator from './module/HorizontalAreasSeparator'
 import ModuleIcon from './module/ModuleIcon'
 import ModuleTitleText from './module/ModuleTitleText'
 
-import SVGURLIcon from './picture/SVGURLIcon'
+import URLPicture from './picture/URLPicture'
+import URLPictureResolver from './picture/URLPictureResolver'
 import PluginConfigurationPickerComponent from './plugin/PluginConfigurationPickerComponent'
 
 import ActionsMenuCell from './table/content/cells/ActionsMenuCell'
@@ -190,7 +191,6 @@ export {
   HelpMessageComponent,
   NoContentComponent,
   SelectableList,
-  SVGURLIcon,
 
   // Table
   ActionsMenuCell,
@@ -223,12 +223,11 @@ export {
   TableStyles,
 
   Title,
-
   TreeTableComponent,
   TreeTableRow,
-
   throttleAutocompleteFetch,
-
+  URLPicture,
+  URLPictureResolver,
   withConfirmDialog,
 
   // values render

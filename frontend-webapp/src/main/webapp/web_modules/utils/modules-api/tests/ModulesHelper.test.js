@@ -75,6 +75,4 @@ describe('[Modules API] Testing ModulesHelper', () => {
       })
     }),
   )
-
-  // TODO soon!
 })
