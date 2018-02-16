@@ -97,7 +97,7 @@ module.exports = {
       },
     },
   },
-  download: {
+  rawdata: {
     content: {
       mode: '',
       model: {
@@ -106,8 +106,8 @@ module.exports = {
         name: '',
       },
       attribute: {
-        name: 'download',
-        label: 'download',
+        name: 'rawdata',
+        label: 'Raw data',
         type: '',
         optional: true,
         fragment: {
