@@ -24,4 +24,13 @@ export default ({ palette: { textColor }, spacing: { iconSize } }) => ({
     height: iconSize,
     width: iconSize,
   },
+  commonURLIconStyle: {
+    height: iconSize,
+    width: iconSize,
+  },
+  placeholderURLIconStyle: {
+    display: 'inline-block',
+    height: iconSize,
+    width: iconSize,
+  },
 })

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
@@ -46,6 +45,18 @@ class TableDeleteOption extends React.Component {
     onDelete: PropTypes.func.isRequired, // delete method (entity, onDone) => ()
     queryPageSize: PropTypes.number.isRequired,
   }
+
+  /** List of property keys that should not be reported to sub component */
+  static NON_REPORTED_PROPS = [
+    'rowIndex',
+    'entity',
+    'handleHateoas',
+    'fetchPage',
+    'pathParams',
+    'requestParams',
+    'onDelete',
+    'queryPageSize',
+  ]
 
   static defaultProps = {
     handleHateoas: false,
@@ -84,7 +95,7 @@ class TableDeleteOption extends React.Component {
         alwaysDisplayforInstanceUser={false}
         title={formatMessage({ id: 'table.delete.option.tooltip' })}
         onClick={this.onDelete}
-        {...omit(this.props, keys(TableDeleteOption.propTypes))}
+        {...omit(this.props, TableDeleteOption.NON_REPORTED_PROPS)}
       >
         <DeleteIcon />
       </HateoasIconAction>
@@ -101,7 +112,7 @@ class TableDeleteOption extends React.Component {
       <IconButton
         title={formatMessage({ id: 'table.delete.option.tooltip' })}
         onClick={this.onDelete}
-        {...omit(this.props, keys(TableDeleteOption.propTypes))}
+        {...omit(this.props, TableDeleteOption.NON_REPORTED_PROPS)}
       >
         <DeleteIcon />
       </IconButton>

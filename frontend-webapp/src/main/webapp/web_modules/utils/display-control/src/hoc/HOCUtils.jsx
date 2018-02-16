@@ -18,7 +18,6 @@
  **/
 import isArray from 'lodash/isArray'
 import isEqual from 'lodash/isEqual'
-import keys from 'lodash/keys'
 import isNil from 'lodash/isNil'
 import omit from 'lodash/omit'
 
@@ -28,28 +27,16 @@ import omit from 'lodash/omit'
  */
 
 /**
- * Returns only props that have not been declared in that react element
- * @param {React.Element} thatElement instance of a react class element
- * @param {*} props element properties to consider
- * @return properties in that element that have not been declare (allows reporting 'silent' properties only)
- */
-function getOnlyNonDeclaredProps(thatElement, props = {}) {
-  return omit(props, keys(thatElement.constructor.propTypes))
-}
-
-
-/**
- * Computes if children should be cloned again, taking in account the silent properties of
- * thatElement container - as those properties are typically transferred to children
- * @param {React.Component} thatElement that element (HOC)
- * @param {*} oldProps old properties
- * @param {*} newProps new properties
+ * Computes if children should be cloned again, taking in account the reported properties
+ * @param {*} oldProps old HOC properties
+ * @param {*} newProps new HOC properties
+ * @param {[string]} nonReportedPropsKeys list of property keys that the container will not report to children
  * @return true if children should be cloned again
  */
-function shouldCloneChildren(thatElement, oldProps, newProps) {
-  const oldHiddenProps = getOnlyNonDeclaredProps(thatElement, oldProps)
-  const newHiddenProps = getOnlyNonDeclaredProps(thatElement, newProps)
-  return !isEqual(oldHiddenProps, newHiddenProps) || !isEqual(oldProps.children, newProps.children)
+function shouldCloneChildren(oldProps, newProps, nonReportedPropsKeys) {
+  const oldReportedProps = omit(oldProps, nonReportedPropsKeys)
+  const newReportedProps = omit(newProps, nonReportedPropsKeys)
+  return !isEqual(oldReportedProps, newReportedProps) || !isEqual(oldProps.children, newProps.children)
 }
 
 /**
@@ -94,7 +81,6 @@ function renderChildren(children) {
 }
 
 module.exports = {
-  getOnlyNonDeclaredProps,
   cloneChildrenWith,
   shouldCloneChildren,
   renderChildren,

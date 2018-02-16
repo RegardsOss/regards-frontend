@@ -41,7 +41,7 @@ describe('[Components] Testing ModuleIcon', () => {
       defaultIconURL: 'any',
     }
     const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
-    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to search for the node due to multiple context layers
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().url) // we need here to search for the node due to multiple context layers
     assert.lengthOf(iconWrapper, 0, 'The component should not render in no icon mode')
   })
   it('should render correctly with default icon', () => {
@@ -51,9 +51,9 @@ describe('[Components] Testing ModuleIcon', () => {
       customIconURL: 'customIcon',
     }
     const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
-    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to search for the node due to multiple context layers
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().url) // we need here to search for the node due to multiple context layers
     assert.lengthOf(iconWrapper, 1, 'The component should render in default mode')
-    assert.equal(iconWrapper.props().path, props.defaultIconURL, 'default icon should be rendered')
+    assert.equal(iconWrapper.props().url, props.defaultIconURL, 'default icon should be rendered')
   })
   it('should render correctly with custom icon', () => {
     const props = {
@@ -62,18 +62,18 @@ describe('[Components] Testing ModuleIcon', () => {
       customIconURL: 'customIcon',
     }
     const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
-    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to search for the node due to multiple context layers
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().url) // we need here to search for the node due to multiple context layers
     assert.lengthOf(iconWrapper, 1, 'The component should render in custom mode')
-    assert.equal(iconWrapper.props().path, props.customIconURL, 'custom icon should be rendered')
+    assert.equal(iconWrapper.props().url, props.customIconURL, 'custom icon should be rendered')
   })
   it('should render default icon when not specified', () => {
     const props = {
       defaultIconURL: 'any',
     }
     const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
-    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to search for the node due to multiple context layers
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().url) // we need here to search for the node due to multiple context layers
     assert.lengthOf(iconWrapper, 1, 'The component should render in default mode')
-    assert.equal(iconWrapper.props().path, props.defaultIconURL, 'default icon should be rendered')
+    assert.equal(iconWrapper.props().url, props.defaultIconURL, 'default icon should be rendered')
   })
   it('should render default icon when custom icon is missing', () => {
     const props = {
@@ -81,8 +81,8 @@ describe('[Components] Testing ModuleIcon', () => {
       defaultIconURL: 'any',
     }
     const enzymeWrapper = shallow(<ModuleIcon {...props} />, { context })
-    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().path) // we need here to evaluate the property due to multiple context layers
+    const iconWrapper = enzymeWrapper.findWhere(n => !!n.props().url) // we need here to evaluate the property due to multiple context layers
     assert.lengthOf(iconWrapper, 1, 'The component should render in default mode')
-    assert.equal(iconWrapper.props().path, props.defaultIconURL, 'default icon should be rendered')
+    assert.equal(iconWrapper.props().url, props.defaultIconURL, 'default icon should be rendered')
   })
 })

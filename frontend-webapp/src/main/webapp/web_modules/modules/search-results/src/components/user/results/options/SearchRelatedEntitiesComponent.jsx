@@ -30,11 +30,13 @@ import { i18nContextType } from '@regardsoss/i18n'
 class SearchRelatedEntitiesComponent extends React.Component {
   static propTypes = {
     entity: AccessShapes.EntityWithServices.isRequired,
+    // from table cell API
+    rowIndex: PropTypes.number,
     onSearchEntity: PropTypes.func, // can not be required as it is rendered in a table holding multiple objects types
   }
 
   /** Properties that will not be reported to sub component */
-  static NON_REPORTED_PROPS = ['entity', 'onSearchEntity']
+  static NON_REPORTED_PROPS = ['entity', 'rowIndex', 'onSearchEntity']
 
   static contextTypes = {
     ...i18nContextType,

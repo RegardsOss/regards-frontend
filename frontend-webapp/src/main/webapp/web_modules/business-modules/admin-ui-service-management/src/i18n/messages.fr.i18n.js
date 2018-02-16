@@ -51,7 +51,7 @@ const messages = Object.assign({
   'service.form.subtitle': 'Les services ont deux types de variable en entrée: celle que vous fixez ici même dans ce formulaire (variables statiques) et les variables fixées par l\'utilisateur final (variables dynamiques). Pour les variables dynamiques, vous pouvez saisir la valeur par défaut',
   'service.form.label': 'Label de la configuration (uniquement pour les administrateurs)',
   'service.form.static.configuration.title': 'Paramètres de configuration',
-  'service.form.dynamic.configuration.title': 'Paramètres d\'éxécution (valeurs pré-remplies pour l\'utilisateurs)',
+  'service.form.dynamic.configuration.title': 'Paramètres d\'éxécution (valeurs pré-remplies pour l\'utilisateur)',
   'service.form.mandatory.field': '{label} (*)',
   'service.form.isActive': 'Activer cette configuration',
   'service.form.linkedToAllEntities': 'Associer à tous les jeux de données',

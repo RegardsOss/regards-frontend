@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import keys from 'lodash/keys'
 import omit from 'lodash/omit'
 import { Cell as FixedDataTableCell } from 'fixed-data-table-2'
 import { themeContextType } from '@regardsoss/theme'
@@ -39,6 +38,15 @@ class CellWrapper extends React.PureComponent {
     // eslint-disable-next-line react/forbid-prop-types
     cellContentBuilderProps: PropTypes.object,
   }
+
+  /** List of prop types that should not be reported to child */
+  static NON_REPORTED_PROPS = [
+    'lineHeight',
+    'isLastColumn',
+    'getEntity',
+    'CellContentBuilder',
+    'cellContentBuilderProps',
+  ]
 
   static contextTypes = {
     ...themeContextType,
@@ -63,23 +71,23 @@ class CellWrapper extends React.PureComponent {
     // render with styles
     const styles = this.context.moduleTheme
     const {
-      lineHeight, CellContentBuilder, cellContentBuilderProps = {}, rowIndex,
+      isLastColumn, lineHeight, CellContentBuilder, cellContentBuilderProps = {}, rowIndex,
     } = this.props
 
     // 1 - Select style
     let basicCellStyle
-    if (this.props.rowIndex % 2) {
+    if (rowIndex % 2) {
       // even cell
-      basicCellStyle = this.props.isLastColumn ? styles.lastCellEven : styles.cellEven
+      basicCellStyle = isLastColumn ? styles.lastCellEven : styles.cellEven
     } else {
       // odd cell
-      basicCellStyle = this.props.isLastColumn ? styles.lastCellOdd : styles.cellOdd
+      basicCellStyle = isLastColumn ? styles.lastCellOdd : styles.cellOdd
     }
     // merge styles with line height and cell wrapperStyle if any (those take precedence)
     const completeCellStyle = { height: lineHeight, ...basicCellStyle, ...(cellContentBuilderProps.wrapperStyle || {}) }
 
     // 2 - prepare table cell properties
-    const cellProperties = omit(this.props, keys(CellWrapper.propTypes))
+    const cellProperties = omit(this.props, CellWrapper.NON_REPORTED_PROPS)
 
     // render
     return (

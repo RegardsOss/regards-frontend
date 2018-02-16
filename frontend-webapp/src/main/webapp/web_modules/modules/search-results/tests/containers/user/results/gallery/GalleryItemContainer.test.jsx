@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
 * Test GalleryItemContainer
 * @author Léo Mieulet
 */
-describe('[ Module name] Testing GalleryItemContainer', () => {
+describe('[Search results] Testing GalleryItemContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

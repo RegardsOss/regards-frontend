@@ -33,7 +33,7 @@ const conf = webpackConfigurator
   .merge({
     plugins: [
       new webpack.DefinePlugin({
-        GATEWAY_HOSTNAME: JSON.stringify('http://localhost:3000'),
+        GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.52:9030'),
       }),
     ],
   })
