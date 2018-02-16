@@ -86,7 +86,7 @@ export class ModuleContainer extends React.Component {
   }
 
   render() {
-    const { moduleConf } = this.props
+    const { attributeModels, moduleConf } = this.props
     const { attributesFetching, facettesQuery } = this.state
     const initialViewObjectType = this.getInitialViewObjectType(moduleConf.displayMode)
     if (!attributesFetching) {
@@ -106,6 +106,7 @@ export class ModuleContainer extends React.Component {
             { /* View : module (report all module properties) */}
             <ModuleComponent
               facettesQuery={facettesQuery}
+              attributeModels={attributeModels}
               {...modulesHelper.getReportedUserModuleProps(this.props)}
             />
           </URLManagementContainer>
