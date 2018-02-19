@@ -47,7 +47,7 @@ class ProductListViewFilesAction extends React.Component {
     return (
       <IconButton
         className={`selenium-run-${id}`}
-        title={formatMessage({ id: 'acquisition-product.view.files.tooltip' })}
+        title={formatMessage({ id: 'acquisition-product.list.view.files.tooltip' })}
         iconStyle={ProductListViewFilesAction.iconStyle}
         style={ProductListViewFilesAction.buttonStyle}
         onClick={() => this.props.onClick(id)}

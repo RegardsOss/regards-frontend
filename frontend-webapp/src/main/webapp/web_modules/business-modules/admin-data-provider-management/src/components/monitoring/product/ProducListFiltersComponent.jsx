@@ -59,6 +59,7 @@ class ProductListFiltersComponent extends React.Component {
   componentWillMount() {
     const { initialFilters } = this.props
     if (initialFilters) {
+      console.error('initialFilters', initialFilters)
       let filters = {}
       if (initialFilters.state) {
         filters = {
@@ -169,6 +170,8 @@ class ProductListFiltersComponent extends React.Component {
     if (from) {
       filters.from = from.toISOString()
     }
+
+    console.error('applying filters', filters)
 
     this.props.applyFilters(filters)
   }
