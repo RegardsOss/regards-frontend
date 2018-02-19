@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import SpeedIcon from 'mdi-material-ui/Gauge'
-import Flag from 'mdi-material-ui/Flag'
 import FlagFinished from 'mdi-material-ui/FlagCheckered'
 import { DataProviderShapes } from '@regardsoss/shape'
 import FlatButton from 'material-ui/FlatButton'
@@ -108,7 +107,7 @@ class AcquisitionProcessingChainJobsMonitoringComponent extends React.Component 
   renderSubmissionJobsActivity = () => {
     const { chain } = this.props
     const { intl: { formatMessage }, moduleTheme: { monitoring: { chainJobs: { jobActivityStyle } } } } = this.context
-    if (true || chain && chain.nbSIPSubmissionJobs && chain.nbSIPSubmissionJobs > 0) {
+    if (chain && chain.nbSIPSubmissionJobs && chain.nbSIPSubmissionJobs > 0) {
       return (
         <div style={jobActivityStyle}>
           <RefreshIndicator
