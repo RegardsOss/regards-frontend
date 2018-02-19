@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessDomain } from '@regardsoss/domain'
-import { NAVIGATION_ITEM_TYPES_ENUM } from '../model/NavigationItemTypes'
+import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 
 /**
  * Navigation related shapes

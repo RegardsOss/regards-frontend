@@ -49,10 +49,9 @@ class ApplicationBreacrumbComponent extends React.Component {
       homeLabel, homeURL, selectedModule, locale,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { titleGroup, navigationItem: { defaultTextStyle } } } } = this.context
-
     return (
       <div style={titleGroup} >
-        <Link to={selectedModule ? homeURL : null}>
+        <Link to={homeURL || null}>
           <FlatButton
             icon={<HomeIcon />}
             label={homeLabel}

@@ -24,7 +24,7 @@ import SectionDefaultIcon from 'material-ui/svg-icons/navigation/menu'
 import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { DropDownButton, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
-import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../model/NavigationItemTypes'
+import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
 import { NavigationItem } from '../../../../shapes/Navigation'
 
 /**

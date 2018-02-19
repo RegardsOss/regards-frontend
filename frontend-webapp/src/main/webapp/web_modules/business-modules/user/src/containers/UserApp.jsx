@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import forEach from 'lodash/forEach'
+import find from 'lodash/find'
 import get from 'lodash/get'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
+import { UIDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import { AccessProjectClient } from '@regardsoss/client'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
@@ -92,13 +93,22 @@ export class UserApp extends React.Component {
   componentWillReceiveProps(nextProps) {
     // If there is no dynamic content display the default module
     if (!nextProps.content && nextProps.modules && nextProps.layout) {
-      forEach(nextProps.modules, (module, idx) => {
-        if (get(module, 'content.page.home', false)) {
-          if (ContainerHelper.isDynamicContent(module.content.container, nextProps.layout.content.layout.containers)) {
-            browserHistory.replace(`/user/${this.props.params.project}/modules/${module.content.id}`)
-          }
+      // find the home page module and redirect user to that page (if there are modules)
+      const allContainers = nextProps.layout.content.layout.containers
+      const allModules = values(nextProps.modules)
+      if (allModules.length) {
+        // find home module (module marked as active and page.home)
+        let homeModule = find(nextProps.modules, ({ content: { active, page, container } }) =>
+          active && get(page, 'home', false) && ContainerHelper.isDynamicContent(container, allContainers))
+        // when not found, find the first active module in list
+        if (!homeModule) {
+          homeModule = allModules.find(({ active, container }) =>
+            active && ContainerHelper.isDynamicContent(container, allContainers))
         }
-      })
+        if (homeModule) {
+          browserHistory.replace(UIDomain.getModuleURL(nextProps.params.project, homeModule.content.id))
+        }
+      }
     }
 
     // authentication state changes or user role changes, refresh endpoints

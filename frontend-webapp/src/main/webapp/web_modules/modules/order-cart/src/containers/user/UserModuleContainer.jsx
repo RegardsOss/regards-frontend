@@ -20,6 +20,7 @@ import keys from 'lodash/keys'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { modulesManager } from '@regardsoss/modules'
+import { UIDomain } from '@regardsoss/domain'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
 import { AccessShapes, OrderShapes } from '@regardsoss/shape'
@@ -137,7 +138,7 @@ export class UserModuleContainer extends React.Component {
         // 3 - redirect user to his orders list if there is an order module
         const orderHistoryModule = modulesManager.findFirstModuleByType(modules, modulesManager.AllDynamicModuleTypes.ORDER_HISTORY)
         if (orderHistoryModule) {
-          browserHistory.push(modulesManager.getModuleURL(project, orderHistoryModule.content.id))
+          browserHistory.push(UIDomain.getModuleURL(project, orderHistoryModule.content.id))
         }
       }
     })

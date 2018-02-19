@@ -22,7 +22,7 @@ import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 
 import { HOCUtils } from '@regardsoss/display-control'
-import { NAVIGATION_ITEM_TYPES_ENUM } from '../../model/NavigationItemTypes'
+import { NAVIGATION_ITEM_TYPES_ENUM } from '../../domain/NavigationItemTypes'
 
 const EMPTY_PAGE = {
   home: false,

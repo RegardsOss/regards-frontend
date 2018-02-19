@@ -20,14 +20,17 @@ import get from 'lodash/get'
 import head from 'lodash/head'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
-import { modulesManager } from '@regardsoss/modules'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nSelectors } from '@regardsoss/i18n'
 import ApplicationBreadcrumbComponent from '../../../components/user/breadcrumb/ApplicationBreacrumbComponent'
 
 
 /**
- * Application breadcrumb container. It resolves the HOME MODULE (page.home) and binds the current module
+ * Application breadcrumb container. It resolves the HOME URL as follow:
+ * - In admin mode, recover URL from project
+ * - In user mode, build URL from default (home) module id
+ * - In preview, sever the URL
  * @author Raphaël Mechali
  */
 export class ApplicationBreadcrumbContainer extends React.Component {
@@ -44,6 +47,9 @@ export class ApplicationBreadcrumbContainer extends React.Component {
   }
 
   static propTypes = {
+    // menu display mode: Home button behaves differently in each mode
+    // eslint-disable-next-line react/no-unused-prop-types
+    displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES), // used only in onPropertiesUpdated
     // configured project title
     title: PropTypes.string,
     // project name, used as default when there is no project title
@@ -74,21 +80,33 @@ export class ApplicationBreadcrumbContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(oldProps.dynamicModules, newProps.dynamicModules) ||
-      !isEqual(oldProps.currentModuleId, newProps.currentModuleId)) {
-      // 1- retrieve the home module (the more marked as home page or the first one)
-      const { project, currentModuleId, dynamicModules } = newProps
-      const homeModule = dynamicModules.find(module => get(module, 'content.page.home')) || head(dynamicModules)
-      const homeURL = homeModule ? modulesManager.getModuleURL(project, homeModule.content.id) : null
-
-      // 2 - retrieve current module
-      const selectedModule = currentModuleId ?
-        dynamicModules.find(module => get(module, 'content.id') === currentModuleId) : null
-
-      const newState = { homeURL, selectedModule }
-      if (!isEqual(newState, this.state)) {
-        this.setState(newState)
+    const { project, currentModuleId, dynamicModules } = newProps
+    const newState = {}
+    switch (newProps.displayMode) {
+      case UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN:
+        newState.homeURL = UIDomain.getAdminURL(project)
+        newState.selectedModule = null
+        break
+      case UIDomain.MENU_DISPLAY_MODES_ENUM.USER: {
+        // 1- retrieve the home module (the more marked as home page or the first one)
+        const homeModule = dynamicModules.find(module => get(module, 'content.page.home')) || head(dynamicModules)
+        newState.homeURL = homeModule ? UIDomain.getModuleURL(project, homeModule.content.id) : null
+        // 2 - retrieve current module
+        // newState.selectedModule = currentModuleId ?
+        //   dynamicModules.find(module => get(module, 'content.id') === currentModuleId) : null
       }
+        break
+      case UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW:
+        // No home URL, no selected module
+        newState.homeURL = null
+        newState.selectedModule = null
+        break
+      default:
+        throw new Error(`Unknown display mode ${newProps.displayMode}`)
+    }
+
+    if (!isEqual(newState, this.state)) {
+      this.setState(newState)
     }
   }
 

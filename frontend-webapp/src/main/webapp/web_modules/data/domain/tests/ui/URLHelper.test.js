@@ -17,23 +17,23 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import modulesManager from '../src/ModulesManager'
-import { someModulesWithDoubles } from './dumps/modules'
+import { getAdminURL, getModuleURL, getPathModuleId, getModuleDefaultIconURL } from '../../ui/URLHelper'
 
 /**
  * Test ModulesManager
  * @author Raphaël Mechali
  */
-describe('[Modules] Testing ModulesManager', () => {
-  it('should exists', () => {
-    assert.isDefined(modulesManager)
+describe('[Domain] Testing URLHelper', () => {
+  it('getAdminURL should return admin URL for project', () => {
+    assert.equal(getAdminURL('p1'), '/admin/p1')
   })
-  it('should retrieve the right module by type', () => {
-    const foundModule = modulesManager.findFirstModuleByType(someModulesWithDoubles, 'order-cart')
-    assert.isOk(foundModule, 'Module should be found')
-    assert.equal(foundModule.content.id, 2, 'First valid module should be returned')
-
-    const notFoundModule = modulesManager.findFirstModuleByType(someModulesWithDoubles, 'any-non-existing')
-    assert.isNotOk(notFoundModule, 'Module should not be found')
+  it('getModuleURL should return module URL for project and ID', () => {
+    assert.equal(getModuleURL('p1', 25), '/user/p1/modules/25')
+  })
+  it('getPathModuleId should retrieve the right module ID in path', () => {
+    assert.equal(getPathModuleId('http://myDomain:888/user/anyProject/modules/208'), 208)
+  })
+  it('getModuleDefaultIconURL should return SVG icon URL for module', () => {
+    assert.equal(getModuleDefaultIconURL('my-module'), '/modules-icon/my-module.svg')
   })
 })

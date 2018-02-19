@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
@@ -93,6 +94,7 @@ export class AdminLayout extends React.Component {
       type: modulesManager.AllDynamicModuleTypes.MENU,
       active: true,
       conf: {
+        displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN,
         title: 'REGARDS admin dashboard',
         displayAuthentication: true,
         displayNotificationsSelector: true,

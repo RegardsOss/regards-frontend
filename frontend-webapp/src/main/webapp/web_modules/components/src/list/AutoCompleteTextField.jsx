@@ -111,6 +111,13 @@ class AutoCompleteTextField extends React.Component {
     errorText: null,
   }
 
+  /** Default menu props */
+  static MENU_PROPS = {
+    autoWidth: true,
+    maxHeight: 400,
+  }
+
+
   static ERROR_EMPTY_MESSAGE = ' '
 
   /**
@@ -181,6 +188,7 @@ class AutoCompleteTextField extends React.Component {
         searchText={currentHintText}
         errorText={isInError ? AutoCompleteTextField.ERROR_EMPTY_MESSAGE : null}
         onNewRequest={this.onNewRequest}
+        menuProps={AutoCompleteTextField.MENU_PROPS}
         {...reportedProps}
       />
     )

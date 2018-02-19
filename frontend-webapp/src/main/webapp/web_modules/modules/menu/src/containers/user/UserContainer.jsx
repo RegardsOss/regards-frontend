@@ -18,8 +18,8 @@
  **/
 import { browserHistory } from 'react-router'
 import { AccessProjectClient } from '@regardsoss/client'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
-import { modulesManager } from '@regardsoss/modules'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
 import MainMenuComponent from '../../components/user/MainMenuComponent'
@@ -41,7 +41,7 @@ class UserContainer extends React.Component {
 
 
   render() {
-    const currentModuleId = modulesManager.getPathModuleId(browserHistory.getCurrentLocation().pathname)
+    const currentModuleId = UIDomain.getPathModuleId(browserHistory.getCurrentLocation().pathname)
     return (
       // Resolve the list of active dynamic modules for breadcrumb and navigation
       <DynamicModulesProviderContainer moduleSelectors={moduleSelectors} keepOnlyActive >

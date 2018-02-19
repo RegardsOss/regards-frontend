@@ -18,7 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
-import { modulesManager } from '@regardsoss/modules'
+import { UIDomain } from '@regardsoss/domain'
 import { i18nSelectors } from '@regardsoss/i18n'
 import NavigationModelResolutionContainer from '../../../containers/common/NavigationModelResolutionContainer'
 import NavigationLayoutComponent from '../../../components/user/navigation/NavigationLayoutComponent'
@@ -55,7 +55,7 @@ export class NavigationMenuContainer extends React.Component {
    */
   buildModuleURL = (moduleId) => {
     const { project } = this.props
-    return modulesManager.getModuleURL(project, moduleId)
+    return UIDomain.getModuleURL(project, moduleId)
   }
 
 

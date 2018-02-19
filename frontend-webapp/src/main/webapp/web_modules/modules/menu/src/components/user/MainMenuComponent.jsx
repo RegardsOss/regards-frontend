@@ -20,6 +20,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { SelectLocaleContainer } from '@regardsoss/i18n-ui'
 import { SelectThemeContainer } from '@regardsoss/theme-ui'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
@@ -67,6 +68,7 @@ class MainMenuComponent extends React.Component {
       currentModuleId,
       dynamicModules,
       moduleConf: {
+        displayMode = UIDomain.MENU_DISPLAY_MODES_ENUM.USER, // defaults to user display for standard module case
         title,
         displayAuthentication,
         displayNotificationsSelector,
@@ -85,18 +87,23 @@ class MainMenuComponent extends React.Component {
         <ApplicationBreadcrumbContainer
           title={title}
           project={project}
+          displayMode={displayMode}
           currentModuleId={currentModuleId}
           dynamicModules={dynamicModules}
         />
-        {/* separator mark */}
-        <MenuSeparator />
-        {/* Navigation */}
-        <NavigationMenuContainer
-          project={project}
-          dynamicModules={dynamicModules}
-        />
-        {/* separator mark */}
-        <MenuSeparator />
+        {/* navigation component in user and preview modes mode (within separators) */
+          displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.USER ||
+            displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? [
+              <MenuSeparator key="separator.before" />,
+              <NavigationMenuContainer
+                key="navigation.container"
+                project={project}
+                dynamicModules={dynamicModules}
+              />,
+              <MenuSeparator key="separator.after" />]
+            :
+            null
+        }
         {/* Right options */}
         <div style={optionsGroup}>
           {/* Authentication access, state and options */}

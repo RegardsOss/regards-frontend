@@ -32,7 +32,7 @@ const menuStyles = theme => ({
       display: 'flex',
       flexWrap: 'nowrap',
       flexDirection: 'row',
-      justifyContent: 'flexStart',
+      justifyContent: 'space-between',
       alignItems: 'center',
       background: theme['module:menu'].background,
       borderWidth: theme['module:menu'].borderWidth,
