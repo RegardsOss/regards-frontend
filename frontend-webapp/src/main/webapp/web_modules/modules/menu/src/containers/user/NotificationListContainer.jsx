@@ -117,9 +117,10 @@ export class NotificationListContainer extends React.Component {
   }
 
   startTimer = () => {
-    if (this.props.isAuthenticated) {
+    const { isAuthenticated, project } = this.props
+    if (isAuthenticated) {
       // A - refresh list only if authenticated
-      this.props.fetchNotifications(this.props.project === 'instance')
+      this.props.fetchNotifications(!project || project === 'instance')
     }
     // B - restart timer
     this.refreshTimer = setTimeout(() => this.startTimer(), refreshTimerMS)

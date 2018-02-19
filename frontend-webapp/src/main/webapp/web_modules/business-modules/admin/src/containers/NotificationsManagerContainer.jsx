@@ -92,8 +92,8 @@ const mapStateTopProps = (state, { isOnInstanceDashboard }) => ({
 
 const mapDispatchToProps = (dispatch, { isOnInstanceDashboard }) => {
   const [fetchMethods, dependencies] = isOnInstanceDashboard ?
-    [projectNotificationsFetchers, projectNotificationsDependencies] :
-    [instanceNotificationsFetchers, instanceNotificationsDependencies]
+    [instanceNotificationsFetchers, instanceNotificationsDependencies] :
+    [projectNotificationsFetchers, projectNotificationsDependencies]
   return {
     fetchMethods: fetchMethods.map(method => () => dispatch(method())),
     dependencies,

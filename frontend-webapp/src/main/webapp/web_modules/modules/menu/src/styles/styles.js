@@ -26,6 +26,13 @@ const menuStyles = theme => ({
     rootStyle: {
       padding: 20,
     },
+    title: {
+      paddingLeft: 10,
+      fontSize: theme.flatButton.fontSize,
+      fontWeight: theme.flatButton.fontWeight,
+      color: theme.palette.textColor,
+      fontFamily: theme.fontFamily,
+    },
   },
   user: {
     rootStyle: {
@@ -69,6 +76,9 @@ const menuStyles = theme => ({
       defaultTextStyle: {
         textTransform: theme['module:menu'].navigationItemTextTransform,
       },
+    },
+    selectedNavigationMenuItem: {
+      color: theme.flatButton.secondaryTextColor,
     },
     optionsGroup: {
       flexGrow: 0,

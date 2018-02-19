@@ -66,7 +66,7 @@ export class CartSelectorContainer extends React.Component {
 
   static propTypes = {
     // project identifier
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // from mapStateToProps
     objectsCount: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types

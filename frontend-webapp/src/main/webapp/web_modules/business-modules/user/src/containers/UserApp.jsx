@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
 import get from 'lodash/get'
+import reduce from 'lodash/reduce'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { UIDomain } from '@regardsoss/domain'
@@ -97,14 +97,21 @@ export class UserApp extends React.Component {
       const allContainers = nextProps.layout.content.layout.containers
       const allModules = values(nextProps.modules)
       if (allModules.length) {
-        // find home module (module marked as active and page.home)
-        let homeModule = find(nextProps.modules, ({ content: { active, page, container } }) =>
-          active && get(page, 'home', false) && ContainerHelper.isDynamicContent(container, allContainers))
-        // when not found, find the first active module in list
-        if (!homeModule) {
-          homeModule = allModules.find(({ active, container }) =>
-            active && ContainerHelper.isDynamicContent(container, allContainers))
-        }
+        // find home module: use active module OR (when not found) lowest ID module
+        const homeModule = reduce(nextProps.modules, (foundModule, currentModule) => {
+          // 1 - is it active and dynamic module?
+          if (get(currentModule, 'content.active') &&
+            ContainerHelper.isDynamicContent(get(currentModule, 'content.container'), allContainers)) {
+            // 2 - yes it is: is it default or lower ID than previously found?
+            if (get(currentModule, 'content.page.home') ||
+              get(foundModule, 'content.id', Number.MAX_SAFE_INTEGER) > get(currentModule, 'content.id', Number.MAX_SAFE_INTEGER)) {
+              // this is the default module
+              return currentModule
+            }
+          }
+          // 3 - No, keep currently found
+          return foundModule
+        }, null)
         if (homeModule) {
           browserHistory.replace(UIDomain.getModuleURL(nextProps.params.project, homeModule.content.id))
         }

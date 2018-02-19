@@ -74,7 +74,7 @@ export const initialModes = {
 export default class AuthenticationStatesContainer extends React.Component {
   static propTypes = {
     // current project (empty if admin)
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // extern access mode (from email): initial mail value
     initialEmail: PropTypes.string,
     // extern access mode (from mail): token for action to finish

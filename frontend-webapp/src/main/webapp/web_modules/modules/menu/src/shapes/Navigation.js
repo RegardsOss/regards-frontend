@@ -36,6 +36,7 @@ const commonItemFields = {
 export const ModuleNavigationItem = PropTypes.shape({
   ...commonItemFields,
   type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.MODULE]).isRequired,
+  selected: PropTypes.bool.isRequired,
   module: PropTypes.shape({
     // fields from Module shape
     id: PropTypes.number.isRequired,

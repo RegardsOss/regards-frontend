@@ -29,7 +29,7 @@ export class ProjectAboutPageLinkContainer extends React.Component {
     // CONTEXT: app name
     appName: PropTypes.string.isRequired,
     // CONTEXT: project
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // about page URL (if not provided, hide this component)
     projectAboutPage: CommonShapes.URL,
   }

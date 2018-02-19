@@ -165,7 +165,7 @@ class ModuleContainer extends React.Component {
       // Application name "user" or "portal"
       appName: PropTypes.string.isRequired,
       // Current project name
-      project: PropTypes.string.isRequired,
+      project: PropTypes.string,
       // Module configuration
       moduleConf: PropTypes.shape({
         myParameter: PropTypes.string,

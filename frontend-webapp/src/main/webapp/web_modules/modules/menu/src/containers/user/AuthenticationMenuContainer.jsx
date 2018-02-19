@@ -33,7 +33,7 @@ export class AuthenticationMenuContainer extends React.Component {
     // should be displayed?
     display: PropTypes.bool,
     appName: PropTypes.string.isRequired,
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // from mapStateToProps
     isAuthenticated: PropTypes.bool,
   }

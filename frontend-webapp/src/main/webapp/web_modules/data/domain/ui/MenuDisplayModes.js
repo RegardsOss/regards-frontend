@@ -24,11 +24,13 @@ import values from 'lodash/values'
  */
 
 export const MENU_DISPLAY_MODES_ENUM = {
-  /** Show menu in admin interface */
-  ADMIN: 'ADMIN',
+  /** Show menu in admin instance interface */
+  ADMIN_INSTANCE: 'ADMIN_INSTANCE',
+  /** Show menu in admin project interface */
+  ADMIN_PROJECT: 'ADMIN_PROJECT',
   /** Show menu as a user module */
   USER: 'USER',
-  /** Show menu as edition preview */
+  /** Show menu as user module edition preview */
   PREVIEW: 'PREVIEW',
 }
 

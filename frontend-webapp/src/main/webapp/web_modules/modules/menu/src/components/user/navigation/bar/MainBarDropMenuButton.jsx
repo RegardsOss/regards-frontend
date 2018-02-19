@@ -66,25 +66,31 @@ class MainBarDropMenuButton extends React.Component {
     type,
     iconType,
     customIconURL,
+    selected = false,
     title,
     module,
     children,
-  }, locale, buildModuleURL) =>
-    (<MenuItem
-      key={key}
-      containerElement={module ? <Link to={buildModuleURL(module.id)} /> : null}
-      leftIcon={
-        iconType === AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT && type === NAVIGATION_ITEM_TYPES_ENUM.SECTION ?
-          <SectionDefaultIcon /> :
-          <ModuleIcon
-            iconDisplayMode={iconType}
-            defaultIconURL={UIDomain.getModuleDefaultIconURL(module.type)}
-            customIconURL={customIconURL}
-          />
-      }
-      primaryText={ModuleTitleText.selectTitle(title, get(module, 'description', ''), locale)}
-      menuItems={children ? children.map(subItem => this.renderMenuItem(subItem, locale, buildModuleURL)) : null}
-    />)
+  }, locale, buildModuleURL) => {
+    const { user: { selectedNavigationMenuItem } } = this.context.moduleTheme
+    return (
+      <MenuItem
+        key={key}
+        containerElement={module ? <Link to={buildModuleURL(module.id)} /> : null}
+        style={selected ? selectedNavigationMenuItem : null}
+        leftIcon={
+          iconType === AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT && type === NAVIGATION_ITEM_TYPES_ENUM.SECTION ?
+            <SectionDefaultIcon color={selected ? selectedNavigationMenuItem.color : null} /> :
+            <ModuleIcon
+              iconDisplayMode={iconType}
+              defaultIconURL={UIDomain.getModuleDefaultIconURL(module.type)}
+              customIconURL={customIconURL}
+              color={selected ? selectedNavigationMenuItem.color : null}
+            />
+        }
+        primaryText={ModuleTitleText.selectTitle(title, get(module, 'description', ''), locale)}
+        menuItems={children ? children.map(subItem => this.renderMenuItem(subItem, locale, buildModuleURL)) : null}
+      />)
+  }
 
 
   render() {
