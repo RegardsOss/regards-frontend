@@ -52,8 +52,8 @@ class AcquisitionProcessingChainMonitoringTableStopAction extends React.Componen
     const { chain } = this.props.entity.content
     return (
       <IconButton
-        className={`selenium-Stop-${chain.id}`}
-        title={formatMessage({ id: 'acquisition-chain.monitor.list.Stop.tooltip' })}
+        className={`selenium-stop-${chain.id}`}
+        title={formatMessage({ id: 'acquisition-chain.monitor.list.stop.tooltip' })}
         iconStyle={AcquisitionProcessingChainMonitoringTableStopAction.iconStyle}
         style={AcquisitionProcessingChainMonitoringTableStopAction.buttonStyle}
         onClick={() => this.props.onStopChain(chain.label, chain.id)}

@@ -91,6 +91,14 @@ const styles = theme => ({
       textDecoration: 'underline',
       cursor: 'pointer',
     },
+    chainJobs: {
+      descriptionStyle: {
+        marginBottom: '20px',
+      },
+      jobActivityStyle: {
+        margin: '10px 0px',
+      },
+    },
   },
 })
 

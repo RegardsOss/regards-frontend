@@ -18,18 +18,10 @@
  **/
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
-import FlatButton from 'material-ui/FlatButton'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
-import get from 'lodash/get'
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import Filter from 'mdi-material-ui/Filter'
-import Close from 'mdi-material-ui/Close'
-import TextField from 'material-ui/TextField/TextField'
 import {
   PageableInfiniteTableContainer,
   TableColumnBuilder,
-  TableHeaderLine, TableLayout, TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  TableLayout, TableHeaderLineLoadingAndResults,
   NoContentComponent,
   CardActionsComponent,
   FormErrorMessage,
@@ -41,6 +33,7 @@ import AcquisitionProcessingChainMonitoringTableStopAction from './AcquisitionPr
 import AcquisitionProcessingChainMonitoringActivityRenderer from './AcquisitionProcessingChainMonitoringActivityRenderer'
 import AcquisitionProcessingChainMonitoringProductsRenderer from './AcquisitionProcessingChainMonitoringProductsRenderer'
 import AcquisitionProcessingChainMonitoringFilesRenderer from './AcquisitionProcessingChainMonitoringFilesRenderer'
+import AcquisitionProcessingChainMonitoringListFiltersComponent from './AcquisitionProcessingChainMonitoringListFiltersComponent'
 import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
   from '../../../clients/AcquisitionProcessingChainMonitorClient'
 import { tableActions } from '../../../clients/TableClient'
@@ -54,6 +47,7 @@ import styles from '../../../styles'
 class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
+    initialFilters: PropTypes.objectOf(PropTypes.string),
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
@@ -74,7 +68,6 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
 
   state = {
     errorMessage: null,
-    filters: {},
     appliedFilters: {},
   }
 
@@ -105,75 +98,10 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
   }
 
   /**
-   * Callback when the label filter is updated
-   */
-  changeLabelFilter = (event, newValue) => {
-    if (newValue !== null) {
-      this.setState({
-        filters: {
-          ...this.state.filters,
-          label: newValue,
-        },
-      })
-    }
-  }
-
-  /**
-   * Callback when running filter is updated
-   */
-  changeRunningFilter = (event, key, newValue) => {
-    if (newValue) {
-      this.setState({
-        filters: {
-          ...this.state.filters,
-          running: newValue,
-        },
-      })
-    }
-  }
-
-  /**
-   * Callback when running filter is updated
-   */
-  changeModeFilter = (event, key, newValue) => {
-    if (newValue) {
-      this.setState({
-        filters: {
-          ...this.state.filters,
-          mode: newValue,
-        },
-      })
-    }
-  }
-
-  /**
-   * Clear all filters
-   */
-  handleClearFilters = () => {
-    this.setState({ filters: {}, appliedFilters: {} })
-  }
-
-  /**
-   * Callback to apply selected filters
-   */
-  handleFilter = () => {
-    const running = get(this.state.filters, 'running', 'all')
-    const mode = get(this.state.filters, 'mode', 'all')
-    const label = get(this.state.filters, 'label', null)
-    const filters = {}
-    if (running !== 'all') {
-      filters.running = running === 'running'
-    }
-    if (mode !== 'all') {
-      filters.mode = mode
-    }
-    if (label) {
-      filters.label = label
-    }
-
-    this.setState({
-      appliedFilters: filters,
-    })
+  * Callback to apply specific filters for Product search
+  */
+  applyFilters = (filters) => {
+    this.setState({ appliedFilters: filters })
   }
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
@@ -206,114 +134,11 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
     )
   }
 
-  renderFilters = () => {
-    const { intl: { formatMessage }, moduleTheme: { monitoring: { filters } } } = this.context
-    return (
-      <TableHeaderLine>
-        <TableHeaderOptionsArea reducible>
-          <TableHeaderOptionGroup>
-            <SelectField
-              style={filters.fieldStyle}
-              hintText={formatMessage({
-                id: 'acquisition-chain.monitor.list.filters.running',
-              })}
-              value={get(this.state, 'filters.running', undefined)}
-              onChange={this.changeRunningFilter}
-            >
-              <MenuItem
-                value="all"
-                primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.running.all',
-                })}
-              />
-              <MenuItem
-                value="running"
-                primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.running.running',
-                })}
-              />
-              <MenuItem
-                value="stopped"
-                primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.running.stopped',
-                })}
-              />
-            </SelectField>
-            <SelectField
-              style={filters.fieldStyle}
-              hintText={formatMessage({
-                id: 'acquisition-chain.monitor.list.filters.mode',
-              })}
-              value={get(this.state, 'filters.mode', undefined)}
-              onChange={this.changeModeFilter}
-            >
-              <MenuItem
-                value="all"
-                primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.mode.all',
-                })}
-              />
-              <MenuItem
-                value="AUTO"
-                primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.mode.auto',
-                })}
-              />
-              <MenuItem
-                value="MANUAL"
-                primaryText={formatMessage({
-                  id: 'acquisition-chain.monitor.list.filters.mode.manual',
-                })}
-              />
-            </SelectField>
-            <TextField
-              hintText={formatMessage({
-                id: 'acquisition-chain.monitor.list.filters.label',
-              })}
-              style={filters.fieldStyle}
-              value={get(this.state, 'filters.label', '')}
-              onChange={this.changeLabelFilter}
-            />
-          </TableHeaderOptionGroup>
-
-        </TableHeaderOptionsArea>
-      </TableHeaderLine>
-    )
-  }
-
-  renderActionsLine = () => (
-    <TableHeaderLine>
-      <TableHeaderOptionsArea>
-        <TableHeaderOptionGroup>
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.clear.button' })}
-            icon={<Close />}
-            disabled={!get(this.state, 'filters.running') && !get(this.state, 'filters.label') && !get(this.state, 'filters.mode')}
-            onClick={this.handleClearFilters}
-          />
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.filters.apply.button' })}
-            icon={<Filter />}
-            onClick={this.handleFilter}
-          />
-        </TableHeaderOptionGroup>
-      </TableHeaderOptionsArea>
-      <TableHeaderOptionsArea>
-        <TableHeaderOptionGroup>
-          <FlatButton
-            label={this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.refresh.button' })}
-            icon={<Refresh />}
-            onClick={this.handleRefresh}
-          />
-        </TableHeaderOptionGroup>
-      </TableHeaderOptionsArea>
-    </TableHeaderLine>
-  )
 
   render() {
     const { intl: { formatMessage }, muiTheme } = this.context
     const {
-      onBack, pageSize, resultsCount, entitiesLoading, project,
+      onBack, pageSize, resultsCount, entitiesLoading, project, initialFilters,
     } = this.props
     const { appliedFilters, errorMessage } = this.state
 
@@ -358,8 +183,11 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
         <CardText>
           <FormErrorMessage>{errorMessage}</FormErrorMessage>
           <TableLayout>
-            {this.renderFilters()}
-            {this.renderActionsLine()}
+            <AcquisitionProcessingChainMonitoringListFiltersComponent
+              initialFilters={initialFilters}
+              applyFilters={this.applyFilters}
+              handleRefresh={this.handleRefresh}
+            />
             <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
             <PageableInfiniteTableContainer
               name="acquisition-chain-monitor-table"
