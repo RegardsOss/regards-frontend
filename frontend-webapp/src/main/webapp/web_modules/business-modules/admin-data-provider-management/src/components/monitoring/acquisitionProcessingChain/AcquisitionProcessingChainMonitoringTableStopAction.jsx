@@ -17,22 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import RunIcon from 'material-ui/svg-icons/av/play-circle-outline'
+import StopIcon from 'material-ui/svg-icons/av/stop'
 import IconButton from 'material-ui/IconButton'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Run button action cell for the infinite table used to run a processing chain
+* Stop button action cell for the infinite table used to stop a running processing chain
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component {
+class AcquisitionProcessingChainMonitoringTableStopAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
       links: PropTypes.array,
     }),
-    onRunChain: PropTypes.func.isRequired,
+    onStopChain: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -42,9 +42,9 @@ class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component
   static iconStyle = { height: 23, width: 23 }
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
-  isRunnable = () => {
+  isStoppable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'start')
+    return !!find(links, l => l.rel === 'stop')
   }
 
   render() {
@@ -52,16 +52,16 @@ class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component
     const { chain } = this.props.entity.content
     return (
       <IconButton
-        className={`selenium-run-${chain.id}`}
-        title={formatMessage({ id: 'acquisition-chain.monitor.list.run.tooltip' })}
-        iconStyle={AcquisitionProcessingChainMonitoringTableRunAction.iconStyle}
-        style={AcquisitionProcessingChainMonitoringTableRunAction.buttonStyle}
-        onClick={() => this.props.onRunChain(chain.label, chain.id)}
-        disabled={!this.isRunnable()}
+        className={`selenium-Stop-${chain.id}`}
+        title={formatMessage({ id: 'acquisition-chain.monitor.list.Stop.tooltip' })}
+        iconStyle={AcquisitionProcessingChainMonitoringTableStopAction.iconStyle}
+        style={AcquisitionProcessingChainMonitoringTableStopAction.buttonStyle}
+        onClick={() => this.props.onStopChain(chain.label, chain.id)}
+        disabled={!this.isStoppable()}
       >
-        <RunIcon />
+        <StopIcon />
       </IconButton>
     )
   }
 }
-export default AcquisitionProcessingChainMonitoringTableRunAction
+export default AcquisitionProcessingChainMonitoringTableStopAction

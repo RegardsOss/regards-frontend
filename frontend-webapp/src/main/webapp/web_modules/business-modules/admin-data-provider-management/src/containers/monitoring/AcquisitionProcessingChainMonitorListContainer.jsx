@@ -21,7 +21,8 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { AcquisitionProcessingChainMonitorActions, AcquisitionProcessingChainMonitorSelectors }
   from '../../clients/AcquisitionProcessingChainMonitorClient'
-import { RunAcquisitionProcessingChainActions } from '../../clients/AcquisitionProcessingChainClient'
+import { RunAcquisitionProcessingChainActions, StopAcquisitionProcessingChainActions }
+  from '../../clients/AcquisitionProcessingChainClient'
 import AcquisitionProcessingChainMonitorListComponent
   from '../../components/monitoring/acquisitionProcessingChain/AcquisitionProcessingChainMonitorListComponent'
 
@@ -53,6 +54,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainMonitorActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
       runChain: chainId => dispatch(RunAcquisitionProcessingChainActions.run(chainId)),
+      stopChain: chainId => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
     }
   }
 
@@ -70,6 +72,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
     runChain: PropTypes.func.isRequired,
+    stopChain: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -97,7 +100,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
 
   render() {
     const {
-      meta, entitiesLoading, runChain, params: { project },
+      meta, entitiesLoading, runChain, stopChain, params: { project },
     } = this.props
     return (
       <AcquisitionProcessingChainMonitorListComponent
@@ -105,6 +108,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
         onRefresh={this.onRefresh}
         onBack={this.onBack}
         onRunChain={runChain}
+        onStopChain={stopChain}
         pageSize={AcquisitionProcessingChainMonitorListContainer.PAGE_SIZE}
         resultsCount={meta.totalElements}
         entitiesLoading={entitiesLoading}

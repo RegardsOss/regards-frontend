@@ -113,6 +113,7 @@ const messages = Object.assign({
   // 3.1.3 Table actions
   'acquisition-chain.monitor.list.run.tooltip': 'Lancer la chaîne',
   'acquisition-chain.monitor.list.run.error': 'Erreur durant le lancement de la chaîne de traitement {label} ({chainId})',
+  'acquisition-chain.monitor.list.stop.error': 'Erreur durant l\'arrêt de la chaîne de traitement {label} ({chainId})',
 
   // 3.1.4 Table filters
   'acquisition-chain.monitor.list.filters.label': 'Libellé',
@@ -147,6 +148,12 @@ const messages = Object.assign({
   'acquisition.product.list.filters.state.COMPLETED': 'En cours (complet)',
   'acquisition.product.list.filters.state.FINISHED': 'Terminé',
   'acquisition.product.list.filters.state.ERROR': 'Erreur',
+  'acquisition.product.list.filters.sipState.NOT_SCHEDULED': 'En cours ... (non planifié)',
+  'acquisition.product.list.filters.sipState.SCHEDULED': 'En cours ... (planifié)',
+  'acquisition.product.list.filters.sipState.GENERATED': 'En couts ... (généré)',
+  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'En cours ... (soumission en couts)',
+  'acquisition.product.list.filters.sipState.SUBMISSION_ERROR': 'Erreur de soumission',
+  'acquisition.product.list.filters.sipState.GENERATION_ERROR': 'Erreur de génération',
   'acquisition.product.list.filters.sipState.CREATED': 'En cours (créé)',
   'acquisition.product.list.filters.sipState.REJECTED': 'Refusé',
   'acquisition.product.list.filters.sipState.QUEUED': 'En attente',

@@ -112,7 +112,8 @@ const messages = Object.assign({
 
   // 3.1.3 Table actions
   'acquisition-chain.monitor.list.run.tooltip': 'Run acquisition chain',
-  'acquisition-chain.monitor.list.run.error': 'Error running acquisition chain',
+  'acquisition-chain.monitor.list.run.error': 'Error running acquisition chain {label} ({chainId})',
+  'acquisition-chain.monitor.list.stop.error': 'Error stopping acquisition chain {label} ({chainId})',
 
   // 3.1.4 Table filters
   'acquisition-chain.monitor.list.filters.label': 'Label',
@@ -147,6 +148,12 @@ const messages = Object.assign({
   'acquisition.product.list.filters.state.COMPLETED': 'Acquiring ... (Completed)',
   'acquisition.product.list.filters.state.FINISHED': 'Finished',
   'acquisition.product.list.filters.state.ERROR': 'Error',
+  'acquisition.product.list.filters.sipState.NOT_SCHEDULED': 'Acquiring ... (not scheduled)',
+  'acquisition.product.list.filters.sipState.SCHEDULED': 'Acquiring ... (scheduled)',
+  'acquisition.product.list.filters.sipState.GENERATED': 'Acquiring ... (generated)',
+  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'Acquiring ... (submitting)',
+  'acquisition.product.list.filters.sipState.SUBMISSION_ERROR': 'Submission error',
+  'acquisition.product.list.filters.sipState.GENERATION_ERROR': 'Generation error',
   'acquisition.product.list.filters.sipState.CREATED': 'Acquiring ... (Created)',
   'acquisition.product.list.filters.sipState.REJECTED': 'Rejected',
   'acquisition.product.list.filters.sipState.QUEUED': 'Queued',

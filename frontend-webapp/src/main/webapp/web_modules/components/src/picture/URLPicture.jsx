@@ -27,7 +27,6 @@ import { BrokenPicturePlaceholder } from './BrokenPicturePlaceholder'// import d
  * @author Raphaël Mechali
  */
 export class URLPicture extends React.Component {
-
   /**
  * Possible pictures render
  */

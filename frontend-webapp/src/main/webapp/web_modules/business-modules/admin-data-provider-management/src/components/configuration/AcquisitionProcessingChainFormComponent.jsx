@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import map from 'lodash/map'
 import omit from 'lodash/omit'
 import { Tabs, Tab } from 'material-ui/Tabs'
@@ -140,6 +141,8 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
     )
   }
 
+  renderFileInfoItemLabel = item => item.comment || this.context.intl.formatMessage({ id: 'acquisition-chain.form.fileInfos.list.item.title' })
+
   render() {
     const {
       chain, onSubmit, handleSubmit,
@@ -163,7 +166,7 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
 
     const title = !chain ?
       formatMessage({ id: 'acquisition-chain.form.create.title' }) :
-      formatMessage({ id: 'acquisition-chain.form.edit.title' }, { name: chain.name })
+      formatMessage({ id: 'acquisition-chain.form.edit.title' }, { name: get(chain, 'content.label', '') })
 
     const ingestProcessingChainConfig = {
       text: 'name',
@@ -263,7 +266,7 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
                 <FieldArray
                   name="fileInfos"
                   component={RenderArrayObjectField}
-                  elementLabel={formatMessage({ id: 'acquisition-chain.form.fileInfos.list.item.title' })}
+                  elementLabel={this.renderFileInfoItemLabel}
                   fieldComponent={AcquisitionFileInfoComponent}
                   getEmptyObject={this.getEmptyMetaFile}
                   duplicationTransfromation={this.duplicateMetaFile}
