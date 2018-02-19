@@ -31,7 +31,7 @@ import Checkbox from 'material-ui/Checkbox'
 import states from './FormMappingStates'
 import { fragmentSelectors } from '../clients/FragmentClient'
 
-export class DatasourceFormMappingLineComponent extends React.Component {
+export class DBDatasourceFormMappingLineComponent extends React.Component {
   static propTypes = {
     tableAttributeList: PropTypes.objectOf(PropTypes.shape({
       name: PropTypes.string,
@@ -197,4 +197,4 @@ export class DatasourceFormMappingLineComponent extends React.Component {
 }
 
 
-export default DatasourceFormMappingLineComponent
+export default DBDatasourceFormMappingLineComponent

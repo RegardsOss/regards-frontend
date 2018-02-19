@@ -24,7 +24,8 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { unregisterField } from 'redux-form'
-import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
+import { PluginConfParamsUtils } from '@regardsoss/domain/common'
+import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { extractParametersFromFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetFormAttributesComponent from '../components/DatasetFormAttributesComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
@@ -75,7 +76,7 @@ export class DatasetFormAttributesContainer extends React.Component {
   }
 
   onSubmit = (values) => {
-    const datasourceObjectModelName = get(IDBDatasourceParamsUtils.findParam(this.props.currentDatasource, IDBDatasourceParamsUtils.IDBDatasourceParamsEnum.MODEL), 'value')
+    const datasourceObjectModelName = get(PluginConfParamsUtils.findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value')
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
     this.props.handleSave(values.label, values.geometry, values.model, properties, datasourceObjectModelName, values.descriptionFileContent, values.descriptionUrl)
   }

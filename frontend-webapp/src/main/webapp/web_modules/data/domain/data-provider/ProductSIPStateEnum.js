@@ -16,26 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+import SIPStateEnum from '../ingest/SIPStateEnum'
 
-import { relativeURLRegexp, validURLRegexp } from './URLRegex'
-import PluginParamType from './PluginParamType'
-import EntityIpIdTester from './EntityIpIdTester'
-import DataTypes from './DataTypes'
-import durationParser from './DurationParser'
-import PluginConfParamsUtils from './PluginConfParamsUtils'
+/**
+ * Possible states for SIPs associated to an acquisition chain product.
+ * @author Sébastien Binda
+ */
+const ProductSIPStateEnum = {
+  ...SIPStateEnum,
+  NOT_SCHEDULED: 'NOT_SCHEDULED',
+  SCHEDULED: 'SCHEDULED',
+  GENERATED: 'GENERATED',
+  GENERATION_ERROR: 'GENERATION_ERROR',
+  SUBMISSION_SCHEDULED: 'SUBMISSION_SCHEDULED',
+  SUBMISSION_ERROR: 'SUBMISSION_ERROR',
+}
 
 module.exports = {
-  // Plugin
-  ...PluginParamType,
-  // Data types
-  ...DataTypes,
-
-  // URL
-  relativeURLRegexp,
-  validURLRegexp,
-
-  EntityIpIdTester,
-
-  durationParser,
-  PluginConfParamsUtils,
+  ProductSIPStateEnum,
+  ProductSIPStateEnumValues: values(ProductSIPStateEnum),
 }

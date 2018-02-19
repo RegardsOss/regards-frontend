@@ -27,17 +27,18 @@ import { ErrorTypes } from '@regardsoss/form-utils'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
-import DatasourceStepperComponent from './DatasourceStepperComponent'
+import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
+import { PluginConfParamsUtils } from '@regardsoss/domain/common'
+import DBDatasourceStepperComponent from './DBDatasourceStepperComponent'
 import ConnectionViewerComponent from './ConnectionViewerComponent'
-import StaticAttributeList from './StaticAttributeList'
-import DatasourceFormMappingFromTableComponent from './DatasourceFormMappingFromTableComponent'
-import DatasourceFormMappingCustomComponent from './DatasourceFormMappingCustomComponent'
+import StaticAttributeListDB from './StaticAttributeListDB'
+import DBDatasourceFormMappingFromTableComponent from './DBDatasourceFormMappingFromTableComponent'
+import DBDatasourceFormMappingCustomComponent from './DBDatasourceFormMappingCustomComponent'
 import states from './FormMappingStates'
 
-const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
+const { findParam } = PluginConfParamsUtils
 
-export class DatasourceFormMappingComponent extends React.Component {
+export class DBDatasourceFormMappingComponent extends React.Component {
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     isEditing: PropTypes.bool,
@@ -149,7 +150,7 @@ export class DatasourceFormMappingComponent extends React.Component {
     }
     const modelAttributeDynAndStaticList = {
       ...modelAttributeList,
-      ...StaticAttributeList,
+      ...StaticAttributeListDB,
     }
     onSubmit(formValuesSubset, modelAttributeDynAndStaticList, tableAttributeList)
   }
@@ -169,7 +170,7 @@ export class DatasourceFormMappingComponent extends React.Component {
             title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.title' })}
             subtitle={this.context.intl.formatMessage({ id: 'datasource.form.mapping.subtitle' })}
           />
-          <DatasourceStepperComponent stepIndex={2} />
+          <DBDatasourceStepperComponent stepIndex={2} />
         </Card>
         <div style={cardEspaced} className="row">
           <ShowableAtRender
@@ -193,7 +194,7 @@ export class DatasourceFormMappingComponent extends React.Component {
                 >
                   <Card>
                     <div>
-                      <DatasourceFormMappingFromTableComponent
+                      <DBDatasourceFormMappingFromTableComponent
                         table={tableList[currentTableSelected]}
                         tableAttributeList={tableAttributeList}
                         modelAttributeList={modelAttributeList}
@@ -224,7 +225,7 @@ export class DatasourceFormMappingComponent extends React.Component {
               <div className="col-sm-68 col-sm-offset-2">
                 <Card>
                   <div>
-                    <DatasourceFormMappingCustomComponent
+                    <DBDatasourceFormMappingCustomComponent
                       table={tableList[currentTableSelected]}
                       tableAttributeList={tableAttributeList}
                       modelAttributeList={modelAttributeList}
@@ -283,4 +284,4 @@ function validate(values) {
 export default reduxForm({
   form: 'datasource-mapping-form',
   validate,
-})(DatasourceFormMappingComponent)
+})(DBDatasourceFormMappingComponent)

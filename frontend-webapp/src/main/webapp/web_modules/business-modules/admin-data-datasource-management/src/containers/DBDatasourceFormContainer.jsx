@@ -25,17 +25,18 @@ import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
-import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
+import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
+import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceSelectors, datasourceActions } from './../clients/DatasourceClient'
-import DatasourceFormAttributesContainer from './DatasourceFormAttributesContainer'
-import DatasourceFormMappingContainer from './DatasourceFormMappingContainer'
+import DBDatasourceFormAttributesContainer from './DBDatasourceFormAttributesContainer'
+import DBDatasourceFormMappingContainer from './DBDatasourceFormMappingContainer'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from './../clients/PluginMetaDataClient'
 import { fragmentSelectors } from './../clients/FragmentClient'
 import messages from '../i18n'
-import StaticAttributeList from './../components/StaticAttributeList'
+import StaticAttributeListDB from './../components/StaticAttributeListDB'
 
-const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
+const { findParam } = PluginConfParamsUtils
 
 const states = {
   FORM_ATTRIBUTE: 'FORM_ATTRIBUTE',
@@ -44,7 +45,7 @@ const states = {
 /**
  * Show the datasource form
  */
-export class DatasourceFormContainer extends React.Component {
+export class DBDatasourceFormContainer extends React.Component {
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -67,7 +68,7 @@ export class DatasourceFormContainer extends React.Component {
     const isCreating = props.params.datasourceId === undefined
     this.state = {
       isCreating,
-      isEditing: props.params.datasourceId !== undefined,
+      isEditing: !isCreating,
       isLoading: true,
       state: states.FORM_ATTRIBUTE,
       currentDatasource: null,
@@ -111,7 +112,7 @@ export class DatasourceFormContainer extends React.Component {
     if (isEditing) {
       return `/admin/${project}/data/acquisition/datasource/list`
     }
-    return `/admin/${project}/data/acquisition/datasource/create/connection`
+    return `/admin/${project}/data/acquisition/datasource/db/create/connection`
   }
 
   /**
@@ -253,7 +254,7 @@ export class DatasourceFormContainer extends React.Component {
     forEach(formValuesSubset.attributes, (attribute, attributeName) => {
       const modelAttr = find(modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attributeName)
       // Is this a static attribute ?
-      const modelAttrStatic = find(StaticAttributeList, modelAttribute => modelAttribute.content.attribute.name === attributeName)
+      const modelAttrStatic = find(StaticAttributeListDB, modelAttribute => modelAttribute.content.attribute.name === attributeName)
 
       const newAttributeMapping = {
         name: attributeName,
@@ -319,7 +320,7 @@ export class DatasourceFormContainer extends React.Component {
 
     switch (state) {
       case states.FORM_ATTRIBUTE:
-        return (<DatasourceFormAttributesContainer
+        return (<DBDatasourceFormAttributesContainer
           pluginMetaDataList={pluginMetaDataList}
           currentDatasource={currentDatasource}
           currentConnectionId={isCreating ? parseInt(connectionId, 10) : get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'pluginConfiguration.id')}
@@ -327,7 +328,7 @@ export class DatasourceFormContainer extends React.Component {
           backUrl={this.getFormAttributeBackUrl()}
         />)
       case states.FORM_MAPPING_CONNECTION:
-        return (<DatasourceFormMappingContainer
+        return (<DBDatasourceFormMappingContainer
           currentPluginMetaData={this.getCurrentPluginMetaData()}
           currentDatasource={currentDatasource}
           isEditing={isEditing}
@@ -371,4 +372,4 @@ const mapDispatchToProps = dispatch => ({
   )),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(DBDatasourceFormContainer)

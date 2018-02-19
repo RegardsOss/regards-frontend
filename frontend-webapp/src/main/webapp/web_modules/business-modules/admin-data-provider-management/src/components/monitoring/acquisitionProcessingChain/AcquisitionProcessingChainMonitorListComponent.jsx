@@ -37,6 +37,7 @@ import {
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import AcquisitionProcessingChainMonitoringTableRunAction from './AcquisitionProcessingChainMonitoringTableRunAction'
+import AcquisitionProcessingChainMonitoringTableStopAction from './AcquisitionProcessingChainMonitoringTableStopAction'
 import AcquisitionProcessingChainMonitoringActivityRenderer from './AcquisitionProcessingChainMonitoringActivityRenderer'
 import AcquisitionProcessingChainMonitoringProductsRenderer from './AcquisitionProcessingChainMonitoringProductsRenderer'
 import AcquisitionProcessingChainMonitoringFilesRenderer from './AcquisitionProcessingChainMonitoringFilesRenderer'
@@ -59,6 +60,7 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
     onRefresh: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     onRunChain: PropTypes.func.isRequired,
+    onStopChain: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -184,6 +186,20 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
         } else {
           this.setState({
             errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.run.error' }, { label, chainId }),
+          })
+        }
+      },
+    )
+  }
+
+  stopChainAction = (label, chainId) => {
+    this.props.onStopChain(chainId).then(
+      (ActionResult) => {
+        if (!ActionResult.error) {
+          this.autoRefresh()
+        } else {
+          this.setState({
+            errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.monitor.list.stop.error' }, { label, chainId }),
           })
         }
       },
@@ -326,6 +342,10 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
       TableColumnBuilder.buildOptionsColumn('column.files.actions', [{
         OptionConstructor: AcquisitionProcessingChainMonitoringTableRunAction,
         optionProps: { onRunChain: this.runChainAction },
+      },
+      {
+        OptionConstructor: AcquisitionProcessingChainMonitoringTableStopAction,
+        optionProps: { onStopChain: this.stopChainAction },
       },
       ], true, fixedColumnWidth),
     ]

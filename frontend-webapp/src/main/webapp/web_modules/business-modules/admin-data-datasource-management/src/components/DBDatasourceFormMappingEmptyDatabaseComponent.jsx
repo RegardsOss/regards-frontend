@@ -20,9 +20,9 @@ import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import DissatisfiedIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
 import { i18nContextType } from '@regardsoss/i18n'
-import DatasourceStepperComponent from './DatasourceStepperComponent'
+import DBDatasourceStepperComponent from './DBDatasourceStepperComponent'
 
-export class DatasourceFormMappingEmptyDatabaseComponent extends React.Component {
+export class DBDatasourceFormMappingEmptyDatabaseComponent extends React.Component {
   static propTypes = {
     handleBack: PropTypes.func.isRequired,
   }
@@ -40,7 +40,7 @@ export class DatasourceFormMappingEmptyDatabaseComponent extends React.Component
             title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.title' })}
             subtitle={this.context.intl.formatMessage({ id: 'datasource.form.mapping.subtitle' })}
           />
-          <DatasourceStepperComponent stepIndex={2} />
+          <DBDatasourceStepperComponent stepIndex={2} />
           <NoContentComponent
             title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.emptyDatabase.title' })}
             message={this.context.intl.formatMessage({ id: 'datasource.form.mapping.emptyDatabase.message' })}
@@ -58,4 +58,4 @@ export class DatasourceFormMappingEmptyDatabaseComponent extends React.Component
   }
 }
 
-export default DatasourceFormMappingEmptyDatabaseComponent
+export default DBDatasourceFormMappingEmptyDatabaseComponent
