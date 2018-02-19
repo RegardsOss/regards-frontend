@@ -20,32 +20,35 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { DatasourceCreateOrPickConnectionContainer } from '../../src/containers/DatasourceCreateOrPickConnectionContainer'
+import { DBDatasourceFormAttributesContainer } from '../../src/containers/DBDatasourceFormAttributesContainer'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceCreateOrPickConnectionContainer', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormAttributesContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DatasourceCreateOrPickConnectionContainer)
+    assert.isDefined(DBDatasourceFormAttributesContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
 
   it('Render properly', () => {
     const props = {
-      // from router
-      params: {
-        project: 'someproject',
-      },
+      currentDatasource: null,
+      handleSave: () => { },
+      backUrl: '#',
+      currentConnectionId: parseInt(DumpProvider.getFirstEntityKey('DataManagementClient', 'Connection'), 10),
       // from mapStateToProps
-      connectionList: DumpProvider.get('DataManagementClient', 'Connection'),
+      modelList: DumpProvider.get('DataManagementClient', 'Model'),
+      currentConnection: DumpProvider.getFirstEntity('DataManagementClient', 'Connection'),
       // from mapDispatchToProps
-      fetchConnectionList: () => {},
+      fetchModelList: () => { },
+      fetchConnection: () => { },
     }
 
-    const enzymeWrapper = shallow(<DatasourceCreateOrPickConnectionContainer {...props} />, { context })
+
+    const enzymeWrapper = shallow(<DBDatasourceFormAttributesContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
   })

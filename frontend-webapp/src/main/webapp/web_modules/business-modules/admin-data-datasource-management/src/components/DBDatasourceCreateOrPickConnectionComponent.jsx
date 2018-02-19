@@ -27,12 +27,12 @@ import { i18nContextType } from '@regardsoss/i18n'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
-import DatasourceStepperComponent from './DatasourceStepperComponent'
+import DBDatasourceStepperComponent from './DBDatasourceStepperComponent'
 
 /**
  * React component to prevent user to create datasource if he doesn't have a connection yet
  */
-export class DatasourceCreateOrPickConnectionComponent extends React.Component {
+export class DBDatasourceCreateOrPickConnectionComponent extends React.Component {
   static propTypes = {
     connectionList: DataManagementShapes.ConnectionList,
     createConnectionUrl: PropTypes.string.isRequired,
@@ -80,7 +80,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
             title={this.context.intl.formatMessage({ id: 'datasource.form.create.title' })}
             subtitle={this.context.intl.formatMessage({ id: 'datasource.form.create.subtitle' })}
           />
-          <DatasourceStepperComponent stepIndex={0} />
+          <DBDatasourceStepperComponent stepIndex={0} />
           <CardText>
             <SelectField
               className="selenium-pickConnection"
@@ -96,7 +96,7 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
                   key={id}
                   primaryText={connection.content.label}
                 />
-                ) : null)}
+              ) : null)}
             </SelectField>
           </CardText>
           <CardActions>
@@ -128,5 +128,5 @@ export class DatasourceCreateOrPickConnectionComponent extends React.Component {
   }
 }
 
-export default DatasourceCreateOrPickConnectionComponent
+export default DBDatasourceCreateOrPickConnectionComponent
 

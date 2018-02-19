@@ -20,7 +20,7 @@ import { connect } from '@regardsoss/redux'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import DatasourceFormAttributesComponent from '../components/DatasourceFormAttributesComponent'
+import DBDatasourceFormAttributesComponent from '../components/DBDatasourceFormAttributesComponent'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { connectionActions, connectionSelectors } from './../clients/ConnectionClient'
 import messages from '../i18n'
@@ -28,7 +28,7 @@ import messages from '../i18n'
 /**
  * Show the datasource form
  */
-export class DatasourceFormAttributesContainer extends React.Component {
+export class DBDatasourceFormAttributesContainer extends React.Component {
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     handleSave: PropTypes.func.isRequired,
@@ -71,7 +71,7 @@ export class DatasourceFormAttributesContainer extends React.Component {
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          {() => (<DatasourceFormAttributesComponent
+          {() => (<DBDatasourceFormAttributesComponent
             modelList={modelList}
             currentDatasource={currentDatasource}
             currentConnection={currentConnection}
@@ -96,4 +96,4 @@ const mapDispatchToProps = dispatch => ({
   fetchConnection: id => dispatch(connectionActions.fetchEntity(id)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormAttributesContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(DBDatasourceFormAttributesContainer)

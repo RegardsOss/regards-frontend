@@ -52,7 +52,7 @@ export class DatasourceListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/acquisition/datasource/create/connection`
+    return `/admin/${project}/data/acquisition/datasource/create/interface`
   }
 
   getBackUrl = () => {
@@ -69,12 +69,11 @@ export class DatasourceListContainer extends React.Component {
     let url
     // redirect to the right edition page depending of the type of interfaces the datasource plugin extends of
     if (!includes(datasource.content.interfaceNames, INTERFACE_DS_DB)) {
-      // Here we have an Harverter DS
-      const { pluginId } = datasource.content
-      url = `/admin/${project}/microservice/rs-dam/plugin/${pluginId}/configuration/${datasourceId}/edit?backUrl=data/acquisition/datasource/list`
+      // Here we have an AIP DS
+      url = `/admin/${project}/data/acquisition/datasource/aip/${datasourceId}/edit`
     } else {
       // Here is an external DS
-      url = `/admin/${project}/data/acquisition/datasource/${datasourceId}/edit`
+      url = `/admin/${project}/data/acquisition/datasource/db/${datasourceId}/edit`
     }
     browserHistory.push(url)
   }

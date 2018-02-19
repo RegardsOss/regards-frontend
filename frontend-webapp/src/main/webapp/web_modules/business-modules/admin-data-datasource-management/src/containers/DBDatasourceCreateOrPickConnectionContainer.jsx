@@ -22,13 +22,13 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { connectionSelectors, connectionActions } from './../clients/ConnectionClient'
-import DatasourceCreateOrPickConnectionComponent from '../components/DatasourceCreateOrPickConnectionComponent'
+import DBDatasourceCreateOrPickConnectionComponent from '../components/DBDatasourceCreateOrPickConnectionComponent'
 import messages from '../i18n'
 
 /**
  * Pick the datasource if existing or ask the user to create a new one
  */
-export class DatasourceCreateOrPickConnectionContainer extends React.Component {
+export class DBDatasourceCreateOrPickConnectionContainer extends React.Component {
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -58,17 +58,17 @@ export class DatasourceCreateOrPickConnectionContainer extends React.Component {
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/acquisition/datasource/list`
+    return `/admin/${project}/data/acquisition/datasource/create/interface`
   }
 
-  getCreateConnectionUrl= () => {
+  getCreateConnectionUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/acquisition/connection/create`
   }
 
   redirectToForm = (connectionId) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/datasource/create/${connectionId}`
+    const url = `/admin/${project}/data/acquisition/datasource/db/create/${connectionId}`
     browserHistory.push(url)
   }
 
@@ -80,7 +80,7 @@ export class DatasourceCreateOrPickConnectionContainer extends React.Component {
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          <DatasourceCreateOrPickConnectionComponent
+          <DBDatasourceCreateOrPickConnectionComponent
             connectionList={connectionList}
             createConnectionUrl={this.getCreateConnectionUrl()}
             backUrl={this.getBackUrl()}
@@ -100,4 +100,4 @@ const mapDispatchToProps = dispatch => ({
   fetchConnectionList: () => dispatch(connectionActions.fetchEntityList()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DatasourceCreateOrPickConnectionContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(DBDatasourceCreateOrPickConnectionContainer)

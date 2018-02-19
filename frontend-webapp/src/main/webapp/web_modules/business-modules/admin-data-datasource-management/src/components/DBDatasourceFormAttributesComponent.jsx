@@ -27,18 +27,19 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
-import { IDBDatasourceParamsUtils, DATASOURCE_REFRESH_RATE } from '@regardsoss/domain/dam'
+import { IDBDatasourceParamsEnum, DATASOURCE_REFRESH_RATE } from '@regardsoss/domain/dam'
+import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import SelectField from 'material-ui/SelectField'
-import DatasourceStepperComponent from './DatasourceStepperComponent'
+import DBDatasourceStepperComponent from './DBDatasourceStepperComponent'
 
-const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
+const { findParam } = PluginConfParamsUtils
 
 const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(128)]
 
 /**
  * React component to edit datasources attributes.
  */
-export class DatasourceFormAttributesComponent extends React.Component {
+export class DBDatasourceFormAttributesComponent extends React.Component {
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     currentConnection: DataManagementShapes.Connection,
@@ -117,7 +118,7 @@ export class DatasourceFormAttributesComponent extends React.Component {
             title={title}
             subtitle={this.context.intl.formatMessage({ id: 'datasource.form.subtitle' })}
           />
-          <DatasourceStepperComponent stepIndex={1} />
+          <DBDatasourceStepperComponent stepIndex={1} />
           <CardText>
             <Field
               name="label"
@@ -202,5 +203,5 @@ export class DatasourceFormAttributesComponent extends React.Component {
 
 export default reduxForm({
   form: 'datasource-form',
-})(DatasourceFormAttributesComponent)
+})(DBDatasourceFormAttributesComponent)
 

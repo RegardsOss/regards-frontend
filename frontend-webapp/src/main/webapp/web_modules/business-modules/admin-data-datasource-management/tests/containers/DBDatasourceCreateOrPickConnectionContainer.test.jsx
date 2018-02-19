@@ -20,37 +20,32 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { DatasourceFormContainer } from '../../src/containers/DatasourceFormContainer'
+import { DBDatasourceCreateOrPickConnectionContainer } from '../../src/containers/DBDatasourceCreateOrPickConnectionContainer'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormContainer', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceCreateOrPickConnectionContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DatasourceFormContainer)
+    assert.isDefined(DBDatasourceCreateOrPickConnectionContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
+
   it('Render properly', () => {
     const props = {
       // from router
       params: {
-        project: 'lambda',
-        datasourceId: '1',
-        connectionId: null,
+        project: 'someproject',
       },
       // from mapStateToProps
-      currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
+      connectionList: DumpProvider.get('DataManagementClient', 'Connection'),
       // from mapDispatchToProps
-      createDatasource: () => { },
-      updateDatasource: () => { },
-      fetchDatasource: () => { },
-      fetchPluginMetaDataList: () => { },
+      fetchConnectionList: () => { },
     }
 
-
-    const enzymeWrapper = shallow(<DatasourceFormContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<DBDatasourceCreateOrPickConnectionContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
   })

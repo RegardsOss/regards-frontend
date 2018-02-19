@@ -21,21 +21,22 @@ import { connect } from '@regardsoss/redux'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
-import DatasourceFormMappingComponent from '../components/DatasourceFormMappingComponent'
+import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
+import { PluginConfParamsUtils } from '@regardsoss/domain/common'
+import DBDatasourceFormMappingComponent from '../components/DBDatasourceFormMappingComponent'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import { connectionTableActions, connectionTableSelectors } from '../clients/ConnectionTableClient'
 import { connectionTableAttributesActions, connectionTableAttributesSelectors } from '../clients/ConnectionTableAttributesClient'
-import DatasourceFormMappingEmptyDatabaseComponent from '../components/DatasourceFormMappingEmptyDatabaseComponent'
+import DBDatasourceFormMappingEmptyDatabaseComponent from '../components/DBDatasourceFormMappingEmptyDatabaseComponent'
 import messages from '../i18n'
 
-const { findParam, hasParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
+const { findParam, hasParam } = PluginConfParamsUtils
 
 
 /**
  * Show the datasource form
  */
-export class DatasourceFormMappingContainer extends React.Component {
+export class DBDatasourceFormMappingContainer extends React.Component {
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     isEditing: PropTypes.bool,
@@ -91,7 +92,7 @@ export class DatasourceFormMappingContainer extends React.Component {
     const {
       currentDatasource, tableList, tableAttributeList, modelAttributeList, handleBack, handleSave, isEditing, isCreating,
     } = this.props
-    return (<DatasourceFormMappingComponent
+    return (<DBDatasourceFormMappingComponent
       currentDatasource={currentDatasource}
       tableList={tableList}
       tableAttributeList={tableAttributeList}
@@ -124,7 +125,7 @@ export class DatasourceFormMappingContainer extends React.Component {
   render() {
     const { tableList, handleBack } = this.props
     const { isLoading } = this.state
-    const emptyComponent = (<DatasourceFormMappingEmptyDatabaseComponent
+    const emptyComponent = (<DBDatasourceFormMappingEmptyDatabaseComponent
       handleBack={handleBack}
     />)
     return (
@@ -159,4 +160,4 @@ const mapDispatchToProps = dispatch => ({
   fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DatasourceFormMappingContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(DBDatasourceFormMappingContainer)

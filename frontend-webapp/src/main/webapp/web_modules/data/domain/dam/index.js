@@ -31,7 +31,8 @@ import {
 
 import DATASOURCE_REFRESH_RATE from './DatasourceRefreshRate'
 
-import IDBDatasourceParamsUtils from './IDBDatasourceParamsUtils'
+import IDBDatasourceParamsEnum from './IDBDatasourceParamsEnum'
+import IAIPDatasourceParamsEnum from './IAIPDatasourceParamsEnum'
 
 module.exports = {
   getAbstractEntityDescription,
@@ -52,5 +53,6 @@ module.exports = {
 
   DATASOURCE_REFRESH_RATE,
 
-  IDBDatasourceParamsUtils,
+  IDBDatasourceParamsEnum,
+  IAIPDatasourceParamsEnum,
 }

@@ -19,18 +19,18 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import DatasourceFormMappingCustomComponent from '../../src/components/DatasourceFormMappingCustomComponent'
-import DatasourceFormMappingLineComponent from '../../src/components/DatasourceFormMappingLineComponent'
+import DBDatasourceFormMappingCustomComponent from '../../src/components/DBDatasourceFormMappingCustomComponent'
+import DBDatasourceFormMappingLineComponent from '../../src/components/DBDatasourceFormMappingLineComponent'
 
 const context = buildTestContext()
 
-describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormMappingCustomComponent', () => {
+describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormMappingCustomComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DatasourceFormMappingCustomComponent)
-    assert.isDefined(DatasourceFormMappingLineComponent)
+    assert.isDefined(DBDatasourceFormMappingCustomComponent)
+    assert.isDefined(DBDatasourceFormMappingLineComponent)
   })
   it('Render properly', () => {
     const props = {
@@ -39,11 +39,11 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormMappingCustom
       table: DumpProvider.getFirstEntity('DataManagementClient', 'ConnectionTable'),
       currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
       isEditing: false,
-      change: () => {},
+      change: () => { },
     }
 
 
-    const enzymeWrapper = shallow(<DatasourceFormMappingCustomComponent {...props} />, { context })
-    expect(enzymeWrapper.find(DatasourceFormMappingLineComponent)).to.have.length(8)
+    const enzymeWrapper = shallow(<DBDatasourceFormMappingCustomComponent {...props} />, { context })
+    expect(enzymeWrapper.find(DBDatasourceFormMappingLineComponent)).to.have.length(8)
   })
 })

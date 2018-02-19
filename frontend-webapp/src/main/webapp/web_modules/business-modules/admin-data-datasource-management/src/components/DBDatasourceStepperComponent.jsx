@@ -27,7 +27,7 @@ import {
 /**
  * React component to show the progress of datasource edition/creation.
  */
-export class DatasourceStepperComponent extends React.Component {
+export class DBDatasourceStepperComponent extends React.Component {
   static propTypes = {
     stepIndex: PropTypes.number.isRequired,
   }
@@ -60,5 +60,5 @@ export class DatasourceStepperComponent extends React.Component {
   }
 }
 
-export default DatasourceStepperComponent
+export default DBDatasourceStepperComponent
 

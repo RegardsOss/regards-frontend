@@ -30,14 +30,15 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { IDBDatasourceParamsUtils } from '@regardsoss/domain/dam'
-import DatasourceFormMappingLineComponent from './DatasourceFormMappingLineComponent'
-import StaticAttributeList from './StaticAttributeList'
+import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
+import { PluginConfParamsUtils } from '@regardsoss/domain/common'
+import DBDatasourceFormMappingLineComponent from './DBDatasourceFormMappingLineComponent'
+import StaticAttributeListDB from './StaticAttributeListDB'
 import states from './FormMappingStates'
 
-const { findParam, IDBDatasourceParamsEnum } = IDBDatasourceParamsUtils
+const { findParam } = PluginConfParamsUtils
 
-export class DatasourceFormMappingFromTableComponent extends React.Component {
+export class DBDatasourceFormMappingFromTableComponent extends React.Component {
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     isEditing: PropTypes.bool,
@@ -90,7 +91,7 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
       fpmap((modelAttribute) => {
         const isEditingSQL = this.getIsEditingSQL(modelAttribute)
         return (
-          <DatasourceFormMappingLineComponent
+          <DBDatasourceFormMappingLineComponent
             key={modelAttribute.content.id}
             tableAttributeList={tableAttributeList}
             modelAttribute={modelAttribute}
@@ -135,10 +136,10 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
             preScanRows={false}
             showRowHover
           >
-            {map(StaticAttributeList, (staticAttribute) => {
+            {map(StaticAttributeListDB, (staticAttribute) => {
               const isEditingSQL = this.getIsEditingSQL(staticAttribute)
               return (
-                <DatasourceFormMappingLineComponent
+                <DBDatasourceFormMappingLineComponent
                   key={staticAttribute.content.attribute.name}
                   tableAttributeList={tableAttributeList}
                   modelAttribute={staticAttribute}
@@ -178,4 +179,4 @@ export class DatasourceFormMappingFromTableComponent extends React.Component {
 }
 
 
-export default DatasourceFormMappingFromTableComponent
+export default DBDatasourceFormMappingFromTableComponent

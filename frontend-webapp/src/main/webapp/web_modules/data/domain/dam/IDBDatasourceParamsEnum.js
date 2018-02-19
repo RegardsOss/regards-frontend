@@ -18,11 +18,6 @@
  **/
 import find from 'lodash/find'
 
-const findParam = (datasource, parameterName) => find(datasource.content.parameters, parameter => parameter.name === parameterName)
-const hasParam = (datasource, parameterName) => {
-  const param = find(datasource.content.parameters, parameter => parameter.name === parameterName)
-  return !!param
-}
 const IDBDatasourceParamsEnum = {
   CONNECTION: 'connection',
   MODEL: 'modelName',
@@ -33,8 +28,4 @@ const IDBDatasourceParamsEnum = {
   TAGS: 'tags',
 }
 
-module.exports = {
-  IDBDatasourceParamsEnum,
-  findParam,
-  hasParam,
-}
+export default IDBDatasourceParamsEnum

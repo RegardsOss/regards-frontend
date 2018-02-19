@@ -27,11 +27,11 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import DatasourceFormMappingLineComponent from './DatasourceFormMappingLineComponent'
-import StaticAttributeList from './StaticAttributeList'
+import DBDatasourceFormMappingLineComponent from './DBDatasourceFormMappingLineComponent'
+import StaticAttributeListDB from './StaticAttributeListDB'
 import states from './FormMappingStates'
 
-export class DatasourceFormMappingCustomComponent extends React.Component {
+export class DBDatasourceFormMappingCustomComponent extends React.Component {
   static propTypes = {
     table: PropTypes.shape({
       name: PropTypes.string,
@@ -60,7 +60,7 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
     const mappingLines = flow(
       fpsortBy('content.attribute.optional'),
       fpmap(modelAttribute => (
-        <DatasourceFormMappingLineComponent
+        <DBDatasourceFormMappingLineComponent
           key={modelAttribute.content.id}
           tableAttributeList={tableAttributeList}
           modelAttribute={modelAttribute}
@@ -105,8 +105,8 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
             preScanRows={false}
             showRowHover
           >
-            {map(StaticAttributeList, staticAttribute => (
-              <DatasourceFormMappingLineComponent
+            {map(StaticAttributeListDB, staticAttribute => (
+              <DBDatasourceFormMappingLineComponent
                 key={staticAttribute.content.attribute.name}
                 tableAttributeList={tableAttributeList}
                 modelAttribute={staticAttribute}
@@ -145,4 +145,4 @@ export class DatasourceFormMappingCustomComponent extends React.Component {
 }
 
 
-export default DatasourceFormMappingCustomComponent
+export default DBDatasourceFormMappingCustomComponent

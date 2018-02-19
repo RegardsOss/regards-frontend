@@ -16,26 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-import { relativeURLRegexp, validURLRegexp } from './URLRegex'
-import PluginParamType from './PluginParamType'
-import EntityIpIdTester from './EntityIpIdTester'
-import DataTypes from './DataTypes'
-import durationParser from './DurationParser'
-import PluginConfParamsUtils from './PluginConfParamsUtils'
-
 module.exports = {
-  // Plugin
-  ...PluginParamType,
-  // Data types
-  ...DataTypes,
-
-  // URL
-  relativeURLRegexp,
-  validURLRegexp,
-
-  EntityIpIdTester,
-
-  durationParser,
-  PluginConfParamsUtils,
+  label: {
+    content: {
+      mode: '',
+      model: {
+        type: '',
+        description: '',
+        name: '',
+      },
+      attribute: {
+        name: 'label',
+        label: 'label',
+        type: 'STRING',
+        optional: false,
+        fragment: {
+          id: -1,
+          name: '',
+        },
+      },
+    },
+  },
 }

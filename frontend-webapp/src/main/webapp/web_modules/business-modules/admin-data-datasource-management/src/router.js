@@ -28,43 +28,79 @@ export const listDatasourceRoute = {
   },
 }
 
-export const createDatasourceRoute = {
-  path: 'create/connection',
+export const createDatasourcePickInterfaceRoute = {
+  path: 'create/interface',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const DatasourceCreateOrPickConnectionContainer = require('./containers/DatasourceCreateOrPickConnectionContainer')
+      const DatasoucePickInterfaceContainer = require('./containers/DatasoucePickInterfaceContainer')
       cb(null, {
-        content: DatasourceCreateOrPickConnectionContainer.default,
+        content: DatasoucePickInterfaceContainer.default,
       })
     })
   },
 }
 
-export const pickConnectionDatasourceRoute = {
-  path: 'create/:connectionId',
+export const createDBDatasourcePickConnectionRoute = {
+  path: 'db/create/connection',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const DatasourceFormContainer = require('./containers/DatasourceFormContainer')
+      const DBDatasourceCreateOrPickConnectionContainer = require('./containers/DBDatasourceCreateOrPickConnectionContainer')
       cb(null, {
-        content: DatasourceFormContainer.default,
+        content: DBDatasourceCreateOrPickConnectionContainer.default,
       })
     })
   },
 }
 
-export const editDatasourceRoute = {
-  path: ':datasourceId/edit',
+export const createDBDatasourceRoute = {
+  path: 'db/create/:connectionId',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const DatasourceFormContainer = require('./containers/DatasourceFormContainer')
+      const DBDatasourceFormContainer = require('./containers/DBDatasourceFormContainer')
       cb(null, {
-        content: DatasourceFormContainer.default,
+        content: DBDatasourceFormContainer.default,
       })
     })
   },
 }
 
-export const manitorDatasourcesRoute = {
+export const editDBDatasourceRoute = {
+  path: 'db/:datasourceId/edit',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const DBDatasourceFormContainer = require('./containers/DBDatasourceFormContainer')
+      cb(null, {
+        content: DBDatasourceFormContainer.default,
+      })
+    })
+  },
+}
+
+export const editAIPDatasourceRoute = {
+  path: 'aip/:datasourceId/edit',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const AIPDatasourceFormContainer = require('./containers/AIPDatasourceFormContainer')
+      cb(null, {
+        content: AIPDatasourceFormContainer.default,
+      })
+    })
+  },
+}
+
+export const createAIPDatasourceRoute = {
+  path: 'aip/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const AIPDatasourceFormContainer = require('./containers/AIPDatasourceFormContainer')
+      cb(null, {
+        content: AIPDatasourceFormContainer.default,
+      })
+    })
+  },
+}
+
+export const monitorDatasourcesRoute = {
   path: 'monitor',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
@@ -80,10 +116,13 @@ export const manitorDatasourcesRoute = {
 const datasourceDataManagementRouter = {
   childRoutes: [
     listDatasourceRoute,
-    createDatasourceRoute,
-    pickConnectionDatasourceRoute,
-    editDatasourceRoute,
-    manitorDatasourcesRoute,
+    createDatasourcePickInterfaceRoute,
+    createDBDatasourcePickConnectionRoute,
+    createDBDatasourceRoute,
+    editDBDatasourceRoute,
+    monitorDatasourcesRoute,
+    editAIPDatasourceRoute,
+    createAIPDatasourceRoute,
   ],
 }
 

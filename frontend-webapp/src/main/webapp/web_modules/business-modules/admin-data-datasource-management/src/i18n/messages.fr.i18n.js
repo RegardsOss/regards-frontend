@@ -101,6 +101,25 @@ const messages = Object.assign({
 
   'invalid.one_pk_required': 'Choisissez un champ comme clé primaire',
   'invalid.only_one_pk_allowed': 'Utilisez une seule clé primaire',
+
+
+  'datasource.form.create.pick-interface.title': 'Création d\'une datasource',
+  'datasource.form.create.pick-interface.subtitle': 'Veuillez sélectionner le type d\'aspiration que vous souhaitez créer, selon où ils sont stockés.',
+  'datasource.form.create.pick-interface.description.aip': 'Les aspirations de type AIP permettent d\'aspirer des SIPs au format JSON',
+  'datasource.form.create.pick-interface.action.aip': 'Aspirer des SIPs',
+  'datasource.form.create.pick-interface.description.db': 'Les aspirations de type Base de données permettent d\'aspirer une base de données',
+  'datasource.form.create.pick-interface.action.db': 'Aspirer une base de données',
+  'datasource.form.create.pick-interface.action.cancel': 'Annuler',
+  'aip.datasource.create.title': 'Creation d\'une source de données de SIPs',
+  'aip.datasource.form.subtitle': 'bla bla bla blA',
+  'aip.datasource.edit.title': 'Edition de la source de données {name}',
+  'aip.datasource.form.table.fragmentAndLabel': 'Attribut du modèle',
+  'aip.datasource.form.table.type': 'Type',
+  'aip.datasource.form.table.value': 'Chemin dans l\'AIP',
+  'aip.datasource.form.table.staticAttributes': 'Attributs statiques',
+  'aip.datasource.form.table.input': 'Valeur',
+  'aip.datasource.form.table.lowerBound': 'Borne inférieure',
+  'aip.datasource.form.table.upperBound': 'Borne supérieure',
 }, Locales.fr)
 
 export default messages
