@@ -74,7 +74,7 @@ class ProductListComponent extends React.Component {
   /**
    * At component mount, run acquisition chains auto refresh
    */
-  componentDidMount = () => {
+  componentWillMount = () => {
     this.setState({
       appliedFilters: this.props.contextFilters,
     })

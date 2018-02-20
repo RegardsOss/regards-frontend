@@ -113,6 +113,7 @@ const messages = Object.assign({
   // 3.1.3 Table actions
   'acquisition-chain.monitor.list.run.tooltip': 'Lancer la chaîne',
   'acquisition-chain.monitor.list.run.error': 'Erreur durant le lancement de la chaîne de traitement {label} ({chainId})',
+  'acquisition-chain.monitor.list.stop.tooltip': 'Arrêter la chaîne',
   'acquisition-chain.monitor.list.stop.error': 'Erreur durant l\'arrêt de la chaîne de traitement {label} ({chainId})',
 
   // 3.1.4 Table filters
@@ -129,6 +130,17 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.filters.clear.button': 'Vider',
   'acquisition-chain.monitor.list.refresh.button': 'Raffraîchir',
   'acquisition-chain.monitor.list.back.button': 'Retour',
+
+  // 3.2 Chain jobs
+  'acquisition-chain.jobs.monitor.view.button.label': 'Détails',
+  'acquisition-chain.jobs.monitor.dialog.title': 'Etat d\'activité des "Jobs" associés à la chaîne d\'acquisition {label}',
+  'acquisition-chain.jobs.monitor.dialog.information.message': 'Ci-dessous sont listés les "Jobs" en cours d\'activité pour la chaîne d\'acquisition courante.',
+  'acquisition-chain.jobs.monitor.product-acquisition.job.label': '{count} "Job(s)" d\'acquisition sont actifs.',
+  'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'Tous les "Jobs" d\'acquisition sont terminés.',
+  'acquisition-chain.jobs.monitor.generation.job.label': '{count} "Job(s)" de génération sont actifs.',
+  'acquisition-chain.jobs.monitor.generation.job.empty.label': 'Tous les "Jobs" de génération sont terminés.',
+  'acquisition-chain.jobs.monitor.submission.job.label': '{count} "Job(s)" de soumission sont actifs.',
+  'acquisition-chain.jobs.monitor.submission.job.empty.label': 'Tous les "Jobs" de soumission sont terminés.',
 
   // 4. Products list
   // 4.1 Headers

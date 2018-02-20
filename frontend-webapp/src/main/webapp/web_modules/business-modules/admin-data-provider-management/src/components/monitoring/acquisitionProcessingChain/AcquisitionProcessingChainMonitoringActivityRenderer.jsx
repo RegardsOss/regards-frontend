@@ -19,6 +19,7 @@
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataProviderShapes } from '@regardsoss/shape'
+import AcquisitionProcessingChainJobsMonitoringComponent from './AcquisitionProcessingChainJobsMonitoringComponent'
 
 /**
 * Component to render the activity indicator for ne chain into the chain monitoring list
@@ -57,20 +58,25 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
     const {
       entity: {
         content: {
-          chain, nbProductAcquisitionJob, nbSIPGenerationJobs, nbSIPSubmissionJobs,
+          chain, active,
         },
       },
     } = this.props
     const { intl: { formatMessage, formatDate } } = this.context
-    if (nbProductAcquisitionJob > 0 || nbSIPGenerationJobs > 0 || nbSIPSubmissionJobs > 0) {
+    if (active) {
       return (
-        <RefreshIndicator
-          size={25}
-          left={0}
-          top={0}
-          status="loading"
-          style={AcquisitionProcessingChainMonitoringActivityRenderer.style.refresh}
-        />
+        <div>
+          <RefreshIndicator
+            size={25}
+            left={0}
+            top={0}
+            status="loading"
+            style={AcquisitionProcessingChainMonitoringActivityRenderer.style.refresh}
+          />
+          <AcquisitionProcessingChainJobsMonitoringComponent
+            chain={chain}
+          />
+        </div>
       )
     }
     const label = chain.lastActivationDate ?
