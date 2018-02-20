@@ -252,27 +252,30 @@ class InfiniteTableContainer extends React.Component {
     const currentTotalEntities = this.getCurrentTotalEntities()
     return (
       <Measure onMeasure={this.onComponentResized}>
-        <div style={allWidthStyles}>
-          <LoadableContentDisplayDecorator
-            isLoading={!currentTotalEntities && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
-            loadingComponent={loadingComponent}
-            isEmpty={!currentTotalEntities}
-            emptyComponent={emptyComponent}
-          >
-            <Table
-              displayColumnsHeader={displayColumnsHeader}
-              lineHeight={actualLineHeight}
-              minRowCount={minRowCount}
-              maxRowCount={maxRowCount}
+        {
+          () => (
+            <div style={allWidthStyles}>
+              <LoadableContentDisplayDecorator
+                isLoading={!currentTotalEntities && entitiesFetching} // Display only the initial loading state to avoid resetting user scroll
+                loadingComponent={loadingComponent}
+                isEmpty={!currentTotalEntities}
+                emptyComponent={emptyComponent}
+              >
+                <Table
+                  displayColumnsHeader={displayColumnsHeader}
+                  lineHeight={actualLineHeight}
+                  minRowCount={minRowCount}
+                  maxRowCount={maxRowCount}
 
-              entities={entities}
-              entitiesCount={entitiesCount}
-              onScrollEnd={this.onScrollEnd}
-              columns={columns}
-              width={tableWidth}
-            />
-          </LoadableContentDisplayDecorator>
-        </div >
+                  entities={entities}
+                  entitiesCount={entitiesCount}
+                  onScrollEnd={this.onScrollEnd}
+                  columns={columns}
+                  width={tableWidth}
+                />
+              </LoadableContentDisplayDecorator>
+            </div >)
+        }
       </Measure >
     )
   }

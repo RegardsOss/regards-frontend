@@ -38,7 +38,6 @@ class DescriptionFileComponent extends React.Component {
   onSizeChanged = ({ width, height }) => this.updateDisplayAreaStyle(width, height)
 
   updateDisplayAreaStyle = (width, height) => {
-    console.error('ME CALLED???????')
     if (width !== get(this.state, 'displayAreaStyle.width') ||
       height !== get(this.state, 'displayAreaStyle.height')) {
       this.setState({ displayAreaStyle: { width, height } })
@@ -55,34 +54,37 @@ class DescriptionFileComponent extends React.Component {
     const { displayAreaStyle } = this.state
     return (
       <Measure onMeasure={this.onSizeChanged}>
-        <div style={rootStyle}>
-          {
-            (function renderContent() {
-              if (loading) {
-                return <LoadingDisplayerComponent message={formatMessage({ id: 'entities.common.description.loading' })} />
-              }
+        {
+          () => (
+            <div style={rootStyle}>
+              {
+                (function renderContent() {
+                  if (loading) {
+                    return <LoadingDisplayerComponent message={formatMessage({ id: 'entities.common.description.loading' })} />
+                  }
 
-              if (descriptionFileURL) {
-                // render iFrame
-                return <IFrameURLContentDisplayer style={displayAreaStyle} contentURL={descriptionFileURL} />
+                  if (descriptionFileURL) {
+                    // render iFrame
+                    return <IFrameURLContentDisplayer style={displayAreaStyle} contentURL={descriptionFileURL} />
+                  }
+                  if (descriptionFile) {
+                    // render MD
+                    return <MarkdownFileContentDisplayer heightToFit={displayAreaStyle.height} source={descriptionFile.content} />
+                  }
+                  // render no data (no need for child here)
+                  return (
+                    <NoContentMessageInfo
+                      noContent
+                      title={noContentTitle || formatMessage({ id: 'entities.common.description.no.value.title' })}
+                      message={noContentMessage || formatMessage({ id: 'entities.common.description.no.value.message' })}
+                      Icon={NoDataIcon}
+                    >
+                      <div />
+                    </NoContentMessageInfo >)
+                }())
               }
-              if (descriptionFile) {
-                // render MD
-                return <MarkdownFileContentDisplayer heightToFit={displayAreaStyle.height} source={descriptionFile.content} />
-              }
-              // render no data (no need for child here)
-              return (
-                <NoContentMessageInfo
-                  noContent
-                  title={noContentTitle || formatMessage({ id: 'entities.common.description.no.value.title' })}
-                  message={noContentMessage || formatMessage({ id: 'entities.common.description.no.value.message' })}
-                  Icon={NoDataIcon}
-                >
-                  <div />
-                </NoContentMessageInfo >)
-            }())
-          }
-        </div>
+            </div>)
+        }
       </Measure>
     )
   }
