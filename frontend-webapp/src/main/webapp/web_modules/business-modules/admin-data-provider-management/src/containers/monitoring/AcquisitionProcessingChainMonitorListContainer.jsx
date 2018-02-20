@@ -72,7 +72,7 @@ export class AcquisitionProcessingChainMonitorListContainer extends React.Compon
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
     runChain: PropTypes.func.isRequired,
-    stopChain: PropTypes.string.isRequired,
+    stopChain: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
