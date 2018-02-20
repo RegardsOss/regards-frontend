@@ -238,7 +238,8 @@ class SIPListComponent extends React.Component {
             pageActions={sipActions}
             pageSelectors={sipSelectors}
             pageSize={pageSize}
-            displayedRowsCount={12}
+            minRowCount={0}
+            maxRowCount={10}
             columns={columns}
             requestParams={this.state.appliedFilters}
             emptyComponent={emptyComponent}

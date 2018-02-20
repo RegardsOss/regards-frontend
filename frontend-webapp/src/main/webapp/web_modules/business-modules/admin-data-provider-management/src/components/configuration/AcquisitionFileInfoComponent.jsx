@@ -38,7 +38,7 @@ const validString255 = [validStringSize(0, 255)]
 * Display a form to create or edit a MetaFile entity from a dataprovider generation chain
 * @author Sébastien Binda
 */
-class AcquisitionFileInfoComponent extends React.PureComponent {
+export class AcquisitionFileInfoComponent extends React.PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
   }

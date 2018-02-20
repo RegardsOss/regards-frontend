@@ -35,8 +35,8 @@ class AcquisitionFileActions extends BasicPageableActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/acquisition-files`,
       namespace,
       schemaTypes: {
-        ENTITY: Schemas.AcquisitionFile,
-        ENTITY_ARRAY: Schemas.AcquisitionFile_ARRAY,
+        ENTITY: Schemas.ACQUISITION_FILE,
+        ENTITY_ARRAY: Schemas.ACQUISITION_FILE_ARRAY,
       },
     })
   }

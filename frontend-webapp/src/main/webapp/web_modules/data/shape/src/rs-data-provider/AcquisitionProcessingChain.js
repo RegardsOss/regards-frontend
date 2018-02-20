@@ -35,7 +35,6 @@ const AcquisitionProcessingChainContent = PropTypes.shape({
   lastDateActivation: PropTypes.string,
   periodicity: PropTypes.number,
   ingestChain: PropTypes.string.isRequired,
-  datasetIpId: PropTypes.string.isRequired,
   fileInfos: PropTypes.arrayOf(AcquisitionFileInfoContent),
   validationPluginConf: PluginConfigurationContent.isRequired,
   productPluginConf: PluginConfigurationContent.isRequired,

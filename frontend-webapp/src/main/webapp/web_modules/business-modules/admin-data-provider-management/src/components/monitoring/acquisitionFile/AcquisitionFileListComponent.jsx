@@ -35,7 +35,7 @@ import styles from '../../../styles'
 * Component to display the list of AcquisitionFiles of a given acquisition processing chain
 * @author Sébastien Binda
 */
-class AcquisitionFileListComponent extends React.Component {
+export class AcquisitionFileListComponent extends React.Component {
   static propTypes = {
     initialFilters: PropTypes.objectOf(PropTypes.string),
     contextFilters: PropTypes.objectOf(PropTypes.string),
@@ -89,11 +89,13 @@ class AcquisitionFileListComponent extends React.Component {
 
   /**
    * Callback to apply specific filters for Product search
+   * @param filters : new filters to apply
+   * @param callback : callback called when state is updated with new filters
    */
-  applyFilters = (filters) => {
+  applyFilters = (filters, callback) => {
     const { contextFilters } = this.props
     const appliedFilters = { ...filters, ...contextFilters }
-    this.setState({ appliedFilters })
+    this.setState({ appliedFilters }, callback)
   }
 
   render() {

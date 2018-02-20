@@ -41,7 +41,7 @@ import { addDependencies } from '../../dependencies'
 * AcquisitionProcessingChainListComponent
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainListComponent extends React.Component {
+export class AcquisitionProcessingChainListComponent extends React.Component {
   static propTypes = {
     fetchPage: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,

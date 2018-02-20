@@ -20,7 +20,7 @@ import sinon from 'sinon'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import isFunction from 'lodash/isFunction'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import ProductListComponent from '../../../src/components/monitoring/product/ProductListComponent'
 import { ProductListContainer } from '../../../src/containers/monitoring/ProductListContainer'
 import styles from '../../../src/styles/styles'
@@ -56,7 +56,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing ProductListContainer', () => 
         chainId: '2',
       },
       entitiesLoading: false,
-      chain: {},
+      chain: DumpProvider.getFirstEntity('DataProviderClient', 'AcquisitionProcessingChain'),
       fetchPage: sinon.spy(),
       fetchAcquisitionProcessingChain: sinon.spy(),
     }

@@ -243,7 +243,7 @@ class ProductListFiltersComponent extends React.Component {
               value={get(this.state, 'filters.sipState', undefined)}
               onChange={this.changeSIPStateFilter}
             >
-              {map(DataProviderDomain.ProductSIPStateValues, sipState =>
+              {map(DataProviderDomain.ProductSIPStateEnumValues, sipState =>
                 (<MenuItem
                   value={sipState}
                   primaryText={formatMessage({

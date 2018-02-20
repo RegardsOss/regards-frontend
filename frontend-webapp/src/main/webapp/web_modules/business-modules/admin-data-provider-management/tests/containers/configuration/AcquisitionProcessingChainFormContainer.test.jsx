@@ -20,7 +20,7 @@ import sinon from 'sinon'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import isFunction from 'lodash/isFunction'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import AcquisitionProcessingChainFormComponent from '../../../src/components/configuration/AcquisitionProcessingChainFormComponent'
 import { AcquisitionProcessingChainFormContainer } from '../../../src/containers/configuration/AcquisitionProcessingChainFormContainer'
 import styles from '../../../src/styles/styles'
@@ -45,9 +45,9 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
         mode: 'create',
       },
       chain: null,
-      fetch: sinon.spy(),
-      create: sinon.spy(),
-      update: sinon.spy(),
+      fetch: sinon.stub().callsFake(() => new Promise(() => { })),
+      create: sinon.stub().callsFake(() => new Promise(() => { })),
+      update: sinon.stub().callsFake(() => new Promise(() => { })),
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormContainer {...props} />, { context })
     const components = enzymeWrapper.find(AcquisitionProcessingChainFormComponent)
@@ -62,6 +62,10 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.equal(props.params.mode, component.props().mode, 'In creation mode, the AcquisitionProcessingChainFormComponent should have a mode === create')
     assert.isTrue(isFunction(component.props().onSubmit), 'Invalid onSubmit parameter')
     assert.isTrue(isFunction(component.props().onBack), 'Invalid onSubmit parameter')
+    // Check action called when submit the form
+    enzymeWrapper.instance().onSubmit({})
+    assert.isTrue(props.create.called, 'Create callback should not be called for submission')
+    assert.isFalse(props.update.called, 'Update callback should not be called for submission')
   })
   it('should render correctly a form to edit an existing acquisition processing chain', () => {
     const props = {
@@ -70,17 +74,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
         mode: 'edit',
         chainId: '12',
       },
-      chain: {
-        id: 12,
-        label: 'label',
-        active: true,
-        mode: 'MANUAL',
-        ingestChain: 'ingestChain',
-        datasetIpId: 'ipId',
-        validationPluginConf: {},
-        productPluginConf: {},
-        generateSipPluginConf: {},
-      },
+      chain: DumpProvider.getFirstEntity('DataProviderClient', 'AcquisitionProcessingChain'),
       fetch: sinon.stub().callsFake(() => new Promise(() => { })),
       create: sinon.stub().callsFake(() => new Promise(() => { })),
       update: sinon.stub().callsFake(() => new Promise(() => { })),
@@ -98,6 +92,10 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.equal(props.params.mode, component.props().mode, 'In edition mode, the AcquisitionProcessingChainFormComponent should have a mode === edit')
     assert.isTrue(isFunction(component.props().onSubmit), 'Invalid onSubmit parameter')
     assert.isTrue(isFunction(component.props().onBack), 'Invalid onSubmit parameter')
+    // Check action called when submit the form
+    enzymeWrapper.instance().onSubmit({})
+    assert.isTrue(props.update.called, 'Create callback should be called for submission')
+    assert.isFalse(props.create.called, 'Create callback should not be called for submission')
   })
   it('should render correctly a form to duplicate an existing acquisition processing chain', () => {
     const props = {
@@ -106,17 +104,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
         mode: 'duplicate',
         chainId: '12',
       },
-      chain: {
-        id: 12,
-        label: 'label',
-        active: true,
-        mode: 'MANUAL',
-        ingestChain: 'ingestChain',
-        datasetIpId: 'ipId',
-        validationPluginConf: {},
-        productPluginConf: {},
-        generateSipPluginConf: {},
-      },
+      chain: DumpProvider.getFirstEntity('DataProviderClient', 'AcquisitionProcessingChain'),
       fetch: sinon.stub().callsFake(() => new Promise(() => { })),
       create: sinon.stub().callsFake(() => new Promise(() => { })),
       update: sinon.stub().callsFake(() => new Promise(() => { })),
@@ -134,5 +122,9 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.equal(props.params.mode, component.props().mode, 'In duplication mode, the AcquisitionProcessingChainFormComponent should have a mode === duplicate')
     assert.isTrue(isFunction(component.props().onSubmit), 'Invalid onSubmit parameter')
     assert.isTrue(isFunction(component.props().onBack), 'Invalid onSubmit parameter')
+    // Check action called when submit the form
+    enzymeWrapper.instance().onSubmit({})
+    assert.isTrue(props.create.called, 'Create callback should be called for submission')
+    assert.isFalse(props.update.called, 'Update callback should not be called for submission')
   })
 })
