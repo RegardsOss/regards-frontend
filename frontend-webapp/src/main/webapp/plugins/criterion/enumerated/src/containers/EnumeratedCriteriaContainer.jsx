@@ -24,7 +24,7 @@ import { enumeratedDOPropertyValuesActions, enumeratedDOPropertyValuesSelectors 
 import EnumeratedCriteriaComponent from '../components/EnumeratedCriteriaComponent'
 
 /** Max number of values shown to user at same time */
-const MAX_VALUES_COUNT = 10
+const MAX_VALUES_COUNT = 100
 
 /** Search field Id in state (see plugin-info.json) */
 const SEARCH_FIELD_ID = 'searchField'

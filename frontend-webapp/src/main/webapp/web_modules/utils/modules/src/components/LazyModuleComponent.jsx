@@ -47,7 +47,7 @@ class LazyModuleComponent extends React.Component {
    */
   static propTypes = {
     appName: PropTypes.string.isRequired,
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     module: AccessShapes.ModuleWithoutContent.isRequired,
     admin: PropTypes.bool,
     // Form information for admin container. Admin container is a part of the upper redux-form Form.

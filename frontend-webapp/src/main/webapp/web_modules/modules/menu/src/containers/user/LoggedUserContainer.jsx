@@ -38,7 +38,7 @@ import LoggedUserComponent from '../../components/user/LoggedUserComponent'
 export class LoggedUserContainer extends React.Component {
   static propTypes = {
     appName: PropTypes.string.isRequired,
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // from mapStateToProps
     authenticationName: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,

@@ -36,10 +36,4 @@ describe('[Modules] Testing ModulesManager', () => {
     const notFoundModule = modulesManager.findFirstModuleByType(someModulesWithDoubles, 'any-non-existing')
     assert.isNotOk(notFoundModule, 'Module should not be found')
   })
-  it('should return module URL for project and ID', () => {
-    assert.equal(modulesManager.getModuleURL('p1', 25), '/user/p1/modules/25')
-  })
-  it('should retrieve the right module ID in path', () => {
-    assert.equal(modulesManager.getPathModuleId('http://myDomain:888/user/anyProject/modules/208'), 208, 'The right ID should be found')
-  })
 })

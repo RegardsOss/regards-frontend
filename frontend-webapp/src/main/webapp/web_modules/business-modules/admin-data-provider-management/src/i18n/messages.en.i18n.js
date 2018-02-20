@@ -112,7 +112,9 @@ const messages = Object.assign({
 
   // 3.1.3 Table actions
   'acquisition-chain.monitor.list.run.tooltip': 'Run acquisition chain',
-  'acquisition-chain.monitor.list.run.error': 'Error running acquisition chain',
+  'acquisition-chain.monitor.list.run.error': 'Error running acquisition chain {label} ({chainId})',
+  'acquisition-chain.monitor.list.stop.tooltip': 'Stop acquisition chain',
+  'acquisition-chain.monitor.list.stop.error': 'Error stopping acquisition chain {label} ({chainId})',
 
   // 3.1.4 Table filters
   'acquisition-chain.monitor.list.filters.label': 'Label',
@@ -128,6 +130,17 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.filters.clear.button': 'Clear',
   'acquisition-chain.monitor.list.refresh.button': 'Refresh',
   'acquisition-chain.monitor.list.back.button': 'Cancel',
+
+  // 3.2 Chain jobs
+  'acquisition-chain.jobs.monitor.view.button.label': 'Details',
+  'acquisition-chain.jobs.monitor.dialog.title': 'Jobs activity for acquisition chain {label}',
+  'acquisition-chain.jobs.monitor.dialog.information.message': 'Here under you can see the number of jobs running for the current acquisition chain.',
+  'acquisition-chain.jobs.monitor.product-acquisition.job.label': '{count} running product acquisition jobs.',
+  'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'All product acquisition jobs are terminated.',
+  'acquisition-chain.jobs.monitor.generation.job.label': '{count} running generation jobs.',
+  'acquisition-chain.jobs.monitor.generation.job.empty.label': 'All generation jobs are terminated',
+  'acquisition-chain.jobs.monitor.submission.job.label': '{count} running submission jobs.',
+  'acquisition-chain.jobs.monitor.submission.job.empty.label': 'All submission jobs are terminated',
 
   // 4. Products list
   // 4.1 Headers
@@ -147,6 +160,12 @@ const messages = Object.assign({
   'acquisition.product.list.filters.state.COMPLETED': 'Acquiring ... (Completed)',
   'acquisition.product.list.filters.state.FINISHED': 'Finished',
   'acquisition.product.list.filters.state.ERROR': 'Error',
+  'acquisition.product.list.filters.sipState.NOT_SCHEDULED': 'Acquiring ... (not scheduled)',
+  'acquisition.product.list.filters.sipState.SCHEDULED': 'Acquiring ... (scheduled)',
+  'acquisition.product.list.filters.sipState.GENERATED': 'Acquiring ... (generated)',
+  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'Acquiring ... (submitting)',
+  'acquisition.product.list.filters.sipState.SUBMISSION_ERROR': 'Submission error',
+  'acquisition.product.list.filters.sipState.GENERATION_ERROR': 'Generation error',
   'acquisition.product.list.filters.sipState.CREATED': 'Acquiring ... (Created)',
   'acquisition.product.list.filters.sipState.REJECTED': 'Rejected',
   'acquisition.product.list.filters.sipState.QUEUED': 'Queued',

@@ -17,15 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { browserHistory } from 'react-router'
-import { AccessProjectClient } from '@regardsoss/client'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
-import { modulesManager } from '@regardsoss/modules'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
-import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
 import MainMenuComponent from '../../components/user/MainMenuComponent'
-
-// default user modules selectors
-const moduleSelectors = AccessProjectClient.ModuleSelectors()
 
 /**
  * Main component of module menu (user part)
@@ -41,13 +36,10 @@ class UserContainer extends React.Component {
 
 
   render() {
-    const currentModuleId = modulesManager.getPathModuleId(browserHistory.getCurrentLocation().pathname)
+    const currentModuleId = UIDomain.getPathModuleId(browserHistory.getCurrentLocation().pathname)
     return (
-      // Resolve the list of active dynamic modules for breadcrumb and navigation
-      <DynamicModulesProviderContainer moduleSelectors={moduleSelectors} keepOnlyActive >
-        {/* Insert main render component */}
-        <MainMenuComponent {...this.props} currentModuleId={currentModuleId} />
-      </DynamicModulesProviderContainer>
+      // Insert main render component
+      <MainMenuComponent {...this.props} currentModuleId={currentModuleId} />
     )
   }
 }

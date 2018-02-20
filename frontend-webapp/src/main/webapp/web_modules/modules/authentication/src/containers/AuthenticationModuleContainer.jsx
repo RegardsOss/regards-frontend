@@ -125,6 +125,7 @@ export class AuthenticationModuleContainer extends React.Component {
 const mapStateToProps = state => ({
   authenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
   authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
+  scope: AuthenticationParametersHelper.get,
 })
 
 export default connect(mapStateToProps)(AuthenticationModuleContainer)

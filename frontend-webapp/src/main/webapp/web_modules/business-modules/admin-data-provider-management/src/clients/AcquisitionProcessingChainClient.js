@@ -25,15 +25,18 @@ import { DataProviderClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'chain']
 const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/chains'
 const REDUX_START_ACTION_NAMESPACE = 'admin-data-provider-management/chain-run'
+const REDUX_STOP_ACTION_NAMESPACE = 'admin-data-provider-management/chain-stop'
 
 const AcquisitionProcessingChainActions = new DataProviderClient.AcquisitionProcessingChainActions(REDUX_ACTION_NAMESPACE)
 const AcquisitionProcessingChainReducer = DataProviderClient.getAcquisitionProcessingChainReducer(REDUX_ACTION_NAMESPACE)
 const AcquisitionProcessingChainSelectors = DataProviderClient.getAcquisitionProcessingChainSelectors(ENTITIES_STORE_PATH)
 const RunAcquisitionProcessingChainActions = new DataProviderClient.RunAcquisitionProcessingChainActions(REDUX_START_ACTION_NAMESPACE)
+const StopAcquisitionProcessingChainActions = new DataProviderClient.StopAcquisitionProcessingChainActions(REDUX_STOP_ACTION_NAMESPACE)
 
 module.exports = {
   AcquisitionProcessingChainActions,
   AcquisitionProcessingChainReducer,
   AcquisitionProcessingChainSelectors,
   RunAcquisitionProcessingChainActions,
+  StopAcquisitionProcessingChainActions,
 }

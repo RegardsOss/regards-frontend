@@ -38,10 +38,10 @@ class AdminApp extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
+    scope: PropTypes.string,
     // from mapStateToProps
     currentRole: PropTypes.string.isRequired,
     isAuthenticated: PropTypes.bool,
-    project: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
     isInstance: PropTypes.bool,
     // from mapDispatchToProps
@@ -67,9 +67,10 @@ class AdminApp extends React.Component {
    * @param nextProps
    */
   componentWillReceiveProps(nextProps) {
+    const nextProject = nextProps.params.project
     // if project changed reinitialize application
-    if (nextProps.params && nextProps.params.project !== this.props.project) {
-      this.props.initializeApplication(nextProps.params.project)
+    if (nextProps.params && nextProject !== this.props.params.project) {
+      this.props.initializeApplication(nextProject)
     }
 
     // when user has a new role (and is is authenticated)
@@ -79,7 +80,7 @@ class AdminApp extends React.Component {
         isLoadingEndpoints: true,
       })
       // fetch endpoints only if current route is admin project.
-      if (this.props.params.project) {
+      if (nextProject) {
         Promise.resolve(this.props.fetchEndpoints())
           .then((actionResult) => {
             // We receive here the action
@@ -95,16 +96,15 @@ class AdminApp extends React.Component {
     }
   }
 
-
   render() {
     const {
-      isAuthenticated, content, project, isInstance,
+      isAuthenticated, content, scope, params: { project }, isInstance,
     } = this.props
     const { isLoadingEndpoints } = this.state
 
-    const projectHandlerComp = isInstance || !this.props.params.project ? null :
+    const projectHandlerComp = isInstance || !project ? null :
       (<ProjectHandler
-        projectName={this.props.params.project}
+        projectName={project}
         title="Administration"
       />)
 
@@ -113,7 +113,7 @@ class AdminApp extends React.Component {
         {projectHandlerComp}
         <ThemeProvider>
           <I18nProvider messages={messages}>
-            <AuthenticationContainer project={project} isAuthenticated={isAuthenticated}>
+            <AuthenticationContainer scope={scope} isAuthenticated={isAuthenticated}>
               <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
                 <AdminLayout {...this.props}>
                   {content}
@@ -132,7 +132,7 @@ const mapStateToProps = (state) => {
   return {
     currentRole: authenticationResult ? authenticationResult.role : '',
     isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-    project: AuthenticationParametersSelectors.getProject(state),
+    scope: AuthenticationParametersSelectors.getProject(state),
     isInstance: AuthenticationParametersSelectors.isInstance(state),
   }
 }

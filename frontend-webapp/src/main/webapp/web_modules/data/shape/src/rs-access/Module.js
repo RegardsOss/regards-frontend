@@ -63,7 +63,7 @@ const ModuleArray = PropTypes.arrayOf(Module)
  */
 const runtimeDispayModuleFields = {
   appName: PropTypes.string.isRequired,
-  project: PropTypes.string.isRequired,
+  project: PropTypes.string,
   // module configuration
   moduleConf: PropTypes.object,
   ...moduleFields,

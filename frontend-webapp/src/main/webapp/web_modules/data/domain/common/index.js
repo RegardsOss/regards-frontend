@@ -22,6 +22,7 @@ import PluginParamType from './PluginParamType'
 import EntityIpIdTester from './EntityIpIdTester'
 import DataTypes from './DataTypes'
 import durationParser from './DurationParser'
+import PluginConfParamsUtils from './PluginConfParamsUtils'
 
 module.exports = {
   // Plugin
@@ -36,4 +37,5 @@ module.exports = {
   EntityIpIdTester,
 
   durationParser,
+  PluginConfParamsUtils,
 }

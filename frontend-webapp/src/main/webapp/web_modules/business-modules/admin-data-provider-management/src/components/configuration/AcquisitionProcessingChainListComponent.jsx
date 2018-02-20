@@ -36,6 +36,7 @@ import AcquisitionProcessingChainTableEditAction from './AcquisitionProcessingCh
 import AcquisitionProcessingChainTableDuplicateAction from './AcquisitionProcessingChainTableDuplicateAction'
 import styles from '../../styles'
 import messages from '../../i18n'
+import { addDependencies } from '../../dependencies'
 /**
 * AcquisitionProcessingChainListComponent
 * @author Sébastien Binda
@@ -158,7 +159,8 @@ class AcquisitionProcessingChainListComponent extends React.Component {
               columns={columns}
               emptyComponent={emptyComponent}
               displayColumnsHeader
-              displayedRowsCount={10}
+              minRowCount={0}
+              maxRowCount={10}
               queryPageSize={queryPageSize}
             />
           </TableLayout>
@@ -166,8 +168,7 @@ class AcquisitionProcessingChainListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonClick={onCreate}
-            // TODO : Set hateoas dependencies for data-provider
-            // mainHateoasDependencies={addDependencies}
+            mainHateoasDependencies={addDependencies}
             mainButtonLabel={formatMessage({ id: 'acquisition-chain.list.addnew.button' })}
             secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.list.back.button' })}
             secondaryButtonClick={onBack}

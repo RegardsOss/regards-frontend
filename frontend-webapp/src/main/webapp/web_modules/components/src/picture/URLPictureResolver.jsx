@@ -132,7 +132,6 @@ export class URLPictureResolver extends React.Component {
     }
   }
 
-
   render() {
     const { url } = this.props
     const { loading, resolvedMIMEType, subComponentProperties } = this.state

@@ -89,27 +89,30 @@ class SearchGraph extends React.Component {
           ref={(scrollArea) => { this.scrollArea = scrollArea }}
         >
           <Measure onMeasure={this.onLevelsResized}>
-            <div style={user.levels.styles}>
-              {graphLevels.map((levelModelName, index) => (
-                <GraphLevelDisplayerContainer
-                  graphDatasetAttributes={graphDatasetAttributes}
-                  key={levelModelName}
-                  levelModelName={levelModelName}
-                  levelIndex={index}
-                  isFirstLevel={index === 0}
-                  isLastLevel={false}
-                />
-              ))}
-              {/* Last level to show datasets */}
-              <GraphLevelDisplayerContainer
-                graphDatasetAttributes={graphDatasetAttributes}
-                key="last.level.datasets.only"
-                levelModelName={null}
-                levelIndex={graphLevels.length}
-                isFirstLevel={graphLevels.length === 0}
-                isLastLevel
-              />
-            </div>
+            {
+              () => (
+                <div style={user.levels.styles}>
+                  {graphLevels.map((levelModelName, index) => (
+                    <GraphLevelDisplayerContainer
+                      graphDatasetAttributes={graphDatasetAttributes}
+                      key={levelModelName}
+                      levelModelName={levelModelName}
+                      levelIndex={index}
+                      isFirstLevel={index === 0}
+                      isLastLevel={false}
+                    />
+                  ))}
+                  {/* Last level to show datasets */}
+                  <GraphLevelDisplayerContainer
+                    graphDatasetAttributes={graphDatasetAttributes}
+                    key="last.level.datasets.only"
+                    levelModelName={null}
+                    levelIndex={graphLevels.length}
+                    isFirstLevel={graphLevels.length === 0}
+                    isLastLevel
+                  />
+                </div>)
+            }
           </Measure>
         </ScrollArea>
       </DynamicModule>

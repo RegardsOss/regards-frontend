@@ -26,13 +26,20 @@ const menuStyles = theme => ({
     rootStyle: {
       padding: 20,
     },
+    title: {
+      paddingLeft: 10,
+      fontSize: theme.flatButton.fontSize,
+      fontWeight: theme.flatButton.fontWeight,
+      color: theme.palette.textColor,
+      fontFamily: theme.fontFamily,
+    },
   },
   user: {
     rootStyle: {
       display: 'flex',
       flexWrap: 'nowrap',
       flexDirection: 'row',
-      justifyContent: 'flexStart',
+      justifyContent: 'space-between',
       alignItems: 'center',
       background: theme['module:menu'].background,
       borderWidth: theme['module:menu'].borderWidth,
@@ -69,6 +76,9 @@ const menuStyles = theme => ({
       defaultTextStyle: {
         textTransform: theme['module:menu'].navigationItemTextTransform,
       },
+    },
+    selectedNavigationMenuItem: {
+      color: theme.flatButton.secondaryTextColor,
     },
     optionsGroup: {
       flexGrow: 0,

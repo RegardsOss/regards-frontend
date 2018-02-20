@@ -19,6 +19,7 @@
 import filter from 'lodash/filter'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import { UIDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
@@ -65,7 +66,7 @@ export class CartSelectorContainer extends React.Component {
 
   static propTypes = {
     // project identifier
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // from mapStateToProps
     objectsCount: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -132,7 +133,7 @@ export class CartSelectorContainer extends React.Component {
   onCartClicked = () => {
     const { project } = this.props
     const { cartModuleId } = this.state
-    browserHistory.push(modulesManager.getModuleURL(project, cartModuleId))
+    browserHistory.push(UIDomain.getModuleURL(project, cartModuleId))
   }
 
   /**

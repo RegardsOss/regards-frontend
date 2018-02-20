@@ -32,7 +32,7 @@ class ProjectAboutPageLinkComponent extends React.Component {
     // CONTEXT: app name
     appName: PropTypes.string.isRequired,
     // CONTEXT: project
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // project about page
     projectAboutPage: CommonShapes.URL,
   }

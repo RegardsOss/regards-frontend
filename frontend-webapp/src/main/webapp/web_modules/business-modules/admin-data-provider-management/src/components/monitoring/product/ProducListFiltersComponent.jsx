@@ -30,7 +30,7 @@ import DatePicker from 'material-ui/DatePicker'
 import {
   TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
 } from '@regardsoss/components'
-import { DataProviderDomain, IngestDomin } from '@regardsoss/domain'
+import { DataProviderDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -243,7 +243,7 @@ class ProductListFiltersComponent extends React.Component {
               value={get(this.state, 'filters.sipState', undefined)}
               onChange={this.changeSIPStateFilter}
             >
-              {map(IngestDomin.SIPStateValues, sipState =>
+              {map(DataProviderDomain.ProductSIPStateValues, sipState =>
                 (<MenuItem
                   value={sipState}
                   primaryText={formatMessage({

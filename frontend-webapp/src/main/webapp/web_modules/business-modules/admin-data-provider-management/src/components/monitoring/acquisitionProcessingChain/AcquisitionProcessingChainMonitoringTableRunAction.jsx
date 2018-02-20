@@ -23,7 +23,7 @@ import { DataProviderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Edit button action cell for the infinite table used to display ingest processing chains
+* Run button action cell for the infinite table used to run a processing chain
 * @author Sébastien Binda
 */
 class AcquisitionProcessingChainMonitoringTableRunAction extends React.Component {

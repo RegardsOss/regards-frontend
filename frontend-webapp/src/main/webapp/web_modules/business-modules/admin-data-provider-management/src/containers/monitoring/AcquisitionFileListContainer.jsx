@@ -97,8 +97,6 @@ export class AcquisitionFileListContainer extends React.Component {
    */
   onBack = () => {
     const { params: { project, productId, chainId } } = this.props
-
-    console.error('props', this.props.params)
     const url = productId && chainId ?
       `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${chainId}/products` :
       `/admin/${project}/data/acquisition/dataprovider/monitoring/chains`

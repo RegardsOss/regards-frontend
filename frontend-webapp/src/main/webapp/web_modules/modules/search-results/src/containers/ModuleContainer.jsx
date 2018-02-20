@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import keys from 'lodash/keys'
 import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
 import join from 'lodash/join'
@@ -46,13 +45,11 @@ export class ModuleContainer extends React.Component {
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration.isRequired,
 
+    // Set by mapStateToProps
+    attributeModels: DataManagementShapes.AttributeModelList,
     // Set by mapDispatchToProps
     fetchAllModelsAttributes: PropTypes.func,
-    attributeModels: DataManagementShapes.AttributeModelList,
   }
-
-  /** Module properties, to be reported to component */
-  static MODULE_PROPERTIES = keys(AccessShapes.runtimeDispayModuleFields)
 
   constructor(props) {
     super(props)

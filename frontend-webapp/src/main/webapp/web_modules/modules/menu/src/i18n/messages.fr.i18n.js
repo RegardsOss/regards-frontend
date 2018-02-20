@@ -25,7 +25,7 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
  */
 const messages = {
   // navigation
-  'navigation.more.option': 'More...',
+  'navigation.more.option': 'Plus...',
   // login and options
   loginFormTitle: 'Connexion à l\'interface projet',
   loginButtonLabel: 'Connexion',
@@ -43,6 +43,8 @@ const messages = {
   'user.menu.displaycart.empty.tooltip': 'vide',
   'user.menu.displaycart.elements.count.tooltip': '{elementsCount} objet(s)',
   'user.menu.cart.max.count': '{maxCount}+',
+  'menu.admin.project.title': 'REGARDS - panneau d\'administration de {project}',
+  'menu.admin.instance.title': 'REGARDS - panneau d\'administration de l\'instance',
   'menu.form.title': 'Titre du menu',
   'menu.form.contacts': 'Contacts',
   'menu.form.projectpage': 'Page "à propos" du projet',

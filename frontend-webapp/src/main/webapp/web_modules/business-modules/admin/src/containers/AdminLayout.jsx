@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
@@ -47,29 +48,28 @@ export class AdminLayout extends React.Component {
       project: PropTypes.string,
     }),
     location: CommonShapes.LocationShape.isRequired,
-    project: PropTypes.string,
     // from mapDispatchToProps
     onLogout: PropTypes.func,
   }
 
   getSidebar = (isInstanceDashboard) => {
-    const { onLogout, params, location } = this.props
+    const { onLogout, params: { project }, location } = this.props
     if (isInstanceDashboard) {
-      return (<ProjectSidebarComponent
-        onLogout={onLogout}
-        projectName={params.project}
+      return (<InstanceSidebarComponent
         currentPath={location.pathname}
+        onLogout={onLogout}
       />)
     }
-    return (<InstanceSidebarComponent
-      currentPath={location.pathname}
+    return (<ProjectSidebarComponent
       onLogout={onLogout}
+      projectName={project}
+      currentPath={location.pathname}
     />)
   }
 
   render() {
-    const { content, params } = this.props
-    const isOnInstanceDashboard = params.project !== undefined
+    const { content, params: { project } } = this.props
+    const isOnInstanceDashboard = !project
     const moduleStyles = getModuleStyles(this.context.muiTheme)
     const style = {
       app: {
@@ -93,6 +93,7 @@ export class AdminLayout extends React.Component {
       type: modulesManager.AllDynamicModuleTypes.MENU,
       active: true,
       conf: {
+        displayMode: isOnInstanceDashboard ? UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_INSTANCE : UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_PROJECT,
         title: 'REGARDS admin dashboard',
         displayAuthentication: true,
         displayNotificationsSelector: true,
@@ -102,7 +103,6 @@ export class AdminLayout extends React.Component {
     }
 
     // install notification manager and application error containers when starting app
-    const { project } = this.props
     return (
       <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard} >
         <AnchorComponent>

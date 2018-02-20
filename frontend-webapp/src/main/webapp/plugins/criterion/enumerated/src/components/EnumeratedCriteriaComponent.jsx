@@ -49,6 +49,7 @@ export class EnumeratedCriteriaComponent extends React.Component {
     ...i18nContextType,
   }
 
+
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
