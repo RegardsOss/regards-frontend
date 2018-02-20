@@ -22,7 +22,7 @@ import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 
 import { HOCUtils } from '@regardsoss/display-control'
-import { NAVIGATION_ITEM_TYPES_ENUM } from '../../model/NavigationItemTypes'
+import { NAVIGATION_ITEM_TYPES_ENUM } from '../../domain/NavigationItemTypes'
 
 const EMPTY_PAGE = {
   home: false,
@@ -41,23 +41,27 @@ export class NavigationModelResolutionContainer extends React.Component {
    * @param {*} navigationModules navigation modules
    * @param {boolean} clearNonNavigable should clear non navigable elements? (unknwon / inactive modules and empty sections)
    */
-  static convertToNavigationModel(navigationModules, clearNonNavigable) {
+  static convertToNavigationModel(navigationModules, clearNonNavigable, currentModuleId) {
     // TODO also take in account the sections from configuration
-    // TODO also handle the option clearNonNavigable
-    return navigationModules.map(({
+    return navigationModules.reduce((model, {
       content: {
-        id, type, description, page = EMPTY_PAGE,
+        id, type, active, description, page = EMPTY_PAGE,
       },
-    }, index) => ({
-      key: index, // This algorithm produces results in the same order, index key is stable
-      type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
-      title: page.title,
-      iconType: page.iconType,
-      customIconURL: page.customIconURL,
-      module: {
-        id, type, description, home: page.home,
-      },
-    }))
+    }, index) => {
+      const moduleLinkModel = {
+        key: id,
+        type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+        title: page.title, // TODO: page.home ? HOME PAGE CONFIG : page.title
+        iconType: page.iconType, // TODO: page.home ? HOME PAGE CONFIG : page.iconType
+        customIconURL: page.customIconURL, // TODO: page.home ? HOME PAGE CONFIG : page.customIconURL
+        selected: id === currentModuleId,
+        module: {
+          id, type, description, home: page.home,
+        },
+      }
+      // set home module as first in list
+      return page.home ? [moduleLinkModel, ...model] : [...model, moduleLinkModel]
+    }, [])
   }
 
   static propTypes = {
@@ -65,7 +69,11 @@ export class NavigationModelResolutionContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     clearNonNavigable: PropTypes.bool.isRequired, // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
-    dynamicModules: PropTypes.arrayOf(AccessShapes.Module).isRequired, // used only in onPropertiesUpdated
+    dynamicModules: PropTypes.arrayOf(AccessShapes.Module), // used only in onPropertiesUpdated
+  }
+
+  static defaultProps = {
+    dynamicModules: [],
   }
 
   /**
@@ -89,11 +97,14 @@ export class NavigationModelResolutionContainer extends React.Component {
     // TODO: get navigation configuration too
     if (!isEqual(oldProps.dynamicModules, newProps.dynamicModules) ||
       !isEqual(oldProps.clearNonNavigable, newProps.clearNonNavigable) ||
+      !isEqual(oldProps.currentModuleId, newProps.currentModuleId) ||
       oldProps.children !== newProps.children) {
       // 2 - convert modules and configuration into a navigation model
-      const { dynamicModules, clearNonNavigable, children } = newProps
+      const {
+        dynamicModules, clearNonNavigable, currentModuleId, children,
+      } = newProps
       const navigationElements =
-        NavigationModelResolutionContainer.convertToNavigationModel(dynamicModules, clearNonNavigable)
+        NavigationModelResolutionContainer.convertToNavigationModel(dynamicModules, clearNonNavigable, currentModuleId)
       // 3 - prepare children with model
       this.setState({
         children: HOCUtils.cloneChildrenWith(children, { navigationElements }),

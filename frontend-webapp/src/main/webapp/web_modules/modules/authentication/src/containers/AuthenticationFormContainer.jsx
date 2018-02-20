@@ -31,7 +31,7 @@ export class AuthenticationFormContainer extends React.Component {
     // initial mail value
     initialMail: PropTypes.string,
     // current project (empty if admin)
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // form title
     title: PropTypes.string.isRequired,
     // show create account link?

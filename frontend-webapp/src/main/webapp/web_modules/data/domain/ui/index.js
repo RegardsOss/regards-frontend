@@ -16,8 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { getModuleDefaultIconURL } from './Module'
+import { getAdminURL, getModuleURL, getModuleDefaultIconURL, getPathModuleId } from './URLHelper'
+import { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
 
 module.exports = {
+  getAdminURL,
+  getModuleURL,
   getModuleDefaultIconURL,
+  getPathModuleId,
+  MENU_DISPLAY_MODES,
+  MENU_DISPLAY_MODES_ENUM,
 }

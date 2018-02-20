@@ -20,6 +20,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { SelectLocaleContainer } from '@regardsoss/i18n-ui'
 import { SelectThemeContainer } from '@regardsoss/theme-ui'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
@@ -28,9 +29,9 @@ import NotificationListContainer from '../../containers/user/NotificationListCon
 import CartSelectorContainer from '../../containers/user/CartSelectorContainer'
 import ProjectAboutPageLinkContainer from '../../containers/user/ProjectAboutPageLinkContainer'
 import NavigationMenuContainer from '../../containers/user/navigation/NavigationMenuContainer'
+import AppTitleComponent from './title/AppTitleComponent'
 import ContactComponent from './ContactComponent'
 import MenuSeparator from './MenuSeparator'
-import { ApplicationBreadcrumbContainer } from '../../containers/user/breadcrumb/ApplicationBreadcrumbContainer'
 
 /**
 * Main menu module component
@@ -38,20 +39,12 @@ import { ApplicationBreadcrumbContainer } from '../../containers/user/breadcrumb
 */
 class MainMenuComponent extends React.Component {
   static propTypes = {
+    // provided by root container
+    currentModuleId: PropTypes.number,
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration,
-
-    // provided by root container
-    currentModuleId: PropTypes.number,
-
-    // provided by DynamicModuleProvider HOC
-    dynamicModules: PropTypes.arrayOf(AccessShapes.Module),
-  }
-
-  static defaultProps = {
-    dynamicModules: [],
   }
 
   static contextTypes = {
@@ -65,9 +58,8 @@ class MainMenuComponent extends React.Component {
       appName,
       project,
       currentModuleId,
-      dynamicModules,
       moduleConf: {
-        title,
+        displayMode = UIDomain.MENU_DISPLAY_MODES_ENUM.USER, // defaults to user display for standard module case
         displayAuthentication,
         displayNotificationsSelector,
         displayCartSelector,
@@ -78,25 +70,25 @@ class MainMenuComponent extends React.Component {
       },
     } = this.props
     const { moduleTheme: { user: { rootStyle, optionsGroup } } } = this.context
-
     return (
       <div style={rootStyle}>
-        {/* Application breadcrumb */}
-        <ApplicationBreadcrumbContainer
-          title={title}
-          project={project}
-          currentModuleId={currentModuleId}
-          dynamicModules={dynamicModules}
-        />
-        {/* separator mark */}
-        <MenuSeparator />
-        {/* Navigation */}
-        <NavigationMenuContainer
-          project={project}
-          dynamicModules={dynamicModules}
-        />
-        {/* separator mark */}
-        <MenuSeparator />
+        {
+          displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.USER ||
+            displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? [
+              /* navigation component in user and preview modes mode (separator after) */
+              <NavigationMenuContainer
+                key="navigation.container"
+                currentModuleId={currentModuleId}
+                project={project}
+              />,
+              <MenuSeparator key="separator.after" />]
+            : ( // title in administration views
+              <AppTitleComponent
+                project={project}
+                displayMode={displayMode}
+              />
+            )
+        }
         {/* Right options */}
         <div style={optionsGroup}>
           {/* Authentication access, state and options */}

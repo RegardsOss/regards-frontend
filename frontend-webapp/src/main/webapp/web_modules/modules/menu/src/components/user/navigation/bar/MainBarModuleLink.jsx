@@ -43,17 +43,19 @@ class MainBarModuleLink extends React.Component {
       locale, buildModuleURL, item: {
         iconType,
         customIconURL,
+        selected,
+        title,
         module: {
-          title, id, type, description,
+          id, type, description,
         },
       },
     } = this.props
     const { moduleTheme: { user: { navigationItem } } } = this.context
-
     return (
       <Link to={buildModuleURL(id)} >
         <FlatButton
           label={ModuleTitleText.selectTitle(title, description, locale)}
+          secondary={selected}
           icon={
             <ModuleIcon
               iconDisplayMode={iconType}

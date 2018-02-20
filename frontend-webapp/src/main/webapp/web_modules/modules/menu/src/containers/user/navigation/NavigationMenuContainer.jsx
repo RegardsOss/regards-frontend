@@ -17,12 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { AccessShapes } from '@regardsoss/shape'
-import { modulesManager } from '@regardsoss/modules'
+import { AccessProjectClient } from '@regardsoss/client'
+import { UIDomain } from '@regardsoss/domain'
 import { i18nSelectors } from '@regardsoss/i18n'
+import DynamicModulesProviderContainer from '../../../containers/common/DynamicModulesProviderContainer'
 import NavigationModelResolutionContainer from '../../../containers/common/NavigationModelResolutionContainer'
 import NavigationLayoutComponent from '../../../components/user/navigation/NavigationLayoutComponent'
 
+// default user modules selectors
+const moduleSelectors = AccessProjectClient.ModuleSelectors()
 
 /**
  * Navigation menu container
@@ -43,7 +46,7 @@ export class NavigationMenuContainer extends React.Component {
 
   static propTypes = {
     project: PropTypes.string,
-    dynamicModules: PropTypes.arrayOf(AccessShapes.Module).isRequired,
+    currentModuleId: PropTypes.number,
     // from mapStateToProps
     locale: PropTypes.string.isRequired,
   }
@@ -55,19 +58,20 @@ export class NavigationMenuContainer extends React.Component {
    */
   buildModuleURL = (moduleId) => {
     const { project } = this.props
-    return modulesManager.getModuleURL(project, moduleId)
+    return UIDomain.getModuleURL(project, moduleId)
   }
 
 
   render() {
-    const { dynamicModules, locale } = this.props
-    // TODO-NOW return null when in admin
+    const { currentModuleId, locale } = this.props
     return (
-      // insert the modules to navigation module resolution container
-      <NavigationModelResolutionContainer dynamicModules={dynamicModules} clearNonNavigable>
-        {/* main navigation view component */}
-        <NavigationLayoutComponent buildModuleURL={this.buildModuleURL} locale={locale} />
-      </NavigationModelResolutionContainer>
+      <DynamicModulesProviderContainer moduleSelectors={moduleSelectors} keepOnlyActive >
+        {/* insert the modules to navigation module resolution container */}
+        <NavigationModelResolutionContainer currentModuleId={currentModuleId} clearNonNavigable>
+          {/* main navigation view component */}
+          <NavigationLayoutComponent buildModuleURL={this.buildModuleURL} locale={locale} />
+        </NavigationModelResolutionContainer>
+      </DynamicModulesProviderContainer>
     )
   }
 }

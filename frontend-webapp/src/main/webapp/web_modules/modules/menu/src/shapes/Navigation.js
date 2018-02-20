@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessDomain } from '@regardsoss/domain'
-import { NAVIGATION_ITEM_TYPES_ENUM } from '../model/NavigationItemTypes'
+import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 
 /**
  * Navigation related shapes
@@ -27,7 +27,7 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../model/NavigationItemTypes'
 const commonItemFields = {
   // map of title by locale
   key: PropTypes.number.isRequired,
-  title: PropTypes.objectOf(PropTypes.string).isRequired,
+  title: PropTypes.objectOf(PropTypes.string),
   iconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
   customIconURL: PropTypes.string,
 }
@@ -36,6 +36,7 @@ const commonItemFields = {
 export const ModuleNavigationItem = PropTypes.shape({
   ...commonItemFields,
   type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.MODULE]).isRequired,
+  selected: PropTypes.bool.isRequired,
   module: PropTypes.shape({
     // fields from Module shape
     id: PropTypes.number.isRequired,

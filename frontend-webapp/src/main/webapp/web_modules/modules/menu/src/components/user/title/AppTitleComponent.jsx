@@ -16,32 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import { UIDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
-import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
-import MainMenuComponent from '../../components/user/MainMenuComponent'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Main component of module menu (user part)
- * @author Sébastien binda
- **/
-class UserContainer extends React.Component {
+ * Application title (menu in admin mode)
+ * @author Raphaël Mechali
+ */
+class AppTitleComponent extends React.Component {
   static propTypes = {
-    // default modules properties
-    ...AccessShapes.runtimeDispayModuleFields,
-    // redefines expected configuration shape
-    moduleConf: ModuleConfiguration,
+    project: PropTypes.string,
+    displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
   }
 
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
   render() {
-    const currentModuleId = UIDomain.getPathModuleId(browserHistory.getCurrentLocation().pathname)
+    const { project, displayMode } = this.props
+    const { intl: { formatMessage }, moduleTheme: { admin: { title } } } = this.context
     return (
-      // Insert main render component
-      <MainMenuComponent {...this.props} currentModuleId={currentModuleId} />
+      <div style={title}>
+        {
+          displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_INSTANCE ?
+            formatMessage({ id: 'menu.admin.instance.title' }) :
+            formatMessage({ id: 'menu.admin.project.title' }, { project })
+        }
+      </div>
     )
   }
 }
-
-export default UserContainer
+export default AppTitleComponent

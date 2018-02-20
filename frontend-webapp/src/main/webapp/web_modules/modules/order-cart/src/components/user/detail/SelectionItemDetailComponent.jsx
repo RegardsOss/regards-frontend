@@ -102,9 +102,12 @@ class SelectionItemDetailComponent extends React.Component {
         open={visible}
       >
         <Measure onMeasure={this.onComponentResized}>
-          <div style={SelectionItemDetailComponent.EXPAND_ALL_STYLES}>
-            <SelectionDetailResultsTableContainer availableHeight={availableHeight} openSearchRequest={openSearchRequest} />
-          </div>
+          {
+            () => (
+              <div style={SelectionItemDetailComponent.EXPAND_ALL_STYLES}>
+                <SelectionDetailResultsTableContainer availableHeight={availableHeight} openSearchRequest={openSearchRequest} />
+              </div>)
+          }
         </Measure >
       </PositionedDialog >
     )

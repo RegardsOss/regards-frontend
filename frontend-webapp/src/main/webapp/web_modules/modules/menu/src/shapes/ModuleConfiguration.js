@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 
 export const ModuleConfiguration = PropTypes.shape({
+  displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
   title: PropTypes.string,
   contacts: PropTypes.string,
   displayAuthentication: PropTypes.bool,

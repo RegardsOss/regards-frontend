@@ -43,6 +43,8 @@ const messages = {
   'user.menu.displaycart.empty.tooltip': 'empty',
   'user.menu.displaycart.elements.count.tooltip': '{elementsCount} object(s)',
   'user.menu.cart.max.count': '{maxCount}+',
+  'menu.admin.project.title': 'REGARDS - {project} administration dashboard',
+  'menu.admin.instance.title': 'REGARDS - Instance administration dashboard',
   'menu.form.title': 'Menu Title',
   'menu.form.contacts': 'Contact',
   'menu.form.projectpage': 'Project about page',

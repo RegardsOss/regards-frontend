@@ -63,14 +63,16 @@ class MoreNavigationButton extends React.Component {
     return (
       // handle measure system locally
       <div style={displayed ? navigationItem.displayStyle : navigationItem.hiddenStyle}>
-        <Measure onMeasure={this.onComponentResized} >
-          {/* Delegate to common drop menu render  */}
-          <MainBarDropMenuButton
-            label={formatMessage({ id: 'navigation.more.option' })}
-            items={items}
-            locale={locale}
-            buildModuleURL={buildModuleURL}
-          />
+        <Measure bounds>
+          {bounds => this.onComponentResized(bounds) || (
+            // Delegate to common drop menu render
+            <MainBarDropMenuButton
+              label={formatMessage({ id: 'navigation.more.option' })}
+              items={items}
+              locale={locale}
+              buildModuleURL={buildModuleURL}
+            />)
+          }
         </Measure>
       </div >
     )

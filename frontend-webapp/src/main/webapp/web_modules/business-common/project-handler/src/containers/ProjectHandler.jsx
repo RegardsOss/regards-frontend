@@ -35,8 +35,8 @@ class ProjectHandler extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchProject(this.props.projectName).then((ActionResult) => {
-      if (!has(ActionResult, 'error') && root && root.document && root.document.querySelector) {
+    this.props.fetchProject(this.props.projectName).then((actionResult) => {
+      if (!has(actionResult, 'error') && root && root.document && root.document.querySelector) {
         // Update meta tag of the current html page
         root.document.querySelector('meta[name="title"]').setAttribute('content', this.props.project.content.name)
         root.document.querySelector('meta[name="description"]').setAttribute('content', this.props.project.content.description)

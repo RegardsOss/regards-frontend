@@ -34,7 +34,7 @@ import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
  */
 export class LicenseDisplayContainer extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // from mapStateToProps
     licenseLink: CommonShapes.URL,
     accepted: PropTypes.bool,

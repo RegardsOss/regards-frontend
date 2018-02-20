@@ -16,16 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
 /**
- * Holds Modules domain data
+ * Exposes Menu module domain, as menu module can be loaded by both admin and user interface
  * @author Raphaël Mechali
  */
 
-/**
-* Returns module default icon path
-* @param {string} moduleType module type
-*/
-export function getModuleDefaultIconURL(moduleType) {
-  return `/modules-icon/${moduleType}.svg`
+export const MENU_DISPLAY_MODES_ENUM = {
+  /** Show menu in admin instance interface */
+  ADMIN_INSTANCE: 'ADMIN_INSTANCE',
+  /** Show menu in admin project interface */
+  ADMIN_PROJECT: 'ADMIN_PROJECT',
+  /** Show menu as a user module */
+  USER: 'USER',
+  /** Show menu as user module edition preview */
+  PREVIEW: 'PREVIEW',
 }
+
+export const MENU_DISPLAY_MODES = values(MENU_DISPLAY_MODES_ENUM)
