@@ -22,7 +22,7 @@ const messages = Object.assign({
   // 1. Chains list
   // 1.1 Headers
   'acquisition-chain.list.title': 'Configure generation chains',
-  'acquisition-chain.list.subtitle': 'Generation chains are used to automaticcly generate and add datas.',
+  'acquisition-chain.list.subtitle': 'Generation chains are used to automatically generate and add datas.',
   'acquisition-chain.list.info.message': 'You can define specific plugins to handle each generation steps.',
   'acquisition-chain.list.empty.title': 'No generation chain defined',
 
@@ -35,7 +35,7 @@ const messages = Object.assign({
   'acquisition-chain.list.back.button': 'Back',
   'acquisition-chain.list.edit.tooltip': 'Edit',
   'acquisition-chain.list.duplicate.tooltip': 'Duplicate',
-  'acquisition-chain.list.delete.confirm.title': 'Are you sur you want to delete the chain {label}',
+  'acquisition-chain.list.delete.confirm.title': 'Are you sure you want to delete the chain {label}',
 
   // 2 Chain creation/edition form
   // 2.1 Header section
@@ -198,7 +198,7 @@ const messages = Object.assign({
   'acquisition.file.list.subtitle': '-',
   'acquisition.file.list.back.button': 'Back',
   'acquisition.file.list.filePath': 'Files',
-  'acquisition.file.list.acqDate': 'Acquistion date',
+  'acquisition.file.list.acqDate': 'Acquisition date',
   'acquisition.file.list.state': 'State',
 
   //5.2 Filters

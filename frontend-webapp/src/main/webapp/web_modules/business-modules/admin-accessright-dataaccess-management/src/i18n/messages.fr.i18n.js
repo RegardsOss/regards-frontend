@@ -26,7 +26,7 @@ const messages = Object.assign({
   'accessright.table.filter.dataset.label': 'Dataset',
   'accessright.table.filter.clear.button': 'Effacer',
   'accessright.table.filter.button': 'Appliquer',
-  'accessright.table.refresh.button': 'Raffraîchir',
+  'accessright.table.refresh.button': 'Rafraîchir',
   'accessright.title': 'Droits d\'accès aux jeux de données pour le groupe {name}',
   'accessright.subtitle': 'Configurez les droits d\'accès aux jeux de données pour le groupe {name}',
   'accessright.form.meta.accessLevel': 'Niveau d\'accès aux informations',

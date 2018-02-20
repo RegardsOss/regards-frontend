@@ -21,14 +21,14 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   // 1. Chains list
   // 1.1 Headers
-  'acquisition-chain.list.title': 'Configuration des chaînes de d\'acquisition de donnéess',
-  'acquisition-chain.list.subtitle': 'Les chaînes d\'acquisition de données correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectée avant leur ajout dans le catalogue de données.',
+  'acquisition-chain.list.title': 'Configuration des chaînes de d\'acquisition de données',
+  'acquisition-chain.list.subtitle': 'Les chaînes d\'acquisition de données correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectées avant leur ajout dans le catalogue de données.',
   'acquisition-chain.list.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement un fonctionnement spécifique grâce aux plugins suivants.',
   'acquisition-chain.list.empty.title': 'Aucune chaîne définie',
 
   // 1.2 table headers
   'acquisition-chain.list.table.label': 'Nom',
-  'acquisition-chain.list.table.mode': 'Mode de déclanchement',
+  'acquisition-chain.list.table.mode': 'Mode de déclenchement',
 
   // 1.3 actions
   'acquisition-chain.list.addnew.button': 'Ajouter',
@@ -128,7 +128,7 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.filters.running.stopped': 'Arrêtées',
   'acquisition-chain.monitor.list.filters.apply.button': 'Appliquer les filtres',
   'acquisition-chain.monitor.list.filters.clear.button': 'Vider',
-  'acquisition-chain.monitor.list.refresh.button': 'Raffraîchir',
+  'acquisition-chain.monitor.list.refresh.button': 'Rafraîchir',
   'acquisition-chain.monitor.list.back.button': 'Retour',
 
   // 3.2 Chain jobs
@@ -187,7 +187,7 @@ const messages = Object.assign({
   'acquisition-product.list.back.button': 'Retour',
   'acquisition.product.list.filters.clear.button': 'Vider',
   'acquisition.product.list.filters.apply.button': 'Appliquer les filtres',
-  'acquisition.product.list.refresh.button': 'Raffraîchir',
+  'acquisition.product.list.refresh.button': 'Rafraîchir',
   'acquisition.product.list.sip.session.link.title': 'Visualiser l\'état de la session',
 
   // 5. Acquisition file list
@@ -215,7 +215,7 @@ const messages = Object.assign({
   //5.3 actions
   'acquisition.file.list.filters.clear.button': 'Vider',
   'acquisition.file.list.filters.apply.button': 'Appliquer les filtres',
-  'acquisition.file.list.refresh.button': 'Raffraîchir',
+  'acquisition.file.list.refresh.button': 'Rafraîchir',
 
 }, Locales.fr)
 
