@@ -79,6 +79,10 @@ const messages = Object.assign({
   'dataset.form.radio.descriptionFileContent': 'Upload a file containing the description',
   'dataset.form.radio.none': 'No description',
   'dataset.form.subtitle': 'Manage dataset attributes',
+  'dataset.table.filter.dataset.label': 'Dataset',
+  'dataset.table.filter.clear.button': 'Clear',
+  'dataset.table.filter.button': 'Apply',
+  'dataset.table.refresh.button': 'Refresh',
 
   'dataset.subsetting.snackbar.success': 'The subsetting is OK',
   'dataset.subsetting.snackbar.error': 'The subsetting is not OK',

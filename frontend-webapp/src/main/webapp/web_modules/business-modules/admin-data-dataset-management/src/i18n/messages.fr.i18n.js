@@ -79,6 +79,10 @@ const messages = Object.assign({
   'dataset.form.radio.descriptionFileContent': 'Envoyer un fichier contenant la description',
   'dataset.form.radio.none': 'Pas de description',
   'dataset.form.subtitle': 'Gestion des attributs d\'un jeu de données',
+  'dataset.table.filter.dataset.label': 'Dataset',
+  'dataset.table.filter.clear.button': 'Effacer',
+  'dataset.table.filter.button': 'Appliquer',
+  'dataset.table.refresh.button': 'Rafraîchir',
 
   'dataset.subsetting.snackbar.success': 'Le filtre est OK',
   'dataset.subsetting.snackbar.error': 'Le filtre ne fonctionne pas',

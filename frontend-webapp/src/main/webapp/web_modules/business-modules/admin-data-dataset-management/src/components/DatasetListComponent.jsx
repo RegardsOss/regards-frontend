@@ -16,34 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
-import { DataManagementShapes } from '@regardsoss/shape'
-import { ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender } from '@regardsoss/components'
+import { FlatButton } from 'material-ui'
+import Refresh from 'material-ui/svg-icons/navigation/refresh'
+import {
+  CardActionsComponent,
+  ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
+  ShowableAtRender,
+  TableColumnBuilder,
+  TableLayout,
+  PageableInfiniteTableContainer,
+  TableHeaderLine,
+  TableHeaderOptionsArea,
+  TableHeaderOptionGroup,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { datasetActions } from '../clients/DatasetClient'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const actionsBreakpoints = [940, 995]
+import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
+import { tableActions } from '../clients/TableClient'
+import DatasetListEditAction from './DatasetListEditAction'
+import DatasetListDeleteAction from './DatasetListDeleteAction'
+import DatasetListFiltersComponent from './DatasetListFiltersComponent'
 
 /**
  * React component to list datasets.
  */
 export class DatasetListComponent extends React.Component {
   static propTypes = {
-    datasetList: DataManagementShapes.DatasetList,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    onRefresh: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -76,9 +83,7 @@ export class DatasetListComponent extends React.Component {
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
     const title = this.context.intl.formatMessage({ id: 'dataset.list.delete.title' }, { name })
     return (
-      <ShowableAtRender
-        show={this.state.deleteDialogOpened}
-      >
+      <ShowableAtRender show={this.state.deleteDialogOpened}>
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
@@ -93,12 +98,48 @@ export class DatasetListComponent extends React.Component {
 
   render() {
     const {
-      datasetList, handleEdit, createUrl, backUrl,
+      handleEdit, createUrl, backUrl, onRefresh,
     } = this.props
+    const { intl: { formatMessage } } = this.context
+    const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
     }
+
+    const columns = [
+      // 1 - label column
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.label',
+        formatMessage({ id: 'dataset.list.table.label' }),
+        'content.label',
+      ),
+      // 2 - model column
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.model',
+        formatMessage({ id: 'dataset.list.table.model' }),
+        'content.model.name',
+      ),
+      TableColumnBuilder.buildOptionsColumn(
+        '',
+        [
+          {
+            OptionConstructor: DatasetListEditAction,
+            optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
+          },
+          {
+            OptionConstructor: DatasetListDeleteAction,
+            optionProps: {
+              openDeleteDialog: this.openDeleteDialog,
+              hoverColor: style.hoverButtonDelete,
+            },
+          },
+        ],
+        true,
+        fixedColumnWidth,
+      ),
+    ]
+
     return (
       <Card>
         <CardTitle
@@ -107,66 +148,35 @@ export class DatasetListComponent extends React.Component {
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
-          <Table
-            selectable={false}
-          >
-            <TableHeader
-              enableSelectAll={false}
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn><FormattedMessage id="dataset.list.table.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="dataset.list.table.model" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="dataset.list.table.actions" /></TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody
-              displayRowCheckbox={false}
-              preScanRows={false}
-              showRowHover
-            >
-              {map(datasetList, (dataset, i) => (
-                <TableRow key={i}>
-                  <TableRowColumn>{dataset.content.label}</TableRowColumn>
-                  <TableRowColumn>{dataset.content.model.name}</TableRowColumn>
-                  <TableRowColumn>
-                    <ActionsMenuCell
-                      breakpoints={actionsBreakpoints}
-                    >
-                      <HateoasIconAction
-                        entityLinks={dataset.links}
-                        hateoasKey={HateoasKeys.UPDATE}
-                        onClick={() => handleEdit(dataset.content.id)}
-                        title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.edit' })}
-                      >
-                        <Edit hoverColor={style.hoverButtonEdit} />
-                      </HateoasIconAction>
-                      <HateoasIconAction
-                        entityLinks={dataset.links}
-                        hateoasKey={HateoasKeys.DELETE}
-                        onClick={() => this.openDeleteDialog(dataset)}
-                        title={this.context.intl.formatMessage({ id: 'dataset.list.tooltip.delete' })}
-                      >
-                        <Delete hoverColor={style.hoverButtonDelete} />
-                      </HateoasIconAction>
-                    </ActionsMenuCell>
-                  </TableRowColumn>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <TableLayout>
+            <DatasetListFiltersComponent onRefresh={onRefresh} />
+            <TableHeaderLine>
+              <TableHeaderOptionsArea>
+                <TableHeaderOptionGroup>
+                  <FlatButton
+                    label={formatMessage({ id: 'dataset.table.refresh.button' })}
+                    icon={<Refresh />}
+                    onClick={this.props.onRefresh}
+                  />
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
+            </TableHeaderLine>
+            <PageableInfiniteTableContainer
+              pageActions={datasetActions}
+              pageSelectors={datasetSelectors}
+              tableActions={tableActions}
+              columns={columns}
+            />
+          </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
             mainButtonUrl={createUrl}
-            mainButtonLabel={
-              <FormattedMessage
-                id="dataset.list.action.add"
-              />
-            }
+            mainButtonLabel={<FormattedMessage id="dataset.list.action.add" />}
             mainHateoasDependencies={DatasetListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.list.action.cancel' })}
+            secondaryButtonLabel={this.context.intl.formatMessage({
+              id: 'dataset.list.action.cancel',
+            })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>
@@ -176,4 +186,3 @@ export class DatasetListComponent extends React.Component {
 }
 
 export default DatasetListComponent
-

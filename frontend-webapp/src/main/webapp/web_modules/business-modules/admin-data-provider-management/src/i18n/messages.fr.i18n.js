@@ -126,7 +126,7 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.filters.running.stopped': 'Arrêtées',
   'acquisition-chain.monitor.list.filters.apply.button': 'Appliquer les filtres',
   'acquisition-chain.monitor.list.filters.clear.button': 'Vider',
-  'acquisition-chain.monitor.list.refresh.button': 'Raffraîchir',
+  'acquisition-chain.monitor.list.refresh.button': 'Rafraîchir',
   'acquisition-chain.monitor.list.back.button': 'Retour',
 
   // 4. Products list
@@ -168,7 +168,7 @@ const messages = Object.assign({
   'acquisition-product.list.back.button': 'Retour',
   'acquisition.product.list.filters.clear.button': 'Vider',
   'acquisition.product.list.filters.apply.button': 'Appliquer les filtres',
-  'acquisition.product.list.refresh.button': 'Raffraîchir',
+  'acquisition.product.list.refresh.button': 'Rafraîchir',
   'acquisition.product.list.sip.session.link.title': 'Visualiser l\'état de la session',
 
   // 5. Acquisition file list
@@ -196,7 +196,7 @@ const messages = Object.assign({
   //5.3 actions
   'acquisition.file.list.filters.clear.button': 'Vider',
   'acquisition.file.list.filters.apply.button': 'Appliquer les filtres',
-  'acquisition.file.list.refresh.button': 'Raffraîchir',
+  'acquisition.file.list.refresh.button': 'Rafraîchir',
 
 }, Locales.fr)
 
