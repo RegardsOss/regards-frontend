@@ -78,7 +78,7 @@ export class DatasetFormAttributesContainer extends React.Component {
   onSubmit = (values) => {
     const datasourceObjectModelName = get(PluginConfParamsUtils.findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value')
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
-    this.props.handleSave(values.label, values.geometry, values.model, properties, datasourceObjectModelName, values.descriptionFileContent, values.descriptionUrl)
+    this.props.handleSave(values.sipId, values.label, values.geometry, values.model, properties, datasourceObjectModelName, values.descriptionFileContent, values.descriptionUrl)
   }
 
 

@@ -133,12 +133,13 @@ export class DatasetFormContainer extends React.Component {
   /**
    * Runned by DatasetFormAttributesContainer when the user saves his form
    * This does not save the entity on the server but in the state of the container
+   * @param sipId
    * @param label
    * @param modelDatasetId
    * @param attributes
    * @param modelObjectId
    */
-  saveAttributes = (label, geometry, modelDatasetName, properties, modelObjectName, descriptionFileContent, descriptionUrl) => {
+  saveAttributes = (sipId, label, geometry, modelDatasetName, properties, modelObjectName, descriptionFileContent, descriptionUrl) => {
     const { isCreating, currentDataset } = this.state
     const descriptionFile = getAbstractEntityDescription(descriptionFileContent, descriptionUrl)
     // Save the file in the state if there is
@@ -150,6 +151,7 @@ export class DatasetFormContainer extends React.Component {
     if (isCreating) {
       const newValues = {
         content: {
+          sipId,
           label,
           geometry,
           properties,
@@ -170,6 +172,7 @@ export class DatasetFormContainer extends React.Component {
         currentDataset: newValues,
       })
     } else {
+      currentDataset.content.sipId = sipId
       currentDataset.content.label = label
       currentDataset.content.geometry = geometry
       currentDataset.content.properties = properties
