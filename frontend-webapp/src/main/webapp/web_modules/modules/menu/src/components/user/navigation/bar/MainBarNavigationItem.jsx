@@ -16,10 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import Measure from 'react-measure'
 import { themeContextType } from '@regardsoss/theme'
-import { ModuleTitleText } from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
 import { NavigationItem } from '../../../../shapes/Navigation'
 import MainBarModuleLink from './MainBarModuleLink'
@@ -45,44 +43,39 @@ class MainBarNavigationItem extends React.Component {
   /**
    * Called when component is resized, to force the inner table implementation at same width
    */
-  onComponentResized = ({ width }) => {
+  onComponentResized = ({ width }) => { //{ width }
     const { item, displayed, onItemResized } = this.props
     // handle events only when this item is displayed (to avoid setting width at 0 as item is hidden)
     if (displayed) {
-      onItemResized(item.key, width)
+      onItemResized(item.key, Math.ceil(width))
     }
   }
 
-  /**
-   * @return this button label
-   */
-  getLabel = () => {
-    const { item, locale } = this.props
-    // fallback description available for old modules definitions (sections should not enter this case!)
-    const fallbackDescription = get(item, 'module.description', '')
-    return ModuleTitleText.selectTitle(item.title, fallbackDescription, locale)
-  }
-
   render() {
-    const { item, displayed, buildModuleURL } = this.props
+    const {
+      item, displayed, buildModuleURL, locale,
+    } = this.props
     const { moduleTheme: { user: { navigationItem } } } = this.context
     return (
-      /* handle locally the resizing management */
-      <div style={displayed ? navigationItem.displayStyle : navigationItem.hiddenStyle} >
-        <Measure onMeasure={this.onComponentResized} >
-          { /* delegate link buttons rendering */
+      <div
+        style={displayed ? navigationItem.displayStyle : navigationItem.hiddenStyle}
+      >
+        {/* handle locally the resizing management */}
+        <Measure bounds>
+          {bounds => this.onComponentResized(bounds) || (
+            // delegate link buttons rendering
             item.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE ? (
               <MainBarModuleLink
                 item={item}
+                locale={locale}
                 buildModuleURL={buildModuleURL}
               />) : (
                 <MainBarSectionButton
                   item={item}
-                />)
+                />))
           }
         </Measure>
-      </div >
-    )
+      </div>)
   }
 }
 export default MainBarNavigationItem

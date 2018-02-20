@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import get from 'lodash/get'
 import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
 import Measure from 'react-measure'
 import { MarkdownFileContentDisplayer, NoContentMessageInfo, IFrameURLContentDisplayer } from '@regardsoss/components'
@@ -36,7 +37,13 @@ class DescriptionFileComponent extends React.Component {
 
   onSizeChanged = ({ width, height }) => this.updateDisplayAreaStyle(width, height)
 
-  updateDisplayAreaStyle = (width, height) => this.setState({ displayAreaStyle: { width, height } })
+  updateDisplayAreaStyle = (width, height) => {
+    console.error('ME CALLED???????')
+    if (width !== get(this.state, 'displayAreaStyle.width') ||
+      height !== get(this.state, 'displayAreaStyle.height')) {
+      this.setState({ displayAreaStyle: { width, height } })
+    }
+  }
 
   render() {
     const {

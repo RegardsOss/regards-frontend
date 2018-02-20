@@ -27,7 +27,7 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 const commonItemFields = {
   // map of title by locale
   key: PropTypes.number.isRequired,
-  title: PropTypes.objectOf(PropTypes.string).isRequired,
+  title: PropTypes.objectOf(PropTypes.string),
   iconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
   customIconURL: PropTypes.string,
 }
