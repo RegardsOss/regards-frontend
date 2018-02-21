@@ -22,6 +22,7 @@ import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/te
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { CollectionListContainer } from '../../src/containers/CollectionListContainer'
 
+const context = buildTestContext()
 
 describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionListContainer', () => {
   before(testSuiteHelpers.before)
@@ -31,16 +32,14 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionListContainer', (
     assert.isDefined(CollectionListContainer)
     assert.isDefined(LoadableContentDisplayDecorator)
   })
-  const context = buildTestContext()
 
   it('Render properly', () => {
     const props = {
       params: {
-        project: 'someprocjet',
+        project: 'someproject',
       },
       // from mapStateToProps
       collectionList: DumpProvider.get('DataManagementClient', 'Collection'),
-      isFetching: false,
       // from mapDispatchToProps
       fetchCollectionList: () => {},
       deleteCollection: () => {},
@@ -48,6 +47,6 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionListContainer', (
     }
     const enzymeWrapper = shallow(<CollectionListContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
-    assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
+    assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
   })
 })

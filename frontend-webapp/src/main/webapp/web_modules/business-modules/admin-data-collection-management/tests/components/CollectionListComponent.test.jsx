@@ -17,10 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
+import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
-import { TableRow } from 'material-ui/Table'
 import CollectionListComponent from '../../src/components/CollectionListComponent'
+import CollectionListFiltersComponent from '../../src/components/CollectionListFiltersComponent'
+
+const context = buildTestContext()
 
 describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionListComponent', () => {
   before(testSuiteHelpers.before)
@@ -29,7 +32,6 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionListComponent', (
   it('should exists', () => {
     assert.isDefined(CollectionListComponent)
   })
-  const context = buildTestContext()
 
   it('Render properly', () => {
     const props = {
@@ -37,11 +39,16 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionListComponent', (
       handleDelete: () => {},
       handleEdit: () => {},
       handleDuplicate: () => {},
+      onRefresh: () => {},
+      navigateToCreateCollection: () => {},
       createUrl: '#',
       backUrl: '#',
     }
 
     const enzymeWrapper = shallow(<CollectionListComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TableRow)).to.have.length(4)
+    const table = enzymeWrapper.find(PageableInfiniteTableContainer)
+    const filters = enzymeWrapper.find(CollectionListFiltersComponent)
+    assert.isTrue(table.length === 1, 'There should be a TableContainer rendered')
+    assert.isTrue(filters.length === 1, 'There should be a Collection list filter rendered')
   })
 })

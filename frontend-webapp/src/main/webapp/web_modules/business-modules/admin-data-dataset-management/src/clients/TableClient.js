@@ -16,21 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableReducers } from '@regardsoss/store-utils'
-import { CollectionConfiguration } from '@regardsoss/api'
-import CollectionActions from './CollectionActions'
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-/**
- * Redux store reducer for Plugin MetaData entities
- * @author Léo Mieulet
- */
-class PluginMetaDataReducer extends BasicPageableReducers {
-  constructor(namespace) {
-    super(CollectionConfiguration, new CollectionActions(namespace))
-  }
-}
+const NAMESPACE = ' admin-data-dataset-management/datasets-table'
+const STORE_PATH = ['admin', 'data', 'dataset-management', 'datasets-table']
 
-export default (namespace) => {
-  const instance = new PluginMetaDataReducer(namespace)
-  return (state, action) => instance.reduce(state, action)
+module.exports = {
+  tableActions: new TableActions(NAMESPACE),
+  tableReducer: getTableReducer(NAMESPACE),
+  tableSelectors: getTableSelectors(STORE_PATH),
 }

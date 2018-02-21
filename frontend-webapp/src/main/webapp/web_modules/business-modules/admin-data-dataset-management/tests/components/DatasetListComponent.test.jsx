@@ -17,10 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
-import { TableRow } from 'material-ui/Table'
+import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import DatasetListComponent from '../../src/components/DatasetListComponent'
+import DatasetListFiltersComponent from '../../src/components/DatasetListFiltersComponent'
 
 const context = buildTestContext()
 
@@ -30,17 +31,21 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetListComponent', () => {
 
   it('should exists', () => {
     assert.isDefined(DatasetListComponent)
-    assert.isDefined(TableRow)
   })
   it('Render properly', () => {
     const props = {
       datasetList: DumpProvider.get('DataManagementClient', 'Dataset'),
       handleDelete: () => {},
       handleEdit: () => {},
+      onRefresh: () => {},
+      navigateToCreateDataset: () => {},
       createUrl: '#',
       backUrl: '#',
     }
     const enzymeWrapper = shallow(<DatasetListComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TableRow)).to.have.length(2)
+    const table = enzymeWrapper.find(PageableInfiniteTableContainer)
+    const filters = enzymeWrapper.find(DatasetListFiltersComponent)
+    assert.isTrue(table.length === 1, 'There should be a TableContainer rendered')
+    assert.isTrue(filters.length === 1, 'There should be a Dataset list filter rendered')
   })
 })

@@ -18,8 +18,8 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import get from 'lodash/get'
 import { I18nProvider } from '@regardsoss/i18n'
-import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
 import CollectionListComponent from '../components/CollectionListComponent'
@@ -30,20 +30,41 @@ import messages from '../i18n'
  */
 export class CollectionListContainer extends React.Component {
   static propTypes = {
+    meta: PropTypes.shape({
+      // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
-    // from mapStateToProps
-    collectionList: DataManagementShapes.CollectionList,
-    isFetching: PropTypes.bool,
     // from mapDispatchToProps
     fetchCollectionList: PropTypes.func,
     deleteCollection: PropTypes.func,
   }
 
+  static PAGE_SIZE = 100
+
+  state = {
+    isLoading: true,
+  }
+
   componentWillMount() {
-    this.props.fetchCollectionList()
+    Promise.resolve(this.props.fetchCollectionList()).then((actionResult) => {
+      if (!actionResult.error) {
+        this.setState({
+          isLoading: false,
+        })
+      }
+    })
+  }
+
+  onRefresh = (filters) => {
+    const { meta, fetchCollectionList } = this.props
+    const curentPage = get(meta, 'number', 0)
+    return fetchCollectionList(0, CollectionListContainer.PAGE_SIZE * (curentPage + 1), {}, filters)
   }
 
   getCreateUrl = () => {
@@ -54,6 +75,10 @@ export class CollectionListContainer extends React.Component {
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/collections/board`
+  }
+
+  navigateToCreateCollection = () => {
+    browserHistory.push(this.getCreateUrl())
   }
 
   handleDuplicate = (collectionId) => {
@@ -73,18 +98,18 @@ export class CollectionListContainer extends React.Component {
   }
 
   render() {
-    const { collectionList, isFetching } = this.props
+    const { fetchCollectionList } = this.props
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isFetching}
-        >
+        <LoadableContentDisplayDecorator isLoading={this.state.isLoading}>
           <CollectionListComponent
-            collectionList={collectionList}
+            fetchCollectionList={fetchCollectionList}
             handleDuplicate={this.handleDuplicate}
             handleDelete={this.handleDelete}
             handleEdit={this.handleEdit}
+            onRefresh={this.onRefresh}
             backUrl={this.getBackUrl()}
+            navigateToCreateCollection={this.navigateToCreateCollection}
             createUrl={this.getCreateUrl()}
           />
         </LoadableContentDisplayDecorator>
@@ -94,12 +119,12 @@ export class CollectionListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  collectionList: collectionSelectors.getList(state),
   isFetching: collectionSelectors.isFetching(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(collectionActions.fetchEntityList()),
+  fetchCollectionList: (pageIndex, pageSize, requestParams, queryParams) =>
+    dispatch(collectionActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
   deleteCollection: id => dispatch(collectionActions.deleteEntity(id)),
 })
 

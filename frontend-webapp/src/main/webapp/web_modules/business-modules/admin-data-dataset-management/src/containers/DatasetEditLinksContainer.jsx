@@ -191,7 +191,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(collectionActions.fetchEntityList()),
+  fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0, Number.MAX_VALUE)), // FIXME : MAX_VALUE used
   fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
   updateDataset: (id, dataset) => dispatch(datasetActions.updateEntityUsingMultiPart(id, { dataset })),
   addTagToDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'associate' })),
