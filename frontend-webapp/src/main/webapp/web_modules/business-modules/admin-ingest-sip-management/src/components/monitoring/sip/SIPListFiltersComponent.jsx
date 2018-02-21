@@ -59,8 +59,20 @@ class SIPListFiltersComponent extends React.Component {
   componentWillMount() {
     const { initialFilters } = this.props
     if (initialFilters) {
+      let filters = {}
+      if (initialFilters.state) {
+        filters = {
+          ...initialFilters,
+          state: initialFilters.state.includes(',') ? initialFilters.state.split(',') : [initialFilters.state],
+        }
+      } else {
+        filters = {
+          ...initialFilters,
+        }
+      }
+
       this.setState({
-        filters: initialFilters,
+        filters,
       })
     }
   }
@@ -117,13 +129,15 @@ class SIPListFiltersComponent extends React.Component {
     })
   }
 
-  changeStateFilter = (event, key, newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        state: newValue,
-      },
-    })
+  changeStateFilter = (event, key, newValues) => {
+    if (newValues !== null && newValues.length > 0) {
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          state: newValues,
+        },
+      })
+    }
   }
 
   changeSipIdFilter = (event, newValue) => {
@@ -162,6 +176,7 @@ class SIPListFiltersComponent extends React.Component {
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup key="second">
             <SelectField
+              multiple
               style={filter.fieldStyle}
               hintText={intl.formatMessage({
                 id: 'sips.list.filters.status.label',

@@ -98,7 +98,7 @@ export class SIPSessionListContainer extends React.Component {
 
   handleOpen = (session, isError = false) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/${session}/list${isError ? '?state=STORE_ERROR' : ''}`
+    const url = `/admin/${project}/data/acquisition/sip/${session}/list${isError ? '?state=STORE_ERROR,AIP_GEN_ERROR' : ''}`
     browserHistory.push(url)
   }
 
