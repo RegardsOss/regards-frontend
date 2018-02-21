@@ -15,16 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
-import AceEditorAdapter from './components/AceEditorAdapter'
-import ChartAdapter from './components/ChartAdapter'
-import Measure from './components/MeasureAdapter'
-import ScrollArea from './components/ScrollAreaAdapter'
+ **/
+import { AccessProjectClient } from '@regardsoss/client'
+
+const namespace = 'ADMIN/MENU/LAYOUT'
+const adminLayoutActions = new AccessProjectClient.LayoutActions(namespace)
+const adminLayoutReducer = AccessProjectClient.LayoutReducers(namespace)
+const adminLayoutSelectors = AccessProjectClient.LayoutSelectors(['modules.menu', 'adminLayout'])
 
 module.exports = {
-  AceEditorAdapter,
-  ChartAdapter,
-  Measure,
-  ScrollArea,
+  adminLayoutActions,
+  adminLayoutReducer,
+  adminLayoutSelectors,
 }
-

@@ -42,7 +42,6 @@ export const ModuleNavigationItem = PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    home: PropTypes.bool,
   }),
 })
 

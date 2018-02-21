@@ -21,7 +21,7 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ChartAdapter, { HeadlessPlaceholder } from '../../src/components/ChartAdapter'
 
-describe('[Chart util] Testing component headless', () => {
+describe('[Adapters] Testing component headless', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

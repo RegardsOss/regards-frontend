@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Measure from 'react-measure'
+import { Measure } from '@regardsoss/adapters'
 import FlatButton from 'material-ui/FlatButton'
 import { PositionedDialog } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -66,7 +66,7 @@ class SelectionItemDetailComponent extends React.Component {
   componentWillMount = () => this.setState(SelectionItemDetailComponent.DEFAULT_STATE)
 
   /** On component resized (measure): update available height for sub table component */
-  onComponentResized = ({ height }) => this.setState({ availableHeight: height })
+  onComponentResized = ({ measureDiv: { height } }) => this.setState({ availableHeight: height })
 
   render() {
     const {
@@ -101,10 +101,10 @@ class SelectionItemDetailComponent extends React.Component {
         actions={actions}
         open={visible}
       >
-        <Measure onMeasure={this.onComponentResized}>
+        <Measure bounds onMeasure={this.onComponentResized}>
           {
-            () => (
-              <div style={SelectionItemDetailComponent.EXPAND_ALL_STYLES}>
+            ({ bind }) => (
+              <div style={SelectionItemDetailComponent.EXPAND_ALL_STYLES} {...bind('measureDiv')} >
                 <SelectionDetailResultsTableContainer availableHeight={availableHeight} openSearchRequest={openSearchRequest} />
               </div>)
           }

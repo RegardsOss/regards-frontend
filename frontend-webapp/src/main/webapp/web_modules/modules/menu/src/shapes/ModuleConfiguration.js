@@ -18,6 +18,16 @@
  **/
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
+import { HOME_ICON_TYPES } from '../domain/HomeIconType'
+
+export const homeConfigurationShape = PropTypes.shape({
+  icon: PropTypes.shape({
+    type: PropTypes.oneOf(HOME_ICON_TYPES).isRequired,
+    url: PropTypes.string,
+  }),
+  // title as a map of locale to label
+  title: PropTypes.objectOf(PropTypes.string),
+})
 
 export const ModuleConfiguration = PropTypes.shape({
   displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
@@ -29,4 +39,5 @@ export const ModuleConfiguration = PropTypes.shape({
   displayLocaleSelector: PropTypes.bool,
   displayThemeSelector: PropTypes.bool,
   projectAboutPage: CommonShapes.URL,
+  home: homeConfigurationShape,
 })

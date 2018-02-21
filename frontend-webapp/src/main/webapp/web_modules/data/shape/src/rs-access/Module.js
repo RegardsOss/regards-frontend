@@ -70,27 +70,32 @@ const runtimeDispayModuleFields = {
 }
 
 /**
+ *  admin form shape
+ */
+const moduleAdminForm = PropTypes.shape({
+  // While creating the module, every fields shall be created in the redux form using that namespace
+  // which allows us to launch a module from another module
+  currentNamespace: PropTypes.string,
+  // Current module status
+  isCreating: PropTypes.bool,
+  isDuplicating: PropTypes.bool,
+  isEditing: PropTypes.bool,
+  // Form changeField function.
+  changeField: PropTypes.func,
+  // Configuration from another admin module
+  // eslint-disable-next-line react/forbid-prop-types
+  conf: PropTypes.object,
+  // This parameter contains the entire redux-form form
+  // eslint-disable-next-line react/forbid-prop-types
+  form: PropTypes.object,
+})
+
+/**
  * Fields for a runtime configuration module (ie: adminContainer in dynamic module)
  */
 const runtimeConfigurationModuleFields = {
   ...runtimeDispayModuleFields,
-  adminForm: PropTypes.shape({
-    // While creating the module, every fields shall be created in the redux form using that namespace
-    // which allows us to launch a module from another module
-    currentNamespace: PropTypes.string,
-    // Current module status
-    isCreating: PropTypes.bool,
-    isDuplicating: PropTypes.bool,
-    isEditing: PropTypes.bool,
-    // Form changeField function.
-    changeField: PropTypes.func,
-    // Configuration from another admin module
-    // eslint-disable-next-line react/forbid-prop-types
-    conf: PropTypes.object,
-    // This parameter contains the entire redux-form form
-    // eslint-disable-next-line react/forbid-prop-types
-    form: PropTypes.object,
-  }),
+  adminForm: moduleAdminForm,
 }
 
 
@@ -100,6 +105,7 @@ module.exports = {
   Module,
   ModulePage,
   ModuleArray,
+  moduleAdminForm,
   runtimeDispayModuleFields,
   runtimeConfigurationModuleFields,
 }

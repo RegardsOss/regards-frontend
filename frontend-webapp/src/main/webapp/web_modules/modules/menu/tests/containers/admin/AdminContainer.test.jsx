@@ -19,7 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AdminContainer from '../../../src/containers/admin/AdminContainer'
+import { AdminContainer } from '../../../src/containers/admin/AdminContainer'
+import ModuleFormComponent from '../../../src/components/admin/ModuleFormComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -37,9 +38,19 @@ describe('[Menu] Testing AdminContainer', () => {
       project: 'y',
       type: 'any',
       adminForm: {
+        changeField: () => { },
         currentNamespace: 'conf',
       },
+      fetchLayout: () => { },
+      fetchModules: () => { },
     }
-    shallow(<AdminContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(ModuleFormComponent)
+    assert.lengthOf(componentWrapper, 1, 'There should be the form component')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      appName: props.appName,
+      project: props.project,
+      adminForm: props.adminForm,
+    }, 'Properties should be correctly reported')
   })
 })

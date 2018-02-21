@@ -15,34 +15,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AceEditorAdapter } from '../../src/components/AceEditorAdapter'
-import styles from '../../src/styles/styles'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MeasureAdapter from '../../src/components/MeasureAdapter'
 
-const context = buildTestContext(styles)
-
-/**
-* Component test. Comment Here
-* @author Raphaël Mechali
-*/
-describe('[Adapters] Testing AceEditorAdapter', () => {
+describe('[Adapters] Testing component headless', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AceEditorAdapter)
+    assert.isDefined(MeasureAdapter)
   })
-  it('should render properly', () => {
-    const props = {
-      mode: 'json',
-      value: `{
-        "xx": "yy",
-        "zz": [] 
-      }`,
-    }
-    shallow(<AceEditorAdapter {...props} />, { context })
+  it('should render headless, not breaking the tests', () => {
+    shallow(
+      <MeasureAdapter>
+        {
+          ({ bind }) => <div {...bind('div')} />
+        }
+      </MeasureAdapter >)
   })
 })

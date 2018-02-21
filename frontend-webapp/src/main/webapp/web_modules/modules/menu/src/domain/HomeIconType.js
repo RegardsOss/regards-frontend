@@ -15,16 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
-import AceEditorAdapter from './components/AceEditorAdapter'
-import ChartAdapter from './components/ChartAdapter'
-import Measure from './components/MeasureAdapter'
-import ScrollArea from './components/ScrollAreaAdapter'
+ **/
+import values from 'lodash/values'
 
-module.exports = {
-  AceEditorAdapter,
-  ChartAdapter,
-  Measure,
-  ScrollArea,
+export const HOME_ICON_TYPES_ENUM = {
+  NONE: 'NONE',
+  DEFAULT_HOME_ICON: 'DEFAULT_HOME_ICON',
+  MODULE_ICON: 'MODULE_ICON',
+  CUSTOM_URL_ICON: 'CUSTOM_URL_ICON',
 }
 
+export const HOME_ICON_TYPES = values(HOME_ICON_TYPES_ENUM)

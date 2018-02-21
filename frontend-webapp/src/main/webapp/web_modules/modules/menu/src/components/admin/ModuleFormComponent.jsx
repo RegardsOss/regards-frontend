@@ -16,9 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import RadioButton from 'material-ui/RadioButton'
+import Subheader from 'material-ui/Subheader'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, RenderCheckbox, RenderRadio, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { HOME_ICON_TYPES_ENUM } from '../../domain/HomeIconType'
+import MenuPreviewComponent from './MenuPreviewComponent'
 
 /**
  * Module form component
@@ -27,7 +33,9 @@ import { RenderTextField, RenderCheckbox, Field, ValidationHelpers } from '@rega
 class ModuleFormComponent extends React.Component {
   static propTypes = {
     // current form namespace
-    currentNamespace: PropTypes.string,
+    appName: PropTypes.string.isRequired,
+    project: PropTypes.string,
+    adminForm: AccessShapes.moduleAdminForm,
   }
 
   static contextTypes = {
@@ -40,69 +48,177 @@ class ModuleFormComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.CONF_TITLE = `${props.currentNamespace}.title`
-    this.CONF_CONTACTS = `${props.currentNamespace}.contacts`
-    this.CONF_ABOUT_PAGE = `${props.currentNamespace}.projectAboutPage`
-    this.CONF_AUTH = `${props.currentNamespace}.displayAuthentication`
-    this.CONF_CART = `${props.currentNamespace}.displayCartSelector`
-    this.CONF_NOTIF = `${props.currentNamespace}.displayNotificationsSelector`
-    this.CONF_LOCALE = `${props.currentNamespace}.displayLocaleSelector`
-    this.CONF_THEME = `${props.currentNamespace}.displayThemeSelector`
+    const { currentNamespace } = props.adminForm
+    this.CONF_TITLE = `${currentNamespace}.title`
+    this.CONF_CONTACTS = `${currentNamespace}.contacts`
+    this.CONF_ABOUT_PAGE = `${currentNamespace}.projectAboutPage`
+    this.CONF_AUTH = `${currentNamespace}.displayAuthentication`
+    this.CONF_CART = `${currentNamespace}.displayCartSelector`
+    this.CONF_NOTIF = `${currentNamespace}.displayNotificationsSelector`
+    this.CONF_LOCALE = `${currentNamespace}.displayLocaleSelector`
+    this.CONF_THEME = `${currentNamespace}.displayThemeSelector`
+    this.CONF_HOME_ICON_TYPE = `${currentNamespace}.home.icon.type`
+    this.CONF_HOME_ICON_URL = `${currentNamespace}.home.icon.url`
+    this.CONF_HOME_TITLE_EN = `${currentNamespace}.home.title.en`
+    this.CONF_HOME_TITLE_FR = `${currentNamespace}.home.title.fr`
+  }
+
+
+  /**
+   * Lifecycle method component will mount, used here to initialize default form values
+   */
+  componentWillMount = () => {
+    // initialize EN and FR titles
+    const { adminForm: { form, changeField } } = this.props
+    if (!get(form, this.CONF_HOME_TITLE_EN)) {
+      changeField(this.CONF_HOME_TITLE_EN, 'Home page')
+    }
+    if (!get(form, this.CONF_HOME_TITLE_FR)) {
+      changeField(this.CONF_HOME_TITLE_FR, 'Page d\'accueil')
+    }
+  }
+
+
+  /**
+   * Validates custom icon URL
+   * @param textURL user entered text
+   * @param values the rest of form values
+   */
+  validateCustomHomeIcon = (textURL, values) => {
+    const iconType = get(values, this.CONF_HOME_ICON_TYPE)
+    if (iconType === HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON) {
+      // when in custom icon type, that field is required
+      return ValidationHelpers.required(textURL) || ValidationHelpers.url(textURL)
+    }
+    return undefined // no error in any other case
   }
 
   render() {
-    const { intl, moduleTheme: { admin } } = this.context
+    const { appName, project, adminForm } = this.props
+    const { intl: { formatMessage }, moduleTheme: { admin: { subheaderStyle, firstSubheaderStyle, radioButtonGroupLabelStyle } } } = this.context
     return (
-      <div style={admin.rootStyle}>
+      <div>
+        <Subheader style={firstSubheaderStyle}>
+          {formatMessage({ id: 'user.menu.form.options.title' })}
+        </Subheader>
         <Field
           name={this.CONF_TITLE}
           fullWidth
           component={RenderTextField}
           type="text"
-          label={intl.formatMessage({ id: 'menu.form.title' })}
+          label={formatMessage({ id: 'menu.form.title' })}
         />
         <Field
           name={this.CONF_CONTACTS}
           fullWidth
           component={RenderTextField}
           type="text"
-          label={intl.formatMessage({ id: 'menu.form.contacts' })}
+          label={formatMessage({ id: 'menu.form.contacts' })}
           validate={ModuleFormComponent.validateOptionalEmail}
         />
         <Field
           name={this.CONF_ABOUT_PAGE}
           fullWidth
           component={RenderTextField}
-          label={intl.formatMessage({ id: 'menu.form.projectpage' })}
+          label={formatMessage({ id: 'menu.form.projectpage' })}
           validate={ModuleFormComponent.validateOptionalUrl}
         />
         <Field
           name={this.CONF_AUTH}
           component={RenderCheckbox}
-          label={intl.formatMessage({ id: 'menu.form.displayauthentication' })}
+          label={formatMessage({ id: 'menu.form.displayauthentication' })}
         />
         <Field
           name={this.CONF_CART}
           component={RenderCheckbox}
-          label={intl.formatMessage({ id: 'menu.form.displaycart' })}
+          label={formatMessage({ id: 'menu.form.displaycart' })}
         />
         <Field
           name={this.CONF_NOTIF}
           component={RenderCheckbox}
-          label={intl.formatMessage({ id: 'menu.form.displaynotifications' })}
+          label={formatMessage({ id: 'menu.form.displaynotifications' })}
         />
         <Field
           name={this.CONF_LOCALE}
           component={RenderCheckbox}
-          label={intl.formatMessage({ id: 'menu.form.displaylocale' })}
+          label={formatMessage({ id: 'menu.form.displaylocale' })}
         />
         <Field
           name={this.CONF_THEME}
           component={RenderCheckbox}
-          label={intl.formatMessage({ id: 'menu.form.displaytheme' })}
+          label={formatMessage({ id: 'menu.form.displaytheme' })}
+        />
+        <Subheader style={subheaderStyle}>
+          {formatMessage({ id: 'user.menu.form.navigation.title' })}
+        </Subheader>
+        {/* Home icon type */}
+        <div style={radioButtonGroupLabelStyle}>
+          {formatMessage({ id: 'menu.form.home.page.icon.type.label' })}
+        </div>
+        <Field
+          name={this.CONF_HOME_ICON_TYPE}
+          component={RenderRadio}
+          defaultSelected={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
+        >
+          <RadioButton
+            value={HOME_ICON_TYPES_ENUM.NONE}
+            label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.type.none' })}
+          />
+          <RadioButton
+            value={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
+            label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.type.default' })}
+          />
+          <RadioButton
+            value={HOME_ICON_TYPES_ENUM.MODULE_ICON}
+            label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.type.module' })}
+          />
+          <RadioButton
+            value={HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON}
+            label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.type.custom' })}
+          />
+        </Field>
+        {/* Home icon URL */}
+        <Field
+          name={this.CONF_HOME_ICON_URL}
+          disabled={
+            // enabled only when in custom URL mode
+            get(adminForm.form, this.CONF_HOME_ICON_TYPE) !== HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON}
+          component={RenderTextField}
+          fullWidth
+          type="text"
+          label={this.context.intl.formatMessage({ id: 'menu.form.home.page.icon.custom.url' })}
+          validate={this.validateCustomHomeIcon}
+        />
+        {/* Home titles by locale */}
+        <Field
+          name={this.CONF_HOME_TITLE_EN}
+          component={RenderTextField}
+          fullWidth
+          type="text"
+          label={this.context.intl.formatMessage({ id: 'menu.form.home.page.title.en' })}
+          validate={ValidationHelpers.required}
+        />
+        <Field
+          name={this.CONF_HOME_TITLE_FR}
+          component={RenderTextField}
+          fullWidth
+          type="text"
+          label={this.context.intl.formatMessage({ id: 'menu.form.home.page.title.fr' })}
+          validate={ValidationHelpers.required}
+        />
+        <Subheader style={subheaderStyle} >
+          {formatMessage({ id: 'user.menu.form.preview.title' })}
+        </Subheader>
+        <MenuPreviewComponent
+          appName={appName}
+          project={project}
+          moduleConfiguration={get(adminForm, 'form.conf')}
+          currentNamespace={adminForm.currentNamespace}
         />
       </div>
     )
   }
 }
+
+
 export default ModuleFormComponent
