@@ -289,7 +289,7 @@ module.exports = {
       normalizrKey: DatasetConfiguration.normalizrKey,
     },
     Collection: {
-      isPageable: false,
+      isPageable: true,
       dump: CollectionDump,
       ENTITY_ARRAY: COLLECTION_ARRAY,
       normalizrKey: CollectionConfiguration.normalizrKey,
