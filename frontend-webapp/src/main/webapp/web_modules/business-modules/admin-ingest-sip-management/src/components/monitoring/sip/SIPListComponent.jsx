@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import { Card, CardTitle, CardMedia, CardActions } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import HistoryIcon from 'material-ui/svg-icons/action/history'
@@ -50,6 +51,7 @@ class SIPListComponent extends React.Component {
     resultsCount: PropTypes.number.isRequired,
     onBack: PropTypes.func.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
+    entitiesLoading: PropTypes.bool.isRequired,
     fetchPage: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onDeleteByIpId: PropTypes.func.isRequired,
@@ -74,6 +76,14 @@ class SIPListComponent extends React.Component {
     this.setState({
       appliedFilters: this.props.contextFilters,
     })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(nextProps.contextFilters, this.props.contextFilters)) {
+      this.setState({
+        appliedFilters: nextProps.contextFilters,
+      })
+    }
   }
 
   onCloseDetails = () => {
@@ -179,7 +189,7 @@ class SIPListComponent extends React.Component {
   renderTable = () => {
     const { intl, muiTheme } = this.context
     const {
-      pageSize, resultsCount, initialFilters, chains,
+      pageSize, resultsCount, initialFilters, chains, entitiesLoading,
     } = this.props
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
@@ -227,12 +237,13 @@ class SIPListComponent extends React.Component {
       <CardMedia>
         <TableLayout>
           <SIPListFiltersComponent
+            key={this.props.sip ? 'sip-history' : 'session-sips'}
             initialFilters={initialFilters}
             applyFilters={this.applyFilters}
             handleRefresh={this.handleRefresh}
             chains={chains}
           />
-          <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={resultsCount} />
+          <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
           <PageableInfiniteTableContainer
             name="sip-management-session-table"
             pageActions={sipActions}

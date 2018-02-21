@@ -139,9 +139,9 @@ class SIPListFiltersComponent extends React.Component {
     const { intl, moduleTheme: { filter } } = this.context
     const { chains } = this.props
     return (
-      <TableHeaderLine>
-        <TableHeaderOptionsArea reducible>
-          <TableHeaderOptionGroup>
+      <TableHeaderLine key="filtersLine">
+        <TableHeaderOptionsArea key="filtersArea" reducible>
+          <TableHeaderOptionGroup key="first">
             <SelectField
               style={filter.fieldStyle}
               hintText={intl.formatMessage({
@@ -160,7 +160,7 @@ class SIPListFiltersComponent extends React.Component {
               style={filter.fieldStyle}
             />
           </TableHeaderOptionGroup>
-          <TableHeaderOptionGroup>
+          <TableHeaderOptionGroup key="second">
             <SelectField
               style={filter.fieldStyle}
               hintText={intl.formatMessage({
@@ -193,10 +193,11 @@ class SIPListFiltersComponent extends React.Component {
   }
 
   renderRefreshLine = () => (
-    <TableHeaderLine>
+    <TableHeaderLine key="buttonsLine">
       <TableHeaderOptionsArea>
         <TableHeaderOptionGroup>
           <FlatButton
+            key="clear"
             label={this.context.intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
             icon={<Close />}
             disabled={
@@ -208,13 +209,14 @@ class SIPListFiltersComponent extends React.Component {
             onClick={this.handleClearFilters}
           />
           <FlatButton
+            key="apply"
             label={this.context.intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
             icon={<Filter />}
             onClick={this.handleFilter}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>
-      <TableHeaderOptionsArea>
+      <TableHeaderOptionsArea key="buttonArea">
         <TableHeaderOptionGroup>
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'sips.session.refresh.button' })}

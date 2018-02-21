@@ -41,6 +41,7 @@ export class SIPListContainer extends React.Component {
     return {
       chains: processingChainSelectors.getList(state),
       meta: sipSelectors.getMetaData(state),
+      entitiesLoading: sipSelectors.isFetching(state),
     }
   }
 
@@ -75,6 +76,7 @@ export class SIPListContainer extends React.Component {
     deleteSIPBySipId: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     // from mapStateToProps
+    entitiesLoading: PropTypes.bool.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
   }
 
@@ -151,7 +153,7 @@ export class SIPListContainer extends React.Component {
 
   render() {
     const {
-      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId, params: { session, sip },
+      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId, params: { session, sip }, entitiesLoading,
     } = this.props
     const { urlFilters, contextFilters } = this.state
     return (
@@ -163,6 +165,7 @@ export class SIPListContainer extends React.Component {
         resultsCount={meta.totalElements}
         contextFilters={contextFilters}
         initialFilters={urlFilters}
+        entitiesLoading={entitiesLoading}
         handleFilter={this.handleFilter}
         onBack={this.handleGoBack}
         onRefresh={this.onRefresh}
