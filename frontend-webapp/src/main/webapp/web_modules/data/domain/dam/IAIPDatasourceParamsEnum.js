@@ -21,6 +21,7 @@ const IAIPDatasourceParamsEnum = {
   BINDMAP_MAP: 'binding map',
   REFRESH_RATE: 'refreshRate',
   TAGS: 'tags',
+  SUBSETTING_TAGS: 'subsettingTags',
 }
 
 export default IAIPDatasourceParamsEnum

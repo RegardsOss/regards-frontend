@@ -71,9 +71,15 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
   }
 
   getFieldName = (modelAttribute) => {
-    if (modelAttribute.content.attribute.fragment.name && modelAttribute.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
+    // Static attributes
+    if (!modelAttribute.content.attribute.fragment.name && modelAttribute.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
+      return `mapping.${modelAttribute.content.attribute.name}`
+    }
+    // Dynamic attributes with fragment
+    if (modelAttribute.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
       return `mapping.properties@${modelAttribute.content.attribute.fragment.name}@${modelAttribute.content.attribute.name}`
     }
+    // Dynamic attributes without fragment
     return `mapping.properties@${modelAttribute.content.attribute.name}`
   }
 
