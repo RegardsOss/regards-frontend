@@ -35,7 +35,7 @@ const messages = Object.assign({
   'acquisition-chain.list.back.button': 'Retour',
   'acquisition-chain.list.edit.tooltip': 'Editer',
   'acquisition-chain.list.duplicate.tooltip': 'Dupliquer',
-  'acquisition-chain.list.delete.confirm.title': 'Etes-vous sûr de vouloir suppriler la chaîne de traitement : {label}',
+  'acquisition-chain.list.delete.confirm.title': 'Etes-vous sûr de vouloir supprimer la chaîne d\'acquisition : {label}',
 
   // 2 Chain creation/edition form
   // 2.1 Header section
