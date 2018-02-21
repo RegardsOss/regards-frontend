@@ -3,17 +3,23 @@
 **/
 import root from 'window-or-global'
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import SessionLockedFormComponent from '../components/SessionLockedFormComponent'
+import LocalStorageUser from './LocalStorageUser'
 
 /**
-* Session management container: if session times out, shows the session locking pane in dialog,
-* otherwise renders below authentication panes
+* Session management container:
+*  - handle session connexion from browser localstorage,
+*  - if session times out, shows the session locking pane in dialog
+*  - otherwise renders below authentication panels
 */
 export class SessionManagementContainer extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
+    application: PropTypes.string.isRequired,
     showLoginWindow: PropTypes.bool.isRequired,
     onRequestClose: PropTypes.func,
     children: PropTypes.element,
@@ -23,6 +29,7 @@ export class SessionManagementContainer extends React.Component {
     // from mapDispatchToProps
     fetchAuthenticate: PropTypes.func.isRequired,
     dispatchSessionLocked: PropTypes.func.isRequired,
+    notifyAuthenticationChanged: PropTypes.func.isRequired,
   }
 
   /**
@@ -30,6 +37,7 @@ export class SessionManagementContainer extends React.Component {
    */
   componentWillMount() {
     root.window.addEventListener('focus', this.onWindowFocused, false)
+    this.updateAuthenticationFromLocalStorage()
   }
 
   /**
@@ -39,8 +47,9 @@ export class SessionManagementContainer extends React.Component {
     // check: if the authentication state changes, set up a timer to handle expiration
     const currentAuthData = this.props.authentication || {}
     const nextAuthData = nextProps.authentication || {}
-    if (currentAuthData.authenticateDate !== nextAuthData.authenticateDate) {
+    if (!isEqual(currentAuthData.authenticateDate, nextAuthData.authenticateDate) && !nextAuthData.isFetching) {
       this.onAuthenticationStateChanged(nextProps)
+      this.updateAuthenticationInLocalStorage(nextAuthData.result, nextAuthData.authenticateDate)
     }
   }
 
@@ -50,7 +59,6 @@ export class SessionManagementContainer extends React.Component {
   componentWillUnmount() {
     root.window.removeEventListener('focus', this.onWindowFocused, false)
   }
-
 
   /**
    * On focus gained detected. Check the locked state when focus change, as many browsers do not keep the timers accurate when
@@ -88,6 +96,31 @@ export class SessionManagementContainer extends React.Component {
   onSessionTimeout = () => {
     // we will here send an authentication action that lock session, and recover it when back from state change (through authentication.sessionLocked attribute)
     this.props.dispatchSessionLocked()
+  }
+
+
+  /**
+   * Action to update local storage with current user authentication informations
+   */
+  updateAuthenticationInLocalStorage = (authentication, authenticationDate) => {
+    const { project, application } = this.props
+    if (authentication && authenticationDate) {
+      new LocalStorageUser(authentication, authenticationDate, project || 'instance', application).save()
+    } else {
+      LocalStorageUser.delete(project || 'instance', application)
+    }
+  }
+
+  /**
+   * If a user is saved in local storage use it to update the current authentication informations
+   */
+  updateAuthenticationFromLocalStorage = () => {
+    const { project, application } = this.props
+    console.error('props', project, application)
+    const user = LocalStorageUser.retrieve(project || 'instance', application)
+    if (user) {
+      this.props.notifyAuthenticationChanged(user.getAuthenticationInformations())
+    }
   }
 
   unlockSession = (formValues) => {
@@ -128,6 +161,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   dispatchSessionLocked: () => dispatch(AuthenticationClient.authenticationActions.lockSession()),
   fetchAuthenticate: (login, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(login, password, scope)),
+  notifyAuthenticationChanged: authentication => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication)),
 })
 
 
