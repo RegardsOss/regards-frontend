@@ -52,10 +52,6 @@ export class AccessRightListContainer extends React.Component {
     createAccessRight: PropTypes.func.isRequired,
   }
 
-  state = {
-    filters: {},
-  }
-
   onSubmit = (selectedDatasetsWithAccessright, formValues) => {
     const { accessGroup } = this.props
     // Create new access rights
@@ -118,23 +114,14 @@ export class AccessRightListContainer extends React.Component {
     return `/admin/${project}/data/access-right/access-group/list`
   }
 
-  setFilters = (filters, refresh) => {
-    if (refresh) {
-      this.setState({ filters }, this.refresh)
-    } else {
-      this.setState({ filters })
-    }
-  }
-
   navigateToCreateDataset = () => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/collections/dataset/create/datasource`
     browserHistory.push(url)
   }
 
-  refresh = () => {
+  refresh = (filters) => {
     const { meta, fetchDatasetWithAccessRightPage } = this.props
-    const { filters } = this.state
     const curentPage = get(meta, 'number', 0)
     const accessGroupName = get(this.props.accessGroup, 'content.name', null)
     if (accessGroupName) {
@@ -153,7 +140,6 @@ export class AccessRightListContainer extends React.Component {
         navigateToCreateDataset={this.navigateToCreateDataset}
         backURL={this.getBackURL()}
         selectedDatasetsWithAccessright={this.props.selectedDatasetsWithAccessright}
-        setFilters={this.setFilters}
         onRefresh={this.refresh}
       />
     )

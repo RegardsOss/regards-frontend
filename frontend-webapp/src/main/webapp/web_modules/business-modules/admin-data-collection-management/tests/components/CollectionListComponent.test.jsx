@@ -40,6 +40,7 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionListComponent', (
       handleEdit: () => {},
       handleDuplicate: () => {},
       onRefresh: () => {},
+      navigateToCreateCollection: () => {},
       createUrl: '#',
       backUrl: '#',
     }

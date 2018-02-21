@@ -77,6 +77,10 @@ export class CollectionListContainer extends React.Component {
     return `/admin/${project}/data/collections/board`
   }
 
+  navigateToCreateCollection = () => {
+    browserHistory.push(this.getCreateUrl())
+  }
+
   handleDuplicate = (collectionId) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/collection/${collectionId}/duplicate`
@@ -105,6 +109,7 @@ export class CollectionListContainer extends React.Component {
             handleEdit={this.handleEdit}
             onRefresh={this.onRefresh}
             backUrl={this.getBackUrl()}
+            navigateToCreateCollection={this.navigateToCreateCollection}
             createUrl={this.getCreateUrl()}
           />
         </LoadableContentDisplayDecorator>

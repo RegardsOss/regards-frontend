@@ -77,6 +77,10 @@ export class DatasetListContainer extends React.Component {
     return `/admin/${project}/data/collections/board`
   }
 
+  navigateToCreateDataset = () => {
+    browserHistory.push(this.getCreateUrl())
+  }
+
   handleEdit = (datasetId) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/collections/dataset/${datasetId}/edit`
@@ -99,6 +103,7 @@ export class DatasetListContainer extends React.Component {
             handleEdit={this.handleEdit}
             backUrl={this.getBackUrl()}
             createUrl={this.getCreateUrl()}
+            navigateToCreateDataset={this.navigateToCreateDataset}
             onRefresh={this.onRefresh}
           />
         </LoadableContentDisplayDecorator>

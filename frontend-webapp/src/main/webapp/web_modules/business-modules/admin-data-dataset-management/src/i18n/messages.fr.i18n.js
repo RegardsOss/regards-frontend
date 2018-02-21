@@ -83,6 +83,8 @@ const messages = Object.assign({
   'dataset.table.filter.clear.button': 'Effacer',
   'dataset.table.filter.button': 'Appliquer',
   'dataset.table.refresh.button': 'Rafraîchir',
+  'dataset.no.dataset.title': 'Pas de jeux de données',
+  'dataset.no.dataset.subtitle': 'Créez votre premier jeu de données',
 
   'dataset.subsetting.snackbar.success': 'Le filtre est OK',
   'dataset.subsetting.snackbar.error': 'Le filtre ne fonctionne pas',

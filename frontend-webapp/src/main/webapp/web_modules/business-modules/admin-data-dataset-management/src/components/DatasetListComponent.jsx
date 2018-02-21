@@ -20,7 +20,9 @@ import { FormattedMessage } from 'react-intl'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FlatButton } from 'material-ui'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import {
+  NoContentComponent,
   CardActionsComponent,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
@@ -35,11 +37,16 @@ import {
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
 import { tableActions } from '../clients/TableClient'
 import DatasetListEditAction from './DatasetListEditAction'
 import DatasetListDeleteAction from './DatasetListDeleteAction'
 import DatasetListFiltersComponent from './DatasetListFiltersComponent'
+import { DatasetListContainer } from '../containers/DatasetListContainer'
+
+const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
 /**
  * React component to list datasets.
@@ -51,6 +58,7 @@ export class DatasetListComponent extends React.Component {
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    navigateToCreateDataset: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -98,7 +106,7 @@ export class DatasetListComponent extends React.Component {
 
   render() {
     const {
-      handleEdit, createUrl, backUrl, onRefresh,
+      handleEdit, createUrl, backUrl, onRefresh, navigateToCreateDataset,
     } = this.props
     const { intl: { formatMessage } } = this.context
     const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
@@ -106,6 +114,22 @@ export class DatasetListComponent extends React.Component {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
     }
+
+    const emptyContentAction = (
+      <FlatButtonWithResourceDisplayControl
+        resourceDependencies={datasetDependencies.addDependencies}
+        label={formatMessage({ id: 'dataset.no.dataset.subtitle' })}
+        onClick={navigateToCreateDataset}
+        primary
+      />
+    )
+    const emptyComponent = (
+      <NoContentComponent
+        title={formatMessage({ id: 'dataset.no.dataset.title' })}
+        Icon={AddToPhotos}
+        action={emptyContentAction}
+      />
+    )
 
     const columns = [
       // 1 - label column
@@ -162,10 +186,14 @@ export class DatasetListComponent extends React.Component {
               </TableHeaderOptionsArea>
             </TableHeaderLine>
             <PageableInfiniteTableContainer
+              name="dataset-management-table"
+              minRowCount={0}
               pageActions={datasetActions}
               pageSelectors={datasetSelectors}
               tableActions={tableActions}
+              pageSize={DatasetListContainer.PAGE_SIZE}
               columns={columns}
+              emptyComponent={emptyComponent}
             />
           </TableLayout>
         </CardText>

@@ -19,8 +19,10 @@
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { FlatButton } from 'material-ui'
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import { FormattedMessage } from 'react-intl'
 import {
+  NoContentComponent,
   CardActionsComponent,
   ConfirmDialogComponent,
   ConfirmDialogComponentTypes,
@@ -33,6 +35,8 @@ import {
   PageableInfiniteTableContainer,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { collectionDependencies } from '@regardsoss/admin-data-collection-management'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { collectionActions, collectionSelectors } from '../clients/CollectionClient'
@@ -41,6 +45,9 @@ import CollectionListEditAction from './CollectionListEditAction'
 import CollectionListDuplicateAction from './CollectionListDuplicateAction'
 import CollectionListDeleteAction from './CollectionListDeleteAction'
 import CollectionListFiltersComponent from './CollectionListFiltersComponent'
+import { CollectionListContainer } from '../containers/CollectionListContainer'
+
+const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
 /**
  * React component to list collections.
@@ -53,6 +60,7 @@ export class CollectionListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    navigateToCreateCollection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -103,7 +111,7 @@ export class CollectionListComponent extends React.Component {
 
   render() {
     const {
-      handleEdit, handleDuplicate, createUrl, backUrl, onRefresh,
+      handleEdit, handleDuplicate, createUrl, backUrl, onRefresh, navigateToCreateCollection,
     } = this.props
     const fixedColumnWidth = this.context.muiTheme['components:infinite-table'].fixedColumnsWidth
     const style = {
@@ -112,6 +120,23 @@ export class CollectionListComponent extends React.Component {
       hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
     }
     const { intl } = this.context
+
+    const emptyContentAction = (
+      <FlatButtonWithResourceDisplayControl
+        resourceDependencies={collectionDependencies.addDependencies}
+        label={intl.formatMessage({ id: 'collection.no.collection.subtitle' })}
+        onClick={navigateToCreateCollection}
+        primary
+      />
+    )
+    const emptyComponent = (
+      <NoContentComponent
+        title={intl.formatMessage({ id: 'collection.no.collection.title' })}
+        Icon={AddToPhotos}
+        action={emptyContentAction}
+      />
+    )
+
     const columns = [
       // 1 - label column
       TableColumnBuilder.buildSimplePropertyColumn(
@@ -174,10 +199,14 @@ export class CollectionListComponent extends React.Component {
               </TableHeaderOptionsArea>
             </TableHeaderLine>
             <PageableInfiniteTableContainer
+              name="collection-management-table"
+              minRowCount={0}
               pageActions={collectionActions}
               pageSelectors={collectionSelectors}
               tableActions={tableActions}
+              pageSize={CollectionListContainer.PAGE_SIZE}
               columns={columns}
+              emptyComponent={emptyComponent}
             />
           </TableLayout>
         </CardText>

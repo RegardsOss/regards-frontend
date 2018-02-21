@@ -38,6 +38,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetListComponent', () => {
       handleDelete: () => {},
       handleEdit: () => {},
       onRefresh: () => {},
+      navigateToCreateDataset: () => {},
       createUrl: '#',
       backUrl: '#',
     }
