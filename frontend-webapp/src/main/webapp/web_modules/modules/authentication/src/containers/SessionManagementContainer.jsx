@@ -116,7 +116,6 @@ export class SessionManagementContainer extends React.Component {
    */
   updateAuthenticationFromLocalStorage = () => {
     const { project, application } = this.props
-    console.error('props', project, application)
     const user = LocalStorageUser.retrieve(project || 'instance', application)
     if (user) {
       this.props.notifyAuthenticationChanged(user.getAuthenticationInformations())
