@@ -62,6 +62,10 @@ const messages = Object.assign({
   'collection.list.action.edit': 'Edit',
   'collection.list.action.duplicate': 'Duplicate',
   'collection.list.action.delete': 'Delete',
+  'collection.table.filter.collection.label': 'Collection',
+  'collection.table.filter.clear.button': 'Clear',
+  'collection.table.filter.button': 'Apply',
+  'collection.table.refresh.button': 'Refresh',
 }, Locales.en)
 
 export default messages

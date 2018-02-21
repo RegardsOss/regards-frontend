@@ -18,7 +18,7 @@
  **/
 import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-const NAMESPACE = ' admin-data-dataset-management/access-right-table'
+const NAMESPACE = ' admin-data-dataset-management/datasets-table'
 const STORE_PATH = ['admin', 'data', 'dataset-management', 'datasets-table']
 
 module.exports = {

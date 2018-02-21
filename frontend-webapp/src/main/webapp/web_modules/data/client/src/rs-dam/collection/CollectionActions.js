@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 import has from 'lodash/has'
 import isString from 'lodash/isString'
 
@@ -26,7 +26,7 @@ import isString from 'lodash/isString'
  *
  * @author Léo Mieulet
  */
-export default class CollectionActions extends BasicListActions {
+export default class CollectionActions extends BasicPageableActions {
   /**
    * Construtor
    * @param namespace
