@@ -211,6 +211,7 @@
     "mocha-sonar-reporter": "~0.1.6",
     "mocha-webpack": "^1.0.1",
     "mochawesome": "^3.0.1",
+    "mock-local-storage": "^1.0.5",
     "nock": "~9.1.6",
     "node-fetch": "^1.7.3",
     "node-http-proxy": "^0.2.3",

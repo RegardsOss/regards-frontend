@@ -3,9 +3,10 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
-
+import root from 'window-or-global'
+import get from 'lodash/get'
 /**
- * Helper to handle user connections information into the web browser localstorage
+ * Helper to handle user connection informations into the web browser localstorage
  * @author Sébastien Binda
  */
 class LocalStorageUser {
@@ -19,11 +20,14 @@ class LocalStorageUser {
    * @param application : application of connection information to retrieve
    */
   static retrieve = (project, application) => {
-    const storedUsed = localStorage.getItem(LocalStorageUser.getLocalStorageKey(project, application))
+    const storedUsed = root.localStorage.getItem(LocalStorageUser.getLocalStorageKey(project, application))
     if (storedUsed) {
       try {
         const storedUserObject = JSON.parse(storedUsed)
-        if (storedUserObject.authenticationDate < Date.now()) {
+        // Check if token expired
+        const expirationDate = get(storedUserObject, 'authenticationDate', 0) + get(storedUserObject, 'authentication.expires_in', 0)
+        // If token is not expired, use it to authenticate, otherwise remove it from localStorage
+        if (expirationDate > Date.now()) {
           return new LocalStorageUser(storedUserObject.authentication, storedUserObject.authenticationDate)
         }
         LocalStorageUser.delete()
@@ -41,7 +45,7 @@ class LocalStorageUser {
    * @param application : application of connection information to delete
    */
   static delete = (project, application) => {
-    localStorage.removeItem(LocalStorageUser.getLocalStorageKey(project, application))
+    root.localStorage.removeItem(LocalStorageUser.getLocalStorageKey(project, application))
   }
 
   /**
@@ -62,7 +66,7 @@ class LocalStorageUser {
    * Save current user connection informations in localstorage
    */
   save() {
-    localStorage.setItem(LocalStorageUser.getLocalStorageKey(this.project, this.application), JSON.stringify(this))
+    root.localStorage.setItem(LocalStorageUser.getLocalStorageKey(this.project, this.application), JSON.stringify(this))
   }
 
   /**

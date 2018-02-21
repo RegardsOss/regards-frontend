@@ -6,9 +6,9 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-manager'
+import { UIDomain } from '@regardsoss/domain'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import SessionLockedFormComponent from '../components/SessionLockedFormComponent'
-import LocalStorageUser from './LocalStorageUser'
 
 /**
 * Session management container:
@@ -94,20 +94,25 @@ export class SessionManagementContainer extends React.Component {
   }
 
   onSessionTimeout = () => {
+    const { project, application } = this.props
     // we will here send an authentication action that lock session, and recover it when back from state change (through authentication.sessionLocked attribute)
     this.props.dispatchSessionLocked()
+    // Remove user connection information from localstorage
+    UIDomain.LocalStorageUser.delete(project || 'instance', application)
   }
 
 
   /**
    * Action to update local storage with current user authentication informations
+   * @param authentication : authentication informations for current user logged in
+   * @param authenticationDate: authentication date
    */
   updateAuthenticationInLocalStorage = (authentication, authenticationDate) => {
     const { project, application } = this.props
     if (authentication && authenticationDate) {
-      new LocalStorageUser(authentication, authenticationDate, project || 'instance', application).save()
+      new UIDomain.LocalStorageUser(authentication, authenticationDate, project || 'instance', application).save()
     } else {
-      LocalStorageUser.delete(project || 'instance', application)
+      UIDomain.LocalStorageUser.delete(project || 'instance', application)
     }
   }
 
@@ -116,7 +121,7 @@ export class SessionManagementContainer extends React.Component {
    */
   updateAuthenticationFromLocalStorage = () => {
     const { project, application } = this.props
-    const user = LocalStorageUser.retrieve(project || 'instance', application)
+    const user = UIDomain.LocalStorageUser.retrieve(project || 'instance', application)
     if (user) {
       this.props.notifyAuthenticationChanged(user.getAuthenticationInformations())
     }
