@@ -145,7 +145,7 @@
     "react-infinite": "^0.12.1",
     "react-intl": "~2.4.0",
     "react-material-color-picker": "^1.1.2",
-    "react-measure": "^2.0.2",
+    "react-measure": "1.4.7",
     "react-notification-system": "^0.2.16",
     "react-redux": "~5.0.6",
     "react-remarkable": "^1.1.3",
