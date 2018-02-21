@@ -224,6 +224,12 @@ export class AIPDatasourceFormContainer extends React.Component {
         dynamic: false,
         dynamicsValues: [],
       },
+      {
+        name: IAIPDatasourceParamsEnum.SUBSETTING_TAGS,
+        value: values.subsettingTags,
+        dynamic: false,
+        dynamicsValues: [],
+      },
     ]
     if (isCreating) {
       const datasource = {

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,21 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { DataManagementClient } from '@regardsoss/client'
-import { DatasetConfiguration } from '@regardsoss/api'
+ **/
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-/**
- * Datasource entities client.
- *
- * @author Sébastien Binda
- */
-const REDUX_ACTION_NAMESPACE = 'admin-data-prodiver-management/dataset'
-
-const datasetActions = new DataManagementClient.DatasetActions(REDUX_ACTION_NAMESPACE)
-const datasetEntitiesKey = DatasetConfiguration.normalizrKey
+const NAMESPACE = ' admin-data-dataset-management/datasets-table'
+const STORE_PATH = ['admin', 'data', 'dataset-management', 'datasets-table']
 
 module.exports = {
-  datasetActions,
-  datasetEntitiesKey,
+  tableActions: new TableActions(NAMESPACE),
+  tableReducer: getTableReducer(NAMESPACE),
+  tableSelectors: getTableSelectors(STORE_PATH),
 }

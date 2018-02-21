@@ -143,7 +143,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionList: () => dispatch(collectionActions.fetchEntityList()),
+  fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0, Number.MAX_VALUE)), // FIXME : MAX_VALUE used
   fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
   addTagToCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'associate' })),
   removeTagFromCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'dissociate' })),

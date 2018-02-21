@@ -59,7 +59,6 @@ class ProductListFiltersComponent extends React.Component {
   componentWillMount() {
     const { initialFilters } = this.props
     if (initialFilters) {
-      console.error('initialFilters', initialFilters)
       let filters = {}
       if (initialFilters.state) {
         filters = {
@@ -171,8 +170,6 @@ class ProductListFiltersComponent extends React.Component {
       filters.from = from.toISOString()
     }
 
-    console.error('applying filters', filters)
-
     this.props.applyFilters(filters)
   }
 
@@ -246,7 +243,7 @@ class ProductListFiltersComponent extends React.Component {
               value={get(this.state, 'filters.sipState', undefined)}
               onChange={this.changeSIPStateFilter}
             >
-              {map(DataProviderDomain.ProductSIPStateValues, sipState =>
+              {map(DataProviderDomain.ProductSIPStateEnumValues, sipState =>
                 (<MenuItem
                   value={sipState}
                   primaryText={formatMessage({

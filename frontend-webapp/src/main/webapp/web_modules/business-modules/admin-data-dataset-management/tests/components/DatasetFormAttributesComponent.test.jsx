@@ -40,8 +40,8 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetFormAttributesComponent', ()
       modelList: DumpProvider.get('DataManagementClient', 'Model'),
       modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
       currentDatasource: DumpProvider.getFirstEntity('DataManagementClient', 'Datasource'),
-      handleUpdateModel: () => {},
-      onSubmit: () => {},
+      handleUpdateModel: () => { },
+      onSubmit: () => { },
       backUrl: '#',
       isEditing: true,
       isCreatinguUsingDatasetValues: false,
@@ -49,12 +49,12 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetFormAttributesComponent', ()
       // from reduxForm
       submitting: false,
       invalid: false,
-      handleSubmit: () => {},
-      initialize: () => {},
-      change: () => {},
+      handleSubmit: () => { },
+      initialize: () => { },
+      change: () => { },
     }
     const enzymeWrapper = shallow(<DatasetFormAttributesComponent {...props} />, { context })
     expect(enzymeWrapper.find(EntitiesAttributesFormContainer)).to.have.length(1)
-    expect(enzymeWrapper.find(Field)).to.have.length(5)
+    expect(enzymeWrapper.find(Field)).to.have.length(6)
   })
 })

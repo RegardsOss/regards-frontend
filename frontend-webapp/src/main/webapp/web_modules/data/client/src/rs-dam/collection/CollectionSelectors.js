@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
  * Store selector to Collection entities.
@@ -27,5 +27,5 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
  * With this exemple, all projects will be stored in the subpart 'common.attribute-model' of the global
  * application store.
  */
-export default storePath => new BasicListSelectors(storePath)
+export default storePath => new BasicPageableSelectors(storePath)
 

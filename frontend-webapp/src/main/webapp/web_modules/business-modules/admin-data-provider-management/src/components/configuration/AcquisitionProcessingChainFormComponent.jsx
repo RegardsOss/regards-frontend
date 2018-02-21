@@ -32,7 +32,6 @@ import {
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain } from '@regardsoss/domain'
-import { datasetActions, datasetEntitiesKey } from '../../clients/DatasetClient'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
 import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
@@ -48,7 +47,7 @@ const validRequiredString255 = [required, validStringSize(1, 255)]
 * Component to display a form of AcquisitionProcessingChain entity
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainFormComponent extends React.PureComponent {
+export class AcquisitionProcessingChainFormComponent extends React.PureComponent {
   static propTypes = {
     chain: DataProviderShapes.AcquisitionProcessingChain,
     mode: PropTypes.string.isRequired,
@@ -66,54 +65,64 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
     ...themeContextType,
   }
 
-  componentWillMount() {
-    const { chain, mode } = this.props
-    if (chain) {
-      if (mode === 'duplicate') {
-        const duplicatedChain = omit(chain.content, [
-          'id', 'label', 'running', 'lastDateActivation', 'fileInfos',
-          'productPluginConf', 'generatePluginConf', 'validationPluginConf',
-          'postProcessSipPluginConf',
-        ])
-        duplicatedChain.fileInfos = map(chain.content.fileInfos, this.duplicateFileInfo)
-        if (chain.content.validationPluginConf) {
-          duplicatedChain.validationPluginConf = this.duplicatePluginConf(chain.content.validationPluginConf)
-        }
-        if (chain.content.productPluginConf) {
-          duplicatedChain.productPluginConf = this.duplicatePluginConf(chain.content.productPluginConf)
-        }
-        if (chain.content.generateSipPluginConf) {
-          duplicatedChain.generateSipPluginConf = this.duplicatePluginConf(chain.content.generateSipPluginConf)
-        }
-        if (chain.content.postProcessSipPluginConf) {
-          duplicatedChain.postProcessSipPluginConf = this.duplicatePluginConf(chain.content.postProcessSipPluginConf)
-        }
-        this.props.initialize(duplicatedChain)
-      } else {
-        this.props.initialize(chain.content)
-      }
-    } else {
-      const initialValues = {
-        active: true,
-        fileInfos: [this.getEmptyFileInfo()],
-      }
-      this.props.initialize(initialValues)
-    }
-  }
 
-  getEmptyFileInfo = () => ({
-    mandatory: true,
+  static getNewIntialValues = () => ({
+    active: true,
+    fileInfos: [{
+      mandatory: true,
+    }],
   })
 
-  duplicateFileInfo = (fileInfo) => {
+  /**
+   * Duplicate the given chain by removing parameters [id,label,locked,lastDateActivation].
+   * For each fileInfos, the id parameter is removed.
+   * For each plugin, the id parameter is remove and the label is initialized to a new generated one.
+   */
+  static getDuplicatedInitialValues = (chainToDuplicate) => {
+    const duplicatedChain = omit(chainToDuplicate.content, [
+      'id', 'label', 'locked', 'lastDateActivation', 'fileInfos',
+      'productPluginConf', 'generatePluginConf', 'validationPluginConf',
+      'postProcessSipPluginConf',
+    ])
+    duplicatedChain.fileInfos = map(chainToDuplicate.content.fileInfos, AcquisitionProcessingChainFormComponent.duplicateFileInfo)
+    if (chainToDuplicate.content.validationPluginConf) {
+      duplicatedChain.validationPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.validationPluginConf)
+    }
+    if (chainToDuplicate.content.productPluginConf) {
+      duplicatedChain.productPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.productPluginConf)
+    }
+    if (chainToDuplicate.content.generateSipPluginConf) {
+      duplicatedChain.generateSipPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.generateSipPluginConf)
+    }
+    if (chainToDuplicate.content.postProcessSipPluginConf) {
+      duplicatedChain.postProcessSipPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.postProcessSipPluginConf)
+    }
+    return duplicatedChain
+  }
+
+  static duplicateFileInfo = (fileInfo) => {
     const duplicatedFileInfo = omit(fileInfo, ['id', 'scanPlugin'])
     return duplicatedFileInfo
   }
 
-  duplicatePluginConf = (plugin) => {
+  static duplicatePluginConf = (plugin) => {
     const duplicatedPluginConf = omit(plugin, ['id', 'label'])
     duplicatedPluginConf.label = plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now()
     return duplicatedPluginConf
+  }
+
+  componentWillMount() {
+    const { chain, mode } = this.props
+    if (chain && mode !== 'create') {
+      if (mode === 'duplicate') {
+        this.props.initialize(AcquisitionProcessingChainFormComponent.getDuplicatedInitialValues(chain))
+      } else if (mode === 'edit') {
+        this.props.initialize(chain.content)
+      }
+    } else {
+      const initialValues = AcquisitionProcessingChainFormComponent.getNewIntialValues()
+      this.props.initialize(initialValues)
+    }
   }
 
   handleModeChange = (event, index, value, input) => {
@@ -171,11 +180,6 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
     const ingestProcessingChainConfig = {
       text: 'name',
       value: 'name',
-    }
-
-    const datasetsConfig = {
-      text: 'label',
-      value: 'ipId',
     }
 
     return (
@@ -246,19 +250,6 @@ class AcquisitionProcessingChainFormComponent extends React.PureComponent {
                   entityActions={ingestProcessingChainActions}
                   entitiesPayloadKey={ingestProcessingChainEntitiesKey}
                   entitiesConfig={ingestProcessingChainConfig}
-                  validate={required}
-                />
-                <Field
-                  name="datasetIpId"
-                  fullWidth
-                  component={RenderPageableAutoCompleteField}
-                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.dataset.select' })}
-                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.dataset.select.hint' })}
-                  pageSize={50}
-                  entitiesFilterProperty="label"
-                  entityActions={datasetActions}
-                  entitiesPayloadKey={datasetEntitiesKey}
-                  entitiesConfig={datasetsConfig}
                   validate={required}
                 />
               </Tab>

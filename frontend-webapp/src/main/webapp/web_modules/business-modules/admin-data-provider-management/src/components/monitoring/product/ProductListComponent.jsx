@@ -45,7 +45,7 @@ import styles from '../../../styles'
 * Component to display the list of products of a given acquisition processing chain
 * @author Sébastien Binda
 */
-class ProductListComponent extends React.Component {
+export class ProductListComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     chain: DataProviderShapes.AcquisitionProcessingChain,

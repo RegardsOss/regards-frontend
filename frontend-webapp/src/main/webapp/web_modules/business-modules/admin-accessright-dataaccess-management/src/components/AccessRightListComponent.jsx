@@ -17,9 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import Filter from 'mdi-material-ui/Filter'
-import Close from 'mdi-material-ui/Close'
-import TextField from 'material-ui/TextField'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
@@ -49,6 +46,7 @@ import AccessRightsDataAccessTableCustomCell from './AccessRightsDataAccessTable
 import AccessRightsTableEditAction from './AccessRightsTableEditAction'
 import AccessRightsTableDeleteAction from './AccessRightsTableDeleteAction'
 import AccessRightFormComponent from './AccessRightFormComponent'
+import AccessRightListFiltersComponent from './AccessRightListFiltersComponent'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -75,7 +73,6 @@ export class AccessRightListComponent extends React.Component {
     // Callback to navigate to dataset creation
     navigateToCreateDataset: PropTypes.func.isRequired,
     backURL: PropTypes.string.isRequired,
-    setFilters: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
   }
 
@@ -99,7 +96,6 @@ export class AccessRightListComponent extends React.Component {
     datasetAccessRightToEdit: null,
     submitError: false,
     entityToDelete: null,
-    filters: {},
   }
 
 
@@ -156,15 +152,6 @@ export class AccessRightListComponent extends React.Component {
     })
   }
 
-
-  handleClearFilters = () => {
-    const clearedFilters = {}
-    this.setState({
-      filters: clearedFilters,
-    })
-    this.props.setFilters(clearedFilters, true)
-  }
-
   handleSubmitResult = (result) => {
     if (!result.error) {
       this.closeEditDialog()
@@ -188,15 +175,6 @@ export class AccessRightListComponent extends React.Component {
       // Many accessRight to submit. One for each selected datasets.
       this.props.submitAccessRights(values(this.props.selectedDatasetsWithAccessright), accessRightValues).then(this.handleSubmitResult)
     }
-  }
-
-  changeDatasetFilter = (event, newValue) => {
-    const filters = {
-      ...this.state.filters,
-      datasetLabel: newValue,
-    }
-    this.props.setFilters(filters)
-    this.setState({ filters })
   }
 
   /**
@@ -247,35 +225,6 @@ export class AccessRightListComponent extends React.Component {
           title={title}
         />
       </ShowableAtRender>
-    )
-  }
-
-  renderFilters = () => {
-    const { intl, moduleTheme: { filter } } = this.context
-    return (
-      <TableHeaderLine>
-        <TableHeaderOptionsArea reducible>
-          <TableHeaderOptionGroup>
-            <TextField
-              style={filter.fieldStyle}
-              hintText={intl.formatMessage({ id: 'accessright.table.filter.dataset.label' })}
-              value={get(this.state, 'filters.datasetLabel', '')}
-              onChange={this.changeDatasetFilter}
-            />
-            <FlatButton
-              label={this.context.intl.formatMessage({ id: 'accessright.table.filter.clear.button' })}
-              icon={<Close />}
-              disabled={!get(this.state, 'filters.datasetLabel', undefined)}
-              onClick={this.handleClearFilters}
-            />
-            <FlatButton
-              label={this.context.intl.formatMessage({ id: 'accessright.table.filter.button' })}
-              icon={<Filter />}
-              onClick={this.props.onRefresh}
-            />
-          </TableHeaderOptionGroup>
-        </TableHeaderOptionsArea>
-      </TableHeaderLine>
     )
   }
 
@@ -372,7 +321,9 @@ export class AccessRightListComponent extends React.Component {
           {this.renderAccessRightFormDialog()}
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
-            {this.renderFilters()}
+            <AccessRightListFiltersComponent
+              onRefresh={this.props.onRefresh}
+            />
             {this.renderActionsLine()}
             <PageableInfiniteTableContainer
               name="access-rights-datasets-table"

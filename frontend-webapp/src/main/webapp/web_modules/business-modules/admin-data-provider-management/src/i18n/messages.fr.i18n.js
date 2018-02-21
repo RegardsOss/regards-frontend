@@ -21,14 +21,14 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   // 1. Chains list
   // 1.1 Headers
-  'acquisition-chain.list.title': 'Configuration des chaînes de d\'acquisition de donnéess',
-  'acquisition-chain.list.subtitle': 'Les chaînes d\'acquisition de données correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectée avant leur ajout dans le catalogue de données.',
+  'acquisition-chain.list.title': 'Configuration des chaînes de d\'acquisition de données',
+  'acquisition-chain.list.subtitle': 'Les chaînes d\'acquisition de données correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectées avant leur ajout dans le catalogue de données.',
   'acquisition-chain.list.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement un fonctionnement spécifique grâce aux plugins suivants.',
   'acquisition-chain.list.empty.title': 'Aucune chaîne définie',
 
   // 1.2 table headers
   'acquisition-chain.list.table.label': 'Nom',
-  'acquisition-chain.list.table.mode': 'Mode de déclanchement',
+  'acquisition-chain.list.table.mode': 'Mode de déclenchement',
 
   // 1.3 actions
   'acquisition-chain.list.addnew.button': 'Ajouter',
@@ -42,21 +42,18 @@ const messages = Object.assign({
   'acquisition-chain.form.create.title': 'Créer une nouvelle chaîne de d\'acquisition de données',
   'acquisition-chain.form.edit.title': 'Edition de la chaine : {name}',
   'acquisition-chain.form.informations-1': 'Une chaîne d\'acquisition de données doit pour fonctionner être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
-  'acquisition-chain.form.informations-2': '1. Un jeu de données. Toutes les données acquises grâce à cette chaîne seront alors associées à ce jeu de données. (*)',
-  'acquisition-chain.form.informations-3': '2. Une chaîne de traitement. (*)',
-  'acquisition-chain.form.informations-4': '3. Un ou plusieurs types de fichiers. Un type de fichier permet de configurer où et comment trouver les fichiers à acquérir. (*)',
-  'acquisition-chain.form.informations-5': '4. Un plugin de validation des données. (*)',
-  'acquisition-chain.form.informations-6': '5. Un plugin de génération des produits associés aux fichiers détectés. (*)',
-  'acquisition-chain.form.informations-7': '6. Un plugin de génération des méta données à partir des fichiers détectés.',
-  'acquisition-chain.form.informations-8': '7. Un plugin de post-traitement.',
+  'acquisition-chain.form.informations-2': '1. Une chaîne de traitement. (*)',
+  'acquisition-chain.form.informations-3': '2. Un ou plusieurs types de fichiers. Un type de fichier permet de configurer où et comment trouver les fichiers à acquérir. (*)',
+  'acquisition-chain.form.informations-4': '3. Un plugin de validation des données. (*)',
+  'acquisition-chain.form.informations-5': '4. Un plugin de génération des produits associés aux fichiers détectés. (*)',
+  'acquisition-chain.form.informations-6': '5. Un plugin de génération des méta données à partir des fichiers détectés.',
+  'acquisition-chain.form.informations-7': '6. Un plugin de post-traitement.',
 
   // 2.2 General configuration section
   'acquisition-chain.form.general.section.title': 'Général',
   'acquisition-chain.form.general.section.label': 'Libellé (*)',
   'acquisition-chain.form.general.section.active': 'Activer la chaîne d\'acquisition',
   'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes)',
-  'acquisition-chain.form.general.section.dataset.select.hint': 'Filter sur les jeux existants ...',
-  'acquisition-chain.form.general.section.dataset.select': 'Jeu de données (*)',
   'acquisition-chain.form.general.section.session': 'Nom de session d\'ingestion',
   'acquisition-chain.form.general.section.mode': 'Mode',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatique',
@@ -128,7 +125,7 @@ const messages = Object.assign({
   'acquisition-chain.monitor.list.filters.running.stopped': 'Arrêtées',
   'acquisition-chain.monitor.list.filters.apply.button': 'Appliquer les filtres',
   'acquisition-chain.monitor.list.filters.clear.button': 'Vider',
-  'acquisition-chain.monitor.list.refresh.button': 'Raffraîchir',
+  'acquisition-chain.monitor.list.refresh.button': 'Rafraîchir',
   'acquisition-chain.monitor.list.back.button': 'Retour',
 
   // 3.2 Chain jobs
@@ -187,7 +184,7 @@ const messages = Object.assign({
   'acquisition-product.list.back.button': 'Retour',
   'acquisition.product.list.filters.clear.button': 'Vider',
   'acquisition.product.list.filters.apply.button': 'Appliquer les filtres',
-  'acquisition.product.list.refresh.button': 'Raffraîchir',
+  'acquisition.product.list.refresh.button': 'Rafraîchir',
   'acquisition.product.list.sip.session.link.title': 'Visualiser l\'état de la session',
 
   // 5. Acquisition file list
@@ -215,7 +212,7 @@ const messages = Object.assign({
   //5.3 actions
   'acquisition.file.list.filters.clear.button': 'Vider',
   'acquisition.file.list.filters.apply.button': 'Appliquer les filtres',
-  'acquisition.file.list.refresh.button': 'Raffraîchir',
+  'acquisition.file.list.refresh.button': 'Rafraîchir',
 
 }, Locales.fr)
 

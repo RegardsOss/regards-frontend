@@ -22,7 +22,7 @@ const messages = Object.assign({
   // 1. Chains list
   // 1.1 Headers
   'acquisition-chain.list.title': 'Configure generation chains',
-  'acquisition-chain.list.subtitle': 'Generation chains are used to automaticcly generate and add datas.',
+  'acquisition-chain.list.subtitle': 'Generation chains are used to automatically generate and add datas.',
   'acquisition-chain.list.info.message': 'You can define specific plugins to handle each generation steps.',
   'acquisition-chain.list.empty.title': 'No generation chain defined',
 
@@ -35,28 +35,25 @@ const messages = Object.assign({
   'acquisition-chain.list.back.button': 'Back',
   'acquisition-chain.list.edit.tooltip': 'Edit',
   'acquisition-chain.list.duplicate.tooltip': 'Duplicate',
-  'acquisition-chain.list.delete.confirm.title': 'Are you sur you want to delete the chain {label}',
+  'acquisition-chain.list.delete.confirm.title': 'Are you sure you want to delete the chain {label}',
 
   // 2 Chain creation/edition form
   // 2.1 Header section
   'acquisition-chain.form.create.title': 'Create a new generation chain',
   'acquisition-chain.form.edit.title': 'Edit generation chain : {name}',
   'acquisition-chain.form.informations-1': 'To be operational a generation chain must be associated to the elemnts here under. Note : The properties with (*) are mandatory.',
-  'acquisition-chain.form.informations-2': '1. One Dataset. All acquired data will be associated to this Dataset. (*)',
-  'acquisition-chain.form.informations-3': '2. One Processing Chain. This chain will be used to generated archived files. (*)',
-  'acquisition-chain.form.informations-4': '3. One or many file type(s). A file type allows to configure where and how retrieve files to acquire. (*)',
-  'acquisition-chain.form.informations-5': '4. One data validation plugin. (*)',
-  'acquisition-chain.form.informations-6': '5. One product generation plugin (*)',
-  'acquisition-chain.form.informations-7': '6. One meta-data generation plugin (*).',
-  'acquisition-chain.form.informations-8': '7. One optional post treatment plugin.',
+  'acquisition-chain.form.informations-2': '1. One Processing Chain. This chain will be used to generated archived files. (*)',
+  'acquisition-chain.form.informations-3': '2. One or many file type(s). A file type allows to configure where and how retrieve files to acquire. (*)',
+  'acquisition-chain.form.informations-4': '3. One data validation plugin. (*)',
+  'acquisition-chain.form.informations-5': '4. One product generation plugin (*)',
+  'acquisition-chain.form.informations-6': '5. One meta-data generation plugin (*).',
+  'acquisition-chain.form.informations-7': '6. One optional post treatment plugin.',
 
   // 2.2 General configuration section
   'acquisition-chain.form.general.section.title': 'General',
   'acquisition-chain.form.general.section.label': 'Label (*)',
   'acquisition-chain.form.general.section.active': 'Activate generation chain',
   'acquisition-chain.form.general.section.periodicity': 'Activation periodicity (seconds). Only for automatic chains. ',
-  'acquisition-chain.form.general.section.dataset.select.hint': 'Filter on existing datasets ...',
-  'acquisition-chain.form.general.section.dataset.select': 'Dataset (*)',
   'acquisition-chain.form.general.section.session': 'Ingest session name ...',
   'acquisition-chain.form.general.section.mode': 'Mode',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatic',
@@ -198,7 +195,7 @@ const messages = Object.assign({
   'acquisition.file.list.subtitle': '-',
   'acquisition.file.list.back.button': 'Back',
   'acquisition.file.list.filePath': 'Files',
-  'acquisition.file.list.acqDate': 'Acquistion date',
+  'acquisition.file.list.acqDate': 'Acquisition date',
   'acquisition.file.list.state': 'State',
 
   //5.2 Filters

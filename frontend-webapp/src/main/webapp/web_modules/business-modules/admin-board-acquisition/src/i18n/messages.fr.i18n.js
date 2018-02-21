@@ -22,14 +22,14 @@ const messages = {
 
   'ingest.board.title': 'Soumission manuelle',
   'ingest.board.description': 'Cette fonctionnalité vous permet d\'ajouter manuellement des données par soumission de paquets. Un paquet de soumission ou SIP (Submission information package) contient toutes les informations nécessaires pour à la fois décrire les données et définir comment accéder aux fichiers physiques associés',
-  'ingest.board.action.chain.list.tooltip': 'Configurer les chaînes de traitements',
+  'ingest.board.action.chain.list.tooltip': 'Configurer les chaînes d\'ingestion',
   'ingest.board.action.monitor.tooltip': 'Visualiser les soumissions',
   'ingest.board.action.sumition.tooltip': 'Soumettre des données',
 
   'data-provider.board.title': 'Automatisation',
   'data-provider.board.description': 'Cette fonctionalité vous permet de configurer des processus d\'ajout automatique des nouvelles données détectées. Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour soumission.',
-  'data-provider.board.action.chain.list.tooltip': 'Configurer les chaînes de traitements',
-  'data-provider.board.action.monitoring.tooltip': 'Suivre l\'activité des chaînes de traitements',
+  'data-provider.board.action.chain.list.tooltip': 'Configurer les chaînes d\'acquisition',
+  'data-provider.board.action.monitoring.tooltip': 'Suivre l\'activité des chaînes d\'acquisition',
 
   'ingest.board.external.datasources.title': 'Aspiration',
   'ingest.board.external.datasources.description': 'Cette fonctionnalité vous permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',

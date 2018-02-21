@@ -33,7 +33,7 @@ const AcquisitionFile = new Schema(AcquisitionFileConfiguration.normalizrKey, {
 
 // Schemas for API responses.
 module.exports = {
-  AcquisitionFile,
-  AcquisitionFile_ARRAY: arrayOf(AcquisitionFile),
+  ACQUISITION_FILE: AcquisitionFile,
+  ACQUISITION_FILE_ARRAY: arrayOf(AcquisitionFile),
   AcquisitionFileConfiguration,
 }

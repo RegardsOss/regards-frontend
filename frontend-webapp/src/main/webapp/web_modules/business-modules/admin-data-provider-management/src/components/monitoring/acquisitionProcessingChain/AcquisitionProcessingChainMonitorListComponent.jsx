@@ -44,7 +44,7 @@ import styles from '../../../styles'
 * Component to display list of acquisition processing chains monitoring
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component {
+export class AcquisitionProcessingChainMonitorListComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     initialFilters: PropTypes.objectOf(PropTypes.string),
@@ -93,15 +93,17 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
       clearTimeout(this.timeout)
     }
     this.handleRefresh().then((ActionResult) => {
-      this.timeout = setTimeout(this.autoRefresh, AcquisitionProcessingChainMonitorMonitorComponent.AUTO_REFRESH_PERIOD)
+      this.timeout = setTimeout(this.autoRefresh, AcquisitionProcessingChainMonitorListComponent.AUTO_REFRESH_PERIOD)
     })
   }
 
   /**
   * Callback to apply specific filters for Product search
+  * @param filters : new filters to apply
+  * @param callback : callback called when state is updated with new filters
   */
-  applyFilters = (filters) => {
-    this.setState({ appliedFilters: filters })
+  applyFilters = (filters, callback) => {
+    this.setState({ appliedFilters: filters }, callback)
   }
 
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
@@ -133,7 +135,6 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
       },
     )
   }
-
 
   render() {
     const { intl: { formatMessage }, muiTheme } = this.context
@@ -214,4 +215,4 @@ class AcquisitionProcessingChainMonitorMonitorComponent extends React.Component 
     )
   }
 }
-export default withModuleStyle(styles)(withI18n(messages)(AcquisitionProcessingChainMonitorMonitorComponent))
+export default withModuleStyle(styles)(withI18n(messages)(AcquisitionProcessingChainMonitorListComponent))

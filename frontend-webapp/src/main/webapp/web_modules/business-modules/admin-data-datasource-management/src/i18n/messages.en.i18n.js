@@ -59,7 +59,8 @@ const messages = Object.assign({
   'datasource.form.pluginConfiguration': 'Plugin type',
   'datasource.form.table.input': 'Attribute value',
   'datasource.form.subtitle': 'Manage datasource attributes',
-  'datasource.form.tags': 'Tags list',
+  'datasource.form.tags': 'Tags list added to all data crawled',
+  'datasource.form.subsettingTags': 'Only crawl data containing these tags (empty = all data crawled)',
 
   'datasource.edit.title': 'Edit datasource {name}',
   'datasource.create.title': 'Create a datasource',
