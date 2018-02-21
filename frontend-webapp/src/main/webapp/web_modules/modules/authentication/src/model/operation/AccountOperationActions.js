@@ -30,7 +30,7 @@ export default class AccountOperationActions extends BasicSignalActions {
    */
   constructor(endpointName, mailAuthenticationActionValue) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accounts/{accountEmail}/${endpointName}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/{accountEmail}/${endpointName}`,
       namespace: `accounts/${endpointName}`,
       bypassErrorMiddleware: true,
     })

@@ -18,6 +18,7 @@
  **/
 import { getAdminURL, getModuleURL, getModuleDefaultIconURL, getPathModuleId } from './URLHelper'
 import { MENU_DISPLAY_MODES, MENU_DISPLAY_MODES_ENUM } from './MenuDisplayModes'
+import LocalStorageUser from './LocalStorageUser'
 
 module.exports = {
   getAdminURL,
@@ -26,4 +27,5 @@ module.exports = {
   getPathModuleId,
   MENU_DISPLAY_MODES,
   MENU_DISPLAY_MODES_ENUM,
+  LocalStorageUser,
 }
