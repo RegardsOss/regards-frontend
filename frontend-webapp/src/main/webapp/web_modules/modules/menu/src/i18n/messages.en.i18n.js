@@ -45,6 +45,8 @@ const messages = {
   'user.menu.cart.max.count': '{maxCount}+',
   'menu.admin.project.title': 'REGARDS - {project} administration dashboard',
   'menu.admin.instance.title': 'REGARDS - Instance administration dashboard',
+  // Module form : settings
+  'user.menu.form.options.title': 'Settings',
   'menu.form.title': 'Menu Title',
   'menu.form.contacts': 'Contact',
   'menu.form.projectpage': 'Project about page',
@@ -53,6 +55,18 @@ const messages = {
   'menu.form.displaycart': 'Display cart link',
   'menu.form.displaylocale': 'Display Locale selector',
   'menu.form.displaytheme': 'Display Theme selector',
+  // Module form : navigation
+  'user.menu.form.navigation.title': 'Browsing',
+  'menu.form.home.page.icon.type.label': 'Home page link icon',
+  'menu.form.home.page.icon.type.none': 'None',
+  'menu.form.home.page.icon.type.default': 'Default icon',
+  'menu.form.home.page.icon.type.module': 'Icon from configured module page icon',
+  'menu.form.home.page.icon.type.custom': 'Custom icon',
+  'menu.form.home.page.icon.custom.url': 'Custom icon URL',
+  'menu.form.home.page.title.en': 'English home page label',
+  'menu.form.home.page.title.fr': 'French home page label',
+  // Module form : preview
+  'user.menu.form.preview.title': 'Preview',
   // profile form
   'edit.profile.form.title': 'Profile edition',
   'edit.profile.form.message': 'You can update below your user account data',

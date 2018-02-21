@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessShapes } from '@regardsoss/shape'
-import { moduleActions, moduleSelectors } from '../../clients/ModulesListClient'
+import { connect } from '@regardsoss/redux'
+import { adminModuleActions, adminModuleSelectors } from '../../clients/ModulesListClient'
+import { adminLayoutActions, adminLayoutSelectors } from '../../clients/LayoutListClient'
 import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
 import ModuleFormComponent from '../../components/admin/ModuleFormComponent'
 
@@ -25,23 +27,54 @@ import ModuleFormComponent from '../../components/admin/ModuleFormComponent'
  * Admin root container for menu module
  * @author Sébastien binda
  */
-class AdminContainer extends React.Component {
-  static propTypes = {
-    // default module properties
-    ...AccessShapes.runtimeConfigurationModuleFields,
+export class AdminContainer extends React.Component {
+  /**
+ * Redux: map dispatch to props function
+ * @param {*} dispatch: redux dispatch function
+ * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+ * @return {*} list of component properties extracted from redux state
+ */
+  static mapDispatchToProps(dispatch, { appName }) {
+    const userAppId = 'user'
+    return {
+      fetchLayout: () => dispatch(adminLayoutActions.fetchEntity(userAppId)),
+      fetchModules: () => dispatch(adminModuleActions.fetchPagedEntityList(0, null, { applicationId: userAppId })),
+    }
   }
 
+  static propTypes = {
+    project: PropTypes.string,
+    // default module properties
+    ...AccessShapes.runtimeConfigurationModuleFields,
+    // from map dispatch to props
+    fetchLayout: PropTypes.func.isRequired,
+    fetchModules: PropTypes.func.isRequired,
+  }
+
+
+  componentDidMount = () => {
+    // fetch initial data as admin app doesn't fetch the layout and modules data in common store parts
+    const { fetchLayout, fetchModules } = this.props
+    fetchLayout()
+    fetchModules()
+  }
+
+
   render() {
-    const { appName } = this.props
+    const { appName, project, adminForm } = this.props
     return (
       <DynamicModulesProviderContainer
-        applicationId={appName}
-        moduleActions={moduleActions}
-        moduleSelectors={moduleSelectors}
+        moduleSelectors={adminModuleSelectors}
+        layoutSelectors={adminLayoutSelectors}
+        keepOnlyActive={false}
       >
-        <ModuleFormComponent currentNamespace={this.props.adminForm.currentNamespace} />
+        <ModuleFormComponent
+          appName={appName}
+          project={project}
+          adminForm={adminForm}
+        />
       </DynamicModulesProviderContainer>)
   }
 }
 
-export default AdminContainer
+export default connect(null, AdminContainer.mapDispatchToProps)(AdminContainer)

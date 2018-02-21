@@ -65,7 +65,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         {
           test: /\.(svg|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           exclude: /default-icon.svg/,
-          loader: 'file-loader?name=/img/[name].[ext]',
+          loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
         },
         {
           test: /\.html/,

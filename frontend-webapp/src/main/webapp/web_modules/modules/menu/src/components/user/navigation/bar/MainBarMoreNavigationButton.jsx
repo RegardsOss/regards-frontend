@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Measure from 'react-measure'
+import { Measure } from '@regardsoss/adapters'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { NavigationItem } from '../../../../shapes/Navigation'
@@ -44,8 +44,10 @@ class MoreNavigationButton extends React.Component {
     ...i18nContextType,
   }
 
-  /** Component was resized, notify parent layout */
-  onComponentResized = ({ width }) => {
+  /**
+   * Called when component is resized, to notify parent layout
+   */
+  onComponentResized = ({ measureDiv: { width } }) => {
     // like for items, do not propagates events when this element is not shown
     const { displayed, onResized } = this.props
     if (displayed) {
@@ -62,19 +64,22 @@ class MoreNavigationButton extends React.Component {
 
     return (
       // handle measure system locally
-      <div style={displayed ? navigationItem.displayStyle : navigationItem.hiddenStyle}>
-        <Measure bounds>
-          {bounds => this.onComponentResized(bounds) || (
-            // Delegate to common drop menu render
+      <Measure bounds onMeasure={this.onComponentResized}>
+        {({ bind }) => (
+          // Delegate to common drop menu render
+          <div
+            style={displayed ? navigationItem.displayStyle : navigationItem.hiddenStyle}
+            {...bind('measureDiv')}
+          >
             <MainBarDropMenuButton
               label={formatMessage({ id: 'navigation.more.option' })}
               items={items}
               locale={locale}
               buildModuleURL={buildModuleURL}
-            />)
-          }
-        </Measure>
-      </div >
+            />
+          </div>)
+        }
+      </Measure>
     )
   }
 }

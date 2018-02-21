@@ -22,10 +22,12 @@ import URLPicture from './URLPicture'
 import LoadingPicturePlaceholder from './LoadingPicturePlaceholder'
 
 const downloadActions = new DownloadFileActions({
+  namespace: 'inner/download-picture',
   headers: {
     Accept: 'image/*',
   },
   entityEndpoint: '{pictureURL}',
+  bypassErrorMiddleware: true,
 })
 
 

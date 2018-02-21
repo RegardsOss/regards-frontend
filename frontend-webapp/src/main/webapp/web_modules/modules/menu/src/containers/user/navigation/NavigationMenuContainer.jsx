@@ -16,15 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
-import { AccessProjectClient } from '@regardsoss/client'
 import { UIDomain } from '@regardsoss/domain'
+import { AccessProjectClient } from '@regardsoss/client'
+import { connect } from '@regardsoss/redux'
 import { i18nSelectors } from '@regardsoss/i18n'
+import { adminLayoutSelectors } from '../../../clients/LayoutListClient'
+import { adminModuleSelectors } from '../../../clients/ModulesListClient'
+import { homeConfigurationShape } from '../../../shapes/ModuleConfiguration'
 import DynamicModulesProviderContainer from '../../../containers/common/DynamicModulesProviderContainer'
 import NavigationModelResolutionContainer from '../../../containers/common/NavigationModelResolutionContainer'
 import NavigationLayoutComponent from '../../../components/user/navigation/NavigationLayoutComponent'
 
-// default user modules selectors
+// global UI layout selectors
+const layoutSelectors = AccessProjectClient.LayoutSelectors()
+// global UI module selectors
 const moduleSelectors = AccessProjectClient.ModuleSelectors()
 
 /**
@@ -47,6 +52,8 @@ export class NavigationMenuContainer extends React.Component {
   static propTypes = {
     project: PropTypes.string,
     currentModuleId: PropTypes.number,
+    displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
+    homeConfiguration: homeConfigurationShape,
     // from mapStateToProps
     locale: PropTypes.string.isRequired,
   }
@@ -63,11 +70,23 @@ export class NavigationMenuContainer extends React.Component {
 
 
   render() {
-    const { currentModuleId, locale } = this.props
+    const {
+      homeConfiguration, displayMode, currentModuleId, locale,
+    } = this.props
     return (
-      <DynamicModulesProviderContainer moduleSelectors={moduleSelectors} keepOnlyActive >
+      // resolve modules: note that, when in admin, we use specific admin selectors to access this module loaded data
+      // whereas we use global UI selectors for user app (as user app loads in common parts that layout and modules data)
+      <DynamicModulesProviderContainer
+        layoutSelectors={displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? adminLayoutSelectors : layoutSelectors}
+        moduleSelectors={displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? adminModuleSelectors : moduleSelectors}
+        keepOnlyActive
+      >
         {/* insert the modules to navigation module resolution container */}
-        <NavigationModelResolutionContainer currentModuleId={currentModuleId} clearNonNavigable>
+        <NavigationModelResolutionContainer
+          homeConfiguration={homeConfiguration}
+          currentModuleId={currentModuleId}
+          clearNonNavigable
+        >
           {/* main navigation view component */}
           <NavigationLayoutComponent buildModuleURL={this.buildModuleURL} locale={locale} />
         </NavigationModelResolutionContainer>

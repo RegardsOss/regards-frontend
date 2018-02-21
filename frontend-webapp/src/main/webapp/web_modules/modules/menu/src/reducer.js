@@ -21,12 +21,14 @@ import { borrowableRolesReducer } from './clients/BorrowableRolesClient'
 import { myUserReducer } from './clients/MyUserClient'
 import { notificationReducer, notificationInstanceReducer } from './clients/NotificationClient'
 import { readNotificationReducer, readNotificationInstanceReducer } from './clients/ReadNotificationClient'
-import { moduleReducer } from './clients/ModulesListClient'
+import { adminLayoutReducer } from './clients/LayoutListClient'
+import { adminModuleReducer } from './clients/ModulesListClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
 
 module.exports = {
   // admin reducers
-  moduleList: moduleReducer,
+  adminLayout: adminLayoutReducer,
+  adminModule: adminModuleReducer,
   // user reducers
   borrowRole: borrowRoleReducer,
   borrowableRoles: borrowableRolesReducer,

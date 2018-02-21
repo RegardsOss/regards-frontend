@@ -19,12 +19,12 @@
 import { AccessProjectClient } from '@regardsoss/client'
 
 const namespace = 'ADMIN/MENU/MODULES'
-const moduleActions = new AccessProjectClient.ModuleActions(namespace)
-const moduleReducer = AccessProjectClient.ModuleReducers(namespace)
-const moduleSelectors = AccessProjectClient.ModuleSelectors(['modules.menu', 'moduleList'])
+const adminModuleActions = new AccessProjectClient.ModuleActions(namespace)
+const adminModuleReducer = AccessProjectClient.ModuleReducers(namespace)
+const adminModuleSelectors = AccessProjectClient.ModuleSelectors(['modules.menu', 'adminModule'])
 
 module.exports = {
-  moduleActions,
-  moduleReducer,
-  moduleSelectors,
+  adminModuleActions,
+  adminModuleReducer,
+  adminModuleSelectors,
 }

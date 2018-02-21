@@ -45,6 +45,8 @@ const messages = {
   'user.menu.cart.max.count': '{maxCount}+',
   'menu.admin.project.title': 'REGARDS - panneau d\'administration de {project}',
   'menu.admin.instance.title': 'REGARDS - panneau d\'administration de l\'instance',
+  // Module form : settings
+  'user.menu.form.options.title': 'Configuration',
   'menu.form.title': 'Titre du menu',
   'menu.form.contacts': 'Contacts',
   'menu.form.projectpage': 'Page "à propos" du projet',
@@ -53,6 +55,18 @@ const messages = {
   'menu.form.displaycart': 'Afficher le lien vers le panier',
   'menu.form.displaylocale': 'Afficher le sélecteur de langues',
   'menu.form.displaytheme': 'Afficher le sélecteur de thèmes',
+  // Module form : navigation
+  'user.menu.form.navigation.title': 'Navigation',
+  'menu.form.home.page.icon.type.label': 'Icone du lien vers la page d\'accueil',
+  'menu.form.home.page.icon.type.none': 'Pas d\'icône',
+  'menu.form.home.page.icon.type.default': 'Icône par défaut',
+  'menu.form.home.page.icon.type.module': 'Icône configurée dans le le module par défaut',
+  'menu.form.home.page.icon.type.custom': 'Iône personnalisée',
+  'menu.form.home.page.icon.custom.url': 'URL de l\'icône personnalisée',
+  'menu.form.home.page.title.en': 'Libellé de la page d\'accueil en anglais',
+  'menu.form.home.page.title.fr': 'Libellé de la page d\'accueil en français',
+  // Module form : preview
+  'user.menu.form.preview.title': 'Prévisualisation',
   // profile form
   'edit.profile.form.title': 'Edition du profil',
   'edit.profile.form.message': 'Vous pouvez mettre à jour ci-dessous les données de votre compte utilisateur',

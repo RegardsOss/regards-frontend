@@ -18,11 +18,14 @@
  **/
 import isEqual from 'lodash/isEqual'
 import isNumber from 'lodash/isNumber'
-import Measure from 'react-measure'
+import throttle from 'lodash/throttle'
+import { Measure } from '@regardsoss/adapters'
 import { themeContextType } from '@regardsoss/theme'
 import { NavigationItem } from '../../../shapes/Navigation'
 import MainBarNavigationItem from './bar/MainBarNavigationItem'
 import MainBarMoreNavigationButton from './bar/MainBarMoreNavigationButton'
+
+const RELAYOUT_DELAY = 25
 
 /**
  * Navigation layout component: displays navigation elements and more menu according with available width
@@ -59,7 +62,14 @@ class NavigationLayoutComponent extends React.Component {
    * Lifecycle method: component will mount. Used here to detect properties changes
    * @param {*} nextProps next component properties
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  componentWillMount = () => {
+    // initialize transient layout data
+    this.layoutWidth = null
+    this.moreButtonWidth = null
+    this.barItemsWidths = {}
+    // handle initial layout (through common properties change detection)
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
@@ -74,11 +84,11 @@ class NavigationLayoutComponent extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     // check if the state has been computed on current properties (or if some modules where added / removed)
-    // or if the locale changed (we need in such case to recompute all the sizes)
-    const oldElements = oldProps.navigationElements || []
-    if (oldProps.locale !== newProps.locale || oldElements.length !== newProps.navigationElements.length) {
-      // we need here to reinitialize completely the layout data and computed state
-      this.onReinitializeLayoutData(newProps.navigationElements)
+    const oldElements = oldProps.navigationElements
+    const newElements = newProps.navigationElements
+    if (!isEqual(oldElements, newElements)) {
+      // we re-initialize here the items layout data (the list needs to be recomputed)
+      this.onLayoutUpdate(newProps.navigationElements)
     }
   }
 
@@ -88,9 +98,6 @@ class NavigationLayoutComponent extends React.Component {
    * @param {number} newWidth new item width
    */
   onBarItemResized = (itemKey, newWidth) => {
-    if (newWidth === this.barItemsWidths[itemKey]) {
-      return // prevents recomputing on simple render
-    }
     this.barItemsWidths = {
       ...this.barItemsWidths,
       [itemKey]: newWidth,
@@ -103,46 +110,30 @@ class NavigationLayoutComponent extends React.Component {
    * @param {number} newWidth new button width
    */
   onMoreButtonResized = (newWidth) => {
-    if (newWidth === this.moreButtonWidth) {
-      return // prevents recomputing on simple render
-    }
     this.moreButtonWidth = newWidth
     this.onLayoutUpdate(this.props.navigationElements)
   }
 
   /**
-   * Called when component is resized, to force the inner table implementation at same width
+   * Called when component is resized to update the layout
    * @param {width: number} dimensions
    */
-  onComponentResized = ({ width }) => {
-    if (width === this.layoutWidth) {
-      return // prevents recomputing on simple render
-    }
+  onComponentResized = ({ measureDiv: { width } }) => {
     this.layoutWidth = width
     this.onLayoutUpdate(this.props.navigationElements)
   }
 
   /**
-   * Event: layout data re-initialization is required (happens initialy, then after locale / items changes)
-   * @param navigationElements considered navigation elements
+   * Layout update implementation
+   * @param {[NavigationItem]} navigationElements navigation model
    */
-  onReinitializeLayoutData = (navigationElements) => {
-    // we initialize here transient graphics data that should not provoke redrawing
-    this.barItemsWidths = {} // bar items width (key is the item key)
-    this.moreButtonWidth = null // more button width
-    this.onLayoutUpdate(navigationElements)
-  }
-
-  /**
-   * On layout update
-   * @param [NavigationItem] navigationElements navigation model
-   */
-  onLayoutUpdate = (navigationElements) => {
+  onLayoutUpdateImpl = (navigationElements) => {
     // 0 - check if initialized (if not, show all)
     let nextState = NavigationLayoutComponent.NON_INITIALIZE_STATE
     const isInitialized = isNumber(this.layoutWidth) && isNumber(this.moreButtonWidth) &&
       navigationElements.reduce((acc, navigationElement) =>
         acc && isNumber(this.barItemsWidths[navigationElement.key]), true)
+
     if (isInitialized) {
       // 1 - consume this width to show more possible elements
       let shownBarItemsCount = 0
@@ -190,42 +181,45 @@ class NavigationLayoutComponent extends React.Component {
     }
   }
 
+  /**
+   * On layout update (wrapper)
+   * @param {[NavigationItem]} navigationElements navigation model
+   */
+  onLayoutUpdate = throttle(this.onLayoutUpdateImpl, RELAYOUT_DELAY, { leading: true })
+
 
   render() {
     const { navigationElements, locale, buildModuleURL } = this.props
     const { shownBarItemsCount, moreButtonItems, forceMoreButton } = this.state
     const { moduleTheme: { user: { navigationGroup } } } = this.context
-
     return (
-      <div style={navigationGroup}>
-        <Measure bounds>
-          {
-            bounds => this.onComponentResized(bounds) || (
-              <div>
-                { /** main bar items */
-                  navigationElements.map((navigationElement, index) => (
-                    <MainBarNavigationItem
-                      key={navigationElement.key}
-                      item={navigationElement}
-                      displayed={index < shownBarItemsCount}
-                      locale={locale}
-                      buildModuleURL={buildModuleURL}
-                      onItemResized={this.onBarItemResized}
-                    />
-                  ))
-                }
-                {/* More elements button  */}
-                <MainBarMoreNavigationButton
-                  displayed={forceMoreButton || moreButtonItems.length > 0}
-                  items={moreButtonItems}
-                  locale={locale}
-                  buildModuleURL={buildModuleURL}
-                  onResized={this.onMoreButtonResized}
-                />
-              </div>)
-          }
-        </Measure>
-      </div>)
+      <Measure bounds onMeasure={this.onComponentResized}>
+        {
+          ({ bind }) => (
+            <div style={navigationGroup} {...bind('measureDiv')}>
+              { /** main bar items */
+                navigationElements.map((navigationElement, index) => (
+                  <MainBarNavigationItem
+                    key={navigationElement.key}
+                    item={navigationElement}
+                    displayed={index < shownBarItemsCount}
+                    locale={locale}
+                    buildModuleURL={buildModuleURL}
+                    onItemResized={this.onBarItemResized}
+                  />
+                ))
+              }
+              {/* More elements button  */}
+              <MainBarMoreNavigationButton
+                displayed={forceMoreButton || moreButtonItems.length > 0}
+                items={moreButtonItems}
+                locale={locale}
+                buildModuleURL={buildModuleURL}
+                onResized={this.onMoreButtonResized}
+              />
+            </div>)
+        }
+      </Measure>)
   }
 }
 export default NavigationLayoutComponent

@@ -23,10 +23,25 @@
  */
 const menuStyles = theme => ({
   admin: {
-    rootStyle: {
-      padding: 20,
+    firstSubheaderStyle: {
+      lineHeight: 1,
+      padding: '0 0 10px 0',
     },
-    title: {
+    subheaderStyle: {
+      lineHeight: 1,
+      paddingLeft: 0,
+      padding: '40px 0 20px 0',
+    },
+    radioButtonGroupLabelStyle: {
+      padding: '0 0 15px 0',
+    },
+    previewStyle: {
+      borderWidth: 4,
+      borderStyle: 'solid',
+      borderColor: theme.palette.borderColor,
+      borderRadius: 5,
+    },
+    title: { // used for admin interface title (not in form)
       paddingLeft: 10,
       fontSize: theme.flatButton.fontSize,
       fontWeight: theme.flatButton.fontWeight,

@@ -20,15 +20,9 @@ import filter from 'lodash/filter'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
-import { AccessProjectClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
 import { HOCUtils } from '@regardsoss/display-control'
-import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
-
-// TODO-NOW should inject as prop?
-// TODO-NOW should fetch initially?
-// default layout selectors
-const layoutSelectors = AccessProjectClient.LayoutSelectors()
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
  * Dynamic modules provider: provides to children the list of resolved dynamic modules
@@ -41,7 +35,7 @@ export class DynamicModulesProviderContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { moduleSelectors }) {
+  static mapStateToProps(state, { moduleSelectors, layoutSelectors }) {
     return {
       modules: moduleSelectors.getList(state),
       dynamicContainerId: layoutSelectors.getDynamicContainerId(state),
@@ -49,28 +43,13 @@ export class DynamicModulesProviderContainer extends React.Component {
     }
   }
 
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { moduleActions, applicationId }) {
-    return {
-      // fetch only when modules actions are provided
-      fetchModules: () => moduleActions && dispatch(moduleActions.fetchPagedEntityList(0, null, { applicationId })),
-    }
-  }
-
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    applicationId: PropTypes.string, // used only in map dispatch to props, when actions are provided
-    // actions for modules results, keep null if this HOC should not fetch modules (user app pre-fetches modules list)
-    // eslint-disable-next-line react/no-unused-prop-types
-    moduleActions: PropTypes.instanceOf(BasicPageableActions), // used only in map dispatch to props
     // selectors for modules results
     // eslint-disable-next-line react/no-unused-prop-types
     moduleSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // used only in map state to props
+    // selectors for layout results
+    // eslint-disable-next-line react/no-unused-prop-types
+    layoutSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // used only in map state to props
     // should keep only active dynamic modules?
     // eslint-disable-next-line react/no-unused-prop-types
     keepOnlyActive: PropTypes.bool.isRequired, // used only in onPropertiesUpdated
@@ -81,19 +60,12 @@ export class DynamicModulesProviderContainer extends React.Component {
     modules: AccessShapes.ModuleList, // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     isFetching: PropTypes.bool, // used only in onPropertiesUpdated
-    // from mapDispatchToProps
-    fetchModules: PropTypes.func.isRequired,
   }
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
   componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component did mount. Used here to fetch data (if module actions were provided)
-   */
-  componentDidMount = () => this.props.fetchModules()
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
@@ -141,6 +113,4 @@ export class DynamicModulesProviderContainer extends React.Component {
     return HOCUtils.renderChildren(children)
   }
 }
-export default connect(
-  DynamicModulesProviderContainer.mapStateToProps,
-  DynamicModulesProviderContainer.mapDispatchToProps)(DynamicModulesProviderContainer)
+export default connect(DynamicModulesProviderContainer.mapStateToProps)(DynamicModulesProviderContainer)

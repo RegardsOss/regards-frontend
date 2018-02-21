@@ -67,6 +67,7 @@ class MainMenuComponent extends React.Component {
         displayThemeSelector,
         projectAboutPage,
         contacts,
+        home,
       },
     } = this.props
     const { moduleTheme: { user: { rootStyle, optionsGroup } } } = this.context
@@ -78,8 +79,10 @@ class MainMenuComponent extends React.Component {
               /* navigation component in user and preview modes mode (separator after) */
               <NavigationMenuContainer
                 key="navigation.container"
+                displayMode={displayMode}
                 currentModuleId={currentModuleId}
                 project={project}
+                homeConfiguration={home}
               />,
               <MenuSeparator key="separator.after" />]
             : ( // title in administration views
