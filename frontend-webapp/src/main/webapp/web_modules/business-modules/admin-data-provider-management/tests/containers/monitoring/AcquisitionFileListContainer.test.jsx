@@ -20,7 +20,7 @@ import sinon from 'sinon'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import isFunction from 'lodash/isFunction'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import AcquisitionFileListComponent from '../../../src/components/monitoring/acquisitionFile/AcquisitionFileListComponent'
 import { AcquisitionFileListContainer } from '../../../src/containers/monitoring/AcquisitionFileListContainer'
 import styles from '../../../src/styles/styles'
@@ -56,8 +56,12 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionFileListContainer
         chainId: '2',
         productId: '12',
       },
+      chain: DumpProvider.getFirstEntity('DataProviderClient', 'AcquisitionProcessingChain'),
+      product: DumpProvider.getFirstEntity('DataProviderClient', 'Product'),
       entitiesLoading: false,
-      fetchPage: sinon.spy(),
+      fetchPage: sinon.stub().callsFake(() => new Promise(() => { })),
+      fetchChain: sinon.stub().callsFake(() => new Promise(() => { })),
+      fetchProduct: sinon.stub().callsFake(() => new Promise(() => { })),
     }
     const enzymeWrapper = shallow(<AcquisitionFileListContainer {...props} />, { context })
     const components = enzymeWrapper.find(AcquisitionFileListComponent)
@@ -67,7 +71,8 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionFileListContainer
     assert.equal(component.props().initialFilters, routerQuery, 'Invalid initial query filters')
     assert.equal(component.props().contextFilters.chainId, props.params.chainId, 'Invalid context query filters')
     assert.isTrue(isFunction(component.props().onRefresh), 'Invalid onRefresh param')
-    assert.isTrue(isFunction(component.props().onBack), 'Invalid onRefresh param')
+    assert.isTrue(isFunction(component.props().onBackToProducts), 'Invalid onBackToProducts param')
+    assert.isTrue(isFunction(component.props().onBackToChains), 'Invalid onRefresh param')
     assert.equal(component.props().pageSize, AcquisitionFileListContainer.PAGE_SIZE, 'Invalid pageSize param')
     assert.equal(component.props().resultsCount, 0, 'Invalid resultsCount param')
     assert.equal(component.props().entitiesLoading, false, 'Invalid entitiesLoading param')

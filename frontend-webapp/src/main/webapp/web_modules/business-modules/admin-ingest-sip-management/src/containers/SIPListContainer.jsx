@@ -114,15 +114,20 @@ export class SIPListContainer extends React.Component {
     fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
-  handleGoBack = () => {
-    const { params: { project, session, sip } } = this.props
+  handleGoBack = (level) => {
+    const { params: { project, session } } = this.props
     let url
-    if (session && sip) {
-      // Go back to sips of the given session
-      url = `/admin/${project}/data/acquisition/sip/${session}/list`
-    } else {
-      // Go back to sessions
-      url = `/admin/${project}/data/acquisition/sip/session`
+    switch (level) {
+      case 0:
+        // Go back to sessions
+        url = `/admin/${project}/data/acquisition/sip/session`
+        break
+      case 1:
+        // Go back to sips of the given session
+        url = `/admin/${project}/data/acquisition/sip/${session}/list`
+        break
+      default:
+        break
     }
     browserHistory.push(url)
   }

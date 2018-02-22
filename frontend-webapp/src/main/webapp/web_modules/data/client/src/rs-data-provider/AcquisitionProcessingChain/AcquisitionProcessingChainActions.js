@@ -33,6 +33,7 @@ class AcquisitionProcessingChainActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/chains`,
+      entityPathVariable: 'chainId',
       namespace,
       schemaTypes: {
         ENTITY: Schemas.ACQUISITION_PROCESSING_CHAIN,

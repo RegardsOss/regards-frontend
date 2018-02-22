@@ -20,13 +20,10 @@ import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import PageView from 'material-ui/svg-icons/action/pageview'
 import {
-  PageableInfiniteTableContainer,
-  TableColumnBuilder,
-  TableLayout, TableHeaderLineLoadingAndResults,
-  NoContentComponent,
-  CardActionsComponent,
-  DateValueRender,
+  Breadcrumb, PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
+  NoContentComponent, CardActionsComponent, DateValueRender,
 } from '@regardsoss/components'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
@@ -117,10 +114,26 @@ export class ProductListComponent extends React.Component {
     browserHistory.push(url)
   }
 
+  renderBreadCrump = () => {
+    const { onBack } = this.props
+    const { intl: { formatMessage } } = this.context
+    const elements = [
+      formatMessage({ id: 'acquisition-chain-monitor.breadcrumb.label' }),
+      formatMessage({ id: 'acquisition-product.breadcrumb.label' })]
+    return (
+      <Breadcrumb
+        rootIcon={<PageView />}
+        elements={elements}
+        labelGenerator={label => label}
+        onAction={onBack}
+      />
+    )
+  }
+
   render() {
     const { intl: { formatMessage }, muiTheme } = this.context
     const {
-      onBack, pageSize, resultsCount, entitiesLoading, chain, project, initialFilters,
+      onBack, pageSize, resultsCount, entitiesLoading, project, initialFilters, chain,
     } = this.props
     const { appliedFilters } = this.state
     const emptyComponent = (
@@ -148,8 +161,8 @@ export class ProductListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={formatMessage({ id: 'acquisition-product.list.title' }, { chain: get(chain, 'content.label', null) })}
-          subtitle={formatMessage({ id: 'acquisition-product.list.subtitle' })}
+          title={this.renderBreadCrump()}
+          subtitle={formatMessage({ id: 'acquisition-product.selected-chain.title' }, { chain: get(chain, 'content.label', null) })}
         />
         <CardText>
           <TableLayout>

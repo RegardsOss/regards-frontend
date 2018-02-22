@@ -89,9 +89,9 @@ const messages = Object.assign({
   // 3. Monitoring
   // 3.1 Chain list
   // 3.1.1 Header
-  'acquisition-chain.monitor.list.title': 'Suivi des chaînes d\'acquisition de données.',
-  'acquisition-chain.monitor.list.subtitle': 'Cette écran vous permet de suivre l\'avancement des chaînes d\'acquisition de données, de consulter les erreurs de génération et d\'activer les chaînes à déclamenent manuel',
+  'acquisition-chain.monitor.list.subtitle': 'Cette écran vous permet de suivre l\'avancement des chaînes d\'acquisition de données, de consulter les erreurs de génération et d\'activer les chaînes à déclenchement manuel',
   'acquisition-chain.monitor.empty.title': 'Aucune chaine configurée',
+  'acquisition-chain-monitor.breadcrumb.label': 'Chaînes d\'acquisition',
 
   // 3.1.2 Table header
   'acquisition-chain.monitor.list.label': 'Libellé',
@@ -141,7 +141,8 @@ const messages = Object.assign({
 
   // 4. Products list
   // 4.1 Headers
-  'acquisition-product.list.title': 'Liste des produits de la chaîne d\'acquisition {chain}',
+  'acquisition-product.breadcrumb.label': 'Produits',
+  'acquisition-product.selected-chain.title': 'Produits de la chaîne {chain}',
   'acquisition-product.empty.title': 'Aucun produit',
   'acquisition-product.list.productName': 'Produit',
   'acquisition-product.list.lastUpdate': 'Date de mise à jour',
@@ -151,7 +152,6 @@ const messages = Object.assign({
 
   //4.2 Filters
   'acquisition.product.list.filters.state': 'Etat des produits',
-  'acquisition-product.list.subtitle': '-',
   'acquisition.product.list.filters.sipState': 'Etat des SIPs',
   'acquisition.product.list.filters.state.ACQUIRING': 'En cours',
   'acquisition.product.list.filters.state.COMPLETED': 'En cours (complet)',
@@ -189,10 +189,10 @@ const messages = Object.assign({
 
   // 5. Acquisition file list
   // 5.1 Headers
+  'acquisition-file.breadcrumb.label': 'Fichiers',
+  'acquisition.file.list.subtitle': 'Fichiers de la chaîne d\'acquisition {chain}',
+  'acquisition.file.list.product.selected.subtitle': 'Fichiers du produit {product}',
   'acquisition.file.empty.title': 'Aucun fichiers acquis',
-  'acquisition.file.list.title': 'Liste des fichiers acquis ou en cours d\'acquisition',
-  'acquisition.file.list.product.title': 'Liste des fichiers acquis ou en cours d\'acquisition du produit {product}',
-  'acquisition.file.list.subtitle': '-',
   'acquisition.file.list.back.button': 'Retour',
   'acquisition.file.list.filePath': 'Fichier',
   'acquisition.file.list.acqDate': 'Date d\'acquisition',

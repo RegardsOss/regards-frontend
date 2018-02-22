@@ -89,9 +89,9 @@ const messages = Object.assign({
   // 3. Monitoring
   // 3.1 Chain list
   // 3.1.1 Header
-  'acquisition-chain.monitor.list.title': 'Data acquisition chains monitoring',
   'acquisition-chain.monitor.list.subtitle': 'This section allow you to monitor, viex errors and run the data acquisition chains.',
   'acquisition-chain.monitor.empty.title': 'No chain configured',
+  'acquisition-chain-monitor.breadcrumb.label': 'Acquisition chains',
 
   // 3.1.2 Table header
   'acquisition-chain.monitor.list.label': 'Label',
@@ -141,7 +141,8 @@ const messages = Object.assign({
 
   // 4. Products list
   // 4.1 Headers
-  'acquisition-product.list.title': 'Products acquired by acquisition processing chain {chain}',
+  'acquisition-product.breadcrumb.label': 'Products',
+  'acquisition-product.selected-chain.title': 'Products of the chain {chain}',
   'acquisition-product.empty.title': 'No products found',
   'acquisition-product.list.productName': 'Product',
   'acquisition-product.list.lastUpdate': 'Update date',
@@ -151,7 +152,6 @@ const messages = Object.assign({
 
   //4.2 Filters
   'acquisition.product.list.filters.state': 'Products state',
-  'acquisition-product.list.subtitle': '-',
   'acquisition.product.list.filters.sipState': 'SIPs state',
   'acquisition.product.list.filters.state.ACQUIRING': 'Acquiring ...',
   'acquisition.product.list.filters.state.COMPLETED': 'Acquiring ... (Completed)',
@@ -189,10 +189,10 @@ const messages = Object.assign({
 
   // 5. Acquisition file list
   // 5.1 Headers
+  'acquisition-file.breadcrumb.label': 'Fichiers',
+  'acquisition.file.list.subtitle': 'Acquisition chain {chain} files list',
+  'acquisition.file.list.product.selected.subtitle': 'Product {product} files list',
   'acquisition.file.empty.title': 'No files found',
-  'acquisition.file.list.title': 'Acquisition files list',
-  'acquisition.file.list.product.title': 'Acquisition files list for product {product}',
-  'acquisition.file.list.subtitle': '-',
   'acquisition.file.list.back.button': 'Back',
   'acquisition.file.list.filePath': 'Files',
   'acquisition.file.list.acqDate': 'Acquisition date',

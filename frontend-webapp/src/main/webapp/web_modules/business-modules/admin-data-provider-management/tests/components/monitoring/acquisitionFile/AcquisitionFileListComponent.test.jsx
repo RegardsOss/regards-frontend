@@ -45,7 +45,8 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionFileListComponent'
       resultsCount: 10,
       entitiesLoading: false,
       onRefresh: () => new Promise(() => { }),
-      onBack: () => new Promise(() => { }),
+      onBackToChains: () => new Promise(() => { }),
+      onBackToProducts: () => new Promise(() => { }),
     }
     const enzymeWrapper = shallow(<AcquisitionFileListComponent {...props} />, { context })
     const filters = enzymeWrapper.find(AcquisitionFileListFiltersComponent)

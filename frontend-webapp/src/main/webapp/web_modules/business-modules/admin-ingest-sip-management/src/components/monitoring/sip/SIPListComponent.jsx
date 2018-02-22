@@ -98,6 +98,10 @@ class SIPListComponent extends React.Component {
     })
   }
 
+  onBreadcrumbAction = (element, index) => {
+    this.props.onBack(index)
+  }
+
   onConfirmDeleteSIP = () => {
     this.closeDeleteDialog()
     if (this.state.sipToDelete) {
@@ -169,7 +173,9 @@ class SIPListComponent extends React.Component {
     this.props.goToSipHistory(entity.content.sipId)
   }
 
+
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
+
 
   renderDeleteConfirmDialog = () => {
     const { sipToDelete } = this.state
@@ -281,7 +287,7 @@ class SIPListComponent extends React.Component {
   }
 
   renderBreadCrump = () => {
-    const { session, onBack, sip } = this.props
+    const { session, sip } = this.props
     const { intl: { formatMessage } } = this.context
     const elements = [formatMessage({ id: 'sips.session.title' }), formatMessage({ id: 'sips.session.sips.title' }, { session })]
     if (sip) {
@@ -292,7 +298,7 @@ class SIPListComponent extends React.Component {
         rootIcon={<PageView />}
         elements={elements}
         labelGenerator={label => label}
-        onAction={onBack}
+        onAction={this.onBreadcrumbAction}
       />
     )
   }
