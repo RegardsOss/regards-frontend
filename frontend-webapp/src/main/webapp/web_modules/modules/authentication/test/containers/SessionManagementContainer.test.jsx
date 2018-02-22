@@ -127,7 +127,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
     }
     // Simulate a token non expired in localstorageUser
     root.localStorage.clear()
-    new UIDomain.LocalStorageUser({ token: 'plop', expires_in: 30000 }, Date.now() - 20000, props.project, props.application).save()
+    new UIDomain.LocalStorageUser({ token: 'plop', expires_in: 30 }, Date.now() - 20000, props.project, props.application).save()
     shallow(<SessionManagementContainer {...props} />, { context })
     assert.isTrue(props.notifyAuthenticationChanged.called)
   })
@@ -145,7 +145,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
     }
     // Simulate a token non expired in localstorageUser
     root.localStorage.clear()
-    new UIDomain.LocalStorageUser({ token: 'plop', expires_in: 10000 }, Date.now() - 20000, props.project, props.application).save()
+    new UIDomain.LocalStorageUser({ token: 'plop', expires_in: 10 }, Date.now() - 20000, props.project, props.application).save()
     shallow(<SessionManagementContainer {...props} />, { context })
     assert.isFalse(props.notifyAuthenticationChanged.called)
     assert.isNull(UIDomain.LocalStorageUser.retrieve(props.project, props.application))
