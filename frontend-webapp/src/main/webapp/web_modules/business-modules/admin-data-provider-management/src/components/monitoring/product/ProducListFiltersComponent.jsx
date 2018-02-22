@@ -19,6 +19,7 @@
 import map from 'lodash/map'
 import get from 'lodash/get'
 import values from 'lodash/values'
+import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
@@ -136,6 +137,15 @@ class ProductListFiltersComponent extends React.Component {
     })
   }
 
+  changeNoSessionFilter = (event, isInputChecked) => {
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        nosession: isInputChecked,
+      },
+    })
+  }
+
   /**
   * Clear all filters
   */
@@ -153,6 +163,7 @@ class ProductListFiltersComponent extends React.Component {
     const productName = get(this.state.filters, 'productName', null)
     const session = get(this.state.filters, 'session', null)
     const from = get(this.state.filters, 'from', null)
+    const nosession = get(this.state, 'filters.nosession', false)
     const filters = {}
     if (state && state.length > 0) {
       filters.state = state.join(',')
@@ -168,6 +179,9 @@ class ProductListFiltersComponent extends React.Component {
     }
     if (from) {
       filters.from = from.toISOString()
+    }
+    if (nosession) {
+      filters.nosession = true
     }
 
     this.props.applyFilters(filters)
@@ -185,7 +199,8 @@ class ProductListFiltersComponent extends React.Component {
               !get(this.state, 'filters.sipState') &&
               !get(this.state, 'filters.productName') &&
               !get(this.state, 'filters.session') &&
-              !get(this.state, 'filters.from')
+              !get(this.state, 'filters.from') &&
+              !get(this.state, 'filters.nosession')
             }
             onClick={this.handleClearFilters}
           />
@@ -213,7 +228,7 @@ class ProductListFiltersComponent extends React.Component {
     const stateValues = get(this.state, 'filters.state', [])
     return (
       <TableHeaderLine key="filters">
-        <TableHeaderOptionsArea reducible>
+        <TableHeaderOptionsArea reducible alignLeft>
           <TableHeaderOptionGroup>
             <SelectField
               multiple
@@ -235,6 +250,22 @@ class ProductListFiltersComponent extends React.Component {
                 />),
               )}
             </SelectField>
+            <TextField
+              hintText={formatMessage({
+                id: 'acquisition-product.list.filters.productName',
+              })}
+              style={filters.fieldStyle}
+              value={get(this.state, 'filters.productName', '')}
+              onChange={this.changeProductNameFilter}
+            />
+            <DatePicker
+              value={get(this.state, 'filters.from', undefined)}
+              textFieldStyle={filters.dateStyle}
+              hintText={formatMessage({ id: 'acquisition.product.list.filters.from' })}
+              onChange={this.changeFromFilter}
+            />
+          </TableHeaderOptionGroup>
+          <TableHeaderOptionGroup>
             <SelectField
               style={filters.fieldStyle}
               hintText={formatMessage({
@@ -254,25 +285,20 @@ class ProductListFiltersComponent extends React.Component {
             </SelectField>
             <TextField
               hintText={formatMessage({
-                id: 'acquisition-product.list.filters.productName',
-              })}
-              style={filters.fieldStyle}
-              value={get(this.state, 'filters.productName', '')}
-              onChange={this.changeProductNameFilter}
-            />
-            <TextField
-              hintText={formatMessage({
                 id: 'acquisition.product.list.filters.session',
               })}
               style={filters.fieldStyle}
               value={get(this.state, 'filters.session', '')}
+              disabled={get(this.state, 'filters.nosession', false)}
               onChange={this.changeSessionFilter}
             />
-            <DatePicker
-              value={get(this.state, 'filters.from', undefined)}
-              textFieldStyle={filters.dateStyle}
-              hintText={formatMessage({ id: 'acquisition.product.list.filters.from' })}
-              onChange={this.changeFromFilter}
+            <Checkbox
+              label={formatMessage({
+                id: 'acquisition-chain.monitor.list.filters.no.session',
+              })}
+              checked={get(this.state, 'filters.nosession', '')}
+              onCheck={this.changeNoSessionFilter}
+              style={filters.checkboxFieldStyle}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>

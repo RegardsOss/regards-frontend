@@ -177,6 +177,7 @@ const messages = Object.assign({
   'acquisition.product.list.filters.sipState.DELETED': 'Deleted',
   'acquisition-product.list.filters.productName': 'Product name',
   'acquisition.product.list.filters.session': 'Ingest session',
+  'acquisition-chain.monitor.list.filters.no.session': 'Only without session',
   'acquisition.product.list.filters.from': 'Acquired since ...',
 
   // 4.3 actions

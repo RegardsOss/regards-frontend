@@ -86,6 +86,12 @@ const styles = theme => ({
         width: '210px',
         margin: '0px 10px',
       },
+      checkboxFieldStyle: {
+        width: '210px',
+        margin: '0px 10px',
+        padding: '12px 0px 0px 0px',
+        height: '48px',
+      },
     },
     productSessionLink: {
       textDecoration: 'underline',

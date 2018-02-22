@@ -244,7 +244,7 @@ class SIPListComponent extends React.Component {
         <TableLayout>
           <SIPListFiltersComponent
             key={this.props.sip ? 'sip-history' : 'session-sips'}
-            initialFilters={initialFilters}
+            initialFilters={!this.props.sip ? initialFilters : null}
             applyFilters={this.applyFilters}
             handleRefresh={this.handleRefresh}
             chains={chains}

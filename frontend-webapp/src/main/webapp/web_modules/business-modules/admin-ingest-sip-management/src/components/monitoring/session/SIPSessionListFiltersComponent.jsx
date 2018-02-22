@@ -126,7 +126,7 @@ class SIPSessionListFiltersComponent extends React.Component {
     const { handleRefresh } = this.props
     return (
       <TableHeaderLine>
-        <TableHeaderOptionsArea reducible>
+        <TableHeaderOptionsArea reducible alignLeft>
           <TableHeaderOptionGroup>
             <TextField
               style={filter.fieldStyle}
@@ -136,6 +136,8 @@ class SIPSessionListFiltersComponent extends React.Component {
               onChange={this.changeId}
               value={get(this.state, 'filters.id', '')}
             />
+          </TableHeaderOptionGroup>
+          <TableHeaderOptionGroup>
             <DatePicker
               value={this.state.filters.from}
               textFieldStyle={filter.dateStyle}
@@ -150,6 +152,8 @@ class SIPSessionListFiltersComponent extends React.Component {
               defaultDate={get(this.state, 'filters.to', undefined)}
               onChange={this.changeto}
             />
+          </TableHeaderOptionGroup>
+          <TableHeaderOptionGroup>
             <FlatButton
               label={intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
               icon={<Close />}

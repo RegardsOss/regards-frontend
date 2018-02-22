@@ -154,7 +154,7 @@ class SIPListFiltersComponent extends React.Component {
     const { chains } = this.props
     return (
       <TableHeaderLine key="filtersLine">
-        <TableHeaderOptionsArea key="filtersArea" reducible>
+        <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
           <TableHeaderOptionGroup key="first">
             <SelectField
               style={filter.fieldStyle}

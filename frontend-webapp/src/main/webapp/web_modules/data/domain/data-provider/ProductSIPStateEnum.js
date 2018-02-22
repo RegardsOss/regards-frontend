@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-import SIPStateEnum from '../ingest/SIPStateEnum'
+import { SIPStateEnum } from '../ingest/SIPStateEnum'
 
 /**
  * Possible states for SIPs associated to an acquisition chain product.

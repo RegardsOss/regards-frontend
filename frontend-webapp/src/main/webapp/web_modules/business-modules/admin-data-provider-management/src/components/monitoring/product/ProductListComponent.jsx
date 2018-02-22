@@ -182,7 +182,7 @@ export class ProductListComponent extends React.Component {
               emptyComponent={emptyComponent}
               displayColumnsHeader
               minRowCount={0}
-              maxRowCount={10}
+              maxRowCount={20}
               queryPageSize={pageSize}
             />
           </TableLayout>

@@ -159,8 +159,8 @@ const messages = Object.assign({
   'acquisition.product.list.filters.state.ERROR': 'Erreur',
   'acquisition.product.list.filters.sipState.NOT_SCHEDULED': 'En cours ... (non planifié)',
   'acquisition.product.list.filters.sipState.SCHEDULED': 'En cours ... (planifié)',
-  'acquisition.product.list.filters.sipState.GENERATED': 'En couts ... (généré)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'En cours ... (soumission en couts)',
+  'acquisition.product.list.filters.sipState.GENERATED': 'En cours ... (généré)',
+  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'En cours ... (soumission en cours)',
   'acquisition.product.list.filters.sipState.SUBMISSION_ERROR': 'Erreur de soumission',
   'acquisition.product.list.filters.sipState.GENERATION_ERROR': 'Erreur de génération',
   'acquisition.product.list.filters.sipState.CREATED': 'En cours (créé)',
@@ -177,6 +177,7 @@ const messages = Object.assign({
   'acquisition.product.list.filters.sipState.DELETED': 'Supprimé',
   'acquisition-product.list.filters.productName': 'Nom du produit',
   'acquisition.product.list.filters.session': 'Session d\'ingestion',
+  'acquisition-chain.monitor.list.filters.no.session': 'Produits sans session',
   'acquisition.product.list.filters.from': 'Acquis depuis le ...',
 
   // 4.3 actions
