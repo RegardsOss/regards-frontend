@@ -22,10 +22,9 @@ import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import FlatButton from 'material-ui/FlatButton'
-import DatePicker from 'material-ui/DatePicker'
 import TextField from 'material-ui/TextField'
 import {
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -78,7 +77,7 @@ class SIPSessionListFiltersComponent extends React.Component {
     }
   }
 
-  changefrom = (event, newDate) => {
+  changefrom = (newDate) => {
     newDate.setHours(0, 0, 0, 0)
     this.setState({
       filters: {
@@ -88,7 +87,7 @@ class SIPSessionListFiltersComponent extends React.Component {
     })
   }
 
-  changeto = (event, newDate) => {
+  changeto = (newDate) => {
     newDate.setHours(23, 59, 59, 999)
     this.setState({
       filters: {
@@ -138,18 +137,15 @@ class SIPSessionListFiltersComponent extends React.Component {
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
-            <DatePicker
+            <DatePickerField
               value={this.state.filters.from}
-              textFieldStyle={filter.dateStyle}
-              hintText={intl.formatMessage({ id: 'sips.session.filter.from.label' })}
-              defaultDate={get(this.state, 'filters.from', undefined)}
+              dateHintText={intl.formatMessage({ id: 'sips.session.filter.from.label' })}
               onChange={this.changefrom}
+              locale={intl.locale}
             />
-            <DatePicker
+            <DatePickerField
               value={this.state.filters.to}
-              textFieldStyle={filter.dateStyle}
-              hintText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
-              defaultDate={get(this.state, 'filters.to', undefined)}
+              dateHintText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
               onChange={this.changeto}
             />
           </TableHeaderOptionGroup>

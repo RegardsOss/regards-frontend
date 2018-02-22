@@ -126,6 +126,7 @@
     "@regardsoss/user-metadata-common": "0.0.1",
     "@regardsoss/vendors": "0.0.1",
     "chart.js": "^2.7.1",
+    "date-fns": "^1.29.0",
     "fixed-data-table-2": "^0.8.9",
     "gsap": "^1.20.3",
     "immutable": "~3.8.2",

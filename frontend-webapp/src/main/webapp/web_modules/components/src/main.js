@@ -136,6 +136,8 @@ import DurationValueRender from './values/DurationValueRender'
 
 import InfiniteGalleryContainer from './gallery/InfiniteGalleryContainer'
 
+import DatePickerField from './date/DatePickerField'
+
 
 export {
   ActionButtonComponent,
@@ -245,4 +247,7 @@ export {
   DurationValueRender,
 
   InfiniteGalleryContainer,
+
+  // Date
+  DatePickerField,
 }
