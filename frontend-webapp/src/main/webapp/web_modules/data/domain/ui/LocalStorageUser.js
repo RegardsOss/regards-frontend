@@ -25,7 +25,8 @@ class LocalStorageUser {
       try {
         const storedUserObject = JSON.parse(storedUsed)
         // Check if token expired
-        const expirationDate = get(storedUserObject, 'authenticationDate', 0) + get(storedUserObject, 'authentication.expires_in', 0)
+        const expiresInMS = get(storedUserObject, 'authentication.expires_in', 0) * 1000 // seconds to ms
+        const expirationDate = get(storedUserObject, 'authenticationDate', 0) + expiresInMS
         // If token is not expired, use it to authenticate, otherwise remove it from localStorage
         if (expirationDate > Date.now()) {
           return new LocalStorageUser(storedUserObject.authentication, storedUserObject.authenticationDate)
