@@ -20,14 +20,16 @@ import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import FlatButton from 'material-ui/FlatButton'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
   CardActionsComponent, DateValueRender, InfiniteTableContainer, TableColumnBuilder, TableLayout,
   TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DurationValueRender, ShowableAtRender,
-  FitContentDialog,
+  FitContentDialog, ConfirmDialogComponent, ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import messages from '../i18n'
 import DatasourceStatusTableCell from './DatasourceStatusTableCell'
+import DataSourceMonitoringDeleteAction from './DataSourceMonitoringDeleteAction'
 
 /**
 * DataSourceMonitoringComponent
@@ -38,10 +40,12 @@ class DataSourceMonitoringComponent extends React.Component {
     crawlerDatasources: DataManagementShapes.CrawlerDatasourceArray.isRequired,
     onBack: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   static wrapperPreserveWhitespace = {
@@ -50,6 +54,20 @@ class DataSourceMonitoringComponent extends React.Component {
 
   state = {
     showModal: false,
+    crawlerToDelete: null,
+  }
+
+  onDelete = (crawler) => {
+    this.setState({
+      crawlerToDelete: crawler,
+    })
+  }
+
+  onConfirmDelete = () => {
+    this.closeDeleteDialog()
+    if (this.state.crawlerToDelete) {
+      this.props.onDelete(this.state.crawlerToDelete.id)
+    }
   }
 
   getDialogActions = () => [
@@ -60,6 +78,13 @@ class DataSourceMonitoringComponent extends React.Component {
       onClick={this.closeDialog}
     />,
   ]
+
+
+  closeDeleteDialog = () => {
+    this.setState({
+      crawlerToDelete: null,
+    })
+  }
 
   closeDialog = () => {
     this.setState({
@@ -73,6 +98,20 @@ class DataSourceMonitoringComponent extends React.Component {
       stacktrace: entity.content.stackTrace,
       showModal: true,
     })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    if (this.state.crawlerToDelete) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          title={this.context.intl.formatMessage({ id: 'crawler.delete.confirm.title' }, { crawler: this.state.crawlerToDelete.label })}
+          onConfirm={this.onConfirmDelete}
+          onClose={this.closeDeleteDialog}
+        />
+      )
+    }
+    return null
   }
 
   /**
@@ -98,24 +137,24 @@ class DataSourceMonitoringComponent extends React.Component {
   )
   render() {
     const { crawlerDatasources, onBack, onRefresh } = this.props
-    const { intl } = this.context
+    const { intl, muiTheme } = this.context
+    const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
     // emptyComponent
     const columns = [
-      // ID column
       TableColumnBuilder.buildSimplePropertyColumn('label', intl.formatMessage({ id: 'crawler.list.label.column.header' }), 'content.label', 0, true),
-      // Last ingest date
       TableColumnBuilder.buildSimplePropertyColumn('lastIngestDate', intl.formatMessage({ id: 'crawler.list.lastIngestDate.column.header' }), 'content.lastIngestDate', 0, true, DateValueRender),
-      // Duration
       TableColumnBuilder.buildSimplePropertyColumn('duration', intl.formatMessage({ id: 'crawler.list.duration.column.header' }), 'content.duration', 0, true, DurationValueRender),
-      // savedObjectsCount
       TableColumnBuilder.buildSimplePropertyColumn('savedObjectsCount', intl.formatMessage({ id: 'crawler.list.savedObjectsCount.column.header' }), 'content.savedObjectsCount', 0, true),
-      // status
       TableColumnBuilder.buildSimpleColumnWithCell('status', intl.formatMessage({ id: 'crawler.list.status.column.header' }), {
         Constructor: DatasourceStatusTableCell,
         props: { onShow: this.openStacktraceDialog },
       }, 0, true),
       // Next planed ingest date
       TableColumnBuilder.buildSimplePropertyColumn('nextPlannedIngestDate', intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }), 'content.nextPlannedIngestDate', 0, true, DateValueRender),
+      TableColumnBuilder.buildOptionsColumn('', [{
+        OptionConstructor: DataSourceMonitoringDeleteAction,
+        optionProps: { onDelete: this.onDelete },
+      }], true, fixedColumnWidth),
     ]
 
     return (
@@ -124,6 +163,7 @@ class DataSourceMonitoringComponent extends React.Component {
           title={intl.formatMessage({ id: 'crawler.list.title' })}
         />
         {this.renderStacktraceDialog()}
+        {this.renderDeleteConfirmDialog()}
         <CardText>
           <TableLayout>
             <TableHeaderLine>

@@ -28,6 +28,7 @@ export default class CrawlerDatasourceActions extends BasicListActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/crawler/datasourceIngestions`,
+      entityPathVariable: 'crawlerId',
       schemaTypes: {
         ENTITY: Schemas.CRAWLER_DATASOURCE,
         ENTITY_ARRAY: Schemas.CRAWLER_DATASOURCE_ARRAY,

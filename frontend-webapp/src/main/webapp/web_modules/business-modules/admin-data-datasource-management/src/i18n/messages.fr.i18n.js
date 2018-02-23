@@ -31,6 +31,8 @@ const messages = Object.assign({
   'crawler.list.show.stacktrace.tooltip': 'Afficher la stacktrace',
   'crawler.list.stacktrace.title': 'Stacktrace',
   'crawler.list.stacktrace.action.close': 'Fermer',
+  'crawler.list.delete.action': 'Supprimer',
+  'crawler.delete.confirm.title': 'Etes vous sûr de vouloir supprimer l\'indexation {crawler} ?',
 
   'datasource.list.action.add': 'Ajouter',
   'datasource.list.action.cancel': 'Annuler',

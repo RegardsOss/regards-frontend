@@ -19,6 +19,10 @@
 const CrawlerDatasourceContent = PropTypes.shape({
   id: PropTypes.number,
   label: PropTypes.string,
+  savedObjectsCount: PropTypes.number,
+  stackTrace: PropTypes.string,
+  status: PropTypes.string,
+  statusDate: PropTypes.string,
 })
 
 const CrawlerDatasource = PropTypes.shape({
