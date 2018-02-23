@@ -115,7 +115,7 @@ export class SIPListContainer extends React.Component {
   }
 
   handleGoBack = (level) => {
-    const { params: { project, session } } = this.props
+    const { params: { project, session, sip } } = this.props
     let url
     switch (level) {
       case 0:
@@ -127,6 +127,11 @@ export class SIPListContainer extends React.Component {
         url = `/admin/${project}/data/acquisition/sip/${session}/list`
         break
       default:
+        if (sip) {
+          url = `/admin/${project}/data/acquisition/sip/${session}/list`
+        } else {
+          url = `/admin/${project}/data/acquisition/sip/session`
+        }
         break
     }
     browserHistory.push(url)

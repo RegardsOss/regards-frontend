@@ -106,7 +106,8 @@ class SIPListFiltersComponent extends React.Component {
       newFilters.state = state
     }
     if (sipId) {
-      newFilters.sipId = sipId
+      // Add '%' caracter at starts and ends of the string to search for matching pattern and not strict value.
+      newFilters.sipId = `%${sipId}%`
     }
     this.props.applyFilters(newFilters)
   }
