@@ -78,7 +78,6 @@ class SIPSessionListFiltersComponent extends React.Component {
   }
 
   changefrom = (newDate) => {
-    newDate.setHours(0, 0, 0, 0)
     this.setState({
       filters: {
         ...this.state.filters,
@@ -88,7 +87,6 @@ class SIPSessionListFiltersComponent extends React.Component {
   }
 
   changeto = (newDate) => {
-    newDate.setHours(23, 59, 59, 999)
     this.setState({
       filters: {
         ...this.state.filters,
@@ -145,8 +143,10 @@ class SIPSessionListFiltersComponent extends React.Component {
             />
             <DatePickerField
               value={this.state.filters.to}
+              defaultTime="23:59:59"
               dateHintText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
               onChange={this.changeto}
+              locale={intl.locale}
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
