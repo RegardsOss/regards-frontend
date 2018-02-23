@@ -59,7 +59,6 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
    * @param {Date} newValue The new value of the date field.
    */
   handleChangeDate = (newValue) => {
-    console.error('new date', newValue)
     this.setState({ searchField: newValue })
   }
 
@@ -116,8 +115,6 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField, comparator } = this.state
     const clearButtonDisplayed = searchField !== undefined
-
-    console.error('Search field to render', searchField)
 
     return (
       <div style={rootStyle} >

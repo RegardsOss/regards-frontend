@@ -72,7 +72,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
    * At component mount, run acquisition chains auto refresh
    */
   componentDidMount = () => {
-    this.autoRefresh()
+    // this.autoRefresh()
   }
 
   /**
