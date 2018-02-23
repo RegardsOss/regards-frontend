@@ -29,7 +29,6 @@ const messages = {
   'criterion.time.picker.ok': 'Ok',
   'criterion.time.picker.cancel': 'Annuler',
   'criterion.seconds.field.label': 'Sec',
-  'criterion.milliseconds.field.label': 'Ms',
 }
 
 export default messages

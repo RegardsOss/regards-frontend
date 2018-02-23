@@ -52,11 +52,6 @@ const pluginStyles = theme => ({
     width: 90,
     margin: '0px 10px',
   },
-  millisecondsTextFieldStyle: {
-    top: -13,
-    width: 90,
-    margin: '0px 10px',
-  },
   comparatorButtonStyle: {
     height: theme.button.iconButtonSize,
     width: theme.button.iconButtonSize,

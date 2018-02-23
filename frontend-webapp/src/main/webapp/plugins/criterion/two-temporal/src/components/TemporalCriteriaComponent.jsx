@@ -45,9 +45,9 @@ if (areIntlLocalesSupported(['fr'])) {
  *
  * The following terminology for dates is used in this file:
  *
- * 2017-02-10   14:28      59         234
- * ----------  ------   -------   ------------
- *    date      time    seconds   milliseconds
+ * 2017-02-10   14:28      59
+ * ----------  ------    -------
+ *    date      time    seconds
  *
  *  @author Xavier-Alexandre Brochard
  */
@@ -130,7 +130,7 @@ export class TemporalCriteriaComponent extends React.Component {
     } = this.props
     // Pick the time part from the time picker
     if (value) {
-      newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds())
+      newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds())
     } else if (isStopDate) {
       newValue.setHours(23, 59, 59, 999)
     }
@@ -167,20 +167,6 @@ export class TemporalCriteriaComponent extends React.Component {
   }
 
   /**
-   * Callback function that is fired when the milliseconds value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {Integer} milliseconds The new value of the milliseconds field.
-   */
-  handleChangeMilliseconds = (event, milliseconds) => {
-    const { onChange, value, comparator } = this.props
-    const newValue = value || new Date()
-
-    newValue.setMilliseconds(milliseconds)
-    onChange(newValue, comparator)
-  }
-
-  /**
    * Callback function that is fired when the date comparator changes.
    *
    * @param {String} comparator
@@ -197,13 +183,6 @@ export class TemporalCriteriaComponent extends React.Component {
    */
   formatSeconds = date => date ? date.getSeconds() : ''
 
-  /**
-   * Extract the milliseconds value to inject in the field input
-   *
-   * @param {Date} date
-   */
-  formatMilliseconds = date => date ? date.getMilliseconds() : ''
-
   render() {
     const {
       label, comparator, value, reversed, hideAttributeName, hideComparator,
@@ -211,7 +190,7 @@ export class TemporalCriteriaComponent extends React.Component {
     const {
       moduleTheme: {
         datePickerTextFieldStyle, datePickerStyle, timePickerStyles,
-        secondsTextFieldStyle, millisecondsTextFieldStyle,
+        secondsTextFieldStyle,
       },
     } = this.context
 
@@ -257,14 +236,6 @@ export class TemporalCriteriaComponent extends React.Component {
         value={this.formatSeconds(value)}
         onChange={this.handleChangeSeconds}
         style={secondsTextFieldStyle}
-      />,
-      <TextField
-        key={`${label}.millis`}
-        type="number"
-        floatingLabelText={<FormattedMessage id="criterion.milliseconds.field.label" />}
-        value={this.formatMilliseconds(value)}
-        onChange={this.handleChangeMilliseconds}
-        style={millisecondsTextFieldStyle}
       />,
     ])
 

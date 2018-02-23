@@ -46,9 +46,9 @@ if (areIntlLocalesSupported(['fr'])) {
  *
  * The following terminology for dates is used in this file:
  *
- * 2017-02-10   14:28      59         234
- * ----------  ------   -------   ------------
- *    date      time    seconds   milliseconds
+ * 2017-02-10   14:28      59
+ * ----------  ------    --------
+ *    date      time    seconds
  *
  *  @author Xavier-Alexandre Brochard
  */
@@ -80,7 +80,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
     const { searchField } = this.state
     // Pick the time part from the time picker
     if (searchField) {
-      newValue.setHours(searchField.getHours(), searchField.getMinutes(), searchField.getSeconds(), searchField.getMilliseconds())
+      newValue.setHours(searchField.getHours(), searchField.getMinutes(), searchField.getSeconds())
     }
     this.setState({ searchField: newValue })
   }
@@ -115,20 +115,6 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
   }
 
   /**
-   * Callback function that is fired when the milliseconds value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {Integer} milliseconds The new value of the milliseconds field.
-   */
-  handleChangeMilliseconds = (event, milliseconds) => {
-    const { searchField } = this.state
-    const newValue = searchField || new Date()
-
-    newValue.setMilliseconds(milliseconds)
-    this.setState({ searchField: newValue })
-  }
-
-  /**
    * Callback function that is fired when the date comparator changes.
    *
    * @param {String} comparator
@@ -146,13 +132,6 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
    * @param {Date} date
    */
   formatSeconds = date => date ? date.getSeconds() : ''
-
-  /**
-   * Extract the milliseconds value to inject in the field input
-   *
-   * @param {Date} date
-   */
-  formatMilliseconds = date => date ? date.getMilliseconds() : ''
 
   getPluginSearchQuery = (state) => {
     let query = ''
@@ -192,7 +171,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
     const {
       moduleTheme: {
         rootStyle, labelSpanStyle, datePickerTextFieldStyle,
-        datePickerStyle, timePickerStyles, secondsTextFieldStyle, millisecondsTextFieldStyle,
+        datePickerStyle, timePickerStyles, secondsTextFieldStyle,
       },
     } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
@@ -233,13 +212,6 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
           value={this.formatSeconds(searchField)}
           onChange={this.handleChangeSeconds}
           style={secondsTextFieldStyle}
-        />
-        <TextField
-          type="number"
-          floatingLabelText={<FormattedMessage id="criterion.milliseconds.field.label" />}
-          value={this.formatMilliseconds(searchField)}
-          onChange={this.handleChangeMilliseconds}
-          style={millisecondsTextFieldStyle}
         />
         <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
