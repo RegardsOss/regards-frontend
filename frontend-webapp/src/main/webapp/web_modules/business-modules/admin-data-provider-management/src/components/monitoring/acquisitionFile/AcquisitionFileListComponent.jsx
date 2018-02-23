@@ -69,7 +69,7 @@ export class AcquisitionFileListComponent extends React.Component {
     this.setState({
       appliedFilters: this.props.contextFilters,
     })
-    this.autoRefresh()
+    // this.autoRefresh()
   }
 
   componentWillUnmount = () => {

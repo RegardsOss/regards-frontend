@@ -40,7 +40,6 @@ export default class DatePickerField extends React.Component {
     okLabel: PropTypes.string,
     cancelLabel: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     locale: PropTypes.string,
   }
 

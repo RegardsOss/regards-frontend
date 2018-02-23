@@ -75,7 +75,7 @@ export class ProductListComponent extends React.Component {
     this.setState({
       appliedFilters: this.props.contextFilters,
     })
-    this.autoRefresh()
+    // this.autoRefresh()
   }
 
   componentWillUnmount = () => {
