@@ -167,6 +167,7 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
             comparator={operator2}
             value={secondField}
             onChange={this.changeValue2}
+            isStopDate
           />
           <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         </div>

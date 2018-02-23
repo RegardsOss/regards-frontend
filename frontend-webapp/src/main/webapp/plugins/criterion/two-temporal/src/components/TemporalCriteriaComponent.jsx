@@ -87,6 +87,11 @@ export class TemporalCriteriaComponent extends React.Component {
      * Default to false.
      */
     hideComparator: PropTypes.bool,
+    /**
+     * If true, hours will be auto-completed with the maximum value
+     * Default to false
+     */
+    isStopDate: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -95,6 +100,7 @@ export class TemporalCriteriaComponent extends React.Component {
     hideComparator: false,
     value: undefined,
     comparator: EnumTemporalComparator.BEFORE,
+    isStopDate: false,
   }
 
 
@@ -116,10 +122,17 @@ export class TemporalCriteriaComponent extends React.Component {
    * @param {Date} newValue The new value of the date field.
    */
   handleChangeDate = (event, newValue) => {
-    const { onChange, value, comparator } = this.props
+    const {
+      onChange,
+      value,
+      comparator,
+      isStopDate,
+    } = this.props
     // Pick the time part from the time picker
     if (value) {
       newValue.setHours(value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds())
+    } else if (isStopDate) {
+      newValue.setHours(23, 59, 59, 999)
     }
     onChange(newValue, comparator)
   }

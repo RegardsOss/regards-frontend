@@ -127,6 +127,7 @@ export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContain
             onChange={this.changeValue2}
             hideAttributeName
             hideComparator
+            isStopDate
           />
           <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
