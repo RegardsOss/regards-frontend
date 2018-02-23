@@ -24,6 +24,7 @@ import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import AddCircle from 'material-ui/svg-icons/content/add-circle'
 import IconButton from 'material-ui/IconButton'
 import IconList from 'material-ui/svg-icons/action/list'
+import { StorageDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -136,16 +137,16 @@ export default class PluginMetaDataListComponent extends React.Component {
     let subtitle
     let checkSecurity = false
     switch (this.props.pluginType) {
-      case 'fr.cnes.regards.modules.storage.plugin.datastorage.IDataStorage':
+      case StorageDomain.PluginTypeEnum.STORAGE:
         title = intl.formatMessage({ id: 'storage.locations.configuration.title' })
         subtitle = intl.formatMessage({ id: 'storage.locations.configuration.subtitle' })
         break
-      case 'fr.cnes.regards.modules.storage.domain.plugin.ISecurityDelegation':
+      case StorageDomain.PluginTypeEnum.SECURITY_DELEGATION:
         title = intl.formatMessage({ id: 'storage.security.configuration.title' })
         subtitle = intl.formatMessage({ id: 'storage.security.configuration.subtitle' })
         checkSecurity = true
         break
-      case 'fr.cnes.regards.modules.storage.domain.plugin.IAllocationStrategy':
+      case StorageDomain.PluginTypeEnum.ALLOCATION_STRATEGY:
         title = intl.formatMessage({ id: 'storage.allocations.configuration.title' })
         subtitle = intl.formatMessage({ id: 'storage.allocations.configuration.subtitle' })
         break

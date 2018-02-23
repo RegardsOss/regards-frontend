@@ -16,28 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AccessDomain from './access'
-import AdminDomain from './admin'
-import ArchivalStorageDomain from './archival-storage'
-import CatalogDomain from './catalog'
-import CommonDomain from './common'
-import DamDomain from './dam'
-import DataProviderDomain from './data-provider'
-import IngestDomin from './ingest'
-import OrderDomain from './order'
-import StorageDomain from './storage'
-import UIDomain from './ui'
+import values from 'lodash/values'
+
+/**
+ * @author Sébastien Binda
+ */
+const PluginTypeEnum = {
+  STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage',
+  SECURITY_DELEGATION: 'fr.cnes.regards.modules.storage.domain.plugin.ISecurityDelegation',
+  ALLOCATION_STRATEGY: 'fr.cnes.regards.modules.storage.domain.plugin.IAllocationStrategy',
+}
+
+const PluginTypeEnumValues = values(PluginTypeEnum)
 
 module.exports = {
-  AccessDomain,
-  AdminDomain,
-  ArchivalStorageDomain,
-  CatalogDomain,
-  CommonDomain,
-  DamDomain,
-  DataProviderDomain,
-  IngestDomin,
-  OrderDomain,
-  StorageDomain,
-  UIDomain,
+  PluginTypeEnum,
+  PluginTypeEnumValues,
 }
