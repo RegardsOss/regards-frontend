@@ -16,30 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
-import areIntlLocalesSupported from 'intl-locales-supported'
-import DatePicker from 'material-ui/DatePicker'
-import TextField from 'material-ui/TextField'
-import TimePicker from 'material-ui/TimePicker'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
+import { ClearFieldButton, DatePickerField } from '@regardsoss/components'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
-
-let DateTimeFormat
-
-/**
- * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
- */
-if (areIntlLocalesSupported(['fr'])) {
-  DateTimeFormat = global.Intl.DateTimeFormat
-} else {
-  const IntlPolyfill = require('intl')
-  DateTimeFormat = IntlPolyfill.DateTimeFormat
-  require('intl/locale-data/jsonp/fr')
-}
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
@@ -76,41 +58,8 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
    * @param {Object} event Change event targetting the text field.
    * @param {Date} newValue The new value of the date field.
    */
-  handleChangeDate = (event, newValue) => {
-    const { searchField } = this.state
-    // Pick the time part from the time picker
-    if (searchField) {
-      newValue.setHours(searchField.getHours(), searchField.getMinutes(), searchField.getSeconds())
-    }
-    this.setState({ searchField: newValue })
-  }
-
-  /**
-   * Callback function that is fired when the time value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {Date} newValue The new value of the time field.
-   */
-  handleChangeTime = (event, newValue) => {
-    const { searchField } = this.state
-    // Pick the date part from the the date picker
-    if (searchField) {
-      newValue.setFullYear(searchField.getFullYear(), searchField.getMonth(), searchField.getDate())
-    }
-    this.setState({ searchField: newValue })
-  }
-
-  /**
-   * Callback function that is fired when the seconds value changes.
-   *
-   * @param {Object} event Change event targetting the text field.
-   * @param {Integer} seconds The new value of the seconds field.
-   */
-  handleChangeSeconds = (event, seconds) => {
-    const { searchField } = this.state
-    const newValue = searchField || new Date()
-
-    newValue.setSeconds(seconds)
+  handleChangeDate = (newValue) => {
+    console.error('new date', newValue)
     this.setState({ searchField: newValue })
   }
 
@@ -125,13 +74,6 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
    * Clear the entered date & time values
    */
   handleClear = () => this.setState({ searchField: undefined })
-
-  /**
-   * Extract the seconds value to inject in the field input
-   *
-   * @param {Date} date
-   */
-  formatSeconds = date => date ? date.getSeconds() : ''
 
   getPluginSearchQuery = (state) => {
     let query = ''
@@ -169,14 +111,13 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
 
   render() {
     const {
-      moduleTheme: {
-        rootStyle, labelSpanStyle, datePickerTextFieldStyle,
-        datePickerStyle, timePickerStyles, secondsTextFieldStyle,
-      },
+      moduleTheme: { rootStyle, labelSpanStyle }, intl,
     } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField, comparator } = this.state
     const clearButtonDisplayed = searchField !== undefined
+
+    console.error('Search field to render', searchField)
 
     return (
       <div style={rootStyle} >
@@ -184,34 +125,15 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
           {attributeLabel}
         </span>
         <TemporalComparatorComponent onChange={this.handleChangeComparator} value={comparator} />
-        <DatePicker
+        <DatePickerField
           value={searchField}
           onChange={this.handleChangeDate}
-          DateTimeFormat={DateTimeFormat}
-          locale="fr"
-          hintText={<FormattedMessage id="criterion.date.field.label" />}
-          floatingLabelText={<FormattedMessage id="criterion.date.field.label" />}
-          okLabel={<FormattedMessage id="criterion.date.picker.ok" />}
-          cancelLabel={<FormattedMessage id="criterion.date.picker.cancel" />}
-          style={datePickerStyle}
-          textFieldStyle={datePickerTextFieldStyle}
-        />
-        <TimePicker
-          value={searchField}
-          onChange={this.handleChangeTime}
-          format="24hr"
-          floatingLabelText={<FormattedMessage id="criterion.time.field.label" />}
-          hintText={<FormattedMessage id="criterion.time.field.label" />}
-          okLabel={<FormattedMessage id="criterion.time.picker.ok" />}
-          cancelLabel={<FormattedMessage id="criterion.time.picker.cancel" />}
-          textFieldStyle={timePickerStyles}
-        />
-        <TextField
-          type="number"
-          floatingLabelText={<FormattedMessage id="criterion.seconds.field.label" />}
-          value={this.formatSeconds(searchField)}
-          onChange={this.handleChangeSeconds}
-          style={secondsTextFieldStyle}
+          locale={intl.locale}
+          dateHintText={intl.formatMessage({ id: 'criterion.date.field.label' })}
+          timeHintText={intl.formatMessage({ id: 'criterion.time.field.label' })}
+          okLabel={intl.formatMessage({ id: 'criterion.picker.ok.label' })}
+          cancelLabel={intl.formatMessage({ id: 'criterion.picker.cancel.label' })}
+          displayTime
         />
         <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>

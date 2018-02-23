@@ -23,12 +23,9 @@
  */
 const messages = {
   'criterion.date.field.label': 'Date',
-  'criterion.date.picker.ok': 'Ok',
-  'criterion.date.picker.cancel': 'Cancel',
   'criterion.time.field.label': 'Time',
-  'criterion.time.picker.ok': 'Ok',
-  'criterion.time.picker.cancel': 'Cancel',
-  'criterion.seconds.field.label': 'Sec',
+  'criterion.picker.ok.label': 'Ok',
+  'criterion.picker.cancel.label': 'Cancel',
 }
 
 export default messages
