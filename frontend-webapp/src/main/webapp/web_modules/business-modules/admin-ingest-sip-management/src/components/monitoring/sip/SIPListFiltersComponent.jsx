@@ -25,9 +25,8 @@ import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import DatePicker from 'material-ui/DatePicker'
 import FlatButton from 'material-ui/FlatButton'
-import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup } from '@regardsoss/components'
+import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField } from '@regardsoss/components'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -121,7 +120,7 @@ class SIPListFiltersComponent extends React.Component {
     })
   }
 
-  changeDateFilter = (event, newValue) => {
+  changeDateFilter = (newValue) => {
     this.setState({
       filters: {
         ...this.state.filters,
@@ -194,13 +193,13 @@ class SIPListFiltersComponent extends React.Component {
                 })}
               />))}
             </SelectField>
-            <DatePicker
+            <DatePickerField
               value={get(this.state, 'filters.from', undefined)}
-              textFieldStyle={filter.dateStyle}
-              hintText={intl.formatMessage({
+              dateHintText={intl.formatMessage({
                 id: 'sips.list.filters.date.label',
               })}
               onChange={this.changeDateFilter}
+              locale={intl.locale}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>

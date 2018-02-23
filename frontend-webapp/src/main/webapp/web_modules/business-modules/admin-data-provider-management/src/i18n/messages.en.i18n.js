@@ -178,7 +178,7 @@ const messages = Object.assign({
   'acquisition-product.list.filters.productName': 'Product name',
   'acquisition.product.list.filters.session': 'Ingest session',
   'acquisition-chain.monitor.list.filters.no.session': 'Only without session',
-  'acquisition.product.list.filters.from': 'Acquired since ...',
+  'acquisition.product.list.filters.from': 'Since ...',
 
   // 4.3 actions
   'acquisition-product.list.view.files.tooltip': 'See linked files',
@@ -208,7 +208,7 @@ const messages = Object.assign({
   'acquisition.file.list.filters.state.INVALID': 'Invalid',
   'acquisition.file.list.filters.state.ERROR': 'Error',
   'acquisition.file.list.filters.filePath': 'File',
-  'acquisition.file.list.filters.from': 'Acquired since ...',
+  'acquisition.file.list.filters.from': 'Since ...',
 
   //5.3 actions
   'acquisition.file.list.filters.clear.button': 'Clear',
