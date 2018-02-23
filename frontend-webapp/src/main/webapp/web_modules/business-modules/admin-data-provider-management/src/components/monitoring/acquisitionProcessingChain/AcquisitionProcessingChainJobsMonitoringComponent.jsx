@@ -85,7 +85,6 @@ class AcquisitionProcessingChainJobsMonitoringComponent extends React.Component 
   renderGenerationJobsActivity = () => {
     const { chain } = this.props
     const { intl: { formatMessage }, moduleTheme: { monitoring: { chainJobs: { jobActivityStyle } } } } = this.context
-    console.error('chain', chain)
     if (chain && chain.nbSIPGenerationJobs && chain.nbSIPGenerationJobs > 0) {
       return (
         <div style={jobActivityStyle}>
