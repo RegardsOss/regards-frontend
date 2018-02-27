@@ -96,9 +96,7 @@ class PluginListContainer extends React.Component {
 }
 
 const UnconnectedPluginListContainer = PluginListContainer
-export {
-  UnconnectedPluginListContainer,
-}
+export { UnconnectedPluginListContainer }
 
 const mapStateToProps = state => ({
   plugins: uiPluginDefinitionSelectors.getList(state),
