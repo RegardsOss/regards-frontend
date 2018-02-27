@@ -16,6 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { muiTheme } from './storybook-addon-material-ui-custom/src'
+import ThemeEditor from './mui-theme-generator/src/app/Containers/Main'
 
-module.exports = { muiTheme }
+module.exports = { ThemeEditor }

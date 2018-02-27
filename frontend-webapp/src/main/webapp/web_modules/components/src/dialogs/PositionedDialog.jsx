@@ -5,7 +5,7 @@ import root from 'window-or-global'
 import get from 'lodash/get'
 import Dialog from 'material-ui/Dialog'
 import { CommonShapes } from '@regardsoss/shape'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle, SwitchThemeDecorator } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
 import styles from './styles'
 
@@ -118,15 +118,19 @@ class PositionedDialog extends React.Component {
     const actionsContainerStyle = { userActionsContainerStyle, ...dialogCommon.actionsContainerStyle }
 
     return (
-      <Dialog
-        paperProps={positionedDialog.paperProps}
-        contentStyle={layoutStyle}
-        bodyStyle={bodyStyle}
-        actionsContainerStyle={actionsContainerStyle}
-        {...dialogProperties}
+      <SwitchThemeDecorator
+        useMainTheme
       >
-        {HOCUtils.renderChildren(children)}
-      </Dialog >
+        <Dialog
+          paperProps={positionedDialog.paperProps}
+          contentStyle={layoutStyle}
+          bodyStyle={bodyStyle}
+          actionsContainerStyle={actionsContainerStyle}
+          {...dialogProperties}
+        >
+          {HOCUtils.renderChildren(children)}
+        </Dialog >
+      </SwitchThemeDecorator>
     )
   }
 }

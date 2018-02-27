@@ -62,7 +62,7 @@ const messages = Object.assign({
   'datasource.form.table.input': 'Valeur de l\'attribut',
   'datasource.form.subtitle': 'Gestion des attributs d\'une source de données',
   'datasource.form.tags': 'Liste des tags ajoutés à toutes les données aspirées',
-  'datasource.form.subsettingTags': 'Aspirer uniquement les données contenant ces tags (vide = toutes les données sont aspirés)',
+  'datasource.form.subsettingTags': 'Aspirer uniquement les données contenant l\'un de ces tags (vide = toutes les données sont aspirés)',
 
   'datasource.edit.title': 'Edition de la source de données {name}',
   'datasource.create.title': 'Création d\'une source de données',

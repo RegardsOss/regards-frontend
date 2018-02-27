@@ -66,7 +66,7 @@ export default (project, intl) => [
     description: intl.formatMessage({ id: 'project.theme.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/ui/theme/edit`,
+      path: `/admin/${project}/ui/theme/list`,
       icon: <Palette />,
       tooltipMsg: intl.formatMessage({ id: 'project.theme.tooltip' }),
       hateoasDependencies: themeUIDependencies.boardRequiredDependencies,

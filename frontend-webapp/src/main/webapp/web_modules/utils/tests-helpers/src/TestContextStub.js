@@ -40,6 +40,8 @@ export default function buildTestContext(moduleStyles = () => { }, otherFields =
   return {
     intl: intlStub,
     muiTheme: themeStub,
+    mainTheme: themeStub,
+    alternativeTheme: themeStub,
     moduleTheme: buildStyles(moduleStyles),
     ...otherFields,
   }

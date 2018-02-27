@@ -19,9 +19,12 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import Paper from 'material-ui/Paper'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { DraggableCard } from '../../src/components/DraggableCard'
 import ItemTypes from '../../src/components/ItemTypes'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 // Test a component rendering
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing DraggableCard', () => {
@@ -42,13 +45,6 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing DraggableCard', () => 
       isDragging: false,
       isFragment: false,
       shadow: 1,
-    }
-    const context = {
-      muiTheme: {
-        layout: {
-          cardEspaced: {},
-        },
-      },
     }
     const enzymeWrapper = shallow(<DraggableCard {...props} />, { context })
     const subComponent = enzymeWrapper.find(Paper)
