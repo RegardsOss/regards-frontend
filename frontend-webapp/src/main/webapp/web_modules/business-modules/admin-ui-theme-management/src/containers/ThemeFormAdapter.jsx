@@ -19,8 +19,7 @@
 import isNil from 'lodash/isNil'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-manager'
 import { connect } from '@regardsoss/redux'
-import { browserHistory } from 'react-router'
-import { ThemeActions, ThemeInstanceActions, ThemeSelectors, getCurrentTheme } from '@regardsoss/theme'
+import { ThemeActions, ThemeInstanceActions, ThemeSelectors } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import ThemeFormContainer from './ThemeFormContainer'
 
