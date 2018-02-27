@@ -46,6 +46,7 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => {},
       attributes: {
         searchField: {
           name: 'searchField',

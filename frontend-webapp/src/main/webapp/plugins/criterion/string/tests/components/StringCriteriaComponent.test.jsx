@@ -44,6 +44,7 @@ describe('[PLUGIN STRING CRITERIA] Testing the string criteria component', () =>
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => {},
       attributes: {
         searchField: {
           name: 'searchField',

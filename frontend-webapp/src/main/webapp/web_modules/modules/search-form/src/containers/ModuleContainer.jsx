@@ -77,6 +77,7 @@ class ModuleContainer extends React.Component {
   constructor(props) {
     super(props)
     this.criterionValues = {}
+    this.clearFunctions = []
     this.state = {
       searchQuery: '',
       hasSearched: false,
@@ -235,6 +236,13 @@ class ModuleContainer extends React.Component {
     return initialValues
   }
 
+  registerClear = clearFunc =>
+    this.clearFunctions.push(clearFunc)
+
+  handleClearAll = () => {
+    this.clearFunctions.forEach(func => func())
+  }
+
   /**
    * Run form search with the stored criteria values in the state.criterion
    */
@@ -309,6 +317,7 @@ class ModuleContainer extends React.Component {
         onChange: this.onCriteriaChange,
         initialValues: this.getInitialValues(),
         initialQuery: this.getInitialQuery(),
+        registerClear: this.registerClear,
       }
       const criterionWithAttributes = this.getCriterionWithAttributeModels()
       return (
@@ -320,6 +329,7 @@ class ModuleContainer extends React.Component {
             plugins={criterionWithAttributes}
             pluginsProps={pluginsProps}
             handleSearch={this.handleSearch}
+            handleClearAll={this.handleClearAll}
             {...modulesHelper.getReportedUserModuleProps(this.props)}
           />
         </LoadableContentDisplayDecorator>

@@ -20,7 +20,6 @@ import isNaN from 'lodash/isNaN'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
@@ -169,7 +168,6 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
             onChange={this.changeValue2}
             fixedComparator={false}
           />
-          <ClearFieldButton onClick={this.handleClear} displayed={!!(firstField || secondField)} />
         </div>
       </div>
     )

@@ -16,12 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
 import { FormattedMessage } from 'react-intl'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
@@ -101,7 +99,6 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
 
   render() {
     const { firstField, secondField } = this.state
-    const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
     const { moduleTheme: { rootStyle, lineStyle, labelSpanStyle }, intl: { formatMessage } } = this.context
 
     return (
@@ -130,7 +127,6 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
             hideComparator
             fixedComparator
           />
-          <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )

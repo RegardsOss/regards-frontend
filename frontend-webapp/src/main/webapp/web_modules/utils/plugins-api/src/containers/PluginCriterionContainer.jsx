@@ -71,6 +71,12 @@ class PluginCriterionContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     initialQuery: PropTypes.string,
 
+    /**
+     * Registers the clear function to connect to the clear all button
+     */
+    // eslint-disable-next-line react/no-unused-prop-types
+    registerClear: PropTypes.func,
+
   }
 
   componentWillMount() {
@@ -88,6 +94,7 @@ class PluginCriterionContainer extends React.Component {
       } : result
     }, {})
     this.setState(initValues)
+    this.props.registerClear(this.handleClear)
   }
 
   componentDidMount() {
@@ -154,6 +161,10 @@ class PluginCriterionContainer extends React.Component {
 
   setState(state) {
     super.setState(state, this.onPluginChangeValue)
+  }
+
+  handleClear = () => {
+    throw new Error('method handleClear should be overidden by plugin !')
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => openSearchQuery

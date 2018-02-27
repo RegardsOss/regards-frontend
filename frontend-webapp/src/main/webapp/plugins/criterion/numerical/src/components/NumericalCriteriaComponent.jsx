@@ -22,7 +22,6 @@ import TextField from 'material-ui/TextField'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
 import NumericalComparatorComponent from './NumericalComparatorComponent'
 import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
@@ -107,7 +106,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
    * Clear the entered value
    */
   handleClear = () => {
-    this.setState({ searchField: undefined })
+    this.setState({ searchField: '' })
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
@@ -133,7 +132,6 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
     const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField } = this.state
-    const clearButtonDisplayed = !isNaN(searchField)
     return (
       <div style={rootStyle} >
         <span style={labelSpanStyle} >
@@ -151,7 +149,6 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
           onChange={this.handleChangeValue}
           style={textFieldStyle}
         />
-        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

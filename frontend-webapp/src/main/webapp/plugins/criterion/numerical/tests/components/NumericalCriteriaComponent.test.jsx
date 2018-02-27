@@ -45,6 +45,7 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => {},
       attributes: {
         searchField: {
           name: 'searchField',

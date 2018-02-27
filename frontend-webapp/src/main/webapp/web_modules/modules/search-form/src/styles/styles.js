@@ -28,13 +28,18 @@ const formStyles = theme => ({
     },
   },
   user: {
-    searchButtonContainer: {
+    buttonsContainer: {
       display: 'flex',
       alignItems: 'center',
-      flexDirection: 'column',
+      flexDirection: 'row',
+      justifyContent: 'center',
     },
     searchButton: {
       margin: '12px 0 8px 0',
+      width: 200,
+    },
+    resetButton: {
+      margin: '12px 12px 8px 0',
       width: 200,
     },
   },

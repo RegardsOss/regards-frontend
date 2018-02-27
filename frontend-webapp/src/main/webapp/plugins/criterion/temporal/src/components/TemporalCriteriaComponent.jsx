@@ -19,7 +19,7 @@
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton, DatePickerField } from '@regardsoss/components'
+import { DatePickerField } from '@regardsoss/components'
 import TemporalComparatorComponent from './TemporalComparatorComponent'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
@@ -114,7 +114,6 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
     } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField, comparator } = this.state
-    const clearButtonDisplayed = searchField !== undefined
 
     return (
       <div style={rootStyle} >
@@ -132,7 +131,6 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
           cancelLabel={intl.formatMessage({ id: 'criterion.picker.cancel.label' })}
           displayTime
         />
-        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

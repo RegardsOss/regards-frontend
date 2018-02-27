@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
 import isNaN from 'lodash/isNaN'
 import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
 import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
@@ -148,7 +146,6 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
       firstField, secondField, operator1, operator2,
     } = this.state
     const { moduleTheme: { rootStyle, lineStyle } } = this.context
-    const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
 
     return (
       <div style={rootStyle}>
@@ -169,7 +166,6 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
             onChange={this.changeValue2}
             isStopDate
           />
-          <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
         </div>
       </div>
     )
