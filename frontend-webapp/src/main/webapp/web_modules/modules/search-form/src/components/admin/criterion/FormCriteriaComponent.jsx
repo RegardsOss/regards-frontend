@@ -220,9 +220,7 @@ class FormCriteriaComponent extends React.Component {
 
 
 const UnconnectedFormCriteriaComponent = FormCriteriaComponent
-export {
-  UnconnectedFormCriteriaComponent,
-}
+export { UnconnectedFormCriteriaComponent }
 
 export default reduxForm({
   form: 'edit-module-criteria-form',
