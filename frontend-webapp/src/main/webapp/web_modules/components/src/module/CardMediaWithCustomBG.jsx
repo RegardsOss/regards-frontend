@@ -32,16 +32,16 @@ export class CardMediaWithCustomBG extends React.Component {
     children: PropTypes.node.isRequired,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   constructor(props, context) {
     super(props, context)
     const { muiTheme } = context
     this.style = {
       backgroundColor: muiTheme.palette.canvasColor,
     }
-  }
-
-  static contextTypes = {
-    ...themeContextType,
   }
 
   render() {
