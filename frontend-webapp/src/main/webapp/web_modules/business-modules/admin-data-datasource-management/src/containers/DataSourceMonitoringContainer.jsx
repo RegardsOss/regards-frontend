@@ -48,6 +48,7 @@ export class DataSourceMonitoringContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchCrawlerDatasources: () => dispatch(crawlerDatasourceActions.fetchEntityList()),
+      deleteCrawlerDatasource: crawlerId => dispatch(crawlerDatasourceActions.deleteEntity(crawlerId)),
     }
   }
 
@@ -60,10 +61,17 @@ export class DataSourceMonitoringContainer extends React.Component {
     crawlerDatasources: DataManagementShapes.CrawlerDatasourceArray.isRequired,
     // from mapDispatchToProps
     fetchCrawlerDatasources: PropTypes.func.isRequired,
+    deleteCrawlerDatasource: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
     this.props.fetchCrawlerDatasources()
+  }
+
+  onDelete = (crawlerId) => {
+    this.props.deleteCrawlerDatasource(crawlerId).then((actionResults) => {
+      this.props.fetchCrawlerDatasources()
+    })
   }
 
   onBack = () => {
@@ -79,6 +87,7 @@ export class DataSourceMonitoringContainer extends React.Component {
         crawlerDatasources={crawlerDatasources}
         onBack={this.onBack}
         onRefresh={this.props.fetchCrawlerDatasources}
+        onDelete={this.onDelete}
       />
     )
   }

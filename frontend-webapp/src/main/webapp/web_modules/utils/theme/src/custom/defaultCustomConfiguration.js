@@ -21,7 +21,7 @@
  * Additional mui theme properties for regards.
  * @author Sébastien Binda.
  */
-module.exports = {
+module.exports = baseTheme => ({
   palette: {
     background: '',
     backgroundImage: '',
@@ -130,4 +130,4 @@ module.exports = {
     buttonRight: '10px',
     buttonBottom: '10px',
   },
-}
+})

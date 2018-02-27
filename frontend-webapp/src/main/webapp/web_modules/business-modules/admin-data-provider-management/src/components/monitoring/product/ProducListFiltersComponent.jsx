@@ -27,9 +27,8 @@ import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField/TextField'
-import DatePicker from 'material-ui/DatePicker'
 import {
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
 } from '@regardsoss/components'
 import { DataProviderDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -127,8 +126,7 @@ class ProductListFiltersComponent extends React.Component {
     }
   }
 
-  changeFromFilter = (event, newDate) => {
-    newDate.setHours(0, 0, 0, 0)
+  changeFromFilter = (newDate) => {
     this.setState({
       filters: {
         ...this.state.filters,
@@ -224,7 +222,7 @@ class ProductListFiltersComponent extends React.Component {
   )
 
   renderFilters() {
-    const { intl: { formatMessage }, moduleTheme: { monitoring: { filters } } } = this.context
+    const { intl, intl: { formatMessage }, moduleTheme: { monitoring: { filters } } } = this.context
     const stateValues = get(this.state, 'filters.state', [])
     return (
       <TableHeaderLine key="filters">
@@ -258,11 +256,11 @@ class ProductListFiltersComponent extends React.Component {
               value={get(this.state, 'filters.productName', '')}
               onChange={this.changeProductNameFilter}
             />
-            <DatePicker
+            <DatePickerField
               value={get(this.state, 'filters.from', undefined)}
-              textFieldStyle={filters.dateStyle}
-              hintText={formatMessage({ id: 'acquisition.product.list.filters.from' })}
+              dateHintText={formatMessage({ id: 'acquisition.product.list.filters.from' })}
               onChange={this.changeFromFilter}
+              locale={intl.locale}
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>

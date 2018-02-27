@@ -20,11 +20,15 @@
 /**
  * Props to manage global theme (muiTheme) and local module theme (moduleTheme)
  * muiTheme is provided by MuiThemeProvider.
- * moduleTheme is provider by ModuleStyleProvider
+ * mainTheme is used when components .
+ * alternativeTheme is provided by MuiThemeProvider.
+ * moduleTheme is provided by ModuleStyleProvider
  * @type {{muiTheme: *, moduleTheme: *}}
  */
 const contextTypes = {
   muiTheme: PropTypes.object.isRequired,
+  mainTheme: PropTypes.object.isRequired,
+  alternativeTheme: PropTypes.object.isRequired,
   moduleTheme: PropTypes.object,
 }
 export default contextTypes

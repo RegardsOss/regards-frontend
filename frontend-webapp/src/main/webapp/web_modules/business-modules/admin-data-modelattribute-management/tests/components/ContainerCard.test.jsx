@@ -19,9 +19,12 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { CardText } from 'material-ui/Card'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { ContainerCard } from '../../src/components/ContainerCard'
 import ItemTypes from '../../src/components/ItemTypes'
+import styles from '../../src/styles/styles'
+
+const context = buildTestContext(styles)
 
 // Test a component rendering
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ContainerCard', () => {
@@ -38,16 +41,9 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ContainerCard', () => 
       title: 'Some title',
       acceptAttrType: ItemTypes.ATTR_ASSOCIATED,
       children: (<div />),
-      onChange: () => {},
+      onChange: () => { },
       canDrop: false,
       isOver: false,
-    }
-    const context = {
-      muiTheme: {
-        layout: {
-          cardEspaced: {},
-        },
-      },
     }
     const enzymeWrapper = shallow(<ContainerCard {...props} />, { context })
     const subComponent = enzymeWrapper.find(CardText)

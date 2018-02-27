@@ -67,7 +67,9 @@ class ModuleStyleProvider extends React.Component {
    */
   getChildContext() {
     const { module: { styles: localStylesBuilder }, stackCallingContext } = this.props
-    const { muiTheme, moduleTheme: callingModuleTheme } = this.context
+    const {
+      muiTheme, moduleTheme: callingModuleTheme,
+    } = this.context
     if (!localStylesBuilder) {
       throw new Error('You must provide styles as a builder function in an object like { styles } messages when module styles provider ')
     }
@@ -76,7 +78,9 @@ class ModuleStyleProvider extends React.Component {
       ...localStylesBuilder(muiTheme),
       ...((stackCallingContext && callingModuleTheme) || {}),
     }
-    return { moduleTheme }
+    return {
+      moduleTheme,
+    }
   }
 
   /**

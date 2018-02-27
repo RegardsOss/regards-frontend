@@ -22,7 +22,10 @@ const defaultTheme = {
     id: 0,
     name: 'Default',
     active: true,
-    configuration: {},
+    configuration: {
+      mainTheme: {},
+      alternativeTheme: {},
+    },
   },
 }
 export default defaultTheme

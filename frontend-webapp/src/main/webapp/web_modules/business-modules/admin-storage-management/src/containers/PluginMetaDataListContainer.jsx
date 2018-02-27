@@ -20,6 +20,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { StorageDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import PluginMetaDataListComponent from '../components/PluginMetaDataListComponent'
@@ -89,11 +90,11 @@ export class PluginMetaDataListContainer extends React.Component {
   getView = () => {
     let pluginType = ''
     if (this.props.params.pluginType === 'storages') {
-      pluginType = 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage'
+      pluginType = StorageDomain.PluginTypeEnum.STORAGE
     } else if (this.props.params.pluginType === 'security') {
-      pluginType = 'fr.cnes.regards.modules.storage.domain.plugin.ISecurityDelegation'
+      pluginType = StorageDomain.PluginTypeEnum.SECURITY_DELEGATION
     } else {
-      pluginType = 'fr.cnes.regards.modules.storage.domain.plugin.IAllocationStrategy'
+      pluginType = StorageDomain.PluginTypeEnum.ALLOCATION_STRATEGY
     }
     return (
       <PluginMetaDataListComponent

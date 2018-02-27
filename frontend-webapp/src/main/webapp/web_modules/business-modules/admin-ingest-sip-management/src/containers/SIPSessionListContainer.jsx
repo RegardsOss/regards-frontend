@@ -90,10 +90,10 @@ export class SIPSessionListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  onRefresh = () => {
+  onRefresh = (filters) => {
     const { meta, fetchPage } = this.props
     const curentPage = get(meta, 'number', 0)
-    fetchPage(0, SIPSessionListContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
+    fetchPage(0, SIPSessionListContainer.PAGE_SIZE * (curentPage + 1), filters)
   }
 
   handleOpen = (session, isError = false) => {

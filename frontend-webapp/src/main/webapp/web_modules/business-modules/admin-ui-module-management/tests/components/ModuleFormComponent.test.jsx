@@ -18,14 +18,15 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MenuItem from 'material-ui/MenuItem'
 import { Field } from '@regardsoss/form-utils'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { CardActionsComponent } from '@regardsoss/components'
-import Styles from '../../src/styles/styles'
+import styles from '../../src/styles/styles'
 import { UnconnectedModuleFormComponent } from '../../src/components/ModuleFormComponent'
 import DynamicModuleFormComponent from '../../src/components/DynamicModuleFormComponent'
+
+const context = buildTestContext(styles)
 
 /**
  * Tests for ModuleFormComponent
@@ -54,24 +55,8 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
     },
   ]
 
-  const muiTheme = getMuiTheme({
-    linkWithoutDecoration: {},
-  })
   const options = {
-    context: {
-      muiTheme,
-      moduleTheme: Styles(muiTheme),
-      intl: {
-        formatMessage: opt => opt.id,
-        formatTime: () => { },
-        formatDate: () => { },
-        formatRelative: () => { },
-        formatNumber: () => { },
-        formatPlural: () => { },
-        formatHTMLMessage: () => { },
-        now: () => { },
-      },
-    },
+    context,
   }
 
   it('Should render correctly form to create a new module', () => {

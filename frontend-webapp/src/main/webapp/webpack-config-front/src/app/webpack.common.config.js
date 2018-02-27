@@ -36,10 +36,14 @@ module.exports = function (projectContextPath, mode = 'dev') {
           test: /\.jsx?$/,
           // Exclude the DLL folder build from the transpilation
           exclude: [/node_modules/, /dist/],
-          // used to cache the results of the loader.
-          // Next builds will attempt to read from the cache
-          // the cache is different depending of the value of NODE_ENV
-          loader: 'babel-loader?cacheDirectory',
+          use: [
+            // your expensive loader
+            'thread-loader',
+            // used to cache the results of the loader.
+            // Next builds will attempt to read from the cache
+            // the cache is different depending of the value of NODE_ENV
+            'babel-loader?cacheDirectory',
+          ],
         },
         { // @regardsoss-modules icon handler
           test: /default-icon\.svg$/,
@@ -47,7 +51,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
           options: {
             regExp: /modules\/([\w-]+)\/default-icon\.svg$/,
             name: '[1].[ext]',
-            outputPath: './modules-icon/',
+            outputPath: 'modules-icon/',
           },
         },
         {
@@ -56,24 +60,41 @@ module.exports = function (projectContextPath, mode = 'dev') {
         },
         {
           test: /\.(jpg|gif|png)$/,
-          loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'img/',
+          },
         },
         {
           test: /staticConfiguration(\.dev)?\.js$/,
-          loader: 'file-loader?name=staticConfiguration.js&outputPath=./conf/',
+          loader: 'file-loader',
+          options: {
+            name: 'staticConfiguration.js',
+            outputPath: 'conf/',
+          },
         },
         {
           test: /\.(svg|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           exclude: /default-icon.svg/,
-          loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'img/',
+          },
         },
         {
           test: /\.html/,
-          loader: 'file-loader?name=/html/[name].[ext]',
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'html/',
+          },
         },
       ],
     },
     plugins: [
+      new webpack.optimize.OccurrenceOrderPlugin(),
       // Generate the index.html automatically
       new HtmlWebpackPlugin({
         template: 'index.ejs',
