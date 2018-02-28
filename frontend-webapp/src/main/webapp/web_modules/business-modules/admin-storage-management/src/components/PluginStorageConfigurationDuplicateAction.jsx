@@ -20,7 +20,11 @@ import Copy from 'material-ui/svg-icons/content/content-copy'
 import IconButton from 'material-ui/IconButton'
 import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
 
+const IconButtonWithResources = withResourceDisplayControl(IconButton)
 /**
 * Delete table action for datasourceIngestions
 * @author Sébastien Binda
@@ -45,15 +49,17 @@ class PluginStorageConfigurationDuplicateAction extends React.Component {
     const { intl: { formatMessage } } = this.context
     const entityContent = this.props.entity.content
     return (
-      <IconButton
+      <IconButtonWithResources
         className={`selenium-edit-${entityContent.id}`}
-        title={formatMessage({ id: 'crawler.list.delete.action' })}
+        title={formatMessage({ id: 'storage.data-storage.plugins.list.duplicate.button' })}
         iconStyle={PluginStorageConfigurationDuplicateAction.iconStyle}
         style={PluginStorageConfigurationDuplicateAction.buttonStyle}
         onClick={() => this.props.onDuplicate(entityContent)}
+        resourceDependencies={pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.STORAGE)}
+        hideDisabled={false}
       >
         <Copy />
-      </IconButton>
+      </IconButtonWithResources>
     )
   }
 }

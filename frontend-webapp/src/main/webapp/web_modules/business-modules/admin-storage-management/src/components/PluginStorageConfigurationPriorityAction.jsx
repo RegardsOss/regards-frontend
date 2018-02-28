@@ -55,11 +55,14 @@ class PluginStorageConfigurationPriorityAction extends React.Component {
   render() {
     const { intl: { formatMessage } } = this.context
     const entityContent = this.props.entity.content
-    console.error('props', this.props)
+
+    const title = this.props.onUp ?
+      formatMessage({ id: 'storage.data-storage.plugins.list.up.priority.button' }) :
+      formatMessage({ id: 'storage.data-storage.plugins.list.down.priority.button' })
     return (
       <IconButton
         className={`selenium-edit-${entityContent.id}`}
-        title={formatMessage({ id: 'crawler.list.delete.action' })}
+        title={title}
         iconStyle={PluginStorageConfigurationPriorityAction.iconStyle}
         style={PluginStorageConfigurationPriorityAction.buttonStyle}
         onClick={() => this.props.onUp ? this.props.onUp(entityContent) : this.props.onDown(entityContent)}

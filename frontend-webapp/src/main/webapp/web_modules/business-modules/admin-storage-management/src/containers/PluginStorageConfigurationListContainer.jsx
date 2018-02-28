@@ -20,7 +20,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { StorageDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
-import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
+import { pluginConfigurationActions, pluginConfigurationSelectors, pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
 import PluginStorageConfigurationListComponent from '../components/PluginStorageConfigurationListComponent'
 
 /**
@@ -50,7 +50,14 @@ export class StoragePluginConfigurationListContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.getPluginConfigurationsByType(STATIC_CONF.MSERVICES.STORAGE, StorageDomain.PluginTypeEnum.STORAGE)),
+      fetchPluginConfiguration: () =>
+        dispatch(pluginConfigurationActions.getPluginConfigurationsByType(
+          STATIC_CONF.MSERVICES.STORAGE,
+          StorageDomain.PluginTypeEnum.STORAGE,
+        )),
+      updatePluginConfiguration: pluginConf =>
+        dispatch(pluginConfigurationByPluginIdActions.updateEntity(
+          pluginConf.id, pluginConf, { microserviceName: STATIC_CONF.MSERVICES.STORAGE, pluginId: pluginConf.pluginId })),
     }
   }
 
@@ -64,6 +71,7 @@ export class StoragePluginConfigurationListContainer extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func.isRequired,
+    updatePluginConfiguration: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -96,6 +104,21 @@ export class StoragePluginConfigurationListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${pluginConf.id}/edit`)
   }
 
+  onUpPluginPriority = (pluginConf) => {
+    // TODO ....
+  }
+
+  onDownPluginPriority = (pluginConf) => {
+    // TODO ....
+  }
+
+  onActivateToggle = (plugiConf) => {
+    const updatedPluginConfiguration = Object.assign({}, plugiConf, {
+      active: !plugiConf.active,
+    })
+    this.props.updatePluginConfiguration(updatedPluginConfiguration)
+  }
+
   render() {
     return (
       <PluginStorageConfigurationListComponent
@@ -105,6 +128,9 @@ export class StoragePluginConfigurationListContainer extends React.Component {
         onNewPluginConf={this.onAddConf}
         onEditPluginConf={this.onEditPluginConf}
         onDuplicatePluginConf={this.onDuplicatePluginConf}
+        onUpPluginPriority={this.onUpPluginPriority}
+        onDownPluginPriority={this.onDownPluginPriority}
+        onActivateToggle={this.onActivateToggle}
       />
     )
   }

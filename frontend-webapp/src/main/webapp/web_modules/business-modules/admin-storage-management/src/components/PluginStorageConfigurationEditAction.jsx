@@ -53,7 +53,7 @@ class PluginStorageConfigurationEditAction extends React.Component {
     return (
       <IconButton
         className={`selenium-edit-${entityContent.id}`}
-        title={formatMessage({ id: 'crawler.list.delete.action' })}
+        title={formatMessage({ id: 'storage.data-storage.plugins.list.edit.button' })}
         iconStyle={PluginStorageConfigurationEditAction.iconStyle}
         style={PluginStorageConfigurationEditAction.buttonStyle}
         onClick={() => this.props.onEdit(entityContent)}

@@ -24,8 +24,18 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'storage.data-storage.plugins.list.title': 'Configuration des espaces de stockage',
   'storage.data-storage.plugins.list.subtitle': 'Cette section vous permer de configurer les différents espaces de stockage utilisés par le stystème et de les prioriser. La priorité permet, dans le cas ou des données sont stockées sur plusieurs systèmes de stockage, de déterminer sur lequel d\'entre eux récupérer les données.',
+  'storage.data-storage.plugins.list.header.name.label': 'Mode de stockage',
+  'storage.data-storage.plugins.list.header.type.label': 'Type de stockage',
+  'storage.data-storage.plugins.list.header.active.label': 'Activer/Désactiver',
+  'storage.data-storage.plugins.list.edit.button': 'Editer la configuration',
+  'storage.data-storage.plugins.list.duplicate.button': 'Dupliquer la configuration',
+  'storage.data-storage.plugins.list.up.priority.button': 'Augmenter la priorité de la configuration',
+  'storage.data-storage.plugins.list.down.priority.button': 'Diminuer la priorité de la configuration',
+  'storage.data-storage.plugins.list.active.on.button': 'Activer ce système de stockage',
+  'storage.data-storage.plugins.list.active.off.button': 'Désactiver ce système de stockage',
   'storage.data-storage.plugins.list.add.button': 'Ajouter un nouveau système de stockage',
   'storage.data-storage.plugins.list.back.button': 'Retour',
+  'storage.data-storage.plugins.list.empty.title': 'Aucun mode de stockage défini',
 
   'storage.data-storage.plugins.form.create.title': 'Ajout d\'un nouvel espace de stockage',
   'storage.data-storage.plugins.form.edit.title': 'Edition de l\'espace de stockage "{name}"',

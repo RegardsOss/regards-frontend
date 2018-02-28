@@ -25,9 +25,12 @@ import {
   NoContentComponent, TableHeaderLineLoadingAndResults,
 } from '@regardsoss/components'
 import { CommonShapes } from '@regardsoss/shape'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
 import PluginStorageConfigurationEditAction from './PluginStorageConfigurationEditAction'
 import PluginStorageConfigurationDuplicateAction from './PluginStorageConfigurationDuplicateAction'
 import PluginStorageConfigurationPriorityAction from './PluginStorageConfigurationPriorityAction'
+import PluginStorageConfigurationActivationAction from './PluginStorageConfigurationActivationAction'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -40,7 +43,10 @@ export class PluginStorageConfigurationListComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     onNewPluginConf: PropTypes.func.isRequired,
     onEditPluginConf: PropTypes.func.isRequired,
+    onUpPluginPriority: PropTypes.func.isRequired,
+    onDownPluginPriority: PropTypes.func.isRequired,
     onDuplicatePluginConf: PropTypes.func.isRequired,
+    onActivateToggle: PropTypes.func.isRequired,
     pluginConfigurations: CommonShapes.PluginConfigurationArray.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }
@@ -52,47 +58,45 @@ export class PluginStorageConfigurationListComponent extends React.Component {
     ...themeContextType,
   }
 
-  onUp = (pluginConf) => {
-
-  }
-
-  onDown = (pluginConf) => {
-
-  }
+  static addDependencies = [pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.STORAGE)]
 
   render() {
     const {
-      onBack, onNewPluginConf, pluginConfigurations, isLoading,
+      onBack, onNewPluginConf, pluginConfigurations, isLoading, onUpPluginPriority, onDownPluginPriority,
+      onEditPluginConf, onDuplicatePluginConf, onActivateToggle,
     } = this.props
     const { intl: { formatMessage }, moduleTheme, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
     // Table columns to display
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', 'name', 'content.label'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.type', 'type', 'content.pluginId'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.active', 'active', 'content.active'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'storage.data-storage.plugins.list.header.name.label' }), 'content.label'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.type', formatMessage({ id: 'storage.data-storage.plugins.list.header.type.label' }), 'content.pluginId'),
+      TableColumnBuilder.buildSimpleColumnWithCell('column.active', formatMessage({ id: 'storage.data-storage.plugins.list.header.active.label' }), {
+        Constructor: PluginStorageConfigurationActivationAction, // custom cell
+        props: { onToggle: onActivateToggle },
+      }),
       TableColumnBuilder.buildOptionsColumn('', [{
         OptionConstructor: PluginStorageConfigurationEditAction,
-        optionProps: { onEdit: this.props.onEditPluginConf },
+        optionProps: { onEdit: onEditPluginConf },
       },
       {
         OptionConstructor: PluginStorageConfigurationDuplicateAction,
-        optionProps: { onDuplicate: this.props.onDuplicatePluginConf },
+        optionProps: { onDuplicate: onDuplicatePluginConf },
       },
       {
         OptionConstructor: PluginStorageConfigurationPriorityAction,
-        optionProps: { onUp: this.onUp },
+        optionProps: { onUp: onUpPluginPriority },
       },
       {
         OptionConstructor: PluginStorageConfigurationPriorityAction,
-        optionProps: { onDown: this.onDown },
+        optionProps: { onDown: onDownPluginPriority },
       },
       ], true, fixedColumnWidth),
     ]
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'processing-chain.empty.title' })}
+        title={formatMessage({ id: 'storage.data-storage.plugins.list.empty.title' })}
         Icon={AddToPhotos}
       />
     )
@@ -120,8 +124,7 @@ export class PluginStorageConfigurationListComponent extends React.Component {
           <CardActionsComponent
             mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.add.button' })}
             mainButtonClick={onNewPluginConf}
-            // TODO
-            // mainHateoasDependencies={}
+            mainHateoasDependencies={PluginStorageConfigurationListComponent.addDependencies}
             secondaryButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.back.button' })}
             secondaryButtonClick={onBack}
           />

@@ -241,8 +241,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const UnconnectedModuleFormContainer = ModuleFormContainer
-export {
-  UnconnectedModuleFormContainer,
-}
+export { UnconnectedModuleFormContainer }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModuleFormContainer)

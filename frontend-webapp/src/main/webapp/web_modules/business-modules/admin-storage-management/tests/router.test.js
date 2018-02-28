@@ -47,25 +47,25 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
     })
   })
   it('board should return PluginStorageConfigurationFormContainer for creation mode', (done) => {
-    Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(PluginStorageConfigurationFormContainer)
       done()
     })
   })
   it('board should return PluginStorageConfigurationFormContainer dor edition/copy mode', (done) => {
-    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(PluginStorageConfigurationFormContainer)
       done()
     })
   })
   it('board should return PluginMetaDataListContainer', (done) => {
-    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(PluginMetaDataListContainer)
       done()
     })
   })
   it('board should return PluginStorageMonitoringComponent', (done) => {
-    Routes.childRoutes[5].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(PluginStorageMonitoringComponent)
       done()
     })

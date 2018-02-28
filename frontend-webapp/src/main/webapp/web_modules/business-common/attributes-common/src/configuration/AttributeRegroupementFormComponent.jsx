@@ -170,9 +170,7 @@ function validate(formValues) {
 }
 
 const UnconnectedAttributeRegroupementFormComponent = AttributeRegroupementFormComponent
-export {
-  UnconnectedAttributeRegroupementFormComponent,
-}
+export { UnconnectedAttributeRegroupementFormComponent }
 
 export default reduxForm({
   form: 'search-form-attr-grp-form',
