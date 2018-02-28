@@ -42,7 +42,6 @@ const messages = Object.assign({
   'storage.data-storage.plugins.form.edit.subtitle': 'Please configure the storage parameters.',
   'storage.data-storage.plugins.form.type.select.title': 'Storage type',
   'storage.data-storage.plugins.form.type.select.label': 'Select a type ...',
-  'storage.data-storage.plugins.form.parameters.title': 'Configuration parameters',
 
   'storage.locations.size.title': 'Data storage locations occupancy rate',
   'storage.locations.configuration.title': 'Configure data storage locations',

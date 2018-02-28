@@ -70,6 +70,8 @@ export class PluginFormContainer extends React.Component {
     pluginConfigurationId: PropTypes.string,
     formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
     title: PropTypes.string,
+    cardStyle: PropTypes.bool,
+    simpleGlobalParameterConf: PropTypes.bool,
     backUrl: PropTypes.string,
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func,
@@ -117,7 +119,9 @@ export class PluginFormContainer extends React.Component {
    * @returns {XML}
    */
   getFormComponent = () => {
-    const { microserviceName, title } = this.props
+    const {
+      microserviceName, title, cardStyle, simpleGlobalParameterConf,
+    } = this.props
     const {
       currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching,
       isPluginMetaDataFetching,
@@ -137,6 +141,8 @@ export class PluginFormContainer extends React.Component {
           isEditing={this.state.isEditing}
           microserviceName={microserviceName}
           title={title}
+          cardStyle={cardStyle}
+          simpleGlobalParameterConf={simpleGlobalParameterConf}
         />
       </LoadableContentDisplayDecorator>
     )

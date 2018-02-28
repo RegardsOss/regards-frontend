@@ -94,16 +94,22 @@ class PluginStorageConfigurationFormComponent extends React.Component {
               pluginId={selectedPluginId}
               pluginConfigurationId={get(pluginConfiguration, 'id', null)}
               formMode={mode}
-              title={formatMessage({ id: 'storage.data-storage.plugins.form.parameters.title' })}
+              backUrl={onBack}
+              cardStyle={false}
+              simpleGlobalParameterConf
             /> : null
           }
         </CardText>
-        <CardActions>
-          <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.back.button' })}
-            mainButtonUrl={onBack}
-          />
-        </CardActions>
+        {selectedPluginId ? null :
+          (
+            <CardActions>
+              <CardActionsComponent
+                mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.back.button' })}
+                mainButtonUrl={onBack}
+              />
+            </CardActions>
+          )
+        }
       </Card>
     )
   }

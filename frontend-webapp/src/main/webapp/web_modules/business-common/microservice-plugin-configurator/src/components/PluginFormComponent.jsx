@@ -40,6 +40,8 @@ export class PluginFormComponent extends React.Component {
     backUrl: PropTypes.string.isRequired,
     isEditing: PropTypes.bool,
     title: PropTypes.string,
+    cardStyle: PropTypes.bool,
+    simpleGlobalParameterConf: PropTypes.bool,
     microserviceName: PropTypes.string.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
@@ -51,6 +53,8 @@ export class PluginFormComponent extends React.Component {
   static defaultProps = {
     isEditing: false,
     title: null,
+    cardStyle: true,
+    simpleGlobalParameterConf: false,
   }
 
   static contextTypes = {
@@ -115,14 +119,45 @@ export class PluginFormComponent extends React.Component {
     initialize({ [PluginFormComponent.confFieldName]: initialValues })
   }
 
+  renderField = () => {
+    const { microserviceName, pluginMetaData, simpleGlobalParameterConf } = this.props
+    return (
+      <Field
+        name={PluginFormComponent.confFieldName}
+        component={RenderPluginConfField}
+        microserviceName={microserviceName}
+        pluginMetaData={pluginMetaData}
+        simpleGlobalParameterConf={simpleGlobalParameterConf}
+      />
+    )
+  }
+
+  renderActions = () => {
+    const {
+      submitting, invalid, isEditing, backUrl,
+    } = this.props
+    const { intl: { formatMessage } } = this.context
+    return (
+      <CardActionsComponent
+        mainButtonLabel={isEditing ?
+          formatMessage({ id: 'plugin.configuration.form.action.submit.save' }) :
+          formatMessage({ id: 'plugin.configuration.form.action.submit.add' })}
+        mainButtonType="submit"
+        isMainButtonDisabled={submitting || invalid}
+        secondaryButtonLabel={formatMessage({ id: 'plugin.configuration.form.action.cancel' })}
+        secondaryButtonUrl={backUrl}
+      />
+    )
+  }
+
   /**
    * Returns React component
    * @returns {XML}
    */
   render() {
     const {
-      pluginConfiguration, microserviceName, handleSubmit, submitting, invalid, isEditing,
-      backUrl, pluginMetaData, title,
+      pluginConfiguration, handleSubmit, isEditing,
+      title, cardStyle,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -137,29 +172,25 @@ export class PluginFormComponent extends React.Component {
       <form
         onSubmit={handleSubmit(this.onSubmit)}
       >
-        <Card>
-          <CardTitle title={finalTitle} />
-          <CardText>
-            <Field
-              name={PluginFormComponent.confFieldName}
-              component={RenderPluginConfField}
-              microserviceName={microserviceName}
-              pluginMetaData={pluginMetaData}
-            />
-          </CardText>
+        {cardStyle ?
+          (
+            <Card>
+              <CardTitle title={finalTitle} />
+              <CardText>
+                {this.renderField()}
+              </CardText>
 
-          <CardActions>
-            <CardActionsComponent
-              mainButtonLabel={isEditing ?
-                formatMessage({ id: 'plugin.configuration.form.action.submit.save' }) :
-                formatMessage({ id: 'plugin.configuration.form.action.submit.add' })}
-              mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={formatMessage({ id: 'plugin.configuration.form.action.cancel' })}
-              secondaryButtonUrl={backUrl}
-            />
-          </CardActions>
-        </Card>
+              <CardActions>
+                {this.renderActions()}
+              </CardActions>
+            </Card>
+          ) :
+          (
+            <div>
+              {this.renderField()}
+              {this.renderActions()}
+            </div>
+          )}
       </form>
     )
   }
