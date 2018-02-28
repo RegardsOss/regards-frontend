@@ -31,7 +31,7 @@ class MainBarModuleLink extends React.Component {
   static propTypes = {
     item: ModuleNavigationItem.isRequired,
     locale: PropTypes.string,
-    buildModuleURL: PropTypes.func.isRequired,
+    buildLinkURL: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,26 +40,24 @@ class MainBarModuleLink extends React.Component {
 
   render() {
     const {
-      locale, buildModuleURL, item: {
+      locale, buildLinkURL, item: {
         iconType,
         customIconURL,
         selected,
         title,
-        module: {
-          id, type, description,
-        },
+        module,
       },
     } = this.props
     const { moduleTheme: { user: { navigationItem } } } = this.context
     return (
-      <Link to={buildModuleURL(id)} >
+      <Link to={buildLinkURL(module)} >
         <FlatButton
-          label={ModuleTitleText.selectTitle(title, description, locale)}
+          label={ModuleTitleText.selectTitle(title, module.description, locale)}
           secondary={selected}
           icon={
             <ModuleIcon
               iconDisplayMode={iconType}
-              defaultIconURL={UIDomain.getModuleDefaultIconURL(type)}
+              defaultIconURL={UIDomain.getModuleDefaultIconURL(module.type)}
               customIconURL={customIconURL}
             />
           }

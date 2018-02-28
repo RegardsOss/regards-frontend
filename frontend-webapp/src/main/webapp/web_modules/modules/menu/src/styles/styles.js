@@ -104,6 +104,7 @@ const menuStyles = theme => ({
       flexShrink: 1,
       maxHeight: theme['module:menu'].navigationBarMaxHeight,
       overflowY: 'hidden',
+      boxSizing: 'content-box',
     },
     navigationItem: {
       displayStyle: {

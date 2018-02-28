@@ -32,10 +32,16 @@ const RELAYOUT_DELAY = 25
  * @author Raphaël Mechali
  */
 class NavigationLayoutComponent extends React.Component {
+  /**
+   * WORKAROUND: When first rendering, react-measure provides a wrong width of 48 pixels to big, and this makes the layout wrong. Therefore
+   * we reserve that width to make sure full menu will be shown
+   */
+  static OBSERVED_FIRST_WIDTH_ERROR = 48
+
   static propTypes = {
     navigationElements: PropTypes.arrayOf(NavigationItem),
     locale: PropTypes.string,
-    buildModuleURL: PropTypes.func.isRequired,
+    buildLinkURL: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -100,7 +106,7 @@ class NavigationLayoutComponent extends React.Component {
   onBarItemResized = (itemKey, newWidth) => {
     this.barItemsWidths = {
       ...this.barItemsWidths,
-      [itemKey]: newWidth,
+      [itemKey]: Math.ceil(newWidth),
     }
     this.onLayoutUpdate(this.props.navigationElements)
   }
@@ -110,7 +116,7 @@ class NavigationLayoutComponent extends React.Component {
    * @param {number} newWidth new button width
    */
   onMoreButtonResized = (newWidth) => {
-    this.moreButtonWidth = newWidth
+    this.moreButtonWidth = Math.ceil(newWidth)
     this.onLayoutUpdate(this.props.navigationElements)
   }
 
@@ -119,7 +125,8 @@ class NavigationLayoutComponent extends React.Component {
    * @param {width: number} dimensions
    */
   onComponentResized = ({ measureDiv: { width } }) => {
-    this.layoutWidth = width
+    // WORKAROUND: see OBSERVED_FIRST_WIDTH_ERROR comment
+    this.layoutWidth = Math.max(0, Math.floor(width) - NavigationLayoutComponent.OBSERVED_FIRST_WIDTH_ERROR)
     this.onLayoutUpdate(this.props.navigationElements)
   }
 
@@ -189,7 +196,7 @@ class NavigationLayoutComponent extends React.Component {
 
 
   render() {
-    const { navigationElements, locale, buildModuleURL } = this.props
+    const { navigationElements, locale, buildLinkURL } = this.props
     const { shownBarItemsCount, moreButtonItems, forceMoreButton } = this.state
     const { moduleTheme: { user: { navigationGroup } } } = this.context
     return (
@@ -204,7 +211,7 @@ class NavigationLayoutComponent extends React.Component {
                     item={navigationElement}
                     displayed={index < shownBarItemsCount}
                     locale={locale}
-                    buildModuleURL={buildModuleURL}
+                    buildLinkURL={buildLinkURL}
                     onItemResized={this.onBarItemResized}
                   />
                 ))
@@ -214,7 +221,7 @@ class NavigationLayoutComponent extends React.Component {
                 displayed={forceMoreButton || moreButtonItems.length > 0}
                 items={moreButtonItems}
                 locale={locale}
-                buildModuleURL={buildModuleURL}
+                buildLinkURL={buildLinkURL}
                 onResized={this.onMoreButtonResized}
               />
             </div>)

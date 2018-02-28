@@ -60,13 +60,17 @@ export class NavigationMenuContainer extends React.Component {
   }
 
   /**
-   * Builds module URL
-   * @param {number} moduleId module ID
-   * @return {string} link URL to module
+   * Builds URL for modules, returns no link when links should not be displayed
+   * @param {id:number, description:string, type:string} module module as embedded in navigation items
+   * @return {string} link URL or null if module link should not be dispayed to module or null if no link should be provided
    */
-  buildModuleURL = (moduleId) => {
-    const { project } = this.props
-    return UIDomain.getModuleURL(project, moduleId)
+  buildLinkURL = (module) => {
+    const { project, displayMode } = this.props
+    if (displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.USER && module) {
+      // this is a module and we are in user application, return valid link
+      return UIDomain.getModuleURL(project, module.id)
+    }
+    return null
   }
 
 
@@ -90,7 +94,7 @@ export class NavigationMenuContainer extends React.Component {
           clearNonNavigable
         >
           {/* main navigation view component */}
-          <NavigationLayoutComponent buildModuleURL={this.buildModuleURL} locale={locale} />
+          <NavigationLayoutComponent buildLinkURL={this.buildLinkURL} locale={locale} />
         </NavigationModelResolutionContainer>
       </DynamicModulesProviderContainer>
     )

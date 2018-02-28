@@ -186,11 +186,11 @@ export class NavigationModelResolutionContainer extends React.Component {
     // 1 - resolve modules that can be retrieved
     const { remainingDynamicModules, items = [], homeItem } =
       NavigationModelResolutionContainer.resolveItems(navigationConfiguration, dynamicModules, homeConfiguration)
-    const resultingNavigationItem = []
+    const resultingNavigationItems = []
     if (homeItem) {
-      resultingNavigationItem.push(homeItem)
+      resultingNavigationItems.push(homeItem)
     }
-    resultingNavigationItem.push(...items)
+    resultingNavigationItems.push(...items)
 
     // 2 - also create navigation elements for modules that was not defined last time administrator edited the menu configuration
     return remainingDynamicModules.reduce((navigationItems, module) => {
@@ -202,7 +202,28 @@ export class NavigationModelResolutionContainer extends React.Component {
       }
       // disabled module
       return navigationItems
-    }, resultingNavigationItem)
+    }, resultingNavigationItems)
+  }
+
+
+  /**
+   * Updates selection in current navigation tree (clones the tree to avoid editing the set properties)
+   * @param {[NavigationItem]} navigationItems currently resolved navigation items
+   */
+  static updateSelection(navigationItems, selectedModuleId) {
+    return navigationItems.map((item) => {
+      if (item.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE) {
+        // found module, is it the selected one?
+        return { ...item, selected: item.module.id === selectedModuleId }
+      }
+      // found section: does it contain the selected module?
+      const updatedChildren = NavigationModelResolutionContainer.updateSelection(item.children, selectedModuleId)
+      return {
+        ...item,
+        children: updatedChildren,
+        selected: !!updatedChildren.find(child => child.selected),
+      }
+    })
   }
 
   static propTypes = {
@@ -218,6 +239,12 @@ export class NavigationModelResolutionContainer extends React.Component {
   static defaultProps = {
     dynamicModules: [],
     navigationConfiguration: [],
+  }
+
+  /** Initial state */
+  state = {
+    navigationElements: null,
+    children: null,
   }
 
   /**
@@ -237,24 +264,34 @@ export class NavigationModelResolutionContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    // detect children or modules list changes
+    // Algorithm: if the navigation model changed (including selection state), reclone the children with new model
+    // Note: selection state is handled separately as tree resolution is a long operation (we avoid to perform it
+    // too many times)
+    let navigationElements = null
+    // 1 - detect children or modules list changes
     if (!isEqual(oldProps.dynamicModules, newProps.dynamicModules) ||
       !isEqual(oldProps.homeConfiguration, newProps.homeConfiguration) ||
       !isEqual(oldProps.navigationConfiguration, newProps.navigationConfiguration) ||
       oldProps.children !== newProps.children) {
       // 2 - convert modules and configuration into a navigation model
-      const {
-        dynamicModules, homeConfiguration, navigationConfiguration, children,
-      } = newProps
-      const navigationElements =
+      const { dynamicModules, homeConfiguration, navigationConfiguration } = newProps
+      navigationElements =
         NavigationModelResolutionContainer.resolveNavigationModel(navigationConfiguration, dynamicModules, homeConfiguration)
-      // 3 - prepare children with model
-      this.setState({
-        children: HOCUtils.cloneChildrenWith(children, { navigationElements }),
-      })
     }
-    if (!isEqual(oldProps.currentModuleId, newProps.currentModuleId)) {
-      // TODO handle tree update on selection changed
+    // 2 - detect selection changes or navigation tree changes to update selection in tree (note: navigation
+    // elements is only set here when point 1 was previously executed)
+    if (!isEqual(oldProps.currentModuleId, newProps.currentModuleId) || navigationElements) {
+      // considered tree model: built at point 1 or previously built
+      const currentNavigationElements = navigationElements || this.state.navigationElements
+      navigationElements = NavigationModelResolutionContainer.updateSelection(currentNavigationElements, newProps.currentModuleId)
+    }
+
+    // 3 - When navigation tree changed, store in state children with navigation elements as property
+    if (navigationElements) {
+      this.setState({
+        navigationElements,
+        children: HOCUtils.cloneChildrenWith(newProps.children, { navigationElements }),
+      })
     }
   }
 
