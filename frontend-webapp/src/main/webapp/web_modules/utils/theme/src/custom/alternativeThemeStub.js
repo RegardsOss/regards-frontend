@@ -18,7 +18,7 @@
  **/
 
 /**
- * This file provides an example of full defined secondary theme keys. It's used on
+ * This file provides an example of full defined alternative theme keys. It's used on
  * theme form to provide an simple idea of what is configurable on the secondary theme
  * /!\ Values from this file are NOT USED
  * @author Léo Mieulet

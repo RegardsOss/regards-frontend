@@ -31,7 +31,7 @@ module.exports = baseTheme => ({
   },
   'components:infinite-table': {
     lineHeight: 50,
-    fixedColumnsWidth: 48, // best fit for default IconButton size
+    fixedColumnsWidth: baseTheme.button.iconButtonSize, // best fit for default IconButton size
     minRowCount: 13,
     maxRowCount: 13,
     minHeaderRowHeight: 40,

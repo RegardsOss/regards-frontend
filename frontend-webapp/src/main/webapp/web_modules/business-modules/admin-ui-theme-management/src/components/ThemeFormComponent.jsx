@@ -110,7 +110,7 @@ class ThemeFormComponent extends React.Component {
       configuration: updatedConf,
       lastRefresh: Date.now(),
     })
-  };
+  }
 
   /**
    * Remove a theme property inside the overall configuration
