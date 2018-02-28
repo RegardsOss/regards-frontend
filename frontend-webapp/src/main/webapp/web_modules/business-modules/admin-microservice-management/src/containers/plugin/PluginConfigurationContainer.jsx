@@ -24,7 +24,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import PluginConfigurationComponent from '../../components/plugin/PluginConfigurationComponent'
-import { pluginConfigurationByTypeActions } from '../../clients/PluginConfigurationClient'
+import { pluginConfigurationByPluginIdActions } from '../../clients/PluginConfigurationClient'
 
 /**
  * Container connecting a {@link PluginConfigurationComponent} to the redux store.
@@ -172,8 +172,8 @@ export class PluginConfigurationContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = dispatch => ({
-  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.updateEntity(id, values, { microserviceName, pluginId })),
-  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.deleteEntity(pluginConfigurationId, { microserviceName, pluginId })),
+  updatePluginConfiguration: (id, values, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(id, values, { microserviceName, pluginId })),
+  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(pluginConfigurationId, { microserviceName, pluginId })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginConfigurationContainer)

@@ -39,6 +39,7 @@ export class PluginFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isEditing: PropTypes.bool,
+    title: PropTypes.string,
     microserviceName: PropTypes.string.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
@@ -49,6 +50,7 @@ export class PluginFormComponent extends React.Component {
 
   static defaultProps = {
     isEditing: false,
+    title: null,
   }
 
   static contextTypes = {
@@ -119,20 +121,24 @@ export class PluginFormComponent extends React.Component {
    */
   render() {
     const {
-      pluginConfiguration, microserviceName, handleSubmit, submitting, invalid, isEditing, backUrl, pluginMetaData,
+      pluginConfiguration, microserviceName, handleSubmit, submitting, invalid, isEditing,
+      backUrl, pluginMetaData, title,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
-    const title = isEditing ?
-      formatMessage({ id: 'plugin.configuration.form.edit.title' }, { name: pluginConfiguration.label }) :
-      formatMessage({ id: 'plugin.configuration.form.create.title' })
+    let finalTitle = title
+    if (!title) {
+      finalTitle = isEditing ?
+        formatMessage({ id: 'plugin.configuration.form.edit.title' }, { name: pluginConfiguration.label }) :
+        formatMessage({ id: 'plugin.configuration.form.create.title' })
+    }
 
     return (
       <form
         onSubmit={handleSubmit(this.onSubmit)}
       >
         <Card>
-          <CardTitle title={title} />
+          <CardTitle title={finalTitle} />
           <CardText>
             <Field
               name={PluginFormComponent.confFieldName}

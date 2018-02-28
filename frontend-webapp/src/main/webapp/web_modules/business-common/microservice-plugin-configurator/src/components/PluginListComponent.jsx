@@ -19,6 +19,7 @@
 import find from 'lodash/find'
 import map from 'lodash/map'
 import DropDownMenu from 'material-ui/DropDownMenu'
+import Divider from 'material-ui/Divider'
 import MenuItem from 'material-ui/MenuItem'
 import { CommonShapes } from '@regardsoss/shape'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
@@ -36,6 +37,7 @@ export class PluginListComponent extends React.Component {
     selectLabel: PropTypes.string,
     pluginList: CommonShapes.PluginMetaDataList,
     defaultSelectedPluginId: PropTypes.string,
+    disabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     errorText: PropTypes.string,
   }
@@ -79,14 +81,33 @@ export class PluginListComponent extends React.Component {
   /**
    * Render one pluginMetadata to display in the list
    */
-  renderItem = plugin => (
-    <MenuItem key={plugin.content.pluginId} value={plugin.content.pluginId} primaryText={plugin.content.pluginId} />
-  )
+  renderItem = (plugin) => {
+    const { moduleTheme } = this.context
+    const infos = (
+      <div>
+        <div style={moduleTheme.pluginListSelector.version}>{`${plugin.content.author} | ${plugin.content.version}`}</div>
+        <div style={moduleTheme.pluginListSelector.description}> {plugin.content.description}</div>
+      </div>
+    )
+
+    return (
+      [
+        <MenuItem
+          innerDivStyle={moduleTheme.pluginListSelector.menuItem}
+          key={plugin.content.pluginId}
+          value={plugin.content.pluginId}
+          primaryText={plugin.content.pluginId}
+        >{infos}
+        </MenuItem>,
+        <Divider key={`divider-${plugin.content.pluginId}`} />,
+      ]
+    )
+  }
 
   /**
    * Returns React component
-   * @returns {XML}
-   */
+     * @returns {XML}
+        */
   render() {
     const { moduleTheme: { renderer: { errorStyle } } } = this.context
     return (
@@ -98,6 +119,7 @@ export class PluginListComponent extends React.Component {
           value={this.state.selectedPluginId}
           onChange={this.handleSelect}
           style={PluginListComponent.menuStyles}
+          disabled={this.props.disabled}
         >
           <MenuItem value={null} primaryText={this.props.selectLabel || 'none'} />
           {map(this.props.pluginList, this.renderItem)}

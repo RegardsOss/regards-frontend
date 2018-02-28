@@ -16,21 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginFormContainer from './containers/PluginFormContainer'
-import PluginListContainer from './containers/PluginListContainer'
-import RenderPluginField from './form-utils/RenderPluginField'
-import RenderPluginConfField from './form-utils/RenderPluginConfField'
-import PluginDescriptionCard from './components/PluginDescriptionCard'
+import replace from 'lodash/replace'
+import Schemas from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
-/**
- * Module to handle current project of the interface. Fetch the project and put the information in the store.
- * To use this module just add <ProjectHandler projectName={} /> into your application DOM.
- *
- */
-module.exports = {
-  PluginFormContainer,
-  PluginListContainer,
-  RenderPluginField,
-  RenderPluginConfField,
-  PluginDescriptionCard,
+export default class PluginConfigurationByPluginIdActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugins/{pluginId}/config`,
+      schemaTypes: {
+        ENTITY: Schemas.PLUGIN_CONFIGURATION,
+        ENTITY_ARRAY: Schemas.PLUGIN_CONFIGURATION_ARRAY,
+      },
+    })
+  }
+  getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
 }

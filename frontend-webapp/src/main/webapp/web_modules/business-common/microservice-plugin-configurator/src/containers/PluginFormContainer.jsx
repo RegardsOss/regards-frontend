@@ -22,7 +22,7 @@ import { connect } from '@regardsoss/redux'
 import isUndefined from 'lodash/isUndefined'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginFormComponent from '../components/PluginFormComponent'
-import { pluginConfigurationByTypeActions } from '../clients/PluginConfigurationClient'
+import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
 import { pluginMetadataActions } from '../clients/PluginMetadataClient'
 
 /**
@@ -50,15 +50,15 @@ export class PluginFormContainer extends React.Component {
     fetchPluginMetaData: (microserviceName, pluginId) => dispatch(pluginMetadataActions.fetchEntity(pluginId, {
       microserviceName,
     })),
-    fetchPluginConfiguration: (pluginConfId, pluginId, microserviceName) => dispatch(pluginConfigurationByTypeActions.fetchEntity(pluginConfId, {
+    fetchPluginConfiguration: (pluginConfId, pluginId, microserviceName) => dispatch(pluginConfigurationByPluginIdActions.fetchEntity(pluginConfId, {
       microserviceName,
       pluginId,
     })),
-    createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.createEntity(vals, {
+    createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity(vals, {
       microserviceName,
       pluginId,
     })),
-    updatePluginConfiguration: (id, vals, microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.updateEntity(id, vals, {
+    updatePluginConfiguration: (id, vals, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(id, vals, {
       microserviceName,
       pluginId,
     })),
@@ -69,6 +69,7 @@ export class PluginFormContainer extends React.Component {
     pluginId: PropTypes.string.isRequired,
     pluginConfigurationId: PropTypes.string,
     formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
+    title: PropTypes.string,
     backUrl: PropTypes.string,
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func,
@@ -116,9 +117,10 @@ export class PluginFormContainer extends React.Component {
    * @returns {XML}
    */
   getFormComponent = () => {
-    const { microserviceName } = this.props
+    const { microserviceName, title } = this.props
     const {
-      currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching, isPluginMetaDataFetching,
+      currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching,
+      isPluginMetaDataFetching,
     } = this.state
 
     const isEmpty = this.state.isEditing && isUndefined(currentPluginConfiguration)
@@ -134,6 +136,7 @@ export class PluginFormContainer extends React.Component {
           pluginConfiguration={get(currentPluginConfiguration, 'content', null)}
           isEditing={this.state.isEditing}
           microserviceName={microserviceName}
+          title={title}
         />
       </LoadableContentDisplayDecorator>
     )
