@@ -43,6 +43,7 @@ export class RenderPluginConfField extends React.PureComponent {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // Name of the microservice of the plugin
     pluginMetaData: CommonShapes.PluginMetaDataContent.isRequired, // PluginMetadata used to configure new plugin configuration
+    simpleGlobalParameterConf: PropTypes.bool, // Use this parameter to hide the global configuration of plugins
     hideGlobalParameterConf: PropTypes.bool, // Use this parameter to hide the global configuration of plugins
     hideDynamicParameterConf: PropTypes.bool, // Hide dynamic configuration of parameters
     disabled: PropTypes.bool, // Disable all fields of this form
@@ -54,6 +55,7 @@ export class RenderPluginConfField extends React.PureComponent {
     disabled: false,
     hideGlobalParameterConf: false,
     hideDynamicParameterConf: false,
+    simpleGlobalParameterConf: false,
   }
 
   static contextTypes = {
@@ -79,12 +81,32 @@ export class RenderPluginConfField extends React.PureComponent {
   parameterIndex = 0
 
   renderGlobalConf = () => {
-    const { hideGlobalParameterConf, input: { value }, disabled } = this.props
+    const {
+      hideGlobalParameterConf, input: { value }, disabled, simpleGlobalParameterConf,
+    } = this.props
     const pluginConfiguration = value
     const { moduleTheme: { pluginParameter: { iconViewStyle, toggleStyle } }, intl: { formatMessage } } = this.context
 
     if (hideGlobalParameterConf) {
       return null
+    }
+
+    if (simpleGlobalParameterConf) {
+      return (
+        <Card>
+          <CardText>
+            <Field
+              name={this.getFormFieldName('label')}
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              disabled={disabled}
+              validate={requiredStringValidator}
+              label={formatMessage({ id: 'plugin.configuration.form.label' })}
+            />
+          </CardText>
+        </Card >
+      )
     }
 
     return (

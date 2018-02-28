@@ -35,6 +35,42 @@ export const storagePluginConfRoute = {
   },
 }
 
+export const storageLocationPluginListRoute = {
+  path: 'storages/list',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/PluginStorageConfigurationListContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const storageLocationCreateFormRoute = {
+  path: 'storages/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/PluginStorageConfigurationFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
+export const storageLocationEditFormRoute = {
+  path: 'storages/:pluginId/:mode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/PluginStorageConfigurationFormContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 export const storagePluginMonitoringRoute = {
   path: 'storages/monitoring',
   getComponents(nextState, cb) {
@@ -49,6 +85,9 @@ export const storagePluginMonitoringRoute = {
 
 const storageManagementRouter = {
   childRoutes: [
+    storageLocationPluginListRoute,
+    storageLocationCreateFormRoute,
+    storageLocationEditFormRoute,
     storagePluginConfRoute,
     storagePluginMonitoringRoute,
   ],

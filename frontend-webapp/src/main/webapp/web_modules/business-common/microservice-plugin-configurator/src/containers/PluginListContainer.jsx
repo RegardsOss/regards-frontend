@@ -48,6 +48,7 @@ export class PluginListContainer extends React.Component {
     selectedPluginId: PropTypes.string,
     handleSelect: PropTypes.func.isRequired,
     errorText: PropTypes.string,
+    disabled: PropTypes.bool,
     // Set by connect
     fetchPlugins: PropTypes.func.isRequired,
   }
@@ -98,6 +99,7 @@ export class PluginListContainer extends React.Component {
           onChange={this.props.handleSelect}
           pluginList={this.state.pluginList}
           defaultSelectedPluginId={this.props.selectedPluginId}
+          disabled={this.props.disabled}
           errorText={this.props.errorText}
         />
       </LoadableContentDisplayDecorator>

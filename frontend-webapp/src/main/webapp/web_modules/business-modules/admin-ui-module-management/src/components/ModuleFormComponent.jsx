@@ -343,9 +343,7 @@ class ModuleFormComponent extends React.Component {
 }
 
 const UnconnectedModuleFormComponent = ModuleFormComponent
-export {
-  UnconnectedModuleFormComponent,
-}
+export { UnconnectedModuleFormComponent }
 
 // create form
 const formName = 'edit-module-form'
