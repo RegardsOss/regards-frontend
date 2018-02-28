@@ -41,7 +41,7 @@ export class SessionManagementContainer extends React.Component {
    */
   componentWillMount() {
     root.window.addEventListener('focus', this.onWindowFocused, false)
-    this.updateAuthenticationFromLocalStorage().then(() => {
+    Promise.all(this.updateAuthenticationFromLocalStorage()).then(() => {
       this.setState({
         initialized: true,
       })
@@ -131,9 +131,9 @@ export class SessionManagementContainer extends React.Component {
     const { project, application } = this.props
     const user = UIDomain.LocalStorageUser.retrieve(project || 'instance', application)
     if (user) {
-      return this.props.notifyAuthenticationChanged(user.getAuthenticationInformations())
+      return [this.props.notifyAuthenticationChanged(user.getAuthenticationInformations())]
     }
-    return new Promise(() => { })
+    return []
   }
 
   unlockSession = (formValues) => {
@@ -148,9 +148,7 @@ export class SessionManagementContainer extends React.Component {
     } = this.props
     const { initialized } = this.state
     const sessionLocked = !!authentication.sessionLocked
-    if (!initialized) {
-      return null
-    }
+    console.error('initialized', initialized)
     return (
       <AuthenticationDialogComponent
         onRequestClose={sessionLocked ? null : onRequestClose}
