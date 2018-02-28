@@ -9,7 +9,7 @@ import ComponentIcon from 'material-ui/svg-icons/action/view-quilt';
 import { createAttributes } from '../ThemeSelector/Attribute';
 
 
-export const SideBar = ({ overwrites, theme, customConfigurationKeys, addToOverwrites, removeFromOverwrites }) => {
+export const SideBar = ({ overwrites, theme, customConfigurationKeys, addToOverwrites, removeFromOverwrites, handleResetOverwrite }) => {
     const {
         alternativeTheme,
         mainTheme: {
@@ -19,10 +19,10 @@ export const SideBar = ({ overwrites, theme, customConfigurationKeys, addToOverw
     } = theme
     const materialUIProps = omit(otherMainThemes, concat(customConfigurationKeys, 'rawTheme', 'baseTheme', 'themeName'))
     const regardsCustomComp = pick(otherMainThemes, customConfigurationKeys)
-    let paletteItems = createAttributes(palette, overwrites, addToOverwrites, removeFromOverwrites, ["mainTheme", "palette"], true);
-    let materialItems = createAttributes(materialUIProps, overwrites, addToOverwrites, removeFromOverwrites, ["mainTheme"], true);
-    let regardsItems = createAttributes(regardsCustomComp, overwrites, addToOverwrites, removeFromOverwrites, ["mainTheme"], true);
-    let alternativeItems = createAttributes(alternativeTheme, overwrites, addToOverwrites, removeFromOverwrites, ["alternativeTheme"], true);
+    let paletteItems = createAttributes(palette, overwrites, addToOverwrites, removeFromOverwrites, handleResetOverwrite, ["mainTheme", "palette"], false, true);
+    let materialItems = createAttributes(materialUIProps, overwrites, addToOverwrites, removeFromOverwrites, handleResetOverwrite, ["mainTheme"], true, true);
+    let regardsItems = createAttributes(regardsCustomComp, overwrites, addToOverwrites, removeFromOverwrites, handleResetOverwrite, ["mainTheme"], true, true);
+    let alternativeItems = createAttributes(alternativeTheme, overwrites, addToOverwrites, removeFromOverwrites, handleResetOverwrite, ["alternativeTheme"], true, true);
 
     return (
         <div>
