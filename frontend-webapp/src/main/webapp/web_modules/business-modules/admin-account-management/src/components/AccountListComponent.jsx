@@ -31,9 +31,7 @@ import RemoveCircle from 'material-ui/svg-icons/content/remove-circle'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import {
-  ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, HelpMessageComponent,
-} from '@regardsoss/components'
+import { ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator, HateoasKeys, withHateoasDisplayControl } from '@regardsoss/display-control'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)

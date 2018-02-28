@@ -19,7 +19,7 @@
 import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { Card, CardMedia } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
@@ -33,6 +33,7 @@ import UserInformationLoadingIcon from './UserInformationLoadingIcon'
 import ModuleTitle from './ModuleTitle'
 import styles from './styles'
 import messages from './i18n'
+import CardMediaWithCustomBG from './CardMediaWithCustomBG'
 
 
 /**
@@ -233,7 +234,7 @@ export class DynamicModule extends React.Component {
           useMainTheme={false}
         >
           <ShowableAtRender show={expanded}>
-            <CardMedia onKeyPress={onKeyPress}>
+            <CardMediaWithCustomBG onKeyPress={onKeyPress}>
               {/* prevent children to show when missing rights */}
               <NoContentMessageInfo
                 noContent={noData || loading}
@@ -243,7 +244,7 @@ export class DynamicModule extends React.Component {
               >
                 {HOCUtils.renderChildren(children)}
               </NoContentMessageInfo>
-            </CardMedia>
+            </CardMediaWithCustomBG>
           </ShowableAtRender>
         </SwitchThemeDecorator>
       </Card >

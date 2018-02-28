@@ -23,9 +23,7 @@ import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-import {
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
-} from '@regardsoss/components'
+import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 

@@ -105,8 +105,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 // Export for tests
 const UnconnectedPluginProvider = PluginProvider
-export {
-  UnconnectedPluginProvider,
-}
+export { UnconnectedPluginProvider }
 // Default export
 export default connect(mapStateToProps, mapDispatchToProps)(PluginProvider)

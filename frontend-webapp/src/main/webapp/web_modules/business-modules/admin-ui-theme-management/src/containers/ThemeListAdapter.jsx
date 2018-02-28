@@ -65,6 +65,7 @@ export class ThemeListAdapter extends React.Component {
     if (this.props.isInstance) {
       const url = `/admin/ui/theme/${themeId}/edit`
       browserHistory.push(url)
+      return
     }
     const { params: { project } } = this.props
     const url = `/admin/${project}/ui/theme/${themeId}/edit`

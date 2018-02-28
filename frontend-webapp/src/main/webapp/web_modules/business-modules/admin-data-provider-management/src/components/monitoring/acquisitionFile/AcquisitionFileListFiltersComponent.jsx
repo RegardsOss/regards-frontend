@@ -26,9 +26,7 @@ import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField/TextField'
-import {
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField,
-} from '@regardsoss/components'
+import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField } from '@regardsoss/components'
 import { DataProviderDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
