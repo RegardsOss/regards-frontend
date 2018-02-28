@@ -137,7 +137,7 @@ class NavigationArrayFieldRender extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const { dynamicModules, navigationItems, changeNavigationFieldValue } = newProps
-    // when modules were loaded, update conf (no problem here when there is no module, User application part will filter
+    // when modules are loaded, update conf (no problem here when there is no module, User application part will filter
     // missing modules)
     if (!isEqual(oldProps.dynamicModules, dynamicModules) && dynamicModules.length) {
       changeNavigationFieldValue(NavigationArrayFieldRender.updateEditionModel(navigationItems, dynamicModules))

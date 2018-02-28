@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
+import get from 'lodash/get'
 import map from 'lodash/map'
 import merge from 'lodash/merge'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
@@ -259,13 +260,13 @@ class ModuleFormComponent extends React.Component {
   )
 
   /** Renders dynamic module configuration part */
-  renderDynamicModuleConfiguration = () => (
+  renderDynamicModuleConfiguration = () => get(this.props.adminForm, 'form') ? (
     <DynamicModuleFormComponent
       project={this.props.project}
       appName={this.props.applicationId}
       adminForm={this.props.adminForm}
       module={this.state.module}
-    />)
+    />) : null
 
   render() {
     const {

@@ -54,7 +54,7 @@ export class NavigationMenuContainer extends React.Component {
     currentModuleId: PropTypes.number,
     displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
     homeConfiguration: HomeConfigurationShape,
-    navigationConfiguration: PropTypes.arrayOf(NavigationEditionItem).isRequired,
+    navigationConfiguration: PropTypes.arrayOf(NavigationEditionItem),
     // from mapStateToProps
     locale: PropTypes.string.isRequired,
   }
