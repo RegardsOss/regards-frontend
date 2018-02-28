@@ -18,13 +18,10 @@
  **/
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import PageView from 'material-ui/svg-icons/action/pageview'
 import {
-  PageableInfiniteTableContainer,
-  TableColumnBuilder,
-  TableLayout, TableHeaderLineLoadingAndResults,
-  NoContentComponent,
-  CardActionsComponent,
-  FormErrorMessage,
+  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
+  NoContentComponent, CardActionsComponent, FormErrorMessage, Breadcrumb,
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -75,7 +72,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
    * At component mount, run acquisition chains auto refresh
    */
   componentDidMount = () => {
-    this.autoRefresh()
+    // this.autoRefresh()
   }
 
   /**
@@ -136,6 +133,19 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     )
   }
 
+  renderBreadCrump = () => {
+    const { intl: { formatMessage } } = this.context
+    const elements = [formatMessage({ id: 'acquisition-chain-monitor.breadcrumb.label' })]
+    return (
+      <Breadcrumb
+        rootIcon={<PageView />}
+        elements={elements}
+        labelGenerator={label => label}
+        onAction={() => { }}
+      />
+    )
+  }
+
   render() {
     const { intl: { formatMessage }, muiTheme } = this.context
     const {
@@ -178,7 +188,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
     return (
       <Card>
         <CardTitle
-          title={formatMessage({ id: 'acquisition-chain.monitor.list.title' })}
+          title={this.renderBreadCrump()}
           subtitle={formatMessage({ id: 'acquisition-chain.monitor.list.subtitle' })}
         />
         <CardText>
@@ -200,7 +210,7 @@ export class AcquisitionProcessingChainMonitorListComponent extends React.Compon
               emptyComponent={emptyComponent}
               displayColumnsHeader
               minRowCount={0}
-              maxRowCount={10}
+              maxRowCount={20}
               queryPageSize={pageSize}
             />
           </TableLayout>

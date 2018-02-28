@@ -31,6 +31,8 @@ const messages = Object.assign({
   'crawler.list.show.stacktrace.tooltip': 'Afficher la stacktrace',
   'crawler.list.stacktrace.title': 'Stacktrace',
   'crawler.list.stacktrace.action.close': 'Fermer',
+  'crawler.list.delete.action': 'Supprimer',
+  'crawler.delete.confirm.title': 'Etes vous sûr de vouloir supprimer l\'indexation {crawler} ?',
 
   'datasource.list.action.add': 'Ajouter',
   'datasource.list.action.cancel': 'Annuler',
@@ -60,7 +62,7 @@ const messages = Object.assign({
   'datasource.form.table.input': 'Valeur de l\'attribut',
   'datasource.form.subtitle': 'Gestion des attributs d\'une source de données',
   'datasource.form.tags': 'Liste des tags ajoutés à toutes les données aspirées',
-  'datasource.form.subsettingTags': 'Aspirer uniquement les données contenant ces tags (vide = toutes les données sont aspirés)',
+  'datasource.form.subsettingTags': 'Aspirer uniquement les données contenant l\'un de ces tags (vide = toutes les données sont aspirés)',
 
   'datasource.edit.title': 'Edition de la source de données {name}',
   'datasource.create.title': 'Création d\'une source de données',

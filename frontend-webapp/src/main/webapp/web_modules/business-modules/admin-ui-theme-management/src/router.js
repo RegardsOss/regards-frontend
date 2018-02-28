@@ -21,20 +21,55 @@
  */
 
 
-/**
- *
- * @type {{path: string, getComponents: ((nextState, cb))}}
- */
-export const themeRoute = {
-  path: 'edit',
+export const editThemeRoute = {
+  path: ':themeId/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ApplicationThemeContainer = require('./containers/ApplicationThemeContainer')
+      const ThemeFormAdapter = require('./containers/ThemeFormAdapter')
       cb(null, {
-        content: ApplicationThemeContainer.default,
+        content: ThemeFormAdapter.default,
       })
     })
   },
 }
 
-export default themeRoute
+
+export const createThemeRoute = {
+  path: 'create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ThemeFormAdapter = require('./containers/ThemeFormAdapter')
+      cb(null, {
+        content: ThemeFormAdapter.default,
+      })
+    })
+  },
+}
+
+
+export const listThemeRoute = {
+  path: 'list',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ThemeListAdapter = require('./containers/ThemeListAdapter')
+      cb(null, {
+        content: ThemeListAdapter.default,
+      })
+    })
+  },
+}
+
+
+/**
+ *
+ * @type {{childRoutes: [*]}}
+ */
+const themeRouter = {
+  childRoutes: [
+    editThemeRoute,
+    createThemeRoute,
+    listThemeRoute,
+  ],
+}
+
+export default themeRouter

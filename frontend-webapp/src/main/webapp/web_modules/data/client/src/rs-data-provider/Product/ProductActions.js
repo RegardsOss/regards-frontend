@@ -33,6 +33,7 @@ class ProductActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/products`,
+      entityPathVariable: 'productId',
       namespace,
       schemaTypes: {
         ENTITY: Schemas.PRODUCT,

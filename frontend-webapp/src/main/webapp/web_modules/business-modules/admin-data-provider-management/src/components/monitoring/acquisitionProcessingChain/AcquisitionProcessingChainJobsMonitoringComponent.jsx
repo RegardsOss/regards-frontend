@@ -63,7 +63,7 @@ class AcquisitionProcessingChainJobsMonitoringComponent extends React.Component 
   renderProductAcquisitionJobsActivity = () => {
     const { chain } = this.props
     const { intl: { formatMessage }, moduleTheme: { monitoring: { chainJobs: { jobActivityStyle } } } } = this.context
-    if (chain && chain.nbProductAcquisitionJob && chain.nbProductAcquisitionJob === 0) {
+    if (chain && chain.nbProductAcquisitionJob && chain.nbProductAcquisitionJob > 0) {
       return (
         <div style={jobActivityStyle}>
           <RefreshIndicator
@@ -85,7 +85,7 @@ class AcquisitionProcessingChainJobsMonitoringComponent extends React.Component 
   renderGenerationJobsActivity = () => {
     const { chain } = this.props
     const { intl: { formatMessage }, moduleTheme: { monitoring: { chainJobs: { jobActivityStyle } } } } = this.context
-    if (chain && chain.nbSIPGenerationJobs && chain.nbSIPGenerationJobs === 0) {
+    if (chain && chain.nbSIPGenerationJobs && chain.nbSIPGenerationJobs > 0) {
       return (
         <div style={jobActivityStyle}>
           <RefreshIndicator

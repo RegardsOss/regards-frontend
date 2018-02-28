@@ -19,7 +19,7 @@
 import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { Card, CardMedia } from 'material-ui/Card'
+import { Card } from 'material-ui/Card'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
@@ -27,12 +27,13 @@ import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AuthenticationClient } from '@regardsoss/authentication-manager'
 import { i18nContextType, i18nSelectors, withI18n } from '@regardsoss/i18n'
-import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import { withModuleStyle, themeContextType, SwitchThemeDecorator } from '@regardsoss/theme'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
 import UserInformationLoadingIcon from './UserInformationLoadingIcon'
-import { ModuleTitle } from './ModuleTitle'
+import ModuleTitle from './ModuleTitle'
 import styles from './styles'
 import messages from './i18n'
+import CardMediaWithCustomBG from './CardMediaWithCustomBG'
 
 
 /**
@@ -229,20 +230,24 @@ export class DynamicModule extends React.Component {
           expanded={expanded}
           onExpandChange={this.onExpandChange}
         />
-        <ShowableAtRender show={expanded}>
-          <CardMedia onKeyPress={onKeyPress}>
-            {/* prevent children to show when missing rights */}
-            <NoContentMessageInfo
-              noContent={noData || loading}
-              title={formatMessage({ id: noDataTitleKey })}
-              message={formatMessage({ id: noDataMessageKey })}
-              Icon={loading ? UserInformationLoadingIcon : NotLoggedIcon}
-            >
-              {HOCUtils.renderChildren(children)}
-            </NoContentMessageInfo>
-          </CardMedia>
-        </ShowableAtRender>
-      </Card>
+        <SwitchThemeDecorator
+          useMainTheme={false}
+        >
+          <ShowableAtRender show={expanded}>
+            <CardMediaWithCustomBG onKeyPress={onKeyPress}>
+              {/* prevent children to show when missing rights */}
+              <NoContentMessageInfo
+                noContent={noData || loading}
+                title={formatMessage({ id: noDataTitleKey })}
+                message={formatMessage({ id: noDataMessageKey })}
+                Icon={loading ? UserInformationLoadingIcon : NotLoggedIcon}
+              >
+                {HOCUtils.renderChildren(children)}
+              </NoContentMessageInfo>
+            </CardMediaWithCustomBG>
+          </ShowableAtRender>
+        </SwitchThemeDecorator>
+      </Card >
     )
   }
 }

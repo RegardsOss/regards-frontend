@@ -91,10 +91,19 @@ export default (theme) => {
           flexGrow: 0,
           margin: '0 0 3px 0',
         },
-        reducibleAreaStyle: {
+        reducibleRightAreaStyle: {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'flex-end',
+          alignItems: 'stretch',
+          flexWrap: 'wrap',
+          flexShrink: 1,
+          flexGrow: 0,
+          margin: '0 0 3px 0',
+        },
+        reducibleLeftAreaStyle: {
+          display: 'flex',
+          flexDirection: 'row',
           alignItems: 'stretch',
           flexWrap: 'wrap',
           flexShrink: 1,

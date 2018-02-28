@@ -381,8 +381,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const UnconnectedModuleContainer = ModuleContainer
-export {
-  UnconnectedModuleContainer,
-}
+export { UnconnectedModuleContainer }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)

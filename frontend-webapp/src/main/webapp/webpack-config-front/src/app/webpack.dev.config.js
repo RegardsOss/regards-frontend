@@ -4,10 +4,13 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const path = require('path')
 const StatsPlugin = require('stats-webpack-plugin')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+const threadLoader = require('thread-loader')
 
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'dev')
-
+  // Prewarm pool thread
+  threadLoader.warmup({}, ['babel-loader'])
   // Ensure babel environment variable is correctly setup to development
   process.env.NODE_ENV = 'development'
 
@@ -60,6 +63,8 @@ module.exports = function (projectContextPath) {
       disableHostCheck: true,
     },
     plugins: [
+      // Provides an intermediate caching step for modules
+      new HardSourceWebpackPlugin(),
       new webpack.DllReferencePlugin({
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs

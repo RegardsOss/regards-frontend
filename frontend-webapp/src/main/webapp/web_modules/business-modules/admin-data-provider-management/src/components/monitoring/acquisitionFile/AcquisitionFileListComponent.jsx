@@ -16,14 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import PageView from 'material-ui/svg-icons/action/pageview'
 import {
   PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
-  NoContentComponent, CardActionsComponent, DateValueRender,
+  NoContentComponent, CardActionsComponent, DateValueRender, Breadcrumb,
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { DataProviderShapes } from '@regardsoss/shape'
 import AcquisitionFileListFiltersComponent from './AcquisitionFileListFiltersComponent'
 import AcquisitionFileStateRender from './AcquisitionFileStateRender'
 import { TableAcquisitionFileActions } from '../../../clients/TableClient'
@@ -37,13 +40,16 @@ import styles from '../../../styles'
 */
 export class AcquisitionFileListComponent extends React.Component {
   static propTypes = {
+    chain: DataProviderShapes.AcquisitionProcessingChain,
+    product: DataProviderShapes.Product,
     initialFilters: PropTypes.objectOf(PropTypes.string),
     contextFilters: PropTypes.objectOf(PropTypes.string),
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
     onRefresh: PropTypes.func.isRequired,
-    onBack: PropTypes.func.isRequired,
+    onBackToChains: PropTypes.func.isRequired,
+    onBackToProducts: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -63,11 +69,22 @@ export class AcquisitionFileListComponent extends React.Component {
     this.setState({
       appliedFilters: this.props.contextFilters,
     })
-    this.autoRefresh()
+    // this.autoRefresh()
   }
 
   componentWillUnmount = () => {
     clearTimeout(this.timeout)
+  }
+
+  onBreadcrumbAction = (element, index) => {
+    switch (index) {
+      case 0:
+        this.props.onBackToChains()
+        break
+      default:
+        this.props.onBackToProducts()
+        break
+    }
   }
 
   /**
@@ -98,10 +115,28 @@ export class AcquisitionFileListComponent extends React.Component {
     this.setState({ appliedFilters }, callback)
   }
 
+  renderBreadCrump = () => {
+    const { product } = this.props
+    const { intl: { formatMessage } } = this.context
+    const elements = [formatMessage({ id: 'acquisition-chain-monitor.breadcrumb.label' })]
+    if (product) {
+      elements.push(formatMessage({ id: 'acquisition-product.breadcrumb.label' }))
+    }
+    elements.push(formatMessage({ id: 'acquisition-file.breadcrumb.label' }))
+    return (
+      <Breadcrumb
+        rootIcon={<PageView />}
+        elements={elements}
+        labelGenerator={label => label}
+        onAction={this.onBreadcrumbAction}
+      />
+    )
+  }
+
   render() {
     const { intl: { formatMessage } } = this.context
     const {
-      onBack, pageSize, resultsCount, entitiesLoading, initialFilters,
+      onBackToProducts, onBackToChains, pageSize, resultsCount, entitiesLoading, initialFilters, product, chain,
     } = this.props
     const { appliedFilters } = this.state
 
@@ -120,14 +155,15 @@ export class AcquisitionFileListComponent extends React.Component {
       TableColumnBuilder.buildSimplePropertyColumn('column.state',
         formatMessage({ id: 'acquisition.file.list.state' }), 'content.state', 3, true, AcquisitionFileStateRender),
     ]
-    const title = appliedFilters.productId ?
-      formatMessage({ id: 'acquisition.file.list.product.title' }, { product: appliedFilters.productId }) :
-      formatMessage({ id: 'acquisition.file.list.title' })
+
+    const title = product ?
+      formatMessage({ id: 'acquisition.file.list.product.selected.subtitle' }, { product: get(product, 'content.productName', '') }) :
+      formatMessage({ id: 'acquisition.file.list.subtitle' }, { chain: get(chain, 'content.label', '') })
     return (
       <Card>
         <CardTitle
-          title={title}
-          subtitle={formatMessage({ id: 'acquisition.file.list.subtitle' })}
+          title={this.renderBreadCrump()}
+          subtitle={title}
         />
         <CardText>
           <TableLayout>
@@ -147,14 +183,14 @@ export class AcquisitionFileListComponent extends React.Component {
               emptyComponent={emptyComponent}
               displayColumnsHeader
               minRowCount={0}
-              maxRowCount={10}
+              maxRowCount={20}
               queryPageSize={pageSize}
             />
           </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonClick={onBack}
+            mainButtonClick={product ? onBackToProducts : onBackToChains}
             mainButtonLabel={formatMessage({ id: 'acquisition.file.list.back.button' })}
           />
         </CardActions>

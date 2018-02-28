@@ -20,7 +20,10 @@ import get from 'lodash/get'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import { DataProviderShapes } from '@regardsoss/shape'
 import { AcquisitionFileSelectors, AcquisitionFileActions } from '../../clients/AcquisitionFileClient'
+import { AcquisitionProcessingChainSelectors, AcquisitionProcessingChainActions } from '../../clients/AcquisitionProcessingChainClient'
+import { ProductActions, ProductSelectors } from '../../clients/ProductClient'
 import AcquisitionFileListComponent from '../../components/monitoring/acquisitionFile/AcquisitionFileListComponent'
 
 /**
@@ -34,10 +37,12 @@ export class AcquisitionFileListContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
+  static mapStateToProps(state, ownProps) {
     return {
       meta: AcquisitionFileSelectors.getMetaData(state),
       entitiesLoading: AcquisitionFileSelectors.isFetching(state),
+      chain: get(ownProps, 'params.chainId', false) ? AcquisitionProcessingChainSelectors.getById(state, ownProps.params.chainId) : undefined,
+      product: get(ownProps, 'params.productId', false) ? ProductSelectors.getById(state, ownProps.params.productId) : undefined,
     }
   }
 
@@ -50,6 +55,8 @@ export class AcquisitionFileListContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionFileActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
+      fetchChain: id => dispatch(AcquisitionProcessingChainActions.fetchEntity(id)),
+      fetchProduct: id => dispatch(ProductActions.fetchEntity(id)),
     }
   }
 
@@ -66,8 +73,12 @@ export class AcquisitionFileListContainer extends React.Component {
       totalElements: PropTypes.number,
     }),
     entitiesLoading: PropTypes.bool.isRequired,
+    chain: DataProviderShapes.AcquisitionProcessingChain,
+    product: DataProviderShapes.Product,
     // from mapDispatchToProps
     fetchPage: PropTypes.func.isRequired,
+    fetchChain: PropTypes.func.isRequired,
+    fetchProduct: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -84,8 +95,15 @@ export class AcquisitionFileListContainer extends React.Component {
   }
 
   componentWillMount() {
+    const { params: { chainId, productId }, fetchChain, fetchProduct } = this.props
     this.initializeContextFilters()
     this.initializeFiltersFromURL()
+    if (chainId) {
+      fetchChain(chainId)
+    }
+    if (productId) {
+      fetchProduct(productId)
+    }
   }
 
   componentWillUnmount = () => {
@@ -95,13 +113,17 @@ export class AcquisitionFileListContainer extends React.Component {
   /**
    * Callback to return to the acquisition board
    */
-  onBack = () => {
-    const { params: { project, productId, chainId } } = this.props
-    const url = productId && chainId ?
-      `/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${chainId}/products` :
-      `/admin/${project}/data/acquisition/dataprovider/monitoring/chains`
+  onBackToChains = () => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/dataprovider/monitoring/chains`)
+  }
 
-    browserHistory.push(url)
+  /**
+   * Callback to return to the acquisition board
+   */
+  onBackToProducts = () => {
+    const { params: { project, chainId } } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/dataprovider/monitoring/chains/${chainId}/products`)
   }
 
   onRefresh = (filters) => {
@@ -130,12 +152,17 @@ export class AcquisitionFileListContainer extends React.Component {
   }
 
   render() {
-    const { meta, entitiesLoading } = this.props
+    const {
+      meta, entitiesLoading, chain, product,
+    } = this.props
     const { initialFilters, contextFilters } = this.state
     return (
       <AcquisitionFileListComponent
+        chain={chain}
+        product={product}
         onRefresh={this.onRefresh}
-        onBack={this.onBack}
+        onBackToChains={this.onBackToChains}
+        onBackToProducts={this.onBackToProducts}
         pageSize={AcquisitionFileListContainer.PAGE_SIZE}
         resultsCount={meta.totalElements}
         entitiesLoading={entitiesLoading}

@@ -37,6 +37,7 @@ export class SIPSessionListContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       meta: sessionSelectors.getMetaData(state),
+      entitiesLoading: sessionSelectors.isFetching(state),
     }
   }
 
@@ -62,6 +63,7 @@ export class SIPSessionListContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    entitiesLoading: PropTypes.bool.isRequired,
     deleteSession: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
   }
@@ -88,15 +90,15 @@ export class SIPSessionListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  onRefresh = () => {
+  onRefresh = (filters) => {
     const { meta, fetchPage } = this.props
     const curentPage = get(meta, 'number', 0)
-    fetchPage(0, SIPSessionListContainer.PAGE_SIZE * (curentPage + 1), this.state.appliedFilters)
+    fetchPage(0, SIPSessionListContainer.PAGE_SIZE * (curentPage + 1), filters)
   }
 
   handleOpen = (session, isError = false) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/sip/${session}/list${isError ? '?errors' : ''}`
+    const url = `/admin/${project}/data/acquisition/sip/${session}/list${isError ? '?state=STORE_ERROR,AIP_GEN_ERROR' : ''}`
     browserHistory.push(url)
   }
 
@@ -108,7 +110,9 @@ export class SIPSessionListContainer extends React.Component {
   }
 
   render() {
-    const { meta, deleteSession, fetchPage } = this.props
+    const {
+      meta, deleteSession, fetchPage, entitiesLoading,
+    } = this.props
     const { initialFilters } = this.state
     return (
       <SIPSessionListComponent
@@ -117,6 +121,7 @@ export class SIPSessionListContainer extends React.Component {
         handleOpen={this.handleOpen}
         onBack={this.onBack}
         onRefresh={this.onRefresh}
+        entitiesLoading={entitiesLoading}
         deleteSession={deleteSession}
         fetchPage={fetchPage}
         initialFilters={initialFilters}

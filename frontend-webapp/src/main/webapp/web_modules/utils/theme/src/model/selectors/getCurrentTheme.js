@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import has from 'lodash/has'
+import { defaultTheme } from '@regardsoss/domain/access'
 import { themeSelectors } from '../../clients/ThemeClient'
-import defaultTheme from '../defaultTheme'
 
 export default (state) => {
   if (has(state, 'common.theme.current') && Number.isInteger(state.common.theme.current)) {

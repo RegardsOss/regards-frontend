@@ -31,6 +31,8 @@ const messages = Object.assign({
   'crawler.list.show.stacktrace.tooltip': 'Show the stacktrace',
   'crawler.list.stacktrace.title': 'Stacktrace',
   'crawler.list.stacktrace.action.close': 'Close',
+  'crawler.list.delete.action': 'Delete',
+  'crawler.delete.confirm.title': 'Are you sure to delete crawler {crawler} ?',
 
   'datasource.list.action.add': 'Add',
   'datasource.list.action.cancel': 'Cancel',

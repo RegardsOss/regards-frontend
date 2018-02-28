@@ -19,8 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import DatePicker from 'material-ui/DatePicker'
-import TimePicker from 'material-ui/TimePicker'
+import { DatePickerField } from '@regardsoss/components'
 import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComponent'
 import TemporalComparatorComponent from '../../src/components/TemporalComparatorComponent'
 import styles from '../../src/styles/styles'
@@ -38,8 +37,7 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
   it('should exists', () => {
     assert.isDefined(TemporalCriteriaComponent)
     assert.isDefined(TemporalComparatorComponent)
-    assert.isDefined(DatePicker)
-    assert.isDefined(TimePicker)
+    assert.isDefined(DatePickerField)
   })
   it('should render self and subcomponents', () => {
     const props = {
@@ -58,7 +56,6 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
     }
     const enzymeWrapper = shallow(<TemporalCriteriaComponent {...props} />, { context })
     expect(enzymeWrapper.find(TemporalComparatorComponent)).to.have.length(1)
-    expect(enzymeWrapper.find(DatePicker)).to.have.length(1)
-    expect(enzymeWrapper.find(TimePicker)).to.have.length(1)
+    expect(enzymeWrapper.find(DatePickerField)).to.have.length(1)
   })
 })

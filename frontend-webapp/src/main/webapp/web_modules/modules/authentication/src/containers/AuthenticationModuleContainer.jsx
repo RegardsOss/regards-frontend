@@ -17,9 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { AccessShapes } from '@regardsoss/shape'
-import {
-  AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticationClient, routeHelpers,
-} from '@regardsoss/authentication-manager'
+import { AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticationClient, routeHelpers } from '@regardsoss/authentication-manager'
 import { connect } from '@regardsoss/redux'
 import AuthenticationWorkflowsComponent, { initialModes } from '../components/AuthenticationWorkflowsComponent'
 import SessionManagementContainer from '../containers/SessionManagementContainer'
@@ -96,7 +94,7 @@ export class AuthenticationModuleContainer extends React.Component {
   render() {
     // parse initial state from parameters
     const {
-      project, moduleConf: {
+      project, appName, moduleConf: {
         showLoginWindow, loginTitle, showAskProjectAccess, showCancel, onCancelAction,
       },
     } = this.props
@@ -104,6 +102,8 @@ export class AuthenticationModuleContainer extends React.Component {
     // render in session management HOC (can override 'should show' if session is locked, controls dialog state and content)
     return (
       <SessionManagementContainer
+        project={project}
+        application={appName}
         onRequestClose={routeHelpers.isBackFromAuthenticationMail() ? null : onCancelAction}
         showLoginWindow={showLoginWindow}
       >

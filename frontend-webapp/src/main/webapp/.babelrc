@@ -24,7 +24,12 @@
         "istanbul"
       ]
     },
-    "development": { // development environment transforms
+    "development": {
+      "plugins": [
+        // Remove code splitting
+        "remove-webpack"
+      ],
+      // development environment transforms
       "presets": [
         [
           "env",

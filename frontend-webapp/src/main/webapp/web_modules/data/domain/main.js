@@ -25,6 +25,7 @@ import DamDomain from './dam'
 import DataProviderDomain from './data-provider'
 import IngestDomin from './ingest'
 import OrderDomain from './order'
+import StorageDomain from './storage'
 import UIDomain from './ui'
 
 module.exports = {
@@ -37,5 +38,6 @@ module.exports = {
   DataProviderDomain,
   IngestDomin,
   OrderDomain,
+  StorageDomain,
   UIDomain,
 }

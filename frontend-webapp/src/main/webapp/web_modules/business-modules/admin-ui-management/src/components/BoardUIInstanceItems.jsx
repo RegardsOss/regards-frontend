@@ -57,7 +57,7 @@ export default intl => [
     description: intl.formatMessage({ id: 'project.theme.description' }),
     advanced: false,
     actions: [{
-      path: '/admin/ui/theme/edit',
+      path: '/admin/ui/theme/list',
       icon: <Palette />,
       tooltipMsg: intl.formatMessage({ id: 'project.theme.tooltip' }),
     }],

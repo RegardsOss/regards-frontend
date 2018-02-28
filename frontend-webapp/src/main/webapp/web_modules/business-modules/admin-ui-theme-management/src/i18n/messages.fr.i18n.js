@@ -21,36 +21,27 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * i18n messages French language
  *
- * @author Xavier-Alexandre Brochard
- * @author Sébastien Binda
+ * @author Léo Mieulet
  */
 const messages = Object.assign({
-  'application.theme.title': 'Configuration du thème',
+  'theme.list.delete.title': 'Supprimer le thème {name}',
+  'theme.list.title': 'Liste des thèmes',
+  'theme.list.subtitle': 'Liste des personnalisations des thèmes REGARDS',
+  'theme.list.table.label': 'Nom du thème',
+  'theme.list.table.actions': 'Actions',
+  'theme.list.tooltip.edit': 'Editer',
+  'theme.list.tooltip.delete': 'Supprimer',
+  'theme.list.action.cancel': 'Annuler',
+  'theme.list.action.add': 'Ajouter un thème',
 
-  'application.theme.create.tooltip': 'Nouveau',
-  'application.theme.create.form.title': 'Ajouter un thème',
-  'application.theme.create.form.name': 'Nom',
-  'application.theme.create.form.active': 'Thème par défaut',
-  'application.theme.create.form.cancel': 'Annuler',
-  'application.theme.create.form.submit': 'Ajouter',
-  'application.theme.create.success': 'Le thème a été ajouté',
-  'application.theme.create.error': 'Le thème n\'a pas pu être ajouté',
 
-  'application.theme.default.active': 'Thème par défaut',
-
-  'application.theme.save': 'Sauvegarder',
-  'application.theme.save.success': 'Le thème a été mis à jour',
-  'application.theme.save.error': 'Le thème n\'a pas pu être mis à jour',
-
-  'application.theme.default.create.message': 'Aucun thème. Cliquez sur "Nouveau" pour ajouter un thème et commencer sa configuration.',
-
-  'application.theme.remove.tooltip': 'Supprimer',
-  'application.theme.remove.confirm': 'Supprimer le thème ?',
-  'application.theme.remove.confirm.cancel': 'Annuler',
-  'application.theme.remove.confirm.remove': 'Supprimer',
-  'application.theme.remove.success': 'Le thème a été supprimé',
-  'application.theme.remove.error': 'Le thème n\'a pas pu être supprimé',
-
+  'theme.create.title': 'Créer un nouveau thème',
+  'theme.edit.title': 'Editer le thème {name}',
+  'theme.form.baseTheme': 'Theme de base',
+  'theme.form.name': 'Nom du thème',
+  'theme.form.active': 'Actif par défaut',
+  'theme.form.action.submit': 'Sauvegarder',
+  'theme.form.action.cancel': 'Annuler',
 }, Locales.fr)
 
 export default messages

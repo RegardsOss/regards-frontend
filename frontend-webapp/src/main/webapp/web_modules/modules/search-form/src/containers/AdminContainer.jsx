@@ -191,9 +191,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const UnconnectedAdminContainer = AdminContainer
-export {
-  UnconnectedAdminContainer,
-}
+export { UnconnectedAdminContainer }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminContainer)
 

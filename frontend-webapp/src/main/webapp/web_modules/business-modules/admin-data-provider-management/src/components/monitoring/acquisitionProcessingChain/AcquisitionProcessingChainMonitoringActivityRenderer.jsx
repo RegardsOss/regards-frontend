@@ -74,7 +74,7 @@ class AcquisitionProcessingChainMonitoringActivityRenderer extends React.Compone
             style={AcquisitionProcessingChainMonitoringActivityRenderer.style.refresh}
           />
           <AcquisitionProcessingChainJobsMonitoringComponent
-            chain={chain}
+            chain={this.props.entity.content}
           />
         </div>
       )

@@ -70,6 +70,4 @@ export default class AuthenticateActions extends BasicSignalActions {
     }
   }
 }
-export {
-  SPECIFIC_ENDPOINT_MARKER,
-}
+export { SPECIFIC_ENDPOINT_MARKER }

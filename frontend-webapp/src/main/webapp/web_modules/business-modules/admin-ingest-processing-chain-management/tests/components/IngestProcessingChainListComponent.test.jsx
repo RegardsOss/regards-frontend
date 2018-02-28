@@ -19,9 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import {
-  PageableInfiniteTableContainer,
-} from '@regardsoss/components'
+import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import IngestProcessingChainListComponent from '../../src/components/IngestProcessingChainListComponent'
 import styles from '../../src/styles/styles'
 

@@ -19,6 +19,7 @@
 import values from 'lodash/values'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import { SwitchThemeDecorator } from '@regardsoss/theme'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import messages from './i18n'
 
@@ -90,16 +91,19 @@ class ConfirmDialogComponent extends React.Component {
       title, message, onClose, open,
     } = this.props
     return (
-      <Dialog
-        title={title}
-        actions={this.renderActions()}
-        modal={false}
-        open={open}
-        onRequestClose={onClose}
+      <SwitchThemeDecorator
+        useMainTheme
       >
-        {message}
-      </Dialog>
-
+        <Dialog
+          title={title}
+          actions={this.renderActions()}
+          modal={false}
+          open={open}
+          onRequestClose={onClose}
+        >
+          {message}
+        </Dialog>
+      </SwitchThemeDecorator>
     )
   }
 }

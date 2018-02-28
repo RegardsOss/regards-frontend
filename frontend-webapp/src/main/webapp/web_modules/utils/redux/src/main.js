@@ -23,9 +23,7 @@ import connect from './Connect'
  * Main interface for regards redux tools
  * @author Sébastien Binda
  */
-export {
-  connect,
-}
+export { connect }
 
 export default connect
 

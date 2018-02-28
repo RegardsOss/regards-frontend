@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import { Card, CardTitle, CardMedia, CardActions } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import HistoryIcon from 'material-ui/svg-icons/action/history'
@@ -50,6 +51,7 @@ class SIPListComponent extends React.Component {
     resultsCount: PropTypes.number.isRequired,
     onBack: PropTypes.func.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
+    entitiesLoading: PropTypes.bool.isRequired,
     fetchPage: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onDeleteByIpId: PropTypes.func.isRequired,
@@ -76,6 +78,14 @@ class SIPListComponent extends React.Component {
     })
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(nextProps.contextFilters, this.props.contextFilters)) {
+      this.setState({
+        appliedFilters: nextProps.contextFilters,
+      })
+    }
+  }
+
   onCloseDetails = () => {
     this.setState({
       sipToView: null,
@@ -86,6 +96,10 @@ class SIPListComponent extends React.Component {
     this.setState({
       sipToView: sipToView || null,
     })
+  }
+
+  onBreadcrumbAction = (element, index) => {
+    this.props.onBack(index)
   }
 
   onConfirmDeleteSIP = () => {
@@ -159,7 +173,9 @@ class SIPListComponent extends React.Component {
     this.props.goToSipHistory(entity.content.sipId)
   }
 
+
   handleRefresh = () => this.props.onRefresh(this.state.appliedFilters)
+
 
   renderDeleteConfirmDialog = () => {
     const { sipToDelete } = this.state
@@ -179,7 +195,7 @@ class SIPListComponent extends React.Component {
   renderTable = () => {
     const { intl, muiTheme } = this.context
     const {
-      pageSize, resultsCount, initialFilters, chains,
+      pageSize, resultsCount, initialFilters, chains, entitiesLoading,
     } = this.props
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
 
@@ -227,12 +243,13 @@ class SIPListComponent extends React.Component {
       <CardMedia>
         <TableLayout>
           <SIPListFiltersComponent
-            initialFilters={initialFilters}
+            key={this.props.sip ? 'sip-history' : 'session-sips'}
+            initialFilters={!this.props.sip ? initialFilters : null}
             applyFilters={this.applyFilters}
             handleRefresh={this.handleRefresh}
             chains={chains}
           />
-          <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={resultsCount} />
+          <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
           <PageableInfiniteTableContainer
             name="sip-management-session-table"
             pageActions={sipActions}
@@ -270,7 +287,7 @@ class SIPListComponent extends React.Component {
   }
 
   renderBreadCrump = () => {
-    const { session, onBack, sip } = this.props
+    const { session, sip } = this.props
     const { intl: { formatMessage } } = this.context
     const elements = [formatMessage({ id: 'sips.session.title' }), formatMessage({ id: 'sips.session.sips.title' }, { session })]
     if (sip) {
@@ -281,7 +298,7 @@ class SIPListComponent extends React.Component {
         rootIcon={<PageView />}
         elements={elements}
         labelGenerator={label => label}
-        onAction={onBack}
+        onAction={this.onBreadcrumbAction}
       />
     )
   }

@@ -43,6 +43,7 @@ class SIPSessionListComponent extends React.Component {
   static propTypes = {
     pageSize: PropTypes.number.isRequired,
     resultsCount: PropTypes.number.isRequired,
+    entitiesLoading: PropTypes.bool.isRequired,
     handleOpen: PropTypes.func,
     onBack: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
@@ -116,7 +117,9 @@ class SIPSessionListComponent extends React.Component {
   }
 
   renderTable = () => {
-    const { pageSize, resultsCount, initialFilters } = this.props
+    const {
+      pageSize, resultsCount, initialFilters, entitiesLoading,
+    } = this.props
     const { intl, muiTheme, moduleTheme: { session } } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
     const { appliedFilters } = this.state
@@ -214,7 +217,7 @@ class SIPSessionListComponent extends React.Component {
             applyFilters={this.applyFilters}
             handleRefresh={this.handleRefresh}
           />
-          <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={resultsCount} />
+          <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
           <PageableInfiniteTableContainer
             name="sip-management-session-table"
             pageActions={sessionActions}

@@ -41,6 +41,7 @@ export class SIPListContainer extends React.Component {
     return {
       chains: processingChainSelectors.getList(state),
       meta: sipSelectors.getMetaData(state),
+      entitiesLoading: sipSelectors.isFetching(state),
     }
   }
 
@@ -75,6 +76,7 @@ export class SIPListContainer extends React.Component {
     deleteSIPBySipId: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     // from mapStateToProps
+    entitiesLoading: PropTypes.bool.isRequired,
     chains: IngestShapes.IngestProcessingChainList.isRequired,
   }
 
@@ -112,15 +114,25 @@ export class SIPListContainer extends React.Component {
     fetchPage(0, SIPListContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
-  handleGoBack = () => {
+  handleGoBack = (level) => {
     const { params: { project, session, sip } } = this.props
     let url
-    if (session && sip) {
-      // Go back to sips of the given session
-      url = `/admin/${project}/data/acquisition/sip/${session}/list`
-    } else {
-      // Go back to sessions
-      url = `/admin/${project}/data/acquisition/sip/session`
+    switch (level) {
+      case 0:
+        // Go back to sessions
+        url = `/admin/${project}/data/acquisition/sip/session`
+        break
+      case 1:
+        // Go back to sips of the given session
+        url = `/admin/${project}/data/acquisition/sip/${session}/list`
+        break
+      default:
+        if (sip) {
+          url = `/admin/${project}/data/acquisition/sip/${session}/list`
+        } else {
+          url = `/admin/${project}/data/acquisition/sip/session`
+        }
+        break
     }
     browserHistory.push(url)
   }
@@ -151,7 +163,7 @@ export class SIPListContainer extends React.Component {
 
   render() {
     const {
-      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId, params: { session, sip },
+      meta, fetchPage, deleteSIPByIpId, deleteSIPBySipId, params: { session, sip }, entitiesLoading,
     } = this.props
     const { urlFilters, contextFilters } = this.state
     return (
@@ -163,6 +175,7 @@ export class SIPListContainer extends React.Component {
         resultsCount={meta.totalElements}
         contextFilters={contextFilters}
         initialFilters={urlFilters}
+        entitiesLoading={entitiesLoading}
         handleFilter={this.handleFilter}
         onBack={this.handleGoBack}
         onRefresh={this.onRefresh}

@@ -89,9 +89,9 @@ const messages = Object.assign({
   // 3. Monitoring
   // 3.1 Chain list
   // 3.1.1 Header
-  'acquisition-chain.monitor.list.title': 'Suivi des chaînes d\'acquisition de données.',
-  'acquisition-chain.monitor.list.subtitle': 'Cette écran vous permet de suivre l\'avancement des chaînes d\'acquisition de données, de consulter les erreurs de génération et d\'activer les chaînes à déclamenent manuel',
+  'acquisition-chain.monitor.list.subtitle': 'Cette écran vous permet de suivre l\'avancement des chaînes d\'acquisition de données, de consulter les erreurs de génération et d\'activer les chaînes à déclenchement manuel',
   'acquisition-chain.monitor.empty.title': 'Aucune chaine configurée',
+  'acquisition-chain-monitor.breadcrumb.label': 'Chaînes d\'acquisition',
 
   // 3.1.2 Table header
   'acquisition-chain.monitor.list.label': 'Libellé',
@@ -141,7 +141,8 @@ const messages = Object.assign({
 
   // 4. Products list
   // 4.1 Headers
-  'acquisition-product.list.title': 'Liste des produits de la chaîne d\'acquisition {chain}',
+  'acquisition-product.breadcrumb.label': 'Produits',
+  'acquisition-product.selected-chain.title': 'Produits de la chaîne {chain}',
   'acquisition-product.empty.title': 'Aucun produit',
   'acquisition-product.list.productName': 'Produit',
   'acquisition-product.list.lastUpdate': 'Date de mise à jour',
@@ -151,7 +152,6 @@ const messages = Object.assign({
 
   //4.2 Filters
   'acquisition.product.list.filters.state': 'Etat des produits',
-  'acquisition-product.list.subtitle': '-',
   'acquisition.product.list.filters.sipState': 'Etat des SIPs',
   'acquisition.product.list.filters.state.ACQUIRING': 'En cours',
   'acquisition.product.list.filters.state.COMPLETED': 'En cours (complet)',
@@ -159,8 +159,8 @@ const messages = Object.assign({
   'acquisition.product.list.filters.state.ERROR': 'Erreur',
   'acquisition.product.list.filters.sipState.NOT_SCHEDULED': 'En cours ... (non planifié)',
   'acquisition.product.list.filters.sipState.SCHEDULED': 'En cours ... (planifié)',
-  'acquisition.product.list.filters.sipState.GENERATED': 'En couts ... (généré)',
-  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'En cours ... (soumission en couts)',
+  'acquisition.product.list.filters.sipState.GENERATED': 'En cours ... (généré)',
+  'acquisition.product.list.filters.sipState.SUBMISSION_SCHEDULED': 'En cours ... (soumission en cours)',
   'acquisition.product.list.filters.sipState.SUBMISSION_ERROR': 'Erreur de soumission',
   'acquisition.product.list.filters.sipState.GENERATION_ERROR': 'Erreur de génération',
   'acquisition.product.list.filters.sipState.CREATED': 'En cours (créé)',
@@ -177,7 +177,8 @@ const messages = Object.assign({
   'acquisition.product.list.filters.sipState.DELETED': 'Supprimé',
   'acquisition-product.list.filters.productName': 'Nom du produit',
   'acquisition.product.list.filters.session': 'Session d\'ingestion',
-  'acquisition.product.list.filters.from': 'Acquis depuis le ...',
+  'acquisition-chain.monitor.list.filters.no.session': 'Produits sans session',
+  'acquisition.product.list.filters.from': 'Depuis ...',
 
   // 4.3 actions
   'acquisition-product.list.view.files.tooltip': 'Voir les fichiers associés',
@@ -189,10 +190,10 @@ const messages = Object.assign({
 
   // 5. Acquisition file list
   // 5.1 Headers
+  'acquisition-file.breadcrumb.label': 'Fichiers',
+  'acquisition.file.list.subtitle': 'Fichiers de la chaîne d\'acquisition {chain}',
+  'acquisition.file.list.product.selected.subtitle': 'Fichiers du produit {product}',
   'acquisition.file.empty.title': 'Aucun fichiers acquis',
-  'acquisition.file.list.title': 'Liste des fichiers acquis ou en cours d\'acquisition',
-  'acquisition.file.list.product.title': 'Liste des fichiers acquis ou en cours d\'acquisition du produit {product}',
-  'acquisition.file.list.subtitle': '-',
   'acquisition.file.list.back.button': 'Retour',
   'acquisition.file.list.filePath': 'Fichier',
   'acquisition.file.list.acqDate': 'Date d\'acquisition',
@@ -207,7 +208,7 @@ const messages = Object.assign({
   'acquisition.file.list.filters.state.INVALID': 'Invalide',
   'acquisition.file.list.filters.state.ERROR': 'Erreur',
   'acquisition.file.list.filters.filePath': 'Fichier',
-  'acquisition.file.list.filters.from': 'Acquis depuis ...',
+  'acquisition.file.list.filters.from': 'Depuis ...',
 
   //5.3 actions
   'acquisition.file.list.filters.clear.button': 'Vider',

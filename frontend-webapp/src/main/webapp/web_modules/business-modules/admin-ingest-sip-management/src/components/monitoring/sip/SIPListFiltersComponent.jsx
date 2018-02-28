@@ -25,9 +25,8 @@ import Close from 'mdi-material-ui/Close'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import DatePicker from 'material-ui/DatePicker'
 import FlatButton from 'material-ui/FlatButton'
-import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup } from '@regardsoss/components'
+import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField } from '@regardsoss/components'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -59,8 +58,20 @@ class SIPListFiltersComponent extends React.Component {
   componentWillMount() {
     const { initialFilters } = this.props
     if (initialFilters) {
+      let filters = {}
+      if (initialFilters.state) {
+        filters = {
+          ...initialFilters,
+          state: initialFilters.state.includes(',') ? initialFilters.state.split(',') : [initialFilters.state],
+        }
+      } else {
+        filters = {
+          ...initialFilters,
+        }
+      }
+
       this.setState({
-        filters: initialFilters,
+        filters,
       })
     }
   }
@@ -94,7 +105,8 @@ class SIPListFiltersComponent extends React.Component {
       newFilters.state = state
     }
     if (sipId) {
-      newFilters.sipId = sipId
+      // Add '%' caracter at starts and ends of the string to search for matching pattern and not strict value.
+      newFilters.sipId = `%${sipId}%`
     }
     this.props.applyFilters(newFilters)
   }
@@ -108,7 +120,7 @@ class SIPListFiltersComponent extends React.Component {
     })
   }
 
-  changeDateFilter = (event, newValue) => {
+  changeDateFilter = (newValue) => {
     this.setState({
       filters: {
         ...this.state.filters,
@@ -117,13 +129,15 @@ class SIPListFiltersComponent extends React.Component {
     })
   }
 
-  changeStateFilter = (event, key, newValue) => {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        state: newValue,
-      },
-    })
+  changeStateFilter = (event, key, newValues) => {
+    if (newValues !== null && newValues.length > 0) {
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          state: newValues,
+        },
+      })
+    }
   }
 
   changeSipIdFilter = (event, newValue) => {
@@ -139,9 +153,9 @@ class SIPListFiltersComponent extends React.Component {
     const { intl, moduleTheme: { filter } } = this.context
     const { chains } = this.props
     return (
-      <TableHeaderLine>
-        <TableHeaderOptionsArea reducible>
-          <TableHeaderOptionGroup>
+      <TableHeaderLine key="filtersLine">
+        <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
+          <TableHeaderOptionGroup key="first">
             <SelectField
               style={filter.fieldStyle}
               hintText={intl.formatMessage({
@@ -160,8 +174,9 @@ class SIPListFiltersComponent extends React.Component {
               style={filter.fieldStyle}
             />
           </TableHeaderOptionGroup>
-          <TableHeaderOptionGroup>
+          <TableHeaderOptionGroup key="second">
             <SelectField
+              multiple
               style={filter.fieldStyle}
               hintText={intl.formatMessage({
                 id: 'sips.list.filters.status.label',
@@ -178,13 +193,13 @@ class SIPListFiltersComponent extends React.Component {
                 })}
               />))}
             </SelectField>
-            <DatePicker
+            <DatePickerField
               value={get(this.state, 'filters.from', undefined)}
-              textFieldStyle={filter.dateStyle}
-              hintText={intl.formatMessage({
+              dateHintText={intl.formatMessage({
                 id: 'sips.list.filters.date.label',
               })}
               onChange={this.changeDateFilter}
+              locale={intl.locale}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
@@ -193,10 +208,11 @@ class SIPListFiltersComponent extends React.Component {
   }
 
   renderRefreshLine = () => (
-    <TableHeaderLine>
+    <TableHeaderLine key="buttonsLine">
       <TableHeaderOptionsArea>
         <TableHeaderOptionGroup>
           <FlatButton
+            key="clear"
             label={this.context.intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
             icon={<Close />}
             disabled={
@@ -208,13 +224,14 @@ class SIPListFiltersComponent extends React.Component {
             onClick={this.handleClearFilters}
           />
           <FlatButton
+            key="apply"
             label={this.context.intl.formatMessage({ id: 'sips.session.apply.filters.button' })}
             icon={<Filter />}
             onClick={this.handleFilter}
           />
         </TableHeaderOptionGroup>
       </TableHeaderOptionsArea>
-      <TableHeaderOptionsArea>
+      <TableHeaderOptionsArea key="buttonArea">
         <TableHeaderOptionGroup>
           <FlatButton
             label={this.context.intl.formatMessage({ id: 'sips.session.refresh.button' })}

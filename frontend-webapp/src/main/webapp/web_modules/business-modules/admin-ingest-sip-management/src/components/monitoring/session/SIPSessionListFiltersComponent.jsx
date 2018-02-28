@@ -22,11 +22,8 @@ import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import FlatButton from 'material-ui/FlatButton'
-import DatePicker from 'material-ui/DatePicker'
 import TextField from 'material-ui/TextField'
-import {
-  TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
-} from '@regardsoss/components'
+import { TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DatePickerField } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -78,8 +75,7 @@ class SIPSessionListFiltersComponent extends React.Component {
     }
   }
 
-  changefrom = (event, newDate) => {
-    newDate.setHours(0, 0, 0, 0)
+  changefrom = (newDate) => {
     this.setState({
       filters: {
         ...this.state.filters,
@@ -88,8 +84,7 @@ class SIPSessionListFiltersComponent extends React.Component {
     })
   }
 
-  changeto = (event, newDate) => {
-    newDate.setHours(23, 59, 59, 999)
+  changeto = (newDate) => {
     this.setState({
       filters: {
         ...this.state.filters,
@@ -126,7 +121,7 @@ class SIPSessionListFiltersComponent extends React.Component {
     const { handleRefresh } = this.props
     return (
       <TableHeaderLine>
-        <TableHeaderOptionsArea reducible>
+        <TableHeaderOptionsArea reducible alignLeft>
           <TableHeaderOptionGroup>
             <TextField
               style={filter.fieldStyle}
@@ -136,20 +131,23 @@ class SIPSessionListFiltersComponent extends React.Component {
               onChange={this.changeId}
               value={get(this.state, 'filters.id', '')}
             />
-            <DatePicker
+          </TableHeaderOptionGroup>
+          <TableHeaderOptionGroup>
+            <DatePickerField
               value={this.state.filters.from}
-              textFieldStyle={filter.dateStyle}
-              hintText={intl.formatMessage({ id: 'sips.session.filter.from.label' })}
-              defaultDate={get(this.state, 'filters.from', undefined)}
+              dateHintText={intl.formatMessage({ id: 'sips.session.filter.from.label' })}
               onChange={this.changefrom}
+              locale={intl.locale}
             />
-            <DatePicker
+            <DatePickerField
               value={this.state.filters.to}
-              textFieldStyle={filter.dateStyle}
-              hintText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
-              defaultDate={get(this.state, 'filters.to', undefined)}
+              defaultTime="23:59:59"
+              dateHintText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
               onChange={this.changeto}
+              locale={intl.locale}
             />
+          </TableHeaderOptionGroup>
+          <TableHeaderOptionGroup>
             <FlatButton
               label={intl.formatMessage({ id: 'sips.session.clear.filters.button' })}
               icon={<Close />}

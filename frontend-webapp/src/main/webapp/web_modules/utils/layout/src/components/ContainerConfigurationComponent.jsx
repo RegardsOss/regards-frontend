@@ -180,9 +180,7 @@ class ContainerConfigurationComponent extends React.Component {
 }
 
 const UnconnectedContainerConfigurationComponent = ContainerConfigurationComponent
-export {
-  UnconnectedContainerConfigurationComponent,
-}
+export { UnconnectedContainerConfigurationComponent }
 
 export default reduxForm({
   form: 'edit-layout-container-form',

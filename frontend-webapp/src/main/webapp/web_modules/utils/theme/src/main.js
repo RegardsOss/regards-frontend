@@ -24,16 +24,16 @@ import getCurrentTheme from './model/selectors/getCurrentTheme'
 import setCurrentTheme from './model/actions/setCurrentTheme'
 import ThemeProvider from './containers/ThemeProvider'
 import defaultCustomConfiguration from './custom/defaultCustomConfiguration'
+import getAlternativeThemeConfSubset from './custom/getAlternativeThemeConfSubset'
 import {
   themeSelectors as ThemeSelectors,
   themeActions as ThemeActions,
 } from './clients/ThemeClient'
-import {
-  themeInstanceActions as ThemeInstanceActions,
-} from './clients/ThemeInstanceClient'
-import defaultTheme from './model/defaultTheme'
+import { themeInstanceActions as ThemeInstanceActions } from './clients/ThemeInstanceClient'
 import ModuleStyleProvider from './containers/ModuleStyleProvider'
 import withModuleStyle from './decorators/withModuleStyle'
+import SwitchThemeDecorator from './containers/SwitchThemeDecorator'
+import ThemeBuilder from './ThemeBuilder'
 
 export {
   themeContextType,
@@ -46,8 +46,10 @@ export {
   ThemeActions,
   ThemeInstanceActions,
   defaultCustomConfiguration,
-  defaultTheme,
+  getAlternativeThemeConfSubset,
   ThemeProvider,
   ModuleStyleProvider,
+  SwitchThemeDecorator,
   withModuleStyle,
+  ThemeBuilder,
 }
