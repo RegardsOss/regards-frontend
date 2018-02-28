@@ -145,7 +145,6 @@ class SIPSessionListFiltersComponent extends React.Component {
               dateHintText={intl.formatMessage({ id: 'sips.session.filter.to.label' })}
               onChange={this.changeto}
               locale={intl.locale}
-              displayTime
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
