@@ -22,9 +22,9 @@ import { connect } from '@regardsoss/redux'
 import { i18nSelectors } from '@regardsoss/i18n'
 import { adminLayoutSelectors } from '../../../clients/LayoutListClient'
 import { adminModuleSelectors } from '../../../clients/ModulesListClient'
-import { homeConfigurationShape } from '../../../shapes/ModuleConfiguration'
+import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
 import DynamicModulesProviderContainer from '../../../containers/common/DynamicModulesProviderContainer'
-import NavigationModelResolutionContainer from '../../../containers/common/NavigationModelResolutionContainer'
+import NavigationModelResolutionContainer from './NavigationModelResolutionContainer'
 import NavigationLayoutComponent from '../../../components/user/navigation/NavigationLayoutComponent'
 
 // global UI layout selectors
@@ -53,7 +53,8 @@ export class NavigationMenuContainer extends React.Component {
     project: PropTypes.string,
     currentModuleId: PropTypes.number,
     displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
-    homeConfiguration: homeConfigurationShape,
+    homeConfiguration: HomeConfigurationShape,
+    navigationConfiguration: PropTypes.arrayOf(NavigationEditionItem).isRequired,
     // from mapStateToProps
     locale: PropTypes.string.isRequired,
   }
@@ -71,7 +72,7 @@ export class NavigationMenuContainer extends React.Component {
 
   render() {
     const {
-      homeConfiguration, displayMode, currentModuleId, locale,
+      homeConfiguration, navigationConfiguration, displayMode, currentModuleId, locale,
     } = this.props
     return (
       // resolve modules: note that, when in admin, we use specific admin selectors to access this module loaded data
@@ -84,6 +85,7 @@ export class NavigationMenuContainer extends React.Component {
         {/* insert the modules to navigation module resolution container */}
         <NavigationModelResolutionContainer
           homeConfiguration={homeConfiguration}
+          navigationConfiguration={navigationConfiguration}
           currentModuleId={currentModuleId}
           clearNonNavigable
         >

@@ -16,39 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import FlatButton from 'material-ui/FlatButton'
+import CreateSectionIcon from 'material-ui/svg-icons/file/create-new-folder'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
- * Exports modules styles builder on current theme values
+ * New section option
  * @author Raphaël Mechali
  */
-const moduleStyles = theme => ({
-  admin: {
-    rootStyle: {
-      padding: 20,
-    },
-  },
-  user: {
-    // module content styles
-    content: {
-      table: {
-        optionColumn: {
-          style: {
-            width: theme.button.iconButtonSize,
-            height: theme.button.iconButtonSize,
-            padding: 0,
-          },
-        },
-      },
-      detail: {
-        widthPercent: 80,
-        heightPercent: 70,
-        dialogBodyStyle: { paddingBottom: 0 },
-      },
-    },
-    header: {
-      optionStyle: { marginLeft: 0, marginRight: 6 },
-    },
-  },
-})
+class NewSectionOption extends React.Component {
+  static propTypes = {
+    onCreateSection: PropTypes.func.isRequired,
+  }
 
-export default moduleStyles
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { onCreateSection } = this.props
+    const { intl: { formatMessage } } = this.context
+    return (
+      <FlatButton
+        icon={<CreateSectionIcon />}
+        label={formatMessage({ id: 'menu.form.navigation.create.section.button.label' })}
+        onClick={onCreateSection}
+        primary
+      />
+    )
+  }
+}
+export default NewSectionOption

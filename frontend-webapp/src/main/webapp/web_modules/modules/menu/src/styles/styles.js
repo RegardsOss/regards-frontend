@@ -48,6 +48,30 @@ const menuStyles = theme => ({
       color: theme.palette.textColor,
       fontFamily: theme.fontFamily,
     },
+    navigation: {
+      noElementMessageStyle: {
+        color: theme.palette.disabledColor,
+      },
+      table: {
+        style: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+        },
+        optionColumnStyle: {
+          width: theme.button.iconButtonSize,
+          padding: 0,
+        },
+        iconStyle: {
+          height: theme.spacing.iconSize,
+          width: theme.spacing.iconSize,
+          marginRight: theme.spacing.iconSize / 2,
+        },
+        warningStatusCell: {
+          color: theme['forms-extension:validation'].warningColor,
+        },
+      },
+    },
   },
   user: {
     rootStyle: {

@@ -22,8 +22,9 @@ import Subheader from 'material-ui/Subheader'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RenderTextField, RenderCheckbox, RenderRadio, Field, ValidationHelpers } from '@regardsoss/form-utils'
+import { RenderTextField, RenderCheckbox, RenderRadio, Field, FieldArray, ValidationHelpers } from '@regardsoss/form-utils'
 import { HOME_ICON_TYPES_ENUM } from '../../domain/HomeIconType'
+import NavigationArrayFieldRender from './navigation/NavigationArrayFieldRender'
 import MenuPreviewComponent from './MenuPreviewComponent'
 
 /**
@@ -32,10 +33,12 @@ import MenuPreviewComponent from './MenuPreviewComponent'
  */
 class ModuleFormComponent extends React.Component {
   static propTypes = {
-    // current form namespace
     appName: PropTypes.string.isRequired,
     project: PropTypes.string,
     adminForm: AccessShapes.moduleAdminForm,
+    dynamicModules: AccessShapes.ModuleArray,
+    // locale (for modules titles display)
+    locale: PropTypes.string,
   }
 
   static contextTypes = {
@@ -57,10 +60,12 @@ class ModuleFormComponent extends React.Component {
     this.CONF_NOTIF = `${currentNamespace}.displayNotificationsSelector`
     this.CONF_LOCALE = `${currentNamespace}.displayLocaleSelector`
     this.CONF_THEME = `${currentNamespace}.displayThemeSelector`
-    this.CONF_HOME_ICON_TYPE = `${currentNamespace}.home.icon.type`
-    this.CONF_HOME_ICON_URL = `${currentNamespace}.home.icon.url`
-    this.CONF_HOME_TITLE_EN = `${currentNamespace}.home.title.en`
-    this.CONF_HOME_TITLE_FR = `${currentNamespace}.home.title.fr`
+    this.CONF_HOME = `${currentNamespace}.home`
+    this.CONF_HOME_ICON_TYPE = `${this.CONF_HOME}.icon.type`
+    this.CONF_HOME_ICON_URL = `${this.CONF_HOME}.icon.url`
+    this.CONF_HOME_TITLE_EN = `${this.CONF_HOME}.title.en`
+    this.CONF_HOME_TITLE_FR = `${this.CONF_HOME}.title.fr`
+    this.CONF_NAVIGATION = `${currentNamespace}.navigation`
   }
 
 
@@ -78,11 +83,11 @@ class ModuleFormComponent extends React.Component {
     }
   }
 
-
   /**
    * Validates custom icon URL
    * @param textURL user entered text
    * @param values the rest of form values
+   * @return error intl key if any error, undefined otherwise
    */
   validateCustomHomeIcon = (textURL, values) => {
     const iconType = get(values, this.CONF_HOME_ICON_TYPE)
@@ -93,8 +98,16 @@ class ModuleFormComponent extends React.Component {
     return undefined // no error in any other case
   }
 
+  /** Callback for navigation field to update */
+  changeNavigationFieldValue = (newValue) => {
+    const { adminForm: { changeField } } = this.props
+    changeField(this.CONF_NAVIGATION, newValue)
+  }
+
   render() {
-    const { appName, project, adminForm } = this.props
+    const {
+      appName, project, adminForm, dynamicModules, locale,
+    } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { subheaderStyle, firstSubheaderStyle, radioButtonGroupLabelStyle } } } = this.context
     return (
       <div>
@@ -149,7 +162,7 @@ class ModuleFormComponent extends React.Component {
           label={formatMessage({ id: 'menu.form.displaytheme' })}
         />
         <Subheader style={subheaderStyle}>
-          {formatMessage({ id: 'user.menu.form.navigation.title' })}
+          {formatMessage({ id: 'user.menu.form.navigation.home.title' })}
         </Subheader>
         {/* Home icon type */}
         <div style={radioButtonGroupLabelStyle}>
@@ -206,14 +219,26 @@ class ModuleFormComponent extends React.Component {
           label={this.context.intl.formatMessage({ id: 'menu.form.home.page.title.fr' })}
           validate={ValidationHelpers.required}
         />
+        <Subheader style={subheaderStyle}>
+          {formatMessage({ id: 'user.menu.form.navigation.layout.title' })}
+        </Subheader>
+        {/* Navigation configuration */}
+        <FieldArray
+          name={this.CONF_NAVIGATION}
+          component={NavigationArrayFieldRender}
+          locale={locale}
+          dynamicModules={dynamicModules}
+          homeConfiguration={get(adminForm, `form.${this.CONF_HOME}`)}
+          navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
+          changeNavigationFieldValue={this.changeNavigationFieldValue}
+        />
         <Subheader style={subheaderStyle} >
           {formatMessage({ id: 'user.menu.form.preview.title' })}
         </Subheader>
         <MenuPreviewComponent
           appName={appName}
           project={project}
-          moduleConfiguration={get(adminForm, 'form.conf')}
-          currentNamespace={adminForm.currentNamespace}
+          moduleConfiguration={get(adminForm, `form.${adminForm.currentNamespace}`)}
         />
       </div>
     )

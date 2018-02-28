@@ -16,39 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import IconButton from 'material-ui/IconButton'
+import DeleteIcon from 'material-ui/svg-icons/action/delete'
 /**
- * Exports modules styles builder on current theme values
+ * Delete section option for navigation edition table
  * @author Raphaël Mechali
  */
-const moduleStyles = theme => ({
-  admin: {
-    rootStyle: {
-      padding: 20,
-    },
-  },
-  user: {
-    // module content styles
-    content: {
-      table: {
-        optionColumn: {
-          style: {
-            width: theme.button.iconButtonSize,
-            height: theme.button.iconButtonSize,
-            padding: 0,
-          },
-        },
-      },
-      detail: {
-        widthPercent: 80,
-        heightPercent: 70,
-        dialogBodyStyle: { paddingBottom: 0 },
-      },
-    },
-    header: {
-      optionStyle: { marginLeft: 0, marginRight: 6 },
-    },
-  },
-})
+class DeleteSectionOption extends React.Component {
+  static propTypes = {
+    id: PropTypes.number.isRequired,
+    onDeleteSection: PropTypes.func.isRequired,
+  }
 
-export default moduleStyles
+  /** On delete clicked callback */
+  onDelete = () => {
+    const { id, onDeleteSection } = this.props
+    onDeleteSection(id)
+  }
+
+  render() {
+    return (
+      <IconButton onClick={this.onDelete}>
+        <DeleteIcon />
+      </IconButton>)
+  }
+}
+export default DeleteSectionOption

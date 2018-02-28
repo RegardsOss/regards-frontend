@@ -75,7 +75,8 @@ class MainBarNavigationItem extends React.Component {
                 />) : (
                   <MainBarSectionButton
                     item={item}
-                    {...bind('measureDiv')}
+                    locale={locale}
+                    buildModuleURL={buildModuleURL}
                   />)
             }
           </div>)
