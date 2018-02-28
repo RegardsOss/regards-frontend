@@ -23,7 +23,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetadataClient'
-import { pluginConfigurationByTypeActions, pluginConfigurationSelectors } from '../../clients/PluginConfigurationClient'
+import { pluginConfigurationByPluginIdActions, pluginConfigurationSelectors } from '../../clients/PluginConfigurationClient'
 import PluginConfigurationListComponent from '../../components/plugin/PluginConfigurationListComponent'
 import messages from '../../i18n'
 
@@ -128,11 +128,11 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchPluginMetaData: (pluginId, microserviceName) => dispatch(pluginMetaDataActions.fetchEntity(pluginId, { microserviceName })),
-  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.fetchEntityList({
+  fetchPluginConfigurationList: (microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.fetchEntityList({
     microserviceName,
     pluginId,
   })),
-  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(pluginConfigurationByTypeActions.deleteEntity(pluginConfigurationId, {
+  deletePluginConfiguration: (pluginConfigurationId, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(pluginConfigurationId, {
     microserviceName,
     pluginId,
   })),

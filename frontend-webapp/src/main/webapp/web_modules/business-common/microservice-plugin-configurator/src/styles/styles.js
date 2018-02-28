@@ -17,6 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 const microserviceManagementStyles = theme => ({
+  pluginListSelector: {
+    menuItem: {
+      display: 'flex',
+      flexDirection: 'column-reverse',
+    },
+    version: {
+      color: theme.textField.disabledTextColor,
+    },
+    description: {
+      color: theme.palette.secondaryTextColor,
+      maxWidth: '50vw',
+      whiteSpace: 'normal',
+    },
+  },
   pluginParameter: {
     headerStyle: {
       display: 'flex',

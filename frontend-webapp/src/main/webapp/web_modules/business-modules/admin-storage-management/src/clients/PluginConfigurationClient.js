@@ -28,13 +28,13 @@ const REDUX_ACTION_NAMESPACE = 'admin-storage/pluginParameterConfiguration'
 
 const pluginConfigurationReducer = CommonClient.getPluginConfigurationReducer(REDUX_ACTION_NAMESPACE)
 const pluginConfigurationActions = new CommonClient.PluginConfigurationActions(REDUX_ACTION_NAMESPACE)
-const pluginConfigurationByTypeActions = new CommonClient.PluginConfigurationByTypeActions(REDUX_ACTION_NAMESPACE)
+const pluginConfigurationByPluginIdActions = new CommonClient.PluginConfigurationByPluginIdActions(REDUX_ACTION_NAMESPACE)
 const pluginConfigurationSelectors = CommonClient.getPluginConfigurationSelectors(ENTITIES_STORE_PATH)
 
 
 module.exports = {
   pluginConfigurationActions,
-  pluginConfigurationByTypeActions,
+  pluginConfigurationByPluginIdActions,
   pluginConfigurationReducer,
   pluginConfigurationSelectors,
 }

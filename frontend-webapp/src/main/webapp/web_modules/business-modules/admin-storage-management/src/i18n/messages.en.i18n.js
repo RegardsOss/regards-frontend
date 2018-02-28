@@ -21,6 +21,28 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien Binda
  */
 const messages = Object.assign({
+  'storage.data-storage.plugins.list.title': 'Configure data storage locations',
+  'storage.data-storage.plugins.list.subtitle': 'This section allows you to configure storage locations and their prority. The priority is used by the system to determine on which storage location retrieve datas if they are stored on many of them.',
+  'storage.data-storage.plugins.list.header.name.label': 'Storage',
+  'storage.data-storage.plugins.list.header.type.label': 'Storage type',
+  'storage.data-storage.plugins.list.header.active.label': 'Enable/Disable',
+  'storage.data-storage.plugins.list.edit.button': 'Edit configuration',
+  'storage.data-storage.plugins.list.duplicate.button': 'Duplicate configuration',
+  'storage.data-storage.plugins.list.up.priority.button': 'Up priority',
+  'storage.data-storage.plugins.list.down.priority.button': 'Down priority',
+  'storage.data-storage.plugins.list.active.on.button': 'Enable sotrage',
+  'storage.data-storage.plugins.list.active.off.button': 'Desable storage',
+  'storage.data-storage.plugins.list.add.button': 'Add a new storage system',
+  'storage.data-storage.plugins.list.back.button': 'Back',
+  'storage.data-storage.plugins.list.empty.title': 'No storage system available',
+
+  'storage.data-storage.plugins.form.create.title': 'Add new storage system',
+  'storage.data-storage.plugins.form.edit.title': 'Edit storage system "{name}"',
+  'storage.data-storage.plugins.form.create.subtitle': 'First you have to select a storage type. When its done, you have to configure the needed parameters.',
+  'storage.data-storage.plugins.form.edit.subtitle': 'Please configure the storage parameters.',
+  'storage.data-storage.plugins.form.type.select.title': 'Storage type',
+  'storage.data-storage.plugins.form.type.select.label': 'Select a type ...',
+
   'storage.locations.size.title': 'Data storage locations occupancy rate',
   'storage.locations.configuration.title': 'Configure data storage locations',
   'storage.locations.configuration.subtitle': 'This section allows you to configure storage locations',
