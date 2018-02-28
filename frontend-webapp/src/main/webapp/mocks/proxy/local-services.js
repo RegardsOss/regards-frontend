@@ -328,6 +328,12 @@ function buildLocalServices(gatewayURL) {
     GET: {
       // Mock: add missing dependencies
       proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
+      getStoragePluginsOrdered: {
+        url: 'rs-storage/data-storage/plugins', handler: () => {
+          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-data-storage-plugins.json'))
+          return { content }
+        }
+      },
       // proxyQuicklook: { url: 'rs-access-project/dataobjects/search', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-access-project/dataobjects/search`, addQuicklook) },
       // getBasket: { url: 'rs-order/order/basket', handler: getBasket },
       // getNotifications: {

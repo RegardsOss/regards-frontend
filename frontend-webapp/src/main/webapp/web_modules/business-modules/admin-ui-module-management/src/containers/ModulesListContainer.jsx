@@ -129,9 +129,7 @@ class ModulesListContainer extends React.Component {
 }
 
 const UnconnectedModulesListContainer = ModulesListContainer
-export {
-  UnconnectedModulesListContainer,
-}
+export { UnconnectedModulesListContainer }
 
 const mapStateToProps = (state, ownProps) => ({
   modules: ownProps.moduleSelectors.getList(state),

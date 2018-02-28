@@ -16,21 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginFormContainer from './containers/PluginFormContainer'
-import PluginListContainer from './containers/PluginListContainer'
-import RenderPluginField from './form-utils/RenderPluginField'
-import RenderPluginConfField from './form-utils/RenderPluginConfField'
-import PluginDescriptionCard from './components/PluginDescriptionCard'
+import styles from './styles'
 
 /**
- * Module to handle current project of the interface. Fetch the project and put the information in the store.
- * To use this module just add <ProjectHandler projectName={} /> into your application DOM.
- *
+ * @author Sébastien Binda
  */
-module.exports = {
-  PluginFormContainer,
-  PluginListContainer,
-  RenderPluginField,
-  RenderPluginConfField,
-  PluginDescriptionCard,
-}
+module.exports = { styles }

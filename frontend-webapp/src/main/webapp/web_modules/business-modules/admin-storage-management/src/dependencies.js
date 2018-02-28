@@ -17,22 +17,28 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { StorageClient } from '@regardsoss/client'
 import { pluginMetaDataActions } from './clients/PluginMetadataClient'
-import { pluginConfigurationActions } from './clients/PluginConfigurationClient'
+import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from './clients/PluginConfigurationClient'
+
+const storageDependencies = [new StorageClient.StoragePluginsActions().getDependency(RequestVerbEnum.GET_LIST)]
 /**
  * Module hateoas depencies
  * @author Sébastien binda
  */
-const listDependencies = [
-  pluginMetaDataActions.getDependency(RequestVerbEnum.GET_LIST),
-  pluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST),
+const listPluginDependencies = [
+  pluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.STORAGE),
+  pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.STORAGE),
 ]
 
-const addDependencies = [
-  pluginConfigurationActions.getDependency(RequestVerbEnum.POST),
+const addPluginDependencies = [
+  pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.STORAGE),
 ]
+
+const monitoringDependencies = storageDependencies
 
 module.exports = {
-  listDependencies,
-  addDependencies,
+  listPluginDependencies,
+  addPluginDependencies,
+  monitoringDependencies,
 }

@@ -26,16 +26,13 @@ import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
 import CallSplit from 'mdi-material-ui/CallSplit'
 
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
 import { datasourceDependencies } from '@regardsoss/admin-data-datasource-management'
 import { documentDependencies } from '@regardsoss/admin-data-document-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
 import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 import { sipDependencies } from '@regardsoss/admin-ingest-sip-management'
-import { StorageClient } from '@regardsoss/client'
-
-const storageDependencies = [new StorageClient.StoragePluginsActions().getDependency(RequestVerbEnum.GET_LIST)]
+import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
 
 /**
  * BoardItems configuration for ingest module
@@ -137,28 +134,28 @@ const items = (projectName, intl) => [
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/storage/storages`,
+        path: `/admin/${projectName}/data/acquisition/storage/storages/list`,
         icon: <Archive />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
-        hateoasDependencies: documentDependencies.listDependencies,
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
       {
         path: `/admin/${projectName}/data/acquisition/storage/allocations`,
         icon: <CallSplit />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.allocations.tooltip' }),
-        hateoasDependencies: documentDependencies.addDependencies,
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
       {
         path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
         icon: <PieChart />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
-        hateoasDependencies: storageDependencies,
+        hateoasDependencies: storageManagementDependencies.monitoringDependencies,
       },
       {
         path: `/admin/${projectName}/data/acquisition/storage/security`,
         icon: <Security />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.security.tooltip' }),
-        hateoasDependencies: storageDependencies,
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
     ],
   },
