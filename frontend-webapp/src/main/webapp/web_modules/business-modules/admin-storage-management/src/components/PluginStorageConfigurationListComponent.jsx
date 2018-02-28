@@ -22,7 +22,8 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
   CardActionsComponent, TableLayout, InfiniteTableContainer, TableColumnBuilder,
-  NoContentComponent, TableHeaderLineLoadingAndResults,
+  NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import { CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -46,7 +47,9 @@ export class PluginStorageConfigurationListComponent extends React.Component {
     onUpPluginPriority: PropTypes.func.isRequired,
     onDownPluginPriority: PropTypes.func.isRequired,
     onDuplicatePluginConf: PropTypes.func.isRequired,
+    onDeletePluginConf: PropTypes.func.isRequired,
     onActivateToggle: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
     pluginConfigurations: CommonShapes.PluginConfigurationArray.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }
@@ -60,10 +63,47 @@ export class PluginStorageConfigurationListComponent extends React.Component {
 
   static addDependencies = [pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.STORAGE)]
 
+  state = {
+    confToDelete: null,
+  }
+
+  onConfirmDelete = () => {
+    this.closeDeleteDialog()
+    if (this.state.confToDelete) {
+      this.props.onDeletePluginConf(this.state.confToDelete.content)
+    }
+  }
+
+  onDelete = (confToDelete) => {
+    this.setState({
+      confToDelete,
+    })
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      confToDelete: null,
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    if (this.state.confToDelete) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          title={this.context.intl.formatMessage({ id: 'storage.data-storage.plugins.list.confirm.title' }, { name: this.state.confToDelete.content.label })}
+          onConfirm={this.onConfirmDelete}
+          onClose={this.closeDeleteDialog}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
     const {
       onBack, onNewPluginConf, pluginConfigurations, isLoading, onUpPluginPriority, onDownPluginPriority,
-      onEditPluginConf, onDuplicatePluginConf, onActivateToggle,
+      onEditPluginConf, onDuplicatePluginConf, onActivateToggle, onRefresh,
     } = this.props
     const { intl: { formatMessage }, moduleTheme, muiTheme } = this.context
     const fixedColumnWidth = muiTheme['components:infinite-table'].fixedColumnsWidth
@@ -76,7 +116,7 @@ export class PluginStorageConfigurationListComponent extends React.Component {
         Constructor: PluginStorageConfigurationActivationAction, // custom cell
         props: { onToggle: onActivateToggle },
       }),
-      TableColumnBuilder.buildOptionsColumn('', [{
+      TableColumnBuilder.buildOptionsColumn('options', [{
         OptionConstructor: PluginStorageConfigurationEditAction,
         optionProps: { onEdit: onEditPluginConf },
       },
@@ -91,6 +131,15 @@ export class PluginStorageConfigurationListComponent extends React.Component {
       {
         OptionConstructor: PluginStorageConfigurationPriorityAction,
         optionProps: { onDown: onDownPluginPriority },
+      },
+      {
+        OptionConstructor: TableDeleteOption,
+        optionProps: {
+          onDelete: this.onDelete,
+          fetchPage: onRefresh,
+          handleHateoas: true,
+          queryPageSize: 20,
+        },
       },
       ], true, fixedColumnWidth),
     ]
@@ -108,6 +157,7 @@ export class PluginStorageConfigurationListComponent extends React.Component {
           subtitle={formatMessage({ id: 'storage.data-storage.plugins.list.subtitle' })}
         />
         <CardText style={moduleTheme.root} >
+          {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={pluginConfigurations.length} />
             <InfiniteTableContainer

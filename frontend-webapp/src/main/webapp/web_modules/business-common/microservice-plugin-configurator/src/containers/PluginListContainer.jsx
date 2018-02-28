@@ -64,25 +64,30 @@ export class PluginListContainer extends React.Component {
   componentDidMount() {
     // Retrieve all pluginMetadatas for the required plugin type
     this.props.fetchPlugins(this.props.microserviceName, this.props.pluginType)
-      .then((actionResult) => {
-        // After response is received if there is no error, set the pluginMetaData list into the state
-        // and set the selected one to the given one from the props.
-        if (!actionResult.error && get(actionResult, 'payload.entities', null)) {
-          const pluginList = actionResult.payload.entities[PluginMetaDataConfiguration.normalizrKey]
-          this.setState({
-            pluginList,
-            isLoading: false,
-          })
-          if (this.props.selectedPluginId) {
-            const plugin = find(pluginList, p => p.content.pluginId === this.props.selectedPluginId)
-            this.props.handleSelect(plugin.content, true)
-          }
-        } else {
-          this.setState({
-            isLoading: false,
-          })
-        }
+      .then(this.updatePluginList)
+  }
+
+  /**
+   * Update the list of current pluginList into the state with the given ones.
+   */
+  updatePluginList = (actionResult) => {
+    // After response is received if there is no error, set the pluginMetaData list into the state
+    // and set the selected one to the given one from the props.
+    if (!actionResult.error && get(actionResult, 'payload.entities', null)) {
+      const pluginList = actionResult.payload.entities[PluginMetaDataConfiguration.normalizrKey]
+      this.setState({
+        pluginList,
+        isLoading: false,
       })
+      if (this.props.selectedPluginId) {
+        const plugin = find(pluginList, p => p.content.pluginId === this.props.selectedPluginId)
+        this.props.handleSelect(plugin.content, true)
+      }
+    } else {
+      this.setState({
+        isLoading: false,
+      })
+    }
   }
 
   /**

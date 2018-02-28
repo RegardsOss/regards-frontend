@@ -32,6 +32,7 @@ const messages = Object.assign({
   'storage.data-storage.plugins.list.down.priority.button': 'Down priority',
   'storage.data-storage.plugins.list.active.on.button': 'Enable sotrage',
   'storage.data-storage.plugins.list.active.off.button': 'Desable storage',
+  'storage.data-storage.plugins.list.confirm.title': 'Delete storage {name} ?',
   'storage.data-storage.plugins.list.add.button': 'Add a new storage system',
   'storage.data-storage.plugins.list.back.button': 'Back',
   'storage.data-storage.plugins.list.empty.title': 'No storage system available',
