@@ -29,6 +29,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import IngestProcessingPluginTypes from './IngestProcessingPluginType'
+import ImportFromFileDialogButton from './ImportFromFileDialogButton'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -44,6 +45,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
   static propTypes = {
     processingChain: IngestShapes.IngestProcessingChain,
     onSubmit: PropTypes.func.isRequired,
+    onImport: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     // from reduxForm
     initialize: PropTypes.func,
@@ -113,18 +115,24 @@ export class IngestProcessingChainFormComponent extends React.Component {
     const postprocessingPlugin = get(processingChain, 'postprocessingPlugin', null)
 
     return (
-      <form
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-      >
-        <Card>
-          {this.state.isCreating ?
-            <CardTitle
-              title={formatMessage({ id: 'processing-chain.form.create.title' })}
-            /> :
-            <CardTitle
-              title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
-            />
-          }
+
+      <Card>
+        {this.state.isCreating ?
+          <CardTitle
+            title={formatMessage({ id: 'processing-chain.form.create.title' })}
+          /> :
+          <CardTitle
+            title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
+          />
+        }
+        <ImportFromFileDialogButton
+          onImport={this.props.onImport}
+          onImportSucceed={this.props.onBack}
+          style={{ marginLeft: '20px' }}
+        />
+        <form
+          onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        >
           <CardText>
             <Field
               name="name"
@@ -195,8 +203,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
               secondaryButtonClick={this.props.onBack}
             />
           </CardActions>
-        </Card>
-      </form>
+        </form>
+      </Card>
     )
   }
 }
