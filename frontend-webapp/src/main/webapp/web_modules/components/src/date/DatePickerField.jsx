@@ -113,7 +113,19 @@ export default class DatePickerField extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
-      this.handleChangeDatePicker(null, nextProps.value)
+      this.handleChangeDate(nextProps.value)
+    }
+  }
+
+  handleChangeDate = (newDate) => {
+    if (newDate) {
+      const newDateText = DatePickerField.formatDateWithLocale(newDate, this.props.locale)
+      const newTimeText = format(newDate, DatePickerField.TIME_FORMAT)
+      if (this.state.dateText !== newDateText || this.state.timeText !== newTimeText) {
+        this.setState({ dateText: newDateText, timeText: newTimeText })
+      }
+    } else {
+      this.setState({ dateText: '', timeText: '' })
     }
   }
 
@@ -121,15 +133,20 @@ export default class DatePickerField extends React.Component {
     if (!date) {
       this.setState({ dateText: '', timeText: '' })
     } else {
-      const { timeText, defaultDate } = this.state
-      if (!timeText) {
+      const { dateText, timeText, defaultDate } = this.state
+      const { value } = this.props
+      if (!value) {
         date.setHours(defaultDate.getHours())
         date.setMinutes(defaultDate.getMinutes())
         date.setSeconds(defaultDate.getSeconds())
+      } else {
+        date.setHours(value.getHours())
+        date.setMinutes(value.getMinutes())
+        date.setSeconds(value.getSeconds())
       }
       const newDateText = DatePickerField.formatDateWithLocale(date, this.props.locale)
       const newTimeText = format(date, DatePickerField.TIME_FORMAT)
-      if (this.state.dateText !== newDateText || this.state.timeText !== newTimeText) {
+      if (dateText !== newDateText || timeText !== newTimeText) {
         this.setState({ dateText: newDateText, timeText: newTimeText },
           () => this.props.onChange(date))
       }
