@@ -22,6 +22,29 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien Binda
  */
 const messages = Object.assign({
+  'storage.data-storage.plugins.list.title': 'Configuration des espaces de stockage',
+  'storage.data-storage.plugins.list.subtitle': 'Cette section vous permer de configurer les différents espaces de stockage utilisés par le stystème et de les prioriser. La priorité permet, dans le cas ou des données sont stockées sur plusieurs systèmes de stockage, de déterminer sur lequel d\'entre eux récupérer les données.',
+  'storage.data-storage.plugins.list.header.name.label': 'Mode de stockage',
+  'storage.data-storage.plugins.list.header.type.label': 'Type de stockage',
+  'storage.data-storage.plugins.list.header.active.label': 'Activer/Désactiver',
+  'storage.data-storage.plugins.list.edit.button': 'Editer la configuration',
+  'storage.data-storage.plugins.list.duplicate.button': 'Dupliquer la configuration',
+  'storage.data-storage.plugins.list.up.priority.button': 'Augmenter la priorité de la configuration',
+  'storage.data-storage.plugins.list.down.priority.button': 'Diminuer la priorité de la configuration',
+  'storage.data-storage.plugins.list.active.on.button': 'Activer ce système de stockage',
+  'storage.data-storage.plugins.list.active.off.button': 'Désactiver ce système de stockage',
+  'storage.data-storage.plugins.list.confirm.title': 'Suppression du mode de stockage {name} ?',
+  'storage.data-storage.plugins.list.add.button': 'Ajouter un nouveau système de stockage',
+  'storage.data-storage.plugins.list.back.button': 'Retour',
+  'storage.data-storage.plugins.list.empty.title': 'Aucun mode de stockage défini',
+
+  'storage.data-storage.plugins.form.create.title': 'Ajout d\'un nouvel espace de stockage',
+  'storage.data-storage.plugins.form.edit.title': 'Edition de l\'espace de stockage "{name}"',
+  'storage.data-storage.plugins.form.create.subtitle': 'Après avoir sélectionner le mode de stockage désiré, veuillez renseigner les paramètres de configuration associés.',
+  'storage.data-storage.plugins.form.edit.subtitle': 'Veuillez renseigner les paramètres de configuration associés.',
+  'storage.data-storage.plugins.form.type.select.title': 'Mode de stockage',
+  'storage.data-storage.plugins.form.type.select.label': 'Sélectionnez un mode ...',
+
   'storage.locations.size.title': 'Taux d\'utilisation des espaces de stockage',
   'storage.locations.configuration.title': 'Configuration des espaces de stockage',
   'storage.locations.configuration.subtitle': 'Cette section vous permet de configurer les espaces de stockage utilisés par le système pour stocker les données soumises. Ci-dessous sont listés les types d\'espaces de stockage que vous pouvez utiliser. Pour chaque type, vous pouvez lister les configurations existantes ou en ajouter une nouvelle. Une fois vos esapces de stockage configurés, veuillez configurer une stratégie de répartition des données depuis l\'écran précédent',

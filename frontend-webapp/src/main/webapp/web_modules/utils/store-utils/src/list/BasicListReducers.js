@@ -20,6 +20,8 @@
 /**
  * @author Léo Mieulet
  */
+import includes from 'lodash/includes'
+import values from 'lodash/values'
 import omitBy from 'lodash/omitBy'
 import concat from 'lodash/concat'
 import without from 'lodash/without'
@@ -55,7 +57,9 @@ class BasicListReducers extends BasicReducer {
     const items = Object.assign({}, newState.items)
     items[entityId] = action.payload.entities[this.normalizrKey][entityId]
     newState.items = items
-    newState.results = concat([], newState.results, entityId)
+    if (!includes(values(newState.results), entityId)) {
+      newState.results = concat([], newState.results, entityId)
+    }
     return newState
   }
 

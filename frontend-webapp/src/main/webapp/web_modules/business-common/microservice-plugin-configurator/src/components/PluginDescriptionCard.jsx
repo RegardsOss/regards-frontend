@@ -16,20 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import replace from 'lodash/replace'
-import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { Card, CardText, CardTitle } from 'material-ui/Card'
+import { CommonShapes } from '@regardsoss/shape'
 
-export default class PluginConfigurationByTypeActions extends BasicListActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/{microserviceName}/plugins/{pluginId}/config`,
-      schemaTypes: {
-        ENTITY: Schemas.PLUGIN_CONFIGURATION,
-        ENTITY_ARRAY: Schemas.PLUGIN_CONFIGURATION_ARRAY,
-      },
-    })
+/**
+* Component to display informations about a given plugin
+* @author Sébastien Binda
+*/
+class PluginDescriptionCard extends React.Component {
+  static propTypes = {
+    plugin: CommonShapes.PluginMetaDataContent.isRequired,
   }
-  getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
+
+  static defaultProps = {}
+
+  render() {
+    const { plugin } = this.props
+    return (
+      <Card>
+        <CardTitle
+          title={plugin.pluginId}
+          subtitle={`${plugin.author} | ${plugin.version}`}
+        />
+        <CardText>
+          {plugin.description}
+        </CardText>
+      </Card>
+    )
+  }
 }
+export default PluginDescriptionCard

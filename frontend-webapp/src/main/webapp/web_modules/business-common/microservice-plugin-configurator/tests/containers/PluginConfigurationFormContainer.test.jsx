@@ -68,7 +68,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing PluginConfigurationFormCont
     const props = {
       microserviceName: 'rs-ms',
       pluginId: 'pluginId',
-      pluginConfigurationId: 'pluginConfId',
+      pluginConfigurationId: 12,
       formMode: 'create',
       backUrl: 'url',
       fetchPluginConfiguration: fetchPluginStub,

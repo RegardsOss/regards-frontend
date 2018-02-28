@@ -44,6 +44,7 @@ const withResourceDisplayControl = (DecoratedComponent) => {
         PropTypes.arrayOf(PropTypes.string),
         PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
       ]),
+      hideDisabled: PropTypes.bool,
       // From mapStateToProps
       // The full list of dependencies
       availableDependencies: PropTypes.arrayOf(PropTypes.string),
@@ -54,20 +55,25 @@ const withResourceDisplayControl = (DecoratedComponent) => {
     static defaultProps = {
       displayLogic: allMatchHateoasDisplayLogic,
       resourceDependencies: [],
+      hideDisabled: true,
     }
 
     render() {
       // Remove from otherProps all props that doesn't need to be reinjected in children
       // eslint-disable-next-line no-unused-vars, react/prop-types
       const {
-        displayLogic, resourceDependencies, availableDependencies, isInstance, ...otherProps
+        displayLogic, resourceDependencies, availableDependencies, isInstance, hideDisabled, ...otherProps
       } = this.props
-      const decoratedComponentElement = React.createElement(DecoratedComponent, omit(otherProps, ['theme', 'i18n', 'dispatch']))
       const requiredDependencies = isString(resourceDependencies) ? [resourceDependencies] : resourceDependencies
       const isDisplayed = requiredDependencies.length === 0 || displayLogic(requiredDependencies, availableDependencies)
+      const disabled = !isDisplayed && !isInstance
+      const decoratedComponentElement = React.createElement(DecoratedComponent, omit({ ...otherProps, disabled }, ['theme', 'i18n', 'dispatch']))
 
+      if (!hideDisabled) {
+        return decoratedComponentElement
+      }
       return (
-        <ShowableAtRender show={isDisplayed || isInstance}>
+        <ShowableAtRender show={!disabled}>
           {decoratedComponentElement}
         </ShowableAtRender>
       )
