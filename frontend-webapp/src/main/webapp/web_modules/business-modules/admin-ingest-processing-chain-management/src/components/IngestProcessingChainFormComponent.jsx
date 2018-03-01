@@ -28,8 +28,8 @@ import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
+import { ImportFromFileDialogButton } from '@regardsoss/file-utils'
 import IngestProcessingPluginTypes from './IngestProcessingPluginType'
-import ImportFromFileDialogButton from './ImportFromFileDialogButton'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -107,7 +107,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
 
   render() {
     const { invalid, submitting, processingChain } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme } = this.context
     const preprocessingPlugin = get(processingChain, 'preprocessingPlugin', null)
     const validationPlugin = get(processingChain, 'validationPlugin', null)
     const generationPlugin = get(processingChain, 'generationPlugin', null)
@@ -115,7 +115,6 @@ export class IngestProcessingChainFormComponent extends React.Component {
     const postprocessingPlugin = get(processingChain, 'postprocessingPlugin', null)
 
     return (
-
       <Card>
         {this.state.isCreating ?
           <CardTitle
@@ -128,7 +127,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
         <ImportFromFileDialogButton
           onImport={this.props.onImport}
           onImportSucceed={this.props.onBack}
-          style={{ marginLeft: '20px' }}
+          style={moduleTheme.importButtonStyles}
         />
         <form
           onSubmit={this.props.handleSubmit(this.props.onSubmit)}

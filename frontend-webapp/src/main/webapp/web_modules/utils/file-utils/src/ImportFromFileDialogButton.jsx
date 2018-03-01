@@ -20,11 +20,12 @@ import RaisedButton from 'material-ui/RaisedButton'
 import FileUpload from 'material-ui/svg-icons/file/file-upload'
 import Dialog from 'material-ui/Dialog'
 import { Field, RenderFileFieldWithMui, reduxForm } from '@regardsoss/form-utils'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
+import messages from './i18n'
 
 /**
-* Comment Here
+* Component to display a button that handle a dialog allowing user to upload a selected local file.
 * @author Sébastien Binda
 */
 class ImportFromFileDialogButton extends React.Component {
@@ -46,16 +47,26 @@ class ImportFromFileDialogButton extends React.Component {
   state = {
     open: false,
     error: false,
-  };
+  }
 
+  /**
+   * Open file selection dialog
+   */
   handleOpen = () => {
     this.setState({ open: true })
   }
 
+  /**
+   * Close file selection dialog
+   */
   handleClose = () => {
     this.setState({ open: false })
   }
 
+  /**
+   * Handle file upload submition by calling the prop onImport function in a first time.
+   * Then after succeed the prop onImportSucceed function is called.
+   */
   handleSubmit = (values) => {
     this.props.onImport(values).then(
       ((result) => {
@@ -70,6 +81,9 @@ class ImportFromFileDialogButton extends React.Component {
       }))
   }
 
+  /**
+   * Display select local file dialog
+   */
   renderDialog = () => {
     const { handleSubmit, title } = this.props
     const { intl: { formatMessage } } = this.context
@@ -117,9 +131,9 @@ class ImportFromFileDialogButton extends React.Component {
     )
   }
 }
-
+const component = withI18n(messages)(ImportFromFileDialogButton)
 const connectedReduxForm = reduxForm({
   form: 'chain-import-form',
-})(ImportFromFileDialogButton)
+})(component)
 
 export default connectedReduxForm

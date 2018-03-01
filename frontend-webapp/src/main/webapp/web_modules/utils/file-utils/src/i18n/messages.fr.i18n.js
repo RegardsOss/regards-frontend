@@ -15,19 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-const styles = theme => ({
-  pluginStyles: {
-    display: 'flex',
-    alignItems: 'baseline',
-    width: '100%',
-  },
-  avatarStyles: {
-    marginRight: 10,
-  },
-  importButtonStyles: {
-    marginLeft: '20px',
-  },
-})
+**/
 
-export default styles
+/**
+ * @author Sébastien Binda
+ */
+const messages = {
+  'import.file.dialog.title': 'Importer un fichier',
+  'import.file.error': 'Erreur durant l\'importattion de votre fichier',
+  'import.file.submit.button': 'Importer',
+  'import.file.cancel.button': 'Annuler',
+  'import.file.dialog.open.button': 'Importer depuis un fichier',
+}
+
+export default messages
