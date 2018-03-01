@@ -19,33 +19,38 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import IngestProcessingChainListComponent from '../../src/components/IngestProcessingChainListComponent'
-import { IngestProcessingChainListContainer } from '../../src/containers/IngestProcessingChainListContainer'
+import { Field } from '@regardsoss/form-utils'
+import { ThemeEditor } from '@regardsoss/vendors'
+import { ThemeFormComponent } from '../../src/components/ThemeFormComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test  IngestProcessingChainListContainer
-* @author Sébastien Binda
+* Test ThemeFormComponent
+* @author Léo Mieulet
 */
-describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing  IngestProcessingChainListContainer', () => {
+describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(IngestProcessingChainListContainer)
+    assert.isDefined(ThemeFormComponent)
   })
   it('should render correctly', () => {
     const props = {
-      params: {
-        project: 'project',
-      },
-      accessToken: 'token',
-      deleteChain: () => new Promise(() => { }),
-      fetchPage: () => new Promise(() => { }),
+      currentTheme: null,
+      backUrl: '#',
+      isCreating: true,
+      onSubmit: () => { },
+      // from reduxForm
+      submitting: false,
+      pristine: false,
+      handleSubmit: () => { },
+      initialize: () => { },
     }
-    const enzymeWrapper = shallow(<IngestProcessingChainListContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(IngestProcessingChainListComponent).length, 1, 'The IngestProcessingChainListComponent should be rendered')
+    const enzymeWrapper = shallow(<ThemeFormComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(Field), 2, 'should contains fields')
+    assert.lengthOf(enzymeWrapper.find(ThemeEditor), 1, 'should contains the theme editor')
   })
 })

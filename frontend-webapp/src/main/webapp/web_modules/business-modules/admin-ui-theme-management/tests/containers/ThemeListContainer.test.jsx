@@ -19,33 +19,41 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import IngestProcessingChainListComponent from '../../src/components/IngestProcessingChainListComponent'
-import { IngestProcessingChainListContainer } from '../../src/containers/IngestProcessingChainListContainer'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import ThemeListComponent from '../../src/components/ThemeListComponent'
+import ThemeListContainer from '../../src/containers/ThemeListContainer'
 import styles from '../../src/styles/styles'
+
 
 const context = buildTestContext(styles)
 
 /**
-* Test  IngestProcessingChainListContainer
-* @author Sébastien Binda
+* Test ThemeListContainer
+* @author Léo Mieulet
 */
-describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing  IngestProcessingChainListContainer', () => {
+describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(IngestProcessingChainListContainer)
+    assert.isDefined(ThemeListContainer)
+    assert.isDefined(ThemeListComponent)
   })
   it('should render correctly', () => {
+    const backUrl = '#'
     const props = {
-      params: {
-        project: 'project',
-      },
-      accessToken: 'token',
-      deleteChain: () => new Promise(() => { }),
-      fetchPage: () => new Promise(() => { }),
+      themeList: {},
+      backUrl,
+      createUrl: backUrl,
+      handleEdit: () => { },
+
+      fetchThemeList: () => { },
+      deleteTheme: () => { },
     }
-    const enzymeWrapper = shallow(<IngestProcessingChainListContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(IngestProcessingChainListComponent).length, 1, 'The IngestProcessingChainListComponent should be rendered')
+    const enzymeWrapper = shallow(<ThemeListContainer {...props} />, { context })
+    const loadableDecoratorWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
+    assert.lengthOf(loadableDecoratorWrapper, 1, 'Should find the Loadable decorator')
+    assert.isTrue(loadableDecoratorWrapper.props().isLoading, 'should load list of theme')
+    assert.lengthOf(enzymeWrapper.find(ThemeListComponent), 1, 'Should find the list component')
   })
 })

@@ -28,7 +28,7 @@ import messages from '../i18n'
  * Handle theme list network operations
  * @author Léo Mieulet
  */
-export class ThemeListContainer extends React.Component {
+export class ThemeFormContainer extends React.Component {
   static propTypes = {
     currentTheme: AccessShapes.Theme,
     backUrl: PropTypes.string,
@@ -100,4 +100,4 @@ export class ThemeListContainer extends React.Component {
   }
 }
 
-export default ThemeListContainer
+export default ThemeFormContainer

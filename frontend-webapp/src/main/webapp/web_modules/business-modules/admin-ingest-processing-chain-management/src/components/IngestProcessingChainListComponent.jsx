@@ -34,6 +34,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { tableActions } from '../clients/TableClient'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
 import IngestProcessingChainTableEditAction from './IngestProcessingChainTableEditAction'
+import IngestProcessingChainTableExportAction from './IngestProcessingChainTableExportAction'
 import { addDependencies } from '../dependencies'
 
 /**
@@ -48,6 +49,7 @@ export class ProcessingChainListComponent extends React.Component {
     onCreate: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     queryPageSize: PropTypes.number.isRequired,
+    accessToken: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -104,6 +106,9 @@ export class ProcessingChainListComponent extends React.Component {
       TableColumnBuilder.buildSimplePropertyColumn('column.name', 'name', 'content.name'),
       TableColumnBuilder.buildSimplePropertyColumn('column.description', 'description', 'content.description'),
       TableColumnBuilder.buildOptionsColumn('', [{
+        OptionConstructor: IngestProcessingChainTableExportAction,
+        optionProps: { accessToken: this.props.accessToken },
+      }, {
         OptionConstructor: IngestProcessingChainTableEditAction,
         optionProps: { onEdit: this.props.onEdit },
       }, {
@@ -113,6 +118,7 @@ export class ProcessingChainListComponent extends React.Component {
           onDelete: this.onDelete,
           queryPageSize: this.props.queryPageSize,
           handleHateoas: true,
+          disableInsteadOfHide: true,
         },
       }], true, fixedColumnWidth),
     ]

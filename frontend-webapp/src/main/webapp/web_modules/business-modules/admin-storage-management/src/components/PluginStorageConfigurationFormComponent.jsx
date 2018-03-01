@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -34,8 +35,8 @@ import styles from '../styles'
 class PluginStorageConfigurationFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
-    pluginConfiguration: CommonShapes.PluginConfigurationContent,
-    onBack: PropTypes.func.isRequired,
+    pluginConfiguration: CommonShapes.PluginConfiguration,
+    backUrl: PropTypes.string.isRequired,
   }
 
   static defaultProps = {}
@@ -48,24 +49,26 @@ class PluginStorageConfigurationFormComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedPlugin: props.pluginConfiguration ? props.pluginConfiguration : null,
+      selectedPlugin: props.pluginConfiguration ? get(props.pluginConfiguration, 'content', null) : null,
     }
   }
 
   selectPluginType = (plugin) => {
-    this.setState({ selectedPlugin: plugin })
+    if (!isEqual(this.state.selectedPlugin, plugin)) {
+      this.setState({ selectedPlugin: plugin })
+    }
   }
 
   render() {
     const {
-      onBack, pluginConfiguration, mode,
+      backUrl, pluginConfiguration, mode,
     } = this.props
     const { selectedPlugin } = this.state
     const selectedPluginId = get(selectedPlugin, 'pluginId', null)
     const { intl: { formatMessage }, moduleTheme } = this.context
 
     const title = mode === 'edit' ?
-      formatMessage({ id: 'storage.data-storage.plugins.form.edit.title' }, { name: get(pluginConfiguration, 'label', null) }) :
+      formatMessage({ id: 'storage.data-storage.plugins.form.edit.title' }, { name: get(pluginConfiguration, 'content.label', null) }) :
       formatMessage({ id: 'storage.data-storage.plugins.form.create.title' })
     const subtitle = mode === 'edit' ?
       formatMessage({ id: 'storage.data-storage.plugins.form.edit.subtitle' }) :
@@ -92,11 +95,12 @@ class PluginStorageConfigurationFormComponent extends React.Component {
               key={`plugin-conf-${selectedPluginId}`}
               microserviceName={STATIC_CONF.MSERVICES.STORAGE}
               pluginId={selectedPluginId}
-              pluginConfigurationId={get(pluginConfiguration, 'id', null)}
+              pluginConfiguration={pluginConfiguration}
               formMode={mode}
-              backUrl={onBack}
+              backUrl={backUrl}
               cardStyle={false}
               simpleGlobalParameterConf
+              hideDynamicParameterConf
             /> : null
           }
         </CardText>
@@ -105,7 +109,7 @@ class PluginStorageConfigurationFormComponent extends React.Component {
             <CardActions>
               <CardActionsComponent
                 mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.back.button' })}
-                mainButtonUrl={onBack}
+                mainButtonUrl={backUrl}
               />
             </CardActions>
           )

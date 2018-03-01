@@ -53,6 +53,9 @@ export default class RenderCheckbox extends React.Component {
     rootStyles: {
       marginTop: 24,
     },
+    labelStyles: {
+      width: 'auto',
+    },
   }
 
   componentDidMount() {
@@ -78,6 +81,7 @@ export default class RenderCheckbox extends React.Component {
       <div>
         <Checkbox
           style={RenderCheckbox.STYLES.rootStyles}
+          labelStyle={RenderCheckbox.STYLES.labelStyles}
           className={className}
           label={label}
           checked={checked}

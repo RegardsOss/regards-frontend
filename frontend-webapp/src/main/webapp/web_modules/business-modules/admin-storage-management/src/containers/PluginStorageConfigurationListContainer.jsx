@@ -58,6 +58,12 @@ export class StoragePluginConfigurationListContainer extends React.Component {
       updatePluginConfiguration: pluginConf =>
         dispatch(pluginConfigurationByPluginIdActions.updateEntity(
           pluginConf.id, pluginConf, { microserviceName: STATIC_CONF.MSERVICES.STORAGE, pluginId: pluginConf.pluginId })),
+      deletePluginConfiguration: pluginConf =>
+        dispatch(pluginConfigurationByPluginIdActions.deleteEntity(pluginConf.id, {
+          microserviceName: STATIC_CONF.MSERVICES.STORAGE,
+          pluginId: pluginConf.pluginId,
+        })),
+
     }
   }
 
@@ -72,6 +78,7 @@ export class StoragePluginConfigurationListContainer extends React.Component {
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func.isRequired,
     updatePluginConfiguration: PropTypes.func.isRequired,
+    deletePluginConfiguration: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -112,11 +119,15 @@ export class StoragePluginConfigurationListContainer extends React.Component {
     // TODO ....
   }
 
-  onActivateToggle = (plugiConf) => {
-    const updatedPluginConfiguration = Object.assign({}, plugiConf, {
-      active: !plugiConf.active,
+  onActivateToggle = (pluginConf) => {
+    const updatedPluginConfiguration = Object.assign({}, pluginConf, {
+      active: !pluginConf.active,
     })
     this.props.updatePluginConfiguration(updatedPluginConfiguration)
+  }
+
+  onDeletePluginConf = (pluginConf) => {
+    this.props.deletePluginConfiguration(pluginConf)
   }
 
   render() {
@@ -131,6 +142,8 @@ export class StoragePluginConfigurationListContainer extends React.Component {
         onUpPluginPriority={this.onUpPluginPriority}
         onDownPluginPriority={this.onDownPluginPriority}
         onActivateToggle={this.onActivateToggle}
+        onDeletePluginConf={this.onDeletePluginConf}
+        onRefresh={this.props.fetchPluginConfiguration}
       />
     )
   }

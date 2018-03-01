@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-const styles = theme => ({
-  pluginStyles: {
-    display: 'flex',
-    alignItems: 'baseline',
-    width: '100%',
-  },
-  avatarStyles: {
-    marginRight: 10,
-  },
-  importButtonStyles: {
-    marginLeft: '20px',
-  },
-})
+import { IngestClient } from '@regardsoss/client'
 
-export default styles
+/**
+ * Plugin configuration entities client.
+ *
+ * @author Sébastien Binda
+ */
+const REDUX_ACTION_NAMESPACE = 'admin-ingest-processing-chain-management/import'
+
+const processingChainImportActions = new IngestClient.ProcessingChainImportActions(REDUX_ACTION_NAMESPACE)
+
+module.exports = {
+  processingChainImportActions,
+}

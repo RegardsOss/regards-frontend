@@ -19,33 +19,50 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import IngestProcessingChainListComponent from '../../src/components/IngestProcessingChainListComponent'
-import { IngestProcessingChainListContainer } from '../../src/containers/IngestProcessingChainListContainer'
+import ThemeFormContainer from '../../src/containers/ThemeFormContainer'
+import { ThemeFormAdapter } from '../../src/containers/ThemeFormAdapter'
 import styles from '../../src/styles/styles'
+
 
 const context = buildTestContext(styles)
 
 /**
-* Test  IngestProcessingChainListContainer
-* @author Sébastien Binda
+* Test ThemeFormAdapter
+* @author Léo Mieulet
 */
-describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing  IngestProcessingChainListContainer', () => {
+describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormAdapter', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(IngestProcessingChainListContainer)
+    assert.isDefined(ThemeFormContainer)
+    assert.isDefined(ThemeFormAdapter)
   })
   it('should render correctly', () => {
+    const fetchThemeInstance = () => { }
     const props = {
+      // from router
       params: {
-        project: 'project',
+        project: 'project 1',
+        themeId: null,
       },
-      accessToken: 'token',
-      deleteChain: () => new Promise(() => { }),
-      fetchPage: () => new Promise(() => { }),
+
+      // Set by mapStateToProps
+      isInstance: true,
+      currentTheme: null,
+
+      // Set by mapDispatchToProps
+      fetchTheme: () => { },
+      fetchThemeInstance,
+      updateTheme: () => { },
+      updateInstanceTheme: () => { },
+      createTheme: () => { },
+      createInstanceTheme: () => { },
     }
-    const enzymeWrapper = shallow(<IngestProcessingChainListContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(IngestProcessingChainListComponent).length, 1, 'The IngestProcessingChainListComponent should be rendered')
+    const enzymeWrapper = shallow(<ThemeFormAdapter {...props} />, { context })
+    const formContainerWrapper = enzymeWrapper.find(ThemeFormContainer)
+    assert.lengthOf(formContainerWrapper, 1, 'Should find the form container')
+
+    assert.deepEqual(formContainerWrapper.prop('fetchTheme'), fetchThemeInstance)
   })
 })
