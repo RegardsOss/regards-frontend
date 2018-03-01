@@ -32,7 +32,7 @@ export class StoragePluginContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     scale: storage.StorageUnitScaleShape.isRequired, // used only in onPropertiesChanged
     // eslint-disable-next-line react/no-unused-prop-types
-    plugin: StorageShapes.StoragePlugin.isRequired, // used only in onPropertiesChanged
+    plugin: StorageShapes.StorageMonitoring.isRequired, // used only in onPropertiesChanged
   }
 
   /**

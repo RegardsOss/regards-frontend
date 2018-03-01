@@ -120,7 +120,7 @@ export class RenderPluginParameterField extends React.PureComponent {
     }
     const { moduleTheme: { dynamicParameter }, intl: { formatMessage } } = this.context
     return (
-      <div style={dynamicParameter.toggle.style}>
+      <div key={`dynamic-field-${name}`} style={dynamicParameter.toggle.style}>
         <Field
           name={`${name}.dynamic`}
           component={RenderRadio}
@@ -149,12 +149,11 @@ export class RenderPluginParameterField extends React.PureComponent {
   renderParamConfiguration = (name, dynamic, forceHideDynamicConf, component, label, disabled, validators, displayDynamicValues, fieldParams = {}) => {
     const { moduleTheme: { dynamicParameter, pluginParameter: { headerStyle } }, intl: { formatMessage } } = this.context
     const { hideDynamicParameterConf, pluginParameterType: { description, defaultValue } } = this.props
-    const parameters = (
-      <div style={dynamicParameter.layout}>
-        {!forceHideDynamicConf ? this.renderDynamicRadioButton(name) : null}
-        {this.renderParamValueConf(name, dynamic, component, label, disabled, validators, displayDynamicValues, fieldParams)}
-      </div>
-    )
+    const parameterElements = []
+    if (!forceHideDynamicConf) {
+      parameterElements.push(this.renderDynamicRadioButton(name))
+    }
+    parameterElements.push(this.renderParamValueConf(name, dynamic, component, label, disabled, validators, displayDynamicValues, fieldParams))
     // Display parameter header with his own label if dynamic configuration is enabled
     let header
     if ((!hideDynamicParameterConf && !forceHideDynamicConf) || includes([RenderObjectParameterField, RenderMapParameterField, RenderCollectionParameterField], component)) {
@@ -162,15 +161,20 @@ export class RenderPluginParameterField extends React.PureComponent {
       header = (
         <div style={headerStyle}>
           <SubHeader key="label">{label} {devaultValueLabel}</SubHeader>
-          {description ? <IconButton onClick={this.handleOpenDescription}><HelpCircle /></IconButton> : null}
+          {description ? <IconButton key="desc-info-button" onClick={this.handleOpenDescription}><HelpCircle /></IconButton> : null}
           {description ? this.renderDescriptionDialog() : null}
         </div>
       )
+    } else if (description) {
+      parameterElements.push(<IconButton key="desc-info-button" onClick={this.handleOpenDescription}><HelpCircle /></IconButton>)
+      parameterElements.push(this.renderDescriptionDialog())
     }
     return (
       <div>
         {header}
-        {parameters}
+        <div style={dynamicParameter.layout}>
+          {parameterElements}
+        </div>
       </div>
     )
   }
@@ -195,6 +199,7 @@ export class RenderPluginParameterField extends React.PureComponent {
       const { intl: { formatMessage } } = this.context
       return (
         <FieldArray
+          key={`${name}.dynamicsValues`}
           name={`${name}.dynamicsValues`}
           component={RenderArrayTextField}
           fieldsListLabel={formatMessage({ id: 'plugin.parameter.dynamicvalues.title' })}
@@ -209,7 +214,9 @@ export class RenderPluginParameterField extends React.PureComponent {
     const fieldName = complexParameter ? `${name}.value` : name
     return (
       <Field
+        key={fieldName}
         name={fieldName}
+        fullWidth
         component={component}
         disabled={disabled}
         validate={validators}
@@ -296,6 +303,7 @@ export class RenderPluginParameterField extends React.PureComponent {
       />]
     return (
       <Dialog
+        key="desc-dialog"
         title={formatMessage({ id: 'plugin.parameter.description.dialog.title' }, { parameter: pluginParameterType.label })}
         actions={actions}
         modal

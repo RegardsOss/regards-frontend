@@ -1,7 +1,7 @@
 import * as ColorTones from 'material-ui/styles/colors'
 
 
-export class ColorTone {
+class ColorTone {
     color;
     tone;
 
@@ -16,7 +16,7 @@ export class ColorTone {
     }
 }
 
-export class RgbaColor {
+class RgbaColor {
     r;
     g;
     b;
@@ -38,7 +38,7 @@ export class RgbaColor {
     }
 }
 
-export class ColorInfo {
+class ColorInfo {
     rgba;
     colorTone;
 
@@ -100,8 +100,8 @@ export class ColorInfo {
 
 
 
-export class ColorHelper {
-    static hexRegex = /^#?([a-f\d]{6})$/i;
+class ColorHelper {
+    static hexRegex = /^#?([a-f\d]{3,6})$/i;
     static rgbaRegex = /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/;
     static colorToneRegex = /^([^#][^A\d]+)([A?\d]+)?$/;
 
@@ -151,4 +151,20 @@ export class ColorHelper {
 
         return new RgbaColor(arrByte[1], arrByte[2], arrByte[3]);
     };
+}
+
+
+/**
+ * Regex that match color
+ * @source https://gist.github.com/olmokramer/82ccce673f86db7cda5e
+ */
+const regexColor = /^(#(?:[0-9a-f]{2}){2,4}|#[0-9a-f]{3}|(?:rgba?|hsla?)\((?:\d+%?(?:deg|rad|grad|turn)?(?:,|\s)+){2,3}[\s\/]*[\d\.]+%?\))$/i
+
+
+module.exports = {
+    ColorHelper,
+    ColorInfo,
+    RgbaColor,
+    ColorTone,
+    regexColor,
 }

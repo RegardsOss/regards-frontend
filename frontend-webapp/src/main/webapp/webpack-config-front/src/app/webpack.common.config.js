@@ -111,7 +111,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       // Using http://webpack.github.io/analyse/#hints
       // And npm run build:stats
       // We can start to prefetch these files before they are imported
-      new webpack.PrefetchPlugin('./web_modules/vendors/storybook-addon-material-ui-custom/src/index.js'),
       new webpack.PrefetchPlugin('./web_modules/utils/modules/src/components/LazyModuleComponent.jsx'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-microservice-management/src/containers/plugin/PluginConfigurationListContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-role-resource-access-management/src/containers/ResourceAccessFormContainer.jsx'),

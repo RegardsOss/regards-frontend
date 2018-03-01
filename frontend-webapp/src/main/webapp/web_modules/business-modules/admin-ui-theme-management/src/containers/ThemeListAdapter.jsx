@@ -99,7 +99,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchThemeList: () => dispatch(ThemeActions.fetchPagedEntityList(0, 100)),
-  fetchThemeInstanceList: () => dispatch(ThemeInstanceActions.fetchPagedEntityList(0, 100)),
+  fetchThemeInstanceList: () => dispatch(ThemeInstanceThemeFormAdapterActions.fetchPagedEntityList(0, 100)),
   deleteTheme: themeId => dispatch(ThemeActions.deleteEntity(themeId)),
   deleteInstanceTheme: themeId => dispatch(ThemeInstanceActions.deleteEntity(themeId)),
 })

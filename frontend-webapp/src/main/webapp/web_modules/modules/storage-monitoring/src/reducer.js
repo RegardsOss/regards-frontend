@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import StoragePluginsClient from './clients/StoragePluginsClient'
+import StoragePluginsClient from './clients/StorageMonitoringClient'
 
 const archivalStorageReducer = {
-  storagePlugins: StoragePluginsClient.storagePluginsReducer,
+  storagePlugins: StoragePluginsClient.storageMonitoringReducer,
 }
 
 export default archivalStorageReducer

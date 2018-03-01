@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { storagePluginsActions } from './clients/StoragePluginsClient'
+import { storageMonitoringActions } from './clients/StorageMonitoringClient'
 
 
 /**
@@ -25,5 +25,5 @@ import { storagePluginsActions } from './clients/StoragePluginsClient'
  * @author Raphaël Mechali
  */
 export const dependencies = [
-  storagePluginsActions.getDependency(RequestVerbEnum.GET_LIST),
+  storageMonitoringActions.getDependency(RequestVerbEnum.GET_LIST),
 ]

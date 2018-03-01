@@ -46,7 +46,8 @@ import ModelAttribute from './dam/ModelAttribute'
 import PluginMetaData from './common/PluginMetaData'
 import AdminPluginConfiguration from './common/PluginConfiguration'
 import PluginParameter from './common/PluginParameter'
-import StoragePlugin from './archival-storage/StoragePlugin'
+import PrioritizedDataStorage from './archival-storage/PrioritizedDataStorage'
+import StorageMonitoring from './archival-storage/StorageMonitoring'
 import Collection from './dam/Collection'
 import Connection from './dam/Connection'
 import ModelAttributeComputationTypes from './dam/ModelAttributeComputationTypes'
@@ -95,7 +96,8 @@ module.exports = {
   ...UIPluginConf,
 
   // Archival storage
-  ...StoragePlugin,
+  ...PrioritizedDataStorage,
+  ...StorageMonitoring,
   ...AIPStatus,
 
   // Catalog

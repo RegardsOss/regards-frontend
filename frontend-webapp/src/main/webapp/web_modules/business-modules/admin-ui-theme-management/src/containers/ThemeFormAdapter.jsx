@@ -27,7 +27,7 @@ import ThemeFormContainer from './ThemeFormContainer'
  * Adapt functions depending if we are on instance or project
  * @author Léo Mieulet
  */
-export class ApplicationThemeContainer extends React.Component {
+export class ThemeFormAdapter extends React.Component {
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -98,4 +98,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   createInstanceTheme: theme => dispatch(ThemeInstanceActions.createEntity(theme)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationThemeContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeFormAdapter)

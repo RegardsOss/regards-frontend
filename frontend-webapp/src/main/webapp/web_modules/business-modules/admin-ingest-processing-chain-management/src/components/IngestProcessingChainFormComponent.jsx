@@ -28,6 +28,7 @@ import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
+import { ImportFromFileDialogButton } from '@regardsoss/file-utils'
 import IngestProcessingPluginTypes from './IngestProcessingPluginType'
 import messages from '../i18n'
 import styles from '../styles'
@@ -44,6 +45,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
   static propTypes = {
     processingChain: IngestShapes.IngestProcessingChain,
     onSubmit: PropTypes.func.isRequired,
+    onImport: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     // from reduxForm
     initialize: PropTypes.func,
@@ -105,7 +107,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
 
   render() {
     const { invalid, submitting, processingChain } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme } = this.context
     const preprocessingPlugin = get(processingChain, 'preprocessingPlugin', null)
     const validationPlugin = get(processingChain, 'validationPlugin', null)
     const generationPlugin = get(processingChain, 'generationPlugin', null)
@@ -113,18 +115,23 @@ export class IngestProcessingChainFormComponent extends React.Component {
     const postprocessingPlugin = get(processingChain, 'postprocessingPlugin', null)
 
     return (
-      <form
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-      >
-        <Card>
-          {this.state.isCreating ?
-            <CardTitle
-              title={formatMessage({ id: 'processing-chain.form.create.title' })}
-            /> :
-            <CardTitle
-              title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
-            />
-          }
+      <Card>
+        {this.state.isCreating ?
+          <CardTitle
+            title={formatMessage({ id: 'processing-chain.form.create.title' })}
+          /> :
+          <CardTitle
+            title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
+          />
+        }
+        <ImportFromFileDialogButton
+          onImport={this.props.onImport}
+          onImportSucceed={this.props.onBack}
+          style={moduleTheme.importButtonStyles}
+        />
+        <form
+          onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+        >
           <CardText>
             <Field
               name="name"
@@ -195,8 +202,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
               secondaryButtonClick={this.props.onBack}
             />
           </CardActions>
-        </Card>
-      </form>
+        </form>
+      </Card>
     )
   }
 }

@@ -22,8 +22,10 @@ import merge from 'lodash/merge'
 import set from 'lodash/set'
 import isEqual from 'lodash/isEqual'
 import clone from 'lodash/clone'
+import cloneDeep from 'lodash/cloneDeep'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
+import isUndefined from 'lodash/isUndefined'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
@@ -43,7 +45,7 @@ const nameValidators = [ValidationHelpers.validAlphaNumericUnderscore, Validatio
  * Display the theme form component
  * @author Léo Mieulet
  */
-class ThemeFormComponent extends React.Component {
+export class ThemeFormComponent extends React.Component {
   static propTypes = {
     currentTheme: AccessShapes.Theme,
     backUrl: PropTypes.string,
@@ -69,6 +71,8 @@ class ThemeFormComponent extends React.Component {
   state = {
     value: ThemeFormComponent.UNDEFINED_THEME,
     configuration: {},
+    // used to reset the configuration to a previous state (on creation = baseTheme, edition = currentTheme)
+    initialConfiguration: {},
     // used to split Material components and regards components
     customConfigurationKeys: [],
     // used to refresh the demo
@@ -104,25 +108,51 @@ class ThemeFormComponent extends React.Component {
     const { configuration } = this.state
     // Hope we will never see a dot inside the theme property
     const confToAdd = set({}, keys.join('.'), val)
-    let updatedConf = clone(configuration)
+    let updatedConf = cloneDeep(configuration)
     updatedConf = merge(updatedConf, confToAdd)
     this.setState({
       configuration: updatedConf,
       lastRefresh: Date.now(),
     })
-  };
+  }
 
   /**
    * Remove a theme property inside the overall configuration
    */
   handleRemoveOverwrite = (keys) => {
     const { configuration } = this.state
-    const updatedConf = clone(configuration)
+    const updatedConf = cloneDeep(configuration)
     const propertyToRemove = keys.pop()
     // Hope we will never see a dot inside the theme property
     const pathToAlteredObject = keys.join('.')
-    const objectToAlter = clone(get(updatedConf, pathToAlteredObject))
+    const objectToAlter = cloneDeep(get(updatedConf, pathToAlteredObject))
     delete objectToAlter[propertyToRemove]
+    set(updatedConf, pathToAlteredObject, objectToAlter)
+    this.setState({
+      configuration: updatedConf,
+      lastRefresh: Date.now(),
+    })
+  }
+
+  /**
+   * Reset the configuration to a previous state
+   * (on creation = baseTheme, edition = currentTheme)
+   */
+  handleResetOverwrite = (keys) => {
+    const { configuration, initialConfiguration } = this.state
+    const updatedConf = cloneDeep(configuration)
+    const previousObjectConf = cloneDeep(get(initialConfiguration, keys.join('.')))
+    const propertyToReset = keys.pop()
+    // Hope we will never see a dot inside the theme property
+    const pathToAlteredObject = keys.join('.')
+    const objectToAlter = cloneDeep(get(updatedConf, pathToAlteredObject))
+    if (isUndefined(previousObjectConf)) {
+      console.error("Didn't exist before, removing")
+      delete objectToAlter[propertyToReset]
+    } else {
+      console.error('retrieve an old value, patching')
+      set(objectToAlter, propertyToReset, previousObjectConf)
+    }
     set(updatedConf, pathToAlteredObject, objectToAlter)
     this.setState({
       configuration: updatedConf,
@@ -140,6 +170,7 @@ class ThemeFormComponent extends React.Component {
         active: currentTheme.content.active,
       })
       this.setState({
+        initialConfiguration: currentConfiguration,
         configuration: currentConfiguration,
         lastRefresh: Date.now(),
         customConfigurationKeys,
@@ -163,23 +194,19 @@ class ThemeFormComponent extends React.Component {
     delete updatedConf.mainTheme.themeName
     // Let's generate the theme to execute ours additionals configurations
     const generatedTheme = getMuiTheme(updatedConf.mainTheme)
-    const customConfiguration = defaultCustomConfiguration(generatedTheme)
     const customConfigurationKeys = this.getRegardsComponentsKeys(generatedTheme)
 
     updatedConf = merge(
       updatedConf,
       {
-        // add our regards theme
-        mainTheme: customConfiguration,
-      },
-      {
-        // add our regards theme
+        // add our alternative theme
         alternativeTheme: {},
       },
     )
     this.setState({
       lastRefresh: Date.now(),
       configuration: updatedConf,
+      initialConfiguration: updatedConf,
       customConfigurationKeys,
       value,
     })
@@ -245,6 +272,7 @@ class ThemeFormComponent extends React.Component {
                 customConfigurationKeys={this.state.customConfigurationKeys}
                 handleAddOverwrite={this.handleAddOverwrite}
                 handleRemoveOverwrite={this.handleRemoveOverwrite}
+                handleResetOverwrite={this.handleResetOverwrite}
                 hackingKey={this.state.lastRefresh}
               />
             </ShowableAtRender>

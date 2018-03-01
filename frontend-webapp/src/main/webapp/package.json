@@ -102,6 +102,7 @@
     "@regardsoss/endpoints-common": "0.0.1",
     "@regardsoss/entities-common": "0.0.1",
     "@regardsoss/form-utils": "0.0.1",
+    "@regardsoss/file-utils": "1.0.0",
     "@regardsoss/global-system-error": "0.0.1",
     "@regardsoss/i18n": "0.0.1",
     "@regardsoss/i18n-ui": "0.0.1",

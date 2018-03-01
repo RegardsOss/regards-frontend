@@ -18,8 +18,9 @@
  **/
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
-import { connect } from '@regardsoss/redux'
 import isUndefined from 'lodash/isUndefined'
+import { connect } from '@regardsoss/redux'
+import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginFormComponent from '../components/PluginFormComponent'
 import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
@@ -58,21 +59,31 @@ export class PluginFormContainer extends React.Component {
       microserviceName,
       pluginId,
     })),
-    updatePluginConfiguration: (id, vals, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(id, vals, {
+    updatePluginConfiguration: (vals, microserviceName, pluginId, pluginConfId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfId, vals, {
       microserviceName,
       pluginId,
     })),
   })
 
   static propTypes = {
-    microserviceName: PropTypes.string,
-    pluginId: PropTypes.string.isRequired,
-    pluginConfigurationId: PropTypes.string,
-    formMode: PropTypes.oneOf(['create', 'edit', 'copy']),
-    title: PropTypes.string,
-    cardStyle: PropTypes.bool,
-    simpleGlobalParameterConf: PropTypes.bool,
-    backUrl: PropTypes.string,
+    microserviceName: PropTypes.string, // Microservice of the plugin to confiure
+    pluginId: PropTypes.string.isRequired, // Identifier of the plugin implementation
+    pluginConfigurationId: PropTypes.number, // Identifier of the plugin configuration
+    pluginConfiguration: CommonShapes.PluginConfiguration, // Plugin configuration to edit or copy
+    formMode: PropTypes.oneOf(['create', 'edit', 'copy']), // Form mode
+    title: PropTypes.string, // Form title to display
+    cardStyle: PropTypes.bool, // default true, set to false to disable the Card container around the rendered form
+    simpleGlobalParameterConf: PropTypes.bool, // Set to true to hide all standard plugin parameter conf except for label
+    hideDynamicParameterConf: PropTypes.bool, // Set to true to hide dynamic configuration of each plugin parameter
+    backUrl: PropTypes.string, // Url after form submission success or cancel
+    // Function to overidde default plugin conf update endpoint
+    // Parameters (pluginConf, microservice, pluginId, pluginConfId)
+    // Return a Promise
+    onUpdatePluginConfiguration: PropTypes.func,
+    // Function to overidde default plugin conf create endpoint
+    // Parameters (pluginConf, microservice, pluginId)
+    // Return a Promise
+    onCreatePluginConfiguration: PropTypes.func,
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func,
     createPluginConfiguration: PropTypes.func,
@@ -90,13 +101,15 @@ export class PluginFormContainer extends React.Component {
       isEditing: props.formMode === 'edit',
       currentPluginMetaData: null,
       isPluginMetaDataFetching: true,
-      currentPluginConfiguration: null,
-      isPluginConfigurationFetching: !!props.pluginConfigurationId,
+      currentPluginConfiguration: props.pluginConfiguration,
+      isPluginConfigurationFetching: !props.pluginConfiguration && !!props.pluginConfigurationId,
     }
   }
 
   componentDidMount() {
-    const { pluginId, pluginConfigurationId, microserviceName } = this.props
+    const {
+      pluginId, pluginConfigurationId, pluginConfiguration, microserviceName,
+    } = this.props
 
     this.props.fetchPluginMetaData(microserviceName, pluginId).then((actionResults) => {
       this.setState({
@@ -104,7 +117,7 @@ export class PluginFormContainer extends React.Component {
         currentPluginMetaData: get(actionResults, `payload.entities.pluginMetaData.${pluginId}`, null),
       })
     })
-    if (pluginConfigurationId) {
+    if (!pluginConfiguration && pluginConfigurationId) {
       this.props.fetchPluginConfiguration(pluginConfigurationId, pluginId, microserviceName).then((actionResults) => {
         this.setState({
           isPluginConfigurationFetching: false,
@@ -120,7 +133,7 @@ export class PluginFormContainer extends React.Component {
    */
   getFormComponent = () => {
     const {
-      microserviceName, title, cardStyle, simpleGlobalParameterConf,
+      microserviceName, title, cardStyle, simpleGlobalParameterConf, hideDynamicParameterConf,
     } = this.props
     const {
       currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching,
@@ -143,6 +156,7 @@ export class PluginFormContainer extends React.Component {
           title={title}
           cardStyle={cardStyle}
           simpleGlobalParameterConf={simpleGlobalParameterConf}
+          hideDynamicParameterConf={hideDynamicParameterConf}
         />
       </LoadableContentDisplayDecorator>
     )
@@ -150,16 +164,27 @@ export class PluginFormContainer extends React.Component {
 
   /**
    * Handle form submission when updating fragment
+   * Uses update function props.onUpdatePluginConfiguration or props.updatePluginConfiguration if not defined
    * @param vals form updated values
    */
   handleUpdate = (vals) => {
-    const { microserviceName, pluginId, pluginConfigurationId } = this.props
-
-    return Promise.resolve(this.props.updatePluginConfiguration(pluginConfigurationId, vals, microserviceName, pluginId))
+    const {
+      backUrl, microserviceName, onUpdatePluginConfiguration, updatePluginConfiguration,
+    } = this.props
+    const { currentPluginConfiguration } = this.state
+    const pluginConfId = get(currentPluginConfiguration, 'content.id', null)
+    const pluginId = get(currentPluginConfiguration, 'content.pluginId', null)
+    let updateFunction
+    if (onUpdatePluginConfiguration) {
+      updateFunction = onUpdatePluginConfiguration
+    } else {
+      updateFunction = updatePluginConfiguration
+    }
+    return Promise.resolve(updateFunction(vals, microserviceName, pluginId, pluginConfId))
       .then((actionResult) => {
         // We receive here the actions
         if (!actionResult.error) {
-          browserHistory.push(this.props.backUrl)
+          browserHistory.push(backUrl)
         }
         return actionResult
       })
@@ -167,16 +192,25 @@ export class PluginFormContainer extends React.Component {
 
   /**
    * Handle form submission when creating fragment
-   *
+   * Uses create function props.onCreatePluginConfiguration or props.createPluginConfiguration if not defined
    * @param vals form values
    */
   handleCreate = (vals) => {
-    const { microserviceName, pluginId } = this.props
-    return Promise.resolve(this.props.createPluginConfiguration(vals, microserviceName, pluginId))
+    const {
+      microserviceName, pluginId, onCreatePluginConfiguration, createPluginConfiguration,
+      backUrl,
+    } = this.props
+    let createFunction
+    if (onCreatePluginConfiguration) {
+      createFunction = onCreatePluginConfiguration
+    } else {
+      createFunction = createPluginConfiguration
+    }
+    return Promise.resolve(createFunction(vals, microserviceName, pluginId))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          return browserHistory.push(this.props.backUrl)
+          return browserHistory.push(backUrl)
         }
         return actionResult
       })

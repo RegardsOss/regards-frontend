@@ -19,6 +19,7 @@
 import ProcessingChainActions from './processingChain/ProcessingChainActions'
 import ProcessingChainReducer from './processingChain/ProcessingChainReducer'
 import ProcessingChainSelectors from './processingChain/ProcessingChainSelectors'
+import ProcessingChainImportActions from './processingChain/ProcessingChainImportActions'
 import SIPActions from './sip/SIPActions'
 import getSIPReducer from './sip/SIPReducer'
 import getSIPSelectors from './sip/SIPSelectors'
@@ -31,6 +32,7 @@ import getSessionSelectors from './session/SessionSelectors'
 
 module.exports = {
   ProcessingChainActions,
+  ProcessingChainImportActions,
   ProcessingChainReducer,
   ProcessingChainSelectors,
   SIPActions,
