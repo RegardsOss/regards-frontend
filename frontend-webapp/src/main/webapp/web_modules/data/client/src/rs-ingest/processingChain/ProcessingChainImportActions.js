@@ -33,10 +33,6 @@ export default class ProcessingChainImportActions extends BasicArrayActions {
       namespace,
       bypassErrorMiddleware: true,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/processingchains/import`,
-      // schemaTypes: {
-      //   ENTITY: Schemas.SIPSUBMITTED,
-      //   ENTITY_ARRAY: Schemas.SIPSUBMITTED_ARRAY,
-      // },
     })
   }
 }

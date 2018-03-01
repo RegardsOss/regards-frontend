@@ -4,7 +4,7 @@ import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
-import { processingChainImportActions } from '../clients/ProcessingChainmportClient'
+import { processingChainImportActions } from '../clients/ProcessingChainImportClient'
 import IngestProcessingChainFormComponent from '../components/IngestProcessingChainFormComponent'
 
 /**
