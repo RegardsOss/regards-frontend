@@ -100,6 +100,7 @@ class PluginStorageConfigurationFormComponent extends React.Component {
               backUrl={backUrl}
               cardStyle={false}
               simpleGlobalParameterConf
+              hideDynamicParameterConf
             /> : null
           }
         </CardText>
