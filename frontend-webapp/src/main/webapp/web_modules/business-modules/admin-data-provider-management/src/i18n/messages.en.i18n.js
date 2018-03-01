@@ -89,7 +89,7 @@ const messages = Object.assign({
   // 3. Monitoring
   // 3.1 Chain list
   // 3.1.1 Header
-  'acquisition-chain.monitor.list.subtitle': 'This section allow you to monitor, viex errors and run the data acquisition chains.',
+  'acquisition-chain.monitor.list.subtitle': 'This section allows you to monitor, view errors and run data acquisition chains.',
   'acquisition-chain.monitor.empty.title': 'No chain configured',
   'acquisition-chain-monitor.breadcrumb.label': 'Acquisition chains',
 
