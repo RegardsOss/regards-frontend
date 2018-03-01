@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
+import { onlinePrioritizedDataStorageReducer, nearlinePrioritizedDataStorageReducer } from './clients/PrioritizedDataStorageClient'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
 import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 
@@ -26,6 +27,8 @@ import { pluginMetaDataReducer } from './clients/PluginMetadataClient'
 const microserviceManagementReducer = combineReducers({
   pluginMetadata: pluginMetaDataReducer,
   pluginConfiguration: pluginConfigurationReducer,
+  'prioritized-datastorage-online': onlinePrioritizedDataStorageReducer,
+  'prioritized-datastorage-nearline': nearlinePrioritizedDataStorageReducer,
 })
 
 export default microserviceManagementReducer

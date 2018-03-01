@@ -16,14 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { storageMonitoringActions } from './clients/StorageMonitoringClient'
 
+import { Schema, arrayOf } from 'normalizr'
 
 /**
- * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
- * @author Raphaël Mechali
+ * Storage plugin management for normalizer
  */
-export const dependencies = [
-  storageMonitoringActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+const PrioritizedDataStorageConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'prioritized-datastorage-conf',
+}
+
+const prioritizedDataStorageSchema = new Schema(PrioritizedDataStorageConfiguration.normalizrKey, {
+  idAttribute: model =>
+    model.content[PrioritizedDataStorageConfiguration.entityKey]
+  ,
+})
+
+// Schemas for API responses.
+module.exports = {
+  PRIORIZED_DATASTORAGE: prioritizedDataStorageSchema,
+  PRIORIZED_DATASTORAGE_ARRAY: arrayOf(prioritizedDataStorageSchema),
+  PrioritizedDataStorageConfiguration,
+}

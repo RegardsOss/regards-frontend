@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { storageMonitoringActions } from './clients/StorageMonitoringClient'
+import { StorageClient } from '@regardsoss/client'
 
+const namespace = 'storage-plugins-module/informations'
+const storageMonitoringActions = new StorageClient.StorageMonitoringActions(namespace)
+const storageMonitoringReducer = StorageClient.getStorageMonitoringReducer(namespace)
+const storageMonitoringSelectors = StorageClient.getStorageMonitoringSelectors(['modules.storage-monitoring', 'storagePlugins'])
 
-/**
- * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
- * @author Raphaël Mechali
- */
-export const dependencies = [
-  storageMonitoringActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+module.exports = {
+  storageMonitoringActions,
+  storageMonitoringReducer,
+  storageMonitoringSelectors,
+}

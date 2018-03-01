@@ -37,6 +37,8 @@ class PluginStorageConfigurationFormComponent extends React.Component {
     mode: PropTypes.string.isRequired,
     pluginConfiguration: CommonShapes.PluginConfiguration,
     backUrl: PropTypes.string.isRequired,
+    onUpdatePluginConfiguration: PropTypes.func.isRequired,
+    onCreatePluginConfiguration: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -61,7 +63,7 @@ class PluginStorageConfigurationFormComponent extends React.Component {
 
   render() {
     const {
-      backUrl, pluginConfiguration, mode,
+      backUrl, pluginConfiguration, mode, onUpdatePluginConfiguration, onCreatePluginConfiguration,
     } = this.props
     const { selectedPlugin } = this.state
     const selectedPluginId = get(selectedPlugin, 'pluginId', null)
@@ -101,6 +103,8 @@ class PluginStorageConfigurationFormComponent extends React.Component {
               cardStyle={false}
               simpleGlobalParameterConf
               hideDynamicParameterConf
+              onUpdatePluginConfiguration={onUpdatePluginConfiguration}
+              onCreatePluginConfiguration={onCreatePluginConfiguration}
             /> : null
           }
         </CardText>

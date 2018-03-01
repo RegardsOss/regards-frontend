@@ -37,6 +37,10 @@ const messages = Object.assign({
   'storage.data-storage.plugins.list.add.button': 'Ajouter un nouveau système de stockage',
   'storage.data-storage.plugins.list.back.button': 'Retour',
   'storage.data-storage.plugins.list.empty.title': 'Aucun mode de stockage défini',
+  'storage.data-storage.plugins.online.list.title': 'Moyens de stockage en ligne',
+  'storage.data-storage.plugins.online.list.subtitle': 'Les moyens de stockage en ligne sont des espaces directement accessible où les données pourront être téléchargées directement.',
+  'storage.data-storage.plugins.nearline.list.title': 'Moyens de stockage distants',
+  'storage.data-storage.plugins.nearline.list.subtitle': 'Les moyens de stockage distants sont des espaces pour lesquelles la récupération des données peut être longue. De ce fait les données stockées sur ces espaces ne sont pas téléchargeable directement.',
 
   'storage.data-storage.plugins.form.create.title': 'Ajout d\'un nouvel espace de stockage',
   'storage.data-storage.plugins.form.edit.title': 'Edition de l\'espace de stockage "{name}"',

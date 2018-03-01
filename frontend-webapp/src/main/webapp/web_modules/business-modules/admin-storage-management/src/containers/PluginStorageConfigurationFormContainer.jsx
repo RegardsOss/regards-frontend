@@ -20,7 +20,7 @@ import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
+import { pluginConfigurationActions, pluginConfigurationByPluginIdActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
 import PluginStorageConfigurationFormComponent from '../components/PluginStorageConfigurationFormComponent'
 
 /**
@@ -49,6 +49,14 @@ export class PluginStorageConfigurationFormContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchPluginConfiguration: pluginConfId => dispatch(pluginConfigurationActions.fetchEntity(pluginConfId, { microserviceName: STATIC_CONF.MSERVICES.STORAGE })),
+      createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity(vals, {
+        microserviceName,
+        pluginId,
+      })),
+      updatePluginConfiguration: (vals, microserviceName, pluginId, pluginConfId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfId, vals, {
+        microserviceName,
+        pluginId,
+      })),
     }
   }
 
@@ -63,6 +71,8 @@ export class PluginStorageConfigurationFormContainer extends React.Component {
     pluginConf: CommonShapes.PluginConfiguration,
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func.isRequired,
+    updatePluginConfiguration: PropTypes.func.isRequired,
+    createPluginConfiguration: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -90,6 +100,8 @@ export class PluginStorageConfigurationFormContainer extends React.Component {
             mode={mode || 'create'}
             pluginConfiguration={pluginConf}
             backUrl={`/admin/${project}/data/acquisition/storage/storages/list`}
+            onUpdatePluginConfiguration={this.props.updatePluginConfiguration}
+            onCreatePluginConfiguration={this.props.createPluginConfiguration}
           />
         )
         }

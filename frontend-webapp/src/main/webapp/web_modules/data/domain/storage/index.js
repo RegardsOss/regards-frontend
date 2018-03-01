@@ -18,7 +18,9 @@
  **/
 
 import PluginTypeEnum from './PluginTypeEnum'
+import DataStorageTypeEnum from './DataStorageTypeEnum'
 
 module.exports = {
   ...PluginTypeEnum,
+  ...DataStorageTypeEnum,
 }

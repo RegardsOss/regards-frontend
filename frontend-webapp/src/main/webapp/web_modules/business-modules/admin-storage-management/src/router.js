@@ -39,7 +39,8 @@ export const storageLocationPluginListRoute = {
   path: 'storages/list',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/PluginStorageConfigurationListContainer')
+      //const container = require('./containers/PluginStorageConfigurationListContainer')
+      const container = require('./components/PrioritizedDataStoragesComponent')
       cb(null, {
         content: container.default,
       })

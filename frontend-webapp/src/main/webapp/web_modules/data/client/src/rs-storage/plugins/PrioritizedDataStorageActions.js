@@ -15,15 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { storageMonitoringActions } from './clients/StorageMonitoringClient'
-
+ */
+import Schemas from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
- * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
+ * Actions to get PrioritizedDataStorage information
  * @author Raphaël Mechali
  */
-export const dependencies = [
-  storageMonitoringActions.getDependency(RequestVerbEnum.GET_LIST),
-]
+class PrioritizedDataStorageActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/priorized-datastorages`,
+      entityPathVariable: 'id',
+      schemaTypes: {
+        ENTITY: Schemas.PRIORIZED_DATASTORAGE,
+        ENTITY_ARRAY: Schemas.PRIORIZED_DATASTORAGE_ARRAY,
+      },
+    })
+  }
+}
+
+export default PrioritizedDataStorageActions

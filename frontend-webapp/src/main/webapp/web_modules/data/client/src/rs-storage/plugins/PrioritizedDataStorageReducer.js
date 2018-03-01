@@ -15,25 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import Schemas from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+ **/
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { PrioritizedDataStorageConfiguration } from '@regardsoss/api'
+import PrioritizedDataStorageActions from './PrioritizedDataStorageActions'
 
 /**
- * Actions to get storage plugins information
+ * PrioritizedDataStorage fetch reducer
  * @author Raphaël Mechali
  */
-class StoragePluginsActions extends BasicListActions {
+class PrioritizedDataStorageReducers extends BasicListReducers {
   constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/monitoring`,
-      schemaTypes: {
-        ENTITY: Schemas.STORAGE_PLUGIN,
-        ENTITY_ARRAY: Schemas.STORAGE_PLUGIN_ARRAY,
-      },
-    })
+    super(PrioritizedDataStorageConfiguration, new PrioritizedDataStorageActions(namespace))
   }
 }
 
-export default StoragePluginsActions
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @return {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new PrioritizedDataStorageReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

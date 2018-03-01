@@ -36,6 +36,10 @@ const messages = Object.assign({
   'storage.data-storage.plugins.list.add.button': 'Add a new storage system',
   'storage.data-storage.plugins.list.back.button': 'Back',
   'storage.data-storage.plugins.list.empty.title': 'No storage system available',
+  'storage.data-storage.plugins.online.list.title': 'Online storages',
+  'storage.data-storage.plugins.online.list.subtitle': 'Online storages are storage systems where datas are directly available. So, datas stored on those systems are downloadable.',
+  'storage.data-storage.plugins.nearline.list.title': 'Nearline storages',
+  'storage.data-storage.plugins.nearline.list.subtitle': 'Nearline storages are storage systems where retrieve datas can take a few time. So, datas stored on those systems are not donwloadable.',
 
   'storage.data-storage.plugins.form.create.title': 'Add new storage system',
   'storage.data-storage.plugins.form.edit.title': 'Edit storage system "{name}"',
