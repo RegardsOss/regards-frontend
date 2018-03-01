@@ -15,19 +15,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-const styles = theme => ({
-  pluginStyles: {
-    display: 'flex',
-    alignItems: 'baseline',
-    width: '100%',
-  },
-  avatarStyles: {
-    marginRight: 10,
-  },
-  importButtonStyles: {
-    marginLeft: '20px',
-  },
-})
+ **/
 
-export default styles
+/**
+ * @author Sébastien Binda
+ */
+import ImportFromFileDialogButton from './ImportFromFileDialogButton'
+
+export { ImportFromFileDialogButton }

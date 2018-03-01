@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,18 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-const styles = theme => ({
-  pluginStyles: {
-    display: 'flex',
-    alignItems: 'baseline',
-    width: '100%',
-  },
-  avatarStyles: {
-    marginRight: 10,
-  },
-  importButtonStyles: {
-    marginLeft: '20px',
-  },
-})
+//import Schemas from '@regardsoss/api'
+import { BasicArrayActions } from '@regardsoss/store-utils'
 
-export default styles
+/**
+ * Redux actions to handle SIP entities from backend server.
+ * @author Sébastien Binda
+ */
+export default class ProcessingChainImportActions extends BasicArrayActions {
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      bypassErrorMiddleware: true,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/processingchains/import`,
+      // schemaTypes: {
+      //   ENTITY: Schemas.SIPSUBMITTED,
+      //   ENTITY_ARRAY: Schemas.SIPSUBMITTED_ARRAY,
+      // },
+    })
+  }
+}

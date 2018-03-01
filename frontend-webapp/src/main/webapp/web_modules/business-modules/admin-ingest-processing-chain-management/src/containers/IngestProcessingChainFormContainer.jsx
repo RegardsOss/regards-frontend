@@ -4,6 +4,7 @@ import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { processingChainActions, processingChainSelectors } from '../clients/ProcessingChainClient'
+import { processingChainImportActions } from '../clients/ProcessingChainmportClient'
 import IngestProcessingChainFormComponent from '../components/IngestProcessingChainFormComponent'
 
 /**
@@ -23,6 +24,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
     createChain: PropTypes.func.isRequired,
     fetchChain: PropTypes.func.isRequired,
     updateChain: PropTypes.func.isRequired,
+    importChain: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -80,6 +82,13 @@ export class IngestProcessingChainFormContainer extends React.Component {
     return this.handleUpdate(values)
   }
 
+  handleImport = (values) => {
+    console.error('HANDLE', values)
+    return this.props.importChain({
+      file: values.file,
+    })
+  }
+
   render() {
     const { isCreating, isLoading } = this.state
     const chain = isCreating ? undefined : get(this.props, 'processingChain.content', undefined)
@@ -90,6 +99,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
           onSubmit={this.handleSubmit}
           isCreating={isCreating}
           onBack={this.onBack}
+          onImport={this.handleImport}
         />
       </LoadableContentDisplayDecorator>
     )
@@ -105,6 +115,7 @@ const mapDispatchToProps = dispatch => ({
   createChain: values => dispatch(processingChainActions.createEntity(values)),
   updateChain: (name, values) => dispatch(processingChainActions.updateEntity(name, values)),
   fetchChain: name => dispatch(processingChainActions.fetchEntity(name)),
+  importChain: file => dispatch(processingChainImportActions.createEntityUsingMultiPart({}, file)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(IngestProcessingChainFormContainer)

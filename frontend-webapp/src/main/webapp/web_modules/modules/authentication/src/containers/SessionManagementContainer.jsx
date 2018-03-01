@@ -148,7 +148,6 @@ export class SessionManagementContainer extends React.Component {
     } = this.props
     const { initialized } = this.state
     const sessionLocked = !!authentication.sessionLocked
-    console.error('initialized', initialized)
     return (
       <AuthenticationDialogComponent
         onRequestClose={sessionLocked ? null : onRequestClose}

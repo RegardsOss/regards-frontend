@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-const styles = theme => ({
-  pluginStyles: {
-    display: 'flex',
-    alignItems: 'baseline',
-    width: '100%',
-  },
-  avatarStyles: {
-    marginRight: 10,
-  },
-  importButtonStyles: {
-    marginLeft: '20px',
-  },
-})
+import { AuthenticationClient } from '@regardsoss/client'
 
-export default styles
+/**
+ * Current user login information client.
+ *
+ * @author Léo Mieulet
+ */
+const ENTITIES_STORE_PATH = ['common', 'authentication']
+
+const authenticationSelectors = AuthenticationClient.AuthenticateSelectors(ENTITIES_STORE_PATH)
+
+module.exports = {
+  authenticationSelectors,
+}
