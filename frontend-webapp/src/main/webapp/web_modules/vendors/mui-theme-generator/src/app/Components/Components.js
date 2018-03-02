@@ -386,6 +386,7 @@ export default class Components extends React.PureComponent {
                     <ComponentWrapper title="Infinite table">
                         <InfiniteTable />
                     </ComponentWrapper>
+
                 </tbody>
             </table >
         )

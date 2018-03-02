@@ -30,7 +30,8 @@ class AuthenticateReducers extends BasicSignalReducers {
       return state
     }
 
-    const { error, ...newState } = super.reduce(state, action)
+    const parentState = super.reduce(state, action)
+    const { error, ...newState } = parentState
 
     // apply required state changes
     switch (action.type) {
@@ -89,7 +90,7 @@ class AuthenticateReducers extends BasicSignalReducers {
         }
       default:
         // not in this reducer
-        return { error, ...newState }
+        return parentState
     }
   }
 }

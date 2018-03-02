@@ -40,6 +40,7 @@ export default class Main extends React.Component {
         customConfigurationKeys: PropTypes.arrayOf(PropTypes.string),
         handleAddOverwrite: PropTypes.func,
         handleRemoveOverwrite: PropTypes.func,
+        handleResetOverwrite: PropTypes.func,
         // redraw the view on every modification
         hackingKey: PropTypes.number,
     }
@@ -60,6 +61,7 @@ export default class Main extends React.Component {
             customConfigurationKeys={this.props.customConfigurationKeys}
             addToOverwrites={this.props.handleAddOverwrite}
             removeFromOverwrites={this.props.handleRemoveOverwrite}
+            handleResetOverwrite={this.props.handleResetOverwrite}
         />
 
         return (

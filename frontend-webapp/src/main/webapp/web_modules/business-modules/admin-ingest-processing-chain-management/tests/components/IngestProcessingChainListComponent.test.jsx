@@ -38,6 +38,7 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
   })
   it('should render correctly', () => {
     const props = {
+      accessToken: 'toekn',
       fetchPage: () => new Promise(() => { }),
       onDelete: () => new Promise(() => { }),
       onEdit: () => new Promise(() => { }),

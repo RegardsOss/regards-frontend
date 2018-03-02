@@ -19,33 +19,47 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import IngestProcessingChainListComponent from '../../src/components/IngestProcessingChainListComponent'
-import { IngestProcessingChainListContainer } from '../../src/containers/IngestProcessingChainListContainer'
+import ThemeListContainer from '../../src/containers/ThemeListContainer'
+import { ThemeListAdapter } from '../../src/containers/ThemeListAdapter'
 import styles from '../../src/styles/styles'
+
 
 const context = buildTestContext(styles)
 
 /**
-* Test  IngestProcessingChainListContainer
-* @author Sébastien Binda
+* Test ThemeListAdapter
+* @author Léo Mieulet
 */
-describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing  IngestProcessingChainListContainer', () => {
+describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListAdapter', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(IngestProcessingChainListContainer)
+    assert.isDefined(ThemeListContainer)
+    assert.isDefined(ThemeListAdapter)
   })
   it('should render correctly', () => {
+    const fetchThemeInstanceList = () => { }
     const props = {
+      // from router
       params: {
-        project: 'project',
+        project: 'project 1',
       },
-      accessToken: 'token',
-      deleteChain: () => new Promise(() => { }),
-      fetchPage: () => new Promise(() => { }),
+
+      // Set by mapStateToProps
+      isInstance: true,
+      themeList: {},
+
+      // Set by mapDispatchToProps
+      fetchThemeList: () => { },
+      fetchThemeInstanceList,
+      deleteTheme: () => { },
+      deleteInstanceTheme: () => { },
     }
-    const enzymeWrapper = shallow(<IngestProcessingChainListContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(IngestProcessingChainListComponent).length, 1, 'The IngestProcessingChainListComponent should be rendered')
+    const enzymeWrapper = shallow(<ThemeListAdapter {...props} />, { context })
+    const listContainerWrapper = enzymeWrapper.find(ThemeListContainer)
+    assert.lengthOf(listContainerWrapper, 1, 'Should find the list container')
+
+    assert.deepEqual(listContainerWrapper.prop('fetchThemeList'), fetchThemeInstanceList)
   })
 })

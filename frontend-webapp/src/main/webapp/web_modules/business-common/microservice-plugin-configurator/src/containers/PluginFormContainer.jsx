@@ -74,6 +74,7 @@ export class PluginFormContainer extends React.Component {
     title: PropTypes.string,
     cardStyle: PropTypes.bool,
     simpleGlobalParameterConf: PropTypes.bool,
+    hideDynamicParameterConf: PropTypes.bool,
     backUrl: PropTypes.string,
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func,
@@ -124,7 +125,7 @@ export class PluginFormContainer extends React.Component {
    */
   getFormComponent = () => {
     const {
-      microserviceName, title, cardStyle, simpleGlobalParameterConf,
+      microserviceName, title, cardStyle, simpleGlobalParameterConf, hideDynamicParameterConf,
     } = this.props
     const {
       currentPluginMetaData, currentPluginConfiguration, isPluginConfigurationFetching,
@@ -147,6 +148,7 @@ export class PluginFormContainer extends React.Component {
           title={title}
           cardStyle={cardStyle}
           simpleGlobalParameterConf={simpleGlobalParameterConf}
+          hideDynamicParameterConf={hideDynamicParameterConf}
         />
       </LoadableContentDisplayDecorator>
     )
