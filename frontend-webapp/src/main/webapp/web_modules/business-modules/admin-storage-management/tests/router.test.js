@@ -19,10 +19,11 @@
 import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
-import PluginMetaDataListContainer from '../src/containers/PluginMetaDataListContainer'
-import PluginStorageConfigurationFormContainer from '../src/containers/PluginStorageConfigurationFormContainer'
-import PluginStorageConfigurationListContainer from '../src/containers/PluginStorageConfigurationListContainer'
-import PluginStorageMonitoringComponent from '../src/components/PluginStorageMonitoringComponent'
+import PrioritizedDataStorageFormContainer from '../src/containers/PrioritizedDataStorageFormContainer'
+import PrioritizedDataStoragesComponent from '../src/components/PrioritizedDataStoragesComponent'
+import StoragePluginMonitoringComponent from '../src/components/StoragePluginMonitoringComponent'
+import AllocationPluginsConfContainer from '../src/containers/AllocationPluginsConfContainer'
+import SecurityPluginsConfContainer from '../src/containers/SecurityPluginsConfContainer'
 
 /**
  * @author Sébastien Binda
@@ -33,40 +34,47 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(5)
-    expect(Routes.childRoutes[0].path).to.eq('storages/list')
-    expect(Routes.childRoutes[1].path).to.eq('storages/create')
-    expect(Routes.childRoutes[2].path).to.eq('storages/:pluginId/:mode')
-    expect(Routes.childRoutes[3].path).to.eq(':pluginType')
-    expect(Routes.childRoutes[4].path).to.eq('storages/monitoring')
+    expect(Routes.childRoutes).to.have.length(6)
+    expect(Routes.childRoutes[0].path).to.eq('storages')
+    expect(Routes.childRoutes[1].path).to.eq('storages/:type/create')
+    expect(Routes.childRoutes[2].path).to.eq('storages/:type/:id/:mode')
+    expect(Routes.childRoutes[3].path).to.eq('storages/monitoring')
+    expect(Routes.childRoutes[4].path).to.eq('security')
+    expect(Routes.childRoutes[5].path).to.eq('allocations')
   })
-  it('board should return PluginStorageConfigurationListContainer', (done) => {
+  it('board should return PrioritizedDataStoragesComponent', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PluginStorageConfigurationListContainer)
+      expect(component.content).to.eq(PrioritizedDataStoragesComponent)
       done()
     })
   })
-  it('board should return PluginStorageConfigurationFormContainer for creation mode', (done) => {
+  it('board should return PrioritizedDataStorageFormContainer for creation mode', (done) => {
     Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PluginStorageConfigurationFormContainer)
+      expect(component.content).to.eq(PrioritizedDataStorageFormContainer)
       done()
     })
   })
-  it('board should return PluginStorageConfigurationFormContainer dor edition/copy mode', (done) => {
+  it('board should return PrioritizedDataStorageFormContainer dor edition/copy mode', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PluginStorageConfigurationFormContainer)
+      expect(component.content).to.eq(PrioritizedDataStorageFormContainer)
       done()
     })
   })
-  it('board should return PluginMetaDataListContainer', (done) => {
+  it('board should return StoragePluginMonitoringComponent', (done) => {
     Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PluginMetaDataListContainer)
+      expect(component.content).to.eq(StoragePluginMonitoringComponent)
       done()
     })
   })
-  it('board should return PluginStorageMonitoringComponent', (done) => {
+  it('board should return SecurityPluginsConfContainer', (done) => {
     Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PluginStorageMonitoringComponent)
+      expect(component.content).to.eq(SecurityPluginsConfContainer)
+      done()
+    })
+  })
+  it('board should return AllocationPluginsConfContainer', (done) => {
+    Routes.childRoutes[5].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(AllocationPluginsConfContainer)
       done()
     })
   })

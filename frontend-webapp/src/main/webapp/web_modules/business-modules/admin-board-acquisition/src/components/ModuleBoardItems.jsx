@@ -134,7 +134,7 @@ const items = (projectName, intl) => [
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/storage/storages/list`,
+        path: `/admin/${projectName}/data/acquisition/storage/storages`,
         icon: <Archive />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
         hateoasDependencies: storageManagementDependencies.listPluginDependencies,

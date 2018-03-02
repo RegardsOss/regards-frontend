@@ -33,7 +33,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
 import moduleStyles from '../styles/styles'
 import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
-import PluginSecurityActiveTesterContainer from '../containers/PluginSecurityActiveTesterContainer'
+import SecurityPluginActiveTesterContainer from '../containers/SecurityPluginActiveTesterContainer'
 
 
 const ResourceLink = withResourceDisplayControl(Link)
@@ -124,7 +124,7 @@ export default class PluginMetaDataListComponent extends React.Component {
     const { pluginType } = this.props
     if (checkSecurity) {
       return (
-        <PluginSecurityActiveTesterContainer
+        <SecurityPluginActiveTesterContainer
           pluginType={pluginType}
         />
       )

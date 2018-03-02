@@ -327,10 +327,25 @@ function buildLocalServices(gatewayURL) {
   return {
     GET: {
       // Mock: add missing dependencies
-      proxyDependencies: { url: 'rs-admin/resources', handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies) },
-      getStoragePluginsOrdered: {
-        url: 'rs-storage/data-storage/plugins', handler: () => {
-          const content = JSON.parse(loadFile('mocks/proxy/resources/mock-data-storage-plugins.json'))
+      proxyDependencies: {
+        url: 'rs-admin/resources',
+        handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies)
+      },
+      getPrioritizedDataStorages: {
+        url: 'rs-storage/storages/prioritized-datastorages',
+        handler: (req, resp, pathParameters, { dataStorageType }) => {
+          const content = dataStorageType === 'ONLINE' ?
+            JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-online.json')) :
+            JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-nearline.json'))
+          return { content }
+        }
+      },
+      getPrioritizedDataStorage: {
+        url: 'rs-storage/storages/prioritized-datastorages/{id}',
+        handler: (req, resp, { id }, { dataStorageType }) => {
+          const onlines = JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-online.json'))
+          const nearlines = JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-nearline.json'))
+          const content = onlines.find(c => c.content.id === parseInt(id)) || nearlines.find(c => c.content.id === parseInt(id)) || {}
           return { content }
         }
       },

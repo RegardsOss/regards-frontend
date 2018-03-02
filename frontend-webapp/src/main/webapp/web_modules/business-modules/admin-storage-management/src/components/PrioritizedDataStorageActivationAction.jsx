@@ -19,21 +19,20 @@
 import find from 'lodash/find'
 import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CommonShapes } from '@regardsoss/shape'
+import { StorageShapes } from '@regardsoss/shape'
 
 /**
 * Custom cell for PluginConfigurationListComponent infinite table to render specific action on active property
 * @author Sébastien Binda
 */
-class PluginStorageConfigurationActivationAction extends React.Component {
+class PrioritizedDataStorageActivationAction extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     attributes: PropTypes.shape({
       label: PropTypes.string,
       id: PropTypes.number,
     }),
-    // eslint-disable-next-line react/no-unused-prop-types
-    entity: CommonShapes.PluginConfiguration,
+    entity: StorageShapes.PrioritizedDataStorage,
     onToggle: PropTypes.func.isRequired,
   }
 
@@ -53,15 +52,15 @@ class PluginStorageConfigurationActivationAction extends React.Component {
   }
 
   render() {
-    const { entity } = this.props
+    const { entity: { content: { dataStorageConfiguration } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const title = entity.content.active ?
+    const title = dataStorageConfiguration.active ?
       formatMessage({ id: 'storage.data-storage.plugins.list.active.off.button' }) :
       formatMessage({ id: 'storage.data-storage.plugins.list.active.on.button' })
     return (
       <div style={{ margin: 'auto' }}>
         <Toggle
-          toggled={entity.content.active}
+          toggled={dataStorageConfiguration.active}
           onToggle={this.onToggle}
           title={title}
           disabled={!this.isEditable()}
@@ -70,4 +69,4 @@ class PluginStorageConfigurationActivationAction extends React.Component {
     )
   }
 }
-export default PluginStorageConfigurationActivationAction
+export default PrioritizedDataStorageActivationAction

@@ -18,16 +18,16 @@
  **/
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
-import { CommonShapes } from '@regardsoss/shape'
+import { StorageShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { pluginConfigurationActions, pluginConfigurationByPluginIdActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
-import PluginStorageConfigurationFormComponent from '../components/PluginStorageConfigurationFormComponent'
+import { getActions, getSelectors } from '../clients/PrioritizedDataStorageClient'
+import PrioritizedDataStorageFormComponent from '../components/PrioritizedDataStorageFormComponent'
 
 /**
 * Container to handle create/edit/duplicate form of a storage location plugin
 * @author Sébastien Binda
 */
-export class PluginStorageConfigurationFormContainer extends React.Component {
+export class PrioritizedDataStorageFormContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -36,7 +36,7 @@ export class PluginStorageConfigurationFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      pluginConf: get(ownProps, 'params.pluginId') ? pluginConfigurationSelectors.getById(state, ownProps.params.pluginId) : null,
+      entity: get(ownProps, 'params.id') ? getSelectors(ownProps.params.type).getById(state, ownProps.params.id) : null,
     }
   }
 
@@ -46,62 +46,60 @@ export class PluginStorageConfigurationFormContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetchPluginConfiguration: pluginConfId => dispatch(pluginConfigurationActions.fetchEntity(pluginConfId, { microserviceName: STATIC_CONF.MSERVICES.STORAGE })),
-      createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity(vals, {
-        microserviceName,
-        pluginId,
-      })),
-      updatePluginConfiguration: (vals, microserviceName, pluginId, pluginConfId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfId, vals, {
-        microserviceName,
-        pluginId,
-      })),
+      fetch: entityId => dispatch(getActions(ownProps.params.type).fetchEntity(entityId)),
+      create: entity => dispatch(getActions(ownProps.params.type).createEntity(entity)),
+      update: (entity, entityId) => dispatch(getActions(ownProps.params.type).updateEntity(entityId, entity)),
     }
   }
 
   static propTypes = {
     // from router
     params: PropTypes.shape({
-      project: PropTypes.string,
+      project: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      id: PropTypes.string,
       mode: PropTypes.string,
-      pluginId: PropTypes.string,
     }),
     // from mapStateToProps
-    pluginConf: CommonShapes.PluginConfiguration,
+    entity: StorageShapes.PrioritizedDataStorage,
     // from mapDispatchToProps
-    fetchPluginConfiguration: PropTypes.func.isRequired,
-    updatePluginConfiguration: PropTypes.func.isRequired,
-    createPluginConfiguration: PropTypes.func.isRequired,
+    fetch: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired,
+    create: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: !!get(props, 'params.pluginId', false),
+      isLoading: !!get(props, 'params.id', false),
     }
   }
 
   componentWillMount() {
-    const { params: { pluginId } } = this.props
-    if (pluginId) {
-      this.props.fetchPluginConfiguration(pluginId).then(() => this.setState({ isLoading: false }))
+    const { params: { id }, fetch } = this.props
+    if (id) {
+      fetch(id).then(() => this.setState({ isLoading: false }))
     }
   }
 
   render() {
-    const { params: { mode, project }, pluginConf } = this.props
+    const {
+      params: { mode, project, type }, entity, update, create,
+    } = this.props
     return (
       <LoadableContentDisplayDecorator
         isLoading={this.state.isLoading}
       >
         {() => (
-          <PluginStorageConfigurationFormComponent
+          <PrioritizedDataStorageFormComponent
             mode={mode || 'create'}
-            pluginConfiguration={pluginConf}
-            backUrl={`/admin/${project}/data/acquisition/storage/storages/list`}
-            onUpdatePluginConfiguration={this.props.updatePluginConfiguration}
-            onCreatePluginConfiguration={this.props.createPluginConfiguration}
+            entity={entity}
+            type={type}
+            backUrl={`/admin/${project}/data/acquisition/storage/storages`}
+            onUpdate={update}
+            onCreate={create}
           />
         )
         }
@@ -110,5 +108,5 @@ export class PluginStorageConfigurationFormContainer extends React.Component {
   }
 }
 export default connect(
-  PluginStorageConfigurationFormContainer.mapStateToProps,
-  PluginStorageConfigurationFormContainer.mapDispatchToProps)(PluginStorageConfigurationFormContainer)
+  PrioritizedDataStorageFormContainer.mapStateToProps,
+  PrioritizedDataStorageFormContainer.mapDispatchToProps)(PrioritizedDataStorageFormContainer)

@@ -23,6 +23,8 @@ import values from 'lodash/values'
  */
 const PluginTypeEnum = {
   STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage',
+  ONLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IOnlineDataStorage',
+  NEARLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.INearlineDataStorage',
   SECURITY_DELEGATION: 'fr.cnes.regards.modules.storage.domain.plugin.ISecurityDelegation',
   ALLOCATION_STRATEGY: 'fr.cnes.regards.modules.storage.domain.plugin.IAllocationStrategy',
 }

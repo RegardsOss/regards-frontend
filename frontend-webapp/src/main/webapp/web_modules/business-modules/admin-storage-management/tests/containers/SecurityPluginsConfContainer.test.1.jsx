@@ -20,49 +20,34 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import PluginMetaDataListComponent from '../../src/components/PluginMetaDataListComponent'
-import { PluginMetaDataListContainer } from '../../src/containers/PluginMetaDataListContainer'
+import { SecurityPluginsConfContainer } from '../../src/containers/SecurityPluginsConfContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test PluginMetaDataListContainer
+* Test SecurityPluginsConfContainer
 * @author Sébastien Binda
 */
-describe('[ADMIN STORAGE MANAGEMENT] Testing PluginMetaDataListContainer', () => {
+describe('[ADMIN STORAGE MANAGEMENT] Testing SecurityPluginsConfContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(PluginMetaDataListContainer)
+    assert.isDefined(SecurityPluginsConfContainer)
   })
-  it('should render correctly storage plugins configuration', () => {
+  it('should render correctly security plugins configuration', () => {
     const props = {
       params: {
         project: 'project',
-        pluginType: 'storages',
       },
       // from mapStateToProps
-      pluginMetaDataList: {},
+      entities: {},
       // from mapDispatchToProps
-      fetchPluginMetaDataList: () => new Promise(() => { }),
+      fetch: () => new Promise(() => { }),
     }
-    const enzymeWrapper = shallow(<PluginMetaDataListContainer {...props} />, { context })
+    const enzymeWrapper = shallow(<SecurityPluginsConfContainer {...props} />, { context })
     enzymeWrapper.update()
-    assert.equal(enzymeWrapper.find(PluginMetaDataListComponent).length, 1, 'There should have a PluginMetaDataListComponent rendered')
-  })
-  it('should render correctly storage allocation plugins configuration', () => {
-    const props = {
-      params: {
-        project: 'project',
-        pluginType: 'allocations',
-      },
-      // from mapStateToProps
-      pluginMetaDataList: {},
-      // from mapDispatchToProps
-      fetchPluginMetaDataList: () => new Promise(() => { }),
-    }
-    const enzymeWrapper = shallow(<PluginMetaDataListContainer {...props} />, { context })
     assert.equal(enzymeWrapper.find(PluginMetaDataListComponent).length, 1, 'There should have a PluginMetaDataListComponent rendered')
   })
 })

@@ -18,23 +18,20 @@
  **/
 import Copy from 'material-ui/svg-icons/content/content-copy'
 import IconButton from 'material-ui/IconButton'
-import { CommonShapes } from '@regardsoss/shape'
+import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
-import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
+import { onlinePrioritizedDataStorageActions } from '../clients/PrioritizedDataStorageClient'
 
 const IconButtonWithResources = withResourceDisplayControl(IconButton)
 /**
 * Delete table action for datasourceIngestions
 * @author Sébastien Binda
 */
-class PluginStorageConfigurationDuplicateAction extends React.Component {
+class PrioritizedDataStorageDuplicateAction extends React.Component {
   static propTypes = {
-    entity: PropTypes.shape({
-      content: CommonShapes.PluginConfigurationContent.isRequired,
-      links: PropTypes.array,
-    }),
+    entity: StorageShapes.PrioritizedDataStorage,
     onDuplicate: PropTypes.func.isRequired,
   }
 
@@ -47,15 +44,15 @@ class PluginStorageConfigurationDuplicateAction extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const entityContent = this.props.entity.content
+    const { entity: { content } } = this.props
     return (
       <IconButtonWithResources
-        className={`selenium-edit-${entityContent.id}`}
+        className={`selenium-edit-${content.id}`}
         title={formatMessage({ id: 'storage.data-storage.plugins.list.duplicate.button' })}
-        iconStyle={PluginStorageConfigurationDuplicateAction.iconStyle}
-        style={PluginStorageConfigurationDuplicateAction.buttonStyle}
-        onClick={() => this.props.onDuplicate(entityContent)}
-        resourceDependencies={pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.STORAGE)}
+        iconStyle={PrioritizedDataStorageDuplicateAction.iconStyle}
+        style={PrioritizedDataStorageDuplicateAction.buttonStyle}
+        onClick={() => this.props.onDuplicate(content)}
+        resourceDependencies={onlinePrioritizedDataStorageActions.getDependency(RequestVerbEnum.POST)}
         hideDisabled={false}
       >
         <Copy />
@@ -63,4 +60,4 @@ class PluginStorageConfigurationDuplicateAction extends React.Component {
     )
   }
 }
-export default PluginStorageConfigurationDuplicateAction
+export default PrioritizedDataStorageDuplicateAction

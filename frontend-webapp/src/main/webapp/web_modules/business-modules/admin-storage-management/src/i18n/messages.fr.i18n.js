@@ -24,6 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'storage.data-storage.plugins.list.title': 'Configuration des espaces de stockage',
   'storage.data-storage.plugins.list.subtitle': 'Cette section vous permer de configurer les différents espaces de stockage utilisés par le stystème et de les prioriser. La priorité permet, dans le cas ou des données sont stockées sur plusieurs systèmes de stockage, de déterminer sur lequel d\'entre eux récupérer les données.',
+  'storage.data-storage.plugins.list.header.priority.label': 'Priorité',
   'storage.data-storage.plugins.list.header.name.label': 'Mode de stockage',
   'storage.data-storage.plugins.list.header.type.label': 'Type de stockage',
   'storage.data-storage.plugins.list.header.active.label': 'Activer/Désactiver',
@@ -34,13 +35,15 @@ const messages = Object.assign({
   'storage.data-storage.plugins.list.active.on.button': 'Activer ce système de stockage',
   'storage.data-storage.plugins.list.active.off.button': 'Désactiver ce système de stockage',
   'storage.data-storage.plugins.list.confirm.title': 'Suppression du mode de stockage {name} ?',
-  'storage.data-storage.plugins.list.add.button': 'Ajouter un nouveau système de stockage',
   'storage.data-storage.plugins.list.back.button': 'Retour',
   'storage.data-storage.plugins.list.empty.title': 'Aucun mode de stockage défini',
+  'storage.data-storage.plugins.list.add.button': 'Créer un mode de stockage',
   'storage.data-storage.plugins.online.list.title': 'Moyens de stockage en ligne',
   'storage.data-storage.plugins.online.list.subtitle': 'Les moyens de stockage en ligne sont des espaces directement accessible où les données pourront être téléchargées directement.',
+  'storage.data-storage.plugins.online.list.add.button': 'Créer un moyen de stockage en ligne',
   'storage.data-storage.plugins.nearline.list.title': 'Moyens de stockage distants',
   'storage.data-storage.plugins.nearline.list.subtitle': 'Les moyens de stockage distants sont des espaces pour lesquelles la récupération des données peut être longue. De ce fait les données stockées sur ces espaces ne sont pas téléchargeable directement.',
+  'storage.data-storage.plugins.nearline.list.add.button': 'Créer un moyen de stockage en distant',
 
   'storage.data-storage.plugins.form.create.title': 'Ajout d\'un nouvel espace de stockage',
   'storage.data-storage.plugins.form.edit.title': 'Edition de l\'espace de stockage "{name}"',
@@ -48,6 +51,7 @@ const messages = Object.assign({
   'storage.data-storage.plugins.form.edit.subtitle': 'Veuillez renseigner les paramètres de configuration associés.',
   'storage.data-storage.plugins.form.type.select.title': 'Mode de stockage',
   'storage.data-storage.plugins.form.type.select.label': 'Sélectionnez un mode ...',
+  'storage.data-storage.plugins.form.invalid.id': 'La configuration sélectionnée n\'existe plus',
 
   'storage.locations.size.title': 'Taux d\'utilisation des espaces de stockage',
   'storage.locations.configuration.title': 'Configuration des espaces de stockage',

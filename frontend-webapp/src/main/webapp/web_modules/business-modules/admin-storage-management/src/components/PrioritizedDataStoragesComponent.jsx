@@ -20,11 +20,11 @@ import { browserHistory } from 'react-router'
 import { Card, CardActions, CardText, CardTitle } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { StorageDomain } from '@regardsoss/domain'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { onlinePrioritizedDataStorageActions } from '../clients/PrioritizedDataStorageClient'
 import PrioritizedDataStorageListContainer from '../containers/PrioritizedDataStorageListContainer'
+import { onlinePrioritizedDataStorageActions } from '../clients/PrioritizedDataStorageClient'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -33,6 +33,8 @@ import styles from '../styles'
 * @author Sébastien Binda
 */
 class PrioritizedDataStoragesComponent extends React.Component {
+  static addDependencies = [onlinePrioritizedDataStorageActions.getDependency(RequestVerbEnum.POST)]
+
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
@@ -46,18 +48,19 @@ class PrioritizedDataStoragesComponent extends React.Component {
     ...themeContextType,
   }
 
-  static addDependencies = [
-    onlinePrioritizedDataStorageActions.getDependency(RequestVerbEnum.POST),
-  ]
-
-  goToCreateForm = () => {
-    const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/create`)
-  }
-
   goToBoard = () => {
     const { params: { project } } = this.props
     browserHistory.push(`/admin/${project}/data/acquisition/board`)
+  }
+
+  goToCreateOnlineForm = () => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${StorageDomain.DataStorageTypeEnum.ONLINE}/create`)
+  }
+
+  goToCreateNearlineForm = () => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${StorageDomain.DataStorageTypeEnum.NEARLINE}/create`)
   }
 
   render() {
@@ -79,6 +82,11 @@ class PrioritizedDataStoragesComponent extends React.Component {
             project={project}
             type={StorageDomain.DataStorageTypeEnum.ONLINE}
           />
+          <CardActionsComponent
+            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.online.list.add.button' })}
+            mainButtonClick={this.goToCreateOnlineForm}
+            mainHateoasDependencies={PrioritizedDataStoragesComponent.addDependencies}
+          />
           <CardTitle
             title={formatMessage({ id: 'storage.data-storage.plugins.nearline.list.title' })}
             subtitle={formatMessage({ id: 'storage.data-storage.plugins.nearline.list.subtitle' })}
@@ -88,14 +96,16 @@ class PrioritizedDataStoragesComponent extends React.Component {
             project={project}
             type={StorageDomain.DataStorageTypeEnum.NEARLINE}
           />
+          <CardActionsComponent
+            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.nearline.list.add.button' })}
+            mainButtonClick={this.goToCreateNearlineForm}
+            mainHateoasDependencies={PrioritizedDataStoragesComponent.addDependencies}
+          />
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.add.button' })}
-            mainButtonClick={this.goToCreateForm}
-            mainHateoasDependencies={PrioritizedDataStoragesComponent.addDependencies}
-            secondaryButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.back.button' })}
-            secondaryButtonClick={this.goToBoard}
+            mainButtonLabel={formatMessage({ id: 'storage.data-storage.plugins.list.back.button' })}
+            mainButtonClick={this.goToBoard}
           />
         </CardActions>
       </Card>

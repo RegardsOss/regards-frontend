@@ -27,7 +27,7 @@ class PrioritizedDataStorageActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/priorized-datastorages`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/prioritized-datastorages`,
       entityPathVariable: 'id',
       schemaTypes: {
         ENTITY: Schemas.PRIORIZED_DATASTORAGE,

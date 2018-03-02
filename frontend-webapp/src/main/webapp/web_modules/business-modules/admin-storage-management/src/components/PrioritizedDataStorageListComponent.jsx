@@ -25,10 +25,12 @@ import {
   ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import { StorageShapes } from '@regardsoss/shape'
-import PluginStorageConfigurationEditAction from './PluginStorageConfigurationEditAction'
-import PluginStorageConfigurationDuplicateAction from './PluginStorageConfigurationDuplicateAction'
-import PluginStorageConfigurationPriorityAction from './PluginStorageConfigurationPriorityAction'
-import PluginStorageConfigurationActivationAction from './PluginStorageConfigurationActivationAction'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import PrioritizedDataStorageEditAction from './PrioritizedDataStorageEditAction'
+import PrioritizedDataStorageDuplicateAction from './PrioritizedDataStorageDuplicateAction'
+import PrioritizedDataStoragePriorityAction from './PrioritizedDataStoragePriorityAction'
+import PrioritizedDataStorageActivationAction from './PrioritizedDataStorageActivationAction'
+import { onlinePrioritizedDataStorageActions } from '../clients/PrioritizedDataStorageClient'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -37,6 +39,8 @@ import styles from '../styles'
 * @author Sébastien Binda
 */
 export class PrioritizedDataStorageListComponent extends React.Component {
+  static addDependencies = [onlinePrioritizedDataStorageActions.getDependency(RequestVerbEnum.POST)]
+
   static propTypes = {
     onEdit: PropTypes.func.isRequired,
     onUpPriority: PropTypes.func.isRequired,
@@ -82,7 +86,7 @@ export class PrioritizedDataStorageListComponent extends React.Component {
   renderDeleteConfirmDialog = () => {
     const { entitytoDelete } = this.state
     if (entitytoDelete) {
-      const name = entitytoDelete.content.pluginConf.label
+      const name = entitytoDelete.content.dataStorageConfiguration.label
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
@@ -105,26 +109,32 @@ export class PrioritizedDataStorageListComponent extends React.Component {
 
     // Table columns to display
     const columns = [
-      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'storage.data-storage.plugins.list.header.name.label' }), 'content.label'),
-      TableColumnBuilder.buildSimplePropertyColumn('column.type', formatMessage({ id: 'storage.data-storage.plugins.list.header.type.label' }), 'content.pluginId'),
+      TableColumnBuilder.buildSimplePropertyColumn(
+        'column.priority',
+        formatMessage({ id: 'storage.data-storage.plugins.list.header.priority.label' }),
+        'content.priority',
+        undefined, undefined, undefined, 75,
+      ),
+      TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'storage.data-storage.plugins.list.header.name.label' }), 'content.dataStorageConfiguration.label'),
+      TableColumnBuilder.buildSimplePropertyColumn('column.type', formatMessage({ id: 'storage.data-storage.plugins.list.header.type.label' }), 'content.dataStorageConfiguration.pluginId'),
       TableColumnBuilder.buildSimpleColumnWithCell('column.active', formatMessage({ id: 'storage.data-storage.plugins.list.header.active.label' }), {
-        Constructor: PluginStorageConfigurationActivationAction, // custom cell
+        Constructor: PrioritizedDataStorageActivationAction, // custom cell
         props: { onToggle: onActivateToggle },
       }),
       TableColumnBuilder.buildOptionsColumn('options', [{
-        OptionConstructor: PluginStorageConfigurationEditAction,
+        OptionConstructor: PrioritizedDataStorageEditAction,
         optionProps: { onEdit },
       },
       {
-        OptionConstructor: PluginStorageConfigurationDuplicateAction,
+        OptionConstructor: PrioritizedDataStorageDuplicateAction,
         optionProps: { onDuplicate },
       },
       {
-        OptionConstructor: PluginStorageConfigurationPriorityAction,
+        OptionConstructor: PrioritizedDataStoragePriorityAction,
         optionProps: { onUp: onUpPriority },
       },
       {
-        OptionConstructor: PluginStorageConfigurationPriorityAction,
+        OptionConstructor: PrioritizedDataStoragePriorityAction,
         optionProps: { onDown: onDownPriority },
       },
       {
@@ -133,11 +143,13 @@ export class PrioritizedDataStorageListComponent extends React.Component {
           onDelete: this.onDelete,
           fetchPage: onRefresh,
           handleHateoas: true,
+          disableInsteadOfHide: true,
           queryPageSize: 20,
         },
       },
       ], true, fixedColumnWidth),
     ]
+
     const emptyComponent = (
       <NoContentComponent
         title={formatMessage({ id: 'storage.data-storage.plugins.list.empty.title' })}
