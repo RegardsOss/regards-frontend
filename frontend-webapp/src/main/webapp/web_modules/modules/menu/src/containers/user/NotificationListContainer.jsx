@@ -36,9 +36,6 @@ import {
   readNotificationInstanceActions,
 } from '../../clients/ReadNotificationClient'
 
-/** Refresh time in milliseconds */
-const refreshTimerMS = 30000
-
 /**
  * Notification list container, shows the number of unread notifications.
  * @author Maxime Bouveron
@@ -123,7 +120,7 @@ export class NotificationListContainer extends React.Component {
       this.props.fetchNotifications(!project || project === 'instance')
     }
     // B - restart timer
-    this.refreshTimer = setTimeout(() => this.startTimer(), refreshTimerMS)
+    this.refreshTimer = setTimeout(() => this.startTimer(), STATIC_CONF.POLLING_TIMER_NOTIFICATIONS)
   }
 
   stopTimer = () => {

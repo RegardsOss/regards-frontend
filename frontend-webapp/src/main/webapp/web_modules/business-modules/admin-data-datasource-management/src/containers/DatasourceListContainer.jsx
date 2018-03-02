@@ -27,7 +27,7 @@ import DatasourceListComponent from '../components/DatasourceListComponent'
 import messages from '../i18n'
 
 
-const INTERFACE_DS_DB = 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDBDataSourcePlugin'
+const INTERFACE_DS_DB = 'fr.cnes.regards.modules.datasources.domain.plugins.IDBDataSourcePlugin'
 
 /**
  * Show the datasource list

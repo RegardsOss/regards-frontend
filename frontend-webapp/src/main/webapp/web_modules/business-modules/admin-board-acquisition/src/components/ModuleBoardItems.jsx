@@ -41,27 +41,33 @@ import { storageManagementDependencies } from '@regardsoss/admin-storage-managem
  */
 const items = (projectName, intl) => [
   {
-    title: intl.formatMessage({ id: 'ingest.board.title' }),
-    description: intl.formatMessage({ id: 'ingest.board.description' }),
+    title: intl.formatMessage({ id: 'data.board.storage.title' }),
+    description: intl.formatMessage({ id: 'data.board.storage.description' }),
     advanced: false,
     actions: [
       {
-        path: `/admin/${projectName}/data/acquisition/chain/list`,
-        icon: <Build />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.chain.list.tooltip' }),
-        hateoasDependencies: processingChainDependencies.listDependencies,
+        path: `/admin/${projectName}/data/acquisition/storage/storages`,
+        icon: <Archive />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/sip/session`,
-        icon: <PageView />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.monitor.tooltip' }),
-        hateoasDependencies: sipDependencies.listDependencies,
+        path: `/admin/${projectName}/data/acquisition/storage/allocations`,
+        icon: <CallSplit />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.allocations.tooltip' }),
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
       {
-        path: `/admin/${projectName}/data/acquisition/sip/submission`,
-        icon: <AddIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.sumition.tooltip' }),
-        hateoasDependencies: sipDependencies.addDependencies,
+        path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
+        icon: <PieChart />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
+        hateoasDependencies: storageManagementDependencies.monitoringDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/security`,
+        icon: <Security />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.security.tooltip' }),
+        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
     ],
   },
@@ -110,6 +116,31 @@ const items = (projectName, intl) => [
     ],
   },
   {
+    title: intl.formatMessage({ id: 'ingest.board.title' }),
+    description: intl.formatMessage({ id: 'ingest.board.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/chain/list`,
+        icon: <Build />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.chain.list.tooltip' }),
+        hateoasDependencies: processingChainDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/sip/session`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.monitor.tooltip' }),
+        hateoasDependencies: sipDependencies.listDependencies,
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/sip/submission`,
+        icon: <AddIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.sumition.tooltip' }),
+        hateoasDependencies: sipDependencies.addDependencies,
+      },
+    ],
+  },
+  {
     title: intl.formatMessage({ id: 'data.board.document.title' }),
     description: intl.formatMessage({ id: 'data.board.document.description' }),
     advanced: false,
@@ -125,37 +156,6 @@ const items = (projectName, intl) => [
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
         hateoasDependencies: documentDependencies.addDependencies,
-      },
-    ],
-  },
-  {
-    title: intl.formatMessage({ id: 'data.board.storage.title' }),
-    description: intl.formatMessage({ id: 'data.board.storage.description' }),
-    advanced: false,
-    actions: [
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/storages`,
-        icon: <Archive />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
-      },
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/allocations`,
-        icon: <CallSplit />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.allocations.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
-      },
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/storages/monitoring`,
-        icon: <PieChart />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.monitoring.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.monitoringDependencies,
-      },
-      {
-        path: `/admin/${projectName}/data/acquisition/storage/security`,
-        icon: <Security />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.security.tooltip' }),
-        hateoasDependencies: storageManagementDependencies.listPluginDependencies,
       },
     ],
   },
