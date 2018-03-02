@@ -18,7 +18,7 @@ import SessionLockedFormComponent from '../components/SessionLockedFormComponent
 */
 export class SessionManagementContainer extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     application: PropTypes.string.isRequired,
     showLoginWindow: PropTypes.bool.isRequired,
     onRequestClose: PropTypes.func,
@@ -30,6 +30,10 @@ export class SessionManagementContainer extends React.Component {
     fetchAuthenticate: PropTypes.func.isRequired,
     dispatchSessionLocked: PropTypes.func.isRequired,
     notifyAuthenticationChanged: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    project: '_default',
   }
 
   state = {
