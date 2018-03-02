@@ -175,7 +175,7 @@ export class DBDatasourceFormContainer extends React.Component {
           label: values.label,
           pluginClassName: values.pluginClassName,
           pluginId,
-          interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin'],
+          interfaceNames: ['fr.cnes.regards.modules.datasources.domain.plugins.IDBDataSourcePlugin'],
           parameters: [
             {
               name: IDBDatasourceParamsEnum.CONNECTION,
@@ -367,7 +367,7 @@ const mapDispatchToProps = dispatch => ({
     {
       microserviceName: 'rs-dam',
     }, {
-      pluginType: 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDBDataSourcePlugin',
+      pluginType: 'fr.cnes.regards.modules.datasources.domain.plugins.IDBDataSourcePlugin',
     },
   )),
 })
