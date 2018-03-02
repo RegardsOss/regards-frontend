@@ -53,6 +53,9 @@ import AcquisitionFileDump from '@regardsoss/client/tests/rs-dataprovider/Acquis
 import AcquisitionProcessingChainDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChain.dump'
 import AcquisitionProcessingChainMonitorDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChainMonitor.dump'
 
+import PrioritizedDataStorageDump from '@regardsoss/client/tests/rs-storage/PrioritizedDataStorage.dump'
+import StorageMonitoringDump from '@regardsoss/client/tests/rs-storage/StorageMonitoring.dump'
+
 import {
 
   ROLE_ARRAY,
@@ -137,6 +140,12 @@ import {
   AcquisitionFileConfiguration,
   ACQUISITION_FILE_ARRAY,
 
+  PRIORIZED_DATASTORAGE_ARRAY,
+  PrioritizedDataStorageConfiguration,
+
+  STORAGE_MONITORING_ARRAY,
+  StorageMonitoringConfiguration,
+
 } from '@regardsoss/api'
 
 /**
@@ -147,6 +156,20 @@ import {
  * @author Léo Mieulet
  */
 module.exports = {
+  StorageClient: {
+    PrioritizedDataStorage: {
+      isPageable: false,
+      dump: PrioritizedDataStorageDump,
+      ENTITY_ARRAY: PRIORIZED_DATASTORAGE_ARRAY,
+      normalizrKey: PrioritizedDataStorageConfiguration.normalizrKey,
+    },
+    StorageMonitoring: {
+      isPageable: false,
+      dump: StorageMonitoringDump,
+      ENTITY_ARRAY: STORAGE_MONITORING_ARRAY,
+      normalizrKey: StorageMonitoringConfiguration.normalizrKey,
+    },
+  },
   AccessProjectClient: {
     UIPluginConfiguration: {
       isPageable: true,
