@@ -72,7 +72,6 @@ export class EntityTagContainer extends React.Component {
   render() {
     const { entity, dispatchShowDetail, onSearchTag } = this.props
     const { alreadyInPath } = this.state
-    console.error('display tag ? ', entity)
     if (!this.isDisplayable()) {
       return null
     }
