@@ -1,6 +1,8 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import find from 'lodash/find'
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { CatalogShapes } from '@regardsoss/shape'
@@ -59,9 +61,21 @@ export class EntityTagContainer extends React.Component {
     }
   }
 
+  isDisplayable = () => {
+    const modelName = get(this.props.entity, 'content.model.name', null)
+    if (modelName) {
+      return !find(get(STATIC_CONF, 'ENTITY_DESCRIPTION.TAGS.MODEL_NAME_FILTERS', []), regexp => modelName.match(regexp))
+    }
+    return true
+  }
+
   render() {
     const { entity, dispatchShowDetail, onSearchTag } = this.props
     const { alreadyInPath } = this.state
+    console.error('display tag ? ', entity)
+    if (!this.isDisplayable()) {
+      return null
+    }
     return (
       <TagComponent
         tagLabel={entity.content.label}
