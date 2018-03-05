@@ -40,6 +40,9 @@ export default class DatePickerField extends React.Component {
     okLabel: PropTypes.string,
     cancelLabel: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    style: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    ),
     locale: PropTypes.string,
   }
 
@@ -318,9 +321,9 @@ export default class DatePickerField extends React.Component {
   }
 
   render() {
-    const { displayTime } = this.props
+    const { displayTime, style } = this.props
     return (
-      <div style={{ display: 'flex', width: displayTime ? '250px' : '150px' }}>
+      <div style={{ ...style, display: 'flex', width: displayTime ? '250px' : '150px' }}>
         {this.renderDate()}
         {displayTime ? this.renderTimePicker() : null}
       </div>

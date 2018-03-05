@@ -17,18 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNaN from 'lodash/isNaN'
-import { FormattedMessage } from 'react-intl'
+import merge from 'lodash/merge'
+import isEqual from 'lodash/isEqual'
+import Arrow from 'material-ui/svg-icons/navigation/arrow-forward'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
-import EnumTemporalComparator from '../model/EnumTemporalComparator'
 
 /**
- * Component allowing the user to configure the temporal value of two different attributes with a date comparator (after, before, ...).
+ * Component allowing the user to configure the temporal value of two different attributes.
  * For example, it will display:
- *   [attributeName1] < 23/02/2017 08:00    et    [attributeName2] = 23/02/2017 12:00
+ *   [attributeName1] / [attributeName2] : 23/02/2017 08:00 → 23/02/2017 12:00
  *
  * @author Xavier-Alexandre Brochard
  */
@@ -54,34 +55,63 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
   state = {
     firstField: undefined,
     secondField: undefined,
-    operator1: EnumTemporalComparator.GE,
-    operator2: EnumTemporalComparator.LE,
   }
 
-  changeValue1 = (value, operator) => {
+  componentWillMount() {
+    const defaultState = this.props.getDefaultState(this.props.pluginInstanceId)
+    if (this.state && defaultState) {
+      const newState = merge({}, this.state, defaultState)
+      this.setState(newState)
+    }
+
+    const initValues = {}
+    const firstFieldValue = this.getAttributeInitValue('firstField', this.props)
+    const secondFieldValue = this.getAttributeInitValue('secondField', this.props)
+    // Invert second and first field
+    if (firstFieldValue) initValues.secondField = this.parseOpenSearchQuery('firstField', firstFieldValue)
+    if (secondFieldValue) initValues.firstField = this.parseOpenSearchQuery('secondField', secondFieldValue)
+
+    this.setState(initValues)
+    this.props.registerClear(this.handleClear)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.initialValues, nextProps.initialValues)) {
+      // If initial value change from this props to new ones, update state with the new attribute values
+
+      const initValues = {}
+      const firstFieldValue = this.getAttributeInitValue('firstField', nextProps)
+      const secondFieldValue = this.getAttributeInitValue('secondField', nextProps)
+      // Invert second and first field
+      if (firstFieldValue) initValues.secondField = this.parseOpenSearchQuery('firstField', firstFieldValue)
+      if (secondFieldValue) initValues.firstField = this.parseOpenSearchQuery('secondField', secondFieldValue)
+
+      this.setState(initValues)
+    }
+  }
+
+  changeValue1 = (value) => {
     this.setState({
       firstField: value,
-      operator1: operator,
     })
   }
 
-  changeValue2 = (value, operator) => {
+  changeValue2 = (value) => {
     this.setState({
       secondField: value,
-      operator2: operator,
     })
   }
 
   getPluginSearchQuery = (state) => {
     let searchQuery = ''
     if (state.firstField) {
-      searchQuery = this.criteriaToOpenSearchFormat('firstField', state.firstField, state.operator1)
+      searchQuery = this.criteriaToOpenSearchFormat('secondField', state.firstField, true)
     }
     if (state.secondField) {
       if (searchQuery && searchQuery.length > 0) {
         searchQuery = `${searchQuery} AND `
       }
-      const searchQuery2 = this.criteriaToOpenSearchFormat('secondField', state.secondField, state.operator2)
+      const searchQuery2 = this.criteriaToOpenSearchFormat('firstField', state.secondField, false)
       searchQuery = `${searchQuery}${searchQuery2}`
     }
     return searchQuery
@@ -91,17 +121,17 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
    * Format criterion to openSearch format for plugin handler
    * @param attribute
    * @param value
-   * @param operator
+   * @param isStart
    * @returns {string}
    */
-  criteriaToOpenSearchFormat = (attribute, value, operator) => {
+  criteriaToOpenSearchFormat = (attribute, value, isStart) => {
     let openSearchQuery = ''
-    if (operator && value) {
-      switch (operator) {
-        case EnumTemporalComparator.LE:
+    if (value) {
+      switch (isStart) {
+        case false:
           openSearchQuery = `${this.getAttributeName(attribute)}:[* TO ${value.toISOString()}]`
           break
-        case EnumTemporalComparator.GE:
+        case true:
           openSearchQuery = `${this.getAttributeName(attribute)}:[${value.toISOString()} TO *]`
           break
         default:
@@ -115,9 +145,8 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
    * Clear all fields
    */
   handleClear = () => {
-    const { operator1, operator2 } = this.state
-    this.changeValue1(undefined, operator1)
-    this.changeValue2(undefined, operator2)
+    this.changeValue1(undefined)
+    this.changeValue2(undefined)
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
@@ -125,17 +154,8 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
       const values = openSearchQuery.match(/\[[ ]{0,1}([^ ]*) TO ([^ ]*)[ ]{0,1}\]/)
       if (values.length === 3) {
         const value = values[1] !== '*' ? values[1] : values[2]
-        const operator = values[1] === '*' ? EnumTemporalComparator.LE : EnumTemporalComparator.GE
-        if (parameterName === 'firstField') {
-          this.setState({ operator1: operator })
-        } else {
-          this.setState({ operator2: operator })
-        }
         const date = new Date(value)
-        if (isNaN(date.getTime())) {
-          return null
-        }
-        return date
+        return isNaN(date.getTime()) ? null : date
       }
     }
     return undefined
@@ -143,27 +163,30 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
 
   render() {
     const {
-      firstField, secondField, operator1, operator2,
+      firstField, secondField,
     } = this.state
-    const { moduleTheme: { rootStyle, lineStyle } } = this.context
+    const { moduleTheme: { rootStyle, lineStyle, labelSpanStyle } } = this.context
 
     return (
       <div style={rootStyle}>
         <div
           style={lineStyle}
         >
+          <span style={labelSpanStyle}>
+            { this.getAttributeLabel('firstField') } / { this.getAttributeLabel('secondField') } :
+          </span>
           <TemporalCriteriaComponent
             label={this.getAttributeLabel('firstField')}
-            comparator={operator1}
             value={firstField}
             onChange={this.changeValue1}
+            hideAttributeName
           />
-          <FormattedMessage id="criterion.aggregator.and" />
+          <Arrow />
           <TemporalCriteriaComponent
             label={this.getAttributeLabel('secondField')}
-            comparator={operator2}
             value={secondField}
             onChange={this.changeValue2}
+            hideAttributeName
             isStopDate
           />
         </div>

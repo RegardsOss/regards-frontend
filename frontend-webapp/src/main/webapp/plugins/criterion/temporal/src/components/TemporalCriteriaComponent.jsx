@@ -110,7 +110,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
 
   render() {
     const {
-      moduleTheme: { rootStyle, labelSpanStyle }, intl,
+      moduleTheme: { rootStyle, labelSpanStyle, datePickerStyle }, intl,
     } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField, comparator } = this.state
@@ -125,6 +125,7 @@ export class TemporalCriteriaComponent extends PluginCriterionContainer {
           value={searchField}
           onChange={this.handleChangeDate}
           locale={intl.locale}
+          style={datePickerStyle}
           dateHintText={intl.formatMessage({ id: 'criterion.date.field.label' })}
           timeHintText={intl.formatMessage({ id: 'criterion.time.field.label' })}
           okLabel={intl.formatMessage({ id: 'criterion.picker.ok.label' })}
