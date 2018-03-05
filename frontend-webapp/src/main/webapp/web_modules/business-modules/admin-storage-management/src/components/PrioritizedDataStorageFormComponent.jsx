@@ -75,7 +75,7 @@ class PrioritizedDataStorageFormComponent extends React.Component {
     const { onUpdate, entity } = this.props
     const prioritizedDataStorageToUpdate = Object.assign({}, entity.content)
     prioritizedDataStorageToUpdate.dataStorageConfiguration = newPluginConfiguration
-    return onUpdate(prioritizedDataStorageToUpdate)
+    return onUpdate(entity.content.id, prioritizedDataStorageToUpdate)
   }
 
   /**
@@ -140,8 +140,6 @@ class PrioritizedDataStorageFormComponent extends React.Component {
     const { selectedPlugin } = this.state
     const selectedPluginId = get(selectedPlugin, 'pluginId', null)
     const { intl: { formatMessage }, moduleTheme } = this.context
-
-    console.error('props', this.props)
 
     const title = mode === 'edit' ?
       formatMessage({ id: 'storage.data-storage.plugins.form.edit.title' }, { name: get(pluginConfiguration, 'content.label', '<>') }) :

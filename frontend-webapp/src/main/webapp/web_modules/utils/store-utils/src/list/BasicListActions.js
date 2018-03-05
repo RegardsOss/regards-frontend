@@ -198,10 +198,22 @@ class BasicListActions extends BasicActions {
     }
   }
 
-  updateEntity(keyValue, values, pathParams, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
-    endpoint = `${endpoint}/${keyValue}`
-    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
+  updateEntity(keyValue, values, pathParams, queryParams, endpoint = null) {
+    let endpointRequest = endpoint || this.entityEndpoint
+    const pathParamsRequest = Object.assign({}, pathParams)
+    // 1. Add entity identifier into endpoint.
+    // If the entityPathVariable is in the endpoint, handle it as a normal path parameter.
+    // Else, add the identifier at the end of the endpoint
+    if (this.entityPathVariable && endpointRequest.includes(`{${this.entityPathVariable}}`)) {
+      pathParamsRequest[this.entityPathVariable] = keyValue
+    } else {
+      endpointRequest = `${endpointRequest}/${keyValue}`
+    }
+    // 2. Handle path params
+    endpointRequest = this.handleRequestPathParameters(endpointRequest, pathParamsRequest)
+    // 3. Handle query params
+    endpointRequest = this.handleRequestQueryParams(endpointRequest, queryParams)
+
     return {
       [CALL_API]: {
         types: [
@@ -212,7 +224,7 @@ class BasicListActions extends BasicActions {
           ),
           this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
         ],
-        endpoint,
+        endpoint: endpointRequest,
         method: 'PUT',
         body: JSON.stringify(values),
       },

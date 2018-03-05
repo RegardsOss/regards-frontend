@@ -24,16 +24,31 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 class PrioritizedDataStorageActions extends BasicListActions {
+  static EntityActionEnum = {
+    UP: 'up',
+    DOWN: 'down',
+  }
+
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/prioritized-datastorages`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages`,
       entityPathVariable: 'id',
       schemaTypes: {
         ENTITY: Schemas.PRIORIZED_DATASTORAGE,
         ENTITY_ARRAY: Schemas.PRIORIZED_DATASTORAGE_ARRAY,
       },
     })
+  }
+
+  upPriority = (prioritizedDataStorageId, prioritizedDataStorage) => {
+    const endpoint = `${this.entityEndpoint}/{id}/${PrioritizedDataStorageActions.EntityActionEnum.UP}`
+    return this.updateEntity(prioritizedDataStorageId, prioritizedDataStorage, {}, {}, endpoint)
+  }
+
+  downPriority = (prioritizedDataStorageId, prioritizedDataStorage) => {
+    const endpoint = `${this.entityEndpoint}/{id}/${PrioritizedDataStorageActions.EntityActionEnum.DOWN}`
+    return this.updateEntity(prioritizedDataStorageId, prioritizedDataStorage, {}, {}, endpoint)
   }
 }
 

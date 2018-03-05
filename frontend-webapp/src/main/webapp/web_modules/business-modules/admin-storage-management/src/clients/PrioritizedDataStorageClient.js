@@ -30,13 +30,14 @@ const ONLINE_REDUX_ACTION_NAMESPACE = 'admin-storage/prioritizedDataStorage/onli
 const NEARLINE_ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'prioritized-datastorage-nearline']
 const NEARLINE_REDUX_ACTION_NAMESPACE = 'admin-storage/prioritizedDataStorage/nearline'
 
-const onlinePrioritizedDataStorageReducer = StorageClient.getPrioritizedDataStorageReducer(ONLINE_REDUX_ACTION_NAMESPACE)
-const onlinePrioritizedDataStorageActions = new StorageClient.PrioritizedDataStorageActions(ONLINE_REDUX_ACTION_NAMESPACE)
-const onlinePrioritizedDataStorageSelectors = StorageClient.getPrioritizedDataStorageSelectors(ONLINE_ENTITIES_STORE_PATH)
+const { PrioritizedDataStorageActions, getPrioritizedDataStorageReducer, getPrioritizedDataStorageSelectors } = StorageClient
+const onlinePrioritizedDataStorageReducer = getPrioritizedDataStorageReducer(ONLINE_REDUX_ACTION_NAMESPACE)
+const onlinePrioritizedDataStorageActions = new PrioritizedDataStorageActions(ONLINE_REDUX_ACTION_NAMESPACE)
+const onlinePrioritizedDataStorageSelectors = getPrioritizedDataStorageSelectors(ONLINE_ENTITIES_STORE_PATH)
 
-const nearlinePrioritizedDataStorageReducer = StorageClient.getPrioritizedDataStorageReducer(NEARLINE_REDUX_ACTION_NAMESPACE)
-const nearlinePrioritizedDataStorageActions = new StorageClient.PrioritizedDataStorageActions(NEARLINE_REDUX_ACTION_NAMESPACE)
-const nearlinePrioritizedDataStorageSelectors = StorageClient.getPrioritizedDataStorageSelectors(NEARLINE_ENTITIES_STORE_PATH)
+const nearlinePrioritizedDataStorageReducer = getPrioritizedDataStorageReducer(NEARLINE_REDUX_ACTION_NAMESPACE)
+const nearlinePrioritizedDataStorageActions = new PrioritizedDataStorageActions(NEARLINE_REDUX_ACTION_NAMESPACE)
+const nearlinePrioritizedDataStorageSelectors = getPrioritizedDataStorageSelectors(NEARLINE_ENTITIES_STORE_PATH)
 
 const getSelectors = (type) => {
   switch (type) {

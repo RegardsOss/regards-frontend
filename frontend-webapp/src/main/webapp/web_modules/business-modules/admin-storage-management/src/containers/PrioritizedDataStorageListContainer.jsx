@@ -52,6 +52,8 @@ export class PrioritizedDataStorageListContainer extends React.Component {
       fetch: () => dispatch(getActions(props.type).fetchEntityList({}, { dataStorageType: props.type })),
       update: prioritizedDataStorage => dispatch(getActions(props.type).updateEntity(prioritizedDataStorage.id, prioritizedDataStorage)),
       delete: id => dispatch(getActions(props.type).deleteEntity(id)),
+      upPriority: (id, conf) => dispatch(getActions(props.type).upPriority(id, conf)),
+      downPriority: (id, conf) => dispatch(getActions(props.type).downPriority(id, conf)),
     }
   }
 
@@ -67,6 +69,8 @@ export class PrioritizedDataStorageListContainer extends React.Component {
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
+    upPriority: PropTypes.func.isRequired,
+    downPriority: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -95,12 +99,12 @@ export class PrioritizedDataStorageListContainer extends React.Component {
     this.props.delete(entity.id)
   }
 
-  onUpPriority = () => {
-
+  onUpPriority = (prioritizedDataStorage) => {
+    this.props.upPriority(prioritizedDataStorage.id, prioritizedDataStorage)
   }
 
-  onDownPriority = () => {
-
+  onDownPriority = (prioritizedDataStorage) => {
+    this.props.downPriority(prioritizedDataStorage.id, prioritizedDataStorage)
   }
 
   goToCreateForm = () => {

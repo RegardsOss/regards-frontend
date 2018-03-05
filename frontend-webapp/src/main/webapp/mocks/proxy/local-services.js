@@ -332,7 +332,7 @@ function buildLocalServices(gatewayURL) {
         handler: withProxyFetcher(`${gatewayURL}/api/v1/rs-admin/resources`, getResourcesDependencies)
       },
       getPrioritizedDataStorages: {
-        url: 'rs-storage/storages/prioritized-datastorages',
+        url: 'rs-storage/storages',
         handler: (req, resp, pathParameters, { dataStorageType }) => {
           const content = dataStorageType === 'ONLINE' ?
             JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-online.json')) :
@@ -341,7 +341,7 @@ function buildLocalServices(gatewayURL) {
         }
       },
       getPrioritizedDataStorage: {
-        url: 'rs-storage/storages/prioritized-datastorages/{id}',
+        url: 'rs-storage/storages/{id}',
         handler: (req, resp, { id }, { dataStorageType }) => {
           const onlines = JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-online.json'))
           const nearlines = JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-nearline.json'))

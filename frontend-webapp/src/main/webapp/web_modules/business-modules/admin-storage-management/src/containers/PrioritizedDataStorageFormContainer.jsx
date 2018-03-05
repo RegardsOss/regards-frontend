@@ -50,7 +50,7 @@ export class PrioritizedDataStorageFormContainer extends React.Component {
     return {
       fetch: entityId => dispatch(getActions(ownProps.params.type).fetchEntity(entityId)),
       create: entity => dispatch(getActions(ownProps.params.type).createEntity(entity)),
-      update: (entity, entityId) => dispatch(getActions(ownProps.params.type).updateEntity(entityId, entity)),
+      update: (entityId, entity) => dispatch(getActions(ownProps.params.type).updateEntity(entityId, entity)),
     }
   }
 
