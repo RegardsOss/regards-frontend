@@ -16,11 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessDomain } from '@regardsoss/domain'
-import SectionDefaultIcon from 'material-ui/svg-icons/navigation/menu'
 import { ModuleTitleText, ModuleIcon } from '@regardsoss/components'
 import { SectionNavigationItem } from '../../../../shapes/Navigation'
 import MainBarDropMenuButton from './MainBarDropMenuButton'
+import defaultSectionIconURL from '../../../../img/section.svg'
 
 
 /**
@@ -31,27 +30,24 @@ class MainBarSectionButton extends React.Component {
   static propTypes = {
     item: SectionNavigationItem.isRequired,
     locale: PropTypes.string,
-    buildModuleURL: PropTypes.func.isRequired,
+    buildLinkURL: PropTypes.func.isRequired,
   }
 
   render() {
-    const { item, locale, buildModuleURL } = this.props
+    const { item, locale, buildLinkURL } = this.props
     return (
       <MainBarDropMenuButton
         label={ModuleTitleText.selectTitle(item.title, '', locale)}
         icon={
-          // render section icon: no default URL (use a default MUI SVG icon instead)
-          item.iconType === AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT ?
-            <SectionDefaultIcon /> :
-            <ModuleIcon
-              iconDisplayMode={item.iconType}
-              defaultIconURL=""
-              customIconURL={item.customIconURL}
-            />
+          <ModuleIcon
+            iconDisplayMode={item.iconType}
+            defaultIconURL={defaultSectionIconURL}
+            customIconURL={item.CustomIconURL}
+          />
         }
         items={item.children}
         locale={locale}
-        buildModuleURL={buildModuleURL}
+        buildLinkURL={buildLinkURL}
       />
     )
   }

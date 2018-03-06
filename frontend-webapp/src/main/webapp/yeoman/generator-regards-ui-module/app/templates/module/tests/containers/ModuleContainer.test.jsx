@@ -40,6 +40,7 @@ describe('[Menu] Testing MenuContainer', () => {
     const props = {
       project: 'any',
       appName: 'any',
+      type: '<%= name %>',
       moduleConf: {},
     }
     shallow(<ModuleContainer {...props} />, { context })

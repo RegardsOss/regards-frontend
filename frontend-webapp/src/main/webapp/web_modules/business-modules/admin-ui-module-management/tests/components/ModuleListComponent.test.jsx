@@ -37,47 +37,43 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
     context: buildTestContext(),
   }
 
-  const testModules = {
-    0: {
-      content: {
-        id: 0,
-        type: 'aType',
-        name: 'module',
-        description: 'First Module',
-        active: true,
-        applicationId: 'user',
-        container: 'content',
-        conf: {},
-      },
-      links: [],
+  const testModules = [{
+    content: {
+      id: 0,
+      type: 'aType',
+      name: 'module',
+      description: 'First Module',
+      active: true,
+      applicationId: 'user',
+      container: 'content',
+      conf: {},
     },
-    1: {
-      content: {
-        id: 1,
-        type: 'aType',
-        name: 'module',
-        description: 'Second Module',
-        active: true,
-        applicationId: 'user',
-        container: 'content',
-        conf: {},
-      },
-      links: [],
+    links: [],
+  }, {
+    content: {
+      id: 1,
+      type: 'aType',
+      name: 'module',
+      description: 'Second Module',
+      active: true,
+      applicationId: 'user',
+      container: 'content',
+      conf: {},
     },
-    2: {
-      content: {
-        id: 2,
-        type: 'aType',
-        name: 'module',
-        description: 'Third Module',
-        active: false,
-        applicationId: 'user',
-        container: 'content',
-        conf: {},
-      },
-      links: [],
+    links: [],
+  }, {
+    content: {
+      id: 2,
+      type: 'aType',
+      name: 'module',
+      description: 'Third Module',
+      active: false,
+      applicationId: 'user',
+      container: 'content',
+      conf: {},
     },
-  }
+    links: [],
+  }]
 
   it('Should render correctly a list of availables modules', () => {
     const props = {
@@ -117,7 +113,6 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list component', () => {
       <ModuleListComponent {...props} />
       , options,
     )
-
 
     const numberOfHateoasIconByModule = 2
     const numberOfResourceIconByModule = 1

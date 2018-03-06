@@ -31,7 +31,7 @@ class MoreNavigationButton extends React.Component {
     displayed: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(NavigationItem),
     locale: PropTypes.string,
-    buildModuleURL: PropTypes.func.isRequired,
+    buildLinkURL: PropTypes.func.isRequired,
     onResized: PropTypes.func.isRequired,
   }
 
@@ -57,7 +57,7 @@ class MoreNavigationButton extends React.Component {
 
   render() {
     const {
-      displayed, items, buildModuleURL, locale,
+      displayed, items, buildLinkURL, locale,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { navigationItem } } } = this.context
 
@@ -75,7 +75,7 @@ class MoreNavigationButton extends React.Component {
               label={formatMessage({ id: 'navigation.more.option' })}
               items={items}
               locale={locale}
-              buildModuleURL={buildModuleURL}
+              buildLinkURL={buildLinkURL}
             />
           </div>)
         }

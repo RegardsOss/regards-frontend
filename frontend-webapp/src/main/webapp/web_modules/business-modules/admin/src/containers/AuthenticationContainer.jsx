@@ -50,7 +50,6 @@ class AuthenticationContainer extends React.Component {
         onCancelAction: null,
       },
     }
-
     return (
       <div className={moduleStyles.adminApp.layout.app.classes.join(' ')} style={moduleStyles.adminApp.layout.app.styles}>
         <LazyModuleComponent

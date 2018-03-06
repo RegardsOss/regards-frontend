@@ -76,15 +76,28 @@ export class ModulesListAdapter extends React.Component {
   }
 }
 
+/**
+ * Converts the module into server module: needs page.title to be a JSON string
+ * @param {Module} module module to convert, respects Module shape
+ * @return module as expected by server (page.title is JSON)
+ */
+const convertToServerModule = module => ({
+  ...module,
+  page: module.page ? ({
+    ...module.page,
+    title: JSON.stringify(module.page.title),
+  }) : null,
+})
+
 const mapStateToProps = (state, ownProps) => ({
   isInstance: AuthenticationParametersSelectors.isInstance(state),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchModules: (applicationId, moduleId) => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId })),
-  fetchInstanceModules: (applicationId, moduleId) => dispatch(moduleInstanceActions.fetchPagedEntityList(0, 100, { applicationId })),
-  updateModule: (applicationId, module) => dispatch(moduleActions.updateEntity(module.id, module, { applicationId })),
-  updateInstanceModule: (applicationId, module) => dispatch(moduleInstanceActions.updateEntity(module.id, module, { applicationId })),
+  fetchModules: (applicationId, moduleId) => dispatch(moduleActions.fetchPagedEntityList(0, 1000, { applicationId }, { sort: 'id,asc' })),
+  fetchInstanceModules: (applicationId, moduleId) => dispatch(moduleInstanceActions.fetchPagedEntityList(0, 100, { applicationId }, { sort: 'id,asc' })),
+  updateModule: (applicationId, module) => dispatch(moduleActions.updateEntity(module.id, convertToServerModule(module), { applicationId })),
+  updateInstanceModule: (applicationId, module) => dispatch(moduleInstanceActions.updateEntity(module.id, convertToServerModule(module), { applicationId })),
   deleteModule: (applicationId, module) => dispatch(moduleActions.deleteEntity(module.id, { applicationId })),
   deleteInstanceModule: (applicationId, module) => dispatch(moduleInstanceActions.deleteEntity(module.id, { applicationId })),
 })

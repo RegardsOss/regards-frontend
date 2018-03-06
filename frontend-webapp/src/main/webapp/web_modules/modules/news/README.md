@@ -36,7 +36,7 @@ This module as a dynamic configurable module exposes is own :
   - adminContainer   : Main module React component used to display the administration panel of this module,
   - reducer          : To configure the general Redux Store.
   - styles           : Styles of the module
-  - messages         : Messages and labels internationalization objcet (default : imported index.js from messages/)
+  - messages         : Messages and labels internationalization  (default : imported index.js from messages/)
   - dependencies     : The needed resources (backend enpoints) to display each part of the module
 
 # Internationalization

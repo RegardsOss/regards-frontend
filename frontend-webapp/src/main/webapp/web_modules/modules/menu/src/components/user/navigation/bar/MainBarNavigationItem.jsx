@@ -32,7 +32,7 @@ class MainBarNavigationItem extends React.Component {
     item: NavigationItem.isRequired,
     displayed: PropTypes.bool.isRequired,
     locale: PropTypes.string,
-    buildModuleURL: PropTypes.func.isRequired,
+    buildLinkURL: PropTypes.func.isRequired,
     onItemResized: PropTypes.func.isRequired,
   }
 
@@ -53,7 +53,7 @@ class MainBarNavigationItem extends React.Component {
 
   render() {
     const {
-      item, displayed, buildModuleURL, locale,
+      item, displayed, buildLinkURL, locale,
     } = this.props
     const { moduleTheme: { user: { navigationItem } } } = this.context
     return (
@@ -70,12 +70,13 @@ class MainBarNavigationItem extends React.Component {
                 <MainBarModuleLink
                   item={item}
                   locale={locale}
-                  buildModuleURL={buildModuleURL}
+                  buildLinkURL={buildLinkURL}
 
                 />) : (
                   <MainBarSectionButton
                     item={item}
-                    {...bind('measureDiv')}
+                    locale={locale}
+                    buildLinkURL={buildLinkURL}
                   />)
             }
           </div>)
