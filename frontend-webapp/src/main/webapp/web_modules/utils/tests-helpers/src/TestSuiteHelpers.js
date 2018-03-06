@@ -58,5 +58,20 @@ module.exports = {
     this.assertAllProperties(enzymeWrapper.props(), expectedProperties, message)
   },
 
+  /**
+   * Provides stub dispatch method returning a Promise that resolves with resolve value as parameter or rejects with
+   * reject value as parameter. Note that when reject value is provided, it will reject promise. It will resolve it otherwise
+   * @param resolveValue promise resolution value
+   * @param rejectValue promise rejection value (promise is reject when this parameter is not undefined nor null)
+   * @return {function} stub dispatch method returing a resolved or rejected promise
+   */
+  getStubDispatchMethod(resolveValue = { error: false, payload: {} }, rejectValue) {
+    return () => new Promise((resolve, reject) => {
+      if (rejectValue) {
+        reject(rejectValue)
+      } else {
+        resolveValue(resolveValue)
+      }
+    })
+  },
 }
-
