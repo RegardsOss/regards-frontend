@@ -94,7 +94,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       ],
     },
     plugins: [
-      new webpack.optimize.OccurrenceOrderPlugin(),
       // Generate the index.html automatically
       new HtmlWebpackPlugin({
         template: 'index.ejs',
