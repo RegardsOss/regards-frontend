@@ -89,7 +89,6 @@ export class ThemeProvider extends React.Component {
     // Recompute the merged theme when the current theme has changed
     if (!isEqual(nextProps.currentTheme, currentTheme)) {
       this.setState({
-        // TODO use real keys
         mainTheme: ThemeBuilder.getPrimaryTheme(nextProps.currentTheme.content.configuration),
         alternativeTheme: ThemeBuilder.getAlternativeTheme(nextProps.currentTheme.content.configuration),
       })

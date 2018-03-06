@@ -23,7 +23,9 @@ import {
   TableHeaderOptionGroup,
   TableHeaderOptionsArea,
 } from '@regardsoss/components'
-import { TextField, FlatButton } from 'material-ui'
+import TextField from 'material-ui/TextField'
+import FlatButton from 'material-ui/FlatButton'
+
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 

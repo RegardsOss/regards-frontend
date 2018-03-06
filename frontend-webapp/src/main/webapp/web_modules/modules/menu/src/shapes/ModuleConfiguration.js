@@ -16,11 +16,45 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
+import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
+import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 import { HOME_ICON_TYPES } from '../domain/HomeIconType'
 
-export const homeConfigurationShape = PropTypes.shape({
+
+/** A module as edited in module form */
+const EditionModule = PropTypes.shape({
+  id: PropTypes.number.isRequired, // external module id
+  type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.MODULE]).isRequired,
+})
+
+/*
+ * Note: recursive structure will work here (lazy loading hack is failing validation) therefore,
+ * we assert section items have children!
+ */
+const basicEditionSectionFields = {
+  id: PropTypes.number.isRequired, // local section id
+  type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.SECTION]).isRequired,
+  icon: PropTypes.shape({
+    type: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES).isRequired,
+    url: PropTypes.string,
+  }).isRequired,
+  title: PropTypes.objectOf(PropTypes.string).isRequired, // title, where key are locales
+}
+
+export const EditionSection = PropTypes.shape({
+  ...basicEditionSectionFields,
+  // only first level will be correctly validated
+  children: PropTypes.arrayOf(PropTypes.oneOfType([
+    EditionModule, PropTypes.shape({
+      ...basicEditionSectionFields,
+    })])).isRequired,
+})
+
+/** A navigation item */
+export const NavigationEditionItem = PropTypes.oneOfType([EditionModule, EditionSection])
+
+export const HomeConfigurationShape = PropTypes.shape({
   icon: PropTypes.shape({
     type: PropTypes.oneOf(HOME_ICON_TYPES).isRequired,
     url: PropTypes.string,
@@ -39,5 +73,6 @@ export const ModuleConfiguration = PropTypes.shape({
   displayLocaleSelector: PropTypes.bool,
   displayThemeSelector: PropTypes.bool,
   projectAboutPage: CommonShapes.URL,
-  home: homeConfigurationShape,
+  home: HomeConfigurationShape,
+  navigation: PropTypes.arrayOf(NavigationEditionItem),
 })

@@ -22,9 +22,9 @@ import { connect } from '@regardsoss/redux'
 import { i18nSelectors } from '@regardsoss/i18n'
 import { adminLayoutSelectors } from '../../../clients/LayoutListClient'
 import { adminModuleSelectors } from '../../../clients/ModulesListClient'
-import { homeConfigurationShape } from '../../../shapes/ModuleConfiguration'
+import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
 import DynamicModulesProviderContainer from '../../../containers/common/DynamicModulesProviderContainer'
-import NavigationModelResolutionContainer from '../../../containers/common/NavigationModelResolutionContainer'
+import NavigationModelResolutionContainer from './NavigationModelResolutionContainer'
 import NavigationLayoutComponent from '../../../components/user/navigation/NavigationLayoutComponent'
 
 // global UI layout selectors
@@ -53,25 +53,30 @@ export class NavigationMenuContainer extends React.Component {
     project: PropTypes.string,
     currentModuleId: PropTypes.number,
     displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
-    homeConfiguration: homeConfigurationShape,
+    homeConfiguration: HomeConfigurationShape,
+    navigationConfiguration: PropTypes.arrayOf(NavigationEditionItem),
     // from mapStateToProps
     locale: PropTypes.string.isRequired,
   }
 
   /**
-   * Builds module URL
-   * @param {number} moduleId module ID
-   * @return {string} link URL to module
+   * Builds URL for modules, returns no link when links should not be displayed
+   * @param {id:number, description:string, type:string} module module as embedded in navigation items
+   * @return {string} link URL or null if module link should not be dispayed to module or null if no link should be provided
    */
-  buildModuleURL = (moduleId) => {
-    const { project } = this.props
-    return UIDomain.getModuleURL(project, moduleId)
+  buildLinkURL = (module) => {
+    const { project, displayMode } = this.props
+    if (displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.USER && module) {
+      // this is a module and we are in user application, return valid link
+      return UIDomain.getModuleURL(project, module.id)
+    }
+    return null
   }
 
 
   render() {
     const {
-      homeConfiguration, displayMode, currentModuleId, locale,
+      homeConfiguration, navigationConfiguration, displayMode, currentModuleId, locale,
     } = this.props
     return (
       // resolve modules: note that, when in admin, we use specific admin selectors to access this module loaded data
@@ -84,11 +89,11 @@ export class NavigationMenuContainer extends React.Component {
         {/* insert the modules to navigation module resolution container */}
         <NavigationModelResolutionContainer
           homeConfiguration={homeConfiguration}
+          navigationConfiguration={navigationConfiguration}
           currentModuleId={currentModuleId}
-          clearNonNavigable
         >
           {/* main navigation view component */}
-          <NavigationLayoutComponent buildModuleURL={this.buildModuleURL} locale={locale} />
+          <NavigationLayoutComponent buildLinkURL={this.buildLinkURL} locale={locale} />
         </NavigationModelResolutionContainer>
       </DynamicModulesProviderContainer>
     )

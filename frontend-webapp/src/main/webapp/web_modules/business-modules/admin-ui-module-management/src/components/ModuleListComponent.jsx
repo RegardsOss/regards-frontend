@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import sortBy from 'lodash/sortBy'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
@@ -45,7 +44,7 @@ const actionsBreakpoints = [460, 945, 945]
  */
 class ModuleListComponent extends React.Component {
   static propTypes = {
-    modules: AccessShapes.ModuleList.isRequired,
+    modules: AccessShapes.ModuleArray.isRequired,
     backUrl: PropTypes.string.isRequired,
     onCreate: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
@@ -83,18 +82,16 @@ class ModuleListComponent extends React.Component {
   }
 
   render() {
+    const { modules } = this.props
+    const { intl } = this.context
+    const name = this.state.moduleToDelete ? this.state.moduleToDelete.name : ' '
+    const title = this.context.intl.formatMessage({ id: 'modules.list.delete.message' }, { name })
+
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
-
-    const { intl } = this.context
-    const name = this.state.moduleToDelete ? this.state.moduleToDelete.name : ' '
-    const title = this.context.intl.formatMessage({ id: 'modules.list.delete.message' }, { name })
-
-    const sortedModules = sortBy(this.props.modules, module => module.content.description)
-
     return (
       <Card>
         <ShowableAtRender
@@ -132,7 +129,7 @@ class ModuleListComponent extends React.Component {
               preScanRows={false}
               showRowHover
             >
-              {map(sortedModules, (module, i) => (
+              {map(modules, (module, i) => (
                 <TableRow key={i}>
                   <TableRowColumn>{module.content.description}</TableRowColumn>
                   <TableRowColumn>{module.content.type}</TableRowColumn>

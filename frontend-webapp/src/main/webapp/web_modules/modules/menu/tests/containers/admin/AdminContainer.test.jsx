@@ -40,6 +40,7 @@ describe('[Menu] Testing AdminContainer', () => {
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
+        form: {},
       },
       fetchLayout: () => { },
       fetchModules: () => { },

@@ -27,7 +27,7 @@ import { themeContextType } from '@regardsoss/theme'
 class AppTitleComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string,
-    displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES),
+    displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES).isRequired,
   }
 
   static contextTypes = {

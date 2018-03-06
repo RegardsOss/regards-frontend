@@ -20,7 +20,7 @@ import ContentCopy from 'material-ui/svg-icons/content/content-copy'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
-import { IconButton } from 'material-ui'
+import IconButton from 'material-ui/IconButton'
 
 const ResourceIconAction = withResourceDisplayControl(IconButton)
 

@@ -26,17 +26,17 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 
 const commonItemFields = {
   // map of title by locale
-  key: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
   title: PropTypes.objectOf(PropTypes.string),
   iconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
   customIconURL: PropTypes.string,
+  selected: PropTypes.bool.isRequired,
 }
 
 /** Module item */
 export const ModuleNavigationItem = PropTypes.shape({
   ...commonItemFields,
   type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.MODULE]).isRequired,
-  selected: PropTypes.bool.isRequired,
   module: PropTypes.shape({
     // fields from Module shape
     id: PropTypes.number.isRequired,
@@ -46,20 +46,16 @@ export const ModuleNavigationItem = PropTypes.shape({
 })
 
 /**
- * Section item
- * we need here to apply some lazy system to define the recursive section item
- * https://stackoverflow.com/questions/32063297/can-a-react-prop-type-be-defined-recursively
+ * Section item: lazy recursive definition hack failed, therefore we cannot check children sections
  */
-let LazySectionNavigationItem
-const lazy = f => () => f(...arguments)
-const lazyNavigationItem = lazy(() => LazySectionNavigationItem)
-
-LazySectionNavigationItem = PropTypes.shape({
+const sectionFields = {
   ...commonItemFields,
   type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.SECTION]).isRequired,
-  children: PropTypes.arrayOf(PropTypes.oneOfType([lazyNavigationItem, ModuleNavigationItem]).isRequired).isRequired,
-})
+}
 
-export const SectionNavigationItem = LazySectionNavigationItem
+export const SectionNavigationItem = PropTypes.shape({
+  ...sectionFields,
+  children: PropTypes.arrayOf(PropTypes.oneOfType([ModuleNavigationItem, PropTypes.shape({ ...sectionFields })])).isRequired,
+})
 
 export const NavigationItem = PropTypes.oneOfType([ModuleNavigationItem, SectionNavigationItem])
