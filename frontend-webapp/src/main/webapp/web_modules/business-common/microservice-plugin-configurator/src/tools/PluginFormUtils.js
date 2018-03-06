@@ -41,9 +41,10 @@ const formMapParameterKeys = (parameterMeta, parameterConf, forInit) => {
   forEach(keys(parameterConf), (key) => {
     if (!forInit && key.includes(DOT_CHAR_REPLACEMENT)) {
       newParameterConf[replace(key, new RegExp(DOT_CHAR_REPLACEMENT, 'g'), '.')] = parameterConf[key]
-    }
-    if (forInit && key.includes('.')) {
+    } else if (forInit && key.includes('.')) {
       newParameterConf[replace(key, new RegExp('\\.', 'g'), DOT_CHAR_REPLACEMENT)] = parameterConf[key]
+    } else {
+      newParameterConf[key] = parameterConf[key]
     }
   })
   return newParameterConf
