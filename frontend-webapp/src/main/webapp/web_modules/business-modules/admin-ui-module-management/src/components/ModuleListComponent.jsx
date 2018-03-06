@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import sortBy from 'lodash/sortBy'
 import { Card, CardTitle, CardText, CardActions } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
