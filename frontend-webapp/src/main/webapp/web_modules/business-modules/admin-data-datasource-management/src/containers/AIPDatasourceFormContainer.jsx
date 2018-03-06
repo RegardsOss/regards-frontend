@@ -213,6 +213,10 @@ export class AIPDatasourceFormContainer extends React.Component {
         value: values.model,
       },
       {
+        name: IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE,
+        value: values.attributeFileSize,
+      },
+      {
         name: IAIPDatasourceParamsEnum.REFRESH_RATE,
         value: parseInt(values.refreshRate, 10),
         dynamic: false,

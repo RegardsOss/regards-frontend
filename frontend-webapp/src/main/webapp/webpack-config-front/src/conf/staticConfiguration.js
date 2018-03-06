@@ -55,5 +55,12 @@ STATIC_CONF = {
   POLLING_TIMER_WAITING_USER: 5000,
   // Intervales in ms between two polls for Notifications
   POLLING_TIMER_NOTIFICATIONS: 5000,
+  // Static configuration for entity description dialog
+  ENTITY_DESCRIPTION: {
+    TAGS: {
+      // Do not display tags matching at least one the given model name regexp. Exemple /GRAPH_*/.
+      MODEL_NAME_FILTERS: [],
+    },
+  },
 }
 

@@ -27,13 +27,13 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    */
   static escape = value =>
     value && OpenSearchQueryParameter.ESCAPED_CHARS.some(char => value.includes(char)) ?
-    // there are special characters in some of the parameter parts
-      `"${value}"` :
-      value // no value or no special char
+      // there are special characters in some of the parameter parts
+      `"${encodeURIComponent(value)}"` :
+      encodeURIComponent(value) // no value or no special char
 
 
   /**
-   * Compute the parameter value, based on
+   * Compute the parameter value and serialize it, based on
    * @param {string|[string]} value parameter value as string or array of string in the case of choices
    */
   static computeParameterValue(value = '') {

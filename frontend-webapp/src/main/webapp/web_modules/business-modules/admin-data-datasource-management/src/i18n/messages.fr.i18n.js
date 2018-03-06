@@ -63,6 +63,7 @@ const messages = Object.assign({
   'datasource.form.subtitle': 'Gestion des attributs d\'une source de données',
   'datasource.form.tags': 'Liste des tags ajoutés à toutes les données aspirées',
   'datasource.form.subsettingTags': 'Aspirer uniquement les données contenant l\'un de ces tags (vide = toutes les données sont aspirés)',
+  'datasource.form.attributeFileSize': 'Permet de définir dans le modèle quel est l\'atttribut à utiliser pour récuperer la taille des fichiers RAWDATA',
 
   'datasource.edit.title': 'Edition de la source de données {name}',
   'datasource.create.title': 'Création d\'une source de données',
