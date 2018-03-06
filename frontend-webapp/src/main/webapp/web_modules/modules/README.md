@@ -46,8 +46,6 @@ module.exports = {
   reducer,
   // An object containing the i18n key values sets by locale
   messages,
-  // An optional module icon (used when displaying a dynamic module)
-  ModuleIcon,
   // A js object containing server side endpoints dependencies to allow module to be displayed
   dependencies,
 }
@@ -277,10 +275,6 @@ Expected files containing internationalized messages shall be named as:
 
 Supported languages are `en` and `fr`
 
-### ModuleIcon
-
-This parameter allows you to set up a default module icon to be shown in user interface. It is optional. The expected value is a React class
-
 ### Dependencies
 
 This file defines dependencies required to display `ModuleContainer` and `AdminContainer` depending of the current Project User role.
@@ -310,3 +304,17 @@ module.exports = {
 
 ```
 
+### Module default-icon.svg
+
+When creating a module, we must ensure the default icon is provided and respects the following rules:
+* Its path is **[module name]/default-icon.svg** where module name is also the module root folder
+* Icon is an SVG
+* Icon stroke and fill colors are specified on first <sgv> tag - otherwise, the module icon cannot be updated with theme colors  
+
+That icon should be used to represent the module or its instances. It is used, for instance, to display navigation links in menu module - when user chooses to use the default icon.  
+
+SVG icons are available, for instance, on the following sites:
+* https://material.io/icons/ : Material design icons (default regards look and feel)
+* https://materialdesignicons.com/: Extension to material design icons  
+
+Finally, note that each module default-icon.svg **should be unique among all modules default icons**, so that user can quickly identify the page and module types.

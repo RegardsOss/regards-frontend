@@ -40,6 +40,7 @@ describe('[Menu] Testing AdminContainer', () => {
     const props = {
       appName: 'test',
       project: 'test',
+      type: '<%= name %>',
       adminForm: {
         changeField: () => {},
         form: {},
