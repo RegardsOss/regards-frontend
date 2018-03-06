@@ -2,21 +2,21 @@
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. 
-This module is used to display search results from REGARDS catalog.
-This module is used by :
+This module is a dynamic configurable module to be used in REGARDS user interfaces. It displays search results from REGARDS catalog. It is used by modules
   - @regardsoss/search-form
   - @regardsoss/search-graph
   
-It can be used alone to display the results of search of all data from the catalog.
+It can be used as a stand-alone module to display the results of a research on a the whole project data catalog.
 
-This module allow to :
-  - Display results datas
-  - Display results datasets
-  - Switch display mode from list to table
-  - Sort results
-  - Configure displayed columns (table mode)
-  - Apply Services (UI and Businnes) 
+This module allows:
+  - Displaying results datas
+  - Displaying results datasets
+  - Displaying results documents
+  - Switching display mode between list, table and quickview
+  - Sorting results
+  - Filtering results on facets
+  - Configuring displayed columns (table mode)
+  - Applying Services (UI and Businnes) on data and dataset data
   
 ## Module structure
 
@@ -52,11 +52,11 @@ This module as a dynamic configurable module exposes is own :
   - messages         : Messages and labels internationalization object (default : imported index.js from messages/)
   - dependencies     : The needed resources (backend enpoints) to display each part of the module
 
-# Internationalization
+## Internationalization
 
   All displayed labels are defined in two languages (English and French) and are avaible from the i18n repository.
   
-# Usage
+## Usage
 
   To display a dynamic module as the current one you have to use the here under code :
    
