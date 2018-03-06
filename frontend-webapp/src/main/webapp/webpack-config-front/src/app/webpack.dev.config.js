@@ -63,6 +63,8 @@ module.exports = function (projectContextPath) {
       disableHostCheck: true,
     },
     plugins: [
+      // Provides an intermediate caching step for modules
+      new HardSourceWebpackPlugin(),
       new webpack.DllReferencePlugin({
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
