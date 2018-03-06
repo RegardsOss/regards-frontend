@@ -44,11 +44,7 @@ const renderSelectField = ({
 }
 renderSelectField.propTypes = {
   input: PropTypes.shape({
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-    ]),
+    value: PropTypes.any,
     name: PropTypes.string,
   }),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

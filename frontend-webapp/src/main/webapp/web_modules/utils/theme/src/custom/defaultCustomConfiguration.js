@@ -69,7 +69,7 @@ module.exports = baseTheme => ({
   },
   // menu module
   'module:menu': {
-    background: 'rgba(0,0,0,0.50)',
+    background: baseTheme.palette.canvasColor,
     borderWidth: '0 0 1px 0',
     borderColor: 'rgba(255, 255, 255, 0.175)',
     borderStyle: 'solid',
@@ -78,7 +78,7 @@ module.exports = baseTheme => ({
     separatorBorderWidth: 2,
     separatorBorderRadius: 2,
     separatorBorderStyle: 'solid',
-    separatorMargin: '12px 10px',
+    separatorMargin: '12px 10px 12px 0',
   },
   // search results module
   'module:search-results': {

@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
+import ModuleConfigurationShape from '../shapes/ModuleConfigurationShape'
 import SampleComponent from '../components/SampleComponent'
 
 /**
@@ -26,12 +27,10 @@ import SampleComponent from '../components/SampleComponent'
  * @author <%= author %>
  **/
 class ModuleContainer extends React.Component {
-
   static propTypes = {
-    // Set by module loader (LazyModuleComponent)
-    project: PropTypes.string,
-    appName: PropTypes.string.isRequired,
-    // Module configuration.
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // Module configuration (overriden in runtimeDispayModuleFields to specify it as being THIS module configuration)
     moduleConf: ModuleConfigurationShape,
   }
 

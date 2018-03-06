@@ -87,7 +87,7 @@ const moduleAdminForm = PropTypes.shape({
   conf: PropTypes.object,
   // This parameter contains the entire redux-form form
   // eslint-disable-next-line react/forbid-prop-types
-  form: PropTypes.object,
+  form: PropTypes.object.isRequired,
 })
 
 /**

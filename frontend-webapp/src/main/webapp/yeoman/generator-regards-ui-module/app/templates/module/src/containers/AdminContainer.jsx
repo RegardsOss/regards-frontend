@@ -16,30 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
-import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
+import ModuleConfigurationShape from '../shapes/ModuleConfigurationShape'
 
 /**
  * React component to display module administration module.
  * @author <%= author %>
  */
 class AdminContainer extends React.Component {
-
   static propTypes = {
     // Application name
     appName: PropTypes.string,
     // Project name
     project: PropTypes.string,
     // Form parameters
-    adminForm: PropTypes.shape({
-      // Function to change a field value
-      changeField: PropTypes.func,
-      // Current values of the form
-      form: ModuleConfigurationShape,
-    }).isRequired,
-    // Default values of the module configuration
+    ...AccessShapes.runtimeConfigurationModuleFields,
+    // Module configuration (overriden in runtimeConfigurationModuleFields to specify it as being THIS module configuration)
     moduleConf: ModuleConfigurationShape.isRequired,
   }
 
@@ -50,10 +45,20 @@ class AdminContainer extends React.Component {
 
   render() {
     const { intl } = this.context
+    const {
+      adminForm: {
+        currentNamespace,
+        //form,
+      },
+    } = this.props
+    // note: current namespaces point out the form value in adminForm.form
+    // Therefore, field current value can be access like form[currentNamespace]
+    // we also have to plug form field names on currentNamespace
+
     return (
       <div>
         <Field
-          name="conf.messageParameter"
+          name={`${currentNamespace}.messageParameter`}
           fullWidth
           component={RenderTextField}
           type="text"

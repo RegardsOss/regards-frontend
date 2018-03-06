@@ -61,10 +61,10 @@ This module as a dynamic configurable module exposes is own :
     }
     return (
       <LazyModuleComponent
-            module={moduleConfiguration}
-            appName={'user'}
-            project={'project'}
-          />
+          module={moduleConfiguration}
+          appName={'user'}
+          project={'project'}
+        />
       )
     }
   ```

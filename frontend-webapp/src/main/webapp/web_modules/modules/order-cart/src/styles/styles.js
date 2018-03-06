@@ -33,8 +33,8 @@ const moduleStyles = theme => ({
       table: {
         optionColumn: {
           style: {
-            width: 48,
-            height: 48,
+            width: theme.button.iconButtonSize,
+            height: theme.button.iconButtonSize,
             padding: 0,
           },
         },

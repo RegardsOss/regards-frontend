@@ -40,6 +40,6 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainFor
       chain: DumpProvider.getFirstEntity('DataProviderClient', 'AcquisitionProcessingChain'),
     }
     shallow(<AcquisitionProcessingChainFormPluginsComponent {...props} />, { context })
-    // FIXME : Enzym do not handle react 16 feature that allow to render an Array of components.
+    // TODO-V3 : Enzym do not handle react 16 feature that allow to render an Array of components.
   })
 })
