@@ -25,7 +25,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    * @param value parameter value string
    * @return escaped string or initial value if it should not be escaped
    */
-  static escape = value => {
+  static escape = (value) => {
     if (value) {
       return OpenSearchQueryParameter.ESCAPED_CHARS.some(char => value.includes(char)) ?
         // there are special characters in some of the parameter parts
