@@ -52,7 +52,6 @@ class ModuleFormComponent extends React.Component {
   constructor(props) {
     super(props)
     const { currentNamespace } = props.adminForm
-    this.CONF_TITLE = `${currentNamespace}.title`
     this.CONF_CONTACTS = `${currentNamespace}.contacts`
     this.CONF_ABOUT_PAGE = `${currentNamespace}.projectAboutPage`
     this.CONF_AUTH = `${currentNamespace}.displayAuthentication`
@@ -60,11 +59,11 @@ class ModuleFormComponent extends React.Component {
     this.CONF_NOTIF = `${currentNamespace}.displayNotificationsSelector`
     this.CONF_LOCALE = `${currentNamespace}.displayLocaleSelector`
     this.CONF_THEME = `${currentNamespace}.displayThemeSelector`
-    this.CONF_HOME = `${currentNamespace}.home`
-    this.CONF_HOME_ICON_TYPE = `${this.CONF_HOME}.icon.type`
-    this.CONF_HOME_ICON_URL = `${this.CONF_HOME}.icon.url`
-    this.CONF_HOME_TITLE_EN = `${this.CONF_HOME}.title.en`
-    this.CONF_HOME_TITLE_FR = `${this.CONF_HOME}.title.fr`
+    this.HOME_CONFIGURATION_ROOT = `${currentNamespace}.home`
+    this.CONF_HOME_ICON_TYPE = `${this.HOME_CONFIGURATION_ROOT}.icon.type`
+    this.CONF_HOME_ICON_URL = `${this.HOME_CONFIGURATION_ROOT}.icon.url`
+    this.CONF_HOME_TITLE_EN = `${this.HOME_CONFIGURATION_ROOT}.title.en`
+    this.CONF_HOME_TITLE_FR = `${this.HOME_CONFIGURATION_ROOT}.title.fr`
     this.CONF_NAVIGATION = `${currentNamespace}.navigation`
   }
 
@@ -114,13 +113,6 @@ class ModuleFormComponent extends React.Component {
         <Subheader style={firstSubheaderStyle}>
           {formatMessage({ id: 'user.menu.form.options.title' })}
         </Subheader>
-        <Field
-          name={this.CONF_TITLE}
-          fullWidth
-          component={RenderTextField}
-          type="text"
-          label={formatMessage({ id: 'menu.form.title' })}
-        />
         <Field
           name={this.CONF_CONTACTS}
           fullWidth
@@ -228,7 +220,7 @@ class ModuleFormComponent extends React.Component {
           component={NavigationArrayFieldRender}
           locale={locale}
           dynamicModules={dynamicModules}
-          homeConfiguration={get(adminForm, `form.${this.CONF_HOME}`)}
+          homeConfiguration={get(adminForm, `form.${this.HOME_CONFIGURATION_ROOT}`)}
           navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
           changeNavigationFieldValue={this.changeNavigationFieldValue}
         />

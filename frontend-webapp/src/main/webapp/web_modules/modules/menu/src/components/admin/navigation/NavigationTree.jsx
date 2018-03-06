@@ -106,7 +106,7 @@ class NavigationTree extends React.Component {
         case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
           return this.buildSectionTreeTableRow(item)
         default:
-          throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)} `)
+          throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
       }
     })
 

@@ -15,43 +15,41 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AdminContainer } from '../../../src/containers/admin/AdminContainer'
-import ModuleFormComponent from '../../../src/components/admin/ModuleFormComponent'
-import styles from '../../../src/styles/styles'
+import AppTitleComponent from '../../../../src/components/user/title/AppTitleComponent'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Menu] Testing AdminContainer', () => {
+/**
+ * Test AppTitleComponent
+ * @author Raphaël Mechali
+ */
+describe('[Menu] Testing AppTitleComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AdminContainer)
+    assert.isDefined(AppTitleComponent)
   })
-  it('should render properly', () => {
+  it('should render correctly in admin app', () => {
     const props = {
-      appName: 'x',
-      project: 'y',
-      type: 'any',
-      adminForm: {
-        changeField: () => { },
-        currentNamespace: 'conf',
-        form: {},
-      },
-      fetchLayout: () => { },
-      fetchModules: () => { },
+      displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_PROJECT,
+      project: 'any',
     }
-    const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(ModuleFormComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the form component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      appName: props.appName,
-      project: props.project,
-      adminForm: props.adminForm,
-    }, 'Properties should be correctly reported')
+    const enzymeWrapper = shallow(<AppTitleComponent {...props} />, { context })
+    assert.include(enzymeWrapper.debug(), 'menu.admin.project.title', 'There should be the right title key')
+  })
+  it('should render correctly in admin instance app', () => {
+    const props = {
+      displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_INSTANCE,
+      project: 'any',
+    }
+    const enzymeWrapper = shallow(<AppTitleComponent {...props} />, { context })
+    assert.include(enzymeWrapper.debug(), 'menu.admin.instance.title', 'There should be the right title key')
   })
 })

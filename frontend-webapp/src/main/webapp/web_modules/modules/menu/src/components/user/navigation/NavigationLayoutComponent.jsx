@@ -127,7 +127,8 @@ class NavigationLayoutComponent extends React.Component {
   onComponentResized = ({ measureDiv: { width } }) => {
     // WORKAROUND: see OBSERVED_FIRST_WIDTH_ERROR comment
     this.layoutWidth = Math.max(0, Math.floor(width) - NavigationLayoutComponent.OBSERVED_FIRST_WIDTH_ERROR)
-    this.onLayoutUpdate(this.props.navigationElements)
+    // update, bypassing throttle
+    this.onLayoutUpdateImpl(this.props.navigationElements)
   }
 
   /**
@@ -140,7 +141,6 @@ class NavigationLayoutComponent extends React.Component {
     const isInitialized = isNumber(this.layoutWidth) && isNumber(this.moreButtonWidth) &&
       navigationElements.reduce((acc, navigationElement) =>
         acc && isNumber(this.barItemsWidths[navigationElement.key]), true)
-
     if (isInitialized) {
       // 1 - consume this width to show more possible elements
       let shownBarItemsCount = 0

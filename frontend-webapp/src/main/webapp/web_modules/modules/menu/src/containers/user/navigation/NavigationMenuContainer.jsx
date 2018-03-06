@@ -91,7 +91,6 @@ export class NavigationMenuContainer extends React.Component {
           homeConfiguration={homeConfiguration}
           navigationConfiguration={navigationConfiguration}
           currentModuleId={currentModuleId}
-          clearNonNavigable
         >
           {/* main navigation view component */}
           <NavigationLayoutComponent buildLinkURL={this.buildLinkURL} locale={locale} />

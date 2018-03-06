@@ -18,7 +18,6 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { connect } from '@regardsoss/redux'
 import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { HOCUtils } from '@regardsoss/display-control'
@@ -227,6 +226,9 @@ export class NavigationModelResolutionContainer extends React.Component {
   }
 
   static propTypes = {
+    /* Currently selected module ID */
+    // eslint-disable-next-line react/no-unused-prop-types
+    currentModuleId: PropTypes.number,
     // home configuration (from edited module configuration)
     // eslint-disable-next-line react/no-unused-prop-types
     homeConfiguration: HomeConfigurationShape, // used only in onPropertiesUpdated
@@ -301,6 +303,4 @@ export class NavigationModelResolutionContainer extends React.Component {
     return HOCUtils.renderChildren(children)
   }
 }
-export default connect(
-  NavigationModelResolutionContainer.mapStateToProps,
-  NavigationModelResolutionContainer.mapDispatchToProps)(NavigationModelResolutionContainer)
+export default NavigationModelResolutionContainer

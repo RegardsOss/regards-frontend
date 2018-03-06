@@ -319,7 +319,7 @@ class ModuleFormComponent extends React.Component {
                   style={style.cardTitleLessSpaced}
                   title={this.context.intl.formatMessage({ id: 'module.form.module.settings.title' })}
                 />
-                <CardText id="pageFields">
+                <CardText id="dynamicFields">
                   {this.renderDynamicModuleConfiguration()}
                 </CardText>
               </Card>) : null

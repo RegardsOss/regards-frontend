@@ -30,6 +30,18 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  */
 export class DynamicModulesProviderContainer extends React.Component {
   /**
+   * Filters module list
+   * @param modules modules array
+   * @param dynamicContainerId dynamic container ID
+   * @param keepOnlyActive should keep only active modules?
+   * @return [Module] filtered dynamic modules list
+   */
+  static filterModules = (modules, dynamicContainerId, keepOnlyActive) =>
+    modules && filter(modules, module =>
+      // must be dynamic  && active when keepOnlyActive
+      get(module, 'content.container') === dynamicContainerId && (!keepOnlyActive || get(module, 'content.active')))
+
+  /**
    * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
@@ -37,7 +49,7 @@ export class DynamicModulesProviderContainer extends React.Component {
    */
   static mapStateToProps(state, { moduleSelectors, layoutSelectors }) {
     return {
-      modules: moduleSelectors.getList(state),
+      modules: moduleSelectors.getOrderedList(state),
       dynamicContainerId: layoutSelectors.getDynamicContainerId(state),
       isFetching: moduleSelectors.isFetching(state) || layoutSelectors.isFetching(state),
     }
@@ -57,7 +69,7 @@ export class DynamicModulesProviderContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     dynamicContainerId: PropTypes.string, // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
-    modules: AccessShapes.ModuleList, // used only in onPropertiesUpdated
+    modules: AccessShapes.ModuleArray, // used only in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     isFetching: PropTypes.bool, // used only in onPropertiesUpdated
   }
@@ -85,8 +97,8 @@ export class DynamicModulesProviderContainer extends React.Component {
       const {
         modules, dynamicContainerId, keepOnlyActive, children,
       } = newProps
-      const dynamicModules = modules && filter(modules, module =>
-        this.filterModule(module, dynamicContainerId, keepOnlyActive))
+      const dynamicModules = DynamicModulesProviderContainer.filterModules(modules, dynamicContainerId, keepOnlyActive)
+
       this.setState({
         children: HOCUtils.cloneChildrenWith(children, {
           dynamicModules,
@@ -94,14 +106,6 @@ export class DynamicModulesProviderContainer extends React.Component {
       })
     }
   }
-
-  /**
-   * Filters module list
-   */
-  filterModule = (module, dynamicContainerId, keepOnlyActive) =>
-    // must be dynamic  && active when keepOnlyActive
-    get(module, 'content.container') === dynamicContainerId &&
-    (!keepOnlyActive || get(module, 'content.active'))
 
   render() {
     const { isFetching } = this.props

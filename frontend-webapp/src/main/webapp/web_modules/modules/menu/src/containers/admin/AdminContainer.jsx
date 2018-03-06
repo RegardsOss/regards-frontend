@@ -51,7 +51,7 @@ export class AdminContainer extends React.Component {
     const userAppId = 'user'
     return {
       fetchLayout: () => dispatch(adminLayoutActions.fetchEntity(userAppId)),
-      fetchModules: () => dispatch(adminModuleActions.fetchPagedEntityList(0, null, { applicationId: userAppId })),
+      fetchModules: () => dispatch(adminModuleActions.fetchPagedEntityList(0, null, { applicationId: userAppId }, { sort: 'id,ASC' })),
     }
   }
 
@@ -75,7 +75,6 @@ export class AdminContainer extends React.Component {
     fetchLayout()
     fetchModules()
   }
-
 
   render() {
     const {

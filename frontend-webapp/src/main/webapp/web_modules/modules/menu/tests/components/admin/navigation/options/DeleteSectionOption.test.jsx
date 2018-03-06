@@ -15,43 +15,38 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AdminContainer } from '../../../src/containers/admin/AdminContainer'
-import ModuleFormComponent from '../../../src/components/admin/ModuleFormComponent'
-import styles from '../../../src/styles/styles'
+import DeleteSectionOption from '../../../../../src/components/admin/navigation/options/DeleteSectionOption'
+import styles from '../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Menu] Testing AdminContainer', () => {
+/**
+ * Test DeleteSectionOption
+ * @author Raphaël Mechali
+ */
+describe('[Menu] Testing DeleteSectionOption', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AdminContainer)
+    assert.isDefined(DeleteSectionOption)
   })
-  it('should render properly', () => {
+  it('should render correctly', () => {
+    let spiedSectionId
     const props = {
-      appName: 'x',
-      project: 'y',
-      type: 'any',
-      adminForm: {
-        changeField: () => { },
-        currentNamespace: 'conf',
-        form: {},
-      },
-      fetchLayout: () => { },
-      fetchModules: () => { },
+      id: 3,
+      onDeleteSection: (id) => { spiedSectionId = id },
     }
-    const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(ModuleFormComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the form component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      appName: props.appName,
-      project: props.project,
-      adminForm: props.adminForm,
-    }, 'Properties should be correctly reported')
+    const enzymeWrapper = shallow(<DeleteSectionOption {...props} />, { context })
+    enzymeWrapper.instance().onDelete()
+    assert.equal(spiedSectionId, props.id, 'The callback should trigger the right ID')
+    const iconButton = enzymeWrapper.find(IconButton)
+    assert.lengthOf(iconButton, 1, 'There should be the icon button')
+    assert.equal(iconButton.props().onClick, enzymeWrapper.instance().onDelete, 'The component should set up the right callback')
   })
 })

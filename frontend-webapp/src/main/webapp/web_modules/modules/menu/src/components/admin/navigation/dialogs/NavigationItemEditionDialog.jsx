@@ -31,19 +31,20 @@ import { reduxForm, RenderTextField, RenderRadio, RenderSelectField, Field, Vali
 import { ModuleTitleText } from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
 import { NavigationEditionItem, EditionSection } from '../../../../shapes/ModuleConfiguration'
-import { findAll, getItemPathIn, getParentByPath, isSection, isChildOrSelf } from '../NavigationTreeHelper'
+import { findAll, getItemPathIn, getParentByPath, isSection, isChildOrSelf } from '../../../../domain/NavigationTreeHelper'
 
-/** Fields ID constants */
-const COMMON_ICON_FIELD = 'icon'
-const ICON_TYPE_FIELD = `${COMMON_ICON_FIELD}.type`
-const ICON_URL_FIELD = `${COMMON_ICON_FIELD}.url`
+/** Fields ID constants (exported for tests only) */
+export const COMMON_ICON_FIELD = 'icon'
+export const ICON_TYPE_FIELD = `${COMMON_ICON_FIELD}.type`
+export const ICON_URL_FIELD = `${COMMON_ICON_FIELD}.url`
 
-const COMMON_TITLE_FIELD = 'title'
-const TITLE_EN_FIELD = `${COMMON_TITLE_FIELD}.en`
-const TITLE_FR_FIELD = `${COMMON_TITLE_FIELD}.fr`
+export const COMMON_TITLE_FIELD = 'title'
+export const TITLE_EN_FIELD = `${COMMON_TITLE_FIELD}.en`
+export const TITLE_FR_FIELD = `${COMMON_TITLE_FIELD}.fr`
 
-const PARENT_SECTION_FIELD = 'parentSection'
-const AFTER_ELEMENT_FIELD = 'afterElement'
+export const PARENT_SECTION_FIELD = 'parentSection'
+export const AFTER_ELEMENT_FIELD = 'afterElement'
+
 /**
  * Dialog form for navigation item creation / edition. Note: it requires enriched EditionModule elements to access their title and description
  * @author Raphaël Mechali
@@ -62,9 +63,9 @@ export class NavigationItemEditionDialog extends React.Component {
    * @return {[NavigationEditionItem|NavigationItemEditionDialog.FIRST_POSITION]} after field choices
    */
   static getAfterElementChoices(editedItem, parentSection, navigationItems) {
-    // remove any the editedItem here
+    // remove any editedItem here
     const hasParentSection = parentSection && parentSection !== NavigationItemEditionDialog.MAIN_BAR
-    const sameLevelItems = hasParentSection ? parentSection.children : navigationItems
+    const sameLevelItems = (hasParentSection ? parentSection.children : navigationItems)
       .filter(child => child.id !== editedItem.id || child.type !== editedItem.type)
     // possible positions: sibling and first position, except on root level (where home is always first)
     return hasParentSection ? [NavigationItemEditionDialog.FIRST_POSITION, ...sameLevelItems] : sameLevelItems

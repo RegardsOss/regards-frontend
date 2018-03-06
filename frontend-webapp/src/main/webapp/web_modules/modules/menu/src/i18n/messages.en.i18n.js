@@ -47,7 +47,6 @@ const messages = {
   'menu.admin.instance.title': 'REGARDS - Instance administration dashboard',
   // Module form : settings
   'user.menu.form.options.title': 'Settings',
-  'menu.form.title': 'Menu Title',
   'menu.form.contacts': 'Contact',
   'menu.form.projectpage': 'Project about page',
   'menu.form.displayauthentication': 'Display authentication option',

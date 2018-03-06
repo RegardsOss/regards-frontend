@@ -20,11 +20,13 @@ import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { Field } from '@regardsoss/form-utils'
+import { Field, FieldArray } from '@regardsoss/form-utils'
 import { HOME_ICON_TYPES_ENUM } from '../../../src/domain/HomeIconType'
 import ModuleFormComponent from '../../../src/components/admin/ModuleFormComponent'
 import MenuPreviewComponent from '../../../src/components/admin/MenuPreviewComponent'
+import NavigationArrayFieldRender from '../../../src/components/admin/navigation/NavigationArrayFieldRender'
 import styles from '../../../src/styles'
+import { aModuleCompleteConfiguration } from '../../dumps/configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -46,6 +48,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
+        form: {},
       },
     }
     const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
@@ -53,8 +56,10 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const instance = enzymeWrapper.instance()
     const searchedFields = keys(instance).filter(key => key.startsWith('CONF_')).map(fieldKey => instance[fieldKey])
     const fields = enzymeWrapper.find(Field)
+    const fieldArrays = enzymeWrapper.find(FieldArray)
     searchedFields.forEach((fieldName) => {
-      const found = fields.findWhere(n => n.props().name === fieldName)
+      const fieldsGroup = fieldName === instance.CONF_NAVIGATION ? fieldArrays : fields // search in field arrays for CONF_NAVIGATION
+      const found = fieldsGroup.findWhere(n => n.props().name === fieldName)
       assert.lengthOf(found, 1, `There should be a field with name "${fieldName}"`)
     })
 
@@ -104,5 +109,41 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     homeIconURLField = enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().CONF_HOME_ICON_URL)
     assert.lengthOf(homeIconURLField, 1, 'There should be the field')
     assert.isFalse(homeIconURLField.props().disabled, 'It should be enabled for type CUSTOM_URL_ICON')
+  })
+  it('should report the right configuration to navigation and preview', () => {
+    const props = {
+      appName: 'any',
+      project: 'any',
+      locale: 'en',
+      dynamicModule: [],
+      adminForm: {
+        changeField: () => { },
+        currentNamespace: 'conf',
+        form: {
+          conf: aModuleCompleteConfiguration,
+        },
+      },
+    }
+
+    const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
+    // check navigation field properties
+    const navigationField = enzymeWrapper.find(FieldArray)
+    testSuiteHelpers.assertWrapperProperties(navigationField, {
+      name: enzymeWrapper.instance().CONF_NAVIGATION,
+      component: NavigationArrayFieldRender,
+      locale: props.locale,
+      dynamicModules: props.dynamicModules,
+      homeConfiguration: props.adminForm.form.conf.home,
+      navigationItems: props.adminForm.form.conf.navigation,
+      changeNavigationFieldValue: enzymeWrapper.instance().changeNavigationFieldValue,
+    }, 'It should provide the right edition data to navigation field')
+
+    // check preview properties
+    const previewWrapper = enzymeWrapper.find(MenuPreviewComponent)
+    testSuiteHelpers.assertWrapperProperties(previewWrapper, {
+      appName: props.appName,
+      project: props.project,
+      moduleConfiguration: props.adminForm.form.conf,
+    }, 'It should report the right properties and set up display mode as preview')
   })
 })

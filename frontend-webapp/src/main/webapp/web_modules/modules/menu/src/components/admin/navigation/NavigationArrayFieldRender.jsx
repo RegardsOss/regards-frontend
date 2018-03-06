@@ -27,7 +27,7 @@ import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/M
 import {
   buildItemForModule, filterItems, findAllModules, findAllSections,
   getItemPathIn, getItemByPathIn, removeItemAt, moveItemAtPath,
-} from './NavigationTreeHelper'
+} from '../../../domain/NavigationTreeHelper'
 import NavigationTree from './NavigationTree'
 import NavigationItemEditionDialog from './dialogs/NavigationItemEditionDialog'
 
@@ -75,10 +75,11 @@ class NavigationArrayFieldRender extends React.Component {
 
   /**
    * Packs items for edition dialog: adds titles to modules (as the dialog itself cannot access dynamic moduleslist )
+   * @param {en:string, fr:string} homeTitle configuration: home title from configuration
    * @param {[NavigationEditionItem]} items list
    * @return [NavigationEditionItem] packed items list
    */
-  static packItemsForDialog(dynamicModules, items) {
+  static packItemsForDialog(homeTitle, dynamicModules, items) {
     return items.map((item) => {
       let { title } = item
       let description = null
@@ -86,10 +87,14 @@ class NavigationArrayFieldRender extends React.Component {
       const isModule = item.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE
       if (isModule) { // A module retrieve title and description
         const correspondingModel = dynamicModules.find(({ content: { id } }) => id === item.id)
-        title = get(correspondingModel, 'content.page.title')
+        if (get(correspondingModel, 'content.page.home')) {
+          title = homeTitle
+        } else {
+          title = get(correspondingModel, 'content.page.title')
+        }
         description = get(correspondingModel, 'content.description')
       } else { // A section: pack children items too
-        children = this.packItemsForDialog(dynamicModules, item.children)
+        children = this.packItemsForDialog(homeTitle, dynamicModules, item.children)
       }
       return {
         ...item, description, title, children,
@@ -148,7 +153,7 @@ class NavigationArrayFieldRender extends React.Component {
    * User asked to create a section: initialize new section model and show edition dialog
    */
   onCreateSection = () => {
-    const { dynamicModules, navigationItems } = this.props
+    const { homeConfiguration, dynamicModules, navigationItems } = this.props
     // 1 - get sections to generate a unique ID greater than the last known section
     const newSectionId = 1 + findAllSections(navigationItems).reduce((foundMax, sectionItem) =>
       sectionItem.id > foundMax ? sectionItem.id : foundMax, 0)
@@ -165,7 +170,7 @@ class NavigationArrayFieldRender extends React.Component {
           children: [],
         },
         itemPath: [navigationItems.length], // added at end by default
-        navigationItems: NavigationArrayFieldRender.packItemsForDialog(dynamicModules, navigationItems),
+        navigationItems: NavigationArrayFieldRender.packItemsForDialog(homeConfiguration.title, dynamicModules, navigationItems),
       },
     })
   }
@@ -178,7 +183,7 @@ class NavigationArrayFieldRender extends React.Component {
    */
   onEditItem = (type, id) => {
     // 1 - retrieve element
-    const { dynamicModules, navigationItems } = this.props
+    const { homeConfiguration, dynamicModules, navigationItems } = this.props
     const itemPath = getItemPathIn(navigationItems, { type, id })
 
     // 2 - pack edition data for edit dialog
@@ -189,7 +194,7 @@ class NavigationArrayFieldRender extends React.Component {
         dialogTitleKey: isModule ? 'menu.form.navigation.edit.module.dialog.title' : 'menu.form.navigation.edit.section.dialog.title',
         item: getItemByPathIn(navigationItems, itemPath),
         itemPath,
-        navigationItems: NavigationArrayFieldRender.packItemsForDialog(dynamicModules, navigationItems),
+        navigationItems: NavigationArrayFieldRender.packItemsForDialog(homeConfiguration.title, dynamicModules, navigationItems),
       },
     })
   }

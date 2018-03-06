@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import last from 'lodash/last'
-import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../domain/NavigationItemTypes'
+import { NAVIGATION_ITEM_TYPES_ENUM } from './NavigationItemTypes'
 
 /**
  * Helpers for navigation tree items management
@@ -81,7 +81,7 @@ export function filterItem(item, dynamicModules = [], homeItem) {
     const isHomeItem = !homeItem && isHome
     return {
       item: found && !isHomeItem ? item : null, // return item only when found and not home
-      homeItem: found && isHomeItem ? item : homeItem, // return homeItem only when found and home
+      homeItem: found && isHomeItem ? item : (homeItem || null), // return homeItem only when found and home
       newModules,
     }
   }
@@ -305,7 +305,7 @@ export function moveItemAtPath(items, item, insertAtPath) {
       if (nextIndex > currentIndex) {
         afterRemovalInsertionPath = [
           ...insertAtPath.slice(0, -1), // parent path, unchanged
-          nextIndex - 1, // shift new index at new position, ignoring previous position
+          nextIndex - 1, // adjust index as in children list
         ]
       }
     }

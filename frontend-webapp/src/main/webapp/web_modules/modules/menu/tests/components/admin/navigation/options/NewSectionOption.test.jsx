@@ -15,43 +15,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AdminContainer } from '../../../src/containers/admin/AdminContainer'
-import ModuleFormComponent from '../../../src/components/admin/ModuleFormComponent'
-import styles from '../../../src/styles/styles'
+import NewSectionOption from '../../../../../src/components/admin/navigation/options/NewSectionOption'
+import styles from '../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Menu] Testing AdminContainer', () => {
+/**
+ * Test NewSectionOption
+ * @author Raphaël Mechali
+ */
+describe('[Menu] Testing NewSectionOption', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AdminContainer)
+    assert.isDefined(NewSectionOption)
   })
-  it('should render properly', () => {
+  it('should render correctly', () => {
     const props = {
-      appName: 'x',
-      project: 'y',
-      type: 'any',
-      adminForm: {
-        changeField: () => { },
-        currentNamespace: 'conf',
-        form: {},
-      },
-      fetchLayout: () => { },
-      fetchModules: () => { },
+      onCreateSection: () => { },
     }
-    const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(ModuleFormComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the form component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      appName: props.appName,
-      project: props.project,
-      adminForm: props.adminForm,
-    }, 'Properties should be correctly reported')
+    const enzymeWrapper = shallow(<NewSectionOption {...props} />, { context })
+    const button = enzymeWrapper.find(FlatButton)
+    assert.lengthOf(button, 1, 'There should be the button')
+    assert.equal(button.props().onClick, props.onCreateSection, 'The component should set up the right callback')
   })
 })
