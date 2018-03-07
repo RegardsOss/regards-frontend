@@ -49,13 +49,25 @@ describe('[ADMIN DATA DOCUMENT MANAGEMENT] Testing DocumentFormContainer', () =>
       modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
       modelList: DumpProvider.get('DataManagementClient', 'Model'),
       // from redux-form
-      unregisterField: () => {},
+      unregisterField: testSuiteHelpers.getSuccessDispatchStub(),
       // from mapDispatchToProps
-      createDocument: () => {},
-      updateDocument: () => {},
-      fetchDocument: () => {},
-      fetchModelList: () => {},
-      fetchModelAttributeList: () => {},
+      createDocument: testSuiteHelpers.getSuccessDispatchStub(),
+      updateDocument: testSuiteHelpers.getSuccessDispatchStub(),
+      fetchDocument: testSuiteHelpers.getSuccessDispatchStub({
+        entities: {
+          document: {
+            0: {
+              content: {
+                model: {
+                  id: '1',
+                },
+              },
+            },
+          },
+        },
+      }),
+      fetchModelList: testSuiteHelpers.getSuccessDispatchStub(),
+      fetchModelAttributeList: testSuiteHelpers.getSuccessDispatchStub(),
     }
     const enzymeWrapper = shallow(<DocumentFormContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)

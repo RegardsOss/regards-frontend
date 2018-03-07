@@ -48,13 +48,25 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionFormContainer', (
       modelAttributeList: DumpProvider.get('DataManagementClient', 'ModelAttribute'),
       modelList: DumpProvider.get('DataManagementClient', 'Model'),
       // from redux-form
-      unregisterField: () => {},
+      unregisterField: testSuiteHelpers.getSuccessDispatchStub(),
       // from mapDispatchToProps
-      createCollection: () => {},
-      updateCollection: () => {},
-      fetchCollection: () => {},
-      fetchModelList: () => {},
-      fetchModelAttributeList: () => {},
+      createCollection: testSuiteHelpers.getSuccessDispatchStub(),
+      updateCollection: testSuiteHelpers.getSuccessDispatchStub(),
+      fetchCollection: testSuiteHelpers.getSuccessDispatchStub({
+        entities: {
+          collection: {
+            0: {
+              content: {
+                model: {
+                  name: 'MODEL 2',
+                },
+              },
+            },
+          },
+        },
+      }),
+      fetchModelList: testSuiteHelpers.getSuccessDispatchStub(),
+      fetchModelAttributeList: testSuiteHelpers.getSuccessDispatchStub(),
     }
     const enzymeWrapper = shallow(<CollectionFormContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
