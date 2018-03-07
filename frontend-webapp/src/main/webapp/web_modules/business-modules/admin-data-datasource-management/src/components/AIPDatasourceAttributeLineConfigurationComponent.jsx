@@ -21,13 +21,14 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import {
   RenderTextField,
   Field,
+  ValidationHelpers,
 } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
 import { fragmentSelectors } from '../clients/FragmentClient'
 
-
+const requiredString = [ValidationHelpers.required]
 /**
  * Form component to edit AIP datasource mapping.
  */
@@ -91,6 +92,7 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
       component={RenderTextField}
       type="text"
       label={this.context.intl.formatMessage({ id: 'aip.datasource.form.table.input' })}
+      validate={this.getValidation(modelAttribute.content.attribute)}
     />
   )
 
@@ -103,6 +105,7 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
       component={RenderTextField}
       type="text"
       label={this.context.intl.formatMessage({ id: 'aip.datasource.form.table.lowerBound' })}
+      validate={this.getValidation(modelAttribute.content.attribute)}
     />,
     <br key="have-a-nice-day" />,
     <Field
@@ -113,11 +116,19 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
       component={RenderTextField}
       type="text"
       label={this.context.intl.formatMessage({ id: 'aip.datasource.form.table.upperBound' })}
+      validate={this.getValidation(modelAttribute.content.attribute)}
     />,
   ])
 
-  showStarIfInputRequired = (modelAttribute) => {
-    if (!modelAttribute.optional) {
+  getValidation = (attributeModel) => {
+    if (!attributeModel.optional) {
+      return requiredString
+    }
+    return []
+  }
+
+  showStarIfInputRequired = (attributeModel) => {
+    if (!attributeModel.optional) {
       return ' (*)'
     }
     return null

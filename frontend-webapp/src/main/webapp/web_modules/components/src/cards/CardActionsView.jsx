@@ -52,16 +52,17 @@ class CardActionsView extends React.Component {
     mainHateoasDependencies: [],
   }
 
+  static styleCardActions = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  }
+
   render() {
-    const styleCardActions = {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'flex-end',
-    }
     const secondaryRequiredEndpoints = this.props.secondaryHateoasDependency ? [this.props.secondaryHateoasDependency] : []
 
     return (
-      <div style={styleCardActions}>
+      <div style={CardActionsView.styleCardActions}>
         {
           // secondary button if any
           (this.props.secondaryButtonUrl || this.props.secondaryButtonClick) &&
