@@ -49,7 +49,7 @@ export class PrioritizedDataStorageListContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, props) {
     return {
-      fetch: () => dispatch(getActions(props.type).fetchEntityList({}, { dataStorageType: props.type })),
+      fetch: () => dispatch(getActions(props.type).fetchEntityList({}, { type: props.type })),
       update: prioritizedDataStorage => dispatch(getActions(props.type).updateEntity(prioritizedDataStorage.id, prioritizedDataStorage)),
       delete: id => dispatch(getActions(props.type).deleteEntity(id)),
       upPriority: (id, conf) => dispatch(getActions(props.type).upPriority(id, conf)),
