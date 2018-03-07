@@ -58,7 +58,7 @@ class RangeValueRender extends React.Component {
   }
 
   render() {
-    const { value = {} } = this.props
+    const value = this.props.value || {}
     const { intl, moduleTheme: { textRenderCell } } = this.context
     const textValue = getFormattedRange(intl, value.lowerBound, value.upperBound) ||
       intl.formatMessage({ id: 'value.render.no.value.label' })

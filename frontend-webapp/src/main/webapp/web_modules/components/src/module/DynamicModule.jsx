@@ -19,6 +19,7 @@
 import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import omit from 'lodash/omit'
 import { Card } from 'material-ui/Card'
 import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
 import { AccessShapes } from '@regardsoss/shape'
@@ -181,17 +182,13 @@ export class DynamicModule extends React.Component {
       newState.expanded = oldState.expanded
     }
 
-
-    // clone children again when they change, to provide the expand callback
-    if (get(oldProps, 'children') !== get(newProps, 'children')) {
+    // we need to compare logical states properties BUT NOT CHILDREN (as it creates infinite loops)
+    // any children must be updated each time props.children OR state changes
+    const comparedOldState = omit(oldState, ['children'])
+    if (!isEqual(comparedOldState, newState) || oldProps.children !== newProps.children) {
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         onExpandChange: this.onExpandChange,
       })
-    } else {
-      newState.children = oldState.children
-    }
-
-    if (!isEqual(oldState, newState)) {
       this.setState(newState)
     }
   }

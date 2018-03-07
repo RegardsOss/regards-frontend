@@ -39,10 +39,10 @@ class DateArrayValueRender extends React.Component {
 
 
   render() {
-    const { value } = this.props
+    const value = this.props.value || []
     const { intl, moduleTheme: { textRenderCell } } = this.context
     const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
-    const textValue = (value || []).map(dateText => getFormattedDate(intl, dateText) || noValueText)
+    const textValue = value.map(dateText => getFormattedDate(intl, dateText) || noValueText)
       .join(intl.formatMessage({ id: 'value.render.array.values.separator' })) || noValueText
 
     return (
