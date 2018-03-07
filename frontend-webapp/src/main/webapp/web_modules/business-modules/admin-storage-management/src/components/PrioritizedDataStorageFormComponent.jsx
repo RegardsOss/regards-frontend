@@ -84,7 +84,7 @@ class PrioritizedDataStorageFormComponent extends React.Component {
   createPrioritizedDataStorage = (newPluginConfiguration, microservice, pluginId) => {
     const { onCreate } = this.props
     const prioritizedDataStorageToUpdate = {
-      pluginConf: newPluginConfiguration,
+      dataStorageConfiguration: newPluginConfiguration,
     }
     return onCreate(prioritizedDataStorageToUpdate)
   }
