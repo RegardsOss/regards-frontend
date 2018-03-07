@@ -1,6 +1,7 @@
 /**
 * LICENSE_PLACEHOLDER
 **/
+import isEqual from 'lodash/isEqual'
 import DescriptionLevelActions from './DescriptionLevelActions'
 
 /**
@@ -18,6 +19,13 @@ export class DescriptionLevelReducer {
     this.actionsModel = new DescriptionLevelActions(namespace)
   }
 
+  /**
+   * Builds new path for entity as parameter: if entity is not in path, add it at end, blocks adding it otherwise
+   */
+  buildNewPath = (currentPath, entity) =>
+    currentPath.find(e => isEqual(e, entity)) ?
+      currentPath : // block an entity already in path
+      [...currentPath, entity]
 
   /**
    * Reducer for description levels (sort of breadcrumb controlling the component visibility)
@@ -35,7 +43,7 @@ export class DescriptionLevelReducer {
           throw new Error('No root path element')
         }
         return {
-          currentDescriptionPath: [...state.currentDescriptionPath, action.entity],
+          currentDescriptionPath: this.buildNewPath(state.currentDescriptionPath, action.entity),
           tab: DescriptionLevelActions.TABS_ENUM.PROPERTIES,
         }
       case this.actionsModel.CHANGE_TAB:
