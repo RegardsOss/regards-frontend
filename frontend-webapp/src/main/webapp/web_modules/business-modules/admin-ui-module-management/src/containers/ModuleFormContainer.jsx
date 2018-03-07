@@ -114,14 +114,19 @@ class ModuleFormContainer extends React.Component {
     const valuesToSave = { // default values
       applicationId: this.props.params.applicationId,
       active: false,
-      page: {},
       ...values,
     }
     // stringify conf (containing module specific variables) for server
     valuesToSave.conf = JSON.stringify(values.conf)
-    // stringify page titles (containing text by locale) for server
-    if (valuesToSave.page.title) {
-      valuesToSave.page.title = JSON.stringify(values.page.title)
+    // stringify page titles (containing text by locale) for server (paying attention to not link references, that
+    // would otherwise destroy form fields values)
+    if (valuesToSave.page) {
+      valuesToSave.page = { // decorrelate JS objects reference to not modify form values
+        ...values.page,
+        title: JSON.stringify({ // decorrelate JS objects reference to not modify form values
+          ...get(values, 'page.title', {}),
+        }),
+      }
     }
     let fetchMethod
     if (isEditing) {
@@ -136,6 +141,7 @@ class ModuleFormContainer extends React.Component {
     // resolve promise then handle back if successful
     Promise.resolve(fetchMethod(this.props.params.applicationId, valuesToSave))
       .then((actionResult) => {
+        console.error('Action', actionResult)
         if (!actionResult.error) {
           this.handleBack() // back to list on success
         }

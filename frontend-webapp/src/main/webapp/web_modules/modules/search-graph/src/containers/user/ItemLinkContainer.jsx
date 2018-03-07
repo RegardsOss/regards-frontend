@@ -12,7 +12,8 @@ import ItemLink from '../../components/user/ItemLink'
 */
 export class ItemLinkContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
-    dispatchShowDescription: entity => dispatch(descriptionLevelActions.show(entity)),
+    dispatchShowDescription: entity =>
+      dispatch(descriptionLevelActions.show(entity, descriptionLevelModel.DescriptionLevelActions.TABS_ENUM.PROPERTIES)),
   })
 
   static propTypes = {
@@ -72,7 +73,7 @@ export class ItemLinkContainer extends React.Component {
    */
   onDescriptionClicked = () => {
     const { dispatchShowDescription, entity } = this.props
-    dispatchShowDescription(entity, descriptionLevelModel.DescriptionLevelActions.TABS_ENUM.PROPERTIES)
+    dispatchShowDescription(entity)
   }
 
   getNewState = (locked, selected, hover) => {
