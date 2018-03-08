@@ -99,28 +99,32 @@ export class TwoTemporalCriteriaComposedComponent extends PluginCriterionContain
 
   render() {
     const { firstField, secondField } = this.state
-    const { moduleTheme: { rootStyle, lineStyle, labelSpanStyle } } = this.context
+    const {
+      moduleTheme: {
+        rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
+      },
+    } = this.context
 
     return (
       <div style={rootStyle}>
-        <div style={lineStyle} >
-          <span style={labelSpanStyle}>
-            { this.getAttributeLabel('firstField') } :
-          </span>
-          <TemporalCriteriaComponent
-            label={this.getAttributeLabel('firstField')}
-            value={firstField}
-            onChange={this.changeValue1}
-            hideAttributeName
-          />
-          <Arrow />
-          <TemporalCriteriaComponent
-            label={this.getAttributeLabel('secondField')}
-            value={secondField}
-            onChange={this.changeValue2}
-            hideAttributeName
-            isStopDate
-          />
+        <div style={lineStyle}>
+          <span style={labelSpanStyle}>{this.getAttributeLabel('firstField')} :</span>
+          <div style={lineGroupStyle}>
+            <TemporalCriteriaComponent
+              label={this.getAttributeLabel('firstField')}
+              value={firstField}
+              onChange={this.changeValue1}
+              hideAttributeName
+            />
+            <Arrow />
+            <TemporalCriteriaComponent
+              label={this.getAttributeLabel('secondField')}
+              value={secondField}
+              onChange={this.changeValue2}
+              hideAttributeName
+              isStopDate
+            />
+          </div>
         </div>
       </div>
     )

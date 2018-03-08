@@ -20,10 +20,10 @@ import isNaN from 'lodash/isNaN'
 import merge from 'lodash/merge'
 import isEqual from 'lodash/isEqual'
 import Arrow from 'material-ui/svg-icons/navigation/arrow-forward'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
 import TemporalCriteriaComponent from './TemporalCriteriaComponent'
 
 /**
@@ -68,8 +68,12 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
     const firstFieldValue = this.getAttributeInitValue('firstField', this.props)
     const secondFieldValue = this.getAttributeInitValue('secondField', this.props)
     // Invert second and first field
-    if (firstFieldValue) initValues.secondField = this.parseOpenSearchQuery('firstField', firstFieldValue)
-    if (secondFieldValue) initValues.firstField = this.parseOpenSearchQuery('secondField', secondFieldValue)
+    if (firstFieldValue) {
+      initValues.secondField = this.parseOpenSearchQuery('firstField', firstFieldValue)
+    }
+    if (secondFieldValue) {
+      initValues.firstField = this.parseOpenSearchQuery('secondField', secondFieldValue)
+    }
 
     this.setState(initValues)
     this.props.registerClear(this.handleClear)
@@ -83,8 +87,12 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
       const firstFieldValue = this.getAttributeInitValue('firstField', nextProps)
       const secondFieldValue = this.getAttributeInitValue('secondField', nextProps)
       // Invert second and first field
-      if (firstFieldValue) initValues.secondField = this.parseOpenSearchQuery('firstField', firstFieldValue)
-      if (secondFieldValue) initValues.firstField = this.parseOpenSearchQuery('secondField', secondFieldValue)
+      if (firstFieldValue) {
+        initValues.secondField = this.parseOpenSearchQuery('firstField', firstFieldValue)
+      }
+      if (secondFieldValue) {
+        initValues.firstField = this.parseOpenSearchQuery('secondField', secondFieldValue)
+      }
 
       this.setState(initValues)
     }
@@ -162,33 +170,35 @@ export class TwoTemporalCriteriaSimpleComponent extends PluginCriterionContainer
   }
 
   render() {
+    const { firstField, secondField } = this.state
     const {
-      firstField, secondField,
-    } = this.state
-    const { moduleTheme: { rootStyle, lineStyle, labelSpanStyle } } = this.context
+      moduleTheme: {
+        rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
+      },
+    } = this.context
 
     return (
       <div style={rootStyle}>
-        <div
-          style={lineStyle}
-        >
+        <div style={lineStyle}>
           <span style={labelSpanStyle}>
-            { this.getAttributeLabel('firstField') } / { this.getAttributeLabel('secondField') } :
+            {this.getAttributeLabel('firstField')} / {this.getAttributeLabel('secondField')} :
           </span>
-          <TemporalCriteriaComponent
-            label={this.getAttributeLabel('firstField')}
-            value={firstField}
-            onChange={this.changeValue1}
-            hideAttributeName
-          />
-          <Arrow />
-          <TemporalCriteriaComponent
-            label={this.getAttributeLabel('secondField')}
-            value={secondField}
-            onChange={this.changeValue2}
-            hideAttributeName
-            isStopDate
-          />
+          <div style={lineGroupStyle}>
+            <TemporalCriteriaComponent
+              label={this.getAttributeLabel('firstField')}
+              value={firstField}
+              onChange={this.changeValue1}
+              hideAttributeName
+            />
+            <Arrow />
+            <TemporalCriteriaComponent
+              label={this.getAttributeLabel('secondField')}
+              value={secondField}
+              onChange={this.changeValue2}
+              hideAttributeName
+              isStopDate
+            />
+          </div>
         </div>
       </div>
     )

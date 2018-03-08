@@ -99,32 +99,44 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
 
   render() {
     const { firstField, secondField } = this.state
-    const { moduleTheme: { rootStyle, lineStyle, labelSpanStyle }, intl: { formatMessage } } = this.context
+    const {
+      moduleTheme: {
+        rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
+      },
+      intl: { formatMessage },
+    } = this.context
 
     return (
       <div style={rootStyle}>
-        <div style={lineStyle} >
+        <div style={lineStyle}>
           <span style={labelSpanStyle}>
-            {formatMessage({ id: 'criterion.aggregator.between' }, { label: this.getAttributeLabel('firstField') })}
+            {formatMessage(
+              { id: 'criterion.aggregator.between' },
+              { label: this.getAttributeLabel('firstField') },
+            )}
           </span>
-          <NumericalCriteriaComponent
-            label={this.getAttributeLabel('firstField')}
-            value={firstField}
-            comparator={EnumNumericalComparator.LE}
-            onChange={this.changeValue1}
-            hideAttributeName
-            hideComparator
-            reversed
-          />
-          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and" /></span>
-          <NumericalCriteriaComponent
-            label={this.getAttributeLabel('secondField')}
-            value={secondField}
-            comparator={EnumNumericalComparator.GE}
-            onChange={this.changeValue2}
-            hideAttributeName
-            hideComparator
-          />
+          <div style={lineGroupStyle}>
+            <NumericalCriteriaComponent
+              label={this.getAttributeLabel('firstField')}
+              value={firstField}
+              comparator={EnumNumericalComparator.LE}
+              onChange={this.changeValue1}
+              hideAttributeName
+              hideComparator
+              reversed
+            />
+            <span style={{ marginRight: 10 }}>
+              <FormattedMessage id="criterion.aggregator.and" />
+            </span>
+            <NumericalCriteriaComponent
+              label={this.getAttributeLabel('secondField')}
+              value={secondField}
+              comparator={EnumNumericalComparator.GE}
+              onChange={this.changeValue2}
+              hideAttributeName
+              hideComparator
+            />
+          </div>
         </div>
       </div>
     )

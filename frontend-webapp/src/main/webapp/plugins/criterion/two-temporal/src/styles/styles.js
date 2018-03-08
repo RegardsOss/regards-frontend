@@ -29,7 +29,11 @@ const pluginStyles = theme => ({
   lineStyle: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  lineGroupStyle: {
+    display: 'flex',
+    alignItems: 'center',
     flexWrap: 'wrap',
   },
   labelSpanStyle: {
