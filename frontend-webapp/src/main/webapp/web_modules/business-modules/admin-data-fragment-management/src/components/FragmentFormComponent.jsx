@@ -109,7 +109,6 @@ export class FragmentFormComponent extends React.Component {
                 <FormattedMessage id="fragment.form.file" />
                 <Field
                   name="file"
-                  fullWidth
                   component={RenderFileFieldWithMui}
                   accept=".xml"
                 />
