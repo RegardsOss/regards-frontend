@@ -27,6 +27,8 @@ const messages = Object.assign({
   'attrmodel.list.table.name': 'Nom',
   'attrmodel.list.table.label': 'Label',
   'attrmodel.list.table.description': 'Description',
+  'attrmodel.form.arraysize': 'Taille du tableau',
+  'attrmodel.form.precision': 'Précision',
   'attrmodel.list.table.type': 'Type',
   'attrmodel.list.table.actions': 'Actions',
   'attrmodel.list.action.add': 'Ajouter',

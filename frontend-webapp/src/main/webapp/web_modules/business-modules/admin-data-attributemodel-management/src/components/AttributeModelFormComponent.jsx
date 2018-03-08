@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import includes from 'lodash/includes'
 import map from 'lodash/map'
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
 
@@ -71,10 +72,27 @@ export class AttributeModelFormComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static isTypeHavingUnit = type =>
+    includes(['INTEGER', 'DOUBLE', 'INTEGER_ARRAY', 'DOUBLE_ARRAY', 'INTEGER_INTERVAL', 'DOUBLE_INTERVAL', 'LONG', 'LONG_INTERVAL', 'LONG_ARRAY'], type)
+
+  static isTypeImprecise = type =>
+    includes(['DOUBLE', 'DOUBLE_ARRAY', 'DOUBLE_INTERVAL'], type)
+
+  static isTypeArray = type =>
+    includes(['INTEGER_ARRAY', 'DOUBLE_ARRAY', 'LONG_ARRAY', 'DATE_ARRAY', 'STRING_ARRAY'], type)
+
   constructor(props) {
     super(props)
+    const isCreating = props.currentAttrModel === undefined
+    const shouldShowUnits = !isCreating && AttributeModelFormComponent.isTypeHavingUnit(props.currentAttrModel.content.type)
+    const shouldShowPrecision = !isCreating && AttributeModelFormComponent.isTypeImprecise(props.currentAttrModel.content.type)
+    const shouldShowArraySize = !isCreating && AttributeModelFormComponent.isTypeArray(props.currentAttrModel.content.type)
+
     this.state = {
-      isCreating: props.currentAttrModel === undefined,
+      isCreating,
+      shouldShowUnits,
+      shouldShowPrecision,
+      shouldShowArraySize,
     }
   }
 
@@ -162,6 +180,14 @@ export class AttributeModelFormComponent extends React.Component {
    * @param input
    */
   handleChange = (event, index, value, input) => {
+    const shouldShowUnits = AttributeModelFormComponent.isTypeHavingUnit(value)
+    const shouldShowPrecision = AttributeModelFormComponent.isTypeImprecise(value)
+    const shouldShowArraySize = AttributeModelFormComponent.isTypeArray(value)
+    this.setState({
+      shouldShowUnits,
+      shouldShowPrecision,
+      shouldShowArraySize,
+    })
     // save the new type of attribute
     input.onChange(value)
     // Remove any restriction already set up
@@ -186,6 +212,8 @@ export class AttributeModelFormComponent extends React.Component {
         alterable: currentAttrModel.content.alterable,
         optional: currentAttrModel.content.optional,
         restriction: {},
+        precision: currentAttrModel.content.precision,
+        arraysize: currentAttrModel.content.arraysize,
       }
       if (currentAttrModel.content.restriction) {
         // Fill restriction object
@@ -270,13 +298,6 @@ export class AttributeModelFormComponent extends React.Component {
               label={this.context.intl.formatMessage({ id: 'attrmodel.form.description' })}
             />
             <Field
-              name="unit"
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={this.context.intl.formatMessage({ id: 'attrmodel.form.unit' })}
-            />
-            <Field
               name="type"
               fullWidth
               component={RenderSelectField}
@@ -292,6 +313,33 @@ export class AttributeModelFormComponent extends React.Component {
                 />
               ))}
             </Field>
+            <ShowableAtRender show={this.state.shouldShowUnits}>
+              <Field
+                name="unit"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={this.context.intl.formatMessage({ id: 'attrmodel.form.unit' })}
+              />
+            </ShowableAtRender>
+            <ShowableAtRender show={this.state.shouldShowArraySize}>
+              <Field
+                name="arraysize"
+                fullWidth
+                component={RenderTextField}
+                type="number"
+                label={this.context.intl.formatMessage({ id: 'attrmodel.form.arraysize' })}
+              />
+            </ShowableAtRender>
+            <ShowableAtRender show={this.state.shouldShowPrecision}>
+              <Field
+                name="precision"
+                fullWidth
+                component={RenderTextField}
+                type="number"
+                label={this.context.intl.formatMessage({ id: 'attrmodel.form.precision' })}
+              />
+            </ShowableAtRender>
             <Field
               name="fragment"
               fullWidth
