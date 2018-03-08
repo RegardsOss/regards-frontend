@@ -82,11 +82,9 @@ export class IngestProcessingChainFormContainer extends React.Component {
     return this.handleUpdate(values)
   }
 
-  handleImport = (values) => {
-    return this.props.importChain({
-      file: values.file,
-    })
-  }
+  handleImport = values => this.props.importChain({
+    file: values.file,
+  })
 
   render() {
     const { isCreating, isLoading } = this.state

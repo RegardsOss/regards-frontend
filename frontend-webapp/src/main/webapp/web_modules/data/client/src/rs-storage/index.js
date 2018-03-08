@@ -29,6 +29,9 @@ import PrioritizedDataStorageActions from './plugins/PrioritizedDataStorageActio
 import getPrioritizedDataStorageReducer from './plugins/PrioritizedDataStorageReducer'
 import getPrioritizedDataStorageSelectors from './plugins/PrioritizedDataStorageSelectors'
 
+import PrioritizedDataStorageUpActions from './plugins/PrioritizedDataStorageUpActions'
+import PrioritizedDataStorageDownActions from './plugins/PrioritizedDataStorageDownActions'
+
 module.exports = {
   AIPStatusActions,
   getAIPStatusReducer,
@@ -41,4 +44,6 @@ module.exports = {
   PrioritizedDataStorageActions,
   getPrioritizedDataStorageReducer,
   getPrioritizedDataStorageSelectors,
+  PrioritizedDataStorageDownActions,
+  PrioritizedDataStorageUpActions,
 }

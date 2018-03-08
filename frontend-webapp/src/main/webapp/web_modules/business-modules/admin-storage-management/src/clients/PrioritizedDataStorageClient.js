@@ -30,7 +30,13 @@ const ONLINE_REDUX_ACTION_NAMESPACE = 'admin-storage/prioritizedDataStorage/onli
 const NEARLINE_ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'prioritized-datastorage-nearline']
 const NEARLINE_REDUX_ACTION_NAMESPACE = 'admin-storage/prioritizedDataStorage/nearline'
 
-const { PrioritizedDataStorageActions, getPrioritizedDataStorageReducer, getPrioritizedDataStorageSelectors } = StorageClient
+const UP_NAMESPACE = 'admin-storage/prioritizedDataStorage/up'
+const DOWN_NAMESPACE = 'admin-storage/prioritizedDataStorage/up'
+
+const {
+  PrioritizedDataStorageActions, getPrioritizedDataStorageReducer, getPrioritizedDataStorageSelectors,
+  PrioritizedDataStorageDownActions, PrioritizedDataStorageUpActions,
+} = StorageClient
 const onlinePrioritizedDataStorageReducer = getPrioritizedDataStorageReducer(ONLINE_REDUX_ACTION_NAMESPACE)
 const onlinePrioritizedDataStorageActions = new PrioritizedDataStorageActions(ONLINE_REDUX_ACTION_NAMESPACE)
 const onlinePrioritizedDataStorageSelectors = getPrioritizedDataStorageSelectors(ONLINE_ENTITIES_STORE_PATH)
@@ -38,6 +44,9 @@ const onlinePrioritizedDataStorageSelectors = getPrioritizedDataStorageSelectors
 const nearlinePrioritizedDataStorageReducer = getPrioritizedDataStorageReducer(NEARLINE_REDUX_ACTION_NAMESPACE)
 const nearlinePrioritizedDataStorageActions = new PrioritizedDataStorageActions(NEARLINE_REDUX_ACTION_NAMESPACE)
 const nearlinePrioritizedDataStorageSelectors = getPrioritizedDataStorageSelectors(NEARLINE_ENTITIES_STORE_PATH)
+
+const prioritizedDataStorageUpActions = new PrioritizedDataStorageUpActions(UP_NAMESPACE)
+const prioritizedDataStorageDownActions = new PrioritizedDataStorageDownActions(DOWN_NAMESPACE)
 
 const getSelectors = (type) => {
   switch (type) {
@@ -69,6 +78,9 @@ module.exports = {
   nearlinePrioritizedDataStorageActions,
   nearlinePrioritizedDataStorageReducer,
   nearlinePrioritizedDataStorageSelectors,
+
+  prioritizedDataStorageUpActions,
+  prioritizedDataStorageDownActions,
 
   getSelectors,
   getActions,

@@ -20,7 +20,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import { StorageDomain } from '@regardsoss/domain'
-import { getActions, getSelectors } from '../clients/PrioritizedDataStorageClient'
+import { getActions, getSelectors, prioritizedDataStorageDownActions, prioritizedDataStorageUpActions } from '../clients/PrioritizedDataStorageClient'
 import PrioritizedDataStorageListComponent from '../components/PrioritizedDataStorageListComponent'
 
 /**
@@ -52,8 +52,8 @@ export class PrioritizedDataStorageListContainer extends React.Component {
       fetch: () => dispatch(getActions(props.type).fetchEntityList({}, { type: props.type })),
       update: prioritizedDataStorage => dispatch(getActions(props.type).updateEntity(prioritizedDataStorage.id, prioritizedDataStorage)),
       delete: id => dispatch(getActions(props.type).deleteEntity(id)),
-      upPriority: (id, conf) => dispatch(getActions(props.type).upPriority(id, conf)),
-      downPriority: (id, conf) => dispatch(getActions(props.type).downPriority(id, conf)),
+      upPriority: (id, conf) => dispatch(prioritizedDataStorageUpActions.upPriority(id, conf)),
+      downPriority: (id, conf) => dispatch(prioritizedDataStorageDownActions.downPriority(id, conf)),
     }
   }
 
@@ -101,10 +101,18 @@ export class PrioritizedDataStorageListContainer extends React.Component {
 
   onUpPriority = (prioritizedDataStorage) => {
     this.props.upPriority(prioritizedDataStorage.id, prioritizedDataStorage)
+      .then(
+        (actionResult) => {
+          this.props.fetch()
+        })
   }
 
   onDownPriority = (prioritizedDataStorage) => {
     this.props.downPriority(prioritizedDataStorage.id, prioritizedDataStorage)
+      .then(
+        (actionResult) => {
+          this.props.fetch()
+        })
   }
 
   goToCreateForm = () => {
