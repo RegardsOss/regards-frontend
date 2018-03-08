@@ -41,6 +41,7 @@ const messages = Object.assign({
   // 2.1 Header section
   'acquisition-chain.form.create.title': 'Créer une nouvelle chaîne de d\'acquisition de données',
   'acquisition-chain.form.edit.title': 'Edition de la chaine : {name}',
+  'acquisition-chain.form.duplicate.title': 'Duplication de la chaîne : {name}',
   'acquisition-chain.form.informations-1': 'Une chaîne d\'acquisition de données doit pour fonctionner être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
   'acquisition-chain.form.informations-2': '1. Une chaîne de traitement. (*)',
   'acquisition-chain.form.informations-3': '2. Un ou plusieurs types de fichiers. Un type de fichier permet de configurer où et comment trouver les fichiers à acquérir. (*)',

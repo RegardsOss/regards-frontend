@@ -41,6 +41,7 @@ const messages = Object.assign({
   // 2.1 Header section
   'acquisition-chain.form.create.title': 'Create a new generation chain',
   'acquisition-chain.form.edit.title': 'Edit generation chain : {name}',
+  'acquisition-chain.form.duplicate.title': 'Duplicate generation chain : {name}',
   'acquisition-chain.form.informations-1': 'To be operational a generation chain must be associated to the elemnts here under. Note : The properties with (*) are mandatory.',
   'acquisition-chain.form.informations-2': '1. One Processing Chain. This chain will be used to generated archived files. (*)',
   'acquisition-chain.form.informations-3': '2. One or many file type(s). A file type allows to configure where and how retrieve files to acquire. (*)',
