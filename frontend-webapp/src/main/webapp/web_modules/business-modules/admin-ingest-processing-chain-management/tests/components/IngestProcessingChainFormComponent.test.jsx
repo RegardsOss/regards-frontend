@@ -40,6 +40,7 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
     const props = {
       onSubmit: () => { },
       onBack: () => { },
+      onImport: () => { },
       // from reduxForm
       change: () => { },
       initialize: () => { },
@@ -120,6 +121,7 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
       },
       onSubmit: () => { },
       onBack: () => { },
+      onImport: () => { },
       // from reduxForm
       initialize: () => { },
       invalid: false,

@@ -33,6 +33,7 @@ const messages = Object.assign({
   'storage.data-storage.plugins.list.down.priority.button': 'Diminuer la priorité de la configuration',
   'storage.data-storage.plugins.list.active.on.button': 'Activer ce système de stockage',
   'storage.data-storage.plugins.list.active.off.button': 'Désactiver ce système de stockage',
+  'storage.data-storage.plugins.list.confirm.title': 'Suppression du mode de stockage {name} ?',
   'storage.data-storage.plugins.list.add.button': 'Ajouter un nouveau système de stockage',
   'storage.data-storage.plugins.list.back.button': 'Retour',
   'storage.data-storage.plugins.list.empty.title': 'Aucun mode de stockage défini',

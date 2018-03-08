@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   // 1. Chains list
   // 1.1 Headers
-  'acquisition-chain.list.title': 'Configuration des chaînes de d\'acquisition de données',
+  'acquisition-chain.list.title': 'Configuration des chaînes d\'acquisition de données',
   'acquisition-chain.list.subtitle': 'Les chaînes d\'acquisition de données correspondent à l\'enchaînement de traitements réalisés sur les nouvelles données détectées avant leur ajout dans le catalogue de données.',
   'acquisition-chain.list.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement un fonctionnement spécifique grâce aux plugins suivants.',
   'acquisition-chain.list.empty.title': 'Aucune chaîne définie',
@@ -41,6 +41,7 @@ const messages = Object.assign({
   // 2.1 Header section
   'acquisition-chain.form.create.title': 'Créer une nouvelle chaîne de d\'acquisition de données',
   'acquisition-chain.form.edit.title': 'Edition de la chaine : {name}',
+  'acquisition-chain.form.duplicate.title': 'Duplication de la chaîne : {name}',
   'acquisition-chain.form.informations-1': 'Une chaîne d\'acquisition de données doit pour fonctionner être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
   'acquisition-chain.form.informations-2': '1. Une chaîne de traitement. (*)',
   'acquisition-chain.form.informations-3': '2. Un ou plusieurs types de fichiers. Un type de fichier permet de configurer où et comment trouver les fichiers à acquérir. (*)',
@@ -89,7 +90,7 @@ const messages = Object.assign({
   // 3. Monitoring
   // 3.1 Chain list
   // 3.1.1 Header
-  'acquisition-chain.monitor.list.subtitle': 'Cette écran vous permet de suivre l\'avancement des chaînes d\'acquisition de données, de consulter les erreurs de génération et d\'activer les chaînes à déclenchement manuel',
+  'acquisition-chain.monitor.list.subtitle': 'Cet écran vous permet de suivre l\'avancement des chaînes d\'acquisition de données, de consulter les erreurs de génération et d\'activer les chaînes à déclenchement manuel',
   'acquisition-chain.monitor.empty.title': 'Aucune chaine configurée',
   'acquisition-chain-monitor.breadcrumb.label': 'Chaînes d\'acquisition',
 

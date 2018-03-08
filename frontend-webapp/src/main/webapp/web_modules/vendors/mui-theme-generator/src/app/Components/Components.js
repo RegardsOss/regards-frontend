@@ -37,6 +37,7 @@ import RestoreIcon from 'material-ui/svg-icons/action/restore';
 import { orange500 } from 'material-ui/styles/colors';
 
 import ComplexTable from './ComplexTable'
+import InfiniteTable from './InfiniteTable'
 
 const ComponentWrapper = ({ title, children, style }) => (
     <tr>
@@ -381,6 +382,9 @@ export default class Components extends React.PureComponent {
                             hintText="12hr Format with auto ok"
                             autoOk={true}
                         />
+                    </ComponentWrapper>
+                    <ComponentWrapper title="Infinite table">
+                        <InfiniteTable />
                     </ComponentWrapper>
 
                 </tbody>

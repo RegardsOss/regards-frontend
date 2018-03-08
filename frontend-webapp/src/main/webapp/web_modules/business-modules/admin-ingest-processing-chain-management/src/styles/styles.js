@@ -25,6 +25,9 @@ const styles = theme => ({
   avatarStyles: {
     marginRight: 10,
   },
+  importButtonStyles: {
+    marginLeft: '20px',
+  },
 })
 
 export default styles

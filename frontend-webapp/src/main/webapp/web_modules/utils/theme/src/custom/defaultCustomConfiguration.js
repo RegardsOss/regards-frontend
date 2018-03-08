@@ -31,7 +31,7 @@ module.exports = baseTheme => ({
   },
   'components:infinite-table': {
     lineHeight: 50,
-    fixedColumnsWidth: 48, // best fit for default IconButton size
+    fixedColumnsWidth: baseTheme.button.iconButtonSize, // best fit for default IconButton size
     minRowCount: 13,
     maxRowCount: 13,
     minHeaderRowHeight: 40,
@@ -61,7 +61,7 @@ module.exports = baseTheme => ({
     titleBarHeight: '48px',
     titleMarginLeft: 8,
     titleIconSize: 24,
-    titleTextMarginLeft: 8,
+    titleTextMarginLeft: 0,
     titleFontSize: '20px',
     titleFontWeight: '500',
     titleTextTransform: undefined,
@@ -69,7 +69,7 @@ module.exports = baseTheme => ({
   },
   // menu module
   'module:menu': {
-    background: 'rgba(0,0,0,0.50)',
+    background: baseTheme.palette.canvasColor,
     borderWidth: '0 0 1px 0',
     borderColor: 'rgba(255, 255, 255, 0.175)',
     borderStyle: 'solid',
@@ -78,7 +78,7 @@ module.exports = baseTheme => ({
     separatorBorderWidth: 2,
     separatorBorderRadius: 2,
     separatorBorderStyle: 'solid',
-    separatorMargin: '12px 10px',
+    separatorMargin: '12px 10px 12px 0',
   },
   // search results module
   'module:search-results': {

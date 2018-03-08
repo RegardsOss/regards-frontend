@@ -61,6 +61,12 @@ class AutoCompleteTextField extends React.Component {
     onFilterSelected: PropTypes.func.isRequired,
     // controls the currentHints update
     onUpdateInput: PropTypes.func.isRequired, // text => ()
+    // menu props to transfer to autocomplete list
+    // eslint-disable-next-line react/forbid-prop-types
+    menuProps: PropTypes.object,
+    // list style to transfer to autocomplete list
+    // eslint-disable-next-line react/forbid-prop-types
+    listStyle: PropTypes.object,
 
     // required materialUI/AutoComplete API elements
     openOnFocus: PropTypes.bool,
@@ -78,6 +84,15 @@ class AutoCompleteTextField extends React.Component {
     openOnFocus: true,
     currentHints: [],
     filter: NO_FILTER,
+
+    menuProps: {
+      maxHeight: 400,
+    },
+    listStyle: {
+      width: 'auto',
+      maxWidth: 'none',
+      overflowX: 'hidden',
+    },
   }
 
   static NON_REPORTED_PROPERTIES = [
@@ -110,13 +125,6 @@ class AutoCompleteTextField extends React.Component {
   static DEFAULT_STATE = {
     errorText: null,
   }
-
-  /** Default menu props */
-  static MENU_PROPS = {
-    autoWidth: true,
-    maxHeight: 400,
-  }
-
 
   static ERROR_EMPTY_MESSAGE = ' '
 
@@ -188,7 +196,6 @@ class AutoCompleteTextField extends React.Component {
         searchText={currentHintText}
         errorText={isInError ? AutoCompleteTextField.ERROR_EMPTY_MESSAGE : null}
         onNewRequest={this.onNewRequest}
-        menuProps={AutoCompleteTextField.MENU_PROPS}
         {...reportedProps}
       />
     )

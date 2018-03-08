@@ -18,14 +18,15 @@
  **/
 import get from 'lodash/get'
 import { Link } from 'react-router'
-import FlatButton from 'material-ui/FlatButton/FlatButton'
+import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
-import SectionDefaultIcon from 'material-ui/svg-icons/navigation/menu'
-import { AccessDomain, UIDomain } from '@regardsoss/domain'
+import NextMenuIcon from 'material-ui/svg-icons/navigation-arrow-drop-right'
+import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { DropDownButton, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
 import { NavigationItem } from '../../../../shapes/Navigation'
+import defaultSectionIconURL from '../../../../img/section.svg'
 
 /**
  * Main bar drop down button: shows a drop down button with a menu holding children navigation items
@@ -41,8 +42,8 @@ class MainBarDropMenuButton extends React.Component {
     items: PropTypes.arrayOf(NavigationItem).isRequired,
     // current locale if any
     locale: PropTypes.string,
-    // module URL builder
-    buildModuleURL: PropTypes.func.isRequired,
+    // link URL builder
+    buildLinkURL: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -58,7 +59,7 @@ class MainBarDropMenuButton extends React.Component {
    * Renders a menu item, no matter if it is a section or a module
    * @param {*} item item (respects NavigationItem shape)
    * @param {string} locale locale if any
-   * @param {function} buildModuleURL module URL builder
+   * @param {function} buildLinkURL link URL builder
    * @return rendered item and sub items
    */
   renderMenuItem = ({
@@ -70,32 +71,33 @@ class MainBarDropMenuButton extends React.Component {
     title,
     module,
     children,
-  }, locale, buildModuleURL) => {
+  }, locale, buildLinkURL) => {
     const { user: { selectedNavigationMenuItem } } = this.context.moduleTheme
     return (
       <MenuItem
         key={key}
-        containerElement={module ? <Link to={buildModuleURL(module.id)} /> : null}
-        style={selected ? selectedNavigationMenuItem : null}
+        containerElement={<Link to={buildLinkURL(module)} />}
         leftIcon={
-          iconType === AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT && type === NAVIGATION_ITEM_TYPES_ENUM.SECTION ?
-            <SectionDefaultIcon color={selected ? selectedNavigationMenuItem.color : null} /> :
-            <ModuleIcon
-              iconDisplayMode={iconType}
-              defaultIconURL={UIDomain.getModuleDefaultIconURL(module.type)}
-              customIconURL={customIconURL}
-              color={selected ? selectedNavigationMenuItem.color : null}
-            />
+          <ModuleIcon
+            iconDisplayMode={iconType}
+            defaultIconURL={
+              type === NAVIGATION_ITEM_TYPES_ENUM.SECTION ? // provide default icon for section too
+                defaultSectionIconURL :
+                UIDomain.getModuleDefaultIconURL(module.type)}
+            customIconURL={customIconURL}
+            color={selected ? selectedNavigationMenuItem.color : null}
+          />
         }
         primaryText={ModuleTitleText.selectTitle(title, get(module, 'description', ''), locale)}
-        menuItems={children ? children.map(subItem => this.renderMenuItem(subItem, locale, buildModuleURL)) : null}
+        menuItems={children ? children.map(subItem => this.renderMenuItem(subItem, locale, buildLinkURL)) : null}
+        rightIcon={children ? <NextMenuIcon /> : null}
+        style={selected ? selectedNavigationMenuItem : null}
       />)
   }
 
-
   render() {
     const {
-      icon, items, locale, buildModuleURL,
+      icon, items, locale, buildLinkURL,
     } = this.props
     const { moduleTheme: { user: { navigationItem } } } = this.context
     return (
@@ -106,9 +108,11 @@ class MainBarDropMenuButton extends React.Component {
         value={null}
         icon={icon || null}
         hasSubMenus
+        secondary={!!items.find(item => item.selected)}
       >
+
         {/* Render menu items */
-          items.map(item => this.renderMenuItem(item, locale, buildModuleURL))
+          items.map(item => this.renderMenuItem(item, locale, buildLinkURL))
         }
       </DropDownButton>
     )

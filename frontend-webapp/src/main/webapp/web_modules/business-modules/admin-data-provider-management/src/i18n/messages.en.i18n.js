@@ -41,6 +41,7 @@ const messages = Object.assign({
   // 2.1 Header section
   'acquisition-chain.form.create.title': 'Create a new generation chain',
   'acquisition-chain.form.edit.title': 'Edit generation chain : {name}',
+  'acquisition-chain.form.duplicate.title': 'Duplicate generation chain : {name}',
   'acquisition-chain.form.informations-1': 'To be operational a generation chain must be associated to the elemnts here under. Note : The properties with (*) are mandatory.',
   'acquisition-chain.form.informations-2': '1. One Processing Chain. This chain will be used to generated archived files. (*)',
   'acquisition-chain.form.informations-3': '2. One or many file type(s). A file type allows to configure where and how retrieve files to acquire. (*)',
@@ -89,7 +90,7 @@ const messages = Object.assign({
   // 3. Monitoring
   // 3.1 Chain list
   // 3.1.1 Header
-  'acquisition-chain.monitor.list.subtitle': 'This section allow you to monitor, viex errors and run the data acquisition chains.',
+  'acquisition-chain.monitor.list.subtitle': 'This section allows you to monitor, view errors and run data acquisition chains.',
   'acquisition-chain.monitor.empty.title': 'No chain configured',
   'acquisition-chain-monitor.breadcrumb.label': 'Acquisition chains',
 

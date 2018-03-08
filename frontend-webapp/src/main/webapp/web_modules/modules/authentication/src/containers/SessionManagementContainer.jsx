@@ -32,12 +32,20 @@ export class SessionManagementContainer extends React.Component {
     notifyAuthenticationChanged: PropTypes.func.isRequired,
   }
 
+  state = {
+    initialized: false,
+  }
+
   /**
    * Lifecycle method component will mount: used here to listen for window focus events (broken timers workaround)
    */
   componentWillMount() {
     root.window.addEventListener('focus', this.onWindowFocused, false)
-    this.updateAuthenticationFromLocalStorage()
+    Promise.all(this.updateAuthenticationFromLocalStorage()).then(() => {
+      this.setState({
+        initialized: true,
+      })
+    })
   }
 
   /**
@@ -123,8 +131,9 @@ export class SessionManagementContainer extends React.Component {
     const { project, application } = this.props
     const user = UIDomain.LocalStorageUser.retrieve(project || 'instance', application)
     if (user) {
-      this.props.notifyAuthenticationChanged(user.getAuthenticationInformations())
+      return [this.props.notifyAuthenticationChanged(user.getAuthenticationInformations())]
     }
+    return []
   }
 
   unlockSession = (formValues) => {
@@ -133,12 +142,15 @@ export class SessionManagementContainer extends React.Component {
     fetchAuthenticate(sub, formValues.password, scope)
   }
 
-
   render() {
     const {
       hasUnlockingError, authentication, onRequestClose, showLoginWindow, children,
     } = this.props
+    const { initialized } = this.state
     const sessionLocked = !!authentication.sessionLocked
+    if (!initialized) {
+      return null
+    }
     return (
       <AuthenticationDialogComponent
         onRequestClose={sessionLocked ? null : onRequestClose}
@@ -149,8 +161,7 @@ export class SessionManagementContainer extends React.Component {
             <SessionLockedFormComponent
               hasUnlockingError={hasUnlockingError}
               onUnlock={this.unlockSession}
-            /> :
-            children
+            /> : children
         }
       </AuthenticationDialogComponent>
     )

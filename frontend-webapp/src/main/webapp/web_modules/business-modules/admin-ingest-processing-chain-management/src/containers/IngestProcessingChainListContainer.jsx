@@ -20,6 +20,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { withI18n } from '@regardsoss/i18n'
 import { processingChainActions } from '../clients/ProcessingChainClient'
+import { authenticationSelectors } from '../clients/AuthenticationClient'
 import ProcessingChainListComponent from '../components/IngestProcessingChainListComponent'
 import messages from '../i18n'
 
@@ -34,6 +35,8 @@ export class IngestProcessingChainListContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
+    // from mapStateToProps
+    accessToken: PropTypes.string.isRequired,
     // from mapDispatchToProps
     deleteChain: PropTypes.func,
     fetchPage: PropTypes.func,
@@ -69,11 +72,13 @@ export class IngestProcessingChainListContainer extends React.Component {
       onCreate={this.onCreate}
       onBack={this.onBack}
       queryPageSize={IngestProcessingChainListContainer.queryPageSize}
+      accessToken={this.props.accessToken}
     />)
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  accessToken: authenticationSelectors.getAccessToken(state),
 })
 
 const mapDispatchToProps = dispatch => ({

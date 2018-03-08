@@ -3,7 +3,11 @@ import React from 'react';
 import { ListItem } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-import ResetIcon from 'material-ui/svg-icons/action/restore';
+import ResetIcon from 'material-ui/svg-icons/action/settings-backup-restore';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 
 import ColorPicker from './ColorPicker';
 import { regexColor } from '../../utils/ColorHelper'
@@ -23,12 +27,76 @@ const styles = {
                 top: 0,
                 marginTop: 12,
                 padding: 0
+            },
+            leftIconMenu: {
+                top: 0,
+                marginTop: 0,
+                padding: 0
             }
         }
     }
 }
 
-export const createAttributes = (object, overwrites, addToOverwrites, removeFromOverwrites, overwriteSelectorParent = [], allowReset) => {
+function renderBoth(resetOverwrite, removeFromOverwrites, overwriteSelector) {
+    return (
+        <IconMenu
+            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+            style={styles.container.listItem.leftIconMenu}
+            useLayerForClickAway
+            onClick={e => e.stopPropagation()}
+        >
+            <MenuItem
+                primaryText="Reset"
+                onClick={e => resetOverwrite(overwriteSelector)}
+                leftIcon={<ResetIcon style={{ color: 'gray' }} />}
+            />
+            <MenuItem
+                primaryText="Remove"
+                onClick={e => removeFromOverwrites(overwriteSelector)}
+                leftIcon={<DeleteIcon style={{ color: 'gray' }} />}
+            />
+        </IconMenu>
+    )
+}
+
+function renderRemove(removeFromOverwrites, overwriteSelector) {
+    return (<IconButton
+        key="remove"
+        style={styles.container.listItem.leftIcon}
+        title="Remove overwrite"
+        iconStyle={{ color: 'gray' }}
+        onClick={e => e.stopPropagation() || removeFromOverwrites(overwriteSelector)}
+    >
+        <DeleteIcon />
+    </IconButton>)
+}
+
+function renderReset(resetOverwrite, overwriteSelector) {
+    return (<IconButton
+        key="reset"
+        style={styles.container.listItem.leftIcon}
+        title="Reset to initial overwrite"
+        iconStyle={{ color: 'gray' }}
+        onClick={e => e.stopPropagation() || resetOverwrite(overwriteSelector)}
+    >
+        <ResetIcon />
+    </IconButton>)
+}
+
+function renderLeftIcon(allowRemove, allowReset, resetOverwrite, removeFromOverwrites, overwriteSelector) {
+    if (allowReset && allowRemove) {
+        return renderBoth(resetOverwrite, removeFromOverwrites, overwriteSelector)
+    }
+    if (allowReset) {
+        return renderReset(resetOverwrite, overwriteSelector)
+    }
+    if (allowRemove) {
+        return renderRemove(removeFromOverwrites, overwriteSelector)
+    }
+    return null
+}
+
+export const createAttributes = (object, overwrites, addToOverwrites, removeFromOverwrites, resetOverwrite, overwriteSelectorParent = [], allowRemove, allowReset) => {
     const changeNumericValue = (selector, val) => {
         if (!!/^\d+$/.test(val)) {
             addToOverwrites(selector, parseInt(val));
@@ -43,13 +111,13 @@ export const createAttributes = (object, overwrites, addToOverwrites, removeFrom
         let secondaryText = type === "string" ? value : null;
         let overwriteSelector = [...overwriteSelectorParent, key];
 
-        if (!!overwriteParent[key] && allowReset) {
-            left = <IconButton style={styles.container.listItem.leftIcon} iconStyle={{ color: 'gray' }} onClick={e => removeFromOverwrites(overwriteSelector)}><ResetIcon /></IconButton>
+        if (!!overwriteParent[key]) {
+            left = renderLeftIcon(allowRemove, allowReset, resetOverwrite, removeFromOverwrites, overwriteSelector)
         }
 
         switch (type) {
             case "object": //Nested
-                children = createAttributes(value, overwrites, addToOverwrites, removeFromOverwrites, overwriteSelector, allowReset);
+                children = createAttributes(value, overwrites, addToOverwrites, removeFromOverwrites, resetOverwrite, overwriteSelector, allowRemove, allowReset);
                 break;
             case "string": //Color or text
                 if (!value.match(regexColor)) {

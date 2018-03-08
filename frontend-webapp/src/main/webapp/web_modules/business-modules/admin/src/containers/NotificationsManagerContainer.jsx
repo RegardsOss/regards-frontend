@@ -9,9 +9,6 @@ import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { connect } from '@regardsoss/redux'
 import { waitingAccessUsersEntitiesActions } from '../clients/WaitingAccessUsersEntitiesClient'
 
-/** Refresh time in milliseconds */
-const refreshTimerMS = 10000
-
 /** Notifications fetchers for project admin interface */
 const projectNotificationsFetchers = [
   // fetch project users waiting project administrator validation
@@ -72,7 +69,7 @@ class NotificationsManager extends React.Component {
     // A - refresh list
     this.refresh()
     // B - restart timer
-    this.refreshTimer = setTimeout(() => this.startTimer(), refreshTimerMS)
+    this.refreshTimer = setTimeout(() => this.startTimer(), STATIC_CONF.POLLING_TIMER_WAITING_USER)
   }
 
   stopTimer = () => {

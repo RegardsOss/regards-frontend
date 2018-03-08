@@ -32,7 +32,6 @@ export class ThemeListContainer extends React.Component {
     backUrl: PropTypes.string,
     createUrl: PropTypes.string,
     handleEdit: PropTypes.func,
-
     fetchThemeList: PropTypes.func,
     deleteTheme: PropTypes.func,
   }

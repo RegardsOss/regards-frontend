@@ -2,10 +2,8 @@
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. 
-This module is used to display a navigation tree into the REGARDS collections and datasets where each level corresponds to a given collection model - except the last one that shows only datasets.
-It offers description functionnality for each entity and shows, using detail toggle, the specified datasets attributes.
-The module also shows and drives a search-results table:
+This module is a dynamic configurable module to be used in REGARDS user interfaces. It displays a navigation tree into the REGARDS collections and datasets where each level corresponds to a given collection model - except the last one that shows only datasets.
+It offers description functionnality for each entity and shows, using detail toggle, the specified datasets attributes. The module also shows and drives a search-results table:
 - When user clicks a dataset, the search-results table displays all dataobjects related to that dataset
 - When user clicks a tag (in description dialog), the search-results table displays all dataobjects related to that tag
   
@@ -43,11 +41,11 @@ This module as a dynamic configurable module exposes is own :
   - messages         : Messages and labels internationalization object (default : imported index.js from messages/)
   - dependencies     : The needed resources (backend enpoints) to display each part of the module
 
-# Internationalization
+## Internationalization
 
   All displayed labels are defined in two languages (English and French) and are avaible from the i18n repository.
   
-# Usage
+## Usage
 
   To display a dynamic module as the current one you have to use the here under code :
    

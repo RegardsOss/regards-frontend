@@ -41,8 +41,8 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetListContainer', () => {
       // from mapStateToProps
       datasetList: DumpProvider.get('DataManagementClient', 'Dataset'),
       // from mapDispatchToProps
-      fetchDatasetList: () => {},
-      deleteDataset: () => {},
+      fetchDatasetList: testSuiteHelpers.getSuccessDispatchStub(),
+      deleteDataset: testSuiteHelpers.getSuccessDispatchStub(),
     }
     const enzymeWrapper = shallow(<DatasetListContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)

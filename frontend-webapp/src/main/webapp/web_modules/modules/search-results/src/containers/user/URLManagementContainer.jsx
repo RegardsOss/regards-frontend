@@ -42,21 +42,26 @@ export class URLManagementContainer extends React.Component {
 
   static propTypes = {
     // context initial view mode
+    // eslint-disable-next-line react/no-unused-prop-types
     initialViewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
     // context initial display mode
+    // eslint-disable-next-line react/no-unused-prop-types
     initialTableDisplayMode: PropTypes.oneOf(TableDisplayModeValues).isRequired,
     // current URL query information, used to detect browsing
+    // eslint-disable-next-line react/no-unused-prop-types
     currentPath: PropTypes.string.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
+    // eslint-disable-next-line
     currentQuery: PropTypes.object.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     viewObjectType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
     // Display mode
+    // eslint-disable-next-line react/no-unused-prop-types
     tableDisplayMode: PropTypes.oneOf(TableDisplayModeValues),
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired,
     // from mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     initialize: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchFetchEntity: PropTypes.func.isRequired,

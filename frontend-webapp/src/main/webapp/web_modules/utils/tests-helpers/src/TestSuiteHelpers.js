@@ -13,6 +13,25 @@ Enzyme.configure({ adapter: new Adapter() })
 // Store real console.error method in order to reuse it later
 const originalConsoleError = console.error
 
+
+/**
+ * Provides a stub that reproduce the behavior of a React Container dispatchable method
+ * Usually used by Container that fetches data on their componentDidMount, componentWillMount and user actions
+ * The sideEffects function let you manipulate attributes passed to the dispatched functions, run spy, ...
+ * @param returnValue promise value returned on promise resolution
+ * @param sideEffects function called before promise resolution
+ * @return {function} stub dispatch method returing a resolved promise
+ */
+function getDispatchStub(returnValue = { error: false, payload: {} }, sideEffects) {
+  return (...providedArgs) => new Promise((resolve) => {
+    if (sideEffects) {
+      sideEffects(providedArgs)
+    }
+    resolve(returnValue)
+  })
+}
+
+
 /**
  * Test suite helpers : initialize test suite and clears after run. Provides tools for tests
  */
@@ -58,5 +77,33 @@ module.exports = {
     this.assertAllProperties(enzymeWrapper.props(), expectedProperties, message)
   },
 
-}
+  /**
+   * Provides a stub that reproduce the behavior of a React Container dispatchable method that retrieve data without issue
+   * Usually used by Container that fetches data on their componentDidMount, componentWillMount and user actions
+   * The sideEffects function let you manipulate attributes passed to the dispatched functions, run spy, ...
+   * @param payloadContent the payload data
+   * @param sideEffects function called before promise resolution
+   * @return {function} stub dispatch method returing a resolved promise
+   */
+  getSuccessDispatchStub(payloadContent = {}, sideEffects) {
+    return getDispatchStub({
+      error: false,
+      payload: {
+        ...payloadContent,
+      },
+    }, sideEffects)
+  },
 
+  /**
+   * Provides a stub that reproduce the behavior of a React Container dispatchable method that fails to retrieve data
+   * Usually used by Container that fetches data on their componentDidMount, componentWillMount and user actions
+   * The sideEffects function let you manipulate attributes passed to the dispatched functions, run spy, ...
+   * @param sideEffects function called before promise resolution
+   * @return {function} stub dispatch method returing a resolved promise
+   */
+  getFailingDispatchStub(sideEffects) {
+    return getDispatchStub({
+      error: true,
+    }, sideEffects)
+  },
+}

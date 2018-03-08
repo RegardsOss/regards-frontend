@@ -42,6 +42,7 @@ export class PluginFormComponent extends React.Component {
     title: PropTypes.string,
     cardStyle: PropTypes.bool,
     simpleGlobalParameterConf: PropTypes.bool,
+    hideDynamicParameterConf: PropTypes.bool,
     microserviceName: PropTypes.string.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
@@ -55,6 +56,7 @@ export class PluginFormComponent extends React.Component {
     title: null,
     cardStyle: true,
     simpleGlobalParameterConf: false,
+    hideDynamicParameterConf: false,
   }
 
   static contextTypes = {
@@ -120,7 +122,9 @@ export class PluginFormComponent extends React.Component {
   }
 
   renderField = () => {
-    const { microserviceName, pluginMetaData, simpleGlobalParameterConf } = this.props
+    const {
+      microserviceName, pluginMetaData, simpleGlobalParameterConf, hideDynamicParameterConf,
+    } = this.props
     return (
       <Field
         name={PluginFormComponent.confFieldName}
@@ -128,6 +132,7 @@ export class PluginFormComponent extends React.Component {
         microserviceName={microserviceName}
         pluginMetaData={pluginMetaData}
         simpleGlobalParameterConf={simpleGlobalParameterConf}
+        hideDynamicParameterConf={hideDynamicParameterConf}
       />
     )
   }

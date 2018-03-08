@@ -96,9 +96,15 @@ class AdminApp extends React.Component {
     }
   }
 
+  renderLayout = () => (
+    <AdminLayout {...this.props}>
+      {this.props.content}
+    </AdminLayout>
+  )
+
   render() {
     const {
-      isAuthenticated, content, scope, params: { project }, isInstance,
+      isAuthenticated, scope, params: { project }, isInstance,
     } = this.props
     const { isLoadingEndpoints } = this.state
 
@@ -115,9 +121,7 @@ class AdminApp extends React.Component {
           <I18nProvider messages={messages}>
             <AuthenticationContainer scope={scope} isAuthenticated={isAuthenticated}>
               <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
-                <AdminLayout {...this.props}>
-                  {content}
-                </AdminLayout>
+                {this.renderLayout}
               </LoadableContentDisplayDecorator>
             </AuthenticationContainer>
           </I18nProvider>

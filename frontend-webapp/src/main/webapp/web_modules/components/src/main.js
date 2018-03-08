@@ -139,7 +139,6 @@ import InfiniteGalleryContainer from './gallery/InfiniteGalleryContainer'
 
 import DatePickerField from './date/DatePickerField'
 
-
 export {
   ActionButtonComponent,
   ActionIconWithNotifications,

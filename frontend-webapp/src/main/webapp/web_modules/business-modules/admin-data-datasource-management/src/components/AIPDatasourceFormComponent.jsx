@@ -123,6 +123,7 @@ export class AIPDatasourceFormComponent extends React.Component {
       const modelName = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.MODEL), 'value')
       const tags = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.TAGS), 'value', [])
       const subsettingTags = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.SUBSETTING_TAGS), 'value', [])
+      const attributeFileSize = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE), 'value', [])
       const mappingRaw = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.BINDMAP_MAP), 'value', [])
       // Replace the caracter . inside the binding into the caracter @
       const mapping = {}
@@ -136,6 +137,7 @@ export class AIPDatasourceFormComponent extends React.Component {
         tags,
         subsettingTags,
         mapping,
+        attributeFileSize,
       }
       this.props.initialize(initialValues)
     } else {
@@ -194,6 +196,31 @@ export class AIPDatasourceFormComponent extends React.Component {
                 />
               ))}
             </Field>
+
+            <ShowableAtRender
+              show={!isEmpty(modelAttributeList)}
+            >
+              <Field
+                name="attributeFileSize"
+                fullWidth
+                component={RenderSelectField}
+                label={this.context.intl.formatMessage({ id: 'datasource.form.attributeFileSize' })}
+              >
+                <MenuItem
+                  value=""
+                  key="undefined-filesize"
+                  primaryText=""
+                />
+                {map(modelAttributeList, (modelAttribute, id) => (
+                  <MenuItem
+                    value={modelAttribute.content.attribute.name}
+                    key={modelAttribute.content.attribute.name}
+                    primaryText={modelAttribute.content.attribute.label}
+                    className={`selenium-pickAttributeFileSize-${modelAttribute.content.attribute.name}`}
+                  />
+                ))}
+              </Field>
+            </ShowableAtRender>
             <FieldArray
               name="tags"
               component={RenderArrayTextField}

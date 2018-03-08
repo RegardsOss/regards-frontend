@@ -2,9 +2,7 @@
 
 ## Description
 
-This module is a dynamic configurable module for the configurable interfaces. 
-This module is used to display search forms to search data from the REGARDS catalog.
-This module uses UIPlugins to define the Criterion to display into the form.
+This module is a dynamic configurable module to be used in REGARDS user interfaces. It displays search forms to search data from the REGARDS catalog. It uses [Criteria plugins](/frontend/plugins/plugin-criteria/) to define the Criterion to display into the form.
   
 ## Module structure
 
@@ -37,14 +35,14 @@ This module as a dynamic configurable module exposes is own :
   - adminContainer   : Main module React component used to display the administration panel of this module,
   - reducer          : To configure the general Redux Store.
   - styles           : Styles of the module
-  - messages         : Messages and labels internationalization objcet (default : imported index.js from messages/)
+  - messages         : Messages and labels internationalization object (default : imported index.js from messages/)
   - dependencies     : The needed resources (backend enpoints) to display each part of the module
 
-# Internationalization
+## Internationalization
 
   All displayed labels are defined in two languages (English and French) and are avaible from the i18n repository.
   
-# Usage
+## Usage
 
   To display a dynamic module as the current one you have to use the here under code :
    

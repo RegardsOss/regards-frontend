@@ -65,9 +65,6 @@ class DownloadEntityFileComponent extends React.Component {
     textDecoration: 'none',
   }
 
-  /**
-   * FIXME This label is bullshit and should be computed in the parent scope, not in the component itself
-   */
   static getLabel = () => { }
 
 

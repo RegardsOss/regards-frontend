@@ -47,5 +47,16 @@ STATIC_CONF = {
   // Maximum number of entities retrieved by catalog service
   CATALOG_MAX_NUMBER_OF_ENTITIES: 10000,
   CATALOG_SEARCH_THRESHOLD: 10000,
+  // Intervales in ms between two polls for Waiting user
+  POLLING_TIMER_WAITING_USER: 60000,
+  // Intervales in ms between two polls for Notifications
+  POLLING_TIMER_NOTIFICATIONS: 30000,
+  // Static configuration for entity description dialog
+  ENTITY_DESCRIPTION: {
+    TAGS: {
+      // Do not display tags matching at least one the given model name regexp. Exemple /GRAPH_*/.
+      MODEL_NAME_FILTERS: [/GRAPH_*/],
+    },
+  },
 }
 

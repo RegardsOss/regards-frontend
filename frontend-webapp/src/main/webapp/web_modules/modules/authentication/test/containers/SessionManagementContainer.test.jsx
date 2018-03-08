@@ -46,6 +46,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
   it('should render correctly, using a visible dialog when authentication is visible or session is locked', () => {
     const renderAndTest = (useCase, props) => {
       const enzymeWrapper = shallow(<SessionManagementContainer {...props} />, { context })
+      enzymeWrapper.setState({ initialized: true })
       const dialogComps = enzymeWrapper.find(AuthenticationDialogComponent)
       assert.equal(dialogComps.length, 1, `${useCase} - There should be a rendered dialog frame!`)
       assert.isTrue(dialogComps.props().open, `${useCase} The dialog frame should be visible`)
@@ -93,6 +94,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       notifyAuthenticationChanged: () => { },
     }
     const enzymeWrapper = shallow(<SessionManagementContainer {...props} />, { context })
+    enzymeWrapper.setState({ initialized: true })
     const dialogComps = enzymeWrapper.find(AuthenticationDialogComponent)
     assert.equal(dialogComps.length, 1, 'There should be a rendered dialog frame')
     assert.isFalse(dialogComps.props().open, 'The dialog frame should be hidden')

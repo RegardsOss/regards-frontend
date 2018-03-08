@@ -36,8 +36,7 @@ export class PluginStorageConfigurationFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      pluginConf: get(ownProps, 'params.pluginId') ? pluginConfigurationSelectors.getContentById(state, ownProps.params.pluginId) : null,
-      isLoading: pluginConfigurationSelectors.isFetching(state),
+      pluginConf: get(ownProps, 'params.pluginId') ? pluginConfigurationSelectors.getById(state, ownProps.params.pluginId) : null,
     }
   }
 
@@ -61,38 +60,36 @@ export class PluginStorageConfigurationFormContainer extends React.Component {
       pluginId: PropTypes.string,
     }),
     // from mapStateToProps
-    pluginConf: CommonShapes.PluginConfigurationContent,
-    isLoading: PropTypes.bool.isRequired,
+    pluginConf: CommonShapes.PluginConfiguration,
     // from mapDispatchToProps
     fetchPluginConfiguration: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoading: !!get(props, 'params.pluginId', false),
+    }
   }
 
   componentWillMount() {
     const { params: { pluginId } } = this.props
     if (pluginId) {
-      this.props.fetchPluginConfiguration(pluginId)
+      this.props.fetchPluginConfiguration(pluginId).then(() => this.setState({ isLoading: false }))
     }
   }
 
-  /**
-   * @return back URL
-   */
-  onBack = () => {
-    const { params: { project } } = this.props
-    return `/admin/${project}/data/acquisition/storage/storages/list`
-  }
-
   render() {
-    const { params: { mode }, pluginConf, isLoading } = this.props
+    const { params: { mode, project }, pluginConf } = this.props
     return (
       <LoadableContentDisplayDecorator
-        isLoading={isLoading}
+        isLoading={this.state.isLoading}
       >
         {() => (
           <PluginStorageConfigurationFormComponent
             mode={mode || 'create'}
             pluginConfiguration={pluginConf}
-            onBack={this.onBack}
+            backUrl={`/admin/${project}/data/acquisition/storage/storages/list`}
           />
         )
         }
