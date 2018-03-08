@@ -23,6 +23,7 @@ import EntityIpIdTester from './EntityIpIdTester'
 import DataTypes from './DataTypes'
 import durationParser from './DurationParser'
 import PluginConfParamsUtils from './PluginConfParamsUtils'
+import EnumNumericalComparator from './EnumNumericalComparator'
 
 module.exports = {
   // Plugin
@@ -33,6 +34,8 @@ module.exports = {
   // URL
   relativeURLRegexp,
   validURLRegexp,
+
+  EnumNumericalComparator,
 
   EntityIpIdTester,
 

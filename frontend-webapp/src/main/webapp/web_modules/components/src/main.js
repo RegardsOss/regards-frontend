@@ -36,6 +36,7 @@ import DropDownButton from './buttons/DropDownButton'
 import OnHoverSwitchFlatButton from './buttons/OnHoverSwitchFlatButton'
 import OnHoverSwitchIconButton from './buttons/OnHoverSwitchIconButton'
 import OnHoverSwitchRaisedButton from './buttons/OnHoverSwitchRaisedButton'
+import NumericalComparator from './buttons/NumericalComparator'
 
 import ActionButtonComponent from './cards/ActionButtonComponent'
 import CardActionsComponent from './cards/CardActionsComponent'
@@ -182,6 +183,7 @@ export {
   OnHoverSwitchFlatButton,
   OnHoverSwitchIconButton,
   OnHoverSwitchRaisedButton,
+  NumericalComparator,
   PageableListContainer,
   Breadcrumb,
   PictureLinkComponent,

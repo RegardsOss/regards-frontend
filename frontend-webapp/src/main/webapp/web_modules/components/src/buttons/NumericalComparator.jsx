@@ -16,40 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
-import values from 'lodash/values'
-import isString from 'lodash/isString'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
-import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import RaisedButton from 'material-ui/RaisedButton'
+import { FlatButton } from 'material-ui'
+import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
-import EnumNumericalComparator from '../model/EnumNumericalComparator'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import messages from './i18n'
 
 /**
  * @author Xavier-Alexandre Brochard
  */
-export class NumericalComparatorComponent extends React.Component {
+export class NumericalComparator extends React.Component {
   static propTypes = {
     /**
      * Signature:
      * function(value: EnumNumericalComparator) => void
      */
     onChange: PropTypes.func.isRequired,
-    /**
-     * Init with a specific comparator set.
-     */
-    value: PropTypes.oneOf(values(EnumNumericalComparator)),
-    /**
-     * Does the comparator is modifiable
-     */
-    fixedComparator: PropTypes.bool,
-  }
-
-  static defaultProps = {
-    fixedComparator: false,
+    value: PropTypes.oneOf(Object.values(EnumNumericalComparator)),
+    comparators: PropTypes.arrayOf(PropTypes.oneOf(Object.values(EnumNumericalComparator))),
   }
 
   static contextTypes = {
@@ -82,49 +69,41 @@ export class NumericalComparatorComponent extends React.Component {
     })
   }
 
-  renderFixedComparator = () => (
-    <div>
-      {this.props.value}
-    </div>
-  )
-
   render() {
-    const { moduleTheme: { comparatorButtonStyle, comparatorMenuStyle, comparatorMenuItemStyle } } = this.context
-
-    if (this.props.fixedComparator) {
-      return this.renderFixedComparator()
-    }
-    return (
+    const { moduleTheme: { comparatorButtonStyle, comparatorMenuItemStyle } } = this.context
+    const labelStyle = { fontSize: '2em' }
+    const button = (
+      <FlatButton
+        label={<FormattedMessage id={`numerical.comparator.${this.props.value}`} />}
+        onClick={this.props.comparators ? this.handleOpenMenu : () => {}}
+        style={comparatorButtonStyle}
+        labelStyle={labelStyle}
+        disabled={!this.props.comparators}
+      />
+    )
+    return this.props.comparators && this.props.comparators.length > 1 ? (
       <div>
-        <RaisedButton
-          label={EnumNumericalComparator.getLabel(this.props.value)}
-          onClick={this.handleOpenMenu}
-          style={comparatorButtonStyle}
-        />
         <IconMenu
-          iconButtonElement={<IconButton style={comparatorMenuStyle}><MoreVertIcon /></IconButton>}
+          iconButtonElement={button}
           open={this.state.openMenu}
           onChange={this.handleChange}
           onRequestChange={this.handleOnRequestChange}
-          value={this.state.value}
+          value={this.props.value}
         >
-          {map(EnumNumericalComparator, (value, key) => {
-            if (!isString(value)) {
-              return null
-            }
-            return (
-              <MenuItem
-                key={key}
-                style={comparatorMenuItemStyle}
-                primaryText={EnumNumericalComparator.getLabel(value)}
-                value={value}
-              />
-            )
-          })}
+          {this.props.comparators.map(comparator => (
+            <MenuItem
+              style={comparatorMenuItemStyle}
+              key={comparator}
+              primaryText={<FormattedMessage id={`numerical.comparator.${comparator}`} />}
+              value={comparator}
+            />
+          ))}
         </IconMenu>
       </div>
+    ) : (
+      button
     )
   }
 }
 
-export default NumericalComparatorComponent
+export default withI18n(messages)(NumericalComparator)

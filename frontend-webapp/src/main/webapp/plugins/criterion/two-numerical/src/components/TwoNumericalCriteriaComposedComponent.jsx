@@ -20,8 +20,8 @@ import { FormattedMessage } from 'react-intl'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
-import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
  * Component allowing the user to configure the numerical value of a single attribute with two mathematical comparators (=, >, <=, ...).
@@ -115,7 +115,6 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
             hideAttributeName
             hideComparator
             reversed
-            fixedComparator
           />
           <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and" /></span>
           <NumericalCriteriaComponent
@@ -125,7 +124,6 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
             onChange={this.changeValue2}
             hideAttributeName
             hideComparator
-            fixedComparator
           />
         </div>
       </div>

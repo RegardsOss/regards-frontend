@@ -241,6 +241,11 @@ class ModuleContainer extends React.Component {
 
   handleClearAll = () => {
     this.clearFunctions.forEach(func => func())
+    browserHistory.push({ pathname: browserHistory.getCurrentLocation().pathname })
+    this.setState({
+      searchQuery: '',
+    })
+    this.criterionValues = {}
   }
 
   /**
