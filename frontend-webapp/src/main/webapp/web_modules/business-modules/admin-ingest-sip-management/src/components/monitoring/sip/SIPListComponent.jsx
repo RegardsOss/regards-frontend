@@ -23,13 +23,14 @@ import HistoryIcon from 'material-ui/svg-icons/action/history'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import {
-  DateValueRender, NoContentComponent, TableColumnBuilder, TableDeleteOption, TableSimpleActionOption,
+  NoContentComponent, TableColumnBuilder, TableDeleteOption, TableSimpleActionOption,
   TableLayout, TableHeaderLineLoadingAndResults, PageableInfiniteTableContainer, Breadcrumb,
   CardActionsComponent,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { IngestShapes } from '@regardsoss/shape'
+import SIPListDateColumnRenderer from './SIPListDateColumnRenderer'
 import SIPDetailComponent from './SIPDetailComponent'
 import SIPDetailTableAction from './SIPDetailTableAction'
 import SIPConfirmDeleteDialog from './SIPConfirmDeleteDialog'
@@ -223,14 +224,10 @@ class SIPListComponent extends React.Component {
         intl.formatMessage({ id: 'sips.list.table.headers.state' }),
         'content.state',
       ),
-      TableColumnBuilder.buildSimplePropertyColumn(
-        'column.date',
-        intl.formatMessage({ id: 'sips.list.table.headers.date' }),
-        'content.ingestDate',
-        undefined,
-        undefined,
-        DateValueRender,
-      ),
+      TableColumnBuilder.buildSimpleColumnWithCell('column.active',
+        intl.formatMessage({ id: 'sips.list.table.headers.date' }), {
+          Constructor: SIPListDateColumnRenderer,
+        }),
       TableColumnBuilder.buildSimplePropertyColumn(
         'column.version',
         intl.formatMessage({ id: 'sips.list.table.headers.version' }),
