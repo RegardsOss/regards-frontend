@@ -42,6 +42,8 @@ const messages = Object.assign({
   'attrmodel.form.unit': 'Unité',
   'attrmodel.form.fragment': 'Fragment',
   'attrmodel.form.description': 'Description',
+  'attrmodel.form.arraysize': 'Taille du tableau',
+  'attrmodel.form.precision': 'Précision',
   'attrmodel.form.alterable': 'Modifiable',
   'attrmodel.form.optional': 'Optionnel',
   'attrmodel.form.type': 'Type',

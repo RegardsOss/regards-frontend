@@ -44,7 +44,9 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceListContainer', () => {
       // from mapStateToProps
       uiPluginDefinitionList: DumpProvider.get('AccessProjectClient', 'UIPluginDefinition'),
       // from mapDispatchToProps
-      fetchUIPluginDefinitionList: fetchUIPluginDefinitionListSpy,
+      fetchUIPluginDefinitionList: testSuiteHelpers.getSuccessDispatchStub({}, () => {
+        fetchUIPluginDefinitionListSpy()
+      }),
     }
 
     const enzymeWrapper = shallow(<ServiceListContainer {...props} />, { context, lifecycleExperimental: true })

@@ -82,12 +82,12 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       displayDatasets: true,
       tableDisplayMode: TableDisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
-      initialize: (viewObjectType, tableDisplayMode, tags) => {
+      initialize: testSuiteHelpers.getSuccessDispatchStub({}, ({ viewObjectType, tableDisplayMode, tags }) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
         spiedInit.tableDisplayMode = tableDisplayMode
         spiedInit.tags = tags
-      },
+      }),
       dispatchFetchEntity,
     }
     // reinit call parameters
@@ -127,12 +127,12 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       displayDatasets: false,
       tableDisplayMode: TableDisplayModeEnum.TABLE,
       levels: [], // not initialized here, no need
-      initialize: (viewObjectType, tableDisplayMode, tags) => {
+      initialize: testSuiteHelpers.getSuccessDispatchStub({}, ({ viewObjectType, tableDisplayMode, tags }) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
         spiedInit.tableDisplayMode = tableDisplayMode
         spiedInit.tags = tags
-      },
+      }),
       dispatchFetchEntity,
     }
     // reinit call parameters
@@ -176,9 +176,9 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       displayDatasets: true,
       tableDisplayMode: TableDisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
-      initialize: (viewObjectType, displayMode, tags) => {
+      initialize: testSuiteHelpers.getSuccessDispatchStub({}, ({ viewObjectType, tableDisplayMode, tags }) => {
         spiedInit.called = true
-      },
+      }),
       dispatchFetchEntity,
     }
 
@@ -224,12 +224,12 @@ describe('[Search Results] Testing URLManagementContainer', () => {
       tableDisplayMode: TableDisplayModeEnum.LIST,
       levels: [], // not initialized here, no need
       displayDatasets: true,
-      initialize: (viewObjectType, tableDisplayMode, tags) => {
+      initialize: testSuiteHelpers.getSuccessDispatchStub({}, ({ viewObjectType, tableDisplayMode, tags }) => {
         spiedInit.called = true
         spiedInit.viewObjectType = viewObjectType
         spiedInit.tableDisplayMode = tableDisplayMode
         spiedInit.tags = tags
-      },
+      }),
       dispatchFetchEntity,
     }
 

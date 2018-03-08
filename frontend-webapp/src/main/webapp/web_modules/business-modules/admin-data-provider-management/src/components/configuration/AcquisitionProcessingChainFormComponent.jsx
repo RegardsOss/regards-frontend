@@ -50,7 +50,7 @@ const validRequiredString255 = [required, validStringSize(1, 255)]
 export class AcquisitionProcessingChainFormComponent extends React.PureComponent {
   static propTypes = {
     chain: DataProviderShapes.AcquisitionProcessingChain,
-    mode: PropTypes.string.isRequired,
+    mode: PropTypes.oneOf(['edit', 'create', 'duplicate']),
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     // from reduxForm
@@ -144,7 +144,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
           mainButtonType="submit"
           isMainButtonDisabled={submitting || invalid}
           secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.form.cancel.button' })}
-          secondaryButtonTouchClick={onBack}
+          secondaryButtonClick={onBack}
         />
       </CardActions>
     )
@@ -154,7 +154,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
 
   render() {
     const {
-      chain, onSubmit, handleSubmit,
+      chain, onSubmit, handleSubmit, mode,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -172,9 +172,21 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       </span>
     )
 
-    const title = !chain ?
-      formatMessage({ id: 'acquisition-chain.form.create.title' }) :
-      formatMessage({ id: 'acquisition-chain.form.edit.title' }, { name: get(chain, 'content.label', '') })
+    let title
+    switch (mode) {
+      case 'create':
+        title = formatMessage({ id: 'acquisition-chain.form.create.title' })
+        break
+      case 'duplicate':
+        title = formatMessage({ id: 'acquisition-chain.form.duplicate.title' }, { name: get(chain, 'content.label', '') })
+        break
+      case 'edit':
+        title = formatMessage({ id: 'acquisition-chain.form.edit.title' }, { name: get(chain, 'content.label', '') })
+        break
+      default:
+        title = 'undefined'
+        break
+    }
 
     const ingestProcessingChainConfig = {
       text: 'name',
@@ -215,12 +227,12 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.mode' })}
                   validate={required}
                 >
-                  {map(DataProviderDomain.AcquisitionProcessingChainModes, (mode, key) => (
+                  {map(DataProviderDomain.AcquisitionProcessingChainModes, (activationMode, key) => (
                     <MenuItem
-                      className={`selenium-pick-mode-${mode}`}
-                      value={mode}
+                      className={`selenium-pick-mode-${activationMode}`}
+                      value={activationMode}
                       key={key}
-                      primaryText={formatMessage({ id: `acquisition-chain.form.general.section.mode.${mode}` })}
+                      primaryText={formatMessage({ id: `acquisition-chain.form.general.section.mode.${activationMode}` })}
                     />
                   ))}
                 </Field>

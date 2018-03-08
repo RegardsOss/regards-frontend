@@ -41,9 +41,8 @@ describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionListContainer', (
       // from mapStateToProps
       collectionList: DumpProvider.get('DataManagementClient', 'Collection'),
       // from mapDispatchToProps
-      fetchCollectionList: () => {},
-      deleteCollection: () => {},
-
+      fetchCollectionList: testSuiteHelpers.getSuccessDispatchStub(),
+      deleteCollection: testSuiteHelpers.getSuccessDispatchStub(),
     }
     const enzymeWrapper = shallow(<CollectionListContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)

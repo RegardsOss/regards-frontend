@@ -61,7 +61,7 @@ module.exports = baseTheme => ({
     titleBarHeight: '48px',
     titleMarginLeft: 8,
     titleIconSize: 24,
-    titleTextMarginLeft: 8,
+    titleTextMarginLeft: 0,
     titleFontSize: '20px',
     titleFontWeight: '500',
     titleTextTransform: undefined,

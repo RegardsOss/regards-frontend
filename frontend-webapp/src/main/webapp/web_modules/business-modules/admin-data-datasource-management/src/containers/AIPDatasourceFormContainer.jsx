@@ -18,10 +18,12 @@
  **/
 import { browserHistory } from 'react-router'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import forEach from 'lodash/forEach'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
+import { getFormValues } from 'redux-form'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { IAIPDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
@@ -49,6 +51,8 @@ export class AIPDatasourceFormContainer extends React.Component {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     modelList: DataManagementShapes.ModelList,
     currentDatasource: DataManagementShapes.Datasource,
+    // eslint-disable-next-line react/forbid-prop-types
+    formValues: PropTypes.object,
 
     // from mapDispatchToProps
     fetchModelAttributeList: PropTypes.func,
@@ -63,6 +67,7 @@ export class AIPDatasourceFormContainer extends React.Component {
     currentDatasource: ownProps.params.datasourceId ? datasourceSelectors.getById(state, ownProps.params.datasourceId) : null,
     modelList: modelSelectors.getList(state),
     modelAttributeList: modelAttributesSelectors.getList(state),
+    formValues: getFormValues('aip-datasource-form')(state),
   })
 
   static mapDispatchToProps = dispatch => ({
@@ -127,13 +132,14 @@ export class AIPDatasourceFormContainer extends React.Component {
 
   getForm = () => {
     const {
-      currentDatasource, modelAttributeList, modelList,
+      currentDatasource, modelAttributeList, modelList, formValues,
     } = this.props
     const {
       isEditing, isCreating,
     } = this.state
     return (<AIPDatasourceFormComponent
       currentDatasource={currentDatasource}
+      formValues={formValues}
       modelAttributeList={modelAttributeList}
       modelList={modelList}
       onModelSelected={this.handleModelSelected}
@@ -213,10 +219,6 @@ export class AIPDatasourceFormContainer extends React.Component {
         value: values.model,
       },
       {
-        name: IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE,
-        value: values.attributeFileSize,
-      },
-      {
         name: IAIPDatasourceParamsEnum.REFRESH_RATE,
         value: parseInt(values.refreshRate, 10),
         dynamic: false,
@@ -235,6 +237,15 @@ export class AIPDatasourceFormContainer extends React.Component {
         dynamicsValues: [],
       },
     ]
+    console.error('empty', values.attributeFileSize, isEmpty(values.attributeFileSize))
+    if (!isEmpty(values.attributeFileSize)) {
+      parameters.push(
+        {
+          name: IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE,
+          value: values.attributeFileSize,
+        },
+      )
+    }
     if (isCreating) {
       const datasource = {
         label: values.label,
