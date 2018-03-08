@@ -333,8 +333,8 @@ function buildLocalServices(gatewayURL) {
       },
       getPrioritizedDataStorages: {
         url: 'rs-storage/storages',
-        handler: (req, resp, pathParameters, { dataStorageType }) => {
-          const content = dataStorageType === 'ONLINE' ?
+        handler: (req, resp, pathParameters, { type }) => {
+          const content = type === 'ONLINE' ?
             JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-online.json')) :
             JSON.parse(loadFile('mocks/proxy/resources/mock-prioritizeddatastorage-nearline.json'))
           return { content }

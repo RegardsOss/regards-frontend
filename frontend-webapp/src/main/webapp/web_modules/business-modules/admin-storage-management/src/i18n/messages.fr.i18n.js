@@ -25,6 +25,7 @@ const messages = Object.assign({
   'storage.data-storage.plugins.list.title': 'Configuration des espaces de stockage',
   'storage.data-storage.plugins.list.subtitle': 'Cette section vous permer de configurer les différents espaces de stockage utilisés par le stystème et de les prioriser. La priorité permet, dans le cas ou des données sont stockées sur plusieurs systèmes de stockage, de déterminer sur lequel d\'entre eux récupérer les données.',
   'storage.data-storage.plugins.list.header.priority.label': 'Priorité',
+  'storage.data-storage.plugins.list.header.id.label': 'Identifiant',
   'storage.data-storage.plugins.list.header.name.label': 'Mode de stockage',
   'storage.data-storage.plugins.list.header.type.label': 'Type de stockage',
   'storage.data-storage.plugins.list.header.active.label': 'Activer/Désactiver',

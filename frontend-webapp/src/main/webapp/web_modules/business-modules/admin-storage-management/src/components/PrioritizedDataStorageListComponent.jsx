@@ -115,6 +115,7 @@ export class PrioritizedDataStorageListComponent extends React.Component {
         'content.priority',
         undefined, undefined, undefined, 75,
       ),
+      TableColumnBuilder.buildSimplePropertyColumn('column.id', formatMessage({ id: 'storage.data-storage.plugins.list.header.id.label' }), 'content.dataStorageConfiguration.id'),
       TableColumnBuilder.buildSimplePropertyColumn('column.name', formatMessage({ id: 'storage.data-storage.plugins.list.header.name.label' }), 'content.dataStorageConfiguration.label'),
       TableColumnBuilder.buildSimplePropertyColumn('column.type', formatMessage({ id: 'storage.data-storage.plugins.list.header.type.label' }), 'content.dataStorageConfiguration.pluginId'),
       TableColumnBuilder.buildSimpleColumnWithCell('column.active', formatMessage({ id: 'storage.data-storage.plugins.list.header.active.label' }), {
