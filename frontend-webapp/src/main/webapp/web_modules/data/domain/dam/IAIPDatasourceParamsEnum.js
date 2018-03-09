@@ -22,7 +22,7 @@ const IAIPDatasourceParamsEnum = {
   REFRESH_RATE: 'refreshRate',
   TAGS: 'tags',
   SUBSETTING_TAGS: 'subsettingTags',
-  ATTRIBUTE_FILE_SIZE: 'attribue file size',
+  ATTRIBUTE_FILE_SIZE: 'attribute file size',
 }
 
 export default IAIPDatasourceParamsEnum

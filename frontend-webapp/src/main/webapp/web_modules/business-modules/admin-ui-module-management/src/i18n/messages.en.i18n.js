@@ -63,7 +63,7 @@ const messages = Object.assign({
   'module.form.page.settings.title': 'Page settings',
   'module.form.page.home': 'Define as site home page',
   'module.form.page.custom.icon.url': 'Custom icon URL',
-  'module.form.page.title.en': 'Enligh page title',
+  'module.form.page.title.en': 'English page title',
   'module.form.page.title.fr': 'French page title',
   'module.form.page.icon.field': 'Page icon',
   'module.form.page.icon.none': 'No icon',

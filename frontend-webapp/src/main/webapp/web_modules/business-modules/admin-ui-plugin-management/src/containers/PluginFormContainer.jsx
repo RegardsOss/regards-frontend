@@ -56,10 +56,13 @@ export class PluginFormContainer extends React.Component {
   }
 
   handleSubmit = (values) => {
+    // Remove empty iconUrl
+    const newValues = Object.assign({}, values)
+    newValues.iconUrl = values.iconUrl === '' ? null : values.iconUrl
     if (this.props.params.plugin_id) {
-      return this.handleUpdate(values)
+      return this.handleUpdate(newValues)
     }
-    return this.handleCreate(values)
+    return this.handleCreate(newValues)
   }
 
   handleCreate = (values) => {

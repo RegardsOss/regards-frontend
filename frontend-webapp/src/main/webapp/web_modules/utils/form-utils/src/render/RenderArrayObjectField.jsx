@@ -52,7 +52,7 @@ class RenderArrayObjectField extends React.Component {
   static propTypes = {
     label: PropTypes.string, // List label
     displayLabel: PropTypes.bool,
-    elementLabel: PropTypes.oneOf([PropTypes.string, PropTypes.func]), // Each element prefix label
+    elementLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.func]), // Each element prefix label
     fieldComponent: PropTypes.func.isRequired, // redux-form Field component to render an object of the list
     // eslint-disable-next-line react/forbid-prop-types
     fieldProps: PropTypes.object, // additional props to pass to the fieldComponent
