@@ -50,6 +50,16 @@ const messages = Object.assign({
   'attrmodel.form.action.cancel': 'Cancel',
   'attrmodel.form.action.submit': 'Save',
 
+  'attrmodel.form.unit.description.dialog.title': 'Attribute parameter unit',
+  'attrmodel.form.unit.description.dialog.content':
+    'This parameter allows to define the unit of the parameter.<br/> Storage units are handle for better render in user interface. So, please use the standard IEEE 1541 specification.<br />' +
+    'You can use : <ul>' +
+    '<li> - bytes, byte, B, kB, mB, gB, tB, pB, eB</li>' +
+    '<li> - bit, bits, b, kb, mb, gb, tb, pb, eb</li>' +
+    '</ul>',
+  'attrmodel.form.unit.description.dialog.close': 'Close',
+
+
   'attrmodel.form.restriction.NUMBER_RANGE.active': 'Activate a range restriction',
   'attrmodel.form.restriction.NUMBER_RANGE.min': 'Minimal value autorized',
   'attrmodel.form.restriction.NUMBER_RANGE.isMinInclusive': 'Minimal limit included in the set',

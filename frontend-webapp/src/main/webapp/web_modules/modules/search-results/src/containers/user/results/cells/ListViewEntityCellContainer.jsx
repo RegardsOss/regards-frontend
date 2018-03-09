@@ -67,6 +67,7 @@ export function packGridAttributesRenderData(attributePresentationModels) {
     .map(model => ({ // 3 - pack them for render
       key: model.key,
       label: model.label,
+      unit: get(model, 'attributes.length', 0) === 1 ? get(model.attributes[0], 'content.unit', null) : null,
       renderers: AttributeColumnBuilder.buildRenderDelegates(model.attributes),
     }))
 }
