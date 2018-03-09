@@ -109,9 +109,9 @@ const messages = Object.assign({
 
   'datasource.form.create.pick-interface.title': 'Datasource creation',
   'datasource.form.create.pick-interface.subtitle': 'Please select the type of crawler you want to create.',
-  'datasource.form.create.pick-interface.description.aip': 'AIP crawlers allow to crawl JSON SIPs',
+  'datasource.form.create.pick-interface.description.aip': 'AIP crawlers allow to crawl GeoJSON SIPs',
   'datasource.form.create.pick-interface.action.aip': 'SIPs crawler',
-  'datasource.form.create.pick-interface.description.db': 'Databases datasource allows to crawl data from database',
+  'datasource.form.create.pick-interface.description.db': 'This mode allows you to crawl data from an external data source',
   'datasource.form.create.pick-interface.action.db': 'Crawl databases',
   'datasource.form.create.pick-interface.action.cancel': 'Cancel',
   'aip.datasource.create.title': 'SIPs datasource creation',

@@ -36,8 +36,8 @@ const messages = Object.assign({
 
   'datasource.list.action.add': 'Ajouter',
   'datasource.list.action.cancel': 'Annuler',
-  'datasource.list.title': 'Configurer les aspirations de données depuis des bases de données externes.',
-  'datasource.list.subtitle': 'Une aspiration de données doit être configurée afin de determiner comment faire correspondre les informations provenant de la base à aspirer avec les modèles de données définis précédement.',
+  'datasource.list.title': 'Configurer les aspirations de données.',
+  'datasource.list.subtitle': 'Une aspiration de données doit être configurée afin de déterminer comment faire correspondre les informations des données aspirées avec les modèles de données définis dans REGARDS.',
   'datasource.list.table.label': 'Label',
   'datasource.list.table.actions': 'Actions',
   'datasource.list.table.model': 'Modèle',
@@ -62,7 +62,7 @@ const messages = Object.assign({
   'datasource.form.table.input': 'Valeur de l\'attribut',
   'datasource.form.subtitle': 'Gestion des attributs d\'une source de données',
   'datasource.form.tags': 'Liste des tags ajoutés à toutes les données aspirées',
-  'datasource.form.subsettingTags': 'Aspirer uniquement les données contenant l\'un de ces tags (vide = toutes les données sont aspirés)',
+  'datasource.form.subsettingTags': 'Aspirer uniquement les données contenant l\'un de ces tags (vide = toutes les données sont aspirées)',
   'datasource.form.attributeFileSize': 'Permet de définir dans le modèle quel est l\'atttribut à utiliser pour récuperer la taille des fichiers RAWDATA',
 
   'datasource.edit.title': 'Edition de la source de données {name}',
@@ -109,7 +109,7 @@ const messages = Object.assign({
 
   'datasource.form.create.pick-interface.title': 'Choisir le mode d\'aspiration',
   'datasource.form.create.pick-interface.subtitle': 'Veuillez sélectionner le type d\'aspiration que vous souhaitez créer, selon où ils sont stockés.',
-  'datasource.form.create.pick-interface.description.aip': 'Ce mode permet d\'aspirer des AIPs au format GEOJson',
+  'datasource.form.create.pick-interface.description.aip': 'Ce mode permet d\'aspirer des AIPs au format GeoJSON',
   'datasource.form.create.pick-interface.action.aip': 'Aspirer des AIPs',
   'datasource.form.create.pick-interface.description.db': 'Ce mode permet d\'aspirer une source de données externe',
   'datasource.form.create.pick-interface.action.db': 'Aspirer une source de données',
