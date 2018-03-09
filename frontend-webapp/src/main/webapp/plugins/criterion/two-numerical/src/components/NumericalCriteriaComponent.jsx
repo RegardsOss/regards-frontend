@@ -50,7 +50,7 @@ export class NumericalCriteriaComponent extends React.Component {
     /**
      * Array of available comparators
      */
-    availableComparators: PropTypes.arrayOf(PropTypes.oneOf(EnumNumericalComparator)),
+    availableComparators: PropTypes.arrayOf(PropTypes.oneOf(values(EnumNumericalComparator))),
     /**
      * Default value to display
      */

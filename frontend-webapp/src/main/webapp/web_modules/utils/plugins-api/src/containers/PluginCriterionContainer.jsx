@@ -126,6 +126,10 @@ class PluginCriterionContainer extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.registerClear(this.handleClear, true)
+  }
+
   onPluginChangeValue = () => {
     // Generate query
     const query = this.getPluginSearchQuery(this.state)

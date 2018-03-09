@@ -256,7 +256,13 @@ class ModuleContainer extends React.Component {
     }
   }
 
-  registerClear = clearFunc => this.clearFunctions.push(clearFunc)
+  registerClear = (clearFunc, remove) => {
+    if (remove) {
+      this.clearFunctions = this.clearFunctions.filter(func => func !== clearFunc)
+    } else {
+      this.clearFunctions.push(clearFunc)
+    }
+  }
 
   handleClearAll = () => {
     this.clearFunctions.forEach(func => func())

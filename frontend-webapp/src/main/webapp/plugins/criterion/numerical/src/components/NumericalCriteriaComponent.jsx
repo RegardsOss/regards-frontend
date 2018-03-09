@@ -44,7 +44,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
   }
 
   state = {
-    searchField: undefined,
+    searchField: '',
     comparator: EnumNumericalComparator.EQ,
   }
 
