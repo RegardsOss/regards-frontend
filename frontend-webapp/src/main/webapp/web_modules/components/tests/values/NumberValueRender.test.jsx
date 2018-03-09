@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import NumberValueRender from '../../src/values/NumberValueRender'
+import { NumberValueRender } from '../../src/values/NumberValueRender'
 import styles from '../../src/values/styles'
 
 const context = buildTestContext(styles)

@@ -125,12 +125,17 @@ export class AttributesContainer extends React.Component {
       // resolve attribute value in entity (push attribute in content, as it is not normalized )
       const accessPath = DamDomain.AttributeModelController.getAttributeAccessPath({ content: attributeModel })
       const renderValue = DamDomain.AttributeModelController.getEntityAttributeValue(nextEntity, accessPath)
-      return {
+      const resolvedAtribute = {
         id: attributeModel.id,
         label: attributeModel.label,
         Renderer: getTypeRender(attributeModel.type),
         renderValue,
       }
+      // Any dynamic attribute can have a unit specified. If one is present set the unit into the resolved attribute
+      if (attributeModel.unit) {
+        resolvedAtribute.renderUnit = attributeModel.unit
+      }
+      return resolvedAtribute
     })
     // 3 - make table and sort
     return [...descriptionStandardAttributes, ...dynamicAttributes].sort((attr1, attr2) => StringComparison.compare(attr1.label, attr2.label))
