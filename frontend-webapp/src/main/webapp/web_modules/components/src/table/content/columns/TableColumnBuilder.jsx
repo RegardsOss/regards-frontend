@@ -148,7 +148,7 @@ function buildValuesRenderCell(values) {
     Constructor: ValuesRenderCell, // cell for attribute paths
     props: {
       // ensure default renderer
-      values: values.map(({ getValue, RenderConstructor = StringValueRender }) => ({ getValue, RenderConstructor })),
+      values: values.map(({ getValue, RenderConstructor = StringValueRender, props }) => ({ getValue, RenderConstructor, props })),
     },
   }
 }
@@ -159,9 +159,10 @@ function buildValuesRenderCell(values) {
  * default to simple string property when not provided)
  */
 function buildPropertiesRenderCell(properties) {
-  return buildValuesRenderCell(properties.map(({ path, RenderConstructor }) => ({
+  return buildValuesRenderCell(properties.map(({ path, RenderConstructor, props }) => ({
     getValue: extractPropertyClosure(path),
     RenderConstructor,
+    props,
   })))
 }
 

@@ -39,6 +39,7 @@ import EnumerationComponent, { initializeEnumerationForm } from './EnumerationCo
 import PatternComponent, { initializePatternForm } from './PatternComponent'
 import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
+import AttributeModelUnitFieldComponent from './AttributeModelUnitFieldComponent'
 
 const nameFieldValidators = [ValidationHelpers.validAlphaNumericUnderscore, ValidationHelpers.lengthMoreThan(3), ValidationHelpers.lengthLessThan(32)]
 const lessThan20 = ValidationHelpers.lengthLessThan(20)
@@ -314,13 +315,7 @@ export class AttributeModelFormComponent extends React.Component {
               ))}
             </Field>
             <ShowableAtRender show={this.state.shouldShowUnits}>
-              <Field
-                name="unit"
-                fullWidth
-                component={RenderTextField}
-                type="text"
-                label={this.context.intl.formatMessage({ id: 'attrmodel.form.unit' })}
-              />
+              <AttributeModelUnitFieldComponent />
             </ShowableAtRender>
             <ShowableAtRender show={this.state.shouldShowArraySize}>
               <Field

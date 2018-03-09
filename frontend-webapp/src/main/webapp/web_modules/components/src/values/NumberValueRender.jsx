@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { i18nContextType } from '@regardsoss/i18n'
+import get from 'lodash/get'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { storage } from '@regardsoss/units'
 
 /**
  * Component to display number value values
@@ -25,9 +27,10 @@ import { themeContextType } from '@regardsoss/theme'
  *
  * @author Sébastien binda
  */
-class NumberValueRender extends React.Component {
+export class NumberValueRender extends React.Component {
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    unit: PropTypes.string,
   }
 
   static contextTypes = {
@@ -35,11 +38,35 @@ class NumberValueRender extends React.Component {
     ...themeContextType,
   }
 
-  render() {
-    const { value } = this.props
-    const { intl: { formatMessage }, moduleTheme: { textRenderCell } } = this.context
+  static storageUnitConvertion = {
+    octet: 'B',
+    octets: 'B',
+    byte: 'B',
+    bytes: 'B',
+    bit: 'b',
+    bits: 'b',
+    unitless: null,
+  }
 
-    const textValue = value || formatMessage({ id: 'value.render.no.value.label' })
+  render() {
+    const { value, unit } = this.props
+    const { intl: { formatMessage, formatNumber }, moduleTheme: { textRenderCell } } = this.context
+    let textValue
+    const convertedUnit = get(NumberValueRender.storageUnitConvertion, unit, unit)
+    if (convertedUnit) {
+      const storageUnit = storage.StorageUnitScale.getMatchingUnit(convertedUnit)
+      if (storageUnit) {
+        const valueWithUnit = new storage.StorageCapacity(value, storageUnit).scaleAndConvert(storageUnit.scale)
+        textValue = storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
+      } else {
+        textValue = value ? `${value}${unit}` : `-${unit}`
+      }
+    } else {
+      textValue = value
+    }
+
+    textValue = textValue || formatMessage({ id: 'value.render.no.value.label' })
+
     return (
       <div style={textRenderCell} title={textValue}>
         {textValue}
@@ -47,4 +74,4 @@ class NumberValueRender extends React.Component {
   }
 }
 
-export default NumberValueRender
+export default withI18n(storage.messages, true)(NumberValueRender)

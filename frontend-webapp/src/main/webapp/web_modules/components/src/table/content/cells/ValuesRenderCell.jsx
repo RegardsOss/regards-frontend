@@ -21,6 +21,8 @@ import { themeContextType } from '@regardsoss/theme'
 import ValuesSeparator from './ValuesSeparator'
 
 
+const EMPTY_OBJECT = {}
+
 /**
  * A cell to render entity values: it uses an array of values extractors to produce the visible values and an
  * optional RenderConstructor by value producer (allows to format specific values, when required, defaults to string
@@ -39,6 +41,8 @@ export default class ValuesRenderCell extends React.Component {
       getValue: PropTypes.func.isRequired,
       // value renderer, opional
       RenderConstructor: PropTypes.func,
+      // optionnal render props
+      props: PropTypes.object,
     })).isRequired,
   }
 
@@ -49,11 +53,11 @@ export default class ValuesRenderCell extends React.Component {
   render() {
     const { entity, values } = this.props
     const { multipleCellValues } = this.context.moduleTheme
-    return flatMap(values, ({ getValue, RenderConstructor }, index) => [
+    return flatMap(values, ({ getValue, RenderConstructor, props }, index) => [
       index > 0 ? <ValuesSeparator key={`separator.${index}`} /> : null,
       <div key={`value.${index}`} style={multipleCellValues}>
         { // render using delegate if provided
-          <RenderConstructor value={getValue(entity)} />
+          <RenderConstructor value={getValue(entity)} {...(props || EMPTY_OBJECT)} />
         }
       </div>,
     ])

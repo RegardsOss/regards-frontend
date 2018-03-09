@@ -50,6 +50,15 @@ const messages = Object.assign({
   'attrmodel.form.action.cancel': 'Annuler',
   'attrmodel.form.action.submit': 'Sauvegarder',
 
+  'attrmodel.form.unit.description.dialog.title': 'Unité de l\'attribut',
+  'attrmodel.form.unit.description.dialog.content':
+    'Ce paramètre vous permet de déterminer l\'unité de mesure associée à votre attribut.<br/> Les unités de stockage (taille des fichiers) sont gérées pour un meilleur affichage das l\'interface utilisateur veuillez donc utiliser la norme IEEE 1541 <br /><br/>' +
+    'Vous pouvez utiliser : <ul>' +
+    '<li> - bytes, byte, B, kB, mB, gB, tB, pB, eB</li>' +
+    '<li> - bit, bits, b, kb, mb, gb, tb, pb, eb</li>' +
+    '</ul>',
+  'attrmodel.form.unit.description.dialog.close': 'Close',
+
   'attrmodel.form.restriction.NUMBER_RANGE.active': 'Activer une restriction pour limiter l\'ensemble des valeurs',
   'attrmodel.form.restriction.NUMBER_RANGE.min': 'Valeur minimale autorisée',
   'attrmodel.form.restriction.NUMBER_RANGE.isMinInclusive': 'Borne minimale incluse dans l\'ensemble',

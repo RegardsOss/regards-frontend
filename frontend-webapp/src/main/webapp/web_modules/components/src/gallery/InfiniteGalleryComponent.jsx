@@ -69,8 +69,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     threshold: root.innerHeight * 2,
   }
 
-  static isPageVisible({ page, top, viewableHeight }) {
-    const { start, stop } = page
+  static isPageVisible({ start, stop, top, viewableHeight }) {
     const extraThreshold = viewableHeight
     // trigger area = viewable area with buffer areas
     if (
@@ -453,11 +452,13 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       // Calculate when a page starts and stops
       // To determine which pages are visible
       const itemsTop = page.items.map(item => item.top)
+      const start = (!itemsTop.length ? 0 : Math.min(...itemsTop))
+      const stop = (Math.max(0, ...page.items.map(item => item.top + item.height)))
       return {
         ...page,
-        start: (!itemsTop.length ? 0 : Math.min(...itemsTop)),
-        stop: (Math.max(0, ...page.items.map(item => item.top + item.height))),
-        visible: InfiniteGalleryComponent.isPageVisible({ page, top, viewableHeight }),
+        start,
+        stop,
+        visible: InfiniteGalleryComponent.isPageVisible({ start, stop, top, viewableHeight }),
       }
     })
 
@@ -487,7 +488,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     let isChanged = false
 
     const pages = this.state.pages.map((page) => {
-      const visible = InfiniteGalleryComponent.isPageVisible({ page, top, viewableHeight })
+      const visible = InfiniteGalleryComponent.isPageVisible({ start: page.start, stop: page.stop, top, viewableHeight })
 
       isChanged = isChanged || page.visible !== visible
 
