@@ -35,6 +35,7 @@ import SearchRelatedEntitiesComponent from '../options/SearchRelatedEntitiesComp
 export const AttributeRenderData = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.string, // optional as it is not provided for thumbnail
+  unit: PropTypes.string, // optional unit type of attribute
   renderers: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired,
     RenderConstructor: PropTypes.func.isRequired,
@@ -155,13 +156,13 @@ class ListViewEntityCellComponent extends React.Component {
    * @param {AttributeRenderData} renderData render data for attribute
    * @return {[React.Element]} built components array for value
    */
-  renderAttributeValue = ({ key, renderers }) => {
+  renderAttributeValue = ({ key, renderers, unit }) => {
     const { entity } = this.props
     const { intl: { formatMessage } } = this.context
     return flatMap(renderers, ({ path, RenderConstructor }, index) => [
       // insert separator if mutilple values
       index > 0 ? (<div key={`separator.${path}`} >{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
-      <RenderConstructor key={path} value={get(entity, path)} />])
+      <RenderConstructor key={path} value={get(entity, path)} unit={unit} />])
   }
 
   /**

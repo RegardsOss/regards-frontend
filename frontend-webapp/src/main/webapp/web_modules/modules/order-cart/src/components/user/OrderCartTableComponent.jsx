@@ -23,10 +23,12 @@ import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { storage } from '@regardsoss/units'
-import { TreeTableComponent, TreeTableRow } from '@regardsoss/components'
+import { TreeTableComponent, TreeTableRow, TableLayout } from '@regardsoss/components'
 import DeleteDatasetSelectionContainer from '../../containers/user/options/DeleteDatasetSelectionContainer'
 import DeleteDatedItemSelectionContainer from '../../containers/user/options/DeleteDatedItemSelectionContainer'
 import ShowDatedItemSelectionDetailContainer from '../../containers/user/options/ShowDatedItemSelectionDetailContainer'
+import OrderCartContentSummaryComponent from './OrderCartContentSummaryComponent'
+import ObjectsCountCellRenderComponent from './ObjectsCountCellRenderComponent'
 import styles from '../../styles'
 
 /**
@@ -38,6 +40,7 @@ export class OrderCartTableComponent extends React.Component {
     showDatasets: PropTypes.bool.isRequired,
     basket: OrderShapes.Basket,
     disableOptions: PropTypes.bool.isRequired,
+    onShowDuplicatedMessage: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -45,11 +48,19 @@ export class OrderCartTableComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * Computes total objects count for a list of items selections
+   * @param itemsSelections items selections
+   * @return {number} total objects count over all items selections
+   */
+  static getTotalSelectionsObjectsCount(itemsSelections) {
+    return itemsSelections.reduce((acc, { objectsCount }) => acc + objectsCount, 0)
+  }
+
   /** Column keys */
   static ColumnKeys = {
     ID: 'id',
     OBJECTS_COUNT: 'objects.count',
-    FILES_COUNT: 'files.count',
     FILES_SIZE: 'files.size',
     OPTIONS_DETAIL: 'options.detail',
     OPTIONS_DELETE: 'options.delete',
@@ -71,12 +82,11 @@ export class OrderCartTableComponent extends React.Component {
 
   /** Columns models */
   static COLUMNS_DEFINITION = [
-    { key: OrderCartTableComponent.ColumnKeys.ID, labelKey: 'order-cart.module.basket.table.column.identifier' },
+    { key: OrderCartTableComponent.ColumnKeys.ID },
     { key: OrderCartTableComponent.ColumnKeys.OBJECTS_COUNT, labelKey: 'order-cart.module.basket.table.column.objects.count' },
-    { key: OrderCartTableComponent.ColumnKeys.FILES_COUNT, labelKey: 'order-cart.module.basket.table.column.files.count' },
     { key: OrderCartTableComponent.ColumnKeys.FILES_SIZE, labelKey: 'order-cart.module.basket.table.column.files.size' },
-    { key: OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL, labelKey: null },
-    { key: OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE, labelKey: null }]
+    { key: OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL, labelKey: null, isOption: true },
+    { key: OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE, labelKey: null, isOption: true }]
 
   /** Columns index as cache (render time optimization) */
   static COLUMN_KEY_BY_INDEX = reduce(OrderCartTableComponent.ColumnKeys, (acc, columnKey) => ({
@@ -122,14 +132,16 @@ export class OrderCartTableComponent extends React.Component {
    * @return TreeTableRow for the dataset selection as parameter
    */
   buildDatasetSelectionRow = ({
-    id, datasetLabel, objectsCount, filesCount, filesSize, itemsSelections = [],
+    id, datasetLabel, objectsCount, filesSize, itemsSelections = [],
   }, rowExpanded) =>
     new TreeTableRow(
-      `dataset.selection.${id}`, [datasetLabel, objectsCount, filesCount,
-        OrderCartTableComponent.getStorageCapacity(filesSize), // scale the size to the level its the more readable
-        null, // no detail option
-        { datasetSelectionId: id }, // keep dataset selection id
-      ], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
+      `dataset.selection.${id}`, [datasetLabel, {
+        effectiveObjectsCount: objectsCount,
+        totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
+      }, OrderCartTableComponent.getStorageCapacity(filesSize),
+      null, { // keep dataset selection id
+        datasetSelectionId: id,
+      }], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
       rowExpanded,
     )
 
@@ -139,13 +151,18 @@ export class OrderCartTableComponent extends React.Component {
    * @return TreeTableRow for the dated selection item
    */
   buildDatedSelectionRow = (datasetSelectionId, datasetLabel, {
-    date, objectsCount, filesCount, filesSize, openSearchRequest,
+    date, objectsCount, filesSize, openSearchRequest,
   }) =>
     // row cell values (no sub row)
-    new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, objectsCount, filesCount,
-      OrderCartTableComponent.getStorageCapacity(filesSize), // scale the size to the level its the more readable
-      { datasetLabel, date, openSearchRequest }, // keep label, date and request for detail option
-      { datasetSelectionId, itemsSelectionDate: date }, // keep parent id and date for delete option
+    new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, {
+      // cannot know the effective objects count here, but total is OK as we do not want to show the warning one those cells
+      effectiveObjectsCount: objectsCount,
+      totalObjectsCount: objectsCount,
+    }, OrderCartTableComponent.getStorageCapacity(filesSize), { // scale the size to the level its the more readable
+      datasetLabel, date, openSearchRequest,
+    }, { // keep label, date and request for detail option
+      datasetSelectionId, itemsSelectionDate: date,
+    }, // keep parent id and date for delete option
     ])
 
   /**
@@ -177,7 +194,7 @@ export class OrderCartTableComponent extends React.Component {
    */
   buildTableCellContent = (cellValue, level, columnID) => {
     const { intl: { formatDate } } = this.context
-    const { showDatasets, disableOptions } = this.props
+    const { showDatasets, disableOptions, onShowDuplicatedMessage } = this.props
 
     // is it a dataset cell or a dated item selection cell?
 
@@ -193,6 +210,12 @@ export class OrderCartTableComponent extends React.Component {
           // selection: format date
           `${formatDate(new Date(Date.parse(cellValue)), OrderCartTableComponent.SELECTION_DATE_OPTIONS)}`
       // files size: cell value is a storage capacity (or undefined), render it internationalized
+      case OrderCartTableComponent.ColumnKeys.OBJECTS_COUNT:
+        return (
+          <ObjectsCountCellRenderComponent
+            onShowDuplicatedMessage={onShowDuplicatedMessage}
+            {...cellValue}
+          />)
       case OrderCartTableComponent.ColumnKeys.FILES_SIZE:
         return <storage.FormattedStorageCapacity capacity={cellValue} />
       // detail option
@@ -230,20 +253,25 @@ export class OrderCartTableComponent extends React.Component {
   }
 
   render() {
-    const { basket } = this.props
+    const { basket, onShowDuplicatedMessage } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { content: { table } } } } = this.context
     return (
-      <TreeTableComponent
-        model={basket}
-        buildTreeTableRows={this.buildTableRows}
-        buildCellComponent={this.buildTableCell}
-        columns={OrderCartTableComponent.COLUMNS_DEFINITION.map(({ key, labelKey }) => (
-          <TableHeaderColumn
-            key={key}
-            style={!labelKey ? table.optionColumn.style : undefined} // set up custom option columns style
-          >{labelKey ? formatMessage({ id: labelKey }) : null}
-          </TableHeaderColumn>))}
-      />
+      <TableLayout>
+        { /* 1 - Show basket content summary */}
+        <OrderCartContentSummaryComponent basket={basket} onShowDuplicatedMessage={onShowDuplicatedMessage} />
+        { /* 2 - Show basket added objects sets */}
+        <TreeTableComponent
+          model={basket}
+          buildTreeTableRows={this.buildTableRows}
+          buildCellComponent={this.buildTableCell}
+          columns={OrderCartTableComponent.COLUMNS_DEFINITION.map(({ key, labelKey, isOption }) => (
+            <TableHeaderColumn
+              key={key}
+              style={isOption ? table.optionColumn.style : undefined} // set up custom option columns style
+            >{labelKey ? formatMessage({ id: labelKey }) : null}
+            </TableHeaderColumn>))}
+        />
+      </TableLayout>
     )
   }
 }

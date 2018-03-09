@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TreeTableComponent } from '@regardsoss/components'
 import { OrderCartTableComponent } from '../../../src/components/user/OrderCartTableComponent'
+import OrderCartContentSummaryComponent from '../../../src/components/user/OrderCartContentSummaryComponent'
 import styles from '../../../src/styles/styles'
 
 import { emptyBasket, mockBasket1, mockBasket2 } from '../../BasketMocks'
@@ -39,22 +40,49 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     assert.isDefined(OrderCartTableComponent)
   })
   it('should render correctly when no data', () => {
-    const props = { basket: undefined, showDatasets: true, disableOptions: false }
+    const props = {
+      basket: undefined,
+      showDatasets: true,
+      disableOptions: false,
+      onShowDuplicatedMessage: () => { },
+    }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
     const treeTableWrapper = enzymeWrapper.find(TreeTableComponent)
     assert.lengthOf(treeTableWrapper, 1, 'There should be a tree table')
     assert.equal(treeTableWrapper.props().model, props.basket, 'Model should be correctly reported')
+    const summaryWrapper = enzymeWrapper.find(OrderCartContentSummaryComponent)
+    assert.lengthOf(summaryWrapper, 1, 'There should be the summary')
+    testSuiteHelpers.assertWrapperProperties(summaryWrapper, {
+      basket: props.basket,
+      onShowDuplicatedMessage: props.onShowDuplicatedMessage,
+    })
   })
   it('should render correctly with a basket', () => {
-    const props = { basket: mockBasket1, showDatasets: true, disableOptions: false }
+    const props = {
+      basket: mockBasket1,
+      showDatasets: true,
+      disableOptions: false,
+      onShowDuplicatedMessage: () => { },
+    }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
     const treeTableWrapper = enzymeWrapper.find(TreeTableComponent)
     assert.lengthOf(treeTableWrapper, 1, 'There should be a tree table')
     assert.equal(treeTableWrapper.props().model, props.basket, 'Model should be correctly reported')
+    const summaryWrapper = enzymeWrapper.find(OrderCartContentSummaryComponent)
+    assert.lengthOf(summaryWrapper, 1, 'There should be the summary')
+    testSuiteHelpers.assertWrapperProperties(summaryWrapper, {
+      basket: props.basket,
+      onShowDuplicatedMessage: props.onShowDuplicatedMessage,
+    })
   })
   it('should not render empty models', () => {
     // render to get the instance (we just want here to obtain the instance)
-    const enzymeWrapper = shallow(<OrderCartTableComponent showDatasets disableOptions />, { context })
+    const enzymeWrapper = shallow(
+      <OrderCartTableComponent
+        showDatasets
+        disableOptions
+        onShowDuplicatedMessage={() => { }}
+      />, { context })
 
     // test empty model
     assert.lengthOf(enzymeWrapper.instance().buildTableRows(undefined), 0, 'There should be no dataset row when basket is undefined')
@@ -62,7 +90,12 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     assert.lengthOf(enzymeWrapper.instance().buildTableRows(emptyBasket), 0, 'There should be no dataset row when using empty basket model')
   })
   it('should generete correctly a tree model baskets with datasets as root', () => {
-    const enzymeWrapper = shallow(<OrderCartTableComponent showDatasets disableOptions />, { context })
+    const enzymeWrapper = shallow(
+      <OrderCartTableComponent
+        showDatasets
+        disableOptions
+        onShowDuplicatedMessage={() => { }}
+      />, { context })
     const models = [{ label: 'Mock model 1', model: mockBasket1 }, { label: 'Mock model 2', model: mockBasket2 }]
     models.forEach(({ label, model }) => {
       const dsSelections = model.datasetSelections
@@ -74,7 +107,12 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     })
   })
   it('should generete correctly a tree model baskets with selections as root', () => {
-    const enzymeWrapper = shallow(<OrderCartTableComponent showDatasets={false} disableOptions />, { context })
+    const enzymeWrapper = shallow(
+      <OrderCartTableComponent
+        showDatasets={false}
+        disableOptions
+        onShowDuplicatedMessage={() => { }}
+      />, { context })
     // test complex mock models
     const models = [{ label: 'Mock model 1', model: mockBasket1 }, { label: 'Mock model 2', model: mockBasket2 }]
     models.forEach(({ label, model }) => {
