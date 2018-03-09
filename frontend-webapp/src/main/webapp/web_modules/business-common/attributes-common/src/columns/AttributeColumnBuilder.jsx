@@ -32,7 +32,7 @@ import { buildRenderDelegate } from '../render/AttributesTypeToRender'
  * @return {path:{string}, RenderConstructor:{function}} delegate builder with props
  */
 function buildRenderDelegates(attributes) {
-  return attributes.map(attrModel => buildRenderDelegate(`content.${attrModel.content.jsonPath}`, attrModel.content.type))
+  return attributes.map(({ content }) => buildRenderDelegate(`content.${content.jsonPath}`, content.type, content.unit))
 }
 
 /**

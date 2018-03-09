@@ -56,7 +56,6 @@ export class NumberValueRender extends React.Component {
     if (convertedUnit) {
       const storageUnit = storage.StorageUnitScale.getMatchingUnit(convertedUnit)
       if (storageUnit) {
-        console.error('storageUnit', storageUnit)
         const valueWithUnit = new storage.StorageCapacity(value, storageUnit).scaleAndConvert(storageUnit.scale)
         textValue = storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
       } else {
