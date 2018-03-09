@@ -70,13 +70,15 @@ export default function getStyles(theme) {
           alignItems: 'center',
           height: theme.module.titleBarHeight,
         },
+        iconContainer: {
+          padding: theme.module.titleIconSize / 2,
+        },
         iconStyle: {
           width: theme.module.titleIconSize,
           height: theme.module.titleIconSize,
         },
         labelStyle: {
           color: theme.palette.textColor,
-          marginLeft: theme.module.titleTextMarginLeft,
           fontSize: theme.module.titleFontSize,
           fontWeight: theme.module.titleFontWeight,
           textTransform: theme.module.textTransform,

@@ -74,7 +74,7 @@ export class ModuleTitle extends React.Component {
         module: {
           cardHeaderStyle, cardHeaderContentStyle,
           titleBarDivStyle, titleDivStyle, optionsDivStyle,
-          moduleTitle, iconStyle,
+          moduleTitle,
         },
       },
     } = this.context
@@ -89,12 +89,14 @@ export class ModuleTitle extends React.Component {
               {/* 1 - Icon and title OR title component when provided */
                 titleComponent || (
                   <div style={moduleTitle.style}>
-                    <ModuleIcon
-                      iconDisplayMode={get(page, 'iconType', AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT)}
-                      defaultIconURL={UIDomain.getModuleDefaultIconURL(type)}
-                      customIconURL={get(page, 'customIconURL')}
-                      style={iconStyle}
-                    />
+                    <div style={moduleTitle.iconContainer}>
+                      <ModuleIcon
+                        iconDisplayMode={get(page, 'iconType', AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT)}
+                        defaultIconURL={UIDomain.getModuleDefaultIconURL(type)}
+                        customIconURL={get(page, 'customIconURL')}
+                        style={moduleTitle.iconStyle}
+                      />
+                    </div>
                     <div style={moduleTitle.labelStyle}>
                       <ModuleTitleText
                         title={get(page, 'title')}
