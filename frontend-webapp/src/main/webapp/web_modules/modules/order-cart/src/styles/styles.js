@@ -48,6 +48,12 @@ const moduleStyles = theme => ({
     header: {
       optionStyle: { marginLeft: 0, marginRight: 6 },
     },
+    duplicateMessage: {
+      iconButtonStyle: {
+        padding: 8,
+        color: theme.flatButton.secondaryTextColor,
+      },
+    },
   },
 })
 
