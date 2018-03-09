@@ -24,7 +24,7 @@ import { TableHeaderLine, TableHeaderContentBox, TableHeaderText } from '@regard
 import DuplicatedObjectsMessageComponents from './options/DuplicatedObjectsMessageComponents'
 
 /**
- * Displays order cart content summary
+ * Displays order cart content summary.
  * @author Raphaël Mechali
  */
 class OrderCartContentSummary extends React.Component {
@@ -62,16 +62,12 @@ class OrderCartContentSummary extends React.Component {
   }
 
   state = {
-    // current object count message key or null when hidden
-    objectCountMessageKey: null,
     // current object count message parameters
     objectCountMessageParameters: null,
     // total objects count that user added to the basket
     totalObjectsCount: 0,
     // effective objects count (ie objects that are not doubles)
     effectiveObjectsCount: 0,
-    // current size message key or null when hidden
-    sizeMessageKey: null,
     // current size message key or null when hidden
     sizeMessageParameters: null,
   }
@@ -102,9 +98,7 @@ class OrderCartContentSummary extends React.Component {
     this.setState({
       totalObjectsCount,
       effectiveObjectsCount,
-      objectCountMessageKey: totalObjectsCount ? 'order-cart.module.objects.count.header.message' : null,
       objectCountMessageParameters: { effectiveObjectsCount },
-      sizeMessageKey: totalObjectsCount ? 'order-cart.module.objects.count.size.message' : null,
       sizeMessageParameters: { totalSize: storage.formatStorageCapacity(formatMessage, formatNumber, totalSizeCapacity) },
     })
   }
@@ -112,11 +106,9 @@ class OrderCartContentSummary extends React.Component {
   render() {
     const { onShowDuplicatedMessage } = this.props
     const {
-      objectCountMessageKey,
       objectCountMessageParameters,
       totalObjectsCount,
       effectiveObjectsCount,
-      sizeMessageKey,
       sizeMessageParameters,
     } = this.state
 
@@ -130,11 +122,8 @@ class OrderCartContentSummary extends React.Component {
     return (
       <TableHeaderLine>
         <TableHeaderContentBox>
-          { /* 1 - Objects count messages */
-            objectCountMessageKey ?
-              <TableHeaderText text={formatMessage({ id: objectCountMessageKey }, objectCountMessageParameters)} /> :
-              null
-          }
+          { /* 1 - Objects count messages */}
+          <TableHeaderText text={formatMessage({ id: 'order-cart.module.objects.count.header.message' }, objectCountMessageParameters)} />
           { /* 2 - Information about double object in basket.
                    Note: we re-use the table styles here, stacked by TableLayout */
             <DuplicatedObjectsMessageComponents
@@ -143,13 +132,12 @@ class OrderCartContentSummary extends React.Component {
               onShowDuplicatedMessage={onShowDuplicatedMessage}
             />
           }
-          { /* 3 - Basket size message */
-            sizeMessageKey ?
-              <TableHeaderText text={formatMessage({ id: sizeMessageKey }, sizeMessageParameters)} /> :
-              null
-          }
+          <br />
         </TableHeaderContentBox>
-      </TableHeaderLine >
+        <TableHeaderContentBox>
+          <TableHeaderText text={formatMessage({ id: 'order-cart.module.objects.count.size.message' }, sizeMessageParameters)} />
+        </TableHeaderContentBox>
+      </TableHeaderLine>
     )
   }
 }

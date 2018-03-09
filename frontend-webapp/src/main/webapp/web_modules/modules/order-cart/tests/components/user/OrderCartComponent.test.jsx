@@ -176,7 +176,6 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       open: false,
       onRequestClose: enzymeWrapper.instance().onHideDuplicatedMessage,
       title: 'order-cart.module.duplicate.objects.message.title',
-      message: 'order-cart.module.duplicate.objects.message',
     })
     // simuate user shows the dialog
     enzymeWrapper.instance().onShowDuplicatedMessage(25, 22)
@@ -186,8 +185,9 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       open: true,
       onRequestClose: enzymeWrapper.instance().onHideDuplicatedMessage,
       title: 'order-cart.module.duplicate.objects.message.title',
-      message: 'order-cart.module.duplicate.objects.message',
     })
+    // we should able to find message in dialog children
+    assert.include(enzymeWrapper.debug(), 'order-cart.module.duplicate.objects.message', 'There should be the message')
     // simulate user hides the dialog
     dialog.props().onRequestClose()
     enzymeWrapper.update()
@@ -196,7 +196,6 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       open: false,
       onRequestClose: enzymeWrapper.instance().onHideDuplicatedMessage,
       title: 'order-cart.module.duplicate.objects.message.title',
-      message: 'order-cart.module.duplicate.objects.message',
     })
   })
 })

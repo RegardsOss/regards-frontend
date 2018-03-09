@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import OrderCartContentSummary from '../../../src/components/user/OrderCartContentSummary'
+import OrderCartContentSummaryComponent from '../../../src/components/user/OrderCartContentSummaryComponent'
 import DuplicatedObjectsMessageComponents from '../../../src/components/user/options/DuplicatedObjectsMessageComponents'
 import styles from '../../../src/styles'
 import { emptyBasket, mockBasket1, mockBasket2 } from '../../BasketMocks'
@@ -27,22 +27,22 @@ import { emptyBasket, mockBasket1, mockBasket2 } from '../../BasketMocks'
 const context = buildTestContext(styles)
 
 /**
- * Test OrderCartContentSummary
+ * Test OrderCartContentSummaryComponent
  * @author Raphaël Mechali
  */
-describe('[Order Cart] Testing OrderCartContentSummary', () => {
+describe('[Order Cart] Testing OrderCartContentSummaryComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(OrderCartContentSummary)
+    assert.isDefined(OrderCartContentSummaryComponent)
   })
   it('should render correctly without basket', () => {
     const props = {
       basket: null,
       onShowDuplicatedMessage: () => { },
     }
-    const enzymeWrapper = shallow(<OrderCartContentSummary {...props} />, { context })
+    const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })
     const wrapperAsText = enzymeWrapper.debug()
     // check text
     assert.notInclude(wrapperAsText, 'order-cart.module.objects.count.header.message', 'There is no object, objects message should be hidden')
@@ -60,7 +60,7 @@ describe('[Order Cart] Testing OrderCartContentSummary', () => {
       basket: emptyBasket,
       onShowDuplicatedMessage: () => { },
     }
-    const enzymeWrapper = shallow(<OrderCartContentSummary {...props} />, { context })
+    const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })
     const wrapperAsText = enzymeWrapper.debug()
     // check text
     assert.notInclude(wrapperAsText, 'order-cart.module.objects.count.header.message', 'There is no object, objects message should be hidden')
@@ -78,7 +78,7 @@ describe('[Order Cart] Testing OrderCartContentSummary', () => {
       basket: mockBasket2,
       onShowDuplicatedMessage: () => { },
     }
-    const enzymeWrapper = shallow(<OrderCartContentSummary {...props} />, { context })
+    const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })
     const wrapperAsText = enzymeWrapper.debug()
     // check text
     assert.include(wrapperAsText, 'order-cart.module.objects.count.header.message', 'There are objects, objects message should be visible')
@@ -101,7 +101,7 @@ describe('[Order Cart] Testing OrderCartContentSummary', () => {
       basket: mockBasket1,
       onShowDuplicatedMessage: () => { },
     }
-    const enzymeWrapper = shallow(<OrderCartContentSummary {...props} />, { context })
+    const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })
     const wrapperAsText = enzymeWrapper.debug()
     // check text
     assert.include(wrapperAsText, 'order-cart.module.objects.count.header.message', 'There are objects, objects message should be visible')
@@ -124,7 +124,7 @@ describe('[Order Cart] Testing OrderCartContentSummary', () => {
       basket: emptyBasket,
       onShowDuplicatedMessage: () => { },
     }
-    const enzymeWrapper = shallow(<OrderCartContentSummary {...props} />, { context })
+    const enzymeWrapper = shallow(<OrderCartContentSummaryComponent {...props} />, { context })
     let componentState = enzymeWrapper.state()
     assert.equal(componentState.totalObjectsCount, 0, 'totalObjectsCount shoud worth 0 at initialization')
     assert.equal(componentState.effectiveObjectsCount, 0, 'effectiveObjectsCount shoud worth 0 at initialization')

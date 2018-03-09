@@ -102,39 +102,36 @@ class OrderCartComponent extends React.Component {
     const NoContentIconConstructor = !isAuthenticated ? NotLoggedIcon : CartIcon
 
     return (
-      <DynamicModule
-        options={this.renderOptions(onClearCart, onOrder, isFetching, isNoContent)}
-        requiresAuthentication
-        requiredDependencies={dependencies}
-        {...moduleProperties}
-      >
-        {/* 2.a - Empty basket display */}
-        <NoContentMessageInfo
-          noContent={isNoContent}
-          title={formatMessage({ id: noContentTitleKey })}
-          message={formatMessage({ id: noContentMesageKey })}
-          Icon={NoContentIconConstructor}
+      <div>
+        <DynamicModule
+          options={this.renderOptions(onClearCart, onOrder, isFetching, isNoContent)}
+          requiresAuthentication
+          requiredDependencies={dependencies}
+          {...moduleProperties}
         >
-          {/* 2.b - content  */}
-          <OrderCartTableComponent
-            disableOptions={isFetching}
-            basket={basket}
-            showDatasets={showDatasets}
-            onShowDuplicatedMessage={this.onShowDuplicatedMessage}
-          />
-          {/* 2.c - loading (content is not inside, as we need the table to not be
+          {/* 2.a - Empty basket display */}
+          <NoContentMessageInfo
+            noContent={isNoContent}
+            title={formatMessage({ id: noContentTitleKey })}
+            message={formatMessage({ id: noContentMesageKey })}
+            Icon={NoContentIconConstructor}
+          >
+            {/* 2.b - content  */}
+            <OrderCartTableComponent
+              disableOptions={isFetching}
+              basket={basket}
+              showDatasets={showDatasets}
+              onShowDuplicatedMessage={this.onShowDuplicatedMessage}
+            />
+            {/* 2.c - loading (content is not inside, as we need the table to not be
               unmounted. Indeed the table uses previous props to restore the rows expanded state  */}
-          <LoadableContentDisplayDecorator isLoading={isFetching} />
-        </NoContentMessageInfo>
-        { /* 2.d - Add dialog component for size informations messages (avoid creating dialogs in table) */}
+            <LoadableContentDisplayDecorator isLoading={isFetching} />
+          </NoContentMessageInfo>
+        </DynamicModule>
+        { /* 3 - Add dialog component for size informations messages (avoid creating dialogs in table) */}
         <Dialog
           open={showMessage}
           title={formatMessage({ id: 'order-cart.module.duplicate.objects.message.title' })}
-          message={formatMessage({ id: 'order-cart.module.duplicate.objects.message' }, {
-            totalObjectsCount,
-            duplicatedObjectsCount: totalObjectsCount - effectiveObjectsCount,
-            effectiveObjectsCount,
-          })}
           onRequestClose={this.onHideDuplicatedMessage}
           actions={
             <FlatButton
@@ -142,8 +139,16 @@ class OrderCartComponent extends React.Component {
               label={formatMessage({ id: 'order-cart.module.duplicate.objects.message.close' })}
               onClick={this.onHideDuplicatedMessage}
             />}
-        />
-      </DynamicModule>
+        >
+          {
+            formatMessage({ id: 'order-cart.module.duplicate.objects.message' }, {
+              totalObjectsCount,
+              duplicatedObjectsCount: totalObjectsCount - effectiveObjectsCount,
+              effectiveObjectsCount,
+            })
+          }
+        </Dialog>
+      </div>
     )
   }
 }

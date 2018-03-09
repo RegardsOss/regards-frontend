@@ -212,4 +212,4 @@ export class TreeTableComponent extends React.Component {
 }
 
 // Export, by default, this componenent with i18n and styles (use class export to customize)
-export default compose(withI18n(messages), withModuleStyle({ styles }))(TreeTableComponent)
+export default compose(withI18n(messages, true), withModuleStyle({ styles }, true))(TreeTableComponent)

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { themeContextType } from '@regardsoss/theme'
 import DuplicatedObjectsMessageComponents from './options/DuplicatedObjectsMessageComponents'
 
 /**
@@ -30,13 +31,21 @@ class ObjectsCountCellRenderComponent extends React.Component {
     onShowDuplicatedMessage: PropTypes.func.isRequired,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   render() {
     const { effectiveObjectsCount, totalObjectsCount, onShowDuplicatedMessage } = this.props
+    const { objectsCountRender } = this.context.moduleTheme.user.content.table
     return (
-      <div>
-        { /* 1 - Show count */
-          effectiveObjectsCount
-        }
+      <div style={objectsCountRender.style}>
+        <div style={objectsCountRender.numberTextStyle}>
+          { /* 1 - Show count */
+            effectiveObjectsCount
+          }
+        </div>
+        {/* 2 - Show option explanation message */}
         <DuplicatedObjectsMessageComponents
           totalObjectsCount={totalObjectsCount}
           effectiveObjectsCount={effectiveObjectsCount}

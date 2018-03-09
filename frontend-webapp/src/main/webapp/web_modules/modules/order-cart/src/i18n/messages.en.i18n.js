@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Locales } from '@regardsoss/form-utils'
+import { storage } from '@regardsoss/units'
 
 /**
  * Module messages for english language (reports common form messages too)
@@ -38,14 +39,15 @@ const messages = {
   'order-cart.module.clear.tooltip': 'Clear cart content',
   'order-cart.module.clear.confirmation.title': 'Clear basket',
   'order-cart.module.clear.confirmation.message': 'This action will clear all current basket content',
-  'order-cart.module.objects.count.header.message': 'Basket currently contains {effectiveObjectsCount} data objects to order.',
+  'order-cart.module.objects.count.header.message': `Basket currently contains {effectiveObjectsCount, plural, 
+    one {one data object}
+    other {{effectiveObjectsCount} data objects}
+  } to order`,
   'order-cart.module.objects.count.size.message': 'The resulting total size of files to order is {totalSize}',
   'order-cart.module.duplicate.objects.message.title': 'Duplicated objects found',
-  'order-cart.module.duplicate.objects.message': 'There is currently {totalObjectsCount} data objects but {duplicatedObjectsCount} among them have been added multiple times. Therefore only {effectiveObjectsCount} will actually be ordered.',
+  'order-cart.module.duplicate.objects.message': 'During your successive selections, some identical data objects ({duplicatedObjectsCount}) have been added. Only unique data objects will be ordered ({effectiveObjectsCount}).',
   'order-cart.module.duplicate.objects.message.close': 'Close',
-  'order-cart.module.basket.table.column.identifier': 'Dataset label / add date',
   'order-cart.module.basket.table.column.objects.count': 'Objects count',
-  'order-cart.module.basket.table.column.files.count': 'Files count',
   'order-cart.module.basket.table.column.files.size': 'Total files size',
   'order-cart.module.basket.table.column.options': 'Options',
   'order-cart.module.basket.table.delete.dataset.tooltip': 'Remove this dataset selections dataobjects',
@@ -60,6 +62,9 @@ const messages = {
   'order-cart.module.basket.items.group.selection.detail.close': 'Close',
   'order-cart.module.basket.items.group.selection.detail.no.data.title': 'No item',
   'order-cart.module.basket.items.group.selection.detail.no.data.message': 'There is no longer item in this selection group. They may have been deleted or their access rights could have changed',
+  // adds capicity formatting messages
+  ...storage.messages.en,
+
 }
 
 export default messages

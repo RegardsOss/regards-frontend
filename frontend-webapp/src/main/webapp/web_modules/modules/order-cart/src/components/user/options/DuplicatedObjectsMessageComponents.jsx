@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import MessageIcon from 'material-ui/svg-icons/communication/live-help'
+import MessageIcon from 'material-ui/svg-icons/action/help'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -47,7 +47,7 @@ class DuplicatedObjectsMessageComponents extends React.Component {
   render() {
     const { totalObjectsCount, effectiveObjectsCount } = this.props
     const {
-      moduleTheme: { user: { duplicateMessage: { iconButtonStyle } } },
+      moduleTheme: { user: { duplicateMessage: { iconStyle, iconButtonStyle } } },
     } = this.context
 
     if (totalObjectsCount === effectiveObjectsCount) {
@@ -56,8 +56,11 @@ class DuplicatedObjectsMessageComponents extends React.Component {
     }
     return (
       <div>
-
-        <IconButton style={iconButtonStyle} onClick={this.onShowMessage}>
+        <IconButton
+          style={iconButtonStyle}
+          iconStyle={iconStyle}
+          onClick={this.onShowMessage}
+        >
           <MessageIcon />
         </IconButton>
       </div>

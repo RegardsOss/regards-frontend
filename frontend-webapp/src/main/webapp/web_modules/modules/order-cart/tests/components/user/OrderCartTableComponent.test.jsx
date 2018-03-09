@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TreeTableComponent } from '@regardsoss/components'
 import { OrderCartTableComponent } from '../../../src/components/user/OrderCartTableComponent'
-import OrderCartContentSummary from '../../../src/components/user/OrderCartContentSummary'
+import OrderCartContentSummaryComponent from '../../../src/components/user/OrderCartContentSummaryComponent'
 import styles from '../../../src/styles/styles'
 
 import { emptyBasket, mockBasket1, mockBasket2 } from '../../BasketMocks'
@@ -50,7 +50,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const treeTableWrapper = enzymeWrapper.find(TreeTableComponent)
     assert.lengthOf(treeTableWrapper, 1, 'There should be a tree table')
     assert.equal(treeTableWrapper.props().model, props.basket, 'Model should be correctly reported')
-    const summaryWrapper = enzymeWrapper.find(OrderCartContentSummary)
+    const summaryWrapper = enzymeWrapper.find(OrderCartContentSummaryComponent)
     assert.lengthOf(summaryWrapper, 1, 'There should be the summary')
     testSuiteHelpers.assertWrapperProperties(summaryWrapper, {
       basket: props.basket,
@@ -68,7 +68,7 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
     const treeTableWrapper = enzymeWrapper.find(TreeTableComponent)
     assert.lengthOf(treeTableWrapper, 1, 'There should be a tree table')
     assert.equal(treeTableWrapper.props().model, props.basket, 'Model should be correctly reported')
-    const summaryWrapper = enzymeWrapper.find(OrderCartContentSummary)
+    const summaryWrapper = enzymeWrapper.find(OrderCartContentSummaryComponent)
     assert.lengthOf(summaryWrapper, 1, 'There should be the summary')
     testSuiteHelpers.assertWrapperProperties(summaryWrapper, {
       basket: props.basket,
