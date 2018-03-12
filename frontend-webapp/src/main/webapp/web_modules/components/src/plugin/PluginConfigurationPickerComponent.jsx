@@ -55,6 +55,17 @@ class PluginConfigurationPickerComponent extends React.Component {
     }
   }
 
+  /**
+   * When the parent provides a different currentPluginConfiguration, use it as current selected
+   */
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentPluginConfiguration !== this.props.currentPluginConfiguration) {
+      this.setState({
+        currentPluginConfiguration: nextProps.currentPluginConfiguration,
+      })
+    }
+  }
+
   getStyle = () => ({
     pluginButton: {
       marginLeft: 10,
