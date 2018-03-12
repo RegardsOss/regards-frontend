@@ -14,4 +14,6 @@ RUN chmod +x /install.sh \
  && echo "unsafe-perm=true" > ~/.npmrc \
 	# Use our own registry
  && npm config set strict-ssl false \
- && npm config set registry "https://172.26.46.158:8443/repository/NPM-proxy/"
+ && npm config set registry "https://172.26.46.158:8443/repository/NPM-proxy/" \
+    # Package lock auto prune the repo https://github.com/npm/npm/issues/16853#issuecomment-371665774
+ && npm config set package-lock false
