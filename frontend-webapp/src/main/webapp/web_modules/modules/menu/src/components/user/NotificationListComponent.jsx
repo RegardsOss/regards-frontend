@@ -323,7 +323,7 @@ class NotificationListComponent extends React.Component {
             {unreadCount ? (
               <Notification style={notificationStyle.icon.style} />
             ) : (
-                <NotificationNone style={notificationStyle.icon.style} />
+              <NotificationNone style={notificationStyle.icon.style} />
               )}
           </div>
         </IconButton>

@@ -49,6 +49,13 @@ class AuthenticateSelectors extends BasicSignalSelectors {
   getAccessToken(state) {
     return get(this.getAuthentication(state), 'result.access_token')
   }
+
+  /**
+   * Retun true when the current user has a INSTANCE_ADMIN role
+   */
+  isInstanceAdmin(state) {
+    return get(this.getAuthentication(state), 'result.role') === 'INSTANCE_ADMIN'
+  }
 }
 
 export default storePath => new AuthenticateSelectors(storePath)

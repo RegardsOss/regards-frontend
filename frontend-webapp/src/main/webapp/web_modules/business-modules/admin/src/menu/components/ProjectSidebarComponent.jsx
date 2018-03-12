@@ -38,17 +38,13 @@ import { collectionsDependencies } from '@regardsoss/admin-board-collections'
 import { acquisitionDependencies } from '@regardsoss/admin-board-acquisition'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-management'
 import { microserviceDependencies } from '@regardsoss/admin-microservice-management'
-import { someMatchHateoasDisplayLogic, allMatchHateoasDisplayLogic, withResourceDisplayControl } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { ShowableAtRender, someMatchHateoasDisplayLogic, withResourceDisplayControl } from '@regardsoss/display-control'
 import getModuleStyles from '../../styles/styles'
 import SidebarElement from './SidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
-import { projectActions } from '../clients/ProjectClient'
 import messages from '../i18n'
 
 const SidebarElementWithResourceDisplayControl = withResourceDisplayControl(SidebarElement)
-const MenuItemWithHateoasDisplayControl = withResourceDisplayControl(MenuItem)
-const DividerWithHateoasDisplayControl = withResourceDisplayControl(Divider)
 
 /**
  * React sidebar components. Display the admin application menu
@@ -69,6 +65,7 @@ class ProjectSidebarComponent extends React.Component {
     projectName: PropTypes.string.isRequired,
     currentPath: PropTypes.string,
     onLogout: PropTypes.func.isRequired,
+    isInstance: PropTypes.bool,
   }
 
   handleRedirectToInstanceAdminDashboard = () => {
@@ -77,7 +74,7 @@ class ProjectSidebarComponent extends React.Component {
   }
 
   render() {
-    const { projectName } = this.props
+    const { projectName, isInstance } = this.props
     const moduleStyles = getModuleStyles(this.context.muiTheme)
     const style = {
       sidebarContainer: {
@@ -89,7 +86,7 @@ class ProjectSidebarComponent extends React.Component {
       },
     }
 
-    const projectDependencies = [projectActions.getDependency(RequestVerbEnum.GET)]
+    console.error('isInstance', isInstance)
 
     return (
       <Drawer
@@ -175,19 +172,16 @@ class ProjectSidebarComponent extends React.Component {
             color={this.context.muiTheme.svgIcon.color}
           />}
         />
-        <DividerWithHateoasDisplayControl
-          resourceDependencies={projectDependencies}
-          displayLogic={allMatchHateoasDisplayLogic}
-        />
-        <MenuItemWithHateoasDisplayControl
-          resourceDependencies={projectDependencies}
-          displayLogic={allMatchHateoasDisplayLogic}
-          primaryText={this.context.intl.formatMessage({ id: 'menu.instance' })}
-          leftIcon={<Back
-            color={this.context.muiTheme.svgIcon.color}
-          />}
-          onClick={this.handleRedirectToInstanceAdminDashboard}
-        />
+        <ShowableAtRender show={isInstance}>
+          <Divider />
+          <MenuItem
+            primaryText={this.context.intl.formatMessage({ id: 'menu.instance' })}
+            leftIcon={<Back
+              color={this.context.muiTheme.svgIcon.color}
+            />}
+            onClick={this.handleRedirectToInstanceAdminDashboard}
+          />
+        </ShowableAtRender>
       </Drawer>
     )
   }
