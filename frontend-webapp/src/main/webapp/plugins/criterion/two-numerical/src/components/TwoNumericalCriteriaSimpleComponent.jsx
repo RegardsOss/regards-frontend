@@ -20,9 +20,8 @@ import isNaN from 'lodash/isNaN'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
-import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
  * Component allowing the user to configure the numerical value of two different attributes with a mathematical comparator (=, >, <=, ...).
@@ -150,6 +149,11 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
       firstField, secondField, operator1, operator2,
     } = this.state
     const { moduleTheme: { rootStyle, lineStyle } } = this.context
+    const availableComparators = [
+      EnumNumericalComparator.EQ,
+      EnumNumericalComparator.LE,
+      EnumNumericalComparator.GE,
+    ]
     return (
       <div style={rootStyle}>
         <div
@@ -160,16 +164,15 @@ export class TwoNumericalCriteriaSimpleComponent extends PluginCriterionContaine
             value={firstField}
             comparator={operator1}
             onChange={this.changeValue1}
-            fixedComparator={false}
+            availableComparators={availableComparators}
           />
           <NumericalCriteriaComponent
             label={this.getAttributeLabel('secondField')}
             value={secondField}
             comparator={operator2}
             onChange={this.changeValue2}
-            fixedComparator={false}
+            availableComparators={availableComparators}
           />
-          <ClearFieldButton onClick={this.handleClear} displayed={!!(firstField || secondField)} />
         </div>
       </div>
     )

@@ -19,6 +19,10 @@
 
 const messages = {
   'clear.button.tooltip': 'Clear field content',
+  'numerical.comparator.EQ': '=',
+  'numerical.comparator.LE': '≤',
+  'numerical.comparator.GE': '≥',
+  'numerical.comparator.NE': '≠',
 }
 
 export default messages

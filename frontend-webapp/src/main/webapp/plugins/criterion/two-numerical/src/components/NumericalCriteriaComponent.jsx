@@ -17,12 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
-import { themeContextType } from '@regardsoss/theme'
+import { FormattedMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
-import NumericalComparatorComponent from './NumericalComparatorComponent'
-import EnumNumericalComparator from '../model/EnumNumericalComparator'
+import { themeContextType } from '@regardsoss/theme'
+import { NumericalComparator } from '@regardsoss/components'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
 
 /**
  * Plugin component allowing the user to configure the numerical value of an attribute with a mathematical comparator (=, >, <=, ...).
@@ -48,13 +48,13 @@ export class NumericalCriteriaComponent extends React.Component {
      */
     comparator: PropTypes.oneOf(values(EnumNumericalComparator)),
     /**
+     * Array of available comparators
+     */
+    availableComparators: PropTypes.arrayOf(PropTypes.oneOf(values(EnumNumericalComparator))),
+    /**
      * Default value to display
      */
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    /**
-     * Does the comparator is modifiable
-     */
-    fixedComparator: PropTypes.bool,
     /**
      * If true, the attribute name, comparator and and field will be rendered in reversed order
      * Default to false.
@@ -75,7 +75,6 @@ export class NumericalCriteriaComponent extends React.Component {
   static defaultProps = {
     reversed: false,
     hideAttributeName: false,
-    fixedComparator: false,
     hideComparator: false,
     value: undefined,
     comparator: EnumNumericalComparator.EQ,
@@ -125,7 +124,7 @@ export class NumericalCriteriaComponent extends React.Component {
 
   render() {
     const {
-      label, comparator, value, reversed, hideAttributeName, hideComparator, fixedComparator,
+      label, comparator, value, reversed, hideAttributeName, hideComparator, availableComparators,
     } = this.props
     const { moduleTheme: { labelSpanStyle, textFieldStyle, lineStyle } } = this.context
 
@@ -142,11 +141,11 @@ export class NumericalCriteriaComponent extends React.Component {
     }
     if (!hideComparator) {
       content.push(
-        <NumericalComparatorComponent
+        <NumericalComparator
           key="comparator"
           value={comparator}
           onChange={this.handleChangeComparator}
-          fixedComparator={fixedComparator}
+          comparators={availableComparators}
         />,
       )
     }

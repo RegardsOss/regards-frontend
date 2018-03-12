@@ -19,6 +19,7 @@
 import { AccessShapes } from '@regardsoss/shape'
 import RaisedButton from 'material-ui/RaisedButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
+import Reset from 'material-ui/svg-icons/action/settings-backup-restore'
 import { Container } from '@regardsoss/layout'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -37,8 +38,8 @@ class FormLayout extends React.Component {
       savePluginState: PropTypes.func.isRequired,
     }),
     onSearch: PropTypes.func.isRequired,
+    onClearAll: PropTypes.func.isRequired,
   }
-
 
   static contextTypes = {
     ...themeContextType,
@@ -47,7 +48,7 @@ class FormLayout extends React.Component {
 
   render() {
     const {
-      onSearch, layout, plugins, pluginsProps,
+      onClearAll, onSearch, layout, plugins, pluginsProps,
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
     return (
@@ -60,8 +61,15 @@ class FormLayout extends React.Component {
           formHeader
         />
         <div
-          style={moduleTheme.user.searchButtonContainer}
+          style={moduleTheme.user.buttonsContainer}
         >
+          <RaisedButton
+            label={formatMessage({ id: 'form.reset.button.label' })}
+            labelPosition="before"
+            icon={<Reset />}
+            style={this.context.moduleTheme.user.resetButton}
+            onClick={onClearAll}
+          />
           <RaisedButton
             label={formatMessage({ id: 'form.search.button.label' })}
             labelPosition="before"

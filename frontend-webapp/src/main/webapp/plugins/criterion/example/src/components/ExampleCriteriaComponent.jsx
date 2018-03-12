@@ -74,6 +74,10 @@ export class ExampleCriteriaComponent extends PluginCriterionContainer {
     return openSearchQuery
   }
 
+  handleClear = () => {
+    this.changeValue('')
+  }
+
   render() {
     const attributeLabel = this.props.attributes.searchField.name ? this.props.attributes.searchField.name : null
     const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context

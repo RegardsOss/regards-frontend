@@ -18,10 +18,10 @@
  **/
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
+import { NumericalComparator } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import TextField from 'material-ui/TextField'
 import NumericalCriteriaComponent from '../../src/components/NumericalCriteriaComponent'
-import NumericalComparatorComponent from '../../src/components/NumericalComparatorComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -36,7 +36,6 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
   after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(NumericalCriteriaComponent)
-    assert.isDefined(NumericalComparatorComponent)
     assert.isDefined(TextField)
   })
   it('should render self and subcomponents', () => {
@@ -45,6 +44,7 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => {},
       attributes: {
         searchField: {
           name: 'searchField',
@@ -54,7 +54,7 @@ describe('[PLUGIN NUMERICAL CRITERIA] Testing the numerical criteria component',
       },
     }
     const enzymeWrapper = shallow(<NumericalCriteriaComponent {...props} />, { context })
-    expect(enzymeWrapper.find(NumericalComparatorComponent)).to.have.length(1)
+    expect(enzymeWrapper.find(NumericalComparator)).to.have.length(1)
     expect(enzymeWrapper.find(TextField)).to.have.length(1)
   })
 })

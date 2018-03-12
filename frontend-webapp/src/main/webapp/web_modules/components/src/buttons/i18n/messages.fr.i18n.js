@@ -18,7 +18,11 @@
  **/
 
 const messages = {
-  'clear.button.tooltip': 'Effecer le contenu du champ',
+  'clear.button.tooltip': 'Effacer le contenu du champ',
+  'numerical.comparator.EQ': '=',
+  'numerical.comparator.LE': '≤',
+  'numerical.comparator.GE': '≥',
+  'numerical.comparator.NE': '≠',
 }
 
 export default messages

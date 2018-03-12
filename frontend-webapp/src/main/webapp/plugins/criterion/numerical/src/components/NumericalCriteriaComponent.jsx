@@ -22,9 +22,8 @@ import TextField from 'material-ui/TextField'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
-import NumericalComparatorComponent from './NumericalComparatorComponent'
-import EnumNumericalComparator from '../model/EnumNumericalComparator'
+import { NumericalComparator } from '@regardsoss/components'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
 
 /**
  * Search form criteria plugin displaying a simple number field
@@ -45,7 +44,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
   }
 
   state = {
-    searchField: undefined,
+    searchField: '',
     comparator: EnumNumericalComparator.EQ,
   }
 
@@ -107,7 +106,7 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
    * Clear the entered value
    */
   handleClear = () => {
-    this.setState({ searchField: undefined })
+    this.setState({ searchField: '' })
   }
 
   parseOpenSearchQuery = (parameterName, openSearchQuery) => {
@@ -133,15 +132,21 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
     const { moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
     const attributeLabel = this.getAttributeLabel('searchField')
     const { searchField } = this.state
-    const clearButtonDisplayed = !isNaN(searchField)
+    const availableComparators = [
+      EnumNumericalComparator.EQ,
+      EnumNumericalComparator.NE,
+      EnumNumericalComparator.GE,
+      EnumNumericalComparator.LE,
+    ]
     return (
       <div style={rootStyle} >
         <span style={labelSpanStyle} >
           {attributeLabel}
         </span>
-        <NumericalComparatorComponent
+        <NumericalComparator
           value={this.state.comparator}
           onChange={this.handleChangeComparator}
+          comparators={availableComparators}
         />
         <TextField
           id="search"
@@ -151,7 +156,6 @@ export class NumericalCriteriaComponent extends PluginCriterionContainer {
           onChange={this.handleChangeValue}
           style={textFieldStyle}
         />
-        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

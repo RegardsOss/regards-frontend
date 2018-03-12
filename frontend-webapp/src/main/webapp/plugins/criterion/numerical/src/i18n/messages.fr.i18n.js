@@ -23,11 +23,6 @@
  */
 const messages = {
   'criterion.search.field.label': 'Nombre ...',
-
-  'comparator.EQ': '=',
-  'comparator.LE': '<',
-  'comparator.GE': '>',
-  'comparator.NE': '!=',
 }
 
 export default messages
