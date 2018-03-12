@@ -22,7 +22,7 @@ import { FlatButton } from 'material-ui'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { EnumNumericalComparators } from '@regardsoss/domain/common'
 import messages from './i18n'
 
 /**
@@ -35,8 +35,8 @@ export class NumericalComparator extends React.Component {
      * function(value: EnumNumericalComparator) => void
      */
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.oneOf(Object.values(EnumNumericalComparator)),
-    comparators: PropTypes.arrayOf(PropTypes.oneOf(Object.values(EnumNumericalComparator))),
+    value: PropTypes.oneOf(EnumNumericalComparators),
+    comparators: PropTypes.arrayOf(PropTypes.oneOf(EnumNumericalComparators)),
   }
 
   static contextTypes = {
