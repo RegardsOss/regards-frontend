@@ -50,6 +50,8 @@ describe('[Search Results] Testing ListViewEntityCellComponent', () => {
           services: [],
         },
       },
+      projectName: 'project1',
+      accessToken: 'abcdef....',
 
       enableDownload: true,
       thumbnailRenderData: {

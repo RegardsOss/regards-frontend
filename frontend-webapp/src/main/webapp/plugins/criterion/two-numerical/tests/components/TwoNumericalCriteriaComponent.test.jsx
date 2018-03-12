@@ -44,6 +44,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA] Testing the two numerical criteria com
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => {},
       attributes: {
         firstField: {
           name: 'firstAttribute',

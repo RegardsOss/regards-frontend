@@ -43,6 +43,7 @@ describe('[PLUGIN TWO NUMERICAL CRITERIA SIMPLE] Testing the two numerical crite
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => {},
       attributes: {
         firstField: {
           name: 'firstField',

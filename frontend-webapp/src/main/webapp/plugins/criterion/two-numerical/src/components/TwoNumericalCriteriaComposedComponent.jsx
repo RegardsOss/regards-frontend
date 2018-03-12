@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
 import { FormattedMessage } from 'react-intl'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
+import { EnumNumericalComparator } from '@regardsoss/domain/common'
 import NumericalCriteriaComponent from './NumericalCriteriaComponent'
-import EnumNumericalComparator from '../model/EnumNumericalComparator'
 
 /**
  * Component allowing the user to configure the numerical value of a single attribute with two mathematical comparators (=, >, <=, ...).
@@ -101,36 +99,44 @@ export class TwoNumericalCriteriaComposedComponent extends PluginCriterionContai
 
   render() {
     const { firstField, secondField } = this.state
-    const clearButtonDisplayed = !isNil(firstField) || !isNil(secondField)
-    const { moduleTheme: { rootStyle, lineStyle, labelSpanStyle }, intl: { formatMessage } } = this.context
+    const {
+      moduleTheme: {
+        rootStyle, lineStyle, labelSpanStyle, lineGroupStyle,
+      },
+      intl: { formatMessage },
+    } = this.context
 
     return (
       <div style={rootStyle}>
-        <div style={lineStyle} >
+        <div style={lineStyle}>
           <span style={labelSpanStyle}>
-            {formatMessage({ id: 'criterion.aggregator.between' }, { label: this.getAttributeLabel('firstField') })}
+            {formatMessage(
+              { id: 'criterion.aggregator.between' },
+              { label: this.getAttributeLabel('firstField') },
+            )}
           </span>
-          <NumericalCriteriaComponent
-            label={this.getAttributeLabel('firstField')}
-            value={firstField}
-            comparator={EnumNumericalComparator.LE}
-            onChange={this.changeValue1}
-            hideAttributeName
-            hideComparator
-            reversed
-            fixedComparator
-          />
-          <span style={{ marginRight: 10 }}><FormattedMessage id="criterion.aggregator.and" /></span>
-          <NumericalCriteriaComponent
-            label={this.getAttributeLabel('secondField')}
-            value={secondField}
-            comparator={EnumNumericalComparator.GE}
-            onChange={this.changeValue2}
-            hideAttributeName
-            hideComparator
-            fixedComparator
-          />
-          <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
+          <div style={lineGroupStyle}>
+            <NumericalCriteriaComponent
+              label={this.getAttributeLabel('firstField')}
+              value={firstField}
+              comparator={EnumNumericalComparator.LE}
+              onChange={this.changeValue1}
+              hideAttributeName
+              hideComparator
+              reversed
+            />
+            <span style={{ marginRight: 10 }}>
+              <FormattedMessage id="criterion.aggregator.and" />
+            </span>
+            <NumericalCriteriaComponent
+              label={this.getAttributeLabel('secondField')}
+              value={secondField}
+              comparator={EnumNumericalComparator.GE}
+              onChange={this.changeValue2}
+              hideAttributeName
+              hideComparator
+            />
+          </div>
         </div>
       </div>
     )

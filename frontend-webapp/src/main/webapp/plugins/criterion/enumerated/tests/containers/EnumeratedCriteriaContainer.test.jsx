@@ -42,6 +42,7 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaContainer', () 
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => { },
       attributes: {
         searchField: {
           label: 'label',
@@ -75,6 +76,7 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaContainer', () 
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => { },
       attributes: {
         searchField: {
           label: 'label',
@@ -109,6 +111,7 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaContainer', () 
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => { },
       attributes: {
         searchField: {
           label: 'label',
@@ -142,6 +145,7 @@ describe('[enumerated criteria plugin] Testing EnumeratedCriteriaContainer', () 
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => { },
       attributes: {
         searchField: {
           label: 'label',

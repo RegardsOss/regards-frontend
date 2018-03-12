@@ -61,9 +61,8 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
     const props = {
       entity: docFile,
       // Current user session info
-      accessToken: null,
-      isAuthenticated: false,
-      scope: 'project1',
+      projectName: 'project1',
+      accessToken: 'abcdef....',
     }
     const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
     assert.lengthOf(render.find('a'), 0, 'No link rendered')
@@ -97,8 +96,7 @@ describe('[Search Results] Testing DownloadEntityFileComponent', () => {
       entity: docFile,
       // Current user session info
       accessToken: null,
-      isAuthenticated: false,
-      scope: 'project1',
+      projectName: 'project1',
     }
     const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
     assert.lengthOf(render.find(MenuItem), 3, 'It should return 3 Links')

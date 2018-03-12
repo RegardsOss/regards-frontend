@@ -88,6 +88,7 @@ const messages = {
 
   // User display component
   'form.search.button.label': 'Search',
+  'form.reset.button.label': 'Reset all',
   'results.module.title': 'Results',
 
 }

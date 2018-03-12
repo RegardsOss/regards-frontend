@@ -19,9 +19,8 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DatePickerField } from '@regardsoss/components'
+import { DatePickerField, NumericalComparator } from '@regardsoss/components'
 import TemporalCriteriaComponent from '../../src/components/TemporalCriteriaComponent'
-import TemporalComparatorComponent from '../../src/components/TemporalComparatorComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -36,7 +35,7 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
   after(testSuiteHelpers.after)
   it('should exists', () => {
     assert.isDefined(TemporalCriteriaComponent)
-    assert.isDefined(TemporalComparatorComponent)
+    assert.isDefined(NumericalComparator)
     assert.isDefined(DatePickerField)
   })
   it('should render self and subcomponents', () => {
@@ -46,6 +45,7 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
       onChange: () => { },
       getDefaultState: () => { },
       savePluginState: () => { },
+      registerClear: () => {},
       attributes: {
         searchField: {
           name: 'searchField',
@@ -55,7 +55,7 @@ describe('[PLUGIN TEMPORAL CRITERIA] Testing the temporal criteria component', (
       },
     }
     const enzymeWrapper = shallow(<TemporalCriteriaComponent {...props} />, { context })
-    expect(enzymeWrapper.find(TemporalComparatorComponent)).to.have.length(1)
+    expect(enzymeWrapper.find(NumericalComparator)).to.have.length(1)
     expect(enzymeWrapper.find(DatePickerField)).to.have.length(1)
   })
 })

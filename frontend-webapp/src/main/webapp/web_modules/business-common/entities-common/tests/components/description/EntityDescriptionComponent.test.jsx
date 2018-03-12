@@ -49,6 +49,8 @@ describe('[Entities Common] Testing EntityDescriptionComponent', () => {
       entity: null,
       open: false,
       currentTab: DescriptionLevelActions.TABS_ENUM.DESCRIPTION,
+      projectName: 'project1',
+      accessToken: 'abcdef....',
 
       // clients and selectors for sub components
       downloadDescriptionClient: new DownloadDescriptionClient('test', ['test']),
@@ -70,6 +72,8 @@ describe('[Entities Common] Testing EntityDescriptionComponent', () => {
       entity: testEntity,
       open: true,
       currentTab: DescriptionLevelActions.TABS_ENUM.DESCRIPTION,
+      projectName: 'project1',
+      accessToken: 'abcdef....',
 
       // clients and selectors for sub components
       downloadDescriptionClient: new DownloadDescriptionClient('test', ['test']),

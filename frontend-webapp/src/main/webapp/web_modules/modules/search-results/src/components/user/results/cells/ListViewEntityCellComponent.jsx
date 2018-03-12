@@ -25,7 +25,7 @@ import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import AddElementToCartContainer from '../../../../containers/user/results/options/AddElementToCartContainer'
 import EntityDescriptionContainer from '../../../../containers/user/results/options/EntityDescriptionContainer'
-import DownloadEntityFileContainer from '../../../../containers/user/results/options/DownloadEntityFileContainer'
+import DownloadEntityFileComponent from '../options/DownloadEntityFileComponent'
 import OneElementServicesContainer from '../../../../containers/user/results/options/OneElementServicesContainer'
 import SearchRelatedEntitiesComponent from '../options/SearchRelatedEntitiesComponent'
 
@@ -58,6 +58,9 @@ class ListViewEntityCellComponent extends React.Component {
     entitySelected: PropTypes.bool.isRequired,
     displayLabel: PropTypes.bool,
     displayVertically: PropTypes.bool,
+    // auth info
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
     // Callback
     onSelectEntity: PropTypes.func.isRequired,
     onSearchEntity: PropTypes.func,
@@ -79,7 +82,7 @@ class ListViewEntityCellComponent extends React.Component {
   renderTitle = () => {
     const {
       entity, selectionEnabled, servicesEnabled, enableDownload, entitySelected, onSelectEntity, onSearchEntity, onAddToCart,
-      displayLabel, displayVertically,
+      displayLabel, displayVertically, projectName, accessToken,
     } = this.props
     const { moduleTheme } = this.context
     const {
@@ -108,10 +111,12 @@ class ListViewEntityCellComponent extends React.Component {
         <div style={optionsBarStyles}>
           {/* B-1. Download, when available. Like below, due to props, we can't use a showable at render */}
           <ShowableAtRender show={enableDownload}>
-            <DownloadEntityFileContainer
+            <DownloadEntityFileComponent
               entity={entity}
               style={option.buttonStyles}
               iconStyle={option.iconStyles}
+              accessToken={accessToken}
+              projectName={projectName}
             />
           </ShowableAtRender>
           {/* B-2. Description  */}

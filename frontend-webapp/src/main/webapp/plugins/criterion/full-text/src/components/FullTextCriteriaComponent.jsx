@@ -21,7 +21,6 @@ import TextField from 'material-ui/TextField'
 import { PluginCriterionContainer } from '@regardsoss/plugins-api'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ClearFieldButton } from '@regardsoss/components'
 
 class FullTextCriteriaComponent extends PluginCriterionContainer {
   static propTypes = {
@@ -62,7 +61,6 @@ class FullTextCriteriaComponent extends PluginCriterionContainer {
 
   render() {
     const { moduleTheme: { rootStyle, textFieldStyle } } = this.context
-    const clearButtonDisplayed = this.state.value !== ''
 
     return (
       <div style={rootStyle}>
@@ -75,7 +73,6 @@ class FullTextCriteriaComponent extends PluginCriterionContainer {
           }}
           style={textFieldStyle}
         />
-        <ClearFieldButton onClick={this.handleClear} displayed={clearButtonDisplayed} />
       </div>
     )
   }

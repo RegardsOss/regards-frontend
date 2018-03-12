@@ -71,6 +71,8 @@ describe('[Search Results] Testing ListViewEntityCellContainer', () => {
           services: [],
         },
       },
+      projectName: 'project1',
+      accessToken: 'abcdef....',
 
       // cell props
       enableDownload: true,

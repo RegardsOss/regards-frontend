@@ -55,6 +55,9 @@ describe('[Search Results] Testing SearchResultsComponent', () => {
     facets: [],
     searchQuery: '',
 
+    projectName: 'project1',
+    accessToken: 'abcdef....',
+
     displayOnlyQuicklook: false,
 
     selectionServices: [],
