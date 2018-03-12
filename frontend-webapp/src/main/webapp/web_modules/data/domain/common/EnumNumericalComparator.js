@@ -16,9 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-module.exports = {
+import values from 'lodash/values'
+
+const EnumNumericalComparator = {
   EQ: 'EQ',
   NE: 'NE',
   LE: 'LE',
   GE: 'GE',
+}
+
+module.exports = {
+  EnumNumericalComparator,
+  EnumNumericalComparators: values(EnumNumericalComparator),
 }

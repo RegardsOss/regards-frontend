@@ -237,6 +237,7 @@ const menuStyles = theme => ({
         infoColor: '#2196F3',
         errorColor: '#FF9800',
         fatalColor: '#f44336',
+        warningColor: '#f9a825',
       },
       divider: {
         style: {
@@ -253,6 +254,7 @@ const menuStyles = theme => ({
           margin: '-24px 0 -24px -24px',
           position: 'absolute',
           height: '100%',
+          width: '100%',
           display: 'flex',
         },
       },

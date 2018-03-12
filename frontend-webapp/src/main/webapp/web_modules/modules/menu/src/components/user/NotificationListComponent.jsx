@@ -20,10 +20,11 @@ import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
 import NotificationNone from 'material-ui/svg-icons/social/notifications-none'
 import Notification from 'material-ui/svg-icons/social/notifications'
-import Close from 'material-ui/svg-icons/navigation/close'
 import Info from 'mdi-material-ui/InformationVariant'
+import Skull from 'mdi-material-ui/Skull'
 import Warning from 'material-ui/svg-icons/alert/warning'
 import ClearAll from 'material-ui/svg-icons/communication/clear-all'
+import Error from 'material-ui/svg-icons/alert/error'
 import Avatar from 'material-ui/Avatar'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -59,10 +60,7 @@ class NotificationListComponent extends React.Component {
 
   static MAX_ELEMENTS_COUNT = 9999
 
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
+  state = {}
 
   componentDidMount() {
     this.props.registerNotify(this.notify)
@@ -154,9 +152,11 @@ class NotificationListComponent extends React.Component {
       case 'INFO':
         return <Avatar backgroundColor={icons.infoColor} color={icons.color} icon={<Info />} />
       case 'ERROR':
-        return <Avatar backgroundColor={icons.errorColor} color={icons.color} icon={<Warning />} />
+        return <Avatar backgroundColor={icons.errorColor} color={icons.color} icon={<Error />} />
       case 'FATAL':
-        return <Avatar backgroundColor={icons.fatalColor} color={icons.color} icon={<Close />} />
+        return <Avatar backgroundColor={icons.fatalColor} color={icons.color} icon={<Skull />} />
+      case 'WARNING':
+        return <Avatar backgroundColor={icons.warningColor} color={icons.color} icon={<Warning />} />
       default:
         return <Avatar backgroundColor={icons.infoColor} color={icons.color} icon={<Info />} />
     }
@@ -206,7 +206,12 @@ class NotificationListComponent extends React.Component {
             leftAvatar={this.renderAvatar(notif.type)}
             primaryText={
               <div style={notificationStyle.list.item.primaryText}>
-                <div style={notificationStyle.list.item.titleStyle}>{notif.title}</div>
+                <div
+                  title={notif.title}
+                  style={notificationStyle.list.item.titleStyle}
+                >
+                  {notif.title}
+                </div>
                 <div style={notificationStyle.list.item.dateStyle}>
                   {this.getFormattedDate(notif.date)}
                 </div>
