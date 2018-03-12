@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,24 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { DataManagementClient } from '@regardsoss/client'
+ **/
+import Schemas from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Dataset entities client.
- *
+ * Retrieve DataObjects attributes for given datasets or dataset models
+ * Query params :
+ * - datasetIds : List of dataset identifier to retrieve dataobject attributes for.
+ * - modelIds : List of dataset models identifier to retrieve dataobject attrbutes for.
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['modules.search-form', 'dataset-data-attributes']
-const REDUX_ACTION_NAMESPACE = 'form/datasets/data/attributes'
-
-const datasetDataAttributesReducer = DataManagementClient.DatasetDataAttributesReducer(REDUX_ACTION_NAMESPACE)
-const datasetDataAttributesActions = new DataManagementClient.DatasetDataAttributesActions(REDUX_ACTION_NAMESPACE)
-const datasetDataAttributesSelectors = DataManagementClient.DatasetDataAttributesSelectors(ENTITIES_STORE_PATH)
-
-
-module.exports = {
-  datasetDataAttributesReducer,
-  datasetDataAttributesActions,
-  datasetDataAttributesSelectors,
+export default class DatasetAttributesActions extends BasicPageableActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/attributes`,
+      schemaTypes: {
+        ENTITY: Schemas.ATTRIBUTE_MODEL,
+        ENTITY_ARRAY: Schemas.ATTRIBUTE_MODEL_ARRAY,
+      },
+    })
+  }
 }

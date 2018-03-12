@@ -23,7 +23,7 @@ import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import SearchResultsComponent from './results/SearchResultsComponent'
 import FormDatasetsConfigurationComponent from './datasets/FormDatasetsConfigurationComponent'
 import FormLayoutComponent from './layout/FormLayoutComponent'
-import FromCriterionComponent from './criterion/FormCriterionComponent'
+import FormCriteriaComponent from './criterion/FormCriterionComponent'
 import FormPreviewComponent from './preview/FormPreviewComponent'
 
 /**
@@ -49,7 +49,8 @@ class FormTabsComponent extends React.Component {
     defaultConf: ModuleConfiguration.isRequired,
 
     selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
-    selectableDataObjectsAttributesFetching: PropTypes.bool,
+    selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
+    attributesLoading: PropTypes.bool,
     disableChangeDatasets: PropTypes.bool,
     availableCriterion: AccessShapes.UIPluginDefinitionList,
     criterionFetching: PropTypes.bool,
@@ -60,9 +61,9 @@ class FormTabsComponent extends React.Component {
   }
 
   renderCriterionTab = () => {
-    if (!this.props.criterionFetching && !this.props.selectableDataObjectsAttributesFetching && this.props.adminForm.form.conf) {
+    if (!this.props.criterionFetching && !this.props.attributesLoading && this.props.adminForm.form.conf) {
       return (
-        <FromCriterionComponent
+        <FormCriteriaComponent
           defaultCriterion={this.props.defaultConf.criterion}
           criterion={this.props.adminForm.form.conf.criterion}
           layout={this.props.adminForm.form.conf.layout}
@@ -112,6 +113,7 @@ class FormTabsComponent extends React.Component {
             appName={this.props.appName}
             adminForm={this.props.adminForm}
             selectableDataObjectsAttributes={this.props.selectableDataObjectsAttributes}
+            selectableDataSetsAttributes={this.props.selectableDataSetsAttributes}
             initialDisplayMode={this.props.defaultConf.searchResult.displayMode}
           />
         </Tab>

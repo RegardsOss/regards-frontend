@@ -20,7 +20,7 @@ import get from 'lodash/get'
 import { CardText } from 'material-ui/Card'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AccessShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { Title } from '@regardsoss/components'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
@@ -40,9 +40,9 @@ const parseIntNormalizer = value => parseInt(value, 10)
  */
 class SearchResultsConfigurationComponent extends React.Component {
   static propTypes = {
-    dataAttributeModels: AccessShapes.AttributeConfigurationList,
-    datasetAttributeModels: AccessShapes.AttributeConfigurationList,
-    documentAttributeModels: AccessShapes.AttributeConfigurationList,
+    dataAttributeModels: DataManagementShapes.AttributeModelList,
+    datasetAttributeModels: DataManagementShapes.AttributeModelList,
+    documentAttributeModels: DataManagementShapes.AttributeModelList,
     currentFormValues: ModuleConfiguration,
     adminConf: AdminModuleConf,
     initialFormValues: ModuleConfiguration.isRequired,
@@ -100,6 +100,8 @@ class SearchResultsConfigurationComponent extends React.Component {
     // Data
     // Uses the parent module list of available attributes if available, otherwise use the global list of data object attributes
     const selectableDataObjectsAttributes = get(adminConf, 'selectableDataObjectsAttributes', this.props.dataAttributeModels)
+    const selectableDataSetsAttributes = get(adminConf, 'selectableDataSetsAttributes', this.props.datasetAttributeModels)
+
     const currentAttributesConf = get(currentFormValues, 'attributes', [])
     const initialAttributesConf = get(initialFormValues, 'attributes', [])
     const currentAttributesGroupsConf = get(currentFormValues, 'attributesRegroupements', [])
@@ -179,6 +181,7 @@ class SearchResultsConfigurationComponent extends React.Component {
             }
             <Tab label={this.context.intl.formatMessage({ id: 'form.attribute.dataset.conf.selection.tab.label' })}>
               {this.renderDatasetsAttributesConfiguration(
+                selectableDataSetsAttributes,
                 currentDatasetAttributesConf,
                 initialDatasetAttributesConf,
               )}
@@ -225,13 +228,13 @@ class SearchResultsConfigurationComponent extends React.Component {
     />
   )
 
-  renderDatasetsAttributesConfiguration = (currentDatasetAttributesConf, initialDatasetAttributesConf) => (
+  renderDatasetsAttributesConfiguration = (selectableDataSetsAttributes, currentDatasetAttributesConf, initialDatasetAttributesConf) => (
     <MainAttributesConfigurationComponent
       allowFacettes={false}
       allowAttributesRegroupements={false}
       attributesFieldName={this.MODULE_DATASET_ATTRIBUTES_CONF}
       changeField={this.props.changeField}
-      selectableAttributes={this.props.datasetAttributeModels}
+      selectableAttributes={selectableDataSetsAttributes}
 
       attributesConf={currentDatasetAttributesConf}
       defaultAttributesConf={initialDatasetAttributesConf}

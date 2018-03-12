@@ -19,8 +19,9 @@
 import { datasetReducer } from './clients/DatasetClient'
 import { modelReducer } from './clients/ModelClient'
 import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
-import { datasetDataAttributesReducer } from './clients/DatasetDataAttributesClient'
+import { dataObjectAttributesReducer } from './clients/DataObjectAttributesClient'
 import { AttributeModelReducer } from './clients/AttributeModelClient'
+import { dataSetAttributesReducer } from './clients/DataSetAttributesClient'
 
 /**
  * Reducers for searc-form module
@@ -28,7 +29,8 @@ import { AttributeModelReducer } from './clients/AttributeModelClient'
  * @author Sébastien binda
  */
 const formReducers = {
-  'dataset-data-attributes': datasetDataAttributesReducer,
+  dataobjectAttributes: dataObjectAttributesReducer,
+  datasetAttributes: dataSetAttributesReducer,
   attributes: AttributeModelReducer,
   datasets: datasetReducer,
   models: modelReducer,

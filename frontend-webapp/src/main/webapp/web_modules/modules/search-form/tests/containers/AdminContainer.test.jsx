@@ -17,10 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UnconnectedAdminContainer } from '../../src/containers/AdminContainer'
-import FormTabsComponent from '../../src/components/admin/FormTabsComponent'
 
 /**
  * Tests for AdminContainer
@@ -59,19 +57,13 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
         enableFacettes: false,
       },
       selectableDataObjectsAttributes: {},
-      selectableAttributesFectching: false,
+      selectableDataSetsAttributes: {},
       availableCriterion: {},
-      criterionFetching: false,
       fetchCriterion: () => { },
-      fetchModelsAttributes: () => { },
-      fetchAllModelsAttributes: () => { },
-      fetchDatasetsAttributes: () => { },
+      fetchDataObjectAttributes: () => { },
+      fetchDataSetAttributes: () => { },
     }
 
-    const wrapper = shallow(<UnconnectedAdminContainer
-      {...props}
-    />)
-
-    assert.isTrue(wrapper.find(FormTabsComponent).length === 1, 'There should be one FormTabsComponent')
+    shallow(<UnconnectedAdminContainer {...props} />)
   })
 })

@@ -23,7 +23,8 @@ import { connect } from '@regardsoss/redux'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
-import { datasetDataAttributesActions, datasetDataAttributesSelectors } from '../clients/DatasetDataAttributesClient'
+import { dataObjectAttributesActions, dataObjectAttributesSelectors } from '../clients/DataObjectAttributesClient'
+import { dataSetAttributesActions, dataSetAttributesSelectors } from '../clients/DataSetAttributesClient'
 import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
 import DatasetSelectionTypes from '../domain/DatasetSelectionTypes'
 import FormTabsComponent from '../components/admin/FormTabsComponent'
@@ -55,20 +56,27 @@ class AdminContainer extends React.Component {
 
     // Set by mapStateToProps and mapDispatchToProps
     selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
-    selectableDataObjectsAttributesFetching: PropTypes.bool,
+    selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
     availableCriterion: AccessShapes.UIPluginDefinitionList,
     fetchCriterion: PropTypes.func,
-    // Retrieve data objects attributes for given dataset models
-    fetchModelsAttributes: PropTypes.func,
-    // Retrieve data objects attributes for all data objects models
-    fetchAllModelsAttributes: PropTypes.func,
-    // Retrieve data objects attributes for given datasets
-    fetchDatasetsAttributes: PropTypes.func,
+    // Retrieve data object attributes
+    fetchDataObjectAttributes: PropTypes.func.isRequired,
+    // Retrieve data set attributes
+    fetchDataSetAttributes: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     selectableDataObjectsAttributes: [],
-    selectableDataObjectsAttributesFetching: false,
+    selectableDataSetsAttributes: [],
+    availableCriterion: [],
+  }
+
+  static listToQueryParam = (list) => {
+    let param = ''
+    if (list && list.length > 0) {
+      param = `${join(list, ',')}`
+    }
+    return param
   }
 
   constructor(props) {
@@ -87,13 +95,13 @@ class AdminContainer extends React.Component {
 
   componentWillMount() {
     if (!this.props.adminForm.isCreating) {
-      this.updateselectableDataObjectsAttributes(
+      this.updateSelectableAttributes(
         get(this.props.adminForm.form, this.CONF_DATASETS_TYPES),
         get(this.props.adminForm.form, this.CONF_DATASETS_SELECTED_MODELS),
         get(this.props.adminForm.form, this.CONF_DATASETS_SELECTED_DATASETS),
       )
     } else {
-      this.updateselectableDataObjectsAttributes()
+      this.updateSelectableAttributes()
     }
     // Load available criterion plugins
     return Promise.resolve(this.props.fetchCriterion()).then(() => this.setState({
@@ -106,7 +114,7 @@ class AdminContainer extends React.Component {
     const datasetsConf = get(this.props.adminForm.form, this.CONF_DATASETS, null)
     const newDatasetsConf = get(nextProps.adminForm.form, this.CONF_DATASETS, null)
     if (datasetsConf && newDatasetsConf && !isEqual(datasetsConf, newDatasetsConf)) {
-      this.updateselectableDataObjectsAttributes(
+      this.updateSelectableAttributes(
         newDatasetsConf.type,
         newDatasetsConf.selectedModels,
         newDatasetsConf.selectedDatasets,
@@ -114,17 +122,20 @@ class AdminContainer extends React.Component {
     }
   }
 
-  updateselectableDataObjectsAttributes = (type, models, datasets) => {
-    let task
-    if (type === DatasetSelectionTypes.DATASET_MODEL_TYPE && models && models.length > 0) {
-      task = this.props.fetchModelsAttributes(models)
-    } else if (type === DatasetSelectionTypes.DATASET_TYPE && datasets && datasets.length > 0) {
-      task = this.props.fetchDatasetsAttributes(datasets)
+  updateSelectableAttributes = (type, modelIds, datasetIds) => {
+    const tasks = []
+    if (type === DatasetSelectionTypes.DATASET_MODEL_TYPE && modelIds && modelIds.length > 0) {
+      tasks.push(this.props.fetchDataObjectAttributes(modelIds))
+      tasks.push(this.props.fetchDataSetAttributes(modelIds))
+    } else if (type === DatasetSelectionTypes.DATASET_TYPE && datasetIds && datasetIds.length > 0) {
+      tasks.push(this.props.fetchDataObjectAttributes(null, datasetIds))
+      tasks.push(this.props.fetchDataSetAttributes(null, datasetIds))
     } else {
-      task = this.props.fetchAllModelsAttributes()
+      tasks.push(this.props.fetchDataObjectAttributes())
+      tasks.push(this.props.fetchDataSetAttributes())
     }
 
-    return Promise.resolve(task).then(() => this.setState({ attributesLoading: false }))
+    return Promise.all(tasks).then(() => this.setState({ attributesLoading: false }))
   }
 
   initEmptyProps() {
@@ -145,49 +156,45 @@ class AdminContainer extends React.Component {
         },
       },
       selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
-      selectableDataObjectsAttributesFetching: this.state.attributesLoading,
-      disableChangeDatasets: this.props.selectableDataObjectsAttributesFetching,
+      selectableDataSetsAttributes: this.props.selectableDataSetsAttributes,
+      attributesLoading: this.state.attributesLoading,
+      disableChangeDatasets: this.state.attributesLoading,
       availableCriterion: this.props.availableCriterion,
       criterionFetching: this.state.criterionLoading,
     }
   }
 
+  renderTabs = () => (
+    <FormTabsComponent
+      {...this.initEmptyProps()}
+    />
+  )
+
   render() {
-    const props = this.initEmptyProps()
     return (
       <LoadableContentDisplayDecorator
         isLoading={this.state.attributesLoading || this.state.criterionLoading}
       >
-        <FormTabsComponent
-          {...props}
-        />
+        {this.renderTabs}
       </LoadableContentDisplayDecorator>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  selectableDataObjectsAttributes: datasetDataAttributesSelectors.getList(state),
+  selectableDataObjectsAttributes: dataObjectAttributesSelectors.getList(state),
+  selectableDataSetsAttributes: dataSetAttributesSelectors.getList(state),
   availableCriterion: uiPluginDefinitionSelectors.getList(state),
 })
-
-const listToQueryParam = (list) => {
-  let param = ''
-  if (list && list.length > 0) {
-    param = `${join(list, ',')}`
-  }
-  return param
-}
 
 const mapDispatchToProps = dispatch => ({
   // Function to retrieve all available criterion plugins
   fetchCriterion: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100, {}, { type: 'CRITERIA' })),
-  fetchAllModelsAttributes: () => dispatch(datasetDataAttributesActions.fetchPagedEntityList(0, 10000)),
-  // Function to retrieve attributes associated to the selected models
-  fetchModelsAttributes: modelsId => dispatch(datasetDataAttributesActions.fetchPagedEntityList(0, 10000, {}, { modelId: listToQueryParam(modelsId) })),
-  // Function to retrieve attributes associated to the selected datasets
-  fetchDatasetsAttributes: datasetsId => dispatch(datasetDataAttributesActions.fetchPagedEntityList(0, 10000, {}, { datasetIds: listToQueryParam(datasetsId) })),
-  // funcution to update a value of the current redux-form
+  fetchDataObjectAttributes: (modelIds, datasetIds) =>
+    dispatch(dataObjectAttributesActions.fetchPagedEntityList(0, 10000, {}, { modelIds, datasetIds })),
+  // Function to retrieve dataset atributes
+  fetchDataSetAttributes: (modelIds, datasetIds) =>
+    dispatch(dataSetAttributesActions.fetchPagedEntityList(0, 10000, {}, { modelIds, datasetIds })),
 })
 
 const UnconnectedAdminContainer = AdminContainer

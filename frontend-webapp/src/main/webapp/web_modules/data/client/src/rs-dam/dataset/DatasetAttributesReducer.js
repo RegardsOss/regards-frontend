@@ -16,25 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Schemas from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { AttributeModelConfiguration } from '@regardsoss/api'
+import DatasetAttributesActions from './DatasetAttributesActions'
 
 /**
- * Retrieve DataObjects attributes for given datasets or dataset models
- * Query params :
- * - datasetIds : List of dataset identifier to retrieve dataobject attributes for.
- * - modelIds : List of dataset models identifier to retrieve dataobject attrbutes for.
+ * Redux reducer to manage DatasetDataAttributes (AttributeModel) entities.
  * @author Sébastien Binda
  */
-export default class DatasetDataAttributesActions extends BasicPageableActions {
+class DatasetAttributesReducer extends BasicPageableReducers {
   constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasets/data/attributes`,
-      schemaTypes: {
-        ENTITY: Schemas.ATTRIBUTE_MODEL,
-        ENTITY_ARRAY: Schemas.ATTRIBUTE_MODEL_ARRAY,
-      },
-    })
+    super(AttributeModelConfiguration, new DatasetAttributesActions(namespace))
   }
 }
+
+
+export default (namespace) => {
+  const instance = new DatasetAttributesReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}
+

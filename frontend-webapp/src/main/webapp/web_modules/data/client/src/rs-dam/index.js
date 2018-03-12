@@ -105,6 +105,10 @@ import DatasetDataAttributesActions from './dataset/DatasetDataAttributesActions
 import DatasetDataAttributesReducer from './dataset/DatasetDataAttributesReducer'
 import DatasetDataAttributesSelectors from './dataset/DatasetDataAttributesSelectors'
 
+import DatasetAttributesActions from './dataset/DatasetAttributesActions'
+import DatasetAttributesReducer from './dataset/DatasetAttributesReducer'
+import DatasetAttributesSelectors from './dataset/DatasetAttributesSelectors'
+
 import DatasetValidSubsettingTestActions from './datasetValidSubsettingTest/DatasetValidSubsettingTestActions'
 import getDatasetValidSubsettingTestReducer from './datasetValidSubsettingTest/DatasetValidSubsettingTestReducer'
 
@@ -203,6 +207,10 @@ module.exports = {
   DatasetDataAttributesActions,
   DatasetDataAttributesReducer,
   DatasetDataAttributesSelectors,
+
+  DatasetAttributesActions,
+  DatasetAttributesReducer,
+  DatasetAttributesSelectors,
 
   DatasetLinkActions,
   DatasetLinkReducer,

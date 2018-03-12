@@ -37,6 +37,7 @@ class SearchResultsComponent extends React.Component {
       form: ModuleConfiguration,
     }),
     selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
+    selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
     initialDisplayMode: PropTypes.string,
   }
 
@@ -59,6 +60,7 @@ class SearchResultsComponent extends React.Component {
       conf: {
         // limit the number of attributes visible
         selectableDataObjectsAttributes: this.props.selectableDataObjectsAttributes,
+        selectableDataSetsAttributes: this.props.selectableDataSetsAttributes,
         // set a default display mode
         initialDisplayMode: this.props.initialDisplayMode,
         // admin should not search document results
