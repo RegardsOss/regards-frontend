@@ -12,6 +12,8 @@ import File from 'material-ui/svg-icons/editor/insert-drive-file'
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import { storage } from '@regardsoss/units'
+import { AuthenticateShape } from '@regardsoss/authentication-manager'
+import { URLAuthInjector } from '@regardsoss/domain/common'
 import DescriptionFileComponent from '../../../components/description/file/DescriptionFileComponent'
 /**
 * Files container: display document files
@@ -21,8 +23,7 @@ export class DocumentFilesComponent extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     entity: CatalogShapes.Entity,
     accessToken: PropTypes.string,
-    scope: PropTypes.string,
-    isAuthenticated: PropTypes.bool,
+    projectName: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -37,12 +38,12 @@ export class DocumentFilesComponent extends React.Component {
    * Retrieve the first link available on the current entity
    */
   getFirstDownloadeableLink = () => {
-    const { entity } = this.props
+    const { entity, accessToken, projectName } = this.props
     if (this.nbDownloadeableFiles() === 0) {
       return null
     }
     const downloadLink = get(entity, `content.files.${CommonDomain.DataTypesEnum.DOCUMENT}[0].uri`)
-    return this.addAuthToURI(downloadLink)
+    return this.addOriginToURI(URLAuthInjector(downloadLink, accessToken, projectName))
   }
 
   /**
@@ -62,16 +63,13 @@ export class DocumentFilesComponent extends React.Component {
   }
 
   /**
-   * Append to a download link a way to be authenticated
+   * Append to a download link a way to pass the security
+   * add request origin for X-Frame-Options bypass.
+   * WARN: bad security workaround
    */
-  addAuthToURI = (downloadLink) => {
-    const { isAuthenticated, scope, accessToken } = this.props
-    // add request origin for X-Frame-Options bypass. WARN: bad security workaround
+  addOriginToURI = (downloadLink) => {
     const requestOrigin = `${root.location.protocol}//${root.location.host}`
-    if (isAuthenticated) {
-      return `${downloadLink}?origin=${requestOrigin}&token=${accessToken}`
-    }
-    return `${downloadLink}?origin=${requestOrigin}&scope=${scope}`
+    return `${downloadLink}&origin=${requestOrigin}`
   }
 
   /**
@@ -87,6 +85,7 @@ export class DocumentFilesComponent extends React.Component {
   }
 
   render() {
+    const { accessToken, projectName } = this.props
     const { intl: { formatMessage } } = this.context
     if (this.nbDownloadeableFiles() > 1) {
       return (
@@ -95,7 +94,7 @@ export class DocumentFilesComponent extends React.Component {
           {map(this.getAllDownloadeableFiles(), file => (
             <a
               download
-              href={this.addAuthToURI(file.uri)}
+              href={this.addOriginToURI(URLAuthInjector(file.uri, accessToken, projectName))}
               key={file.checksum}
               style={DocumentFilesComponent.resetLinkStyle}
             >

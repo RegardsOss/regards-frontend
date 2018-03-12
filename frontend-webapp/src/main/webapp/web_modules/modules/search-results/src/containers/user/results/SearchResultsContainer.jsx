@@ -26,6 +26,7 @@ import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { StringComparison } from '@regardsoss/form-utils'
 import { TableSortOrders } from '@regardsoss/components'
+import { AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-manager'
 import { Tag } from '../../../models/navigation/Tag'
 import {
   searchDataobjectsActions,
@@ -55,6 +56,8 @@ const moduleStyles = { styles }
  */
 export class SearchResultsContainer extends React.Component {
   static mapStateToProps = state => ({
+    accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
+    projectName: AuthenticationParametersSelectors.getProject(state),
     resultsCount: searchSelectors.getResultsCount(state),
     isFetching: searchSelectors.isFetching(state),
     facets: searchSelectors.getFacets(state),
@@ -97,7 +100,10 @@ export class SearchResultsContainer extends React.Component {
     documentAttributesConf: AccessShapes.AttributeConfigurationArray,
     // eslint-disable-next-line react/no-unused-prop-types
     attributeModels: DataManagementShapes.AttributeModelList,
+
     // From map state to props
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     facets: FacetArray,
     isFetching: PropTypes.bool.isRequired,
@@ -106,6 +112,7 @@ export class SearchResultsContainer extends React.Component {
     tableDisplayMode: PropTypes.oneOf(TableDisplayModeValues).isRequired, // Display mode
     // eslint-disable-next-line react/no-unused-prop-types
     levels: PropTypes.arrayOf(PropTypes.instanceOf(Tag)).isRequired, // only used to build query
+
     // From map dispatch to props
     dispatchChangeViewObjectType: PropTypes.func.isRequired,
     dispatchChangeTableDisplayMode: PropTypes.func.isRequired,
@@ -403,7 +410,7 @@ export class SearchResultsContainer extends React.Component {
   render() {
     const {
       displayMode, enableFacettes, isFetching, resultsCount, viewObjectType, tableDisplayMode, enableDownload,
-      enableQuicklooks, facettesQuery, dispatchSetEntityAsTag, searchQuery: initialSearchQuery, displayConf,
+      enableQuicklooks, facettesQuery, dispatchSetEntityAsTag, searchQuery: initialSearchQuery, displayConf, accessToken, projectName,
     } = this.props
 
     const {
@@ -452,6 +459,8 @@ export class SearchResultsContainer extends React.Component {
 
               hiddenColumnKeys={hiddenColumnKeys}
               attributePresentationModels={attributePresentationModels}
+              accessToken={accessToken}
+              projectName={projectName}
 
               onChangeColumnsVisibility={this.onChangeColumnsVisibility}
               onDeleteFacet={this.onDeleteFacet}

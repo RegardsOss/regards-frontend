@@ -23,6 +23,7 @@ import EntityIpIdTester from './EntityIpIdTester'
 import DataTypes from './DataTypes'
 import durationParser from './DurationParser'
 import PluginConfParamsUtils from './PluginConfParamsUtils'
+import URLAuthInjector from './URLAuthInjector'
 
 module.exports = {
   // Plugin
@@ -38,4 +39,6 @@ module.exports = {
 
   durationParser,
   PluginConfParamsUtils,
+
+  URLAuthInjector,
 }

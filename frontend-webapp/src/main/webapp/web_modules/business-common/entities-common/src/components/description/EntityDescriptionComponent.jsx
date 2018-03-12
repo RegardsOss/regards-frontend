@@ -35,7 +35,7 @@ import { DescriptionLevelSelectors } from '../../model/description/DescriptionLe
 import DescriptionBreadcrumbContainer from '../../containers/description/breadcrumb/DescriptionBreadcrumbContainer'
 import PropertiesTabComponent from './properties/PropertiesTabComponent'
 import DescriptionFileContainer from '../../containers/description/file/DescriptionFileContainer'
-import DocumentFilesContainer from '../../containers/description/file/DocumentFilesContainer'
+import DocumentFilesComponent from './file/DocumentFilesComponent'
 import DataQuicklookComponent from './quicklook/DataQuicklookComponent'
 
 /**
@@ -48,6 +48,9 @@ class EntityDescriptionComponent extends React.Component {
     entity: CatalogShapes.Entity,
     currentTab: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
+    // user auth info
+    accessToken: PropTypes.string,
+    projectName: PropTypes.string.isRequired,
 
     // clients and selectors for sub components
     downloadDescriptionClient: PropTypes.instanceOf(DownloadDescriptionClient).isRequired,
@@ -119,7 +122,7 @@ class EntityDescriptionComponent extends React.Component {
   renderTabs = () => {
     const {
       entity, onSearchTag, downloadDescriptionClient, fetchModelAttributesActions,
-      fetchModelAttributesSelectors, levelActions, levelSelectors,
+      fetchModelAttributesSelectors, levelActions, levelSelectors, accessToken, projectName,
     } = this.props
     const {
       isDocument,
@@ -155,6 +158,8 @@ class EntityDescriptionComponent extends React.Component {
           <DescriptionFileContainer
             entity={entity}
             downloadDescriptionClient={downloadDescriptionClient}
+            accessToken={accessToken}
+            projectName={projectName}
           />
         </Tab>,
       )
@@ -165,8 +170,10 @@ class EntityDescriptionComponent extends React.Component {
           label={this.context.intl.formatMessage({ id: 'entities.common.files.tabs' })}
           value={DescriptionLevelActions.TABS_ENUM.FILES}
         >
-          <DocumentFilesContainer
+          <DocumentFilesComponent
             entity={entity}
+            accessToken={accessToken}
+            projectName={projectName}
           />
         </Tab>)
     } else if (isDataObject && hasQuicklook) {
@@ -178,6 +185,8 @@ class EntityDescriptionComponent extends React.Component {
         >
           <DataQuicklookComponent
             entity={entity}
+            accessToken={accessToken}
+            projectName={projectName}
           />
         </Tab>)
     }

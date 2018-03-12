@@ -16,4 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { muiTheme } from './muiTheme'
+import includes from 'lodash/includes'
+
+/**
+ * Add auth information on the @param url
+ */
+function URLAuthInjector(url, accessToken, projectName) {
+  // Retrieve the separator that we need to append before adding the token
+  const separator = includes(url, '?') ? '&' : '?'
+  if (accessToken) {
+    return `${url}${separator}token=${accessToken}`
+  }
+  return `${url}${separator}scope=${projectName}`
+}
+
+export default URLAuthInjector
